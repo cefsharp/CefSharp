@@ -36,22 +36,25 @@ namespace CefSharp.Test.Framework
         [Fact]
         public async Task TaskDeleteCookiesCallbackOnComplete()
         {
-            const int numberOfCookiesDeleted = 10;
-
-            var callback = new TaskDeleteCookiesCallback();
-
-            //Execute OnComplete on seperate Thread as in practice will be called on the CEF IO Thread.
-            Task.Delay(100).ContinueWith(x =>
+            for (var i = 0; i < 100; i++)
             {
-                var c = (IDeleteCookiesCallback)callback;
+                const int numberOfCookiesDeleted = 10;
 
-                c.OnComplete(numberOfCookiesDeleted);
-                c.Dispose();
-            }, TaskScheduler.Default);
+                var callback = new TaskDeleteCookiesCallback();
 
-            var result = await callback.Task;
+                //Execute OnComplete on seperate Thread as in practice will be called on the CEF IO Thread.
+                Task.Delay(100).ContinueWith(x =>
+                {
+                    var c = (IDeleteCookiesCallback)callback;
 
-            Assert.Equal(numberOfCookiesDeleted, result);
+                    c.OnComplete(numberOfCookiesDeleted);
+                    c.Dispose();
+                }, TaskScheduler.Default);
+
+                var result = await callback.Task;
+
+                Assert.Equal(numberOfCookiesDeleted, result);
+            }
         }
 
         [Fact]

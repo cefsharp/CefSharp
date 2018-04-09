@@ -89,8 +89,14 @@ namespace CefSharp.Internals
         }
 
         /// <summary>
+        /// <para>
         /// Set the TaskCompletionSource in an async fashion. This prevents the Task Continuation being executed sync on the same thread
-        /// This is required otherwise contintinuations will happen on CEF UI threads
+        /// This is required otherwise contintinuations will happen on CEF UI threads.
+        /// </para>
+        /// <para>
+        /// USAGE WARNING: if this method is called twice on the same task completion source, the result it not deterministic.
+        /// Use it with care, or use <see cref="AsyncTaskCompletionSource{T}"/>.
+        /// </para>
         /// </summary>
         /// <typeparam name="TResult">Generic param</typeparam>
         /// <param name="taskCompletionSource">tcs</param>

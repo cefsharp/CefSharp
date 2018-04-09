@@ -15,7 +15,7 @@ namespace CefSharp
     /// </summary>
     public class TaskNavigationEntryVisitor : INavigationEntryVisitor
     {
-        private TaskCompletionSource<List<NavigationEntry>> taskCompletionSource;
+        private AsyncTaskCompletionSource<List<NavigationEntry>> taskCompletionSource;
         private List<NavigationEntry> list;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace CefSharp
         /// </summary>
         public TaskNavigationEntryVisitor()
         {
-            taskCompletionSource = new TaskCompletionSource<List<NavigationEntry>>();
+            taskCompletionSource = new AsyncTaskCompletionSource<List<NavigationEntry>>();
             list = new List<NavigationEntry>();
         }
 

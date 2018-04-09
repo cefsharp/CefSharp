@@ -14,14 +14,14 @@ namespace CefSharp
     /// </summary>
     public class TaskStringVisitor : IStringVisitor
     {
-        private readonly TaskCompletionSource<string> taskCompletionSource;
+        private readonly AsyncTaskCompletionSource<string> taskCompletionSource;
 
         /// <summary>
         /// Default constructor
         /// </summary>
         public TaskStringVisitor()
         {
-            taskCompletionSource = new TaskCompletionSource<string>();
+            taskCompletionSource = new AsyncTaskCompletionSource<string>();
         }
 
         /// <summary>

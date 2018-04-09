@@ -13,11 +13,11 @@ namespace CefSharp
     /// </summary>
     public class TaskRegisterCdmCallback: IRegisterCdmCallback
     {
-        private readonly TaskCompletionSource<CdmRegistration> taskCompletionSource;
+        private readonly AsyncTaskCompletionSource<CdmRegistration> taskCompletionSource;
 
         public TaskRegisterCdmCallback()
         {
-            taskCompletionSource = new TaskCompletionSource<CdmRegistration>();
+            taskCompletionSource = new AsyncTaskCompletionSource<CdmRegistration>();
         }
 
         void IRegisterCdmCallback.OnRegistrationComplete(CdmRegistration registration)

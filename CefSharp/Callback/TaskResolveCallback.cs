@@ -10,11 +10,11 @@ namespace CefSharp
 {
     public class TaskResolveCallback : IResolveCallback
     {
-        private readonly TaskCompletionSource<ResolveCallbackResult> taskCompletionSource;
+        private readonly AsyncTaskCompletionSource<ResolveCallbackResult> taskCompletionSource;
 
         public TaskResolveCallback()
         {
-            taskCompletionSource = new TaskCompletionSource<ResolveCallbackResult>();
+            taskCompletionSource = new AsyncTaskCompletionSource<ResolveCallbackResult>();
         }
 
         public void OnResolveCompleted(CefErrorCode result, IList<string> resolvedIpAddresses)

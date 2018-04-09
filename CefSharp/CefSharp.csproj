@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="AsyncExtensions.cs" />
     <Compile Include="BindingOptions.cs" />
+    <Compile Include="Internals\AsyncTaskCompletionSource.cs" />
     <Compile Include="Callback\IAuthCallback.cs" />
     <Compile Include="Callback\IBeforeDownloadCallback.cs" />
     <Compile Include="Callback\ICallback.cs" />

@@ -15,7 +15,7 @@ namespace CefSharp
     /// </summary>
     public class TaskCookieVisitor : ICookieVisitor
     {
-        private readonly TaskCompletionSource<List<Cookie>> taskCompletionSource;
+        private readonly AsyncTaskCompletionSource<List<Cookie>> taskCompletionSource;
         private List<Cookie> list;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace CefSharp
         /// </summary>
         public TaskCookieVisitor()
         {
-            taskCompletionSource = new TaskCompletionSource<List<Cookie>>();
+            taskCompletionSource = new AsyncTaskCompletionSource<List<Cookie>>();
             list = new List<Cookie>();
         }
 

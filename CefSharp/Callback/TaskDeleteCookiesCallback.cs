@@ -15,12 +15,12 @@ namespace CefSharp
     {
         public const int InvalidNoOfCookiesDeleted = -1;
 
-        private readonly TaskCompletionSource<int> taskCompletionSource;
+        private readonly AsyncTaskCompletionSource<int> taskCompletionSource;
         private volatile bool isDisposed;
 
         public TaskDeleteCookiesCallback()
         {
-            taskCompletionSource = new TaskCompletionSource<int>();
+            taskCompletionSource = new AsyncTaskCompletionSource<int>();
         }
 
         void IDeleteCookiesCallback.OnComplete(int numDeleted)

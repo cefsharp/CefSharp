@@ -10,11 +10,11 @@ namespace CefSharp
 {
     public class TaskCompletionCallback : ICompletionCallback
     {
-        private readonly TaskCompletionSource<bool> taskCompletionSource;
+        private readonly AsyncTaskCompletionSource<bool> taskCompletionSource;
 
         public TaskCompletionCallback()
         {
-            taskCompletionSource = new TaskCompletionSource<bool>();
+            taskCompletionSource = new AsyncTaskCompletionSource<bool>();
         }
 
         void ICompletionCallback.OnComplete()

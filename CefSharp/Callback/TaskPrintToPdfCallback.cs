@@ -10,7 +10,7 @@ namespace CefSharp
 {
     public sealed class TaskPrintToPdfCallback : IPrintToPdfCallback
     {
-        private readonly TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
+        private readonly AsyncTaskCompletionSource<bool> taskCompletionSource = new AsyncTaskCompletionSource<bool>();
 
         public Task<bool> Task
         {

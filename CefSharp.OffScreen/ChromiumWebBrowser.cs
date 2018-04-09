@@ -507,7 +507,7 @@ namespace CefSharp.OffScreen
             // Try our luck and see if there is already a screenshot, to save us creating a new thread for nothing.
             var screenshot = ScreenshotOrNull(blend);
 
-            var completionSource = new TaskCompletionSource<Bitmap>();
+            var completionSource = new AsyncTaskCompletionSource<Bitmap>();
 
             if (screenshot == null || ignoreExistingScreenshot)
             {
