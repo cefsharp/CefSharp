@@ -70,7 +70,7 @@ namespace CefSharp.Wpf.Example.Controls
                 throw new Exception("IBrowserHost is null");
             }
 
-            screenshotTaskCompletionSource = new TaskCompletionSource<InteropBitmap>();
+            screenshotTaskCompletionSource = new TaskCompletionSource<InteropBitmap>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             if(timeout.HasValue)
             {
@@ -135,8 +135,7 @@ namespace CefSharp.Wpf.Example.Controls
                         //NOTE: Interopbitmap is not capable of supporting DPI scaling
                         var bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(backBuffer,
                             width, height, PixelFormats.Bgra32, stride, 0);
-                        //Using TaskExtensions.TrySetResultAsync extension method so continuation runs on Threadpool
-                        screenshotTaskCompletionSource.TrySetResultAsync(bitmap);
+                        screenshotTaskCompletionSource.TrySetResult(bitmap);
 
                         isTakingScreenshot = false;
                         var browserHost = GetBrowser().GetHost();
