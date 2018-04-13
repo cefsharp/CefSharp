@@ -355,14 +355,16 @@ namespace CefSharp.OffScreen
         protected virtual void Dispose(bool disposing)
         {
             // Don't reference event listeners any longer:
-            LoadError = null;
-            FrameLoadStart = null;
-            FrameLoadEnd = null;
-            ConsoleMessage = null;
-            BrowserInitialized = null;
-            StatusMessage = null;
-            LoadingStateChanged = null;
             AddressChanged = null;
+            BrowserInitialized = null;
+            ConsoleMessage = null;
+            FrameLoadEnd = null;
+            FrameLoadStart = null;
+            LoadError = null;
+            LoadingStateChanged = null;
+            Paint = null;
+            StatusMessage = null;
+            TitleChanged = null;            
 
             Cef.RemoveDisposable(this);
 

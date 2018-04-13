@@ -429,15 +429,15 @@ namespace CefSharp.WinForms
             }
 
             // Don't maintain a reference to event listeners anylonger:
-            LoadError = null;
-            FrameLoadStart = null;
-            FrameLoadEnd = null;
-            LoadingStateChanged = null;
-            ConsoleMessage = null;
-            StatusMessage = null;
             AddressChanged = null;
-            TitleChanged = null;
+            ConsoleMessage = null;
+            FrameLoadEnd = null;
+            FrameLoadStart = null;
             IsBrowserInitializedChanged = null;
+            LoadError = null;
+            LoadingStateChanged = null;
+            StatusMessage = null;
+            TitleChanged = null;            
 
             // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
             // otherwise the ILifeSpanHandler.DoClose will not be invoked.

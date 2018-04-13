@@ -517,11 +517,14 @@ namespace CefSharp.Wpf
             {
                 // No longer reference event listeners:
                 ConsoleMessage = null;
-                FrameLoadStart = null;
                 FrameLoadEnd = null;
+                FrameLoadStart = null;
+                IsBrowserInitializedChanged = null;
                 LoadError = null;
                 LoadingStateChanged = null;
                 Paint = null;
+                StatusMessage = null;
+                TitleChanged = null;
 
                 if (isDisposing)
                 {

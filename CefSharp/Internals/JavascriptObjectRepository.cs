@@ -54,6 +54,7 @@ namespace CefSharp.Internals
         public void Dispose()
         {
             ResolveObject = null;
+            ObjectBoundInJavascript = null;
         }
 
         public bool HasBoundObjects
