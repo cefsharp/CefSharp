@@ -34,6 +34,17 @@ namespace CefSharp.Internals
 
         void SetCursor(IntPtr cursor, CursorType type);
 
+        /// <summary>
+        /// Called when the user starts dragging content in the web view. 
+        /// OS APIs that run a system message loop may be used within the StartDragging call.
+        /// Don't call any of IBrowserHost::DragSource*Ended* methods after returning false.
+        /// Call IBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either synchronously or asynchronously to inform the web view that the drag operation has ended. 
+        /// </summary>
+        /// <param name="dragData"> Contextual information about the dragged content</param>
+        /// <param name="mask"></param>
+        /// <param name="x">is the drag start location in screen coordinates</param>
+        /// <param name="y">is the drag start location in screen coordinates</param>
+        /// <returns>Return true to handle the drag operation.</returns>
         bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y);
         void UpdateDragCursor(DragOperationsMask operation);
 
