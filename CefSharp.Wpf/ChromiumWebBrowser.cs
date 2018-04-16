@@ -98,6 +98,12 @@ namespace CefSharp.Wpf
         /// </summary>
         private IRequestContext requestContext;
         /// <summary>
+        /// Keep a short term copy of IDragData, so when calling DoDragDrop, DragEnter is called, 
+        /// we can reuse the drag data provided from CEF
+        /// </summary>
+        private IDragData currentDragData;
+
+        /// <summary>
         /// A flag that indicates whether or not the designer is active
         /// NOTE: Needs to be static for OnApplicationExit
         /// </summary>
@@ -535,6 +541,13 @@ namespace CefSharp.Wpf
                         BrowserSettings = null;
                     }
 
+                    //Incase we accidentally have a reference to the CEF drag data
+                    if(currentDragData != null)
+                    {
+                        currentDragData.Dispose();
+                        currentDragData = null;
+                    }
+
                     PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
 
                     // Release internal event listeners:
@@ -661,20 +674,27 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Starts the dragging.
+        /// Called when the user starts dragging content in the web view. 
+        /// OS APIs that run a system message loop may be used within the StartDragging call.
+        /// Don't call any of IBrowserHost::DragSource*Ended* methods after returning false.
+        /// Call IBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either synchronously or asynchronously to inform the web view that the drag operation has ended. 
         /// </summary>
-        /// <param name="dragData">The drag data.</param>
-        /// <param name="mask">The mask.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
+        /// <param name="dragData"> Contextual information about the dragged content</param>
+        /// <param name="allowedOps">allowed operations</param>
+        /// <param name="x">is the drag start location in screen coordinates</param>
+        /// <param name="y">is the drag start location in screen coordinates</param>
+        /// <returns>Return true to handle the drag operation.</returns>
+        bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask allowedOps, int x, int y)
         {
             var dataObject = new DataObject();
 
             dataObject.SetText(dragData.FragmentText, TextDataFormat.Text);
             dataObject.SetText(dragData.FragmentText, TextDataFormat.UnicodeText);
             dataObject.SetText(dragData.FragmentHtml, TextDataFormat.Html);
+
+            //Clone dragData for use in OnDragEnter event handler
+            currentDragData = dragData.Clone();
+            currentDragData.ResetFileContents();
 
             // TODO: The following code block *should* handle images, but GetFileContents is
             // not yet implemented.
@@ -691,8 +711,15 @@ namespace CefSharp.Wpf
             {
                 if(browser != null)
                 {
-                    var results = DragDrop.DoDragDrop(this, dataObject, GetDragEffects(mask));
-                    browser.GetHost().DragSourceEndedAt(0, 0, GetDragOperationsMask(results));
+                    //DoDragDrop will fire DragEnter event
+                    var result = DragDrop.DoDragDrop(this, dataObject, GetDragEffects(allowedOps));
+
+                    //DragData was stored so when DoDragDrop fires DragEnter we reuse a clone of the IDragData provided here
+                    currentDragData = null;
+
+                    //If result == DragDropEffects.None then we'll send DragOperationsMask.None
+                    //effectively cancelling the drag operation
+                    browser.GetHost().DragSourceEndedAt(x, y, GetDragOperationsMask(result));
                     browser.GetHost().DragSourceSystemDragEnded();
                 }
             });
@@ -1420,7 +1447,11 @@ namespace CefSharp.Wpf
         {
             if(browser != null)
             {
-                browser.GetHost().DragTargetDragDrop(GetMouseEvent(e));
+                var mouseEvent = GetMouseEvent(e);
+                var effect = GetDragOperationsMask(e.AllowedEffects);
+
+                browser.GetHost().DragTargetDragOver(mouseEvent, effect);
+                browser.GetHost().DragTargetDragDrop(mouseEvent);
             }
         }
 
@@ -1459,7 +1490,15 @@ namespace CefSharp.Wpf
         {
             if(browser != null)
             {
-                browser.GetHost().DragTargetDragEnter(e.GetDragDataWrapper(), GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+                var mouseEvent = GetMouseEvent(e);
+                var effect = GetDragOperationsMask(e.AllowedEffects);
+
+                //DoDragDrop will fire this handler for internally sourced Drag/Drop operations
+                //we use the existing IDragData (cloned copy)
+                var dragData = currentDragData ?? e.GetDragDataWrapper();
+
+                browser.GetHost().DragTargetDragEnter(dragData, mouseEvent, effect);
+                browser.GetHost().DragTargetDragOver(mouseEvent, effect);
             }
         }
 
