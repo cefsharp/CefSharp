@@ -10,6 +10,7 @@
 
 #include "CefWrapper.h"
 #include "CefImageWrapper.h"
+#include "CefWriteHandlerWrapper.h"
 
 using namespace std;
 using namespace System::IO;
@@ -127,6 +128,10 @@ namespace CefSharp
             {
                 IImage^ get()
                 {
+                    if (_wrappedDragData->HasImage())
+                    {
+                        return gcnew CefImageWrapper(_wrappedDragData->GetImage());
+                    }
                     return nullptr;
                 }
             }
@@ -190,8 +195,18 @@ namespace CefSharp
 
             virtual Stream^ GetFileContents()
             {
-                //_wrappedDragData->GetFileContents()
-                throw gcnew NotImplementedException("Need to implement a Wrapper around CefStreamWriter before this method can be implemented.");
+                auto ms = gcnew MemoryStream();
+                auto writeHandler = new CefWriteHandlerWrapper(ms);
+                
+                auto writer = CefStreamWriter::CreateForHandler(writeHandler);
+                auto size = _wrappedDragData->GetFileContents(writer);
+
+                if ((int)size == ms->Length)
+                {
+                    return ms;
+                }
+                
+                throw gcnew Exception("Invalid file content size");
             }
 
             operator CefRefPtr<CefDragData>()
