@@ -54,6 +54,11 @@ namespace CefSharp
             virtual property bool IsFragment;
             virtual property bool IsLink;
 
+            virtual IDragData^ Clone()
+            {
+                return gcnew CefDragDataWrapper(_wrappedDragData->Clone());
+            }
+
             ///
             // Create a new CefDragData object.
             ///

@@ -15,6 +15,12 @@ namespace CefSharp
     public interface IDragData : IDisposable
     {
         /// <summary>
+        /// Gets a copy of the current drag data
+        /// </summary>
+        /// <returns></returns>
+        IDragData Clone();
+
+        /// <summary>
         /// Returns true if this object is read-only.
         /// </summary>
         bool IsReadOnly { get; }
