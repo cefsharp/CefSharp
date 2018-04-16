@@ -9,6 +9,7 @@
 #include "include/cef_drag_data.h"
 
 #include "CefWrapper.h"
+#include "CefImageWrapper.h"
 
 using namespace std;
 using namespace System::IO;
@@ -107,6 +108,37 @@ namespace CefSharp
                 void set(String^ fragmentText)
                 {
                     _wrappedDragData->SetFragmentText(StringUtils::ToNative(fragmentText));
+                }
+            }
+
+            virtual property bool HasImage
+            {
+                bool get()
+                {
+                    return _wrappedDragData->HasImage();
+                }
+            }
+
+            /// <summary>
+            /// Get the image representation of drag data.
+            /// May return NULL if no image representation is available.
+            /// </summary>
+            virtual property IImage^ Image
+            {
+                IImage^ get()
+                {
+                    return nullptr;
+                }
+            }
+
+            /// <summary>
+            /// Get the image hotspot (drag start location relative to image dimensions).
+            /// </summary>
+            virtual property CefSharp::Structs::Point ImageHotspot
+            {
+                CefSharp::Structs::Point get()
+                {
+                    return CefSharp::Structs::Point(0, 0);
                 }
             }
 

@@ -95,9 +95,12 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="Enums\AlphaType.cs" />
+    <Compile Include="Enums\ColorType.cs" />
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
+    <Compile Include="IImage.cs" />
     <Compile Include="IJavascriptObjectRepository.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\DateTimeUtils.cs" />
@@ -205,6 +208,7 @@
     <Compile Include="IMenuModel.cs" />
     <Compile Include="ProxyOptions.cs" />
     <Compile Include="DefaultResourceHandlerFactoryItem.cs" />
+    <Compile Include="Structs\Point.cs" />
     <Compile Include="Structs\Size.cs" />
     <Compile Include="Structs\ViewRect.cs" />
     <Compile Include="ISslInfo.cs" />

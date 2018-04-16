@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using CefSharp.Structs;
 
 namespace CefSharp
 {
@@ -42,6 +43,22 @@ namespace CefSharp
         /// Return the plain text fragment that is being dragged.
         /// </summary>
         string FragmentText { get; set; }
+
+        /// <summary>
+        /// Returns true if an image representation of drag data is available.
+        /// </summary>
+        bool HasImage { get; }
+
+        /// <summary>
+        /// Get the image representation of drag data.
+        /// May return NULL if no image representation is available.
+        /// </summary>
+        IImage Image { get; }
+
+        /// <summary>
+        /// Get the image hotspot (drag start location relative to image dimensions).
+        /// </summary>
+        Point ImageHotspot { get; }
 
         /// <summary>
         /// Return the metadata, if any, associated with the link being dragged. 

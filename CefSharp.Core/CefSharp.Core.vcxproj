@@ -249,6 +249,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\CefImageWrapper.h" />
     <ClInclude Include="Internals\CefDeleteCookiesCallbackAdapter.h" />
     <ClInclude Include="Internals\CefSetCookieCallbackAdapter.h" />
     <ClInclude Include="Internals\CefCertificateCallbackWrapper.h" />
