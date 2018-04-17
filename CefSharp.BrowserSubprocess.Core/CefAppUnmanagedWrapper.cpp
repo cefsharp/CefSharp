@@ -181,6 +181,34 @@ namespace CefSharp
         browser->SendProcessMessage(CefProcessId::PID_BROWSER, focusedNodeChangedMessage);
     }
 
+    void CefAppUnmanagedWrapper::OnUncaughtException(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Exception> exception, CefRefPtr<CefV8StackTrace> stackTrace)
+    {
+        auto uncaughtExceptionMessage = CefProcessMessage::Create(kOnUncaughtException);
+        auto list = uncaughtExceptionMessage->GetArgumentList();
+
+        // Needed in the browser process to get the frame.
+        SetInt64(list, 0, frame->GetIdentifier());
+        list->SetString(1, exception->GetMessage());
+
+        auto frames = CefListValue::Create();
+        for (auto i = 0; i < stackTrace->GetFrameCount(); i++)
+        {
+            auto frame = CefListValue::Create();
+            auto frameArg = stackTrace->GetFrame(i);
+
+            frame->SetString(0, frameArg->GetFunctionName());
+            frame->SetInt(1, frameArg->GetLineNumber());
+            frame->SetInt(2, frameArg->GetColumn());
+            frame->SetString(3, frameArg->GetScriptNameOrSourceURL());
+
+            frames->SetList(i, frame);
+        }
+
+        list->SetList(2, frames);
+
+        browser->SendProcessMessage(CefProcessId::PID_BROWSER, uncaughtExceptionMessage);
+    }
+
     JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, int64 frameId)
     {
         auto browserWrapper = FindBrowserWrapper(browserId);

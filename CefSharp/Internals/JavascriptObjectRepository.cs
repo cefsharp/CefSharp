@@ -54,6 +54,7 @@ namespace CefSharp.Internals
         public void Dispose()
         {
             ResolveObject = null;
+            ObjectBoundInJavascript = null;
         }
 
         public bool HasBoundObjects
@@ -266,7 +267,10 @@ namespace CefSharp.Internals
                     throw new InvalidOperationException("Could not execute method: " + name + "(" + String.Join(", ", parameters) + ") " + (missingParams > 0 ? "- Missing Parameters: " + missingParams : ""), e);
                 }
 
-                if(result != null && IsComplexType(result.GetType()))
+                //For sync binding with methods that return a complex property we create a new JavascriptObject
+                //TODO: Fix the memory leak, every call to a method that returns an object will create a new
+                //JavascriptObject and they are never released
+                if(!obj.IsAsync && result != null && IsComplexType(result.GetType()))
                 {
                     var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
                     jsObject.Value = result;

@@ -1,6 +1,6 @@
 ﻿1 VERSIONINFO
- FILEVERSION 64.0.0
- PRODUCTVERSION 64.0.0
+ FILEVERSION 65.0.0
+ PRODUCTVERSION 65.0.0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -16,10 +16,10 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "CefSharp.BrowserSubprocess.Core"
-            VALUE "FileVersion", "64.0.0"
-            VALUE "LegalCopyright", "Copyright © 2010-2017 The CefSharp Authors"
+            VALUE "FileVersion", "65.0.0"
+            VALUE "LegalCopyright", "Copyright © 2010-2018 The CefSharp Authors"
             VALUE "ProductName", "CefSharp"
-            VALUE "ProductVersion", "64.0.0"
+            VALUE "ProductVersion", "65.0.0"
         END
     END
     BLOCK "VarFileInfo"

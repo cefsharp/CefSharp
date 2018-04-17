@@ -28,7 +28,6 @@ namespace CefSharp
             public CefJSDialogHandler,
             public CefDialogHandler,
             public CefDragHandler,
-            public CefGeolocationHandler,
             public CefDownloadHandler,
             public CefFindHandler
         {
@@ -97,7 +96,6 @@ namespace CefSharp
             virtual DECL CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefFindHandler> GetFindHandler() OVERRIDE { return this; }
             virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
 
@@ -126,6 +124,8 @@ namespace CefSharp
             virtual DECL bool OnOpenURLFromTab(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& targetUrl,
                 CefRequestHandler::WindowOpenDisposition targetDisposition, bool userGesture) OVERRIDE;
             virtual DECL bool OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback) OVERRIDE;
+            virtual DECL bool CanGetCookies(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) OVERRIDE;
+            virtual DECL bool CanSetCookie(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, const CefCookie& cookie) OVERRIDE;
             virtual DECL bool OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback) OVERRIDE;
             virtual DECL void OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, CefString& newUrl) OVERRIDE;
             virtual DECL bool OnResourceResponse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response) OVERRIDE;
@@ -183,11 +183,6 @@ namespace CefSharp
             //CefDragHandler
             virtual DECL bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask) OVERRIDE;
             virtual DECL void OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, const std::vector<CefDraggableRegion>& regions) OVERRIDE;
-
-            //CefGeolocationHandler
-            virtual DECL bool OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id,
-                CefRefPtr<CefGeolocationCallback> callback) OVERRIDE;
-            virtual DECL void OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, int request_id) OVERRIDE;
 
             //CefDownloadHandler
             virtual DECL void OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,

@@ -87,8 +87,10 @@
     <Compile Include="JsSerializableStruct.cs" />
     <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
     <Compile Include="RequestEventHandler\EventArgs\BaseRequestEventArgs.cs" />
+    <Compile Include="RequestEventHandler\EventArgs\CanSetCookieEventArg.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetAuthCredentialsEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetResourceResponseFilterEventArgs.cs" />
+    <Compile Include="RequestEventHandler\EventArgs\CanGetCookiesEventArg.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnBeforeBrowseEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnBeforeResourceLoadEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnCertificateErrorEventArgs.cs" />
@@ -143,6 +145,7 @@
     <Content Include="Resources\assets\js\shBrushCSharp.js" />
     <None Include="Resources\assets\js\shBrushJScript.js" />
     <Content Include="Resources\assets\js\shCore.js" />
+    <Content Include="Resources\BindingTestSingle.html" />
     <Content Include="Resources\LegacyBindingTest.html" />
     <Content Include="Resources\CdmSupportTest.html" />
     <Content Include="Resources\CssAnimation.html" />

@@ -176,12 +176,6 @@ namespace CefSharp
         IResourceHandlerFactory ResourceHandlerFactory { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
-        /// </summary>
-        /// <value>The geolocation handler.</value>
-        IGeolocationHandler GeolocationHandler { get; set; }
-
-        /// <summary>
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
         /// <value>The render process message handler.</value>

@@ -205,13 +205,7 @@ namespace CefSharp.WinForms
         /// <value>The resource handler factory.</value>
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
-        /// <summary>
-        /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
-        /// </summary>
-        /// <value>The geolocation handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
-        public IGeolocationHandler GeolocationHandler { get; set; }
-
+        
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
@@ -322,6 +316,15 @@ namespace CefSharp.WinForms
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
 
         /// <summary>
+        /// ParentFormMessageInterceptor hooks the Form handle and forwards
+        /// the move/active messages to the browser, the default is true
+        /// and should only be required when using <see cref="CefSettings.MultiThreadedMessageLoop"/>
+        /// set to true.
+        /// </summary>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        public bool UseParentFormMessageInterceptor { get; set; } = true;
+
+        /// <summary>
         /// Initializes static members of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
         static ChromiumWebBrowser()
@@ -426,15 +429,15 @@ namespace CefSharp.WinForms
             }
 
             // Don't maintain a reference to event listeners anylonger:
-            LoadError = null;
-            FrameLoadStart = null;
-            FrameLoadEnd = null;
-            LoadingStateChanged = null;
-            ConsoleMessage = null;
-            StatusMessage = null;
             AddressChanged = null;
-            TitleChanged = null;
+            ConsoleMessage = null;
+            FrameLoadEnd = null;
+            FrameLoadStart = null;
             IsBrowserInitializedChanged = null;
+            LoadError = null;
+            LoadingStateChanged = null;
+            StatusMessage = null;
+            TitleChanged = null;            
 
             // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
             // otherwise the ILifeSpanHandler.DoClose will not be invoked.
@@ -643,10 +646,13 @@ namespace CefSharp.WinForms
             // is most likely hooked into a browser Form of some sort. 
             // (Which is what ParentFormMessageInterceptor relies on.)
             // Ensure the ParentFormMessageInterceptor construction occurs on the WinForms UI thread:
-            this.InvokeOnUiThreadIfRequired(() =>
+            if (UseParentFormMessageInterceptor)
             {
-                parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
-            });
+                this.InvokeOnUiThreadIfRequired(() =>
+                {
+                    parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
+                });
+            }
 
             ResizeBrowser();
 

@@ -83,7 +83,7 @@
     <Compile Include="Internals\WpfKeyboardHandler.cs" />
     <Compile Include="Internals\WpfLegacyKeyboardHandler.cs" />
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="IBitmapFactory.cs" />
+    <Compile Include="IRenderHandler.cs" />
     <Compile Include="Internals\WpfExtensions.cs" />
     <Compile Include="IWpfWebBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -92,8 +92,10 @@
     <AppDesigner Include="Properties\" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="PaintEventArgs.cs" />
-    <Compile Include="Rendering\InteropBitmapFactory.cs" />
-    <Compile Include="Rendering\WritableBitmapFactory.cs" />
+    <Compile Include="Rendering\Experimental\IncreaseBufferInteropRenderHandler.cs" />
+    <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
+    <Compile Include="Rendering\InteropBitmapRenderHandler.cs" />
+    <Compile Include="Rendering\WritableBitmapRenderHandler.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,8 @@ namespace CefSharp.Example.RequestEventHandler
         public event EventHandler<OnBeforeResourceLoadEventArgs> OnBeforeResourceLoadEvent;
         public event EventHandler<GetAuthCredentialsEventArgs> GetAuthCredentialsEvent;
         public event EventHandler<OnRenderProcessTerminatedEventArgs> OnRenderProcessTerminatedEvent;
+        public event EventHandler<CanGetCookiesEventArg> CanGetCookiesEvent;
+        public event EventHandler<CanSetCookieEventArg> CanSetCookieEvent;
         public event EventHandler<OnQuotaRequestEventArgs> OnQuotaRequestEvent;
         public event EventHandler<OnResourceRedirectEventArgs> OnResourceRedirectEvent;
 
@@ -41,21 +43,26 @@ namespace CefSharp.Example.RequestEventHandler
         bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect)
         {
             var args = new OnBeforeBrowseEventArgs(browserControl, browser, frame, request, isRedirect);
-            ExecuteEventHandler<OnBeforeBrowseEventArgs>(OnBeforeBrowseEvent, args);
+
+            OnBeforeBrowseEvent?.Invoke(this, args);
+
             return args.CancelNavigation;
         }
 
         bool IRequestHandler.OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
         {
             var args = new OnOpenUrlFromTabEventArgs(browserControl, browser, frame, targetUrl, targetDisposition, userGesture);
-            ExecuteEventHandler<OnOpenUrlFromTabEventArgs>(OnOpenUrlFromTabEvent, args);
+
+            OnOpenUrlFromTabEvent?.Invoke(this, args);
+
             return args.CancelNavigation;
         }
 
         bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
         {
             var args = new OnCertificateErrorEventArgs(browserControl, browser, errorCode, requestUrl, sslInfo, callback);
-            ExecuteEventHandler<OnCertificateErrorEventArgs>(OnCertificateErrorEvent, args);
+
+            OnCertificateErrorEvent?.Invoke(this, args);
 
             EnsureCallbackDisposal(callback);
             return args.ContinueAsync;
@@ -64,13 +71,15 @@ namespace CefSharp.Example.RequestEventHandler
         void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath)
         {
             var args = new OnPluginCrashedEventArgs(browserControl, browser, pluginPath);
-            ExecuteEventHandler<OnPluginCrashedEventArgs>(OnPluginCrashedEvent, args);
+
+            OnPluginCrashedEvent?.Invoke(this, args);
         }
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
             var args = new OnBeforeResourceLoadEventArgs(browserControl, browser, frame, request, callback);
-            ExecuteEventHandler<OnBeforeResourceLoadEventArgs>(OnBeforeResourceLoadEvent, args);
+
+            OnBeforeResourceLoadEvent?.Invoke(this, args);
 
             EnsureCallbackDisposal(callback);
             return args.ContinuationHandling;
@@ -79,7 +88,8 @@ namespace CefSharp.Example.RequestEventHandler
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
             var args = new GetAuthCredentialsEventArgs(browserControl, browser, frame, isProxy, host, port, realm, scheme, callback);
-            ExecuteEventHandler<GetAuthCredentialsEventArgs>(GetAuthCredentialsEvent, args);
+
+            GetAuthCredentialsEvent?.Invoke(this, args);
 
             EnsureCallbackDisposal(callback);
             return args.ContinueAsync;
@@ -88,13 +98,32 @@ namespace CefSharp.Example.RequestEventHandler
         void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)
         {
             var args = new OnRenderProcessTerminatedEventArgs(browserControl, browser, status);
-            ExecuteEventHandler<OnRenderProcessTerminatedEventArgs>(OnRenderProcessTerminatedEvent, args);
+
+            OnRenderProcessTerminatedEvent?.Invoke(this, args);
+        }
+
+        bool IRequestHandler.CanGetCookies(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
+        {
+            var args = new CanGetCookiesEventArg(browserControl, browser, frame, request);
+
+            CanGetCookiesEvent?.Invoke(this, args);
+
+            return args.GetCookies;
+        }
+
+        bool IRequestHandler.CanSetCookie(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, Cookie cookie)
+        {
+            var args = new CanSetCookieEventArg(browserControl, browser, frame, request, cookie);
+
+            CanSetCookieEvent?.Invoke(this, args);
+
+            return args.SetCookie;
         }
 
         bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
             var args = new OnQuotaRequestEventArgs(browserControl, browser, originUrl, newSize, callback);
-            ExecuteEventHandler<OnQuotaRequestEventArgs>(OnQuotaRequestEvent, args);
+            OnQuotaRequestEvent?.Invoke(this, args);
 
             EnsureCallbackDisposal(callback);
             return args.ContinueAsync;
@@ -103,7 +132,7 @@ namespace CefSharp.Example.RequestEventHandler
         void IRequestHandler.OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
         {
             var args = new OnResourceRedirectEventArgs(browserControl, browser, frame, request, response, newUrl);
-            ExecuteEventHandler<OnResourceRedirectEventArgs>(OnResourceRedirectEvent, args);
+            OnResourceRedirectEvent?.Invoke(this, args);
             if (!Equals(newUrl, args.NewUrl))
             {
                 newUrl = args.NewUrl;
@@ -113,34 +142,35 @@ namespace CefSharp.Example.RequestEventHandler
         bool IRequestHandler.OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url)
         {
             var args = new OnProtocolExecutionEventArgs(browserControl, browser, url);
-            ExecuteEventHandler<OnProtocolExecutionEventArgs>(OnProtocolExecutionEvent, args);
+            OnProtocolExecutionEvent?.Invoke(this, args);
             return args.AttemptExecution;
         }
 
         void IRequestHandler.OnRenderViewReady(IWebBrowser browserControl, IBrowser browser)
         {
             var args = new OnRenderViewReadyEventArgs(browserControl, browser);
-            ExecuteEventHandler<OnRenderViewReadyEventArgs>(OnRenderViewReadyEvent, args);
+            OnRenderViewReadyEvent?.Invoke(this, args);
         }
 
         bool IRequestHandler.OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
         {
             var args = new OnResourceResponseEventArgs(browserControl, browser, frame, request, response);
-            ExecuteEventHandler<OnResourceResponseEventArgs>(OnResourceResponseEvent, args);
+            OnResourceResponseEvent?.Invoke(this, args);
             return args.RedirectOrRetry;
         }
 
         IResponseFilter IRequestHandler.GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
         {
             var args = new GetResourceResponseFilterEventArgs(browserControl, browser, frame, request, response);
-            ExecuteEventHandler<GetResourceResponseFilterEventArgs>(GetResourceResponseFilterEvent, args);
+            GetResourceResponseFilterEvent?.Invoke(this, args);
             return args.ResponseFilter;
         }
 
         void IRequestHandler.OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
         {
             var args = new OnResourceLoadCompleteEventArgs(browserControl, browser, frame, request, response, status, receivedContentLength);
-            ExecuteEventHandler<OnResourceLoadCompleteEventArgs>(OnResourceLoadCompleteEvent, args);
+
+            OnResourceLoadCompleteEvent?.Invoke(this, args);
         }
 
         bool IRequestHandler.OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
@@ -162,14 +192,6 @@ namespace CefSharp.Example.RequestEventHandler
             if (callbackToDispose != null && !callbackToDispose.IsDisposed)
             {
                 callbackToDispose.Dispose();
-            }
-        }
-
-        private void ExecuteEventHandler<T>(EventHandler<T> handler, T args)
-        {
-            if (handler != null)
-            {
-                handler(this, args);
             }
         }
     }

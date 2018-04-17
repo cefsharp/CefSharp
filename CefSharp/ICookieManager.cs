@@ -20,7 +20,7 @@ namespace CefSharp
         /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
         /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
         /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the cookies have been deleted.</param>
-        /// <return>Returns false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
+        /// <returns>Returns false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</returns>
         bool DeleteCookies(string url = null, string name = null, IDeleteCookiesCallback callback = null);
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace CefSharp
         /// <param name="url">The cookie URL</param>
         /// <param name="cookie">The cookie</param>
         /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the cookie has been set.</param>
-        /// <return>returns false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
+        /// <returns>returns false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</returns>
         bool SetCookie(string url, Cookie cookie, ISetCookieCallback callback = null);
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace CefSharp
         /// <param name="persistSessionCookies">A flag that determines whether session cookies will be persisted or not.</param>
         /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the
         /// manager's storage has been initialized</param>
-        /// <return>Returns false if cookies cannot be accessed</return>
+        /// <returns>Returns false if cookies cannot be accessed</returns>
         bool SetStoragePath(string path, bool persistSessionCookies, ICompletionCallback callback = null);
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace CefSharp
         /// Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.
         /// </summary>
         /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
-        /// <return>Returns false if cookies cannot be accessed; otherwise, true.</return>
+        /// <returns>Returns false if cookies cannot be accessed; otherwise, true.</returns>
         bool VisitAllCookies(ICookieVisitor visitor);
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace CefSharp
         /// <param name="url">The URL to use for filtering a subset of the cookies available.</param>
         /// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
         /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
-        /// <return>Returns false if cookies cannot be accessed; otherwise, true.</return>
+        /// <returns>Returns false if cookies cannot be accessed; otherwise, true.</returns>
         bool VisitUrlCookies(string url, bool includeHttpOnly, ICookieVisitor visitor);
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace CefSharp
         /// and pass in as <paramref name="callback"/>
         /// </summary>
         /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the flush is complete.</param>
-        /// <return>Returns false if cookies cannot be accessed.</return>
+        /// <returns>Returns false if cookies cannot be accessed.</returns>
         bool FlushStore(ICompletionCallback callback);
 
         /// <summary>

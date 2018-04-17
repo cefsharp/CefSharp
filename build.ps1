@@ -3,9 +3,9 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "vs2015",
     [Parameter(Position = 1)]
-    [string] $Version = "64.0.0",
+    [string] $Version = "65.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "64.0.0"   
+    [string] $AssemblyVersion = "65.0.0"   
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -36,7 +36,9 @@ if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
 if ($env:APPVEYOR_REPO_TAG -eq "True")
 {
     $Version = "$env:APPVEYOR_REPO_TAG_NAME".Substring(1)  # trim leading "v"
-    Write-Diagnostic "Setting version based on tag to $Version"    
+	$AssemblyVersion = $Version
+    Write-Diagnostic "Setting Version based on tag to $Version"    
+	Write-Diagnostic "Setting AssemblyVersion based on tag to $AssemblyVersion"    
 }
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1

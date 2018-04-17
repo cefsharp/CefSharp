@@ -38,7 +38,6 @@ namespace CefSharp.WinForms.Example
             browser.MenuHandler = new MenuHandler();
             browser.RequestHandler = new WinFormsRequestHandler(openNewTab);
             browser.JsDialogHandler = new JsDialogHandler();
-            browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
             if (multiThreadedMessageLoopEnabled)
             {

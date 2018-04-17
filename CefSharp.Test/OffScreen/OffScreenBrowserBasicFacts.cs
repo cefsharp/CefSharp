@@ -98,5 +98,37 @@ namespace CefSharp.Test.OffScreen
             await Task.Delay(2000);
             Assert.True(boundObj.MethodCalled);
         }
+
+        /// <summary>
+        /// Use the EvaluateScriptAsync (IWebBrowser, String,Object[]) overload and pass in string params
+        /// that require encoding. Test case for https://github.com/cefsharp/CefSharp/issues/2339
+        /// </summary>
+        /// <returns>A task</returns>
+        [Fact]
+        public async Task CanEvaluateScriptAsyncWithEncodedStringArguments()
+        {
+            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+
+                var javascriptResponse = await browser.EvaluateScriptAsync("var testfunc=function(s) { return s; }");
+                Assert.True(javascriptResponse.Success);
+
+                // now call the function we just created
+                string[] teststrings = new string[]{"Mary's\tLamb & \r\nOther Things",
+                                      "[{test:\"Mary's Lamb & \\nOther Things\", 'other': \"\", 'and': null}]" };
+                foreach (var test in teststrings)
+                {
+                    javascriptResponse = await browser.EvaluateScriptAsync("testfunc", test);
+                    Assert.True(javascriptResponse.Success);
+                    Assert.Equal(test, (string)javascriptResponse.Result);
+                    output.WriteLine("{0} passes {1}", test, javascriptResponse.Result);
+                }
+            }
+        }
+
     }
 }

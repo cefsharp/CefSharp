@@ -12,6 +12,7 @@ using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
 using System.IO;
 using CefSharp.Example.ModelBinding;
+using System.Diagnostics;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -32,9 +33,9 @@ namespace CefSharp.Wpf.Example.Views
                 browser.RegisterJsObject("bound", new BoundObject(), options: BindingOptions.DefaultBinder);
             }
             else
-            { 
-                //Register the new way
-                browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync:false, options: BindingOptions.DefaultBinder);
+            {
+                //Objects can still be pre registered, they can also be registered when required, see ResolveObject below
+                //browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync:false, options: BindingOptions.DefaultBinder);
             }
 
             var bindingOptions = new BindingOptions() 
@@ -50,9 +51,13 @@ namespace CefSharp.Wpf.Example.Views
             }
             else
             {
-                //Register the new way
-                browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+                //Objects can still be pre registered, they can also be registered when required, see ResolveObject below
+                //browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
             }
+
+            //To use the ResolveObject below and bind an object with isAsync:false we must set CefSharpSettings.WcfEnabled = true before
+            //the browser is initialized.
+            CefSharpSettings.WcfEnabled = true;
 
             //If you call CefSharp.BindObjectAsync in javascript and pass in the name of an object which is not yet
             //bound, then ResolveObject will be called, you can then register it
@@ -63,17 +68,26 @@ namespace CefSharp.Wpf.Example.Views
                 {
                     repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
                 }
+                else if(e.ObjectName == "bound")
+                { 
+                    browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
+                }
+                else if( e.ObjectName == "boundAsync")
+                { 
+                    browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+                }
             };
 
             browser.JavascriptObjectRepository.ObjectBoundInJavascript += (sender, e) =>
             {
                 var name = e.ObjectName;
+
+                Debug.WriteLine($"Object {e.ObjectName} was bound successfully.");
             };           
 
             browser.DisplayHandler = new DisplayHandler();
             browser.LifeSpanHandler = new LifespanHandler();
             browser.MenuHandler = new MenuHandler();
-            browser.GeolocationHandler = new GeolocationHandler();
             var downloadHandler = new DownloadHandler();
             downloadHandler.OnBeforeDownloadFired += OnBeforeDownloadFired;
             downloadHandler.OnDownloadUpdatedFired += OnDownloadUpdatedFired;

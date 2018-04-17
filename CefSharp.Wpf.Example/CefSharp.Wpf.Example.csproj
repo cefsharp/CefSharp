@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.redist.x86.3.3282.1731\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3282.1731\build\cef.redist.x86.props')" />
-  <Import Project="..\packages\cef.redist.x64.3.3282.1731\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3282.1731\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\cef.redist.x86.3.3325.1758\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3325.1758\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.3.3325.1758\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3325.1758\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -23,7 +24,8 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>75fe660a</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -109,7 +111,6 @@
     <Compile Include="Controls\NonReloadingTabControl.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DragHandler.cs" />
-    <Compile Include="Handlers\GeolocationHandler.cs" />
     <Compile Include="Handlers\MenuHandler.cs" />
     <Compile Include="Handlers\LifespanHandler.cs" />
     <Compile Include="Handlers\RequestContextHandler.cs" />

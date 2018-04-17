@@ -174,11 +174,6 @@ namespace CefSharp.OffScreen
         /// <value>The resource handler factory.</value>
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         /// <summary>
-        /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
-        /// </summary>
-        /// <value>The geolocation handler.</value>
-        public IGeolocationHandler GeolocationHandler { get; set; }
-        /// <summary>
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
         /// <value>The render process message handler.</value>
@@ -360,14 +355,16 @@ namespace CefSharp.OffScreen
         protected virtual void Dispose(bool disposing)
         {
             // Don't reference event listeners any longer:
-            LoadError = null;
-            FrameLoadStart = null;
-            FrameLoadEnd = null;
-            ConsoleMessage = null;
-            BrowserInitialized = null;
-            StatusMessage = null;
-            LoadingStateChanged = null;
             AddressChanged = null;
+            BrowserInitialized = null;
+            ConsoleMessage = null;
+            FrameLoadEnd = null;
+            FrameLoadStart = null;
+            LoadError = null;
+            LoadingStateChanged = null;
+            Paint = null;
+            StatusMessage = null;
+            TitleChanged = null;            
 
             Cef.RemoveDisposable(this);
 

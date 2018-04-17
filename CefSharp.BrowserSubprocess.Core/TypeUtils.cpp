@@ -254,7 +254,13 @@ namespace CefSharp
 
     DateTime TypeUtils::ConvertCefTimeToDateTime(CefTime time)
     {
-        return DateTimeUtils::FromCefTime(time.GetDoubleT());
+        return DateTimeUtils::FromCefTime(time.year,
+            time.month,
+            time.day_of_month,
+            time.hour,
+            time.minute,
+            time.second,
+            time.millisecond);
     }
 
     CefTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime)

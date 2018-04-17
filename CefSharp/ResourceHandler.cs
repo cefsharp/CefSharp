@@ -233,7 +233,9 @@ namespace CefSharp
         /// <returns>IResourceHandler.</returns>
         public static IResourceHandler FromFilePath(string filePath, string mimeType = null)
         {
-            return new FileResourceHandler(mimeType ?? DefaultMimeType, filePath);
+            var stream = File.OpenRead(filePath);
+
+            return FromStream(stream, mimeType ?? DefaultMimeType);
         }
 
         /// <summary>

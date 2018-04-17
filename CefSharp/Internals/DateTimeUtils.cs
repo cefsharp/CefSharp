@@ -12,17 +12,26 @@ namespace CefSharp.Internals
         private static DateTime FirstOfTheFirstNineteenSeventy = new DateTime(1970, 1, 1, 0, 0, 0);
 
         /// <summary>
-        /// Takes the epoch and creates a <see cref="DateTime"/>
+        /// Converts a cef
         /// </summary>
-        /// <param name="epoch">cef datetime represented as difference between 01/01/1970</param>
-        /// <returns></returns>
-        public static DateTime FromCefTime(double epoch)
+        /// <param name="year">year</param>
+        /// <param name="month">month</param>
+        /// <param name="day">day</param>
+        /// <param name="hour">hour</param>
+        /// <param name="minute">minute</param>
+        /// <param name="second">second</param>
+        /// <param name="millisecond">millisecond</param>
+        /// <returns>DateTime</returns>
+        public static DateTime FromCefTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
         {
-            if (epoch > 0)
+            try
             {
-                return FirstOfTheFirstNineteenSeventy.AddSeconds(epoch).ToLocalTime();
+                return new DateTime(year, month, day, hour, minute, second, millisecond);
             }
-            return DateTime.MinValue;
+            catch(Exception)
+            {
+                return DateTime.MinValue;
+            }
         }
 
         /// <summary>

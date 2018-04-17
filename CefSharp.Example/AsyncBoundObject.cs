@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -41,6 +42,14 @@ namespace CefSharp.Example
         public JsSerializableStruct ReturnObject(string name)
         {
             return new JsSerializableStruct
+            {
+                Value = name
+            };
+        }
+
+        public JsSerializableClass ReturnClass(string name)
+        {
+            return new JsSerializableClass
             {
                 Value = name
             };
@@ -89,6 +98,34 @@ namespace CefSharp.Example
             }
 
             return builder.ToString();
+        }
+
+        public Dictionary<string, int> MethodReturnsDictionary1()
+        {
+            return new Dictionary<string, int>()
+            {
+                {"five", 5},
+                {"ten", 10}
+            };
+        }
+
+        public Dictionary<string, object> MethodReturnsDictionary2()
+        {
+            return new Dictionary<string, object>()
+            {
+                {"onepointfive", 1.5},
+                {"five", 5},
+                {"ten", "ten"},
+                {"twotwo", new Int32[]{2, 2} }
+            };
+        }
+
+        public Dictionary<string, IDictionary> MethodReturnsDictionary3()
+        {
+            return new Dictionary<string, IDictionary>()
+            {
+                {"data", MethodReturnsDictionary2()}
+            };
         }
     }
 }

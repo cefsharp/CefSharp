@@ -227,13 +227,28 @@
                 });
             });
 
-            QUnit.test("Async call (Object):", function( assert )
+            QUnit.test("Async call (return Struct):", function( assert )
             {
                 var asyncCallback = assert.async();
                 
-                boundAsync.returnObject('CefSharp').then(function (res)
+                boundAsync.returnObject('CefSharp Struct Test').then(function (res)
                 {
-                    assert.equal(res.Value, "CefSharp", "JSON Object with a single field");
+                    assert.equal(res.Value, "CefSharp Struct Test", "Struct with a single field");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (return Class):", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                //Returns a class
+                boundAsync.returnClass('CefSharp Class Test').then(function (res)
+                {
+                    const expectedResult = 'CefSharp Class Test';
+
+                    assert.equal(expectedResult, res.Value, "Class with a single property");
 
                     asyncCallback();
                 });
@@ -310,6 +325,68 @@
 
                     asyncCallback();
                 });
+            });
+
+            QUnit.test( "Async call (methodReturnsDictionary):", function( assert )
+            {
+                function deepEqual(x, y)
+                {
+                    if ((typeof x == "object" && x !=null) && (typeof y == "object" && y !=null))
+                    {
+                        for (var prop in x)
+                        {
+                            if (prop in y && (Object.keys(x).length === Object.keys(y).length))
+                            {
+                                return deepEqual(x[prop], y[prop]);
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    else
+                    { 
+                        return x === y;
+                    }
+                }
+
+                const dict1 =
+                {
+                    "five": 5,
+                    "ten": 10
+                };
+                const dict2 =
+                {
+                    "onepointfive": 1.5,
+                    "five": 5,
+                    "ten": "ten",
+                    "twotwo": [2, 2]
+                };
+                const dict3 =
+                {
+                    "data":
+                    {
+                        "onepointfive": 1.5,
+                        "five": 5,
+                        "ten": "ten",
+                        "twotwo": [2, 2]
+                    }
+                };
+
+                var asyncCallback = assert.async();
+                Promise.all([
+                    boundAsync.methodReturnsDictionary1(),
+                    boundAsync.methodReturnsDictionary2(),
+                    boundAsync.methodReturnsDictionary3()
+                ]).then(function(results)
+                {
+                    assert.ok( deepEqual(results[0], dict1), "Call to bound.MethodReturnsDictionary1() resulted in : " + JSON.stringify(results[0]) );
+                    assert.ok( deepEqual(results[1], dict2), "Call to bound.MethodReturnsDictionary2() resulted in : " + JSON.stringify(results[1]) );
+                    assert.ok( deepEqual(results[2], dict3), "Call to bound.MethodReturnsDictionary3() resulted in : " + JSON.stringify(results[2]) );
+                    asyncCallback();
+                });
+
             });
 
             QUnit.test("Javascript Callback Test using object as parameter", function( assert )

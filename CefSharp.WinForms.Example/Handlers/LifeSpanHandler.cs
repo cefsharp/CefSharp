@@ -16,6 +16,8 @@ namespace CefSharp.WinForms.Example.Handlers
         bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
+            //This option is typically used in WPF. This example demos using IWindowInfo.SetAsChild
+            //Older branches likely still have an example of this method if you choose to go down that path.
             newBrowser = null;
 
             //Use IWindowInfo.SetAsChild to specify the parent handle
@@ -24,12 +26,12 @@ namespace CefSharp.WinForms.Example.Handlers
 
             chromiumWebBrowser.Invoke(new Action(() =>
             {
-                var owner = chromiumWebBrowser.FindForm() as BrowserForm;
-
-                if(owner != null)
+                if (chromiumWebBrowser.FindForm() is BrowserForm owner)
                 {
-                    var control = new Control();
-                    control.Dock = DockStyle.Fill;
+                    var control = new Control
+                    {
+                        Dock = DockStyle.Fill
+                    };
                     control.CreateControl();
 
                     owner.AddTab(control, targetUrl);
@@ -47,19 +49,48 @@ namespace CefSharp.WinForms.Example.Handlers
         {
             if (browser.IsPopup)
             {
-                var interceptor = new PopupAsChildHelper(browser);
+                var windowHandle = browser.GetHost().GetWindowHandle();
 
-                popupasChildHelpers.Add(browser.Identifier, interceptor);
+                //WinForms will kindly lookup the child control from it's handle
+                //If no parentControl then likely it's a popup and has no parent handle
+                //(Devtools by default will remain a popup, at this point the Url hasn't been set, so 
+                // we're going with this assumption as it fits the use case of this example)
+                var parentControl = Control.FromChildHandle(windowHandle);
+
+                if (parentControl != null)
+                {
+                    var interceptor = new PopupAsChildHelper(browser);
+
+                    popupasChildHelpers.Add(browser.Identifier, interceptor);
+                }
             }
         }
 
         bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
         {
-            //We need to allow popups to close
-            //If the browser has been disposed then we'll just let the default behaviour take place
-            if (browser.IsDisposed || browser.IsPopup)
+            //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
+            //See the doc for this method for full details.    
+            // Allow devtools to close
+            if (browser.MainFrame.Url.Equals("chrome-devtools://devtools/inspector.html"))
             {
                 return false;
+            }
+
+            var windowHandle = browser.GetHost().GetWindowHandle();
+
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+            //If browser is disposed or the handle has been released then we don't
+            //need to remove the tab (likely removed from menu)
+            if (!chromiumWebBrowser.IsDisposed && chromiumWebBrowser.IsHandleCreated)
+            {
+                chromiumWebBrowser.Invoke(new Action(() =>
+                {
+                    if (chromiumWebBrowser.FindForm() is BrowserForm owner)
+                    {
+                        owner.RemoveTab(windowHandle);
+                    }
+                }));
             }
 
             //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
@@ -72,9 +103,7 @@ namespace CefSharp.WinForms.Example.Handlers
         {
             if (!browser.IsDisposed && browser.IsPopup)
             {
-                var interceptor = popupasChildHelpers[browser.Identifier];
-
-                if (interceptor != null)
+                if (popupasChildHelpers.TryGetValue(browser.Identifier, out PopupAsChildHelper interceptor))
                 {
                     popupasChildHelpers[browser.Identifier] = null;
                     interceptor.Dispose();

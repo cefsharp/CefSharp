@@ -9,6 +9,8 @@
 #include "include/cef_drag_data.h"
 
 #include "CefWrapper.h"
+#include "CefImageWrapper.h"
+#include "CefWriteHandlerWrapper.h"
 
 using namespace std;
 using namespace System::IO;
@@ -51,6 +53,11 @@ namespace CefSharp
             virtual property bool IsFile;
             virtual property bool IsFragment;
             virtual property bool IsLink;
+
+            virtual IDragData^ Clone()
+            {
+                return gcnew CefDragDataWrapper(_wrappedDragData->Clone());
+            }
 
             ///
             // Create a new CefDragData object.
@@ -110,6 +117,41 @@ namespace CefSharp
                 }
             }
 
+            virtual property bool HasImage
+            {
+                bool get()
+                {
+                    return _wrappedDragData->HasImage();
+                }
+            }
+
+            /// <summary>
+            /// Get the image representation of drag data.
+            /// May return NULL if no image representation is available.
+            /// </summary>
+            virtual property IImage^ Image
+            {
+                IImage^ get()
+                {
+                    if (_wrappedDragData->HasImage())
+                    {
+                        return gcnew CefImageWrapper(_wrappedDragData->GetImage());
+                    }
+                    return nullptr;
+                }
+            }
+
+            /// <summary>
+            /// Get the image hotspot (drag start location relative to image dimensions).
+            /// </summary>
+            virtual property CefSharp::Structs::Point ImageHotspot
+            {
+                CefSharp::Structs::Point get()
+                {
+                    return CefSharp::Structs::Point(0, 0);
+                }
+            }
+
             virtual property String^ LinkMetaData
             {
                 String^ get()
@@ -158,8 +200,18 @@ namespace CefSharp
 
             virtual Stream^ GetFileContents()
             {
-                //_wrappedDragData->GetFileContents()
-                throw gcnew NotImplementedException("Need to implement a Wrapper around CefStreamWriter before this method can be implemented.");
+                auto ms = gcnew MemoryStream();
+                auto writeHandler = new CefWriteHandlerWrapper(ms);
+                
+                auto writer = CefStreamWriter::CreateForHandler(writeHandler);
+                auto size = _wrappedDragData->GetFileContents(writer);
+
+                if ((int)size == ms->Length)
+                {
+                    return ms;
+                }
+                
+                throw gcnew Exception("Invalid file content size");
             }
 
             operator CefRefPtr<CefDragData>()

@@ -154,6 +154,36 @@ namespace CefSharp.Handler
         }
 
         /// <summary>
+        /// Called on the CEF IO thread before sending a network request with a "Cookie"
+        /// request header.
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame object</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <returns>Return true to allow cookies to be included in the network
+        /// request or false to block cookies</returns>
+        public virtual bool CanGetCookies(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Called on the CEF IO thread when receiving a network request with a
+        /// "Set-Cookie" response header value represented by cookie.
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame object</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <param name="cookie">the cookie object</param>
+        /// <returns>Return true to allow the cookie to be stored or false to block the cookie.</returns>
+        public virtual bool CanSetCookie(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, Cookie cookie)
+        {
+            return true;
+        }
+
+        /// <summary>
         /// Called when JavaScript requests a specific storage quota size via the webkitStorageInfo.requestQuota function.
         /// For async processing return true and execute <see cref="IRequestCallback.Continue"/> at a later time to 
         /// grant or deny the request or <see cref="IRequestCallback.Cancel"/> to cancel.

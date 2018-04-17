@@ -77,7 +77,7 @@ namespace CefSharp.Wpf.Example.Handlers
         void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
         {
             //NOTE: This is experimental
-            //if(browser.IsPopup)
+            //if(!browser.IsDisposed && browser.IsPopup)
             //{ 
             //	var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 

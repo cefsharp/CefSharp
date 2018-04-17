@@ -111,6 +111,18 @@ namespace CefSharp
                     }
                     list->SetList(index, subList);
                 }
+                // Serialize dictionary to CefDictionary (key,value pairs)
+                else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
+                {
+                    auto subDict = CefDictionaryValue::Create();
+                    auto dict = (System::Collections::IDictionary^) obj;
+                    for each (System::Collections::DictionaryEntry kvp in dict)
+                    {
+                        auto fieldName = StringUtils::ToNative(Convert::ToString(kvp.Key));
+                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, seen);
+                    }
+                    list->SetDictionary(index, subDict);
+                }
                 // Serialize class/structs to CefDictionary (key,value pairs)
                 else if (!type->IsPrimitive && !type->IsEnum)
                 {

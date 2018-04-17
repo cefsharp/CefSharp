@@ -11,15 +11,15 @@ using System.Windows.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 
-namespace CefSharp.Wpf.Rendering
+namespace CefSharp.Wpf.Rendering.Experimental
 {
     /// <summary>
-    /// InteropBitmapFactory - creates/updates an InteropBitmap
-    /// Uses a MemoryMappedFile for double buffering when the size matches
-    /// or creates a new InteropBitmap when required
+    /// IncreaseBufferInteropRenderHandler - creates/updates an InteropBitmap
+    /// Uses a MemoryMappedFile for double buffering, only ever creates a new buffer
+    /// when the size increases
     /// </summary>
-    /// <seealso cref="CefSharp.IBitmapFactory" />
-    public class InteropBitmapFactory : IBitmapFactory
+    /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
+    public class IncreaseBufferInteropRenderHandler : IRenderHandler
     {
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
         private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
@@ -34,11 +34,21 @@ namespace CefSharp.Wpf.Rendering
 
         private Size viewSize;
         private Size popupSize;
-        
+        private DispatcherPriority dispatcherPriority;
+
         private MemoryMappedFile viewMemoryMappedFile;
         private MemoryMappedFile popupMemoryMappedFile;
         private MemoryMappedViewAccessor viewMemoryMappedViewAccessor;
         private MemoryMappedViewAccessor popupMemoryMappedViewAccessor;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InteropBitmapRenderHandler"/> class.
+        /// </summary>
+        /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
+        public IncreaseBufferInteropRenderHandler(DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        {
+            this.dispatcherPriority = dispatcherPriority;
+        }
 
         public void Dispose()
         {
@@ -46,7 +56,7 @@ namespace CefSharp.Wpf.Rendering
             ReleaseMemoryMappedView(ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
         }
 
-        void IBitmapFactory.CreateOrUpdateBitmap(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image)
+        void IRenderHandler.OnPaint(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image)
         {
             if (isPopup)
             {
@@ -95,34 +105,43 @@ namespace CefSharp.Wpf.Rendering
                 //TODO: Performance analysis to determine which is the fastest memory copy function
                 //NativeMethodWrapper.CopyMemoryUsingHandle(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
                 CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (uint)numberOfBytes);
-            }
 
-            image.Dispatcher.BeginInvoke((Action)(() =>
-            {
-                lock (lockObject)
+                //Take a reference to the backBufferHandle, once we're on the UI thread we need to check if it's still valid
+                var backBufferHandle = mappedFile.SafeMemoryMappedFileHandle;
+
+                image.Dispatcher.BeginInvoke((Action)(() =>
                 {
-                    if (createNewBitmap)
+                    lock (lockObject)
                     {
-                        if (image.Source != null)
+                        if (backBufferHandle.IsClosed || backBufferHandle.IsInvalid)
                         {
-                            image.Source = null;
-                            GC.Collect(1);
+                            return;
                         }
 
-                        var backBufferHandle = isPopup ? popupMemoryMappedFile.SafeMemoryMappedFileHandle : viewMemoryMappedFile.SafeMemoryMappedFileHandle;
+                        if (createNewBitmap)
+                        {
+                            if (image.Source != null)
+                            {
+                                image.Source = null;
+                                GC.Collect(1);
+                            }
 
-                        var stride = width * BytesPerPixel;
-                        var bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(backBufferHandle.DangerousGetHandle(), width, height, PixelFormat, stride, 0);
-                        image.Source = bitmap;
+                            var stride = width * BytesPerPixel;
+                            var bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(backBufferHandle.DangerousGetHandle(), width, height, PixelFormat, stride, 0);
+                            image.Source = bitmap;
+                        }
+                        else
+                        {
+                            if (image.Source != null)
+                            {
+                                var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+                                var bitmap = (InteropBitmap)image.Source;
+                                bitmap.Invalidate(sourceRect);
+                            }
+                        }
                     }
-                    else
-                    {
-                        var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
-                        var bitmap = (InteropBitmap)image.Source;
-                        bitmap.Invalidate(sourceRect);
-                    }
-                }
-            }), DispatcherPriority.Render);
+                }), dispatcherPriority);
+            }
         }
 
         private void ReleaseMemoryMappedView(ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor stream)

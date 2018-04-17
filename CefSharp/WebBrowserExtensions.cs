@@ -193,10 +193,12 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="methodName">The javascript method name to execute</param>
-        /// <param name="args">the arguments to be passed as params to the method</param>
+        /// <param name="args">the arguments to be passed as params to the method. Args are encoded using <see cref="EncodeScriptParam"/>,
+        /// you can provide a custom implementation if you require a custom implementation</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
         {
             var script = GetScript(methodName, args);
+
             browser.ExecuteScriptAsync(script);
         }
 
@@ -811,12 +813,13 @@ namespace CefSharp
         /// <summary>
         /// Evaluate some Javascript code in the context of this WebBrowser using the specified timeout. The script will be executed asynchronously and the
         /// method returns a Task encapsulating the response from the Javascript 
-        /// This simple helper extension will encapsulate params in single quotes (unless int, uint, etc)
+        /// This simple helper extension will encapsulate params in single quotes (unless int, uint, etc).
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         /// <param name="methodName">The javascript method name to execute</param>
-        /// <param name="args">the arguments to be passed as params to the method</param>
+        /// <param name="args">the arguments to be passed as params to the method. Args are encoded using <see cref="EncodeScriptParam"/>,
+        /// you can provide a custom implementation if you require a custom implementation</param>
         /// <returns><see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution</returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, TimeSpan? timeout, string methodName, params object[] args)
         {
@@ -840,6 +843,21 @@ namespace CefSharp
                                     "the IsBrowserInitialized property to determine when the browser has been intialized.");
             }
         }
+
+        /// <summary>
+        /// Function used to encode the params passed to <see cref="ExecuteScriptAsync(IWebBrowser, string, object[])"/>,
+        /// <see cref="EvaluateScriptAsync(IWebBrowser, string, object[])"/> and <see cref="EvaluateScriptAsync(IWebBrowser, TimeSpan?, string, object[])"/>
+        /// Provide your own custom function to perform custom encoding. You can use your choice
+        /// of JSON encoder here if you should so choose.
+        /// </summary>
+        public static Func<string, string> EncodeScriptParam { get; set; } = (str) =>
+        {
+            return str.Replace("\\", "\\\\")
+                .Replace("'", "\\'")
+                .Replace("\t", "\\t")
+                .Replace("\r", "\\r")
+                .Replace("\n", "\\n");
+        };
 
         /// <summary>
         /// Transforms the methodName and arguments into valid Javascript code. Will encapsulate params in single quotes (unless int, uint, etc)
@@ -873,7 +891,7 @@ namespace CefSharp
                     else
                     {
                         stringBuilder.Append("'");
-                        stringBuilder.Append(args[i].ToString().Replace("'", "\\'"));
+                        stringBuilder.Append(EncodeScriptParam(obj.ToString()));
                         stringBuilder.Append("'");
                     }
 
