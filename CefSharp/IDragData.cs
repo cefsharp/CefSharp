@@ -111,11 +111,13 @@ namespace CefSharp
         void ResetFileContents();
 
         /// <summary>
-        /// Gets the contents of the File as a <see cref="Stream"/>
+        /// Write the contents of the file being dragged out of the web view into the provided <see cref="Stream"/>
         /// For a suggested filename check the <see cref="FileName"/> property
         /// </summary>
-        /// <returns>the contents of the file</returns>
-        Stream GetFileContents();
+        /// <param name="stream">Stream data is to be written to. If null this method will return the
+        /// size of the file contents in bytes.</param>
+        /// <returns>Returns the number of bytes written to the stream</returns>
+        Int64 GetFileContents(Stream stream);
 
         /// <summary>
         /// Gets a value indicating whether the object has been disposed of.

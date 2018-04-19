@@ -37,12 +37,14 @@ namespace CefSharp
 			{
 				try
 				{
-					array<Byte>^ buffer = gcnew array<Byte>(n * size);
-					pin_ptr<Byte> src = &buffer[0];
-					memcpy(static_cast<void*>(src), ptr, n);
+					auto length = size * n;
+					//Defaults to FileAccess::Read
+					UnmanagedMemoryStream stream((Byte*)ptr, (Int64)length);
 
-					_stream->Write(buffer, 0, n);
-					return n / size;
+					stream.CopyTo(_stream);
+										
+					//Number of bytes written
+					return length;
 				}
 				catch (Exception^)
 				{
