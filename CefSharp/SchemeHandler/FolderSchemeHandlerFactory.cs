@@ -80,7 +80,7 @@ namespace CefSharp.SchemeHandler
                 asbolutePath = defaultPage;
             }
 
-            var filePath = Path.GetFullPath(Path.Combine(rootFolder, asbolutePath));
+            var filePath = WebUtility.UrlDecode(Path.GetFullPath(Path.Combine(rootFolder, asbolutePath)));
 
             //Check the file requested is within the specified path and that the file exists
             if(filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
