@@ -198,20 +198,17 @@ namespace CefSharp
                 _wrappedDragData->ResetFileContents();
             }
 
-            virtual Stream^ GetFileContents()
+            virtual Int64 GetFileContents(Stream^ stream)
             {
-                auto ms = gcnew MemoryStream();
-                auto writeHandler = new CefWriteHandlerWrapper(ms);
+                if (stream == nullptr)
+                {
+                    return (Int64)_wrappedDragData->GetFileContents(NULL);
+                }
+
+                auto writeHandler = new CefWriteHandlerWrapper(stream);
                 
                 auto writer = CefStreamWriter::CreateForHandler(writeHandler);
-                auto size = _wrappedDragData->GetFileContents(writer);
-
-                if ((int)size == ms->Length)
-                {
-                    return ms;
-                }
-                
-                throw gcnew Exception("Invalid file content size");
+                return (Int64)_wrappedDragData->GetFileContents(writer);
             }
 
             operator CefRefPtr<CefDragData>()
