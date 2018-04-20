@@ -107,10 +107,12 @@
     <Compile Include="Internals\FileResourceHandler.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
+    <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="JavascriptException.cs" />
     <Compile Include="JavascriptStackFrame.cs" />
     <Compile Include="Structs\CompositionUnderline.cs" />
     <Compile Include="DomNode.cs" />
+    <Compile Include="Structs\CursorInfo.cs" />
     <Compile Include="Structs\DraggableRegion.cs" />
     <Compile Include="Enums\CdmRegistrationErrorCode.cs" />
     <Compile Include="Enums\CursorType.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="Enums\CefEventFlags.cs" />
     <Compile Include="Enums\CefFileDialogMode.cs" />
     <Compile Include="Enums\CefFocusSource.cs" />
-    <Compile Include="Enums\CefGeoPositionErrorCode.cs" />
     <Compile Include="Enums\CefJsDialogType.cs" />
     <Compile Include="Enums\CefMenuCommand.cs" />
     <Compile Include="Enums\CefPdfPrintMarginType.cs" />
@@ -157,7 +158,6 @@
     <Compile Include="Event\LoadingStateChangedEventArgs.cs" />
     <Compile Include="Event\StatusMessageEventHandler.cs" />
     <Compile Include="Event\TitleChangedEventArgs.cs" />
-    <Compile Include="Geoposition.cs" />
     <Compile Include="Handler\IBrowserProcessHandler.cs" />
     <Compile Include="Handler\IContextMenuHandler.cs" />
     <Compile Include="Handler\IDialogHandler.cs" />
@@ -267,7 +267,6 @@
     <Compile Include="Internals\JavascriptObjectRepository.cs" />
     <Compile Include="Internals\JavascriptProperty.cs" />
     <Compile Include="CefCustomScheme.cs" />
-    <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="Internals\InternalWebBrowserExtensions.cs" />
     <Compile Include="Visitor\ICookieVisitor.cs" />
     <Compile Include="Visitor\INavigationEntryVisitor.cs" />

@@ -2,7 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-namespace CefSharp
+namespace CefSharp.Enums
 {
     /// <summary>
     /// Describes how to interpret the components of a pixel.
