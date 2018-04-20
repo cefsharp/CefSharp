@@ -10,6 +10,7 @@
 
 using namespace System::Threading::Tasks;
 using namespace CefSharp::Structs;
+using namespace CefSharp::Enums;
 
 namespace CefSharp
 {

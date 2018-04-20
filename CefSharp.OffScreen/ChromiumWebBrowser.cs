@@ -6,8 +6,12 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
+using CefSharp.Enums;
 using CefSharp.Internals;
-using CefSharp.ModelBinding;
+using CefSharp.Structs;
+
+using Size = System.Drawing.Size;
+using Point = System.Drawing.Point;
 
 namespace CefSharp.OffScreen
 {
@@ -654,7 +658,7 @@ namespace CefSharp.OffScreen
         /// Gets the screen information (scale factor).
         /// </summary>
         /// <returns>ScreenInfo.</returns>
-        ScreenInfo IRenderWebBrowser.GetScreenInfo()
+        ScreenInfo? IRenderWebBrowser.GetScreenInfo()
         {
             return GetScreenInfo();
         }
@@ -663,7 +667,7 @@ namespace CefSharp.OffScreen
         /// Gets the screen information (scale factor).
         /// </summary>
         /// <returns>ScreenInfo.</returns>
-        protected virtual ScreenInfo GetScreenInfo()
+        protected virtual ScreenInfo? GetScreenInfo()
         {
             var screenInfo = new ScreenInfo(scaleFactor: 1.0F);
 
@@ -674,7 +678,7 @@ namespace CefSharp.OffScreen
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        ViewRect IRenderWebBrowser.GetViewRect()
+        ViewRect? IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
@@ -683,7 +687,7 @@ namespace CefSharp.OffScreen
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        protected virtual ViewRect GetViewRect()
+        protected virtual ViewRect? GetViewRect()
         {
             var viewRect = new ViewRect(size.Width, size.Height);
 
@@ -763,21 +767,23 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Sets the cursor.
+        /// Called when the browser's cursor has changed. . 
         /// </summary>
-        /// <param name="handle">The handle.</param>
-        /// <param name="type">The type.</param>
-        void IRenderWebBrowser.SetCursor(IntPtr handle, CursorType type)
+        /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
+        /// <param name="type">cursor type</param>
+        /// <param name="customCursorInfo">custom cursor Information</param>
+        void IRenderWebBrowser.OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
         {
-            SetCursor(handle, type);
+            OnCursorChange(handle, type, customCursorInfo);
         }
 
         /// <summary>
-        /// Sets the cursor.
+        /// Called when the browser's cursor has changed. . 
         /// </summary>
-        /// <param name="handle">The handle.</param>
-        /// <param name="type">The type.</param>
-        protected virtual void SetCursor(IntPtr handle, CursorType type)
+        /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
+        /// <param name="type">cursor type</param>
+        /// <param name="customCursorInfo">custom cursor Information</param>
+        protected virtual void OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
         {
         }
 
@@ -821,41 +827,35 @@ namespace CefSharp.OffScreen
         /// Sets the popup is open.
         /// </summary>
         /// <param name="show">if set to <c>true</c> [show].</param>
-        void IRenderWebBrowser.SetPopupIsOpen(bool show)
+        void IRenderWebBrowser.OnPopupShow(bool show)
         {
-            SetPopupIsOpen(show);
+            OnPopupShow(show);
         }
 
-        protected virtual void SetPopupIsOpen(bool show)
+        protected virtual void OnPopupShow(bool show)
         {
             PopupOpen = show;
         }
 
         /// <summary>
-        /// Sets the popup size and position.
+        /// Called when the browser wants to move or resize the popup widget. 
         /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
+        /// <param name="rect">contains the new location and size in view coordinates. </param>
+        void IRenderWebBrowser.OnPopupSize(Rect rect)
         {
-            SetPopupSizeAndPosition(width, height, x, y);
+            OnPopupSize(rect);
         }
 
         /// <summary>
-        /// Sets the popup size and position.
+        /// Called when the browser wants to move or resize the popup widget. 
         /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        protected virtual void SetPopupSizeAndPosition(int width, int height, int x, int y)
+        /// <param name="rect">contains the new location and size in view coordinates. </param>
+        protected virtual void OnPopupSize(Rect rect)
         {
-            popupPosition.X = x;
-            popupPosition.Y = y;
-            popupSize.Width = width;
-            popupSize.Height = height;
+            popupPosition.X = rect.X;
+            popupPosition.Y = rect.Y;
+            popupSize.Width = rect.Width;
+            popupSize.Height = rect.Height;
         }
 
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
@@ -1037,7 +1037,7 @@ namespace CefSharp.OffScreen
             using (var g = Graphics.FromImage(mergedBitmap))
             {
                 g.DrawImage(firstBitmap, new Rectangle(0, 0, firstBitmap.Width, firstBitmap.Height));
-                g.DrawImage(secondBitmap, new Rectangle((int)popupPosition.X, (int)popupPosition.Y, secondBitmap.Width, secondBitmap.Height));
+                g.DrawImage(secondBitmap, new Rectangle(popupPosition.X, popupPosition.Y, secondBitmap.Width, secondBitmap.Height));
             }
             return mergedBitmap;
         }

@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows.Controls;
+using CefSharp.Structs;
 
 namespace CefSharp.Wpf
 {

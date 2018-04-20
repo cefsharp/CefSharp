@@ -18,6 +18,13 @@ using Microsoft.Win32.SafeHandles;
 using CefSharp.Internals;
 using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
+using CefSharp.Enums;
+using CefSharp.Structs;
+
+using Point = System.Windows.Point;
+using Size = System.Windows.Size;
+using CursorType = CefSharp.Enums.CursorType;
+using Rect = CefSharp.Structs.Rect;
 
 namespace CefSharp.Wpf 
 {
@@ -613,7 +620,7 @@ namespace CefSharp.Wpf
         /// Gets the ScreenInfo - currently used to get the DPI scale factor.
         /// </summary>
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
-        ScreenInfo IRenderWebBrowser.GetScreenInfo()
+        ScreenInfo? IRenderWebBrowser.GetScreenInfo()
         {
             return GetScreenInfo();
         }
@@ -622,7 +629,7 @@ namespace CefSharp.Wpf
         /// Gets the ScreenInfo - currently used to get the DPI scale factor.
         /// </summary>
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
-        protected virtual ScreenInfo GetScreenInfo()
+        protected virtual ScreenInfo? GetScreenInfo()
         {
             var screenInfo = new ScreenInfo(scaleFactor: (float)DpiScaleFactor);
 
@@ -633,7 +640,7 @@ namespace CefSharp.Wpf
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        ViewRect IRenderWebBrowser.GetViewRect()
+        ViewRect? IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
@@ -642,7 +649,7 @@ namespace CefSharp.Wpf
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        protected virtual ViewRect GetViewRect()
+        protected virtual ViewRect? GetViewRect()
         {
             //NOTE: Previous we used Math.Ceiling to round the sizing up, we
             //now set UseLayoutRounding = true; on the control so the sizes are
@@ -783,16 +790,16 @@ namespace CefSharp.Wpf
         /// <param name="height">The height.</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
-        void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
+        void IRenderWebBrowser.OnPopupSize(Rect rect)
         {
-            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(width, height, x, y));
+            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(rect));
         }
 
         /// <summary>
         /// Sets the popup is open.
         /// </summary>
         /// <param name="isOpen">if set to <c>true</c> [is open].</param>
-        void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
+        void IRenderWebBrowser.OnPopupShow(bool isOpen)
         {
             UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
         }
@@ -802,7 +809,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="handle">The handle.</param>
         /// <param name="type">The type.</param>
-        void IRenderWebBrowser.SetCursor(IntPtr handle, CursorType type)
+        void IRenderWebBrowser.OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
         {
             //Custom cursors are handled differently, for now keep standard ones executing
             //in an async fashion
@@ -1921,12 +1928,12 @@ namespace CefSharp.Wpf
         /// <param name="height">The height.</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
-        private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
+        private void SetPopupSizeAndPositionImpl(Rect rect)
         {
-            popup.Width = width ;
-            popup.Height = height;
+            popup.Width = rect.Width ;
+            popup.Height = rect.Height;
 
-            var popupOffset = new Point(x, y);
+            var popupOffset = new Point(rect.X, rect.Y);
             var locationFromScreen = PointToScreen(popupOffset);
             popup.HorizontalOffset = locationFromScreen.X / DpiScaleFactor;
             popup.VerticalOffset = locationFromScreen.Y / DpiScaleFactor;

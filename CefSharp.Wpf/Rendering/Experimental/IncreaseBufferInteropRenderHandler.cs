@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 
+using Rect = CefSharp.Structs.Rect;
+
 namespace CefSharp.Wpf.Rendering.Experimental
 {
     /// <summary>

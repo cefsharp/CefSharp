@@ -14,9 +14,11 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using CefSharp;
 using CefSharp.Internals;
+using CefSharp.Structs;
 using GalaSoft.MvvmLight.Command;
+
+using Size = System.Windows.Size;
 
 namespace CefSharp.Wpf.Example.Controls
 {
@@ -91,7 +93,7 @@ namespace CefSharp.Wpf.Example.Controls
             return screenshotTaskCompletionSource.Task;
         }
 
-        protected override ViewRect GetViewRect()
+        protected override ViewRect? GetViewRect()
         {
             if(isTakingScreenshot)
             {
@@ -101,7 +103,7 @@ namespace CefSharp.Wpf.Example.Controls
             return base.GetViewRect();
         }
 
-        protected override void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
+        protected override void OnPaint(bool isPopup, Structs.Rect dirtyRect, IntPtr buffer, int width, int height)
         {
             if(isTakingScreenshot)
             {
@@ -191,7 +193,7 @@ namespace CefSharp.Wpf.Example.Controls
                                     encoder.Save(stream);
                                 }
 
-                                Process.Start(new System.Diagnostics.ProcessStartInfo
+                                Process.Start(new ProcessStartInfo
                                 {
                                     UseShellExecute = true,
                                     FileName = tempFile
