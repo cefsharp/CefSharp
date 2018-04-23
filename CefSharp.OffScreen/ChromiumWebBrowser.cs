@@ -79,13 +79,6 @@ namespace CefSharp.OffScreen
         /// binding.</remarks>
         public bool CanGoBack { get; private set; }
         /// <summary>
-        /// Gets or sets a value indicating whether the popup is open.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if popup is opened; otherwise, <c>false</c>.
-        /// </value>
-        public bool PopupOpen { get; protected set; }
-        /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
@@ -102,7 +95,6 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <value>The request context.</value>
         public IRequestContext RequestContext { get; private set; }
-
         /// <summary>
         /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
         /// </summary>
@@ -276,16 +268,6 @@ namespace CefSharp.OffScreen
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
 
         /// <summary>
-        /// Top Left position of the popup.
-        /// </summary>
-        private Point popupPosition;
-
-        /// <summary>
-        ///  Size of the popup.
-        /// </summary>
-        private Size popupSize;
-
-        /// <summary>
         /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
@@ -314,9 +296,6 @@ namespace CefSharp.OffScreen
             {
                 CreateBrowser(IntPtr.Zero);
             }
-
-            popupPosition = new Point();
-            popupSize = new Size();
 
             RenderHandler = new DefaultRenderHandler(this);
         }
@@ -383,22 +362,6 @@ namespace CefSharp.OffScreen
             // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
             // we do it here for consistency)
             this.SetHandlersToNull();
-        }
-
-        /// <summary>
-        /// Gets the size of the popup.
-        /// </summary>
-        public Size PopupSize
-        {
-            get { return popupSize; }
-        }
-
-        /// <summary>
-        /// Gets the popup position.
-        /// </summary>
-        public Point PopupPosition
-        {
-            get { return popupPosition; }
         }
 
         /// <summary>
@@ -475,20 +438,20 @@ namespace CefSharp.OffScreen
 
                 if (blend == PopupBlending.Popup)
                 {
-                    return PopupOpen ? renderHandler.PopupBuffer.CreateBitmap() : null;
+                    return renderHandler.PopupOpen ? renderHandler.PopupBuffer.CreateBitmap() : null;
                 }
 
 
                 var bitmap = renderHandler.BitmapBuffer.CreateBitmap();
 
-                if (PopupOpen && bitmap != null)
+                if (renderHandler.PopupOpen && bitmap != null)
                 {
                     var popup = renderHandler.PopupBuffer.CreateBitmap();
                     if (popup == null)
                     {
                         return bitmap;
                     }
-                    return MergeBitmaps(bitmap, popup);
+                    return MergeBitmaps(bitmap, popup, renderHandler.PopupPosition);
                 }
 
                 return bitmap;
@@ -667,9 +630,7 @@ namespace CefSharp.OffScreen
         /// <returns>ScreenInfo.</returns>
         protected virtual ScreenInfo? GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo(scaleFactor: 1.0F);
-
-            return screenInfo;
+            return RenderHandler?.GetScreenInfo();
         }
 
         /// <summary>
@@ -687,9 +648,7 @@ namespace CefSharp.OffScreen
         /// <returns>ViewRect.</returns>
         protected virtual ViewRect? GetViewRect()
         {
-            var viewRect = new ViewRect(size.Width, size.Height);
-
-            return viewRect;
+            return RenderHandler?.GetViewRect();
         }
 
         /// <summary>
@@ -718,7 +677,7 @@ namespace CefSharp.OffScreen
             screenX = 0;
             screenY = 0;
 
-            return false;
+            return RenderHandler?.GetScreenPoint(viewX, viewY, out screenX, out screenY) ?? false;
         }
 
         /// <summary>
@@ -755,11 +714,10 @@ namespace CefSharp.OffScreen
         /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
         /// <param name="width">width</param>
         /// <param name="height">height</param>
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void OnPaint(PaintElementType type, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
-            var isPopup = type == PaintElementType.Popup;
-
-            RenderHandler?.OnPaint(isPopup, dirtyRect, buffer, width, height);
+            RenderHandler?.OnPaint(type, dirtyRect, buffer, width, height);
         }
 
         /// <summary>
@@ -779,8 +737,10 @@ namespace CefSharp.OffScreen
         /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
         /// <param name="type">cursor type</param>
         /// <param name="customCursorInfo">custom cursor Information</param>
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
+            RenderHandler?.OnCursorChange(cursor, type, customCursorInfo);
         }
 
         /// <summary>
@@ -804,9 +764,10 @@ namespace CefSharp.OffScreen
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
         {
-            return false;
+            return RenderHandler?.StartDragging(dragData, mask, x, y) ?? false;
         }
 
         void IRenderWebBrowser.UpdateDragCursor(DragOperationsMask operation)
@@ -814,9 +775,10 @@ namespace CefSharp.OffScreen
             UpdateDragCursor(operation);
         }
 
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
-            
+            RenderHandler?.UpdateDragCursor(operation);
         }
 
         /// <summary>
@@ -828,9 +790,10 @@ namespace CefSharp.OffScreen
             OnPopupShow(show);
         }
 
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void OnPopupShow(bool show)
         {
-            PopupOpen = show;
+            RenderHandler?.OnPopupShow(show);
         }
 
         /// <summary>
@@ -846,12 +809,10 @@ namespace CefSharp.OffScreen
         /// Called when the browser wants to move or resize the popup widget. 
         /// </summary>
         /// <param name="rect">contains the new location and size in view coordinates. </param>
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void OnPopupSize(Rect rect)
         {
-            popupPosition.X = rect.X;
-            popupPosition.Y = rect.Y;
-            popupSize.Width = rect.Width;
-            popupSize.Height = rect.Height;
+            RenderHandler?.OnPopupSize(rect);
         }
 
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
@@ -859,9 +820,10 @@ namespace CefSharp.OffScreen
             OnImeCompositionRangeChanged(selectedRange, characterBounds);
         }
 
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
-            
+            RenderHandler?.OnImeCompositionRangeChanged(selectedRange, characterBounds);
         }
 
         /// <summary>
@@ -990,14 +952,15 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <param name="firstBitmap">First bitmap, this will be the first image drawn</param>
         /// <param name="secondBitmap">Second bitmap, this image will be drawn on the first</param>
+        /// <param name="secondBitmapPosition">Position of the second bitmap</param>
         /// <returns>The merged bitmap, size of firstBitmap</returns>
-        private Bitmap MergeBitmaps(Bitmap firstBitmap, Bitmap secondBitmap)
+        private Bitmap MergeBitmaps(Bitmap firstBitmap, Bitmap secondBitmap, Point secondBitmapPosition)
         {
             var mergedBitmap = new Bitmap(firstBitmap.Width, firstBitmap.Height, PixelFormat.Format32bppPArgb);
             using (var g = Graphics.FromImage(mergedBitmap))
             {
                 g.DrawImage(firstBitmap, new Rectangle(0, 0, firstBitmap.Width, firstBitmap.Height));
-                g.DrawImage(secondBitmap, new Rectangle(popupPosition.X, popupPosition.Y, secondBitmap.Width, secondBitmap.Height));
+                g.DrawImage(secondBitmap, new Rectangle(secondBitmapPosition.X, secondBitmapPosition.Y, secondBitmap.Width, secondBitmap.Height));
             }
             return mergedBitmap;
         }
