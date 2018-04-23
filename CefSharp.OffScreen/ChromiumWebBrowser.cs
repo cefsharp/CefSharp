@@ -630,7 +630,7 @@ namespace CefSharp.OffScreen
 
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
-            get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
+            get { return managedCefBrowserAdapter?.JavascriptObjectRepository; }
         }
 
         /// <summary>
@@ -772,9 +772,9 @@ namespace CefSharp.OffScreen
         /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
         /// <param name="type">cursor type</param>
         /// <param name="customCursorInfo">custom cursor Information</param>
-        void IRenderWebBrowser.OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
+        void IRenderWebBrowser.OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
-            OnCursorChange(handle, type, customCursorInfo);
+            OnCursorChange(cursor, type, customCursorInfo);
         }
 
         /// <summary>
@@ -783,7 +783,7 @@ namespace CefSharp.OffScreen
         /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
         /// <param name="type">cursor type</param>
         /// <param name="customCursorInfo">custom cursor Information</param>
-        protected virtual void OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
+        protected virtual void OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
         }
 
@@ -874,11 +874,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="ConsoleMessageEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
-            var handler = ConsoleMessage;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            ConsoleMessage?.Invoke(this, args);
         }
 
         /// <summary>
@@ -887,11 +883,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="FrameLoadStartEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
         {
-            var handler = FrameLoadStart;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            FrameLoadStart?.Invoke(this, args);
         }
 
         /// <summary>
@@ -900,11 +892,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
         {
-            var handler = FrameLoadEnd;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            FrameLoadEnd?.Invoke(this, args);
         }
 
         /// <summary>
@@ -917,11 +905,7 @@ namespace CefSharp.OffScreen
 
             IsBrowserInitialized = true;
 
-            var handler = BrowserInitialized;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            BrowserInitialized?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -930,11 +914,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="LoadErrorEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
-            var handler = LoadError;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            LoadError?.Invoke(this, args);
         }
 
         /// <summary>
@@ -958,11 +938,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="StatusMessageEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
-            var handler = StatusMessage;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            StatusMessage?.Invoke(this, args);
         }
 
         /// <summary>
@@ -973,11 +949,7 @@ namespace CefSharp.OffScreen
         {
             Address = args.Address;
 
-            var handler = AddressChanged;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            AddressChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -990,11 +962,7 @@ namespace CefSharp.OffScreen
             CanGoForward = args.CanGoForward;
             IsLoading = args.IsLoading;
 
-            var handler = LoadingStateChanged;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            LoadingStateChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -1003,11 +971,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="TitleChangedEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            var handler = TitleChanged;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            TitleChanged?.Invoke(this, args);
         }
 
         /// <summary>
