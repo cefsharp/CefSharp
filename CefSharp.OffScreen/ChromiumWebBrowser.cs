@@ -28,20 +28,6 @@ namespace CefSharp.OffScreen
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
         /// <summary>
-        /// Contains the last bitmap buffer. Direct access
-        /// to the underlying buffer - there is no locking when trying
-        /// to access directly, use <see cref="BitmapBuffer.BitmapLock" /> where appropriate.
-        /// </summary>
-        /// <value>The bitmap.</value>
-        public BitmapBuffer BitmapBuffer { get; protected set; }
-
-        /// <summary>
-        /// Need a lock because the caller may be asking for the bitmap
-        /// while Chromium async rendering has returned on another thread.
-        /// </summary>
-        public readonly object BitmapLock = new object();
-
-        /// <summary>
         /// Size of the Chromium viewport.
         /// This must be set to something other than 0x0 otherwise Chromium will not render,
         /// and the ScreenshotAsync task will deadlock.
@@ -167,6 +153,11 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <value>The request handler.</value>
         public IRequestHandler RequestHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IRenderHandler" /> and assign to handle events related to browser rendering.
+        /// </summary>
+        /// <value>The render handler.</value>
+        public IRenderHandler RenderHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IDragHandler" /> and assign to handle events related to dragging.
         /// </summary>
@@ -295,11 +286,6 @@ namespace CefSharp.OffScreen
         private Size popupSize;
 
         /// <summary>
-        /// The popup Bitmap.
-        /// </summary>
-        public BitmapBuffer PopupBuffer { get; protected set; }
-
-        /// <summary>
         /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
@@ -329,10 +315,10 @@ namespace CefSharp.OffScreen
                 CreateBrowser(IntPtr.Zero);
             }
 
-            BitmapBuffer = new BitmapBuffer(BitmapLock);
-            PopupBuffer = new BitmapBuffer(BitmapLock);
             popupPosition = new Point();
             popupSize = new Size();
+
+            RenderHandler = new DefaultRenderHandler(this);
         }
 
         /// <summary>
@@ -468,24 +454,36 @@ namespace CefSharp.OffScreen
         /// <returns>Bitmap.</returns>
         public Bitmap ScreenshotOrNull(PopupBlending blend = PopupBlending.Main)
         {
-            lock (BitmapLock)
+            if(RenderHandler == null)
+            {
+                throw new NullReferenceException("RenderHandler cannot be null. Use DefaultRenderHandler unless implementing your own");
+            }
+
+            var renderHandler = RenderHandler as DefaultRenderHandler;
+
+            if(renderHandler == null)
+            {
+                throw new Exception("ScreenshotOrNull and ScreenshotAsync can only be used in combination with the DefaultRenderHandler");
+            }
+
+            lock (renderHandler.BitmapLock)
             {
                 if (blend == PopupBlending.Main)
                 {
-                    return BitmapBuffer.CreateBitmap();
+                    return renderHandler.BitmapBuffer.CreateBitmap();
                 }
 
                 if (blend == PopupBlending.Popup)
                 {
-                    return PopupOpen ? PopupBuffer.CreateBitmap() : null;
+                    return PopupOpen ? renderHandler.PopupBuffer.CreateBitmap() : null;
                 }
 
 
-                var bitmap = BitmapBuffer.CreateBitmap();
+                var bitmap = renderHandler.BitmapBuffer.CreateBitmap();
 
                 if (PopupOpen && bitmap != null)
                 {
-                    var popup = PopupBuffer.CreateBitmap();
+                    var popup = renderHandler.PopupBuffer.CreateBitmap();
                     if (popup == null)
                     {
                         return bitmap;
@@ -761,9 +759,7 @@ namespace CefSharp.OffScreen
         {
             var isPopup = type == PaintElementType.Popup;
 
-            var bitmapBuffer = isPopup ? PopupBuffer : BitmapBuffer;
-
-            bitmapBuffer.UpdateBuffer(width, height, buffer, dirtyRect);
+            RenderHandler?.OnPaint(isPopup, dirtyRect, buffer, width, height);
         }
 
         /// <summary>
