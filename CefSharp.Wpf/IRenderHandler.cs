@@ -8,13 +8,13 @@ using CefSharp.Structs;
 
 namespace CefSharp.Wpf
 {
-	/// <summary>
-	/// Implement this interface to handle Offscreen Rendering (OSR).
-	/// NOTE: Currently only OnPaint is implemented, at some point expand the API to include all
-	/// of CefRenderHandler methods http://magpcss.org/ceforum/apidocs3/projects/(default)/CefRenderHandler.html
-	/// </summary>
-	public interface IRenderHandler : IDisposable
-	{
-		void OnPaint(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image);
-	}
+    /// <summary>
+    /// Implement this interface to handle Offscreen Rendering (OSR).
+    /// NOTE: Currently only OnPaint is implemented, at some point expand the API to include all
+    /// of CefRenderHandler methods http://magpcss.org/ceforum/apidocs3/projects/(default)/CefRenderHandler.html
+    /// </summary>
+    public interface IRenderHandler : IDisposable
+    {
+        void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image);
+    }
 }

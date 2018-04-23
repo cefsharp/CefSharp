@@ -785,7 +785,7 @@ namespace CefSharp.Wpf
 
             var img = isPopup ? popupImage : image;
 
-            RenderHandler?.OnPaint(isPopup, buffer, dirtyRect, width, height, img);
+            RenderHandler?.OnPaint(isPopup, dirtyRect, buffer, width, height, img);
         }
 
         /// <summary>
