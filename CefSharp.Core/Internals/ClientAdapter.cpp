@@ -1109,7 +1109,7 @@ namespace CefSharp
             CefDragDataWrapper dragDataWrapper(dragData);
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-            return handler->OnDragEnter(_browserControl, browserWrapper, %dragDataWrapper, (CefSharp::DragOperationsMask)mask);
+            return handler->OnDragEnter(_browserControl, browserWrapper, %dragDataWrapper, (CefSharp::Enums::DragOperationsMask)mask);
         }
 
         void ClientAdapter::OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, const std::vector<CefDraggableRegion>& regions)

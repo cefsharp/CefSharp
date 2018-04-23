@@ -10,6 +10,7 @@
 #include "ClientAdapter.h"
 
 using namespace msclr;
+using namespace CefSharp::Structs;
 
 namespace CefSharp
 {
@@ -46,14 +47,14 @@ namespace CefSharp
 
                 auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                if (screen_info.device_scale_factor == screenInfo.ScaleFactor)
+                if (screenInfo.HasValue == false || screen_info.device_scale_factor == screenInfo.Value.ScaleFactor)
                 {
                     return false;
                 }
 
                 //NOTE: We're relying on a call to GetViewRect to populate the view rectangle
                 //https://bitbucket.org/chromiumembedded/cef/src/47e6d4bf84444eb6cb4d4509231a8c9ee878a584/include/cef_render_handler.h?at=2357#cef_render_handler.h-90
-                screen_info.device_scale_factor = screenInfo.ScaleFactor;
+                screen_info.device_scale_factor = screenInfo.Value.ScaleFactor;
                 return true;
             }
 
@@ -67,7 +68,12 @@ namespace CefSharp
 
                 auto viewRect = _renderWebBrowser->GetViewRect();
 
-                rect = CefRect(0, 0, viewRect.Width, viewRect.Height);
+                if (viewRect.HasValue == false)
+                {
+                    return false;
+                }
+
+                rect = CefRect(0, 0, viewRect.Value.Width, viewRect.Value.Height);
 
                 return true;
             };
@@ -89,7 +95,7 @@ namespace CefSharp
             /*--cef()--*/
             virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE
             {
-                _renderWebBrowser->SetPopupIsOpen(show);
+                _renderWebBrowser->OnPopupShow(show);
             };
 
             ///
@@ -99,27 +105,37 @@ namespace CefSharp
             /*--cef()--*/
             virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
             {
-                _renderWebBrowser->SetPopupSizeAndPosition(rect.width, rect.height, rect.x, rect.y);
+                _renderWebBrowser->OnPopupSize(Rect(rect.width, rect.height, rect.x, rect.y));
             };
 
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
             {
                 CefRect r = dirtyRects.front();
-                _renderWebBrowser->OnPaint((CefSharp::PaintElementType)type, Rect(r.x, r.y, r.width, r.height), IntPtr((void *)buffer), width, height);
+                _renderWebBrowser->OnPaint((CefSharp::PaintElementType)type, CefSharp::Structs::Rect(r.x, r.y, r.width, r.height), IntPtr((void *)buffer), width, height);
             };
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,
                 const CefCursorInfo& custom_cursor_info) OVERRIDE
             {
-                _renderWebBrowser->SetCursor((IntPtr)cursor, (CefSharp::CursorType)type);
+                CursorInfo customCursorInfo;
+
+                //Only create the struct when we actually have a custom cursor
+                if (type == CursorType::CT_CUSTOM)
+                {
+                    Point hotspot = Point(custom_cursor_info.hotspot.x, custom_cursor_info.hotspot.y);
+                    Size size = Size(custom_cursor_info.size.width, custom_cursor_info.size.height);
+                    customCursorInfo = CursorInfo(IntPtr((void *)custom_cursor_info.buffer), hotspot, custom_cursor_info.image_scale_factor, size);
+                }
+
+                _renderWebBrowser->OnCursorChange((IntPtr)cursor, (CefSharp::Enums::CursorType)type, customCursorInfo);
             };
 
             virtual DECL bool StartDragging(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData,
                 CefRenderHandler::DragOperationsMask allowedOps, int x, int y)
             {
                 CefDragDataWrapper dragDataWrapper(dragData);
-                return _renderWebBrowser->StartDragging(%dragDataWrapper, (CefSharp::DragOperationsMask)allowedOps, x, y);
+                return _renderWebBrowser->StartDragging(%dragDataWrapper, (CefSharp::Enums::DragOperationsMask)allowedOps, x, y);
             }
 
             ///
@@ -130,7 +146,7 @@ namespace CefSharp
             /*--cef()--*/
             virtual DECL void UpdateDragCursor(CefRefPtr<CefBrowser> browser, CefRenderHandler::DragOperation operation)
             {
-                return _renderWebBrowser->UpdateDragCursor((CefSharp::DragOperationsMask)operation);
+                return _renderWebBrowser->UpdateDragCursor((CefSharp::Enums::DragOperationsMask)operation);
             }
 
             ///

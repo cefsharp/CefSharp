@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
+using Rect = CefSharp.Structs.Rect;
+
 namespace CefSharp.Wpf.Rendering.Experimental
 {
     /// <summary>
@@ -47,7 +49,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
             this.dispatcherPriority = dispatcherPriority;
         }
 
-        void IRenderHandler.OnPaint(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image)
+        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
         {
             if (image.Dispatcher.HasShutdownStarted)
             {

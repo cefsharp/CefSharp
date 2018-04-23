@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 
+using Rect = CefSharp.Structs.Rect;
+
 namespace CefSharp.Wpf.Rendering.Experimental
 {
     /// <summary>
@@ -56,19 +58,19 @@ namespace CefSharp.Wpf.Rendering.Experimental
             ReleaseMemoryMappedView(ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
         }
 
-        void IRenderHandler.OnPaint(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image)
+        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
         {
             if (isPopup)
             {
-                CreateOrUpdateBitmap(isPopup, buffer, dirtyRect, width, height, image, ref popupSize, ref popupMemoryMappedFile, ref popupMemoryMappedViewAccessor);
+                CreateOrUpdateBitmap(isPopup, dirtyRect, buffer, width, height, image, ref popupSize, ref popupMemoryMappedFile, ref popupMemoryMappedViewAccessor);
             }
             else
             {
-                CreateOrUpdateBitmap(isPopup, buffer, dirtyRect, width, height, image, ref viewSize, ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
+                CreateOrUpdateBitmap(isPopup, dirtyRect, buffer, width, height, image, ref viewSize, ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
             }
         }
 
-        private void CreateOrUpdateBitmap(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image, ref Size currentSize, ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor viewAccessor)
+        private void CreateOrUpdateBitmap(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image, ref Size currentSize, ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor viewAccessor)
         {
             if (image.Dispatcher.HasShutdownStarted)
             {

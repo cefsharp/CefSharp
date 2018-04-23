@@ -6,8 +6,12 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
+using CefSharp.Enums;
 using CefSharp.Internals;
-using CefSharp.ModelBinding;
+using CefSharp.Structs;
+
+using Size = System.Drawing.Size;
+using Point = System.Drawing.Point;
 
 namespace CefSharp.OffScreen
 {
@@ -22,20 +26,6 @@ namespace CefSharp.OffScreen
         /// The managed cef browser adapter
         /// </summary>
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
-
-        /// <summary>
-        /// Contains the last bitmap buffer. Direct access
-        /// to the underlying buffer - there is no locking when trying
-        /// to access directly, use <see cref="BitmapBuffer.BitmapLock" /> where appropriate.
-        /// </summary>
-        /// <value>The bitmap.</value>
-        public BitmapBuffer BitmapBuffer { get; protected set; }
-
-        /// <summary>
-        /// Need a lock because the caller may be asking for the bitmap
-        /// while Chromium async rendering has returned on another thread.
-        /// </summary>
-        public readonly object BitmapLock = new object();
 
         /// <summary>
         /// Size of the Chromium viewport.
@@ -89,13 +79,6 @@ namespace CefSharp.OffScreen
         /// binding.</remarks>
         public bool CanGoBack { get; private set; }
         /// <summary>
-        /// Gets or sets a value indicating whether the popup is open.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if popup is opened; otherwise, <c>false</c>.
-        /// </value>
-        public bool PopupOpen { get; protected set; }
-        /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
@@ -112,7 +95,6 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <value>The request context.</value>
         public IRequestContext RequestContext { get; private set; }
-
         /// <summary>
         /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
         /// </summary>
@@ -163,6 +145,11 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <value>The request handler.</value>
         public IRequestHandler RequestHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IRenderHandler" /> and assign to handle events related to browser rendering.
+        /// </summary>
+        /// <value>The render handler.</value>
+        public IRenderHandler RenderHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IDragHandler" /> and assign to handle events related to dragging.
         /// </summary>
@@ -281,21 +268,6 @@ namespace CefSharp.OffScreen
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
 
         /// <summary>
-        /// Top Left position of the popup.
-        /// </summary>
-        private Point popupPosition;
-
-        /// <summary>
-        ///  Size of the popup.
-        /// </summary>
-        private Size popupSize;
-
-        /// <summary>
-        /// The popup Bitmap.
-        /// </summary>
-        public BitmapBuffer PopupBuffer { get; protected set; }
-
-        /// <summary>
         /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
@@ -325,10 +297,7 @@ namespace CefSharp.OffScreen
                 CreateBrowser(IntPtr.Zero);
             }
 
-            BitmapBuffer = new BitmapBuffer(BitmapLock);
-            PopupBuffer = new BitmapBuffer(BitmapLock);
-            popupPosition = new Point();
-            popupSize = new Size();
+            RenderHandler = new DefaultRenderHandler(this);
         }
 
         /// <summary>
@@ -396,22 +365,6 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Gets the size of the popup.
-        /// </summary>
-        public Size PopupSize
-        {
-            get { return popupSize; }
-        }
-
-        /// <summary>
-        /// Gets the popup position.
-        /// </summary>
-        public Point PopupPosition
-        {
-            get { return popupPosition; }
-        }
-
-        /// <summary>
         /// Create the underlying browser. The instance address, browser settings and request context will be used.
         /// </summary>
         /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
@@ -464,29 +417,41 @@ namespace CefSharp.OffScreen
         /// <returns>Bitmap.</returns>
         public Bitmap ScreenshotOrNull(PopupBlending blend = PopupBlending.Main)
         {
-            lock (BitmapLock)
+            if(RenderHandler == null)
+            {
+                throw new NullReferenceException("RenderHandler cannot be null. Use DefaultRenderHandler unless implementing your own");
+            }
+
+            var renderHandler = RenderHandler as DefaultRenderHandler;
+
+            if(renderHandler == null)
+            {
+                throw new Exception("ScreenshotOrNull and ScreenshotAsync can only be used in combination with the DefaultRenderHandler");
+            }
+
+            lock (renderHandler.BitmapLock)
             {
                 if (blend == PopupBlending.Main)
                 {
-                    return BitmapBuffer.CreateBitmap();
+                    return renderHandler.BitmapBuffer.CreateBitmap();
                 }
 
                 if (blend == PopupBlending.Popup)
                 {
-                    return PopupOpen ? PopupBuffer.CreateBitmap() : null;
+                    return renderHandler.PopupOpen ? renderHandler.PopupBuffer.CreateBitmap() : null;
                 }
 
 
-                var bitmap = BitmapBuffer.CreateBitmap();
+                var bitmap = renderHandler.BitmapBuffer.CreateBitmap();
 
-                if (PopupOpen && bitmap != null)
+                if (renderHandler.PopupOpen && bitmap != null)
                 {
-                    var popup = PopupBuffer.CreateBitmap();
+                    var popup = renderHandler.PopupBuffer.CreateBitmap();
                     if (popup == null)
                     {
                         return bitmap;
                     }
-                    return MergeBitmaps(bitmap, popup);
+                    return MergeBitmaps(bitmap, popup, renderHandler.PopupPosition);
                 }
 
                 return bitmap;
@@ -626,7 +591,7 @@ namespace CefSharp.OffScreen
 
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
-            get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
+            get { return managedCefBrowserAdapter?.JavascriptObjectRepository; }
         }
 
         /// <summary>
@@ -654,7 +619,7 @@ namespace CefSharp.OffScreen
         /// Gets the screen information (scale factor).
         /// </summary>
         /// <returns>ScreenInfo.</returns>
-        ScreenInfo IRenderWebBrowser.GetScreenInfo()
+        ScreenInfo? IRenderWebBrowser.GetScreenInfo()
         {
             return GetScreenInfo();
         }
@@ -663,18 +628,16 @@ namespace CefSharp.OffScreen
         /// Gets the screen information (scale factor).
         /// </summary>
         /// <returns>ScreenInfo.</returns>
-        protected virtual ScreenInfo GetScreenInfo()
+        protected virtual ScreenInfo? GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo(scaleFactor: 1.0F);
-
-            return screenInfo;
+            return RenderHandler?.GetScreenInfo();
         }
 
         /// <summary>
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        ViewRect IRenderWebBrowser.GetViewRect()
+        ViewRect? IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
@@ -683,11 +646,9 @@ namespace CefSharp.OffScreen
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        protected virtual ViewRect GetViewRect()
+        protected virtual ViewRect? GetViewRect()
         {
-            var viewRect = new ViewRect(size.Width, size.Height);
-
-            return viewRect;
+            return RenderHandler?.GetViewRect();
         }
 
         /// <summary>
@@ -716,7 +677,7 @@ namespace CefSharp.OffScreen
             screenX = 0;
             screenY = 0;
 
-            return false;
+            return RenderHandler?.GetScreenPoint(viewX, viewY, out screenX, out screenY) ?? false;
         }
 
         /// <summary>
@@ -753,32 +714,33 @@ namespace CefSharp.OffScreen
         /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
         /// <param name="width">width</param>
         /// <param name="height">height</param>
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void OnPaint(PaintElementType type, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
-            var isPopup = type == PaintElementType.Popup;
-
-            var bitmapBuffer = isPopup ? PopupBuffer : BitmapBuffer;
-
-            bitmapBuffer.UpdateBuffer(width, height, buffer, dirtyRect);
+            RenderHandler?.OnPaint(type, dirtyRect, buffer, width, height);
         }
 
         /// <summary>
-        /// Sets the cursor.
+        /// Called when the browser's cursor has changed. . 
         /// </summary>
-        /// <param name="handle">The handle.</param>
-        /// <param name="type">The type.</param>
-        void IRenderWebBrowser.SetCursor(IntPtr handle, CursorType type)
+        /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
+        /// <param name="type">cursor type</param>
+        /// <param name="customCursorInfo">custom cursor Information</param>
+        void IRenderWebBrowser.OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
-            SetCursor(handle, type);
+            OnCursorChange(cursor, type, customCursorInfo);
         }
 
         /// <summary>
-        /// Sets the cursor.
+        /// Called when the browser's cursor has changed. . 
         /// </summary>
-        /// <param name="handle">The handle.</param>
-        /// <param name="type">The type.</param>
-        protected virtual void SetCursor(IntPtr handle, CursorType type)
+        /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
+        /// <param name="type">cursor type</param>
+        /// <param name="customCursorInfo">custom cursor Information</param>
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
+        protected virtual void OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
+            RenderHandler?.OnCursorChange(cursor, type, customCursorInfo);
         }
 
         /// <summary>
@@ -802,9 +764,10 @@ namespace CefSharp.OffScreen
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
         {
-            return false;
+            return RenderHandler?.StartDragging(dragData, mask, x, y) ?? false;
         }
 
         void IRenderWebBrowser.UpdateDragCursor(DragOperationsMask operation)
@@ -812,50 +775,44 @@ namespace CefSharp.OffScreen
             UpdateDragCursor(operation);
         }
 
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
-            
+            RenderHandler?.UpdateDragCursor(operation);
         }
 
         /// <summary>
         /// Sets the popup is open.
         /// </summary>
         /// <param name="show">if set to <c>true</c> [show].</param>
-        void IRenderWebBrowser.SetPopupIsOpen(bool show)
+        void IRenderWebBrowser.OnPopupShow(bool show)
         {
-            SetPopupIsOpen(show);
+            OnPopupShow(show);
         }
 
-        protected virtual void SetPopupIsOpen(bool show)
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
+        protected virtual void OnPopupShow(bool show)
         {
-            PopupOpen = show;
-        }
-
-        /// <summary>
-        /// Sets the popup size and position.
-        /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
-        {
-            SetPopupSizeAndPosition(width, height, x, y);
+            RenderHandler?.OnPopupShow(show);
         }
 
         /// <summary>
-        /// Sets the popup size and position.
+        /// Called when the browser wants to move or resize the popup widget. 
         /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        protected virtual void SetPopupSizeAndPosition(int width, int height, int x, int y)
+        /// <param name="rect">contains the new location and size in view coordinates. </param>
+        void IRenderWebBrowser.OnPopupSize(Rect rect)
         {
-            popupPosition.X = x;
-            popupPosition.Y = y;
-            popupSize.Width = width;
-            popupSize.Height = height;
+            OnPopupSize(rect);
+        }
+
+        /// <summary>
+        /// Called when the browser wants to move or resize the popup widget. 
+        /// </summary>
+        /// <param name="rect">contains the new location and size in view coordinates. </param>
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
+        protected virtual void OnPopupSize(Rect rect)
+        {
+            RenderHandler?.OnPopupSize(rect);
         }
 
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
@@ -863,9 +820,10 @@ namespace CefSharp.OffScreen
             OnImeCompositionRangeChanged(selectedRange, characterBounds);
         }
 
+        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
-            
+            RenderHandler?.OnImeCompositionRangeChanged(selectedRange, characterBounds);
         }
 
         /// <summary>
@@ -874,11 +832,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="ConsoleMessageEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
-            var handler = ConsoleMessage;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            ConsoleMessage?.Invoke(this, args);
         }
 
         /// <summary>
@@ -887,11 +841,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="FrameLoadStartEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
         {
-            var handler = FrameLoadStart;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            FrameLoadStart?.Invoke(this, args);
         }
 
         /// <summary>
@@ -900,11 +850,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
         {
-            var handler = FrameLoadEnd;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            FrameLoadEnd?.Invoke(this, args);
         }
 
         /// <summary>
@@ -917,11 +863,7 @@ namespace CefSharp.OffScreen
 
             IsBrowserInitialized = true;
 
-            var handler = BrowserInitialized;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            BrowserInitialized?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -930,11 +872,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="LoadErrorEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
-            var handler = LoadError;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            LoadError?.Invoke(this, args);
         }
 
         /// <summary>
@@ -958,11 +896,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="StatusMessageEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
-            var handler = StatusMessage;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            StatusMessage?.Invoke(this, args);
         }
 
         /// <summary>
@@ -973,11 +907,7 @@ namespace CefSharp.OffScreen
         {
             Address = args.Address;
 
-            var handler = AddressChanged;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            AddressChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -990,11 +920,7 @@ namespace CefSharp.OffScreen
             CanGoForward = args.CanGoForward;
             IsLoading = args.IsLoading;
 
-            var handler = LoadingStateChanged;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            LoadingStateChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -1003,11 +929,7 @@ namespace CefSharp.OffScreen
         /// <param name="args">The <see cref="TitleChangedEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            var handler = TitleChanged;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            TitleChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -1030,14 +952,15 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <param name="firstBitmap">First bitmap, this will be the first image drawn</param>
         /// <param name="secondBitmap">Second bitmap, this image will be drawn on the first</param>
+        /// <param name="secondBitmapPosition">Position of the second bitmap</param>
         /// <returns>The merged bitmap, size of firstBitmap</returns>
-        private Bitmap MergeBitmaps(Bitmap firstBitmap, Bitmap secondBitmap)
+        private Bitmap MergeBitmaps(Bitmap firstBitmap, Bitmap secondBitmap, Point secondBitmapPosition)
         {
             var mergedBitmap = new Bitmap(firstBitmap.Width, firstBitmap.Height, PixelFormat.Format32bppPArgb);
             using (var g = Graphics.FromImage(mergedBitmap))
             {
                 g.DrawImage(firstBitmap, new Rectangle(0, 0, firstBitmap.Width, firstBitmap.Height));
-                g.DrawImage(secondBitmap, new Rectangle((int)popupPosition.X, (int)popupPosition.Y, secondBitmap.Width, secondBitmap.Height));
+                g.DrawImage(secondBitmap, new Rectangle(secondBitmapPosition.X, secondBitmapPosition.Y, secondBitmap.Width, secondBitmap.Height));
             }
             return mergedBitmap;
         }

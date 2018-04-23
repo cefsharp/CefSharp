@@ -4,7 +4,8 @@
 
 using System;
 using System.Threading.Tasks;
-
+using CefSharp.Enums;
+using CefSharp.Structs;
 using Size = CefSharp.Structs.Size;
 
 namespace CefSharp

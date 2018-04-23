@@ -5,7 +5,7 @@
 
 using System;
 
-namespace CefSharp
+namespace CefSharp.Enums
 {
     /// <summary>
     /// "Verb" of a drag-and-drop operation as negotiated between the source and destination.

@@ -10,6 +10,7 @@
 #include "CefWrapper.h"
 
 using namespace System::IO;
+using namespace CefSharp::Enums;
 
 namespace CefSharp
 {

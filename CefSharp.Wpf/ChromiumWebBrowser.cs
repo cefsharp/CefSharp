@@ -18,6 +18,13 @@ using Microsoft.Win32.SafeHandles;
 using CefSharp.Internals;
 using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
+using CefSharp.Enums;
+using CefSharp.Structs;
+
+using Point = System.Windows.Point;
+using Size = System.Windows.Size;
+using CursorType = CefSharp.Enums.CursorType;
+using Rect = CefSharp.Structs.Rect;
 
 namespace CefSharp.Wpf 
 {
@@ -613,7 +620,7 @@ namespace CefSharp.Wpf
         /// Gets the ScreenInfo - currently used to get the DPI scale factor.
         /// </summary>
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
-        ScreenInfo IRenderWebBrowser.GetScreenInfo()
+        ScreenInfo? IRenderWebBrowser.GetScreenInfo()
         {
             return GetScreenInfo();
         }
@@ -622,7 +629,7 @@ namespace CefSharp.Wpf
         /// Gets the ScreenInfo - currently used to get the DPI scale factor.
         /// </summary>
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
-        protected virtual ScreenInfo GetScreenInfo()
+        protected virtual ScreenInfo? GetScreenInfo()
         {
             var screenInfo = new ScreenInfo(scaleFactor: (float)DpiScaleFactor);
 
@@ -633,7 +640,7 @@ namespace CefSharp.Wpf
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        ViewRect IRenderWebBrowser.GetViewRect()
+        ViewRect? IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
@@ -642,7 +649,7 @@ namespace CefSharp.Wpf
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        protected virtual ViewRect GetViewRect()
+        protected virtual ViewRect? GetViewRect()
         {
             //NOTE: Previous we used Math.Ceiling to round the sizing up, we
             //now set UseLayoutRounding = true; on the control so the sizes are
@@ -729,6 +736,11 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.UpdateDragCursor(DragOperationsMask operation)
         {
+            UpdateDragCursor(operation);
+        }
+
+        protected virtual void UpdateDragCursor(DragOperationsMask operation)
+        {
             //TODO: Someone should implement this
         }
 
@@ -773,7 +785,7 @@ namespace CefSharp.Wpf
 
             var img = isPopup ? popupImage : image;
 
-            RenderHandler?.OnPaint(isPopup, buffer, dirtyRect, width, height, img);
+            RenderHandler?.OnPaint(isPopup, dirtyRect, buffer, width, height, img);
         }
 
         /// <summary>
@@ -783,16 +795,16 @@ namespace CefSharp.Wpf
         /// <param name="height">The height.</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
-        void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
+        void IRenderWebBrowser.OnPopupSize(Rect rect)
         {
-            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(width, height, x, y));
+            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(rect));
         }
 
         /// <summary>
         /// Sets the popup is open.
         /// </summary>
         /// <param name="isOpen">if set to <c>true</c> [is open].</param>
-        void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
+        void IRenderWebBrowser.OnPopupShow(bool isOpen)
         {
             UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
         }
@@ -802,7 +814,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="handle">The handle.</param>
         /// <param name="type">The type.</param>
-        void IRenderWebBrowser.SetCursor(IntPtr handle, CursorType type)
+        void IRenderWebBrowser.OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
         {
             //Custom cursors are handled differently, for now keep standard ones executing
             //in an async fashion
@@ -870,11 +882,7 @@ namespace CefSharp.Wpf
                 ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
             });
 
-            var handler = LoadingStateChanged;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            LoadingStateChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -901,11 +909,7 @@ namespace CefSharp.Wpf
         /// <param name="args">The <see cref="FrameLoadStartEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
         {
-            var handler = FrameLoadStart;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            FrameLoadStart?.Invoke(this, args);
         }
 
         /// <summary>
@@ -914,12 +918,7 @@ namespace CefSharp.Wpf
         /// <param name="args">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
         {
-            var handler = FrameLoadEnd;
-
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            FrameLoadEnd?.Invoke(this, args);
         }
 
         /// <summary>
@@ -928,11 +927,7 @@ namespace CefSharp.Wpf
         /// <param name="args">The <see cref="ConsoleMessageEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
-            var handler = ConsoleMessage;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            ConsoleMessage?.Invoke(this, args);
         }
 
         /// <summary>
@@ -941,11 +936,7 @@ namespace CefSharp.Wpf
         /// <param name="args">The <see cref="StatusMessageEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
-            var handler = StatusMessage;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            StatusMessage?.Invoke(this, args);
         }
 
         /// <summary>
@@ -954,11 +945,7 @@ namespace CefSharp.Wpf
         /// <param name="args">The <see cref="LoadErrorEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
-            var handler = LoadError;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            LoadError?.Invoke(this, args);
         }
 
         void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
@@ -1156,12 +1143,7 @@ namespace CefSharp.Wpf
 
             owner.OnIsBrowserInitializedChanged(oldValue, newValue);
 
-            var handlers = owner.IsBrowserInitializedChanged;
-
-            if (handlers != null)
-            {
-                handlers(owner, e);
-            }
+            owner.IsBrowserInitializedChanged?.Invoke(owner, e);
         }
 
         /// <summary>
@@ -1229,12 +1211,7 @@ namespace CefSharp.Wpf
         {
             var owner = (ChromiumWebBrowser)d;
 
-            var handlers = owner.TitleChanged;
-
-            if (handlers != null)
-            {
-                handlers(owner, e);
-            }
+            owner.TitleChanged?.Invoke(owner, e);
         }
 
         #endregion Title dependency property
@@ -1891,9 +1868,9 @@ namespace CefSharp.Wpf
                 AllowsTransparency = true
             };
 
-            BindingOperations.SetBinding(newPopup, FrameworkElement.LayoutTransformProperty, new Binding
+            BindingOperations.SetBinding(newPopup, LayoutTransformProperty, new Binding
             {
-                Path = new PropertyPath(FrameworkElement.LayoutTransformProperty),
+                Path = new PropertyPath(LayoutTransformProperty),
                 Source = this,
             });
 
@@ -1921,12 +1898,12 @@ namespace CefSharp.Wpf
         /// <param name="height">The height.</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
-        private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
+        private void SetPopupSizeAndPositionImpl(Rect rect)
         {
-            popup.Width = width ;
-            popup.Height = height;
+            popup.Width = rect.Width ;
+            popup.Height = rect.Height;
 
-            var popupOffset = new Point(x, y);
+            var popupOffset = new Point(rect.X, rect.Y);
             var locationFromScreen = PointToScreen(popupOffset);
             popup.HorizontalOffset = locationFromScreen.X / DpiScaleFactor;
             popup.VerticalOffset = locationFromScreen.Y / DpiScaleFactor;
@@ -2295,7 +2272,7 @@ namespace CefSharp.Wpf
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
         /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        /// <exception cref="System.Exception">Browser is already initialized. RegisterJsObject must be +
+        /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
         ///                                     called before the underlying CEF browser is created.</exception>
         public void RegisterJsObject(string name, object objectToBind, BindingOptions options = null)
         {
@@ -2366,7 +2343,7 @@ namespace CefSharp.Wpf
 
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
-            get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
+            get { return managedCefBrowserAdapter?.JavascriptObjectRepository; }
         }
 
         /// <summary>

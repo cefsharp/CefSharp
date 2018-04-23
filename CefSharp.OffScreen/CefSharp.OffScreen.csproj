@@ -74,6 +74,8 @@
   <ItemGroup>
     <Compile Include="BitmapBuffer.cs" />
     <Compile Include="ChromiumWebBrowser.cs" />
+    <Compile Include="DefaultRenderHandler.cs" />
+    <Compile Include="IRenderHandler.cs" />
     <Compile Include="OnPaintEventArgs.cs" />
     <Compile Include="PopupBlending.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
