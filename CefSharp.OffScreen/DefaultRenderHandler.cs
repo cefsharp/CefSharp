@@ -96,8 +96,8 @@ namespace CefSharp.OffScreen
 
 		public virtual bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY)
 		{
-			screenX = 0;
-			screenY = 0;
+			screenX = viewX;
+			screenY = viewY;
 
 			return false;
 		}
