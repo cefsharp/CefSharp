@@ -14,7 +14,7 @@ namespace CefSharp
         /// OnContextCreated is called in the Render process immediately after a CefV8Context is created.
         /// An IPC message is immediately sent to notify the context has been created
         /// (should be safe to execute javascript). If the page has no javascript then no V8Context will be created
-        /// and as a result this method will not be called. Currently only called for the Main frame <see cref="IFrame.IsMain"/>
+        /// and as a result this method will not be called.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">The browser object</param>
@@ -25,7 +25,7 @@ namespace CefSharp
         /// OnContextReleased is called in the Render process immediately before the CefV8Context is released.
         /// An IPC message is immediately sent to notify the context has been released
         /// (cannot execute javascript this point). If the page had no javascript then the context would not have been created
-        /// and as a result this method will not be called. Currently only called for the Main frame <see cref="IFrame.IsMain"/>
+        /// and as a result this method will not be called.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">The browser object</param>
