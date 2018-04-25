@@ -20,6 +20,9 @@ namespace CefSharp
             template<typename TList, typename TIndex>
             void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj)
             {
+                // Collection of ancestors to currently serialised object.
+                // This enables prevention of endless loops due to cycles in graphs where
+                // a child references one of its ancestors.
                 auto ancestors = gcnew HashSet<Object^>();
                 SerializeV8SimpleObject(list, index, obj, ancestors);
             }
