@@ -20,12 +20,12 @@ namespace CefSharp
             template<typename TList, typename TIndex>
             void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj)
             {
-                auto seen = gcnew Stack<Object^>();
+                auto seen = gcnew HashSet<Object^>();
                 SerializeV8SimpleObject(list, index, obj, seen);
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen)
+            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, HashSet<Object^>^ seen)
             {
                 list->SetNull(index);
 
@@ -33,7 +33,7 @@ namespace CefSharp
                 {
                     return;
                 }
-                seen->Push(obj);
+                seen->Add(obj);
 
                 auto type = obj->GetType();
                 Type^ underlyingType = Nullable::GetUnderlyingType(type);
@@ -151,7 +151,7 @@ namespace CefSharp
                     throw gcnew NotSupportedException("Unable to serialize Type");
                 }
 
-                seen->Pop();
+                seen->Remove(obj);
             }
 
             CefTime ConvertDateTimeToCefTime(DateTime dateTime)
