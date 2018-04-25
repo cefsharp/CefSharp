@@ -145,7 +145,7 @@ namespace CefSharp
                         SerializeV8SimpleObject(subDict, propertyName, propertyValue, seen);
                     }
                     list->SetDictionary(index, subDict);
-                } 
+                }
                 else
                 {
                     throw gcnew NotSupportedException("Unable to serialize Type");

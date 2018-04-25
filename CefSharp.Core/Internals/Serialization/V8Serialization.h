@@ -14,7 +14,7 @@ namespace CefSharp
 
             //Serializes data into a given position in a CefListValue or CefDictionaryValue
             template<typename TList, typename TIndex>
-            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index,Object^ obj);
+            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj);
 
             template<typename TList, typename TIndex>
             void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, HashSet<Object^>^ seen);
