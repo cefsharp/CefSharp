@@ -17,9 +17,12 @@ namespace CefSharp.Example
 
         void IRenderProcessMessageHandler.OnContextCreated(IWebBrowser browserControl, IBrowser browser, IFrame frame)
         {
-            const string script = "document.addEventListener('DOMContentLoaded', function(){ alert('DomLoaded'); });";
+            if (frame.IsMain)
+            {
+                 const string script = "document.addEventListener('DOMContentLoaded', function(){ alert('DomLoaded'); });";
 
-            //frame.ExecuteJavaScriptAsync(script);
+                 //frame.ExecuteJavaScriptAsync(script);
+            }
         }
 
         void IRenderProcessMessageHandler.OnContextReleased(IWebBrowser browserControl, IBrowser browser, IFrame frame)
