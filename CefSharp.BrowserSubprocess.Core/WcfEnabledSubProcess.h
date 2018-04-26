@@ -25,9 +25,9 @@ namespace CefSharp
             Nullable<int> parentProcessId;
 
         public:
-            WcfEnabledSubProcess(IEnumerable<String^>^ args) : SubProcess(args)
+            WcfEnabledSubProcess(int parentProcessId, IEnumerable<String^>^ args) : SubProcess(args)
             {
-                parentProcessId = CommandLineArgsParser::LocateParentProcessId(args);
+                this->parentProcessId = parentProcessId;
             }
 
             void OnBrowserCreated(CefBrowserWrapper^ browser) override;

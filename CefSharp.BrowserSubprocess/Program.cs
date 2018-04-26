@@ -3,9 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Threading.Tasks;
 using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
@@ -19,16 +18,16 @@ namespace CefSharp.BrowserSubprocess
             SubProcess.EnableHighDPISupport();
 
             int result;
+            var type = args.GetArgumentValue(CefSharpArguments.SubProcessTypeArgument);
+            var parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
 
-            const string typePrefix = "--type=";
-            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
-            var type = typeArgument.Substring(typePrefix.Length);
+            Task.Run(() => AwaitParentProcessExit(parentProcessId));
 
             //Use our custom subProcess provides features like EvaluateJavascript
             if (type == "renderer")
             {
                 var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
-                var subProcess = wcfEnabled ? new WcfEnabledSubProcess(args) : new SubProcess(args);
+                var subProcess = wcfEnabled ? new WcfEnabledSubProcess(parentProcessId, args) : new SubProcess(args);
 
                 using (subProcess)
                 {
@@ -41,8 +40,29 @@ namespace CefSharp.BrowserSubprocess
             }
 
             Debug.WriteLine("BrowserSubprocess shutting down.");
-
+            
             return result;
+        }
+
+        private static void AwaitParentProcessExit(int parentProcessId) 
+        {
+            try 
+            {
+                var parentProcess = Process.GetProcessById(parentProcessId);
+                parentProcess.WaitForExit();
+            }
+            catch (Exception e) 
+            {
+                //main process probably died already, bailout
+                Debug.WriteLine(e);
+                return;
+            }
+
+            Task.Delay(1000); //wait a bit before exiting
+
+            Debug.WriteLine("BrowserSubprocess shutting down forcibly.");
+
+            Environment.Exit(0);
         }
     }
 }
