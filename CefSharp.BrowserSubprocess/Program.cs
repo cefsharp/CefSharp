@@ -21,7 +21,7 @@ namespace CefSharp.BrowserSubprocess
             var type = args.GetArgumentValue(CefSharpArguments.SubProcessTypeArgument);
             var parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
 
-            Task.Run(() => AwaitParentProcessExit(parentProcessId));
+            Task.Factory.StartNew(() => AwaitParentProcessExit(parentProcessId), TaskCreationOptions.LongRunning);
 
             //Use our custom subProcess provides features like EvaluateJavascript
             if (type == "renderer")
@@ -53,9 +53,8 @@ namespace CefSharp.BrowserSubprocess
             }
             catch (Exception e) 
             {
-                //main process probably died already, bailout
+                //main process probably died already
                 Debug.WriteLine(e);
-                return;
             }
 
             Task.Delay(1000); //wait a bit before exiting
