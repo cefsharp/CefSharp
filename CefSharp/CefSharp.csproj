@@ -97,6 +97,7 @@
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="Enums\AlphaType.cs" />
     <Compile Include="Enums\ColorType.cs" />
+    <Compile Include="Event\JavascriptBindingCompleteEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
