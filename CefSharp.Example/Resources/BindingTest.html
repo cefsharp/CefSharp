@@ -449,7 +449,8 @@
             {
                 var asyncCallback = assert.async();
 
-                CefSharp.BindObjectAsync("boundAsync2").then(function(result)
+                //Can use both cefSharp.bindObjectAsync and CefSharp.BindObjectAsync, both do the same
+                cefSharp.bindObjectAsync({ NotifyIfAlreadyBound: true }, "boundAsync2").then(function (result)
                 {
                     boundAsync2.hello('CefSharp').then(function (res)
                     {
@@ -465,11 +466,27 @@
             });
 
             //Repeat of the previous test to make sure binding a deleted object is working
-            QUnit.test( "Bind boundAsync2 and call (Hello) Second Attempt:", function( assert )
+            QUnit.test("Bind boundAsync2 and call (Hello) Second Attempt:", function (assert)
             {
                 var asyncCallback = assert.async();
 
-                CefSharp.BindObjectAsync("boundAsync2").then(function(result)
+                CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: true }, "boundAsync2").then(function (result)
+                {
+                    boundAsync2.hello('CefSharp').then(function (res)
+                    {
+                        assert.equal(res, "Hello CefSharp")
+
+                        asyncCallback();
+                    });
+                });
+            });
+
+            //Repeat of the previous test to make sure binding a deleted object is working
+            QUnit.test( "Bind boundAsync2 and call (Hello) Third Attempt:", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                CefSharp.BindObjectAsync({ NotifyIfAlreadyBound : true, IgnoreCache : true }, "boundAsync2").then(function(result)
                 {
                     boundAsync2.hello('CefSharp').then(function (res)
                     {

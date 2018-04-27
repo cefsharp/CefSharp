@@ -86,25 +86,31 @@ namespace CefSharp
         }
 
         auto global = context->GetGlobal();
+        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
 
         auto cefSharpObj = CefV8Value::CreateObject(NULL, NULL);
         global->SetValue("CefSharp", cefSharpObj, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
-        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
+        //We'll support both CefSharp and cefSharp, for those who prefer the JS style
+        auto cefSharpObjCamelCase = CefV8Value::CreateObject(NULL, NULL);
+        global->SetValue("cefSharp", cefSharpObjCamelCase, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
         //TODO: JSB: Split functions into their own classes
         //Browser wrapper is only used for BindObjectAsync
-        auto bindObjAsyncFunction = CefV8Value::CreateFunction("BindObjectAsync", new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, browserWrapper));
-        cefSharpObj->SetValue("BindObjectAsync", bindObjAsyncFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        auto bindObjAsyncFunction = CefV8Value::CreateFunction(kBindObjectAsync, new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, browserWrapper));
+        auto unBindObjFunction = CefV8Value::CreateFunction(kDeleteBoundObject, new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
+        auto removeObjectFromCacheFunction = CefV8Value::CreateFunction(kRemoveObjectFromCache, new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
+        auto isObjectCachedFunction = CefV8Value::CreateFunction(kIsObjectCached, new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
 
-        auto unBindObFunction = CefV8Value::CreateFunction("DeleteBoundObject", new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
-        cefSharpObj->SetValue("DeleteBoundObject", unBindObFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObj->SetValue(kBindObjectAsync, bindObjAsyncFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObj->SetValue(kDeleteBoundObject, unBindObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObj->SetValue(kRemoveObjectFromCache, removeObjectFromCacheFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObj->SetValue(kIsObjectCached, isObjectCachedFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
 
-        auto removeObjectFromCacheFunction = CefV8Value::CreateFunction("RemoveObjectFromCache", new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
-        cefSharpObj->SetValue("RemoveObjectFromCache", removeObjectFromCacheFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
-
-        auto isObjectCachedFunction = CefV8Value::CreateFunction("IsObjectCached", new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
-        cefSharpObj->SetValue("IsObjectCached", isObjectCachedFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObjCamelCase->SetValue(kBindObjectAsyncCamelCase, bindObjAsyncFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObjCamelCase->SetValue(kDeleteBoundObjectCamelCase, unBindObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObjCamelCase->SetValue(kRemoveObjectFromCacheCamelCase, removeObjectFromCacheFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObjCamelCase->SetValue(kIsObjectCachedCamelCase, isObjectCachedFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
@@ -555,15 +561,20 @@ namespace CefSharp
                                 auto msg = CefProcessMessage::Create(kJavascriptObjectsBoundInJavascript);
                                 auto args = msg->GetArgumentList();
 
-                                auto names = CefListValue::Create();
+                                auto boundObjects = CefListValue::Create();
 
                                 for (auto i = 0; i < javascriptObjects->Count; i++)
                                 {
+                                    auto dict = CefDictionaryValue::Create();
                                     auto name = javascriptObjects[i]->JavascriptName;
-                                    names->SetString(i, StringUtils::ToNative(name));
+                                    dict->SetString("Name", StringUtils::ToNative(name));
+                                    dict->SetBool("IsCached", false);
+                                    dict->SetBool("AlreadyBound", false);
+
+                                    boundObjects->SetDictionary(i, dict);
                                 }
 
-                                args->SetList(0, names);
+                                args->SetList(0, boundObjects);
 
                                 browser->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
                             }
