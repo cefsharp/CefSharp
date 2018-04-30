@@ -13,16 +13,14 @@ namespace CefSharp
     /// </summary>
     public class TaskSetCookieCallback : ISetCookieCallback
     {
-        private readonly TaskCompletionSource<bool> taskCompletionSource;
+        private readonly TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
         private volatile bool isDisposed;
-
-        public TaskSetCookieCallback()
-        {
-            taskCompletionSource = new TaskCompletionSource<bool>();
-        }
+        private bool complete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
         void ISetCookieCallback.OnComplete(bool success)
         {
+            complete = true;
+
             taskCompletionSource.TrySetResultAsync(success);
         }
 
@@ -42,13 +40,12 @@ namespace CefSharp
 
             //If the Task hasn't completed and this is being disposed then
             //set the TCS to false
-            if (task.IsCompleted == false)
+            if (complete == false && task.IsCompleted == false)
             {
                 taskCompletionSource.TrySetResultAsync(false);
             }
 
             isDisposed = true;
-
         }
     }
 }

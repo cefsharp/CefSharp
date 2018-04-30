@@ -15,5 +15,10 @@ namespace CefSharp
         /// Method that will be called once the task is complete. 
         /// </summary>
         void OnComplete();
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

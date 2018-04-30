@@ -16,5 +16,10 @@ namespace CefSharp
         /// </summary>
         /// <param name="registration">The result of the CDM registration process</param>
         void OnRegistrationComplete(CdmRegistration registration);
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }
