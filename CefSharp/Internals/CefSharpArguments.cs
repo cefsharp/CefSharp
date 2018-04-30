@@ -7,8 +7,9 @@ namespace CefSharp.Internals
     public static class CefSharpArguments
     {
         public const string WcfEnabledArgument = "--wcf-enabled";
-        public const string WcfHostProcessIdArgument = "--wcf-host-process-id";
+        public const string HostProcessIdArgument = "--host-process-id";
         public const string CustomSchemeArgument = "--custom-scheme";
         public const string FocusedNodeChangedEnabledArgument = "--focused-node-enabled";
+        public const string SubProcessTypeArgument = "--type";
     }
 }
