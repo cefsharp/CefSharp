@@ -8,6 +8,16 @@
     <Error Text="CefSharp requires .Net 4.5.2 or higher" />
   </Target>
 
+  <ItemGroup>
+    <CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
+    <CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
+    <CefSharpCommonBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
+  </PropertyGroup>
+
   <!--
     These item groups should be in the .props file, unfortunately Nuget 2.8.x doesn't gurantee the
     correct ordering .props imports, which we require as this depends on the cef.redist packages
@@ -19,10 +29,18 @@
       <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="@(CefSharpCommonBinaries32)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup Condition="'$(Platform)' == 'x64'">
     <None Include="@(CefRedist64)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinaries64)">
       <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -34,6 +52,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="@(CefRedist64)">
+      <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinaries32)">
+      <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinaries64)">
       <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
