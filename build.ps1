@@ -36,9 +36,14 @@ if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
 if ($env:APPVEYOR_REPO_TAG -eq "True")
 {
     $Version = "$env:APPVEYOR_REPO_TAG_NAME".Substring(1)  # trim leading "v"
-	$AssemblyVersion = $Version
+    $AssemblyVersion = $Version
+    #Stip the -pre
+    if($AssemblyVersion.Contains("-pre"))
+    {
+        $AssemblyVersion = $AssemblyVersion.Substring(0, $AssemblyVersion.IndexOf("-pre"))
+    }
     Write-Diagnostic "Setting Version based on tag to $Version"    
-	Write-Diagnostic "Setting AssemblyVersion based on tag to $AssemblyVersion"    
+    Write-Diagnostic "Setting AssemblyVersion based on tag to $AssemblyVersion"    
 }
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
