@@ -3,9 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
@@ -19,16 +17,14 @@ namespace CefSharp.BrowserSubprocess
             SubProcess.EnableHighDPISupport();
 
             int result;
-
-            const string typePrefix = "--type=";
-            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
-            var type = typeArgument.Substring(typePrefix.Length);
+            var type = args.GetArgumentValue(CefSharpArguments.SubProcessTypeArgument);
+            var parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
 
             //Use our custom subProcess provides features like EvaluateJavascript
             if (type == "renderer")
             {
                 var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
-                var subProcess = wcfEnabled ? new WcfEnabledSubProcess(args) : new SubProcess(args);
+                var subProcess = wcfEnabled ? new WcfEnabledSubProcess(parentProcessId, args) : new SubProcess(args);
 
                 using (subProcess)
                 {
