@@ -40,9 +40,9 @@ namespace CefSharp.Example.RequestEventHandler
         public event EventHandler<GetResourceResponseFilterEventArgs> GetResourceResponseFilterEvent;
         public event EventHandler<OnResourceLoadCompleteEventArgs> OnResourceLoadCompleteEvent;
 
-        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect)
+        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
         {
-            var args = new OnBeforeBrowseEventArgs(browserControl, browser, frame, request, isRedirect);
+            var args = new OnBeforeBrowseEventArgs(browserControl, browser, frame, request, userGesture, isRedirect);
 
             OnBeforeBrowseEvent?.Invoke(this, args);
 
