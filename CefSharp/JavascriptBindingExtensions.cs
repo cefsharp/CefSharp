@@ -10,36 +10,36 @@ using CefSharp.Event;
 
 namespace CefSharp
 {
-	public static class JavascriptBindingExtensions
-	{
-		public static Task<IList<string>> EnsureObjectBoundAsync(this IWebBrowser browser, params string[] names)
-		{
-			var objBoundTasks = new TaskCompletionSource<IList<string>>();
+    public static class JavascriptBindingExtensions
+    {
+        public static Task<IList<string>> EnsureObjectBoundAsync(this IWebBrowser browser, params string[] names)
+        {
+            var objBoundTasks = new TaskCompletionSource<IList<string>>();
 
-			EventHandler<JavascriptBindingMultipleCompleteEventArgs> handler = null;
-			handler = (sender, args) =>
-			{
-				//Remove handler
-				browser.JavascriptObjectRepository.ObjectsBoundInJavascript -= handler;
+            EventHandler<JavascriptBindingMultipleCompleteEventArgs> handler = null;
+            handler = (sender, args) =>
+            {
+                //Remove handler
+                browser.JavascriptObjectRepository.ObjectsBoundInJavascript -= handler;
 
-				var allObjectsBound = names.ToList().SequenceEqual(args.ObjectNames);
-				if (allObjectsBound)
-				{
-					objBoundTasks.SetResult(args.ObjectNames);
-				}
-				else
-				{
-					objBoundTasks.SetException(new Exception("Not all objects were bound successfully, bound objects were " + string.Join(",", args.ObjectNames)));
-				}
-			};
+                var allObjectsBound = names.ToList().SequenceEqual(args.ObjectNames);
+                if (allObjectsBound)
+                {
+                    objBoundTasks.SetResult(args.ObjectNames);
+                }
+                else
+                {
+                    objBoundTasks.SetException(new Exception("Not all objects were bound successfully, bound objects were " + string.Join(",", args.ObjectNames)));
+                }
+            };
 
-			browser.JavascriptObjectRepository.ObjectsBoundInJavascript += handler;
+            browser.JavascriptObjectRepository.ObjectsBoundInJavascript += handler;
 
-			var bindCommand = "(async function() { CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: false }, '" + string.Join("', '", names) + "'); })();";
+            var bindCommand = "(async function() { CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: false }, '" + string.Join("', '", names) + "'); })();";
 
-			browser.ExecuteScriptAsync(bindCommand);
+            browser.ExecuteScriptAsync(bindCommand);
 
-			return objBoundTasks.Task;
-		}
-	}
+            return objBoundTasks.Task;
+        }
+    }
 }
