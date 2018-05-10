@@ -35,7 +35,7 @@ namespace CefSharp
 
             browser.JavascriptObjectRepository.ObjectsBoundInJavascript += handler;
 
-            var bindCommand = "(async function() { CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: false }, '" + string.Join("', '", names) + "'); })();";
+            var bindCommand = "(function() { CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: false }, '" + string.Join("', '", names) + "'); })();";
 
             browser.ExecuteScriptAsync(bindCommand);
 
