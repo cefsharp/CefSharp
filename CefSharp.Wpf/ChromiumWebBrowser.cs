@@ -400,7 +400,10 @@ namespace CefSharp.Wpf
 
                 if (app != null)
                 {
-                    app.Exit += OnApplicationExit;
+                    app.Dispatcher.Invoke(() =>
+                    {
+                        app.Exit += OnApplicationExit;
+                    });
                 }
             }
         }
