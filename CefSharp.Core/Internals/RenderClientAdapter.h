@@ -105,7 +105,7 @@ namespace CefSharp
             /*--cef()--*/
             virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
             {
-                _renderWebBrowser->OnPopupSize(Rect(rect.width, rect.height, rect.x, rect.y));
+                _renderWebBrowser->OnPopupSize(Rect(rect.x, rect.y, rect.width, rect.height));
             };
 
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
