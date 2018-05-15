@@ -29,6 +29,13 @@ namespace CefSharp
                 }
                 else
                 {
+                    if (_browserProcess == nullptr)
+                    {
+                        LOG(ERROR) << StringUtils::ToNative("IBrowserProcess is null, unable to bind object " + obj->JavascriptName).ToString();
+
+                        continue;
+                    }
+
                     auto wrapperObject = gcnew JavascriptObjectWrapper(_browserProcess);
                     wrapperObject->Bind(obj, v8Value, _callbackRegistry);
 
