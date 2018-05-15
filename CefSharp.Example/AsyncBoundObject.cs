@@ -100,6 +100,26 @@ namespace CefSharp.Example
             return builder.ToString();
         }
 
+        public List<string> MethodReturnsList()
+        {
+            return new List<string>()
+            {
+                "Element 0 - First",
+                "Element 1",
+                "Element 2 - Last",
+            };
+        }
+
+        public List<List<string>> MethodReturnsListOfLists()
+        {
+            return new List<List<string>>()
+            {
+                new List<string>() {"Element 0, 0", "Element 0, 1" },
+                new List<string>() {"Element 1, 0", "Element 1, 1" },
+                new List<string>() {"Element 2, 0", "Element 2, 1" },
+            };
+        }
+
         public Dictionary<string, int> MethodReturnsDictionary1()
         {
             return new Dictionary<string, int>()
