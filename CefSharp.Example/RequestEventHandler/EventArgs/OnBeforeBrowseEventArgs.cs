@@ -6,12 +6,13 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public class OnBeforeBrowseEventArgs : BaseRequestEventArgs
     {
-        public OnBeforeBrowseEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect)
+        public OnBeforeBrowseEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
             : base(browserControl, browser)
         {
             Frame = frame;
             Request = request;
             IsRedirect = isRedirect;
+            UserGesture = userGesture;
 
             CancelNavigation = false; // default
         }
@@ -19,6 +20,7 @@ namespace CefSharp.Example.RequestEventHandler
         public IFrame Frame { get; private set; }
         public IRequest Request { get; private set; }
         public bool IsRedirect { get; private set; }
+        public bool UserGesture { get; private set; }
 
         /// <summary>
         ///     Set to true to cancel the navigation or false to allow the navigation to proceed.

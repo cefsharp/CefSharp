@@ -54,6 +54,34 @@ namespace CefSharp.Test.Framework
             Assert.Equal(numberOfCookiesDeleted, result);
         }
 
+        /// <summary>
+        /// Test to validate PR https://github.com/cefsharp/CefSharp/pull/2349
+        /// </summary>
+        /// <returns>Task</returns>
+        [Fact]
+        public async Task TaskDeleteCookiesCallbackOnCompleteLoop()
+        {
+            const int numberOfCookiesDeleted = 10;
+
+            for (var i = 0; i < 100; i++)
+            {
+                var callback = new TaskDeleteCookiesCallback();
+
+                //Execute OnComplete on seperate Thread as in practice will be called on the CEF IO Thread.
+                Task.Delay(100).ContinueWith(x =>
+                {
+                    var c = (IDeleteCookiesCallback)callback;
+
+                    c.OnComplete(numberOfCookiesDeleted);
+                    c.Dispose();
+                }, TaskScheduler.Default);
+
+                var result = await callback.Task;
+
+                Assert.Equal(numberOfCookiesDeleted, result);
+            }
+        }
+
         [Fact]
         public async Task TaskDeleteCookiesCallbackDispose()
         {
