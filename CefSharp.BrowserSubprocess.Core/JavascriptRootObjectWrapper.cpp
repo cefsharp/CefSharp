@@ -17,14 +17,13 @@ namespace CefSharp
         if (objects->Count > 0)
         {
             auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
-            auto promiseCreator = v8Value->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
 
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(objects))
             {
                 if (obj->IsAsync)
                 {
                     auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_callbackRegistry, saveMethod);
-                    wrapperObject->Bind(obj, v8Value, promiseCreator);
+                    wrapperObject->Bind(obj, v8Value);
 
                     _wrappedAsyncObjects->Add(wrapperObject);
                 }
