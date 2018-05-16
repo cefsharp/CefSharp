@@ -98,7 +98,7 @@ namespace CefSharp.Internals
             return objectsByName;
         }
 
-        public void ObjectsBound(List<string> objs)
+        public void ObjectsBound(List<Tuple<string, bool, bool>> objs)
         {
             var boundObjectHandler = ObjectBoundInJavascript;
             var boundObjectsHandler = ObjectsBoundInJavascript;
