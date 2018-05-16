@@ -24,6 +24,29 @@
         <script type="text/javascript">
         (async () =>
         {
+            // Verify that two objects are completely equal
+            function deepEqual(x, y)
+            {
+                if ((typeof x == "object" && x != null) && (typeof y == "object" && y != null))
+                {
+                    for (var prop in x)
+                    {
+                        if (prop in y && (Object.keys(x).length === Object.keys(y).length))
+                        {
+                            return deepEqual(x[prop], y[prop]);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    return x === y;
+                }
+            }
+
             await CefSharp.BindObjectAsync("boundAsync", "bound");
 
             QUnit.test( "BindObjectAsync Second call", function( assert )
@@ -327,23 +350,8 @@
                 });
             });
 
-            QUnit.test("Async call (methodReturnList):", function (assert) {
-                function deepEqual(x, y) {
-                    if ((typeof x == "object" && x != null) && (typeof y == "object" && y != null)) {
-                        for (var prop in x) {
-                            if (prop in y && (Object.keys(x).length === Object.keys(y).length)) {
-                                return deepEqual(x[prop], y[prop]);
-                            }
-                            else {
-                                return false;
-                            }
-                        }
-                    }
-                    else {
-                        return x === y;
-                    }
-                }
-
+            QUnit.test("Async call (methodReturnList):", function (assert)
+            {
                 const list1 = 
                     [
                         "Element 0 - First",
@@ -372,28 +380,6 @@
 
             QUnit.test("Async call (methodReturnsDictionary):", function (assert)
             {
-                function deepEqual(x, y)
-                {
-                    if ((typeof x == "object" && x !=null) && (typeof y == "object" && y !=null))
-                    {
-                        for (var prop in x)
-                        {
-                            if (prop in y && (Object.keys(x).length === Object.keys(y).length))
-                            {
-                                return deepEqual(x[prop], y[prop]);
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                    else
-                    { 
-                        return x === y;
-                    }
-                }
-
                 const dict1 =
                 {
                     "five": 5,
