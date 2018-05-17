@@ -360,7 +360,10 @@ namespace CefSharp
         /// <param name="url">the url of the resource to unregister</param>
         /// <param name="stream">Stream to be registered, the stream should not be shared with any other instances of DefaultResourceHandlerFactory</param>
         /// <param name="mimeType">the mimeType</param>
-        public static void RegisterResourceHandler(this IWebBrowser browser, string url, Stream stream, string mimeType = ResourceHandler.DefaultMimeType)
+        /// <param name="oneTimeUse">Whether or not the handler should be used once (true) or until manually unregistered (false). If true the Stream
+        /// will be Diposed of when finished.</param>
+        public static void RegisterResourceHandler(this IWebBrowser browser, string url, Stream stream, string mimeType = ResourceHandler.DefaultMimeType,
+            bool oneTimeUse = false)
         {
             var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
             if (handler == null)
@@ -368,7 +371,7 @@ namespace CefSharp
                 throw new Exception("RegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
             }
 
-            handler.RegisterHandler(url, ResourceHandler.FromStream(stream, mimeType));
+            handler.RegisterHandler(url, ResourceHandler.FromStream(stream, mimeType, autoDisposeStream: oneTimeUse));
         }
 
         /// <summary>
