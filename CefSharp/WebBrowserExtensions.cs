@@ -193,10 +193,12 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="methodName">The javascript method name to execute</param>
-        /// <param name="args">the arguments to be passed as params to the method</param>
+        /// <param name="args">the arguments to be passed as params to the method. Args are encoded using <see cref="EncodeScriptParam"/>,
+        /// you can provide a custom implementation if you require a custom implementation</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
         {
             var script = GetScript(methodName, args);
+
             browser.ExecuteScriptAsync(script);
         }
 
@@ -208,10 +210,11 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string script)
         {
-            if (browser.CanExecuteJavascriptInMainFrame == false)
-            {
-                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            }
+            //TODO: Re-enable when Native IPC issue resolved.
+            //if (browser.CanExecuteJavascriptInMainFrame == false)
+            //{
+            //	ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+            //}
 
             using (var frame = browser.GetMainFrame())
             {
@@ -357,7 +360,10 @@ namespace CefSharp
         /// <param name="url">the url of the resource to unregister</param>
         /// <param name="stream">Stream to be registered, the stream should not be shared with any other instances of DefaultResourceHandlerFactory</param>
         /// <param name="mimeType">the mimeType</param>
-        public static void RegisterResourceHandler(this IWebBrowser browser, string url, Stream stream, string mimeType = ResourceHandler.DefaultMimeType)
+        /// <param name="oneTimeUse">Whether or not the handler should be used once (true) or until manually unregistered (false). If true the Stream
+        /// will be Diposed of when finished.</param>
+        public static void RegisterResourceHandler(this IWebBrowser browser, string url, Stream stream, string mimeType = ResourceHandler.DefaultMimeType,
+            bool oneTimeUse = false)
         {
             var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
             if (handler == null)
@@ -365,7 +371,7 @@ namespace CefSharp
                 throw new Exception("RegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
             }
 
-            handler.RegisterHandler(url, ResourceHandler.FromStream(stream, mimeType));
+            handler.RegisterHandler(url, ResourceHandler.FromStream(stream, mimeType, autoDisposeStream: oneTimeUse));
         }
 
         /// <summary>
@@ -715,7 +721,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <returns>browserHost or null</returns>
-        public static IBrowserHost GetHost(IWebBrowser browser)
+        public static IBrowserHost GetBrowserHost(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
 
@@ -779,10 +785,11 @@ namespace CefSharp
                 throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
             }
 
-            if(browser.CanExecuteJavascriptInMainFrame == false)
-            {
-                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            }
+            //TODO: Re-enable when Native IPC issue resolved.
+            //if(browser.CanExecuteJavascriptInMainFrame == false)
+            //{
+            //	ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+            //}
 
             using (var frame = browser.GetMainFrame())
             {
@@ -809,12 +816,13 @@ namespace CefSharp
         /// <summary>
         /// Evaluate some Javascript code in the context of this WebBrowser using the specified timeout. The script will be executed asynchronously and the
         /// method returns a Task encapsulating the response from the Javascript 
-        /// This simple helper extension will encapsulate params in single quotes (unless int, uint, etc)
+        /// This simple helper extension will encapsulate params in single quotes (unless int, uint, etc).
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         /// <param name="methodName">The javascript method name to execute</param>
-        /// <param name="args">the arguments to be passed as params to the method</param>
+        /// <param name="args">the arguments to be passed as params to the method. Args are encoded using <see cref="EncodeScriptParam"/>,
+        /// you can provide a custom implementation if you require a custom implementation</param>
         /// <returns><see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution</returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, TimeSpan? timeout, string methodName, params object[] args)
         {
@@ -838,6 +846,21 @@ namespace CefSharp
                                     "the IsBrowserInitialized property to determine when the browser has been intialized.");
             }
         }
+
+        /// <summary>
+        /// Function used to encode the params passed to <see cref="ExecuteScriptAsync(IWebBrowser, string, object[])"/>,
+        /// <see cref="EvaluateScriptAsync(IWebBrowser, string, object[])"/> and <see cref="EvaluateScriptAsync(IWebBrowser, TimeSpan?, string, object[])"/>
+        /// Provide your own custom function to perform custom encoding. You can use your choice
+        /// of JSON encoder here if you should so choose.
+        /// </summary>
+        public static Func<string, string> EncodeScriptParam { get; set; } = (str) =>
+        {
+            return str.Replace("\\", "\\\\")
+                .Replace("'", "\\'")
+                .Replace("\t", "\\t")
+                .Replace("\r", "\\r")
+                .Replace("\n", "\\n");
+        };
 
         /// <summary>
         /// Transforms the methodName and arguments into valid Javascript code. Will encapsulate params in single quotes (unless int, uint, etc)
@@ -871,7 +894,7 @@ namespace CefSharp
                     else
                     {
                         stringBuilder.Append("'");
-                        stringBuilder.Append(args[i].ToString().Replace("'", "\\'"));
+                        stringBuilder.Append(EncodeScriptParam(obj.ToString()));
                         stringBuilder.Append("'");
                     }
 

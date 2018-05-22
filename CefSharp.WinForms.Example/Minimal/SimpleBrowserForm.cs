@@ -49,7 +49,7 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
-            browser.RegisterJsObject("bound", new BoundObject());
+            browser.JavascriptObjectRepository.Register("bound", new BoundObject());
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)

@@ -19,6 +19,8 @@ namespace CefSharp.Example
         public const string BaseUrl = "custom://cefsharp";
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
+        public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
+        public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
         public const string PluginsTestUrl = BaseUrl + "/plugins.html";
         public const string PopupTestUrl = BaseUrl + "/PopupTest.html";
         public const string TooltipTestUrl = BaseUrl + "/TooltipTest.html";
@@ -96,6 +98,9 @@ namespace CefSharp.Example
 
             settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
             settings.ExternalMessagePump = !multiThreadedMessageLoop;
+
+            //Enables Uncaught exception handler
+            settings.UncaughtExceptionStackSize = 10;
 
             // Off Screen rendering (WPF/Offscreen)
             if(osr)
@@ -176,6 +181,11 @@ namespace CefSharp.Example
 
             settings.FocusedNodeChangedEnabled = true;
 
+            //NOTE: Set this before any calls to Cef.Initialize to specify a proxy with username and password
+            //One set this cannot be changed at runtime. If you need to change the proxy at runtime (dynamically) then
+            //see https://github.com/cefsharp/CefSharp/wiki/General-Usage#proxy-resolution
+            //CefSharpSettings.Proxy = new ProxyOptions(ip: "127.0.0.1", port: "8080", username: "cefsharp", password: "123");
+
             if (!Cef.Initialize(settings, performDependencyCheck: !DebuggingSubProcess, browserProcessHandler: browserProcessHandler))
             {
                 throw new Exception("Unable to Initialize Cef");
@@ -185,6 +195,10 @@ namespace CefSharp.Example
 
             //Experimental option where bound async methods are queued on TaskScheduler.Default.
             //CefSharpSettings.ConcurrentTaskExecution = true;
+
+            //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)
+            //See issue https://github.com/cefsharp/CefSharp/issues/1203 for details
+            //CefSharpSettings.LegacyJavascriptBindingEnabled = true;
         }
 
         public static async void RegisterTestResources(IWebBrowser browser)

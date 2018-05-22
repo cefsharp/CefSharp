@@ -26,8 +26,9 @@ namespace CefSharp
                 jsObject->Id = GetInt64(list, 0);
                 jsObject->Name = StringUtils::ToClr(list->GetString(1));
                 jsObject->JavascriptName = StringUtils::ToClr(list->GetString(2));
+                jsObject->IsAsync = list->GetBool(3);
 
-                auto methodList = list->GetList(3);
+                auto methodList = list->GetList(4);
                 auto methodCount = methodList->GetInt(0);
                 auto k = 1;
                 for (auto j = 0; j < methodCount; j++)
@@ -42,7 +43,7 @@ namespace CefSharp
                     jsObject->Methods->Add(jsMethod);
                 }
 
-                auto propertyList = list->GetList(4);
+                auto propertyList = list->GetList(5);
                 auto propertyCount = propertyList->GetInt(0);
                 k = 1;
                 for (auto j = 0; j < propertyCount; j++)
@@ -63,13 +64,13 @@ namespace CefSharp
                 return jsObject;
             }
 
-            JavascriptRootObject^ DeserializeJsRootObject(const CefRefPtr<CefListValue>& list, int index)
+            List<JavascriptObject^>^ DeserializeJsObjects(const CefRefPtr<CefListValue>& list, int index)
             {
-                auto result = gcnew JavascriptRootObject();
+                auto result = gcnew List<JavascriptObject^>();
                 auto subList = list->GetList(index);
                 for (auto i = 0; i < subList->GetSize(); i++)
                 {
-                    result->MemberObjects->Add(DeserializeJsObject(subList, i));
+                    result->Add(DeserializeJsObject(subList, i));
                 }
 
                 return result;

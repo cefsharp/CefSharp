@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CefSharp.Native.props = CefSharp.Native.props
 		CefSharp.props = CefSharp.props
 		CONTRIBUTING.md = CONTRIBUTING.md
+		ISSUE_TEMPLATE.md = ISSUE_TEMPLATE.md
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
@@ -45,13 +46,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{A23AA466
 		NuGet\CefSharp.Common.targets = NuGet\CefSharp.Common.targets
 		NuGet\CefSharp.OffScreen.nuspec = NuGet\CefSharp.OffScreen.nuspec
 		NuGet\CefSharp.OffScreen.props = NuGet\CefSharp.OffScreen.props
-		NuGet\CefSharp.OffScreen.targets = NuGet\CefSharp.OffScreen.targets
 		NuGet\CefSharp.WinForms.nuspec = NuGet\CefSharp.WinForms.nuspec
 		NuGet\CefSharp.WinForms.props = NuGet\CefSharp.WinForms.props
-		NuGet\CefSharp.WinForms.targets = NuGet\CefSharp.WinForms.targets
 		NuGet\CefSharp.Wpf.nuspec = NuGet\CefSharp.Wpf.nuspec
 		NuGet\CefSharp.Wpf.props = NuGet\CefSharp.Wpf.props
-		NuGet\CefSharp.Wpf.targets = NuGet\CefSharp.Wpf.targets
 		NuGet\Readme.txt = NuGet\Readme.txt
 	EndProjectSection
 EndProject
@@ -75,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.OffScreen.Example"
 	ProjectSection(ProjectDependencies) = postProject
 		{23EE5140-2C2C-4B53-A954-10B08DCA6BD6} = {23EE5140-2C2C-4B53-A954-10B08DCA6BD6}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Test", "CefSharp.Test\CefSharp.Test.csproj", "{7A4D5447-183B-4A11-8E63-9848991B46FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -172,6 +172,14 @@ Global
 		{A4DEB90C-A529-4A93-ACE3-226A39EFCB00}.Release|Win32.Build.0 = Release|x86
 		{A4DEB90C-A529-4A93-ACE3-226A39EFCB00}.Release|x64.ActiveCfg = Release|x64
 		{A4DEB90C-A529-4A93-ACE3-226A39EFCB00}.Release|x64.Build.0 = Release|x64
+		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Debug|Win32.ActiveCfg = Debug|x86
+		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Debug|Win32.Build.0 = Debug|x86
+		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Debug|x64.ActiveCfg = Debug|x64
+		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Debug|x64.Build.0 = Debug|x64
+		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Release|Win32.ActiveCfg = Release|x86
+		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Release|Win32.Build.0 = Release|x86
+		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Release|x64.ActiveCfg = Release|x64
+		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

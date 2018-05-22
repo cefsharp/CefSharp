@@ -20,20 +20,20 @@ namespace CefSharp
     internal:
         CefBrowserSettings* _browserSettings;
 
-    public:
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        BrowserSettings() : _browserSettings(new CefBrowserSettings())
-        {
-        }
-
         /// <summary>
         /// Internal Constructor
         /// </summary>
         BrowserSettings(CefBrowserSettings* browserSettings)
         {
             _browserSettings = browserSettings;
+        }
+
+    public:
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        BrowserSettings() : _browserSettings(new CefBrowserSettings())
+        {
         }
 
         !BrowserSettings()
@@ -164,17 +164,6 @@ namespace CefSharp
         {
             CefState get() { return (CefState)_browserSettings->javascript; }
             void set(CefState value) { _browserSettings->javascript = (cef_state_t)value; }
-        }
-
-        /// <summary>
-        /// Controls whether JavaScript can be used for opening windows. Also
-        /// configurable using the "disable-javascript-open-windows" command-line
-        /// switch.
-        /// </summary>
-        virtual property CefState JavascriptOpenWindows
-        {
-            CefState get() { return (CefState)_browserSettings->javascript_open_windows; }
-            void set(CefState value) { _browserSettings->javascript_open_windows = (cef_state_t)value; }
         }
 
         /// <summary>
@@ -375,11 +364,5 @@ namespace CefSharp
             int get() { return _browserSettings->windowless_frame_rate; }
             void set(int value) { _browserSettings->windowless_frame_rate = value; }
         }		
-
-        /// <summary>
-        /// When the WPF/OffScreen browser is created, specify if the background supports
-        /// transparency
-        /// </summary>
-        property Nullable<bool> OffScreenTransparentBackground;
     };
 }

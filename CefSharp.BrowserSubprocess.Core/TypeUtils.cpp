@@ -254,18 +254,17 @@ namespace CefSharp
 
     DateTime TypeUtils::ConvertCefTimeToDateTime(CefTime time)
     {
-        auto epoch = time.GetDoubleT();
-        if(epoch == 0)
-        {
-            return DateTime::MinValue;
-        }
-        return DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime();
+        return DateTimeUtils::FromCefTime(time.year,
+            time.month,
+            time.day_of_month,
+            time.hour,
+            time.minute,
+            time.second,
+            time.millisecond);
     }
 
     CefTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime)
     {
-        auto timeSpan = dateTime - DateTime(1970, 1, 1);
-        
-        return CefTime(timeSpan.TotalSeconds);
+        return CefTime(DateTimeUtils::ToCefTime(dateTime));
     }
 }

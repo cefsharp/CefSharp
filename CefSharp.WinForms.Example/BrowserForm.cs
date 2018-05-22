@@ -41,6 +41,29 @@ namespace CefSharp.WinForms.Example
             AddTab(CefExample.DefaultUrl);
         }
 
+        /// <summary>
+        /// Used to add a Popup browser as a Tab
+        /// </summary>
+        /// <param name="browserHostControl"></param>
+        public void AddTab(Control browserHostControl, string url)
+        {
+            browserTabControl.SuspendLayout();
+
+            var tabPage = new TabPage(url)
+            {
+                Dock = DockStyle.Fill
+            };
+
+            tabPage.Controls.Add(browserHostControl);
+
+            browserTabControl.TabPages.Add(tabPage);
+
+            //Make newly created tab active
+            browserTabControl.SelectedTab = tabPage;
+
+            browserTabControl.ResumeLayout(true);
+        }
+
         private void AddTab(string url, int? insertIndex = null)
         {
             browserTabControl.SuspendLayout();
@@ -91,6 +114,25 @@ namespace CefSharp.WinForms.Example
             new AboutBox().ShowDialog();
         }
 
+        public void RemoveTab(IntPtr windowHandle)
+        {
+            var parentControl = FromChildHandle(windowHandle);
+            if (!parentControl.IsDisposed)
+            {
+                if (parentControl.Parent is TabPage tabPage)
+                {
+                    browserTabControl.TabPages.Remove(tabPage);
+                }
+                else if (parentControl.Parent is Panel panel)
+                {
+                    var browserTabUserControl = (BrowserTabUserControl)panel.Parent;
+
+                    var tab = (TabPage)browserTabUserControl.Parent;
+                    browserTabControl.TabPages.Remove(tab);
+                }
+            }
+        }
+
         private void FindMenuItemClick(object sender, EventArgs e)
         {
             var control = GetCurrentTabControl();
@@ -117,7 +159,7 @@ namespace CefSharp.WinForms.Example
             }
 
             var tabPage = browserTabControl.Controls[browserTabControl.SelectedIndex];
-            var control = (BrowserTabUserControl)tabPage.Controls[0];
+            var control = tabPage.Controls[0] as BrowserTabUserControl;
 
             return control;
         }
@@ -129,28 +171,28 @@ namespace CefSharp.WinForms.Example
 
         private void CloseTabToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if(browserTabControl.Controls.Count == 0)
+            if(browserTabControl.TabPages.Count == 0)
             {
                 return;
             }
 
             var currentIndex = browserTabControl.SelectedIndex;
 
-            var tabPage = browserTabControl.Controls[currentIndex];
+            var tabPage = browserTabControl.TabPages[currentIndex];
 
             var control = GetCurrentTabControl();
-            if (control != null)
+            if (control != null && !control.IsDisposed)
             {
                 control.Dispose();
             }
 
-            browserTabControl.Controls.Remove(tabPage);
+            browserTabControl.TabPages.Remove(tabPage);
 
             tabPage.Dispose();
 
             browserTabControl.SelectedIndex = currentIndex - 1;
 
-            if (browserTabControl.Controls.Count == 0)
+            if (browserTabControl.TabPages.Count == 0)
             {
                 ExitApplication();
             }

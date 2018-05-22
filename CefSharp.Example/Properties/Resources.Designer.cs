@@ -19,7 +19,7 @@ namespace CefSharp.Example.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -287,22 +287,46 @@ namespace CefSharp.Example.Properties {
         ///&lt;html&gt;
         ///    &lt;head&gt;
         ///        &lt;title&gt;Binding Test&lt;/title&gt;
+        ///        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
         ///    &lt;/head&gt;
         ///    &lt;body&gt;
-        ///        &lt;p&gt;
-        ///            Async Binding Test
-        ///            &lt;span id=&quot;asyncresult&quot;&gt;&lt;/span&gt;
-        ///            &lt;script type=&quot;text/javascript&quot;&gt;
-        ///                var asResult = document.getElementById(&apos;asyncresult&apos;);
-        ///            
-        ///                function writeAsyncResult(call, end)
-        ///                {
-        ///                    var p = document.createElement(&apos;p&apos;);
-        ///                [rest of string was truncated]&quot;;.
+        ///        &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
+        ///        &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
+        ///        &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///
+        ///        &lt;!--&lt;script type=&quot;text/javascript&quot;&gt;
+        ///        (async function() {
+        ///            // &lt;embed user provided code here&gt;
+        ///
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTest {
             get {
                 return ResourceManager.GetString("BindingTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;Binding Test&lt;/title&gt;
+        ///        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///    &lt;/head&gt;
+        ///    &lt;body&gt;
+        ///        &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
+        ///        &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
+        ///        &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///
+        ///        &lt;!--&lt;script type=&quot;text/javascript&quot;&gt;
+        ///        (async function() {
+        ///            // &lt;embed user provided code here&gt;
+        ///
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string BindingTestSingle {
+            get {
+                return ResourceManager.GetString("BindingTestSingle", resourceCulture);
             }
         }
         
@@ -507,6 +531,29 @@ namespace CefSharp.Example.Properties {
         public static string home_html {
             get {
                 return ResourceManager.GetString("home_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;Legacy Binding Test&lt;/title&gt;
+        ///        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///    &lt;/head&gt;
+        ///    &lt;body&gt;
+        ///        &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
+        ///        &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
+        ///        &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///
+        ///        &lt;script type=&quot;text/javascript&quot;&gt;
+        ///        (function()
+        ///        {            
+        ///            QUnit.test( &quot;bound.repea [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string LegacyBindingTest {
+            get {
+                return ResourceManager.GetString("LegacyBindingTest", resourceCulture);
             }
         }
         

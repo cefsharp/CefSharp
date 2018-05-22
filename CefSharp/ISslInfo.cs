@@ -6,6 +6,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class representing SSL information. 
+    /// </summary>
     public interface ISslInfo
     {
         /// <summary>

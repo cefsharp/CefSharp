@@ -3,79 +3,94 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using CefSharp.WinForms.Example.Helper;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
     public class LifeSpanHandler : ILifeSpanHandler
     {
+        private Dictionary<int, PopupAsChildHelper> popupasChildHelpers = new Dictionary<int, PopupAsChildHelper>();
+
         bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
-            // Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
-            // This should only be used in WPF/OffScreen
+            //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
+            //This option is typically used in WPF. This example demos using IWindowInfo.SetAsChild
+            //Older branches likely still have an example of this method if you choose to go down that path.
             newBrowser = null;
 
-            return false; //Return true to cancel the popup creation
+            //Use IWindowInfo.SetAsChild to specify the parent handle
+            //NOTE: user PopupAsChildHelper to handle with Form move and Control resize
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
-            // Hosting the popup in your own control/window
-            // Use IWindowInfo.SetAsChild to specify the parent handle
-            // NOTE: Window resize not yet handled - you need to get the
-            // IBrowserHost from the newly created IBrowser instance that represents the popup
-            // Then subscribe to window resize notifications and call NotifyMoveOrResizeStarted().
-            // Also any chances in width/height you need to call SetWindowPos on the browsers HWND
-            // Use NativeMethodWrapper.SetWindowPosition to achieve this - you can get the HWND using
-            // IBrowserHost method
+            chromiumWebBrowser.Invoke(new Action(() =>
+            {
+                if (chromiumWebBrowser.FindForm() is BrowserForm owner)
+                {
+                    var control = new Control
+                    {
+                        Dock = DockStyle.Fill
+                    };
+                    control.CreateControl();
 
-            //var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+                    owner.AddTab(control, targetUrl);
 
-            //var windowX = windowInfo.X;
-            //var windowY = windowInfo.Y;
-            //var windowWidth = (windowInfo.Width == int.MinValue) ? 600 : windowInfo.Width;
-            //var windowHeight = (windowInfo.Height == int.MinValue) ? 800 : windowInfo.Height;
+                    var rect = control.ClientRectangle;
 
-            //chromiumWebBrowser.Invoke(new Action(() =>
-            //{
-            //    var owner = chromiumWebBrowser.FindForm();
+                    windowInfo.SetAsChild(control.Handle, rect.Left, rect.Top, rect.Right, rect.Bottom);
+                }
+            }));
 
-            //    var popup = new Form
-            //    {
-            //        Left = windowX,
-            //        Top = windowY,
-            //        Width = windowWidth,
-            //        Height = windowHeight,
-            //        Text = targetFrameName
-            //    };
-
-            //    popup.CreateControl();
-
-            //    owner.AddOwnedForm(popup);
-
-            //    var control = new Control();
-            //    control.Dock = DockStyle.Fill;
-            //    control.CreateControl();
-
-            //    popup.Controls.Add(control);
-
-            //    popup.Show();
-
-            //    var rect = control.ClientRectangle;
-
-            //    windowInfo.SetAsChild(control.Handle, rect.Left, rect.Top, rect.Right, rect.Bottom);
-            //}));
+            return false;
         }
 
         void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
         {
+            if (browser.IsPopup)
+            {
+                var windowHandle = browser.GetHost().GetWindowHandle();
 
+                //WinForms will kindly lookup the child control from it's handle
+                //If no parentControl then likely it's a popup and has no parent handle
+                //(Devtools by default will remain a popup, at this point the Url hasn't been set, so 
+                // we're going with this assumption as it fits the use case of this example)
+                var parentControl = Control.FromChildHandle(windowHandle);
+
+                if (parentControl != null)
+                {
+                    var interceptor = new PopupAsChildHelper(browser);
+
+                    popupasChildHelpers.Add(browser.Identifier, interceptor);
+                }
+            }
         }
 
         bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
         {
-            //We need to allow popups to close
-            //If the browser has been disposed then we'll just let the default behaviour take place
-            if(browser.IsDisposed || browser.IsPopup)
+            //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
+            //See the doc for this method for full details.    
+            // Allow devtools to close
+            if (browser.MainFrame.Url.Equals("chrome-devtools://devtools/inspector.html"))
             {
                 return false;
+            }
+
+            var windowHandle = browser.GetHost().GetWindowHandle();
+
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+            //If browser is disposed or the handle has been released then we don't
+            //need to remove the tab (likely removed from menu)
+            if (!chromiumWebBrowser.IsDisposed && chromiumWebBrowser.IsHandleCreated)
+            {
+                chromiumWebBrowser.Invoke(new Action(() =>
+                {
+                    if (chromiumWebBrowser.FindForm() is BrowserForm owner)
+                    {
+                        owner.RemoveTab(windowHandle);
+                    }
+                }));
             }
 
             //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
@@ -84,9 +99,16 @@ namespace CefSharp.WinForms.Example.Handlers
             return true;
         }
 
-        public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
+        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
         {
-
+            if (!browser.IsDisposed && browser.IsPopup)
+            {
+                if (popupasChildHelpers.TryGetValue(browser.Identifier, out PopupAsChildHelper interceptor))
+                {
+                    popupasChildHelpers[browser.Identifier] = null;
+                    interceptor.Dispose();
+                }
+            }
         }
     }
 }

@@ -58,10 +58,11 @@ namespace CefSharp
             if (CefSharpSettings::WcfEnabled)
             {
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
-                //ChannelId was removed in https://bitbucket.org/chromiumembedded/cef/issues/1912/notreached-in-logchannelidandcookiestores
-                //We need to know the process Id to establish WCF communication
-                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfHostProcessIdArgument + "=" + Process::GetCurrentProcess()->Id));
             }
+
+            //ChannelId was removed in https://bitbucket.org/chromiumembedded/cef/issues/1912/notreached-in-logchannelidandcookiestores
+            //We need to know the process Id to establish WCF communication and for monitoring of parent process exit
+            commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::HostProcessIdArgument + "=" + Process::GetCurrentProcess()->Id));
 
             if (_cefSettings->_cefCustomSchemes->Count > 0)
             {
@@ -74,7 +75,8 @@ namespace CefSharp
                     argument += (scheme->IsLocal ? "T" : "F") + "|";
                     argument += (scheme->IsDisplayIsolated ? "T" : "F") + "|";
                     argument += (scheme->IsSecure ? "T" : "F") + "|";
-                    argument += (scheme->IsCorsEnabled ? "T" : "F") + ";";
+                    argument += (scheme->IsCorsEnabled ? "T" : "F") + "|";
+                    argument += (scheme->IsCSPBypassing ? "T" : "F") + ";";
                 }
 
                 argument = argument->TrimEnd(';');
@@ -117,7 +119,7 @@ namespace CefSharp
         {
             for each (CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
             {
-                auto success = registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled, false);
+                auto success = registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled, scheme->IsCSPBypassing);
 
                 if (!success)
                 {

@@ -27,7 +27,6 @@ namespace CefSharp
         initonly List<JavascriptObjectWrapper^>^ _wrappedObjects;
         initonly List<JavascriptAsyncObjectWrapper^>^ _wrappedAsyncObjects;
         initonly Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
-        bool _isBound;
         int64 _lastCallback;
         IBrowserProcess^ _browserProcess;
         // The entire set of possible JavaScript functions to
@@ -42,11 +41,6 @@ namespace CefSharp
             CefSharp::Internals::JavascriptCallbackRegistry^ get();
         }
 
-        property bool IsBound
-        {
-            bool get();
-        }
-
     public:
         JavascriptRootObjectWrapper(int browserId, IBrowserProcess^ browserProcess)
         {
@@ -55,7 +49,6 @@ namespace CefSharp
             _wrappedAsyncObjects = gcnew List<JavascriptAsyncObjectWrapper^>();
             _callbackRegistry = gcnew JavascriptCallbackRegistry(browserId);
             _methodCallbacks = gcnew Dictionary<int64, JavascriptAsyncMethodCallback^>();
-            _isBound = false;
         }
 
         ~JavascriptRootObjectWrapper()
@@ -87,7 +80,7 @@ namespace CefSharp
 
         bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
 
-        void Bind(JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, const CefRefPtr<CefV8Value>& v8Value);
+        void Bind(ICollection<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value);
     };
 }
 

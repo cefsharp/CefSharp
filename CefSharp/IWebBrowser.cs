@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using CefSharp.ModelBinding;
 
 namespace CefSharp
 {
@@ -100,6 +99,11 @@ namespace CefSharp
         void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null);
 
         /// <summary>
+        /// The javascript object repository, one repository per ChromiumWebBrowser instance.
+        /// </summary>
+        IJavascriptObjectRepository JavascriptObjectRepository { get; }
+
+        /// <summary>
         /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
         /// </summary>
         /// <value>The dialog handler.</value>
@@ -172,12 +176,6 @@ namespace CefSharp
         IResourceHandlerFactory ResourceHandlerFactory { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
-        /// </summary>
-        /// <value>The geolocation handler.</value>
-        IGeolocationHandler GeolocationHandler { get; set; }
-
-        /// <summary>
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
         /// <value>The render process message handler.</value>
@@ -242,6 +240,14 @@ namespace CefSharp
         /// and false in IRenderProcessMessageHandler.OnContextReleased
         /// </summary>
         bool CanExecuteJavascriptInMainFrame { get; }
+
+        /// <summary>
+        /// Gets the custom request context assigned to this browser instance
+        /// If no instance was assigned this will be null and the global
+        /// request context will have been used for this browser. 
+        /// You can access the global request context through Cef.GetGlobalRequestContext()
+        /// </summary>
+        IRequestContext RequestContext { get; }
 
         /// <summary>
         /// Attempts to give focus to the IWebBrowser control.

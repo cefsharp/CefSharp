@@ -12,6 +12,20 @@ namespace CefSharp
 {
     namespace Internals
     {
+        UrlRequestFlags CefRequestWrapper::Flags::get()
+        {
+            ThrowIfDisposed();
+
+            return (UrlRequestFlags)_wrappedRequest->GetFlags();
+        }
+
+        void CefRequestWrapper::Flags::set(UrlRequestFlags flags)
+        {
+            ThrowIfDisposed();
+
+            _wrappedRequest->SetFlags((int)flags);
+        }
+
         String^ CefRequestWrapper::Url::get()
         {
             ThrowIfDisposed();

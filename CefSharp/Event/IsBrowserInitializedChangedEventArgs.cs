@@ -7,7 +7,7 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the IsBrowserInitializedChanged event handler.
+    /// Event arguments for the IsBrowserInitializedChanged event handler.
     /// </summary>
     public class IsBrowserInitializedChangedEventArgs : EventArgs
     {

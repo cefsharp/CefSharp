@@ -23,9 +23,11 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame the request is coming from</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <param name="userGesture">The value will be true if the browser navigated via explicit user gesture
+        /// (e.g. clicking a link) or false if it navigated automatically (e.g. via the DomContentLoaded event).</param>
         /// <param name="isRedirect">has the request been redirected</param>
         /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
-        bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect);
+        bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect);
 
         /// <summary>
         /// Called on the UI thread before OnBeforeBrowse in certain limited cases
@@ -126,6 +128,30 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="status">indicates how the process terminated.</param>
         void OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status);
+
+        /// <summary>
+        /// Called on the CEF IO thread before sending a network request with a "Cookie"
+        /// request header.
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame object</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <returns>Return true to allow cookies to be included in the network
+        /// request or false to block cookies</returns>
+        bool CanGetCookies(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request);
+
+        /// <summary>
+        /// Called on the CEF IO thread when receiving a network request with a
+        /// "Set-Cookie" response header value represented by cookie.
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame object</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <param name="cookie">the cookie object</param>
+        /// <returns>Return true to allow the cookie to be stored or false to block the cookie.</returns>
+        bool CanSetCookie(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, Cookie cookie);
 
         /// <summary>
         /// Called when JavaScript requests a specific storage quota size via the webkitStorageInfo.requestQuota function.

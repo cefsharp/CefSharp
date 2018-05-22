@@ -6,17 +6,18 @@ Background:
 
 Post Installation:
   - Read the release notes for your version https://github.com/cefsharp/CefSharp/releases (Any known issues will be listed here)
-  - Set either `x86` or x64` as your target architecture (See https://msdn.microsoft.com/en-us/library/ms185328.aspx#Anchor_0 for details). `AnyCpu` support in versions > `51.0.0`, please see the release notes for details as additional steps are required to make it work.
+  - Set either `x86` or x64` as your target architecture (See https://msdn.microsoft.com/en-us/library/ms185328.aspx#Anchor_0 for details). `AnyCPU` support in versions > `51.0.0`, please see the release notes for details as additional steps are required to make it work.
   - After installing the `Nuget` package we recommend closing Visual Studio completely and then reopening (This ensures your references show up and you have full intellisense).
   - Check your output `\bin` directory to make sure the appropriate references have been copied.
   - Build fails even though packages are installed. Short term rebuild again and everything should be find. Long term we recommend reading http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore
   - Minimal designer support was added in version `57.0.0 for both `WinForms` and `WPF`. For older versions there is no designer support (designer will throw an exception).
   
 Deployment:
-  - Make sure `Visual C++ 2013` is installed (`x86` or x64` depending on your build) or you package the runtime dlls with your application, see the FAQ for details.
+  - Make sure `Visual C++ 2015` is installed (`x86` or x64` depending on your build) or you package the runtime dlls with your application, see the FAQ for details.
   
 What's New:
   See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
+  IMPORTANT NOTE - Visual C++ 2015 is now required
   IMPORTANT NOTE - .NET Framework 4.5.2 is now required.  
   IMPORTANT NOTE - Chromium has removed support for Windows XP/2003 and Windows Vista/Server 2008 (non R2).
   
@@ -25,7 +26,7 @@ What's New:
 
 Basic Troubleshooting:
   - Minimum of .Net 4.5.2
-  - Make sure `VC++ 2013 Redist` is installed (either `x86` or `x64` depending on your application)
+  - Make sure `VC++ 2015 Redist` is installed (either `x86` or `x64` depending on your application)
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (CEF code)
     * icudtl.dat (Unicode Support data)

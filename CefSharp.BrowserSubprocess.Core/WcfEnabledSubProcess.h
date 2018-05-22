@@ -17,22 +17,21 @@ namespace CefSharp
         public ref class WcfEnabledSubProcess : SubProcess
         {
         private:
-            Nullable<int> parentBrowserId;
+            Nullable<int> _parentBrowserId;
 
             /// <summary>
             /// The PID for the parent (browser) process
             /// </summary>
-            Nullable<int> parentProcessId;
+            int _parentProcessId;
 
         public:
-            WcfEnabledSubProcess(IEnumerable<String^>^ args) : SubProcess(args)
+            WcfEnabledSubProcess(int parentProcessId, IEnumerable<String^>^ args) : SubProcess(args)
             {
-                parentProcessId = CommandLineArgsParser::LocateParentProcessId(args);
+                _parentProcessId = parentProcessId;
             }
 
             void OnBrowserCreated(CefBrowserWrapper^ browser) override;
             void OnBrowserDestroyed(CefBrowserWrapper^ browser) override;
-
         };
     }
 }

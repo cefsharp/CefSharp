@@ -24,8 +24,10 @@ namespace CefSharp
             const CefString kJavascriptCallbackDestroyRequest = "JavascriptCallbackDestroyRequest";
             //Message containing the result of a given js function call
             const CefString kJavascriptCallbackResponse = "JavascriptCallbackDoneResponse";
-            //Message containing a js root object for js bindings
+            //Message containing a request JSB root objects
             const CefString kJavascriptRootObjectRequest = "JavascriptRootObjectRequest";
+            //Message containing the response for the JSB root objects
+            const CefString kJavascriptRootObjectResponse = "JavascriptRootObjectResponse";
             //Message from the render process to request a method invocation on a bound object
             const CefString kJavascriptAsyncMethodCallRequest = "JavascriptAsyncMethodCallRequest";
             //Message from the browser process containing the result of a bound method invocation
@@ -39,6 +41,10 @@ namespace CefSharp
             // optional message via command line argument when the subprocess is
             // created.
             const CefString kOnFocusedNodeChanged = "OnFocusedNodeChanged";
+            //Message that signals an uncaught exception has occurred
+            const CefString kOnUncaughtException = "OnUncaughtException";
+            //Message containing a request/notification that JSB objects have been bound
+            const CefString kJavascriptObjectsBoundInJavascript = "JavascriptObjectsBoundInJavascript";
         }
     }
 }

@@ -44,6 +44,15 @@ namespace CefSharp
             _settings = nullptr;
         }
 
+        operator CefRefPtr<CefRequestContext>()
+        {
+            if (this == nullptr)
+            {
+                return NULL;
+            }
+            return _requestContext.get();
+        }
+
     public:
         RequestContext()
         {
@@ -367,7 +376,7 @@ namespace CefSharp
         /// Attempts to resolve origin to a list of associated IP addresses.
         /// </summary>
         /// <param name="origin">host name to resolve</param>
-        /// <return>A task that represents the Resoolve Host operation. The value of the TResult parameter contains ResolveCallbackResult.</return>
+        /// <returns>A task that represents the Resoolve Host operation. The value of the TResult parameter contains ResolveCallbackResult.</returns>
         virtual Task<ResolveCallbackResult>^ ResolveHostAsync(Uri^ origin)
         {
             ThrowIfDisposed();
@@ -401,15 +410,6 @@ namespace CefSharp
             resolvedIpAddresses = StringUtils::ToClr(addresses);
 
             return (CefErrorCode)errorCode;
-        }
-
-        operator CefRefPtr<CefRequestContext>()
-        {
-            if(this == nullptr)
-            {
-                return NULL;
-            }
-            return _requestContext.get();
         }
     };
 }

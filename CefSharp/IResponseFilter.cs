@@ -7,6 +7,10 @@ using System.IO;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to filter resource response content.
+    /// The methods of this class will be called on the CEF IO thread. 
+    /// </summary>
     public interface IResponseFilter : IDisposable
     {
         /// <summary>

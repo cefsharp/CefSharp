@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.3.3029.1611\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.3029.1611\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.3.3359.1772\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.3359.1772\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -67,7 +67,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>11.0.51106.1</_ProjectFileVersion>
-    <NuGetPackageImportStamp>892d6872</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
@@ -129,7 +128,6 @@
     </ProjectReference>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>LinkVerbose</ShowProgress>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -159,7 +157,6 @@
     </ProjectReference>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>LinkVerbose</ShowProgress>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -201,7 +198,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>LinkVerbose</ShowProgress>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <KeyFile>$(LinkKeyFile)</KeyFile>
@@ -253,12 +249,13 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\CefWriteHandlerWrapper.h" />
+    <ClInclude Include="Internals\CefImageWrapper.h" />
     <ClInclude Include="Internals\CefDeleteCookiesCallbackAdapter.h" />
     <ClInclude Include="Internals\CefSetCookieCallbackAdapter.h" />
     <ClInclude Include="Internals\CefCertificateCallbackWrapper.h" />
     <ClInclude Include="CookieManager.h" />
     <ClInclude Include="Internals\CefNavigationEntryVisitorAdapter.h" />
-    <ClInclude Include="Internals\CefGetGeolocationCallbackAdapter.h" />
     <ClInclude Include="Internals\CefAuthCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBrowserHostWrapper.h" />
@@ -268,7 +265,6 @@
     <ClInclude Include="Internals\CefDragDataWrapper.h" />
     <ClInclude Include="Internals\CefFileDialogCallbackWrapper.h" />
     <ClInclude Include="Internals\CefFrameWrapper.h" />
-    <ClInclude Include="Internals\CefGeolocationCallbackWrapper.h" />
     <ClInclude Include="Internals\CefMenuModelWrapper.h" />
     <ClInclude Include="Internals\CefPdfPrintCallbackWrapper.h" />
     <ClInclude Include="Internals\CefPostDataElementWrapper.h" />
@@ -329,10 +325,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

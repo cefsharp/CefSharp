@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CefSharp;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Internals;
@@ -85,12 +86,22 @@ namespace CefSharp.OffScreen.Example
                 // For Google.com pre-pupulate the search text box
                 await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
 
+                //Example using SendKeyEvent for input instead of javascript
+                //var browserHost = browser.GetBrowserHost();
+                //var inputString = "CefSharp Was Here!";
+                //foreach(var c in inputString)
+                //{
+                //	browserHost.SendKeyEvent(new KeyEvent { WindowsKeyCode = c, Type = KeyEventType.Char });
+                //}
+
+                ////Give the browser a little time to finish drawing our SendKeyEvent input
+                //await Task.Delay(100);
+
                 // Wait for the screenshot to be taken,
                 // if one exists ignore it, wait for a new one to make sure we have the most up to date
                 await browser.ScreenshotAsync(true).ContinueWith(DisplayBitmap);
 
                 await LoadPageAsync(browser, "http://github.com");
-
                 
                 //Gets a wrapper around the underlying CefBrowser instance
                 var cefBrowser = browser.GetBrowser();
@@ -108,9 +119,7 @@ namespace CefSharp.OffScreen.Example
 
         public static Task LoadPageAsync(IWebBrowser browser, string address = null)
         {
-            //If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously
-            //and switch to tcs.TrySetResult below - no need for the custom extension method
-            var tcs = new TaskCompletionSource<bool>();
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             EventHandler<LoadingStateChangedEventArgs> handler = null;
             handler = (sender, args) =>
@@ -119,9 +128,8 @@ namespace CefSharp.OffScreen.Example
                 if (!args.IsLoading)
                 {
                     browser.LoadingStateChanged -= handler;
-                    //This is required when using a standard TaskCompletionSource
-                    //Extension method found in the CefSharp.Internals namespace
-                    tcs.TrySetResultAsync(true);
+                    //Important that the continuation runs async using TaskCreationOptions.RunContinuationsAsynchronously
+                    tcs.TrySetResult(true);
                 }
             };
 

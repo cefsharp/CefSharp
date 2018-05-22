@@ -9,6 +9,8 @@
 #include "CefWrapper.h"
 
 using namespace System::Threading::Tasks;
+using namespace CefSharp::Structs;
+using namespace CefSharp::Enums;
 
 namespace CefSharp
 {
@@ -89,6 +91,10 @@ namespace CefSharp
             virtual void SendMouseClickEvent(MouseEvent mouseEvent, MouseButtonType mouseButtonType, bool mouseUp, int clickCount);
 
             virtual void SendMouseMoveEvent(MouseEvent mouseEvent, bool mouseLeave);
+
+            virtual void SetAccessibilityState(CefState accessibilityState);
+
+            virtual void SetAutoResizeEnabled(bool enabled, Size minSize, Size maxSize);
 
             virtual void NotifyMoveOrResizeStarted();
 

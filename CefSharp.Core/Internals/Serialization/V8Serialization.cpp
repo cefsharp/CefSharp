@@ -20,20 +20,23 @@ namespace CefSharp
             template<typename TList, typename TIndex>
             void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj)
             {
-                auto seen = gcnew Stack<Object^>();
-                SerializeV8SimpleObject(list, index, obj, seen);
+                // Collection of ancestors to currently serialised object.
+                // This enables prevention of endless loops due to cycles in graphs where
+                // a child references one of its ancestors.
+                auto ancestors = gcnew HashSet<Object^>();
+                SerializeV8SimpleObject(list, index, obj, ancestors);
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen)
+            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, HashSet<Object^>^ ancestors)
             {
                 list->SetNull(index);
 
-                if (obj == nullptr || seen->Contains(obj))
+                if (obj == nullptr || ancestors->Contains(obj))
                 {
                     return;
                 }
-                seen->Push(obj);
+                ancestors->Add(obj);
 
                 auto type = obj->GetType();
                 Type^ underlyingType = Nullable::GetUnderlyingType(type);
@@ -107,11 +110,24 @@ namespace CefSharp
                     {
                         Object^ arrObj;
                         arrObj = managedArray->GetValue(i);
-                        SerializeV8SimpleObject(subList, i, arrObj, seen);
+                        SerializeV8SimpleObject(subList, i, arrObj, ancestors);
                     }
                     list->SetList(index, subList);
                 }
-                else if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
+                // Serialize dictionary to CefDictionary (key,value pairs)
+                else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
+                {
+                    auto subDict = CefDictionaryValue::Create();
+                    auto dict = (System::Collections::IDictionary^) obj;
+                    for each (System::Collections::DictionaryEntry kvp in dict)
+                    {
+                        auto fieldName = StringUtils::ToNative(Convert::ToString(kvp.Key));
+                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, ancestors);
+                    }
+                    list->SetDictionary(index, subDict);
+                }
+                // Serialize class/structs to CefDictionary (key,value pairs)
+                else if (!type->IsPrimitive && !type->IsEnum)
                 {
                     auto fields = type->GetFields();
                     auto subDict = CefDictionaryValue::Create();
@@ -120,16 +136,25 @@ namespace CefSharp
                     {
                         auto fieldName = StringUtils::ToNative(fields[i]->Name);
                         auto fieldValue = fields[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, seen);
+                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, ancestors);
+                    }
+
+                    auto properties = type->GetProperties();
+
+                    for (int i = 0; i < properties->Length; i++)
+                    {
+                        auto propertyName = StringUtils::ToNative(properties[i]->Name);
+                        auto propertyValue = properties[i]->GetValue(obj);
+                        SerializeV8SimpleObject(subDict, propertyName, propertyValue, ancestors);
                     }
                     list->SetDictionary(index, subDict);
-                } 
+                }
                 else
                 {
-                    throw gcnew NotSupportedException("Complex types cannot be serialized to Cef lists");
+                    throw gcnew NotSupportedException("Unable to serialize Type");
                 }
 
-                seen->Pop();
+                ancestors->Remove(obj);
             }
 
             CefTime ConvertDateTimeToCefTime(DateTime dateTime)

@@ -56,7 +56,7 @@ namespace CefSharp.Wpf.Example.Handlers
             //	//The parentHandle value will be used to identify monitor info and to act as the parent window for dialogs,
             //	//context menus, etc. If parentHandle is not provided then the main screen monitor will be used and some
             //	//functionality that requires a parent window may not function correctly.
-            //	windowInfo.SetAsWindowless(handle, true);
+            //	windowInfo.SetAsWindowless(handle);
 
             //	popup.Closed += (o, e) =>
             //	{
@@ -77,7 +77,7 @@ namespace CefSharp.Wpf.Example.Handlers
         void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
         {
             //NOTE: This is experimental
-            //if(browser.IsPopup)
+            //if(!browser.IsDisposed && browser.IsPopup)
             //{ 
             //	var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 

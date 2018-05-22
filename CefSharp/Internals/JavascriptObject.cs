@@ -30,6 +30,12 @@ namespace CefSharp.Internals
         public string JavascriptName { get; set; }
 
         /// <summary>
+        /// Indicate if this object bound as async
+        /// </summary>
+        [DataMember]
+        public bool IsAsync { get; set; }
+
+        /// <summary>
         /// Indicate if JavascriptName is camel case or not
         /// </summary>
         public bool CamelCaseJavascriptNames { get; set; }

@@ -76,16 +76,21 @@
     <Compile Include="Filters\AppendResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceMultiResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceResponseFilter.cs" />
+    <Compile Include="Filters\ExperimentalStreamResponseFilter.cs" />
     <Compile Include="Filters\MemoryStreamResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
     <Compile Include="FlashResourceHandlerFactory.cs" />
     <Compile Include="Filters\PassThruResponseFilter.cs" />
     <Compile Include="Handlers\BrowserProcessHandler.cs" />
     <Compile Include="InMemorySchemeAndResourceHandlerFactory.cs" />
+    <Compile Include="JsSerializableClass.cs" />
+    <Compile Include="JsSerializableStruct.cs" />
     <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
     <Compile Include="RequestEventHandler\EventArgs\BaseRequestEventArgs.cs" />
+    <Compile Include="RequestEventHandler\EventArgs\CanSetCookieEventArg.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetAuthCredentialsEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetResourceResponseFilterEventArgs.cs" />
+    <Compile Include="RequestEventHandler\EventArgs\CanGetCookiesEventArg.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnBeforeBrowseEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnBeforeResourceLoadEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnCertificateErrorEventArgs.cs" />
@@ -113,7 +118,7 @@
     <Compile Include="TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
     <Compile Include="DownloadHandler.cs" />
-    <Compile Include="RequestHandler.cs" />
+    <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -140,6 +145,8 @@
     <Content Include="Resources\assets\js\shBrushCSharp.js" />
     <None Include="Resources\assets\js\shBrushJScript.js" />
     <Content Include="Resources\assets\js\shCore.js" />
+    <Content Include="Resources\BindingTestSingle.html" />
+    <Content Include="Resources\LegacyBindingTest.html" />
     <Content Include="Resources\CdmSupportTest.html" />
     <Content Include="Resources\CssAnimation.html" />
     <Content Include="Resources\ExceptionTest.html" />

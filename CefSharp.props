@@ -1,12 +1,38 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
     <VisualStudioProductVersion>2013</VisualStudioProductVersion>
     <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='14.0'">2015</VisualStudioProductVersion>
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='15.0'">2017</VisualStudioProductVersion>
 
     <PlatformToolset>v120</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v140</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='15.0'">v141</PlatformToolset>
+    
+    <CefSharpBrowserSubprocessPostBuildEvent>
+      <![CDATA[
+if $(PlatformName) == x86 (
+  "$(DevEnvDir)..\..\VC\bin\editbin" /largeaddressaware /TSAWARE "$(TargetPath)"
+  call "$(DevEnvDir)..\Tools\vsvars32.bat"
+  sn -R "$(TargetPath)" "$(ProjectDir)..\CefSharp.snk"
+) else (
+  "$(DevEnvDir)..\..\VC\bin\amd64\editbin" /TSAWARE "$(TargetPath)"
+)
+]]></CefSharpBrowserSubprocessPostBuildEvent>
+
+    <CefSharpBrowserSubprocessPostBuildEvent Condition="'$(VisualStudioVersion)'=='15.0'">
+      <![CDATA[
+if $(PlatformName) == x86 (
+  call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat"
+  editbin /largeaddressaware /TSAWARE "$(TargetPath)"  
+  sn -R "$(TargetPath)" "$(ProjectDir)..\CefSharp.snk"
+) else (
+  call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat"
+  editbin /TSAWARE "$(TargetPath)"
+)
+]]>
+    </CefSharpBrowserSubprocessPostBuildEvent>
   </PropertyGroup>
 
 </Project>

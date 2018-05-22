@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class representing popup window features. 
+    /// </summary>
     public interface IPopupFeatures
     {
         int X { get; }
@@ -17,10 +20,6 @@ namespace CefSharp
         bool MenuBarVisible { get; }
         bool StatusBarVisible { get; }
         bool ToolBarVisible { get; }
-        bool LocationBarVisible { get; }
         bool ScrollbarsVisible { get; }
-        bool Resizable { get; }
-        bool Fullscreen { get; }
-        bool Dialog { get; }
     }
 }

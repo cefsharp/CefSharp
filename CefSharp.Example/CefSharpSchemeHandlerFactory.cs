@@ -37,6 +37,8 @@ namespace CefSharp.Example
                 { "/bootstrap/bootstrap.min.js", Resources.bootstrap_min_js },
 
                 { "/BindingTest.html", Resources.BindingTest },
+                { "/BindingTestSingle.html", Resources.BindingTestSingle },
+                { "/LegacyBindingTest.html", Resources.LegacyBindingTest },
                 { "/ExceptionTest.html", Resources.ExceptionTest },
                 { "/PopupTest.html", Resources.PopupTest },
                 { "/SchemeTest.html", Resources.SchemeTest },
@@ -72,7 +74,7 @@ namespace CefSharp.Example
                 var mimeType = ResourceHandler.GetMimeType(".xml");
                 //Load a resource handler for CefSharp.Core.xml
                 //mimeType is optional and will default to text/html
-                return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType);
+                return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType, autoDisposeStream:true);
             }
 
             if (uri.Host == "cefsharp.com" && schemeName == "https" && (string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase) ||
