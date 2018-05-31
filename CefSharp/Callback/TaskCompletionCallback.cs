@@ -10,15 +10,14 @@ namespace CefSharp
 {
     public class TaskCompletionCallback : ICompletionCallback
     {
-        private readonly TaskCompletionSource<bool> taskCompletionSource;
-
-        public TaskCompletionCallback()
-        {
-            taskCompletionSource = new TaskCompletionSource<bool>();
-        }
+        private readonly TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
+        private volatile bool isDisposed;
+        private bool complete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
         void ICompletionCallback.OnComplete()
         {
+            complete = true;
+
             taskCompletionSource.TrySetResultAsync(true);
         }
 
@@ -27,16 +26,23 @@ namespace CefSharp
             get { return taskCompletionSource.Task; }
         }
 
+        bool ICompletionCallback.IsDisposed
+        {
+            get { return isDisposed; }
+        }
+
         void IDisposable.Dispose()
         {
             var task = taskCompletionSource.Task;
 
             //If the Task hasn't completed and this is being disposed then
             //set the TCS to false
-            if(task.IsCompleted == false)
+            if(complete == false && task.IsCompleted == false)
             {
                 taskCompletionSource.TrySetResultAsync(false);
             }
+
+            isDisposed = true;
         }
     }
 }

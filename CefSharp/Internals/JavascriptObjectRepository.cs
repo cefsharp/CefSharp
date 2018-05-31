@@ -36,7 +36,8 @@ namespace CefSharp.Internals
         private static long lastId;
 
         public event EventHandler<JavascriptBindingEventArgs> ResolveObject;
-        public event EventHandler<JavascriptBindingCompleteEventArgs> ObjectBoundInJavascript;		
+        public event EventHandler<JavascriptBindingCompleteEventArgs> ObjectBoundInJavascript;
+        public event EventHandler<JavascriptBindingMultipleCompleteEventArgs> ObjectsBoundInJavascript;
 
         /// <summary>
         /// A hash from assigned object ids to the objects,
@@ -54,6 +55,7 @@ namespace CefSharp.Internals
         {
             ResolveObject = null;
             ObjectBoundInJavascript = null;
+            ObjectsBoundInJavascript = null;
         }
 
         public bool HasBoundObjects
@@ -96,19 +98,21 @@ namespace CefSharp.Internals
             return objectsByName;
         }
 
-
-        public void ObjectsBound(List<string> objs)
+        public void ObjectsBound(List<Tuple<string, bool, bool>> objs)
         {
-            //Execute on Threadpool so we don't unnessicarily block the CEF IO thread
-            var handler = ObjectBoundInJavascript;
-            if(handler != null)
-            { 
+            var boundObjectHandler = ObjectBoundInJavascript;
+            var boundObjectsHandler = ObjectsBoundInJavascript;
+            if (boundObjectHandler != null || boundObjectsHandler != null)
+            {
+                //Execute on Threadpool so we don't unnessicarily block the CEF IO thread
                 Task.Run(() =>
                 {
                     foreach (var obj in objs)
                     {
-                        handler?.Invoke(this, new JavascriptBindingCompleteEventArgs(this, obj, false, false));
+                        boundObjectHandler?.Invoke(this, new JavascriptBindingCompleteEventArgs(this, obj.Item1, obj.Item2, obj.Item3));
                     }
+
+                    boundObjectsHandler?.Invoke(this, new JavascriptBindingMultipleCompleteEventArgs(this, objs.Select(x => x.Item1).ToList()));
                 });			
             }
         }

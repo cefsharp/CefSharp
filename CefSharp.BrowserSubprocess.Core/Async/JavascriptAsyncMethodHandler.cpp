@@ -7,6 +7,7 @@
 #include "../CefSharp.Core/Internals/Messaging/Messages.h"
 #include "../CefSharp.Core/Internals/Serialization/Primitives.h"
 #include "Serialization/V8Serialization.h"
+#include "CefAppUnmanagedWrapper.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -21,8 +22,11 @@ namespace CefSharp
             {
                 auto context = CefV8Context::GetCurrentContext();
                 auto browser = context->GetBrowser();
+
+                auto promiseCreator = context->GetGlobal()->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
+
                 //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
-                auto promiseData = _promiseCreator->ExecuteFunctionWithContext(context, nullptr, CefV8ValueList());
+                auto promiseData = promiseCreator->ExecuteFunctionWithContext(context, nullptr, CefV8ValueList());
                 retval = promiseData->GetValue("p");
 
                 auto resolve = promiseData->GetValue("res");
