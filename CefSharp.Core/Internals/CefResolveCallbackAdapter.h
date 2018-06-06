@@ -22,7 +22,8 @@ namespace CefSharp
 
         ~CefResolveCallbackAdapter()
         {
-            _handler = nullptr;
+			delete _handler;
+			_handler = nullptr;
         }
 
         void OnResolveCompleted(cef_errorcode_t result,	const std::vector<CefString>& resolvedIps) OVERRIDE

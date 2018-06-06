@@ -61,7 +61,7 @@ namespace CefSharp
             }
 
             //ChannelId was removed in https://bitbucket.org/chromiumembedded/cef/issues/1912/notreached-in-logchannelidandcookiestores
-            //We need to know the process Id to establish WCF communication and wait for parent process exit
+            //We need to know the process Id to establish WCF communication and for monitoring of parent process exit
             commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::HostProcessIdArgument + "=" + Process::GetCurrentProcess()->Id));
 
             if (_cefSettings->_cefCustomSchemes->Count > 0)

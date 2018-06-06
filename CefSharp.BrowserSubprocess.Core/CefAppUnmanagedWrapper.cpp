@@ -85,6 +85,7 @@ namespace CefSharp
             }
         }
 
+        //TODO: Look at adding some sort of javascript mapping layer to reduce the code duplication
         auto global = context->GetGlobal();
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
 

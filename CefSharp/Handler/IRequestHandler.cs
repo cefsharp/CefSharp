@@ -23,9 +23,11 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame the request is coming from</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <param name="userGesture">The value will be true if the browser navigated via explicit user gesture
+        /// (e.g. clicking a link) or false if it navigated automatically (e.g. via the DomContentLoaded event).</param>
         /// <param name="isRedirect">has the request been redirected</param>
         /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
-        bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect);
+        bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect);
 
         /// <summary>
         /// Called on the UI thread before OnBeforeBrowse in certain limited cases

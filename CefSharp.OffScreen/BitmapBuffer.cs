@@ -50,22 +50,13 @@ namespace CefSharp.OffScreen
 		//TODO: May need to Pin the buffer in memory using GCHandle.Alloc(this.buffer, GCHandleType.Pinned);
 		private void ResizeBuffer(int width, int height)
 		{
-			if (buffer == null)
+			if (buffer == null || width != Width || height != Height)
 			{
 				//No of Pixels (width * height) * BytesPerPixel
 				NumberOfBytes = width * height * BytesPerPixel;
 
 				buffer = new byte[NumberOfBytes];
 
-				Width = width;
-				Height = height;
-			}
-			else if (width != Width || height != Height)
-			{
-				//No of Pixels (width * height) * BytesPerPixel
-				NumberOfBytes = width * height * BytesPerPixel;
-
-				Array.Resize(ref buffer, NumberOfBytes);
 				Width = width;
 				Height = height;
 			}

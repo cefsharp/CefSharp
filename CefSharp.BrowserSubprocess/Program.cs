@@ -20,7 +20,6 @@ namespace CefSharp.BrowserSubprocess
             int result;
             var type = args.GetArgumentValue(CefSharpArguments.SubProcessTypeArgument);
             var parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
-
             Task.Factory.StartNew(() => AwaitParentProcessExit(parentProcessId), TaskCreationOptions.LongRunning);
 
             //Use our custom subProcess provides features like EvaluateJavascript
