@@ -43,7 +43,7 @@ namespace CefSharp.BrowserSubprocess
             return result;
         }
 
-        private static void AwaitParentProcessExit(int parentProcessId) 
+        private static async void AwaitParentProcessExit(int parentProcessId) 
         {
             try 
             {
