@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
@@ -19,6 +20,7 @@ namespace CefSharp.BrowserSubprocess
             int result;
             var type = args.GetArgumentValue(CefSharpArguments.SubProcessTypeArgument);
             var parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
+            Task.Factory.StartNew(() => AwaitParentProcessExit(parentProcessId), TaskCreationOptions.LongRunning);
 
             //Use our custom subProcess provides features like EvaluateJavascript
             if (type == "renderer")
@@ -37,8 +39,28 @@ namespace CefSharp.BrowserSubprocess
             }
 
             Debug.WriteLine("BrowserSubprocess shutting down.");
-
+            
             return result;
+        }
+
+        private static async void AwaitParentProcessExit(int parentProcessId) 
+        {
+            try 
+            {
+                var parentProcess = Process.GetProcessById(parentProcessId);
+                parentProcess.WaitForExit();
+            }
+            catch (Exception e) 
+            {
+                //main process probably died already
+                Debug.WriteLine(e);
+            }
+
+            await Task.Delay(1000); //wait a bit before exiting
+
+            Debug.WriteLine("BrowserSubprocess shutting down forcibly.");
+
+            Environment.Exit(0);
         }
     }
 }

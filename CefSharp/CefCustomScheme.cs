@@ -119,13 +119,12 @@ namespace CefSharp
         /// <returns>list of scheme objects</returns>
         public static List<CefCustomScheme> ParseCommandLineArguments(IEnumerable<string> args)
         {
-            var schemes = args.FirstOrDefault(a => a.StartsWith(CefSharpArguments.CustomSchemeArgument));
+            var schemes = args.GetArgumentValue(CefSharpArguments.CustomSchemeArgument);
             var customSchemes = new List<CefCustomScheme>();
 
             if (!string.IsNullOrEmpty(schemes))
             {
-                //Remove the "--custom-scheme=" part of the argument
-                schemes.Substring(CefSharpArguments.CustomSchemeArgument.Length + 1).Split(';').ToList().ForEach(x =>
+                schemes.Split(';').ToList().ForEach(x =>
                 {
                     var tokens = x.Split('|');
                     var customScheme = new CefCustomScheme
