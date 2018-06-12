@@ -565,6 +565,7 @@ namespace CefSharp.Wpf
                     {
                         sourceWindow.StateChanged -= WindowStateChanged;
                         sourceWindow.LocationChanged -= OnWindowLocationChanged;
+                        sourceWindow = null;
                     }
 
                     // Release internal event listeners:
