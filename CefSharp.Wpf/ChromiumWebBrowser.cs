@@ -41,6 +41,10 @@ namespace CefSharp.Wpf
         /// </summary>
         private HwndSource source;
         /// <summary>
+        /// The source window bound to window related EventHandlers
+        /// </summary>
+        private Window sourceWindow;
+        /// <summary>
         /// The tooltip timer
         /// </summary>
         private DispatcherTimer tooltipTimer;
@@ -556,6 +560,13 @@ namespace CefSharp.Wpf
                     }
 
                     PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+                    // Release window event listeners if SourceChanged event wasn't received before disposal
+                    if (sourceWindow != null)
+                    {
+                        sourceWindow.StateChanged -= WindowStateChanged;
+                        sourceWindow.LocationChanged -= OnWindowLocationChanged;
+                        sourceWindow = null;
+                    }
 
                     // Release internal event listeners:
                     Loaded -= OnLoaded;
@@ -1583,6 +1594,7 @@ namespace CefSharp.Wpf
                     {
                         window.StateChanged += WindowStateChanged;
                         window.LocationChanged += OnWindowLocationChanged;
+                        sourceWindow = window;
                     }
 
                     browserScreenLocation = GetBrowserScreenLocation();
@@ -1597,6 +1609,7 @@ namespace CefSharp.Wpf
                 {
                     window.StateChanged -= WindowStateChanged;
                     window.LocationChanged -= OnWindowLocationChanged;
+                    sourceWindow = null;
                 }
             }
         }
