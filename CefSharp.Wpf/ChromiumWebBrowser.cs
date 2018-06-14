@@ -41,7 +41,8 @@ namespace CefSharp.Wpf
         /// </summary>
         private HwndSource source;
         /// <summary>
-        /// The source window bound to window related EventHandlers
+        /// The HwndSource RootVisual (Window) - We store a reference
+        /// to unsubscribe event handlers
         /// </summary>
         private Window sourceWindow;
         /// <summary>
@@ -560,10 +561,11 @@ namespace CefSharp.Wpf
                     }
 
                     PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
-                    // Release window event listeners if SourceChanged event wasn't received before disposal
+                    // Release window event listeners if PresentationSourceChangedHandler event wasn't
+                    // fired before Dispose
                     if (sourceWindow != null)
                     {
-                        sourceWindow.StateChanged -= WindowStateChanged;
+                        sourceWindow.StateChanged -= OnWindowStateChanged;
                         sourceWindow.LocationChanged -= OnWindowLocationChanged;
                         sourceWindow = null;
                     }
@@ -1592,7 +1594,7 @@ namespace CefSharp.Wpf
                     var window = source.RootVisual as Window;
                     if(window != null)
                     {
-                        window.StateChanged += WindowStateChanged;
+                        window.StateChanged += OnWindowStateChanged;
                         window.LocationChanged += OnWindowLocationChanged;
                         sourceWindow = window;
                     }
@@ -1607,14 +1609,14 @@ namespace CefSharp.Wpf
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
                 {
-                    window.StateChanged -= WindowStateChanged;
+                    window.StateChanged -= OnWindowStateChanged;
                     window.LocationChanged -= OnWindowLocationChanged;
                     sourceWindow = null;
                 }
             }
         }
 
-        private void WindowStateChanged(object sender, EventArgs e)
+        private void OnWindowStateChanged(object sender, EventArgs e)
         {
             var window = (Window)sender;
 
