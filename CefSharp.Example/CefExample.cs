@@ -107,9 +107,13 @@ namespace CefSharp.Example
             {
                 settings.WindowlessRenderingEnabled = true;
 
+                //https://github.com/cefsharp/CefSharp/issues/2408
+                settings.CefCommandLineArgs.Add("disable-features", "TouchpadAndWheelScrollLatching,AsyncWheelEvents");
+                settings.CefCommandLineArgs.Add("disable-blink-features", "RootLayerScrolling");
+
                 //Disable Direct Composition to test https://github.com/cefsharp/CefSharp/issues/1634
                 //settings.CefCommandLineArgs.Add("disable-direct-composition", "1");
-                
+
                 // DevTools doesn't seem to be working when this is enabled
                 // http://magpcss.org/ceforum/viewtopic.php?f=6&t=14095
                 //settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling", "1");
