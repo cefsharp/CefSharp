@@ -1578,17 +1578,16 @@ namespace CefSharp.Wpf
                     //Ignore this for custom bitmap factories
                     if (RenderHandler != null)
                     {
-                        var type = RenderHandler.GetType();
-                        if (type == typeof(WritableBitmapRenderHandler) || type == typeof(InteropBitmapRenderHandler))
+                        if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
                         {
-                            if (DpiScaleFactor > 1.0 && type != typeof(WritableBitmapRenderHandler))
+                            if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
                             {
                                 const int DefaultDpi = 96;
                                 var scale = DefaultDpi * DpiScaleFactor;
 
                                 RenderHandler = new WritableBitmapRenderHandler(scale, scale);
                             }
-                            else if (DpiScaleFactor == 1.0 && type != typeof(InteropBitmapRenderHandler))
+                            else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
                             {
                                 RenderHandler = new InteropBitmapRenderHandler();
                             }
