@@ -1575,24 +1575,22 @@ namespace CefSharp.Wpf
                         browser.GetHost().NotifyScreenInfoChanged();
                     }
 
-                    //Ignore this for custom bitmap factories
-                    if (RenderHandler != null)
+                    //Ignore this for custom bitmap factories                   
+                    if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
                     {
-                        if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
+                        if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
                         {
-                            if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
-                            {
-                                const int DefaultDpi = 96;
-                                var scale = DefaultDpi * DpiScaleFactor;
+                            const int DefaultDpi = 96;
+                            var scale = DefaultDpi * DpiScaleFactor;
 
-                                RenderHandler = new WritableBitmapRenderHandler(scale, scale);
-                            }
-                            else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
-                            {
-                                RenderHandler = new InteropBitmapRenderHandler();
-                            }
+                            RenderHandler = new WritableBitmapRenderHandler(scale, scale);
+                        }
+                        else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
+                        {
+                            RenderHandler = new InteropBitmapRenderHandler();
                         }
                     }
+                    
 
                     var window = source.RootVisual as Window;
                     if(window != null)
