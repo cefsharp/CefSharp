@@ -1576,7 +1576,7 @@ namespace CefSharp.Wpf
                     }
 
                     //Ignore this for custom bitmap factories
-                    if (RenderHandler != null && RenderHandler.GetType() == typeof(WritableBitmapRenderHandler) || RenderHandler.GetType() == typeof(InteropBitmapRenderHandler))
+                    if (RenderHandler != null && (RenderHandler.GetType() == typeof(WritableBitmapRenderHandler) || RenderHandler.GetType() == typeof(InteropBitmapRenderHandler)))
                     {
                         if (DpiScaleFactor > 1.0 && RenderHandler.GetType() != typeof(WritableBitmapRenderHandler))
                         {
