@@ -99,18 +99,6 @@ namespace CefSharp
                 {
                     SetCefTime(list, index, ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
                 }
-                else if (type->IsArray)
-                {
-                    auto subList = CefListValue::Create();
-                    Array^ managedArray = (Array^)obj;
-                    for (int i = 0; i < managedArray->Length; i++)
-                    {
-                        Object^ arrObj;
-                        arrObj = managedArray->GetValue(i);
-                        SerializeV8SimpleObject(subList, i, arrObj, seen);
-                    }
-                    list->SetList(index, subList);
-                }
                 // Serialize dictionary to CefDictionary (key,value pairs)
                 else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
                 {
@@ -122,6 +110,19 @@ namespace CefSharp
                         SerializeV8SimpleObject(subDict, fieldName, kvp.Value, seen);
                     }
                     list->SetDictionary(index, subDict);
+                }
+                else if (System::Collections::IEnumerable::typeid->IsAssignableFrom(type))
+                {
+                    auto subList = CefListValue::Create();
+                    auto enumerable = (System::Collections::IEnumerable^) obj;
+
+                    int i = 0;
+                    for each (Object^ arrObj in enumerable)
+                    {
+                        SerializeV8SimpleObject(subList, i, arrObj, ancestors);
+                        i++;
+                    }
+                    list->SetList(index, subList);
                 }
                 // Serialize class/structs to CefDictionary (key,value pairs)
                 else if (!type->IsPrimitive && !type->IsEnum)
