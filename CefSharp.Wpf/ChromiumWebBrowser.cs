@@ -433,9 +433,17 @@ namespace CefSharp.Wpf
         private void NoInliningConstructor()
         {
             //Initialize CEF if it hasn't already been initialized
-            if (!Cef.IsInitialized && !Cef.Initialize())
+            if (!Cef.IsInitialized)
             {
-                throw new InvalidOperationException("Cef::Initialize() failed");
+                //Disable TouchpadAndWheelScrollLatching
+                //Workaround for #2408
+                var settings = new CefSettings();
+                settings.DisableTouchpadAndWheelScrollLatching();
+
+                if (!Cef.Initialize(settings))
+                {
+                    throw new InvalidOperationException("Cef::Initialize() failed");
+                }
             }
             
             //Add this ChromiumWebBrowser instance to a list of IDisposable objects

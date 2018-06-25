@@ -108,7 +108,9 @@ namespace CefSharp.Example
                 settings.WindowlessRenderingEnabled = true;
 
                 //https://github.com/cefsharp/CefSharp/issues/2408
-                settings.CefCommandLineArgs.Add("disable-features", "TouchpadAndWheelScrollLatching,AsyncWheelEvents");
+                settings.DisableTouchpadAndWheelScrollLatching();
+                //This maybe required for scrolling overflow views in iframes 
+                //see https://bitbucket.org/chromiumembedded/cef/issues/2400/scroll-wheel-becomes-non-functional-with#comment-44369181
                 settings.CefCommandLineArgs.Add("disable-blink-features", "RootLayerScrolling");
 
                 //Disable Direct Composition to test https://github.com/cefsharp/CefSharp/issues/1634
