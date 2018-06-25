@@ -431,17 +431,17 @@ namespace CefSharp
             }
         }
 
-		/// <summary>
-		/// Disable TouchpadAndWheelScrollLatching, Mouse Wheel becomes unreponsive after reload when
-		/// enabled. This is only required for WPF/OffScreen versions, see issue #2408
-		/// This is a short term workaround until the CEF issue is fixed.
-		/// </summary>
-		void DisableTouchpadAndWheelScrollLatching()
-		{
-			if (!_cefCommandLineArgs->ContainsKey("disable-features"))
-			{
-				_cefCommandLineArgs->Add("disable-features", "TouchpadAndWheelScrollLatching,AsyncWheelEvents");
-			}
-		}
+        /// <summary>
+        /// Disable TouchpadAndWheelScrollLatching, Mouse Wheel becomes unreponsive after reload when
+        /// enabled. This is only required for WPF/OffScreen versions, see issue #2408
+        /// This is a short term workaround until the CEF issue is fixed.
+        /// </summary>
+        void DisableTouchpadAndWheelScrollLatching()
+        {
+            if (!_cefCommandLineArgs->ContainsKey("disable-features"))
+            {
+                _cefCommandLineArgs->Add("disable-features", "TouchpadAndWheelScrollLatching,AsyncWheelEvents");
+            }
+        }
     };
 }
