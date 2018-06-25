@@ -370,7 +370,8 @@
                 Promise.all([
                     boundAsync.methodReturnsList(),
                     boundAsync.methodReturnsListOfLists(),
-                ]).then(function (results) {
+                ]).then(function (results)
+                {
                     assert.ok(deepEqual(results[0], list1), "Call to bound.MethodReturnsList() resulted in : " + JSON.stringify(results[0]));
                     assert.ok(deepEqual(results[1], list2), "Call to bound.MethodReturnsListOfLists() resulted in : " + JSON.stringify(results[1]));
                     asyncCallback();
@@ -415,7 +416,6 @@
                     assert.ok( deepEqual(results[2], dict3), "Call to bound.MethodReturnsDictionary3() resulted in : " + JSON.stringify(results[2]) );
                     asyncCallback();
                 });
-
             });
 
             QUnit.test("Javascript Callback Test using object as parameter", function( assert )
