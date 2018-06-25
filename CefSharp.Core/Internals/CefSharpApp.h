@@ -110,12 +110,12 @@ namespace CefSharp
                     CefString name = StringUtils::ToNative(kvp->Key);
                     CefString value = StringUtils::ToNative(kvp->Value);
 
-					if (kvp->Key == "disable-features")
-					{
-						//Temp workaround so we can set the disable-features command line argument
-						// See https://github.com/cefsharp/CefSharp/issues/2408
-						commandLine->AppendSwitchWithValue(name, value);
-					}
+                    if (kvp->Key == "disable-features")
+                    {
+                        //Temp workaround so we can set the disable-features command line argument
+                        // See https://github.com/cefsharp/CefSharp/issues/2408
+                        commandLine->AppendSwitchWithValue(name, value);
+                    }
                     // Right now the command line args handed to the application (global command line) have higher
                     // precedence than command line args provided by the app
                     else if(!commandLine->HasSwitch(name))
