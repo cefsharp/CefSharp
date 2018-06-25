@@ -119,7 +119,7 @@ namespace CefSharp
                     int i = 0;
                     for each (Object^ arrObj in enumerable)
                     {
-                        SerializeV8SimpleObject(subList, i, arrObj, ancestors);
+                        SerializeV8SimpleObject(subList, i, arrObj, seen);
                         i++;
                     }
                     list->SetList(index, subList);
