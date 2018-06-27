@@ -491,7 +491,7 @@ namespace CefSharp.OffScreen
                     // Chromium has rendered.  Tell the task about it.
                     Paint -= paint;
 
-                    completionSource.TrySetResultAsync(ScreenshotOrNull());
+                    completionSource.TrySetResultAsync(ScreenshotOrNull(blend));
                 };
 
                 Paint += paint;
