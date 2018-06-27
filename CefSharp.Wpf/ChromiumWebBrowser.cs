@@ -659,7 +659,7 @@ namespace CefSharp.Wpf
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        ViewRect? IRenderWebBrowser.GetViewRect()
+        Rect? IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
@@ -668,12 +668,12 @@ namespace CefSharp.Wpf
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        protected virtual ViewRect? GetViewRect()
+        protected virtual Rect? GetViewRect()
         {
             //NOTE: Previous we used Math.Ceiling to round the sizing up, we
             //now set UseLayoutRounding = true; on the control so the sizes are
             //already rounded to a whole number for us.
-            var viewRect = new ViewRect((int)ActualWidth, (int)ActualHeight);
+            var viewRect = new Rect(0, 0, (int)ActualWidth, (int)ActualHeight);
 
             return viewRect;
         }

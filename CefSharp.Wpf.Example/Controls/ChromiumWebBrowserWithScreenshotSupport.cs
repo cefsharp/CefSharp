@@ -93,11 +93,11 @@ namespace CefSharp.Wpf.Example.Controls
             return screenshotTaskCompletionSource.Task;
         }
 
-        protected override ViewRect? GetViewRect()
+        protected override CefSharp.Structs.Rect? GetViewRect()
         {
             if(isTakingScreenshot)
             {
-                return new ViewRect((int)Math.Ceiling(screenshotSize.Value.Width), (int)Math.Ceiling(screenshotSize.Value.Height));
+                return new CefSharp.Structs.Rect(0, 0, (int)Math.Ceiling(screenshotSize.Value.Width), (int)Math.Ceiling(screenshotSize.Value.Height));
             }
 
             return base.GetViewRect();

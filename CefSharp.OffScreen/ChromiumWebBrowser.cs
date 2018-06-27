@@ -643,7 +643,7 @@ namespace CefSharp.OffScreen
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        ViewRect? IRenderWebBrowser.GetViewRect()
+        Rect? IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
@@ -652,7 +652,7 @@ namespace CefSharp.OffScreen
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        protected virtual ViewRect? GetViewRect()
+        protected virtual Rect? GetViewRect()
         {
             return RenderHandler?.GetViewRect();
         }

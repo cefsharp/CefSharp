@@ -213,7 +213,6 @@
     <Compile Include="DefaultResourceHandlerFactoryItem.cs" />
     <Compile Include="Structs\Point.cs" />
     <Compile Include="Structs\Size.cs" />
-    <Compile Include="Structs\ViewRect.cs" />
     <Compile Include="ISslInfo.cs" />
     <Compile Include="Structs\KeyEvent.cs" />
     <Compile Include="IPostData.cs" />
