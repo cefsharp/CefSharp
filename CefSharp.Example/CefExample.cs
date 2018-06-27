@@ -108,7 +108,7 @@ namespace CefSharp.Example
                 settings.WindowlessRenderingEnabled = true;
 
                 //https://github.com/cefsharp/CefSharp/issues/2408
-                settings.CefCommandLineArgs.Add("disable-features", "TouchpadAndWheelScrollLatching,AsyncWheelEvents");
+                settings.CefCommandLineArgs.Add("disable-features", "AsyncWheelEvents,SurfaceSynchronization,TouchpadAndWheelScrollLatching");
                 settings.CefCommandLineArgs.Add("disable-blink-features", "RootLayerScrolling");
 
                 //Disable Direct Composition to test https://github.com/cefsharp/CefSharp/issues/1634
