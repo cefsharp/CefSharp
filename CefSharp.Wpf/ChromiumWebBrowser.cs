@@ -439,6 +439,7 @@ namespace CefSharp.Wpf
                 //Workaround for #2408
                 var settings = new CefSettings();
                 settings.DisableTouchpadAndWheelScrollLatching();
+                settings.WindowlessRenderingEnabled = true;
 
                 if (!Cef.Initialize(settings))
                 {
