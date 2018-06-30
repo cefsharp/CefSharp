@@ -118,7 +118,7 @@
                                 CommandParameter="{Binding Text, ElementName=ExecuteJavascriptTextBox}" />
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Execute Javascript (synchronously)">
+                <GroupBox Header="Execute Javascript">
                     <Grid Width="300">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="75" />
@@ -147,11 +147,14 @@
                                 CommandParameter="{Binding Text, ElementName=EvaluateJavascriptTextBox}" />
                         <TextBlock Grid.Row="2"
                                    Margin="6">Result:</TextBlock>
-                        <TextBox Grid.Row="3"
-                                 IsReadOnly="True"
-                                 Margin="6,0,6,6"
-                                 Text="{Binding EvaluateJavaScriptResult}" />
                     </Grid>
+                </GroupBox>
+                <GroupBox Header="Tests">
+                    <Button HorizontalAlignment="Left"
+                            Margin="6,0"
+                            Padding="5,2"
+                            Command="{Binding JavascriptBindingStressTest}"
+                            Content="Javascript Binding Stress Test"/>
                 </GroupBox>
             </StackPanel>
             <StackPanel
