@@ -98,6 +98,7 @@
     <Compile Include="Enums\AlphaType.cs" />
     <Compile Include="Enums\ColorType.cs" />
     <Compile Include="Event\JavascriptBindingCompleteEventArgs.cs" />
+    <Compile Include="Enums\CefFileDialogFlags.cs" />
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />

@@ -1094,7 +1094,19 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto callbackWrapper = gcnew CefFileDialogCallbackWrapper(callback);
 
-            return handler->OnFileDialog(_browserControl, browserWrapper, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, callbackWrapper);
+            auto dialogMode = mode & FileDialogMode::FILE_DIALOG_TYPE_MASK;
+            auto dialogFlags = mode & ~FileDialogMode::FILE_DIALOG_TYPE_MASK;
+
+            return handler->OnFileDialog(
+                _browserControl,
+                browserWrapper,
+                (CefFileDialogMode)dialogMode,
+                (CefFileDialogFlags)dialogFlags,
+                StringUtils::ToClr(title),
+                StringUtils::ToClr(default_file_path),
+                StringUtils::ToClr(accept_filters),
+                selected_accept_filter,
+                callbackWrapper);
         }
 
         bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
