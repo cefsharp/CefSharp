@@ -150,7 +150,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="app.manifest" />
-    <None Include="crash_reporter.cfg" />
+    <None Include="crash_reporter.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Resources\nav_left_green.png" />
   </ItemGroup>
