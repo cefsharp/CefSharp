@@ -27,6 +27,9 @@ namespace CefSharp
 
                 //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
                 auto promiseData = promiseCreator->ExecuteFunctionWithContext(context, nullptr, CefV8ValueList());
+				//when refreshing the browser this is sometimes null, in this case return
+				if(nullptr == promiseData) return true;
+
                 retval = promiseData->GetValue("p");
 
                 auto resolve = promiseData->GetValue("res");
