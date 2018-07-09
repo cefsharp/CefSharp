@@ -436,35 +436,6 @@
                             <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
                         </TransformGroup>
                     </FrameworkElement.LayoutTransform>
-                    <!--<FrameworkElement.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Back"
-                                      Command="{Binding WebBrowser.BackCommand}" />
-                            <MenuItem Header="Forward"
-                                      Command="{Binding WebBrowser.ForwardCommand}" />
-                            <Separator />
-                            <MenuItem Header="Print ..."
-                                      Command="{Binding WebBrowser.PrintCommand}" />
-                            <Separator />
-                            <MenuItem Header="Zoom In"
-                                      Command="{Binding WebBrowser.ZoomInCommand}" />
-                            <MenuItem Header="Zoom Out"
-                                      Command="{Binding WebBrowser.ZoomOutCommand}" />
-                            <MenuItem Header="Zoom Reset"
-                                      Command="{Binding WebBrowser.ZoomResetCommand}" />
-                            <Separator />
-                            <MenuItem Header="Show DevTools"
-                                      Command="{Binding ShowDevToolsCommand}" />
-                            <MenuItem Header="Close DevTools"
-                                      Command="{Binding CloseDevToolsCommand}" />
-                            <Separator />
-                            <MenuItem Header="View Source"
-                                      Command="{Binding WebBrowser.ViewSourceCommand}" />
-                            <MenuItem Header="Cut" Command="{Binding WebBrowser.CutCommand}"/>
-                            <MenuItem Header="Copy" Command="{Binding WebBrowser.CopyCommand}"/>
-                            <MenuItem Header="Paste" Command="{Binding WebBrowser.PasteCommand}"/>
-                        </ContextMenu>
-                    </FrameworkElement.ContextMenu>-->
                 </cefSharp:ChromiumWebBrowser>
             </Grid>
         </DockPanel>
