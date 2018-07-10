@@ -238,6 +238,7 @@
     <ClCompile Include="Internals\Serialization\V8Serialization.cpp" />
     <ClCompile Include="Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="Internals\Serialization\JsObjectsSerialization.cpp" />
+    <ClCompile Include="Internals\CefRequestContextHandlerAdapter.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -280,7 +281,7 @@
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CefWrapper.h" />
     <ClInclude Include="PopupFeatures.h" />
-    <ClInclude Include="RequestContextHandler.h" />
+    <ClInclude Include="Internals\CefRequestContextHandlerAdapter.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WindowInfo.h" />
     <ClInclude Include="Internals\CefCompletionCallbackAdapter.h" />

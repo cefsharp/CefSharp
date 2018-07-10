@@ -33,5 +33,13 @@ namespace CefSharp
         /// <param name="pluginPolicy">Modify and return true to change the policy.</param>
         /// <returns>Return false to use the recommended policy. Modify and return true to change the policy.</returns>
         bool OnBeforePluginLoad(string mimeType, string url, bool isMainFrame, string topOriginUrl, WebPluginInfo pluginInfo, ref PluginPolicy pluginPolicy);
+
+        /// <summary>
+        /// Called immediately after the request context has been initialized.
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
+        /// thread.
+        /// </summary>
+        /// <param name="requestContext">the request context</param>
+        void OnRequestContextInitialized(IRequestContext requestContext);        
     }
 }
