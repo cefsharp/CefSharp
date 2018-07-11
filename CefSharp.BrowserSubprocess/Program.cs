@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 
@@ -19,13 +20,21 @@ namespace CefSharp.BrowserSubprocess
 
             int result;
             var type = args.GetArgumentValue(CefSharpArguments.SubProcessTypeArgument);
-            var parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
-            if (args.HasArgument(CefSharpArguments.ExitIfParentProcessClosed))
+
+            var parentProcessId = -1;
+
+            // The Crashpad Handler doesn't have any HostProcessIdArgument, so we must not try to
+            // parse it lest we want an ArgumentNullException.
+            if (type != "crashpad-handler")
             {
-                Task.Factory.StartNew(() => AwaitParentProcessExit(parentProcessId), TaskCreationOptions.LongRunning);
+                parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
+                if (args.HasArgument(CefSharpArguments.ExitIfParentProcessClosed))
+                {
+                    Task.Factory.StartNew(() => AwaitParentProcessExit(parentProcessId), TaskCreationOptions.LongRunning);
+                }
             }
 
-            //Use our custom subProcess provides features like EvaluateJavascript
+            // Use our custom subProcess provides features like EvaluateJavascript
             if (type == "renderer")
             {
                 var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
