@@ -160,6 +160,21 @@ namespace CefSharp.Internals
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
         }
 
+        public bool UnRegister(string name)
+        {
+            foreach (var kvp in objects)
+            {
+                if(string.Equals(kvp.Value.Name, name, StringComparison.OrdinalIgnoreCase))
+                {
+                    objects.Remove(kvp.Key);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         internal bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
         {
             exception = "";
