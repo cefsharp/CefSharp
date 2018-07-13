@@ -1896,6 +1896,12 @@ namespace CefSharp.Wpf
                 Source = this,
             });
 
+            BindingOperations.SetBinding(newPopup, RenderTransformProperty, new Binding
+            {
+                Path = new PropertyPath(RenderTransformProperty),
+                Source = this,
+            });
+
             newPopup.Opened += PopupOpened;
             newPopup.Closed += PopupClosed;
 
