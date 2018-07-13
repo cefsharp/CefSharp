@@ -90,7 +90,10 @@ namespace CefSharp
         void GetText(IStringVisitor visitor);
 
         /// <summary>
-        /// Load the custom request.
+        /// Load the custom request. LoadRequest can only be used if a renderer process already exists.
+        /// In newer versions initially loading about:blank no longer creates a renderer process. You
+        /// can load a Data Uri initially then call this method.
+        /// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
         /// </summary>
         /// <param name="request">request to be loaded in the frame</param>
         void LoadRequest(IRequest request);
