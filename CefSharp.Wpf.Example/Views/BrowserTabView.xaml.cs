@@ -25,6 +25,8 @@ namespace CefSharp.Wpf.Example.Views
         {
             InitializeComponent();
 
+            //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
+
             browser.RequestHandler = new RequestHandler();
 
             //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
