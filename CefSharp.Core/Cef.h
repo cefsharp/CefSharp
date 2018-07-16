@@ -559,19 +559,19 @@ namespace CefSharp
             return nullptr;
         }
 
-		/// <summary>
-		/// Helper function (wrapper around the CefColorSetARGB macro) which combines
-		/// the 4 color components into an uint32 for use with BackgroundColor property
-		/// </summary>
-		/// <param name="a">Alpha</param>
-		/// <param name="r">Red</param>
-		/// <param name="g">Green</param>
-		/// <param name="b">Blue</param>
-		/// <returns>Returns the color.</returns>
-		static uint32 ColorSetARGB(uint32 a, uint32 r, uint32 g, uint32 b)
-		{
-			return CefColorSetARGB(a, r, g, b);
-		}
+        /// <summary>
+        /// Helper function (wrapper around the CefColorSetARGB macro) which combines
+        /// the 4 color components into an uint32 for use with BackgroundColor property
+        /// </summary>
+        /// <param name="a">Alpha</param>
+        /// <param name="r">Red</param>
+        /// <param name="g">Green</param>
+        /// <param name="b">Blue</param>
+        /// <returns>Returns the color.</returns>
+        static uint32 ColorSetARGB(uint32 a, uint32 r, uint32 g, uint32 b)
+        {
+            return CefColorSetARGB(a, r, g, b);
+        }
 
         /// <summary>
         /// Crash reporting is configured using an INI-style config file named
