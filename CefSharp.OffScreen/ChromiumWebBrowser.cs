@@ -86,11 +86,6 @@ namespace CefSharp.OffScreen
         /// binding.</remarks>
         public bool CanGoForward { get; private set; }
         /// <summary>
-        /// Gets the browser settings.
-        /// </summary>
-        /// <value>The browser settings.</value>
-        public BrowserSettings BrowserSettings { get; private set; }
-        /// <summary>
         /// Gets the request context.
         /// </summary>
         /// <value>The request context.</value>
@@ -291,7 +286,6 @@ namespace CefSharp.OffScreen
             }
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
-            BrowserSettings = browserSettings ?? new BrowserSettings();
             RequestContext = requestContext;
 
             Cef.AddDisposable(this);
@@ -301,7 +295,7 @@ namespace CefSharp.OffScreen
 
             if (automaticallyCreateBrowser)
             {
-                CreateBrowser(IntPtr.Zero);
+                CreateBrowser(IntPtr.Zero, browserSettings);
             }
 
             RenderHandler = new DefaultRenderHandler(this);
@@ -349,12 +343,6 @@ namespace CefSharp.OffScreen
                 browser = null;
                 IsBrowserInitialized = false;
 
-                if (BrowserSettings != null)
-                {
-                    BrowserSettings.Dispose();
-                    BrowserSettings = null;
-                }
-
                 if (managedCefBrowserAdapter != null)
                 {
                     if (!managedCefBrowserAdapter.IsDisposed)
@@ -375,8 +363,9 @@ namespace CefSharp.OffScreen
         /// Create the underlying browser. The instance address, browser settings and request context will be used.
         /// </summary>
         /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
+        /// <param name="browserSettings">Browser initialization settings</param>
         /// <exception cref="System.Exception">An instance of the underlying offscreen browser has already been created, this method can only be called once.</exception>
-        public void CreateBrowser(IntPtr windowHandle)
+        public void CreateBrowser(IntPtr windowHandle, BrowserSettings browserSettings = null)
         {
             if (browserCreated)
             {
@@ -385,7 +374,16 @@ namespace CefSharp.OffScreen
 
             browserCreated = true;
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, BrowserSettings, (RequestContext)RequestContext, Address);
+            if(browserSettings == null)
+            {
+                browserSettings = new BrowserSettings();
+            }
+
+            //Dispose of browser settings after we've created the browser
+            using (browserSettings)
+            {
+                managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, browserSettings , (RequestContext)RequestContext, Address);
+            }
         }
 
         /// <summary>
