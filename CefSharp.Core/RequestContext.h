@@ -57,13 +57,13 @@ namespace CefSharp
         }
 
     public:
-		RequestContext()
+        RequestContext()
         {
             CefRequestContextSettings settings;
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
         }
 
-		RequestContext(RequestContextSettings^ settings) : _settings(settings)
+        RequestContext(RequestContextSettings^ settings) : _settings(settings)
         {
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
         }
@@ -79,16 +79,16 @@ namespace CefSharp
             _requestContext = CefRequestContext::CreateContext(settings, new CefRequestContextHandlerAdapter(requestContextHandler));
         }
 
-		///Creates a new context object that shares storage with | other | and uses an optional | handler | .
-		RequestContext(IRequestContext^ otherRequestContext)
-		{
-			_requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext, NULL);
-		}
+        ///Creates a new context object that shares storage with | other | and uses an optional | handler | .
+        RequestContext(IRequestContext^ otherRequestContext)
+        {
+            _requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext, NULL);
+        }
 
-		RequestContext(IRequestContext^ otherRequestContext, IRequestContextHandler^ requestContextHandler)
-		{
-			_requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext, new CefRequestContextHandlerAdapter(requestContextHandler));
-		}
+        RequestContext(IRequestContext^ otherRequestContext, IRequestContextHandler^ requestContextHandler)
+        {
+            _requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext, new CefRequestContextHandlerAdapter(requestContextHandler));
+        }
 
         !RequestContext()
         {
