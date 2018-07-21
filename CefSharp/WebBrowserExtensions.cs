@@ -451,6 +451,29 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Gets the default cookie manager associated with the IWebBrowser
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <param name="callback">If not null it will be executed asnychronously on the
+        /// CEF IO thread after the manager's storage has been initialized.</param>
+        /// <returns>Cookie Manager</returns>
+        public static ICookieManager GetCookieManager(this IWebBrowser browser, ICompletionCallback callback = null)
+        {
+            var host = browser.GetBrowserHost();
+
+            ThrowExceptionIfBrowserHostNull(host);
+
+            var requestContext = host.RequestContext;
+
+            if(requestContext == null)
+            {
+                throw new Exception("RequestContext is null, unable to obtain cookie manager");
+            }
+
+            return requestContext.GetDefaultCookieManager(callback);
+        }
+
+        /// <summary>
         /// Asynchronously gets the current Zoom Level.
         /// </summary>
         public static Task<double> GetZoomLevelAsync(this IBrowser cefBrowser)
