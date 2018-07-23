@@ -20,20 +20,23 @@ namespace CefSharp
             template<typename TList, typename TIndex>
             void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj)
             {
-                auto seen = gcnew Stack<Object^>();
-                SerializeV8SimpleObject(list, index, obj, seen);
+                // Collection of ancestors to currently serialised object.
+                // This enables prevention of endless loops due to cycles in graphs where
+                // a child references one of its ancestors.
+                auto ancestors = gcnew HashSet<Object^>();
+                SerializeV8SimpleObject(list, index, obj, ancestors);
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen)
+            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, HashSet<Object^>^ ancestors)
             {
                 list->SetNull(index);
 
-                if (obj == nullptr || seen->Contains(obj))
+                if (obj == nullptr || ancestors->Contains(obj))
                 {
                     return;
                 }
-                seen->Push(obj);
+                ancestors->Add(obj);
 
                 auto type = obj->GetType();
                 Type^ underlyingType = Nullable::GetUnderlyingType(type);
@@ -99,18 +102,6 @@ namespace CefSharp
                 {
                     SetCefTime(list, index, ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
                 }
-                else if (type->IsArray)
-                {
-                    auto subList = CefListValue::Create();
-                    Array^ managedArray = (Array^)obj;
-                    for (int i = 0; i < managedArray->Length; i++)
-                    {
-                        Object^ arrObj;
-                        arrObj = managedArray->GetValue(i);
-                        SerializeV8SimpleObject(subList, i, arrObj, seen);
-                    }
-                    list->SetList(index, subList);
-                }
                 // Serialize dictionary to CefDictionary (key,value pairs)
                 else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
                 {
@@ -119,9 +110,22 @@ namespace CefSharp
                     for each (System::Collections::DictionaryEntry kvp in dict)
                     {
                         auto fieldName = StringUtils::ToNative(Convert::ToString(kvp.Key));
-                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, seen);
+                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, ancestors);
                     }
                     list->SetDictionary(index, subDict);
+                }
+                else if (System::Collections::IEnumerable::typeid->IsAssignableFrom(type))
+                {
+                    auto subList = CefListValue::Create();
+                    auto enumerable = (System::Collections::IEnumerable^) obj;
+
+                    int i = 0;
+                    for each (Object^ arrObj in enumerable)
+                    {
+                        SerializeV8SimpleObject(subList, i, arrObj, ancestors);
+                        i++;
+                    }
+                    list->SetList(index, subList);
                 }
                 // Serialize class/structs to CefDictionary (key,value pairs)
                 else if (!type->IsPrimitive && !type->IsEnum)
@@ -133,7 +137,7 @@ namespace CefSharp
                     {
                         auto fieldName = StringUtils::ToNative(fields[i]->Name);
                         auto fieldValue = fields[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, seen);
+                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, ancestors);
                     }
 
                     auto properties = type->GetProperties();
@@ -142,16 +146,16 @@ namespace CefSharp
                     {
                         auto propertyName = StringUtils::ToNative(properties[i]->Name);
                         auto propertyValue = properties[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, propertyName, propertyValue, seen);
+                        SerializeV8SimpleObject(subDict, propertyName, propertyValue, ancestors);
                     }
                     list->SetDictionary(index, subDict);
-                } 
+                }
                 else
                 {
                     throw gcnew NotSupportedException("Unable to serialize Type");
                 }
 
-                seen->Pop();
+                ancestors->Remove(obj);
             }
 
             CefTime ConvertDateTimeToCefTime(DateTime dateTime)

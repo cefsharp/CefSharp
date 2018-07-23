@@ -60,8 +60,13 @@ namespace CefSharp
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
             }
 
+            if (CefSharpSettings::SubprocessExitIfParentProcessClosed)
+            {
+                commandLine->AppendSwitch(StringUtils::ToNative(CefSharpArguments::ExitIfParentProcessClosed));
+            }
+
             //ChannelId was removed in https://bitbucket.org/chromiumembedded/cef/issues/1912/notreached-in-logchannelidandcookiestores
-            //We need to know the process Id to establish WCF communication and wait for parent process exit
+            //We need to know the process Id to establish WCF communication and for monitoring of parent process exit
             commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::HostProcessIdArgument + "=" + Process::GetCurrentProcess()->Id));
 
             if (_cefSettings->_cefCustomSchemes->Count > 0)
@@ -105,9 +110,15 @@ namespace CefSharp
                     CefString name = StringUtils::ToNative(kvp->Key);
                     CefString value = StringUtils::ToNative(kvp->Value);
 
+					if (kvp->Key == "disable-features")
+					{
+						//Temp workaround so we can set the disable-features command line argument
+						// See https://github.com/cefsharp/CefSharp/issues/2408
+						commandLine->AppendSwitchWithValue(name, value);
+					}
                     // Right now the command line args handed to the application (global command line) have higher
                     // precedence than command line args provided by the app
-                    if(!commandLine->HasSwitch(name))
+                    else if(!commandLine->HasSwitch(name))
                     {
                         commandLine->AppendSwitchWithValue(name, value);
                     }

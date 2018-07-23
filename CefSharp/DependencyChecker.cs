@@ -34,7 +34,8 @@ namespace CefSharp
             // https://groups.google.com/a/chromium.org/forum/#!topic/chromium-packagers/75J9Y1vIc_E
             // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=12580
             "natives_blob.bin",
-            "snapshot_blob.bin"
+            "snapshot_blob.bin",
+            "v8_context_snapshot.bin"
         };
 
         /// <summary>

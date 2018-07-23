@@ -71,6 +71,13 @@ namespace CefSharp
         public static bool ShutdownOnExit { get; set; }
 
         /// <summary>
+        /// CefSharp.BrowserSubprocess will monitor the parent process and exit if the parent process closes
+        /// before the subprocess. This currently defaults to false. 
+        /// See https://github.com/cefsharp/CefSharp/issues/2359 for more information.
+        /// </summary>
+        public static bool SubprocessExitIfParentProcessClosed { get; set; }
+
+        /// <summary>
         /// The proxy options that will be used for all connections
         /// 
         /// If set before the call to Cef.Initialize, command line arguments will be set for you

@@ -74,9 +74,11 @@ namespace CefSharp
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
         /// </summary>
-        /// <param name="mimeType">Optional mimeType defaults to <see cref="ResourceHandler.DefaultMimeType"/></param>
+        /// <param name="mimeType">Optional mimeType defaults to <see cref="DefaultMimeType"/></param>
         /// <param name="stream">Optional Stream - must be set at some point to provide a valid response</param>
-        public ResourceHandler(string mimeType = DefaultMimeType, Stream stream = null)
+        /// <param name="autoDisposeStream">When true the Stream will be disposed when this instance is Diposed, you will
+        /// be unable to use this ResourceHandler after the Stream has been disposed</param>
+        public ResourceHandler(string mimeType = DefaultMimeType, Stream stream = null, bool autoDisposeStream = false)
         {
             if(string.IsNullOrEmpty(mimeType))
             {
@@ -88,6 +90,7 @@ namespace CefSharp
             MimeType = mimeType;
             Headers = new NameValueCollection();
             Stream = stream;
+            AutoDisposeStream = autoDisposeStream;
         }
 
         /// <summary>
@@ -225,17 +228,19 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Gets the resource from the file path specified. Use the <see cref="ResourceHandler.GetMimeType"/>
+        /// Gets the resource from the file path specified. Use the <see cref="GetMimeType"/>
         /// helper method to lookup the mimeType if required. Uses CefStreamResourceHandler for reading the data
         /// </summary>
         /// <param name="filePath">Location of the file.</param>
         /// <param name="mimeType">The mimeType if null then text/html is used.</param>
+        /// <param name="autoDisposeStream">Dispose of the stream when finished with (you will only be able to serve one
+        /// request).</param>
         /// <returns>IResourceHandler.</returns>
-        public static IResourceHandler FromFilePath(string filePath, string mimeType = null)
+        public static IResourceHandler FromFilePath(string filePath, string mimeType = null, bool autoDisposeStream = false)
         {
             var stream = File.OpenRead(filePath);
 
-            return FromStream(stream, mimeType ?? DefaultMimeType);
+            return FromStream(stream, mimeType ?? DefaultMimeType, autoDisposeStream);
         }
 
         /// <summary>
@@ -300,10 +305,12 @@ namespace CefSharp
         /// </summary>
         /// <param name="stream">A stream of the resource.</param>
         /// <param name="mimeType">Type of MIME.</param>
+        /// <param name="autoDisposeStream">Dispose of the stream when finished with (you will only be able to serve one
+        /// request).</param>
         /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromStream(Stream stream, string mimeType = DefaultMimeType)
+        public static ResourceHandler FromStream(Stream stream, string mimeType = DefaultMimeType, bool autoDisposeStream = false)
         {
-            return new ResourceHandler(mimeType, stream);
+            return new ResourceHandler(mimeType, stream, autoDisposeStream);
         }
 
         /// <summary>

@@ -73,7 +73,7 @@ namespace CefSharp
                     return false;
                 }
 
-                rect = CefRect(0, 0, viewRect.Value.Width, viewRect.Value.Height);
+                rect = CefRect(viewRect.Value.X, viewRect.Value.Y, viewRect.Value.Width, viewRect.Value.Height);
 
                 return true;
             };
@@ -105,7 +105,7 @@ namespace CefSharp
             /*--cef()--*/
             virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
             {
-                _renderWebBrowser->OnPopupSize(Rect(rect.width, rect.height, rect.x, rect.y));
+                _renderWebBrowser->OnPopupSize(Rect(rect.x, rect.y, rect.width, rect.height));
             };
 
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,

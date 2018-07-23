@@ -20,7 +20,7 @@ namespace CefSharp.Internals
         public static string GetArgumentValue(this IEnumerable<string> args, string argumentName)
         {
             var arg = args.FirstOrDefault(a => a.StartsWith(argumentName));
-            if (arg == null) 
+            if (arg == null)
             {
                 return null;
             }

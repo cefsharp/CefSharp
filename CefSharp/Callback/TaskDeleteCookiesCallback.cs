@@ -17,6 +17,7 @@ namespace CefSharp
 
         private readonly TaskCompletionSource<int> taskCompletionSource;
         private volatile bool isDisposed;
+        private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
         public TaskDeleteCookiesCallback()
         {
@@ -25,6 +26,8 @@ namespace CefSharp
 
         void IDeleteCookiesCallback.OnComplete(int numDeleted)
         {
+            onComplete = true;
+
             taskCompletionSource.TrySetResultAsync(numDeleted);
         }
 
@@ -37,15 +40,14 @@ namespace CefSharp
         {
             get { return isDisposed; }
         }
-
-
         void IDisposable.Dispose()
         {
             var task = taskCompletionSource.Task;
 
-            //If the Task hasn't completed and this is being disposed then
-            //set the TCS to InvalidNoOfCookiesDeleted
-            if (task.IsCompleted == false)
+            //If onComplete is false then IDeleteCookiesCallback.OnComplete was never called,
+            //so we'll set the result to false. Calling TrySetResultAsync multiple times 
+            //can result in the issue outlined in https://github.com/cefsharp/CefSharp/pull/2349
+            if (onComplete == false && task.IsCompleted == false)
             {
                 taskCompletionSource.TrySetResultAsync(InvalidNoOfCookiesDeleted);
             }

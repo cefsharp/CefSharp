@@ -14,7 +14,7 @@ namespace CefSharp.Test
 		{
 			//If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously
 			//and switch to tcs.TrySetResult below - no need for the custom extension method
-			var tcs = new TaskCompletionSource<bool>();
+			var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
 			EventHandler<LoadingStateChangedEventArgs> handler = null;
 			handler = (sender, args) =>
@@ -25,7 +25,7 @@ namespace CefSharp.Test
 					browser.LoadingStateChanged -= handler;
 					//This is required when using a standard TaskCompletionSource
 					//Extension method found in the CefSharp.Internals namespace
-					tcs.TrySetResultAsync(true);
+					tcs.TrySetResult(true);
 				}
 			};
 

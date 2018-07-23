@@ -15,6 +15,7 @@ namespace CefSharp
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource;
         private volatile bool isDisposed;
+        private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
         public TaskSetCookieCallback()
         {
@@ -23,6 +24,8 @@ namespace CefSharp
 
         void ISetCookieCallback.OnComplete(bool success)
         {
+            onComplete = true;
+
             taskCompletionSource.TrySetResultAsync(success);
         }
 
@@ -40,15 +43,15 @@ namespace CefSharp
         {
             var task = taskCompletionSource.Task;
 
-            //If the Task hasn't completed and this is being disposed then
-            //set the TCS to false
-            if (task.IsCompleted == false)
+            //If onComplete is false then ISetCookieCallback.OnComplete was never called,
+            //so we'll set the result to false. Calling TrySetResultAsync multiple times 
+            //can result in the issue outlined in https://github.com/cefsharp/CefSharp/pull/2349
+            if (onComplete == false && task.IsCompleted == false)
             {
                 taskCompletionSource.TrySetResultAsync(false);
             }
 
             isDisposed = true;
-
         }
     }
 }

@@ -483,7 +483,7 @@ namespace CefSharp
             }
         }
 
-        bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
+        bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool userGesture, bool isRedirect)
         {
             auto handler = _browserControl->RequestHandler;
 
@@ -496,7 +496,7 @@ namespace CefSharp
             CefFrameWrapper frameWrapper(frame);
             CefRequestWrapper requestWrapper(request);
 
-            return handler->OnBeforeBrowse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, isRedirect);
+            return handler->OnBeforeBrowse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, userGesture, isRedirect);
         }
 
         bool ClientAdapter::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& targetUrl,
@@ -1094,7 +1094,19 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto callbackWrapper = gcnew CefFileDialogCallbackWrapper(callback);
 
-            return handler->OnFileDialog(_browserControl, browserWrapper, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, callbackWrapper);
+            auto dialogMode = mode & FileDialogMode::FILE_DIALOG_TYPE_MASK;
+            auto dialogFlags = mode & ~FileDialogMode::FILE_DIALOG_TYPE_MASK;
+
+            return handler->OnFileDialog(
+                _browserControl,
+                browserWrapper,
+                (CefFileDialogMode)dialogMode,
+                (CefFileDialogFlags)dialogFlags,
+                StringUtils::ToClr(title),
+                StringUtils::ToClr(default_file_path),
+                StringUtils::ToClr(accept_filters),
+                selected_accept_filter,
+                callbackWrapper);
         }
 
         bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
@@ -1217,14 +1229,19 @@ namespace CefSharp
                 {
                     auto objectRepository = _browserAdapter->JavascriptObjectRepository;
 
-                    auto objectNames = argList->GetList(0);
-                    auto names = gcnew List<String^>(objectNames->GetSize());
-                    for (auto i = 0; i < objectNames->GetSize(); i++)
+                    auto boundObjects = argList->GetList(0);
+                    auto objs = gcnew List<Tuple<String^, bool, bool>^>(boundObjects->GetSize());
+                    for (auto i = 0; i < boundObjects->GetSize(); i++)
                     {
-                        names->Add(StringUtils::ToClr(objectNames->GetString(i)));
+                        auto obj = boundObjects->GetDictionary(i);
+                        auto name = obj->GetString("Name");
+                        auto alreadyBound = obj->GetBool("AlreadyBound");
+                        auto isCached = obj->GetBool("IsCached");                        
+
+                        objs->Add(Tuple::Create(StringUtils::ToClr(name), alreadyBound, isCached));
                     }
                     
-                    objectRepository->ObjectsBound(names);
+                    objectRepository->ObjectsBound(objs);
                 }
 
                 handled = true;

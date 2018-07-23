@@ -19,11 +19,21 @@ namespace CefSharp.BrowserSubprocess
 
             int result;
             var type = args.GetArgumentValue(CefSharpArguments.SubProcessTypeArgument);
-            var parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
 
-            Task.Run(() => AwaitParentProcessExit(parentProcessId));
+            var parentProcessId = -1;
 
-            //Use our custom subProcess provides features like EvaluateJavascript
+            // The Crashpad Handler doesn't have any HostProcessIdArgument, so we must not try to
+            // parse it lest we want an ArgumentNullException.
+            if (type != "crashpad-handler")
+            {
+                parentProcessId = int.Parse(args.GetArgumentValue(CefSharpArguments.HostProcessIdArgument));
+                if (args.HasArgument(CefSharpArguments.ExitIfParentProcessClosed))
+                {
+                    Task.Factory.StartNew(() => AwaitParentProcessExit(parentProcessId), TaskCreationOptions.LongRunning);
+                }
+            }
+
+            // Use our custom subProcess provides features like EvaluateJavascript
             if (type == "renderer")
             {
                 var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
@@ -44,7 +54,7 @@ namespace CefSharp.BrowserSubprocess
             return result;
         }
 
-        private static void AwaitParentProcessExit(int parentProcessId) 
+        private static async void AwaitParentProcessExit(int parentProcessId) 
         {
             try 
             {
@@ -53,12 +63,11 @@ namespace CefSharp.BrowserSubprocess
             }
             catch (Exception e) 
             {
-                //main process probably died already, bailout
+                //main process probably died already
                 Debug.WriteLine(e);
-                return;
             }
 
-            Task.Delay(1000); //wait a bit before exiting
+            await Task.Delay(1000); //wait a bit before exiting
 
             Debug.WriteLine("BrowserSubprocess shutting down forcibly.");
 

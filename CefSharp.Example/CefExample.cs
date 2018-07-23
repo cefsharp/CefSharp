@@ -107,9 +107,13 @@ namespace CefSharp.Example
             {
                 settings.WindowlessRenderingEnabled = true;
 
+                //https://github.com/cefsharp/CefSharp/issues/2408
+                settings.CefCommandLineArgs.Add("disable-features", "AsyncWheelEvents,SurfaceSynchronization,TouchpadAndWheelScrollLatching");
+                settings.CefCommandLineArgs.Add("disable-blink-features", "RootLayerScrolling");
+
                 //Disable Direct Composition to test https://github.com/cefsharp/CefSharp/issues/1634
                 //settings.CefCommandLineArgs.Add("disable-direct-composition", "1");
-                
+
                 // DevTools doesn't seem to be working when this is enabled
                 // http://magpcss.org/ceforum/viewtopic.php?f=6&t=14095
                 //settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling", "1");
@@ -181,6 +185,18 @@ namespace CefSharp.Example
 
             settings.FocusedNodeChangedEnabled = true;
 
+            //Experimental option where bound async methods are queued on TaskScheduler.Default.
+            //CefSharpSettings.ConcurrentTaskExecution = true;
+
+            //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)
+            //See issue https://github.com/cefsharp/CefSharp/issues/1203 for details
+            //CefSharpSettings.LegacyJavascriptBindingEnabled = true;
+
+            //Exit the subprocess if the parent process happens to close
+            //This is optional at the moment
+            //https://github.com/cefsharp/CefSharp/pull/2375/
+            CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
+
             //NOTE: Set this before any calls to Cef.Initialize to specify a proxy with username and password
             //One set this cannot be changed at runtime. If you need to change the proxy at runtime (dynamically) then
             //see https://github.com/cefsharp/CefSharp/wiki/General-Usage#proxy-resolution
@@ -192,13 +208,6 @@ namespace CefSharp.Example
             }
 
             Cef.AddCrossOriginWhitelistEntry(BaseUrl, "https", "cefsharp.com", false);
-
-            //Experimental option where bound async methods are queued on TaskScheduler.Default.
-            //CefSharpSettings.ConcurrentTaskExecution = true;
-
-            //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)
-            //See issue https://github.com/cefsharp/CefSharp/issues/1203 for details
-            //CefSharpSettings.LegacyJavascriptBindingEnabled = true;
         }
 
         public static async void RegisterTestResources(IWebBrowser browser)

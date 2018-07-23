@@ -19,5 +19,10 @@ namespace CefSharp
         /// <param name="ok">Will be true if the printing completed
         /// successfully or false otherwise.</param>
         void OnPdfPrintFinished(string path, bool ok);
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }
