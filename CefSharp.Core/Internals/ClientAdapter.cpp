@@ -978,9 +978,9 @@ namespace CefSharp
                 return;
             }
 
-			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-			handler->OnGotFocus(_browserControl, browserWrapper);
+            handler->OnGotFocus(_browserControl, browserWrapper);
         }
 
         bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
@@ -993,9 +993,9 @@ namespace CefSharp
                 return false;
             }
 
-			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-			return handler->OnSetFocus(_browserControl, browserWrapper, (CefFocusSource)source);
+            return handler->OnSetFocus(_browserControl, browserWrapper, (CefFocusSource)source);
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
@@ -1007,9 +1007,9 @@ namespace CefSharp
                 return;
             }
 
-			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-			handler->OnTakeFocus(_browserControl, browserWrapper, next);
+            handler->OnTakeFocus(_browserControl, browserWrapper, next);
         }
 
         bool ClientAdapter::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url,
@@ -1139,7 +1139,7 @@ namespace CefSharp
                 auto callbackWrapper = gcnew CefBeforeDownloadCallbackWrapper(callback);
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                handler->OnBeforeDownload(browserWrapper, downloadItem, callbackWrapper);
+                handler->OnBeforeDownload(_browserControl, browserWrapper, downloadItem, callbackWrapper);
             }
         };
 
@@ -1153,7 +1153,7 @@ namespace CefSharp
                 auto callbackWrapper = gcnew CefDownloadItemCallbackWrapper(callback);
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                handler->OnDownloadUpdated(browserWrapper, TypeConversion::FromNative(download_item), callbackWrapper);
+                handler->OnDownloadUpdated(_browserControl, browserWrapper, TypeConversion::FromNative(download_item), callbackWrapper);
             }
         }
 
