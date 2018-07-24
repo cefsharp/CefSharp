@@ -16,12 +16,12 @@ namespace CefSharp
         /// <summary>
         /// Called when an external drag event enters the browser window.
         /// </summary>
-        /// <param name="browserControl">the ChromiumWebBrowser control</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="dragData">contains the drag event data</param>
         /// <param name="mask">represents the type of drag operation</param>
         /// <returns>Return false for default drag handling behavior or true to cancel the drag event. </returns>
-        bool OnDragEnter(IWebBrowser browserControl, IBrowser browser, IDragData dragData, DragOperationsMask mask);
+        bool OnDragEnter(IWebBrowser chromiumWebBrowser, IBrowser browser, IDragData dragData, DragOperationsMask mask);
 
         /// <summary>
         /// Called whenever draggable regions for the browser window change.
@@ -29,9 +29,9 @@ namespace CefSharp
         /// If draggable regions are never defined in a document this method will also never be called.
         /// If the last draggable region is removed from a document this method will be called with an empty IList. 
         /// </summary>
-        /// <param name="browserControl">the ChromiumWebBrowser control</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="regions">List of <see cref="DraggableRegion"/> objects or null if last region was removed.</param>
-        void OnDraggableRegionsChanged(IWebBrowser browserControl, IBrowser browser, IList<DraggableRegion> regions);
+        void OnDraggableRegionsChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IList<DraggableRegion> regions);
     }
 }

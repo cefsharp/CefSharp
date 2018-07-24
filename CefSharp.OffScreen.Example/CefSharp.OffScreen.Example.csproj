@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.redist.x86.3.3359.1769\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3359.1769\build\cef.redist.x86.props')" />
-  <Import Project="..\packages\cef.redist.x64.3.3359.1769\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3359.1769\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\cef.redist.x86.3.3396.1777\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3396.1777\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.3.3396.1777\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3396.1777\build\cef.redist.x64.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -93,7 +93,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="app.manifest" />
-    <None Include="crash_reporter.cfg" />
+    <None Include="crash_reporter.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

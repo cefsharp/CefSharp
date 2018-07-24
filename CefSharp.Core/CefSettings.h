@@ -354,6 +354,20 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Background color used for the browser before a document is loaded and when no document color is
+        /// specified. The alpha component must be either fully opaque (0xFF) or fully transparent (0x00).
+        /// If the alpha component is fully opaque then the RGB components will be used as the background
+        /// color. If the alpha component is fully transparent for a WinForms browser then the default value
+        /// of opaque white be used. If the alpha component is fully transparent for a windowless
+        /// (WPF/OffScreen) browser then transparent painting will be enabled.
+        /// </summary>
+        virtual property uint32 BackgroundColor
+        {
+            uint32 get() { return _cefSettings->background_color; }
+            void set(uint32 value) { _cefSettings->background_color = value; }
+        }
+
+        /// <summary>
         /// If true a message will be sent from the render subprocess to the
         /// browser when a DOM node (or no node) gets focus. The default is
         /// false.

@@ -24,6 +24,29 @@
         <script type="text/javascript">
         (async () =>
         {
+            // Verify that two objects are completely equal
+            function deepEqual(x, y)
+            {
+                if ((typeof x == "object" && x != null) && (typeof y == "object" && y != null))
+                {
+                    for (var prop in x)
+                    {
+                        if (prop in y && (Object.keys(x).length === Object.keys(y).length))
+                        {
+                            return deepEqual(x[prop], y[prop]);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    return x === y;
+                }
+            }
+
             await CefSharp.BindObjectAsync("boundAsync", "bound");
 
             QUnit.test( "BindObjectAsync Second call", function( assert )
@@ -327,30 +350,37 @@
                 });
             });
 
-            QUnit.test( "Async call (methodReturnsDictionary):", function( assert )
+            QUnit.test("Async call (methodReturnList):", function (assert)
             {
-                function deepEqual(x, y)
-                {
-                    if ((typeof x == "object" && x !=null) && (typeof y == "object" && y !=null))
-                    {
-                        for (var prop in x)
-                        {
-                            if (prop in y && (Object.keys(x).length === Object.keys(y).length))
-                            {
-                                return deepEqual(x[prop], y[prop]);
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                    else
-                    { 
-                        return x === y;
-                    }
-                }
+                const list1 = 
+                    [
+                        "Element 0 - First",
+                        "Element 1",
+                        "Element 2 - Last"
+                    ];
 
+                const list2 =
+                    [
+                        ["Element 0, 0", "Element 0, 1"],
+                        ["Element 1, 0", "Element 1, 1"],
+                        ["Element 2, 0", "Element 2, 1"]
+                    ];
+
+                var asyncCallback = assert.async();
+                Promise.all([
+                    boundAsync.methodReturnsList(),
+                    boundAsync.methodReturnsListOfLists(),
+                ]).then(function (results)
+                {
+                    assert.ok(deepEqual(results[0], list1), "Call to bound.MethodReturnsList() resulted in : " + JSON.stringify(results[0]));
+                    assert.ok(deepEqual(results[1], list2), "Call to bound.MethodReturnsListOfLists() resulted in : " + JSON.stringify(results[1]));
+                    asyncCallback();
+                });
+
+            });
+
+            QUnit.test("Async call (methodReturnsDictionary):", function (assert)
+            {
                 const dict1 =
                 {
                     "five": 5,
@@ -386,7 +416,6 @@
                     assert.ok( deepEqual(results[2], dict3), "Call to bound.MethodReturnsDictionary3() resulted in : " + JSON.stringify(results[2]) );
                     asyncCallback();
                 });
-
             });
 
             QUnit.test("Javascript Callback Test using object as parameter", function( assert )

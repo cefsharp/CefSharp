@@ -43,6 +43,12 @@ namespace CefSharp.WinForms.Example
             {
                 browser.KeyboardHandler = new KeyboardHandler();
             }
+            else
+            {
+                //When MultiThreadedMessageLoop is disabled we don't need the
+                //CefSharp focus handler implementation.
+                browser.FocusHandler = null;
+            }
             //browser.LifeSpanHandler = new LifeSpanHandler();
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;

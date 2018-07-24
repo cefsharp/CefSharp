@@ -73,7 +73,7 @@ namespace CefSharp
                     return false;
                 }
 
-                rect = CefRect(0, 0, viewRect.Value.Width, viewRect.Value.Height);
+                rect = CefRect(viewRect.Value.X, viewRect.Value.Y, viewRect.Value.Width, viewRect.Value.Height);
 
                 return true;
             };

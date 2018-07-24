@@ -35,6 +35,18 @@ namespace CefSharp
         /// and other advanced options though this class.</param>
         void Register(string name, object objectToBind, bool isAsync = false, BindingOptions options = null);
         /// <summary>
+        /// UnRegister all the currently bound objects from the repository. If you unregister an object that is currently
+        /// bound in JavaScript then the method/property calls will fail.
+        /// </summary>
+        void UnRegisterAll();
+        /// <summary>
+        /// UnRegister a bound object from the repository. If you unregister an object that is currently
+        /// bound in JavaScript then the method/property calls will fail.
+        /// </summary>
+        /// <param name="name">object name</param>
+        /// <returns>returns true if the object was successfully unbound otherwise false.</returns>
+        bool UnRegister(string name);
+        /// <summary>
         /// Has bound objects
         /// </summary>
         bool HasBoundObjects { get; }

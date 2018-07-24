@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System.Threading.Tasks;
 
 namespace CefSharp.Wpf.Example.ViewModels
 {
@@ -97,6 +98,7 @@ namespace CefSharp.Wpf.Example.ViewModels
         public ICommand EvaluateJavaScriptCommand { get; private set; }
         public ICommand ShowDevToolsCommand { get; private set; }
         public ICommand CloseDevToolsCommand { get; private set; }
+        public ICommand JavascriptBindingStressTest { get; private set; }
 
         public BrowserTabViewModel(string address)
         {
@@ -109,6 +111,20 @@ namespace CefSharp.Wpf.Example.ViewModels
             EvaluateJavaScriptCommand = new RelayCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
             ShowDevToolsCommand = new RelayCommand(() => webBrowser.ShowDevTools());
             CloseDevToolsCommand = new RelayCommand(() => webBrowser.CloseDevTools());
+            JavascriptBindingStressTest = new RelayCommand(() =>
+            {
+                WebBrowser.Load(CefExample.BindingTestUrl);
+                WebBrowser.LoadingStateChanged += (e, args) =>
+                {
+                    if(args.IsLoading == false)
+                    {
+                        Task.Delay(10000).ContinueWith(t =>
+                        {
+                            WebBrowser.Reload();
+                        });
+                    }
+                };
+            });
 
             PropertyChanged += OnPropertyChanged;
 

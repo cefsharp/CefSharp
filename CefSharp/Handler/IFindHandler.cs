@@ -15,13 +15,13 @@ namespace CefSharp
         /// <summary>
         /// Called to report find results returned by <see cref="IBrowserHost.Find"/>
         /// </summary>
-        /// <param name="browserControl">the browser control</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="identifier">is the identifier passed to Find()</param>
         /// <param name="count">is the number of matches currently identified</param>
         /// <param name="selectionRect">is the location of where the match was found (in window coordinates)</param>
         /// <param name="activeMatchOrdinal">is the current position in the search results</param>
         /// <param name="finalUpdate">is true if this is the last find notification.</param>
-        void OnFindResult(IWebBrowser browserControl, IBrowser browser, int identifier, int count, Rect selectionRect, int activeMatchOrdinal, bool finalUpdate);
+        void OnFindResult(IWebBrowser chromiumWebBrowser, IBrowser browser, int identifier, int count, Rect selectionRect, int activeMatchOrdinal, bool finalUpdate);
     }
 }

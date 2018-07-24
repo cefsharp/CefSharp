@@ -8,7 +8,6 @@
 #include "Internals/CefResponseWrapper.h"
 #include "Internals/CefCallbackWrapper.h"
 #include "ResourceHandlerWrapper.h"
-#include "Internals/TypeConversion.h"
 
 using namespace System::Runtime::InteropServices;
 using namespace System::IO;

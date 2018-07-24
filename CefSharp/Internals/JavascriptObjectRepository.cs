@@ -129,6 +129,16 @@ namespace CefSharp.Internals
 
         public void Register(string name, object value, bool isAsync, BindingOptions options)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException("name");
+            }
+
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
             //Enable WCF if not already enabled - can only be done before the browser has been initliazed
             //if done after the subprocess won't be WCF enabled it we'll have to throw an exception
             if (!IsBrowserInitialized && !isAsync)
@@ -148,16 +158,44 @@ namespace CefSharp.Internals
                 throw new ArgumentException("Object already bound with name:" + name , name);
             }
 
+            //Binding of System types is problematic, so we don't support it
+            var type = value.GetType();
+            if (type.IsPrimitive || type.BaseType.Namespace.StartsWith("System."))
+            {
+                throw new ArgumentException("Registering of .Net framework built in types is not supported, " +
+                    "create your own Object and proxy the calls if you need to access a Window/Form/Control.", "value");
+            }
+
             var camelCaseJavascriptNames = options == null ? true : options.CamelCaseJavascriptNames;
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
             jsObject.IsAsync = isAsync;
-            jsObject.Binder = options == null ? null : options.Binder;
-            jsObject.MethodInterceptor = options == null ? null : options.MethodInterceptor;
+            jsObject.Binder = options?.Binder;
+            jsObject.MethodInterceptor = options?.MethodInterceptor;
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
+        }
+
+        public void UnRegisterAll()
+        {
+            objects.Clear();
+        }
+
+        public bool UnRegister(string name)
+        {
+            foreach (var kvp in objects)
+            {
+                if(string.Equals(kvp.Value.Name, name, StringComparison.OrdinalIgnoreCase))
+                {
+                    objects.Remove(kvp.Key);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         internal bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)

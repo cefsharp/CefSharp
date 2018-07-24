@@ -978,12 +978,9 @@ namespace CefSharp
                 return;
             }
 
-            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
-            // non-offscreen windows don't wrap popup browser's yet.
-            if (!browser->IsPopup())
-            {
-                handler->OnGotFocus();
-            }
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            handler->OnGotFocus(_browserControl, browserWrapper);
         }
 
         bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
@@ -996,14 +993,9 @@ namespace CefSharp
                 return false;
             }
 
-            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
-            // non-offscreen windows don't wrap popup browser's yet.
-            if (!browser->IsPopup())
-            {
-                return handler->OnSetFocus((CefFocusSource)source);
-            }
-            // Allow the focus to be set by default.
-            return false;
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            return handler->OnSetFocus(_browserControl, browserWrapper, (CefFocusSource)source);
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
@@ -1015,12 +1007,9 @@ namespace CefSharp
                 return;
             }
 
-            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
-            // non-offscreen windows don't wrap popup browser's yet.
-            if (!browser->IsPopup())
-            {
-                handler->OnTakeFocus(next);
-            }
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            handler->OnTakeFocus(_browserControl, browserWrapper, next);
         }
 
         bool ClientAdapter::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url,
@@ -1094,7 +1083,19 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto callbackWrapper = gcnew CefFileDialogCallbackWrapper(callback);
 
-            return handler->OnFileDialog(_browserControl, browserWrapper, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, callbackWrapper);
+            auto dialogMode = mode & FileDialogMode::FILE_DIALOG_TYPE_MASK;
+            auto dialogFlags = mode & ~FileDialogMode::FILE_DIALOG_TYPE_MASK;
+
+            return handler->OnFileDialog(
+                _browserControl,
+                browserWrapper,
+                (CefFileDialogMode)dialogMode,
+                (CefFileDialogFlags)dialogFlags,
+                StringUtils::ToClr(title),
+                StringUtils::ToClr(default_file_path),
+                StringUtils::ToClr(accept_filters),
+                selected_accept_filter,
+                callbackWrapper);
         }
 
         bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
@@ -1138,7 +1139,7 @@ namespace CefSharp
                 auto callbackWrapper = gcnew CefBeforeDownloadCallbackWrapper(callback);
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                handler->OnBeforeDownload(browserWrapper, downloadItem, callbackWrapper);
+                handler->OnBeforeDownload(_browserControl, browserWrapper, downloadItem, callbackWrapper);
             }
         };
 
@@ -1152,7 +1153,7 @@ namespace CefSharp
                 auto callbackWrapper = gcnew CefDownloadItemCallbackWrapper(callback);
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                handler->OnDownloadUpdated(browserWrapper, TypeConversion::FromNative(download_item), callbackWrapper);
+                handler->OnDownloadUpdated(_browserControl, browserWrapper, TypeConversion::FromNative(download_item), callbackWrapper);
             }
         }
 

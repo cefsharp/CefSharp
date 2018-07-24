@@ -41,6 +41,11 @@ namespace CefSharp.Wpf
         /// </summary>
         private HwndSource source;
         /// <summary>
+        /// The HwndSource RootVisual (Window) - We store a reference
+        /// to unsubscribe event handlers
+        /// </summary>
+        private Window sourceWindow;
+        /// <summary>
         /// The tooltip timer
         /// </summary>
         private DispatcherTimer tooltipTimer;
@@ -428,11 +433,17 @@ namespace CefSharp.Wpf
         private void NoInliningConstructor()
         {
             //Initialize CEF if it hasn't already been initialized
-            if (!Cef.IsInitialized && !Cef.Initialize())
+            if (!Cef.IsInitialized)
             {
-                throw new InvalidOperationException("Cef::Initialize() failed");
+                var settings = new CefSettings();
+                settings.WindowlessRenderingEnabled = true;
+
+                if (!Cef.Initialize(settings))
+                {
+                    throw new InvalidOperationException("Cef::Initialize() failed");
+                }
             }
-            
+
             //Add this ChromiumWebBrowser instance to a list of IDisposable objects
             // that if still alive at the time Cef.Shutdown is called will be disposed of
             // It's important all browser instances be freed before Cef.Shutdown is called.
@@ -556,6 +567,14 @@ namespace CefSharp.Wpf
                     }
 
                     PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+                    // Release window event listeners if PresentationSourceChangedHandler event wasn't
+                    // fired before Dispose
+                    if (sourceWindow != null)
+                    {
+                        sourceWindow.StateChanged -= OnWindowStateChanged;
+                        sourceWindow.LocationChanged -= OnWindowLocationChanged;
+                        sourceWindow = null;
+                    }
 
                     // Release internal event listeners:
                     Loaded -= OnLoaded;
@@ -640,7 +659,7 @@ namespace CefSharp.Wpf
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        ViewRect? IRenderWebBrowser.GetViewRect()
+        Rect? IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
@@ -649,12 +668,12 @@ namespace CefSharp.Wpf
         /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
-        protected virtual ViewRect? GetViewRect()
+        protected virtual Rect? GetViewRect()
         {
             //NOTE: Previous we used Math.Ceiling to round the sizing up, we
             //now set UseLayoutRounding = true; on the control so the sizes are
             //already rounded to a whole number for us.
-            var viewRect = new ViewRect((int)ActualWidth, (int)ActualHeight);
+            var viewRect = new Rect(0, 0, (int)ActualWidth, (int)ActualHeight);
 
             return viewRect;
         }
@@ -1562,27 +1581,29 @@ namespace CefSharp.Wpf
                         browser.GetHost().NotifyScreenInfoChanged();
                     }
 
-                    //Ignore this for custom bitmap factories
-                    if (RenderHandler != null && RenderHandler.GetType() == typeof(WritableBitmapRenderHandler) || RenderHandler.GetType() == typeof(InteropBitmapRenderHandler))
+                    //Ignore this for custom bitmap factories                   
+                    if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
                     {
-                        if (DpiScaleFactor > 1.0 && RenderHandler.GetType() != typeof(WritableBitmapRenderHandler))
+                        if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
                         {
                             const int DefaultDpi = 96;
                             var scale = DefaultDpi * DpiScaleFactor;
 
                             RenderHandler = new WritableBitmapRenderHandler(scale, scale);
                         }
-                        else if (DpiScaleFactor == 1.0 && RenderHandler.GetType() != typeof(InteropBitmapRenderHandler))
+                        else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
                         {
                             RenderHandler = new InteropBitmapRenderHandler();
                         }
                     }
+                    
 
                     var window = source.RootVisual as Window;
                     if(window != null)
                     {
-                        window.StateChanged += WindowStateChanged;
+                        window.StateChanged += OnWindowStateChanged;
                         window.LocationChanged += OnWindowLocationChanged;
+                        sourceWindow = window;
                     }
 
                     browserScreenLocation = GetBrowserScreenLocation();
@@ -1595,13 +1616,14 @@ namespace CefSharp.Wpf
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
                 {
-                    window.StateChanged -= WindowStateChanged;
+                    window.StateChanged -= OnWindowStateChanged;
                     window.LocationChanged -= OnWindowLocationChanged;
+                    sourceWindow = null;
                 }
             }
         }
 
-        private void WindowStateChanged(object sender, EventArgs e)
+        private void OnWindowStateChanged(object sender, EventArgs e)
         {
             var window = (Window)sender;
 
@@ -1874,6 +1896,12 @@ namespace CefSharp.Wpf
                 Source = this,
             });
 
+            BindingOperations.SetBinding(newPopup, RenderTransformProperty, new Binding
+            {
+                Path = new PropertyPath(RenderTransformProperty),
+                Source = this,
+            });
+
             newPopup.Opened += PopupOpened;
             newPopup.Closed += PopupClosed;
 
@@ -2071,6 +2099,8 @@ namespace CefSharp.Wpf
                     deltaX: isShiftKeyDown ? e.Delta : 0,
                     deltaY: !isShiftKeyDown ? e.Delta : 0,
                     modifiers: modifiers);
+
+                e.Handled = true;
             }
 
             base.OnMouseWheel(e);
