@@ -389,7 +389,7 @@ namespace CefSharp.WinForms
 
                 if (FocusHandler == null)
                 {
-                    FocusHandler = new DefaultFocusHandler(this);
+                    FocusHandler = new DefaultFocusHandler();
                 }
 
                 if (ResourceHandlerFactory == null)

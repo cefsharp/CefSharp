@@ -978,12 +978,9 @@ namespace CefSharp
                 return;
             }
 
-            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
-            // non-offscreen windows don't wrap popup browser's yet.
-            if (!browser->IsPopup())
-            {
-                handler->OnGotFocus();
-            }
+			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+			handler->OnGotFocus(_browserControl, browserWrapper);
         }
 
         bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
@@ -996,14 +993,9 @@ namespace CefSharp
                 return false;
             }
 
-            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
-            // non-offscreen windows don't wrap popup browser's yet.
-            if (!browser->IsPopup())
-            {
-                return handler->OnSetFocus((CefFocusSource)source);
-            }
-            // Allow the focus to be set by default.
-            return false;
+			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+			return handler->OnSetFocus(_browserControl, browserWrapper, (CefFocusSource)source);
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
@@ -1015,12 +1007,9 @@ namespace CefSharp
                 return;
             }
 
-            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
-            // non-offscreen windows don't wrap popup browser's yet.
-            if (!browser->IsPopup())
-            {
-                handler->OnTakeFocus(next);
-            }
+			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+			handler->OnTakeFocus(_browserControl, browserWrapper, next);
         }
 
         bool ClientAdapter::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url,
