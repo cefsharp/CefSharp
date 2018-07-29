@@ -47,14 +47,17 @@ namespace CefSharp
 
                 auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                if (screenInfo.HasValue == false || screen_info.device_scale_factor == screenInfo.Value.ScaleFactor)
+                if (screenInfo.HasValue == false)
                 {
                     return false;
                 }
 
-                //NOTE: We're relying on a call to GetViewRect to populate the view rectangle
-                //https://bitbucket.org/chromiumembedded/cef/src/47e6d4bf84444eb6cb4d4509231a8c9ee878a584/include/cef_render_handler.h?at=2357#cef_render_handler.h-90
                 screen_info.device_scale_factor = screenInfo.Value.ScaleFactor;
+				screen_info.rect.width = screenInfo.Value.Width;
+				screen_info.rect.height = screenInfo.Value.Height;
+				screen_info.available_rect.width = screenInfo.Value.AvailableWidth;
+				screen_info.available_rect.height = screenInfo.Value.AvailableHeight;
+
                 return true;
             }
 

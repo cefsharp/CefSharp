@@ -7,10 +7,18 @@ namespace CefSharp.Structs
     public struct ScreenInfo
     {
         public float ScaleFactor { get; private set; }
-        
+
         public ScreenInfo(float scaleFactor) : this()
         {
             ScaleFactor = scaleFactor;
         }
+
+        public int Height { get; set; }
+
+        public int Width { get; set; }
+
+        public int AvailableWidth { get; set; }
+
+        public int AvailableHeight { get; set; }
     }
 }
