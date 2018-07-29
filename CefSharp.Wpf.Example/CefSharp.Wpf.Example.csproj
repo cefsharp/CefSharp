@@ -100,8 +100,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MonitorInfo.cs" />
-    <Compile Include="Views\CustomChromiumWebBrowser.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

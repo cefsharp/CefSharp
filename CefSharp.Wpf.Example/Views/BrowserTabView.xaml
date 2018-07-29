@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
-             xmlns:localviews="clr-namespace:CefSharp.Wpf.Example.Views"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignWidth="640"
@@ -420,7 +419,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
 
-                <localviews:CustomChromiumWebBrowser x:Name="browser"
+                <cefSharp:ChromiumWebBrowser x:Name="browser"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
@@ -437,7 +436,7 @@
                             <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
                         </TransformGroup>
                     </FrameworkElement.LayoutTransform>
-                </localviews:CustomChromiumWebBrowser>
+                </cefSharp:ChromiumWebBrowser>
             </Grid>
         </DockPanel>
     </Grid>
