@@ -40,7 +40,7 @@ namespace CefSharp.Wpf.Example
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
             Title += " - " + bitness;
         }
-        
+
         private void CloseTab(object sender, ExecutedRoutedEventArgs e)
         {
             if (BrowserTabs.Count > 0)
@@ -108,7 +108,7 @@ namespace CefSharp.Wpf.Example
                     browserViewModel.LoadCustomRequestExample();
                 }
 
-                if(param == "OpenDevTools")
+                if (param == "OpenDevTools")
                 {
                     browserViewModel.WebBrowser.ShowDevTools();
                 }
@@ -183,7 +183,7 @@ namespace CefSharp.Wpf.Example
                         MarginRight = 10,
                     });
 
-                    if(success)
+                    if (success)
                     {
                         MessageBox.Show("Pdf was saved to " + dialog.FileName);
                     }
@@ -191,7 +191,7 @@ namespace CefSharp.Wpf.Example
                     {
                         MessageBox.Show("Unable to save Pdf, check you have write permissions to " + dialog.FileName);
                     }
-                    
+
                 }
             }
         }
@@ -199,7 +199,7 @@ namespace CefSharp.Wpf.Example
         private void OpenTabCommandBinding(object sender, ExecutedRoutedEventArgs e)
         {
             var url = e.Parameter.ToString();
-            
+
             if (string.IsNullOrEmpty(url))
             {
                 throw new Exception("Please provide a valid command parameter for binding");
