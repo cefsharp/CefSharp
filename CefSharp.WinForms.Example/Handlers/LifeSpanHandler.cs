@@ -71,7 +71,7 @@ namespace CefSharp.WinForms.Example.Handlers
             //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
             //See the doc for this method for full details.    
             // Allow devtools to close
-            if (browser.MainFrame.Url.Equals("chrome-devtools://devtools/inspector.html"))
+            if (browser.MainFrame.Url.Equals("chrome-devtools://devtools/devtools_app.html"))
             {
                 return false;
             }
