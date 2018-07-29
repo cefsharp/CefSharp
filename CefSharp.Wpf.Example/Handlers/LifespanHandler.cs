@@ -17,7 +17,11 @@ namespace CefSharp.Wpf.Example.Handlers
 
             return false;
 
-            //NOTE: This is experimental
+            //WARNING: This is example code is experimental, feature incomplete and not well tested, it was 
+            //written as a basic proof of concept and is not being actively maintained.
+            //It should only be used by advanced users. There are bugs in CEF like the one reported
+            //at https://github.com/cefsharp/CefSharp/issues/1267
+            //If you would like to make improvements then please submit a PR including a test case
             //var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
             //ChromiumWebBrowser chromiumBrowser = null;
@@ -76,7 +80,11 @@ namespace CefSharp.Wpf.Example.Handlers
 
         void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
         {
-            //NOTE: This is experimental
+            //WARNING: This is example code is experimental, feature incomplete and not well tested, it was 
+            //written as a basic proof of concept and is not being actively maintained.
+            //It should only be used by advanced users. There are bugs in CEF like the one reported
+            //at https://github.com/cefsharp/CefSharp/issues/1267
+            //If you would like to make improvements then please submit a PR including a test case
             //if(!browser.IsDisposed && browser.IsPopup)
             //{ 
             //	var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
@@ -100,7 +108,11 @@ namespace CefSharp.Wpf.Example.Handlers
 
         void ILifeSpanHandler.OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
         {
-            //NOTE: This is experimental
+            //WARNING: This is example code is experimental, feature incomplete and not well tested, it was 
+            //written as a basic proof of concept and is not being actively maintained.
+            //It should only be used by advanced users. There are bugs in CEF like the one reported
+            //at https://github.com/cefsharp/CefSharp/issues/1267
+            //If you would like to make improvements then please submit a PR including a test case
             //if(!browser.IsDisposed && browser.IsPopup)
             //{ 
             //	var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
