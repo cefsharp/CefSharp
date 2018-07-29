@@ -4,8 +4,11 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace CefSharp.Wpf
+namespace CefSharp.Wpf.Example
 {
+    /// <summary>
+    /// This class uses Win32 PInvoke calls to discover monitor size, available area, etc.
+    /// </summary>
     internal static class MonitorInfo
     {
         [DllImport("user32.dll")]
@@ -55,8 +58,8 @@ namespace CefSharp.Wpf
 
             public void Init()
             {
-                this.Size = 40 + 2 * CCHDEVICENAME;
-                this.DeviceName = string.Empty;
+                Size = 40 + 2 * CCHDEVICENAME;
+                DeviceName = string.Empty;
             }
         }
 
@@ -98,13 +101,21 @@ namespace CefSharp.Wpf
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
 
+
+        /// <summary>
+        /// Returns monitor information actual rectagle and available rectangle for a monitor hosting a window for a visual
+        /// </summary>
+        /// <param name="visual"></param>
+        /// <param name="rect"></param>
+        /// <param name="availableRect"></param>
         internal static void GetMonitorInfoForVisual(Visual visual, out RectStruct rect, out RectStruct availableRect)
         {
             var src = (HwndSource)PresentationSource.FromVisual(visual);
 
             var monitor = MonitorFromWindow(src.Handle, MONITOR_DEFAULTTONEAREST);
             var monitorInfo = new MONITORINFOEX();
-            GetMonitorInfo(monitor, ref monitorInfo);
+            monitorInfo.Init();
+            bool result =  GetMonitorInfo(monitor, ref monitorInfo);
 
             rect = monitorInfo.Monitor;
             availableRect= monitorInfo.WorkArea;

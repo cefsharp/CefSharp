@@ -25,7 +25,6 @@ using Point = System.Windows.Point;
 using Size = System.Windows.Size;
 using CursorType = CefSharp.Enums.CursorType;
 using Rect = CefSharp.Structs.Rect;
-using static CefSharp.Wpf.MonitorInfo;
 
 namespace CefSharp.Wpf
 {
@@ -652,19 +651,6 @@ namespace CefSharp.Wpf
         protected virtual ScreenInfo? GetScreenInfo()
         {
             var screenInfo = new ScreenInfo(scaleFactor: (float)DpiScaleFactor);
-
-            Dispatcher.Invoke(() =>
-            {
-                RectStruct monitor;
-                RectStruct available;
-                GetMonitorInfoForVisual(this, out monitor, out available);
-
-                screenInfo.AvailableHeight = available.Bottom - available.Top;
-                screenInfo.AvailableWidth = available.Right - available.Left;
-
-                screenInfo.Height = monitor.Bottom - monitor.Top;
-                screenInfo.Width = monitor.Right - monitor.Bottom;
-            });
 
             return screenInfo;
         }

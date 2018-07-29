@@ -4,12 +4,12 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Controls;
 using CefSharp.Wpf.Example.ViewModels;
+using CefSharp.Wpf.Example.Views;
 using Microsoft.Win32;
 
 namespace CefSharp.Wpf.Example
@@ -40,7 +40,7 @@ namespace CefSharp.Wpf.Example
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
             Title += " - " + bitness;
         }
-
+        
         private void CloseTab(object sender, ExecutedRoutedEventArgs e)
         {
             if (BrowserTabs.Count > 0)
