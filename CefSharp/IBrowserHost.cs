@@ -370,6 +370,12 @@ namespace CefSharp
         bool WindowRenderingDisabled { get; }
 
         /// <summary>
+        /// Set audio mute setting value.
+        /// </summary>
+        /// <param name="mute">Whether or not the audio should be muted.</param>
+        void SetAudioMuted(bool mute);
+
+        /// <summary>
         /// Gets a value indicating whether the browserHost has been disposed of.
         /// </summary>
         bool IsDisposed { get; }

@@ -34,6 +34,9 @@
                 <Button Height="23"
                         Width="75"
                         Command="{Binding WebBrowser.ReloadCommand}">Reload</Button>
+                <ToggleButton Height="23"
+                              Width="75"
+                              Command="{Binding WebBrowser.MuteCommand}">Mute</ToggleButton>
                 <Button Height="23"
                         Name="goStopButton"
                         Width="75"

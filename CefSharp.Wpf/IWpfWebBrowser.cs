@@ -35,6 +35,11 @@ namespace CefSharp.Wpf
         ICommand ReloadCommand { get; }
 
         /// <summary>
+        /// Toggles the audio mute setting on the current browser.
+        /// </summary>
+        ICommand MuteCommand { get; }
+
+        /// <summary>
         /// Prints the current browser contents.
         /// </summary>
         /// <value>The print command.</value>

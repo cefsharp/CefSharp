@@ -134,6 +134,8 @@ namespace CefSharp
                 IRequestContext^ get();
             }
 
+            virtual void SetAudioMuted(bool mute);
+
             // Misc. private functions:
             CefMouseEvent GetCefMouseEvent(MouseEvent mouseEvent);
             int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
