@@ -1481,7 +1481,10 @@ namespace CefSharp.Wpf
         /// <param name="newValue">The new value.</param>
         protected virtual void OnIsAudioMutedChanged(bool newValue)
         {
-            browser.GetHost().SetAudioMuted(newValue);
+            if (browser != null)
+            {
+                browser.GetHost().SetAudioMuted(newValue);
+            }
         }
 
         #endregion IsAudioMuted dependency property
