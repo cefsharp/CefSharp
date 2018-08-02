@@ -277,7 +277,6 @@ namespace CefSharp.OffScreen
             if (!Cef.IsInitialized)
             {
                 var settings = new CefSettings();
-                settings.WindowlessRenderingEnabled = true;
 
                 if (!Cef.Initialize(settings))
                 {
