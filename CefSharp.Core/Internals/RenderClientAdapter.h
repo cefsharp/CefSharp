@@ -23,7 +23,7 @@ namespace CefSharp
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
 
         public:
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, IBrowserAdapter^ browserAdapter):
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, IBrowserAdapter^ browserAdapter) :
                 ClientAdapter(webBrowserInternal, browserAdapter)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
@@ -35,7 +35,7 @@ namespace CefSharp
             }
 
             // CefClient
-            virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
+            virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; };
 
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
@@ -47,14 +47,26 @@ namespace CefSharp
 
                 auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                if (screenInfo.HasValue == false || screen_info.device_scale_factor == screenInfo.Value.ScaleFactor)
+                //NOTE:  If ScreenInfo is returned as null,  the screen_info available and rect structs would remain default (0,0,0,0).  If so, the underlying CEF library would use 
+                // GetViewRect to populate values in the window.screen object (javascript).
+                //https://bitbucket.org/chromiumembedded/cef/src/47e6d4bf84444eb6cb4d4509231a8c9ee878a584/include/cef_render_handler.h?at=2357#cef_render_handler.h-90
+                if (screenInfo.HasValue == false)
                 {
                     return false;
                 }
 
-                //NOTE: We're relying on a call to GetViewRect to populate the view rectangle
-                //https://bitbucket.org/chromiumembedded/cef/src/47e6d4bf84444eb6cb4d4509231a8c9ee878a584/include/cef_render_handler.h?at=2357#cef_render_handler.h-90
                 screen_info.device_scale_factor = screenInfo.Value.ScaleFactor;
+
+                //NOTE:  But even if it's not null and the Available* and Width and Height properties are empty, same would happen: the screen_info available and rect structs would remain default (0,0,0,0).  If so, the underlying CEF library would use 
+                // GetViewRect to populate values in the window.screen object (javascript).
+                screen_info.rect.width = screenInfo.Value.Width;
+                screen_info.rect.height = screenInfo.Value.Height;
+
+                screen_info.available_rect.x = screenInfo.Value.AvailableLeft;
+                screen_info.available_rect.y = screenInfo.Value.AvailableTop;
+                screen_info.available_rect.width = screenInfo.Value.AvailableWidth;
+                screen_info.available_rect.height = screenInfo.Value.AvailableHeight;
+
                 return true;
             }
 
