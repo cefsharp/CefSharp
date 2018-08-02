@@ -31,10 +31,10 @@ namespace CefSharp.Wpf
     /// <summary>
     /// ChromiumWebBrowser is the WPF web browser control
     /// </summary>
-    /// <seealso cref="System.Windows.Controls.ContentControl" />
+    /// <seealso cref="System.Windows.Controls.Control" />
     /// <seealso cref="CefSharp.Internals.IRenderWebBrowser" />
     /// <seealso cref="CefSharp.Wpf.IWpfWebBrowser" />
-    public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
+    public class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
     {
         /// <summary>
         /// The source
@@ -85,10 +85,6 @@ namespace CefSharp.Wpf
         /// The popup image
         /// </summary>
         private Image popupImage;
-        /// <summary>
-        /// The popup
-        /// </summary>
-        private Popup popup;
         /// <summary>
         /// The browser
         /// </summary>
@@ -399,6 +395,10 @@ namespace CefSharp.Wpf
         /// </summary>
         static ChromiumWebBrowser()
         {
+            DefaultStyleKeyProperty.OverrideMetadata(
+                typeof(ChromiumWebBrowser),
+                new FrameworkPropertyMetadata(typeof(ChromiumWebBrowser)));
+
             if (CefSharpSettings.ShutdownOnExit)
             {
                 var app = Application.Current;
@@ -499,7 +499,6 @@ namespace CefSharp.Wpf
             
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
-            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
             UseLayoutRounding = true;
         }
 
@@ -588,13 +587,6 @@ namespace CefSharp.Wpf
                     Drop -= OnDrop;
 
                     IsVisibleChanged -= OnIsVisibleChanged;
-
-                    if(popup != null)
-                    {
-                        popup.Opened -= PopupOpened;
-                        popup.Closed -= PopupClosed;
-                        popup = null;
-                    }
 
                     if (tooltipTimer != null)
                     {
@@ -824,7 +816,7 @@ namespace CefSharp.Wpf
         /// <param name="isOpen">if set to <c>true</c> [is open].</param>
         void IRenderWebBrowser.OnPopupShow(bool isOpen)
         {
-            UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
+            UiThreadRunAsync(() => { popupImage.Visibility = isOpen ? Visibility.Visible : Visibility.Hidden; });
         }
 
         /// <summary>
@@ -1843,12 +1835,12 @@ namespace CefSharp.Wpf
             if (image == null)
             {
                 // Create main window
-                Content = image = CreateImage();
+                image = (Image)GetTemplateChild("PART_image");
             }
 
-            if (popup == null)
+            if (popupImage == null)
             {
-                popup = CreatePopup();
+                popupImage = (Image)GetTemplateChild("PART_popupImage");
             }
         }
 
@@ -1927,13 +1919,12 @@ namespace CefSharp.Wpf
         /// <param name="y">The y.</param>
         private void SetPopupSizeAndPositionImpl(Rect rect)
         {
-            popup.Width = rect.Width ;
-            popup.Height = rect.Height;
+            popupImage.Width = rect.Width;
+            popupImage.Height = rect.Height;
 
-            var popupOffset = new Point(rect.X, rect.Y);
-            var locationFromScreen = PointToScreen(popupOffset);
-            popup.HorizontalOffset = locationFromScreen.X / DpiScaleFactor;
-            popup.VerticalOffset = locationFromScreen.Y / DpiScaleFactor;
+            //TODO: Test with High DPI
+            popupImage.SetValue(Canvas.LeftProperty, rect.X / DpiScaleFactor);
+            popupImage.SetValue(Canvas.TopProperty, rect.Y / DpiScaleFactor);
         }
 
         /// <summary>
