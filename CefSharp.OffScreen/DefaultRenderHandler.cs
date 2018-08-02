@@ -77,9 +77,9 @@ namespace CefSharp.OffScreen
 			browser = null;
 		}
 
-		public virtual ScreenInfo? GetScreenInfo()
-		{
-			var screenInfo = new ScreenInfo(scaleFactor: 1.0F);
+        public virtual ScreenInfo? GetScreenInfo()
+        {
+            var screenInfo = new ScreenInfo { DeviceScaleFactor = 1.0F };
 
 			return screenInfo;
 		}

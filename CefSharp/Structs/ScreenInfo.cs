@@ -4,43 +4,54 @@
 
 namespace CefSharp.Structs
 {
+    /// <summary>
+    /// Class representing the virtual screen information for use when window
+    /// rendering is disabled.
+    /// </summary>
+    /// <remarks>
+    /// See also https://cs.chromium.org/chromium/src/content/public/common/screen_info.h?q=content::ScreenInfo&sq=package:chromium&g=0&l=19
+    /// </remarks>
     public struct ScreenInfo
     {
-        public float ScaleFactor { get; private set; }
-
-        public ScreenInfo(float scaleFactor) : this()
-        {
-            ScaleFactor = scaleFactor;
-        }
-
         /// <summary>
-        /// Height of the monitor nearest to the window hosting the browser
+        /// Device scale factor. Specifies the ratio between physical and logical pixels.
         /// </summary>
-        public int Height { get; set; }
-
+        public float DeviceScaleFactor { get; set; }
         /// <summary>
-        /// Width of the monitor nearest to the window hosting the browser
+        /// The screen depth in bits per pixel.
         /// </summary>
-        public int Width { get; set; }
-
+        public int Depth { get; set; }
         /// <summary>
-        /// Available Left location  of the monitor nearest to the window hosting the browser.  iF toolbar is on the left - this would be a non-zero value
+        /// The bits per color component. This assumes that the colors are balanced equally.
         /// </summary>
-        public int AvailableLeft { get; set; }
-
+        public int DepthPerComponent { get; set; }
         /// <summary>
-        /// Available Top location  of the monitor nearest to the window hosting the browser.  iF toolbar is on top - this would be a non-zero value
+        /// This can be true for black and white printers.
         /// </summary>
-        public int AvailableTop { get; set; }
-
+        public bool IsMonochrome { get; set; }
         /// <summary>
-        /// Available Wdith of the monitor nearest to the window hosting the browser.  iF toolbar is on the left or on the right - this would be different from the <see cref="Width">Width</see> property
+        /// This is set from the rcMonitor member of MONITORINFOEX, to whit:
+        /// "A RECT structure that specifies the display monitor rectangle,
+        /// expressed in virtual-screen coordinates. Note that if the monitor
+        /// is not the primary display monitor, some of the rectangle's
+        /// coordinates may be negative values."
+        /// The Rect and AvailableRect properties are used to determine the
+        /// available surface for rendering popup views.
         /// </summary>
-        public int AvailableWidth { get; set; }
-
+        public Rect? Rect { get; set; }
         /// <summary>
-        /// Available Heiht of the monitor nearest to the window hosting the browser.  iF toolbar is on top or on the bottom - this would be different from the <see cref="Height">Height</see> property
+        /// This is set from the rcWork member of MONITORINFOEX, to whit:
+        /// "A RECT structure that specifies the work area rectangle of the
+        /// display monitor that can be used by applications, expressed in
+        /// virtual-screen coordinates. Windows uses this rectangle to
+        /// maximize an application on the monitor. The rest of the area in
+        /// rcMonitor contains system windows such as the task bar and side
+        /// bars. Note that if the monitor is not the primary display monitor,
+        /// some of the rectangle's coordinates may be negative values".
+        ///
+        /// The Rect and AvailableRect properties are used to determine the
+        /// available surface for rendering popup views.
         /// </summary>
-        public int AvailableHeight { get; set; }
+        public Rect? AvailableRect { get; set; }
     }
 }

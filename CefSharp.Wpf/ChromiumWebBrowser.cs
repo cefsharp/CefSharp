@@ -649,7 +649,7 @@ namespace CefSharp.Wpf
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
         protected virtual ScreenInfo? GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo(scaleFactor: (float)DpiScaleFactor);
+            var screenInfo = new ScreenInfo { DeviceScaleFactor = (float)DpiScaleFactor };
 
             return screenInfo;
         }

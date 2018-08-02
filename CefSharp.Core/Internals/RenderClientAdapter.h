@@ -55,17 +55,32 @@ namespace CefSharp
                     return false;
                 }
 
-                screen_info.device_scale_factor = screenInfo.Value.ScaleFactor;
+                screen_info.device_scale_factor = screenInfo.Value.DeviceScaleFactor;
+				screen_info.depth = screenInfo.Value.Depth;
+				screen_info.depth_per_component = screenInfo.Value.DepthPerComponent;
+				screen_info.is_monochrome = screenInfo.Value.IsMonochrome ? 1 : 0;
 
-                //NOTE:  But even if it's not null and the Available* and Width and Height properties are empty, same would happen: the screen_info available and rect structs would remain default (0,0,0,0).  If so, the underlying CEF library would use 
+                //NOTE: If rect values remain (0,0,0,0) then the underlying CEF library will use 
                 // GetViewRect to populate values in the window.screen object (javascript).
-                screen_info.rect.width = screenInfo.Value.Width;
-                screen_info.rect.height = screenInfo.Value.Height;
+				auto rect = screenInfo.Value.Rect;
 
-                screen_info.available_rect.x = screenInfo.Value.AvailableLeft;
-                screen_info.available_rect.y = screenInfo.Value.AvailableTop;
-                screen_info.available_rect.width = screenInfo.Value.AvailableWidth;
-                screen_info.available_rect.height = screenInfo.Value.AvailableHeight;
+				if (rect.HasValue)
+				{
+					screen_info.rect.width = rect.Value.Width;
+					screen_info.rect.height = rect.Value.Height;
+					screen_info.rect.x = rect.Value.X;
+					screen_info.rect.y = rect.Value.Y;
+				}
+
+				auto availableRect = screenInfo.Value.Rect;
+
+				if (availableRect.HasValue)
+				{
+					screen_info.available_rect.width = availableRect.Value.Width;
+					screen_info.available_rect.height = availableRect.Value.Height;
+					screen_info.available_rect.x = availableRect.Value.X;
+					screen_info.available_rect.y = availableRect.Value.Y;
+				}
 
                 return true;
             }
