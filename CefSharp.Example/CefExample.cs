@@ -38,7 +38,7 @@ namespace CefSharp.Example
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
         private static string PluginInformation = "";
 
-        public static void Init(bool osr, bool multiThreadedMessageLoop, IBrowserProcessHandler browserProcessHandler)
+        public static void Init(AbstractCefSettings settings, IBrowserProcessHandler browserProcessHandler)
         {
             // Set Google API keys, used for Geolocation requests sans GPS.  See http://www.chromium.org/developers/how-tos/api-keys
             // Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "");
@@ -53,7 +53,6 @@ namespace CefSharp.Example
             //http://peter.sh/experiments/chromium-command-line-switches/
             //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
 
-            var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
             //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
             //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 
@@ -96,21 +95,12 @@ namespace CefSharp.Example
             //Possibly useful when experiencing blury fonts.
             //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
 
-            settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
-            settings.ExternalMessagePump = !multiThreadedMessageLoop;
-
             //Enables Uncaught exception handler
             settings.UncaughtExceptionStackSize = 10;
 
             // Off Screen rendering (WPF/Offscreen)
-            if(osr)
+            if(settings.WindowlessRenderingEnabled)
             {
-                settings.WindowlessRenderingEnabled = true;
-
-                //https://github.com/cefsharp/CefSharp/issues/2408
-                settings.CefCommandLineArgs.Add("disable-features", "AsyncWheelEvents,SurfaceSynchronization,TouchpadAndWheelScrollLatching");
-                settings.CefCommandLineArgs.Add("disable-blink-features", "RootLayerScrolling");
-
                 //Disable Direct Composition to test https://github.com/cefsharp/CefSharp/issues/1634
                 //settings.CefCommandLineArgs.Add("disable-direct-composition", "1");
 
@@ -183,7 +173,8 @@ namespace CefSharp.Example
 
             settings.RegisterExtension(new CefExtension("cefsharp/example", Resources.extension));
 
-            settings.FocusedNodeChangedEnabled = true;
+            //This must be set before Cef.Initialized is called
+            CefSharpSettings.FocusedNodeChangedEnabled = true;
 
             //Experimental option where bound async methods are queued on TaskScheduler.Default.
             //CefSharpSettings.ConcurrentTaskExecution = true;

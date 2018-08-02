@@ -7,18 +7,18 @@
 #include "Stdafx.h"
 
 #include "include/cef_app.h"
-#include "CefSettings.h"
+#include "AbstractCefSettings.h"
 
 namespace CefSharp
 {
     private class CefSharpApp : public CefApp,
         public CefBrowserProcessHandler
     {
-        gcroot<CefSettings^> _cefSettings;
+        gcroot<AbstractCefSettings^> _cefSettings;
         gcroot<IBrowserProcessHandler^> _browserProcessHandler;
 
     public:
-        CefSharpApp(CefSettings^ cefSettings, IBrowserProcessHandler^ browserProcessHandler) :
+        CefSharpApp(AbstractCefSettings^ cefSettings, IBrowserProcessHandler^ browserProcessHandler) :
             _cefSettings(cefSettings),
             _browserProcessHandler(browserProcessHandler)
         {
@@ -89,7 +89,7 @@ namespace CefSharp
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + argument));
             }
 
-            if (_cefSettings->FocusedNodeChangedEnabled)
+            if (CefSharpSettings::FocusedNodeChangedEnabled)
             {
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::FocusedNodeChangedEnabledArgument));
             }

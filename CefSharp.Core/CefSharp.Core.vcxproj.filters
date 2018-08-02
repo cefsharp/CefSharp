@@ -112,9 +112,6 @@
     <ClInclude Include="ManagedCefBrowserAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefSettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\StringVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -272,6 +269,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefRequestContextHandlerAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractCefSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

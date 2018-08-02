@@ -380,7 +380,7 @@ namespace CefSharp.WinForms
         {
             if (!initialized)
             {
-                if (!Cef.IsInitialized && !Cef.Initialize())
+                if (!Cef.IsInitialized && !Cef.Initialize(new CefSettings()))
                 {
                     throw new InvalidOperationException("Cef::Initialize() failed");
                 }

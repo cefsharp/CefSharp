@@ -5,6 +5,8 @@
 using System;
 using System.IO;
 
+using CefSharp.OffScreen;
+
 namespace CefSharp.Test
 {
 	public class CefSharpFixture : IDisposable
