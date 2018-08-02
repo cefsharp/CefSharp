@@ -1922,9 +1922,8 @@ namespace CefSharp.Wpf
             popupImage.Width = rect.Width;
             popupImage.Height = rect.Height;
 
-            //TODO: Test with High DPI
-            popupImage.SetValue(Canvas.LeftProperty, rect.X / DpiScaleFactor);
-            popupImage.SetValue(Canvas.TopProperty, rect.Y / DpiScaleFactor);
+            Canvas.SetLeft(popupImage, rect.X);
+            Canvas.SetTop(popupImage, rect.Y);
         }
 
         /// <summary>
