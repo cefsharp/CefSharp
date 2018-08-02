@@ -19,7 +19,7 @@
 #include "Internals/CefTaskScheduler.h"
 #include "Internals/CefRegisterCdmCallbackAdapter.h"
 #include "CookieManager.h"
-#include "CefSettings.h"
+#include "AbstractCefSettings.h"
 #include "RequestContext.h"
 #include "SchemeHandlerFactoryWrapper.h"
 
@@ -129,20 +129,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Initializes CefSharp with the default settings. 
-        /// This function can only be called once, subsiquent calls will result in an Exception.
-        /// It's important to note that Initialize and Shutdown <strong>MUST</strong> be called on your main
-        /// applicaiton thread (Typically the UI thead). If you call them on different
-        /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
-        /// </summary>
-        /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize()
-        {
-            auto cefSettings = gcnew CefSettings();
-            return Initialize(cefSettings);
-        }
-
-        /// <summary>
         /// Initializes CefSharp with user-provided settings.
         /// It's important to note that Initialize and Shutdown <strong>MUST</strong> be called on your main
         /// applicaiton thread (Typically the UI thead). If you call them on different
@@ -150,7 +136,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize(CefSettings^ cefSettings)
+        static bool Initialize(AbstractCefSettings^ cefSettings)
         {
             return Initialize(cefSettings, false, nullptr);
         }
@@ -164,7 +150,7 @@ namespace CefSharp
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize(CefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
+        static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
         {
             if (IsInitialized)
             {

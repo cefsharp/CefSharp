@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapBuffer.cs" />
+    <Compile Include="CefSettings.cs" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="DefaultRenderHandler.cs" />
     <Compile Include="IRenderHandler.cs" />

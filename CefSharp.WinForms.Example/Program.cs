@@ -79,7 +79,11 @@ namespace CefSharp.WinForms.Example
                     browserProcessHandler = new WinFormsBrowserProcessHandler(scheduler);
                 }
 
-                CefExample.Init(osr: false, multiThreadedMessageLoop: multiThreadedMessageLoop, browserProcessHandler: browserProcessHandler);
+                var settings = new CefSettings();
+                settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
+                settings.ExternalMessagePump = !multiThreadedMessageLoop;
+
+                CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
 
                 Application.Run(browser);
             }

@@ -35,7 +35,11 @@ namespace CefSharp.Wpf.Example
                 browserProcessHandler = new WpfBrowserProcessHandler(Dispatcher);
             }
 
-            CefExample.Init(osr: true, multiThreadedMessageLoop: multiThreadedMessageLoop, browserProcessHandler: browserProcessHandler);
+            var settings = new CefSettings();
+            settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
+            settings.ExternalMessagePump = !multiThreadedMessageLoop;
+
+            CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
 
             base.OnStartup(e);
         }

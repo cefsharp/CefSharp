@@ -78,6 +78,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CefSettings.cs" />
     <Compile Include="IWpfKeyboardHandler.cs" />
     <Compile Include="Internals\VirtualKeys.cs" />
     <Compile Include="Internals\WpfKeyboardHandler.cs" />
