@@ -458,6 +458,7 @@ namespace CefSharp.Wpf
             Focusable = true;
             FocusVisualStyle = null;
             IsTabStop = true;
+            IsAudioMuted = false;
 
             Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
 
@@ -1461,7 +1462,7 @@ namespace CefSharp.Wpf
         /// </summary>
         public static readonly DependencyProperty IsAudioMutedProperty =
             DependencyProperty.Register("IsAudioMuted", typeof(bool), typeof(ChromiumWebBrowser),
-                new UIPropertyMetadata(false, OnIsAudioMutedChanged));
+                new UIPropertyMetadata(false, OnIsAudioMutedChanged, OnIsAudioMutedCoerced));
 
         /// <summary>
         /// Handles the <see cref="E:IsAudioMutedChanged" /> event.
@@ -1473,6 +1474,19 @@ namespace CefSharp.Wpf
             var owner = (ChromiumWebBrowser)sender;
             var newValue = (bool)args.NewValue;
             owner.OnIsAudioMutedChanged(newValue);
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:IsAudioMutedCoerced" /> event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="obj">The new value of the property.</param>
+        private static object OnIsAudioMutedCoerced(DependencyObject sender, object obj)
+        {
+            var owner = (ChromiumWebBrowser)sender;
+            var newValue = (bool)obj;
+            owner.OnIsAudioMutedChanged(newValue);
+            return newValue;
         }
 
         /// <summary>
