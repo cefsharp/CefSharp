@@ -201,7 +201,7 @@ namespace CefSharp.Example.Handlers
         {
             //NOTE: You cannot modify the response, only the request
             // You can now access the headers
-            //var headers = response.ResponseHeaders;
+            //var headers = response.Headers;
 
             return false;
         }

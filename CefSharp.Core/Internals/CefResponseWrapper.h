@@ -112,32 +112,44 @@ namespace CefSharp
                 }
             }
 
+			virtual property NameValueCollection^ Headers
+			{
+				NameValueCollection^ get()
+				{
+					ThrowIfDisposed();
+
+					//TODO: Extract this code out as it's duplicated in CefRequestWrapper
+					CefRequest::HeaderMap hm;
+					_response->GetHeaderMap(hm);
+
+					NameValueCollection^ headers = gcnew NameValueCollection();
+
+					for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
+					{
+						String^ name = StringUtils::ToClr(it->first);
+						String^ value = StringUtils::ToClr(it->second);
+						headers->Add(name, value);
+					}
+
+					return headers;
+				}
+				void set(NameValueCollection^ headers)
+				{
+					ThrowIfDisposed();
+
+					_response->SetHeaderMap(TypeConversion::ToNative(headers));
+				}
+			}
+
             virtual property NameValueCollection^ ResponseHeaders
             {
                 NameValueCollection^ get()
                 {
-                    ThrowIfDisposed();
-
-                    //TODO: Extract this code out as it's duplicated in CefRequestWrapper
-                    CefRequest::HeaderMap hm;
-                    _response->GetHeaderMap(hm);
-
-                    NameValueCollection^ headers = gcnew NameValueCollection();
-
-                    for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
-                    {
-                        String^ name = StringUtils::ToClr(it->first);
-                        String^ value = StringUtils::ToClr(it->second);
-                        headers->Add(name, value);
-                    }
-
-                    return headers;
+                    return Headers;
                 }
                 void set(NameValueCollection^ headers)
                 {
-                    ThrowIfDisposed();
-
-                    _response->SetHeaderMap(TypeConversion::ToNative(headers));
+					Headers = headers;
                 }
             }
         };
