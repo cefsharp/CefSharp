@@ -56,31 +56,31 @@ namespace CefSharp
                 }
 
                 screen_info.device_scale_factor = screenInfo.Value.DeviceScaleFactor;
-				screen_info.depth = screenInfo.Value.Depth;
-				screen_info.depth_per_component = screenInfo.Value.DepthPerComponent;
-				screen_info.is_monochrome = screenInfo.Value.IsMonochrome ? 1 : 0;
+                screen_info.depth = screenInfo.Value.Depth;
+                screen_info.depth_per_component = screenInfo.Value.DepthPerComponent;
+                screen_info.is_monochrome = screenInfo.Value.IsMonochrome ? 1 : 0;
 
                 //NOTE: If rect values remain (0,0,0,0) then the underlying CEF library will use 
                 // GetViewRect to populate values in the window.screen object (javascript).
-				auto rect = screenInfo.Value.Rect;
+                auto rect = screenInfo.Value.Rect;
 
-				if (rect.HasValue)
-				{
-					screen_info.rect.width = rect.Value.Width;
-					screen_info.rect.height = rect.Value.Height;
-					screen_info.rect.x = rect.Value.X;
-					screen_info.rect.y = rect.Value.Y;
-				}
+                if (rect.HasValue)
+                {
+                    screen_info.rect.width = rect.Value.Width;
+                    screen_info.rect.height = rect.Value.Height;
+                    screen_info.rect.x = rect.Value.X;
+                    screen_info.rect.y = rect.Value.Y;
+                }
 
-				auto availableRect = screenInfo.Value.Rect;
+                auto availableRect = screenInfo.Value.Rect;
 
-				if (availableRect.HasValue)
-				{
-					screen_info.available_rect.width = availableRect.Value.Width;
-					screen_info.available_rect.height = availableRect.Value.Height;
-					screen_info.available_rect.x = availableRect.Value.X;
-					screen_info.available_rect.y = availableRect.Value.Y;
-				}
+                if (availableRect.HasValue)
+                {
+                    screen_info.available_rect.width = availableRect.Value.Width;
+                    screen_info.available_rect.height = availableRect.Value.Height;
+                    screen_info.available_rect.x = availableRect.Value.X;
+                    screen_info.available_rect.y = availableRect.Value.Y;
+                }
 
                 return true;
             }
