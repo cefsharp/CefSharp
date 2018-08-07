@@ -212,10 +212,10 @@ namespace CefSharp
                     return FromNative(value->GetDictionary());
                 }
 
-				if (type == CefValueType::VTYPE_LIST)
-				{
-					return FromNative(value->GetList());
-				}
+                if (type == CefValueType::VTYPE_LIST)
+                {
+                    return FromNative(value->GetList());
+                }
                 
                 return nullptr;
             }
@@ -243,16 +243,16 @@ namespace CefSharp
                 return dict;
             }
 
-			static List<Object^>^ FromNative(const CefRefPtr<CefListValue>& list)
-			{
-				auto result = gcnew List<Object^>(list->GetSize());
-				for (auto i = 0; i < list->GetSize(); i++)
-				{
-					result->Add(DeserializeObject(list, i, nullptr));
-				}
+            static List<Object^>^ FromNative(const CefRefPtr<CefListValue>& list)
+            {
+                auto result = gcnew List<Object^>(list->GetSize());
+                for (auto i = 0; i < list->GetSize(); i++)
+                {
+                    result->Add(DeserializeObject(list, i, nullptr));
+                }
 
-				return result;
-			}
+                return result;
+            }
         };
     }
 }

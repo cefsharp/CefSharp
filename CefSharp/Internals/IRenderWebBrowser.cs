@@ -11,6 +11,12 @@ namespace CefSharp.Internals
     public interface IRenderWebBrowser : IWebBrowserInternal
     {
         /// <summary>
+        /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
+        /// </summary>
+        /// <value>The accessibility handler.</value>
+        IAccessibilityHandler AccessibilityHandler { get; set; }
+
+        /// <summary>
         /// Called to allow the client to return a ScreenInfo object with appropriate values.
         /// If null is returned then the rectangle from GetViewRect will be used.
         /// If the rectangle is still empty or invalid popups may not be drawn correctly. 

@@ -29,8 +29,7 @@ namespace CefSharp
             public CefDialogHandler,
             public CefDragHandler,
             public CefDownloadHandler,
-            public CefFindHandler,
-			public CefAccessibilityHandler
+            public CefFindHandler
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
@@ -193,10 +192,6 @@ namespace CefSharp
 
             //CefFindHandler
             virtual DECL void OnFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate);
-
-			//CefAccessibilityHandler
-			virtual DECL void OnAccessibilityLocationChange(CefRefPtr<CefValue> value);
-			virtual DECL void OnAccessibilityTreeChange(CefRefPtr<CefValue> value);
 
             //sends out an eval script request to the render process
             Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, bool isBrowserPopup, int64 frameId, String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout);

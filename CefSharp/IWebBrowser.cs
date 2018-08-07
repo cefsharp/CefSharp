@@ -186,12 +186,6 @@ namespace CefSharp
         /// </summary>
         /// <value>The find handler.</value>
         IFindHandler FindHandler { get; set; }
-
-        /// <summary>
-        /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
-        /// </summary>
-        /// <value>The accessibility handler.</value>
-        IAccessibilityHandler AccessibilityHandler { get; set; }
  
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
