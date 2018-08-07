@@ -95,6 +95,9 @@ namespace CefSharp.Example
             //Possibly useful when experiencing blury fonts.
             //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
 
+            //settings.CefCommandLineArgs.Add("force-renderer-accessibility", "1");
+
+
             //Enables Uncaught exception handler
             settings.UncaughtExceptionStackSize = 10;
 

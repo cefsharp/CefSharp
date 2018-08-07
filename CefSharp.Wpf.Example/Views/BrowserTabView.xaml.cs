@@ -90,6 +90,7 @@ namespace CefSharp.Wpf.Example.Views
             browser.DisplayHandler = new DisplayHandler();
             browser.LifeSpanHandler = new LifespanHandler();
             browser.MenuHandler = new MenuHandler();
+            //browser.AccessibilityHandler = new AccessibilityHandler();
             var downloadHandler = new DownloadHandler();
             downloadHandler.OnBeforeDownloadFired += OnBeforeDownloadFired;
             downloadHandler.OnDownloadUpdatedFired += OnDownloadUpdatedFired;

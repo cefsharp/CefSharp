@@ -183,6 +183,13 @@ namespace CefSharp.WinForms
         public IFindHandler FindHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
+        /// </summary>
+        /// <value>The accessibility handler.</value>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        public IAccessibilityHandler AccessibilityHandler { get; set; }
+
+        /// <summary>
         /// The <see cref="IFocusHandler" /> for this ChromiumWebBrowser.
         /// </summary>
         /// <value>The focus handler.</value>

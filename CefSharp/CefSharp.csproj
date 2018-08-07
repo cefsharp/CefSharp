@@ -103,6 +103,7 @@
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
+    <Compile Include="Handler\IAccessibilityHandler.cs" />
     <Compile Include="IImage.cs" />
     <Compile Include="IJavascriptObjectRepository.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />

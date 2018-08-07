@@ -37,6 +37,9 @@ namespace CefSharp
             // CefClient
             virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; };
 
+			// CefRenderHandler
+			virtual DECL CefRefPtr<CefAccessibilityHandler> GetAccessibilityHandler() OVERRIDE { return this; }
+
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
             {

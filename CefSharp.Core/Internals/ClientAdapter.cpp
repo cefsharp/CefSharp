@@ -1170,6 +1170,30 @@ namespace CefSharp
             }
         }
 
+		void ClientAdapter::OnAccessibilityLocationChange(CefRefPtr<CefValue> value)
+		{
+			auto handler = _browserControl->AccessibilityHandler;
+
+			if (handler != nullptr)
+			{
+				auto managedValue = TypeConversion::FromNative(value);
+
+				handler->OnAccessibilityLocationChange(managedValue);
+			}
+		}
+
+		void ClientAdapter::OnAccessibilityTreeChange(CefRefPtr<CefValue> value)
+		{
+			auto handler = _browserControl->AccessibilityHandler;
+
+			if (handler != nullptr)
+			{
+				auto managedValue = TypeConversion::FromNative(value);
+
+				handler->OnAccessibilityTreeChange(managedValue);
+			}
+		}
+
         bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
         {
             auto handled = false;
