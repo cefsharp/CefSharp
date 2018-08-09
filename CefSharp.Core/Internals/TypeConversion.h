@@ -187,32 +187,32 @@ namespace CefSharp
 
                 auto type = value->GetType();
 
-                if (type == CefValueType::VTYPE_BOOL)
+                if (type == ::CefValueType::VTYPE_BOOL)
                 {
                     return value->GetBool();
                 }
 
-                if (type == CefValueType::VTYPE_DOUBLE)
+                if (type == ::CefValueType::VTYPE_DOUBLE)
                 {
                     return value->GetDouble();
                 }
 
-                if (type == CefValueType::VTYPE_INT)
+                if (type == ::CefValueType::VTYPE_INT)
                 {
                     return value->GetInt();
                 }
 
-                if (type == CefValueType::VTYPE_STRING)
+                if (type == ::CefValueType::VTYPE_STRING)
                 {
                     return StringUtils::ToClr(value->GetString());
                 }
 
-                if (type == CefValueType::VTYPE_DICTIONARY)
+                if (type == ::CefValueType::VTYPE_DICTIONARY)
                 {
                     return FromNative(value->GetDictionary());
                 }
 
-                if (type == CefValueType::VTYPE_LIST)
+                if (type == ::CefValueType::VTYPE_LIST)
                 {
                     return FromNative(value->GetList());
                 }

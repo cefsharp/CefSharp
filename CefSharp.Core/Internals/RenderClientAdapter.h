@@ -8,6 +8,7 @@
 #include <msclr/lock.h>
 
 #include "ClientAdapter.h"
+#include "CefValueWrapper.h"
 
 using namespace msclr;
 using namespace CefSharp::Structs;
@@ -206,9 +207,9 @@ namespace CefSharp
 
                 if (handler != nullptr)
                 {
-                    auto managedValue = TypeConversion::FromNative(value);
+                    auto valueWrapper = gcnew CefValueWrapper(value);
 
-                    handler->OnAccessibilityLocationChange(managedValue);
+                    handler->OnAccessibilityLocationChange(valueWrapper);
                 }
             }
 
@@ -218,9 +219,9 @@ namespace CefSharp
 
                 if (handler != nullptr)
                 {
-                    auto managedValue = TypeConversion::FromNative(value);
+                    auto valueWrapper = gcnew CefValueWrapper(value);
 
-                    handler->OnAccessibilityTreeChange(managedValue);
+                    handler->OnAccessibilityTreeChange(valueWrapper);
                 }
             }
 

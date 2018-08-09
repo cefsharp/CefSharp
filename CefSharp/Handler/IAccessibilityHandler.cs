@@ -14,12 +14,12 @@ namespace CefSharp
         /// Called after renderer process sends accessibility location changes to the browser process.
         /// </summary>
         /// <param name="value">Updated location info.</param>
-        void OnAccessibilityLocationChange(object value);
+        void OnAccessibilityLocationChange(ICefValue value);
 
         /// <summary>
         /// Called after renderer process sends accessibility tree changes to the browser process.
         /// </summary>
         /// <param name="value">Updated tree info.</param>
-        void OnAccessibilityTreeChange(object value);
+        void OnAccessibilityTreeChange(ICefValue value);
     }
 }

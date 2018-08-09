@@ -96,6 +96,7 @@
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="Enums\AlphaType.cs" />
+    <Compile Include="Enums\CefValueType.cs" />
     <Compile Include="Enums\ColorType.cs" />
     <Compile Include="Event\JavascriptBindingCompleteEventArgs.cs" />
     <Compile Include="Enums\CefFileDialogFlags.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Handler\IAccessibilityHandler.cs" />
+    <Compile Include="ICefValue.cs" />
     <Compile Include="IImage.cs" />
     <Compile Include="IJavascriptObjectRepository.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
