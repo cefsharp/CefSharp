@@ -345,7 +345,7 @@ namespace CefSharp
                 throw new Exception("LoadHtml can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
             }
 
-            if (resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true), oneTimeUse))
+            if (resourceHandler.RegisterHandler(url, ResourceHandler.GetByteArray(html, encoding, true), ResourceHandler.DefaultMimeType, oneTimeUse))
             {
                 browser.Load(url);
                 return true;
@@ -371,7 +371,12 @@ namespace CefSharp
                 throw new Exception("RegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
             }
 
-            handler.RegisterHandler(url, ResourceHandler.FromStream(stream, mimeType, autoDisposeStream: oneTimeUse));
+            using (var ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+
+                handler.RegisterHandler(url, ms.ToArray(), mimeType, oneTimeUse);
+            }
         }
 
         /// <summary>

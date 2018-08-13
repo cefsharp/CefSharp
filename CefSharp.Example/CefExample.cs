@@ -207,14 +207,13 @@ namespace CefSharp.Example
             if (handler != null)
             {
                 const string renderProcessCrashedBody = "<html><body><h1>Render Process Crashed</h1><p>Your seeing this message as the render process has crashed</p></body></html>";
-                handler.RegisterHandler(RenderProcessCrashedUrl, ResourceHandler.FromString(renderProcessCrashedBody));
+                handler.RegisterHandler(RenderProcessCrashedUrl, ResourceHandler.GetByteArray(renderProcessCrashedBody, Encoding.UTF8));
 
                 const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
-                var response = ResourceHandler.FromString(responseBody);
-                handler.RegisterHandler(TestResourceUrl, response);
+                handler.RegisterHandler(TestResourceUrl, ResourceHandler.GetByteArray(responseBody, Encoding.UTF8));
 
                 const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
-                handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.FromString(unicodeResponseBody));
+                handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.GetByteArray(unicodeResponseBody, Encoding.UTF8));
 
                 if (string.IsNullOrEmpty(PluginInformation))
                 {
@@ -256,7 +255,7 @@ namespace CefSharp.Example
                     PluginInformation = pluginBody.ToString();
                 }
 
-                handler.RegisterHandler(PluginsTestUrl, ResourceHandler.FromString(PluginInformation));
+                handler.RegisterHandler(PluginsTestUrl, ResourceHandler.GetByteArray(PluginInformation, Encoding.UTF8));
             }
         }
     }
