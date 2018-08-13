@@ -1844,61 +1844,6 @@ namespace CefSharp.Wpf
             }
         }
 
-        /// <summary>
-        /// Creates the image.
-        /// </summary>
-        /// <returns>Image.</returns>
-        private Image CreateImage()
-        {
-            var img = new Image();
-
-            BindingOperations.SetBinding(img, RenderOptions.BitmapScalingModeProperty, new Binding
-            {
-                Path = new PropertyPath(RenderOptions.BitmapScalingModeProperty),
-                Source = this,
-            });
-
-            img.Stretch = Stretch.None;
-            img.HorizontalAlignment = HorizontalAlignment.Left;
-            img.VerticalAlignment = VerticalAlignment.Top;
-
-            return img;
-        }
-
-        /// <summary>
-        /// Creates the popup.
-        /// </summary>
-        /// <returns>Popup.</returns>
-        private Popup CreatePopup()
-        {
-            var newPopup = new Popup
-            {
-                Child = popupImage = CreateImage(),
-                PlacementTarget = this,
-                Placement = PlacementMode.Absolute,
-                //Needs to allow transparency or only ScaleTransforms are allowed
-                //https://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Primitives/Popup.cs,1713
-                AllowsTransparency = true
-            };
-
-            BindingOperations.SetBinding(newPopup, LayoutTransformProperty, new Binding
-            {
-                Path = new PropertyPath(LayoutTransformProperty),
-                Source = this,
-            });
-
-            BindingOperations.SetBinding(newPopup, RenderTransformProperty, new Binding
-            {
-                Path = new PropertyPath(RenderTransformProperty),
-                Source = this,
-            });
-
-            newPopup.Opened += PopupOpened;
-            newPopup.Closed += PopupClosed;
-
-            return newPopup;
-        }
-
         /// Converts a .NET Drag event to a CefSharp MouseEvent
         /// </summary>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -2093,32 +2038,6 @@ namespace CefSharp.Wpf
             }
 
             base.OnMouseWheel(e);
-        }
-
-        /// <summary>
-        /// Captures the mouse when the popup is opened.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void PopupOpened(object sender, EventArgs e)
-        {
-            if (Mouse.Captured != this)
-            {
-                Mouse.Capture(this);
-            }
-        }
-
-        /// <summary>
-        /// Releases mouse capture when the popup is closed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void PopupClosed(object sender, EventArgs e)
-        {
-            if (Mouse.Captured == this)
-            {
-                Mouse.Capture(null);
-            }
         }
 
         /// <summary>
