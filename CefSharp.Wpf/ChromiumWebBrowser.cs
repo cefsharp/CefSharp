@@ -1547,51 +1547,46 @@ namespace CefSharp.Wpf
         {
             if (args.NewSource != null)
             {
-                var newSource = (HwndSource)args.NewSource;
+                source = (HwndSource)args.NewSource;
 
-                source = newSource;
+                var matrix = source.CompositionTarget.TransformToDevice;
+                var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(matrix.M11);
 
-                if (source != null)
+                DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
+
+                WpfKeyboardHandler.Setup(source);
+
+                if (notifyDpiChanged && browser != null)
                 {
-                    var matrix = source.CompositionTarget.TransformToDevice;
-                    var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(matrix.M11);
-
-                    DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
-
-                    WpfKeyboardHandler.Setup(source);
-
-                    if (notifyDpiChanged && browser != null)
-                    {
-                        browser.GetHost().NotifyScreenInfoChanged();
-                    }
-
-                    //Ignore this for custom bitmap factories                   
-                    if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
-                    {
-                        if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
-                        {
-                            const int DefaultDpi = 96;
-                            var scale = DefaultDpi * DpiScaleFactor;
-
-                            RenderHandler = new WritableBitmapRenderHandler(scale, scale);
-                        }
-                        else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
-                        {
-                            RenderHandler = new InteropBitmapRenderHandler();
-                        }
-                    }
-                    
-
-                    var window = source.RootVisual as Window;
-                    if(window != null)
-                    {
-                        window.StateChanged += OnWindowStateChanged;
-                        window.LocationChanged += OnWindowLocationChanged;
-                        sourceWindow = window;
-                    }
-
-                    browserScreenLocation = GetBrowserScreenLocation();
+                    browser.GetHost().NotifyScreenInfoChanged();
                 }
+
+                //Ignore this for custom bitmap factories                   
+                if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
+                {
+                    if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
+                    {
+                        const int DefaultDpi = 96;
+                        var scale = DefaultDpi * DpiScaleFactor;
+
+                        RenderHandler = new WritableBitmapRenderHandler(scale, scale);
+                    }
+                    else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
+                    {
+                        RenderHandler = new InteropBitmapRenderHandler();
+                    }
+                }
+
+
+                var window = source.RootVisual as Window;
+                if(window != null)
+                {
+                    window.StateChanged += OnWindowStateChanged;
+                    window.LocationChanged += OnWindowLocationChanged;
+                    sourceWindow = window;
+                }
+
+                browserScreenLocation = GetBrowserScreenLocation();                
             }
             else if (args.OldSource != null)
             {
