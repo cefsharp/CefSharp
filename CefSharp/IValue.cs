@@ -5,15 +5,16 @@
 using System;
 using System.Collections.Generic;
 using CefSharp.Enums;
+using ValueType = CefSharp.Enums.ValueType;
 
 namespace CefSharp
 {
     /// <summary>
     /// Interface representing CefValue.
     /// </summary>
-    public interface ICefValue : IDisposable
+    public interface IValue : IDisposable
     {
-        CefValueType GetCefValueType();
+        ValueType Type { get; }
 
         /// <summary>
         /// Returns the underlying value as type bool.
@@ -43,12 +44,18 @@ namespace CefSharp
         /// Returns the underlying value as type dictionary.
         /// </summary>
         /// <returns></returns>
-        Dictionary<string, ICefValue> GetDictionary();
+        IDictionary<string, IValue> GetDictionary();
 
         /// <summary>
         /// Returns the underlying value as type list.
         /// </summary>
         /// <returns></returns>
-        List<ICefValue> GetList();
+        IList<IValue> GetList();
+
+        /// <summary>
+        /// Returns the underlying value as a dynamic object.
+        /// </summary>
+        /// <returns></returns>
+        object GetObject();
     }
 }

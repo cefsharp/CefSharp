@@ -15,6 +15,7 @@
 #include "Serialization\V8Serialization.h"
 
 using namespace System::Collections::Generic;
+using namespace System::Collections::Specialized;
 using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp

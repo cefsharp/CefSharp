@@ -6,7 +6,8 @@ namespace CefSharp
 {
     /// <summary>
     /// Implement this interface to receive accessibility notification when accessibility events have been registered. 
-    /// The methods of this class will be called on the UI thread.
+    /// It's important to note that the methods of this interface are called on a CEF UI thread,
+    /// which by default is not the same as your application UI thread.
     /// </summary>
     public interface IAccessibilityHandler
     {
@@ -14,12 +15,12 @@ namespace CefSharp
         /// Called after renderer process sends accessibility location changes to the browser process.
         /// </summary>
         /// <param name="value">Updated location info.</param>
-        void OnAccessibilityLocationChange(ICefValue value);
+        void OnAccessibilityLocationChange(IValue value);
 
         /// <summary>
         /// Called after renderer process sends accessibility tree changes to the browser process.
         /// </summary>
         /// <param name="value">Updated tree info.</param>
-        void OnAccessibilityTreeChange(ICefValue value);
+        void OnAccessibilityTreeChange(IValue value);
     }
 }

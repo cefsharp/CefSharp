@@ -13,7 +13,7 @@ namespace CefSharp
 {
     namespace Internals 
     {
-        private ref class CefValueWrapper : public ICefValue, public CefWrapper
+        private ref class CefValueWrapper : public IValue, public CefWrapper
         {
         private:
             MCefRefPtr<CefValue> _cefValue;
@@ -36,13 +36,23 @@ namespace CefSharp
             }
 
         public: 
-            virtual Enums::CefValueType GetCefValueType();
             virtual bool GetBool();
             virtual double GetDouble();
             virtual int GetInt();
             virtual String^ GetString();
-            virtual Dictionary<String^, ICefValue^>^ GetDictionary();
-            virtual List<ICefValue^>^ GetList();
+            virtual IDictionary<String^, IValue^>^ GetDictionary();
+            virtual IList<IValue^>^ GetList();
+            virtual Object^ GetObject();
+
+            virtual property Enums::ValueType Type
+            {
+                Enums::ValueType get()
+                {
+                    ThrowIfDisposed();
+
+                    return (Enums::ValueType)_cefValue->GetType();
+                }
+            }
         };
     }
 }

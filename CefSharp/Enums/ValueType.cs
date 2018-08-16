@@ -5,9 +5,9 @@
 namespace CefSharp.Enums
 {
     /// <summary>
-    /// Value types supported by <see cref="ICefValue"/>
+    /// Value types supported by <see cref="IValue"/>
     /// </summary>
-    public enum CefValueType
+    public enum ValueType
     {
         Invalid = 0,
         Null = 1,

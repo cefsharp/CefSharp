@@ -4,14 +4,8 @@
 
 #include "Stdafx.h"
 
+#include "TypeConversion.h"
 #include "CefValueWrapper.h"
-
-Enums::CefValueType CefValueWrapper::GetCefValueType()
-{
-    ThrowIfDisposed();
-
-    return (Enums::CefValueType)_cefValue->GetType();
-}
 
 bool CefValueWrapper::GetBool()
 {
@@ -41,7 +35,7 @@ String^ CefValueWrapper::GetString()
     return StringUtils::ToClr(_cefValue->GetString());
 }
 
-Dictionary<String^, ICefValue^>^ CefValueWrapper::GetDictionary()
+IDictionary<String^, IValue^>^ CefValueWrapper::GetDictionary()
 {
     ThrowIfDisposed();
 
@@ -52,7 +46,7 @@ Dictionary<String^, ICefValue^>^ CefValueWrapper::GetDictionary()
         return nullptr;
     }
 
-    auto result = gcnew Dictionary<String^, ICefValue^>();
+    auto result = gcnew Dictionary<String^, IValue^>();
 
     CefDictionaryValue::KeyList keys;
     dictionary->GetKeys(keys);
@@ -69,12 +63,12 @@ Dictionary<String^, ICefValue^>^ CefValueWrapper::GetDictionary()
     return result;
 }
 
-List<ICefValue^>^ CefValueWrapper::GetList()
+IList<IValue^>^ CefValueWrapper::GetList()
 {
     ThrowIfDisposed();
 
     auto list = _cefValue->GetList();
-    auto result = gcnew List<ICefValue^>(list->GetSize());
+    auto result = gcnew List<IValue^>(list->GetSize());
     
     for (auto i = 0; i < list->GetSize(); i++)
     {
@@ -82,4 +76,11 @@ List<ICefValue^>^ CefValueWrapper::GetList()
     }
 
     return result;
+}
+
+Object^ CefValueWrapper::GetObject()
+{
+    ThrowIfDisposed();
+
+    return TypeConversion::FromNative(_cefValue.get());
 }
