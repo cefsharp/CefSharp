@@ -164,7 +164,7 @@ namespace CefSharp
             };
 
             virtual DECL bool StartDragging(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData,
-                CefRenderHandler::DragOperationsMask allowedOps, int x, int y)
+                CefRenderHandler::DragOperationsMask allowedOps, int x, int y) OVERRIDE
             {
                 CefDragDataWrapper dragDataWrapper(dragData);
                 return _renderWebBrowser->StartDragging(%dragDataWrapper, (CefSharp::Enums::DragOperationsMask)allowedOps, x, y);
@@ -176,7 +176,7 @@ namespace CefSharp
             // (none, move, copy, link).
             ///
             /*--cef()--*/
-            virtual DECL void UpdateDragCursor(CefRefPtr<CefBrowser> browser, CefRenderHandler::DragOperation operation)
+            virtual DECL void UpdateDragCursor(CefRefPtr<CefBrowser> browser, CefRenderHandler::DragOperation operation) OVERRIDE
             {
                 return _renderWebBrowser->UpdateDragCursor((CefSharp::Enums::DragOperationsMask)operation);
             }
@@ -187,7 +187,7 @@ namespace CefSharp
             // bounds of each character in view coordinates.
             ///
             /*--cef()--*/
-            virtual DECL void OnImeCompositionRangeChanged(CefRefPtr<CefBrowser> browser, const CefRange& selectedRange, const RectList& characterBounds)
+            virtual DECL void OnImeCompositionRangeChanged(CefRefPtr<CefBrowser> browser, const CefRange& selectedRange, const RectList& characterBounds) OVERRIDE
             {
                 auto charBounds = gcnew cli::array<Rect>((int)characterBounds.size());
 
@@ -201,7 +201,7 @@ namespace CefSharp
             }
 
             //CefAccessibilityHandler
-            virtual DECL void OnAccessibilityLocationChange(CefRefPtr<CefValue> value)
+            virtual DECL void OnAccessibilityLocationChange(CefRefPtr<CefValue> value) OVERRIDE
             {
                 auto handler = _renderWebBrowser->AccessibilityHandler;
 
@@ -213,7 +213,7 @@ namespace CefSharp
                 }
             }
 
-            virtual DECL void OnAccessibilityTreeChange(CefRefPtr<CefValue> value)
+            virtual DECL void OnAccessibilityTreeChange(CefRefPtr<CefValue> value) OVERRIDE
             {
                 auto handler = _renderWebBrowser->AccessibilityHandler;
 
