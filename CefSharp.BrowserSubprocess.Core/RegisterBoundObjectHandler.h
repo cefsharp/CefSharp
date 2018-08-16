@@ -93,7 +93,7 @@ namespace CefSharp
                             }							
                         }
                         //TODO: Better name for this function
-                        else if (name == kDeleteBoundObject || name == kDeleteBoundObject)
+                        else if (name == kDeleteBoundObject || name == kDeleteBoundObjectCamelCase)
                         {
                             if (arguments.size() == 0 || arguments.size() > 1)
                             {
