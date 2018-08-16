@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Threading;
 using Microsoft.Win32.SafeHandles;
 using CefSharp.Internals;
@@ -26,7 +24,7 @@ using Size = System.Windows.Size;
 using CursorType = CefSharp.Enums.CursorType;
 using Rect = CefSharp.Structs.Rect;
 
-namespace CefSharp.Wpf 
+namespace CefSharp.Wpf
 {
     /// <summary>
     /// ChromiumWebBrowser is the WPF web browser control
@@ -1583,7 +1581,6 @@ namespace CefSharp.Wpf
                     }
                 }
 
-
                 var window = source.RootVisual as Window;
                 if(window != null)
                 {
@@ -2300,25 +2297,5 @@ namespace CefSharp.Wpf
             // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
             return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
         }
-
-        //protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
-        //{
-        //   base.OnManipulationDelta(e);
-
-        //	if (!e.Handled)
-        //	{
-        //		var point = e.ManipulationOrigin;
-
-        //		if (browser != null)
-        //		{
-        //			browser.GetHost().SendMouseWheelEvent(
-        //				(int)point.X,
-        //				(int)point.Y,
-        //				deltaX: (int)e.DeltaManipulation.Translation.X,
-        //				deltaY: (int)e.DeltaManipulation.Translation.Y,
-        //				modifiers: CefEventFlags.None);
-        //		}
-        //	}
-        //}
     }
 }
