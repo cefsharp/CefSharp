@@ -993,9 +993,12 @@ namespace CefSharp
                 return false;
             }
 
-            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            //For DevTools (which is hosted as a popup) OnSetFocus is called before OnAfterCreated so we don't
+            // have a reference to the standard popup IBrowser wrapper, so we just pass a
+            // short term reference.
+            CefSharpBrowserWrapper browserWrapper(browser);
 
-            return handler->OnSetFocus(_browserControl, browserWrapper, (CefFocusSource)source);
+            return handler->OnSetFocus(_browserControl, %browserWrapper, (CefFocusSource)source);
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)

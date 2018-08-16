@@ -21,7 +21,10 @@ namespace CefSharp
         {
             Browser = browser;
             Frame = frame;
-            Url = frame.Url;
+            if (frame.IsValid)
+            {
+                Url = frame.Url;
+            }
             HttpStatusCode = httpStatusCode;
         }
 

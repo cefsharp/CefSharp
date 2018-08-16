@@ -17,8 +17,7 @@ namespace CefSharp.Wpf
             }
 
             //https://github.com/cefsharp/CefSharp/issues/2408
-            CefCommandLineArgs.Add("disable-features", "AsyncWheelEvents,SurfaceSynchronization,TouchpadAndWheelScrollLatching");
-            CefCommandLineArgs.Add("disable-blink-features", "RootLayerScrolling");
+            CefCommandLineArgs.Add("disable-features", "AsyncWheelEvents,TouchpadAndWheelScrollLatching");
         }
     }
 }

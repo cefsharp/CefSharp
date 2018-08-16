@@ -58,13 +58,6 @@ namespace CefSharp.Wpf
         /// </summary>
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         /// <summary>
-        /// Track the state of the Mouse.Capture set in OnMouseLeave, when the user releases
-        /// the left button it's important we release the capture. It's important we track the mouse
-        /// capture state ourselves and not just to a Mouse.Captured == this check, as we use
-        /// Mouse.Capture for the popup that hosts dropdown menus
-        /// </summary>
-        private bool mouseCapturedInOnMouseLeave;
-        /// <summary>
         /// The ignore URI change
         /// </summary>
         private bool ignoreUriChange;
@@ -1850,61 +1843,6 @@ namespace CefSharp.Wpf
             }
         }
 
-        /// <summary>
-        /// Creates the image.
-        /// </summary>
-        /// <returns>Image.</returns>
-        private Image CreateImage()
-        {
-            var img = new Image();
-
-            BindingOperations.SetBinding(img, RenderOptions.BitmapScalingModeProperty, new Binding
-            {
-                Path = new PropertyPath(RenderOptions.BitmapScalingModeProperty),
-                Source = this,
-            });
-
-            img.Stretch = Stretch.None;
-            img.HorizontalAlignment = HorizontalAlignment.Left;
-            img.VerticalAlignment = VerticalAlignment.Top;
-
-            return img;
-        }
-
-        /// <summary>
-        /// Creates the popup.
-        /// </summary>
-        /// <returns>Popup.</returns>
-        private Popup CreatePopup()
-        {
-            var newPopup = new Popup
-            {
-                Child = popupImage = CreateImage(),
-                PlacementTarget = this,
-                Placement = PlacementMode.Absolute,
-                //Needs to allow transparency or only ScaleTransforms are allowed
-                //https://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Primitives/Popup.cs,1713
-                AllowsTransparency = true
-            };
-
-            BindingOperations.SetBinding(newPopup, LayoutTransformProperty, new Binding
-            {
-                Path = new PropertyPath(LayoutTransformProperty),
-                Source = this,
-            });
-
-            BindingOperations.SetBinding(newPopup, RenderTransformProperty, new Binding
-            {
-                Path = new PropertyPath(RenderTransformProperty),
-                Source = this,
-            });
-
-            newPopup.Opened += PopupOpened;
-            newPopup.Closed += PopupClosed;
-
-            return newPopup;
-        }
-
         /// Converts a .NET Drag event to a CefSharp MouseEvent
         /// </summary>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -2102,32 +2040,6 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Captures the mouse when the popup is opened.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void PopupOpened(object sender, EventArgs e)
-        {
-            if (Mouse.Captured != this)
-            {
-                Mouse.Capture(this);
-            }
-        }
-
-        /// <summary>
-        /// Releases mouse capture when the popup is closed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void PopupClosed(object sender, EventArgs e)
-        {
-            if (Mouse.Captured == this)
-            {
-                Mouse.Capture(null);
-            }
-        }
-
-        /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseDown" /> attached event reaches an
         /// element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
@@ -2149,13 +2061,6 @@ namespace CefSharp.Wpf
         {
             OnMouseButton(e);
 
-            //If we have a mouse capture from OnMouseLeave we release it now
-            if(mouseCapturedInOnMouseLeave)
-            {
-                Mouse.Capture(null);
-                mouseCapturedInOnMouseLeave = false;
-            }
-
             base.OnMouseUp(e);
         }
 
@@ -2170,18 +2075,14 @@ namespace CefSharp.Wpf
                 var modifiers = e.GetModifiers();
                 var point = e.GetPosition(this);
 
-                //When left mouse button is pressed and we leave, capture the mouse so scrolling outside the
-                //bounds of the control works.
+                //If the LeftMouse button is pressed when leaving the control we send a mouse click with mouseUp: true
+                //to let the browser know the mouse has been released
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    Mouse.Capture(this);
-
-                    mouseCapturedInOnMouseLeave = true;
+                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, MouseButtonType.Left, mouseUp: true, clickCount: 1, modifiers: modifiers);
                 }
-                else
-                {
-                    browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
-                }
+                                
+                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
             }

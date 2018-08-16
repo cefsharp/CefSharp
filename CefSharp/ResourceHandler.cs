@@ -132,7 +132,7 @@ namespace CefSharp
             response.MimeType = MimeType;
             response.StatusCode = StatusCode;
             response.StatusText = StatusText;
-            response.ResponseHeaders = Headers;
+            response.Headers = Headers;
 
             if(ResponseLength.HasValue)
             {

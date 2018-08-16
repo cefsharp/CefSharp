@@ -20,7 +20,13 @@ namespace CefSharp
         /// <summary>
         /// Response Headers
         /// </summary>
+        [Obsolete("Use the Headers property instead, this will be removed.")]
         NameValueCollection ResponseHeaders { get; set; }
+
+        /// <summary>
+        /// Response Headers
+        /// </summary>
+        NameValueCollection Headers { get; set; }
 
         /// <summary>
         /// Returns true if this object is read-only.

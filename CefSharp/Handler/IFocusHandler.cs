@@ -21,7 +21,7 @@ namespace CefSharp
         /// Called when the browser component is requesting focus.
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
-        /// <param name="browser">the browser object</param>
+        /// <param name="browser">the browser object, do not keep a reference to this object outside of this method</param>
         /// <param name="source">Indicates where the focus request is originating from.</param>
         /// <returns>Return false to allow the focus to be set or true to cancel setting the focus.</returns>
         bool OnSetFocus(IWebBrowser chromiumWebBrowser, IBrowser browser, CefFocusSource source);
