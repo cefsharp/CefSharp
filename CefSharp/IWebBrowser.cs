@@ -186,7 +186,7 @@ namespace CefSharp
         /// </summary>
         /// <value>The find handler.</value>
         IFindHandler FindHandler { get; set; }
-
+ 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>

@@ -8,6 +8,7 @@
 #include <msclr/lock.h>
 
 #include "ClientAdapter.h"
+#include "CefValueWrapper.h"
 
 using namespace msclr;
 using namespace CefSharp::Structs;
@@ -17,7 +18,8 @@ namespace CefSharp
     namespace Internals
     {
         private class RenderClientAdapter : public ClientAdapter,
-            public CefRenderHandler
+            public CefRenderHandler,
+            public CefAccessibilityHandler
         {
         private:
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
@@ -36,6 +38,9 @@ namespace CefSharp
 
             // CefClient
             virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; };
+
+            // CefRenderHandler
+            virtual DECL CefRefPtr<CefAccessibilityHandler> GetAccessibilityHandler() OVERRIDE { return this; }
 
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
@@ -193,6 +198,31 @@ namespace CefSharp
                 }
 
                 _renderWebBrowser->OnImeCompositionRangeChanged(Range(selectedRange.from, selectedRange.to), charBounds);
+            }
+
+            //CefAccessibilityHandler
+            virtual DECL void OnAccessibilityLocationChange(CefRefPtr<CefValue> value)
+            {
+                auto handler = _renderWebBrowser->AccessibilityHandler;
+
+                if (handler != nullptr)
+                {
+                    auto valueWrapper = gcnew CefValueWrapper(value);
+
+                    handler->OnAccessibilityLocationChange(valueWrapper);
+                }
+            }
+
+            virtual DECL void OnAccessibilityTreeChange(CefRefPtr<CefValue> value)
+            {
+                auto handler = _renderWebBrowser->AccessibilityHandler;
+
+                if (handler != nullptr)
+                {
+                    auto valueWrapper = gcnew CefValueWrapper(value);
+
+                    handler->OnAccessibilityTreeChange(valueWrapper);
+                }
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapter)

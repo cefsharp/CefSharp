@@ -95,6 +95,14 @@ namespace CefSharp.Example
             //Possibly useful when experiencing blury fonts.
             //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
 
+            // The following options control accessibility state for all frames.
+            // These options only take effect if accessibility state is not set by IBrowserHost.SetAccessibilityState call.
+            // --force-renderer-accessibility enables browser accessibility.
+            // --disable-renderer-accessibility completely disables browser accessibility.
+            //settings.CefCommandLineArgs.Add("force-renderer-accessibility", "1");
+            //settings.CefCommandLineArgs.Add("disable-renderer-accessibility", "1");
+
+
             //Enables Uncaught exception handler
             settings.UncaughtExceptionStackSize = 10;
 
