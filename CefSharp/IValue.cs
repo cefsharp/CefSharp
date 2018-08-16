@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using CefSharp.Enums;
 using ValueType = CefSharp.Enums.ValueType;
 
 namespace CefSharp
@@ -14,48 +13,68 @@ namespace CefSharp
     /// </summary>
     public interface IValue : IDisposable
     {
+        /// <summary>
+        /// Returns the underlying value type.
+        /// </summary>
+        /// <returns>
+        /// Returns the underlying value type.
+        /// </returns>
         ValueType Type { get; }
 
         /// <summary>
         /// Returns the underlying value as type bool.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns the underlying value as type bool.
+        /// </returns>
         bool GetBool();
 
         /// <summary>
         /// Returns the underlying value as type double.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns the underlying value as type double.
+        /// </returns>
         double GetDouble();
 
         /// <summary>
         /// Returns the underlying value as type int.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns the underlying value as type int.
+        /// </returns>
         int GetInt();
 
         /// <summary>
         /// Returns the underlying value as type string.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns the underlying value as type string.
+        /// </returns>
         string GetString();
 
         /// <summary>
         /// Returns the underlying value as type dictionary.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns the underlying value as type dictionary.
+        /// </returns>
         IDictionary<string, IValue> GetDictionary();
 
         /// <summary>
         /// Returns the underlying value as type list.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns the underlying value as type list.
+        /// </returns>
         IList<IValue> GetList();
 
         /// <summary>
-        /// Returns the underlying value as a dynamic object.
+        /// Returns the underlying value converted to a managed object.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns the underlying value converted to a managed object.
+        /// </returns>
         object GetObject();
     }
 }
