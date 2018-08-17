@@ -349,7 +349,7 @@ namespace CefSharp.WinForms
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
         /// NOTE: Should only be used by the designer
         /// </summary>
-        [Obsolete("Should only be used by the designer")]
+        [Obsolete("Should only be used by the designer. Use the ChromiumWebBrowser(string, IRequestContext) constructor instead.")]
         public ChromiumWebBrowser()
         {
 
