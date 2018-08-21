@@ -13,6 +13,7 @@ using CefSharp.Wpf.Example.ViewModels;
 using System.IO;
 using CefSharp.Example.ModelBinding;
 using System.Diagnostics;
+using CefSharp.Wpf.Example.Accessibility;
 
 namespace CefSharp.Wpf.Example.Views
 {
