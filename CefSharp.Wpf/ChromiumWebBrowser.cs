@@ -1676,7 +1676,9 @@ namespace CefSharp.Wpf
             var webBrowserInternal = this as IWebBrowserInternal;
             if (!webBrowserInternal.HasParent)
             {
-                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, (RequestContext)RequestContext, Address);
+                //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
+                //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
+                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, (RequestContext)RequestContext, address: null);
             }
             browserCreated = true;
 
