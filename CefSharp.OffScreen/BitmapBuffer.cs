@@ -81,12 +81,14 @@ namespace CefSharp.OffScreen
 					return null;
 				}
 
-				var stride = Width * BytesPerPixel;
+				var bitmap = new Bitmap(Width, Height, Format);
 
-				var pointer = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, 0);
+				var bitmapData = bitmap.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.WriteOnly, Format);
 
-				var bitmap = new Bitmap(Width, Height, stride, Format, pointer);
+				Marshal.Copy(Buffer, 0, bitmapData.Scan0, NumberOfBytes);
 
+				bitmap.UnlockBits(bitmapData);
+					
 				return bitmap;
 			}
 		}
