@@ -113,10 +113,15 @@ namespace CefSharp
                         }
                         else if (name == kBindObjectAsync || name == kBindObjectAsyncCamelCase)
                         {
-                            auto promiseCreator = global->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
-
+                            CefRefPtr<CefV8Value> promiseData;
+                            CefRefPtr<CefV8Exception> promiseException;
                             //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
-                            auto promiseData = promiseCreator->ExecuteFunctionWithContext(context, nullptr, CefV8ValueList());
+                            if (!context->Eval(CefAppUnmanagedWrapper::kPromiseCreatorScript, CefString(), 0, promiseData, promiseException))
+                            {
+                                exception = promiseException->GetMessage();
+
+                                return true;
+                            }
 
                             //return the promose
                             retval = promiseData->GetValue("p");
