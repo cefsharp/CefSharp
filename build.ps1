@@ -1,7 +1,7 @@
 param(
     [ValidateSet("vs2015", "vs2017", "nupkg-only", "gitlink")]
     [Parameter(Position = 0)] 
-    [string] $Target = "vs2015",
+    [string] $Target = "vs2017",
     [Parameter(Position = 1)]
     [string] $Version = "68.0.0",
     [Parameter(Position = 2)]
@@ -120,7 +120,7 @@ function Msvs
         [string] $Toolchain, 
 
         [Parameter(Position = 1, ValueFromPipeline = $true)]
-        [ValidateSet('Debug', 'Release')]
+        [ValidateSet('Debug', 'Debug-Net40', 'Release', 'Release-Net40')]
         [string] $Configuration, 
 
         [Parameter(Position = 2, ValueFromPipeline = $true)]
@@ -257,6 +257,8 @@ function VSX
 
     Msvs "$Toolchain" 'Release' 'x86'
     Msvs "$Toolchain" 'Release' 'x64'
+	Msvs "$Toolchain" 'Release-Net40' 'x86'
+	Msvs "$Toolchain" 'Release-Net40' 'x64'
 
     Write-Diagnostic "Finished build targeting toolchain $Toolchain"
 }

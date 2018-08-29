@@ -132,11 +132,16 @@ namespace CefSharp.Wpf.Rendering
                         {
                             if (image.Source != null)
                             {
-                                var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
                                 var bitmap = (InteropBitmap)image.Source;
-                                bitmap.Invalidate(sourceRect);
-                            }
-                        }
+#if NET40
+								bitmap.Invalidate();
+#else
+								// We can optimise the invalidation in .NET >= 4.5
+								var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+								bitmap.Invalidate(sourceRect);
+#endif
+							}
+						}
                     }
                 }), dispatcherPriority);
             }

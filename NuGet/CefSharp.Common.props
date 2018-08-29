@@ -2,37 +2,77 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Choose>
     <When Condition="'$(Platform)' == 'x64'">
-      <ItemGroup>
-        <Reference Include="CefSharp">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="CefSharp.Core">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-		<None Include="@(CefSharpCommonBinaries64)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-      </ItemGroup>
+	  <Choose>
+	    <When Condition="'$(TargetFrameworkVersion)' == 'v4.0'">
+          <ItemGroup>
+            <Reference Include="CefSharp">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp-Net40\x64\CefSharp.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+            <Reference Include="CefSharp.Core">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp-Net40\x64\CefSharp.Core.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+		    <None Include="@(CefSharpCommonBinaries64Net40)">
+              <Link>$(CefSharpTargetDir)\net40\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+          </ItemGroup>
+	    </When>
+		<Otherwise>
+          <ItemGroup>
+            <Reference Include="CefSharp">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+            <Reference Include="CefSharp.Core">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+		    <None Include="@(CefSharpCommonBinaries64)">
+              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+          </ItemGroup>
+	    </Otherwise>
+	  </Choose>
     </When>
     <!-- x86, Win32 and AnyCPU -->
     <Otherwise>
-      <ItemGroup>
-        <Reference Include="CefSharp">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="CefSharp.Core">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-		<None Include="@(CefSharpCommonBinaries32)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-      </ItemGroup>
+	  <Choose>
+	    <When Condition="'$(TargetFrameworkVersion)' == 'v4.0'">
+		  <ItemGroup>
+            <Reference Include="CefSharp">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp-Net40\x86\CefSharp.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+            <Reference Include="CefSharp.Core">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp-Net40\x86\CefSharp.Core.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+		    <None Include="@(CefSharpCommonBinaries32Net40)">
+              <Link>$(CefSharpTargetDir)\net40\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+          </ItemGroup>
+		</When>
+	    <Otherwise>
+		  <ItemGroup>
+            <Reference Include="CefSharp">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+            <Reference Include="CefSharp.Core">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+		    <None Include="@(CefSharpCommonBinaries32)">
+              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+          </ItemGroup>
+	    </Otherwise>
+      </Choose>
     </Otherwise>
   </Choose>
 </Project>
