@@ -19,8 +19,6 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
-        static const CefString kPromiseCreatorScript;
-
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
@@ -35,7 +33,7 @@ namespace CefSharp
         gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
 
     public:
-        static const CefString kPromiseCreatorFunction;
+        static const CefString kPromiseCreatorScript;
 
         CefAppUnmanagedWrapper(List<CefCustomScheme^>^ schemes, bool enableFocusedNodeChanged, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
         {
