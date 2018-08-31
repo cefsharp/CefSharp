@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using CefSharp.Event;
-using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
@@ -104,16 +103,16 @@ namespace CefSharp.Internals
             var boundObjectsHandler = ObjectsBoundInJavascript;
             if (boundObjectHandler != null || boundObjectsHandler != null)
             {
-				//Execute on the threadpool so we don't unnecessarily block the CEF IO thread
-				TaskHelpers.Run(() =>
-					{
-						foreach (var obj in objs)
-						{
-							boundObjectHandler?.Invoke(this, new JavascriptBindingCompleteEventArgs(this, obj.Item1, obj.Item2, obj.Item3));
-						}
+                //Execute on the threadpool so we don't unnecessarily block the CEF IO thread
+                TaskHelpers.Run(() =>
+                    {
+                        foreach (var obj in objs)
+                        {
+                            boundObjectHandler?.Invoke(this, new JavascriptBindingCompleteEventArgs(this, obj.Item1, obj.Item2, obj.Item3));
+                        }
 
-						boundObjectsHandler?.Invoke(this, new JavascriptBindingMultipleCompleteEventArgs(this, objs.Select(x => x.Item1).ToList()));
-					});			
+                        boundObjectsHandler?.Invoke(this, new JavascriptBindingMultipleCompleteEventArgs(this, objs.Select(x => x.Item1).ToList()));
+                    });
             }
         }
 

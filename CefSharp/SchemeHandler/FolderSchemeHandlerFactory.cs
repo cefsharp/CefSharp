@@ -70,20 +70,20 @@ namespace CefSharp.SchemeHandler
             if (this.hostName != null && !uri.Host.Equals(this.hostName, StringComparison.OrdinalIgnoreCase))
             {
                 return ResourceHandler.ForErrorMessage(string.Format("HostName {0} does not match the expected HostName of {1}.", uri.Host, this.hostName), HttpStatusCode.NotFound);
-            }			
+            }            
 
             //Get the absolute path and remove the leading slash
             string absolutePath = uri.AbsolutePath.Substring(1);
 
             if (string.IsNullOrEmpty(absolutePath))
-				absolutePath = defaultPage;
+                absolutePath = defaultPage;
 
-			string filePath = MakeFilePath(
-				rootFolder: rootFolder,
-				absolutePath: absolutePath);
+            string filePath = MakeFilePath(
+                rootFolder: rootFolder,
+                absolutePath: absolutePath);
 
-			//Check the file requested is within the specified path and that the file exists
-			if (filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
+            //Check the file requested is within the specified path and that the file exists
+            if (filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
             {
                 var fileExtension = Path.GetExtension(filePath);
                 var mimeType = ResourceHandler.GetMimeType(fileExtension);
@@ -94,15 +94,15 @@ namespace CefSharp.SchemeHandler
             return ResourceHandler.ForErrorMessage("File Not Found - " + filePath, HttpStatusCode.NotFound);
         }
 
-		private static string MakeFilePath(string rootFolder, string absolutePath)
-		{
-			return
+        private static string MakeFilePath(string rootFolder, string absolutePath)
+        {
+            return
 #if NET40
-				UrlDecoderNet40
+                UrlDecoderNet40
 #else
-				WebUtility
+                WebUtility
 #endif
-					.UrlDecode(Path.GetFullPath(Path.Combine(rootFolder, absolutePath)));
-		}
+                    .UrlDecode(Path.GetFullPath(Path.Combine(rootFolder, absolutePath)));
+        }
     }
 }

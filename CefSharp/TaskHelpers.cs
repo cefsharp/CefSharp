@@ -3,39 +3,39 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
-	public static class TaskHelpers
-	{
-		public static Task Run(Action action)
-		{
-			return 
+    public static class TaskHelpers
+    {
+        public static Task Run(Action action)
+        {
+            return 
 #if NET40
-				TaskEx
+                TaskEx
 #else
-				Task
+                Task
 #endif
-					.Run(action);
-		}
+                    .Run(action);
+        }
 
-		public static Task<TResult> FromResult<TResult>(TResult result)
-		{
-			return
+        public static Task<TResult> FromResult<TResult>(TResult result)
+        {
+            return
 #if NET40
-				TaskEx
+                TaskEx
 #else
-				Task
+                Task
 #endif
-					.FromResult<TResult>(result);
-		}
+                    .FromResult<TResult>(result);
+        }
 
-		public static Task Delay(int millisecondsDelay)
-		{
-			return
+        public static Task Delay(int millisecondsDelay)
+        {
+            return
 #if NET40
-				TaskEx
+                TaskEx
 #else
-				Task
+                Task
 #endif
-					.Delay(millisecondsDelay);
-		}
-	}
+                    .Delay(millisecondsDelay);
+        }
+    }
 }
