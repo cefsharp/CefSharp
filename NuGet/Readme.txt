@@ -26,7 +26,7 @@ What's New:
   https://www.microsoft.com/en-gb/download/details.aspx?id=42637
 
 Basic Troubleshooting:
-  - Minimum of .Net 4.5.2
+  - Minimum of .Net 4.5.2 (4.0 for the core CefSharp assemblies - other than the example applications)
   - Make sure `VC++ 2015 Redist` is installed (either `x86` or `x64` depending on your application)
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (CEF code)
