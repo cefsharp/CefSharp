@@ -1,7 +1,7 @@
 param(
     [ValidateSet("vs2015", "vs2017", "nupkg-only", "gitlink")]
     [Parameter(Position = 0)] 
-    [string] $Target = "vs2017",
+    [string] $Target = "vs2015",
     [Parameter(Position = 1)]
     [string] $Version = "68.0.0",
     [Parameter(Position = 2)]
