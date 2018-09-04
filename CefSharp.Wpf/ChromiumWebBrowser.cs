@@ -1912,7 +1912,7 @@ namespace CefSharp.Wpf
                     toolTip.IsOpen = false;
                 }
 
-                toolTip.Content = text;
+                toolTip.Content = new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap };
                 toolTip.Placement = PlacementMode.Mouse;
                 toolTip.Visibility = Visibility.Visible;
                 toolTip.IsOpen = true;
