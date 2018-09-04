@@ -16,6 +16,8 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">browser</param>
         /// <param name="frame">frame</param>
+        /// <param name="transitionType"> provides information about the source of the navigation and an accurate value is only
+        /// available in the browser process</param>
         public FrameLoadStartEventArgs(IBrowser browser, IFrame frame, TransitionType transitionType)
         {
             Browser = browser;

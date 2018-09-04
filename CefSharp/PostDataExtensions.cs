@@ -7,6 +7,9 @@ using System.Text;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Post Data extension methods - Makes accessing post data easier
+    /// </summary>
     public static class PostDataExtensions
     {
         /// <summary>

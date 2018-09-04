@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Callback interface used for asynchronous continuation of url requests.
+    /// </summary>
     public interface IRequestCallback : IDisposable
     {
         /// <summary>

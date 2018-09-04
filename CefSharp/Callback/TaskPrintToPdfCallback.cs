@@ -8,12 +8,18 @@ using CefSharp.Internals;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Provides a callback implementation of <see cref="IPrintToPdfCallback"/>.
+    /// </summary>
     public sealed class TaskPrintToPdfCallback : IPrintToPdfCallback
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
         private volatile bool isDisposed;
         private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
+        /// <summary>
+        /// Task used to await this callback
+        /// </summary>
         public Task<bool> Task
         {
             get { return taskCompletionSource.Task; }    

@@ -29,6 +29,13 @@ namespace CefSharp.Structs
         /// </summary>
         public int Height { get; private set; }
 
+        /// <summary>
+        /// Rect
+        /// </summary>
+        /// <param name="x">x coordinate</param>
+        /// <param name="y">y coordinate</param>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
         public Rect(int x, int y, int width, int height)
             : this()
         {

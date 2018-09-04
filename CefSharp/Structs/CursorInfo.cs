@@ -6,19 +6,41 @@ using System;
 
 namespace CefSharp.Structs
 {
-	public struct CursorInfo
-	{
-		public IntPtr Buffer { get; set; }
-		public Point Hotspot { get; private set; }
-		public float ImageScaleFactor { get; private set; }
-		public Size Size { get; private set; }
+    /// <summary>
+    /// Struct representing cursor information.
+    /// </summary>
+    public struct CursorInfo
+    {
+        /// <summary>
+        /// Cursor buffer
+        /// </summary>
+        public IntPtr Buffer { get; set; }
+        /// <summary>
+        /// Hotspot
+        /// </summary>
+        public Point Hotspot { get; private set; }
+        /// <summary>
+        /// Image scale factor
+        /// </summary>
+        public float ImageScaleFactor { get; private set; }
+        /// <summary>
+        /// Size
+        /// </summary>
+        public Size Size { get; private set; }
 
-		public CursorInfo(IntPtr buffer, Point hotspot, float imageScaleFactor, Size size)
-		{
-			Buffer = buffer;
-			Hotspot = hotspot;
-			ImageScaleFactor = imageScaleFactor;
-			Size = size;
-		}
-	}
+        /// <summary>
+        /// CursorInfo
+        /// </summary>
+        /// <param name="buffer">buffer</param>
+        /// <param name="hotspot">hotspot</param>
+        /// <param name="imageScaleFactor">image scale factor</param>
+        /// <param name="size">size</param>
+        public CursorInfo(IntPtr buffer, Point hotspot, float imageScaleFactor, Size size)
+        {
+            Buffer = buffer;
+            Hotspot = hotspot;
+            ImageScaleFactor = imageScaleFactor;
+            Size = size;
+        }
+    }
 }

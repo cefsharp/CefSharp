@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Callback interface used for continuation of custom context menu display.
+    /// </summary>
     public interface IRunContextMenuCallback : IDisposable
     {
         /// <summary>

@@ -4,9 +4,15 @@
 
 namespace CefSharp.Wpf
 {
+    /// <summary>
+    /// Initialization settings. Many of these and other settings can also configured
+    /// using command-line switches.
+    /// </summary>
     public class CefSettings : AbstractCefSettings
     {
-        //TODO: This is duplicated with the Offscreen version
+        /// <summary>
+        /// Intialize with default values
+        /// </summary>
         public CefSettings() : base()
         {
             WindowlessRenderingEnabled = true;

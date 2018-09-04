@@ -90,7 +90,7 @@ namespace CefSharp.Handler
         /// Called to handle requests for URLs with an invalid SSL certificate.
         /// Return true and call <see cref="IRequestCallback.Continue"/> either
         /// in this method or at a later time to continue or cancel the request.  
-        /// If <see cref="CefSettings.IgnoreCertificateErrors"/> is set all invalid certificates
+        /// If CefSettings.IgnoreCertificateErrors is set all invalid certificates
         /// will be accepted without calling this method.
         /// </summary>
         /// <param name="browserControl">the ChromiumWebBrowser control</param>

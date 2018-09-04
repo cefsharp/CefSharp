@@ -19,6 +19,11 @@ namespace CefSharp.Structs
         /// </summary>
         public int To { get; private set; }
 
+        /// <summary>
+        /// Range
+        /// </summary>
+        /// <param name="from">from</param>
+        /// <param name="to">to</param>
         public Range(int from, int to)
             : this()
         {

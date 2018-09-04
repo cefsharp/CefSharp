@@ -4,6 +4,9 @@
 
 namespace CefSharp.Structs
 {
+    /// <summary>
+    /// Class representing a point.
+    /// </summary>
     public struct Point
     {
         /// <summary>
@@ -16,6 +19,11 @@ namespace CefSharp.Structs
         /// </summary>
         public int Y { get; private set; }
 
+        /// <summary>
+        /// Point
+        /// </summary>
+        /// <param name="x">x coordinate</param>
+        /// <param name="y">y coordinate</param>
         public Point(int x, int y)
         {
             X = x;

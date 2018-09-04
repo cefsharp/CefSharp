@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Javascript callback interface
+    /// </summary>
     public interface IJavascriptCallback : IDisposable
     {
         /// <summary>
@@ -14,6 +17,11 @@ namespace CefSharp
         /// </summary>
         Int64 Id { get; }
 
+        /// <summary>
+        /// Execute the javascript callback
+        /// </summary>
+        /// <param name="parms">param array of objects</param>
+        /// <returns>JavascriptResponse</returns>
         Task<JavascriptResponse> ExecuteAsync(params object[] parms);
 
         /// <summary>

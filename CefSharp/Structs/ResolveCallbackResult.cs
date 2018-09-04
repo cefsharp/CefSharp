@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// IP Address solution callback result
+    /// </summary>
     public struct ResolveCallbackResult
     {
         /// <summary>
@@ -18,6 +21,11 @@ namespace CefSharp
         /// </summary>
         public IList<string> ResolvedIpAddresses { get; private set; }
 
+        /// <summary>
+        /// ResolveCallbackResult
+        /// </summary>
+        /// <param name="result">result</param>
+        /// <param name="resolvedIpAddresses">list of ip addresses</param>
         public ResolveCallbackResult(CefErrorCode result, IList<string> resolvedIpAddresses) : this()
         {
             Result = result;

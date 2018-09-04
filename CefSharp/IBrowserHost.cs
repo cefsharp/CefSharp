@@ -317,10 +317,8 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse move event to the browser, coordinates, 
         /// </summary>
-        /// <param name="x">x coordinate - relative to upper-left corner of view</param>
-        /// <param name="y">y coordinate - relative to upper-left corner of view</param>
+        /// <param name="mouseEvent">mouse information, x and y values are relative to upper-left corner of view</param>
         /// <param name="mouseLeave">mouse leave</param>
-        /// <param name="modifiers">click modifiers .e.g Ctrl</param>
         void SendMouseMoveEvent(MouseEvent mouseEvent, bool mouseLeave);
 
         /// <summary>

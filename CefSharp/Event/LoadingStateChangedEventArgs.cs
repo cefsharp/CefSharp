@@ -33,6 +33,13 @@ namespace CefSharp
         /// </summary>
         public IBrowser Browser { get; private set; }
 
+        /// <summary>
+        /// LoadingStateChangedEventArgs
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="canGoBack">can go back</param>
+        /// <param name="canGoForward">can go forward</param>
+        /// <param name="isLoading">is loading</param>
         public LoadingStateChangedEventArgs(IBrowser browser, bool canGoBack, bool canGoForward, bool isLoading)
         {
             Browser = browser;

@@ -32,6 +32,13 @@ namespace CefSharp.Event
         /// </summary>
         public bool IsCached { get; private set; }
 
+        /// <summary>
+        /// JavascriptBindingCompleteEventArgs
+        /// </summary>
+        /// <param name="objectRepository">javascript object repository</param>
+        /// <param name="name">object name</param>
+        /// <param name="alreadyBound">is the object already bound</param>
+        /// <param name="isCached">is the object cached</param>
         public JavascriptBindingCompleteEventArgs(IJavascriptObjectRepository objectRepository, string name, bool alreadyBound, bool isCached)
         {
             ObjectRepository = objectRepository;

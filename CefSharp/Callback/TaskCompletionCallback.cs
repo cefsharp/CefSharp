@@ -8,12 +8,18 @@ using CefSharp.Internals;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Provides a callback implementation of <see cref="ICompletionCallback"/>.
+    /// </summary>
     public class TaskCompletionCallback : ICompletionCallback
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource;
         private volatile bool isDisposed;
         private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TaskCompletionCallback()
         {
             taskCompletionSource = new TaskCompletionSource<bool>();
@@ -26,6 +32,9 @@ namespace CefSharp
             taskCompletionSource.TrySetResultAsync(true);
         }
 
+        /// <summary>
+        /// Task used to await this callback
+        /// </summary>
         public Task<bool> Task
         {
             get { return taskCompletionSource.Task; }

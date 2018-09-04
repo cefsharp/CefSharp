@@ -39,6 +39,14 @@ namespace CefSharp
         /// </summary>
         public X509Certificate2 X509Certificate { get; private set; }
 
+        /// <summary>
+        /// SslStatus
+        /// </summary>
+        /// <param name="isSecureConnection">is secure</param>
+        /// <param name="certStatus">cert status</param>
+        /// <param name="sslVersion">ssl version</param>
+        /// <param name="contentStatus">content status</param>
+        /// <param name="certificate">certificate</param>
         public SslStatus(bool isSecureConnection, CertStatus certStatus, SslVersion sslVersion, SslContentStatus contentStatus, X509Certificate2 certificate)
         {
             IsSecureConnection = isSecureConnection;

@@ -13,6 +13,10 @@ using System.Collections.Specialized;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// WebBrowser extensions - These methods make performing common tasks
+    /// easier.
+    /// </summary>
     public static class WebBrowserExtensions
     {
         private static Type[] numberTypes = new Type[] { typeof(int), typeof(uint), typeof(double), typeof(decimal), typeof(float), typeof(Int64), typeof(Int16) };

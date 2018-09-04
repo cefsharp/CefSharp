@@ -9,11 +9,17 @@ using CefSharp.Internals;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Provides a visitor implementation of <see cref="IWebPluginInfoVisitor"/>
+    /// </summary>
     public class TaskWebPluginInfoVisitor : IWebPluginInfoVisitor
     {
         private TaskCompletionSource<List<WebPluginInfo>> taskCompletionSource;
         private List<WebPluginInfo> list;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TaskWebPluginInfoVisitor()
         {
             taskCompletionSource = new TaskCompletionSource<List<WebPluginInfo>>();

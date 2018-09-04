@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Proxy options
+    /// </summary>
     public class ProxyOptions
     {
         /// <summary>

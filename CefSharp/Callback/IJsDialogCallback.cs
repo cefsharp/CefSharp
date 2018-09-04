@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Callback interface used for asynchronous continuation of JavaScript dialog requests.
+    /// </summary>
     public interface IJsDialogCallback : IDisposable
     {
         /// <summary>

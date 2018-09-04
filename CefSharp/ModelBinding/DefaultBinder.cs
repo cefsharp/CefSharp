@@ -163,6 +163,13 @@ namespace CefSharp.ModelBinding
             return bindingContext.Model;
         }
 
+        /// <summary>
+        /// CreateBindingContext - Can be overriden to change some binding context features
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <param name="modelType">model type</param>
+        /// <param name="genericType">generic type</param>
+        /// <returns>binding context</returns>
         protected virtual BindingContext CreateBindingContext(object obj, Type modelType, Type genericType)
         {
             return new BindingContext
@@ -175,6 +182,12 @@ namespace CefSharp.ModelBinding
             };
         }
 
+        /// <summary>
+        /// BindValue
+        /// </summary>
+        /// <param name="modelProperty">model property</param>
+        /// <param name="obj">object</param>
+        /// <param name="context">context</param>
         protected virtual void BindValue(BindingMemberInfo modelProperty, object obj, BindingContext context)
         {
             if(obj == null)
@@ -196,6 +209,12 @@ namespace CefSharp.ModelBinding
             }
         }
 
+        /// <summary>
+        /// Get binding members
+        /// </summary>
+        /// <param name="modelType">model type</param>
+        /// <param name="genericType">generic type</param>
+        /// <returns>collection of binding member informations</returns>
         protected virtual IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType)
         {
             var blackListHash = new HashSet<string>(BlackListedPropertyNames, StringComparer.Ordinal);
@@ -203,6 +222,12 @@ namespace CefSharp.ModelBinding
             return BindingMemberInfo.Collect(genericType ?? modelType) .Where(member => !blackListHash.Contains(member.Name));
         }
 
+        /// <summary>
+        /// Create model based on type
+        /// </summary>
+        /// <param name="modelType">model type</param>
+        /// <param name="genericType">generic type</param>
+        /// <returns>a new instance of the object type</returns>
         protected virtual object CreateModel(Type modelType, Type genericType)
         {
             if (modelType.IsCollection() || modelType.IsArray() || modelType.IsEnumerable())
@@ -215,6 +240,12 @@ namespace CefSharp.ModelBinding
             return Activator.CreateInstance(modelType, true);
         }
 
+        /// <summary>
+        /// Gets the value for the property name
+        /// </summary>
+        /// <param name="propertyName">property name</param>
+        /// <param name="context">context</param>
+        /// <returns>value or null</returns>
         protected virtual object GetValue(string propertyName, BindingContext context)
         {
             var dictionary = (IDictionary<string, object>)context.Object;
@@ -226,6 +257,13 @@ namespace CefSharp.ModelBinding
             return null;
         }
 
+        /// <summary>
+        /// Gets the value based on the index, used to accessing objects
+        /// in a collection.
+        /// </summary>
+        /// <param name="context">binding context</param>
+        /// <param name="index">index</param>
+        /// <returns>element or null</returns>
         protected virtual object GetValue(BindingContext context, int index)
         {
             var collection = context.Object as IList<object>;

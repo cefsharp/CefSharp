@@ -28,7 +28,7 @@ namespace CefSharp
         /// <summary>
         /// Default Constructor
         /// </summary>
-		AbstractCefSettings() : _cefSettings(new ::CefSettings())
+        AbstractCefSettings() : _cefSettings(new ::CefSettings())
         {
             _cefSettings->multi_threaded_message_loop = true;
             _cefSettings->no_sandbox = true;

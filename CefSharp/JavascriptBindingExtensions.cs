@@ -10,8 +10,17 @@ using CefSharp.Event;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Javascript binding extension methods
+    /// </summary>
     public static class JavascriptBindingExtensions
     {
+        /// <summary>
+        /// Make sure an object is bound in javascript. Executes against the main frame
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="names">object names</param>
+        /// <returns>List of objects that were bound</returns>
         public static Task<IList<string>> EnsureObjectBoundAsync(this IWebBrowser browser, params string[] names)
         {
             var objBoundTasks = new TaskCompletionSource<IList<string>>();
