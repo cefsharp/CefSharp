@@ -11,6 +11,11 @@ namespace CefSharp
     /// </summary>
     public class StatusMessageEventArgs : EventArgs
     {
+        /// <summary>
+        /// StatusMessageEventArgs
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="value">status message value</param>
         public StatusMessageEventArgs(IBrowser browser, string value)
         {
             Browser = browser;

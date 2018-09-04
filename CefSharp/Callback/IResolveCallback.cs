@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Callback interface for <see cref="IRequestContext.ResolveHostAsync(Uri)"/>
+    /// </summary>
     public interface IResolveCallback : IDisposable
     {
         /// <summary>

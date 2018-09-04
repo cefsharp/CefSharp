@@ -13,11 +13,11 @@ namespace CefSharp
     /// </summary>
     public interface IRequest : IDisposable
     {
-        /// <summary>
-        /// Get/Set the Url to the first party for cookies used in combination with CefURLRequest.
-        /// </summary>
-        /// Note: If we every implment CefURLRequest then this will need to be added
-        //string FirstPartyForCookies { get; set; }
+        ///// <summary>
+        ///// Get/Set the Url to the first party for cookies used in combination with CefURLRequest.
+        ///// </summary>
+        ///// Note: If we every implment CefURLRequest then this will need to be added
+        ////string FirstPartyForCookies { get; set; }
 
         /// <summary>
         /// Get/Set request flags, can be used to control caching policy

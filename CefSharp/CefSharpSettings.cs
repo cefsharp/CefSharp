@@ -90,7 +90,7 @@ namespace CefSharp
 
         /// <summary>
         /// This influences the behavior of RegisterAsyncJsObject and how method calls are made.
-        /// By default the <see cref="MethodRunnerQueue"/> executes Tasks in a sync fashion.
+        /// By default the <see cref="Internals.MethodRunnerQueue"/> executes Tasks in a sync fashion.
         /// Setting this property to true will allocate new Tasks on TaskScheduler.Default for execution.
         /// </summary>
         public static bool ConcurrentTaskExecution { get; set; }

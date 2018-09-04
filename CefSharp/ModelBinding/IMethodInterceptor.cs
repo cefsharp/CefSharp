@@ -9,6 +9,7 @@ namespace CefSharp.ModelBinding
     /// <summary>
     /// Provides the capability intercept Net method calls made from javascript as part of the
     /// JavascriptBinding (JSB) implementation. One example use case is logging method calls.
+    /// </summary>
     public interface IMethodInterceptor
     {
         /// <summary>

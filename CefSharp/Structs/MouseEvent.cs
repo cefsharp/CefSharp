@@ -24,6 +24,12 @@ namespace CefSharp
         /// </summary>
         public CefEventFlags Modifiers { get; private set; }
 
+        /// <summary>
+        /// Mouse Event
+        /// </summary>
+        /// <param name="x">x coordinate relative to the upper-left corner of the view.</param>
+        /// <param name="y">y coordinate relative to the upper-left corner of the view.</param>
+        /// <param name="modifiers">modifiers</param>
         public MouseEvent(int x, int y, CefEventFlags modifiers) : this()
         {
             X = x;

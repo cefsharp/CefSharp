@@ -21,6 +21,11 @@ namespace CefSharp
         /// </summary>
         public string ErrorMessage { get; private set; }
 
+        /// <summary>
+        /// CdmRegistration
+        /// </summary>
+        /// <param name="errorCode">error code</param>
+        /// <param name="errorMessage">error message</param>
         public CdmRegistration(CdmRegistrationErrorCode errorCode, string errorMessage)
         {
             ErrorCode = errorCode;

@@ -17,6 +17,9 @@ namespace CefSharp
         private volatile bool isDisposed;
         private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TaskSetCookieCallback()
         {
             taskCompletionSource = new TaskCompletionSource<bool>();
@@ -29,6 +32,9 @@ namespace CefSharp
             taskCompletionSource.TrySetResultAsync(success);
         }
 
+        /// <summary>
+        /// Task used to await this callback
+        /// </summary>
         public Task<bool> Task
         {
             get { return taskCompletionSource.Task; }

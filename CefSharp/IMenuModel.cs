@@ -4,6 +4,11 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Supports creation and modification of menus. See <see cref="CefMenuCommand"/> for the command ids that have default implementations.
+    /// All user-defined command ids should be between <see cref="CefMenuCommand.UserFirst"/> and <see cref="CefMenuCommand.UserFirst"/>.
+    /// The methods of this class can only be accessed on the CEF UI thread, which by default is not the same as your application UI thread.
+    /// </summary>
     public interface IMenuModel
     {
         /// <summary>

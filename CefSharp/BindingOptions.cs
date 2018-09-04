@@ -36,6 +36,9 @@ namespace CefSharp
         /// </summary>
         public IMethodInterceptor MethodInterceptor { get; set; }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public BindingOptions()
         {
             CamelCaseJavascriptNames = true;

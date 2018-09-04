@@ -29,6 +29,13 @@ namespace CefSharp
         /// </summary>
         public string Version { get; private set; }
 
+        /// <summary>
+        /// WebPluginInfo
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="description">description</param>
+        /// <param name="path">path</param>
+        /// <param name="version">version</param>
         public WebPluginInfo(string name, string description, string path, string version)
         {
             Name = name;

@@ -11,8 +11,15 @@ namespace CefSharp
     /// </summary>
     public class IsBrowserInitializedChangedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Is browser initialized
+        /// </summary>
         public bool IsBrowserInitialized { get; private set; }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="isBrowserInitialized">bool</param>
         public IsBrowserInitializedChangedEventArgs(bool isBrowserInitialized)
         {
             IsBrowserInitialized = isBrowserInitialized;
