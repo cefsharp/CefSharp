@@ -1225,14 +1225,30 @@ namespace CefSharp
                     auto objs = gcnew List<Tuple<String^, bool, bool>^>(boundObjects->GetSize());
                     for (auto i = 0; i < boundObjects->GetSize(); i++)
                     {
-                        auto obj = boundObjects->GetDictionary(i);
-                        auto name = obj->GetString("Name");
-                        auto alreadyBound = obj->GetBool("AlreadyBound");
-                        auto isCached = obj->GetBool("IsCached");                        
+						auto obj = boundObjects->GetDictionary(i);
 
-                        objs->Add(Tuple::Create(StringUtils::ToClr(name), alreadyBound, isCached));
+						if (obj != NULL)
+						{
+							auto name = obj->GetString("Name");
+							auto alreadyBound = obj->GetBool("AlreadyBound");
+							auto isCached = obj->GetBool("IsCached");						
+
+							objs->Add(Tuple::Create(StringUtils::ToClr(name), alreadyBound, isCached));
+						}
+						else
+						{
+							CefValueType type = boundObjects->GetType(i);
+							if (type == VTYPE_DICTIONARY)
+							{ 
+								LOG(ERROR) << "Failed to extract dictionary from boundObjects in OnProcessMessageReceived->kJavascriptObjectsBoundInJavascript";
+							}
+							else
+							{
+								LOG(ERROR) << "BoundObject did not contain a dictionary in OnProcessMessageReceived->kJavascriptObjectsBoundInJavascript";
+							}
+						}
                     }
-                    
+
                     objectRepository->ObjectsBound(objs);
                 }
 
