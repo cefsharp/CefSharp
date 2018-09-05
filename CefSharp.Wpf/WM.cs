@@ -1,6 +1,9 @@
 ﻿namespace CefSharp.Wpf
 {
-    // Gratiously based on http://www.pinvoke.net/default.aspx/Enums/WindowsMessages.html
+    /// <summary>
+    /// Windows Message Enums
+    /// Gratiosly based on http://www.pinvoke.net/default.aspx/Enums/WindowsMessages.html
+    /// </summary>
     public enum WM : uint
     {
         /// <summary>
