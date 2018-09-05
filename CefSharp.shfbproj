@@ -33,7 +33,7 @@
     </DocumentationSources>
     <HelpFileVersion>67.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
-    <NamespaceGrouping>True</NamespaceGrouping>
+    <NamespaceGrouping>False</NamespaceGrouping>
     <SyntaxFilters>C#, Managed C++</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <RootNamespaceContainer>True</RootNamespaceContainer>
@@ -59,6 +59,23 @@
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, EditorBrowsableNever, NonBrowsable</VisibleItems>
     <HeaderText>Version 67.0.0</HeaderText>
     <CopyrightHref>https://raw.githubusercontent.com/cefsharp/CefSharp/master/LICENSE</CopyrightHref>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="CefSharp" isDocumented="True">Interfaces, enums, structs and classes that make up the core API interface</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Enums" isDocumented="True">Enums (not all enums are in this namespace yet)</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Event" isDocumented="True">Event args classes used for common scenarios</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Structs" isDocumented="True">Structs</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Handler" isDocumented="True">Handlers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.SchemeHandler" isDocumented="True">SchemeHandler</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.ModelBinding" isDocumented="True">Model binding - used by Javascript Binding</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Internals" isDocumented="False">Components used internally for CefSharp.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Wpf" isDocumented="True">Integration with Wpf.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Wpf.Rendering" isDocumented="True">Wpf Rendering.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Wpf.Rendering.Experimental" isDocumented="False">Wpf Experimental Rendering.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.Wpf.Internals" isDocumented="false">Components used internally for CefSharp.Wpf</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.WinForms" isDocumented="True">Integration with WinForms.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.WinForms.Internals" isDocumented="False">Components used internally for CefSharp.Wpf.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="CefSharp.OffScreen" isDocumented="True">Browser that renders each bitmap to a buffer, no GUI is displayed</NamespaceSummaryItem>
+    </NamespaceSummaries>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
