@@ -746,6 +746,10 @@ namespace CefSharp.Wpf
             UpdateDragCursor(operation);
         }
 
+        /// <summary>
+        /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
+        /// </summary>
+        /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
             //TODO: Someone should implement this
@@ -770,7 +774,7 @@ namespace CefSharp.Wpf
         /// override this method or implement your own <see cref="IRenderHandler"/> and assign to <see cref="RenderHandler"/>
         /// Called on the CEF UI Thread
         /// </summary>
-        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="isPopup">indicates whether the element is the view or the popup widget.</param>
         /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
         /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
         /// <param name="width">width</param>
@@ -798,10 +802,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Sets the popup size and position.
         /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
+        /// <param name="rect">The popup rectangle (size and position).</param>
         void IRenderWebBrowser.OnPopupSize(Rect rect)
         {
             UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(rect));
@@ -821,6 +822,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="handle">The handle.</param>
         /// <param name="type">The type.</param>
+        /// <param name="customCursorInfo">custom cursor information</param>
         void IRenderWebBrowser.OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
         {
             //Custom cursors are handled differently, for now keep standard ones executing
@@ -850,6 +852,11 @@ namespace CefSharp.Wpf
             OnImeCompositionRangeChanged(selectedRange, characterBounds);
         }
 
+        /// <summary>
+        /// Called when the IME composition range has changed.
+        /// </summary>
+        /// <param name="selectedRange">is the range of characters that have been selected</param>
+        /// <param name="characterBounds">is the bounds of each character in view coordinates.</param>
         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
             //TODO: Implement this
@@ -1837,6 +1844,7 @@ namespace CefSharp.Wpf
             }
         }
 
+        /// <summary>
         /// Converts a .NET Drag event to a CefSharp MouseEvent
         /// </summary>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -1851,10 +1859,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Sets the popup size and position implementation.
         /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
+        /// <param name="rect">The popup rectangle (size and position).</param>
         private void SetPopupSizeAndPositionImpl(Rect rect)
         {
             popupImage.Width = rect.Width;
@@ -2261,6 +2266,9 @@ namespace CefSharp.Wpf
             objectRepository.Register(name, objectToBind, true, options);
         }
 
+        /// <summary>
+        /// The javascript object repository, one repository per ChromiumWebBrowser instance.
+        /// </summary>
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
             get { return managedCefBrowserAdapter?.JavascriptObjectRepository; }

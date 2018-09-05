@@ -52,6 +52,9 @@ namespace CefSharp.Wpf.Rendering.Experimental
             this.dispatcherPriority = dispatcherPriority;
         }
 
+        /// <summary>
+        /// Dispose
+        /// </summary>
         public void Dispose()
         {
             ReleaseMemoryMappedView(ref popupMemoryMappedFile, ref popupMemoryMappedViewAccessor);
