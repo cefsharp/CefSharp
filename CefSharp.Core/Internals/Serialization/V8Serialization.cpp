@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -101,6 +101,47 @@ namespace CefSharp
                 else if (type == DateTime::typeid)
                 {
                     SetCefTime(list, index, ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
+                }
+                // Serialize enum to sbyte, short, int, long, byte, ushort, uint, ulong (check type of enum)
+                else if (type->IsEnum)
+                {
+                    auto subType = System::Enum::GetUnderlyingType(type);
+                    if (subType == SByte::typeid)
+                    {
+                        list->SetInt(index, Convert::ToInt32(obj));
+                    }
+                    else if (subType == Int16::typeid)
+                    {
+                        list->SetInt(index, Convert::ToInt32(obj));
+                    }
+                    else if (subType == Int32::typeid)
+                    {
+                        list->SetInt(index, safe_cast<int>(obj));
+                    }
+                    else if (subType == Int64::typeid)
+                    {
+                        list->SetDouble(index, Convert::ToDouble(obj));
+                    }
+                    else if (subType == Byte::typeid)
+                    {
+                        list->SetInt(index, Convert::ToInt32(obj));
+                    }
+                    else if (subType == UInt16::typeid)
+                    {
+                        list->SetInt(index, Convert::ToInt32(obj));
+                    }
+                    else if (subType == UInt32::typeid)
+                    {
+                        list->SetDouble(index, Convert::ToDouble(obj));
+                    }
+                    else if (subType == UInt64::typeid)
+                    {
+                        list->SetDouble(index, Convert::ToDouble(obj));
+                    }
+                    else
+                    {
+                        throw gcnew NotSupportedException("Unable to serialize Type");
+                    }
                 }
                 // Serialize dictionary to CefDictionary (key,value pairs)
                 else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
