@@ -20,7 +20,7 @@ namespace CefSharp
             MCefRefPtr<CefRequest> _wrappedRequest;
             IPostData^ _postData;
         internal:
-            CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) : 
+            CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) :
                 _wrappedRequest(cefRequest), _postData(nullptr)
             {
             }

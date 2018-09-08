@@ -1,7 +1,7 @@
-﻿using System;
+﻿using CefSharp;
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using CefSharp;
 
 [assembly: AssemblyTitle("CefSharp.Wpf.Example")]
 [assembly: AssemblyCompany(AssemblyInfo.AssemblyCompany)]

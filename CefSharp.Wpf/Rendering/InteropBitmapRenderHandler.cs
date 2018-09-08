@@ -4,13 +4,12 @@
 
 using System;
 using System.IO.MemoryMappedFiles;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Runtime.InteropServices;
 using System.Windows.Threading;
-
 using Rect = CefSharp.Structs.Rect;
 
 namespace CefSharp.Wpf.Rendering

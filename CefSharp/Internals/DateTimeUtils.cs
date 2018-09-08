@@ -28,7 +28,7 @@ namespace CefSharp.Internals
             {
                 return new DateTime(year, month, day, hour, minute, second, millisecond);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return DateTime.MinValue;
             }
@@ -42,7 +42,7 @@ namespace CefSharp.Internals
         public static double ToCefTime(DateTime dateTime)
         {
             var timeSpan = dateTime - FirstOfTheFirstNineteenSeventy;
-            
+
             return timeSpan.TotalSeconds;
         }
     }

@@ -55,7 +55,7 @@ namespace CefSharp
             virtual property List<String^>^ DictionarySuggestions { List<String^>^ get(); }
             virtual property bool IsEditable { bool get(); }
             virtual property bool IsSpellCheckEnabled { bool get(); }
-            virtual property ContextMenuEditState EditStateFlags  { ContextMenuEditState get(); }
+            virtual property ContextMenuEditState EditStateFlags { ContextMenuEditState get(); }
             virtual property bool IsCustomMenu { bool get(); }
             virtual property bool IsPepperMenu { bool get(); }
         };

@@ -63,7 +63,7 @@ namespace CefSharp
                 }
                 else if (type == VTYPE_DICTIONARY)
                 {
-                    
+
                     IDictionary<String^, Object^>^ expandoObj = gcnew ExpandoObject();
                     auto subDict = list->GetDictionary(index);
                     std::vector<CefString> keys;

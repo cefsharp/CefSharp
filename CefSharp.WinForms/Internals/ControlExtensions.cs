@@ -55,10 +55,10 @@ namespace CefSharp.WinForms.Internals
         {
             Form form = control.FindForm();
             if (form == null)
-             {
-                 return false;
-             }
- 
+            {
+                return false;
+            }
+
             Control activeControl = form.ActiveControl;
             while (activeControl != null
                    && (activeControl is ContainerControl)

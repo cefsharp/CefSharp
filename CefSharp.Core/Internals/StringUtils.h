@@ -137,7 +137,7 @@ namespace CefSharp
                     logMessageBuilder << L":" << exception->GetLineNumber() << L":" << exception->GetStartColumn();
                     return CefString(logMessageBuilder.str());
                 }
-                
+
                 return "Exception occured but the Cef V8 exception is null";
             }
         };

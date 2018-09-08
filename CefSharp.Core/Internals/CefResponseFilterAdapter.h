@@ -20,10 +20,10 @@ namespace CefSharp
             gcroot<IResponseFilter^> _filter;
 
         public:
-            CefResponseFilterAdapter(IResponseFilter^ filter) : 
+            CefResponseFilterAdapter(IResponseFilter^ filter) :
                 _filter(filter)
             {
-            
+
             }
 
             ~CefResponseFilterAdapter()
@@ -65,7 +65,7 @@ namespace CefSharp
                 if (dataInSize > 0)
                 {
                     UnmanagedMemoryStream readStream((Byte*)dataIn, (Int64)dataInSize, (Int64)dataInSize, FileAccess::Read);
-                
+
                     status = _filter->Filter(%readStream, dataInReadPtr, %writeStream, dataOutWrittenPtr);
                 }
                 else

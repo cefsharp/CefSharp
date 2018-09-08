@@ -2,17 +2,17 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Example;
+using CefSharp.Example.Handlers;
+using CefSharp.Example.ModelBinding;
+using CefSharp.Wpf.Example.Handlers;
+using CefSharp.Wpf.Example.ViewModels;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using CefSharp.Example;
-using CefSharp.Example.Handlers;
-using CefSharp.Wpf.Example.Handlers;
-using CefSharp.Wpf.Example.ViewModels;
-using System.IO;
-using CefSharp.Example.ModelBinding;
-using System.Diagnostics;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -30,7 +30,7 @@ namespace CefSharp.Wpf.Example.Views
             browser.RequestHandler = new RequestHandler();
 
             //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
-            if(CefSharpSettings.LegacyJavascriptBindingEnabled)
+            if (CefSharpSettings.LegacyJavascriptBindingEnabled)
             {
                 browser.RegisterJsObject("bound", new BoundObject(), options: BindingOptions.DefaultBinder);
             }
@@ -40,14 +40,14 @@ namespace CefSharp.Wpf.Example.Views
                 //browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync:false, options: BindingOptions.DefaultBinder);
             }
 
-            var bindingOptions = new BindingOptions() 
+            var bindingOptions = new BindingOptions()
             {
                 Binder = BindingOptions.DefaultBinder.Binder,
                 MethodInterceptor = new MethodInterceptorLogger() // intercept .net methods calls from js and log it
             };
 
             //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
-            if(CefSharpSettings.LegacyJavascriptBindingEnabled)
+            if (CefSharpSettings.LegacyJavascriptBindingEnabled)
             {
                 browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), options: bindingOptions);
             }
@@ -70,12 +70,12 @@ namespace CefSharp.Wpf.Example.Views
                 {
                     repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
                 }
-                else if(e.ObjectName == "bound")
-                { 
+                else if (e.ObjectName == "bound")
+                {
                     browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
                 }
-                else if( e.ObjectName == "boundAsync")
-                { 
+                else if (e.ObjectName == "boundAsync")
+                {
                     browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
                 }
             };
@@ -85,7 +85,7 @@ namespace CefSharp.Wpf.Example.Views
                 var name = e.ObjectName;
 
                 Debug.WriteLine($"Object {e.ObjectName} was bound successfully.");
-            };           
+            };
 
             browser.DisplayHandler = new DisplayHandler();
             browser.LifeSpanHandler = new LifespanHandler();
@@ -100,7 +100,7 @@ namespace CefSharp.Wpf.Example.Views
             var beachImageStream = new MemoryStream();
             CefSharp.Example.Properties.Resources.beach.Save(beachImageStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             browser.RegisterResourceHandler(CefExample.BaseUrl + "/images/beach.jpg", beachImageStream, ResourceHandler.GetMimeType(".jpg"));
-            
+
             var dragHandler = new DragHandler();
             dragHandler.RegionsChanged += OnDragHandlerRegionsChanged;
 
@@ -117,12 +117,12 @@ namespace CefSharp.Wpf.Example.Views
             //{
             //    string errorMessage;
             //    //Use this to check that settings preferences are working in your code
-                
+
             //    var success = browser.RequestContext.SetPreference("webkit.webprefs.minimum_font_size", 24, out errorMessage);
             //});             
-            
+
             browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
-            
+
             browser.LoadError += (sender, args) =>
             {
                 // Don't display an error for downloaded files.
@@ -187,11 +187,11 @@ namespace CefSharp.Wpf.Example.Views
 
         private void OnDragHandlerRegionsChanged(Region region)
         {
-            if(region != null)
+            if (region != null)
             {
                 //Only wire up event handler once
-                if(this.region == null)
-                { 
+                if (this.region == null)
+                {
                     browser.PreviewMouseLeftButtonDown += OnBrowserMouseLeftButtonDown;
                 }
 

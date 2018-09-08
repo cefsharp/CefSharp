@@ -22,12 +22,12 @@ namespace CefSharp.Example
 
         public void OnResetDialogState(IWebBrowser browserControl, IBrowser browser)
         {
-            
+
         }
 
         public void OnDialogClosed(IWebBrowser browserControl, IBrowser browser)
         {
-            
+
         }
     }
 }

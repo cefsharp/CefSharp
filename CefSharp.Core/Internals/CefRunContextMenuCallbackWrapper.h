@@ -22,7 +22,7 @@ namespace CefSharp
             CefRunContextMenuCallbackWrapper(CefRefPtr< CefRunContextMenuCallback> &callback) :
                 _callback(callback)
             {
-            
+
             }
 
             !CefRunContextMenuCallbackWrapper()

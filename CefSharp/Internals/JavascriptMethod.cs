@@ -39,7 +39,7 @@ namespace CefSharp.Internals
         /// </summary>
         public List<MethodParameter> Parameters { get; set; }
 
-        public bool HasParamArray { get;set; }
+        public bool HasParamArray { get; set; }
 
         /// <summary>
         /// Number of Params this function exepects

@@ -25,7 +25,7 @@ namespace CefSharp
             CefSslInfoWrapper(CefRefPtr<CefSSLInfo> &sslInfo)
                 : _sslInfo(sslInfo)
             {
-            
+
             }
 
             !CefSslInfoWrapper()

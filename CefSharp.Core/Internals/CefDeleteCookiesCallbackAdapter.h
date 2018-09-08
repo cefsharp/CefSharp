@@ -9,32 +9,32 @@
 
 namespace CefSharp
 {
-	namespace Internals
-	{
-		private class CefDeleteCookiesCallbackAdapter : public CefDeleteCookiesCallback
-		{
-		private:
-			gcroot<IDeleteCookiesCallback^> _handler;
+    namespace Internals
+    {
+        private class CefDeleteCookiesCallbackAdapter : public CefDeleteCookiesCallback
+        {
+        private:
+            gcroot<IDeleteCookiesCallback^> _handler;
 
-		public:
-			CefDeleteCookiesCallbackAdapter(IDeleteCookiesCallback^ handler)
-			{
-				_handler = handler;
-			}
+        public:
+            CefDeleteCookiesCallbackAdapter(IDeleteCookiesCallback^ handler)
+            {
+                _handler = handler;
+            }
 
-			~CefDeleteCookiesCallbackAdapter()
-			{
-				delete _handler;
-				_handler = nullptr;
-			}
+            ~CefDeleteCookiesCallbackAdapter()
+            {
+                delete _handler;
+                _handler = nullptr;
+            }
 
-			void OnComplete(int numDeleted) OVERRIDE
-			{
-				_handler->OnComplete(numDeleted);
-			}
+            void OnComplete(int numDeleted) OVERRIDE
+            {
+                _handler->OnComplete(numDeleted);
+            }
 
-			IMPLEMENT_REFCOUNTING(CefDeleteCookiesCallbackAdapter);
-		};
-	}
+            IMPLEMENT_REFCOUNTING(CefDeleteCookiesCallbackAdapter);
+        };
+    }
 }
 

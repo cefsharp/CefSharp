@@ -22,7 +22,7 @@ namespace CefSharp.WinForms.Example
                 {
                     return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
                 }
-                
+
                 var titleAttribute = (AssemblyTitleAttribute)attributes[0];
                 return titleAttribute.Title != "" ? titleAttribute.Title : Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
             }

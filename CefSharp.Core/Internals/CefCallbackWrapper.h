@@ -22,7 +22,7 @@ namespace CefSharp
             CefCallbackWrapper(CefRefPtr<CefCallback> &callback) :
                 _callback(callback)
             {
-            
+
             }
 
             !CefCallbackWrapper()

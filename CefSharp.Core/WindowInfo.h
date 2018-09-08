@@ -22,7 +22,7 @@ namespace CefSharp
 
         WindowInfo(CefWindowInfo* windowInfo) : _windowInfo(windowInfo)
         {
-            
+
         }
 
         !WindowInfo()

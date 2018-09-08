@@ -6,12 +6,12 @@ using System;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace CefSharp.Wpf 
+namespace CefSharp.Wpf
 {
     /// <summary>
     /// Implement this interface to control how keys are forwarded to the browser
     /// </summary>
-    public interface IWpfKeyboardHandler : IDisposable 
+    public interface IWpfKeyboardHandler : IDisposable
     {
         void Setup(HwndSource source);
         void HandleKeyPress(KeyEventArgs e);

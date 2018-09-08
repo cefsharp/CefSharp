@@ -22,10 +22,10 @@ namespace CefSharp.Internals
     {
         [DataMember]
         public string Message { get; set; }
-        
+
         [DataMember]
         public bool Success { get; set; }
-        
+
         [DataMember]
         public object Result { get; set; }
     }

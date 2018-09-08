@@ -65,7 +65,7 @@ namespace CefSharp
         /// <param name="label">the label of the item</param>
         /// <returns>Returns true on success.</returns>
         bool AddCheckItem(CefMenuCommand commandId, string label);
-        
+
         /// <summary>
         /// Add a radio item to the menu. Only a single item with the specified groupId can be checked at a time.
         /// </summary>

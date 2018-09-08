@@ -13,17 +13,17 @@ namespace CefSharp.Internals
     internal sealed class JavascriptCallbackSurrogate : IDataContractSurrogate
     {
         private readonly IJavascriptCallbackFactory callbackFactory;
- 
+
         public JavascriptCallbackSurrogate(IJavascriptCallbackFactory callbackFactory)
-         {
+        {
             this.callbackFactory = callbackFactory;
-         }
+        }
 
         public Type GetDataContractType(Type type)
         {
-            if (type == typeof (JavascriptCallback))
+            if (type == typeof(JavascriptCallback))
             {
-                return typeof (IJavascriptCallback);
+                return typeof(IJavascriptCallback);
             }
             return type;
         }

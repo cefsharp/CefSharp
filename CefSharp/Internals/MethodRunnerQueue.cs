@@ -67,8 +67,8 @@ namespace CefSharp.Internals
         {
             try
             {
-                
-                if(CefSharpSettings.ConcurrentTaskExecution)
+
+                if (CefSharpSettings.ConcurrentTaskExecution)
                 {
                     //New experimental behaviour that Starts the Tasks on TaskScheduler.Default 
                     while (!cancellationTokenSource.IsCancellationRequested)

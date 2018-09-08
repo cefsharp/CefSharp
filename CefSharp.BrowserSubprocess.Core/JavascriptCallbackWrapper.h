@@ -29,7 +29,7 @@ namespace CefSharp
 
         public:
             JavascriptCallbackWrapper(CefRefPtr<CefV8Value> value, CefRefPtr<CefV8Context> context)
-                : _value(value), _context(context) 
+                : _value(value), _context(context)
             {
             }
 

@@ -2,10 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
-using System.Threading.Tasks;
 using CefSharp.Enums;
 using CefSharp.Structs;
+using System;
+using System.Threading.Tasks;
 using Size = CefSharp.Structs.Size;
 
 namespace CefSharp
@@ -78,7 +78,7 @@ namespace CefSharp
         /// This method is only used when window rendering is disabled.
         /// </summary>
         void DragTargetDragLeave();
-        
+
         /// <summary>
         /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging"/> call has completed.
         /// This method may be called immediately without first calling DragSourceEndedAt to cancel a drag operation.
@@ -301,7 +301,7 @@ namespace CefSharp
         /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
         /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
         void ShowDevTools(IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0);
-        
+
         /// <summary>
         /// Download the file at url using IDownloadHandler. 
         /// </summary>

@@ -2,16 +2,15 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Enums;
+using CefSharp.Internals;
+using CefSharp.Structs;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
-using CefSharp.Enums;
-using CefSharp.Internals;
-using CefSharp.Structs;
-
-using Size = System.Drawing.Size;
 using Point = System.Drawing.Point;
+using Size = System.Drawing.Size;
 
 namespace CefSharp.OffScreen
 {
@@ -339,7 +338,7 @@ namespace CefSharp.OffScreen
             LoadingStateChanged = null;
             Paint = null;
             StatusMessage = null;
-            TitleChanged = null;            
+            TitleChanged = null;
 
             Cef.RemoveDisposable(this);
 
@@ -379,7 +378,7 @@ namespace CefSharp.OffScreen
 
             browserCreated = true;
 
-            if(browserSettings == null)
+            if (browserSettings == null)
             {
                 browserSettings = new BrowserSettings();
             }
@@ -387,7 +386,7 @@ namespace CefSharp.OffScreen
             //Dispose of browser settings after we've created the browser
             using (browserSettings)
             {
-                managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, browserSettings , (RequestContext)RequestContext, Address);
+                managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, browserSettings, (RequestContext)RequestContext, Address);
             }
         }
 
@@ -426,14 +425,14 @@ namespace CefSharp.OffScreen
         /// <returns>Bitmap.</returns>
         public Bitmap ScreenshotOrNull(PopupBlending blend = PopupBlending.Main)
         {
-            if(RenderHandler == null)
+            if (RenderHandler == null)
             {
                 throw new NullReferenceException("RenderHandler cannot be null. Use DefaultRenderHandler unless implementing your own");
             }
 
             var renderHandler = RenderHandler as DefaultRenderHandler;
 
-            if(renderHandler == null)
+            if (renderHandler == null)
             {
                 throw new Exception("ScreenshotOrNull and ScreenshotAsync can only be used in combination with the DefaultRenderHandler");
             }
@@ -709,7 +708,7 @@ namespace CefSharp.OffScreen
                 handled = args.Handled;
             }
 
-            if(!handled)
+            if (!handled)
             {
                 OnPaint(type, dirtyRect, buffer, width, height);
             }

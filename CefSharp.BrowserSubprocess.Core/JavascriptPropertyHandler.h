@@ -37,7 +37,7 @@ namespace CefSharp
             auto propertyName = StringUtils::ToClr(name);
             auto response = _getter->Invoke(propertyName);
             retval = TypeUtils::ConvertToCef(response->Result, nullptr);
-            if(!response->Success)
+            if (!response->Success)
             {
                 exception = StringUtils::ToNative(response->Message);
             }
@@ -52,7 +52,7 @@ namespace CefSharp
             auto propertyName = StringUtils::ToClr(name);
             auto managedValue = TypeUtils::ConvertFromCef(value, nullptr);
             auto response = _setter->Invoke(propertyName, managedValue);
-            if(!response->Success)
+            if (!response->Success)
             {
                 exception = StringUtils::ToNative(response->Message);
             }

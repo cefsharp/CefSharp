@@ -59,34 +59,38 @@ namespace CefSharp.Wpf.Example.Controls
             base.OnItemsChanged(e);
 
             if (itemsHolderPanel == null)
+            {
                 return;
+            }
 
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Reset:
-                itemsHolderPanel.Children.Clear();
-                break;
+                    itemsHolderPanel.Children.Clear();
+                    break;
 
                 case NotifyCollectionChangedAction.Add:
                 case NotifyCollectionChangedAction.Remove:
-                if (e.OldItems != null)
-                {
-                    foreach (var item in e.OldItems)
+                    if (e.OldItems != null)
                     {
-                        var cp = FindChildContentPresenter(item);
-                        if (cp != null)
-                            itemsHolderPanel.Children.Remove(cp);
+                        foreach (var item in e.OldItems)
+                        {
+                            var cp = FindChildContentPresenter(item);
+                            if (cp != null)
+                            {
+                                itemsHolderPanel.Children.Remove(cp);
+                            }
+                        }
                     }
-                }
 
-                // Don't do anything with new items because we don't want to
-                // create visuals that aren't being shown
+                    // Don't do anything with new items because we don't want to
+                    // create visuals that aren't being shown
 
-                UpdateSelectedItem();
-                break;
+                    UpdateSelectedItem();
+                    break;
 
                 case NotifyCollectionChangedAction.Replace:
-                throw new NotImplementedException("Replace not implemented yet");
+                    throw new NotImplementedException("Replace not implemented yet");
             }
         }
 
@@ -99,27 +103,37 @@ namespace CefSharp.Wpf.Example.Controls
         private void UpdateSelectedItem()
         {
             if (itemsHolderPanel == null)
+            {
                 return;
+            }
 
             // Generate a ContentPresenter if necessary
             var item = GetSelectedTabItem();
             if (item != null)
+            {
                 CreateChildContentPresenter(item);
+            }
 
             // show the right child
             foreach (ContentPresenter child in itemsHolderPanel.Children)
+            {
                 child.Visibility = ((child.Tag as TabItem).IsSelected) ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         private ContentPresenter CreateChildContentPresenter(object item)
         {
             if (item == null)
+            {
                 return null;
+            }
 
             var cp = FindChildContentPresenter(item);
 
             if (cp != null)
+            {
                 return cp;
+            }
 
             var tabItem = item as TabItem;
             cp = new ContentPresenter
@@ -138,18 +152,26 @@ namespace CefSharp.Wpf.Example.Controls
         private ContentPresenter FindChildContentPresenter(object data)
         {
             if (data is TabItem)
+            {
                 data = (data as TabItem).Content;
+            }
 
             if (data == null)
+            {
                 return null;
+            }
 
             if (itemsHolderPanel == null)
+            {
                 return null;
+            }
 
             foreach (ContentPresenter cp in itemsHolderPanel.Children)
             {
                 if (cp.Content == data)
+                {
                     return cp;
+                }
             }
 
             return null;
@@ -159,7 +181,9 @@ namespace CefSharp.Wpf.Example.Controls
         {
             var selectedItem = SelectedItem;
             if (selectedItem == null)
+            {
                 return null;
+            }
 
             var item = selectedItem as TabItem ?? ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
 

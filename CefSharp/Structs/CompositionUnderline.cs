@@ -37,7 +37,7 @@ namespace CefSharp.Structs
             Color = color;
             BackgroundColor = backGroundColor;
             Thick = thick;
-        }                
+        }
     }
 }
 

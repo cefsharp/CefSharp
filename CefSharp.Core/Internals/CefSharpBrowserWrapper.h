@@ -31,7 +31,7 @@ namespace CefSharp
                 _browser = nullptr;
             }
 
-            ~CefSharpBrowserWrapper() 
+            ~CefSharpBrowserWrapper()
             {
                 this->!CefSharpBrowserWrapper();
                 delete _browserHost;

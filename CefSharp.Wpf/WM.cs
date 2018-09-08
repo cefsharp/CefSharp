@@ -11,7 +11,7 @@
         /// key is a key that is pressed when the ALT key is not pressed.
         /// </summary>
         KEYDOWN = 0x0100,
-    
+
         /// <summary>
         /// The WM_KEYUP message is posted to the window with the keyboard focus when a nonsystem key is released. A nonsystem
         /// key is a key that is pressed when the ALT key is not pressed, or a keyboard key that is pressed when a window has the

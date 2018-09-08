@@ -6,12 +6,12 @@ using Xunit;
 
 namespace CefSharp.Test
 {
-	/// <summary>
-	/// All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle
-	/// </summary>
-	[CollectionDefinition(CefSharpFixtureCollection.Key)]
-	public class CefSharpFixtureCollection : ICollectionFixture<CefSharpFixture>
-	{
-		public const string Key = "CefSharp Test Collection";
-	}
+    /// <summary>
+    /// All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle
+    /// </summary>
+    [CollectionDefinition(CefSharpFixtureCollection.Key)]
+    public class CefSharpFixtureCollection : ICollectionFixture<CefSharpFixture>
+    {
+        public const string Key = "CefSharp Test Collection";
+    }
 }

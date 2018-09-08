@@ -206,7 +206,7 @@ namespace CefSharp
                 }
 
                 auto writeHandler = new CefWriteHandlerWrapper(stream);
-                
+
                 auto writer = CefStreamWriter::CreateForHandler(writeHandler);
                 return (Int64)_wrappedDragData->GetFileContents(writer);
             }

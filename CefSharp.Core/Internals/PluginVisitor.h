@@ -17,7 +17,7 @@ namespace CefSharp
     public:
         PluginVisitor(IWebPluginInfoVisitor^ visitor) : _visitor(visitor)
         {
-            
+
         }
 
         ~PluginVisitor()

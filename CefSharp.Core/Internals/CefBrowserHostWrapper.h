@@ -20,14 +20,14 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefBrowserHost> _browserHost;
-            
+
             double GetZoomLevelOnUI();
 
         internal:
             CefBrowserHostWrapper(CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost)
             {
             }
-            
+
             !CefBrowserHostWrapper()
             {
                 _browserHost = NULL;
@@ -55,7 +55,7 @@ namespace CefSharp
             virtual void DragSourceEndedAt(int x, int y, DragOperationsMask op);
             virtual void DragTargetDragLeave();
             virtual void DragSourceSystemDragEnded();
-        
+
             virtual void ShowDevTools(IWindowInfo^ windowInfo, int inspectElementAtX, int inspectElementAtY);
             virtual void CloseDevTools();
             ///

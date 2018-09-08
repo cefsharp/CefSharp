@@ -134,7 +134,7 @@ namespace CefSharp
         {
             int get() { return _browserSettings->minimum_logical_font_size; }
             void set(int value) { _browserSettings->minimum_logical_font_size = value; }
-        }        
+        }
 
         /// <summary>
         /// Default encoding for Web content. If empty "ISO-8859-1" will be used. Also
@@ -324,7 +324,7 @@ namespace CefSharp
             CefState get() { return (CefState)_browserSettings->webgl; }
             void set(CefState value) { _browserSettings->webgl = (cef_state_t)value; }
         }
-        
+
         /// <summary>
         /// Background color used for the browser before a document is loaded and when no document color
         /// is specified. The alpha component must be either fully opaque (0xFF) or fully transparent (0x00).
@@ -364,6 +364,6 @@ namespace CefSharp
         {
             int get() { return _browserSettings->windowless_frame_rate; }
             void set(int value) { _browserSettings->windowless_frame_rate = value; }
-        }		
+        }
     };
 }

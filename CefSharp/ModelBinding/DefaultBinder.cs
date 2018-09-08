@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 namespace CefSharp.ModelBinding
 {
@@ -50,7 +49,7 @@ namespace CefSharp.ModelBinding
         /// <returns>Bound model</returns>
         public virtual object Bind(object obj, Type modelType)
         {
-            if(obj == null)
+            if (obj == null)
             {
                 return null;
             }
@@ -63,15 +62,15 @@ namespace CefSharp.ModelBinding
                 return obj;
             }
 
-            if (modelType.IsEnum && modelType.IsEnumDefined(obj)) 
+            if (modelType.IsEnum && modelType.IsEnumDefined(obj))
             {
                 return Enum.ToObject(modelType, obj);
             }
 
             var typeConverter = TypeDescriptor.GetConverter(objType);
-            
+
             // If the object can be converted to the modelType (eg: double to int)
-            if (typeConverter.CanConvertTo(modelType)) 
+            if (typeConverter.CanConvertTo(modelType))
             {
                 return typeConverter.ConvertTo(obj, modelType);
             }
@@ -105,7 +104,7 @@ namespace CefSharp.ModelBinding
                 var model = (IList)bindingContext.Model;
                 var collection = obj as ICollection;
 
-                if(collection == null)
+                if (collection == null)
                 {
                     return null;
                 }
@@ -131,7 +130,7 @@ namespace CefSharp.ModelBinding
                             model.Add(subModel);
                         }
                         else
-                        { 
+                        {
                             model.Add(val);
                         }
                     }
@@ -142,7 +141,7 @@ namespace CefSharp.ModelBinding
                 // If the object type is a dictionary (we're using ExpandoObject instead of Dictionary now)
                 // Then attempt to bind all the members
                 if (typeof(IDictionary<string, object>).IsAssignableFrom(bindingContext.Object.GetType()))
-                { 
+                {
                     foreach (var modelProperty in bindingContext.ValidModelBindingMembers)
                     {
                         var val = GetValue(modelProperty.Name, bindingContext);
@@ -190,7 +189,7 @@ namespace CefSharp.ModelBinding
         /// <param name="context">context</param>
         protected virtual void BindValue(BindingMemberInfo modelProperty, object obj, BindingContext context)
         {
-            if(obj == null)
+            if (obj == null)
             {
                 return;
             }
@@ -219,7 +218,7 @@ namespace CefSharp.ModelBinding
         {
             var blackListHash = new HashSet<string>(BlackListedPropertyNames, StringComparer.Ordinal);
 
-            return BindingMemberInfo.Collect(genericType ?? modelType) .Where(member => !blackListHash.Contains(member.Name));
+            return BindingMemberInfo.Collect(genericType ?? modelType).Where(member => !blackListHash.Contains(member.Name));
         }
 
         /// <summary>

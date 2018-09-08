@@ -2,12 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace CefSharp.Wpf.Example.Handlers
 {
@@ -93,7 +93,7 @@ namespace CefSharp.Wpf.Example.Handlers
 
                 foreach (var item in menuItems)
                 {
-                    if(item.Item2 == CefMenuCommand.NotFound && string.IsNullOrWhiteSpace(item.Item1))
+                    if (item.Item2 == CefMenuCommand.NotFound && string.IsNullOrWhiteSpace(item.Item1))
                     {
                         menu.Items.Add(new Separator());
                         continue;
@@ -210,7 +210,7 @@ namespace CefSharp.Wpf.Example.Handlers
 
         private static IEnumerable<Tuple<string, CefMenuCommand, bool>> GetMenuItems(IMenuModel model)
         {
-            for(var i = 0; i < model.Count; i++)
+            for (var i = 0; i < model.Count; i++)
             {
                 var header = model.GetLabelAt(i);
                 var commandId = model.GetCommandIdAt(i);

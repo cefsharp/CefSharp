@@ -23,7 +23,7 @@ namespace CefSharp
             CefMenuModelWrapper(CefRefPtr<CefMenuModel> &menu) :
                 _menu(menu)
             {
-            
+
             }
 
             !CefMenuModelWrapper()
@@ -62,7 +62,7 @@ namespace CefSharp
                 return StringUtils::ToClr(_menu->GetLabelAt(index));
             }
 
-            virtual CefMenuCommand GetCommandIdAt(int index) 
+            virtual CefMenuCommand GetCommandIdAt(int index)
             {
                 ThrowIfDisposed();
 
@@ -83,7 +83,7 @@ namespace CefSharp
                 return _menu->AddSeparator();
             }
 
-            virtual bool AddItem(CefMenuCommand commandId, String^ label) 
+            virtual bool AddItem(CefMenuCommand commandId, String^ label)
             {
                 ThrowIfDisposed();
 
@@ -108,7 +108,7 @@ namespace CefSharp
             {
                 ThrowIfDisposed();
 
-                auto subMenu =_menu->AddSubMenu((int)commandId, StringUtils::ToNative(label));
+                auto subMenu = _menu->AddSubMenu((int)commandId, StringUtils::ToNative(label));
 
                 if (subMenu.get())
                 {
@@ -248,7 +248,7 @@ namespace CefSharp
             {
                 ThrowIfDisposed();
 
-                auto subMenu =_menu->GetSubMenu((int)commandId);
+                auto subMenu = _menu->GetSubMenu((int)commandId);
 
                 if (subMenu.get())
                 {
@@ -327,7 +327,7 @@ namespace CefSharp
 
                 return _menu->SetEnabledAt(index, enabled);
             }
-            
+
             virtual bool IsChecked(CefMenuCommand commandId)
             {
                 ThrowIfDisposed();

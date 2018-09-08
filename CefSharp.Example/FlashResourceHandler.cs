@@ -35,8 +35,8 @@ namespace CefSharp.Example
                     ResponseLength = stream.Length;
                     MimeType = mime;
                     StatusCode = (int)HttpStatusCode.OK;
-                    Stream = stream;                    
-               
+                    Stream = stream;
+
                     callback.Continue();
                 }
             });

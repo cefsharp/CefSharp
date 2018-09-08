@@ -15,42 +15,42 @@ namespace CefSharp
         /// Returns the time for the last known successful navigation completion.
         /// </summary>
         public DateTime CompletionTime { get; private set; }
-         
+
         /// <summary>
         /// Returns a display-friendly version of the URL.
         /// </summary>
         public string DisplayUrl { get; private set; }
-        
+
         /// <summary>
         /// Returns the HTTP status code for the last known successful navigation response.
         /// </summary>
         public int HttpStatusCode { get; private set; }
-          
+
         /// <summary>
         /// Returns the original URL that was entered by the user before any redirects.
         /// </summary>
         public string OriginalUrl { get; private set; }
-          
+
         /// <summary>
         /// Returns the title set by the page.
         /// </summary>
         public string Title { get; private set; }
-          
+
         /// <summary>
         /// Returns the transition type which indicates what the user did to move to this page from the previous page.
         /// </summary>
         public TransitionType TransitionType { get; private set; }
-          
+
         /// <summary>
         /// Returns the actual URL of the page.
         /// </summary>
         public string Url { get; private set; }
-          
+
         /// <summary>
         /// Returns true if this navigation includes post data.
         /// </summary>
         public bool HasPostData { get; private set; }
-          
+
         /// <summary>
         /// Returns true if this object is valid.
         /// </summary>

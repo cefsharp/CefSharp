@@ -17,7 +17,7 @@ namespace CefSharp
         _jsPropertyHandler = new JavascriptPropertyHandler(
             gcnew Func<String^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::GetProperty),
             gcnew Func<String^, Object^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::SetProperty)
-            );
+        );
 
         //V8Value that represents this javascript object - only one per complex type
         auto javascriptObject = CefV8Value::CreateObject(_jsPropertyHandler.get(), NULL);

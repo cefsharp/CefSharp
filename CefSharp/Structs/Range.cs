@@ -13,7 +13,7 @@ namespace CefSharp.Structs
         /// From
         /// </summary>
         public int From { get; private set; }
-        
+
         /// <summary>
         /// To
         /// </summary>

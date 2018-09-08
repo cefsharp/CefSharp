@@ -54,7 +54,7 @@ namespace CefSharp
 
                     std::vector<CefRefPtr<CefX509Certificate>>::const_iterator it =
                         _certificateList.begin();
-                    for (; it != _certificateList.end(); ++it) 
+                    for (; it != _certificateList.end(); ++it)
                     {
 
                         // TODO: Need to make this logic of comparing serial number of the certificate (*it)

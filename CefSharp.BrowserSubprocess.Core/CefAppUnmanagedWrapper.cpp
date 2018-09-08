@@ -137,7 +137,7 @@ namespace CefSharp
         }
 
         auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
-        
+
         JavascriptRootObjectWrapper^ wrapper;
         if (rootObjectWrappers->TryRemove(frame->GetIdentifier(), wrapper))
         {
@@ -300,7 +300,7 @@ namespace CefSharp
 
             return true;
         }
-    
+
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -327,7 +327,7 @@ namespace CefSharp
 
                 JavascriptRootObjectWrapper^ rootObjectWrapper;
                 browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
-                
+
                 //NOTE: In the rare case when when OnContextCreated hasn't been called we need to manually create the rootObjectWrapper
                 //It appears that OnContextCreated is only called for pages that have javascript on them, which makes sense
                 //as without javascript there is no need for a context.
@@ -348,14 +348,14 @@ namespace CefSharp
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-                    
+
                     if (context.get() && context->Enter())
                     {
                         try
                         {
                             CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, scriptUrl, startLine, result, exception);
-                            
+
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
@@ -404,14 +404,14 @@ namespace CefSharp
                     {
                         auto context = callbackWrapper->GetContext();
                         auto value = callbackWrapper->GetValue();
-                
+
                         if (context.get() && context->Enter())
                         {
                             try
                             {
                                 auto parameterList = argList->GetList(3);
                                 CefV8ValueList params;
-                                
+
                                 //Needs to be called within the context as for Dictionary (mapped to struct)
                                 //a V8Object will be created
                                 for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
@@ -421,7 +421,7 @@ namespace CefSharp
 
                                 result = value->ExecuteFunction(nullptr, params);
                                 success = result.get() != nullptr;
-                        
+
                                 //we need to do this here to be able to store the v8context
                                 if (success)
                                 {
@@ -604,7 +604,7 @@ namespace CefSharp
                 if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
                 {
 
-                    try 
+                    try
                     {
                         auto frame = browser->GetFrame(frameId);
                         if (frame.get())

@@ -9,31 +9,31 @@
 
 namespace CefSharp
 {
-	namespace Internals
-	{
-		private class CefCompletionCallbackAdapter : public CefCompletionCallback
-		{
-		private:
-			gcroot<ICompletionCallback^> _handler;
+    namespace Internals
+    {
+        private class CefCompletionCallbackAdapter : public CefCompletionCallback
+        {
+        private:
+            gcroot<ICompletionCallback^> _handler;
 
-		public:
-			CefCompletionCallbackAdapter(ICompletionCallback^ handler)
-			{
-				_handler = handler;
-			}
+        public:
+            CefCompletionCallbackAdapter(ICompletionCallback^ handler)
+            {
+                _handler = handler;
+            }
 
-			~CefCompletionCallbackAdapter()
-			{
-				delete _handler;
-				_handler = nullptr;
-			}
+            ~CefCompletionCallbackAdapter()
+            {
+                delete _handler;
+                _handler = nullptr;
+            }
 
-			void OnComplete() OVERRIDE
-			{
-				_handler->OnComplete();
-			}
+            void OnComplete() OVERRIDE
+            {
+                _handler->OnComplete();
+            }
 
-			IMPLEMENT_REFCOUNTING(CefCompletionCallbackAdapter);
-		};
-	}
+            IMPLEMENT_REFCOUNTING(CefCompletionCallbackAdapter);
+        };
+    }
 }

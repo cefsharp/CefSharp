@@ -2,12 +2,11 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.WinForms.Internals;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using CefSharp.Internals;
-using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Helper
 {
@@ -66,7 +65,7 @@ namespace CefSharp.WinForms.Example.Helper
             //WinForms will kindly lookup the child control from it's handle
             this.parentControl = Control.FromChildHandle(browserHandle);
 
-            if(this.parentControl == null)
+            if (this.parentControl == null)
             {
                 throw new Exception("Unable to locate parentControl from the browser handle.");
             }
@@ -89,7 +88,7 @@ namespace CefSharp.WinForms.Example.Helper
             parentControl.InvokeOnUiThreadIfRequired(() =>
             {
                 ParentFormChanged(parentControl, null);
-            });            
+            });
         }
 
         /// <summary>
@@ -132,8 +131,8 @@ namespace CefSharp.WinForms.Example.Helper
         private void ParentControlSizeChanged(object sender, EventArgs e)
         {
             var bounds = parentControl.Bounds;
-            if(browserHandle != IntPtr.Zero)
-            { 
+            if (browserHandle != IntPtr.Zero)
+            {
                 NativeMethodWrapper.SetWindowPosition(browserHandle, bounds.X, bounds.Y, bounds.Width, bounds.Height);
             }
         }

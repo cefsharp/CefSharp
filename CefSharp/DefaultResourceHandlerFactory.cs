@@ -65,7 +65,7 @@ namespace CefSharp
         /// Are there any <see cref="ResourceHandler"/>'s registered?
         /// </summary>
         public bool HasHandlers
-        { 
+        {
             get { return Handlers.Count > 0; }
         }
 

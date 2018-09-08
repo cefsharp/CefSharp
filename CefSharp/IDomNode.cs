@@ -44,6 +44,6 @@ namespace CefSharp
         /// <returns>
         /// True if the attribute exists in the DomNode, false if it does not.
         /// </returns>
-        bool HasAttribute (string attributeName);
+        bool HasAttribute(string attributeName);
     }
 }

@@ -21,7 +21,7 @@ namespace CefSharp
             CefFileDialogCallbackWrapper(CefRefPtr<CefFileDialogCallback> &callback) :
                 _callback(callback)
             {
-            
+
             }
 
             !CefFileDialogCallbackWrapper()
@@ -44,7 +44,7 @@ namespace CefSharp
 
                 delete this;
             }
-        
+
             virtual void Cancel()
             {
                 ThrowIfDisposed();

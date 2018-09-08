@@ -66,7 +66,6 @@ namespace CefSharp
             }
             catch (Exception^)
             {
-                
                 channelFactory->Abort();
             }
 

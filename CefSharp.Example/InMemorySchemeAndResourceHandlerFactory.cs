@@ -2,11 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Example.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CefSharp;
-using CefSharp.Example.Properties;
 
 namespace CefSharp.Example
 {
@@ -106,8 +105,8 @@ namespace CefSharp.Example
         {
             var uri = new Uri(request.Url);
             //Compare scheme and host
-            if(string.Equals(uri.Scheme, "http", StringComparison.OrdinalIgnoreCase) && string.Equals(uri.Host, "cefsharp", StringComparison.OrdinalIgnoreCase))
-            { 
+            if (string.Equals(uri.Scheme, "http", StringComparison.OrdinalIgnoreCase) && string.Equals(uri.Host, "cefsharp", StringComparison.OrdinalIgnoreCase))
+            {
                 var fileName = uri.AbsolutePath;
                 var extension = Path.GetExtension(fileName);
 

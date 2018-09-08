@@ -2,11 +2,11 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.ModelBinding;
 using System;
 using System.Diagnostics;
-using CefSharp.ModelBinding;
 
-namespace CefSharp.Example.ModelBinding 
+namespace CefSharp.Example.ModelBinding
 {
     public class MethodInterceptorLogger : IMethodInterceptor
     {

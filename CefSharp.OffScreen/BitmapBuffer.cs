@@ -3,11 +3,11 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 
+using CefSharp.Structs;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using CefSharp.Structs;
 
 namespace CefSharp.OffScreen
 {
@@ -34,7 +34,7 @@ namespace CefSharp.OffScreen
         /// Dirty Rect - unified region containing th
         /// </summary>
         public Rect DirtyRect { get; private set; }
-        
+
         public object BitmapLock { get; private set; }
 
         public BitmapBuffer(object bitmapLock)
@@ -88,7 +88,7 @@ namespace CefSharp.OffScreen
                 Marshal.Copy(Buffer, 0, bitmapData.Scan0, NumberOfBytes);
 
                 bitmap.UnlockBits(bitmapData);
-                    
+
                 return bitmap;
             }
         }

@@ -23,7 +23,7 @@ namespace CefSharp
         /// SerifFontFamily
         /// </summary>
         string SerifFontFamily { get; set; }
-        
+
         /// <summary>
         /// SansSerifFontFamily
         /// </summary>
@@ -175,7 +175,7 @@ namespace CefSharp
         /// configurable using the "disable-webgl" command-line switch.
         /// </summary>
         CefState WebGl { get; set; }
-        
+
         /// <summary>
         /// Opaque background color used for the browser before a document is loaded
         /// and when no document color is specified. By default the background color

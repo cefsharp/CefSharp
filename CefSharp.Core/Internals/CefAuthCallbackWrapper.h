@@ -23,7 +23,7 @@ namespace CefSharp
             CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback, IFrame^ frame)
                 : _callback(callback), _frame(frame)
             {
-            
+
             }
 
             !CefAuthCallbackWrapper()

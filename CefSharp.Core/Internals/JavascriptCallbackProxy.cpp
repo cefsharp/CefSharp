@@ -88,7 +88,7 @@ namespace CefSharp
             {
                 return false;
             }
-            
+
             auto browser = GetBrowser();
 
             return browser != nullptr;

@@ -2,15 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Example.Properties;
+using CefSharp.Example.Proxy;
+using CefSharp.SchemeHandler;
 using System;
 using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
-using CefSharp.Example.Handlers;
-using CefSharp.Example.Properties;
-using CefSharp.Example.Proxy;
-using CefSharp.Internals;
-using CefSharp.SchemeHandler;
 
 namespace CefSharp.Example
 {
@@ -33,7 +30,7 @@ namespace CefSharp.Example
         public const string RenderProcessCrashedUrl = "http://processcrashed";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
         public const string PopupParentUrl = "http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_win_close";
-        
+
         // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
         private static string PluginInformation = "";
@@ -107,7 +104,7 @@ namespace CefSharp.Example
             settings.UncaughtExceptionStackSize = 10;
 
             // Off Screen rendering (WPF/Offscreen)
-            if(settings.WindowlessRenderingEnabled)
+            if (settings.WindowlessRenderingEnabled)
             {
                 //Disable Direct Composition to test https://github.com/cefsharp/CefSharp/issues/1634
                 //settings.CefCommandLineArgs.Add("disable-direct-composition", "1");
@@ -137,7 +134,7 @@ namespace CefSharp.Example
                     break;
                 }
             }
-            
+
             //settings.LogSeverity = LogSeverity.Verbose;
 
             if (DebuggingSubProcess)
@@ -177,7 +174,7 @@ namespace CefSharp.Example
                                                                     schemeName: "localfolder", //Optional param no schemename checking if null
                                                                     hostName: "cefsharp", //Optional param no hostname checking if null
                                                                     defaultPage: "home.html") //Optional param will default to index.html
-            });			
+            });
 
             settings.RegisterExtension(new CefExtension("cefsharp/example", Resources.extension));
 
@@ -233,10 +230,10 @@ namespace CefSharp.Example
                     pluginBody.Append("<th>Version</th>");
                     pluginBody.Append("<th>Path</th>");
                     pluginBody.Append("</tr>");
-                
+
                     var plugins = await Cef.GetPlugins();
 
-                    if(plugins.Count == 0)
+                    if (plugins.Count == 0)
                     {
                         pluginBody.Append("<tr>");
                         pluginBody.Append("<td colspan='4'>Cef.GetPlugins returned an empty list - likely no plugins were loaded on your system</td>");

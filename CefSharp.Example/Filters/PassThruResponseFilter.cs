@@ -16,7 +16,7 @@ namespace CefSharp.Example.Filters
 
         FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)
         {
-            if(dataIn == null)
+            if (dataIn == null)
             {
                 dataInRead = 0;
                 dataOutWritten = 0;
@@ -34,7 +34,7 @@ namespace CefSharp.Example.Filters
 
         public void Dispose()
         {
-            
+
         }
     }
 }

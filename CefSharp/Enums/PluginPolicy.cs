@@ -23,7 +23,7 @@ namespace CefSharp
         /// Block the content. The user can manually load blocked content.
         /// </summary>
         Block,
-        
+
         /// <summary>
         /// Disable the content. The user cannot load disabled content.
         /// </summary>

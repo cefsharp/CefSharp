@@ -12,7 +12,7 @@ namespace CefSharp
     /// class isn't used as some of it's properties have internal setters
     /// </summary>
     [DebuggerDisplay("Domain = {Domain}, Path = {Path}, Name = {Name}, Secure = {Secure}, HttpOnly = {HttpOnly}," +
-                     "Creation = {Creation}, Expires = {Expires}, LastAccess = {LastAccess}", Name = "Cookie")] 
+                     "Creation = {Creation}, Expires = {Expires}, LastAccess = {LastAccess}", Name = "Cookie")]
     public sealed class Cookie
     {
         /// <summary>

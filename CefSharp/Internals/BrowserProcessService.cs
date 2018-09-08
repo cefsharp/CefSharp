@@ -6,12 +6,12 @@ using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode=ConcurrencyMode.Multiple)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     internal class BrowserProcessService : IBrowserProcess
     {
         private readonly JavascriptObjectRepository javascriptObjectRepository;
         private readonly BrowserProcessServiceHost host;
-        
+
         public BrowserProcessService()
         {
             var context = OperationContext.Current;
@@ -24,7 +24,7 @@ namespace CefSharp.Internals
         {
             object result;
             string exception;
-            
+
             var success = javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result, out exception);
 
             return new BrowserProcessResponse { Success = success, Result = result, Message = exception };

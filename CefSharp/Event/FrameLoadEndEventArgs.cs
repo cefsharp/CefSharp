@@ -37,7 +37,7 @@ namespace CefSharp
         /// The frame that finished loading.
         /// </summary>
         public IFrame Frame { get; private set; }
-        
+
         /// <summary>
         /// The URL that was loaded.
         /// </summary>

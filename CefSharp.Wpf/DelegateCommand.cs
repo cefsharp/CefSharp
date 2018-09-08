@@ -55,7 +55,7 @@ namespace CefSharp.Wpf
         public bool CanExecute(object parameter)
         {
             return
-                canExecuteHandler == null || 
+                canExecuteHandler == null ||
                 canExecuteHandler();
         }
 

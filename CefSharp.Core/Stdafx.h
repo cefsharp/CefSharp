@@ -5,9 +5,9 @@
 #pragma once
 
 #ifdef EXPORT
-  #define DECL __declspec(dllexport)
+#define DECL __declspec(dllexport)
 #else
-  #define DECL __declspec(dllimport)
+#define DECL __declspec(dllimport)
 #endif
 
 #include <vector>

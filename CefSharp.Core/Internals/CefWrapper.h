@@ -26,11 +26,11 @@ namespace CefSharp
                     throw gcnew ObjectDisposedException(gcnew String(L"This instance of " + type->GetInterfaces()[0]->FullName + " been disposed!"));
                 }
             }
-        
+
         internal:
             CefWrapper() : _disposed(false)
             {
-            
+
             };
 
         public:

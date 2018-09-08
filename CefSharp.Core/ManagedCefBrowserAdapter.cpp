@@ -58,7 +58,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
                 }
             }
         }
-    
+
         if (_webBrowserInternal != nullptr)
         {
             _webBrowserInternal->OnAfterBrowserCreated(browser);

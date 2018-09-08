@@ -20,7 +20,7 @@ namespace CefSharp
         /// en-US Locales pak file location
         /// </summary>
         public const string LocalesPackFile = @"locales\en-US.pak";
-        
+
         /// <summary>
         /// List of Cef Dependencies
         /// </summary>
@@ -178,7 +178,7 @@ namespace CefSharp
 
             var path = Path.GetDirectoryName(executingAssembly.Location);
 
-            if(string.IsNullOrEmpty(locale))
+            if (string.IsNullOrEmpty(locale))
             {
                 locale = "en-US";
             }

@@ -57,7 +57,7 @@ namespace CefSharp.Example
 
         public JsSerializableStruct[] ReturnStructArray(string name)
         {
-            return new[] 
+            return new[]
             {
                 new JsSerializableStruct { Value = name + "Item1" },
                 new JsSerializableStruct { Value = name + "Item2" }
@@ -73,17 +73,17 @@ namespace CefSharp.Example
             };
         }
 
-        public string[] EchoArray(string[] arg) 
+        public string[] EchoArray(string[] arg)
         {
             return arg;
         }
 
-        public int[] EchoValueTypeArray(int[] arg) 
+        public int[] EchoValueTypeArray(int[] arg)
         {
             return arg;
         }
 
-        public int[][] EchoMultidimensionalArray(int[][] arg) 
+        public int[][] EchoMultidimensionalArray(int[][] arg)
         {
             return arg;
         }
@@ -92,7 +92,7 @@ namespace CefSharp.Example
         {
             var builder = new StringBuilder();
 
-            foreach(var browser in objects)
+            foreach (var browser in objects)
             {
                 builder.Append("Browser(Name:" + browser.Name + ";Engine:" + browser.Engine.Name + ");");
             }

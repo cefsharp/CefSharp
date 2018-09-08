@@ -24,7 +24,7 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
-    
+
     internal:
         //Frame Identifier is used as Key
         property ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>^ JavascriptRootObjectWrappers;
@@ -38,7 +38,7 @@ namespace CefSharp
 
             JavascriptRootObjectWrappers = gcnew ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>();
         }
-        
+
         !CefBrowserWrapper()
         {
             _cefBrowser = nullptr;

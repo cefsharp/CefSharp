@@ -53,9 +53,9 @@ namespace CefSharp
                 int width;
                 int height;
 
-                auto binary = _image->GetAsBitmap(scaleFactor, (cef_color_type_t)colorType, (cef_alpha_type_t) alphaType, width, height);
+                auto binary = _image->GetAsBitmap(scaleFactor, (cef_color_type_t)colorType, (cef_alpha_type_t)alphaType, width, height);
 
-                if(binary.get())
+                if (binary.get())
                 {
                     pixelWidth = width;
                     pixelHeight = height;
@@ -152,7 +152,7 @@ namespace CefSharp
                 float actualScale;
                 int width;
                 int height;
-                
+
                 auto success = _image->GetRepresentationInfo(scaleFactor, actualScale, width, height);
 
                 actualScaleFactor = actualScale;

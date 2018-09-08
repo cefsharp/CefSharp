@@ -15,7 +15,7 @@ namespace CefSharp.Example
         /// <summary>
         /// Raised when a Javascript event arrives.
         /// </summary>
-        public event Action<string,object> EventArrived;
+        public event Action<string, object> EventArrived;
 
         /// <summary>
         /// This method will be exposed to the Javascript environment. It is

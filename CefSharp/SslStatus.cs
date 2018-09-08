@@ -15,7 +15,7 @@ namespace CefSharp
         /// Returns true if the status is related to a secure SSL/TLS connection.
         /// </summary>
         public bool IsSecureConnection { get; private set; }
-        
+
         /// <summary>
         /// Returns a bitmask containing any and all problems verifying the server
         /// certificate.

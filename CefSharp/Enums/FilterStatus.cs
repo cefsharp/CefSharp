@@ -14,7 +14,7 @@ namespace CefSharp
         /// needed in order to continue filtering (filtered output is pending).
         /// </summary>
         NeedMoreData,
-        
+
         /// <summary>
         /// Some or all of the pre-filter data was read successfully and all available filtered output has been written.
         /// </summary>

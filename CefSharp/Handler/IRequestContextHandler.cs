@@ -40,6 +40,6 @@ namespace CefSharp
         /// thread.
         /// </summary>
         /// <param name="requestContext">the request context</param>
-        void OnRequestContextInitialized(IRequestContext requestContext);        
+        void OnRequestContextInitialized(IRequestContext requestContext);
     }
 }

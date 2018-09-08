@@ -135,7 +135,7 @@ namespace CefSharp
         /// <summary>
         /// Returns true if this is the main (top-level) frame.
         /// </summary>
-        bool IsMain { get;  }
+        bool IsMain { get; }
 
         /// <summary>
         /// Returns true if this is the focused frame.
@@ -154,7 +154,7 @@ namespace CefSharp
         /// <summary>
         /// Returns the globally unique identifier for this frame or &lt; 0 if the underlying frame does not yet exist.
         /// </summary>
-        Int64 Identifier { get;  }
+        Int64 Identifier { get; }
 
         /// <summary>
         /// Returns the parent of this frame or NULL if this is the main (top-level) frame.

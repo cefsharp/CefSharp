@@ -38,6 +38,6 @@ namespace CefSharp
         RevCheckingEnabled = 1 << 17,
         // Bit 18 was CERT_STATUS_IS_DNSSEC
         Sha1SignaturePresent = 1 << 19,
-        CtComplianceFailed= 1 << 20
+        CtComplianceFailed = 1 << 20
     }
 }

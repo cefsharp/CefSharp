@@ -24,18 +24,18 @@ namespace CefSharp
         /// otherwise, a task that represents the delete operation. The value of the TResult will be the number of cookies that were deleted or -1 if unknown.</returns>
         public static Task<int> DeleteCookiesAsync(this ICookieManager cookieManager, string url = null, string name = null)
         {
-            if(cookieManager == null)
+            if (cookieManager == null)
             {
                 throw new NullReferenceException("cookieManager");
             }
 
-            if(cookieManager.IsDisposed)
+            if (cookieManager.IsDisposed)
             {
                 throw new ObjectDisposedException("cookieManager");
             }
 
             var callback = new TaskDeleteCookiesCallback();
-            if(cookieManager.DeleteCookies(url, name, callback))
+            if (cookieManager.DeleteCookies(url, name, callback))
             {
                 return callback.Task;
             }
@@ -69,7 +69,7 @@ namespace CefSharp
             var callback = new TaskSetCookieCallback();
             if (cookieManager.SetCookie(url, cookie, callback))
             {
-                return callback.Task;	
+                return callback.Task;
             }
 
             //There was a problem setting cookies
@@ -86,7 +86,7 @@ namespace CefSharp
         {
             var cookieVisitor = new TaskCookieVisitor();
 
-            if(cookieManager.VisitAllCookies(cookieVisitor))
+            if (cookieManager.VisitAllCookies(cookieVisitor))
             {
                 return cookieVisitor.Task;
             }
@@ -108,7 +108,7 @@ namespace CefSharp
         {
             var cookieVisitor = new TaskCookieVisitor();
 
-            if(cookieManager.VisitUrlCookies(url, includeHttpOnly, cookieVisitor))
+            if (cookieManager.VisitUrlCookies(url, includeHttpOnly, cookieVisitor))
             {
                 return cookieVisitor.Task;
             }

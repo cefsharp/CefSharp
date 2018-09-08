@@ -41,7 +41,7 @@ namespace CefSharp
         /// <param name="obj">The CefTime value that should be converted.</param>
         /// <returns>A corresponding .NET DateTime.</returns>
         static DateTime ConvertCefTimeToDateTime(CefTime time);
-                
+
         /// <summary>
         /// Converts a a (managed) .NET DateTime to Chromium V8 CefTime (Date).
         /// </summary>

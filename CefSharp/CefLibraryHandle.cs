@@ -39,12 +39,12 @@ namespace CefSharp
 
         public override bool IsInvalid
         {
-           get { return this.handle == IntPtr.Zero; }
+            get { return this.handle == IntPtr.Zero; }
         }
 
         protected override bool ReleaseHandle()
         {
-           return FreeLibrary(this.handle);
+            return FreeLibrary(this.handle);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

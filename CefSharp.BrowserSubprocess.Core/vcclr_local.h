@@ -40,10 +40,12 @@ typedef const System::String* __const_String_handle;
 //
 // get an interior gc pointer to the first character contained in a System::String object
 //
-inline __const_Char_ptr PtrToStringChars(__const_String_handle s) {
+inline __const_Char_ptr PtrToStringChars(__const_String_handle s)
+{
 
     _Byte_ptr bp = const_cast<_Byte_ptr>(reinterpret_cast<__const_Byte_ptr>(s));
-    if( bp != _NULLPTR ) {
+    if (bp != _NULLPTR)
+    {
         unsigned offset = System::Runtime::CompilerServices::RuntimeHelpers::OffsetToStringData;
         bp += offset;
     }

@@ -78,7 +78,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
 
                     image.Source = bitmap = new WriteableBitmap(width, height, dpiX, dpiY, PixelFormat, null);
                 }
-                
+
                 //Get a ptr to our temp buffer
                 var tempBufferPtr = Marshal.UnsafeAddrOfPinnedArrayElement(tempBuffer, 0);
 
@@ -108,7 +108,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
 
         void IDisposable.Dispose()
         {
-            
+
         }
     }
 }

@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp;
 using System;
 using System.Collections.Specialized;
 
@@ -59,7 +58,7 @@ namespace CefSharp
         /// Get the resource type for this request.
         /// </summary>
         ResourceType ResourceType { get; }
-  
+
         /// <summary>
         /// Get the referrer policy.
         /// </summary>
@@ -76,7 +75,7 @@ namespace CefSharp
         /// Post data
         /// </summary>
         IPostData PostData { get; }
-        
+
         /// <summary>
         /// Get the transition type for this request.
         /// Applies to requests that represent a main frame or sub-frame navigation.

@@ -20,7 +20,7 @@ namespace CefSharp
             CefPdfPrintCallbackWrapper(IPrintToPdfCallback^ callback)
                 :_callback(callback)
             {
-                
+
             }
 
             ~CefPdfPrintCallbackWrapper()

@@ -53,13 +53,13 @@ namespace CefSharp
 
         public:
             ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
-                _browserControl(browserControl), 
+                _browserControl(browserControl),
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
                 _pendingTaskRepository(gcnew PendingTaskRepository<JavascriptResponse^>()),
                 _browserAdapter(browserAdapter),
                 _browserHwnd(NULL)
             {
-                
+
             }
 
             ~ClientAdapter()

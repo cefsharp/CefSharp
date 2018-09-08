@@ -2,10 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Internals;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -29,9 +29,9 @@ namespace CefSharp
 
         bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
         {
-            list.Add(cookie);            
+            list.Add(cookie);
 
-            if(count == (total - 1))
+            if (count == (total - 1))
             {
                 //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
                 taskCompletionSource.TrySetResultAsync(list);
@@ -42,7 +42,7 @@ namespace CefSharp
 
         void IDisposable.Dispose()
         {
-            if(list != null && list.Count == 0)
+            if (list != null && list.Count == 0)
             {
                 //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
                 taskCompletionSource.TrySetResultAsync(list);

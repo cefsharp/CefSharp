@@ -15,7 +15,7 @@ namespace CefSharp.Event
         /// The javascript object repository, used to register objects
         /// </summary>
         public IJavascriptObjectRepository ObjectRepository { get; private set; }
-        
+
         /// <summary>
         /// Name of the object
         /// </summary>

@@ -3,13 +3,13 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using CefSharp.Example;
-using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace CefSharp.Wpf.Example.ViewModels
 {
@@ -116,7 +116,7 @@ namespace CefSharp.Wpf.Example.ViewModels
                 WebBrowser.Load(CefExample.BindingTestUrl);
                 WebBrowser.LoadingStateChanged += (e, args) =>
                 {
-                    if(args.IsLoading == false)
+                    if (args.IsLoading == false)
                     {
                         Task.Delay(10000).ContinueWith(t =>
                         {
@@ -209,7 +209,9 @@ namespace CefSharp.Wpf.Example.ViewModels
         {
             // Don't display an error for downloaded files where the user aborted the download.
             if (args.ErrorCode == CefErrorCode.Aborted)
+            {
                 return;
+            }
 
             var errorMessage = "<html><body><h2>Failed to load URL " + args.FailedUrl +
                   " with error " + args.ErrorText + " (" + args.ErrorCode +

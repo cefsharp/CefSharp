@@ -198,7 +198,7 @@ namespace CefSharp
         /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         void OnRenderViewReady(IWebBrowser chromiumWebBrowser, IBrowser browser);
-        
+
         /// <summary>
         /// Called on the CEF IO thread when a resource response is received.
         /// To allow the resource to load normally return false.
@@ -226,7 +226,7 @@ namespace CefSharp
         /// <param name="response">the response object - cannot be modified in this callback</param>
         /// <returns>Return an IResponseFilter to intercept this response, otherwise return null</returns>
         IResponseFilter GetResourceResponseFilter(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response);
-        
+
         /// <summary>
         /// Called on the CEF IO thread when a resource load has completed.
         /// </summary>

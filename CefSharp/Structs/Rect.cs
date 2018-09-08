@@ -13,17 +13,17 @@ namespace CefSharp.Structs
         /// X coordinate
         /// </summary>
         public int X { get; private set; }
-        
+
         /// <summary>
         /// Y coordinate
         /// </summary>
         public int Y { get; private set; }
-        
+
         /// <summary>
         /// Width
         /// </summary>
         public int Width { get; private set; }
-        
+
         /// <summary>
         /// Height
         /// </summary>

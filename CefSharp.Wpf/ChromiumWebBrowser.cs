@@ -2,6 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Enums;
+using CefSharp.Internals;
+using CefSharp.Structs;
+using CefSharp.Wpf.Internals;
+using CefSharp.Wpf.Rendering;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -12,17 +18,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using Microsoft.Win32.SafeHandles;
-using CefSharp.Internals;
-using CefSharp.Wpf.Internals;
-using CefSharp.Wpf.Rendering;
-using CefSharp.Enums;
-using CefSharp.Structs;
-
-using Point = System.Windows.Point;
-using Size = System.Windows.Size;
 using CursorType = CefSharp.Enums.CursorType;
+using Point = System.Windows.Point;
 using Rect = CefSharp.Structs.Rect;
+using Size = System.Windows.Size;
 
 namespace CefSharp.Wpf
 {
@@ -493,7 +492,7 @@ namespace CefSharp.Wpf
             RenderHandler = new InteropBitmapRenderHandler();
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
-            
+
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
             UseLayoutRounding = true;
@@ -555,7 +554,7 @@ namespace CefSharp.Wpf
                     }
 
                     //Incase we accidentally have a reference to the CEF drag data
-                    if(currentDragData != null)
+                    if (currentDragData != null)
                     {
                         currentDragData.Dispose();
                         currentDragData = null;
@@ -597,7 +596,7 @@ namespace CefSharp.Wpf
                         CleanupElement.Unloaded -= OnCleanupElementUnloaded;
                     }
 
-                    if(managedCefBrowserAdapter != null)
+                    if (managedCefBrowserAdapter != null)
                     {
                         managedCefBrowserAdapter.Dispose();
                         managedCefBrowserAdapter = null;
@@ -673,7 +672,7 @@ namespace CefSharp.Wpf
 
             //We manually claculate the screen point as calling PointToScreen can only be called on the UI thread
             // in a sync fashion and it's easy for users to get themselves into a deadlock.
-            if(DpiScaleFactor > 1)
+            if (DpiScaleFactor > 1)
             {
                 screenX = (int)(browserScreenLocation.X + (viewX * DpiScaleFactor));
                 screenY = (int)(browserScreenLocation.Y + (viewY * DpiScaleFactor));
@@ -723,7 +722,7 @@ namespace CefSharp.Wpf
 
             UiThreadRunAsync(delegate
             {
-                if(browser != null)
+                if (browser != null)
                 {
                     //DoDragDrop will fire DragEnter event
                     var result = DragDrop.DoDragDrop(this, dataObject, GetDragEffects(allowedOps));
@@ -788,7 +787,7 @@ namespace CefSharp.Wpf
 
                 paint(this, args);
 
-                if(args.Handled)
+                if (args.Handled)
                 {
                     return;
                 }
@@ -1396,12 +1395,12 @@ namespace CefSharp.Wpf
             {
                 UiThreadRunAsync(() => UpdateTooltip(null), DispatcherPriority.Render);
 
-                if(timer.IsEnabled)
+                if (timer.IsEnabled)
                 {
                     timer.Stop();
                 }
             }
-            else if(!timer.IsEnabled)
+            else if (!timer.IsEnabled)
             {
                 timer.Start();
             }
@@ -1436,7 +1435,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void OnDrop(object sender, DragEventArgs e)
         {
-            if(browser != null)
+            if (browser != null)
             {
                 var mouseEvent = GetMouseEvent(e);
                 var effect = GetDragOperationsMask(e.AllowedEffects);
@@ -1453,7 +1452,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void OnDragLeave(object sender, DragEventArgs e)
         {
-            if(browser != null)
+            if (browser != null)
             {
                 browser.GetHost().DragTargetDragLeave();
             }
@@ -1466,7 +1465,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void OnDragOver(object sender, DragEventArgs e)
         {
-            if(browser != null)
+            if (browser != null)
             {
                 browser.GetHost().DragTargetDragOver(GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
             }
@@ -1479,7 +1478,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void OnDragEnter(object sender, DragEventArgs e)
         {
-            if(browser != null)
+            if (browser != null)
             {
                 var mouseEvent = GetMouseEvent(e);
                 var effect = GetDragOperationsMask(e.AllowedEffects);
@@ -1589,14 +1588,14 @@ namespace CefSharp.Wpf
                 }
 
                 var window = source.RootVisual as Window;
-                if(window != null)
+                if (window != null)
                 {
                     window.StateChanged += OnWindowStateChanged;
                     window.LocationChanged += OnWindowLocationChanged;
                     sourceWindow = window;
                 }
 
-                browserScreenLocation = GetBrowserScreenLocation();                
+                browserScreenLocation = GetBrowserScreenLocation();
             }
             else if (args.OldSource != null)
             {
@@ -1913,7 +1912,7 @@ namespace CefSharp.Wpf
             {
                 // hide old tooltip before showing the new one to update the position
                 if (toolTip.IsOpen)
-                { 
+                {
                     toolTip.IsOpen = false;
                 }
 
@@ -1984,7 +1983,7 @@ namespace CefSharp.Wpf
         /// Handles the <see cref="E:PreviewTextInput" /> event.
         /// </summary>
         /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
-        protected override void OnPreviewTextInput(TextCompositionEventArgs e) 
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
             if (!e.Handled)
             {
@@ -2023,7 +2022,7 @@ namespace CefSharp.Wpf
                 var modifiers = e.GetModifiers();
                 var isShiftKeyDown = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
                 var pointX = (int)point.X;
-                var pointY= (int)point.Y;
+                var pointY = (int)point.Y;
 
                 browser.SendMouseWheelEvent(
                     pointX,
@@ -2080,7 +2079,7 @@ namespace CefSharp.Wpf
                 {
                     browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, MouseButtonType.Left, mouseUp: true, clickCount: 1, modifiers: modifiers);
                 }
-                                
+
                 browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
@@ -2201,7 +2200,7 @@ namespace CefSharp.Wpf
         ///                                     called before the underlying CEF browser is created.</exception>
         public void RegisterJsObject(string name, object objectToBind, BindingOptions options = null)
         {
-            if(!CefSharpSettings.LegacyJavascriptBindingEnabled)
+            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
             {
                 throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
                                     for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
