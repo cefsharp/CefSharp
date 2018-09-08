@@ -1,4 +1,4 @@
-﻿namespace CefSharp.Wpf
+namespace CefSharp.Wpf
 {
     /// <summary>
     /// Windows Message Enums

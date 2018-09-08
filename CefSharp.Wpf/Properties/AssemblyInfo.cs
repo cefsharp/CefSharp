@@ -1,4 +1,4 @@
-﻿using CefSharp;
+using CefSharp;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
