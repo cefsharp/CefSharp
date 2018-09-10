@@ -16,14 +16,6 @@ namespace CefSharp.Wpf
         public CefSettings() : base()
         {
             WindowlessRenderingEnabled = true;
-
-            if (Cef.CefVersion.StartsWith("r3.3497"))
-            {
-                throw new System.Exception("Issue #2408 should have been resolved, remove the below code");
-            }
-
-            //https://github.com/cefsharp/CefSharp/issues/2408
-            CefCommandLineArgs.Add("disable-features", "AsyncWheelEvents,TouchpadAndWheelScrollLatching");
         }
     }
 }
