@@ -1,4 +1,4 @@
-// Copyright © 2010-2018 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@
 
 namespace CefSharp
 {
-    namespace Internals 
+    namespace Internals
     {
         private ref class CefValueWrapper : public IValue, public CefWrapper
         {
@@ -35,7 +35,7 @@ namespace CefSharp
                 _disposed = true;
             }
 
-        public: 
+        public:
             virtual bool GetBool();
             virtual double GetDouble();
             virtual int GetInt();

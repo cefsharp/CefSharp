@@ -1,10 +1,10 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace CefSharp.Example.Filters
@@ -101,7 +101,7 @@ namespace CefSharp.Example.Filters
                 WriteSingleByte(readByte, dataOut, ref dataOutWritten);
             }
 
-            if(overflow.Count > 0)
+            if (overflow.Count > 0)
             {
                 //If we end up with overflow data then we'll need to return NeedMoreData
                 // On the next pass the data will be written, then the next batch will be processed.
@@ -183,7 +183,7 @@ namespace CefSharp.Example.Filters
 
         public void Dispose()
         {
-            
+
         }
     }
 }

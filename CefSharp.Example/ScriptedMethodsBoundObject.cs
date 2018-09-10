@@ -1,6 +1,7 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 using System;
 
 namespace CefSharp.Example
@@ -15,7 +16,7 @@ namespace CefSharp.Example
         /// <summary>
         /// Raised when a Javascript event arrives.
         /// </summary>
-        public event Action<string,object> EventArrived;
+        public event Action<string, object> EventArrived;
 
         /// <summary>
         /// This method will be exposed to the Javascript environment. It is

@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -94,10 +94,10 @@ namespace CefSharp
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::FocusedNodeChangedEnabledArgument));
             }
         }
-        
+
         virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
         {
-            if(_cefSettings->CefCommandLineArgs->Count > 0)
+            if (_cefSettings->CefCommandLineArgs->Count > 0)
             {
                 auto commandLine = command_line.get();
 
@@ -110,15 +110,15 @@ namespace CefSharp
                     CefString name = StringUtils::ToNative(kvp->Key);
                     CefString value = StringUtils::ToNative(kvp->Value);
 
-					if (kvp->Key == "disable-features")
-					{
-						//Temp workaround so we can set the disable-features command line argument
-						// See https://github.com/cefsharp/CefSharp/issues/2408
-						commandLine->AppendSwitchWithValue(name, value);
-					}
+                    if (kvp->Key == "disable-features")
+                    {
+                        //Temp workaround so we can set the disable-features command line argument
+                        // See https://github.com/cefsharp/CefSharp/issues/2408
+                        commandLine->AppendSwitchWithValue(name, value);
+                    }
                     // Right now the command line args handed to the application (global command line) have higher
                     // precedence than command line args provided by the app
-                    else if(!commandLine->HasSwitch(name))
+                    else if (!commandLine->HasSwitch(name))
                     {
                         commandLine->AppendSwitchWithValue(name, value);
                     }

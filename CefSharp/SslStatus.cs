@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ namespace CefSharp
         /// Returns true if the status is related to a secure SSL/TLS connection.
         /// </summary>
         public bool IsSecureConnection { get; private set; }
-        
+
         /// <summary>
         /// Returns a bitmask containing any and all problems verifying the server
         /// certificate.

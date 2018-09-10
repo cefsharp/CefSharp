@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -30,12 +30,12 @@ namespace CefSharp
         /// Retrieve the post data elements.
         /// </summary>
         IList<IPostDataElement> Elements { get; }
-        
+
         /// <summary>
         /// Returns true if this object is read-only.
         /// </summary>
         bool IsReadOnly { get; }
-        
+
         /// <summary>
         /// Remove all existing post data elements.
         /// </summary>

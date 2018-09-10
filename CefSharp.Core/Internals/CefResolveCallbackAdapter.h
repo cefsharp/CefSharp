@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -22,11 +22,11 @@ namespace CefSharp
 
         ~CefResolveCallbackAdapter()
         {
-			delete _handler;
-			_handler = nullptr;
+            delete _handler;
+            _handler = nullptr;
         }
 
-        void OnResolveCompleted(cef_errorcode_t result,	const std::vector<CefString>& resolvedIps) OVERRIDE
+        void OnResolveCompleted(cef_errorcode_t result, const std::vector<CefString>& resolvedIps) OVERRIDE
         {
             _handler->OnResolveCompleted((CefErrorCode)result, StringUtils::ToClr(resolvedIps));
         }

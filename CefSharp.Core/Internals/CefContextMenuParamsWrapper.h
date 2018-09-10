@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -55,7 +55,7 @@ namespace CefSharp
             virtual property List<String^>^ DictionarySuggestions { List<String^>^ get(); }
             virtual property bool IsEditable { bool get(); }
             virtual property bool IsSpellCheckEnabled { bool get(); }
-            virtual property ContextMenuEditState EditStateFlags  { ContextMenuEditState get(); }
+            virtual property ContextMenuEditState EditStateFlags { ContextMenuEditState get(); }
             virtual property bool IsCustomMenu { bool get(); }
             virtual property bool IsPepperMenu { bool get(); }
         };

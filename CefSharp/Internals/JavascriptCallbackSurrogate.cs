@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,17 +13,17 @@ namespace CefSharp.Internals
     internal sealed class JavascriptCallbackSurrogate : IDataContractSurrogate
     {
         private readonly IJavascriptCallbackFactory callbackFactory;
- 
+
         public JavascriptCallbackSurrogate(IJavascriptCallbackFactory callbackFactory)
-         {
+        {
             this.callbackFactory = callbackFactory;
-         }
+        }
 
         public Type GetDataContractType(Type type)
         {
-            if (type == typeof (JavascriptCallback))
+            if (type == typeof(JavascriptCallback))
             {
-                return typeof (IJavascriptCallback);
+                return typeof(IJavascriptCallback);
             }
             return type;
         }

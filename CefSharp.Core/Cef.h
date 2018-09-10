@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@
 #include "RequestContext.h"
 #include "SchemeHandlerFactoryWrapper.h"
 
-using namespace System::Collections::Generic; 
+using namespace System::Collections::Generic;
 using namespace System::Linq;
 using namespace System::Reflection;
 using namespace msclr::interop;
@@ -111,7 +111,7 @@ namespace CefSharp
             {
                 // Need explicit cast here to avoid C4965 warning when the minor version is zero.
                 return String::Format("{0}.{1}.{2}.{3}",
-                    CHROME_VERSION_MAJOR, (Object^) CHROME_VERSION_MINOR,
+                    CHROME_VERSION_MAJOR, (Object^)CHROME_VERSION_MINOR,
                     CHROME_VERSION_BUILD, CHROME_VERSION_PATCH);
             }
         }
@@ -155,19 +155,19 @@ namespace CefSharp
             if (IsInitialized)
             {
                 // NOTE: Can only initialize Cef once, to make this explicitly clear throw exception on subsiquent attempts
-                throw gcnew Exception("CEF can only be initialized once per process. This is a limitation of the underlying " + 
-                    "CEF/Chromium framework. You can change many (not all) settings at runtime through RequestContext.SetPreference. " + 
+                throw gcnew Exception("CEF can only be initialized once per process. This is a limitation of the underlying " +
+                    "CEF/Chromium framework. You can change many (not all) settings at runtime through RequestContext.SetPreference. " +
                     "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#request-context-browser-isolation " +
                     "Use Cef.IsInitialized to guard against this exception. If you are seeing this unexpectedly then you are likely " +
                     "calling Cef.Initialize after you've created an instance of ChromiumWebBrowser, it must be before the first instance is created.");
             }
-            
+
             if (cefSettings->BrowserSubprocessPath == nullptr)
             {
                 throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
             }
 
-            if(performDependencyCheck)
+            if (performDependencyCheck)
             {
                 DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
             }
@@ -319,10 +319,10 @@ namespace CefSharp
             bool allowTargetSubdomains)
         {
             return CefAddCrossOriginWhitelistEntry(
-                    StringUtils::ToNative(sourceOrigin),
-                    StringUtils::ToNative(targetProtocol),
-                    StringUtils::ToNative(targetDomain),
-                    allowTargetSubdomains);
+                StringUtils::ToNative(sourceOrigin),
+                StringUtils::ToNative(targetProtocol),
+                StringUtils::ToNative(targetDomain),
+                allowTargetSubdomains);
         }
 
         /// <summary>Remove entry from cross-origin whitelist</summary>
@@ -424,7 +424,7 @@ namespace CefSharp
                     {
                         delete diposable;
                     }
-                
+
                     GC::Collect();
                     GC::WaitForPendingFinalizers();
 
@@ -497,7 +497,7 @@ namespace CefSharp
         {
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
-            
+
             CefVisitWebPluginInfo(visitor);
 
             return taskVisitor->Task;
@@ -529,7 +529,7 @@ namespace CefSharp
         {
             CefEnableHighDPISupport();
         }
-        
+
         /// <summary>
         /// Returns true if called on the specified CEF thread.
         /// </summary>
@@ -726,7 +726,7 @@ namespace CefSharp
         static Task<CdmRegistration^>^ RegisterWidevineCdmAsync(String^ path)
         {
             auto callback = gcnew TaskRegisterCdmCallback();
-            
+
             RegisterWidevineCdm(path, callback);
 
             return callback->Task;

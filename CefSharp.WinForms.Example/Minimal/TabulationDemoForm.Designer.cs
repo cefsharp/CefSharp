@@ -1,4 +1,4 @@
-﻿namespace CefSharp.WinForms.Example.Minimal
+namespace CefSharp.WinForms.Example.Minimal
 {
     partial class TabulationDemoForm
     {
@@ -36,7 +36,7 @@
             // 
             // txtURL
             // 
-            this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtURL.Location = new System.Drawing.Point(8, 11);
             this.txtURL.Name = "txtURL";
@@ -59,8 +59,8 @@
             // 
             // grpBrowser
             // 
-            this.grpBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.grpBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBrowser.Location = new System.Drawing.Point(8, 37);
             this.grpBrowser.Name = "grpBrowser";
@@ -71,7 +71,7 @@
             // 
             // txtDummy
             // 
-            this.txtDummy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtDummy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDummy.Location = new System.Drawing.Point(8, 612);
             this.txtDummy.Name = "txtDummy";

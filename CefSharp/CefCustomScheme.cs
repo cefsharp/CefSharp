@@ -1,10 +1,10 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Internals;
 using System.Collections.Generic;
 using System.Linq;
-using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -26,7 +26,7 @@ namespace CefSharp
         /// will be ignored for non-standard schemes.
         /// </summary>
         public string DomainName { get; set; }
-        
+
         /// <summary>
         /// If true the scheme will be treated as a standard scheme.
         /// Standard schemes are subject to URL canonicalization and parsing rules as
@@ -52,7 +52,7 @@ namespace CefSharp
         /// Non-standard scheme URLs cannot be used as a target for form submission.
         /// </summary>
         public bool IsStandard { get; set; }
-        
+
         /// <summary>
         /// If true the scheme will be treated as local (i.e. with the
         /// same security rules as those applied to "file" URLs). Normal pages cannot
@@ -65,7 +65,7 @@ namespace CefSharp
         /// to true.
         /// </summary>
         public bool IsLocal { get; set; }
-        
+
         /// <summary>
         /// If true the scheme will be treated as display-isolated.
         /// This means that pages cannot display these URLs unless they are

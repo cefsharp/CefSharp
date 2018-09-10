@@ -1,25 +1,25 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace CefSharp.Wpf.Internals 
+namespace CefSharp.Wpf.Internals
 {
-    public class WpfKeyboardHandler : IWpfKeyboardHandler 
+    public class WpfKeyboardHandler : IWpfKeyboardHandler
     {
         /// <summary>
         /// The owner browser instance
         /// </summary>
         private readonly ChromiumWebBrowser owner;
 
-        public WpfKeyboardHandler(ChromiumWebBrowser owner) 
+        public WpfKeyboardHandler(ChromiumWebBrowser owner)
         {
             this.owner = owner;
         }
 
-        public void Setup(HwndSource source) 
+        public void Setup(HwndSource source)
         {
             // nothing to do here
         }
@@ -29,36 +29,36 @@ namespace CefSharp.Wpf.Internals
             // nothing to do here
         }
 
-        public virtual void HandleKeyPress(KeyEventArgs e) 
+        public virtual void HandleKeyPress(KeyEventArgs e)
         {
             var browser = owner.GetBrowser();
             var key = e.SystemKey == Key.None ? e.Key : e.SystemKey;
-            if (browser != null) 
+            if (browser != null)
             {
                 int message;
                 int virtualKey = 0;
                 var modifiers = e.GetModifiers();
 
-                switch (key) 
+                switch (key)
                 {
                     case Key.LeftAlt:
                     case Key.RightAlt:
-                    { 
-                        virtualKey = (int) VirtualKeys.Menu;
+                    {
+                        virtualKey = (int)VirtualKeys.Menu;
                         break;
                     }
 
                     case Key.LeftCtrl:
                     case Key.RightCtrl:
-                    { 
-                        virtualKey = (int) VirtualKeys.Control;
+                    {
+                        virtualKey = (int)VirtualKeys.Control;
                         break;
                     }
 
                     case Key.LeftShift:
                     case Key.RightShift:
-                    { 
-                        virtualKey = (int) VirtualKeys.Shift;
+                    {
+                        virtualKey = (int)VirtualKeys.Shift;
                         break;
                     }
 
@@ -85,24 +85,24 @@ namespace CefSharp.Wpf.Internals
             // Prevent keyboard navigation using arrows and home and end keys
             if (key == Key.Tab || key == Key.Home || key == Key.End || key == Key.Up
                                || key == Key.Down || key == Key.Left || key == Key.Right
-                               || (key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)) 
+                               || (key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
             {
                 e.Handled = true;
             }
         }
 
-        public virtual void HandleTextInput(TextCompositionEventArgs e) 
+        public virtual void HandleTextInput(TextCompositionEventArgs e)
         {
             var browser = owner.GetBrowser();
-            if (browser != null) 
+            if (browser != null)
             {
                 var browserHost = browser.GetHost();
-                for (int i = 0; i < e.Text.Length; i++) 
+                for (int i = 0; i < e.Text.Length; i++)
                 {
                     browserHost.SendKeyEvent((int)WM.CHAR, e.Text[i], 0);
                 }
                 e.Handled = true;
             }
-        }   
+        }
     }
 }

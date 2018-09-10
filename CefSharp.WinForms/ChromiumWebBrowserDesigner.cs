@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -28,15 +28,15 @@ namespace CefSharp.WinForms
             //	pe.Graphics.DrawImage(img, 0, 0);
             //}
 
-            using(var font = new Font("Arial", 16))
+            using (var font = new Font("Arial", 16))
             using (var stringFormat = new StringFormat
             {
                 // Create a StringFormat object with the each line of text, and the block
                 // of text centered on the page.
                 Alignment = StringAlignment.Center,
-                LineAlignment = StringAlignment.Center 
+                LineAlignment = StringAlignment.Center
             })
-            {		
+            {
                 pe.Graphics.DrawString("ChromiumWebBrowser", font, Brushes.Black, pe.ClipRectangle, stringFormat);
             }
 

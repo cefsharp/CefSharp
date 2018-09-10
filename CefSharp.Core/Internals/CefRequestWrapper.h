@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ namespace CefSharp
             MCefRefPtr<CefRequest> _wrappedRequest;
             IPostData^ _postData;
         internal:
-            CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) : 
+            CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) :
                 _wrappedRequest(cefRequest), _postData(nullptr)
             {
             }

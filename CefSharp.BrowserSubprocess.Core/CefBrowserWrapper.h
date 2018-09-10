@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -24,7 +24,7 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
-    
+
     internal:
         //Frame Identifier is used as Key
         property ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>^ JavascriptRootObjectWrappers;
@@ -38,7 +38,7 @@ namespace CefSharp
 
             JavascriptRootObjectWrappers = gcnew ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>();
         }
-        
+
         !CefBrowserWrapper()
         {
             _cefBrowser = nullptr;

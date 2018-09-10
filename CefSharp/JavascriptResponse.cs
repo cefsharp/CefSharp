@@ -1,10 +1,10 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Internals;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -12,9 +12,9 @@ namespace CefSharp
     /// Javascript Response
     /// </summary>
     [DataContract]
-    [KnownType(typeof (object[]))]
-    [KnownType(typeof (JavascriptCallback))]
-    [KnownType(typeof (Dictionary<string, object>))]
+    [KnownType(typeof(object[]))]
+    [KnownType(typeof(JavascriptCallback))]
+    [KnownType(typeof(Dictionary<string, object>))]
     public class JavascriptResponse
     {
         /// <summary>

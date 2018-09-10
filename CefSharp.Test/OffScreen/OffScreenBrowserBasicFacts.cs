@@ -1,14 +1,11 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using CefSharp.OffScreen;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Extensions;
 
 namespace CefSharp.Test.OffScreen
 {
@@ -19,7 +16,7 @@ namespace CefSharp.Test.OffScreen
         //TODO: Move into own file/namespace
         public class AsyncBoundObject
         {
-            public bool MethodCalled { get; set; } 
+            public bool MethodCalled { get; set; }
             public string Echo(string arg)
             {
                 MethodCalled = true;
@@ -39,7 +36,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanLoadGoogle()
         {
-            using(var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
                 await browser.LoadPageAsync();
 

@@ -1,11 +1,11 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Collections.Generic;
-using System.Windows.Forms;
 using CefSharp.Structs;
 using CefSharp.WinForms.Internals;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
@@ -16,7 +16,7 @@ namespace CefSharp.WinForms.Example.Handlers
 
         void IDisplayHandler.OnAddressChanged(IWebBrowser browserControl, AddressChangedEventArgs addressChangedArgs)
         {
-            
+
         }
 
         bool IDisplayHandler.OnAutoResize(IWebBrowser browserControl, IBrowser browser, Size newSize)
@@ -26,12 +26,12 @@ namespace CefSharp.WinForms.Example.Handlers
 
         void IDisplayHandler.OnTitleChanged(IWebBrowser browserControl, TitleChangedEventArgs titleChangedArgs)
         {
-            
+
         }
 
         void IDisplayHandler.OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, IList<string> urls)
         {
-            
+
         }
 
         void IDisplayHandler.OnFullscreenModeChange(IWebBrowser browserControl, IBrowser browser, bool fullscreen)
@@ -75,7 +75,7 @@ namespace CefSharp.WinForms.Example.Handlers
 
         void IDisplayHandler.OnStatusMessage(IWebBrowser browserControl, StatusMessageEventArgs statusMessageArgs)
         {
-            
+
         }
 
         bool IDisplayHandler.OnConsoleMessage(IWebBrowser browserControl, ConsoleMessageEventArgs consoleMessageArgs)

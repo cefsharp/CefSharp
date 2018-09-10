@@ -1,15 +1,15 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Globalization;
 using CefSharp.Internals;
-using System.IO;
+using System;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -54,7 +54,7 @@ namespace CefSharp
         public static void Undo(this IWebBrowser browser)
         {
             using (var frame = browser.GetFocusedFrame())
-            { 
+            {
                 ThrowExceptionIfFrameNull(frame);
 
                 frame.Undo();
@@ -244,15 +244,15 @@ namespace CefSharp
                 ThrowExceptionIfFrameNull(frame);
 
                 //Initialize Request with PostData
-                var request = frame.CreateRequest(initializePostData:true);
+                var request = frame.CreateRequest(initializePostData: true);
 
                 request.Url = url;
                 request.Method = "POST";
 
                 request.PostData.AddData(postDataBytes);
 
-                if(!string.IsNullOrEmpty(contentType))
-                { 
+                if (!string.IsNullOrEmpty(contentType))
+                {
                     var headers = new NameValueCollection();
                     headers.Add("Content-Type", contentType);
                     request.Headers = headers;
@@ -308,13 +308,13 @@ namespace CefSharp
         /// <param name="base64Encode">if true the html string will be base64 encoded using UTF8 encoding.</param>
         public static void LoadHtml(this IWebBrowser browser, string html, bool base64Encode = false)
         {
-            if(base64Encode)
-            { 
+            if (base64Encode)
+            {
                 var base64EncodedHtml = Convert.ToBase64String(Encoding.UTF8.GetBytes(html));
                 browser.Load("data:text/html;base64," + base64EncodedHtml);
             }
             else
-            { 
+            {
                 var uriEncodedHtml = Uri.EscapeDataString(html);
                 browser.Load("data:text/html," + uriEncodedHtml);
             }
@@ -344,7 +344,7 @@ namespace CefSharp
 
             var resourceHandler = handler as DefaultResourceHandlerFactory;
 
-            if(resourceHandler == null)
+            if (resourceHandler == null)
             {
                 throw new Exception("LoadHtml can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
             }
@@ -474,7 +474,7 @@ namespace CefSharp
 
             var requestContext = host.RequestContext;
 
-            if(requestContext == null)
+            if (requestContext == null)
             {
                 throw new Exception("RequestContext is null, unable to obtain cookie manager");
             }
@@ -809,7 +809,7 @@ namespace CefSharp
 
             host.SendMouseMoveEvent(new MouseEvent(x, y, modifiers), mouseLeave);
         }
-        
+
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null)
         {
             if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32.MaxValue)

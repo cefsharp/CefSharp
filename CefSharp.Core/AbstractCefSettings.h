@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -76,7 +76,7 @@ namespace CefSharp
         {
             IDictionary<String^, String^>^ get() { return _cefCommandLineArgs; }
         }
-        
+
         /// <summary>
         /// Set to true to disable configuration of browser process features using
         /// standard CEF and Chromium command-line arguments. Configuration can still
@@ -102,7 +102,7 @@ namespace CefSharp
         {
             bool get() { return _cefSettings->external_message_pump == 1; }
             void set(bool value) { _cefSettings->external_message_pump = value; }
-        }		
+        }
 
         /// <summary>
         //// Set to true to have the browser process message loop run in a separate
@@ -198,7 +198,7 @@ namespace CefSharp
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->resources_dir_path); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->resources_dir_path, value); }
-        }		
+        }
 
         /// <summary>
         /// The directory and file name to use for the debug log. If empty a default
@@ -284,7 +284,7 @@ namespace CefSharp
         {
             int get() { return _cefSettings->uncaught_exception_stack_size; }
             void set(int value) { _cefSettings->uncaught_exception_stack_size = value; }
-        }		
+        }
 
         /// <summary>
         /// Value that will be returned as the User-Agent HTTP header. If empty the
@@ -337,7 +337,7 @@ namespace CefSharp
             bool get() { return _cefSettings->persist_user_preferences == 1; }
             void set(bool value) { _cefSettings->persist_user_preferences = value; }
         }
-        
+
         /// <summary>
         /// Comma delimited ordered list of language codes without any whitespace that
         /// will be used in the "Accept-Language" HTTP header. May be set globally

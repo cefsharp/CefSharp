@@ -1,4 +1,4 @@
-// Copyright © 2010-2018 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -56,7 +56,7 @@ IDictionary<String^, IValue^>^ CefValueWrapper::GetDictionary()
         auto key = keys[i];
         auto keyValue = StringUtils::ToClr(key);
         auto valueWrapper = gcnew CefValueWrapper(dictionary->GetValue(keys[i]));
-        
+
         result->Add(keyValue, valueWrapper);
     }
 
@@ -69,7 +69,7 @@ IList<IValue^>^ CefValueWrapper::GetList()
 
     auto list = _cefValue->GetList();
     auto result = gcnew List<IValue^>(list->GetSize());
-    
+
     for (auto i = 0; i < list->GetSize(); i++)
     {
         result->Add(gcnew CefValueWrapper(list->GetValue(i)));
