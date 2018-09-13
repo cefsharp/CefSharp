@@ -2,13 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.WinForms.Example.Handlers;
 using CefSharp.WinForms.Example.Minimal;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CefSharp.WinForms.Example
 {

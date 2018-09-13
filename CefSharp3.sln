@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Example", "CefSharp.Example\CefSharp.Example.csproj", "{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}"
 EndProject
@@ -13,6 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.Example", "Cef
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47D0DC8C-D707-4D8A-A578-7737AA9CE79B}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		appveyor.yml = appveyor.yml
 		CefSharp.Native.props = CefSharp.Native.props
 		CefSharp.props = CefSharp.props
@@ -187,5 +188,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A23AA466-1903-44F2-946D-25AD0500D56B} = {47D0DC8C-D707-4D8A-A578-7737AA9CE79B}
 		{9AD9C469-B121-47BB-9B9F-30D1B96B52B0} = {47D0DC8C-D707-4D8A-A578-7737AA9CE79B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E667E2F4-BFCF-4187-A0E7-69883146951D}
 	EndGlobalSection
 EndGlobal
