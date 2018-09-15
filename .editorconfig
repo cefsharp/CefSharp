@@ -47,20 +47,20 @@ dotnet_style_predefined_type_for_locals_parameters_members                     =
 dotnet_style_predefined_type_for_member_access                                 = true : suggestion
 
 # Constant fields
-dotnet_naming_rule.constant_fields_style.severity                              = error
-dotnet_naming_rule.constant_fields_style.symbols                               = constant_fields_targets
-dotnet_naming_rule.constant_fields_style.style                                 = constant_field_case_style
+dotnet_naming_rule.constant_field_style.severity                               = error
+dotnet_naming_rule.constant_field_style.symbols                                = constant_field_target
+dotnet_naming_rule.constant_field_style.style                                  = constant_field_case_style
 
-dotnet_naming_symbols.constant_fields_targets.applicable_kinds                 = field
-dotnet_naming_symbols.constant_fields_targets.required_modifiers               = const
+dotnet_naming_symbols.constant_field_target.applicable_kinds                   = field
+dotnet_naming_symbols.constant_field_target.required_modifiers                 = const
 
 # Properties
 dotnet_naming_rule.property_style.severity                                     = error
-dotnet_naming_rule.property_style.symbols                                      = property_targets
+dotnet_naming_rule.property_style.symbols                                      = property_target
 dotnet_naming_rule.property_style.style                                        = property_case_style
 
-dotnet_naming_symbols.property_targets.applicable_kinds                        = property
-dotnet_naming_symbols.property_targets.required_modifiers                      = *
+dotnet_naming_symbols.property_target.applicable_kinds                         = property
+dotnet_naming_symbols.property_target.required_modifiers                       = *
 
 # Static fields
 dotnet_naming_rule.static_field_style.severity                                 = error
