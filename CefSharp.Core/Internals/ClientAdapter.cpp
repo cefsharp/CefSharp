@@ -135,6 +135,15 @@ namespace CefSharp
                     throw gcnew Exception("newBrowser should be a new instance of ChromiumWebBrowser or null.");
                 }
 
+                //newBrowser is not null and result is true, whilst the documentation clearly states returning true will
+                //cancel popup creation people keep expecting that newBrowser will do something which it won't
+                if (result == true)
+                {
+                    throw gcnew Exception("returning true cancels popup creation, if you return true newBrowser should be set to null."
+                        + "Previously no exception was thrown in this instance, this exception has been added to reduce the number of"
+                        + " support requests from people returning true and setting newBrowser and expecting popups to work.");
+                }
+
                 auto newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
 
                 if (newBrowserInternal != nullptr)
