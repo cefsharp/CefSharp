@@ -149,6 +149,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
+        /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
         {
