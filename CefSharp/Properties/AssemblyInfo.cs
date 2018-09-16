@@ -1,8 +1,8 @@
-using CefSharp;
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using CefSharp;
 
 [assembly: AssemblyTitle("CefSharp")]
 [assembly: AssemblyDescription("")]

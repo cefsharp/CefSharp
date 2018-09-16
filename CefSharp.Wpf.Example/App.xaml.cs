@@ -2,10 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Windows;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Wpf.Example.Handlers;
-using System.Windows;
 
 namespace CefSharp.Wpf.Example
 {

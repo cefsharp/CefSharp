@@ -2,13 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Enums;
-using CefSharp.Internals;
-using CefSharp.Structs;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
+using CefSharp.Enums;
+using CefSharp.Internals;
+using CefSharp.Structs;
 using Point = System.Drawing.Point;
 using Size = System.Drawing.Size;
 

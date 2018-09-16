@@ -2,17 +2,17 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Example;
-using CefSharp.Example.Handlers;
-using CefSharp.Example.ModelBinding;
-using CefSharp.Wpf.Example.Handlers;
-using CefSharp.Wpf.Example.ViewModels;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CefSharp.Example;
+using CefSharp.Example.Handlers;
+using CefSharp.Example.ModelBinding;
+using CefSharp.Wpf.Example.Handlers;
+using CefSharp.Wpf.Example.ViewModels;
 
 namespace CefSharp.Wpf.Example.Views
 {

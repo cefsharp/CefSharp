@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -10,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CefSharp.Internals;
 
 namespace CefSharp
 {

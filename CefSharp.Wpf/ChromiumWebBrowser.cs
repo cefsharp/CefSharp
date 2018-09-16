@@ -2,12 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Enums;
-using CefSharp.Internals;
-using CefSharp.Structs;
-using CefSharp.Wpf.Internals;
-using CefSharp.Wpf.Rendering;
-using Microsoft.Win32.SafeHandles;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -18,6 +12,12 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using CefSharp.Enums;
+using CefSharp.Internals;
+using CefSharp.Structs;
+using CefSharp.Wpf.Internals;
+using CefSharp.Wpf.Rendering;
+using Microsoft.Win32.SafeHandles;
 using CursorType = CefSharp.Enums.CursorType;
 using Point = System.Windows.Point;
 using Rect = CefSharp.Structs.Rect;

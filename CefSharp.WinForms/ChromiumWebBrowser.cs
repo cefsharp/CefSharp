@@ -2,13 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
-using CefSharp.WinForms.Internals;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using CefSharp.Internals;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms
 {

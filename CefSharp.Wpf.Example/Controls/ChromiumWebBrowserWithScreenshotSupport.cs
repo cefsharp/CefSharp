@@ -2,8 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +14,8 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CefSharp.Internals;
+using GalaSoft.MvvmLight.Command;
 using Size = System.Windows.Size;
 
 namespace CefSharp.Wpf.Example.Controls

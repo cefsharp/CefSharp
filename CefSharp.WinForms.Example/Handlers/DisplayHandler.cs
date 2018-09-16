@@ -2,10 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Structs;
-using CefSharp.WinForms.Internals;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using CefSharp.Structs;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Handlers
 {

@@ -2,12 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Example.Filters;
-using CefSharp.Handler;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using CefSharp.Example.Filters;
+using CefSharp.Handler;
 
 namespace CefSharp.Example.Handlers
 {
