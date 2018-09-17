@@ -1,5 +1,15 @@
+# editorconfig.org
+# Mostly based on https://github.com/dotnet/corefx/blob/master/.editorconfig
+# References
+# https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017
+# https://kent-boogaart.com/blog/editorconfig-reference-for-c-developers
+
+# top-most EditorConfig file
 root = true
 
+# Default settings:
+# A newline ending every file
+# Use 4 spaces as indentation
 [*]
 insert_final_newline     = true
 indent_style             = space
@@ -8,12 +18,21 @@ charset                  = utf-8
 end_of_line              = crlf
 trim_trailing_whitespace = true
 
+# Xml config files
+[*.{props,targets,config,nuspec}]
+indent_size              = 2
+
+# C++ Files
+[*.{cpp,h,in}]
+curly_bracket_next_line  = true
+indent_brace_style       = Allman
+
 [*.cs]
 # Capitalization styles
-dotnet_naming_style.constant_field_case_style.capitalization                   = pascal_case
+dotnet_naming_style.constant_field_case_style.capitalization                   = camel_case
 dotnet_naming_style.property_case_style.capitalization                         = pascal_case
 dotnet_naming_style.static_field_case_style.capitalization                     = camel_case
-dotnet_naming_style.private_internal_field_case_style.capitalization           = camel_case
+dotnet_naming_style.private_internal_field_case_style.capitalization           = pascal_case
 
 # New line preferences
 csharp_new_line_before_open_brace                                              = all
@@ -38,9 +57,9 @@ dotnet_style_qualification_for_method                                          =
 dotnet_style_qualification_for_event                                           = false : suggestion
 
 # only use var when it's obvious what the variable type is
-csharp_style_var_for_built_in_types                                            = false : none
+csharp_style_var_for_built_in_types                                            = true : none
 csharp_style_var_when_type_is_apparent                                         = true : suggestion
-csharp_style_var_elsewhere                                                     = false : suggestion
+csharp_style_var_elsewhere                                                     = true : suggestion
 
 # use language keywords instead of BCL types
 dotnet_style_predefined_type_for_locals_parameters_members                     = true : suggestion
@@ -80,7 +99,7 @@ dotnet_naming_symbols.private_internal_field_target.applicable_accessibilities =
 
 # Code style defaults
 dotnet_sort_system_directives_first                                            = true
-csharp_preserve_single_line_blocks                                             = true
+csharp_preserve_single_line_blocks                                             = false
 csharp_preserve_single_line_statements                                         = false
 dotnet_style_prefer_auto_properties                                            = true : suggestion
 
@@ -125,3 +144,4 @@ csharp_space_between_square_brackets                                           =
 
 # Modifier order
 csharp_preferred_modifier_order                                                = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async : error
+
