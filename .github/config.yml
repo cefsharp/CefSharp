@@ -8,7 +8,7 @@ newIssueWelcomeComment: >
   Please make sure you provide enough detail that **someone else** can reproduce the issue you are experiencing.
   <br/>
   <br/>
-  It's also reportant to remember that `CefSharp` is just a wrapper around the `Chromium Embedded Framework(CEF)`, a lot of questions people
+  It's also important to remember that `CefSharp` is just a wrapper around the `Chromium Embedded Framework(CEF)`, a lot of questions people
   have aren't actually `CefSharp` specific, they're generic to `CEF` and for those `CEF` has it's own support forum at http://magpcss.org/ceforum/index.php and issue tracker at https://bitbucket.org/chromiumembedded/cef
   <br/>
   <br/>
