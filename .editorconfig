@@ -31,8 +31,8 @@ indent_brace_style       = Allman
 # Capitalization styles
 dotnet_naming_style.constant_field_case_style.capitalization                   = camel_case
 dotnet_naming_style.property_case_style.capitalization                         = pascal_case
-dotnet_naming_style.static_field_case_style.capitalization                     = camel_case
-dotnet_naming_style.private_internal_field_case_style.capitalization           = pascal_case
+dotnet_naming_style.static_field_case_style.capitalization                     = pascal_case
+dotnet_naming_style.private_internal_field_case_style.capitalization           = camel_case
 
 # New line preferences
 csharp_new_line_before_open_brace                                              = all
@@ -56,7 +56,7 @@ dotnet_style_qualification_for_property                                        =
 dotnet_style_qualification_for_method                                          = false : suggestion
 dotnet_style_qualification_for_event                                           = false : suggestion
 
-# only use var when it's obvious what the variable type is
+# Prefer using var 
 csharp_style_var_for_built_in_types                                            = true : none
 csharp_style_var_when_type_is_apparent                                         = true : suggestion
 csharp_style_var_elsewhere                                                     = true : suggestion
@@ -99,7 +99,7 @@ dotnet_naming_symbols.private_internal_field_target.applicable_accessibilities =
 
 # Code style defaults
 dotnet_sort_system_directives_first                                            = true
-csharp_preserve_single_line_blocks                                             = false
+csharp_preserve_single_line_blocks                                             = true
 csharp_preserve_single_line_statements                                         = false
 dotnet_style_prefer_auto_properties                                            = true : suggestion
 
