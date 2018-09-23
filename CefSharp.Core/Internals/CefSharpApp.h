@@ -120,7 +120,14 @@ namespace CefSharp
                     // precedence than command line args provided by the app
                     else if (!commandLine->HasSwitch(name))
                     {
-                        commandLine->AppendSwitchWithValue(name, value);
+                        if (String::IsNullOrEmpty(kvp->Value))
+                        {
+                            commandLine->AppendSwitch(name);
+                        }
+                        else
+                        {
+                            commandLine->AppendSwitchWithValue(name, value);
+                        }
                     }
                 }
             }
