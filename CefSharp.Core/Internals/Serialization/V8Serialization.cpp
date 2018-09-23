@@ -106,35 +106,17 @@ namespace CefSharp
                 else if (type->IsEnum)
                 {
                     auto subType = System::Enum::GetUnderlyingType(type);
-                    if (subType == SByte::typeid)
+                    if (subType == SByte::typeid ||
+                        subType == Int16::typeid ||
+                        subType == Int32::typeid ||
+                        subType == Byte::typeid  ||
+                        subType == UInt16::typeid)
                     {
                         list->SetInt(index, Convert::ToInt32(obj));
                     }
-                    else if (subType == Int16::typeid)
-                    {
-                        list->SetInt(index, Convert::ToInt32(obj));
-                    }
-                    else if (subType == Int32::typeid)
-                    {
-                        list->SetInt(index, safe_cast<int>(obj));
-                    }
-                    else if (subType == Int64::typeid)
-                    {
-                        list->SetDouble(index, Convert::ToDouble(obj));
-                    }
-                    else if (subType == Byte::typeid)
-                    {
-                        list->SetInt(index, Convert::ToInt32(obj));
-                    }
-                    else if (subType == UInt16::typeid)
-                    {
-                        list->SetInt(index, Convert::ToInt32(obj));
-                    }
-                    else if (subType == UInt32::typeid)
-                    {
-                        list->SetDouble(index, Convert::ToDouble(obj));
-                    }
-                    else if (subType == UInt64::typeid)
+                    else if (subType == Int64::typeid ||
+                            subType == UInt32::typeid ||
+                            subType == UInt64::typeid)
                     {
                         list->SetDouble(index, Convert::ToDouble(obj));
                     }
