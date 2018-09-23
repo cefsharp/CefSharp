@@ -29,7 +29,7 @@ indent_brace_style       = Allman
 
 [*.cs]
 # Capitalization styles
-dotnet_naming_style.constant_field_case_style.capitalization                   = camel_case
+dotnet_naming_style.constant_field_case_style.capitalization                   = pascal_case
 dotnet_naming_style.property_case_style.capitalization                         = pascal_case
 dotnet_naming_style.static_field_case_style.capitalization                     = pascal_case
 dotnet_naming_style.private_internal_field_case_style.capitalization           = camel_case
