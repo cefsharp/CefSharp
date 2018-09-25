@@ -6,26 +6,29 @@ namespace CefSharp.Example
 {
     public class JsDialogHandler : IJsDialogHandler
     {
-        public bool OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
+        bool IJsDialogHandler.OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
         {
             return false;
         }
 
-        public bool OnJSBeforeUnload(IWebBrowser browserControl, IBrowser browser, string message, bool isReload, IJsDialogCallback callback)
+        bool IJsDialogHandler.OnBeforeUnloadDialog(IWebBrowser browserControl, IBrowser browser, string message, bool isReload, IJsDialogCallback callback)
         {
-            //NOTE: No need to execute the callback if you return false
-            // callback.Continue(true);
+            //Custom implementation would look something like
+            // - Create/Show dialog on UI Thread
+            // - execute callback once user has responded
+            // - callback.Continue(true);
+            // - return true
 
-            //NOTE: Returning false will trigger the default behaviour, you need to return true to handle yourself.
+            //NOTE: Returning false will trigger the default behaviour, no need to execute the callback if you return false.
             return false;
         }
 
-        public void OnResetDialogState(IWebBrowser browserControl, IBrowser browser)
+        void IJsDialogHandler.OnResetDialogState(IWebBrowser browserControl, IBrowser browser)
         {
 
         }
 
-        public void OnDialogClosed(IWebBrowser browserControl, IBrowser browser)
+        void IJsDialogHandler.OnDialogClosed(IWebBrowser browserControl, IBrowser browser)
         {
 
         }

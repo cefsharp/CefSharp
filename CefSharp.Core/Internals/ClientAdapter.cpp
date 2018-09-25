@@ -1055,7 +1055,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto callbackWrapper = gcnew CefJSDialogCallbackWrapper(callback);
 
-            return handler->OnJSBeforeUnload(_browserControl, browserWrapper, StringUtils::ToClr(message_text), is_reload, callbackWrapper);
+            return handler->OnBeforeUnloadDialog(_browserControl, browserWrapper, StringUtils::ToClr(message_text), is_reload, callbackWrapper);
         }
 
         void ClientAdapter::OnResetDialogState(CefRefPtr<CefBrowser> browser)
