@@ -8,6 +8,7 @@ namespace CefSharp
 {
     /// <summary>
     /// Event arguments for the IsBrowserInitializedChanged event handler.
+    /// TODO: Remove this event args, we don't actually use it (event is only fired once)
     /// </summary>
     public class IsBrowserInitializedChangedEventArgs : EventArgs
     {
