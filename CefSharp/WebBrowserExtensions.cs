@@ -19,7 +19,7 @@ namespace CefSharp
     /// </summary>
     public static class WebBrowserExtensions
     {
-        private static Type[] numberTypes = new Type[] { typeof(int), typeof(uint), typeof(double), typeof(decimal), typeof(float), typeof(Int64), typeof(Int16) };
+        private static Type[] NumberTypes = new Type[] { typeof(int), typeof(uint), typeof(double), typeof(decimal), typeof(float), typeof(Int64), typeof(Int16) };
 
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
@@ -915,7 +915,7 @@ namespace CefSharp
                     {
                         stringBuilder.Append("null");
                     }
-                    else if (numberTypes.Contains(obj.GetType()))
+                    else if (NumberTypes.Contains(obj.GetType()))
                     {
                         stringBuilder.Append(Convert.ToString(args[i], CultureInfo.InvariantCulture));
                     }
