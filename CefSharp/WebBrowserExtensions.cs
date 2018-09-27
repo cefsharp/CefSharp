@@ -19,8 +19,6 @@ namespace CefSharp
     /// </summary>
     public static class WebBrowserExtensions
     {
-        private static Type[] numberTypes = new Type[] { typeof(int), typeof(uint), typeof(double), typeof(decimal), typeof(float), typeof(Int64), typeof(Int16) };
-
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
         /// </summary>
@@ -895,6 +893,26 @@ namespace CefSharp
         };
 
         /// <summary>
+        /// Checks if the given object is a numerical object
+        /// </summary>
+        /// <param name="value">The object to check</param>
+        /// <returns>True if numeric, otherwise false</returns>
+        private static bool IsNumeric(this object value)
+        {
+            return value is sbyte
+                    || value is byte
+                    || value is short
+                    || value is ushort
+                    || value is int
+                    || value is uint
+                    || value is long
+                    || value is ulong
+                    || value is float
+                    || value is double
+                    || value is decimal;
+        }
+
+        /// <summary>
         /// Transforms the methodName and arguments into valid Javascript code. Will encapsulate params in single quotes (unless int, uint, etc)
         /// </summary>
         /// <param name="methodName">The javascript method name to execute</param>
@@ -915,7 +933,7 @@ namespace CefSharp
                     {
                         stringBuilder.Append("null");
                     }
-                    else if (numberTypes.Contains(obj.GetType()))
+                    else if (obj.IsNumeric())
                     {
                         stringBuilder.Append(Convert.ToString(args[i], CultureInfo.InvariantCulture));
                     }
