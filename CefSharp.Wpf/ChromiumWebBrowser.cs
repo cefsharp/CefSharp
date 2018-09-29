@@ -1139,7 +1139,7 @@ namespace CefSharp.Wpf
             DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
 
         /// <summary>
-        /// Event handler that will get called when the browser has finished initializing
+        /// Event called after the underlying CEF browser instance has been created. 
         /// </summary>
         public event DependencyPropertyChangedEventHandler IsBrowserInitializedChanged;
 

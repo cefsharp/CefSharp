@@ -275,7 +275,7 @@ namespace CefSharp.WinForms
         /// </summary>
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
         /// <summary>
-        /// Occurs when [is browser initialized changed].
+        /// Event called after the underlying CEF browser instance has been created. 
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
         /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
         /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
@@ -661,12 +661,7 @@ namespace CefSharp.WinForms
 
             ResizeBrowser();
 
-            var handler = IsBrowserInitializedChanged;
-
-            if (handler != null)
-            {
-                handler(this, new IsBrowserInitializedChangedEventArgs(IsBrowserInitialized));
-            }
+            IsBrowserInitializedChanged?.Invoke(this, new IsBrowserInitializedChangedEventArgs(IsBrowserInitialized));
         }
 
         /// <summary>
