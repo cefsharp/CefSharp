@@ -19,7 +19,7 @@ end_of_line              = crlf
 trim_trailing_whitespace = true
 
 # Xml config files
-[*.{props,targets,config,nuspec}]
+[*.{props,targets,config,nuspec,manifest}]
 indent_size              = 2
 
 # C++ Files
