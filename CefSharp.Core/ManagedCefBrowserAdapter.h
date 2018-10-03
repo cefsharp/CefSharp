@@ -72,19 +72,19 @@ namespace CefSharp
             // before calling _browserWrapper->CloseBrowser(true)
             this->!ManagedCefBrowserAdapter();
 
+            if (_methodRunnerQueue != nullptr)
+            {
+                _methodRunnerQueue->MethodInvocationComplete -= gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
+                _methodRunnerQueue->Stop();
+                _methodRunnerQueue = nullptr;
+            }
+
             if (_browserWrapper != nullptr)
             {
                 _browserWrapper->CloseBrowser(true);
 
                 delete _browserWrapper;
                 _browserWrapper = nullptr;
-            }
-
-            if (_methodRunnerQueue != nullptr)
-            {
-                _methodRunnerQueue->MethodInvocationComplete -= gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
-                _methodRunnerQueue->Stop();
-                _methodRunnerQueue = nullptr;
             }
 
             if (CefSharpSettings::WcfEnabled && _browserProcessServiceHost != nullptr)
