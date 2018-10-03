@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -16,43 +16,43 @@ namespace CefSharp
         /// <summary>
         /// Called when a frame's address has changed. 
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="addressChangedArgs">args</param>
-        void OnAddressChanged(IWebBrowser browserControl, AddressChangedEventArgs addressChangedArgs);
+        void OnAddressChanged(IWebBrowser chromiumWebBrowser, AddressChangedEventArgs addressChangedArgs);
 
         /// <summary>
         /// Called when auto-resize is enabled via IBrowserHost.SetAutoResizeEnabled and the contents have auto-resized.
         /// </summary>
-        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="newSize">will be the desired size in view coordinates</param>
         /// <returns>Return true if the resize was handled or false for default handling. </returns>
-        bool OnAutoResize(IWebBrowser browserControl, IBrowser browser, Size newSize);
+        bool OnAutoResize(IWebBrowser chromiumWebBrowser, IBrowser browser, Size newSize);
 
         /// <summary>
         /// Called when the page title changes.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="titleChangedArgs">args</param>
-        void OnTitleChanged(IWebBrowser browserControl, TitleChangedEventArgs titleChangedArgs);
+        void OnTitleChanged(IWebBrowser chromiumWebBrowser, TitleChangedEventArgs titleChangedArgs);
 
         /// <summary>
         /// Called when the page icon changes.
         /// </summary>
-        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="urls">list of urls where the favicons can be downloaded</param>
-        void OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, IList<string> urls);
+        void OnFaviconUrlChange(IWebBrowser chromiumWebBrowser, IBrowser browser, IList<string> urls);
 
         /// <summary>
         /// Called when web content in the page has toggled fullscreen mode. The client is
         /// responsible for resizing the browser if desired.
         /// </summary>
-        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="fullscreen">If true the content will automatically be sized to fill the browser content area.
         /// If false the content will automatically return to its original size and position.</param>
-        void OnFullscreenModeChange(IWebBrowser browserControl, IBrowser browser, bool fullscreen);
+        void OnFullscreenModeChange(IWebBrowser chromiumWebBrowser, IBrowser browser, bool fullscreen);
 
         /// <summary>
         /// Called when the browser is about to display a tooltip. text contains the
@@ -61,26 +61,26 @@ namespace CefSharp
         /// When window rendering is disabled the application is responsible for
         /// drawing tooltips and the return value is ignored.
         /// </summary>
-        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
         /// <param name="text">the text that will be displayed in the tooltip</param>
         /// <returns>To handle the display of the tooltip yourself return true otherwise return false
         /// to allow the browser to display the tooltip.</returns>
         /// <remarks>Only called when using Off-screen rendering (WPF and OffScreen)</remarks>
-        bool OnTooltipChanged(IWebBrowser browserControl, ref string text);
+        bool OnTooltipChanged(IWebBrowser chromiumWebBrowser, ref string text);
 
         /// <summary>
         /// Called when the browser receives a status message.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
+        /// <param name="chromiumWebBrowser">The <see cref="IWebBrowser"/> control this popup is related to.</param>
         /// <param name="statusMessageArgs">args</param>
-        void OnStatusMessage(IWebBrowser browserControl, StatusMessageEventArgs statusMessageArgs);
+        void OnStatusMessage(IWebBrowser chromiumWebBrowser, StatusMessageEventArgs statusMessageArgs);
 
         /// <summary>
         /// Called to display a console message. 
         /// </summary>
-        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
         /// <param name="consoleMessageArgs">args</param>
         /// <returns>Return true to stop the message from being output to the console.</returns>
-        bool OnConsoleMessage(IWebBrowser browserControl, ConsoleMessageEventArgs consoleMessageArgs);
+        bool OnConsoleMessage(IWebBrowser chromiumWebBrowser, ConsoleMessageEventArgs consoleMessageArgs);
     }
 }

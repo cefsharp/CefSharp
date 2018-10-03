@@ -1,5 +1,4 @@
-
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -90,10 +89,10 @@ namespace CefSharp
                             else
                             {
                                 retval = CefV8Value::CreateBool(false);
-                            }							
+                            }
                         }
                         //TODO: Better name for this function
-                        else if (name == kDeleteBoundObject || name == kDeleteBoundObject)
+                        else if (name == kDeleteBoundObject || name == kDeleteBoundObjectCamelCase)
                         {
                             if (arguments.size() == 0 || arguments.size() > 1)
                             {
@@ -113,10 +112,15 @@ namespace CefSharp
                         }
                         else if (name == kBindObjectAsync || name == kBindObjectAsyncCamelCase)
                         {
-                            auto promiseCreator = global->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
-
+                            CefRefPtr<CefV8Value> promiseData;
+                            CefRefPtr<CefV8Exception> promiseException;
                             //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
-                            auto promiseData = promiseCreator->ExecuteFunctionWithContext(context, nullptr, CefV8ValueList());
+                            if (!context->Eval(CefAppUnmanagedWrapper::kPromiseCreatorScript, CefString(), 0, promiseData, promiseException))
+                            {
+                                exception = promiseException->GetMessage();
+
+                                return true;
+                            }
 
                             //return the promose
                             retval = promiseData->GetValue("p");
@@ -191,7 +195,7 @@ namespace CefSharp
                                 for (auto i = 0; i < arguments.size(); i++)
                                 {
                                     //Validate arg as being a string
-                                    if(arguments[i]->IsString())
+                                    if (arguments[i]->IsString())
                                     {
                                         auto objectName = arguments[i]->GetStringValue();
                                         auto managedObjectName = StringUtils::ToClr(objectName);
@@ -252,7 +256,7 @@ namespace CefSharp
                                                 rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), _browserWrapper->BrowserProcess);
                                                 rootObjectWrappers->TryAdd(frame->GetIdentifier(), rootObject);
                                             }
-                                        
+
                                             //Cached objects only contains a list of objects not already bound
                                             rootObject->Bind(cachedObjects, context->GetGlobal());
 
@@ -267,7 +271,7 @@ namespace CefSharp
                                             NotifyObjectBound(browser, objectNamesWithBoundStatus);
                                         }
                                     }
-                                    
+
                                 }
                                 else
                                 {
@@ -321,7 +325,7 @@ namespace CefSharp
             {
                 exception = "Unable to get current context";
             }
-            
+
 
             return true;
         }

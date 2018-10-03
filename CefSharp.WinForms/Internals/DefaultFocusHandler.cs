@@ -1,41 +1,33 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
-using System;
-using System.Windows.Forms;
 namespace CefSharp.WinForms.Internals
 {
     /// <summary>
-    /// Default implementation of <see cref="CefSharp.IFocusHandler" />
+    /// Default implementation of <see cref="IFocusHandler" />
     /// for the WinForms implementation
     /// </summary>
     /// <seealso cref="CefSharp.IFocusHandler" />
     public class DefaultFocusHandler : IFocusHandler
     {
         /// <summary>
-        /// The browser
-        /// </summary>
-        private readonly ChromiumWebBrowser browser;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultFocusHandler"/> class.
-        /// </summary>
-        /// <param name="browser">The browser.</param>
-        public DefaultFocusHandler(ChromiumWebBrowser browser)
-        {
-            this.browser = browser;
-        }
-
-        /// <summary>
         /// Called when the browser component has received focus.
         /// </summary>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
         /// <remarks>Try to avoid needing to override this logic in a subclass. The implementation in
         /// DefaultFocusHandler relies on very detailed behavior of how WinForms and
         /// Windows interact during window activation.</remarks>
-        public virtual void OnGotFocus()
+        public virtual void OnGotFocus(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
+            //We don't deal with popups as they're rendered by default entirely by CEF
+            if (browser.IsPopup)
+            {
+                return;
+            }
+
+            var winFormsChromiumWebBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
             // During application activation, CEF receives a WM_SETFOCUS
             // message from Windows because it is the top window 
             // on the CEF UI thread.
@@ -70,18 +62,18 @@ namespace CefSharp.WinForms.Internals
             // * This method will clear the activation state (if any)
             //   on the ChromiumWebBrowser control, due to the race
             //   condition the WinForm UI thread cannot.
-            if (browser.IsActivating)
+            if (winFormsChromiumWebBrowser.IsActivating)
             {
-                browser.IsActivating = false;
+                winFormsChromiumWebBrowser.IsActivating = false;
             }
             else
             {
                 // Otherwise, we're not being activated
                 // so we must activate the ChromiumWebBrowser control
                 // for WinForms focus tracking.
-                browser.InvokeOnUiThreadIfRequired(() =>
+                winFormsChromiumWebBrowser.InvokeOnUiThreadIfRequired(() =>
                 {
-                    browser.Activate();
+                    winFormsChromiumWebBrowser.Activate();
                 });
             }
         }
@@ -89,10 +81,17 @@ namespace CefSharp.WinForms.Internals
         /// <summary>
         /// Called when the browser component is requesting focus.
         /// </summary>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
         /// <param name="source">Indicates where the focus request is originating from.</param>
         /// <returns>Return false to allow the focus to be set or true to cancel setting the focus.</returns>
-        public virtual bool OnSetFocus(CefFocusSource source)
+        public virtual bool OnSetFocus(IWebBrowser chromiumWebBrowser, IBrowser browser, CefFocusSource source)
         {
+            //We don't deal with popups as they're rendered by default entirely by CEF
+            if (browser.IsPopup)
+            {
+                return false;
+            }
             // Do not let the browser take focus when a Load method has been called
             return source == CefFocusSource.FocusSourceNavigation;
         }
@@ -101,12 +100,22 @@ namespace CefSharp.WinForms.Internals
         /// Called when the browser component is about to lose focus.
         /// For instance, if focus was on the last HTML element and the user pressed the TAB key.
         /// </summary>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
         /// <param name="next">Will be true if the browser is giving focus to the next component
         /// and false if the browser is giving focus to the previous component.</param>
-        public virtual void OnTakeFocus(bool next)
+        public virtual void OnTakeFocus(IWebBrowser chromiumWebBrowser, IBrowser browser, bool next)
         {
+            //We don't deal with popups as they're rendered by default entirely by CEF
+            if (browser.IsPopup)
+            {
+                return;
+            }
+
+            var winFormsChromiumWebBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
+
             // NOTE: OnTakeFocus means leaving focus / not taking focus
-            browser.InvokeOnUiThreadIfRequired(() => browser.SelectNextControl(next));
+            winFormsChromiumWebBrowser.InvokeOnUiThreadIfRequired(() => winFormsChromiumWebBrowser.SelectNextControl(next));
         }
     }
 }

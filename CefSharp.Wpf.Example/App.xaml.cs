@@ -1,8 +1,7 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2011 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Threading.Tasks;
 using System.Windows;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
@@ -35,7 +34,11 @@ namespace CefSharp.Wpf.Example
                 browserProcessHandler = new WpfBrowserProcessHandler(Dispatcher);
             }
 
-            CefExample.Init(osr: true, multiThreadedMessageLoop: multiThreadedMessageLoop, browserProcessHandler: browserProcessHandler);
+            var settings = new CefSettings();
+            settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
+            settings.ExternalMessagePump = !multiThreadedMessageLoop;
+
+            CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
 
             base.OnStartup(e);
         }

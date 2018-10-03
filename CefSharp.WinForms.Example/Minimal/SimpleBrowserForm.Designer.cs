@@ -1,4 +1,4 @@
-﻿namespace CefSharp.WinForms.Example.Minimal
+namespace CefSharp.WinForms.Example.Minimal
 {
     partial class SimpleBrowserForm
     {

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -46,7 +46,11 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Initializes a new instance of the <see cref="PaintEventArgs"/> class.
         /// </summary>
-        /// <param name="bitmapInfo">The bitmap information.</param>
+        /// <param name="isPopup">is popup</param>
+        /// <param name="dirtyRect">direct rectangle</param>
+        /// <param name="buffer">buffer</param>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
         public PaintEventArgs(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
             IsPopup = isPopup;

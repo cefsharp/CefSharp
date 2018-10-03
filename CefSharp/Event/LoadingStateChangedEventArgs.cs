@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -33,6 +33,13 @@ namespace CefSharp
         /// </summary>
         public IBrowser Browser { get; private set; }
 
+        /// <summary>
+        /// LoadingStateChangedEventArgs
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="canGoBack">can go back</param>
+        /// <param name="canGoForward">can go forward</param>
+        /// <param name="isLoading">is loading</param>
         public LoadingStateChangedEventArgs(IBrowser browser, bool canGoBack, bool canGoForward, bool isLoading)
         {
             Browser = browser;

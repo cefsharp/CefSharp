@@ -1,17 +1,17 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Example;
 using System;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using CefSharp.WinForms.Example.Handlers;
-using CefSharp.WinForms.Internals;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using CefSharp.Example;
+using CefSharp.WinForms.Example.Handlers;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example
 {
@@ -42,6 +42,12 @@ namespace CefSharp.WinForms.Example
             if (multiThreadedMessageLoopEnabled)
             {
                 browser.KeyboardHandler = new KeyboardHandler();
+            }
+            else
+            {
+                //When MultiThreadedMessageLoop is disabled we don't need the
+                //CefSharp focus handler implementation.
+                browser.FocusHandler = null;
             }
             //browser.LifeSpanHandler = new LifeSpanHandler();
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
@@ -77,7 +83,7 @@ namespace CefSharp.WinForms.Example
             eventObject.EventArrived += OnJavascriptEventArrived;
             // Use the default of camelCaseJavascriptNames
             // .Net methods starting with a capitol will be translated to starting with a lower case letter when called from js
-            browser.JavascriptObjectRepository.Register("boundEvent", eventObject, isAsync:false, options: BindingOptions.DefaultBinder);
+            browser.JavascriptObjectRepository.Register("boundEvent", eventObject, isAsync: false, options: BindingOptions.DefaultBinder);
 
             CefExample.RegisterTestResources(browser);
 
@@ -206,7 +212,7 @@ namespace CefSharp.WinForms.Example
                 string errorMessage;
                 // Browser must be initialized before getting/setting preferences
                 var success = requestContext.SetPreference("enable_do_not_track", true, out errorMessage);
-                if(!success)
+                if (!success)
                 {
                     this.InvokeOnUiThreadIfRequired(() => MessageBox.Show("Unable to set preference enable_do_not_track errorMessage: " + errorMessage));
                 }

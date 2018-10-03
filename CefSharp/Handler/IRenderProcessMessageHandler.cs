@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -46,7 +46,7 @@ namespace CefSharp
         /// OnUncaughtException is called for global uncaught exceptions in a frame. Execution of this callback is disabled by default. 
         /// To enable set CefSettings.UncaughtExceptionStackSize > 0.
         /// </summary>
-        /// <param name="browserControl">The ChromiumWebBrowser control<</param>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">The browser object</param>
         /// <param name="frame">The frame</param>
         /// <param name="exception">The exception object with the message and stacktrace.</param>

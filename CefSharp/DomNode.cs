@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -17,41 +17,41 @@ namespace CefSharp
     {
         private readonly IDictionary<string, string> _attributes;
 
-        public DomNode (string tagName, IDictionary<string, string> attributes)
+        public DomNode(string tagName, IDictionary<string, string> attributes)
         {
             TagName = tagName;
             _attributes = attributes;
         }
 
-        public override string ToString ()
+        public override string ToString()
         {
-            var sb = new StringBuilder ();
+            var sb = new StringBuilder();
             if (_attributes != null)
             {
                 foreach (var pair in _attributes)
                 {
-                    sb.AppendFormat ("{0}{1}:'{2}'", 0 < sb.Length ? ", " : String.Empty, pair.Key, pair.Value);
+                    sb.AppendFormat("{0}{1}:'{2}'", 0 < sb.Length ? ", " : String.Empty, pair.Key, pair.Value);
                 }
             }
 
-            if (!String.IsNullOrWhiteSpace (TagName))
+            if (!String.IsNullOrWhiteSpace(TagName))
             {
-                sb.Insert (0, String.Format ("{0} ", TagName));
+                sb.Insert(0, String.Format("{0} ", TagName));
             }
 
             if (sb.Length < 1)
             {
-                return base.ToString ();
+                return base.ToString();
             }
 
-            return sb.ToString ();
+            return sb.ToString();
         }
 
         public string this[string name]
         {
             get
             {
-                if (_attributes == null || _attributes.Count < 1 || !_attributes.ContainsKey (name))
+                if (_attributes == null || _attributes.Count < 1 || !_attributes.ContainsKey(name))
                 {
                     return null;
                 }
@@ -68,36 +68,36 @@ namespace CefSharp
             {
                 if (_attributes == null)
                 {
-                    return new ReadOnlyCollection<string> (new List<string> ());
+                    return new ReadOnlyCollection<string>(new List<string>());
                 }
 
-                return Array.AsReadOnly<string> (_attributes.Keys.ToArray ());
+                return Array.AsReadOnly<string>(_attributes.Keys.ToArray());
             }
         }
 
-        public bool HasAttribute (string attributeName)
+        public bool HasAttribute(string attributeName)
         {
             if (_attributes == null)
             {
                 return false;
             }
 
-            return _attributes.ContainsKey (attributeName);
+            return _attributes.ContainsKey(attributeName);
         }
 
-        public IEnumerator<KeyValuePair<string, string>>GetEnumerator()
+        public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
             if (_attributes == null)
             {
                 return new Dictionary<string, string>().GetEnumerator();
             }
 
-            return _attributes.GetEnumerator ();
+            return _attributes.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return GetEnumerator ();
+            return GetEnumerator();
         }
     }
 }

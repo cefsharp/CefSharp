@@ -1,8 +1,7 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp;
 using System;
 using System.IO;
 using System.Net;
@@ -21,7 +20,7 @@ namespace CefSharp.SchemeHandler
         private string defaultPage;
         private string schemeName;
         private string hostName;
-        
+
         /// <summary>
         /// Initialize a new instance of FolderSchemeHandlerFactory
         /// </summary>
@@ -70,7 +69,7 @@ namespace CefSharp.SchemeHandler
             if (this.hostName != null && !uri.Host.Equals(this.hostName, StringComparison.OrdinalIgnoreCase))
             {
                 return ResourceHandler.ForErrorMessage(string.Format("HostName {0} does not match the expected HostName of {1}.", uri.Host, this.hostName), HttpStatusCode.NotFound);
-            }			
+            }
 
             //Get the absolute path and remove the leading slash
             var asbolutePath = uri.AbsolutePath.Substring(1);
@@ -83,7 +82,7 @@ namespace CefSharp.SchemeHandler
             var filePath = WebUtility.UrlDecode(Path.GetFullPath(Path.Combine(rootFolder, asbolutePath)));
 
             //Check the file requested is within the specified path and that the file exists
-            if(filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
+            if (filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
             {
                 var fileExtension = Path.GetExtension(filePath);
                 var mimeType = ResourceHandler.GetMimeType(fileExtension);

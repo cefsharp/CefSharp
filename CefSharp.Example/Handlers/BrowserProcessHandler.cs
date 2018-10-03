@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -21,14 +21,14 @@ namespace CefSharp.Example.Handlers
             //The Global CookieManager has been initialized, you can now set cookies
             var cookieManager = Cef.GetGlobalCookieManager();
             cookieManager.SetStoragePath("cookies", true);
-            cookieManager.SetSupportedSchemes(new string[] {"custom"});
-            if(cookieManager.SetCookie("custom://cefsharp/home.html", new Cookie
+            cookieManager.SetSupportedSchemes(new string[] { "custom" });
+            if (cookieManager.SetCookie("custom://cefsharp/home.html", new Cookie
             {
                 Name = "CefSharpTestCookie",
                 Value = "ILikeCookies",
                 Expires = DateTime.Now.AddDays(1)
             }))
-            { 
+            {
                 cookieManager.VisitUrlCookiesAsync("custom://cefsharp/home.html", false).ContinueWith(previous =>
                 {
                     if (previous.Status == TaskStatus.RanToCompletion)
@@ -36,7 +36,7 @@ namespace CefSharp.Example.Handlers
                         var cookies = previous.Result;
 
                         foreach (var cookie in cookies)
-                        { 
+                        {
                             Debug.WriteLine("CookieName:" + cookie.Name);
                         }
                     }
@@ -46,7 +46,7 @@ namespace CefSharp.Example.Handlers
                     }
                 });
 
-                cookieManager.VisitAllCookiesAsync().ContinueWith(t => 
+                cookieManager.VisitAllCookiesAsync().ContinueWith(t =>
                 {
                     if (t.Status == TaskStatus.RanToCompletion)
                     {
@@ -89,7 +89,7 @@ namespace CefSharp.Example.Handlers
         {
             //If the delay is greater than the Maximum then use MaxTimerDelay
             //instead - we do this to achieve a minimum number of FPS
-            if(delay > MaxTimerDelay)
+            if (delay > MaxTimerDelay)
             {
                 delay = MaxTimerDelay;
             }
@@ -103,7 +103,7 @@ namespace CefSharp.Example.Handlers
 
         public virtual void Dispose()
         {
-            
+
         }
     }
 }

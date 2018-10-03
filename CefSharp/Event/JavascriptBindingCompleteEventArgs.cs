@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -15,7 +15,7 @@ namespace CefSharp.Event
         /// The javascript object repository, used to register objects
         /// </summary>
         public IJavascriptObjectRepository ObjectRepository { get; private set; }
-        
+
         /// <summary>
         /// Name of the object
         /// </summary>
@@ -32,6 +32,13 @@ namespace CefSharp.Event
         /// </summary>
         public bool IsCached { get; private set; }
 
+        /// <summary>
+        /// JavascriptBindingCompleteEventArgs
+        /// </summary>
+        /// <param name="objectRepository">javascript object repository</param>
+        /// <param name="name">object name</param>
+        /// <param name="alreadyBound">is the object already bound</param>
+        /// <param name="isCached">is the object cached</param>
         public JavascriptBindingCompleteEventArgs(IJavascriptObjectRepository objectRepository, string name, bool alreadyBound, bool isCached)
         {
             ObjectRepository = objectRepository;

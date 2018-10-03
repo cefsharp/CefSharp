@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -14,7 +14,7 @@ namespace CefSharp
         /// needed in order to continue filtering (filtered output is pending).
         /// </summary>
         NeedMoreData,
-        
+
         /// <summary>
         /// Some or all of the pre-filter data was read successfully and all available filtered output has been written.
         /// </summary>

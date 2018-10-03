@@ -1,12 +1,9 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Text;
 
 namespace CefSharp
 {
@@ -27,7 +24,7 @@ namespace CefSharp
         /// Gets or sets the Mime Type.
         /// </summary>
         public string MimeType { get; set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ByteArrayResourceHandler"/> class.
         /// </summary>
@@ -35,17 +32,17 @@ namespace CefSharp
         /// <param name="filePath">filePath</param>
         public ByteArrayResourceHandler(string mimeType, byte[] data)
         {
-            if(string.IsNullOrEmpty(mimeType))
+            if (string.IsNullOrEmpty(mimeType))
             {
                 throw new ArgumentNullException("mimeType", "Please provide a valid mimeType");
             }
 
-            if(data == null)
+            if (data == null)
             {
                 throw new ArgumentNullException("data", "Please provide a valid array");
             }
 
-            
+
             MimeType = mimeType;
             Data = data;
         }

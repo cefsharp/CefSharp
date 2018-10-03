@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2018 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -10,8 +10,17 @@ using CefSharp.Event;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Javascript binding extension methods
+    /// </summary>
     public static class JavascriptBindingExtensions
     {
+        /// <summary>
+        /// Make sure an object is bound in javascript. Executes against the main frame
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="names">object names</param>
+        /// <returns>List of objects that were bound</returns>
         public static Task<IList<string>> EnsureObjectBoundAsync(this IWebBrowser browser, params string[] names)
         {
             var objBoundTasks = new TaskCompletionSource<IList<string>>();

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -90,9 +90,16 @@ namespace CefSharp
 
         /// <summary>
         /// This influences the behavior of RegisterAsyncJsObject and how method calls are made.
-        /// By default the <see cref="MethodRunnerQueue"/> executes Tasks in a sync fashion.
+        /// By default the <see cref="Internals.MethodRunnerQueue"/> executes Tasks in a sync fashion.
         /// Setting this property to true will allocate new Tasks on TaskScheduler.Default for execution.
         /// </summary>
         public static bool ConcurrentTaskExecution { get; set; }
+
+        /// <summary>
+        /// If true a message will be sent from the render subprocess to the
+        /// browser when a DOM node (or no node) gets focus. The default is
+        /// false.
+        /// </summary>
+        public static bool FocusedNodeChangedEnabled { get; set; }
     }
 }

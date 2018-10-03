@@ -1,4 +1,4 @@
-﻿namespace CefSharp.WinForms.Example
+namespace CefSharp.WinForms.Example
 {
     partial class BrowserForm
     {

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -90,7 +90,7 @@ namespace CefSharp.Handler
         /// Called to handle requests for URLs with an invalid SSL certificate.
         /// Return true and call <see cref="IRequestCallback.Continue"/> either
         /// in this method or at a later time to continue or cancel the request.  
-        /// If <see cref="CefSettings.IgnoreCertificateErrors"/> is set all invalid certificates
+        /// If CefSettings.IgnoreCertificateErrors is set all invalid certificates
         /// will be accepted without calling this method.
         /// </summary>
         /// <param name="browserControl">the ChromiumWebBrowser control</param>

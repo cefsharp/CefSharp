@@ -1,13 +1,10 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CefSharp.ModelBinding;
 
 namespace CefSharp.Example
 {
@@ -33,7 +30,7 @@ namespace CefSharp.Example
 
         public int[] MyIntArray
         {
-            get { return new [] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
+            get { return new[] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
         }
 
         public Array MyArray
@@ -82,7 +79,7 @@ namespace CefSharp.Example
 
             IJavascriptCallback javascriptCallback = simpleClass.Callback;
 
-            if(javascriptCallback == null)
+            if (javascriptCallback == null)
             {
                 return "callback property not found or property is not a function";
             }

@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -20,14 +20,14 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefBrowserHost> _browserHost;
-            
+
             double GetZoomLevelOnUI();
 
         internal:
             CefBrowserHostWrapper(CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost)
             {
             }
-            
+
             !CefBrowserHostWrapper()
             {
                 _browserHost = NULL;
@@ -55,7 +55,7 @@ namespace CefSharp
             virtual void DragSourceEndedAt(int x, int y, DragOperationsMask op);
             virtual void DragTargetDragLeave();
             virtual void DragSourceSystemDragEnded();
-        
+
             virtual void ShowDevTools(IWindowInfo^ windowInfo, int inspectElementAtX, int inspectElementAtY);
             virtual void CloseDevTools();
             ///

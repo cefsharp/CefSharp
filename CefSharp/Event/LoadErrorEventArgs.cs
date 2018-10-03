@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -11,6 +11,14 @@ namespace CefSharp
     /// </summary>
     public class LoadErrorEventArgs : EventArgs
     {
+        /// <summary>
+        /// LoadErrorEventArgs
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="frame">frame</param>
+        /// <param name="errorCode">error code</param>
+        /// <param name="errorText">error text</param>
+        /// <param name="failedUrl">failed url</param>
         public LoadErrorEventArgs(IBrowser browser, IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
         {
             Browser = browser;

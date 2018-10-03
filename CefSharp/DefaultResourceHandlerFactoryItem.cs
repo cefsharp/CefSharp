@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -7,20 +7,30 @@ namespace CefSharp
     public class DefaultResourceHandlerFactoryItem
     {
         /// <summary>
-        /// The handler for a specific Url
+        /// Data
         /// </summary>
-        public IResourceHandler Handler { get; private set; }
+        public byte[] Data { get; private set; }
+
+        /// <summary>
+        /// Mime Type
+        /// </summary>
+        public string MimeType { get; private set; }
 
         /// <summary>
         /// Whether or not the handler should be used once (true) or until manually unregistered (false)
         /// </summary>
         public bool OneTimeUse { get; private set; }
 
-        /// <param name="handler">The handler for a specific Url</param>
+        /// <summary>
+        /// DefaultResourceHandlerFactoryItem constructor
+        /// </summary>
+        /// <param name="data">The data in byte[] format that will be used for the response</param>
+        /// <param name="mimeType">mime type</param>
         /// <param name="oneTimeUse">Whether or not the handler should be used once (true) or until manually unregistered (false)</param>
-        public DefaultResourceHandlerFactoryItem(IResourceHandler handler, bool oneTimeUse)
+        public DefaultResourceHandlerFactoryItem(byte[] data, string mimeType, bool oneTimeUse)
         {
-            Handler = handler;
+            Data = data;
+            MimeType = mimeType;
             OneTimeUse = oneTimeUse;
         }
     }

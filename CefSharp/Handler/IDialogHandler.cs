@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2018 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ namespace CefSharp
         /// Example URL to use for file browsing http://www.cs.tut.fi/~jkorpela/forms/file.html#example
         /// Simply click browse, the space next to the browse button should be populated with a randomly generated filename.
         /// </example>
-        /// <param name="browserControl">the browser control</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="mode">represents the type of dialog to display</param>
         /// <param name="flags">further specifies behavior dialog should exhibit</param>
@@ -38,7 +38,7 @@ namespace CefSharp
         /// <param name="callback">Callback interface for asynchronous continuation of file dialog requests.</param>
         /// <returns>To display a custom dialog return true. To display the default dialog return false.</returns>
         bool OnFileDialog(
-            IWebBrowser browserControl,
+            IWebBrowser chromiumWebBrowser,
             IBrowser browser,
             CefFileDialogMode mode,
             CefFileDialogFlags flags,

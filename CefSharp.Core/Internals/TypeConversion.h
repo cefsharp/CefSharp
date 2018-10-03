@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -15,6 +15,7 @@
 #include "Serialization\V8Serialization.h"
 
 using namespace System::Collections::Generic;
+using namespace System::Collections::Specialized;
 using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
@@ -52,7 +53,7 @@ namespace CefSharp
                 auto item = gcnew CefSharp::DownloadItem();
                 item->IsValid = downloadItem->IsValid();
                 //NOTE: Description for IsValid says `Do not call any other methods if this function returns false.` so only load if IsValid = true
-                if(item->IsValid)
+                if (item->IsValid)
                 {
                     item->IsInProgress = downloadItem->IsInProgress();
                     item->IsComplete = downloadItem->IsComplete();
@@ -79,7 +80,7 @@ namespace CefSharp
             static Nullable<DateTime> FromNative(CefTime time)
             {
                 auto epoch = time.GetDoubleT();
-                if(epoch == 0)
+                if (epoch == 0)
                 {
                     return Nullable<DateTime>();
                 }
@@ -89,9 +90,9 @@ namespace CefSharp
             static WebPluginInfo^ FromNative(CefRefPtr<CefWebPluginInfo> webPluginInfo)
             {
                 return gcnew WebPluginInfo(StringUtils::ToClr(webPluginInfo->GetName()),
-                                           StringUtils::ToClr(webPluginInfo->GetDescription()),
-                                           StringUtils::ToClr(webPluginInfo->GetPath()),
-                                           StringUtils::ToClr(webPluginInfo->GetVersion()));
+                    StringUtils::ToClr(webPluginInfo->GetDescription()),
+                    StringUtils::ToClr(webPluginInfo->GetPath()),
+                    StringUtils::ToClr(webPluginInfo->GetVersion()));
             }
 
             static IList<DraggableRegion>^ FromNative(const std::vector<CefDraggableRegion>& regions)
@@ -107,7 +108,7 @@ namespace CefSharp
                 {
                     list->Add(DraggableRegion(region.bounds.width, region.bounds.height, region.bounds.x, region.bounds.y, region.draggable == 1));
                 }
-                
+
                 return list;
             }
 
@@ -174,7 +175,7 @@ namespace CefSharp
 
                     cefValue->SetDictionary(cefDictionary);
                 }
-            
+
                 return cefValue;
             }
 
@@ -211,7 +212,12 @@ namespace CefSharp
                 {
                     return FromNative(value->GetDictionary());
                 }
-                
+
+                if (type == CefValueType::VTYPE_LIST)
+                {
+                    return FromNative(value->GetList());
+                }
+
                 return nullptr;
             }
 
@@ -236,6 +242,17 @@ namespace CefSharp
                 }
 
                 return dict;
+            }
+
+            static List<Object^>^ FromNative(const CefRefPtr<CefListValue>& list)
+            {
+                auto result = gcnew List<Object^>(list->GetSize());
+                for (auto i = 0; i < list->GetSize(); i++)
+                {
+                    result->Add(DeserializeObject(list, i, nullptr));
+                }
+
+                return result;
             }
         };
     }
