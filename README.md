@@ -1,4 +1,6 @@
-This is a fork of CefSharp so that I can reapply arsher's appdomain safe PRs.  See:
+This is a fork of CefSharp so that I can reapply arsher's appdomain safe PRs to the latest CefSharp as of Oct 2018 or so.  The latest codebase includes AnyCPU support, which I need.
+
+See:
 [Making CefSharp compatible with non-default AppDomains #1556](https://github.com/cefsharp/CefSharp/pull/1556)
 
 [![CefSharp Logo](logo.png)](http://cefsharp.github.io/ "CefSharp - Embedded Chromium for .NET")
