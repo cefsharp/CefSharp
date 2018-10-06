@@ -1,3 +1,6 @@
+This is a fork of CefSharp so that I can reapply arsher's appdomain safe PRs.  See:
+[Making CefSharp compatible with non-default AppDomains #1556](https://github.com/cefsharp/CefSharp/pull/1556)
+
 [![CefSharp Logo](logo.png)](http://cefsharp.github.io/ "CefSharp - Embedded Chromium for .NET")
 
 [![Build status](https://ci.appveyor.com/api/projects/status/9g4mcuqruc283g66/branch/master?svg=true)](https://ci.appveyor.com/project/cefsharp/cefsharp/branch/master)
