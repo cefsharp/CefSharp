@@ -370,6 +370,9 @@ namespace CefSharp
         /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
         void RegisterScheme(CefCustomScheme^ cefCustomScheme)
         {
+            //Scheme names are converted to lowercase
+            cefCustomScheme->SchemeName = cefCustomScheme->SchemeName->ToLower();
+
             _cefCustomSchemes->Add(cefCustomScheme);
         }
 

@@ -72,9 +72,19 @@ namespace CefSharp
             if (_cefSettings->_cefCustomSchemes->Count > 0)
             {
                 String^ argument = "=";
+                bool hasCustomScheme = false;
 
                 for each(CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
                 {
+                    //We don't need to register http or https in the render process
+                    if (scheme->SchemeName == "http" ||
+                        scheme->SchemeName == "https")
+                    {
+                        continue;
+                    }
+
+                    hasCustomScheme = true;
+
                     argument += scheme->SchemeName + "|";
                     argument += (scheme->IsStandard ? "T" : "F") + "|";
                     argument += (scheme->IsLocal ? "T" : "F") + "|";
@@ -84,9 +94,12 @@ namespace CefSharp
                     argument += (scheme->IsCSPBypassing ? "T" : "F") + ";";
                 }
 
-                argument = argument->TrimEnd(';');
+                if (hasCustomScheme)
+                {
+                    argument = argument->TrimEnd(';');
 
-                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + argument));
+                    commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + argument));
+                }
             }
 
             if (CefSharpSettings::FocusedNodeChangedEnabled)
@@ -137,6 +150,12 @@ namespace CefSharp
         {
             for each (CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
             {
+                //We don't need to register http or https, they're built in schemes
+                if (scheme->SchemeName == "http" || scheme->SchemeName == "https")
+                {
+                    continue;
+                }
+
                 auto success = registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled, scheme->IsCSPBypassing);
 
                 if (!success)
