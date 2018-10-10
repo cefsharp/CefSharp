@@ -1,12 +1,11 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Example;
-using System.Threading.Tasks;
-using System.Text;
 
 namespace CefSharp.WinForms.Example
 {
@@ -171,7 +170,7 @@ namespace CefSharp.WinForms.Example
 
         private void CloseTabToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if(browserTabControl.TabPages.Count == 0)
+            if (browserTabControl.TabPages.Count == 0)
             {
                 return;
             }
@@ -391,7 +390,7 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 var frame = control.Browser.GetFocusedFrame();
-                
+
                 //Execute extension method
                 frame.ActiveElementAcceptsTextInput().ContinueWith(task =>
                 {

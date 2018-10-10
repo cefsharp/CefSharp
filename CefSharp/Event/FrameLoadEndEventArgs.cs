@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -37,7 +37,7 @@ namespace CefSharp
         /// The frame that finished loading.
         /// </summary>
         public IFrame Frame { get; private set; }
-        
+
         /// <summary>
         /// The URL that was loaded.
         /// </summary>

@@ -1,13 +1,10 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace CefSharp.Example
 {
@@ -32,7 +29,8 @@ namespace CefSharp.Example
                 {
                     throw new InvalidOperationException("Nested Exception Invalid", innerException);
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new OperationCanceledException("Nested Exception Canceled", e);
             }

@@ -1,9 +1,8 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Example;
@@ -28,7 +27,7 @@ namespace CefSharp.WinForms.Example
             {
                 var exitCode = Cef.ExecuteProcess();
 
-                if(exitCode >= 0)
+                if (exitCode >= 0)
                 {
                     return exitCode;
                 }
@@ -67,7 +66,7 @@ namespace CefSharp.WinForms.Example
 
                 IBrowserProcessHandler browserProcessHandler;
 
-                if(multiThreadedMessageLoop)
+                if (multiThreadedMessageLoop)
                 {
                     browserProcessHandler = new BrowserProcessHandler();
                 }

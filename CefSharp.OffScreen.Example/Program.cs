@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -51,7 +51,7 @@ namespace CefSharp.OffScreen.Example
 
             // RequestContext can be shared between browser instances and allows for custom settings
             // e.g. CachePath
-            using(var requestContext = new RequestContext(requestContextSettings))
+            using (var requestContext = new RequestContext(requestContextSettings))
             using (var browser = new ChromiumWebBrowser(TestUrl, browserSettings, requestContext))
             {
                 if (zoomLevel > 1)
@@ -99,7 +99,7 @@ namespace CefSharp.OffScreen.Example
                 await browser.ScreenshotAsync(true).ContinueWith(DisplayBitmap);
 
                 await LoadPageAsync(browser, "http://github.com");
-                
+
                 //Gets a wrapper around the underlying CefBrowser instance
                 var cefBrowser = browser.GetBrowser();
                 // Gets a warpper around the CefBrowserHost instance

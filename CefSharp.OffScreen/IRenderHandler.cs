@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -10,8 +10,7 @@ namespace CefSharp.OffScreen
 {
     /// <summary>
     /// Implement this interface to handle Offscreen Rendering (OSR).
-    /// NOTE: Currently only OnPaint is implemented, at some point expand the API to include all
-    /// of CefRenderHandler methods http://magpcss.org/ceforum/apidocs3/projects/(default)/CefRenderHandler.html
+    /// Upstream documentation at http://magpcss.org/ceforum/apidocs3/projects/(default)/CefRenderHandler.html
     /// </summary>
     public interface IRenderHandler : IDisposable
     {
@@ -42,7 +41,7 @@ namespace CefSharp.OffScreen
 
         /// <summary>
         /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the
-        /// value of <see cref="ScreenInfo.ScaleFactor"/> returned from <see cref="GetScreenInfo"/>.
+        /// value of <see cref="ScreenInfo.DeviceScaleFactor"/> returned from <see cref="GetScreenInfo"/>.
         /// Called on the CEF UI Thread
         /// </summary>
         /// <param name="type">indicates whether the element is the view or the popup widget.</param>

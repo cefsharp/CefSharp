@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -11,6 +11,11 @@ namespace CefSharp
     /// </summary>
     public class StatusMessageEventArgs : EventArgs
     {
+        /// <summary>
+        /// StatusMessageEventArgs
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="value">status message value</param>
         public StatusMessageEventArgs(IBrowser browser, string value)
         {
             Browser = browser;

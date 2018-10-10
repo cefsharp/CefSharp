@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -9,7 +9,7 @@ namespace CefSharp.Structs
     /// rendering is disabled.
     /// </summary>
     /// <remarks>
-    /// See also https://cs.chromium.org/chromium/src/content/public/common/screen_info.h?q=content::ScreenInfo&sq=package:chromium&g=0&l=19
+    /// See also <a href="https://cs.chromium.org/chromium/src/content/public/common/screen_info.h?q=content::ScreenInfo&sq=package:chromium&g=0&l=19">Chrome Source</a>
     /// </remarks>
     public struct ScreenInfo
     {

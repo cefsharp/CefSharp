@@ -1,9 +1,9 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Collections.Generic;
 using CefSharp.ModelBinding;
+using System.Collections.Generic;
 using Xunit;
 
 namespace CefSharp.Test.Framework
@@ -13,14 +13,14 @@ namespace CefSharp.Test.Framework
     /// </summary>
     public class BinderFacts
     {
-        enum TestEnum 
+        enum TestEnum
         {
             A,
             B,
             C
         }
 
-        class TestObject 
+        class TestObject
         {
             public string AString;
             public bool ABool;
@@ -33,7 +33,7 @@ namespace CefSharp.Test.Framework
         public void BindsComplexObjects()
         {
             var binder = new DefaultBinder(new DefaultFieldNameConverter());
-            var obj = new Dictionary<string, object> 
+            var obj = new Dictionary<string, object>
             {
                 { "AnEnum", 2 },
                 { "AString", "SomeValue" },
@@ -42,7 +42,7 @@ namespace CefSharp.Test.Framework
                 { "ADouble", 2.6 }
             };
 
-            var result = (TestObject) binder.Bind(obj, typeof(TestObject));
+            var result = (TestObject)binder.Bind(obj, typeof(TestObject));
 
             Assert.Equal(TestEnum.C, result.AnEnum);
             Assert.Equal(obj["AString"], result.AString);
@@ -52,7 +52,7 @@ namespace CefSharp.Test.Framework
         }
 
         [Fact]
-        public void BindsEnums() 
+        public void BindsEnums()
         {
             var binder = new DefaultBinder(new DefaultFieldNameConverter());
             var result = binder.Bind(2, typeof(TestEnum));
@@ -61,7 +61,7 @@ namespace CefSharp.Test.Framework
         }
 
         [Fact]
-        public void BindsIntegersWithPrecisionLoss() 
+        public void BindsIntegersWithPrecisionLoss()
         {
             var binder = new DefaultBinder(new DefaultFieldNameConverter());
             var result = binder.Bind(2.5678, typeof(int));
@@ -74,7 +74,7 @@ namespace CefSharp.Test.Framework
         }
 
         [Fact]
-        public void BindsDoublesWithoutPrecisionLoss() 
+        public void BindsDoublesWithoutPrecisionLoss()
         {
             const double Expected = 2.5678;
             var binder = new DefaultBinder(new DefaultFieldNameConverter());

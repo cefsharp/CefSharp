@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -7,6 +7,9 @@ using System.Text;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Post Data extension methods - Makes accessing post data easier
+    /// </summary>
     public static class PostDataExtensions
     {
         /// <summary>
@@ -21,11 +24,11 @@ namespace CefSharp
             var headers = request.Headers;
 
             string contentType = null;
-            foreach(string key in headers)
+            foreach (string key in headers)
             {
                 if (key.Equals("content-type", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    foreach(var element in headers.GetValues(key))
+                    foreach (var element in headers.GetValues(key))
                     {
                         contentType = element;
                         break;
@@ -39,7 +42,7 @@ namespace CefSharp
                 return null;
             }
 
-             //Look for charset after the mime-type.
+            //Look for charset after the mime-type.
             var semiColonIndex = contentType.IndexOf(";", StringComparison.InvariantCulture);
             if (semiColonIndex == -1)
             {
@@ -78,7 +81,7 @@ namespace CefSharp
         public static string GetBody(this IPostDataElement postDataElement, string charSet = null)
         {
             var bytes = postDataElement.Bytes;
-            if(bytes.Length == 0)
+            if (bytes.Length == 0)
             {
                 return null;
             }
@@ -93,7 +96,7 @@ namespace CefSharp
                 }
                 catch (ArgumentException)
                 {
-                    
+
                 }
             }
 
@@ -107,7 +110,7 @@ namespace CefSharp
         /// <param name="fileName">file name</param>
         public static void AddFile(this IPostData postData, string fileName)
         {
-            if(string.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
             {
                 throw new ArgumentNullException("fileName");
             }
@@ -132,7 +135,7 @@ namespace CefSharp
                 throw new ArgumentNullException("data");
             }
 
-            if(encoding == null)
+            if (encoding == null)
             {
                 encoding = Encoding.Default;
             }

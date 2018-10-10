@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -17,6 +17,9 @@ namespace CefSharp
         private volatile bool isDisposed;
         private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TaskRegisterCdmCallback()
         {
             taskCompletionSource = new TaskCompletionSource<CdmRegistration>();
@@ -29,6 +32,9 @@ namespace CefSharp
             taskCompletionSource.TrySetResultAsync(registration);
         }
 
+        /// <summary>
+        /// Task used to await this callback
+        /// </summary>
         public Task<CdmRegistration> Task
         {
             get { return taskCompletionSource.Task; }

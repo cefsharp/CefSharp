@@ -1,58 +1,56 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
 using System.IO;
-using System.Threading.Tasks;
-using CefSharp.Internals;
 
 namespace CefSharp.Example.Filters
 {
-	public class MemoryStreamResponseFilter : IResponseFilter
-	{
-		private MemoryStream memoryStream;
+    public class MemoryStreamResponseFilter : IResponseFilter
+    {
+        private MemoryStream memoryStream;
 
-		bool IResponseFilter.InitFilter()
-		{
-			//NOTE: We could initialize this earlier, just one possible use of InitFilter
-			memoryStream = new MemoryStream();
-			 
-			return true;
-		}
+        bool IResponseFilter.InitFilter()
+        {
+            //NOTE: We could initialize this earlier, just one possible use of InitFilter
+            memoryStream = new MemoryStream();
 
-		FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)
-		{
-			if (dataIn == null)
-			{
-				dataInRead = 0;
-				dataOutWritten = 0;
+            return true;
+        }
 
-				return FilterStatus.Done;
-			}
+        FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)
+        {
+            if (dataIn == null)
+            {
+                dataInRead = 0;
+                dataOutWritten = 0;
 
-			dataInRead = dataIn.Length;
-			dataOutWritten = Math.Min(dataInRead, dataOut.Length);
+                return FilterStatus.Done;
+            }
 
-			//Important we copy dataIn to dataOut
-			dataIn.CopyTo(dataOut);
+            dataInRead = dataIn.Length;
+            dataOutWritten = Math.Min(dataInRead, dataOut.Length);
 
-			//Copy data to stream
-			dataIn.Position = 0;
-			dataIn.CopyTo(memoryStream);
+            //Important we copy dataIn to dataOut
+            dataIn.CopyTo(dataOut);
 
-			return FilterStatus.Done;
-		}
+            //Copy data to stream
+            dataIn.Position = 0;
+            dataIn.CopyTo(memoryStream);
 
-		void IDisposable.Dispose()
-		{
-			memoryStream.Dispose();
-			memoryStream = null;
-		}
+            return FilterStatus.Done;
+        }
 
-		public byte[] Data
-		{
-			get { return memoryStream.ToArray(); }
-		}
-	}
+        void IDisposable.Dispose()
+        {
+            memoryStream.Dispose();
+            memoryStream = null;
+        }
+
+        public byte[] Data
+        {
+            get { return memoryStream.ToArray(); }
+        }
+    }
 }

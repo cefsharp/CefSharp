@@ -1,10 +1,9 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2011 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
@@ -108,7 +107,7 @@ namespace CefSharp.Wpf.Example
                     browserViewModel.LoadCustomRequestExample();
                 }
 
-                if(param == "OpenDevTools")
+                if (param == "OpenDevTools")
                 {
                     browserViewModel.WebBrowser.ShowDevTools();
                 }
@@ -183,7 +182,7 @@ namespace CefSharp.Wpf.Example
                         MarginRight = 10,
                     });
 
-                    if(success)
+                    if (success)
                     {
                         MessageBox.Show("Pdf was saved to " + dialog.FileName);
                     }
@@ -191,7 +190,7 @@ namespace CefSharp.Wpf.Example
                     {
                         MessageBox.Show("Unable to save Pdf, check you have write permissions to " + dialog.FileName);
                     }
-                    
+
                 }
             }
         }
@@ -199,7 +198,7 @@ namespace CefSharp.Wpf.Example
         private void OpenTabCommandBinding(object sender, ExecutedRoutedEventArgs e)
         {
             var url = e.Parameter.ToString();
-            
+
             if (string.IsNullOrEmpty(url))
             {
                 throw new Exception("Please provide a valid command parameter for binding");

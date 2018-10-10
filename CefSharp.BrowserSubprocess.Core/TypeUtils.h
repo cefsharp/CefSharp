@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2012 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -41,7 +41,7 @@ namespace CefSharp
         /// <param name="obj">The CefTime value that should be converted.</param>
         /// <returns>A corresponding .NET DateTime.</returns>
         static DateTime ConvertCefTimeToDateTime(CefTime time);
-                
+
         /// <summary>
         /// Converts a a (managed) .NET DateTime to Chromium V8 CefTime (Date).
         /// </summary>

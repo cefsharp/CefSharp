@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -9,12 +9,18 @@ using CefSharp.Internals;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Provides a callback implementation of <see cref="IResolveCallback"/>.
+    /// </summary>
     public class TaskResolveCallback : IResolveCallback
     {
         private readonly TaskCompletionSource<ResolveCallbackResult> taskCompletionSource;
         private volatile bool isDisposed;
         private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TaskResolveCallback()
         {
             taskCompletionSource = new TaskCompletionSource<ResolveCallbackResult>();
@@ -32,6 +38,9 @@ namespace CefSharp
             get { return isDisposed; }
         }
 
+        /// <summary>
+        /// Task used to await this callback
+        /// </summary>
         public Task<ResolveCallbackResult> Task
         {
             get { return taskCompletionSource.Task; }

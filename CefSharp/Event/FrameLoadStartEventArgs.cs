@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -16,6 +16,8 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">browser</param>
         /// <param name="frame">frame</param>
+        /// <param name="transitionType"> provides information about the source of the navigation and an accurate value is only
+        /// available in the browser process</param>
         public FrameLoadStartEventArgs(IBrowser browser, IFrame frame, TransitionType transitionType)
         {
             Browser = browser;
@@ -36,7 +38,7 @@ namespace CefSharp
         /// The frame that just started loading.
         /// </summary>
         public IFrame Frame { get; private set; }
-        
+
         /// <summary>
         /// The URL that was loaded.
         /// </summary>

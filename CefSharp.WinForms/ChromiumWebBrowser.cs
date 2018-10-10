@@ -1,14 +1,14 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
-using CefSharp.WinForms.Internals;
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using System.Drawing;
+using CefSharp.Internals;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms
 {
@@ -18,7 +18,7 @@ namespace CefSharp.WinForms
     /// <seealso cref="System.Windows.Forms.Control" />
     /// <seealso cref="CefSharp.Internals.IWebBrowserInternal" />
     /// <seealso cref="CefSharp.WinForms.IWinFormsWebBrowser" />
-    [Docking(DockingBehavior.AutoDock),DefaultEvent("LoadingStateChanged"), ToolboxBitmap(typeof(ChromiumWebBrowser)),
+    [Docking(DockingBehavior.AutoDock), DefaultEvent("LoadingStateChanged"), ToolboxBitmap(typeof(ChromiumWebBrowser)),
     Description("CefSharp ChromiumWebBrowser - Chromium Embedded Framework .Net wrapper. https://github.com/cefsharp/CefSharp"),
     Designer(typeof(ChromiumWebBrowserDesigner))]
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
@@ -84,7 +84,7 @@ namespace CefSharp.WinForms
                     throw new Exception("Browser has already been created. RequestContext must be" +
                                         "set before the underlying CEF browser is created.");
                 }
-                if(value != null && value.GetType() != typeof(RequestContext))
+                if (value != null && value.GetType() != typeof(RequestContext))
                 {
                     throw new Exception(string.Format("RequestContxt can only be of type {0} or null", typeof(RequestContext)));
                 }
@@ -205,7 +205,7 @@ namespace CefSharp.WinForms
         /// <value>The resource handler factory.</value>
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
-        
+
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
@@ -275,7 +275,7 @@ namespace CefSharp.WinForms
         /// </summary>
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
         /// <summary>
-        /// Occurs when [is browser initialized changed].
+        /// Event called after the underlying CEF browser instance has been created. 
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
         /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
         /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
@@ -418,7 +418,7 @@ namespace CefSharp.WinForms
         {
             IsBrowserInitialized = false;
 
-            if(!designMode)
+            if (!designMode)
             {
                 RemoveFromListOfCefBrowsers();
             }
@@ -439,7 +439,7 @@ namespace CefSharp.WinForms
             LoadError = null;
             LoadingStateChanged = null;
             StatusMessage = null;
-            TitleChanged = null;            
+            TitleChanged = null;
 
             // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
             // otherwise the ILifeSpanHandler.DoClose will not be invoked.
@@ -526,7 +526,7 @@ namespace CefSharp.WinForms
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
             }
-            
+
             InitializeFieldsAndCefIfRequired();
 
             //Enable WCF if not already enabled
@@ -582,6 +582,9 @@ namespace CefSharp.WinForms
             objectRepository.Register(name, objectToBind, true, options);
         }
 
+        /// <summary>
+        /// The javascript object repository, one repository per ChromiumWebBrowser instance.
+        /// </summary>
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
             get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
@@ -615,8 +618,8 @@ namespace CefSharp.WinForms
 
             if (((IWebBrowserInternal)this).HasParent == false)
             {
-                if(IsBrowserInitialized == false || browser == null)
-                { 
+                if (IsBrowserInitialized == false || browser == null)
+                {
                     //TODO: Revert temp workaround for default url not loading
                     managedCefBrowserAdapter.CreateBrowser(BrowserSettings, (RequestContext)RequestContext, Handle, null);
                 }
@@ -639,8 +642,8 @@ namespace CefSharp.WinForms
             IsBrowserInitialized = true;
 
             //TODO: Revert temp workaround for default url not loading
-            if(!string.IsNullOrEmpty(Address))
-            { 
+            if (!string.IsNullOrEmpty(Address))
+            {
                 browser.MainFrame.LoadUrl(Address);
             }
 
@@ -658,12 +661,7 @@ namespace CefSharp.WinForms
 
             ResizeBrowser();
 
-            var handler = IsBrowserInitializedChanged;
-
-            if (handler != null)
-            {
-                handler(this, new IsBrowserInitializedChangedEventArgs(IsBrowserInitialized));
-            }
+            IsBrowserInitializedChanged?.Invoke(this, new IsBrowserInitializedChangedEventArgs(IsBrowserInitialized));
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -23,7 +23,7 @@
 #include "RequestContext.h"
 #include "SchemeHandlerFactoryWrapper.h"
 
-using namespace System::Collections::Generic; 
+using namespace System::Collections::Generic;
 using namespace System::Linq;
 using namespace System::Reflection;
 using namespace msclr::interop;
@@ -111,7 +111,7 @@ namespace CefSharp
             {
                 // Need explicit cast here to avoid C4965 warning when the minor version is zero.
                 return String::Format("{0}.{1}.{2}.{3}",
-                    CHROME_VERSION_MAJOR, (Object^) CHROME_VERSION_MINOR,
+                    CHROME_VERSION_MAJOR, (Object^)CHROME_VERSION_MINOR,
                     CHROME_VERSION_BUILD, CHROME_VERSION_PATCH);
             }
         }
@@ -149,25 +149,26 @@ namespace CefSharp
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
+        /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
         {
             if (IsInitialized)
             {
                 // NOTE: Can only initialize Cef once, to make this explicitly clear throw exception on subsiquent attempts
-                throw gcnew Exception("CEF can only be initialized once per process. This is a limitation of the underlying " + 
-					"CEF/Chromium framework. You can change many (not all) settings at runtime through RequestContext.SetPreference. " + 
-					"See https://github.com/cefsharp/CefSharp/wiki/General-Usage#request-context-browser-isolation " +
-					"Use Cef.IsInitialized to guard against this exception. If you are seeing this unexpectedly then you are likely " +
-					"calling Cef.Initialize after you've created an instance of ChromiumWebBrowser, it must be before the first instance is created.");
+                throw gcnew Exception("CEF can only be initialized once per process. This is a limitation of the underlying " +
+                    "CEF/Chromium framework. You can change many (not all) settings at runtime through RequestContext.SetPreference. " +
+                    "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#request-context-browser-isolation " +
+                    "Use Cef.IsInitialized to guard against this exception. If you are seeing this unexpectedly then you are likely " +
+                    "calling Cef.Initialize after you've created an instance of ChromiumWebBrowser, it must be before the first instance is created.");
             }
-            
+
             if (cefSettings->BrowserSubprocessPath == nullptr)
             {
                 throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
             }
 
-            if(performDependencyCheck)
+            if (performDependencyCheck)
             {
                 DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
             }
@@ -277,6 +278,7 @@ namespace CefSharp
         /// <param name="allowTargetSubdomains">If set to true would allow a blah.example.com if the 
         ///     <paramref name="targetDomain"/> was set to example.com
         /// </param>
+        /// <returns>Returns false if is invalid or the whitelist cannot be accessed.</returns>
         /// <remarks>
         /// The same-origin policy restricts how scripts hosted from different origins
         /// (scheme + domain + port) can communicate. By default, scripts can only access
@@ -318,10 +320,10 @@ namespace CefSharp
             bool allowTargetSubdomains)
         {
             return CefAddCrossOriginWhitelistEntry(
-                    StringUtils::ToNative(sourceOrigin),
-                    StringUtils::ToNative(targetProtocol),
-                    StringUtils::ToNative(targetDomain),
-                    allowTargetSubdomains);
+                StringUtils::ToNative(sourceOrigin),
+                StringUtils::ToNative(targetProtocol),
+                StringUtils::ToNative(targetDomain),
+                allowTargetSubdomains);
         }
 
         /// <summary>Remove entry from cross-origin whitelist</summary>
@@ -361,6 +363,7 @@ namespace CefSharp
         /// <summary>
         /// Returns the global cookie manager.
         /// </summary>
+        /// <returns>A the global cookie manager</returns>
         static ICookieManager^ GetGlobalCookieManager()
         {
             auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
@@ -379,6 +382,7 @@ namespace CefSharp
         /// wish to only block cookies sent via the network use the IRequestHandler
         /// CanGetCookies and CanSetCookie methods instead.
         /// </summary>
+        /// <returns>A blocking cookie manager</returns>
         static ICookieManager^ GetBlockingCookieManager()
         {
             auto cookieManager = CefCookieManager::GetBlockingManager();
@@ -408,9 +412,9 @@ namespace CefSharp
                     if (_initializedThreadId != Thread::CurrentThread->ManagedThreadId)
                     {
                         throw gcnew Exception("Cef.Shutdown must be called on the same thread that Cef.Initialize was called - typically your UI thread." +
-							"If you called Cef.Initialize on a Thread other than the UI thread then you will need to call Cef.Shutdown on the same thread." +
-							"Cef.Initialize was called on ManagedThreadId: " + _initializedThreadId + "where Cef.Shutdown is being called on" +
-							"ManagedThreadId:" + Thread::CurrentThread->ManagedThreadId);
+                            "If you called Cef.Initialize on a Thread other than the UI thread then you will need to call Cef.Shutdown on the same thread." +
+                            "Cef.Initialize was called on ManagedThreadId: " + _initializedThreadId + "where Cef.Shutdown is being called on" +
+                            "ManagedThreadId:" + Thread::CurrentThread->ManagedThreadId);
                     }
 
                     UIThreadTaskFactory = nullptr;
@@ -421,7 +425,7 @@ namespace CefSharp
                     {
                         delete diposable;
                     }
-                
+
                     GC::Collect();
                     GC::WaitForPendingFinalizers();
 
@@ -494,7 +498,7 @@ namespace CefSharp
         {
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
-            
+
             CefVisitWebPluginInfo(visitor);
 
             return taskVisitor->Task;
@@ -526,7 +530,7 @@ namespace CefSharp
         {
             CefEnableHighDPISupport();
         }
-        
+
         /// <summary>
         /// Returns true if called on the specified CEF thread.
         /// </summary>
@@ -723,7 +727,7 @@ namespace CefSharp
         static Task<CdmRegistration^>^ RegisterWidevineCdmAsync(String^ path)
         {
             auto callback = gcnew TaskRegisterCdmCallback();
-            
+
             RegisterWidevineCdm(path, callback);
 
             return callback->Task;

@@ -1,4 +1,4 @@
-﻿namespace CefUsageTests
+namespace CefUsageTests
 {
     partial class MainForm
     {

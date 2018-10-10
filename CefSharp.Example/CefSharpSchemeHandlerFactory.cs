@@ -1,9 +1,8 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using CefSharp.Example.Properties;
@@ -74,7 +73,7 @@ namespace CefSharp.Example
                 var mimeType = ResourceHandler.GetMimeType(".xml");
                 //Load a resource handler for CefSharp.Core.xml
                 //mimeType is optional and will default to text/html
-                return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType, autoDisposeStream:true);
+                return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType, autoDisposeStream: true);
             }
 
             if (uri.Host == "cefsharp.com" && schemeName == "https" && (string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase) ||
@@ -92,7 +91,7 @@ namespace CefSharp.Example
             if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
             {
                 var fileExtension = Path.GetExtension(fileName);
-                return ResourceHandler.FromString(resource, includePreamble:true, mimeType:ResourceHandler.GetMimeType(fileExtension));
+                return ResourceHandler.FromString(resource, includePreamble: true, mimeType: ResourceHandler.GetMimeType(fileExtension));
             }
 
             return null;

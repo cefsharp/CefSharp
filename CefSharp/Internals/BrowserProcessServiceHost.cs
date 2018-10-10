@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -12,7 +12,7 @@ namespace CefSharp.Internals
 {
     public class BrowserProcessServiceHost : ServiceHost
     {
-        private const long OneHundredAndTwentyEightMegaBytesInBytes = 128*1024*1024;
+        private const long OneHundredAndTwentyEightMegaBytesInBytes = 128 * 1024 * 1024;
 
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
 
@@ -28,7 +28,7 @@ namespace CefSharp.Internals
             var binding = CreateBinding();
 
             var endPoint = AddServiceEndpoint(
-                typeof (IBrowserProcess),
+                typeof(IBrowserProcess),
                 binding,
                 new Uri(serviceName)
             );

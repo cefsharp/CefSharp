@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -37,39 +37,39 @@ namespace CefSharp.WinForms.Example.Handlers
             var msgType = 0;
             switch (type)
             {
-            case KeyType.RawKeyDown:
-                if (isSystemKey)
-                {
-                    msgType = WM_SYSKEYDOWN;
-                }
-                else
-                {
-                    msgType = WM_KEYDOWN;
-                }
-                break;
-            case KeyType.KeyUp:
-                if (isSystemKey)
-                {
-                    msgType = WM_SYSKEYUP;
-                }
-                else
-                {
-                    msgType = WM_KEYUP;
-                }
-                break;
-            case KeyType.Char:
-                if (isSystemKey)
-                {
-                    msgType = WM_SYSCHAR;
-                }
-                else
-                {
-                    msgType = WM_CHAR;
-                }
-                break;
-            default:
-                Trace.Assert(false);
-                break;
+                case KeyType.RawKeyDown:
+                    if (isSystemKey)
+                    {
+                        msgType = WM_SYSKEYDOWN;
+                    }
+                    else
+                    {
+                        msgType = WM_KEYDOWN;
+                    }
+                    break;
+                case KeyType.KeyUp:
+                    if (isSystemKey)
+                    {
+                        msgType = WM_SYSKEYUP;
+                    }
+                    else
+                    {
+                        msgType = WM_KEYUP;
+                    }
+                    break;
+                case KeyType.Char:
+                    if (isSystemKey)
+                    {
+                        msgType = WM_SYSCHAR;
+                    }
+                    else
+                    {
+                        msgType = WM_CHAR;
+                    }
+                    break;
+                default:
+                    Trace.Assert(false);
+                    break;
             }
             // We have to adapt from CEF's UI thread message loop to our fronting WinForm control here.
             // So, we have to make some calls that Application.Run usually ends up handling for us:

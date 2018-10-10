@@ -1,11 +1,10 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
 using CefSharp.Enums;
 using CefSharp.Structs;
-
 using Point = System.Drawing.Point;
 using Size = System.Drawing.Size;
 
@@ -113,7 +112,7 @@ namespace CefSharp.OffScreen
 
         public virtual void OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
-            
+
         }
 
         public virtual bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
@@ -123,7 +122,7 @@ namespace CefSharp.OffScreen
 
         public virtual void UpdateDragCursor(DragOperationsMask operation)
         {
-            
+
         }
 
         public virtual void OnPopupShow(bool show)
@@ -141,7 +140,7 @@ namespace CefSharp.OffScreen
 
         public virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
-            
+
         }
     }
 }
