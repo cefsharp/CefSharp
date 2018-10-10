@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace CefSharp.ModelBinding
 {
@@ -21,7 +20,7 @@ namespace CefSharp.ModelBinding
         /// <returns><see langword="true" /> if the type is an array, otherwise <see langword="false" />.</returns>
         public static bool IsArray(this Type source)
         {
-            return source.GetTypeInfo().BaseType == typeof(Array);
+            return ReflectionHelpers.GetBaseType(source) == typeof(Array);
         }
 
         /// <summary>
@@ -33,9 +32,9 @@ namespace CefSharp.ModelBinding
         {
             var collectionType = typeof(ICollection<>);
 
-            return source.GetTypeInfo().IsGenericType && source
+            return ReflectionHelpers.IsGenericType(source) && source
                 .GetInterfaces()
-                .Any(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == collectionType);
+                .Any(i => ReflectionHelpers.IsGenericType(i) && i.GetGenericTypeDefinition() == collectionType);
         }
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace CefSharp.ModelBinding
         {
             var enumerableType = typeof(IEnumerable<>);
 
-            return source.GetTypeInfo().IsGenericType && source.GetGenericTypeDefinition() == enumerableType;
+            return ReflectionHelpers.IsGenericType(source) && source.GetGenericTypeDefinition() == enumerableType;
         }
     }
 }

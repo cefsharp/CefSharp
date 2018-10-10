@@ -72,14 +72,14 @@ namespace CefSharp.SchemeHandler
             }
 
             //Get the absolute path and remove the leading slash
-            var asbolutePath = uri.AbsolutePath.Substring(1);
+            string absolutePath = uri.AbsolutePath.Substring(1);
 
-            if (string.IsNullOrEmpty(asbolutePath))
-            {
-                asbolutePath = defaultPage;
-            }
+            if (string.IsNullOrEmpty(absolutePath))
+                absolutePath = defaultPage;
 
-            var filePath = WebUtility.UrlDecode(Path.GetFullPath(Path.Combine(rootFolder, asbolutePath)));
+            string filePath = MakeFilePath(
+                rootFolder: rootFolder,
+                absolutePath: absolutePath);
 
             //Check the file requested is within the specified path and that the file exists
             if (filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
@@ -91,6 +91,17 @@ namespace CefSharp.SchemeHandler
             }
 
             return ResourceHandler.ForErrorMessage("File Not Found - " + filePath, HttpStatusCode.NotFound);
+        }
+
+        private static string MakeFilePath(string rootFolder, string absolutePath)
+        {
+            return
+#if NET40
+                UrlDecoderNet40
+#else
+                WebUtility
+#endif
+                    .UrlDecode(Path.GetFullPath(Path.Combine(rootFolder, absolutePath)));
         }
     }
 }

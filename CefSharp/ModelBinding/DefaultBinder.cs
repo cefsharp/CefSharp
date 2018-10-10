@@ -79,13 +79,13 @@ namespace CefSharp.ModelBinding
             if (modelType.IsCollection() || modelType.IsArray() || modelType.IsEnumerable())
             {
                 // Make sure it has a generic type
-                if (modelType.GetTypeInfo().IsGenericType)
+                if (ReflectionHelpers.IsGenericType(modelType))
                 {
                     genericType = modelType.GetGenericArguments().FirstOrDefault();
                 }
                 else
                 {
-                    var ienumerable = modelType.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType).FirstOrDefault(i => i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+                    var ienumerable = modelType.GetInterfaces().Where(i => ReflectionHelpers.IsGenericType(i)).FirstOrDefault(i => i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
                     genericType = ienumerable == null ? null : ienumerable.GetGenericArguments().FirstOrDefault();
                 }
 

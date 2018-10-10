@@ -41,7 +41,8 @@ namespace CefSharp
             }
 
             //There was a problem deleting cookies
-            return Task.FromResult(TaskDeleteCookiesCallback.InvalidNoOfCookiesDeleted);
+            return TaskHelpers
+                .FromResult(TaskDeleteCookiesCallback.InvalidNoOfCookiesDeleted);
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace CefSharp
         /// <param name="cookieManager">cookie manager</param>
         /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
         /// <param name="cookie">the cookie to be set</param>
-        /// <returns>returns false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used);
+        /// <returns>returns false if the cookie cannot be set (e.g. if illegal characters such as ';' are used);
         /// otherwise task that represents the set operation. The value of the TResult parameter contains a bool to indicate success.</returns>
         public static Task<bool> SetCookieAsync(this ICookieManager cookieManager, string url, Cookie cookie)
         {
@@ -73,7 +74,7 @@ namespace CefSharp
             }
 
             //There was a problem setting cookies
-            return Task.FromResult(false);
+            return TaskHelpers.FromResult(false);
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace CefSharp
                 return cookieVisitor.Task;
             }
 
-            return Task.FromResult<List<Cookie>>(null);
+            return TaskHelpers.FromResult<List<Cookie>>(null);
         }
 
         /// <summary>
@@ -113,7 +114,7 @@ namespace CefSharp
                 return cookieVisitor.Task;
             }
 
-            return Task.FromResult<List<Cookie>>(null);
+            return TaskHelpers.FromResult<List<Cookie>>(null);
         }
 
         /// <summary>
@@ -121,7 +122,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="cookieManager">cookieManager instance</param>
         /// <returns>A task that represents the FlushStore operation. Result indicates if the flush completed successfully.
-        /// Will return false if the cookikes cannot be accessed.</returns>
+        /// Will return false if the cookies cannot be accessed.</returns>
         public static Task<bool> FlushStoreAsync(this ICookieManager cookieManager)
         {
             var handler = new TaskCompletionCallback();
@@ -132,7 +133,7 @@ namespace CefSharp
             }
 
             //returns null if cookies cannot be accessed.
-            return Task.FromResult(false);
+            return TaskHelpers.FromResult(false);
         }
     }
 }

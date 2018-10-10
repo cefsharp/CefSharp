@@ -12,8 +12,17 @@
     <tags>chrome browser</tags>
     <copyright>Copyright © 2010-2018 The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
-      <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
+        <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
+      </group>
+	  <group targetFramework=".NETFramework4.0">
+	    <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
+        <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
+        <dependency id="Microsoft.Bcl" version="1.1.10" />
+        <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+        <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
+      </group>
     </dependencies>
   </metadata>
   <files>
@@ -24,28 +33,56 @@
     <file src="..\CefSharp.Core\bin\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp.Core\bin\Win32\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
     <file src="..\CefSharp.Core\bin\Win32\Release\CefSharp.Core.pdb" target="CefSharp\x86"/>
+	<file src="..\CefSharp.Core\bin\Win32\Release-Net40\CefSharp.Core.dll" target="CefSharp-Net40\x86"/>
+	<file src="..\CefSharp.Core\bin\Win32\Release-Net40\CefSharp.Core.dll.config" target="CefSharp-Net40\x86"/>
+    <file src="..\CefSharp.Core\bin\Win32\Release-Net40\CefSharp.Core.xml" target="CefSharp-Net40\x86"/>
+    <file src="..\CefSharp.Core\bin\Win32\Release-Net40\CefSharp.Core.pdb" target="CefSharp-Net40\x86"/>
   
     <file src="..\CefSharp.Core\bin\x64\Release\CefSharp.Core.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp.Core\bin\x64\Release\CefSharp.Core.xml" target="CefSharp\x64"/>
     <file src="..\CefSharp.Core\bin\x64\Release\CefSharp.Core.pdb" target="CefSharp\x64"/>
+	<file src="..\CefSharp.Core\bin\x64\Release-Net40\CefSharp.Core.dll" target="CefSharp-Net40\x64"/>
+	<file src="..\CefSharp.Core\bin\x64\Release-Net40\CefSharp.Core.dll.config" target="CefSharp-Net40\x64"/>
+    <file src="..\CefSharp.Core\bin\x64\Release-Net40\CefSharp.Core.xml" target="CefSharp-Net40\x64"/>
+    <file src="..\CefSharp.Core\bin\x64\Release-Net40\CefSharp.Core.pdb" target="CefSharp-Net40\x64"/>
   
     <file src="..\CefSharp\bin\x86\Release\CefSharp.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp\bin\x86\Release\CefSharp.xml" target="CefSharp\x86"/>
     <file src="..\CefSharp\bin\x86\Release\CefSharp.pdb" target="CefSharp\x86"/>
+	<file src="..\CefSharp\bin\x86\Release-Net40\CefSharp.dll" target="CefSharp-Net40\x86"/>
+	<file src="..\CefSharp\bin\x86\Release-Net40\CefSharp.dll.config" target="CefSharp-Net40\x86"/>
+    <file src="..\CefSharp\bin\x86\Release-Net40\CefSharp.xml" target="CefSharp-Net40\x86"/>
+    <file src="..\CefSharp\bin\x86\Release-Net40\CefSharp.pdb" target="CefSharp-Net40\x86"/>
   
     <file src="..\CefSharp\bin\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x64"/>
     <file src="..\CefSharp\bin\x64\Release\CefSharp.pdb" target="CefSharp\x64"/>
+	<file src="..\CefSharp\bin\x64\Release-Net40\CefSharp.dll" target="CefSharp-Net40\x64"/>
+	<file src="..\CefSharp\bin\x64\Release-Net40\CefSharp.dll.config" target="CefSharp-Net40\x64"/>
+    <file src="..\CefSharp\bin\x64\Release-Net40\CefSharp.xml" target="CefSharp-Net40\x64"/>
+    <file src="..\CefSharp\bin\x64\Release-Net40\CefSharp.pdb" target="CefSharp-Net40\x64"/>
   
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\x86"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\x86\Release-Net40\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp-Net40\x86"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\x86\Release-Net40\CefSharp.BrowserSubprocess.Core.dll.config" target="CefSharp-Net40\x86"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release-Net40\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp-Net40\x86"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release-Net40\CefSharp.BrowserSubprocess.exe" target="CefSharp-Net40\x86"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\x86\Release-Net40\CefSharp.BrowserSubprocess.exe.config" target="CefSharp-Net40\x86"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release-Net40\CefSharp.BrowserSubprocess.pdb" target="CefSharp-Net40\x86"/>
   
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\x64"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\x64\Release-Net40\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp-Net40\x64"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\x64\Release-Net40\CefSharp.BrowserSubprocess.Core.dll.config" target="CefSharp-Net40\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release-Net40\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp-Net40\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release-Net40\CefSharp.BrowserSubprocess.exe" target="CefSharp-Net40\x64"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\x64\Release-Net40\CefSharp.BrowserSubprocess.exe.config" target="CefSharp-Net40\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release-Net40\CefSharp.BrowserSubprocess.pdb" target="CefSharp-Net40\x64"/>
 
     <file src="CefSharp.Common.props" target="build" />
     <file src="CefSharp.Common.targets" target="build" />
@@ -56,6 +93,8 @@
     <file src="..\CefSharp.BrowserSubprocess.Core\**\*.h" target="src\CefSharp.BrowserSubprocess.Core" exclude="packages\**;obj\**" />
     <file src="..\CefSharp.BrowserSubprocess.Core\**\*.cpp" target="src\CefSharp.BrowserSubprocess.Core" exclude="packages\**;obj\**" />
     <file src="..\CefSharp.BrowserSubprocess\**\*.cs" target="src\CefSharp.BrowserSubprocess" exclude="packages\**;obj\**" />
+	
+	<file src="..\LICENSE" />
   </files>
 </package>
 

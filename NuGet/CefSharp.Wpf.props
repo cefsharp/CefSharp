@@ -2,21 +2,45 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Choose>
     <When Condition="'$(Platform)' == 'x64'">
-      <ItemGroup>
-        <Reference Include="CefSharp.Wpf">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Wpf.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
+      <Choose>
+        <When Condition="'$(TargetFrameworkVersion)' == 'v4.0'">
+		  <ItemGroup>
+            <Reference Include="CefSharp.Wpf">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp-Net40\x64\CefSharp.Wpf.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+          </ItemGroup>
+        </When>
+        <Otherwise>
+          <ItemGroup>
+            <Reference Include="CefSharp.Wpf">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Wpf.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+          </ItemGroup>
+        </Otherwise>
+      </Choose>
     </When>
     <!-- x86, Win32 and AnyCPU -->
     <Otherwise>
-      <ItemGroup>
-        <Reference Include="CefSharp.Wpf">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Wpf.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
+      <Choose>
+        <When Condition="'$(TargetFrameworkVersion)' == 'v4.0'">
+		  <ItemGroup>
+            <Reference Include="CefSharp.Wpf">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp-Net40\x86\CefSharp.Wpf.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+          </ItemGroup>
+        </When>
+        <Otherwise>
+          <ItemGroup>
+            <Reference Include="CefSharp.Wpf">
+              <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Wpf.dll</HintPath>
+              <Private>False</Private>
+            </Reference>
+          </ItemGroup>
+        </Otherwise>
+      </Choose>
     </Otherwise>
   </Choose>
 </Project>

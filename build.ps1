@@ -120,7 +120,7 @@ function Msvs
         [string] $Toolchain, 
 
         [Parameter(Position = 1, ValueFromPipeline = $true)]
-        [ValidateSet('Debug', 'Release')]
+        [ValidateSet('Debug', 'Debug-Net40', 'Release', 'Release-Net40')]
         [string] $Configuration, 
 
         [Parameter(Position = 2, ValueFromPipeline = $true)]
@@ -257,6 +257,8 @@ function VSX
 
     Msvs "$Toolchain" 'Release' 'x86'
     Msvs "$Toolchain" 'Release' 'x64'
+	Msvs "$Toolchain" 'Release-Net40' 'x86'
+	Msvs "$Toolchain" 'Release-Net40' 'x64'
 
     Write-Diagnostic "Finished build targeting toolchain $Toolchain"
 }

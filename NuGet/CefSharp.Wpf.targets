@@ -7,6 +7,8 @@
   <ItemGroup>
     <CefSharpWpfBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     <CefSharpWpfBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
+	<CefSharpWpfBinaries32Net40 Include="$(MSBuildThisFileDirectory)..\CefSharp-Net40\x86\*.*" />
+    <CefSharpWpfBinaries64Net40 Include="$(MSBuildThisFileDirectory)..\CefSharp-Net40\x64\*.*" />
     <!-- Not currently used, might come in handy for someone though as it contains all x86 and x64 files -->
     <CefSharpWpfBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
   </ItemGroup>
@@ -18,35 +20,75 @@
    -->
 
   <!-- Copying all files here included those at are added As References so you can specify CefSharpTargetDir -->
-  <Choose>
+ <Choose>
     <When Condition="'$(Platform)' == 'AnyCPU'">
-      <ItemGroup>
-        <None Include="@(CefSharpWpfBinaries32)">
-          <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="@(CefSharpWpfBinaries64)">
-          <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-      </ItemGroup>
+      <Choose>
+	    <When Condition="'$(TargetFrameworkVersion)' == 'v4.0'">
+		  <ItemGroup>
+		    <None Include="@(CefSharpWpfBinaries32Net40)">
+              <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+            <None Include="@(CefSharpWpfBinaries64Net40)">
+              <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+		  </ItemGroup>
+		</When>
+		<Otherwise>
+          <ItemGroup>
+            <None Include="@(CefSharpWpfBinaries32)">
+              <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+            <None Include="@(CefSharpWpfBinaries64)">
+              <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+          </ItemGroup>
+        </Otherwise>
+      </Choose>
     </When>
     <When Condition="'$(Platform)' == 'x64'">
-      <ItemGroup>
-        <None Include="@(CefSharpWpfBinaries64)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-      </ItemGroup>
+	  <Choose>
+	    <When Condition="'$(TargetFrameworkVersion)' == 'v4.0'">
+		  <ItemGroup>
+            <None Include="@(CefSharpWpfBinaries64Net40)">
+              <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+          </ItemGroup>
+		</When>
+		<Otherwise>
+          <ItemGroup>
+            <None Include="@(CefSharpWpfBinaries64)">
+              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+		  </ItemGroup>
+        </Otherwise>
+      </Choose>
     </When>    
     <!-- x86, and Win32 -->
     <Otherwise>
-      <ItemGroup>
-        <None Include="@(CefSharpWpfBinaries32)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-      </ItemGroup>
+	  <Choose>
+	    <When Condition="'$(TargetFrameworkVersion)' == 'v4.0'">
+		  <ItemGroup>
+            <None Include="@(CefSharpWpfBinaries32Net40)">
+              <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+          </ItemGroup>
+		</When>
+		<Otherwise>
+          <ItemGroup>
+            <None Include="@(CefSharpWpfBinaries32)">
+              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            </None>
+		  </ItemGroup>
+        </Otherwise>
+      </Choose>
     </Otherwise>
   </Choose>
-</Project>
+</Project>  

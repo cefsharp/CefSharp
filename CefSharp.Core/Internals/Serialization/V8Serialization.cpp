@@ -168,7 +168,7 @@ namespace CefSharp
                     for (int i = 0; i < properties->Length; i++)
                     {
                         auto propertyName = StringUtils::ToNative(properties[i]->Name);
-                        auto propertyValue = properties[i]->GetValue(obj);
+                        auto propertyValue = properties[i]->GetValue(obj, nullptr);
                         SerializeV8SimpleObject(subDict, propertyName, propertyValue, ancestors);
                     }
                     list->SetDictionary(index, subDict);
