@@ -86,7 +86,7 @@ namespace CefSharp.SchemeHandler
             {
                 var fileExtension = Path.GetExtension(filePath);
                 var mimeType = ResourceHandler.GetMimeType(fileExtension);
-                var stream = File.OpenRead(filePath);
+                var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite); 
                 return ResourceHandler.FromStream(stream, mimeType);
             }
 
