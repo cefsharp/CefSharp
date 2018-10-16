@@ -281,7 +281,11 @@ namespace CefSharp
 
         /// <summary>
         /// Creates a new instance of IRequest with the specified Url and Method = POST
-        /// and then calls <see cref="IFrame.LoadRequest(IRequest)"/>
+        /// and then calls <see cref="IFrame.LoadRequest(IRequest)"/>.
+        /// <see cref="IFrame.LoadRequest(IRequest)"/> can only be used if a renderer process already exists.
+        /// In newer versions initially loading about:blank no longer creates a renderer process. You
+        /// can load a Data Uri initially then call this method.
+        /// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
         /// </summary>
         /// <param name="browser"></param>
         /// <param name="url"></param>
