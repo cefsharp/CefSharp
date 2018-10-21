@@ -11,7 +11,10 @@ namespace CefSharp.Example.Filters
 {
     public class FindReplaceResponseFilter : IResponseFilter
     {
-        private static Encoding encoding = Encoding.UTF8;
+        /// <summary>
+        /// The character encoding used when writing the replacement string.
+        /// </summary>
+        private static readonly Encoding Encoding = Encoding.UTF8;
 
         /// <summary>
         /// String to find
@@ -149,7 +152,7 @@ namespace CefSharp.Example.Filters
             // Write the maximum portion that fits in the output buffer.
             if (maxWrite > 0)
             {
-                var bytes = encoding.GetBytes(str);
+                var bytes = Encoding.GetBytes(str);
                 dataOut.Write(bytes, 0, (int)maxWrite);
                 dataOutWritten += maxWrite;
             }
@@ -158,7 +161,7 @@ namespace CefSharp.Example.Filters
             {
                 // Need to write more bytes than will fit in the output buffer. Store the
                 // remainder in the overflow buffer.
-                overflow.AddRange(encoding.GetBytes(str.Substring((int)maxWrite, (int)(stringSize - maxWrite))));
+                overflow.AddRange(Encoding.GetBytes(str.Substring((int)maxWrite, (int)(stringSize - maxWrite))));
             }
         }
 
