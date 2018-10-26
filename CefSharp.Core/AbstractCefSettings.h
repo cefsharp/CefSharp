@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 
 using namespace System::Collections::Generic;
+using namespace System::IO;
 
 namespace CefSharp
 {
@@ -32,7 +33,7 @@ namespace CefSharp
         {
             _cefSettings->multi_threaded_message_loop = true;
             _cefSettings->no_sandbox = true;
-            BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
+            BrowserSubprocessPath = Path::GetFullPath("CefSharp.BrowserSubprocess.exe");
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             _cefExtensions = gcnew List<CefExtension^>();
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();

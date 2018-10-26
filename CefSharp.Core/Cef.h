@@ -168,6 +168,11 @@ namespace CefSharp
                 throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
             }
 
+            if (!File::Exists(cefSettings->BrowserSubprocessPath))
+            {
+                throw gcnew FileNotFoundException("CefSettings BrowserSubprocessPath not found.", cefSettings->BrowserSubprocessPath);
+            }
+
             if (performDependencyCheck)
             {
                 DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
