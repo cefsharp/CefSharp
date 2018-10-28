@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <asmv1:assembly
     manifestVersion="1.0"
@@ -8,7 +8,7 @@
     xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <assemblyIdentity version="69.0.0.0" name="CefSharp.BrowserSubprocess.app" />
+  <assemblyIdentity version="70.0.0.0" name="CefSharp.BrowserSubprocess.app" />
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
