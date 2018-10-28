@@ -42,7 +42,7 @@ namespace CefSharp
         /// </summary>
         /// <remarks>Whilst this may seem like a logical place to execute js, it's called before the DOM has been loaded, implement
         /// <see cref="IRenderProcessMessageHandler.OnContextCreated"/> as it's called when the underlying V8Context is created
-        /// (Only called for the main frame at this stage)</remarks>
+        /// </remarks>
         event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
 
         /// <summary>

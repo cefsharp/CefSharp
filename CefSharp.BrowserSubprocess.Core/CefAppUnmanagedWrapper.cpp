@@ -117,17 +117,11 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        //Send a message to the browser processing signaling that OnContextReleased has been called
-        //only param is the FrameId. Currently an IPC message is only sent for the main frame - will see
-        //how viable this solution is and if it's worth expanding to sub/child frames.
-        if (frame->IsMain())
-        {
-            auto contextReleasedMessage = CefProcessMessage::Create(kOnContextReleasedRequest);
+        auto contextReleasedMessage = CefProcessMessage::Create(kOnContextReleasedRequest);
 
-            SetInt64(contextReleasedMessage->GetArgumentList(), 0, frame->GetIdentifier());
+        SetInt64(contextReleasedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
-            browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextReleasedMessage);
-        }
+        browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextReleasedMessage);
 
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
 
