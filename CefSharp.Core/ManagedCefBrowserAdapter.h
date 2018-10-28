@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -68,6 +68,15 @@ namespace CefSharp
         ~ManagedCefBrowserAdapter()
         {
             _isDisposed = true;
+
+            // Stop the method runner before releasing browser adapter and browser wrapper (#2529)
+            if (_methodRunnerQueue != nullptr)
+            {
+                _methodRunnerQueue->MethodInvocationComplete -= gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
+                _methodRunnerQueue->Stop();
+                _methodRunnerQueue = nullptr;
+            }
+
             // Release the MCefRefPtr<ClientAdapter> reference
             // before calling _browserWrapper->CloseBrowser(true)
             this->!ManagedCefBrowserAdapter();
@@ -78,13 +87,6 @@ namespace CefSharp
 
                 delete _browserWrapper;
                 _browserWrapper = nullptr;
-            }
-
-            if (_methodRunnerQueue != nullptr)
-            {
-                _methodRunnerQueue->MethodInvocationComplete -= gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
-                _methodRunnerQueue->Stop();
-                _methodRunnerQueue = nullptr;
             }
 
             if (CefSharpSettings::WcfEnabled && _browserProcessServiceHost != nullptr)

@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -53,9 +53,9 @@ namespace CefSharp
                 int width;
                 int height;
 
-                auto binary = _image->GetAsBitmap(scaleFactor, (cef_color_type_t)colorType, (cef_alpha_type_t) alphaType, width, height);
+                auto binary = _image->GetAsBitmap(scaleFactor, (cef_color_type_t)colorType, (cef_alpha_type_t)alphaType, width, height);
 
-                if(binary.get())
+                if (binary.get())
                 {
                     pixelWidth = width;
                     pixelHeight = height;
@@ -152,7 +152,7 @@ namespace CefSharp
                 float actualScale;
                 int width;
                 int height;
-                
+
                 auto success = _image->GetRepresentationInfo(scaleFactor, actualScale, width, height);
 
                 actualScaleFactor = actualScale;

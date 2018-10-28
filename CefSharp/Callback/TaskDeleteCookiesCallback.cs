@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,12 +13,18 @@ namespace CefSharp
     /// </summary>
     public class TaskDeleteCookiesCallback : IDeleteCookiesCallback
     {
+        /// <summary>
+        /// Invalid Number of Cookies
+        /// </summary>
         public const int InvalidNoOfCookiesDeleted = -1;
 
         private readonly TaskCompletionSource<int> taskCompletionSource;
         private volatile bool isDisposed;
         private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TaskDeleteCookiesCallback()
         {
             taskCompletionSource = new TaskCompletionSource<int>();
@@ -31,6 +37,9 @@ namespace CefSharp
             taskCompletionSource.TrySetResultAsync(numDeleted);
         }
 
+        /// <summary>
+        /// Task used to await this callback
+        /// </summary>
         public Task<int> Task
         {
             get { return taskCompletionSource.Task; }

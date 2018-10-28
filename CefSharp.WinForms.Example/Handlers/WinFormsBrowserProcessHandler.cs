@@ -1,11 +1,11 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
 using System.Threading.Tasks;
-using CefSharp.Example.Handlers;
 using System.Timers;
+using CefSharp.Example.Handlers;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
@@ -37,7 +37,7 @@ namespace CefSharp.WinForms.Example.Handlers
         protected override void OnScheduleMessagePumpWork(int delay)
         {
             //when delay <= 0 queue the Task up for execution on the UI thread.
-            if(delay <= 0)
+            if (delay <= 0)
             {
                 //Update the timer to execute almost immediately
                 factory.StartNew(() => Cef.DoMessageLoopWork());
@@ -46,8 +46,8 @@ namespace CefSharp.WinForms.Example.Handlers
 
         public override void Dispose()
         {
-            if(timer != null)
-            { 
+            if (timer != null)
+            {
                 timer.Stop();
                 timer.Dispose();
                 timer = null;

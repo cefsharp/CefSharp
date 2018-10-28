@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -6,12 +6,12 @@ using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode=ConcurrencyMode.Multiple)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     internal class BrowserProcessService : IBrowserProcess
     {
         private readonly JavascriptObjectRepository javascriptObjectRepository;
         private readonly BrowserProcessServiceHost host;
-        
+
         public BrowserProcessService()
         {
             var context = OperationContext.Current;
@@ -24,7 +24,7 @@ namespace CefSharp.Internals
         {
             object result;
             string exception;
-            
+
             var success = javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result, out exception);
 
             return new BrowserProcessResponse { Success = success, Result = result, Message = exception };

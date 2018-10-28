@@ -78,6 +78,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CefSettings.cs" />
     <Compile Include="IWpfKeyboardHandler.cs" />
     <Compile Include="Internals\VirtualKeys.cs" />
     <Compile Include="Internals\WpfKeyboardHandler.cs" />
@@ -108,7 +109,12 @@
       <Name>CefSharp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

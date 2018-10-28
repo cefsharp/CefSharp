@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 
 using namespace System::Collections::Generic;
+using namespace System::IO;
 
 namespace CefSharp
 {
@@ -14,7 +15,7 @@ namespace CefSharp
     /// Initialization settings. Many of these and other settings can also configured
     /// using command-line switches.
     /// </summary>
-    public ref class CefSettings
+    public ref class AbstractCefSettings abstract
     {
     private:
         List<CefExtension^>^ _cefExtensions;
@@ -23,35 +24,32 @@ namespace CefSharp
     internal:
         ::CefSettings* _cefSettings;
         List<CefCustomScheme^>^ _cefCustomSchemes;
-        bool _focusedNodeChangedEnabled;
 
     public:
         /// <summary>
         /// Default Constructor
         /// </summary>
-        CefSettings() : _cefSettings(new ::CefSettings())
+        AbstractCefSettings() : _cefSettings(new ::CefSettings())
         {
             _cefSettings->multi_threaded_message_loop = true;
             _cefSettings->no_sandbox = true;
-            BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
+            BrowserSubprocessPath = Path::GetFullPath("CefSharp.BrowserSubprocess.exe");
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             _cefExtensions = gcnew List<CefExtension^>();
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
 
             //Automatically discovered and load a system-wide installation of Pepper Flash.
             _cefCommandLineArgs->Add("enable-system-flash", "1");
-
-            _focusedNodeChangedEnabled = false;
         }
 
-        !CefSettings()
+        !AbstractCefSettings()
         {
             delete _cefSettings;
         }
 
-        ~CefSettings()
+        ~AbstractCefSettings()
         {
-            this->!CefSettings();
+            this->!AbstractCefSettings();
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace CefSharp
         {
             IDictionary<String^, String^>^ get() { return _cefCommandLineArgs; }
         }
-        
+
         /// <summary>
         /// Set to true to disable configuration of browser process features using
         /// standard CEF and Chromium command-line arguments. Configuration can still
@@ -105,7 +103,7 @@ namespace CefSharp
         {
             bool get() { return _cefSettings->external_message_pump == 1; }
             void set(bool value) { _cefSettings->external_message_pump = value; }
-        }		
+        }
 
         /// <summary>
         //// Set to true to have the browser process message loop run in a separate
@@ -201,7 +199,7 @@ namespace CefSharp
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->resources_dir_path); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->resources_dir_path, value); }
-        }		
+        }
 
         /// <summary>
         /// The directory and file name to use for the debug log. If empty a default
@@ -287,7 +285,7 @@ namespace CefSharp
         {
             int get() { return _cefSettings->uncaught_exception_stack_size; }
             void set(int value) { _cefSettings->uncaught_exception_stack_size = value; }
-        }		
+        }
 
         /// <summary>
         /// Value that will be returned as the User-Agent HTTP header. If empty the
@@ -340,7 +338,7 @@ namespace CefSharp
             bool get() { return _cefSettings->persist_user_preferences == 1; }
             void set(bool value) { _cefSettings->persist_user_preferences = value; }
         }
-        
+
         /// <summary>
         /// Comma delimited ordered list of language codes without any whitespace that
         /// will be used in the "Accept-Language" HTTP header. May be set globally
@@ -368,22 +366,14 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// If true a message will be sent from the render subprocess to the
-        /// browser when a DOM node (or no node) gets focus. The default is
-        /// false.
-        /// </summary>
-        property bool FocusedNodeChangedEnabled
-        {
-            bool get() { return _focusedNodeChangedEnabled; }
-            void set(bool value) { _focusedNodeChangedEnabled = value; }
-        }
-
-        /// <summary>
         /// Registers a custom scheme using the provided settings.
         /// </summary>
         /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
         void RegisterScheme(CefCustomScheme^ cefCustomScheme)
         {
+            //Scheme names are converted to lowercase
+            cefCustomScheme->SchemeName = cefCustomScheme->SchemeName->ToLower();
+
             _cefCustomSchemes->Add(cefCustomScheme);
         }
 

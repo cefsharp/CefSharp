@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -33,15 +33,16 @@ namespace CefSharp
         /// Register a handler for the specified Url
         /// </summary>
         /// <param name="url">url</param>
-        /// <param name="handler">handler</param>
+        /// <param name="data">The data in byte[] format that will be used for the response</param>
+        /// <param name="mimeType">mime type</param>
         /// <param name="oneTimeUse">Whether or not the handler should be used once (true) or until manually unregistered (false)</param>
         /// <returns>returns true if the Url was successfully parsed into a Uri otherwise false</returns>
-        public virtual bool RegisterHandler(string url, IResourceHandler handler, bool oneTimeUse = false)
+        public virtual bool RegisterHandler(string url, byte[] data, string mimeType = ResourceHandler.DefaultMimeType, bool oneTimeUse = false)
         {
             Uri uri;
             if (Uri.TryCreate(url, UriKind.Absolute, out uri))
             {
-                var entry = new DefaultResourceHandlerFactoryItem(handler, oneTimeUse);
+                var entry = new DefaultResourceHandlerFactoryItem(data, mimeType, oneTimeUse);
 
                 Handlers.AddOrUpdate(uri.AbsoluteUri, entry, (k, v) => entry);
                 return true;
@@ -64,7 +65,7 @@ namespace CefSharp
         /// Are there any <see cref="ResourceHandler"/>'s registered?
         /// </summary>
         public bool HasHandlers
-        { 
+        {
             get { return Handlers.Count > 0; }
         }
 
@@ -80,6 +81,12 @@ namespace CefSharp
         {
             try
             {
+                //If we don't have anything registered, then return null
+                if (!HasHandlers)
+                {
+                    return null;
+                }
+
                 DefaultResourceHandlerFactoryItem entry;
 
                 if (Handlers.TryGetValue(request.Url, out entry))
@@ -89,7 +96,7 @@ namespace CefSharp
                         Handlers.TryRemove(request.Url, out entry);
                     }
 
-                    return entry.Handler;
+                    return ResourceHandler.FromByteArray(entry.Data, entry.MimeType);
                 }
 
                 return null;

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ namespace CefSharp
         /// Gets or sets the Mime Type.
         /// </summary>
         public string MimeType { get; set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FileResourceHandler"/> class.
         /// </summary>
@@ -33,21 +33,21 @@ namespace CefSharp
         /// <param name="filePath">filePath</param>
         public FileResourceHandler(string mimeType, string filePath)
         {
-            if(string.IsNullOrEmpty(mimeType))
+            if (string.IsNullOrEmpty(mimeType))
             {
                 throw new ArgumentNullException("mimeType", "Please provide a valid mimeType");
             }
 
-            if(string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(filePath))
             {
                 throw new ArgumentNullException("filePath", "Please provide a valid filePath");
             }
 
-            if(!File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 throw new FileNotFoundException("Unable to create FileResourceHandler", filePath);
             }
-            
+
             MimeType = mimeType;
             FilePath = filePath;
         }

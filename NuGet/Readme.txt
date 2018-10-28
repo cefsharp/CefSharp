@@ -6,12 +6,14 @@ Background:
 
 Post Installation:
   - Read the release notes for your version https://github.com/cefsharp/CefSharp/releases (Any known issues will be listed here)
+  - Read the `Need to know/limitations` section of the General usage guide (https://github.com/cefsharp/CefSharp/wiki/General-Usage#need-to-knowlimitations)
   - For `x86` or x64` set your solution target architecture to `x86` or `x64`, just changing the project is currently not enough (See https://msdn.microsoft.com/en-us/library/ms185328.aspx#Anchor_0 for details).
   - `AnyCPU` target is supported though requires additional code/changes see https://github.com/cefsharp/CefSharp/issues/1714 for details.
   - After installing the `Nuget` package we recommend closing Visual Studio completely and then reopening (This ensures your references show up and you have full intellisense).
   - Check your output `\bin` directory to make sure the appropriate references have been copied.
   - Build fails even though packages are installed. Short term rebuild again and everything should be find. Long term we recommend reading http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore
   - Minimal designer support was added in version `57.0.0 for both `WinForms` and `WPF`. For older versions there is no designer support (designer will throw an exception).
+  - Add an app.manifest to your exe if you don't already have one, it's required for Windows 10 compatability, HighDPI support and tooltips. The example projects in the main repository contain example app.manifest files.
   
 Deployment:
   - Make sure `Visual C++ 2015` is installed (`x86` or x64` depending on your build) or you package the runtime dlls with your application, see the FAQ for details.

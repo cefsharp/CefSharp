@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 
 namespace CefSharp.WinForms.Test

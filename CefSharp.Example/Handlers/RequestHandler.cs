@@ -1,12 +1,12 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2012 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using CefSharp.Example.Filters;
-using System.Security.Cryptography.X509Certificates;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using CefSharp.Example.Filters;
 using CefSharp.Handler;
 
 namespace CefSharp.Example.Handlers
@@ -69,7 +69,7 @@ namespace CefSharp.Example.Handlers
                 // avoid throwing any exceptions here as we're being called by unmanaged code
                 return CefReturnValue.Cancel;
             }
-            
+
             //Example of how to set Referer
             // Same should work when setting any header
 
@@ -102,8 +102,8 @@ namespace CefSharp.Example.Handlers
                     {
                         using (var postData = request.PostData)
                         {
-                            if(postData != null)
-                            { 
+                            if (postData != null)
+                            {
                                 var elements = postData.Elements;
 
                                 var charSet = request.GetCharSet();
@@ -194,14 +194,14 @@ namespace CefSharp.Example.Handlers
 
         public override void OnRenderViewReady(IWebBrowser browserControl, IBrowser browser)
         {
-            
+
         }
 
         public override bool OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
         {
             //NOTE: You cannot modify the response, only the request
             // You can now access the headers
-            //var headers = response.ResponseHeaders;
+            //var headers = response.Headers;
 
             return false;
         }
@@ -211,7 +211,7 @@ namespace CefSharp.Example.Handlers
             var url = new Uri(request.Url);
             if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
             {
-                if(request.Url.Equals(CefExample.ResponseFilterTestUrl, StringComparison.OrdinalIgnoreCase))
+                if (request.Url.Equals(CefExample.ResponseFilterTestUrl, StringComparison.OrdinalIgnoreCase))
                 {
                     return new FindReplaceResponseFilter("REPLACE_THIS_STRING", "This is the replaced string!");
                 }
@@ -237,13 +237,13 @@ namespace CefSharp.Example.Handlers
             if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
             {
                 MemoryStreamResponseFilter filter;
-                if(responseDictionary.TryGetValue(request.Identifier, out filter))
+                if (responseDictionary.TryGetValue(request.Identifier, out filter))
                 {
                     //TODO: Do something with the data here
                     var data = filter.Data;
                     var dataLength = filter.Data.Length;
                     //NOTE: You may need to use a different encoding depending on the request
-                    var dataAsUtf8String = Encoding.UTF8.GetString(data);                
+                    var dataAsUtf8String = Encoding.UTF8.GetString(data);
                 }
             }
         }

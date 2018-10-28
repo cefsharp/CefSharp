@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using CefSharp.Event;
 using System.Threading.Tasks;
+using CefSharp.Event;
 
 namespace CefSharp.Internals
 {
@@ -65,7 +65,7 @@ namespace CefSharp.Internals
 
         public bool IsBound(string name)
         {
-            return objects.Values.Any(x => x.Name == name); 
+            return objects.Values.Any(x => x.Name == name);
         }
 
         //Ideally this would internal, unfurtunately it's used in C++
@@ -113,7 +113,7 @@ namespace CefSharp.Internals
                     }
 
                     boundObjectsHandler?.Invoke(this, new JavascriptBindingMultipleCompleteEventArgs(this, objs.Select(x => x.Item1).ToList()));
-                });			
+                });
             }
         }
 
@@ -142,7 +142,7 @@ namespace CefSharp.Internals
             //Enable WCF if not already enabled - can only be done before the browser has been initliazed
             //if done after the subprocess won't be WCF enabled it we'll have to throw an exception
             if (!IsBrowserInitialized && !isAsync)
-            { 
+            {
                 CefSharpSettings.WcfEnabled = true;
             }
 
@@ -153,9 +153,9 @@ namespace CefSharp.Internals
             }
 
             //Validation name is unique
-            if(objects.Values.Count(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)) > 0)
+            if (objects.Values.Count(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)) > 0)
             {
-                throw new ArgumentException("Object already bound with name:" + name , name);
+                throw new ArgumentException("Object already bound with name:" + name, name);
             }
 
             //Binding of System types is problematic, so we don't support it
@@ -187,7 +187,7 @@ namespace CefSharp.Internals
         {
             foreach (var kvp in objects)
             {
-                if(string.Equals(kvp.Value.Name, name, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(kvp.Value.Name, name, StringComparison.OrdinalIgnoreCase))
                 {
                     objects.Remove(kvp.Key);
 
@@ -248,13 +248,13 @@ namespace CefSharp.Internals
 
                     parameters = paramList.ToArray();
                 }
-                
+
                 //Check for parameter count missmatch between the parameters on the javascript function and the
                 //number of parameters on the bound object method. (This is relevant for methods that have default values)
                 //NOTE it's possible to have default params and a paramArray, so check missing params last
                 var missingParams = method.ParameterCount - parameters.Length;
 
-                if(missingParams > 0)
+                if (missingParams > 0)
                 {
                     var paramList = new List<object>(parameters);
 
@@ -268,12 +268,12 @@ namespace CefSharp.Internals
 
                 try
                 {
-                    if(obj.Binder != null)
-                    { 
+                    if (obj.Binder != null)
+                    {
                         for (var i = 0; i < parameters.Length; i++)
-                        { 
-                            if(parameters[i] != null)
-                            { 
+                        {
+                            if (parameters[i] != null)
+                            {
                                 var paramExpectedType = method.Parameters[i].Type;
                                 var paramType = parameters[i].GetType();
                                 if (typeof(IDictionary<string, object>).IsAssignableFrom(paramType))
@@ -290,11 +290,11 @@ namespace CefSharp.Internals
                         }
                     }
 
-                    if (obj.MethodInterceptor == null) 
+                    if (obj.MethodInterceptor == null)
                     {
                         result = method.Function(obj.Value, parameters);
                     }
-                    else 
+                    else
                     {
                         result = obj.MethodInterceptor.Intercept(() => method.Function(obj.Value, parameters), method.ManagedName);
                     }
@@ -307,21 +307,21 @@ namespace CefSharp.Internals
                 //For sync binding with methods that return a complex property we create a new JavascriptObject
                 //TODO: Fix the memory leak, every call to a method that returns an object will create a new
                 //JavascriptObject and they are never released
-                if(!obj.IsAsync && result != null && IsComplexType(result.GetType()))
+                if (!obj.IsAsync && result != null && IsComplexType(result.GetType()))
                 {
                     var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
                     jsObject.Value = result;
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
-                    AnalyseObjectForBinding(jsObject, analyseMethods: false, analyseProperties:true, readPropertyValue: true, camelCaseJavascriptNames: obj.CamelCaseJavascriptNames);
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, analyseProperties: true, readPropertyValue: true, camelCaseJavascriptNames: obj.CamelCaseJavascriptNames);
 
                     result = jsObject;
                 }
 
                 return true;
             }
-            catch(TargetInvocationException e)
+            catch (TargetInvocationException e)
             {
                 var baseException = e.GetBaseException();
                 exception = baseException.ToString();
@@ -420,7 +420,7 @@ namespace CefSharp.Internals
                 foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
                 {
                     // Type objects can not be serialized.
-                    if (methodInfo.ReturnType == typeof (Type) || Attribute.IsDefined(methodInfo, typeof (JavascriptIgnoreAttribute)))
+                    if (methodInfo.ReturnType == typeof(Type) || Attribute.IsDefined(methodInfo, typeof(JavascriptIgnoreAttribute)))
                     {
                         continue;
                     }
@@ -438,8 +438,8 @@ namespace CefSharp.Internals
                     //An array of type ParameterInfo containing the parameters for the indexes. If the property is not indexed, the array has 0 (zero) elements.
                     //According to MSDN array has zero elements when it's not an indexer, so in theory no null check is required
                     var isIndexer = propertyInfo.GetIndexParameters().Length > 0;
-                    var hasIgnoreAttribute = Attribute.IsDefined(propertyInfo, typeof (JavascriptIgnoreAttribute));
-                    if (propertyInfo.PropertyType == typeof (Type) || isIndexer || hasIgnoreAttribute)
+                    var hasIgnoreAttribute = Attribute.IsDefined(propertyInfo, typeof(JavascriptIgnoreAttribute));
+                    if (propertyInfo.PropertyType == typeof(Type) || isIndexer || hasIgnoreAttribute)
                     {
                         continue;
                     }
@@ -513,7 +513,7 @@ namespace CefSharp.Internals
 
             var baseType = type;
 
-            var nullable = type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>);
+            var nullable = type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
             if (nullable)
             {

@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CefSettings.cs" />
     <Compile Include="ChromiumWebBrowserDesigner.cs" />
     <Compile Include="Internals\DefaultFocusHandler.cs" />
     <Compile Include="Internals\ControlExtensions.cs" />

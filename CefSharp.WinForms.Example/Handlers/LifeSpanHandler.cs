@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -71,7 +71,7 @@ namespace CefSharp.WinForms.Example.Handlers
             //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
             //See the doc for this method for full details.    
             // Allow devtools to close
-            if (browser.MainFrame.Url.Equals("chrome-devtools://devtools/inspector.html"))
+            if (browser.MainFrame.Url.Equals("chrome-devtools://devtools/devtools_app.html"))
             {
                 return false;
             }

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ namespace CefSharp
             CefResponseWrapper(CefRefPtr<CefResponse> &response) :
                 _response(response)
             {
-                
+
             }
 
             !CefResponseWrapper()
@@ -112,7 +112,7 @@ namespace CefSharp
                 }
             }
 
-            virtual property NameValueCollection^ ResponseHeaders
+            virtual property NameValueCollection^ Headers
             {
                 NameValueCollection^ get()
                 {
@@ -138,6 +138,18 @@ namespace CefSharp
                     ThrowIfDisposed();
 
                     _response->SetHeaderMap(TypeConversion::ToNative(headers));
+                }
+            }
+
+            virtual property NameValueCollection^ ResponseHeaders
+            {
+                NameValueCollection^ get()
+                {
+                    return Headers;
+                }
+                void set(NameValueCollection^ headers)
+                {
+                    Headers = headers;
                 }
             }
         };

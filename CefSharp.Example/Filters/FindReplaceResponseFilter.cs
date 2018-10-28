@@ -1,17 +1,20 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace CefSharp.Example.Filters
 {
     public class FindReplaceResponseFilter : IResponseFilter
     {
-        private static Encoding encoding = Encoding.UTF8;
+        /// <summary>
+        /// The character encoding used when writing the replacement string.
+        /// </summary>
+        private static readonly Encoding Encoding = Encoding.UTF8;
 
         /// <summary>
         /// String to find
@@ -101,7 +104,7 @@ namespace CefSharp.Example.Filters
                 WriteSingleByte(readByte, dataOut, ref dataOutWritten);
             }
 
-            if(overflow.Count > 0)
+            if (overflow.Count > 0)
             {
                 //If we end up with overflow data then we'll need to return NeedMoreData
                 // On the next pass the data will be written, then the next batch will be processed.
@@ -149,7 +152,7 @@ namespace CefSharp.Example.Filters
             // Write the maximum portion that fits in the output buffer.
             if (maxWrite > 0)
             {
-                var bytes = encoding.GetBytes(str);
+                var bytes = Encoding.GetBytes(str);
                 dataOut.Write(bytes, 0, (int)maxWrite);
                 dataOutWritten += maxWrite;
             }
@@ -158,7 +161,7 @@ namespace CefSharp.Example.Filters
             {
                 // Need to write more bytes than will fit in the output buffer. Store the
                 // remainder in the overflow buffer.
-                overflow.AddRange(encoding.GetBytes(str.Substring((int)maxWrite, (int)(stringSize - maxWrite))));
+                overflow.AddRange(Encoding.GetBytes(str.Substring((int)maxWrite, (int)(stringSize - maxWrite))));
             }
         }
 
@@ -183,7 +186,7 @@ namespace CefSharp.Example.Filters
 
         public void Dispose()
         {
-            
+
         }
     }
 }

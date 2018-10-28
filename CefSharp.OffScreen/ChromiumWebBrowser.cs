@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using CefSharp.Enums;
 using CefSharp.Internals;
 using CefSharp.Structs;
-
-using Size = System.Drawing.Size;
 using Point = System.Drawing.Point;
+using Size = System.Drawing.Size;
 
 namespace CefSharp.OffScreen
 {
@@ -167,6 +166,12 @@ namespace CefSharp.OffScreen
         public IFindHandler FindHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
+        /// </summary>
+        /// <value>The accessibility handler.</value>
+        public IAccessibilityHandler AccessibilityHandler { get; set; }
+
+        /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
         /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
@@ -204,7 +209,7 @@ namespace CefSharp.OffScreen
         /// </summary>
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         /// <summary>
-        /// Occurs when [browser initialized].
+        /// Event called after the underlying CEF browser instance has been created. 
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
         /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
         /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
@@ -277,7 +282,6 @@ namespace CefSharp.OffScreen
             if (!Cef.IsInitialized)
             {
                 var settings = new CefSettings();
-                settings.WindowlessRenderingEnabled = true;
 
                 if (!Cef.Initialize(settings))
                 {
@@ -334,7 +338,7 @@ namespace CefSharp.OffScreen
             LoadingStateChanged = null;
             Paint = null;
             StatusMessage = null;
-            TitleChanged = null;            
+            TitleChanged = null;
 
             Cef.RemoveDisposable(this);
 
@@ -374,7 +378,7 @@ namespace CefSharp.OffScreen
 
             browserCreated = true;
 
-            if(browserSettings == null)
+            if (browserSettings == null)
             {
                 browserSettings = new BrowserSettings();
             }
@@ -382,7 +386,7 @@ namespace CefSharp.OffScreen
             //Dispose of browser settings after we've created the browser
             using (browserSettings)
             {
-                managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, browserSettings , (RequestContext)RequestContext, Address);
+                managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, browserSettings, (RequestContext)RequestContext, Address);
             }
         }
 
@@ -421,14 +425,14 @@ namespace CefSharp.OffScreen
         /// <returns>Bitmap.</returns>
         public Bitmap ScreenshotOrNull(PopupBlending blend = PopupBlending.Main)
         {
-            if(RenderHandler == null)
+            if (RenderHandler == null)
             {
                 throw new NullReferenceException("RenderHandler cannot be null. Use DefaultRenderHandler unless implementing your own");
             }
 
             var renderHandler = RenderHandler as DefaultRenderHandler;
 
-            if(renderHandler == null)
+            if (renderHandler == null)
             {
                 throw new Exception("ScreenshotOrNull and ScreenshotAsync can only be used in combination with the DefaultRenderHandler");
             }
@@ -471,7 +475,7 @@ namespace CefSharp.OffScreen
         /// The bitmap size is determined by the Size property set earlier.
         /// </summary>
         /// <param name="ignoreExistingScreenshot">Ignore existing bitmap (if any) and return the next avaliable bitmap</param>
-        /// /// <param name="blend">Choose which bitmap to retrieve, choose <see cref="PopupBlending.Blend"/> for a merged bitmap.</param>
+        /// <param name="blend">Choose which bitmap to retrieve, choose <see cref="PopupBlending.Blend"/> for a merged bitmap.</param>
         /// <returns>Task&lt;Bitmap&gt;.</returns>
         public Task<Bitmap> ScreenshotAsync(bool ignoreExistingScreenshot = false, PopupBlending blend = PopupBlending.Main)
         {
@@ -704,7 +708,7 @@ namespace CefSharp.OffScreen
                 handled = args.Handled;
             }
 
-            if(!handled)
+            if (!handled)
             {
                 OnPaint(type, dirtyRect, buffer, width, height);
             }

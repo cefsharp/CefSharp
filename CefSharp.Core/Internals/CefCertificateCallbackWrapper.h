@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -54,7 +54,7 @@ namespace CefSharp
 
                     std::vector<CefRefPtr<CefX509Certificate>>::const_iterator it =
                         _certificateList.begin();
-                    for (; it != _certificateList.end(); ++it) 
+                    for (; it != _certificateList.end(); ++it)
                     {
 
                         // TODO: Need to make this logic of comparing serial number of the certificate (*it)

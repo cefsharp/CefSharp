@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -10,6 +10,12 @@ namespace CefSharp.Internals
 {
     public interface IRenderWebBrowser : IWebBrowserInternal
     {
+        /// <summary>
+        /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
+        /// </summary>
+        /// <value>The accessibility handler.</value>
+        IAccessibilityHandler AccessibilityHandler { get; set; }
+
         /// <summary>
         /// Called to allow the client to return a ScreenInfo object with appropriate values.
         /// If null is returned then the rectangle from GetViewRect will be used.

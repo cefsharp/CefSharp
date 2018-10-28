@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -95,17 +95,17 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_settings->accept_language_list, value); }
         }
 
-		/// <summary>
-		/// Set to true to enable date-based expiration of built in network security information (i.e. certificate transparency logs,
-		/// HSTS preloading and pinning information). Enabling this option improves network security but may cause HTTPS load failures when
-		/// using CEF binaries built more than 10 weeks in the past. See https://www.certificate-transparency.org/ and
-	    /// https://www.chromium.org/hsts for details. Can be set globally using the CefSettings.EnableNetSecurityExpiration value.
-		/// </summary>
-		property bool EnableNetSecurityExpiration
-		{
-			bool get() { return _settings->enable_net_security_expiration == 1; }
-			void set(bool value) { _settings->enable_net_security_expiration = value; }
-		}
+        /// <summary>
+        /// Set to true to enable date-based expiration of built in network security information (i.e. certificate transparency logs,
+        /// HSTS preloading and pinning information). Enabling this option improves network security but may cause HTTPS load failures when
+        /// using CEF binaries built more than 10 weeks in the past. See https://www.certificate-transparency.org/ and
+        /// https://www.chromium.org/hsts for details. Can be set globally using the CefSettings.EnableNetSecurityExpiration value.
+        /// </summary>
+        property bool EnableNetSecurityExpiration
+        {
+            bool get() { return _settings->enable_net_security_expiration == 1; }
+            void set(bool value) { _settings->enable_net_security_expiration = value; }
+        }
 
         /// <summary>
         /// Set to true to ignore errors related to invalid SSL certificates.

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -78,7 +78,7 @@ namespace CefSharp
         /// This method is only used when window rendering is disabled.
         /// </summary>
         void DragTargetDragLeave();
-        
+
         /// <summary>
         /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging"/> call has completed.
         /// This method may be called immediately without first calling DragSourceEndedAt to cancel a drag operation.
@@ -301,7 +301,7 @@ namespace CefSharp
         /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
         /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
         void ShowDevTools(IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0);
-        
+
         /// <summary>
         /// Download the file at url using IDownloadHandler. 
         /// </summary>
@@ -317,10 +317,8 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse move event to the browser, coordinates, 
         /// </summary>
-        /// <param name="x">x coordinate - relative to upper-left corner of view</param>
-        /// <param name="y">y coordinate - relative to upper-left corner of view</param>
+        /// <param name="mouseEvent">mouse information, x and y values are relative to upper-left corner of view</param>
         /// <param name="mouseLeave">mouse leave</param>
-        /// <param name="modifiers">click modifiers .e.g Ctrl</param>
         void SendMouseMoveEvent(MouseEvent mouseEvent, bool mouseLeave);
 
         /// <summary>
