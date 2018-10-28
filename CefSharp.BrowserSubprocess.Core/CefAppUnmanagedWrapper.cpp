@@ -103,16 +103,14 @@ namespace CefSharp
         cefSharpObjCamelCase->SetValue(kIsObjectCachedCamelCase, isObjectCachedFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
 
         //Send a message to the browser processing signaling that OnContextCreated has been called
-        //only param is the FrameId. Currently an IPC message is only sent for the main frame - will see
-        //how viable this solution is and if it's worth expanding to sub/child frames.
-        if (frame->IsMain())
-        {
-            auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
+        //only param is the FrameId. Previous sent only for main frame, now sent for all frames
+        //Message sent after legacy objects have been bound and the CefSharp bind async helper methods
+        //have been created
+        auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
 
-            SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
+        SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
-            browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
-        }
+        browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
