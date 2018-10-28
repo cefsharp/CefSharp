@@ -13,15 +13,17 @@ namespace CefSharp
         /// Non-zero exit status.
         /// </summary>
         AbnormalTermination = 0,
-
         /// <summary>
         /// SIGKILL or task manager kill.
         /// </summary>
         ProcessWasKilled,
-
         /// <summary>
         /// Segmentation fault.
         /// </summary>
-        ProcessCrashed
+        ProcessCrashed,
+        /// <summary>
+        /// Out of memory. Some platforms may use ProcessCrashed instead.
+        /// </summary>
+        OutOfMemory
     }
 }
