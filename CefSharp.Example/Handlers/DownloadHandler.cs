@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CefSharp.Example
+namespace CefSharp.Example.Handlers
 {
     public class DownloadHandler : IDownloadHandler
     {

@@ -5,6 +5,7 @@
 using System;
 using System.Windows.Forms;
 using CefSharp.Example;
+using CefSharp.Example.JavascriptBinding;
 using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Minimal

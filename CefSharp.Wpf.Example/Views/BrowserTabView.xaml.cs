@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
+using CefSharp.Example.JavascriptBinding;
 using CefSharp.Example.ModelBinding;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
