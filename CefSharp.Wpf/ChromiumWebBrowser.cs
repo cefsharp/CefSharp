@@ -43,6 +43,10 @@ namespace CefSharp.Wpf
         /// </summary>
         private Window sourceWindow;
         /// <summary>
+        /// The MonitorInfo based on the current hwnd
+        /// </summary>
+        private MonitorInfoEx monitorInfo;
+        /// <summary>
         /// The tooltip timer
         /// </summary>
         private DispatcherTimer tooltipTimer;
@@ -637,7 +641,12 @@ namespace CefSharp.Wpf
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
         protected virtual ScreenInfo? GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo { DeviceScaleFactor = (float)DpiScaleFactor };
+            var screenInfo = new ScreenInfo
+            {
+                DeviceScaleFactor = (float)DpiScaleFactor,
+                Rect = monitorInfo.Monitor, //TODO: Do values need to be scaled?
+                AvailableRect = monitorInfo.WorkArea //TODO: Do values need to be scaled?
+            };            
 
             return screenInfo;
         }
@@ -1596,6 +1605,9 @@ namespace CefSharp.Wpf
                 }
 
                 browserScreenLocation = GetBrowserScreenLocation();
+
+                monitorInfo.Init();
+                MonitorInfo.GetMonitorInfoForWindowHandle(source.Handle, ref monitorInfo);
             }
             else if (args.OldSource != null)
             {

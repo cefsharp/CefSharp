@@ -79,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefSettings.cs" />
+    <Compile Include="Internals\MonitorInfo.cs" />
+    <Compile Include="Internals\MonitorInfoEx.cs" />
+    <Compile Include="Internals\RectStruct.cs" />
     <Compile Include="IWpfKeyboardHandler.cs" />
     <Compile Include="Internals\VirtualKeys.cs" />
     <Compile Include="Internals\WpfKeyboardHandler.cs" />
