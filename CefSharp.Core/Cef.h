@@ -582,62 +582,61 @@ namespace CefSharp
         ///  # Comments start with a hash character and must be on their own line.
         ///
         ///  [Config]
-        ///  ProductName=<Value of the "prod" crash key; defaults to "cef">
-        ///  ProductVersion=<Value of the "ver" crash key; defaults to the CEF version>
-        ///  AppName=<Windows only; App-specific folder name component for storing crash
-        ///           information; default to "CEF">
-        ///  ExternalHandler=<Windows only; Name of the external handler exe to use
+        ///  ProductName=&lt;Value of the &quot;prod&quot; crash key; defaults to &quot;cef&quot;&gt;
+        ///  ProductVersion=&lt;Value of the &quot;ver&quot; crash key; defaults to the CEF version&gt;
+        ///  AppName=&lt;Windows only; App-specific folder name component for storing crash
+        ///           information; default to &quot;CEF&quot;&gt;
+        ///  ExternalHandler=&lt;Windows only; Name of the external handler exe to use
         ///                   instead of re-launching the main exe; default to empty>
-        ///  ServerURL=<crash server URL; default to empty>
-        ///  RateLimitEnabled=<True if uploads should be rate limited; default to true>
-        ///  MaxUploadsPerDay=<Max uploads per 24 hours, used if rate limit is enabled;
-        ///                    default to 5>
-        ///  MaxDatabaseSizeInMb=<Total crash report disk usage greater than this value
-        ///                       will cause older reports to be deleted; default to 20>
-        ///  MaxDatabaseAgeInDays=<Crash reports older than this value will be deleted;
-        ///                        default to 5>
+        ///  ServerURL=&lt;crash server URL; default to empty&gt;
+        ///  RateLimitEnabled=&lt;True if uploads should be rate limited; default to true&gt;
+        ///  MaxUploadsPerDay=&lt;Max uploads per 24 hours, used if rate limit is enabled;
+        ///                    default to 5&gt;
+        ///  MaxDatabaseSizeInMb=&lt;Total crash report disk usage greater than this value
+        ///                       will cause older reports to be deleted; default to 20&gt;
+        ///  MaxDatabaseAgeInDays=&lt;Crash reports older than this value will be deleted;
+        ///                        default to 5&gt;
         ///
         ///  [CrashKeys]
-        ///  my_key1=<small|medium|large>
-        ///  my_key2=<small|medium|large>
+        ///  my_key1=&lt;small|medium|large&gt;
+        ///  my_key2=&lt;small|medium|large&gt;
         ///
         /// Config section:
         ///
-        /// If "ProductName" and/or "ProductVersion" are set then the specified values
+        /// If &quot;ProductName&quot; and/or &quot;ProductVersion&quot; are set then the specified values
         /// will be included in the crash dump metadata. 
         ///
-        /// If "AppName" is set on Windows then crash report information (metrics,
+        /// If &quot;AppName&quot; is set on Windows then crash report information (metrics,
         /// database and dumps) will be stored locally on disk under the
-        /// "C:\Users\[CurrentUser]\AppData\Local\[AppName]\User Data" folder. On other
-        /// platforms the CefSettings.user_data_path value will be used.
+        /// &quot;C:\Users\[CurrentUser]\AppData\Local\[AppName]\User Data&quot; folder. 
         ///
-        /// If "ExternalHandler" is set on Windows then the specified exe will be
+        /// If &quot;ExternalHandler&quot; is set on Windows then the specified exe will be
         /// launched as the crashpad-handler instead of re-launching the main process
         /// exe. The value can be an absolute path or a path relative to the main exe
         /// directory. 
         ///
-        /// If "ServerURL" is set then crashes will be uploaded as a multi-part POST
+        /// If &quot;ServerURL&quot; is set then crashes will be uploaded as a multi-part POST
         /// request to the specified URL. Otherwise, reports will only be stored locally
         /// on disk.
         ///
-        /// If "RateLimitEnabled" is set to true then crash report uploads will be rate
+        /// If &quot;RateLimitEnabled&quot; is set to true then crash report uploads will be rate
         /// limited as follows:
-        ///  1. If "MaxUploadsPerDay" is set to a positive value then at most the
+        ///  1. If &quot;MaxUploadsPerDay&quot; is set to a positive value then at most the
         ///     specified number of crashes will be uploaded in each 24 hour period.
         ///  2. If crash upload fails due to a network or server error then an
         ///     incremental backoff delay up to a maximum of 24 hours will be applied for
         ///     retries.
-        ///  3. If a backoff delay is applied and "MaxUploadsPerDay" is > 1 then the
-        ///     "MaxUploadsPerDay" value will be reduced to 1 until the client is
+        ///  3. If a backoff delay is applied and &quot;MaxUploadsPerDay&quot; is > 1 then the
+        ///     &quot;MaxUploadsPerDay&quot; value will be reduced to 1 until the client is
         ///     restarted. This helps to avoid an upload flood when the network or
         ///     server error is resolved.
         ///
-        /// If "MaxDatabaseSizeInMb" is set to a positive value then crash report storage
+        /// If &quot;MaxDatabaseSizeInMb&quot; is set to a positive value then crash report storage
         /// on disk will be limited to that size in megabytes. For example, on Windows
-        /// each dump is about 600KB so a "MaxDatabaseSizeInMb" value of 20 equates to
+        /// each dump is about 600KB so a &quot;MaxDatabaseSizeInMb&quot; value of 20 equates to
         /// about 34 crash reports stored on disk.
         ///
-        /// If "MaxDatabaseAgeInDays" is set to a positive value then crash reports older
+        /// If &quot;MaxDatabaseAgeInDays&quot; is set to a positive value then crash reports older
         /// than the specified age in days will be deleted.
         ///
         /// CrashKeys section:
@@ -648,10 +647,10 @@ namespace CefSharp
         /// from any thread or process using the Cef.SetCrashKeyValue function. These
         /// key/value pairs will be sent to the crash server along with the crash dump
         /// file. Medium and large values will be chunked for submission. For example,
-        /// if your key is named "mykey" then the value will be broken into ordered
-        /// chunks and submitted using keys named "mykey-1", "mykey-2", etc.
+        /// if your key is named &quot;mykey&quot; then the value will be broken into ordered
+        /// chunks and submitted using keys named &quot;mykey-1&quot;, &quot;mykey-2&quot;, etc.
         /// </summary>
-        /// <returns>Returns the global request context or null.</returns>
+        /// <returns>Returns true if crash reporting is enabled.</returns>
         static property bool CrashReportingEnabled
         {
             bool get()
@@ -674,7 +673,7 @@ namespace CefSharp
         /// The client application is responsible for downloading an appropriate
         /// platform-specific CDM binary distribution from Google, extracting the
         /// contents, and building the required directory structure on the local machine.
-        /// The <see cref="IBrowserHost.StartDownload"/> method class can be used
+        /// The <see cref="CefSharp.IBrowserHost.StartDownload"/> method class can be used
         /// to implement this functionality in CefSharp. Contact Google via
         /// https://www.widevine.com/contact.html for details on CDM download.
         /// 
@@ -688,7 +687,7 @@ namespace CefSharp
         ///
         /// If any of these files are missing or if the manifest file has incorrect
         /// contents the registration will fail and callback will receive an ErrorCode
-        /// value of <see cref="CdmRegistrationErrorCode.IncorrectContents"/>.
+        /// value of <see cref="CefSharp.CdmRegistrationErrorCode.IncorrectContents"/>.
         ///
         /// The manifest.json file must contain the following keys:
         ///   A. "os": Supported OS (e.g. "mac", "win" or "linux").
