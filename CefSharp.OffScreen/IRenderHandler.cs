@@ -75,7 +75,7 @@ namespace CefSharp.OffScreen
         bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y);
 
         /// <summary>
-        /// Called when the web view wants to update the mouse cursor during a drag & drop operation.
+        /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
         /// </summary>
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
         void UpdateDragCursor(DragOperationsMask operation);
