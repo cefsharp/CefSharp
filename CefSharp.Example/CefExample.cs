@@ -14,7 +14,7 @@ namespace CefSharp.Example
     public static class CefExample
     {
         public const string BaseUrl = "custom://cefsharp";
-        public const string DefaultUrl = BaseUrl + "/home.html";
+        public const string DefaultUrl = "https://www.google.com"; //BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
         public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";

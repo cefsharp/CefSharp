@@ -12,6 +12,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using System.Collections.Generic;
+using System.Linq;
 using CefSharp.Enums;
 using CefSharp.Internals;
 using CefSharp.Structs;
@@ -37,6 +39,10 @@ namespace CefSharp.Wpf
         /// The source
         /// </summary>
         private HwndSource source;
+        /// <summary>
+        /// The source hook
+        /// </summary>
+        private HwndSourceHook sourceHook;
         /// <summary>
         /// The HwndSource RootVisual (Window) - We store a reference
         /// to unsubscribe event handlers
@@ -386,6 +392,11 @@ namespace CefSharp.Wpf
         /// </summary>
         public double DpiScaleFactor { get; set; }
 
+        private OsrImeWin _imeWin;
+
+        // This is a simple script which get absolute location of focused element. There is a script, which get coordinates of caret, it is quite large, it needs to be in the Resources.
+        private string script = "(function() { var el = document.activeElement; var l = 0; var t = 0; do { t += el.offsetTop || 0; l += el.offsetLeft || 0; el = el.offsetParent; } while(el); return l + ',' + t;})()";
+
         /// <summary>
         /// Initializes static members of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
@@ -607,6 +618,12 @@ namespace CefSharp.Wpf
                     {
                         SetCurrentValue(IsBrowserInitializedProperty, false);
                         WebBrowser = null;
+
+                        if (_imeWin != null)
+                        {
+                            _imeWin.Dispose();
+                            _imeWin = null;
+                        }
                     });
                 }
 
@@ -616,6 +633,8 @@ namespace CefSharp.Wpf
                 this.SetHandlersToNull();
 
                 Cef.RemoveDisposable(this);
+
+                RemoveSourceHook();
 
                 WpfKeyboardHandler.Dispose();
                 source = null;
@@ -858,7 +877,22 @@ namespace CefSharp.Wpf
         /// <param name="characterBounds">is the bounds of each character in view coordinates.</param>
         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
-            //TODO: Implement this
+            if (_imeWin != null)
+            {
+                UiThreadRunAsync(() =>
+                {
+                    IList<Rect> rects = new List<Rect>();
+                    foreach (var item in characterBounds)
+                    {
+                        if (CleanupElement != null)
+                        {
+                            Point point = this.TransformToAncestor(CleanupElement).Transform(new Point(0, 0));
+                            rects.Add(new Rect((int)(point.X + item.X), (int)(point.Y + item.Y), item.Width, item.Height));
+                        }
+                    }
+                    _imeWin.OnImeCompositionRangeChanged(selectedRange, rects.ToArray());
+                });
+            }
         }
 
         /// <summary>
@@ -994,6 +1028,11 @@ namespace CefSharp.Wpf
             {
                 if (!IsDisposed)
                 {
+                    if (_imeWin != null)
+                    {
+                        _imeWin.Dispose();
+                    }
+
                     SetCurrentValue(IsBrowserInitializedProperty, true);
 
                     // If Address was previously set, only now can we actually do the load
@@ -1429,6 +1468,47 @@ namespace CefSharp.Wpf
         #endregion WebBrowser dependency property
 
         /// <summary>
+        /// WindowProc callback interceptor. Handles Windows messages intended for the source hWnd, and passes them to the
+        /// contained browser as needed.
+        /// </summary>
+        /// <param name="hWnd">The source handle.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="wParam">Additional message info.</param>
+        /// <param name="lParam">Even more message info.</param>
+        /// <param name="handled">if set to <c>true</c>, the event has already been handled by someone else.</param>
+        /// <returns>IntPtr.</returns>
+        protected virtual IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (handled)
+            {
+                return IntPtr.Zero;
+            }
+
+            const int WM_EXITSIZEMOVE = 0x0232;
+            const int WM_SIZE = 0x0005;
+            const int SIZE_MAXIMIZED = 2;
+            const int SIZE_RESTORED = 0;
+
+            if (message == WM_EXITSIZEMOVE || (message == WM_SIZE && (wParam.ToInt32() == SIZE_MAXIMIZED || wParam.ToInt32() == SIZE_RESTORED)))
+            {
+                MoveIMEWindow();
+            }
+
+            if (!IsDisposed && _imeWin != null && IsKeyboardFocused && browser != null)
+            {
+                var ret = _imeWin.WndProcHandler(hWnd, message, wParam, lParam);
+                if (ret == IntPtr.Zero)
+                {
+                    handled = true;
+                }
+
+                return ret;
+            }
+
+            return IntPtr.Zero;
+        }
+
+        /// <summary>
         /// Handles the <see cref="E:Drop" /> event.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -1564,6 +1644,9 @@ namespace CefSharp.Wpf
 
                 DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
 
+                sourceHook = SourceHook;
+                source.AddHook(sourceHook);
+
                 WpfKeyboardHandler.Setup(source);
 
                 if (notifyDpiChanged && browser != null)
@@ -1599,6 +1682,14 @@ namespace CefSharp.Wpf
             }
             else if (args.OldSource != null)
             {
+                RemoveSourceHook();
+
+                if (_imeWin != null)
+                {
+                    _imeWin.Dispose();
+                    _imeWin = null;
+                }
+
                 WpfKeyboardHandler.Dispose();
 
                 var window = args.OldSource.RootVisual as Window;
@@ -1661,6 +1752,18 @@ namespace CefSharp.Wpf
             //We maintain a manual reference to the controls screen location
             //(relative to top/left of the screen)
             browserScreenLocation = GetBrowserScreenLocation();
+        }
+
+        /// <summary>
+        /// Removes the source hook.
+        /// </summary>
+        private void RemoveSourceHook()
+        {
+            if (source != null && sourceHook != null)
+            {
+                source.RemoveHook(sourceHook);
+                source = null;
+            }
         }
 
         /// <summary>
@@ -1738,6 +1841,11 @@ namespace CefSharp.Wpf
             if (browser != null)
             {
                 browser.GetHost().WasResized();
+
+                if (_imeWin != null)
+                {
+                    _imeWin.HideWindow();
+                }
             }
         }
 
@@ -1949,6 +2057,69 @@ namespace CefSharp.Wpf
             }
         }
 
+        protected void MoveIMEWindow()
+        {
+            if (_imeWin != null && browser != null)
+            {
+                var browserWrapper = browser as CefSharpBrowserWrapper;
+                var frame = browserWrapper.MainFrame;
+
+                var task = frame.EvaluateScriptAsync(script, null);
+                task.ContinueWith(t =>
+                {
+                    if (!t.IsFaulted)
+                    {
+                        var response = t.Result;
+                        var EvaluateJavaScriptResult = response.Success ? (response.Result ?? "null") : response.Message;
+
+                        string result = EvaluateJavaScriptResult.ToString();
+                        string[] xy = result.Split(',');
+
+                        int x = 0;
+                        Int32.TryParse(xy[0], out x);
+
+                        int y = 0;
+                        Int32.TryParse(xy[1], out y);
+
+                        if (_imeWin != null)
+                        {
+                            _imeWin.MoveWindow(x, y);
+                        }
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+        }
+
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            InputMethod.SetIsInputMethodEnabled(this, true);
+            InputMethod.SetIsInputMethodSuspended(this, true);
+
+            if (_imeWin == null && browser != null && source != null)
+            {
+                _imeWin = new OsrImeWin(source.Handle, browser);
+
+                MoveIMEWindow();
+            }
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+
+            InputMethod.SetIsInputMethodEnabled(this, false);
+            InputMethod.SetIsInputMethodSuspended(this, false);
+
+            if (_imeWin != null)
+            {
+                _imeWin.Dispose();
+                _imeWin = null;
+            }
+        }
+
+
         /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.Input.Keyboard.PreviewKeyDown" /> attached event reaches an
         /// element in its route that is derived from this class. Implement this method to add class handling for this event.
@@ -2035,6 +2206,11 @@ namespace CefSharp.Wpf
             }
 
             base.OnMouseWheel(e);
+
+            if (_imeWin != null)
+            {
+                _imeWin.HideWindow();
+            }
         }
 
         /// <summary>
@@ -2049,6 +2225,27 @@ namespace CefSharp.Wpf
             OnMouseButton(e);
 
             base.OnMouseDown(e);
+
+
+            // Cannot use _imeWin.HideWindow(), since when clicking on a text, cursor appears at the end of the text.
+            // As a workaround call '_imeWin.KillFocus()' and '_imeWin.SetFocus()' (asynchronously, described bellow).
+            if (_imeWin != null && browser != null)
+            {
+                _imeWin.KillFocus();
+
+                // When user clicks on a textbox which has focus, IME window hides, but somehow last entered characters are duplicated. As a workaround call 'SetFocus()' asynchrnously via JavaScript. 
+                var browserWrapper = browser as CefSharpBrowserWrapper;
+                var frame = browserWrapper.MainFrame;
+
+                var task = frame.EvaluateScriptAsync("", null);
+                task.ContinueWith(t =>
+                {
+                    if (_imeWin != null)
+                    {
+                        _imeWin.SetFocus();
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
         }
 
         /// <summary>

@@ -336,12 +336,24 @@ void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<Compositi
     _browserHost->ImeSetComposition(StringUtils::ToNative(text), underlinesVector, CefRange(), range);
 }
 
+void CefBrowserHostWrapper::ImeSetComposition(const CefString& text, const std::vector<CefCompositionUnderline>& underlines, const CefRange& replacement_range, const CefRange& selection_range)
+{
+    ThrowIfDisposed();
+    _browserHost->ImeSetComposition(text, underlines, replacement_range, selection_range);
+}
+
 void CefBrowserHostWrapper::ImeCommitText(String^ text)
 {
     ThrowIfDisposed();
 
     //Range and cursor position are Mac OSX only
     _browserHost->ImeCommitText(StringUtils::ToNative(text), CefRange(), NULL);
+}
+
+void CefBrowserHostWrapper::ImeCommitText(const CefString& text, const CefRange& replacement_range, int relative_cursor_pos)
+{
+    ThrowIfDisposed();
+    _browserHost->ImeCommitText(text, replacement_range, relative_cursor_pos);
 }
 
 void CefBrowserHostWrapper::ImeFinishComposingText(bool keepSelection)
