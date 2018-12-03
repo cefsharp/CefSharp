@@ -646,7 +646,7 @@ namespace CefSharp.Wpf
                 DeviceScaleFactor = (float)DpiScaleFactor,
                 Rect = monitorInfo.Monitor, //TODO: Do values need to be scaled?
                 AvailableRect = monitorInfo.WorkArea //TODO: Do values need to be scaled?
-            };            
+            };
 
             return screenInfo;
         }
