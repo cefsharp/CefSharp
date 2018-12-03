@@ -646,7 +646,7 @@ namespace CefSharp.Wpf
                 DeviceScaleFactor = (float)DpiScaleFactor,
                 Rect = monitorInfo.Monitor, //TODO: Do values need to be scaled?
                 AvailableRect = monitorInfo.WorkArea //TODO: Do values need to be scaled?
-            };            
+            };
 
             return screenInfo;
         }
@@ -1030,7 +1030,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The can go back property
         /// </summary>
-        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof(bool), typeof(ChromiumWebBrowser));
+        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register(nameof(CanGoBack), typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -1050,7 +1050,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The can go forward property
         /// </summary>
-        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(ChromiumWebBrowser));
+        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register(nameof(CanGoForward), typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -1073,7 +1073,7 @@ namespace CefSharp.Wpf
         /// The address property
         /// </summary>
         public static readonly DependencyProperty AddressProperty =
-            DependencyProperty.Register("Address", typeof(string), typeof(ChromiumWebBrowser),
+            DependencyProperty.Register(nameof(Address), typeof(string), typeof(ChromiumWebBrowser),
                                         new UIPropertyMetadata(null, OnAddressChanged));
 
         /// <summary>
@@ -1124,7 +1124,7 @@ namespace CefSharp.Wpf
         /// The is loading property
         /// </summary>
         public static readonly DependencyProperty IsLoadingProperty =
-            DependencyProperty.Register("IsLoading", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false));
 
         #endregion IsLoading dependency property
 
@@ -1145,7 +1145,7 @@ namespace CefSharp.Wpf
         /// The is browser initialized property
         /// </summary>
         public static readonly DependencyProperty IsBrowserInitializedProperty =
-            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
+            DependencyProperty.Register(nameof(IsBrowserInitialized), typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
 
         /// <summary>
         /// Event called after the underlying CEF browser instance has been created. 
@@ -1217,7 +1217,7 @@ namespace CefSharp.Wpf
         /// The title property
         /// </summary>
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTitleChanged));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTitleChanged));
 
         /// <summary>
         /// Event handler that will get called when the browser title changes
@@ -1255,7 +1255,7 @@ namespace CefSharp.Wpf
         /// The zoom level property
         /// </summary>
         public static readonly DependencyProperty ZoomLevelProperty =
-            DependencyProperty.Register("ZoomLevel", typeof(double), typeof(ChromiumWebBrowser),
+            DependencyProperty.Register(nameof(ZoomLevel), typeof(double), typeof(ChromiumWebBrowser),
                                         new UIPropertyMetadata(0d, OnZoomLevelChanged));
 
         /// <summary>
@@ -1301,7 +1301,7 @@ namespace CefSharp.Wpf
         /// The zoom level increment property
         /// </summary>
         public static readonly DependencyProperty ZoomLevelIncrementProperty =
-            DependencyProperty.Register("ZoomLevelIncrement", typeof(double), typeof(ChromiumWebBrowser), new PropertyMetadata(0.10));
+            DependencyProperty.Register(nameof(ZoomLevelIncrement), typeof(double), typeof(ChromiumWebBrowser), new PropertyMetadata(0.10));
 
         #endregion ZoomLevelIncrement dependency property
 
@@ -1325,7 +1325,7 @@ namespace CefSharp.Wpf
         /// The cleanup element property
         /// </summary>
         public static readonly DependencyProperty CleanupElementProperty =
-            DependencyProperty.Register("CleanupElement", typeof(FrameworkElement), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnCleanupElementChanged));
+            DependencyProperty.Register(nameof(CleanupElement), typeof(FrameworkElement), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnCleanupElementChanged));
 
         /// <summary>
         /// Handles the <see cref="E:CleanupElementChanged" /> event.
@@ -1387,7 +1387,7 @@ namespace CefSharp.Wpf
         /// The tooltip text property
         /// </summary>
         public static readonly DependencyProperty TooltipTextProperty =
-            DependencyProperty.Register("TooltipText", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, (sender, e) => ((ChromiumWebBrowser)sender).OnTooltipTextChanged()));
+            DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, (sender, e) => ((ChromiumWebBrowser)sender).OnTooltipTextChanged()));
 
         /// <summary>
         /// Called when [tooltip text changed].
@@ -1433,7 +1433,7 @@ namespace CefSharp.Wpf
         /// The WebBrowser property
         /// </summary>
         public static readonly DependencyProperty WebBrowserProperty =
-            DependencyProperty.Register("WebBrowser", typeof(IWebBrowser), typeof(ChromiumWebBrowser), new UIPropertyMetadata(defaultValue: null));
+            DependencyProperty.Register(nameof(WebBrowser), typeof(IWebBrowser), typeof(ChromiumWebBrowser), new UIPropertyMetadata(defaultValue: null));
 
         #endregion WebBrowser dependency property
 
