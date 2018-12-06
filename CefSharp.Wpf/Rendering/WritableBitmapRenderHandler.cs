@@ -29,7 +29,7 @@ namespace CefSharp.Wpf.Rendering
         /// <summary>
         /// The pixel format
         /// </summary>
-        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
+        private static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
         private static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
 
         private object lockObject = new object();
