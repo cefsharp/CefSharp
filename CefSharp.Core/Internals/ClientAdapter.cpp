@@ -1250,32 +1250,52 @@ namespace CefSharp
             }
             else if (name == kOnContextCreatedRequest)
             {
-                _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
+                auto frame = browser->GetFrame(GetInt64(argList, 0));
 
-                auto handler = _browserControl->RenderProcessMessageHandler;
-
-                if (handler != nullptr)
+                //In certain circumstances the frame has already been destroyed by the time
+                //we get here, only continue if we have a valid frame reference
+                if (frame.get())
                 {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    if (frame->IsMain())
+                    {
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
+                    }
 
-                    handler->OnContextCreated(_browserControl, browserWrapper, %frameWrapper);
+                    auto handler = _browserControl->RenderProcessMessageHandler;
+
+                    if (handler != nullptr)
+                    {
+                        auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                        CefFrameWrapper frameWrapper(frame);
+
+                        handler->OnContextCreated(_browserControl, browserWrapper, %frameWrapper);
+                    }
                 }
 
                 handled = true;
             }
             else if (name == kOnContextReleasedRequest)
             {
-                _browserControl->SetCanExecuteJavascriptOnMainFrame(false);
+                auto frame = browser->GetFrame(GetInt64(argList, 0));
 
-                auto handler = _browserControl->RenderProcessMessageHandler;
-
-                if (handler != nullptr)
+                //In certain circumstances the frame has already been destroyed by the time
+                //we get here, only continue if we have a valid frame reference
+                if (frame.get())
                 {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    if (frame->IsMain())
+                    {
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(false);
+                    }
 
-                    handler->OnContextReleased(_browserControl, browserWrapper, %frameWrapper);
+                    auto handler = _browserControl->RenderProcessMessageHandler;
+
+                    if (handler != nullptr)
+                    {
+                        auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                        CefFrameWrapper frameWrapper(frame);
+
+                        handler->OnContextReleased(_browserControl, browserWrapper, %frameWrapper);
+                    }
                 }
 
                 handled = true;

@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Example;
+using CefSharp.Example.Handlers;
+using CefSharp.Example.JavascriptBinding;
 using CefSharp.WinForms.Example.Handlers;
 using CefSharp.WinForms.Internals;
 

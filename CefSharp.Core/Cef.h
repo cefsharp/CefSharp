@@ -172,6 +172,10 @@ namespace CefSharp
             {
                 DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
             }
+            else if (!File::Exists(cefSettings->BrowserSubprocessPath))
+            {
+                throw gcnew FileNotFoundException("CefSettings BrowserSubprocessPath not found.", cefSettings->BrowserSubprocessPath);
+            }
 
             if (CefSharpSettings::Proxy != nullptr && !cefSettings->CommandLineArgsDisabled)
             {

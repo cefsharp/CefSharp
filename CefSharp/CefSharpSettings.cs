@@ -19,6 +19,7 @@ namespace CefSharp
             ShutdownOnExit = true;
             LegacyJavascriptBindingEnabled = false;
             WcfTimeout = TimeSpan.FromSeconds(2);
+            SubprocessExitIfParentProcessClosed = true;
         }
 
         /// <summary>

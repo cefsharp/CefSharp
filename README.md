@@ -9,7 +9,9 @@ Got a quick question? Jump on [![Gitter](https://badges.gitter.im/Join%20Chat.sv
 
 [CefSharp](http://cefsharp.github.io/) lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the [Chromium Embedded Framework (CEF)](https://bitbucket.org/chromiumembedded/cef) by Marshall A. Greenblatt. About 30% of the bindings are written in C++/CLI with the majority of code here is C#. It can be used from C# or VB, or any other CLR language. CefSharp provides both WPF and WinForms web browser control implementations.
 
-CefSharp is [BSD](http://opensource.org/licenses/BSD-3-Clause "BSD License") licensed, so it can be used in both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file.
+CefSharp is [BSD](http://opensource.org/licenses/BSD-3-Clause "BSD License") licensed, so it can be used in both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file. 
+
+If you like and use CefSharp please consider signing up for a small monthly donation, even $25 can help tremendously. See [Financial Support](#Financial-Support) for more details.
 
 ## Releases
 
@@ -73,8 +75,9 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 | Branch                                                               | CEF Version | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|------|-------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                      | 3497 | 2015 | 4.5.2 | Development     |
-| [cefsharp/67](https://github.com/cefsharp/CefSharp/tree/cefsharp/67) | 3396 | 2015 | 4.5.2 | **Release**     |
+| [master](https://github.com/cefsharp/CefSharp/)                      | 3538 | 2015 | 4.5.2 | Development     |
+| [cefsharp/69](https://github.com/cefsharp/CefSharp/tree/cefsharp/69) | 3497 | 2015 | 4.5.2 | **Release**     |
+| [cefsharp/67](https://github.com/cefsharp/CefSharp/tree/cefsharp/67) | 3396 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/65](https://github.com/cefsharp/CefSharp/tree/cefsharp/65) | 3325 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/63](https://github.com/cefsharp/CefSharp/tree/cefsharp/63) | 3239 | 2013 | 4.5.2 | Unsupported     |
 | [cefsharp/62](https://github.com/cefsharp/CefSharp/tree/cefsharp/62) | 3202 | 2013 | 4.5.2 | Unsupported     |
@@ -97,7 +100,7 @@ To continue developing/supporting the project I (@amaitland) am asking for finan
 
 `67.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=61407775)](https://www.bountysource.com/issues/61407775-funding-request-release-67-0-0?utm_source=61407775&utm_medium=shield&utm_campaign=ISSUE_BADGE)
 
-Recurring contributions can be made through [BountySource Salt](https://salt.bountysource.com/) or contact me if you'd like to donate through `Paypal`.
+Recurring contributions can be made through [BountySource Salt](https://salt.bountysource.com/teams/cefsharp) or contact me if you'd like to donate through `Paypal`.
 
 Now that I (@amaitland) am a stay at home dad your contributions are the only reason I'm allowed to continue working on the project. Without continued funding the time I currently spend on the project will have to be put into finding other paid work.
 

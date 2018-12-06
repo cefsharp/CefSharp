@@ -70,9 +70,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsyncBoundObject.cs" />
-    <Compile Include="BoundObject.cs" />
-    <Compile Include="CallbackResponseStruct.cs" />
+    <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
+    <Compile Include="JavascriptBinding\BoundObject.cs" />
+    <Compile Include="JavascriptBinding\CallbackResponseStruct.cs" />
     <Compile Include="Filters\AppendResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceMultiResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceResponseFilter.cs" />
@@ -83,8 +83,8 @@
     <Compile Include="Filters\PassThruResponseFilter.cs" />
     <Compile Include="Handlers\BrowserProcessHandler.cs" />
     <Compile Include="InMemorySchemeAndResourceHandlerFactory.cs" />
-    <Compile Include="JsSerializableClass.cs" />
-    <Compile Include="JsSerializableStruct.cs" />
+    <Compile Include="JavascriptBinding\JsSerializableClass.cs" />
+    <Compile Include="JavascriptBinding\JsSerializableStruct.cs" />
     <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
     <Compile Include="RequestEventHandler\EventArgs\BaseRequestEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\CanSetCookieEventArg.cs" />
@@ -105,19 +105,19 @@
     <Compile Include="RequestEventHandler\EventArgs\OnResourceResponseEventArgs.cs" />
     <Compile Include="RequestEventHandler\RequestEventHandler.cs" />
     <Compile Include="ScriptedMethodsBoundObject.cs" />
-    <Compile Include="ExceptionTestBoundObject.cs" />
-    <Compile Include="JsDialogHandler.cs" />
+    <Compile Include="JavascriptBinding\ExceptionTestBoundObject.cs" />
+    <Compile Include="Handlers\JsDialogHandler.cs" />
     <Compile Include="Proxy\InternetOpenType.cs" />
     <Compile Include="Proxy\InternetProxyInfo.cs" />
     <Compile Include="Proxy\ProxyConfig.cs" />
-    <Compile Include="RenderProcessMessageHandler.cs" />
+    <Compile Include="Handlers\RenderProcessMessageHandler.cs" />
     <Compile Include="ScriptedMethods.cs" />
-    <Compile Include="SimpleClass.cs" />
-    <Compile Include="SimpleSubClass.cs" />
-    <Compile Include="SubBoundObject.cs" />
-    <Compile Include="TempFileDialogHandler.cs" />
+    <Compile Include="JavascriptBinding\SimpleClass.cs" />
+    <Compile Include="JavascriptBinding\SimpleSubClass.cs" />
+    <Compile Include="JavascriptBinding\SubBoundObject.cs" />
+    <Compile Include="Handlers\TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
-    <Compile Include="DownloadHandler.cs" />
+    <Compile Include="Handlers\DownloadHandler.cs" />
     <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
