@@ -321,7 +321,7 @@ namespace CefSharp.WinForms
         /// and should only be required when using <see cref="CefSettings.MultiThreadedMessageLoop"/>
         /// set to true.
         /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(true)]
         public bool UseParentFormMessageInterceptor { get; set; } = true;
 
         /// <summary>
