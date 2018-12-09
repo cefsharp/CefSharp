@@ -321,7 +321,7 @@ namespace CefSharp.WinForms
         /// and should only be required when using <see cref="CefSettings.MultiThreadedMessageLoop"/>
         /// set to true.
         /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(true)]
         public bool UseParentFormMessageInterceptor { get; set; } = true;
 
         /// <summary>
@@ -585,6 +585,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// The javascript object repository, one repository per ChromiumWebBrowser instance.
         /// </summary>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
             get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
