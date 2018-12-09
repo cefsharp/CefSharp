@@ -571,49 +571,7 @@ namespace CefSharp
             CefFrameWrapper frameWrapper(frame);
             CefRequestWrapper requestWrapper(request);
 
-            auto cookie = gcnew Cookie();
-            auto cookieName = StringUtils::ToClr(cefCookie.name);
-
-            //TODO: This code is duplicated in ResourceHandlerWrapper
-            if (!String::IsNullOrEmpty(cookieName))
-            {
-                cookie->Name = StringUtils::ToClr(cefCookie.name);
-                cookie->Value = StringUtils::ToClr(cefCookie.value);
-                cookie->Domain = StringUtils::ToClr(cefCookie.domain);
-                cookie->Path = StringUtils::ToClr(cefCookie.path);
-                cookie->Secure = cefCookie.secure == 1;
-                cookie->HttpOnly = cefCookie.httponly == 1;
-
-                if (cefCookie.has_expires)
-                {
-                    auto expires = cefCookie.expires;
-                    cookie->Expires = DateTimeUtils::FromCefTime(expires.year,
-                        expires.month,
-                        expires.day_of_month,
-                        expires.hour,
-                        expires.minute,
-                        expires.second,
-                        expires.millisecond);
-                }
-
-                auto creation = cefCookie.creation;
-                cookie->Creation = DateTimeUtils::FromCefTime(creation.year,
-                    creation.month,
-                    creation.day_of_month,
-                    creation.hour,
-                    creation.minute,
-                    creation.second,
-                    creation.millisecond);
-
-                auto lastAccess = cefCookie.last_access;
-                cookie->LastAccess = DateTimeUtils::FromCefTime(lastAccess.year,
-                    lastAccess.month,
-                    lastAccess.day_of_month,
-                    lastAccess.hour,
-                    lastAccess.minute,
-                    lastAccess.second,
-                    lastAccess.millisecond);
-            }
+            auto cookie = TypeConversion::FromNative(cefCookie);
 
             return handler->CanSetCookie(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, cookie);
         }
