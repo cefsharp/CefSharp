@@ -78,6 +78,7 @@
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
     <TargetName>CefSharp.Core</TargetName>
+    <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
@@ -89,6 +90,7 @@
     <TargetName>CefSharp.Core</TargetName>
     <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
@@ -99,6 +101,7 @@
     <TargetName>CefSharp.Core</TargetName>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -109,6 +112,7 @@
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
     <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
