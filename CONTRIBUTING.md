@@ -86,7 +86,7 @@ Pull requests are **awesome**. If you're looking to raise a `PR` for something w
 
   > Run tests in the default appdomain
   > 
-  > Due to limitations of VC++ we must run our tests in the default appdomain, it's possible to use xunit for testing. Readd CefSharp.Test.csproj to solution Add some very basic unit tests using xunit, DisableTestParallelization, Set xunit.appDomain to denied in app.config to disable using appdomains (https://xunit.github.io/docs/configuring-with-xml.html) Add xunit vs test running packages, using 2.2.0 version as 2.3.0 was throwing an exception similar to https://github.com/xunit/xunit/issues/1514 TODO: Take a look at https://github.com/NuGet/NuGetGallery/tree/master/tests/NuGetGallery.Facts for some ideas on structuring xunit tests (look at implementing Theory)
+  > Due to limitations of VC++ we must run our tests in the default appdomain, it's possible to use xunit for testing. Re-add CefSharp.Test.csproj to solution Add some very basic unit tests using xunit, DisableTestParallelization, Set xunit.appDomain to denied in app.config to disable using appdomains (https://xunit.github.io/docs/configuring-with-xml.html) Add xunit vs test running packages, using 2.2.0 version as 2.3.0 was throwing an exception similar to https://github.com/xunit/xunit/issues/1514 TODO: Take a look at https://github.com/NuGet/NuGetGallery/tree/master/tests/NuGetGallery.Facts for some ideas on structuring xunit tests (look at implementing Theory)
 
 ### Coding Style
 - **Please** follow existing coding style when submitting pull requests.
