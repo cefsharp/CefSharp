@@ -29,7 +29,7 @@ namespace CefSharp.Internals
         /// </summary>
         /// <returns>Return a ViewRect strict containing the rectangle or null. If the rectangle is
         /// still empty or invalid popups may not be drawn correctly. </returns>
-        Rect? GetViewRect();
+        Rect GetViewRect();
 
         /// <summary>
         /// Called to retrieve the translation from view coordinates to actual screen coordinates. 

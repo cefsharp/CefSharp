@@ -83,7 +83,7 @@ namespace CefSharp.OffScreen
             return screenInfo;
         }
 
-        public virtual Rect? GetViewRect()
+        public virtual Rect GetViewRect()
         {
             //TODO: See if this can be refactored and remove browser reference
             var size = browser.Size;

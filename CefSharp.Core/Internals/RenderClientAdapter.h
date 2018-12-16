@@ -91,23 +91,18 @@ namespace CefSharp
             }
 
             // CefRenderHandler
-            virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
+            virtual DECL void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
             {
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
-                    return false;
+                    rect = CefRect(0, 0, 0, 0);
                 }
-
-                auto viewRect = _renderWebBrowser->GetViewRect();
-
-                if (viewRect.HasValue == false)
+                else
                 {
-                    return false;
+                    auto viewRect = _renderWebBrowser->GetViewRect();
+
+                    rect = CefRect(viewRect.X, viewRect.Y, viewRect.Width, viewRect.Height);
                 }
-
-                rect = CefRect(viewRect.Value.X, viewRect.Value.Y, viewRect.Value.Width, viewRect.Value.Height);
-
-                return true;
             };
 
             ///

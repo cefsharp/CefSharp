@@ -23,11 +23,11 @@ namespace CefSharp.OffScreen
         ScreenInfo? GetScreenInfo();
 
         /// <summary>
-        /// Called to retrieve the view rectangle which is relative to screen coordinates. 
+        /// Called to retrieve the view rectangle which is relative to screen coordinates.
+        /// This method must always provide a non-empty rectangle.
         /// </summary>
-        /// <returns>Return a ViewRect strict containing the rectangle or null. If the rectangle is
-        /// still empty or invalid popups may not be drawn correctly. </returns>
-        Rect? GetViewRect();
+        /// <returns>Return a ViewRect strict containing the rectangle.</returns>
+        Rect GetViewRect();
 
         /// <summary>
         /// Called to retrieve the translation from view coordinates to actual screen coordinates. 
