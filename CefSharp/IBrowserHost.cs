@@ -213,6 +213,12 @@ namespace CefSharp
         IRequestContext RequestContext { get; }
 
         /// <summary>
+        /// Issue a BeginFrame request to Chromium.
+        /// Only valid when <see cref="IWindowInfo.ExternalBeginFrameEnabled"/> is set to true.
+        /// </summary>
+        void SendExternalBeginFrame();
+
+        /// <summary>
         /// Send a capture lost event to the browser.
         /// </summary>
         void SendCaptureLostEvent();

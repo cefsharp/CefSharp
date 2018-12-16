@@ -299,7 +299,7 @@ namespace CefSharp.OffScreen
 
             if (automaticallyCreateBrowser)
             {
-                CreateBrowser(IntPtr.Zero, browserSettings);
+                CreateBrowser(null, browserSettings);
             }
 
             RenderHandler = new DefaultRenderHandler(this);
@@ -366,10 +366,10 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Create the underlying browser. The instance address, browser settings and request context will be used.
         /// </summary>
-        /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
+        /// <param name="windowInfo">Window information used when creating the browser</param>
         /// <param name="browserSettings">Browser initialization settings</param>
         /// <exception cref="System.Exception">An instance of the underlying offscreen browser has already been created, this method can only be called once.</exception>
-        public void CreateBrowser(IntPtr windowHandle, BrowserSettings browserSettings = null)
+        public void CreateBrowser(IWindowInfo windowInfo = null, BrowserSettings browserSettings = null)
         {
             if (browserCreated)
             {
@@ -383,10 +383,16 @@ namespace CefSharp.OffScreen
                 browserSettings = new BrowserSettings();
             }
 
+            if (windowInfo == null)
+            {
+                windowInfo = new WindowInfo();
+                windowInfo.SetAsWindowless(IntPtr.Zero);
+            }
+
             //Dispose of browser settings after we've created the browser
             using (browserSettings)
             {
-                managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, browserSettings, (RequestContext)RequestContext, Address);
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
             }
         }
 
@@ -659,7 +665,7 @@ namespace CefSharp.OffScreen
         /// <returns>ViewRect.</returns>
         protected virtual Rect GetViewRect()
         {
-            if(RenderHandler == null)
+            if (RenderHandler == null)
             {
                 return new Rect(0, 0, 640, 480);
             }
@@ -694,6 +700,18 @@ namespace CefSharp.OffScreen
             screenY = 0;
 
             return RenderHandler?.GetScreenPoint(viewX, viewY, out screenX, out screenY) ?? false;
+        }
+
+        /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        void IRenderWebBrowser.OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            RenderHandler?.OnAcceleratedPaint(type, dirtyRect, sharedHandle);
         }
 
         /// <summary>

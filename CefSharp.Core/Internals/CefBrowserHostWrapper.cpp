@@ -511,6 +511,13 @@ IntPtr CefBrowserHostWrapper::GetOpenerWindowHandle()
     return IntPtr(_browserHost->GetOpenerWindowHandle());
 }
 
+void CefBrowserHostWrapper::SendExternalBeginFrame()
+{
+    ThrowIfDisposed();
+
+    _browserHost->SendExternalBeginFrame();
+}
+
 void CefBrowserHostWrapper::SendCaptureLostEvent()
 {
     ThrowIfDisposed();

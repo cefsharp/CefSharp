@@ -127,6 +127,8 @@ namespace CefSharp
 
             virtual IntPtr GetOpenerWindowHandle();
 
+            virtual void SendExternalBeginFrame();
+
             virtual void SendCaptureLostEvent();
 
             virtual property IRequestContext^ RequestContext

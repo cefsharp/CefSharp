@@ -113,8 +113,7 @@ namespace CefSharp
         }
 
         virtual void OnAfterBrowserCreated(IBrowser^ browser);
-        void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
-        void CreateBrowser(BrowserSettings^ browserSettings, RequestContext^ requestContext, IntPtr sourceHandle, String^ address);
+        void CreateBrowser(IWindowInfo^ windowInfo, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
         virtual void Resize(int width, int height);
 
         virtual IBrowser^ GetBrowser(int browserId);

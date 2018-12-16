@@ -621,8 +621,11 @@ namespace CefSharp.WinForms
             {
                 if (IsBrowserInitialized == false || browser == null)
                 {
+                    var windowInfo = new WindowInfo();
+                    windowInfo.SetAsChild(Handle);
+
                     //TODO: Revert temp workaround for default url not loading
-                    managedCefBrowserAdapter.CreateBrowser(BrowserSettings, (RequestContext)RequestContext, Handle, null);
+                    managedCefBrowserAdapter.CreateBrowser(windowInfo, BrowserSettings, (RequestContext)RequestContext, null);
                 }
                 else
                 {
