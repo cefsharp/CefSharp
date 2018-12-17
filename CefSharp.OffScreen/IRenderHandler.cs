@@ -62,7 +62,7 @@ namespace CefSharp.OffScreen
         void OnPaint(PaintElementType type, Rect dirtyRect, IntPtr buffer, int width, int height);
 
         /// <summary>
-        /// Called when the browser's cursor has changed. . 
+        /// Called when the browser's cursor has changed.
         /// </summary>
         /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
         /// <param name="type">cursor type</param>
@@ -71,16 +71,15 @@ namespace CefSharp.OffScreen
 
         /// <summary>
         /// Called when the user starts dragging content in the web view. Contextual information about the dragged content is
-        /// supplied by dragData. (|x|, |y|) is the drag start location in screen coordinates. OS APIs that run a system message
-        /// loop may be used within the StartDragging call. Return false to abort the drag operation. Don't call any of
-        /// CefBrowserHost::DragSource*Ended* methods after returning false. Return true to handle the drag operation.
-        /// Call IBrowserHost::DragSourceEndedAt and DragSourceSystemDragEnded either synchronously or asynchronously to inform
+        /// supplied by dragData. OS APIs that run a system message loop may be used within the StartDragging call.
+        /// Don't call any of the IBrowserHost.DragSource*Ended* methods after returning false.
+        /// Return true to handle the drag operation. Call <see cref="IBrowserHost.DragSourceEndedAt"/> and <see cref="IBrowserHost.DragSourceSystemDragEnded"/> either synchronously or asynchronously to inform
         /// the web view that the drag operation has ended. 
         /// </summary>
         /// <param name="dragData">drag data</param>
         /// <param name="mask">operation mask</param>
-        /// <param name="x">x coordinate</param>
-        /// <param name="y">y coordinate</param>
+        /// <param name="x">combined x and y provide the drag start location in screen coordinates</param>
+        /// <param name="y">combined x and y provide the drag start location in screen coordinates</param>
         /// <returns>Return false to abort the drag operation.</returns>
         bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y);
 
