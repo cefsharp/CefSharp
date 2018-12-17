@@ -253,10 +253,7 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Fired on the CEF UI thread, which by default is not the same as your application main thread.
         /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates
-        /// based on the value of ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. |type| indicates whether the element
-        /// is the view or the popup widget. |buffer| contains the pixel data for the whole image. |dirtyRects| contains the set
-        /// of rectangles in pixel coordinates that need to be repainted. |buffer| will be |width|*|height|*4 bytes in size and
-        /// represents a BGRA image with an upper-left origin. 
+        /// based on the value of ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. 
         /// </summary>
         public event EventHandler<OnPaintEventArgs> Paint;
 
@@ -736,22 +733,8 @@ namespace CefSharp.OffScreen
 
             if (!handled)
             {
-                OnPaint(type, dirtyRect, buffer, width, height);
+                RenderHandler?.OnPaint(type, dirtyRect, buffer, width, height);
             }
-        }
-
-        /// <summary>
-        /// Called when an element should be painted. (Invoked from CefRenderHandler.OnPaint)
-        /// </summary>
-        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
-        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
-        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
-        protected virtual void OnPaint(PaintElementType type, Rect dirtyRect, IntPtr buffer, int width, int height)
-        {
-            RenderHandler?.OnPaint(type, dirtyRect, buffer, width, height);
         }
 
         /// <summary>
@@ -761,18 +744,6 @@ namespace CefSharp.OffScreen
         /// <param name="type">cursor type</param>
         /// <param name="customCursorInfo">custom cursor Information</param>
         void IRenderWebBrowser.OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
-        {
-            OnCursorChange(cursor, type, customCursorInfo);
-        }
-
-        /// <summary>
-        /// Called when the browser's cursor has changed. . 
-        /// </summary>
-        /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
-        /// <param name="type">cursor type</param>
-        /// <param name="customCursorInfo">custom cursor Information</param>
-        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
-        protected virtual void OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
             RenderHandler?.OnCursorChange(cursor, type, customCursorInfo);
         }
@@ -787,30 +758,10 @@ namespace CefSharp.OffScreen
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
         {
-            return StartDragging(dragData, mask, x, y);
-        }
-
-        /// <summary>
-        /// Starts dragging.
-        /// </summary>
-        /// <param name="dragData">The drag data.</param>
-        /// <param name="mask">The mask.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
-        protected virtual bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
-        {
             return RenderHandler?.StartDragging(dragData, mask, x, y) ?? false;
         }
 
         void IRenderWebBrowser.UpdateDragCursor(DragOperationsMask operation)
-        {
-            UpdateDragCursor(operation);
-        }
-
-        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
-        protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
             RenderHandler?.UpdateDragCursor(operation);
         }
@@ -821,12 +772,6 @@ namespace CefSharp.OffScreen
         /// <param name="show">if set to <c>true</c> [show].</param>
         void IRenderWebBrowser.OnPopupShow(bool show)
         {
-            OnPopupShow(show);
-        }
-
-        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
-        protected virtual void OnPopupShow(bool show)
-        {
             RenderHandler?.OnPopupShow(show);
         }
 
@@ -836,26 +781,10 @@ namespace CefSharp.OffScreen
         /// <param name="rect">contains the new location and size in view coordinates. </param>
         void IRenderWebBrowser.OnPopupSize(Rect rect)
         {
-            OnPopupSize(rect);
-        }
-
-        /// <summary>
-        /// Called when the browser wants to move or resize the popup widget. 
-        /// </summary>
-        /// <param name="rect">contains the new location and size in view coordinates. </param>
-        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
-        protected virtual void OnPopupSize(Rect rect)
-        {
             RenderHandler?.OnPopupSize(rect);
         }
 
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
-        {
-            OnImeCompositionRangeChanged(selectedRange, characterBounds);
-        }
-
-        [Obsolete("This method will be removed, implement IRenderHandler and assign browser.RenderHandler")]
-        protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
             RenderHandler?.OnImeCompositionRangeChanged(selectedRange, characterBounds);
         }
