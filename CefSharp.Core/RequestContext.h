@@ -6,12 +6,15 @@
 
 #include "Stdafx.h"
 #include "include\cef_request_context.h"
+#include "include\cef_parser.h"
 
 #include "SchemeHandlerFactoryWrapper.h"
 #include "RequestContextSettings.h"
 #include "CookieManager.h"
 
 #include "Internals\CefCompletionCallbackAdapter.h"
+#include "Internals\CefExtensionWrapper.h"
+#include "Internals\CefExtensionHandlerAdapter.h"
 #include "Internals\CefRequestContextHandlerAdapter.h"
 #include "Internals\CefWrapper.h"
 #include "Internals\CefResolveCallbackAdapter.h"
@@ -424,6 +427,134 @@ namespace CefSharp
             resolvedIpAddresses = StringUtils::ToClr(addresses);
 
             return (CefErrorCode)errorCode;
+        }
+
+        /// <summary>
+        /// Returns true if this context was used to load the extension identified by extensionId. Other contexts sharing the same storage will also have access to the extension (see HasExtension).
+        /// This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <returns>Returns true if this context was used to load the extension identified by extensionId</returns>
+        virtual bool DidLoadExtension(String^ extensionId)
+        {
+            ThrowIfDisposed();
+
+            return _requestContext->DidLoadExtension(StringUtils::ToNative(extensionId));
+        }
+
+        /// <summary>
+        /// Returns the extension matching extensionId or null if no matching extension is accessible in this context (see HasExtension).
+        /// This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <param name="extensionId">extension Id</param>
+        /// <returns>Returns the extension matching extensionId or null if no matching extension is accessible in this context</returns>
+        virtual IExtension^ GetExtension(String^ extensionId)
+        {
+            ThrowIfDisposed();
+            
+            auto extension = _requestContext->GetExtension(StringUtils::ToNative(extensionId));
+
+            if (extension.get())
+            {
+                return gcnew CefExtensionWrapper(extension);
+            }
+
+            return nullptr;
+        }
+
+        /// <summary>
+        /// Retrieve the list of all extensions that this context has access to (see HasExtension).
+        /// <see cref="extensionIds"/> will be populated with the list of extension ID values.
+        /// This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <param name="extensionIds">output a list of extensions Ids</param>
+        /// <returns>returns true on success otherwise false</returns>
+        virtual bool GetExtensions([Out] IList<String^>^ %extensionIds)
+        {
+            ThrowIfDisposed();
+
+            std::vector<CefString> extensions;
+
+            auto success = _requestContext->GetExtensions(extensions);
+
+            extensionIds = StringUtils::ToClr(extensions);
+
+            return success;
+        }
+
+        /// <summary>
+        /// Returns true if this context has access to the extension identified by extensionId.
+        /// This may not be the context that was used to load the extension (see DidLoadExtension).
+        /// This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <param name="extensionId">extension id</param>
+        /// <returns>Returns true if this context has access to the extension identified by extensionId</returns>
+        virtual bool HasExtension(String^ extensionId)
+        {
+            ThrowIfDisposed();
+
+            return _requestContext->HasExtension(StringUtils::ToNative(extensionId));
+        }
+
+        /// <summary>
+        /// Load an extension. If extension resources will be read from disk using the default load implementation then rootDirectoy
+        /// should be the absolute path to the extension resources directory and manifestJson should be null.
+        /// If extension resources will be provided by the client (e.g. via IRequestHandler and/or IExtensionHandler) then rootDirectory
+        /// should be a path component unique to the extension (if not absolute this will be internally prefixed with the PK_DIR_RESOURCES path)
+        /// and manifestJson should contain the contents that would otherwise be read from the "manifest.json" file on disk.
+        /// The loaded extension will be accessible in all contexts sharing the same storage (HasExtension returns true).
+        /// However, only the context on which this method was called is considered the loader (DidLoadExtension returns true) and only the
+        /// loader will receive IRequestContextHandler callbacks for the extension. <see cref="IExtensionHandler.OnExtensionLoaded"/> will be
+        /// called on load success or <see cref="IExtensionHandler.OnExtensionLoadFailed"/> will be called on load failure.
+        /// If the extension specifies a background script via the "background" manifest key then <see cref="IExtensionHandler.OnBeforeBackgroundBrowser"/>
+        /// will be called to create the background browser. See that method for additional information about background scripts.
+        /// For visible extension views the client application should evaluate the manifest to determine the correct extension URL to load and then pass
+        /// that URL to the IBrowserHost.CreateBrowser* function after the extension has loaded. For example, the client can look for the "browser_action"
+        /// manifest key as documented at https://developer.chrome.com/extensions/browserAction. Extension URLs take the form "chrome-extension:///".
+        /// Browsers that host extensions differ from normal browsers as follows: - Can access chrome.* JavaScript APIs if allowed by the manifest.
+        /// Visit chrome://extensions-support for the list of extension APIs currently supported by CEF. - Main frame navigation to non-extension
+        /// content is blocked.
+        /// - Pinch-zooming is disabled.
+        /// - <see cref="IBrowserHost.GetExtension"/> returns the hosted extension.
+        /// - CefBrowserHost::IsBackgroundHost returns true for background hosts. See https://developer.chrome.com/extensions for extension implementation and usage documentation.
+        /// </summary>
+        /// <param name="rootDirectory">If extension resources will be read from disk using the default load implementation then rootDirectoy
+        /// should be the absolute path to the extension resources directory and manifestJson should be null</param>
+        /// <param name="manifestJson">If extension resources will be provided by the client then rootDirectory should be a path component unique to the extension
+        /// and manifestJson should contain the contents that would otherwise be read from the manifest.json file on disk</param>
+        /// <param name="handler">handle events related to browser extensions</param>
+        virtual void LoadExtension(String^ rootDirectory, String^ manifestJson, IExtensionHandler^ handler)
+        {
+            ThrowIfDisposed();
+
+            if (!CefCurrentlyOn(CefThreadId::TID_UI))
+            {
+                throw gcnew Exception("Must be called on the CEF UI Thread, use Cef.UIThreadTaskFactory.StartNew.");
+            }
+
+            CefRefPtr<CefDictionaryValue> manifest;
+
+            if (!String::IsNullOrEmpty(manifestJson))
+            {
+                cef_json_parser_error_t errorCode;
+                CefString errorMessage;
+                auto value = CefParseJSONAndReturnError(StringUtils::ToNative(manifestJson),
+                    cef_json_parser_options_t::JSON_PARSER_ALLOW_TRAILING_COMMAS,
+                    errorCode,
+                    errorMessage);
+
+                if (errorCode == cef_json_parser_error_t::JSON_NO_ERROR)
+                {
+                    manifest = value->GetDictionary();
+                }
+                else
+                {
+                    throw gcnew Exception("Unable to parse JSON ErrorCode:" + Convert::ToString((int)errorCode) + "; ErrorMessage:" + StringUtils::ToClr(errorMessage));
+                }
+            }
+
+            CefRefPtr<CefExtensionHandler> extensionHandler = handler == nullptr ? NULL : new CefExtensionHandlerAdapter(handler);
+
+            _requestContext->LoadExtension(StringUtils::ToNative(rootDirectory), manifest, extensionHandler);
         }
     };
 }

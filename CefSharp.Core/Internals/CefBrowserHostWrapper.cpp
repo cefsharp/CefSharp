@@ -182,6 +182,20 @@ void CefBrowserHostWrapper::ReplaceMisspelling(String^ word)
     _browserHost->ReplaceMisspelling(StringUtils::ToNative(word));
 }
 
+IExtension^ CefBrowserHostWrapper::Extension::get()
+{
+    ThrowIfDisposed();
+
+    auto extension = _browserHost->GetExtension();
+
+    if (extension.get())
+    {
+        return gcnew CefExtensionWrapper(_browserHost->GetExtension());
+    }
+
+    return nullptr;
+}
+
 void CefBrowserHostWrapper::Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)
 {
     ThrowIfDisposed();
@@ -305,6 +319,13 @@ void CefBrowserHostWrapper::Invalidate(PaintElementType type)
     ThrowIfDisposed();
 
     _browserHost->Invalidate((CefBrowserHost::PaintElementType)type);
+}
+
+bool CefBrowserHostWrapper::IsBackgroundHost::get()
+{
+    ThrowIfDisposed();
+
+    return _browserHost->IsBackgroundHost();
 }
 
 void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> selectionRange)
