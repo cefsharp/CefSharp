@@ -83,8 +83,8 @@ namespace CefSharp
 
             virtual void Invalidate(PaintElementType type);
 
-            virtual void ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> selectionRange);
-            virtual void ImeCommitText(String^ text);
+            virtual void ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> replacementRange, Nullable<Range> selectionRange);
+            virtual void ImeCommitText(String^ text, Nullable<Range> replacementRange, int relativeCursorPos);
             virtual void ImeFinishComposingText(bool keepSelection);
             virtual void ImeCancelComposition();
 

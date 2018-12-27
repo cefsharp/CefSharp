@@ -307,12 +307,13 @@ void CefBrowserHostWrapper::Invalidate(PaintElementType type)
     _browserHost->Invalidate((CefBrowserHost::PaintElementType)type);
 }
 
-void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> selectionRange)
+void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> replacementRange, Nullable<Range> selectionRange)
 {
     ThrowIfDisposed();
 
     std::vector<CefCompositionUnderline> underlinesVector = std::vector<CefCompositionUnderline>();
-    CefRange range;
+    CefRange repRange;
+    CefRange selRange;
 
     if (underlines != nullptr && underlines->Length > 0)
     {
@@ -327,21 +328,31 @@ void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<Compositi
         }
     }
 
-    if (selectionRange.HasValue)
+    if (replacementRange.HasValue)
     {
-        range = CefRange(selectionRange.Value.From, selectionRange.Value.To);
+        repRange = CefRange(replacementRange.Value.From, replacementRange.Value.To);
     }
 
-    //Replacement Range is Mac OSX only
-    _browserHost->ImeSetComposition(StringUtils::ToNative(text), underlinesVector, CefRange(), range);
+    if (selectionRange.HasValue)
+    {
+        selRange = CefRange(selectionRange.Value.From, selectionRange.Value.To);
+    }
+
+    _browserHost->ImeSetComposition(StringUtils::ToNative(text), underlinesVector, repRange, selRange);
 }
 
-void CefBrowserHostWrapper::ImeCommitText(String^ text)
+void CefBrowserHostWrapper::ImeCommitText(String^ text, Nullable<Range> replacementRange, int relativeCursorPos)
 {
     ThrowIfDisposed();
 
-    //Range and cursor position are Mac OSX only
-    _browserHost->ImeCommitText(StringUtils::ToNative(text), CefRange(), NULL);
+    CefRange repRange;
+
+    if (replacementRange.HasValue)
+    {
+        repRange = CefRange(replacementRange.Value.From, replacementRange.Value.To);
+    }
+
+    _browserHost->ImeCommitText(StringUtils::ToNative(text), repRange, relativeCursorPos);
 }
 
 void CefBrowserHostWrapper::ImeFinishComposingText(bool keepSelection)
