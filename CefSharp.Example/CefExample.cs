@@ -176,7 +176,7 @@ namespace CefSharp.Example
                                                                     defaultPage: "home.html") //Optional param will default to index.html
             });
 
-            settings.RegisterExtension(new CefExtension("cefsharp/example", Resources.extension));
+            settings.RegisterExtension(new V8Extension("cefsharp/example", Resources.extension));
 
             //This must be set before Cef.Initialized is called
             CefSharpSettings.FocusedNodeChangedEnabled = true;

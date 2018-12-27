@@ -111,7 +111,7 @@
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\DateTimeUtils.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
-    <Compile Include="CefExtension.cs" />
+    <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="JavascriptException.cs" />
