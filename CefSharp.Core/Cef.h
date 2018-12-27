@@ -32,7 +32,7 @@ namespace CefSharp
 {
     public ref class Cef sealed
     {
-        #define ThrowIfCefNotInitialized() if (!_initialized) throw gcnew Exception(__FUNCTION__ + " requires that CefRequestContext be initialized first. The earlier possible place to execute " + __FUNCTION__ + " is in IBrowserProcessHandler.OnContextInitialized. Alternative use the ChromiumWebBrowser BrowserInitialized (OffScren) or IsBrowserInitializedChanged (WinForms/WPF) events.");
+        #define ThrowIfCefNotInitialized() if (!_initialized) throw gcnew Exception(__FUNCTION__ + " requires that CefRequestContext be initialized first. The earlier possible place to execute " + __FUNCTION__ + " is in IBrowserProcessHandler.OnContextInitialized. Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.");
 
     private:
         static Object^ _sync;
