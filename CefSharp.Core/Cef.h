@@ -32,6 +32,8 @@ namespace CefSharp
 {
     public ref class Cef sealed
     {
+        #define InitializedCheck() if (!_initialized) throw gcnew Exception(__FUNCTION__ + " requires that CEF has been initialized first.")
+
     private:
         static Object^ _sync;
 
@@ -370,6 +372,8 @@ namespace CefSharp
         /// <returns>A the global cookie manager</returns>
         static ICookieManager^ GetGlobalCookieManager()
         {
+            InitializedCheck();
+
             auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
             if (cookieManager.get())
             {
@@ -389,6 +393,8 @@ namespace CefSharp
         /// <returns>A blocking cookie manager</returns>
         static ICookieManager^ GetBlockingCookieManager()
         {
+            InitializedCheck();
+
             auto cookieManager = CefCookieManager::GetBlockingManager();
             if (cookieManager.get())
             {
@@ -500,6 +506,8 @@ namespace CefSharp
         /// <returns>Returns List of <see cref="Plugin"/> structs.</returns>
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
+            InitializedCheck();
+
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
 
@@ -550,6 +558,8 @@ namespace CefSharp
         /// <returns>Returns the global request context or null.</returns>
         static IRequestContext^ GetGlobalRequestContext()
         {
+            InitializedCheck();
+
             auto context = CefRequestContext::GetGlobalContext();
 
             if (context.get())
