@@ -32,7 +32,7 @@ namespace CefSharp
 {
     public ref class Cef sealed
     {
-        #define InitializedCheck() if (!_initialized) throw gcnew Exception(__FUNCTION__ + " requires that CEF has been initialized first.")
+        #define ThrowIfCefNotInitialized() if (!_initialized) throw gcnew Exception(__FUNCTION__ + " requires that CefRequestContext be initialized first. The earlier possible place to execute " + __FUNCTION__ + " is in IBrowserProcessHandler.OnContextInitialized. Alternative use the ChromiumWebBrowser BrowserInitialized (OffScren) or IsBrowserInitializedChanged (WinForms/WPF) events.");
 
     private:
         static Object^ _sync;
@@ -257,7 +257,6 @@ namespace CefSharp
             CefDoMessageLoopWork();
         }
 
-
         /// <summary>
         /// This function should be called from the application entry point function to execute a secondary process.
         /// It can be used to run secondary processes from the browser client executable (default behavior) or
@@ -325,6 +324,8 @@ namespace CefSharp
             String^ targetDomain,
             bool allowTargetSubdomains)
         {
+            ThrowIfCefNotInitialized();
+
             return CefAddCrossOriginWhitelistEntry(
                 StringUtils::ToNative(sourceOrigin),
                 StringUtils::ToNative(targetProtocol),
@@ -349,6 +350,8 @@ namespace CefSharp
             bool allowTargetSubdomains)
 
         {
+            ThrowIfCefNotInitialized();
+
             return CefRemoveCrossOriginWhitelistEntry(
                 StringUtils::ToNative(sourceOrigin),
                 StringUtils::ToNative(targetProtocol),
@@ -363,6 +366,8 @@ namespace CefSharp
         /// </remarks>
         static bool ClearCrossOriginWhitelist()
         {
+            ThrowIfCefNotInitialized();
+
             return CefClearCrossOriginWhitelist();
         }
 
@@ -372,7 +377,7 @@ namespace CefSharp
         /// <returns>A the global cookie manager</returns>
         static ICookieManager^ GetGlobalCookieManager()
         {
-            InitializedCheck();
+            ThrowIfCefNotInitialized();
 
             auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
             if (cookieManager.get())
@@ -393,7 +398,7 @@ namespace CefSharp
         /// <returns>A blocking cookie manager</returns>
         static ICookieManager^ GetBlockingCookieManager()
         {
-            InitializedCheck();
+            ThrowIfCefNotInitialized();
 
             auto cookieManager = CefCookieManager::GetBlockingManager();
             if (cookieManager.get())
@@ -488,6 +493,8 @@ namespace CefSharp
         /// <returns>Returns false on error.</returns>
         static bool ClearSchemeHandlerFactories()
         {
+            ThrowIfCefNotInitialized();
+
             return CefClearSchemeHandlerFactories();
         }
 
@@ -496,6 +503,8 @@ namespace CefSharp
         /// </summary>
         static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
         {
+            ThrowIfCefNotInitialized();
+
             CefVisitWebPluginInfo(new PluginVisitor(visitor));
         }
 
@@ -506,7 +515,7 @@ namespace CefSharp
         /// <returns>Returns List of <see cref="Plugin"/> structs.</returns>
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
-            InitializedCheck();
+            ThrowIfCefNotInitialized();
 
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
@@ -521,6 +530,8 @@ namespace CefSharp
         /// </summary>
         static void RefreshWebPlugins()
         {
+            ThrowIfCefNotInitialized();
+
             CefRefreshWebPlugins();
         }
 
@@ -530,6 +541,8 @@ namespace CefSharp
         /// <param name="path">Path (directory + file).</param>
         static void UnregisterInternalWebPlugin(String^ path)
         {
+            ThrowIfCefNotInitialized();
+
             CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
         }
 
@@ -558,7 +571,7 @@ namespace CefSharp
         /// <returns>Returns the global request context or null.</returns>
         static IRequestContext^ GetGlobalRequestContext()
         {
-            InitializedCheck();
+            ThrowIfCefNotInitialized();
 
             auto context = CefRequestContext::GetGlobalContext();
 
