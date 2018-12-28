@@ -259,6 +259,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h" />
     <ClInclude Include="Internals\CefValueWrapper.h" />
     <ClInclude Include="Internals\CefWriteHandlerWrapper.h" />
     <ClInclude Include="Internals\CefImageWrapper.h" />

@@ -3,9 +3,11 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Example;
+using CefSharp.Example.Callback;
 
 namespace CefSharp.WinForms.Example
 {
@@ -532,6 +534,15 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 control.Browser.Load("https://httpbin.org/");
+            }
+        }
+
+        private void RunFileDialogToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.GetBrowserHost().RunFileDialog(CefFileDialogMode.Open, "Open", null, new List<string> { "*.*" }, 0, new RunFileDialogCallback());
             }
         }
     }

@@ -11,6 +11,7 @@
 using namespace System::Threading::Tasks;
 using namespace CefSharp::Structs;
 using namespace CefSharp::Enums;
+using namespace CefSharp::Callback;
 
 namespace CefSharp
 {
@@ -70,6 +71,8 @@ namespace CefSharp
 
             virtual void AddWordToDictionary(String^ word);
             virtual void ReplaceMisspelling(String^ word);
+
+            virtual void RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, int selectedAcceptFilter, IRunFileDialogCallback^ callback);
 
             virtual void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext);
             virtual void StopFinding(bool clearSelection);

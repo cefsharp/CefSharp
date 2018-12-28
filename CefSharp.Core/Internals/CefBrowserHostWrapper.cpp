@@ -5,14 +5,15 @@
 #include "Stdafx.h"
 #include "include\cef_client.h"
 
+#include "Cef.h"
+#include "CefTaskScheduler.h"
 #include "CefBrowserHostWrapper.h"
 #include "CefDragDataWrapper.h"
+#include "CefRunFileDialogCallbackAdapter.h"
 #include "CefPdfPrintCallbackWrapper.h"
-#include "WindowInfo.h"
-#include "CefTaskScheduler.h"
-#include "Cef.h"
-#include "RequestContext.h"
 #include "CefNavigationEntryVisitorAdapter.h"
+#include "RequestContext.h"
+#include "WindowInfo.h"
 
 void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations)
 {
@@ -180,6 +181,18 @@ void CefBrowserHostWrapper::ReplaceMisspelling(String^ word)
     ThrowIfDisposed();
 
     _browserHost->ReplaceMisspelling(StringUtils::ToNative(word));
+}
+
+void CefBrowserHostWrapper::RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, int selectedAcceptFilter, IRunFileDialogCallback^ callback)
+{
+    ThrowIfDisposed();
+
+    _browserHost->RunFileDialog((CefBrowserHost::FileDialogMode)mode,
+        StringUtils::ToNative(title),
+        StringUtils::ToNative(defaultFilePath),
+        StringUtils::ToNative(acceptFilters),
+        selectedAcceptFilter,
+        new CefRunFileDialogCallbackAdapter(callback));
 }
 
 void CefBrowserHostWrapper::Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)

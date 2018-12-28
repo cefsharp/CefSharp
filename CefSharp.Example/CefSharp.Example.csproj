@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Callback\RunFileDialogCallback.cs" />
     <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
     <Compile Include="JavascriptBinding\BoundObject.cs" />
     <Compile Include="JavascriptBinding\CallbackResponseStruct.cs" />
