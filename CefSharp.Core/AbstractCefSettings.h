@@ -40,6 +40,12 @@ namespace CefSharp
 
             //Automatically discovered and load a system-wide installation of Pepper Flash.
             _cefCommandLineArgs->Add("enable-system-flash", "1");
+
+            //CEF has switched to the new process model defined that was implemented
+            //in the Chromium Site isolation project, we'll continue to use the older
+            //process model by default.
+            //https://github.com/cefsharp/CefSharp/issues/2553
+            _cefCommandLineArgs->Add("process-per-site-instance", "1");
         }
 
         !AbstractCefSettings()
