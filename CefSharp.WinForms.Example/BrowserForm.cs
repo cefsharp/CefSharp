@@ -4,10 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Example;
 using CefSharp.Example.Callback;
+using CefSharp.Example.Handlers;
 
 namespace CefSharp.WinForms.Example
 {
@@ -543,6 +545,29 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 control.Browser.GetBrowserHost().RunFileDialog(CefFileDialogMode.Open, "Open", null, new List<string> { "*.*" }, 0, new RunFileDialogCallback());
+            }
+        }
+
+        private void LoadExtensionsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                var requestContext = control.Browser.GetBrowserHost().RequestContext;
+
+                var dir = Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\CefSharp.Example\Extensions");
+                dir = Path.GetFullPath(dir);
+                if(!Directory.Exists(dir))
+                {
+                    throw new Exception("Unable to load example extensions folder");
+                }
+
+                Cef.UIThreadTaskFactory.StartNew(() =>
+                {
+                    requestContext.LoadExtensionFromDirectory(Path.Combine(dir, "set_page_color"), new ExtensionHandler());
+
+                    //requestContext.LoadExtensionsFromDirectory(dir, new ExtensionHandler());
+                });                
             }
         }
     }
