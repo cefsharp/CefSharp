@@ -12,13 +12,13 @@ namespace CefSharp
     public interface IExtensionHandler
     {
         /// <summary>
-        /// Called if the IRequestContext.LoadExtension request fails.
+        /// Called if the <see cref="IRequestContext.LoadExtension"/> request fails.
         /// </summary>
         /// <param name="errorCode">error code</param>
         void OnExtensionLoadFailed(CefErrorCode errorCode);
 
         /// <summary>
-        /// Called if the IRequestContext.LoadExtension request succeeds.
+        /// Called if the <see cref="IRequestContext.LoadExtension"/> request succeeds.
         /// </summary>
         /// <param name="extension">is the loaded extension.</param>
         void OnExtensionLoaded(IExtension extension);
@@ -45,55 +45,57 @@ namespace CefSharp
         /// <returns>To cancel creation of the browser (and consequently cancel load of the background script) return true, otherwise return false.</returns>
         bool OnBeforeBackgroundBrowser(IExtension extension, string url, IBrowserSettings settings);
 
-        ///
-        // Called when an extension API (e.g. chrome.tabs.create) requests creation of
-        // a new browser. |extension| and |browser| are the source of the API call.
-        // |active_browser| may optionally be specified via the windowId property or
-        // returned via the GetActiveBrowser() callback and provides the default
-        // |client| and |settings| values for the new browser. |index| is the position
-        // value optionally specified via the index property. |url| is the URL that
-        // will be loaded in the browser. |active| is true if the new browser should
-        // be active when opened.  To allow creation of the browser optionally modify
-        // |windowInfo|, |client| and |settings| and return false. To cancel creation
-        // of the browser return true. Successful creation will be indicated by a call
-        // to CefLifeSpanHandler::OnAfterCreated. Any modifications to |windowInfo|
-        // will be ignored if |active_browser| is wrapped in a CefBrowserView.
-        ///
+        /// <summary>
+        /// Called when an extension API (e.g. chrome.tabs.create) requests creation of a new browser.
+        /// Successful creation will be indicated by a call to <see cref="ILifeSpanHandler.OnAfterCreated"/>.
+        /// </summary>
+        /// <param name="extension">the source of the API call</param>
+        /// <param name="browser">the source of the API call</param>
+        /// <param name="activeBrowser">may optionally be specified via the windowId property or
+        /// returned via the GetActiveBrowser() callback and provides the default for the new browser</param>
+        /// <param name="index">is the position value optionally specified via the index property</param>
+        /// <param name="url">is the URL that will be loaded in the browser</param>
+        /// <param name="active">is true if the new browser should be active when opened</param>
+        /// <param name="windowInfo">optionally modify if you are going to allow creation of the browser</param>
+        /// <param name="settings">optionally modify browser settings</param>
+        /// <returns>To cancel creation of the browser return true. To allow creation return false and optionally modify windowInfo and settings</returns>
         bool OnBeforeBrowser(IExtension extension, IBrowser browser, IBrowser activeBrowser, int index, string url, bool active, IWindowInfo windowInfo, IBrowserSettings settings);
 
-        ///
-        // Called when no tabId is specified to an extension API call that accepts a
-        // tabId parameter (e.g. chrome.tabs.*). |extension| and |browser| are the
-        // source of the API call. Return the browser that will be acted on by the API
-        // call or return NULL to act on |browser|. The returned browser must share
-        // the same CefRequestContext as |browser|. Incognito browsers should not be
-        // considered unless the source extension has incognito access enabled, in
-        // which case |include_incognito| will be true.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Called when no tabId is specified to an extension API call that accepts a tabId parameter (e.g. chrome.tabs.*).
+        /// </summary>
+        /// <param name="extension">extension the call originates from</param>
+        /// <param name="browser">browser the call originates from</param>
+        /// <param name="includeIncognito">Incognito browsers should not be considered unless the source extension has incognito
+        /// access enabled, inwhich case this will be true</param>
+        /// <returns>Return the browser that will be acted on by the API call or return null to act on <paramref name="browser"/>.
+        /// The returned browser must share the same IRequestContext as <paramref name="browser"/></returns>
         IBrowser GetActiveBrowser(IExtension extension, IBrowser browser, bool includeIncognito);
-        ///
-        // Called when the tabId associated with |target_browser| is specified to an
-        // extension API call that accepts a tabId parameter (e.g. chrome.tabs.*).
-        // |extension| and |browser| are the source of the API call. Return true
-        // to allow access of false to deny access. Access to incognito browsers
-        // should not be allowed unless the source extension has incognito access
-        // enabled, in which case |include_incognito| will be true.
-        ///
-        /*--cef()--*/
+
+        /// <summary>
+        /// Called when the tabId associated with <paramref name="targetBrowser"/> is specified to an extension API call that accepts a tabId
+        /// parameter (e.g. chrome.tabs.*).
+        /// </summary>
+        /// <param name="extension">extension the call originates from</param>
+        /// <param name="browser">browser the call originates from</param>
+        /// <param name="includeIncognito">Access to incognito browsers should not be allowed unless the source extension has
+        /// incognito access
+        /// enabled, in which case this will be true.</param>
+        /// <param name="targetBrowser"></param>
+        /// <returns>Return true to allow access of false to deny access.</returns>
         bool CanAccessBrowser(IExtension extension, IBrowser browser, bool includeIncognito, IBrowser targetBrowser);
 
-        ///
-        // Called to retrieve an extension resource that would normally be loaded from
-        // disk (e.g. if a file parameter is specified to chrome.tabs.executeScript).
-        // |extension| and |browser| are the source of the resource request. |file| is
-        // the requested relative file path. To handle the resource request return
-        // true and execute |callback| either synchronously or asynchronously. For the
-        // default behavior which reads the resource from the extension directory on
-        // disk return false. Localization substitutions will not be applied to
-        // resources handled via this method.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Called to retrieve an extension resource that would normally be loaded from disk
+        /// (e.g. if a file parameter is specified to chrome.tabs.executeScript).
+        /// Localization substitutions will not be applied to resources handled via this method.
+        /// </summary>
+        /// <param name="extension">extension the call originates from</param>
+        /// <param name="browser">browser the call originates from</param>
+        /// <param name="file">is the requested relative file path.</param>
+        /// <param name="callback">callback used to handle custom resource requests</param>
+        /// <returns>To handle the resource request return true and execute <paramref name="callback"/> either synchronously or asynchronously.
+        /// For the default behavior which reads the resource from the extension directory on disk return false</returns>
         bool GetExtensionResource(IExtension extension, IBrowser browser, string file, IGetExtensionResourceCallback callback);
     }
 }
