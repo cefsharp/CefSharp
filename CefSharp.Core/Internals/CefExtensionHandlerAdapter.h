@@ -165,6 +165,11 @@ namespace CefSharp
                     gcnew CefSharpBrowserWrapper(browser),
                     includeIncognito);
 
+                if (activeBrowser == nullptr)
+                {
+                    return NULL;
+                }
+
                 //TODO: CLean this up
                 auto wrapper = static_cast<CefSharpBrowserWrapper^>(activeBrowser);
 
