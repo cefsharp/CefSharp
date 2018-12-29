@@ -12,19 +12,19 @@ namespace CefSharp.Wpf.Internals
         /// <summary>
         /// The owner browser instance
         /// </summary>
-        private readonly ChromiumWebBrowser owner;
+        protected readonly ChromiumWebBrowser owner;
 
         public WpfKeyboardHandler(ChromiumWebBrowser owner)
         {
             this.owner = owner;
         }
 
-        public void Setup(HwndSource source)
+        public virtual void Setup(HwndSource source)
         {
             // nothing to do here
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             // nothing to do here
         }

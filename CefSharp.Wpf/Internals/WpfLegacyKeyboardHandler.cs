@@ -31,7 +31,7 @@ namespace CefSharp.Wpf.Internals
             this.owner = owner;
         }
 
-        public void Setup(HwndSource source)
+        public virtual void Setup(HwndSource source)
         {
             this.source = source;
             if (source != null)
@@ -41,7 +41,7 @@ namespace CefSharp.Wpf.Internals
             }
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             if (source != null && sourceHook != null)
             {
