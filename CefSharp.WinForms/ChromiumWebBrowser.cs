@@ -649,7 +649,7 @@ namespace CefSharp.WinForms
             IsBrowserInitialized = true;
 
             //TODO: Revert temp workaround for default url not loading
-            //NOTE: For chrome extensions we pass in Url for constructor
+            //NOTE: For chrome extensions we are forced to pass in Url to CreateBrowser
             if (!string.IsNullOrEmpty(Address) && !Address.StartsWith("chrome-extension://"))
             {
                 browser.MainFrame.LoadUrl(Address);

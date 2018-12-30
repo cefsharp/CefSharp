@@ -553,42 +553,55 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                var requestContext = control.Browser.GetBrowserHost().RequestContext;
-
-                var dir = Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\CefSharp.Example\Extensions");
-                dir = Path.GetFullPath(dir);
-                if(!Directory.Exists(dir))
+                //The sample extension only works for http(s) schemes
+                if (control.Browser.Address.StartsWith("http"))
                 {
-                    throw new DirectoryNotFoundException("Unable to locate example extensions folder - " + dir);
-                }
+                    var requestContext = control.Browser.GetBrowserHost().RequestContext;
 
-                Cef.UIThreadTaskFactory.StartNew(() =>
-                {
-                    var extensionHandler = new ExtensionHandler
+                    var dir = Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\CefSharp.Example\Extensions");
+                    dir = Path.GetFullPath(dir);
+                    if (!Directory.Exists(dir))
                     {
-                        LoadExtensionPopup = (url) =>
-                        {
-                            BeginInvoke(new Action(() =>
-                            {
-                                var extensionForm = new Form();
+                        throw new DirectoryNotFoundException("Unable to locate example extensions folder - " + dir);
+                    }
 
-                                var extensionBrowser = new ChromiumWebBrowser(url);
-                                extensionBrowser.IsBrowserInitializedChanged += (s, args) =>
+                    Cef.UIThreadTaskFactory.StartNew(() =>
+                    {
+                        var extensionHandler = new ExtensionHandler
+                        {
+                            LoadExtensionPopup = (url) =>
+                            {
+                                BeginInvoke(new Action(() =>
                                 {
-                                    extensionBrowser.ShowDevTools();
-                                };
+                                    var extensionForm = new Form();
+
+                                    var extensionBrowser = new ChromiumWebBrowser(url);
+                                //extensionBrowser.IsBrowserInitializedChanged += (s, args) =>
+                                //{
+                                //    extensionBrowser.ShowDevTools();
+                                //};
 
                                 extensionForm.Controls.Add(extensionBrowser);
 
-                                extensionForm.Show(this);
-                            }));
-                        }
-                    };
+                                    extensionForm.Show(this);
+                                }));
+                            },
+                            GetActiveBrowser = (extension, isIncognito) =>
+                            {
+                            //Return the active browser for which the extension will act upon
+                            return control.Browser.GetBrowser();
+                            }
+                        };
 
                     //requestContext.LoadExtensionFromDirectory(Path.Combine(dir, "set_page_color"), new ExtensionHandler());
 
                     requestContext.LoadExtensionsFromDirectory(dir, extensionHandler);
-                });                
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("The sample extension only works with http(s) schemes, please load a different website and try again", "Unable to load Extension");
+                }
             }
         }
     }

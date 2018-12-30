@@ -8,10 +8,12 @@ namespace CefSharp.Example.Handlers
 {
     public class ExtensionHandler : IExtensionHandler
     {
+        public Func<IExtension, bool, IBrowser> GetActiveBrowser;
         public Action<string> LoadExtensionPopup;
 
         public void Dispose()
         {
+            GetActiveBrowser = null;
             LoadExtensionPopup = null;
         }
 
@@ -22,6 +24,7 @@ namespace CefSharp.Example.Handlers
 
         IBrowser IExtensionHandler.GetActiveBrowser(IExtension extension, IBrowser browser, bool includeIncognito)
         {
+            return GetActiveBrowser?.Invoke(extension, includeIncognito);
             return null;
         }
 
