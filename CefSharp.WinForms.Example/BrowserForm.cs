@@ -559,7 +559,7 @@ namespace CefSharp.WinForms.Example
                 dir = Path.GetFullPath(dir);
                 if(!Directory.Exists(dir))
                 {
-                    throw new Exception("Unable to load example extensions folder");
+                    throw new DirectoryNotFoundException("Unable to locate example extensions folder - " + dir);
                 }
 
                 Cef.UIThreadTaskFactory.StartNew(() =>
