@@ -564,9 +564,9 @@ namespace CefSharp.WinForms.Example
 
                 Cef.UIThreadTaskFactory.StartNew(() =>
                 {
-                    requestContext.LoadExtensionFromDirectory(Path.Combine(dir, "set_page_color"), new ExtensionHandler());
+                    //requestContext.LoadExtensionFromDirectory(Path.Combine(dir, "set_page_color"), new ExtensionHandler());
 
-                    //requestContext.LoadExtensionsFromDirectory(dir, new ExtensionHandler());
+                    requestContext.LoadExtensionsFromDirectory(dir, new ExtensionHandler());
                 });                
             }
         }

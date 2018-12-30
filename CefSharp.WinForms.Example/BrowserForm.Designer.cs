@@ -381,7 +381,7 @@ namespace CefSharp.WinForms.Example
             // 
             this.loadExtensionsToolStripMenuItem.Name = "loadExtensionsToolStripMenuItem";
             this.loadExtensionsToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
-            this.loadExtensionsToolStripMenuItem.Text = "Load Extension(s)";
+            this.loadExtensionsToolStripMenuItem.Text = "Load Example Extension";
             this.loadExtensionsToolStripMenuItem.Click += new System.EventHandler(this.LoadExtensionsToolStripMenuItemClick);
             // 
             // BrowserForm

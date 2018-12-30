@@ -11,7 +11,7 @@ namespace CefSharp
     public static class RequestContextExtensions
     {
         /// <summary>
-        /// Load an extension from the given directory. manifest.json will be read from disk
+        /// Load an extension from the given directory.
         /// The loaded extension will be accessible in all contexts sharing the same storage (HasExtension returns true).
         /// However, only the context on which this method was called is considered the loader (DidLoadExtension returns true) and only the
         /// loader will receive IRequestContextHandler callbacks for the extension. <see cref="IExtensionHandler.OnExtensionLoaded"/> will be
@@ -29,27 +29,17 @@ namespace CefSharp
         /// - <see cref="IBrowserHost.IsBackgroundHost"/> returns true for background hosts. See https://developer.chrome.com/extensions for extension implementation and usage documentation.
         /// </summary>
         /// <param name="requestContext">request context</param>
-        /// <param name="rootDirectory">absolute path to the directory that contains the extension resources, manifest.json will be read from disk.</param>
+        /// <param name="rootDirectory">absolute path to the directory that contains the extension to be loaded.</param>
         /// <param name="handler">handle events related to browser extensions</param>
         public static void LoadExtensionFromDirectory(this IRequestContext requestContext, string rootDirectory, IExtensionHandler handler)
         {
-            if(!new Uri(rootDirectory).IsAbsoluteUri)
-            {
-                throw new ArgumentException("RootDirectory must be an absolute path(not relative)", "rootDirectory");
-            }
-
-            var manifest = Path.Combine(rootDirectory, "manifest.json");
-
-            if (!File.Exists(manifest))
-            {
-                throw new FileNotFoundException("Extension manifest not found", "manifest.json");
-            }
-
-            requestContext.LoadExtension(rootDirectory, File.ReadAllText(manifest), handler);
+            requestContext.LoadExtension(Path.GetFullPath(rootDirectory), null, handler);
         }
 
         /// <summary>
-        /// Load an extension(s) from the given directory.
+        /// Load extension(s) from the given directory. This methods obtains all the sub directories of <paramref name="rootDirectory"/>
+        /// and calls <see cref="IRequestContext.LoadExtension(string, string, IExtensionHandler)"/> if manifest.json
+        /// is found in the sub folder.
         /// The loaded extension will be accessible in all contexts sharing the same storage (HasExtension returns true).
         /// However, only the context on which this method was called is considered the loader (DidLoadExtension returns true) and only the
         /// loader will receive IRequestContextHandler callbacks for the extension. <see cref="IExtensionHandler.OnExtensionLoaded"/> will be
@@ -71,7 +61,16 @@ namespace CefSharp
         /// <param name="handler">handle events related to browser extensions</param>
         public static void LoadExtensionsFromDirectory(this IRequestContext requestContext, string rootDirectory, IExtensionHandler handler)
         {
-            requestContext.LoadExtension(Path.GetFullPath(rootDirectory), null, handler);
+            var fullPath = Path.GetFullPath(rootDirectory);
+
+            foreach (var dir in Directory.GetDirectories(fullPath))
+            {
+                //Check the directory has a manifest.json, if so call load
+                if (File.Exists(Path.Combine(dir, "manifest.json")))
+                {
+                    requestContext.LoadExtension(dir, null, handler);
+                }
+            }
         }
     }
 }
