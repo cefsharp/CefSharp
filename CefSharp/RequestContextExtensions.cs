@@ -49,7 +49,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Load an extension(s) from the given directory. The extensions should be in crx format
+        /// Load an extension(s) from the given directory.
         /// The loaded extension will be accessible in all contexts sharing the same storage (HasExtension returns true).
         /// However, only the context on which this method was called is considered the loader (DidLoadExtension returns true) and only the
         /// loader will receive IRequestContextHandler callbacks for the extension. <see cref="IExtensionHandler.OnExtensionLoaded"/> will be
