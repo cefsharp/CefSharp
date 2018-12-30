@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+
 namespace CefSharp
 {
     /// <summary>
@@ -9,7 +11,7 @@ namespace CefSharp
     /// The methods of this class will be called on the CEF UI thread.
     /// See <see cref="IRequestContext.LoadExtension"/> for information about extension loading.
     /// </summary>
-    public interface IExtensionHandler
+    public interface IExtensionHandler : IDisposable
     {
         /// <summary>
         /// Called if the <see cref="IRequestContext.LoadExtension"/> request fails.

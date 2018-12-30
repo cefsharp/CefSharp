@@ -564,9 +564,30 @@ namespace CefSharp.WinForms.Example
 
                 Cef.UIThreadTaskFactory.StartNew(() =>
                 {
+                    var extensionHandler = new ExtensionHandler
+                    {
+                        LoadExtensionPopup = (url) =>
+                        {
+                            BeginInvoke(new Action(() =>
+                            {
+                                var extensionForm = new Form();
+
+                                var extensionBrowser = new ChromiumWebBrowser(url);
+                                extensionBrowser.IsBrowserInitializedChanged += (s, args) =>
+                                {
+                                    extensionBrowser.ShowDevTools();
+                                };
+
+                                extensionForm.Controls.Add(extensionBrowser);
+
+                                extensionForm.Show(this);
+                            }));
+                        }
+                    };
+
                     //requestContext.LoadExtensionFromDirectory(Path.Combine(dir, "set_page_color"), new ExtensionHandler());
 
-                    requestContext.LoadExtensionsFromDirectory(dir, new ExtensionHandler());
+                    requestContext.LoadExtensionsFromDirectory(dir, extensionHandler);
                 });                
             }
         }

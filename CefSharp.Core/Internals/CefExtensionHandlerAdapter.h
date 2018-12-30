@@ -32,6 +32,7 @@ namespace CefSharp
 
             ~CefExtensionHandlerAdapter()
             {
+                delete _handler;
                 _handler = nullptr;
             }
 

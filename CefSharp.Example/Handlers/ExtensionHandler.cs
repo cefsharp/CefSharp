@@ -2,10 +2,19 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+
 namespace CefSharp.Example.Handlers
 {
     public class ExtensionHandler : IExtensionHandler
     {
+        public Action<string> LoadExtensionPopup;
+
+        public void Dispose()
+        {
+            LoadExtensionPopup = null;
+        }
+
         bool IExtensionHandler.CanAccessBrowser(IExtension extension, IBrowser browser, bool includeIncognito, IBrowser targetBrowser)
         {
             return false;
@@ -33,7 +42,16 @@ namespace CefSharp.Example.Handlers
 
         void IExtensionHandler.OnExtensionLoaded(IExtension extension)
         {
-            
+            var manifest = extension.Manifest;
+            var browserAction = manifest["browser_action"].GetDictionary();
+            if (browserAction.ContainsKey("default_popup"))
+            {
+                var popupUrl = browserAction["default_popup"].GetString();
+
+                popupUrl = "chrome-extension://" + extension.Identifier + "/" + popupUrl;
+
+                LoadExtensionPopup?.Invoke(popupUrl);
+            }
         }
 
         void IExtensionHandler.OnExtensionLoadFailed(CefErrorCode errorCode)
