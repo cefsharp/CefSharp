@@ -324,7 +324,7 @@ namespace CefSharp
             String^ targetDomain,
             bool allowTargetSubdomains)
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             return CefAddCrossOriginWhitelistEntry(
                 StringUtils::ToNative(sourceOrigin),
@@ -350,7 +350,7 @@ namespace CefSharp
             bool allowTargetSubdomains)
 
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             return CefRemoveCrossOriginWhitelistEntry(
                 StringUtils::ToNative(sourceOrigin),
@@ -366,7 +366,7 @@ namespace CefSharp
         /// </remarks>
         static bool ClearCrossOriginWhitelist()
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             return CefClearCrossOriginWhitelist();
         }
@@ -377,7 +377,7 @@ namespace CefSharp
         /// <returns>A the global cookie manager</returns>
         static ICookieManager^ GetGlobalCookieManager()
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
             if (cookieManager.get())
@@ -398,7 +398,7 @@ namespace CefSharp
         /// <returns>A blocking cookie manager</returns>
         static ICookieManager^ GetBlockingCookieManager()
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             auto cookieManager = CefCookieManager::GetBlockingManager();
             if (cookieManager.get())
@@ -493,7 +493,7 @@ namespace CefSharp
         /// <returns>Returns false on error.</returns>
         static bool ClearSchemeHandlerFactories()
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             return CefClearSchemeHandlerFactories();
         }
@@ -503,7 +503,7 @@ namespace CefSharp
         /// </summary>
         static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             CefVisitWebPluginInfo(new PluginVisitor(visitor));
         }
@@ -515,7 +515,7 @@ namespace CefSharp
         /// <returns>Returns List of <see cref="Plugin"/> structs.</returns>
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
@@ -530,7 +530,7 @@ namespace CefSharp
         /// </summary>
         static void RefreshWebPlugins()
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             CefRefreshWebPlugins();
         }
@@ -541,7 +541,7 @@ namespace CefSharp
         /// <param name="path">Path (directory + file).</param>
         static void UnregisterInternalWebPlugin(String^ path)
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
         }
@@ -571,7 +571,7 @@ namespace CefSharp
         /// <returns>Returns the global request context or null.</returns>
         static IRequestContext^ GetGlobalRequestContext()
         {
-            ThrowIfCefNotInitialized();
+            //ThrowIfCefNotInitialized();
 
             auto context = CefRequestContext::GetGlobalContext();
 
