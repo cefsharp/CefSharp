@@ -623,12 +623,8 @@ namespace CefSharp.WinForms
                 {
                     var windowInfo = new WindowInfo();
                     windowInfo.SetAsChild(Handle);
-
-                    //TODO: Revert temp workaround for default url not loading
-                    //NOTE: For chrome extensions we must pass in Url to CreateBrowser
-                    string address = Address.StartsWith("chrome-extension://") ? Address : null;
                     
-                    managedCefBrowserAdapter.CreateBrowser(windowInfo, BrowserSettings, (RequestContext)RequestContext, address);
+                    managedCefBrowserAdapter.CreateBrowser(windowInfo, BrowserSettings, (RequestContext)RequestContext, Address);
                 }
                 else
                 {
@@ -647,13 +643,6 @@ namespace CefSharp.WinForms
         {
             this.browser = browser;
             IsBrowserInitialized = true;
-
-            //TODO: Revert temp workaround for default url not loading
-            //NOTE: For chrome extensions we are forced to pass in Url to CreateBrowser
-            if (!string.IsNullOrEmpty(Address) && !Address.StartsWith("chrome-extension://"))
-            {
-                browser.MainFrame.LoadUrl(Address);
-            }
 
             // By the time this callback gets called, this control
             // is most likely hooked into a browser Form of some sort. 
