@@ -90,13 +90,11 @@ namespace CefSharp
                 CefRefPtr<CefClient>& client,
                 CefBrowserSettings& settings) OVERRIDE
             {
-                //BrowserSettings browserSettingsWrapper(&settings);
+                BrowserSettings browserSettingsWrapper(&settings);
 
-                //TODO: Should extension be auto disposed?
-                /*return _handler->OnBeforeBackgroundBrowser(gcnew CefExtensionWrapper(extension),
+                return _handler->OnBeforeBackgroundBrowser(gcnew CefExtensionWrapper(extension),
                     StringUtils::ToClr(url),
-                    %browserSettingsWrapper);*/
-                return _handler->OnBeforeBackgroundBrowser(gcnew CefExtensionWrapper(extension), StringUtils::ToClr(url), nullptr);
+                    %browserSettingsWrapper);
             }
 
             ///
@@ -124,17 +122,7 @@ namespace CefSharp
                 CefRefPtr<CefClient>& client,
                 CefBrowserSettings& settings) OVERRIDE
             {
-                //TODO: Should extension be auto disposed?
-                /*return _handler->OnBeforeBrowser(gcnew CefExtensionWrapper(extension),
-                    gcnew CefSharpBrowserWrapper(browser),
-                    gcnew CefSharpBrowserWrapper(active_browser),
-                    index,
-                    StringUtils::ToClr(url),
-                    active,
-                    gcnew WindowInfo(&windowInfo),
-                    gcnew BrowserSettings(&settings));*/
-
-                //BrowserSettings browserSettingsWrapper(&settings);
+                BrowserSettings browserSettingsWrapper(&settings);
 
                 return _handler->OnBeforeBrowser(gcnew CefExtensionWrapper(extension),
                     gcnew CefSharpBrowserWrapper(browser),
@@ -143,7 +131,7 @@ namespace CefSharp
                     StringUtils::ToClr(url),
                     active,
                     gcnew WindowInfo(&windowInfo),
-                    nullptr);
+                    %browserSettingsWrapper);
             }
 
             ///
