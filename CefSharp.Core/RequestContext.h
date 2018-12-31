@@ -7,6 +7,8 @@
 #include "Stdafx.h"
 #include "include\cef_request_context.h"
 #include "include\cef_parser.h"
+#include "include\base\cef_bind.h"
+#include "include\wrapper\cef_closure_task.h"
 
 #include "SchemeHandlerFactoryWrapper.h"
 #include "RequestContextSettings.h"
@@ -450,7 +452,7 @@ namespace CefSharp
         virtual IExtension^ GetExtension(String^ extensionId)
         {
             ThrowIfDisposed();
-            
+
             auto extension = _requestContext->GetExtension(StringUtils::ToNative(extensionId));
 
             if (extension.get())
@@ -526,11 +528,6 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            if (!CefCurrentlyOn(CefThreadId::TID_UI))
-            {
-                throw gcnew Exception("Must be called on the CEF UI Thread, use Cef.UIThreadTaskFactory.StartNew.");
-            }
-
             CefRefPtr<CefDictionaryValue> manifest;
 
             if (!String::IsNullOrEmpty(manifestJson))
@@ -554,7 +551,14 @@ namespace CefSharp
 
             CefRefPtr<CefExtensionHandler> extensionHandler = handler == nullptr ? NULL : new CefExtensionHandlerAdapter(handler);
 
-            _requestContext->LoadExtension(StringUtils::ToNative(rootDirectory), manifest, extensionHandler);
+            if (CefCurrentlyOn(CefThreadId::TID_UI))
+            {
+                _requestContext->LoadExtension(StringUtils::ToNative(rootDirectory), manifest, extensionHandler);
+            }
+            else
+            {
+                CefPostTask(TID_UI, base::Bind(&CefRequestContext::LoadExtension, _requestContext.get(), StringUtils::ToNative(rootDirectory), manifest, extensionHandler));
+            }
         }
     };
 }
