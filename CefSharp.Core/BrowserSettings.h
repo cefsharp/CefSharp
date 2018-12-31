@@ -5,7 +5,8 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "RequestContext.h"
+
+#include "include\internal\cef_types_wrappers.h"
 
 namespace CefSharp
 {

@@ -9,6 +9,7 @@
 #include "include\cef_client.h"
 
 #include "BrowserSettings.h"
+#include "RequestContext.h"
 #include "Internals/ClientAdapter.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "Internals/RenderClientAdapter.h"
