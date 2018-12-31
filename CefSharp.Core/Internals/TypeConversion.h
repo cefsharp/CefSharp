@@ -254,6 +254,43 @@ namespace CefSharp
 
                 return result;
             }
+
+            // Copied from CefSharp.BrowserSubprocess.Core\TypeUtils.h since it can't be included
+            static DateTime ConvertCefTimeToDateTime(CefTime time)
+            {
+                return DateTimeUtils::FromCefTime(time.year,
+                    time.month,
+                    time.day_of_month,
+                    time.hour,
+                    time.minute,
+                    time.second,
+                    time.millisecond);
+            }
+
+            static Cookie^ FromNative(const CefCookie& cefCookie)
+            {
+                auto cookie = gcnew Cookie();
+                auto cookieName = StringUtils::ToClr(cefCookie.name);
+
+                if (!String::IsNullOrEmpty(cookieName))
+                {
+                    cookie->Name = cookieName;
+                    cookie->Value = StringUtils::ToClr(cefCookie.value);
+                    cookie->Domain = StringUtils::ToClr(cefCookie.domain);
+                    cookie->Path = StringUtils::ToClr(cefCookie.path);
+                    cookie->Secure = cefCookie.secure == 1;
+                    cookie->HttpOnly = cefCookie.httponly == 1;
+                    cookie->Creation = ConvertCefTimeToDateTime(cefCookie.creation);
+                    cookie->LastAccess = ConvertCefTimeToDateTime(cefCookie.last_access);
+
+                    if (cefCookie.has_expires)
+                    {
+                        cookie->Expires = ConvertCefTimeToDateTime(cefCookie.expires);
+                    }
+                }
+
+                return cookie;
+            }
         };
     }
 }

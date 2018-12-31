@@ -3,7 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.Callback;
 using CefSharp.Enums;
 using CefSharp.Structs;
 using Size = CefSharp.Structs.Size;
@@ -99,6 +101,11 @@ namespace CefSharp
         void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
 
         /// <summary>
+        /// Returns the extension hosted in this browser or null if no extension is hosted. See <see cref="IRequestContext.LoadExtension"/> for details.
+        /// </summary>
+        IExtension Extension { get; }
+
+        /// <summary>
         /// Retrieve the window handle of the browser that opened this browser.
         /// </summary>
         /// <returns>The handler</returns>
@@ -124,6 +131,13 @@ namespace CefSharp
         void Invalidate(PaintElementType type);
 
         /// <summary>
+        /// Returns true if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable.
+        /// See <see cref="IRequestContext.LoadExtension"/> for details.
+        /// </summary>
+        /// <returns>Returns true if this browser is hosting an extension background script.</returns>
+        bool IsBackgroundHost { get; }
+
+        /// <summary>
         /// Begins a new composition or updates the existing composition. Blink has a
         /// special node (a composition node) that allows the input method to change
         /// text without affecting other DOM nodes. 
@@ -141,9 +155,10 @@ namespace CefSharp
         /// will be inserted into the composition node</param>
         /// <param name="underlines">is an optional set
         /// of ranges that will be underlined in the resulting text.</param>
+        /// <param name="replacementRange">is an optional range of the existing text that will be replaced. (MAC OSX ONLY)</param>
         /// <param name="selectionRange"> is an optional range of the resulting text that
         /// will be selected after insertion or replacement. </param>
-        void ImeSetComposition(string text, CompositionUnderline[] underlines, Range? selectionRange);
+        void ImeSetComposition(string text, CompositionUnderline[] underlines, Range? replacementRange, Range? selectionRange);
 
         /// <summary>
         /// Completes the existing composition by optionally inserting the specified
@@ -151,7 +166,9 @@ namespace CefSharp
         /// This method is only used when window rendering is disabled. (WPF and OffScreen) 
         /// </summary>
         /// <param name="text">text that will be committed</param>
-        void ImeCommitText(string text);
+        /// <param name="replacementRange">is an optional range of the existing text that will be replaced. (MAC OSX ONLY)</param>
+        /// <param name="relativeCursorPos">is where the cursor will be positioned relative to the current cursor position. (MAC OSX ONLY)</param>
+        void ImeCommitText(string text, Range? replacementRange, int relativeCursorPos);
 
         /// <summary>
         /// Completes the existing composition by applying the current composition node
@@ -208,9 +225,27 @@ namespace CefSharp
         void ReplaceMisspelling(string word);
 
         /// <summary>
+        /// Call to run a file chooser dialog. Only a single file chooser dialog may be pending at any given time.
+        /// The dialog will be initiated asynchronously on the CEF UI thread.
+        /// </summary>
+        /// <param name="mode">represents the type of dialog to display</param>
+        /// <param name="title">to the title to be used for the dialog and may be empty to show the default title ("Open" or "Save" depending on the mode)</param>
+        /// <param name="defaultFilePath">is the path with optional directory and/or file name component that will be initially selected in the dialog</param>
+        /// <param name="acceptFilters">are used to restrict the selectable file types and may any combination of (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"), (b) individual file extensions (e.g. ".txt" or ".png"), or (c) combined description and file extension delimited using "|" and ";" (e.g. "Image Types|.png;.gif;.jpg")</param>
+        /// <param name="selectedAcceptFilter">is the 0-based index of the filter that will be selected by default</param>
+        /// <param name="callback">will be executed after the dialog is dismissed or immediately if another dialog is already pending.</param>
+        void RunFileDialog(CefFileDialogMode mode, string title, string defaultFilePath, IList<string> acceptFilters, int selectedAcceptFilter, IRunFileDialogCallback callback);
+
+        /// <summary>
         /// Returns the request context for this browser.
         /// </summary>
         IRequestContext RequestContext { get; }
+
+        /// <summary>
+        /// Issue a BeginFrame request to Chromium.
+        /// Only valid when <see cref="IWindowInfo.ExternalBeginFrameEnabled"/> is set to true.
+        /// </summary>
+        void SendExternalBeginFrame();
 
         /// <summary>
         /// Send a capture lost event to the browser.

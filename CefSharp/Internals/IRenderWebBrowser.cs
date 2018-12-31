@@ -29,7 +29,7 @@ namespace CefSharp.Internals
         /// </summary>
         /// <returns>Return a ViewRect strict containing the rectangle or null. If the rectangle is
         /// still empty or invalid popups may not be drawn correctly. </returns>
-        Rect? GetViewRect();
+        Rect GetViewRect();
 
         /// <summary>
         /// Called to retrieve the translation from view coordinates to actual screen coordinates. 
@@ -40,6 +40,15 @@ namespace CefSharp.Internals
         /// <param name="screenY">screen y</param>
         /// <returns>Return true if the screen coordinates were provided.</returns>
         bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY);
+
+        /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        void OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle);
 
         /// <summary>
         /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the

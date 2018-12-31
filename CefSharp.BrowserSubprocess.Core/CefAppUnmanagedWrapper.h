@@ -22,7 +22,7 @@ namespace CefSharp
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
-        gcroot<List<CefExtension^>^> _extensions;
+        gcroot<List<V8Extension^>^> _extensions;
         gcroot<List<CefCustomScheme^>^> _schemes;
         bool _focusedNodeChangedEnabled;
         bool _legacyBindingEnabled;
@@ -40,7 +40,7 @@ namespace CefSharp
             _onBrowserCreated = onBrowserCreated;
             _onBrowserDestroyed = onBrowserDestoryed;
             _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
-            _extensions = gcnew List<CefExtension^>();
+            _extensions = gcnew List<V8Extension^>();
             _schemes = schemes;
             _focusedNodeChangedEnabled = enableFocusedNodeChanged;
             _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();

@@ -171,7 +171,7 @@ namespace CefSharp
             auto extensionList = CefListValue::Create();
 
             auto i = 0;
-            for each(CefExtension^ cefExtension in _cefSettings->Extensions)
+            for each(V8Extension^ cefExtension in _cefSettings->Extensions)
             {
                 auto ext = CefListValue::Create();
                 ext->SetString(0, StringUtils::ToNative(cefExtension->Name));

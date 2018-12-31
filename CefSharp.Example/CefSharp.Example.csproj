@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CefSharp.Example</RootNamespace>
     <AssemblyName>CefSharp.Example</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -70,6 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Callback\RunFileDialogCallback.cs" />
+    <Compile Include="Handlers\ExtensionHandler.cs" />
     <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
     <Compile Include="JavascriptBinding\BoundObject.cs" />
     <Compile Include="JavascriptBinding\CallbackResponseStruct.cs" />
@@ -136,9 +138,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Extensions\set_page_color\icon.png" />
+    <Content Include="Extensions\set_page_color\popup.html" />
+    <Content Include="Extensions\set_page_color\popup.js" />
     <Content Include="Resources\assets\css\docs.css" />
     <Content Include="Resources\assets\css\shCore.css" />
     <Content Include="Resources\assets\css\shCoreDefault.css" />
+    <None Include="Extensions\set_page_color\manifest.json" />
     <None Include="Resources\assets\images\beach-2089936_1920.jpg" />
     <Content Include="Resources\assets\js\application.js" />
     <Content Include="Resources\assets\js\jquery.js" />

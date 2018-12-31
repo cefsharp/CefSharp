@@ -652,19 +652,21 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Gets the view rect (width, height)
+        /// Called to retrieve the view rectangle which is relative to screen coordinates.
+        /// This method must always provide a non-empty rectangle.
         /// </summary>
-        /// <returns>ViewRect.</returns>
-        Rect? IRenderWebBrowser.GetViewRect()
+        /// <returns>View Rectangle</returns>
+        Rect IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
 
         /// <summary>
-        /// Gets the view rect (width, height)
+        /// Called to retrieve the view rectangle which is relative to screen coordinates.
+        /// This method must always provide a non-empty rectangle.
         /// </summary>
-        /// <returns>ViewRect.</returns>
-        protected virtual Rect? GetViewRect()
+        /// <returns>View Rectangle</returns>
+        protected virtual Rect GetViewRect()
         {
             //NOTE: Previous we used Math.Ceiling to round the sizing up, we
             //now set UseLayoutRounding = true; on the control so the sizes are
@@ -761,6 +763,30 @@ namespace CefSharp.Wpf
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
             //TODO: Someone should implement this
+        }
+
+        /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        void IRenderWebBrowser.OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            OnAcceleratedPaint(type == PaintElementType.Popup, dirtyRect, sharedHandle);
+        }
+
+        /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="isPopup">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        protected virtual void OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            RenderHandler?.OnAcceleratedPaint(isPopup, dirtyRect, sharedHandle);
         }
 
         /// <summary>
@@ -1694,13 +1720,28 @@ namespace CefSharp.Wpf
             var webBrowserInternal = this as IWebBrowserInternal;
             if (!webBrowserInternal.HasParent)
             {
+                var windowInfo = CreateOffscreenBrowserWindowInfo(source == null ? IntPtr.Zero : source.Handle);
                 //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
-                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, (RequestContext)RequestContext, address: null);
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, BrowserSettings, (RequestContext)RequestContext, address: null);
             }
             browserCreated = true;
 
             return true;
+        }
+
+        /// <summary>
+        /// Override this method to handle creation of WindowInfo. This method can be used to customise aspects of
+        /// browser creation including configuration of settings such as <see cref="IWindowInfo.SharedTextureEnabled"/>
+        /// (used for D3D11 shared texture rendering).
+        /// </summary>
+        /// <param name="handle">Window handle for the HwndSource</param>
+        /// <returns>Window Info</returns>
+        protected virtual IWindowInfo CreateOffscreenBrowserWindowInfo(IntPtr handle)
+        {
+            var windowInfo = new WindowInfo();
+            windowInfo.SetAsWindowless(handle);
+            return windowInfo;
         }
 
         /// <summary>

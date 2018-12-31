@@ -18,7 +18,7 @@ namespace CefSharp
     public ref class AbstractCefSettings abstract
     {
     private:
-        List<CefExtension^>^ _cefExtensions;
+        List<V8Extension^>^ _cefExtensions;
         IDictionary<String^, String^>^ _cefCommandLineArgs;
 
     internal:
@@ -35,11 +35,17 @@ namespace CefSharp
             _cefSettings->no_sandbox = true;
             BrowserSubprocessPath = Path::Combine(Path::GetDirectoryName(this->GetType()->Assembly->Location), "CefSharp.BrowserSubprocess.exe");
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
-            _cefExtensions = gcnew List<CefExtension^>();
+            _cefExtensions = gcnew List<V8Extension^>();
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
 
             //Automatically discovered and load a system-wide installation of Pepper Flash.
             _cefCommandLineArgs->Add("enable-system-flash", "1");
+
+            //CEF has switched to the new process model defined that was implemented
+            //in the Chromium Site isolation project, we'll continue to use the older
+            //process model by default.
+            //https://github.com/cefsharp/CefSharp/issues/2553
+            _cefCommandLineArgs->Add("process-per-site-instance", "1");
         }
 
         !AbstractCefSettings()
@@ -61,11 +67,12 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Add CefExtensions to be registered
+        /// List of all V8Extensions to be registered using CefRegisterExtension
+        /// in the render process.
         /// </summary>
-        virtual property IEnumerable<CefExtension^>^ Extensions
+        virtual property IEnumerable<V8Extension^>^ Extensions
         {
-            IEnumerable<CefExtension^>^ get() { return _cefExtensions; }
+            IEnumerable<V8Extension^>^ get() { return _cefExtensions; }
         }
 
         /// <summary>
@@ -378,10 +385,10 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Registers an extension with the provided settings.
+        /// Register a new V8 extension with the specified JavaScript extension code
         /// </summary>
-        /// <param name="extension">The CefExtension that contains the extension code.</param>
-        void RegisterExtension(CefExtension^ extension)
+        /// <param name="extension">The V8Extension that contains the extension code.</param>
+        void RegisterExtension(V8Extension^ extension)
         {
             if (_cefExtensions->Contains(extension))
             {

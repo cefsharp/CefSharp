@@ -143,6 +143,39 @@ namespace CefSharp
             }
         }
 
+        virtual property bool SharedTextureEnabled
+        {
+            bool get()
+            {
+                return _windowInfo->shared_texture_enabled == 1;
+            }
+            void set(bool sharedTextureEnabled)
+            {
+                _windowInfo->shared_texture_enabled = sharedTextureEnabled;
+            }
+        }
+
+        virtual property bool ExternalBeginFrameEnabled
+        {
+            bool get()
+            {
+                return _windowInfo->external_begin_frame_enabled == 1;
+            }
+            void set(bool externalBeginFrameEnabled)
+            {
+                _windowInfo->external_begin_frame_enabled = externalBeginFrameEnabled;
+            }
+        }
+
+        virtual void SetAsChild(IntPtr parentHandle)
+        {
+            HWND hwnd = static_cast<HWND>(parentHandle.ToPointer());
+            RECT rect;
+            GetClientRect(hwnd, &rect);
+            CefWindowInfo window;
+            _windowInfo->SetAsChild(hwnd, rect);
+        }
+
         virtual void SetAsChild(IntPtr parentHandle, int left, int top, int right, int bottom)
         {
             RECT rect;

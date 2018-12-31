@@ -653,7 +653,7 @@ namespace CefSharp
                 for (size_t i = 0; i < extensionList->GetSize(); i++)
                 {
                     auto extension = extensionList->GetList(i);
-                    auto ext = gcnew CefExtension(StringUtils::ToClr(extension->GetString(0)), StringUtils::ToClr(extension->GetString(1)));
+                    auto ext = gcnew V8Extension(StringUtils::ToClr(extension->GetString(0)), StringUtils::ToClr(extension->GetString(1)));
 
                     _extensions->Add(ext);
                 }
@@ -663,7 +663,7 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnWebKitInitialized()
     {
-        for each(CefExtension^ extension in _extensions->AsReadOnly())
+        for each(V8Extension^ extension in _extensions->AsReadOnly())
         {
             //only support extensions without handlers now
             CefRegisterExtension(StringUtils::ToNative(extension->Name), StringUtils::ToNative(extension->JavascriptCode), NULL);
