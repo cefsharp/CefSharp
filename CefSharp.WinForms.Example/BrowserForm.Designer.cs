@@ -65,8 +65,9 @@ namespace CefSharp.WinForms.Example
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDataUrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.httpbinorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.browserTabControl = new System.Windows.Forms.TabControl();
             this.runFileDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.browserTabControl = new System.Windows.Forms.TabControl();
+            this.loadExtensionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -339,7 +340,8 @@ namespace CefSharp.WinForms.Example
             this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openDataUrlToolStripMenuItem,
             this.httpbinorgToolStripMenuItem,
-            this.runFileDialogToolStripMenuItem});
+            this.runFileDialogToolStripMenuItem,
+            this.loadExtensionsToolStripMenuItem});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.testToolStripMenuItem.Text = "Test";
@@ -358,6 +360,13 @@ namespace CefSharp.WinForms.Example
             this.httpbinorgToolStripMenuItem.Text = "httpbin.org";
             this.httpbinorgToolStripMenuItem.Click += new System.EventHandler(this.OpenHttpBinOrgToolStripMenuItemClick);
             // 
+            // runFileDialogToolStripMenuItem
+            // 
+            this.runFileDialogToolStripMenuItem.Name = "runFileDialogToolStripMenuItem";
+            this.runFileDialogToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.runFileDialogToolStripMenuItem.Text = "Run File Dialog";
+            this.runFileDialogToolStripMenuItem.Click += new System.EventHandler(this.RunFileDialogToolStripMenuItemClick);
+            // 
             // browserTabControl
             // 
             this.browserTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -368,12 +377,12 @@ namespace CefSharp.WinForms.Example
             this.browserTabControl.Size = new System.Drawing.Size(1095, 719);
             this.browserTabControl.TabIndex = 2;
             // 
-            // runFileDialogToolStripMenuItem
+            // loadExtensionsToolStripMenuItem
             // 
-            this.runFileDialogToolStripMenuItem.Name = "runFileDialogToolStripMenuItem";
-            this.runFileDialogToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
-            this.runFileDialogToolStripMenuItem.Text = "Run File Dialog";
-            this.runFileDialogToolStripMenuItem.Click += new System.EventHandler(this.RunFileDialogToolStripMenuItemClick);
+            this.loadExtensionsToolStripMenuItem.Name = "loadExtensionsToolStripMenuItem";
+            this.loadExtensionsToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.loadExtensionsToolStripMenuItem.Text = "Load Example Extension";
+            this.loadExtensionsToolStripMenuItem.Click += new System.EventHandler(this.LoadExtensionsToolStripMenuItemClick);
             // 
             // BrowserForm
             // 
@@ -434,5 +443,6 @@ namespace CefSharp.WinForms.Example
         private System.Windows.Forms.ToolStripMenuItem openDataUrlToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem httpbinorgToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runFileDialogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadExtensionsToolStripMenuItem;
     }
 }
