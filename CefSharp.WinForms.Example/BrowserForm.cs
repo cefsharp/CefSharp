@@ -565,15 +565,17 @@ namespace CefSharp.WinForms.Example
                         throw new DirectoryNotFoundException("Unable to locate example extensions folder - " + dir);
                     }
 
-                    var extensionHandler = new ExtensionHandler
+                    Cef.UIThreadTaskFactory.StartNew(() =>
                     {
-                        LoadExtensionPopup = (url) =>
+                        var extensionHandler = new ExtensionHandler
                         {
-                            BeginInvoke(new Action(() =>
+                            LoadExtensionPopup = (url) =>
                             {
-                                var extensionForm = new Form();
+                                BeginInvoke(new Action(() =>
+                                {
+                                    var extensionForm = new Form();
 
-                                var extensionBrowser = new ChromiumWebBrowser(url);
+                                    var extensionBrowser = new ChromiumWebBrowser(url);
                                 //extensionBrowser.IsBrowserInitializedChanged += (s, args) =>
                                 //{
                                 //    extensionBrowser.ShowDevTools();
@@ -581,19 +583,20 @@ namespace CefSharp.WinForms.Example
 
                                 extensionForm.Controls.Add(extensionBrowser);
 
-                                extensionForm.Show(this);
-                            }));
-                        },
-                        GetActiveBrowser = (extension, isIncognito) =>
-                        {
+                                    extensionForm.Show(this);
+                                }));
+                            },
+                            GetActiveBrowser = (extension, isIncognito) =>
+                            {
                             //Return the active browser for which the extension will act upon
                             return control.Browser.GetBrowser();
-                        }
-                    };
+                            }
+                        };
 
                     //requestContext.LoadExtensionFromDirectory(Path.Combine(dir, "set_page_color"), new ExtensionHandler());
 
                     requestContext.LoadExtensionsFromDirectory(dir, extensionHandler);
+                    });
                 }
                 else
                 {
