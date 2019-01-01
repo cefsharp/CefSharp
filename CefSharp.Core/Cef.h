@@ -21,7 +21,6 @@
 #include "CookieManager.h"
 #include "AbstractCefSettings.h"
 #include "RequestContext.h"
-#include "SchemeHandlerFactoryWrapper.h"
 
 using namespace System::Collections::Generic;
 using namespace System::Linq;
@@ -140,7 +139,9 @@ namespace CefSharp
         /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(AbstractCefSettings^ cefSettings)
         {
-            return Initialize(cefSettings, false, nullptr);
+            auto cefApp = gcnew DefaultApp(nullptr, cefSettings->CefCustomSchemes);
+
+            return Initialize(cefSettings, false, cefApp);
         }
 
         /// <summary>
@@ -154,6 +155,23 @@ namespace CefSharp
         /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
+        {
+            auto cefApp = gcnew DefaultApp(browserProcessHandler, cefSettings->CefCustomSchemes);
+
+            return Initialize(cefSettings, performDependencyCheck, cefApp);
+        }
+
+        /// <summary>
+        /// Initializes CefSharp with user-provided settings.
+        /// It's important to note that Initialize/Shutdown <strong>MUST</strong> be called on your main
+        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
+        /// </summary>
+        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
+        /// <param name="cefApp">Implement this interface to provide handler implementations. Null if you don't wish to handle these events</param>
+        /// <returns>true if successful; otherwise, false.</returns>
+        static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IApp^ cefApp)
         {
             if (IsInitialized)
             {
@@ -179,33 +197,14 @@ namespace CefSharp
                 throw gcnew FileNotFoundException("CefSettings BrowserSubprocessPath not found.", cefSettings->BrowserSubprocessPath);
             }
 
-            if (CefSharpSettings::Proxy != nullptr && !cefSettings->CommandLineArgsDisabled)
-            {
-                cefSettings->CefCommandLineArgs->Add("proxy-server", CefSharpSettings::Proxy->IP + ":" + CefSharpSettings::Proxy->Port);
-
-                if (!String::IsNullOrEmpty(CefSharpSettings::Proxy->BypassList))
-                {
-                    cefSettings->CefCommandLineArgs->Add("proxy-bypass-list", CefSharpSettings::Proxy->BypassList);
-                }
-            }
-
             UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
             IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
             FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
+            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, cefApp));
             CefMainArgs main_args;
-            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, browserProcessHandler));
 
             auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
-
-            //Register SchemeHandlerFactories - must be called after CefInitialize
-            for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
-            {
-                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
-
-                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
-                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
-            }
 
             _initialized = success;
             _multiThreadedMessageLoop = cefSettings->MultiThreadedMessageLoop;

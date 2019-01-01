@@ -264,6 +264,7 @@
     <ClInclude Include="Internals\CefExtensionWrapper.h" />
     <ClInclude Include="Internals\CefGetExtensionResourceCallbackWrapper.h" />
     <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h" />
+    <ClInclude Include="Internals\CefSchemeRegistrarWrapper.h" />
     <ClInclude Include="Internals\CefValueWrapper.h" />
     <ClInclude Include="Internals\CefWriteHandlerWrapper.h" />
     <ClInclude Include="Internals\CefImageWrapper.h" />
