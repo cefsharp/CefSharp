@@ -32,8 +32,6 @@ namespace CefSharp
 {
     public ref class Cef sealed
     {
-        #define ThrowIfCefNotInitialized() if (!_initialized) throw gcnew Exception(__FUNCTION__ + " requires that CefRequestContext be initialized first. The earlier possible place to execute " + __FUNCTION__ + " is in IBrowserProcessHandler.OnContextInitialized. Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.");
-
     private:
         static Object^ _sync;
 
@@ -324,8 +322,6 @@ namespace CefSharp
             String^ targetDomain,
             bool allowTargetSubdomains)
         {
-            //ThrowIfCefNotInitialized();
-
             return CefAddCrossOriginWhitelistEntry(
                 StringUtils::ToNative(sourceOrigin),
                 StringUtils::ToNative(targetProtocol),
@@ -350,8 +346,6 @@ namespace CefSharp
             bool allowTargetSubdomains)
 
         {
-            //ThrowIfCefNotInitialized();
-
             return CefRemoveCrossOriginWhitelistEntry(
                 StringUtils::ToNative(sourceOrigin),
                 StringUtils::ToNative(targetProtocol),
@@ -366,24 +360,24 @@ namespace CefSharp
         /// </remarks>
         static bool ClearCrossOriginWhitelist()
         {
-            //ThrowIfCefNotInitialized();
-
             return CefClearCrossOriginWhitelist();
         }
 
         /// <summary>
-        /// Returns the global cookie manager.
+        /// Returns the global cookie manager. By default data will be stored at CefSettings.CachePath if specified or in memory otherwise.
+        /// Using this method is equivalent to calling Cef.GetGlobalRequestContext().GetDefaultCookieManager()
+        /// The earlier possible place to access the ICookieManager is in IBrowserProcessHandler.OnContextInitialized.
+        /// Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
         /// </summary>
-        /// <returns>A the global cookie manager</returns>
+        /// <returns>A the global cookie manager or null if the RequestContext has not yet been initialized.</returns>
         static ICookieManager^ GetGlobalCookieManager()
         {
-            //ThrowIfCefNotInitialized();
-
             auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
             if (cookieManager.get())
             {
                 return gcnew CookieManager(cookieManager);
             }
+
             return nullptr;
         }
 
@@ -398,13 +392,12 @@ namespace CefSharp
         /// <returns>A blocking cookie manager</returns>
         static ICookieManager^ GetBlockingCookieManager()
         {
-            //ThrowIfCefNotInitialized();
-
             auto cookieManager = CefCookieManager::GetBlockingManager();
             if (cookieManager.get())
             {
                 return gcnew CookieManager(cookieManager);
             }
+
             return nullptr;
         }
 
@@ -488,13 +481,13 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Clear all registered scheme handler factories.
+        /// Clear all scheme handler factories registered with the global request context.
+        /// Returns false on error. This function may be called on any thread in the browser process.
+        /// Using this function is equivalent to calling Cef.GetGlobalRequestContext().ClearSchemeHandlerFactories().
         /// </summary>
         /// <returns>Returns false on error.</returns>
         static bool ClearSchemeHandlerFactories()
         {
-            //ThrowIfCefNotInitialized();
-
             return CefClearSchemeHandlerFactories();
         }
 
@@ -503,8 +496,6 @@ namespace CefSharp
         /// </summary>
         static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
         {
-            //ThrowIfCefNotInitialized();
-
             CefVisitWebPluginInfo(new PluginVisitor(visitor));
         }
 
@@ -515,8 +506,6 @@ namespace CefSharp
         /// <returns>Returns List of <see cref="Plugin"/> structs.</returns>
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
-            //ThrowIfCefNotInitialized();
-
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
 
@@ -530,8 +519,6 @@ namespace CefSharp
         /// </summary>
         static void RefreshWebPlugins()
         {
-            //ThrowIfCefNotInitialized();
-
             CefRefreshWebPlugins();
         }
 
@@ -541,8 +528,6 @@ namespace CefSharp
         /// <param name="path">Path (directory + file).</param>
         static void UnregisterInternalWebPlugin(String^ path)
         {
-            //ThrowIfCefNotInitialized();
-
             CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
         }
 
@@ -567,12 +552,12 @@ namespace CefSharp
 
         /// <summary>
         /// Gets the Global Request Context. Make sure to Dispose of this object when finished.
+        /// The earlier possible place to access the IRequestContext is in IBrowserProcessHandler.OnContextInitialized.
+        /// Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
         /// </summary>
-        /// <returns>Returns the global request context or null.</returns>
+        /// <returns>Returns the global request context or null if the RequestContext has not been initialized yet.</returns>
         static IRequestContext^ GetGlobalRequestContext()
         {
-            //ThrowIfCefNotInitialized();
-
             auto context = CefRequestContext::GetGlobalContext();
 
             if (context.get())

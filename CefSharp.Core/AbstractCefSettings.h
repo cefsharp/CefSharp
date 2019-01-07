@@ -97,6 +97,18 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Set to true to enable date-based expiration of built in network security information (i.e. certificate transparency logs,
+        /// HSTS preloading and pinning information). Enabling this option improves network security but may cause HTTPS load failures when
+        /// using CEF binaries built more than 10 weeks in the past. See https://www.certificate-transparency.org/ and
+        /// https://www.chromium.org/hsts for details. Can be set globally using the CefSettings.EnableNetSecurityExpiration value.
+        /// </summary>
+        property bool EnableNetSecurityExpiration
+        {
+            bool get() { return _cefSettings->enable_net_security_expiration == 1; }
+            void set(bool value) { _cefSettings->enable_net_security_expiration = value; }
+        }
+
+        /// <summary>
         /// Set to true to control browser process main (UI) thread message pump
         /// scheduling via the IBrowserProcessHandler.OnScheduleMessagePumpWork
         /// callback. This option is recommended for use in combination with the
