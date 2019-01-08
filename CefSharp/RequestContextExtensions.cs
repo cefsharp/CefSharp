@@ -9,7 +9,7 @@ namespace CefSharp
     public static class RequestContextExtensions
     {
         /// <summary>
-        /// Load an extension from the given directory.
+        /// Load an extension from the given directory. To load a crx file you must unzip it first.
         /// For further details see <seealso cref="IRequestContext.LoadExtension(string, string, IExtensionHandler)"/>
         /// </summary>
         /// <param name="requestContext">request context</param>
@@ -23,7 +23,7 @@ namespace CefSharp
         /// <summary>
         /// Load extension(s) from the given directory. This methods obtains all the sub directories of <paramref name="rootDirectory"/>
         /// and calls <see cref="IRequestContext.LoadExtension(string, string, IExtensionHandler)"/> if manifest.json
-        /// is found in the sub folder.
+        /// is found in the sub folder. To load crx file(s) you must unzip them first.
         /// For further details see <seealso cref="IRequestContext.LoadExtension(string, string, IExtensionHandler)"/>
         /// </summary>
         /// <param name="requestContext">request context</param>
