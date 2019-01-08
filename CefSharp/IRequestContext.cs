@@ -270,9 +270,14 @@ namespace CefSharp
         /// <param name="manifestJson">If extension resources will be provided by the client then rootDirectory should be a path component unique to the extension
         /// and manifestJson should contain the contents that would otherwise be read from the manifest.json file on disk</param>
         /// <param name="handler">handle events related to browser extensions</param>
-        /// <remarks>For extensions that load a popup you are required to query the Manifest, build a Url in the format
+        /// <remarks>
+        /// For extensions that load a popup you are required to query the Manifest, build a Url in the format
         /// chrome-extension://{extension.Identifier}/{default_popup} with default_popup url coming from the mainfest. With the extension
-        /// url you then need to open a new Form/Window/Tab and create a new ChromiumWebBrowser instance to host the extension popup</remarks>
+        /// url you then need to open a new Form/Window/Tab and create a new ChromiumWebBrowser instance to host the extension popup.
+        /// To load a crx file you must first unzip them to a folder and pass the path containing the extension as <paramref name="rootDirectory"/>.
+        /// It in theory should be possible to load a crx file in memory, passing it's manifest.json file content as <paramref name="manifestJson"/>
+        /// then fulfilling the resource rquests made to <see cref="IExtensionHandler.GetExtensionResource(IExtension, IBrowser, string, IGetExtensionResourceCallback)"/>.
+        /// </remarks>
         void LoadExtension(string rootDirectory, string manifestJson, IExtensionHandler handler);
     }
 }
