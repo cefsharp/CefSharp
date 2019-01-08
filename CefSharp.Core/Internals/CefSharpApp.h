@@ -55,19 +55,20 @@ namespace CefSharp
             //CefRegisterSchemeHandlerFactory requires access to the Global CefRequestContext
             for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)
             {
-                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
+                if (!Object::ReferenceEquals(cefCustomScheme->SchemeHandlerFactory, nullptr))
+                {
+                    auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
 
-                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
-                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+                    CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                    CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+                }
             }
         }
 
         virtual void OnScheduleMessagePumpWork(int64 delay_ms)  OVERRIDE
         {
-            if (!Object::ReferenceEquals(_app, nullptr) && !Object::ReferenceEquals(_app->BrowserProcessHandler, nullptr))
-            {
-                _app->BrowserProcessHandler->OnScheduleMessagePumpWork(delay_ms);
-            }
+            //We rely on previous checks to make sure _app and _app->BrowserProcessHandler aren't null
+            _app->BrowserProcessHandler->OnScheduleMessagePumpWork(delay_ms);
         }
 
         virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> commandLine) OVERRIDE
