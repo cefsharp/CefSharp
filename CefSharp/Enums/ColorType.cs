@@ -9,14 +9,13 @@ namespace CefSharp.Enums
     /// </summary>
     public enum ColorType
     {
-        ///
-        // RGBA with 8 bits per pixel (32bits total).
-        ///
+        /// <summary>
+        /// RGBA with 8 bits per pixel (32bits total).
+        /// </summary>
         Rgba8888,
-
-        ///
-        // BGRA with 8 bits per pixel (32bits total).
-        ///
+        /// <summary>
+        /// BGRA with 8 bits per pixel (32bits total).
+        /// </summary>
         Bgra8888
     }
 }

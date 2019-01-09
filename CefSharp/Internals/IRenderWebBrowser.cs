@@ -8,6 +8,10 @@ using CefSharp.Structs;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// IRenderWebBrowser is an internal interface used by CefSharp for the WPF/Offscreen implementation
+    /// The ChromiumWebBrowser instances implement this interface
+    /// </summary>
     public interface IRenderWebBrowser : IWebBrowserInternal
     {
         /// <summary>
@@ -52,7 +56,7 @@ namespace CefSharp.Internals
 
         /// <summary>
         /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the
-        /// value of <see cref="ScreenInfo.ScaleFactor"/> returned from <see cref="GetScreenInfo"/>.
+        /// value of <see cref="ScreenInfo.DeviceScaleFactor"/> returned from <see cref="GetScreenInfo"/>.
         /// Called on the CEF UI Thread
         /// </summary>
         /// <param name="type">indicates whether the element is the view or the popup widget.</param>
@@ -86,7 +90,7 @@ namespace CefSharp.Internals
         bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y);
 
         /// <summary>
-        /// Called when the web view wants to update the mouse cursor during a drag & drop operation.
+        /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
         /// </summary>
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
         void UpdateDragCursor(DragOperationsMask operation);

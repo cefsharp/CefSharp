@@ -29,7 +29,7 @@ namespace CefSharp
         /// Initializes a new instance of the <see cref="ByteArrayResourceHandler"/> class.
         /// </summary>
         /// <param name="mimeType">mimeType</param>
-        /// <param name="filePath">filePath</param>
+        /// <param name="data">byte array</param>
         public ByteArrayResourceHandler(string mimeType, byte[] data)
         {
             if (string.IsNullOrEmpty(mimeType))
@@ -41,7 +41,6 @@ namespace CefSharp
             {
                 throw new ArgumentNullException("data", "Please provide a valid array");
             }
-
 
             MimeType = mimeType;
             Data = data;
