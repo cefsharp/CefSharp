@@ -203,5 +203,10 @@ namespace CefSharp
         /// changed dynamically via IBrowserHost.SetWindowlessFrameRate.
         /// </summary>
         int WindowlessFrameRate { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating if the browser settings has been disposed.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

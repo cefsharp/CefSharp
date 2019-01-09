@@ -18,6 +18,8 @@ namespace CefSharp
     /// </summary>
     public ref class BrowserSettings : IBrowserSettings
     {
+    private:
+        bool _isDisposed = false;
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -40,6 +42,7 @@ namespace CefSharp
         !BrowserSettings()
         {
             _browserSettings = NULL;
+            _isDisposed = true;
         }
 
         ~BrowserSettings()
@@ -365,6 +368,14 @@ namespace CefSharp
         {
             int get() { return _browserSettings->windowless_frame_rate; }
             void set(int value) { _browserSettings->windowless_frame_rate = value; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the browser settings has been disposed.
+        /// </summary>
+        virtual property bool IsDisposed
+        {
+            bool get() { return _isDisposed; }
         }
     };
 }
