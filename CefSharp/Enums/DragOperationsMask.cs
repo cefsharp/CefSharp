@@ -12,13 +12,37 @@ namespace CefSharp.Enums
     [Flags]
     public enum DragOperationsMask : uint
     {
+        /// <summary>
+        /// None
+        /// </summary>
         None = 0,
+        /// <summary>
+        /// Copy
+        /// </summary>
         Copy = 1,
+        /// <summary>
+        /// Link
+        /// </summary>
         Link = 2,
+        /// <summary>
+        /// Generic
+        /// </summary>
         Generic = 4,
+        /// <summary>
+        /// Private
+        /// </summary>
         Private = 8,
+        /// <summary>
+        /// Move
+        /// </summary>
         Move = 16,
+        /// <summary>
+        /// Delete
+        /// </summary>
         Delete = 32,
+        /// <summary>
+        /// Every drag operation.
+        /// </summary>
         Every = uint.MaxValue
     }
 }
