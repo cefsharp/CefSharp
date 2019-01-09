@@ -95,6 +95,10 @@ namespace CefSharp.Wpf
         /// </summary>
         private Point browserScreenLocation;
         /// <summary>
+        /// Browser initialization settings
+        /// </summary>
+        private BrowserSettings browserSettings;
+        /// <summary>
         /// The request context (we deliberately use a private variable so we can throw an exception if
         /// user attempts to set after browser created)
         /// </summary>
@@ -120,7 +124,28 @@ namespace CefSharp.Wpf
         /// Gets or sets the browser settings.
         /// </summary>
         /// <value>The browser settings.</value>
-        public BrowserSettings BrowserSettings { get; set; }
+        public BrowserSettings BrowserSettings
+        {
+            get { return browserSettings; }
+            set
+            {
+                if (browserCreated)
+                {
+                    throw new Exception("Browser has already been created. BrowserSettings must be" +
+                                        "set before the underlying CEF browser is created.");
+                }
+
+                //New instance is created in the constructor, if you use
+                //xaml to initialize browser settings then it will also create a new
+                //instance, so we dispose of the old one
+                if (browserSettings != null)
+                {
+                    browserSettings.Dispose();
+                }
+
+                browserSettings = value;
+            }
+        }
         /// <summary>
         /// Gets or sets the request context.
         /// </summary>
@@ -551,10 +576,10 @@ namespace CefSharp.Wpf
                 if (isDisposing)
                 {
                     browser = null;
-                    if (BrowserSettings != null)
+                    if (browserSettings != null)
                     {
-                        BrowserSettings.Dispose();
-                        BrowserSettings = null;
+                        browserSettings.Dispose();
+                        browserSettings = null;
                     }
 
                     //Incase we accidentally have a reference to the CEF drag data
@@ -1723,7 +1748,15 @@ namespace CefSharp.Wpf
                 var windowInfo = CreateOffscreenBrowserWindowInfo(source == null ? IntPtr.Zero : source.Handle);
                 //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, BrowserSettings, (RequestContext)RequestContext, address: null);
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, address: null);
+
+                //Dispose of BrowserSettings as they shouldn't be reused ans it's not possible to change the settings
+                //after the browser has been created.
+                if (browserSettings != null)
+                {
+                    browserSettings.Dispose();
+                    browserSettings = null;
+                }
             }
             browserCreated = true;
 
