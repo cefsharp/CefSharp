@@ -9,7 +9,6 @@
 #include "Internals\CefCompletionCallbackAdapter.h"
 #include "Internals\CefSetCookieCallbackAdapter.h"
 #include "Internals\CefDeleteCookiesCallbackAdapter.h"
-#include "Cef.h"
 
 using namespace CefSharp::Internals;
 
