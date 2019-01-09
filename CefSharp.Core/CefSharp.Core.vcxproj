@@ -249,6 +249,7 @@
     <ClCompile Include="Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="Internals\Serialization\JsObjectsSerialization.cpp" />
     <ClCompile Include="Internals\CefRequestContextHandlerAdapter.cpp" />
+    <ClCompile Include="RequestContext.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
