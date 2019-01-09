@@ -2,6 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#ifndef CEFSHARP_CORE_INTERNALS_CEFREQUESTCONTEXTHANDLERADAPTER_H_
+#define CEFSHARP_CORE_INTERNALS_CEFREQUESTCONTEXTHANDLERADAPTER_H_
+
 #pragma once
 
 #include "Stdafx.h"
@@ -43,3 +46,4 @@ namespace CefSharp
         };
     }
 }
+#endif  // CEFSHARP_CORE_INTERNALS_CEFREQUESTCONTEXTHANDLERADAPTER_H_
