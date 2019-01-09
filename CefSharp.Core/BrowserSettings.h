@@ -158,8 +158,8 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Controls whether JavaScript can be executed.
-        /// (Disable javascript)
+        /// Controls whether JavaScript can be executed. (Used to Enable/Disable javascript)
+        /// Also configurable using the "disable-javascript" command-line switch.
         /// </summary>
         virtual property CefState Javascript
         {
