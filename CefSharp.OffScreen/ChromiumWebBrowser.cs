@@ -549,7 +549,7 @@ namespace CefSharp.OffScreen
 
             if (IsBrowserInitialized)
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
 
@@ -590,7 +590,7 @@ namespace CefSharp.OffScreen
 
             if (IsBrowserInitialized)
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
 

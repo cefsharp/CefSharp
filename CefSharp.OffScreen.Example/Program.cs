@@ -75,7 +75,7 @@ namespace CefSharp.OffScreen.Example
                     //Check do not track status
                     var doNotTrack = (bool)preferences["enable_do_not_track"];
 
-                    Debug.WriteLine("DoNotTrack:" + doNotTrack);
+                    Debug.WriteLine("DoNotTrack: " + doNotTrack);
                 });
 
                 var onUi = Cef.CurrentlyOnThread(CefThreadIds.TID_UI);
