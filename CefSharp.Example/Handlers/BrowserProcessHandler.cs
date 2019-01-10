@@ -37,7 +37,7 @@ namespace CefSharp.Example.Handlers
 
                         foreach (var cookie in cookies)
                         {
-                            Debug.WriteLine("CookieName:" + cookie.Name);
+                            Debug.WriteLine("CookieName: " + cookie.Name);
                         }
                     }
                     else
@@ -54,7 +54,7 @@ namespace CefSharp.Example.Handlers
 
                         foreach (var cookie in cookies)
                         {
-                            Debug.WriteLine("CookieName:" + cookie.Name);
+                            Debug.WriteLine("CookieName: " + cookie.Name);
                         }
                     }
                     else

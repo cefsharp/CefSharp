@@ -35,7 +35,7 @@ namespace CefSharp.WinForms.Example
 #if DEBUG
                 if (!System.Diagnostics.Debugger.IsAttached)
                 {
-                    MessageBox.Show("When running this Example outside of Visual Studio" +
+                    MessageBox.Show("When running this Example outside of Visual Studio " +
                                     "please make sure you compile in `Release` mode.", "Warning");
                 }
 #endif
@@ -53,7 +53,7 @@ namespace CefSharp.WinForms.Example
 #if DEBUG
                 if (!System.Diagnostics.Debugger.IsAttached)
                 {
-                    MessageBox.Show("When running this Example outside of Visual Studio" +
+                    MessageBox.Show("When running this Example outside of Visual Studio " +
                                     "please make sure you compile in `Release` mode.", "Warning");
                 }
 #endif
