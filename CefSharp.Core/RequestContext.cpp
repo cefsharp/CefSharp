@@ -6,9 +6,18 @@
 #include "RequestContext.h"
 
 #include "include\cef_parser.h"
-#include "include\base\cef_bind.h"
-#include "include\wrapper\cef_closure_task.h"
 
+//For the x86 version we define and undefine CEF_INCLUDE_BASE_INTERNAL_CEF_BIND_INTERNAL_WIN_H_
+//as the /clr compliation option attempts to be helpful and convers all the __fastcall versions
+//to __stdcall which already exist, so we just use the standard calling convention and ignore
+//the optimised ones. The original error is
+//warning C4561: '__fastcall' incompatible with the '/clr' option: converting to '__stdcall'
+//(compiling source file RequestContext.cpp) 
+#define CEF_INCLUDE_BASE_INTERNAL_CEF_BIND_INTERNAL_WIN_H_
+#include "include\base\cef_bind.h"
+#undef CEF_INCLUDE_BASE_INTERNAL_CEF_BIND_INTERNAL_WIN_H_
+
+#include "include\wrapper\cef_closure_task.h"
 
 #include "CookieManager.h"
 #include "SchemeHandlerFactoryWrapper.h"
