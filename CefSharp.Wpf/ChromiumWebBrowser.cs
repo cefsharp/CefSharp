@@ -131,7 +131,7 @@ namespace CefSharp.Wpf
             {
                 if (browserCreated)
                 {
-                    throw new Exception("Browser has already been created. BrowserSettings must be" +
+                    throw new Exception("Browser has already been created. BrowserSettings must be " +
                                         "set before the underlying CEF browser is created.");
                 }
 
@@ -157,7 +157,7 @@ namespace CefSharp.Wpf
             {
                 if (browserCreated)
                 {
-                    throw new Exception("Browser has already been created. RequestContext must be" +
+                    throw new Exception("Browser has already been created. RequestContext must be " +
                                         "set before the underlying CEF browser is created.");
                 }
                 if (value != null && value.GetType() != typeof(RequestContext))
@@ -2299,7 +2299,7 @@ namespace CefSharp.Wpf
 
             if (InternalIsBrowserInitialized())
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
 
@@ -2340,7 +2340,7 @@ namespace CefSharp.Wpf
 
             if (InternalIsBrowserInitialized())
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
             var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
