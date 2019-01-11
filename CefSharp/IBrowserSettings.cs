@@ -72,8 +72,8 @@ namespace CefSharp
         CefState RemoteFonts { get; set; }
 
         /// <summary>
-        /// Controls whether JavaScript can be executed.
-        /// (Disable javascript)
+        /// Controls whether JavaScript can be executed. (Used to Enable/Disable javascript)
+        /// Also configurable using the "disable-javascript" command-line switch.
         /// </summary>
         CefState Javascript { get; set; }
 
@@ -203,5 +203,10 @@ namespace CefSharp
         /// changed dynamically via IBrowserHost.SetWindowlessFrameRate.
         /// </summary>
         int WindowlessFrameRate { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating if the browser settings has been disposed.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

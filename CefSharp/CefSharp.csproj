@@ -97,6 +97,7 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\AlphaType.cs" />
     <Compile Include="Enums\ValueType.cs" />
     <Compile Include="Enums\ColorType.cs" />
@@ -108,7 +109,9 @@
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Handler\IAccessibilityHandler.cs" />
     <Compile Include="Handler\IExtensionHandler.cs" />
+    <Compile Include="IApp.cs" />
     <Compile Include="IExtension.cs" />
+    <Compile Include="ISchemeRegistrar.cs" />
     <Compile Include="IValue.cs" />
     <Compile Include="IImage.cs" />
     <Compile Include="IJavascriptObjectRepository.cs" />

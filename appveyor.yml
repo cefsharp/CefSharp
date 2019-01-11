@@ -4,6 +4,13 @@ version: 71.0.0-CI{build}
 
 clone_depth: 10
 
+#Skip builing if we only modify text files
+skip_commits:
+  files:
+    - '**/*.md'
+    - '**/*.html'
+    - '**/*.js'
+
 # to run your custom scripts instead of automatic MSBuild
 build_script:
   - ps: .\build.ps1

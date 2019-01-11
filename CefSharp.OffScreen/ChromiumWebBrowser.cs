@@ -379,6 +379,10 @@ namespace CefSharp.OffScreen
             {
                 browserSettings = new BrowserSettings();
             }
+            else if(browserSettings.IsDisposed)
+            {
+                throw new ObjectDisposedException("browserSettings", "The BrowserSettings reference you have passed has already been disposed. You cannot reuse the BrowserSettings class");
+            }
 
             if (windowInfo == null)
             {
@@ -545,7 +549,7 @@ namespace CefSharp.OffScreen
 
             if (IsBrowserInitialized)
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
 
@@ -586,7 +590,7 @@ namespace CefSharp.OffScreen
 
             if (IsBrowserInitialized)
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
 

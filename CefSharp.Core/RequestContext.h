@@ -2,25 +2,20 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#ifndef CEFSHARP_CORE_REQUESTCONTEXT_H_
+#define CEFSHARP_CORE_REQUESTCONTEXT_H_
+
 #pragma once
 
 #include "Stdafx.h"
 #include "include\cef_request_context.h"
-#include "include\cef_parser.h"
 
-#include "SchemeHandlerFactoryWrapper.h"
 #include "RequestContextSettings.h"
-#include "CookieManager.h"
-
-#include "Internals\CefCompletionCallbackAdapter.h"
-#include "Internals\CefExtensionWrapper.h"
-#include "Internals\CefExtensionHandlerAdapter.h"
 #include "Internals\CefRequestContextHandlerAdapter.h"
 #include "Internals\CefWrapper.h"
-#include "Internals\CefResolveCallbackAdapter.h"
-#include "Internals\TypeConversion.h"
 
 using namespace System::Runtime::InteropServices;
+using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
@@ -128,28 +123,14 @@ namespace CefSharp
         /// </summary>
         /// <param name="context">context to compare</param>
         /// <returns>Returns true if the same</returns>
-        virtual bool IsSame(IRequestContext^ context)
-        {
-            ThrowIfDisposed();
-
-            auto requestContext = (RequestContext^)context;
-
-            return _requestContext->IsSame(requestContext);
-        }
+        virtual bool IsSame(IRequestContext^ context);
 
         /// <summary>
         /// Returns true if this object is sharing the same storage as the specified context.
         /// </summary>
         /// <param name="context">context to compare</param>
         /// <returns>Returns true if same storage</returns>
-        virtual bool IsSharingWith(IRequestContext^ context)
-        {
-            ThrowIfDisposed();
-
-            auto requestContext = (RequestContext^)context;
-
-            return _requestContext->IsSharingWith(requestContext);
-        }
+        virtual bool IsSharingWith(IRequestContext^ context);
 
         /// <summary>
         /// Returns the default cookie manager for this object. This will be the global
@@ -160,19 +141,7 @@ namespace CefSharp
         /// <param name="callback">If callback is non-NULL it will be executed asnychronously on the CEF IO thread
         /// after the manager's storage has been initialized.</param>
         /// <returns>Returns the default cookie manager for this object</returns>
-        virtual ICookieManager^ GetDefaultCookieManager(ICompletionCallback^ callback)
-        {
-            ThrowIfDisposed();
-
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
-
-            auto cookieManager = _requestContext->GetDefaultCookieManager(wrapper);
-            if (cookieManager.get())
-            {
-                return gcnew CookieManager(cookieManager);
-            }
-            return nullptr;
-        }
+        virtual ICookieManager^ GetDefaultCookieManager(ICompletionCallback^ callback);
 
         /// <summary>
         /// Returns true if this object is the global context. The global context is
@@ -202,24 +171,13 @@ namespace CefSharp
         /// <param name="domainName">Optional domain name</param>
         /// <param name="factory">Scheme handler factory</param>
         /// <returns>Returns false if an error occurs.</returns>
-        virtual bool RegisterSchemeHandlerFactory(String^ schemeName, String^ domainName, ISchemeHandlerFactory^ factory)
-        {
-            ThrowIfDisposed();
-
-            auto wrapper = new SchemeHandlerFactoryWrapper(factory);
-            return _requestContext->RegisterSchemeHandlerFactory(StringUtils::ToNative(schemeName), StringUtils::ToNative(domainName), wrapper);
-        }
+        virtual bool RegisterSchemeHandlerFactory(String^ schemeName, String^ domainName, ISchemeHandlerFactory^ factory);
 
         /// <summary>
         /// Clear all registered scheme handler factories. 
         /// </summary>
         /// <returns>Returns false on error.</returns>
-        virtual bool ClearSchemeHandlerFactories()
-        {
-            ThrowIfDisposed();
-
-            return _requestContext->ClearSchemeHandlerFactories();
-        }
+        virtual bool ClearSchemeHandlerFactories();
 
         /// <summary>
         /// Returns the cache path for this object. If empty an "incognito mode"
@@ -242,12 +200,7 @@ namespace CefSharp
         /// be called to rebuild the plugin list cache.
         /// </summary>
         /// <param name="reloadPages">reload any pages with pluginst</param>
-        virtual void PurgePluginListCache(bool reloadPages)
-        {
-            ThrowIfDisposed();
-
-            _requestContext->PurgePluginListCache(reloadPages);
-        }
+        virtual void PurgePluginListCache(bool reloadPages);
 
         /// <summary>
         /// Returns true if a preference with the specified name exists. This method
@@ -260,12 +213,7 @@ namespace CefSharp
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
-        virtual bool HasPreference(String^ name)
-        {
-            ThrowIfDisposed();
-
-            return _requestContext->HasPreference(StringUtils::ToNative(name));
-        }
+        virtual bool HasPreference(String^ name);
 
         /// <summary>
         /// Returns the value for the preference with the specified name. Returns
@@ -281,12 +229,7 @@ namespace CefSharp
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
-        virtual Object^ GetPreference(String^ name)
-        {
-            ThrowIfDisposed();
-
-            return TypeConversion::FromNative(_requestContext->GetPreference(StringUtils::ToNative(name)));
-        }
+        virtual Object^ GetPreference(String^ name);
 
         /// <summary>
         /// Returns all preferences as a dictionary. The returned
@@ -298,14 +241,7 @@ namespace CefSharp
         /// <param name="includeDefaults">If true then
         /// preferences currently at their default value will be included.</param>
         /// <returns>Preferences (dictionary can have sub dictionaries)</returns>
-        virtual IDictionary<String^, Object^>^ GetAllPreferences(bool includeDefaults)
-        {
-            ThrowIfDisposed();
-
-            auto preferences = _requestContext->GetAllPreferences(includeDefaults);
-
-            return TypeConversion::FromNative(preferences);
-        }
+        virtual IDictionary<String^, Object^>^ GetAllPreferences(bool includeDefaults);
 
         /// <summary>
         /// Returns true if the preference with the specified name can be modified
@@ -320,12 +256,7 @@ namespace CefSharp
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
-        virtual bool CanSetPreference(String^ name)
-        {
-            ThrowIfDisposed();
-
-            return _requestContext->CanSetPreference(StringUtils::ToNative(name));
-        }
+        virtual bool CanSetPreference(String^ name);
 
         /// <summary>
         /// Set the value associated with preference name. If value is null the
@@ -343,18 +274,7 @@ namespace CefSharp
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
-        virtual bool SetPreference(String^ name, Object^ value, [Out] String^ %error)
-        {
-            ThrowIfDisposed();
-
-            CefString cefError;
-
-            auto success = _requestContext->SetPreference(StringUtils::ToNative(name), TypeConversion::ToNative(value), cefError);
-
-            error = StringUtils::ToClr(cefError);
-
-            return success;
-        }
+        virtual bool SetPreference(String^ name, Object^ value, [Out] String^ %error);
 
         /// <summary>
         /// Clears all certificate exceptions that were added as part of handling
@@ -364,14 +284,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
         /// completion. This param is optional</param>
-        virtual void ClearCertificateExceptions(ICompletionCallback^ callback)
-        {
-            ThrowIfDisposed();
-
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
-
-            _requestContext->ClearCertificateExceptions(wrapper);
-        }
+        virtual void ClearCertificateExceptions(ICompletionCallback^ callback);
 
         /// <summary>
         /// Clears all active and idle connections that Chromium currently has.
@@ -380,32 +293,14 @@ namespace CefSharp
         /// </summary>
         /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
         /// completion. This param is optional</param>
-        virtual void CloseAllConnections(ICompletionCallback^ callback)
-        {
-            ThrowIfDisposed();
-
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
-
-            _requestContext->CloseAllConnections(wrapper);
-        }
+        virtual void CloseAllConnections(ICompletionCallback^ callback);
 
         /// <summary>
         /// Attempts to resolve origin to a list of associated IP addresses.
         /// </summary>
         /// <param name="origin">host name to resolve</param>
         /// <returns>A task that represents the Resoolve Host operation. The value of the TResult parameter contains ResolveCallbackResult.</returns>
-        virtual Task<ResolveCallbackResult>^ ResolveHostAsync(Uri^ origin)
-        {
-            ThrowIfDisposed();
-
-            auto callback = gcnew TaskResolveCallback();
-
-            CefRefPtr<CefResolveCallback> callbackWrapper = new CefResolveCallbackAdapter(callback);
-
-            _requestContext->ResolveHost(StringUtils::ToNative(origin->AbsoluteUri), callbackWrapper);
-
-            return callback->Task;
-        }
+        virtual Task<ResolveCallbackResult>^ ResolveHostAsync(Uri^ origin);
 
         /// <summary>
         /// Attempts to resolve origin to a list of associated IP addresses using
@@ -416,30 +311,14 @@ namespace CefSharp
         /// <param name="resolvedIpAddresses">list of resolved IP
         /// addresses or empty list if no cached data is available.</param>
         /// <returns> Returns <see cref="CefErrorCode.None"/> on success</returns>
-        virtual CefErrorCode ResolveHostCached(Uri^ origin, [Out] IList<String^>^ %resolvedIpAddresses)
-        {
-            ThrowIfDisposed();
-
-            std::vector<CefString> addresses;
-
-            auto errorCode = _requestContext->ResolveHostCached(StringUtils::ToNative(origin->AbsoluteUri), addresses);
-
-            resolvedIpAddresses = StringUtils::ToClr(addresses);
-
-            return (CefErrorCode)errorCode;
-        }
+        virtual CefErrorCode ResolveHostCached(Uri^ origin, [Out] IList<String^>^ %resolvedIpAddresses);
 
         /// <summary>
         /// Returns true if this context was used to load the extension identified by extensionId. Other contexts sharing the same storage will also have access to the extension (see HasExtension).
         /// This method must be called on the CEF UI thread.
         /// </summary>
         /// <returns>Returns true if this context was used to load the extension identified by extensionId</returns>
-        virtual bool DidLoadExtension(String^ extensionId)
-        {
-            ThrowIfDisposed();
-
-            return _requestContext->DidLoadExtension(StringUtils::ToNative(extensionId));
-        }
+        virtual bool DidLoadExtension(String^ extensionId);
 
         /// <summary>
         /// Returns the extension matching extensionId or null if no matching extension is accessible in this context (see HasExtension).
@@ -447,19 +326,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="extensionId">extension Id</param>
         /// <returns>Returns the extension matching extensionId or null if no matching extension is accessible in this context</returns>
-        virtual IExtension^ GetExtension(String^ extensionId)
-        {
-            ThrowIfDisposed();
-            
-            auto extension = _requestContext->GetExtension(StringUtils::ToNative(extensionId));
-
-            if (extension.get())
-            {
-                return gcnew CefExtensionWrapper(extension);
-            }
-
-            return nullptr;
-        }
+        virtual IExtension^ GetExtension(String^ extensionId);
 
         /// <summary>
         /// Retrieve the list of all extensions that this context has access to (see HasExtension).
@@ -468,18 +335,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="extensionIds">output a list of extensions Ids</param>
         /// <returns>returns true on success otherwise false</returns>
-        virtual bool GetExtensions([Out] IList<String^>^ %extensionIds)
-        {
-            ThrowIfDisposed();
-
-            std::vector<CefString> extensions;
-
-            auto success = _requestContext->GetExtensions(extensions);
-
-            extensionIds = StringUtils::ToClr(extensions);
-
-            return success;
-        }
+        virtual bool GetExtensions([Out] IList<String^>^ %extensionIds);
 
         /// <summary>
         /// Returns true if this context has access to the extension identified by extensionId.
@@ -488,12 +344,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="extensionId">extension id</param>
         /// <returns>Returns true if this context has access to the extension identified by extensionId</returns>
-        virtual bool HasExtension(String^ extensionId)
-        {
-            ThrowIfDisposed();
-
-            return _requestContext->HasExtension(StringUtils::ToNative(extensionId));
-        }
+        virtual bool HasExtension(String^ extensionId);
 
         /// <summary>
         /// Load an extension. If extension resources will be read from disk using the default load implementation then rootDirectoy
@@ -522,39 +373,7 @@ namespace CefSharp
         /// <param name="manifestJson">If extension resources will be provided by the client then rootDirectory should be a path component unique to the extension
         /// and manifestJson should contain the contents that would otherwise be read from the manifest.json file on disk</param>
         /// <param name="handler">handle events related to browser extensions</param>
-        virtual void LoadExtension(String^ rootDirectory, String^ manifestJson, IExtensionHandler^ handler)
-        {
-            ThrowIfDisposed();
-
-            if (!CefCurrentlyOn(CefThreadId::TID_UI))
-            {
-                throw gcnew Exception("Must be called on the CEF UI Thread, use Cef.UIThreadTaskFactory.StartNew.");
-            }
-
-            CefRefPtr<CefDictionaryValue> manifest;
-
-            if (!String::IsNullOrEmpty(manifestJson))
-            {
-                cef_json_parser_error_t errorCode;
-                CefString errorMessage;
-                auto value = CefParseJSONAndReturnError(StringUtils::ToNative(manifestJson),
-                    cef_json_parser_options_t::JSON_PARSER_ALLOW_TRAILING_COMMAS,
-                    errorCode,
-                    errorMessage);
-
-                if (errorCode == cef_json_parser_error_t::JSON_NO_ERROR)
-                {
-                    manifest = value->GetDictionary();
-                }
-                else
-                {
-                    throw gcnew Exception("Unable to parse JSON ErrorCode:" + Convert::ToString((int)errorCode) + "; ErrorMessage:" + StringUtils::ToClr(errorMessage));
-                }
-            }
-
-            CefRefPtr<CefExtensionHandler> extensionHandler = handler == nullptr ? NULL : new CefExtensionHandlerAdapter(handler);
-
-            _requestContext->LoadExtension(StringUtils::ToNative(rootDirectory), manifest, extensionHandler);
-        }
+        virtual void LoadExtension(String^ rootDirectory, String^ manifestJson, IExtensionHandler^ handler);
     };
 }
+#endif  // CEFSHARP_CORE_REQUESTCONTEXT_H_
