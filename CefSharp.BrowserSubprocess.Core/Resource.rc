@@ -1,4 +1,4 @@
-1 VERSIONINFO
+﻿1 VERSIONINFO
  FILEVERSION 71.0.0
  PRODUCTVERSION 71.0.0
  FILEFLAGSMASK 0x17L
@@ -17,7 +17,7 @@ BEGIN
         BEGIN
             VALUE "FileDescription", "CefSharp.BrowserSubprocess.Core"
             VALUE "FileVersion", "71.0.0"
-            VALUE "LegalCopyright", "Copyright © 2010-2018 The CefSharp Authors"
+            VALUE "LegalCopyright", "Copyright 漏 2010-2018 The CefSharp Authors"
             VALUE "ProductName", "CefSharp"
             VALUE "ProductVersion", "71.0.0"
         END
