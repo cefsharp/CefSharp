@@ -176,7 +176,8 @@ namespace CefSharp
         {
             string path;
 
-            if(new Uri(browserSubProcessPath).IsAbsoluteUri)
+            Uri pathUri;
+            if(Uri.TryCreate(browserSubProcessPath, UriKind.Absolute, out pathUri) && pathUri.IsAbsoluteUri)
             {
                 path = Path.GetDirectoryName(browserSubProcessPath);
             }
