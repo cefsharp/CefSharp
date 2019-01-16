@@ -144,6 +144,8 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
+        ThrowIfExecutedOnNonCefUiThread();
+
         return _requestContext->HasPreference(StringUtils::ToNative(name));
     }
 
@@ -164,6 +166,8 @@ namespace CefSharp
     Object^ RequestContext::GetPreference(String^ name)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         return TypeConversion::FromNative(_requestContext->GetPreference(StringUtils::ToNative(name)));
     }
@@ -204,6 +208,8 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
+        ThrowIfExecutedOnNonCefUiThread();
+
         return _requestContext->CanSetPreference(StringUtils::ToNative(name));
     }
 
@@ -226,6 +232,8 @@ namespace CefSharp
     bool RequestContext::SetPreference(String^ name, Object^ value, [Out] String^ %error)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         CefString cefError;
 
@@ -318,6 +326,8 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
+        ThrowIfExecutedOnNonCefUiThread();
+
         return _requestContext->DidLoadExtension(StringUtils::ToNative(extensionId));
     }
 
@@ -330,6 +340,8 @@ namespace CefSharp
     IExtension^ RequestContext::GetExtension(String^ extensionId)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         auto extension = _requestContext->GetExtension(StringUtils::ToNative(extensionId));
 
@@ -352,6 +364,8 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
+        ThrowIfExecutedOnNonCefUiThread();
+
         std::vector<CefString> extensions;
 
         auto success = _requestContext->GetExtensions(extensions);
@@ -371,6 +385,8 @@ namespace CefSharp
     bool RequestContext::HasExtension(String^ extensionId)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         return _requestContext->HasExtension(StringUtils::ToNative(extensionId));
     }

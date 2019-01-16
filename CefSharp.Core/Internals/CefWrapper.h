@@ -27,6 +27,19 @@ namespace CefSharp
                 }
             }
 
+            void ThrowIfExecutedOnNonCefUiThread()
+            {
+                if (!CefCurrentlyOn(CefThreadId::TID_UI))
+                {
+                    auto st = gcnew StackTrace(gcnew StackFrame(1));
+                    auto method = st->GetFrame(0)->GetMethod();
+
+                    throw gcnew Exception(gcnew String(method->Name + L" must be called on the CEF UI Thread, by default this is different " +
+                        "to your applications UI Thread. You can use Cef.UIThreadTaskFactory to execute code on the CEF UI Thread. " +
+                        "IBrowserProcessHandler.OnContextInitialized/IRequestContextHandler.OnRequestContextInitialized/ILifeSpanHandler.OnAfterCreated are called directly on the CEF UI Thread."));
+                }
+            }
+
         internal:
             CefWrapper() : _disposed(false)
             {
