@@ -209,7 +209,7 @@ namespace CefSharp
         /// <param name="name">name of preference</param>
         /// <returns>bool if the preference exists</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
@@ -225,7 +225,7 @@ namespace CefSharp
         /// <param name="name">preference name</param>
         /// <returns>Returns the value for the preference with the specified name</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
@@ -252,7 +252,7 @@ namespace CefSharp
         /// <returns>Returns true if the preference with the specified name can be modified
         /// using SetPreference</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
@@ -269,8 +269,8 @@ namespace CefSharp
         /// <param name="value">preference value</param>
         /// <param name="error">out error</param>
         /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
-        /// /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
