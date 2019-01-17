@@ -136,13 +136,15 @@ namespace CefSharp
     /// <param name="name">name of preference</param>
     /// <returns>bool if the preference exists</returns>
     /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-    /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+    /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
     /// executed on the CEF UI thread, so can be called directly.
     /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
     /// application thread will be the CEF UI thread.</remarks>
     bool RequestContext::HasPreference(String^ name)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         return _requestContext->HasPreference(StringUtils::ToNative(name));
     }
@@ -157,13 +159,15 @@ namespace CefSharp
     /// <param name="name">preference name</param>
     /// <returns>Returns the value for the preference with the specified name</returns>
     /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-    /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+    /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
     /// executed on the CEF UI thread, so can be called directly.
     /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
     /// application thread will be the CEF UI thread.</remarks>
     Object^ RequestContext::GetPreference(String^ name)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         return TypeConversion::FromNative(_requestContext->GetPreference(StringUtils::ToNative(name)));
     }
@@ -196,13 +200,15 @@ namespace CefSharp
     /// <returns>Returns true if the preference with the specified name can be modified
     /// using SetPreference</returns>
     /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-    /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+    /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
     /// executed on the CEF UI thread, so can be called directly.
     /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
     /// application thread will be the CEF UI thread.</remarks>
     bool RequestContext::CanSetPreference(String^ name)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         return _requestContext->CanSetPreference(StringUtils::ToNative(name));
     }
@@ -219,13 +225,15 @@ namespace CefSharp
     /// <param name="error">out error</param>
     /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
     /// /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-    /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+    /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
     /// executed on the CEF UI thread, so can be called directly.
     /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
     /// application thread will be the CEF UI thread.</remarks>
     bool RequestContext::SetPreference(String^ name, Object^ value, [Out] String^ %error)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         CefString cefError;
 
@@ -318,6 +326,8 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
+        ThrowIfExecutedOnNonCefUiThread();
+
         return _requestContext->DidLoadExtension(StringUtils::ToNative(extensionId));
     }
 
@@ -330,6 +340,8 @@ namespace CefSharp
     IExtension^ RequestContext::GetExtension(String^ extensionId)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         auto extension = _requestContext->GetExtension(StringUtils::ToNative(extensionId));
 
@@ -352,6 +364,8 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
+        ThrowIfExecutedOnNonCefUiThread();
+
         std::vector<CefString> extensions;
 
         auto success = _requestContext->GetExtensions(extensions);
@@ -371,6 +385,8 @@ namespace CefSharp
     bool RequestContext::HasExtension(String^ extensionId)
     {
         ThrowIfDisposed();
+
+        ThrowIfExecutedOnNonCefUiThread();
 
         return _requestContext->HasExtension(StringUtils::ToNative(extensionId));
     }
