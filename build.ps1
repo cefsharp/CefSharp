@@ -346,7 +346,7 @@ function WriteAssemblyVersion
     $Regex = 'public const string AssemblyVersion = "(.*)"';
     $Regex2 = 'public const string AssemblyFileVersion = "(.*)"'
     
-    $AssemblyInfo = Get-Content $Filename
+    $AssemblyInfo = Get-Content -Encoding UTF8 $Filename
     $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
     $NewString = $NewString -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
     
@@ -358,7 +358,7 @@ function WriteVersionToManifest($manifest)
     $Filename = Join-Path $WorkingDir $manifest
     $Regex = 'assemblyIdentity version="(.*?)"';
     
-    $ManifestData = Get-Content $Filename
+    $ManifestData = Get-Content -Encoding UTF8 $Filename
     $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion.0"""
     
     $NewString | Set-Content $Filename -Encoding UTF8
@@ -370,7 +370,7 @@ function WriteVersionToResourceFile($resourceFile)
     $Regex1 = 'VERSION .*';
     $Regex2 = 'Version", ".*?"';
     
-    $ResourceData = Get-Content $Filename
+    $ResourceData = Get-Content -Encoding UTF8 $Filename
     $NewString = $ResourceData -replace $Regex1, "VERSION $AssemblyVersion"
     $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
     
