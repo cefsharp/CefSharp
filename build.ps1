@@ -402,6 +402,18 @@ function WriteVersionToShfbproj
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
+function WriteVersionToAppveyor
+{
+    $Filename = Join-Path $WorkingDir appveyor.yml
+    $Regex1 = 'version: .*-CI{build}';
+    
+    $AppveyorData = Get-Content -Encoding UTF8 $Filename
+    $NewString = $AppveyorData -replace $Regex1, "version: $AssemblyVersion-CI{build}"
+    
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
 
 DownloadNuget
@@ -410,6 +422,7 @@ NugetPackageRestore
 
 WriteAssemblyVersion
 WriteVersionToShfbproj
+WriteVersionToAppveyor
 
 WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
 WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
