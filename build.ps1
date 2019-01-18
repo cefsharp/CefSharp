@@ -350,7 +350,8 @@ function WriteAssemblyVersion
     $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
     $NewString = $NewString -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
 function WriteVersionToManifest($manifest)
@@ -361,7 +362,8 @@ function WriteVersionToManifest($manifest)
     $ManifestData = Get-Content -Encoding UTF8 $Filename
     $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion.0"""
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
 function WriteVersionToResourceFile($resourceFile)
@@ -374,7 +376,9 @@ function WriteVersionToResourceFile($resourceFile)
     $NewString = $ResourceData -replace $Regex1, "VERSION $AssemblyVersion"
     $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
 
 function WriteVersionToShfbproj
 {
