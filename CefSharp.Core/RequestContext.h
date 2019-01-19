@@ -163,7 +163,7 @@ namespace CefSharp
         /// names. The domainName value will be ignored for non-standard schemes. If schemeName is
         /// a built-in scheme and no handler is returned by factory then the built-in scheme handler
         /// factory will be called. If schemeName is a custom scheme then you must also implement the
-        /// CefApp::OnRegisterCustomSchemes() method in all processes. This function may be called multiple
+        /// IApp.OnRegisterCustomSchemes() method in all processes. This function may be called multiple
         /// times to change or remove the factory that matches the specified schemeName and optional
         /// domainName.
         /// </summary>
@@ -318,6 +318,11 @@ namespace CefSharp
         /// This method must be called on the CEF UI thread.
         /// </summary>
         /// <returns>Returns true if this context was used to load the extension identified by extensionId</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         virtual bool DidLoadExtension(String^ extensionId);
 
         /// <summary>
@@ -326,6 +331,11 @@ namespace CefSharp
         /// </summary>
         /// <param name="extensionId">extension Id</param>
         /// <returns>Returns the extension matching extensionId or null if no matching extension is accessible in this context</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         virtual IExtension^ GetExtension(String^ extensionId);
 
         /// <summary>
@@ -335,6 +345,11 @@ namespace CefSharp
         /// </summary>
         /// <param name="extensionIds">output a list of extensions Ids</param>
         /// <returns>returns true on success otherwise false</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         virtual bool GetExtensions([Out] IList<String^>^ %extensionIds);
 
         /// <summary>
@@ -344,6 +359,11 @@ namespace CefSharp
         /// </summary>
         /// <param name="extensionId">extension id</param>
         /// <returns>Returns true if this context has access to the extension identified by extensionId</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         virtual bool HasExtension(String^ extensionId);
 
         /// <summary>
