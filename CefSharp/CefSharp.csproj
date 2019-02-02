@@ -118,6 +118,8 @@
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\DateTimeUtils.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
+    <Compile Include="Lagacy\LegacyResourceHandlerFactory.cs" />
+    <Compile Include="Lagacy\LegacyResourceHandlerFactoryItem.cs" />
     <Compile Include="RequestContextExtensions.cs" />
     <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />

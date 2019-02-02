@@ -150,30 +150,33 @@ namespace CefSharp
                 {
                     cefValue->SetDouble(Convert::ToDouble(value));
                 }
-                else if (type == List<Object^>::typeid)
+                else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
                 {
-                    auto list = safe_cast<List<Object^>^>(value);
-                    auto cefList = CefListValue::Create();
-                    for (int i = 0; i < list->Count; i++)
-                    {
-                        auto value = list[i];
-                        SerializeV8Object(cefList, i, value);
-                    }
-                    cefValue->SetList(cefList);
-                }
-                else if (type == Dictionary<String^, Object^>::typeid)
-                {
-                    auto dictionary = safe_cast<Dictionary<String^, Object^>^>(value);
+                    auto dictionary = (System::Collections::IDictionary^) value;
                     auto cefDictionary = CefDictionaryValue::Create();
 
-                    for each (KeyValuePair<String^, Object^>^ entry in dictionary)
+                    for each (System::Collections::DictionaryEntry entry in dictionary)
                     {
-                        auto key = StringUtils::ToNative(entry->Key);
-                        auto value = entry->Value;
+                        auto key = StringUtils::ToNative(Convert::ToString(entry.Key));
+                        auto value = entry.Value;
                         SerializeV8Object(cefDictionary, key, value);
                     }
 
                     cefValue->SetDictionary(cefDictionary);
+                }
+                else if (System::Collections::IEnumerable::typeid->IsAssignableFrom(type))
+                {
+                    auto enumerable = (System::Collections::IEnumerable^) value;
+                    auto cefList = CefListValue::Create();
+
+                    int i = 0;
+                    for each (Object^ arrObj in enumerable)
+                    {
+                        SerializeV8Object(cefList, i, arrObj);
+
+                        i++;
+                    }
+                    cefValue->SetList(cefList);
                 }
 
                 return cefValue;
