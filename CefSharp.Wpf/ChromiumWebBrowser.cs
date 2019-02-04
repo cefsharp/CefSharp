@@ -2,26 +2,31 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using Microsoft.Win32.SafeHandles;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
+using Point = System.Windows.Point;
+using Size = System.Windows.Size;
 using CefSharp.Enums;
 using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
-using Microsoft.Win32.SafeHandles;
+using CefSharp.Wpf.IME;
 using CursorType = CefSharp.Enums.CursorType;
-using Point = System.Windows.Point;
 using Rect = CefSharp.Structs.Rect;
-using Size = System.Windows.Size;
 
 namespace CefSharp.Wpf
 {
@@ -908,7 +913,47 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
-            OnImeCompositionRangeChanged(selectedRange, characterBounds);
+            Visual GetParentWindow()
+            {
+                var current = VisualTreeHelper.GetParent(this);
+                while (current != null && !(current is Window))
+                {
+                    current = VisualTreeHelper.GetParent(current);
+                }
+
+                return current as Window;
+            }
+
+            var imeKeyboardHandler = WpfKeyboardHandler as WpfKeyboardHandler;
+            if (imeKeyboardHandler.IsActive)
+            {
+                var screenInfo = GetScreenInfo();
+                var scaleFactor = screenInfo.HasValue ? screenInfo.Value.DeviceScaleFactor : 1.0f;
+
+                UiThreadRunSync(() =>
+                {
+                    var parentWindow = GetParentWindow();
+                    Point pnt = parentWindow.PointToScreen(new Point(0, 0));
+
+                    if (parentWindow != null)
+                    {
+                        var point = TransformToAncestor(parentWindow).Transform(new Point(0, 0));
+
+                        var rects = new List<Structs.Rect>();
+
+                        foreach (var item in characterBounds)
+                        {
+                            rects.Add(new Structs.Rect(
+                                (int)((point.X + item.X) * scaleFactor),
+                                (int)((point.Y + item.Y) * scaleFactor),
+                                (int)(item.Width * scaleFactor),
+                                (int)(item.Height * scaleFactor)));
+                        }
+
+                        imeKeyboardHandler.ChangeCompositionRange(selectedRange, rects);
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -2135,6 +2180,10 @@ namespace CefSharp.Wpf
             OnMouseButton(e);
 
             base.OnMouseDown(e);
+
+            // Closes IME candidate window.
+            NativeIME.SetFocus(IntPtr.Zero);
+            NativeIME.SetFocus(source.Handle);
         }
 
         /// <summary>
