@@ -98,6 +98,12 @@ namespace CefSharp
                 bool get();
             }
 
+            virtual void ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> selectionRange);
+            virtual void ImeSetComposition(const CefString& text, const std::vector<CefCompositionUnderline>& underlines, const CefRange& replacement_range, const CefRange& selection_range);
+            virtual void ImeCommitText(String^ text);
+            virtual void ImeCommitText(const CefString& text, const CefRange& replacement_range, int relative_cursor_pos);
+
+
             virtual void ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> replacementRange, Nullable<Range> selectionRange);
             virtual void ImeCommitText(String^ text, Nullable<Range> replacementRange, int relativeCursorPos);
             virtual void ImeFinishComposingText(bool keepSelection);
