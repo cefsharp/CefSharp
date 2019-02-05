@@ -11,10 +11,6 @@
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll</HintPath>
           <Private>False</Private>
         </Reference>
-		<None Include="@(CefSharpCommonBinaries64)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
       </ItemGroup>
     </When>
     <!-- x86, Win32 and AnyCPU -->
@@ -28,10 +24,6 @@
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.dll</HintPath>
           <Private>False</Private>
         </Reference>
-		<None Include="@(CefSharpCommonBinaries32)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
       </ItemGroup>
     </Otherwise>
   </Choose>
