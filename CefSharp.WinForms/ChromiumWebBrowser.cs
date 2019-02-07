@@ -77,7 +77,7 @@ namespace CefSharp.WinForms
             get { return browserSettings; }
             set
             {
-                if (browserCreated)
+                if (browserCreated && null != value)
                 {
                     throw new Exception("Browser has already been created. BrowserSettings must be " +
                                         "set before the underlying CEF browser is created.");
