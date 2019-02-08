@@ -97,7 +97,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Browser initialization settings
         /// </summary>
-        private BrowserSettings browserSettings;
+        private IBrowserSettings browserSettings;
         /// <summary>
         /// The request context (we deliberately use a private variable so we can throw an exception if
         /// user attempts to set after browser created)
@@ -124,7 +124,7 @@ namespace CefSharp.Wpf
         /// Gets or sets the browser settings.
         /// </summary>
         /// <value>The browser settings.</value>
-        public BrowserSettings BrowserSettings
+        public IBrowserSettings BrowserSettings
         {
             get { return browserSettings; }
             set
@@ -517,7 +517,7 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
-            BrowserSettings = new BrowserSettings();
+            browserSettings = new BrowserSettings();
             RenderHandler = new InteropBitmapRenderHandler();
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
@@ -1748,7 +1748,7 @@ namespace CefSharp.Wpf
                 var windowInfo = CreateOffscreenBrowserWindowInfo(source == null ? IntPtr.Zero : source.Handle);
                 //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, address: null);
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: null);
 
                 //Dispose of BrowserSettings as they shouldn't be reused ans it's not possible to change the settings
                 //after the browser has been created.
