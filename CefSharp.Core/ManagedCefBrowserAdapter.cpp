@@ -23,6 +23,11 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
 
     CefString addressNative = StringUtils::ToNative(address);
 
+    if (browserSettings == nullptr)
+    {
+        throw gcnew ArgumentNullException("browserSettings", "cannot be null");
+    }
+
     if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
         *browserSettings->_browserSettings, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
     {

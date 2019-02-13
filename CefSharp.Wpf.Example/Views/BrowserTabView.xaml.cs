@@ -147,7 +147,7 @@ namespace CefSharp.Wpf.Example.Views
                 var errorBody = string.Format("<html><body bgcolor=\"white\"><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>",
                                               args.FailedUrl, args.ErrorText, args.ErrorCode);
 
-                args.Frame.LoadStringForUrl(errorBody, args.FailedUrl);
+                args.Frame.LoadHtml(errorBody, base64Encode:true);
             };
 
             CefExample.RegisterTestResources(browser);
