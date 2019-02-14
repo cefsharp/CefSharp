@@ -5,6 +5,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Enums;
 using CefSharp.Internals;
@@ -42,6 +43,24 @@ namespace CefSharp.OffScreen
         /// Flag to guard the creation of the underlying offscreen browser - only one instance can be created
         /// </summary>
         private bool browserCreated;
+
+        /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
+        public bool IsDisposed
+        {
+            get
+            {
+                return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
+            }
+        }
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
@@ -325,6 +344,23 @@ namespace CefSharp.OffScreen
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
+            if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                browser = null;
+                IsBrowserInitialized = false;
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
+            }
+
             // Don't reference event listeners any longer:
             AddressChanged = null;
             BrowserInitialized = null;
@@ -337,27 +373,12 @@ namespace CefSharp.OffScreen
             StatusMessage = null;
             TitleChanged = null;
 
-            Cef.RemoveDisposable(this);
-
-            if (disposing)
-            {
-                browser = null;
-                IsBrowserInitialized = false;
-
-                if (managedCefBrowserAdapter != null)
-                {
-                    if (!managedCefBrowserAdapter.IsDisposed)
-                    {
-                        managedCefBrowserAdapter.Dispose();
-                    }
-                    managedCefBrowserAdapter = null;
-                }
-            }
-
             // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
             // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
             // we do it here for consistency)
             this.SetHandlersToNull();
+
+            Cef.RemoveDisposable(this);
         }
 
         /// <summary>
@@ -379,7 +400,7 @@ namespace CefSharp.OffScreen
             {
                 browserSettings = new BrowserSettings();
             }
-            else if(browserSettings.IsDisposed)
+            else if (browserSettings.IsDisposed)
             {
                 throw new ObjectDisposedException("browserSettings", "The BrowserSettings reference you have passed has already been disposed. You cannot reuse the BrowserSettings class");
             }

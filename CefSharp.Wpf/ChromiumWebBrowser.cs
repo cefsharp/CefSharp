@@ -84,10 +84,6 @@ namespace CefSharp.Wpf
         /// </summary>
         private IBrowser browser;
         /// <summary>
-        /// The dispose count
-        /// </summary>
-        private int disposeCount;
-        /// <summary>
         /// Location of the control on the screen, relative to Top/Left
         /// Used to calculate GetScreenPoint
         /// We're unable to call PointToScreen directly due to treading restrictions
@@ -114,6 +110,24 @@ namespace CefSharp.Wpf
         /// NOTE: Needs to be static for OnApplicationExit
         /// </summary>
         private static bool DesignMode;
+
+        /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
+        public bool IsDisposed
+        {
+            get
+            {
+                return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
+            }
+        }
 
         /// <summary>
         /// WPF Keyboard Handled forwards key events to the underlying browser
@@ -534,8 +548,10 @@ namespace CefSharp.Wpf
         {
             if (DesignMode)
             {
-                Dispose(false);
+                return;
             }
+
+            Dispose(false);
         }
 
         /// <summary>
@@ -545,110 +561,112 @@ namespace CefSharp.Wpf
         {
             if (DesignMode)
             {
-                Dispose(true);
+                return;
             }
 
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="isDisposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         // This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
         [MethodImpl(MethodImplOptions.NoInlining)]
-        protected virtual void Dispose(bool isDisposing)
+        protected virtual void Dispose(bool disposing)
         {
-            //If disposeCount is 0 then we'll update it to 1 and begin disposing
-            if (Interlocked.CompareExchange(ref disposeCount, 1, 0) == 0)
+            if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
             {
-                // No longer reference event listeners:
-                ConsoleMessage = null;
-                FrameLoadEnd = null;
-                FrameLoadStart = null;
-                IsBrowserInitializedChanged = null;
-                LoadError = null;
-                LoadingStateChanged = null;
-                Paint = null;
-                StatusMessage = null;
-                TitleChanged = null;
+                return;
+            }
 
-                if (isDisposing)
+            if (disposing)
+            {
+                browser = null;
+                if (browserSettings != null)
                 {
-                    browser = null;
-                    if (browserSettings != null)
-                    {
-                        browserSettings.Dispose();
-                        browserSettings = null;
-                    }
-
-                    //Incase we accidentally have a reference to the CEF drag data
-                    if (currentDragData != null)
-                    {
-                        currentDragData.Dispose();
-                        currentDragData = null;
-                    }
-
-                    PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
-                    // Release window event listeners if PresentationSourceChangedHandler event wasn't
-                    // fired before Dispose
-                    if (sourceWindow != null)
-                    {
-                        sourceWindow.StateChanged -= OnWindowStateChanged;
-                        sourceWindow.LocationChanged -= OnWindowLocationChanged;
-                        sourceWindow = null;
-                    }
-
-                    // Release internal event listeners:
-                    Loaded -= OnLoaded;
-                    SizeChanged -= OnActualSizeChanged;
-                    GotKeyboardFocus -= OnGotKeyboardFocus;
-                    LostKeyboardFocus -= OnLostKeyboardFocus;
-
-                    // Release internal event listeners for Drag Drop events:
-                    DragEnter -= OnDragEnter;
-                    DragOver -= OnDragOver;
-                    DragLeave -= OnDragLeave;
-                    Drop -= OnDrop;
-
-                    IsVisibleChanged -= OnIsVisibleChanged;
-
-                    if (tooltipTimer != null)
-                    {
-                        tooltipTimer.Tick -= OnTooltipTimerTick;
-                        tooltipTimer.Stop();
-                        tooltipTimer = null;
-                    }
-
-                    if (CleanupElement != null)
-                    {
-                        CleanupElement.Unloaded -= OnCleanupElementUnloaded;
-                    }
-
-                    if (managedCefBrowserAdapter != null)
-                    {
-                        managedCefBrowserAdapter.Dispose();
-                        managedCefBrowserAdapter = null;
-                    }
-
-                    Interlocked.Exchange(ref browserInitialized, 0);
-                    UiThreadRunAsync(() =>
-                    {
-                        SetCurrentValue(IsBrowserInitializedProperty, false);
-                        WebBrowser = null;
-                    });
+                    browserSettings.Dispose();
+                    browserSettings = null;
                 }
 
-                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-                // we do it here for consistency)
-                this.SetHandlersToNull();
+                // Incase we accidentally have a reference to the CEF drag data
+                if (currentDragData != null)
+                {
+                    currentDragData.Dispose();
+                    currentDragData = null;
+                }
 
-                Cef.RemoveDisposable(this);
+                PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+                // Release window event listeners if PresentationSourceChangedHandler event wasn't
+                // fired before Dispose
+                if (sourceWindow != null)
+                {
+                    sourceWindow.StateChanged -= OnWindowStateChanged;
+                    sourceWindow.LocationChanged -= OnWindowLocationChanged;
+                    sourceWindow = null;
+                }
 
-                WpfKeyboardHandler.Dispose();
-                source = null;
+                // Release internal event listeners:
+                Loaded -= OnLoaded;
+                SizeChanged -= OnActualSizeChanged;
+                GotKeyboardFocus -= OnGotKeyboardFocus;
+                LostKeyboardFocus -= OnLostKeyboardFocus;
+
+                // Release internal event listeners for Drag Drop events:
+                DragEnter -= OnDragEnter;
+                DragOver -= OnDragOver;
+                DragLeave -= OnDragLeave;
+                Drop -= OnDrop;
+
+                IsVisibleChanged -= OnIsVisibleChanged;
+
+                if (tooltipTimer != null)
+                {
+                    tooltipTimer.Tick -= OnTooltipTimerTick;
+                    tooltipTimer.Stop();
+                    tooltipTimer = null;
+                }
+
+                if (CleanupElement != null)
+                {
+                    CleanupElement.Unloaded -= OnCleanupElementUnloaded;
+                }
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
+
+                Interlocked.Exchange(ref browserInitialized, 0);
+                UiThreadRunAsync(() =>
+                {
+                    SetCurrentValue(IsBrowserInitializedProperty, false);
+                    WebBrowser = null;
+                });
             }
+
+            // No longer reference event listeners:
+            ConsoleMessage = null;
+            FrameLoadEnd = null;
+            FrameLoadStart = null;
+            IsBrowserInitializedChanged = null;
+            LoadError = null;
+            LoadingStateChanged = null;
+            Paint = null;
+            StatusMessage = null;
+            TitleChanged = null;
+
+            // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
+            // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
+            // we do it here for consistency)
+            this.SetHandlersToNull();
+
+            Cef.RemoveDisposable(this);
+
+            WpfKeyboardHandler.Dispose();
+            source = null;
         }
 
         /// <summary>
@@ -2368,20 +2386,6 @@ namespace CefSharp.Wpf
         public IBrowser GetBrowser()
         {
             return browser;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is disposed.
-        /// </summary>
-        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
-        public bool IsDisposed
-        {
-            get
-            {
-                // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
-                // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
-                return Interlocked.CompareExchange(ref disposeCount, 1, 1) == 1;
-            }
         }
 
         /// <summary>

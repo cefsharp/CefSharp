@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Forms;
 using CefSharp.Internals;
 using CefSharp.WinForms.Internals;
@@ -58,6 +59,25 @@ namespace CefSharp.WinForms
         /// user attempts to set after browser created)
         /// </summary>
         private IRequestContext requestContext;
+
+        /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        public new bool IsDisposed
+        {
+            get
+            {
+                return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
+            }
+        }
 
         /// <summary>
         /// Set to true while handing an activating WM_ACTIVATE message.
@@ -436,17 +456,16 @@ namespace CefSharp.WinForms
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
-            IsBrowserInitialized = false;
-
-            if (!designMode)
+            if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
             {
-                RemoveFromListOfCefBrowsers();
+                return;
             }
 
-            //The unmanaged resources should never be created in design mode, so only dispose when
-            //at runtime
-            if (disposing && !designMode)
+            if (!designMode && disposing)
             {
+                //The unmanaged resources should never be created in design mode, so only dispose when
+                //at runtime
+                IsBrowserInitialized = false;
                 FreeUnmanagedResources();
             }
 
@@ -464,6 +483,11 @@ namespace CefSharp.WinForms
             // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
             // otherwise the ILifeSpanHandler.DoClose will not be invoked.
             this.SetHandlersToNull();
+
+            if (!designMode)
+            {
+                RemoveFromListOfCefBrowsers();
+            }
 
             base.Dispose(disposing);
         }
@@ -643,7 +667,7 @@ namespace CefSharp.WinForms
                 {
                     var windowInfo = new WindowInfo();
                     windowInfo.SetAsChild(Handle);
-                    
+
                     managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
 
                     if (browserSettings != null)
