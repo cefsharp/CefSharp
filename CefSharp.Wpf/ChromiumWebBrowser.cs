@@ -546,34 +546,22 @@ namespace CefSharp.Wpf
         /// </summary>
         ~ChromiumWebBrowser()
         {
-            if (DesignMode)
-            {
-                return;
-            }
-
             Dispose(false);
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Releases all resources used by the <see cref="ChromiumWebBrowser"/> object
         /// </summary>
         public void Dispose()
         {
-            if (DesignMode)
-            {
-                return;
-            }
-
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        /// If not in design mode; Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        // This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
@@ -581,6 +569,24 @@ namespace CefSharp.Wpf
                 return;
             }
 
+            if (DesignMode)
+            {
+                return;
+            }
+
+            InternalDispose(disposing);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
+        /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        /// <remarks>
+        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void InternalDispose(bool disposing)
+        {
             if (disposing)
             {
                 browser = null;
@@ -645,28 +651,29 @@ namespace CefSharp.Wpf
                     SetCurrentValue(IsBrowserInitializedProperty, false);
                     WebBrowser = null;
                 });
+
+                // No longer reference event listeners:
+                ConsoleMessage = null;
+                FrameLoadEnd = null;
+                FrameLoadStart = null;
+                IsBrowserInitializedChanged = null;
+                LoadError = null;
+                LoadingStateChanged = null;
+                Paint = null;
+                StatusMessage = null;
+                TitleChanged = null;
+
+                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
+                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
+                // we do it here for consistency)
+                this.SetHandlersToNull();
+
+                WpfKeyboardHandler.Dispose();
+
+                source = null;
             }
 
-            // No longer reference event listeners:
-            ConsoleMessage = null;
-            FrameLoadEnd = null;
-            FrameLoadStart = null;
-            IsBrowserInitializedChanged = null;
-            LoadError = null;
-            LoadingStateChanged = null;
-            Paint = null;
-            StatusMessage = null;
-            TitleChanged = null;
-
-            // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-            // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-            // we do it here for consistency)
-            this.SetHandlersToNull();
-
             Cef.RemoveDisposable(this);
-
-            WpfKeyboardHandler.Dispose();
-            source = null;
         }
 
         /// <summary>
