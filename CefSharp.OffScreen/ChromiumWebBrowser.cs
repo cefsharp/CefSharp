@@ -5,6 +5,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Enums;
 using CefSharp.Internals;
@@ -42,6 +43,24 @@ namespace CefSharp.OffScreen
         /// Flag to guard the creation of the underlying offscreen browser - only one instance can be created
         /// </summary>
         private bool browserCreated;
+
+        /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
+        public bool IsDisposed
+        {
+            get
+            {
+                return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
+            }
+        }
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
@@ -311,7 +330,7 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Releases all resources used by the <see cref="ChromiumWebBrowser"/> object
         /// </summary>
         public void Dispose()
         {
@@ -320,24 +339,15 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        /// Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            // Don't reference event listeners any longer:
-            AddressChanged = null;
-            BrowserInitialized = null;
-            ConsoleMessage = null;
-            FrameLoadEnd = null;
-            FrameLoadStart = null;
-            LoadError = null;
-            LoadingStateChanged = null;
-            Paint = null;
-            StatusMessage = null;
-            TitleChanged = null;
-
-            Cef.RemoveDisposable(this);
+            if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
+            {
+                return;
+            }
 
             if (disposing)
             {
@@ -346,18 +356,29 @@ namespace CefSharp.OffScreen
 
                 if (managedCefBrowserAdapter != null)
                 {
-                    if (!managedCefBrowserAdapter.IsDisposed)
-                    {
-                        managedCefBrowserAdapter.Dispose();
-                    }
+                    managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
+
+                // Don't reference event listeners any longer:
+                AddressChanged = null;
+                BrowserInitialized = null;
+                ConsoleMessage = null;
+                FrameLoadEnd = null;
+                FrameLoadStart = null;
+                LoadError = null;
+                LoadingStateChanged = null;
+                Paint = null;
+                StatusMessage = null;
+                TitleChanged = null;
+
+                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
+                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
+                // we do it here for consistency)
+                this.SetHandlersToNull();
             }
 
-            // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-            // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-            // we do it here for consistency)
-            this.SetHandlersToNull();
+            Cef.RemoveDisposable(this);
         }
 
         /// <summary>
@@ -379,7 +400,7 @@ namespace CefSharp.OffScreen
             {
                 browserSettings = new BrowserSettings();
             }
-            else if(browserSettings.IsDisposed)
+            else if (browserSettings.IsDisposed)
             {
                 throw new ObjectDisposedException("browserSettings", "The BrowserSettings reference you have passed has already been disposed. You cannot reuse the BrowserSettings class");
             }
