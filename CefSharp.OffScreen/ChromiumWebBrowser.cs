@@ -330,7 +330,7 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Releases all resources used by the <see cref="ChromiumWebBrowser"/> object
         /// </summary>
         public void Dispose()
         {
@@ -339,9 +339,9 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        /// Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
@@ -359,24 +359,24 @@ namespace CefSharp.OffScreen
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
+
+                // Don't reference event listeners any longer:
+                AddressChanged = null;
+                BrowserInitialized = null;
+                ConsoleMessage = null;
+                FrameLoadEnd = null;
+                FrameLoadStart = null;
+                LoadError = null;
+                LoadingStateChanged = null;
+                Paint = null;
+                StatusMessage = null;
+                TitleChanged = null;
+
+                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
+                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
+                // we do it here for consistency)
+                this.SetHandlersToNull();
             }
-
-            // Don't reference event listeners any longer:
-            AddressChanged = null;
-            BrowserInitialized = null;
-            ConsoleMessage = null;
-            FrameLoadEnd = null;
-            FrameLoadStart = null;
-            LoadError = null;
-            LoadingStateChanged = null;
-            Paint = null;
-            StatusMessage = null;
-            TitleChanged = null;
-
-            // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-            // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-            // we do it here for consistency)
-            this.SetHandlersToNull();
 
             Cef.RemoveDisposable(this);
         }
