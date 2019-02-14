@@ -451,9 +451,26 @@ namespace CefSharp.WinForms
         }
 
         /// <summary>
-        /// Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control" /> and its child controls and optionally releases the managed resources.
+        /// Finalizes an instance of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        ~ChromiumWebBrowser()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Releases all resources used by the <see cref="ChromiumWebBrowser"/> object
+        /// </summary>
+        public new void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// If not in design mode; Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
+        /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
@@ -461,73 +478,65 @@ namespace CefSharp.WinForms
                 return;
             }
 
-            if (!designMode && disposing)
-            {
-                //The unmanaged resources should never be created in design mode, so only dispose when
-                //at runtime
-                IsBrowserInitialized = false;
-                FreeUnmanagedResources();
-            }
-
-            // Don't maintain a reference to event listeners anylonger:
-            AddressChanged = null;
-            ConsoleMessage = null;
-            FrameLoadEnd = null;
-            FrameLoadStart = null;
-            IsBrowserInitializedChanged = null;
-            LoadError = null;
-            LoadingStateChanged = null;
-            StatusMessage = null;
-            TitleChanged = null;
-
-            // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-            // otherwise the ILifeSpanHandler.DoClose will not be invoked.
-            this.SetHandlersToNull();
-
             if (!designMode)
             {
-                RemoveFromListOfCefBrowsers();
+                InternalDispose(disposing);
             }
 
             base.Dispose(disposing);
         }
 
         /// <summary>
-        /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
         /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        /// <remarks>
+        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private void RemoveFromListOfCefBrowsers()
+        private void InternalDispose(bool disposing)
         {
+            if (disposing)
+            {
+                IsBrowserInitialized = false;
+
+                browser = null;
+
+                if (parentFormMessageInterceptor != null)
+                {
+                    parentFormMessageInterceptor.Dispose();
+                    parentFormMessageInterceptor = null;
+                }
+
+                if (browserSettings != null)
+                {
+                    browserSettings.Dispose();
+                    browserSettings = null;
+                }
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
+
+                // Don't maintain a reference to event listeners anylonger:
+                AddressChanged = null;
+                ConsoleMessage = null;
+                FrameLoadEnd = null;
+                FrameLoadStart = null;
+                IsBrowserInitializedChanged = null;
+                LoadError = null;
+                LoadingStateChanged = null;
+                StatusMessage = null;
+                TitleChanged = null;
+
+                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
+                // otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                this.SetHandlersToNull();
+            }
+
             Cef.RemoveDisposable(this);
-        }
-
-        /// <summary>
-        /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private void FreeUnmanagedResources()
-        {
-            browser = null;
-
-            if (parentFormMessageInterceptor != null)
-            {
-                parentFormMessageInterceptor.Dispose();
-                parentFormMessageInterceptor = null;
-            }
-
-            if (browserSettings != null)
-            {
-                browserSettings.Dispose();
-                browserSettings = null;
-            }
-
-            if (managedCefBrowserAdapter != null)
-            {
-                managedCefBrowserAdapter.Dispose();
-                managedCefBrowserAdapter = null;
-            }
         }
 
         /// <summary>
