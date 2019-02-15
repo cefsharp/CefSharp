@@ -1,4 +1,4 @@
-param(
+﻿param(
     [ValidateSet("vs2015", "vs2017", "nupkg-only", "gitlink")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2015",
@@ -339,12 +339,17 @@ function WriteAssemblyVersion
     $Filename = Join-Path $WorkingDir CefSharp\Properties\AssemblyInfo.cs
     $Regex = 'public const string AssemblyVersion = "(.*)"';
     $Regex2 = 'public const string AssemblyFileVersion = "(.*)"'
+    $Regex3 = 'public const string AssemblyCopyright = "Copyright © .* The CefSharp Authors"'
     
-    $AssemblyInfo = Get-Content $Filename
+    $AssemblyInfo = Get-Content -Encoding UTF8 $Filename
+    $CurrentYear = Get-Date -Format yyyy
+    
     $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
     $NewString = $NewString -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
+    $NewString = $NewString -replace $Regex3, "public const string AssemblyCopyright = ""Copyright © $CurrentYear The CefSharp Authors"""
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
 function WriteVersionToManifest($manifest)
@@ -352,10 +357,11 @@ function WriteVersionToManifest($manifest)
     $Filename = Join-Path $WorkingDir $manifest
     $Regex = 'assemblyIdentity version="(.*?)"';
     
-    $ManifestData = Get-Content $Filename
+    $ManifestData = Get-Content -Encoding UTF8 $Filename
     $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion.0"""
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
 function WriteVersionToResourceFile($resourceFile)
@@ -363,12 +369,43 @@ function WriteVersionToResourceFile($resourceFile)
     $Filename = Join-Path $WorkingDir $resourceFile
     $Regex1 = 'VERSION .*';
     $Regex2 = 'Version", ".*?"';
+    $Regex3 = 'Copyright © .* The CefSharp Authors'
     
-    $ResourceData = Get-Content $Filename
+    $ResourceData = Get-Content -Encoding UTF8 $Filename
+    $CurrentYear = Get-Date -Format yyyy
+    
     $NewString = $ResourceData -replace $Regex1, "VERSION $AssemblyVersion"
     $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
+    $NewString = $NewString -replace $Regex3, "Copyright © $CurrentYear The CefSharp Authors"
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
+function WriteVersionToShfbproj
+{
+    $Filename = Join-Path $WorkingDir CefSharp.shfbproj
+    $Regex1 = '<HelpFileVersion>.*<\/HelpFileVersion>';
+    $Regex2 = '<HeaderText>Version .*<\/HeaderText>';
+    
+    $ShfbprojData = Get-Content -Encoding UTF8 $Filename
+    $NewString = $ShfbprojData -replace $Regex1, "<HelpFileVersion>$AssemblyVersion</HelpFileVersion>"
+    $NewString = $NewString -replace $Regex2, "<HeaderText>Version $AssemblyVersion</HeaderText>"
+    
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
+function WriteVersionToAppveyor
+{
+    $Filename = Join-Path $WorkingDir appveyor.yml
+    $Regex1 = 'version: .*-CI{build}';
+    
+    $AppveyorData = Get-Content -Encoding UTF8 $Filename
+    $NewString = $AppveyorData -replace $Regex1, "version: $AssemblyVersion-CI{build}"
+    
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
@@ -378,6 +415,8 @@ DownloadNuget
 NugetPackageRestore
 
 WriteAssemblyVersion
+WriteVersionToShfbproj
+WriteVersionToAppveyor
 
 WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
 WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"

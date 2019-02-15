@@ -18,14 +18,18 @@ charset                  = utf-8
 end_of_line              = crlf
 trim_trailing_whitespace = true
 
+# Powershell files (build.ps1)
+[*.ps1]
+charset = utf-8-bom
+
 # Xml config files
 [*.{props,targets,config,nuspec,manifest}]
-indent_size              = 2
+indent_size = 2
 
 # C++ Files
 [*.{cpp,h,in}]
-curly_bracket_next_line  = true
-indent_brace_style       = Allman
+curly_bracket_next_line = true
+indent_brace_style      = Allman
 
 [*.cs]
 # Capitalization styles
@@ -56,7 +60,7 @@ dotnet_style_qualification_for_property                                        =
 dotnet_style_qualification_for_method                                          = false : suggestion
 dotnet_style_qualification_for_event                                           = false : suggestion
 
-# Prefer using var 
+# Prefer using var
 csharp_style_var_for_built_in_types                                            = true : none
 csharp_style_var_when_type_is_apparent                                         = true : suggestion
 csharp_style_var_elsewhere                                                     = true : suggestion

@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (OffScreen control).</description>
     <tags>osr chrome browser</tags>
-    <copyright>Copyright © 2010-2018 The CefSharp Authors</copyright>
+    <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETFramework4.5.2">
         <dependency id="CefSharp.Common" version="[$version$]" />
