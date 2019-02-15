@@ -53,7 +53,7 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
-        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
         public bool IsDisposed
         {
             get
