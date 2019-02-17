@@ -373,16 +373,15 @@ namespace CefSharp.OffScreen
                 throw new Exception("An instance of the underlying offscreen browser has already been created, this method can only be called once.");
             }
 
-            browserCreated = true;
-
             if (browserSettings == null)
             {
                 browserSettings = new BrowserSettings();
             }
-            else if(browserSettings.IsDisposed)
-            {
-                throw new ObjectDisposedException("browserSettings", "The BrowserSettings reference you have passed has already been disposed. You cannot reuse the BrowserSettings class");
-            }
+
+            // Claims the BrowserSettings instance for this browser so that it can't be reused
+            browserSettings.ClaimInstance();
+
+            browserCreated = true;
 
             if (windowInfo == null)
             {
