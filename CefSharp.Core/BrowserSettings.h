@@ -20,7 +20,7 @@ namespace CefSharp
     {
     private:
         bool _isDisposed = false;
-        int isClaimed = 0;
+        int _isClaimed = 0;
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -390,7 +390,7 @@ namespace CefSharp
                     "You cannot reuse a BrowserSettings instance");
             }
 
-            if (System::Threading::Interlocked::CompareExchange(isClaimed, 1, 0) != 0)
+            if (System::Threading::Interlocked::CompareExchange(_isClaimed, 1, 0) != 0)
             {
                 throw gcnew Exception("This BrowserSettings instance has already been claimed. "
                     + "You cannot reuse a BrowserSettings instance");
