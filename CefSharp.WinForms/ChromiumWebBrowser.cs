@@ -82,10 +82,18 @@ namespace CefSharp.WinForms
                     throw new Exception("Browser has already been created. BrowserSettings must be " +
                                         "set before the underlying CEF browser is created.");
                 }
+
                 if (value != null && value.GetType() != typeof(BrowserSettings))
                 {
                     throw new Exception(string.Format("BrowserSettings can only be of type {0} or null", typeof(BrowserSettings)));
                 }
+
+                // Claims the BrowserSettings instance for this browser so that it can't be reused
+                if (value is BrowserSettings instance)
+                {
+                    instance.ClaimInstance();
+                }
+
                 browserSettings = value;
             }
         }
