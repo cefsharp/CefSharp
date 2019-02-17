@@ -451,23 +451,6 @@ namespace CefSharp.WinForms
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="ChromiumWebBrowser"/> class.
-        /// </summary>
-        ~ChromiumWebBrowser()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Releases all resources used by the <see cref="ChromiumWebBrowser"/> object
-        /// </summary>
-        public new void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
         /// If not in design mode; Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
         /// </summary>
         /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
