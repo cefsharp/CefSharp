@@ -136,7 +136,8 @@ namespace CefSharp.Wpf
                 }
 
                 // Claims the BrowserSettings instance for this browser so that it can't be reused
-                if (value is BrowserSettings instance)
+                var instance = value as BrowserSettings;
+                if (instance != null)
                 {
                     instance.ClaimInstance();
                 }
