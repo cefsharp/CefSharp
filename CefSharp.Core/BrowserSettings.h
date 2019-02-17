@@ -20,6 +20,7 @@ namespace CefSharp
     {
     private:
         bool _isDisposed = false;
+        int isClaimed = 0;
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -376,6 +377,24 @@ namespace CefSharp
         virtual property bool IsDisposed
         {
             bool get() { return _isDisposed; }
+        }
+
+        /// <summary>
+        /// Marks this instance as claimed, if it's already claimed throws an exception
+        /// </summary>
+        void ClaimInstance()
+        {
+            if (IsDisposed)
+            {
+                throw gcnew ObjectDisposedException("BrowserSettings", "This BrowserSettings instance has already been disposed. " +
+                    "You cannot reuse a BrowserSettings instance");
+            }
+
+            if (System::Threading::Interlocked::CompareExchange(isClaimed, 1, 0) != 0)
+            {
+                throw gcnew Exception("This BrowserSettings instance has already been claimed. "
+                    + "You cannot reuse a BrowserSettings instance");
+            }
         }
     };
 }
