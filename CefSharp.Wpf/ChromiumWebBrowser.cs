@@ -135,6 +135,12 @@ namespace CefSharp.Wpf
                                         "set before the underlying CEF browser is created.");
                 }
 
+                // Claims the BrowserSettings instance for this browser so that it can't be reused
+                if (value is BrowserSettings instance)
+                {
+                    instance.ClaimInstance();
+                }
+
                 //New instance is created in the constructor, if you use
                 //xaml to initialize browser settings then it will also create a new
                 //instance, so we dispose of the old one
