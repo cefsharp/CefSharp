@@ -386,7 +386,7 @@ namespace CefSharp
         {
             if (IsDisposed)
             {
-                throw gcnew ObjectDisposedException("BrowserSettings", "This BrowserSettings instance has already been disposed. " +
+                throw gcnew ObjectDisposedException("", "This BrowserSettings instance has already been disposed. " +
                     "You cannot reuse a BrowserSettings instance");
             }
 
