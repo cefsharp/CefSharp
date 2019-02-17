@@ -28,6 +28,12 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
         throw gcnew ArgumentNullException("browserSettings", "cannot be null");
     }
 
+    if (browserSettings->IsDisposed)
+    {
+        throw gcnew ObjectDisposedException("browserSettings", "This BrowserSettings instance has already been disposed. " +
+            "You cannot reuse a BrowserSettings instance");
+    }
+
     if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
         *browserSettings->_browserSettings, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
     {
