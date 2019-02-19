@@ -7,7 +7,6 @@ using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Rect = CefSharp.Structs.Rect;
@@ -23,9 +22,6 @@ namespace CefSharp.Wpf.Rendering.Experimental
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
     public class ByteArrayWritableBitmapRenderHandler : AbstractRenderHandler
     {
-        private static new readonly PixelFormat PixelFormat = PixelFormats.Prgba64;
-        private static new int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
-
         private double dpiX;
         private double dpiY;
         private bool invalidateDirtyRect;
