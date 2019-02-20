@@ -19,6 +19,13 @@ bool ManagedCefBrowserAdapter::IsDisposed::get()
 
 void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address)
 {
+    if (browserSettings->IsDisposed)
+    {
+        throw gcnew ObjectDisposedException("browserSettings", "The BrowserSettings reference you have passed has already been disposed. " +
+            "You cannot reuse the BrowserSettings class at the moment. This may change in the next version, check " +
+            "https://github.com/cefsharp/CefSharp/issues/2643 for details.");
+    }
+
     auto cefWindowInfoWrapper = static_cast<WindowInfo^>(windowInfo);
 
     CefString addressNative = StringUtils::ToNative(address);
