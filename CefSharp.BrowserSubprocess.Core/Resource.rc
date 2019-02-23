@@ -1,6 +1,11 @@
 1 VERSIONINFO
+<<<<<<< HEAD
  FILEVERSION 73.0.0
  PRODUCTVERSION 73.0.0
+=======
+ FILEVERSION 71.0.1
+ PRODUCTVERSION 71.0.1
+>>>>>>> 5e83050a... Upgrade version numbers to 71.0.1
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -16,10 +21,17 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "CefSharp.BrowserSubprocess.Core"
+<<<<<<< HEAD
             VALUE "FileVersion", "73.0.0"
             VALUE "LegalCopyright", "Copyright © 2019 The CefSharp Authors"
             VALUE "ProductName", "CefSharp"
             VALUE "ProductVersion", "73.0.0"
+=======
+            VALUE "FileVersion", "71.0.1"
+            VALUE "LegalCopyright", "Copyright © 2019 The CefSharp Authors"
+            VALUE "ProductName", "CefSharp"
+            VALUE "ProductVersion", "71.0.1"
+>>>>>>> 5e83050a... Upgrade version numbers to 71.0.1
         END
     END
     BLOCK "VarFileInfo"
