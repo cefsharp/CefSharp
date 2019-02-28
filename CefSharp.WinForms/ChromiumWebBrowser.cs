@@ -52,7 +52,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Browser initialization settings
         /// </summary>
-        private BrowserSettings browserSettings;
+        private IBrowserSettings browserSettings;
         /// <summary>
         /// The request context (we deliberately use a private variable so we can throw an exception if
         /// user attempts to set after browser created)
@@ -72,7 +72,7 @@ namespace CefSharp.WinForms
         /// </summary>
         /// <value>The browser settings.</value>
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
-        public BrowserSettings BrowserSettings
+        public IBrowserSettings BrowserSettings
         {
             get { return browserSettings; }
             set
@@ -81,6 +81,10 @@ namespace CefSharp.WinForms
                 {
                     throw new Exception("Browser has already been created. BrowserSettings must be " +
                                         "set before the underlying CEF browser is created.");
+                }
+                if (value != null && value.GetType() != typeof(BrowserSettings))
+                {
+                    throw new Exception(string.Format("BrowserSettings can only be of type {0} or null", typeof(BrowserSettings)));
                 }
                 browserSettings = value;
             }
@@ -640,7 +644,7 @@ namespace CefSharp.WinForms
                     var windowInfo = new WindowInfo();
                     windowInfo.SetAsChild(Handle);
                     
-                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
+                    managedCefBrowserAdapter.CreateBrowser(windowInfo, (BrowserSettings)browserSettings, (RequestContext)RequestContext, Address);
 
                     if (browserSettings != null)
                     {
