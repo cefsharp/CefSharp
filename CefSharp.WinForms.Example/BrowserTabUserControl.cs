@@ -236,6 +236,11 @@ namespace CefSharp.WinForms.Example
             }
         }
 
+        /// <summary>
+        /// The ChromiumWebBrowserControl does not fire MouseEnter/Move/Leave events, because Chromium handles these.
+        /// This method provides a demo of hooking the Chrome_RenderWidgetHostHWND handle to receive low level messages.
+        /// You can likely hook other window messages using this technique, drag/drog etc
+        /// </summary>
         private void SetupMessageInterceptor()
         {
             if (messageInterceptor != null)
