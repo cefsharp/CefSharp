@@ -3,9 +3,9 @@
     [Parameter(Position = 0)] 
     [string] $Target = "vs2015",
     [Parameter(Position = 1)]
-    [string] $Version = "71.0.0",
+    [string] $Version = "72.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "71.0.0"   
+    [string] $AssemblyVersion = "72.0.0"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -135,6 +135,10 @@ function Msvs
 
     switch -Exact ($Toolchain) {
         'v140' {
+            if($env:VS140COMNTOOLS -eq $null) {
+                Die "Visual Studio 2015 is not installed on your development machine, unable to continue."
+            }
+
             $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
             $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
             $VisualStudioVersion = '14.0'
@@ -168,7 +172,7 @@ function Msvs
                 
             if(-not (Test-Path $VS2017InstallPath))
             {
-                Die "Visual Studio 2017 was not found"
+                Die "Visual Studio 2017 is not installed on your development machine, unable to continue."
             }
                 
             $MSBuildExe = "msbuild.exe"
@@ -242,16 +246,6 @@ function VSX
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
-
-    if($Toolchain -eq 'v140' -and $env:VS140COMNTOOLS -eq $null) {
-        Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
-        Return
-    }
-
-    if($Toolchain -eq 'v141' -and $env:VS141COMNTOOLS -eq $null) {
-        Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
-        Return
-    }
 
     Write-Diagnostic "Starting to build targeting toolchain $Toolchain"
 

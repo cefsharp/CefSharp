@@ -6,7 +6,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -23,16 +22,10 @@ namespace CefSharp.Wpf.Rendering.Experimental
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
     public class ByteArrayWritableBitmapRenderHandler : IRenderHandler
     {
-        /// <summary>
-        /// The pixel format
-        /// </summary>
-        private static readonly PixelFormat PixelFormat = PixelFormats.Prgba64;
-        private static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
-
-        private double dpiX;
-        private double dpiY;
-        private bool invalidateDirtyRect;
-        private DispatcherPriority dispatcherPriority;
+        private readonly double dpiX;
+        private readonly double dpiY;
+        private readonly bool invalidateDirtyRect;
+        private readonly DispatcherPriority dispatcherPriority;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WritableBitmapRenderHandler"/> class.
@@ -69,8 +62,8 @@ namespace CefSharp.Wpf.Rendering.Experimental
             }
 
             int pixels = width * height;
-            int numberOfBytes = pixels * BytesPerPixel;
-            var stride = width * BytesPerPixel;
+            int numberOfBytes = pixels * AbstractRenderHandler.BytesPerPixel;
+            var stride = width * AbstractRenderHandler.BytesPerPixel;
             var tempBuffer = new byte[numberOfBytes];
 
             //Copy unmanaged memory to our buffer
@@ -88,7 +81,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
                         GC.Collect(1);
                     }
 
-                    image.Source = bitmap = new WriteableBitmap(width, height, dpiX, dpiY, PixelFormat, null);
+                    image.Source = bitmap = new WriteableBitmap(width, height, dpiX, dpiY, AbstractRenderHandler.PixelFormat, null);
                 }
 
                 //Get a ptr to our temp buffer

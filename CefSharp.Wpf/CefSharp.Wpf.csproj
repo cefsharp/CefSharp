@@ -96,6 +96,7 @@
     <AppDesigner Include="Properties\" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="PaintEventArgs.cs" />
+    <Compile Include="Rendering\AbstractRenderHandler.cs" />
     <Compile Include="Rendering\Experimental\IncreaseBufferInteropRenderHandler.cs" />
     <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\InteropBitmapRenderHandler.cs" />
