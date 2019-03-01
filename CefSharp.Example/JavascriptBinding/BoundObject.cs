@@ -53,6 +53,18 @@ namespace CefSharp.Example.JavascriptBinding
             ExceptionTestObject = new ExceptionTestBoundObject();
         }
 
+        public void TestCallbackWithDateTime(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    var dateTime = new DateTime(2019, 01, 01, 12, 00, 00);
+                    await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                }
+            });
+        }
+
         public void TestCallback(IJavascriptCallback javascriptCallback)
         {
             const int taskDelay = 1500;
