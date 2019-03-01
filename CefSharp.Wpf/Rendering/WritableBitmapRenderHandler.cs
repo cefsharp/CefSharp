@@ -20,9 +20,9 @@ namespace CefSharp.Wpf.Rendering
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
     public class WritableBitmapRenderHandler : AbstractRenderHandler
     {
-        private double dpiX;
-        private double dpiY;
-        private bool invalidateDirtyRect;
+        private readonly double dpiX;
+        private readonly double dpiY;
+        private readonly bool invalidateDirtyRect;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WritableBitmapRenderHandler"/> class.

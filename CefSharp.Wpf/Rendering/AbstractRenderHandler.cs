@@ -23,8 +23,8 @@ namespace CefSharp.Wpf.Rendering
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
         protected static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
 
-        protected static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
-        protected static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
+        internal static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
+        internal static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
 
         protected object lockObject = new object();
 
