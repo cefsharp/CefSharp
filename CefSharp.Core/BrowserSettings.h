@@ -49,7 +49,6 @@ namespace CefSharp
             }
 
             _browserSettings = NULL;
-
             _isDisposed = true;
         }
 
