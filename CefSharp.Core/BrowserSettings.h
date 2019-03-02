@@ -20,6 +20,7 @@ namespace CefSharp
     {
     private:
         bool _isDisposed = false;
+        bool _ownsPointer = false;
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -37,14 +38,15 @@ namespace CefSharp
         /// </summary>
         BrowserSettings() : _browserSettings(new CefBrowserSettings())
         {
+            _ownsPointer = true;
         }
 
         !BrowserSettings()
         {
-            if (_browserSettings != NULL)
+            if (_ownsPointer)
             {
                 delete _browserSettings;
-                _browserSettings = NULL;
+                _browserSettings = nullptr;
             }
 
             _isDisposed = true;
