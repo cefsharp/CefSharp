@@ -46,8 +46,9 @@ namespace CefSharp
             if (_ownsPointer)
             {
                 delete _browserSettings;
-                _browserSettings = nullptr;
             }
+
+            _browserSettings = NULL;
 
             _isDisposed = true;
         }
