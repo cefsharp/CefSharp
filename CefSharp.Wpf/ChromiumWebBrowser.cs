@@ -564,6 +564,8 @@ namespace CefSharp.Wpf
         /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
+            // Attempt to move the disposeSignaled state from 0 to 1. If successful, we can be assured that
+            // this thread is the first thread to do so, and can safely dispose of the object.
             if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
             {
                 return;
