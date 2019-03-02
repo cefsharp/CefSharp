@@ -41,7 +41,12 @@ namespace CefSharp
 
         !BrowserSettings()
         {
-            _browserSettings = NULL;
+            if (_browserSettings != NULL)
+            {
+                delete _browserSettings;
+                _browserSettings = NULL;
+            }
+
             _isDisposed = true;
         }
 
