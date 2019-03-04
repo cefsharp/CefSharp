@@ -104,6 +104,8 @@ namespace CefSharp
             virtual void SendMouseClickEvent(MouseEvent mouseEvent, MouseButtonType mouseButtonType, bool mouseUp, int clickCount);
 
             virtual void SendMouseMoveEvent(MouseEvent mouseEvent, bool mouseLeave);
+            
+   			virtual void SendTouchEvent(TouchEvent touchEvent);
 
             virtual void SetAccessibilityState(CefState accessibilityState);
 
@@ -151,6 +153,7 @@ namespace CefSharp
 
             // Misc. private functions:
             CefMouseEvent GetCefMouseEvent(MouseEvent mouseEvent);
+            CefTouchEvent GetCefTouchEvent(TouchEvent touchEvent);
             int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
 
             // Private keyboard functions:
