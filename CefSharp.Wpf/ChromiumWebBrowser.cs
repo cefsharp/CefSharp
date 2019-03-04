@@ -113,7 +113,7 @@ namespace CefSharp.Wpf
         /// A flag that indicates whether or not the designer is active
         /// NOTE: Needs to be static for OnApplicationExit
         /// </summary>
-        private static bool designMode;
+        private static bool DesignMode;
 
         /// <summary>
         /// WPF Keyboard Handled forwards key events to the underlying browser
@@ -441,9 +441,9 @@ namespace CefSharp.Wpf
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser()
         {
-            designMode = System.ComponentModel.DesignerProperties.GetIsInDesignMode(this);
+            DesignMode = System.ComponentModel.DesignerProperties.GetIsInDesignMode(this);
 
-            if (!designMode)
+            if (!DesignMode)
             {
                 NoInliningConstructor();
             }
@@ -532,7 +532,7 @@ namespace CefSharp.Wpf
         /// </summary>
         ~ChromiumWebBrowser()
         {
-            if (!designMode)
+            if (DesignMode)
             {
                 Dispose(false);
             }
@@ -543,7 +543,7 @@ namespace CefSharp.Wpf
         /// </summary>
         public void Dispose()
         {
-            if (!designMode)
+            if (DesignMode)
             {
                 Dispose(true);
             }
@@ -1868,7 +1868,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="ExitEventArgs"/> instance containing the event data.</param>
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            if (!designMode)
+            if (!DesignMode)
             {
                 CefShutdown();
             }

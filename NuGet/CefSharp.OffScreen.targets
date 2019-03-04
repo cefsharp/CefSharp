@@ -4,13 +4,6 @@
     <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
   </PropertyGroup>
 
-  <ItemGroup>
-    <CefSharpOffScreenBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-    <CefSharpOffScreenBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    <!-- Not currently used, might come in handy for someone though as it contains all x86 and x64 files -->
-    <CefSharpOffscreenBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
-  </ItemGroup>
-
   <!--
     These item groups should be in the .props file, unfortunately Nuget 2.8.x doesn't gurantee the
     correct ordering .props imports, which we require as this depends on the cef.redist packages
