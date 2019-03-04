@@ -71,6 +71,12 @@ namespace CefSharp.Wpf.Internals
 
             return modifiers;
         }
+        
+        public static CefEventFlags GetModifiers(this TouchEventArgs e)
+        {
+            CefEventFlags modifiers = 0;
+            return modifiers;
+        }
 
         /// <summary>
         /// Gets the modifiers.
