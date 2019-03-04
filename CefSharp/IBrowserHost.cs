@@ -288,6 +288,12 @@ namespace CefSharp
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
         void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
+        
+        /// <summary>
+        /// Send a touch event to the browser.
+        /// </summary>
+        /// <param name="touchEvent">touch event</param>
+        void SendTouchEvent(TouchEvent touchEvent);
 
         /// <summary>
         /// Set accessibility state for all frames.  If accessibilityState is Default then accessibility will be disabled by default
