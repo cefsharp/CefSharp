@@ -429,6 +429,36 @@ void CefBrowserHostWrapper::SendMouseMoveEvent(MouseEvent mouseEvent, bool mouse
     _browserHost->SendMouseMoveEvent(m, mouseLeave);
 }
 
+void CefBrowserHostWrapper::SendTouchEvent(TouchEvent touchEvent)
+{
+	ThrowIfDisposed();
+
+	CefTouchEvent m;
+	m.id = touchEvent.Id;
+	m.x = touchEvent.X;
+	m.y = touchEvent.Y;
+	if (touchEvent.TouchInputType == 0)
+	{
+		m.type = TET_PRESSED;
+	}
+	else if (touchEvent.TouchInputType == 1) {
+		m.type = TET_MOVED;
+
+	}
+	else if (touchEvent.TouchInputType == 2) {
+		m.type = TET_RELEASED;
+
+	}
+	m.modifiers = 0;// (uint32)touchEvent.Modifiers;
+	m.radius_x = 0;
+	m.radius_y = 0;
+	m.rotation_angle = 0;
+	m.force = 0;
+
+	_browserHost->SendTouchEvent(m);
+}
+
+
 void CefBrowserHostWrapper::WasResized()
 {
     ThrowIfDisposed();
@@ -587,6 +617,17 @@ CefMouseEvent CefBrowserHostWrapper::GetCefMouseEvent(MouseEvent mouseEvent)
     cefMouseEvent.y = mouseEvent.Y;
     cefMouseEvent.modifiers = (uint32)mouseEvent.Modifiers;
     return cefMouseEvent;
+}
+
+CefTouchEvent CefBrowserHostWrapper::GetCefTouchEvent(TouchEvent touchEvent)
+{
+	CefTouchEvent cefTouchEvent;
+	/*cefTouchEvent.x = touchEvent.X;
+	cefTouchEvent.y = touchEvent.Y;*/
+	//cefTouchEvent.radius_x=touchEvent
+	cefTouchEvent.modifiers = (uint32)touchEvent.Modifiers;
+
+	return cefTouchEvent;
 }
 
 //Code imported from
