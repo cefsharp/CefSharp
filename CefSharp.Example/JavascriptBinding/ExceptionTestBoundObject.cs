@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace CefSharp.Example
+namespace CefSharp.Example.JavascriptBinding
 {
     public class ExceptionTestBoundObject
     {

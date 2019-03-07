@@ -49,9 +49,28 @@ namespace CefSharp
         /// </summary>
         bool WindowlessRenderingEnabled { get; set; }
         /// <summary>
+        /// Set to true to enable shared textures for windowless rendering. Only
+        /// valid if <see cref="WindowlessRenderingEnabled"/> is also set to true. Currently
+        /// only supported on Windows (D3D11). This feature is experimental and has many bugs
+        /// at the moment.
+        /// </summary>
+        bool SharedTextureEnabled { get; set; }
+        /// <summary>
+        /// Set to true to enable the ability to issue BeginFrame requests from the
+        /// client application by calling <see cref="IBrowserHost.SendExternalBeginFrame"/>.
+        /// </summary>
+        bool ExternalBeginFrameEnabled { get; set; }
+        /// <summary>
         /// Handle for the new browser window. Only used with windowed rendering.
         /// </summary>
         IntPtr WindowHandle { get; set; }
+
+        /// <summary>
+        /// Create the browser as a child window.
+        /// Calls GetClientRect(Hwnd) to obtain the window bounds
+        /// </summary>
+        /// <param name="parentHandle">parent handle</param>
+        void SetAsChild(IntPtr parentHandle);
 
         /// <summary>
         /// Create the browser as a child window.

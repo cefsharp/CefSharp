@@ -3,16 +3,19 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
+#include "CefBrowserHostWrapper.h"
+
 #include "include\cef_client.h"
 
-#include "CefBrowserHostWrapper.h"
-#include "CefDragDataWrapper.h"
-#include "CefPdfPrintCallbackWrapper.h"
-#include "WindowInfo.h"
-#include "CefTaskScheduler.h"
 #include "Cef.h"
-#include "RequestContext.h"
+#include "CefExtensionWrapper.h"
+#include "CefTaskScheduler.h"
+#include "CefDragDataWrapper.h"
+#include "CefRunFileDialogCallbackAdapter.h"
+#include "CefPdfPrintCallbackWrapper.h"
 #include "CefNavigationEntryVisitorAdapter.h"
+#include "RequestContext.h"
+#include "WindowInfo.h"
 
 void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations)
 {
@@ -182,6 +185,32 @@ void CefBrowserHostWrapper::ReplaceMisspelling(String^ word)
     _browserHost->ReplaceMisspelling(StringUtils::ToNative(word));
 }
 
+IExtension^ CefBrowserHostWrapper::Extension::get()
+{
+    ThrowIfDisposed();
+
+    auto extension = _browserHost->GetExtension();
+
+    if (extension.get())
+    {
+        return gcnew CefExtensionWrapper(_browserHost->GetExtension());
+    }
+
+    return nullptr;
+}
+
+void CefBrowserHostWrapper::RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, int selectedAcceptFilter, IRunFileDialogCallback^ callback)
+{
+    ThrowIfDisposed();
+
+    _browserHost->RunFileDialog((CefBrowserHost::FileDialogMode)mode,
+        StringUtils::ToNative(title),
+        StringUtils::ToNative(defaultFilePath),
+        StringUtils::ToNative(acceptFilters),
+        selectedAcceptFilter,
+        new CefRunFileDialogCallbackAdapter(callback));
+}
+
 void CefBrowserHostWrapper::Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)
 {
     ThrowIfDisposed();
@@ -307,12 +336,20 @@ void CefBrowserHostWrapper::Invalidate(PaintElementType type)
     _browserHost->Invalidate((CefBrowserHost::PaintElementType)type);
 }
 
-void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> selectionRange)
+bool CefBrowserHostWrapper::IsBackgroundHost::get()
+{
+    ThrowIfDisposed();
+
+    return _browserHost->IsBackgroundHost();
+}
+
+void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> replacementRange, Nullable<Range> selectionRange)
 {
     ThrowIfDisposed();
 
     std::vector<CefCompositionUnderline> underlinesVector = std::vector<CefCompositionUnderline>();
-    CefRange range;
+    CefRange repRange;
+    CefRange selRange;
 
     if (underlines != nullptr && underlines->Length > 0)
     {
@@ -327,21 +364,31 @@ void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<Compositi
         }
     }
 
-    if (selectionRange.HasValue)
+    if (replacementRange.HasValue)
     {
-        range = CefRange(selectionRange.Value.From, selectionRange.Value.To);
+        repRange = CefRange(replacementRange.Value.From, replacementRange.Value.To);
     }
 
-    //Replacement Range is Mac OSX only
-    _browserHost->ImeSetComposition(StringUtils::ToNative(text), underlinesVector, CefRange(), range);
+    if (selectionRange.HasValue)
+    {
+        selRange = CefRange(selectionRange.Value.From, selectionRange.Value.To);
+    }
+
+    _browserHost->ImeSetComposition(StringUtils::ToNative(text), underlinesVector, repRange, selRange);
 }
 
-void CefBrowserHostWrapper::ImeCommitText(String^ text)
+void CefBrowserHostWrapper::ImeCommitText(String^ text, Nullable<Range> replacementRange, int relativeCursorPos)
 {
     ThrowIfDisposed();
 
-    //Range and cursor position are Mac OSX only
-    _browserHost->ImeCommitText(StringUtils::ToNative(text), CefRange(), NULL);
+    CefRange repRange;
+
+    if (replacementRange.HasValue)
+    {
+        repRange = CefRange(replacementRange.Value.From, replacementRange.Value.To);
+    }
+
+    _browserHost->ImeCommitText(StringUtils::ToNative(text), repRange, relativeCursorPos);
 }
 
 void CefBrowserHostWrapper::ImeFinishComposingText(bool keepSelection)
@@ -509,6 +556,13 @@ IntPtr CefBrowserHostWrapper::GetOpenerWindowHandle()
     ThrowIfDisposed();
 
     return IntPtr(_browserHost->GetOpenerWindowHandle());
+}
+
+void CefBrowserHostWrapper::SendExternalBeginFrame()
+{
+    ThrowIfDisposed();
+
+    _browserHost->SendExternalBeginFrame();
 }
 
 void CefBrowserHostWrapper::SendCaptureLostEvent()

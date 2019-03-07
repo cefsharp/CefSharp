@@ -174,9 +174,19 @@ namespace CefSharp
         /// <exception cref="Exception">Throw when not all dependencies are present</exception>
         public static void AssertAllDependenciesPresent(string locale = null, string localesDirPath = null, string resourcesDirPath = null, bool packLoadingDisabled = false, string browserSubProcessPath = "CefSharp.BrowserSubProcess.exe")
         {
-            var executingAssembly = Assembly.GetExecutingAssembly();
+            string path;
 
-            var path = Path.GetDirectoryName(executingAssembly.Location);
+            Uri pathUri;
+            if(Uri.TryCreate(browserSubProcessPath, UriKind.Absolute, out pathUri) && pathUri.IsAbsoluteUri)
+            {
+                path = Path.GetDirectoryName(browserSubProcessPath);
+            }
+            else
+            {
+                var executingAssembly = Assembly.GetExecutingAssembly();
+
+                path = Path.GetDirectoryName(executingAssembly.Location);
+            }            
 
             if (string.IsNullOrEmpty(locale))
             {

@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 
-namespace CefSharp.Example
+namespace CefSharp.Example.JavascriptBinding
 {
     public class AsyncBoundObject
     {

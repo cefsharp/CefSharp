@@ -4,13 +4,10 @@
 
 using System;
 using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-
 using Rect = CefSharp.Structs.Rect;
 
 namespace CefSharp.Wpf.Rendering
@@ -21,30 +18,11 @@ namespace CefSharp.Wpf.Rendering
     /// or creates a new WritableBitmap when required
     /// </summary>
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
-    public class WritableBitmapRenderHandler : IRenderHandler
+    public class WritableBitmapRenderHandler : AbstractRenderHandler
     {
-        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
-        private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
-
-        /// <summary>
-        /// The pixel format
-        /// </summary>
-        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
-        private static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
-
-        private object lockObject = new object();
-
-        private Size viewSize;
-        private Size popupSize;
-        private double dpiX;
-        private double dpiY;
-        private bool invalidateDirtyRect;
-        private DispatcherPriority dispatcherPriority;
-
-        private MemoryMappedFile viewMemoryMappedFile;
-        private MemoryMappedFile popupMemoryMappedFile;
-        private MemoryMappedViewAccessor viewMemoryMappedViewAccessor;
-        private MemoryMappedViewAccessor popupMemoryMappedViewAccessor;
+        private readonly double dpiX;
+        private readonly double dpiY;
+        private readonly bool invalidateDirtyRect;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WritableBitmapRenderHandler"/> class.
@@ -61,39 +39,12 @@ namespace CefSharp.Wpf.Rendering
             this.dispatcherPriority = dispatcherPriority;
         }
 
-        /// <summary>
-        /// Dispose
-        /// </summary>
-        public void Dispose()
-        {
-            ReleaseMemoryMappedView(ref popupMemoryMappedFile, ref popupMemoryMappedViewAccessor);
-            ReleaseMemoryMappedView(ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
-        }
-
-        void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
-        {
-            if (isPopup)
-            {
-                CreateOrUpdateBitmap(isPopup, dirtyRect, buffer, width, height, image, ref popupSize, ref popupMemoryMappedFile, ref popupMemoryMappedViewAccessor);
-            }
-            else
-            {
-                CreateOrUpdateBitmap(isPopup, dirtyRect, buffer, width, height, image, ref viewSize, ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
-            }
-        }
-
-        private void CreateOrUpdateBitmap(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image, ref Size currentSize, ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor viewAccessor)
+        protected override void CreateOrUpdateBitmap(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image, ref Size currentSize, ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor viewAccessor)
         {
             bool createNewBitmap = false;
 
-            if (image.Dispatcher.HasShutdownStarted)
-            {
-                return;
-            }
-
             lock (lockObject)
             {
-
                 int pixels = width * height;
                 int numberOfBytes = pixels * BytesPerPixel;
 
@@ -167,21 +118,6 @@ namespace CefSharp.Wpf.Rendering
                         }
                     }
                 }), dispatcherPriority);
-            }
-        }
-
-        private void ReleaseMemoryMappedView(ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor stream)
-        {
-            if (stream != null)
-            {
-                stream.Dispose();
-                stream = null;
-            }
-
-            if (mappedFile != null)
-            {
-                mappedFile.Dispose();
-                mappedFile = null;
             }
         }
     }

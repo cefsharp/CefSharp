@@ -28,7 +28,7 @@ namespace CefSharp.Wpf.Example.Controls
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
         private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
 
-        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
+        private static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
         private static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
 
         private volatile bool isTakingScreenshot = false;
@@ -91,7 +91,7 @@ namespace CefSharp.Wpf.Example.Controls
             return screenshotTaskCompletionSource.Task;
         }
 
-        protected override CefSharp.Structs.Rect? GetViewRect()
+        protected override CefSharp.Structs.Rect GetViewRect()
         {
             if (isTakingScreenshot)
             {
@@ -132,7 +132,7 @@ namespace CefSharp.Wpf.Example.Controls
                         var backBuffer = mappedFile.SafeMemoryMappedFileHandle.DangerousGetHandle();
                         //NOTE: Interopbitmap is not capable of supporting DPI scaling
                         var bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(backBuffer,
-                            width, height, PixelFormats.Bgra32, stride, 0);
+                            width, height, PixelFormat, stride, 0);
                         screenshotTaskCompletionSource.TrySetResult(bitmap);
 
                         isTakingScreenshot = false;

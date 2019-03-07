@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component ('Core' and common 'Element' components, needed by both WPF and WinForms).</description>
     <tags>chrome browser</tags>
-    <copyright>Copyright © 2010-2018 The CefSharp Authors</copyright>
+    <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
       <dependency id="cef.redist.x64" version="[$RedistVersion$]" />

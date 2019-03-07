@@ -8,6 +8,10 @@ using CefSharp.Structs;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// IRenderWebBrowser is an internal interface used by CefSharp for the WPF/Offscreen implementation
+    /// The ChromiumWebBrowser instances implement this interface
+    /// </summary>
     public interface IRenderWebBrowser : IWebBrowserInternal
     {
         /// <summary>
@@ -29,7 +33,7 @@ namespace CefSharp.Internals
         /// </summary>
         /// <returns>Return a ViewRect strict containing the rectangle or null. If the rectangle is
         /// still empty or invalid popups may not be drawn correctly. </returns>
-        Rect? GetViewRect();
+        Rect GetViewRect();
 
         /// <summary>
         /// Called to retrieve the translation from view coordinates to actual screen coordinates. 
@@ -42,8 +46,17 @@ namespace CefSharp.Internals
         bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY);
 
         /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        void OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle);
+
+        /// <summary>
         /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the
-        /// value of <see cref="ScreenInfo.ScaleFactor"/> returned from <see cref="GetScreenInfo"/>.
+        /// value of <see cref="ScreenInfo.DeviceScaleFactor"/> returned from <see cref="GetScreenInfo"/>.
         /// Called on the CEF UI Thread
         /// </summary>
         /// <param name="type">indicates whether the element is the view or the popup widget.</param>
@@ -77,7 +90,7 @@ namespace CefSharp.Internals
         bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y);
 
         /// <summary>
-        /// Called when the web view wants to update the mouse cursor during a drag & drop operation.
+        /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
         /// </summary>
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
         void UpdateDragCursor(DragOperationsMask operation);

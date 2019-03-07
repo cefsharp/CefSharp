@@ -19,7 +19,7 @@ The upstream [`CEF` forum](http://magpcss.org/ceforum/) is a valuable resource, 
 It maybe helpful to run the `cefclient` application and compare output with `CefSharp`. The `WinForms` and `WPF` versions use two different rendering modes, `WPF` uses Offscreen Rendering (`OSR`). `OffScreen` also uses `OSR` mode.
 
 - Download **Sample Application** from http://opensource.spotify.com/cefbuilds/index.html
-- To compare with WPF run `cefclient --multi-threaded-message-loop --off-screen-rendering-enabled`
+- To compare with WPF run `cefclient --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu`
 - To compare with WinForms `cefclient --multi-threaded-message-loop`
 
 To determine which version of `CEF` your build is running, open `chrome://version` and you'll see a number similar to `3.2987.1597.gffc5773`. Open http://opensource.spotify.com/cefbuilds/index.html and download the `Sample Application` that exactly matches. If your using an older build click `Show More Builds`.
@@ -69,9 +69,9 @@ Change requests cover both architectural and functional changes to how `CefSharp
 
 1. **Use the GitHub search** and check someone else didn't get there first
 2. Take a moment to think about the best way to make a case for, and explain what you're thinking as it's up to you to convince the project's leaders the change is worthwhile. Some questions to consider are:
-	- Is it really one idea or is it many?
-	- What problem are you solving?
-	- Why is what you are suggesting better than what's already there?
+    - Is it really one idea or is it many?
+    - What problem are you solving?
+    - Why is what you are suggesting better than what's already there?
 
 ### Pull Requests/Feature Branches
 
@@ -86,7 +86,7 @@ Pull requests are **awesome**. If you're looking to raise a `PR` for something w
 
   > Run tests in the default appdomain
   > 
-  > Due to limitations of VC++ we must run our tests in the default appdomain, it's possible to use xunit for testing. Readd CefSharp.Test.csproj to solution Add some very basic unit tests using xunit, DisableTestParallelization, Set xunit.appDomain to denied in app.config to disable using appdomains (https://xunit.github.io/docs/configuring-with-xml.html) Add xunit vs test running packages, using 2.2.0 version as 2.3.0 was throwing an exception similar to https://github.com/xunit/xunit/issues/1514 TODO: Take a look at https://github.com/NuGet/NuGetGallery/tree/master/tests/NuGetGallery.Facts for some ideas on structuring xunit tests (look at implementing Theory)
+  > Due to limitations of VC++ we must run our tests in the default appdomain, it's possible to use xunit for testing. Re-add CefSharp.Test.csproj to solution Add some very basic unit tests using xunit, DisableTestParallelization, Set xunit.appDomain to denied in app.config to disable using appdomains (https://xunit.github.io/docs/configuring-with-xml.html) Add xunit vs test running packages, using 2.2.0 version as 2.3.0 was throwing an exception similar to https://github.com/xunit/xunit/issues/1514 TODO: Take a look at https://github.com/NuGet/NuGetGallery/tree/master/tests/NuGetGallery.Facts for some ideas on structuring xunit tests (look at implementing Theory)
 
 ### Coding Style
 - **Please** follow existing coding style when submitting pull requests.

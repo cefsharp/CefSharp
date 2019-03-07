@@ -16,10 +16,11 @@ namespace CefSharp.SchemeHandler
     /// </summary>
     public class FolderSchemeHandlerFactory : ISchemeHandlerFactory
     {
-        private string rootFolder;
-        private string defaultPage;
-        private string schemeName;
-        private string hostName;
+        private readonly string rootFolder;
+        private readonly string defaultPage;
+        private readonly string schemeName;
+        private readonly string hostName;
+        private readonly FileShare resourceFileShare;
 
         /// <summary>
         /// Initialize a new instance of FolderSchemeHandlerFactory
@@ -28,12 +29,14 @@ namespace CefSharp.SchemeHandler
         /// <param name="schemeName">if not null then schemeName checking will be implemented</param>
         /// <param name="hostName">if not null then hostName checking will be implemented</param>
         /// <param name="defaultPage">default page if no page specified, defaults to index.html</param>
-        public FolderSchemeHandlerFactory(string rootFolder, string schemeName = null, string hostName = null, string defaultPage = "index.html")
+        /// <param name="resourceFileShare">file share mode used to open resources, defaults to FileShare.Read</param>
+        public FolderSchemeHandlerFactory(string rootFolder, string schemeName = null, string hostName = null, string defaultPage = "index.html", FileShare resourceFileShare = FileShare.Read)
         {
             this.rootFolder = Path.GetFullPath(rootFolder);
             this.defaultPage = defaultPage;
             this.schemeName = schemeName;
             this.hostName = hostName;
+            this.resourceFileShare = resourceFileShare;
 
             if (!Directory.Exists(this.rootFolder))
             {
@@ -86,7 +89,7 @@ namespace CefSharp.SchemeHandler
             {
                 var fileExtension = Path.GetExtension(filePath);
                 var mimeType = ResourceHandler.GetMimeType(fileExtension);
-                var stream = File.OpenRead(filePath);
+                var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, resourceFileShare); 
                 return ResourceHandler.FromStream(stream, mimeType);
             }
 

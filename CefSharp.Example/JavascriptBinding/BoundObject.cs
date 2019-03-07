@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CefSharp.Example
+namespace CefSharp.Example.JavascriptBinding
 {
     public class BoundObject
     {
@@ -51,6 +51,18 @@ namespace CefSharp.Example
             MyUnconvertibleProperty = GetType();
             SubObject = new SubBoundObject();
             ExceptionTestObject = new ExceptionTestBoundObject();
+        }
+
+        public void TestCallbackWithDateTime(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    var dateTime = new DateTime(2019, 01, 01, 12, 00, 00);
+                    await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                }
+            });
         }
 
         public void TestCallback(IJavascriptCallback javascriptCallback)

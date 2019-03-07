@@ -43,6 +43,10 @@ namespace CefSharp.Wpf
         /// </summary>
         private Window sourceWindow;
         /// <summary>
+        /// The MonitorInfo based on the current hwnd
+        /// </summary>
+        private MonitorInfoEx monitorInfo;
+        /// <summary>
         /// The tooltip timer
         /// </summary>
         private DispatcherTimer tooltipTimer;
@@ -91,6 +95,10 @@ namespace CefSharp.Wpf
         /// </summary>
         private Point browserScreenLocation;
         /// <summary>
+        /// Browser initialization settings
+        /// </summary>
+        private IBrowserSettings browserSettings;
+        /// <summary>
         /// The request context (we deliberately use a private variable so we can throw an exception if
         /// user attempts to set after browser created)
         /// </summary>
@@ -105,7 +113,7 @@ namespace CefSharp.Wpf
         /// A flag that indicates whether or not the designer is active
         /// NOTE: Needs to be static for OnApplicationExit
         /// </summary>
-        private static bool designMode;
+        private static bool DesignMode;
 
         /// <summary>
         /// WPF Keyboard Handled forwards key events to the underlying browser
@@ -116,7 +124,28 @@ namespace CefSharp.Wpf
         /// Gets or sets the browser settings.
         /// </summary>
         /// <value>The browser settings.</value>
-        public BrowserSettings BrowserSettings { get; set; }
+        public IBrowserSettings BrowserSettings
+        {
+            get { return browserSettings; }
+            set
+            {
+                if (browserCreated)
+                {
+                    throw new Exception("Browser has already been created. BrowserSettings must be " +
+                                        "set before the underlying CEF browser is created.");
+                }
+
+                //New instance is created in the constructor, if you use
+                //xaml to initialize browser settings then it will also create a new
+                //instance, so we dispose of the old one
+                if (browserSettings != null)
+                {
+                    browserSettings.Dispose();
+                }
+
+                browserSettings = value;
+            }
+        }
         /// <summary>
         /// Gets or sets the request context.
         /// </summary>
@@ -128,7 +157,7 @@ namespace CefSharp.Wpf
             {
                 if (browserCreated)
                 {
-                    throw new Exception("Browser has already been created. RequestContext must be" +
+                    throw new Exception("Browser has already been created. RequestContext must be " +
                                         "set before the underlying CEF browser is created.");
                 }
                 if (value != null && value.GetType() != typeof(RequestContext))
@@ -249,7 +278,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <remarks>Whilst this may seem like a logical place to execute js, it's called before the DOM has been loaded, implement
         /// <see cref="IRenderProcessMessageHandler.OnContextCreated" /> as it's called when the underlying V8Context is created
-        /// (Only called for the main frame at this stage)</remarks>
+        /// </remarks>
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
 
         /// <summary>
@@ -412,9 +441,9 @@ namespace CefSharp.Wpf
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser()
         {
-            designMode = System.ComponentModel.DesignerProperties.GetIsInDesignMode(this);
+            DesignMode = System.ComponentModel.DesignerProperties.GetIsInDesignMode(this);
 
-            if (!designMode)
+            if (!DesignMode)
             {
                 NoInliningConstructor();
             }
@@ -488,7 +517,7 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
-            BrowserSettings = new BrowserSettings();
+            browserSettings = new BrowserSettings();
             RenderHandler = new InteropBitmapRenderHandler();
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
@@ -503,7 +532,7 @@ namespace CefSharp.Wpf
         /// </summary>
         ~ChromiumWebBrowser()
         {
-            if (!designMode)
+            if (DesignMode)
             {
                 Dispose(false);
             }
@@ -514,7 +543,7 @@ namespace CefSharp.Wpf
         /// </summary>
         public void Dispose()
         {
-            if (!designMode)
+            if (DesignMode)
             {
                 Dispose(true);
             }
@@ -547,10 +576,10 @@ namespace CefSharp.Wpf
                 if (isDisposing)
                 {
                     browser = null;
-                    if (BrowserSettings != null)
+                    if (browserSettings != null)
                     {
-                        BrowserSettings.Dispose();
-                        BrowserSettings = null;
+                        browserSettings.Dispose();
+                        browserSettings = null;
                     }
 
                     //Incase we accidentally have a reference to the CEF drag data
@@ -637,25 +666,32 @@ namespace CefSharp.Wpf
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
         protected virtual ScreenInfo? GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo { DeviceScaleFactor = (float)DpiScaleFactor };
+            var screenInfo = new ScreenInfo
+            {
+                DeviceScaleFactor = (float)DpiScaleFactor,
+                Rect = monitorInfo.Monitor, //TODO: Do values need to be scaled?
+                AvailableRect = monitorInfo.WorkArea //TODO: Do values need to be scaled?
+            };
 
             return screenInfo;
         }
 
         /// <summary>
-        /// Gets the view rect (width, height)
+        /// Called to retrieve the view rectangle which is relative to screen coordinates.
+        /// This method must always provide a non-empty rectangle.
         /// </summary>
-        /// <returns>ViewRect.</returns>
-        Rect? IRenderWebBrowser.GetViewRect()
+        /// <returns>View Rectangle</returns>
+        Rect IRenderWebBrowser.GetViewRect()
         {
             return GetViewRect();
         }
 
         /// <summary>
-        /// Gets the view rect (width, height)
+        /// Called to retrieve the view rectangle which is relative to screen coordinates.
+        /// This method must always provide a non-empty rectangle.
         /// </summary>
-        /// <returns>ViewRect.</returns>
-        protected virtual Rect? GetViewRect()
+        /// <returns>View Rectangle</returns>
+        protected virtual Rect GetViewRect()
         {
             //NOTE: Previous we used Math.Ceiling to round the sizing up, we
             //now set UseLayoutRounding = true; on the control so the sizes are
@@ -752,6 +788,30 @@ namespace CefSharp.Wpf
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
             //TODO: Someone should implement this
+        }
+
+        /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        void IRenderWebBrowser.OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            OnAcceleratedPaint(type == PaintElementType.Popup, dirtyRect, sharedHandle);
+        }
+
+        /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="isPopup">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        protected virtual void OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            RenderHandler?.OnAcceleratedPaint(isPopup, dirtyRect, sharedHandle);
         }
 
         /// <summary>
@@ -1021,7 +1081,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The can go back property
         /// </summary>
-        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof(bool), typeof(ChromiumWebBrowser));
+        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register(nameof(CanGoBack), typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -1041,7 +1101,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The can go forward property
         /// </summary>
-        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(ChromiumWebBrowser));
+        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register(nameof(CanGoForward), typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -1064,7 +1124,7 @@ namespace CefSharp.Wpf
         /// The address property
         /// </summary>
         public static readonly DependencyProperty AddressProperty =
-            DependencyProperty.Register("Address", typeof(string), typeof(ChromiumWebBrowser),
+            DependencyProperty.Register(nameof(Address), typeof(string), typeof(ChromiumWebBrowser),
                                         new UIPropertyMetadata(null, OnAddressChanged));
 
         /// <summary>
@@ -1115,7 +1175,7 @@ namespace CefSharp.Wpf
         /// The is loading property
         /// </summary>
         public static readonly DependencyProperty IsLoadingProperty =
-            DependencyProperty.Register("IsLoading", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false));
 
         #endregion IsLoading dependency property
 
@@ -1136,7 +1196,7 @@ namespace CefSharp.Wpf
         /// The is browser initialized property
         /// </summary>
         public static readonly DependencyProperty IsBrowserInitializedProperty =
-            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
+            DependencyProperty.Register(nameof(IsBrowserInitialized), typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
 
         /// <summary>
         /// Event called after the underlying CEF browser instance has been created. 
@@ -1208,7 +1268,7 @@ namespace CefSharp.Wpf
         /// The title property
         /// </summary>
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTitleChanged));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTitleChanged));
 
         /// <summary>
         /// Event handler that will get called when the browser title changes
@@ -1246,7 +1306,7 @@ namespace CefSharp.Wpf
         /// The zoom level property
         /// </summary>
         public static readonly DependencyProperty ZoomLevelProperty =
-            DependencyProperty.Register("ZoomLevel", typeof(double), typeof(ChromiumWebBrowser),
+            DependencyProperty.Register(nameof(ZoomLevel), typeof(double), typeof(ChromiumWebBrowser),
                                         new UIPropertyMetadata(0d, OnZoomLevelChanged));
 
         /// <summary>
@@ -1292,7 +1352,7 @@ namespace CefSharp.Wpf
         /// The zoom level increment property
         /// </summary>
         public static readonly DependencyProperty ZoomLevelIncrementProperty =
-            DependencyProperty.Register("ZoomLevelIncrement", typeof(double), typeof(ChromiumWebBrowser), new PropertyMetadata(0.10));
+            DependencyProperty.Register(nameof(ZoomLevelIncrement), typeof(double), typeof(ChromiumWebBrowser), new PropertyMetadata(0.10));
 
         #endregion ZoomLevelIncrement dependency property
 
@@ -1316,7 +1376,7 @@ namespace CefSharp.Wpf
         /// The cleanup element property
         /// </summary>
         public static readonly DependencyProperty CleanupElementProperty =
-            DependencyProperty.Register("CleanupElement", typeof(FrameworkElement), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnCleanupElementChanged));
+            DependencyProperty.Register(nameof(CleanupElement), typeof(FrameworkElement), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnCleanupElementChanged));
 
         /// <summary>
         /// Handles the <see cref="E:CleanupElementChanged" /> event.
@@ -1378,7 +1438,7 @@ namespace CefSharp.Wpf
         /// The tooltip text property
         /// </summary>
         public static readonly DependencyProperty TooltipTextProperty =
-            DependencyProperty.Register("TooltipText", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, (sender, e) => ((ChromiumWebBrowser)sender).OnTooltipTextChanged()));
+            DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, (sender, e) => ((ChromiumWebBrowser)sender).OnTooltipTextChanged()));
 
         /// <summary>
         /// Called when [tooltip text changed].
@@ -1424,7 +1484,7 @@ namespace CefSharp.Wpf
         /// The WebBrowser property
         /// </summary>
         public static readonly DependencyProperty WebBrowserProperty =
-            DependencyProperty.Register("WebBrowser", typeof(IWebBrowser), typeof(ChromiumWebBrowser), new UIPropertyMetadata(defaultValue: null));
+            DependencyProperty.Register(nameof(WebBrowser), typeof(IWebBrowser), typeof(ChromiumWebBrowser), new UIPropertyMetadata(defaultValue: null));
 
         #endregion WebBrowser dependency property
 
@@ -1596,6 +1656,9 @@ namespace CefSharp.Wpf
                 }
 
                 browserScreenLocation = GetBrowserScreenLocation();
+
+                monitorInfo.Init();
+                MonitorInfo.GetMonitorInfoForWindowHandle(source.Handle, ref monitorInfo);
             }
             else if (args.OldSource != null)
             {
@@ -1682,13 +1745,36 @@ namespace CefSharp.Wpf
             var webBrowserInternal = this as IWebBrowserInternal;
             if (!webBrowserInternal.HasParent)
             {
+                var windowInfo = CreateOffscreenBrowserWindowInfo(source == null ? IntPtr.Zero : source.Handle);
                 //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
-                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, (RequestContext)RequestContext, address: null);
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: null);
+
+                //Dispose of BrowserSettings as they shouldn't be reused ans it's not possible to change the settings
+                //after the browser has been created.
+                if (browserSettings != null)
+                {
+                    browserSettings.Dispose();
+                    browserSettings = null;
+                }
             }
             browserCreated = true;
 
             return true;
+        }
+
+        /// <summary>
+        /// Override this method to handle creation of WindowInfo. This method can be used to customise aspects of
+        /// browser creation including configuration of settings such as <see cref="IWindowInfo.SharedTextureEnabled"/>
+        /// (used for D3D11 shared texture rendering).
+        /// </summary>
+        /// <param name="handle">Window handle for the HwndSource</param>
+        /// <returns>Window Info</returns>
+        protected virtual IWindowInfo CreateOffscreenBrowserWindowInfo(IntPtr handle)
+        {
+            var windowInfo = new WindowInfo();
+            windowInfo.SetAsWindowless(handle);
+            return windowInfo;
         }
 
         /// <summary>
@@ -1782,7 +1868,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="ExitEventArgs"/> instance containing the event data.</param>
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            if (!designMode)
+            if (!DesignMode)
             {
                 CefShutdown();
             }
@@ -2213,7 +2299,7 @@ namespace CefSharp.Wpf
 
             if (InternalIsBrowserInitialized())
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
 
@@ -2254,7 +2340,7 @@ namespace CefSharp.Wpf
 
             if (InternalIsBrowserInitialized())
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
             var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;

@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace CefSharp.Example
+namespace CefSharp.Example.Handlers
 {
     public class TempFileDialogHandler : IDialogHandler
     {

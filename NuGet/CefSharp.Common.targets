@@ -8,12 +8,6 @@
     <Error Text="CefSharp requires .Net 4.5.2 or higher" />
   </Target>
 
-  <ItemGroup>
-    <CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-    <CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    <CefSharpCommonBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
-  </ItemGroup>
-
   <PropertyGroup>
     <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
   </PropertyGroup>

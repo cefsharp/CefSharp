@@ -79,6 +79,7 @@
     <Compile Include="Callback\IDeleteCookiesCallback.cs" />
     <Compile Include="Callback\IDownloadItemCallback.cs" />
     <Compile Include="Callback\IFileDialogCallback.cs" />
+    <Compile Include="Callback\IGetExtensionResourceCallback.cs" />
     <Compile Include="Callback\IJavascriptCallback.cs" />
     <Compile Include="Callback\IJsDialogCallback.cs" />
     <Compile Include="Callback\IPrintToPdfCallback.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Callback\IRequestCallback.cs" />
     <Compile Include="Callback\IResolveCallback.cs" />
     <Compile Include="Callback\IRunContextMenuCallback.cs" />
+    <Compile Include="Callback\IRunFileDialogCallback.cs" />
     <Compile Include="Callback\ISelectClientCertificateCallback.cs" />
     <Compile Include="Callback\ISetCookieCallback.cs" />
     <Compile Include="Callback\TaskDeleteCookiesCallback.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\AlphaType.cs" />
     <Compile Include="Enums\ValueType.cs" />
     <Compile Include="Enums\ColorType.cs" />
@@ -105,13 +108,20 @@
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Handler\IAccessibilityHandler.cs" />
+    <Compile Include="Handler\IExtensionHandler.cs" />
+    <Compile Include="IApp.cs" />
+    <Compile Include="IExtension.cs" />
+    <Compile Include="ISchemeRegistrar.cs" />
     <Compile Include="IValue.cs" />
     <Compile Include="IImage.cs" />
     <Compile Include="IJavascriptObjectRepository.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\DateTimeUtils.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
-    <Compile Include="CefExtension.cs" />
+    <Compile Include="Lagacy\LegacyResourceHandlerFactory.cs" />
+    <Compile Include="Lagacy\LegacyResourceHandlerFactoryItem.cs" />
+    <Compile Include="RequestContextExtensions.cs" />
+    <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="JavascriptException.cs" />

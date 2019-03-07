@@ -95,7 +95,8 @@ namespace CefSharp
 
         /// <summary>
         /// Factory Class that creates <see cref="IResourceHandler"/> instances
-        /// for handling scheme requests.
+        /// for handling scheme requests. Leave this null if you wish to manually register the
+        /// scheme handler with the relevant RequestContext.
         /// </summary>
         public ISchemeHandlerFactory SchemeHandlerFactory { get; set; }
 

@@ -10,6 +10,10 @@ using CefSharp.Structs;
 
 namespace CefSharp.OffScreen
 {
+    /// <summary>
+    /// BitmapBuffer contains a byte[] used to store the Bitmap generated from <see cref="IRenderHandler.OnPaint"/>
+    /// and associated methods for updating that buffer and creating a <see cref="Bitmap"/> from the actaual Buffer
+    /// </summary>
     public class BitmapBuffer
     {
         private const int BytesPerPixel = 4;
@@ -34,13 +38,23 @@ namespace CefSharp.OffScreen
         /// </summary>
         public Rect DirtyRect { get; private set; }
 
+        /// <summary>
+        /// Locking object used to syncronise access to the underlying buffer
+        /// </summary>
         public object BitmapLock { get; private set; }
 
+        /// <summary>
+        /// Create a new instance of BitmapBuffer
+        /// </summary>
+        /// <param name="bitmapLock">Reference to the bitmapLock, a shared lock object is expected</param>
         public BitmapBuffer(object bitmapLock)
         {
             BitmapLock = bitmapLock;
         }
 
+        /// <summary>
+        /// Get the byte[] array that represents the Bitmap
+        /// </summary>
         public byte[] Buffer
         {
             get { return buffer; }
@@ -61,6 +75,14 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Copy data from the unmanaged buffer (IntPtr) into our managed buffer.
+        /// Locks BitmapLock before performing any update
+        /// </summary>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        /// <param name="buffer">pointer to unmanaged buffer (void*)</param>
+        /// <param name="dirtyRect">rectangle to be updated</param>
         public void UpdateBuffer(int width, int height, IntPtr buffer, Rect dirtyRect)
         {
             lock (BitmapLock)
@@ -71,6 +93,12 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Creates a new Bitmap given with the current Width/Height and <see cref="Format"/>
+        /// then copies the buffer that represents the bitmap.
+        /// Locks <see cref="BitmapLock"/> before creating the <see cref="Bitmap"/>
+        /// </summary>
+        /// <returns>A new bitmap</returns>
         public Bitmap CreateBitmap()
         {
             lock (BitmapLock)

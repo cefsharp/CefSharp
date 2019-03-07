@@ -103,31 +103,23 @@ namespace CefSharp
         cefSharpObjCamelCase->SetValue(kIsObjectCachedCamelCase, isObjectCachedFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
 
         //Send a message to the browser processing signaling that OnContextCreated has been called
-        //only param is the FrameId. Currently an IPC message is only sent for the main frame - will see
-        //how viable this solution is and if it's worth expanding to sub/child frames.
-        if (frame->IsMain())
-        {
-            auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
+        //only param is the FrameId. Previous sent only for main frame, now sent for all frames
+        //Message sent after legacy objects have been bound and the CefSharp bind async helper methods
+        //have been created
+        auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
 
-            SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
+        SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
-            browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
-        }
+        browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        //Send a message to the browser processing signaling that OnContextReleased has been called
-        //only param is the FrameId. Currently an IPC message is only sent for the main frame - will see
-        //how viable this solution is and if it's worth expanding to sub/child frames.
-        if (frame->IsMain())
-        {
-            auto contextReleasedMessage = CefProcessMessage::Create(kOnContextReleasedRequest);
+        auto contextReleasedMessage = CefProcessMessage::Create(kOnContextReleasedRequest);
 
-            SetInt64(contextReleasedMessage->GetArgumentList(), 0, frame->GetIdentifier());
+        SetInt64(contextReleasedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
-            browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextReleasedMessage);
-        }
+        browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextReleasedMessage);
 
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
 
@@ -661,7 +653,7 @@ namespace CefSharp
                 for (size_t i = 0; i < extensionList->GetSize(); i++)
                 {
                     auto extension = extensionList->GetList(i);
-                    auto ext = gcnew CefExtension(StringUtils::ToClr(extension->GetString(0)), StringUtils::ToClr(extension->GetString(1)));
+                    auto ext = gcnew V8Extension(StringUtils::ToClr(extension->GetString(0)), StringUtils::ToClr(extension->GetString(1)));
 
                     _extensions->Add(ext);
                 }
@@ -671,7 +663,7 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnWebKitInitialized()
     {
-        for each(CefExtension^ extension in _extensions->AsReadOnly())
+        for each(V8Extension^ extension in _extensions->AsReadOnly())
         {
             //only support extensions without handlers now
             CefRegisterExtension(StringUtils::ToNative(extension->Name), StringUtils::ToNative(extension->JavascriptCode), NULL);

@@ -3,36 +3,39 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
+#include "ClientAdapter.h"
 
 #include "include\cef_client.h"
 #include "include\wrapper\cef_stream_resource_handler.h"
 
-#include "ClientAdapter.h"
-#include "ManagedCefBrowserAdapter.h"
+#include "CefAuthCallbackWrapper.h"
+#include "CefBeforeDownloadCallbackWrapper.h"
+#include "CefCertificateCallbackWrapper.h"
+#include "CefContextMenuParamsWrapper.h"
+#include "CefDownloadItemCallbackWrapper.h"
+#include "CefDragDataWrapper.h"
+#include "CefFileDialogCallbackWrapper.h"
+#include "CefFrameWrapper.h"
+#include "CefJSDialogCallbackWrapper.h"
+#include "CefMenuModelWrapper.h"
 #include "CefRequestWrapper.h"
 #include "CefResponseWrapper.h"
-#include "CefContextMenuParamsWrapper.h"
-#include "CefMenuModelWrapper.h"
-#include "CefDragDataWrapper.h"
-#include "TypeConversion.h"
-#include "CefSharpBrowserWrapper.h"
-#include "CefDownloadItemCallbackWrapper.h"
-#include "CefBeforeDownloadCallbackWrapper.h"
-#include "CefFileDialogCallbackWrapper.h"
-#include "CefAuthCallbackWrapper.h"
-#include "CefJSDialogCallbackWrapper.h"
+#include "CefResponseFilterAdapter.h"
 #include "CefRequestCallbackWrapper.h"
 #include "CefRunContextMenuCallbackWrapper.h"
-#include "WindowInfo.h"
+#include "CefSslInfoWrapper.h"
+#include "CefSharpBrowserWrapper.h"
+#include "ManagedCefBrowserAdapter.h"
+#include "Messaging\Messages.h"
+#include "PopupFeatures.h"
+#include "ResourceHandlerWrapper.h"
 #include "Serialization\Primitives.h"
 #include "Serialization\V8Serialization.h"
 #include "Serialization\JsObjectsSerialization.h"
 #include "Serialization\ObjectsSerialization.h"
-#include "Messaging\Messages.h"
-#include "CefResponseFilterAdapter.h"
-#include "PopupFeatures.h"
-#include "CefCertificateCallbackWrapper.h"
-#include "CefSslInfoWrapper.h"
+#include "TypeConversion.h"
+
+#include "WindowInfo.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -571,49 +574,7 @@ namespace CefSharp
             CefFrameWrapper frameWrapper(frame);
             CefRequestWrapper requestWrapper(request);
 
-            auto cookie = gcnew Cookie();
-            auto cookieName = StringUtils::ToClr(cefCookie.name);
-
-            //TODO: This code is duplicated in ResourceHandlerWrapper
-            if (!String::IsNullOrEmpty(cookieName))
-            {
-                cookie->Name = StringUtils::ToClr(cefCookie.name);
-                cookie->Value = StringUtils::ToClr(cefCookie.value);
-                cookie->Domain = StringUtils::ToClr(cefCookie.domain);
-                cookie->Path = StringUtils::ToClr(cefCookie.path);
-                cookie->Secure = cefCookie.secure == 1;
-                cookie->HttpOnly = cefCookie.httponly == 1;
-
-                if (cefCookie.has_expires)
-                {
-                    auto expires = cefCookie.expires;
-                    cookie->Expires = DateTimeUtils::FromCefTime(expires.year,
-                        expires.month,
-                        expires.day_of_month,
-                        expires.hour,
-                        expires.minute,
-                        expires.second,
-                        expires.millisecond);
-                }
-
-                auto creation = cefCookie.creation;
-                cookie->Creation = DateTimeUtils::FromCefTime(creation.year,
-                    creation.month,
-                    creation.day_of_month,
-                    creation.hour,
-                    creation.minute,
-                    creation.second,
-                    creation.millisecond);
-
-                auto lastAccess = cefCookie.last_access;
-                cookie->LastAccess = DateTimeUtils::FromCefTime(lastAccess.year,
-                    lastAccess.month,
-                    lastAccess.day_of_month,
-                    lastAccess.hour,
-                    lastAccess.minute,
-                    lastAccess.second,
-                    lastAccess.millisecond);
-            }
+            auto cookie = TypeConversion::FromNative(cefCookie);
 
             return handler->CanSetCookie(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, cookie);
         }
@@ -1250,32 +1211,52 @@ namespace CefSharp
             }
             else if (name == kOnContextCreatedRequest)
             {
-                _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
+                auto frame = browser->GetFrame(GetInt64(argList, 0));
 
-                auto handler = _browserControl->RenderProcessMessageHandler;
-
-                if (handler != nullptr)
+                //In certain circumstances the frame has already been destroyed by the time
+                //we get here, only continue if we have a valid frame reference
+                if (frame.get())
                 {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    if (frame->IsMain())
+                    {
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
+                    }
 
-                    handler->OnContextCreated(_browserControl, browserWrapper, %frameWrapper);
+                    auto handler = _browserControl->RenderProcessMessageHandler;
+
+                    if (handler != nullptr)
+                    {
+                        auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                        CefFrameWrapper frameWrapper(frame);
+
+                        handler->OnContextCreated(_browserControl, browserWrapper, %frameWrapper);
+                    }
                 }
 
                 handled = true;
             }
             else if (name == kOnContextReleasedRequest)
             {
-                _browserControl->SetCanExecuteJavascriptOnMainFrame(false);
+                auto frame = browser->GetFrame(GetInt64(argList, 0));
 
-                auto handler = _browserControl->RenderProcessMessageHandler;
-
-                if (handler != nullptr)
+                //In certain circumstances the frame has already been destroyed by the time
+                //we get here, only continue if we have a valid frame reference
+                if (frame.get())
                 {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    if (frame->IsMain())
+                    {
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(false);
+                    }
 
-                    handler->OnContextReleased(_browserControl, browserWrapper, %frameWrapper);
+                    auto handler = _browserControl->RenderProcessMessageHandler;
+
+                    if (handler != nullptr)
+                    {
+                        auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                        CefFrameWrapper frameWrapper(frame);
+
+                        handler->OnContextReleased(_browserControl, browserWrapper, %frameWrapper);
+                    }
                 }
 
                 handled = true;

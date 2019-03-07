@@ -234,51 +234,42 @@
                         ...and the actual scheme handler class like this:
 
                         <pre data-shbrush="csharp">
-                        internal class CefSharpSchemeHandler : IResourceHandler
+                        //This Resource handler (scheme handler factory returns IResourceHandler) downloads a file
+                        // and servces the content as the response, you could just as easily read from a database or disk
+                        public class FlashResourceHandler : ResourceHandler
                         {
-                            private string mimeType;
-                            private MemoryStream stream;
-
-                            public bool ProcessRequestAsync(IRequest request, ICallback callback)
+                            public override bool ProcessRequestAsync(IRequest request, ICallback callback)
                             {
-                                // NOTE: We suggest you structure your code in an async fashion
-                                // First examine the "request" object for info about the URI being requested and so forth.
-                                // If the Url is valid then spawn a task
-
                                 Task.Run(() =>
                                 {
-                                    // In this task you can perform your time consuming operations, e.g query a database
-                                    // NOTE: We suggest that you wrap callbacks in a using statemnt so that they're disposed
-                                    // even if there is an exception as they wrap an unmanaged response which will cause memory
-                                    // leaks if not freed
                                     using (callback)
                                     {
-                                        // Read the data in, set the mime type
-                                        var bytes = Encoding.UTF8.GetBytes(resource);
-                                        stream = new MemoryStream(bytes);
-                                        var fileExtension = Path.GetExtension(fileName);
-                                        mimeType = ResourceHandler.GetMimeType(fileExtension);
+                                        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://samples.mplayerhq.hu/SWF/zeldaADPCM5bit.swf");
 
-                                        // When your finished processing execute the callback.
-                                        // Most callbacks have multiple methods, so checkout their interface for details
+                                        var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                                        // Get the stream associated with the response.
+                                        var receiveStream = httpWebResponse.GetResponseStream();
+                                        var mime = httpWebResponse.ContentType;
+
+                                        var stream = new MemoryStream();
+                                        receiveStream.CopyTo(stream);
+                                        httpWebResponse.Close();
+
+                                        //Reset the stream position to 0 so the stream can be copied into the underlying unmanaged buffer
+                                        stream.Position = 0;
+
+                                        //Populate the response values - No longer need to implement GetResponseHeaders (unless you need to perform a redirect)
+                                        ResponseLength = stream.Length;
+                                        MimeType = mime;
+                                        StatusCode = (int)HttpStatusCode.OK;
+                                        Stream = stream;
+
                                         callback.Continue();
                                     }
                                 });
 
-                                // Return true to indicate that you've handled the request, you can return false which will cancel the request
                                 return true;
-                            }
-
-                            public Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
-                            {
-                                // NOTE: GetResponse will be executed after you have called Continue()
-                                // You simple need to populate the relevant details, note you can also redirec to another url if required
-                                responseLength = stream.Length;
-                                redirectUrl = null;
-                                response.StatusCode = (int)HttpStatusCode.OK;
-                                response.StatusText = "OK";
-                                response.MimeType = mimeType;
-                                return stream;
                             }
                         }
                         </pre>
@@ -319,11 +310,13 @@
                         of the block below will be modified/inspected by the script code.
 
                         <pre id="modify-me">You can modify the value of this text field using JavaScript!</pre>
+                        For more details and further examples read <a href="https://github.com/cefsharp/CefSharp/wiki/General-Usage#javascript-integration">General Usage Guide - Javascript Integration</a>
 
                         The C# code for performing these kinds of interactions is quite simple. Like this:
                     </p>
 
                     <pre data-shbrush="csharp">
+                        using CefSharp; //EvaluateScriptAsync is an extension method
                         webBrowser.ExecuteScriptAsync(someScriptCode);
                     </pre>
 
@@ -342,7 +335,8 @@
                     </p>
 
                     <pre data-shbrush="csharp">
-                        var result = webBrowser.EvaluateScript("10 + 20");
+                        using CefSharp; //EvaluateScriptAsync is an extension method
+                        var result = await webBrowser.EvaluateScriptAsync("10 + 20");
                     </pre>
 
                     <p>
@@ -350,7 +344,6 @@
                         value types (int, float, etc) and strings all work, but do not expect to be able to return other JavaScript
                         objects.
                     </p>
-                    <h3>Hooks by which you can modify and/or override certain features of the web browsing</h3>
                 </div>
                 <div class="bs-docs-section">
                     <div class="page-header">

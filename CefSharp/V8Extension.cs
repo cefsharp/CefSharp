@@ -9,7 +9,7 @@ namespace CefSharp
     /// <summary>
     /// Represents a new V8 extension to be registered.
     /// </summary>
-    public sealed class CefExtension
+    public sealed class V8Extension
     {
         /// <summary>
         /// Gets the name of the extension.
@@ -26,7 +26,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="name">Name of the CefExtension</param>
         /// <param name="javascriptCode">The javascript extension code.</param>
-        public CefExtension(string name, string javascriptCode)
+        public V8Extension(string name, string javascriptCode)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -48,7 +48,7 @@ namespace CefSharp
             {
                 return false;
             }
-            var ext = (CefExtension)obj;
+            var ext = (V8Extension)obj;
             return Name.Equals(ext.Name);
         }
 

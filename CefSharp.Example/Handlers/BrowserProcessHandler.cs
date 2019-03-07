@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using CefSharp.SchemeHandler;
@@ -37,7 +38,7 @@ namespace CefSharp.Example.Handlers
 
                         foreach (var cookie in cookies)
                         {
-                            Debug.WriteLine("CookieName:" + cookie.Name);
+                            Debug.WriteLine("CookieName: " + cookie.Name);
                         }
                     }
                     else
@@ -54,7 +55,7 @@ namespace CefSharp.Example.Handlers
 
                         foreach (var cookie in cookies)
                         {
-                            Debug.WriteLine("CookieName:" + cookie.Name);
+                            Debug.WriteLine("CookieName: " + cookie.Name);
                         }
                     }
                     else
@@ -72,6 +73,19 @@ namespace CefSharp.Example.Handlers
                 //You can set most preferences using a `.` notation rather than having to create a complex set of dictionaries.
                 //The default is true, you can change to false to disable
                 context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
+
+                //string error;
+                //var dicts = new List<string> { "en-GB", "en-US" };
+                //var success = context.SetPreference("spellcheck.dictionaries", dicts, out error);
+
+                //The no-proxy-server flag is set in CefExample.cs class, you'll have to remove that before you can test
+                //this code out
+                //var v = new Dictionary<string, string>
+                //{
+                //    ["mode"] = "fixed_servers",
+                //    ["server"] = "scheme://host:port"
+                //};
+                //success = context.SetPreference("proxy", v, out errorMessage);
 
                 //It's possible to register a scheme handler for the default http and https schemes
                 //In this example we register the FolderSchemeHandlerFactory for https://cefsharp.example

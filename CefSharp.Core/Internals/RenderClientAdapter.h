@@ -91,23 +91,31 @@ namespace CefSharp
             }
 
             // CefRenderHandler
-            virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
+            virtual DECL void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
             {
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
-                    return false;
+                    //CEF doesn't like a 0 width or 0 height, cefclient
+                    //defaults these to 1, so we'll do the same
+                    rect = CefRect(0, 0, 1, 1);
                 }
-
-                auto viewRect = _renderWebBrowser->GetViewRect();
-
-                if (viewRect.HasValue == false)
+                else
                 {
-                    return false;
+                    auto viewRect = _renderWebBrowser->GetViewRect();
+
+                    rect = CefRect(viewRect.X, viewRect.Y, viewRect.Width, viewRect.Height);
+
+                    //Cefclient defaults these to 1 instead of 0, we'll do the same
+                    if (rect.height == 0)
+                    {
+                        rect.height = 1;
+                    }
+
+                    if (rect.width == 0)
+                    {
+                        rect.width = 1;
+                    }
                 }
-
-                rect = CefRect(viewRect.Value.X, viewRect.Value.Y, viewRect.Value.Width, viewRect.Value.Height);
-
-                return true;
             };
 
             ///
@@ -139,6 +147,12 @@ namespace CefSharp
             {
                 _renderWebBrowser->OnPopupSize(Rect(rect.x, rect.y, rect.width, rect.height));
             };
+
+            virtual DECL void OnAcceleratedPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, void* shared_handle) OVERRIDE
+            {
+                CefRect r = dirtyRects.front();
+                _renderWebBrowser->OnAcceleratedPaint((CefSharp::PaintElementType)type, CefSharp::Structs::Rect(r.x, r.y, r.width, r.height), IntPtr((void *)shared_handle));
+            }
 
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE

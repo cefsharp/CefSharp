@@ -77,6 +77,12 @@
     <ClCompile Include="Internals\CefValueWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Internals\CefExtensionWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -278,6 +284,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefValueWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefGetExtensionResourceCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefExtensionWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefExtensionHandlerAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefSchemeRegistrarWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,7 +10,8 @@ namespace CefSharp.OffScreen
     public enum PopupBlending
     {
         /// <summary>
-        /// The main bitmap and popup bitmap should be blended.
+        /// The main bitmap and popup bitmap will be merged together
+        /// (Popup bitmap overlayed on top of the main bitmap).
         /// </summary>
         Blend = 0,
         /// <summary>

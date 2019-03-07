@@ -50,6 +50,10 @@ namespace CefSharp.WinForms
         /// </summary>
         private bool browserCreated;
         /// <summary>
+        /// Browser initialization settings
+        /// </summary>
+        private IBrowserSettings browserSettings;
+        /// <summary>
         /// The request context (we deliberately use a private variable so we can throw an exception if
         /// user attempts to set after browser created)
         /// </summary>
@@ -68,7 +72,23 @@ namespace CefSharp.WinForms
         /// </summary>
         /// <value>The browser settings.</value>
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
-        public BrowserSettings BrowserSettings { get; set; }
+        public IBrowserSettings BrowserSettings
+        {
+            get { return browserSettings; }
+            set
+            {
+                if (browserCreated)
+                {
+                    throw new Exception("Browser has already been created. BrowserSettings must be " +
+                                        "set before the underlying CEF browser is created.");
+                }
+                if (value != null && value.GetType() != typeof(BrowserSettings))
+                {
+                    throw new Exception(string.Format("BrowserSettings can only be of type {0} or null", typeof(BrowserSettings)));
+                }
+                browserSettings = value;
+            }
+        }
         /// <summary>
         /// Gets or sets the request context.
         /// </summary>
@@ -81,7 +101,7 @@ namespace CefSharp.WinForms
             {
                 if (browserCreated)
                 {
-                    throw new Exception("Browser has already been created. RequestContext must be" +
+                    throw new Exception("Browser has already been created. RequestContext must be " +
                                         "set before the underlying CEF browser is created.");
                 }
                 if (value != null && value.GetType() != typeof(RequestContext))
@@ -224,7 +244,7 @@ namespace CefSharp.WinForms
         /// </summary>
         /// <remarks>Whilst this may seem like a logical place to execute js, it's called before the DOM has been loaded, implement
         /// <see cref="IRenderProcessMessageHandler.OnContextCreated" /> as it's called when the underlying V8Context is created
-        /// (Only called for the main frame at this stage)</remarks>
+        /// </remarks>
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         /// <summary>
         /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
@@ -321,7 +341,7 @@ namespace CefSharp.WinForms
         /// and should only be required when using <see cref="CefSettings.MultiThreadedMessageLoop"/>
         /// set to true.
         /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(true)]
         public bool UseParentFormMessageInterceptor { get; set; } = true;
 
         /// <summary>
@@ -399,9 +419,9 @@ namespace CefSharp.WinForms
                     ResourceHandlerFactory = new DefaultResourceHandlerFactory();
                 }
 
-                if (BrowserSettings == null)
+                if (browserSettings == null)
                 {
-                    BrowserSettings = new BrowserSettings();
+                    browserSettings = new BrowserSettings();
                 }
 
                 managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
@@ -473,10 +493,10 @@ namespace CefSharp.WinForms
                 parentFormMessageInterceptor = null;
             }
 
-            if (BrowserSettings != null)
+            if (browserSettings != null)
             {
-                BrowserSettings.Dispose();
-                BrowserSettings = null;
+                browserSettings.Dispose();
+                browserSettings = null;
             }
 
             if (managedCefBrowserAdapter != null)
@@ -523,7 +543,7 @@ namespace CefSharp.WinForms
 
             if (IsBrowserInitialized)
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
 
@@ -566,7 +586,7 @@ namespace CefSharp.WinForms
 
             if (IsBrowserInitialized)
             {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
                                     "called before the underlying CEF browser is created.");
             }
 
@@ -585,6 +605,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// The javascript object repository, one repository per ChromiumWebBrowser instance.
         /// </summary>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
             get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
@@ -620,8 +641,16 @@ namespace CefSharp.WinForms
             {
                 if (IsBrowserInitialized == false || browser == null)
                 {
-                    //TODO: Revert temp workaround for default url not loading
-                    managedCefBrowserAdapter.CreateBrowser(BrowserSettings, (RequestContext)RequestContext, Handle, null);
+                    var windowInfo = new WindowInfo();
+                    windowInfo.SetAsChild(Handle);
+                    
+                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
+
+                    if (browserSettings != null)
+                    {
+                        browserSettings.Dispose();
+                        browserSettings = null;
+                    }
                 }
                 else
                 {
@@ -640,12 +669,6 @@ namespace CefSharp.WinForms
         {
             this.browser = browser;
             IsBrowserInitialized = true;
-
-            //TODO: Revert temp workaround for default url not loading
-            if (!string.IsNullOrEmpty(Address))
-            {
-                browser.MainFrame.LoadUrl(Address);
-            }
 
             // By the time this callback gets called, this control
             // is most likely hooked into a browser Form of some sort. 
