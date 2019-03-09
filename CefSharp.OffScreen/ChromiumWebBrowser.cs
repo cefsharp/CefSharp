@@ -28,13 +28,6 @@ namespace CefSharp.OffScreen
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
         /// <summary>
-        /// Size of the Chromium viewport.
-        /// This must be set to something other than 0x0 otherwise Chromium will not render,
-        /// and the ScreenshotAsync task will deadlock.
-        /// </summary>
-        private Size size = new Size(1366, 768);
-
-        /// <summary>
         /// The browser
         /// </summary>
         private IBrowser browser;
@@ -318,7 +311,7 @@ namespace CefSharp.OffScreen
                 CreateBrowser(null, browserSettings);
             }
 
-            RenderHandler = new DefaultRenderHandler(this);
+            RenderHandler = new DefaultRenderHandler();
         }
 
         /// <summary>
@@ -427,17 +420,19 @@ namespace CefSharp.OffScreen
         /// <value>The size.</value>
         public Size Size
         {
-            get { return size; }
+            get { return RenderHandler.ViewportSize; }
             set
             {
-                if (size != value)
+                if (RenderHandler.ViewportSize == value)
                 {
-                    size = value;
+                    return;
+                }
 
-                    if (IsBrowserInitialized)
-                    {
-                        browser.GetHost().WasResized();
-                    }
+                RenderHandler.ViewportSize = value;
+
+                if (IsBrowserInitialized)
+                {
+                    browser.GetHost().WasResized();
                 }
             }
         }

@@ -15,6 +15,12 @@ namespace CefSharp.OffScreen
     public interface IRenderHandler : IDisposable
     {
         /// <summary>
+        /// Size of the Chromium viewport.
+        /// This must be set to something other than 0x0 otherwise Chromium will not render.
+        /// </summary>
+        System.Drawing.Size ViewportSize { get; set; }
+
+        /// <summary>
         /// Called to allow the client to return a ScreenInfo object with appropriate values.
         /// If null is returned then the rectangle from GetViewRect will be used.
         /// If the rectangle is still empty or invalid popups may not be drawn correctly. 

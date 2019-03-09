@@ -16,8 +16,6 @@ namespace CefSharp.OffScreen
     /// </summary>
     public class DefaultRenderHandler : IRenderHandler
     {
-        private ChromiumWebBrowser browser;
-
         private Size popupSize;
         private Point popupPosition;
 
@@ -26,6 +24,13 @@ namespace CefSharp.OffScreen
         /// while Chromium async rendering has returned on another thread.
         /// </summary>
         public readonly object BitmapLock = new object();
+
+        /// <summary>
+        /// Size of the Chromium viewport.
+        /// This must be set to something other than 0x0 otherwise Chromium will not render.
+        /// Defaults to 1366x768
+        /// </summary>
+        public Size ViewportSize { get; set; } = new Size(1366, 768);
 
         /// <summary>
         /// Gets or sets a value indicating whether the popup is open.
@@ -67,11 +72,8 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Create a new instance of DefaultRenderHadler
         /// </summary>
-        /// <param name="browser">reference to the ChromiumWebBrowser</param>
-        public DefaultRenderHandler(ChromiumWebBrowser browser)
+        public DefaultRenderHandler()
         {
-            this.browser = browser;
-
             popupPosition = new Point();
             popupSize = new Size();
 
@@ -84,7 +86,6 @@ namespace CefSharp.OffScreen
         /// </summary>
         public void Dispose()
         {
-            browser = null;
             BitmapBuffer = null;
             PopupBuffer = null;
         }
@@ -109,10 +110,7 @@ namespace CefSharp.OffScreen
         /// <returns>Return a ViewRect strict containing the rectangle.</returns>
         public virtual Rect GetViewRect()
         {
-            //TODO: See if this can be refactored and remove browser reference
-            var size = browser.Size;
-
-            var viewRect = new Rect(0, 0, size.Width, size.Height);
+            var viewRect = new Rect(0, 0, ViewportSize.Width, ViewportSize.Height);
 
             return viewRect;
         }
