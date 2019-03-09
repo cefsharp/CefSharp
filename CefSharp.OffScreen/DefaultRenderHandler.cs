@@ -110,9 +110,7 @@ namespace CefSharp.OffScreen
         /// <returns>Return a ViewRect strict containing the rectangle.</returns>
         public virtual Rect GetViewRect()
         {
-            var viewRect = new Rect(0, 0, ViewportSize.Width, ViewportSize.Height);
-
-            return viewRect;
+            return new Rect(0, 0, ViewportSize.Width, ViewportSize.Height);
         }
 
         /// <summary>
