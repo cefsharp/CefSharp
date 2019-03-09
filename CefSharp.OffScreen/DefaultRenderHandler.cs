@@ -30,7 +30,7 @@ namespace CefSharp.OffScreen
         /// This must be set to something other than 0x0 otherwise Chromium will not render.
         /// Defaults to 1366x768
         /// </summary>
-        public Size ViewportSize { get; set; } = new Size(1366, 768);
+        public Size ViewportSize { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the popup is open.
@@ -74,6 +74,8 @@ namespace CefSharp.OffScreen
         /// </summary>
         public DefaultRenderHandler()
         {
+            ViewportSize = new Size(1366, 768);
+
             popupPosition = new Point();
             popupSize = new Size();
 
