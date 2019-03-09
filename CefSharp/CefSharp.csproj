@@ -170,7 +170,6 @@
     <Compile Include="Event\ConsoleMessageEventArgs.cs" />
     <Compile Include="Event\FrameLoadEndEventArgs.cs" />
     <Compile Include="Event\FrameLoadStartEventArgs.cs" />
-    <Compile Include="Event\IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="Event\LoadErrorEventArgs.cs" />
     <Compile Include="Event\LoadingStateChangedEventArgs.cs" />
     <Compile Include="Event\StatusMessageEventHandler.cs" />
