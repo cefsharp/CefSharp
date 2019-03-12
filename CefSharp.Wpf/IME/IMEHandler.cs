@@ -8,8 +8,10 @@ namespace CefSharp.Wpf.IME
 {
     public class IMEHandler : IDisposable
     {
-        internal const uint ColorUNDERLINE = 0xFFFFFFFF;   // White SkColor value for underline,
-        internal const uint ColorBKCOLOR = 0xFF000000;    // Black SkColor value for background,
+        // Black SkColor value for underline.
+        internal const uint ColorUNDERLINE = 0xFF000000;
+        // White SkColor value for background.
+        internal const uint ColorBKCOLOR = 0xFFFFFFFF;    
 
         IntPtr hWnd;
 
