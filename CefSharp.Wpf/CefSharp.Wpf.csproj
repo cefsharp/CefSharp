@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefSettings.cs" />
+    <Compile Include="DragCursorProvider.cs" />
     <Compile Include="Internals\MonitorInfo.cs" />
     <Compile Include="Internals\MonitorInfoEx.cs" />
     <Compile Include="Internals\RectStruct.cs" />

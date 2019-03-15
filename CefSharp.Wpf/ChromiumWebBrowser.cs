@@ -787,7 +787,8 @@ namespace CefSharp.Wpf
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
-            //TODO: Someone should implement this
+            var dragCursor = DragCursorProvider.GetCursor(operation);
+            UiThreadRunSync(() => Mouse.SetCursor(dragCursor));
         }
 
         /// <summary>
