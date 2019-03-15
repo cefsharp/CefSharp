@@ -6,7 +6,8 @@ using System.Windows.Interop;
 using CefSharp.Enums;
 using Microsoft.Win32.SafeHandles;
 
-namespace CefSharp.Wpf {
+namespace CefSharp.Wpf 
+{
 
     internal static class DragCursorProvider 
     {
@@ -18,7 +19,8 @@ namespace CefSharp.Wpf {
         
         private static readonly Dictionary<DragOperationsMask, Cursor> DragCursors;
 
-        static DragCursorProvider() {
+        static DragCursorProvider() 
+        {
             var library = LoadLibrary("ole32.dll");
             DragCursors = new Dictionary<DragOperationsMask, Cursor>()
             {
