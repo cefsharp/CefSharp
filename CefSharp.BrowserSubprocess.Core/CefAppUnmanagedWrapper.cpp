@@ -674,7 +674,39 @@ namespace CefSharp
     {
         for each (CefCustomScheme^ scheme in _schemes->AsReadOnly())
         {
-            registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled, scheme->IsCSPBypassing);
+            int options = cef_scheme_options_t::CEF_SCHEME_OPTION_NONE;
+
+            if (scheme->IsStandard)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_STANDARD;
+            }
+
+            if (scheme->IsLocal)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_LOCAL;
+            }
+
+            if (scheme->IsDisplayIsolated)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_DISPLAY_ISOLATED;
+            }
+
+            if (scheme->IsSecure)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_SECURE;
+            }
+
+            if (scheme->IsCorsEnabled)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_CORS_ENABLED;
+            }
+
+            if (scheme->IsCSPBypassing)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_CSP_BYPASSING;
+            }
+
+            registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), options);
         }
     }
 }

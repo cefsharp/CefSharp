@@ -41,7 +41,39 @@ namespace CefSharp
             {
                 ThrowIfDisposed();
 
-                return _registra->AddCustomScheme(StringUtils::ToNative(schemeName), isStandard, isLocal, isDisplayIsolated, isSecure, isCorsEnabled, isCspBypassing);
+                int options = cef_scheme_options_t::CEF_SCHEME_OPTION_NONE;
+
+                if (isStandard)
+                {
+                    options |= cef_scheme_options_t::CEF_SCHEME_OPTION_STANDARD;
+                }
+
+                if (isLocal)
+                {
+                    options |= cef_scheme_options_t::CEF_SCHEME_OPTION_LOCAL;
+                }
+
+                if (isDisplayIsolated)
+                {
+                    options |= cef_scheme_options_t::CEF_SCHEME_OPTION_DISPLAY_ISOLATED;
+                }
+
+                if (isSecure)
+                {
+                    options |= cef_scheme_options_t::CEF_SCHEME_OPTION_SECURE;
+                }
+
+                if (isCorsEnabled)
+                {
+                    options |= cef_scheme_options_t::CEF_SCHEME_OPTION_CORS_ENABLED;
+                }
+
+                if (isCspBypassing)
+                {
+                    options |= cef_scheme_options_t::CEF_SCHEME_OPTION_CSP_BYPASSING;
+                }
+
+                return _registra->AddCustomScheme(StringUtils::ToNative(schemeName), options);
             }
         };
     }
