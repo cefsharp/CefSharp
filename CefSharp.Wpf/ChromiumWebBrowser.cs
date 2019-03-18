@@ -108,7 +108,10 @@ namespace CefSharp.Wpf
         /// we can reuse the drag data provided from CEF
         /// </summary>
         private IDragData currentDragData;
-
+        /// <summary>
+        /// Keep the current drag&drop effects to return the appropriate effects on drag over.
+        /// </summary>
+        private DragDropEffects currentDragDropEffects;
         /// <summary>
         /// A flag that indicates whether or not the designer is active
         /// NOTE: Needs to be static for OnApplicationExit
@@ -489,7 +492,6 @@ namespace CefSharp.Wpf
             DragOver += OnDragOver;
             DragLeave += OnDragLeave;
             Drop += OnDrop;
-            GiveFeedback += OnGiveFeedback;
 
             IsVisibleChanged += OnIsVisibleChanged;
 
@@ -611,7 +613,6 @@ namespace CefSharp.Wpf
                     DragOver -= OnDragOver;
                     DragLeave -= OnDragLeave;
                     Drop -= OnDrop;
-                    GiveFeedback -= OnGiveFeedback;
 
                     IsVisibleChanged -= OnIsVisibleChanged;
 
@@ -782,15 +783,14 @@ namespace CefSharp.Wpf
         {
             UpdateDragCursor(operation);
         }
-
+        
         /// <summary>
         /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
         /// </summary>
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
-            var dragCursor = DragCursorProvider.GetCursor(operation);
-            UiThreadRunAsync(() => Mouse.SetCursor(dragCursor));
+            currentDragDropEffects = operation.GetDragEffects();
         }
 
         /// <summary>
@@ -1532,16 +1532,7 @@ namespace CefSharp.Wpf
             {
                 browser.GetHost().DragTargetDragOver(GetMouseEvent(e), e.AllowedEffects.GetDragOperationsMask());
             }
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:GiveFeedback" /> event.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="GiveFeedbackEventArgs"/> instance containing the event data.</param>
-        private void OnGiveFeedback(object sender, GiveFeedbackEventArgs e) 
-        {
-            /// prevent showing default cursor, the appropriate cursor will be set by <see cref=UpdateDragCursor />
+            e.Effects = currentDragDropEffects;
             e.Handled = true;
         }
 
