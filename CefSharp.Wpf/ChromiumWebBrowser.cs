@@ -1539,7 +1539,8 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="GiveFeedbackEventArgs"/> instance containing the event data.</param>
-        private void OnGiveFeedback(object sender, GiveFeedbackEventArgs e) {
+        private void OnGiveFeedback(object sender, GiveFeedbackEventArgs e) 
+        {
             /// prevent showing default cursor, the appropriate cursor will be set by <see cref=UpdateDragCursor />
             e.Handled = true;
         }
