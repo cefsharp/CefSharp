@@ -5,12 +5,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using CefSharp.Enums;
 using Microsoft.Win32.SafeHandles;
 
-namespace CefSharp.Wpf 
+namespace CefSharp.Wpf.Internals
 {
 
     internal static class DragCursorProvider 
@@ -21,17 +22,17 @@ namespace CefSharp.Wpf
         [DllImport("user32.dll")]
         private static extern IntPtr LoadCursor(IntPtr hInstance, ushort lpCursorName);
         
-        private static readonly Dictionary<DragOperationsMask, Cursor> DragCursors;
+        private static readonly Dictionary<DragDropEffects, Cursor> DragCursors;
 
         static DragCursorProvider() 
         {
             var library = LoadLibrary("ole32.dll");
-            DragCursors = new Dictionary<DragOperationsMask, Cursor>()
+            DragCursors = new Dictionary<DragDropEffects, Cursor>()
             {
-                { DragOperationsMask.None, GetCursorFromLib(library, 1) },
-                { DragOperationsMask.Move, GetCursorFromLib(library, 2) },
-                { DragOperationsMask.Copy, GetCursorFromLib(library, 3) },
-                { DragOperationsMask.Link, GetCursorFromLib(library, 4) }
+                { DragDropEffects.None, GetCursorFromLib(library, 1) },
+                { DragDropEffects.Move, GetCursorFromLib(library, 2) },
+                { DragDropEffects.Copy, GetCursorFromLib(library, 3) },
+                { DragDropEffects.Link, GetCursorFromLib(library, 4) }
                 // TODO: support black cursors
             };
         }
@@ -49,8 +50,10 @@ namespace CefSharp.Wpf
         /// <returns>The drop cursor based on the specified drag operation effect</returns>
         public static Cursor GetCursor(DragOperationsMask operation) 
         {
+            var effects = operation.GetDragEffects();
+
             Cursor cursor;
-            if (DragCursors.TryGetValue(operation, out cursor)) 
+            if (DragCursors.TryGetValue(effects, out cursor)) 
             {
                 return cursor;
             }
