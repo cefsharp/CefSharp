@@ -50,7 +50,8 @@ namespace CefSharp.Wpf.Internals
         {
             if ((mask & DragOperationsMask.Every) == DragOperationsMask.Every)
             {
-                return DragDropEffects.All;
+                // return all effects (!= DragDropEffects.All, which doesn't include Link)
+                return DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Move | DragDropEffects.Link;
             }
             if ((mask & DragOperationsMask.Copy) == DragOperationsMask.Copy)
             {
