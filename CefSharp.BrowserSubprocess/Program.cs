@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using CefSharp.Internals;
+using CefSharp.RenderProcess;
 
 namespace CefSharp.BrowserSubprocess
 {
@@ -36,8 +37,10 @@ namespace CefSharp.BrowserSubprocess
             // Use our custom subProcess provides features like EvaluateJavascript
             if (type == "renderer")
             {
+                IRenderProcessHandler handler = null;
+                handler = new RenderProcessHandlerExample();
                 var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
-                var subProcess = wcfEnabled ? new WcfEnabledSubProcess(parentProcessId, args) : new SubProcess(args);
+                var subProcess = wcfEnabled ? new WcfEnabledSubProcess(parentProcessId, handler, args) : new SubProcess(handler, args);
 
                 using (subProcess)
                 {

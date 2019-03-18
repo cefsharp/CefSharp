@@ -98,6 +98,9 @@
     <ClInclude Include="RegisterBoundObjectRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CefV8ContextWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">

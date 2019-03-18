@@ -8,6 +8,7 @@
 
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
+#include "CefV8ContextWrapper.h"
 #include "RegisterBoundObjectHandler.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "Serialization\V8Serialization.h"
@@ -62,6 +63,15 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
+        if (!Object::ReferenceEquals(_handler, nullptr))
+        {
+            //CefSharpBrowserWrapper browserWrapper(browser);
+            //CefFrameWrapper frameWrapper(frame);
+            CefV8ContextWrapper contextWrapper(context);
+            _handler->OnContextCreated(nullptr, nullptr, %contextWrapper);
+            //_handler->OnContextCreated(%browserWrapper, %frameWrapper, %contextWrapper);
+        }
+
         if (_legacyBindingEnabled)
         {
             if (_javascriptObjects->Count > 0)
@@ -115,6 +125,16 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
+        if (!Object::ReferenceEquals(_handler, nullptr))
+        {
+            //CefSharpBrowserWrapper browserWrapper(browser);
+            /*CefFrameWrapper frameWrapper(frame);
+            */
+            CefV8ContextWrapper contextWrapper(context);
+            _handler->OnContextReleased(nullptr, nullptr, %contextWrapper);
+            //_handler->OnContextReleased(%browserWrapper, %frameWrapper, %contextWrapper);
+        }
+
         auto contextReleasedMessage = CefProcessMessage::Create(kOnContextReleasedRequest);
 
         SetInt64(contextReleasedMessage->GetArgumentList(), 0, frame->GetIdentifier());
