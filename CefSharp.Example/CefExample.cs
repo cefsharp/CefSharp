@@ -24,6 +24,7 @@ namespace CefSharp.Example
         public const string BasicSchemeTestUrl = BaseUrl + "/SchemeTest.html";
         public const string ResponseFilterTestUrl = BaseUrl + "/ResponseFilterTest.html";
         public const string DraggableRegionTestUrl = BaseUrl + "/DraggableRegionTest.html";
+        public const string DragDropCursorsTestUrl = BaseUrl + "/DragDropCursorsTest.html";
         public const string CssAnimationTestUrl = BaseUrl + "/CssAnimationTest.html";
         public const string CdmSupportTestUrl = BaseUrl + "/CdmSupportTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
