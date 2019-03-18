@@ -489,6 +489,7 @@ namespace CefSharp.Wpf
             DragOver += OnDragOver;
             DragLeave += OnDragLeave;
             Drop += OnDrop;
+            GiveFeedback += OnGiveFeedback;
 
             IsVisibleChanged += OnIsVisibleChanged;
 
@@ -610,6 +611,7 @@ namespace CefSharp.Wpf
                     DragOver -= OnDragOver;
                     DragLeave -= OnDragLeave;
                     Drop -= OnDrop;
+                    GiveFeedback -= OnGiveFeedback;
 
                     IsVisibleChanged -= OnIsVisibleChanged;
 
@@ -788,7 +790,7 @@ namespace CefSharp.Wpf
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
             var dragCursor = DragCursorProvider.GetCursor(operation);
-            UiThreadRunSync(() => Mouse.SetCursor(dragCursor));
+            UiThreadRunAsync(() => Mouse.SetCursor(dragCursor));
         }
 
         /// <summary>
@@ -1530,6 +1532,16 @@ namespace CefSharp.Wpf
             {
                 browser.GetHost().DragTargetDragOver(GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
             }
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:GiveFeedback" /> event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="GiveFeedbackEventArgs"/> instance containing the event data.</param>
+        private void OnGiveFeedback(object sender, GiveFeedbackEventArgs e) {
+            /// prevent showing default cursor, the appropriate cursor will be set by <see cref=UpdateDragCursor />
+            e.Handled = true;
         }
 
         /// <summary>
