@@ -2227,7 +2227,10 @@ namespace CefSharp.Wpf
             // or before OnApplyTemplate has been called
             if (browser != null)
             {
-                browser.MainFrame.LoadUrl(url);
+                using (var frame = browser.MainFrame)
+                {
+                    frame.LoadUrl(url);
+                }
             }
         }
 
