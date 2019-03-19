@@ -10,6 +10,11 @@ using CefSharp.RenderProcess;
 
 namespace CefSharp.BrowserSubprocess
 {
+    /// <summary>
+    /// When implementing your own BrowserSubprocess
+    /// - Include an app.manifest with the dpi/compatability sections, this is required (this project contains the relevant).
+    /// - If you are targeting x86/Win32 then you should set /LargeAddressAware (https://docs.microsoft.com/en-us/cpp/build/reference/largeaddressaware?view=vs-2017)
+    /// </summary>
     public class Program
     {
         public static int Main(string[] args)
@@ -37,8 +42,8 @@ namespace CefSharp.BrowserSubprocess
             // Use our custom subProcess provides features like EvaluateJavascript
             if (type == "renderer")
             {
+                //Add your own custom implementation of IRenderProcessHandler here
                 IRenderProcessHandler handler = null;
-                handler = new RenderProcessHandlerExample();
                 var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
                 var subProcess = wcfEnabled ? new WcfEnabledSubProcess(parentProcessId, handler, args) : new SubProcess(handler, args);
 
