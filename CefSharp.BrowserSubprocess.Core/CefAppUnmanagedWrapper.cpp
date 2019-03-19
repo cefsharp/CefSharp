@@ -8,18 +8,21 @@
 
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
-#include "CefV8ContextWrapper.h"
 #include "RegisterBoundObjectHandler.h"
 #include "JavascriptRootObjectWrapper.h"
+#include "Async\JavascriptAsyncMethodCallback.h"
 #include "Serialization\V8Serialization.h"
 #include "Serialization\JsObjectsSerialization.h"
-#include "Async\JavascriptAsyncMethodCallback.h"
+#include "Wrapper\V8Context.h"
+#include "Wrapper\Frame.h"
+#include "Wrapper\Browser.h"
 #include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
 
 using namespace System;
 using namespace System::Diagnostics;
 using namespace System::Collections::Generic;
+using namespace CefSharp::BrowserSubprocess;
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
 
@@ -65,11 +68,11 @@ namespace CefSharp
     {
         if (!Object::ReferenceEquals(_handler, nullptr))
         {
-            //CefSharpBrowserWrapper browserWrapper(browser);
-            //CefFrameWrapper frameWrapper(frame);
-            CefV8ContextWrapper contextWrapper(context);
-            _handler->OnContextCreated(nullptr, nullptr, %contextWrapper);
-            //_handler->OnContextCreated(%browserWrapper, %frameWrapper, %contextWrapper);
+            Browser browserWrapper(browser);
+            Frame frameWrapper(frame);
+            V8Context contextWrapper(context);
+
+            _handler->OnContextCreated(%browserWrapper, %frameWrapper, %contextWrapper);
         }
 
         if (_legacyBindingEnabled)
@@ -127,12 +130,11 @@ namespace CefSharp
     {
         if (!Object::ReferenceEquals(_handler, nullptr))
         {
-            //CefSharpBrowserWrapper browserWrapper(browser);
-            /*CefFrameWrapper frameWrapper(frame);
-            */
-            CefV8ContextWrapper contextWrapper(context);
-            _handler->OnContextReleased(nullptr, nullptr, %contextWrapper);
-            //_handler->OnContextReleased(%browserWrapper, %frameWrapper, %contextWrapper);
+            Browser browserWrapper(browser);
+            Frame frameWrapper(frame);
+            V8Context contextWrapper(context);
+
+            _handler->OnContextReleased(%browserWrapper, %frameWrapper, %contextWrapper);
         }
 
         auto contextReleasedMessage = CefProcessMessage::Create(kOnContextReleasedRequest);

@@ -13,27 +13,27 @@ using namespace CefSharp::RenderProcess;
 
 namespace CefSharp
 {
-    namespace Internals
+    namespace BrowserSubprocess
     {
-        private ref class CefV8ContextWrapper : public IV8Context
+        private ref class V8Context : public IV8Context
         {
         private:
             MCefRefPtr<CefV8Context> _context;
 
         public:
-            CefV8ContextWrapper(CefRefPtr<CefV8Context> &context)
+            V8Context(CefRefPtr<CefV8Context> &context)
                 : _context(context)
             {
             }
 
-            !CefV8ContextWrapper()
+            !V8Context()
             {
                 _context = NULL;
             }
 
-            ~CefV8ContextWrapper()
+            ~V8Context()
             {
-                this->!CefV8ContextWrapper();
+                this->!V8Context();
             }
 
             virtual bool Execute(String^ code, String^ scriptUrl, int startLine, [Out] V8Exception^ %exception)

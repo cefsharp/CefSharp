@@ -177,7 +177,9 @@
     <ClInclude Include="Async\JavascriptAsyncMethodWrapper.h" />
     <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
-    <ClInclude Include="CefV8ContextWrapper.h" />
+    <ClInclude Include="Wrapper\Frame.h" />
+    <ClInclude Include="Wrapper\Browser.h" />
+    <ClInclude Include="Wrapper\V8Context.h" />
     <ClInclude Include="RegisterBoundObjectHandler.h" />
     <ClInclude Include="RegisterBoundObjectRegistry.h" />
     <ClInclude Include="resource.h" />
@@ -207,6 +209,8 @@
     <ClCompile Include="Async\JavascriptAsyncMethodWrapper.cpp" />
     <ClCompile Include="Async\JavascriptAsyncObjectWrapper.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
+    <ClCompile Include="Wrapper\Frame.cpp" />
+    <ClCompile Include="Wrapper\Browser.cpp" />
     <ClCompile Include="WcfEnabledSubProcess.cpp" />
     <ClCompile Include="JavascriptCallbackRegistry.cpp" />
     <ClCompile Include="JavascriptMethodHandler.cpp" />
