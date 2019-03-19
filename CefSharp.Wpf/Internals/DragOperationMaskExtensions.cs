@@ -1,22 +1,19 @@
-﻿// Copyright © 2019 The CefSharp Authors. All rights reserved.
+// Copyright © 2019 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Windows;
 using CefSharp.Enums;
 
-namespace CefSharp.Wpf.Internals 
+namespace CefSharp.Wpf.Internals
 {
-
-    internal static class DragOperationMaskExtensions 
+    internal static class DragOperationMaskExtensions
     {
-
         /// <summary>
         /// Converts .NET drag drop effects to CEF Drag Operations
         /// </summary>
         /// <param name="dragDropEffects">The drag drop effects.</param>
         /// <returns>DragOperationsMask.</returns>
-        /// s
         public static DragOperationsMask GetDragOperationsMask(this DragDropEffects dragDropEffects)
         {
             var operations = DragOperationsMask.None;

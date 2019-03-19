@@ -783,7 +783,7 @@ namespace CefSharp.Wpf
         {
             UpdateDragCursor(operation);
         }
-        
+
         /// <summary>
         /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
         /// </summary>
