@@ -510,11 +510,14 @@ namespace CefSharp.WinForms
         /// Loads the specified URL.
         /// </summary>
         /// <param name="url">The URL to be loaded.</param>
-        public void Load(String url)
+        public void Load(string url)
         {
             if (IsBrowserInitialized)
             {
-                this.GetMainFrame().LoadUrl(url);
+                using (var frame = this.GetMainFrame())
+                {
+                    frame.LoadUrl(url);
+                }
             }
             else
             {
