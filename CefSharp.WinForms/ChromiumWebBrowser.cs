@@ -635,6 +635,29 @@ namespace CefSharp.WinForms
             base.OnHandleCreated(e);
         }
 
+        /// <summary>
+        /// Override this method to handle creation of WindowInfo. This method can be used to customise aspects of
+        /// browser creation including configuration of settings such as <see cref="IWindowInfo.ExStyle"/>.
+        /// Window Activation is disabled by default, you can re-enable it by overriding and removing the
+        /// WS_EX_NOACTIVATE style from <see cref="IWindowInfo.ExStyle"/>.
+        /// </summary>
+        /// <param name="handle">Window handle for the Control</param>
+        /// <returns>Window Info</returns>
+        protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
+        {
+            //TODO: If we start adding more consts then extract them into a common class
+            //Possibly in the CefSharp assembly and move the WPF ones into there as well.
+            const uint WS_EX_NOACTIVATE = 0x08000000;
+
+            var windowInfo = new WindowInfo();
+            windowInfo.SetAsChild(handle);
+            //Disable Window activation by default
+            //https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+            windowInfo.ExStyle |= WS_EX_NOACTIVATE;
+
+            return windowInfo;
+        }
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void CreateBrowser()
         {
@@ -644,9 +667,8 @@ namespace CefSharp.WinForms
             {
                 if (IsBrowserInitialized == false || browser == null)
                 {
-                    var windowInfo = new WindowInfo();
-                    windowInfo.SetAsChild(Handle);
-                    
+                    var windowInfo = CreateBrowserWindowInfo(Handle);
+
                     managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
 
                     if (browserSettings != null)
@@ -919,16 +941,16 @@ namespace CefSharp.WinForms
                 case Keys.Up:
                 case Keys.Down:
                 case Keys.Tab:
-                {
-                    return true;
-                }
+                    {
+                        return true;
+                    }
                 case Keys.Shift | Keys.Right:
                 case Keys.Shift | Keys.Left:
                 case Keys.Shift | Keys.Up:
                 case Keys.Shift | Keys.Down:
-                {
-                    return true;
-                }
+                    {
+                        return true;
+                    }
             }
 
             return base.IsInputKey(keyData);
