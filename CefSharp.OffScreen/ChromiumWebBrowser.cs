@@ -400,11 +400,7 @@ namespace CefSharp.OffScreen
 
             if (browserSettings == null)
             {
-                browserSettings = new BrowserSettings();
-            }
-            else if (browserSettings.IsDisposed)
-            {
-                throw new ObjectDisposedException("browserSettings", "The BrowserSettings reference you have passed has already been disposed. You cannot reuse the BrowserSettings class");
+                browserSettings = new BrowserSettings(frameworkCreated: true);
             }
 
             if (windowInfo == null)
@@ -413,11 +409,14 @@ namespace CefSharp.OffScreen
                 windowInfo.SetAsWindowless(IntPtr.Zero);
             }
 
-            //Dispose of browser settings after we've created the browser
-            using (browserSettings)
+            managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
+
+            if (browserSettings.FrameworkCreated)
             {
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
+                browserSettings.Dispose();
             }
+
+            browserSettings = null;
         }
 
         /// <summary>

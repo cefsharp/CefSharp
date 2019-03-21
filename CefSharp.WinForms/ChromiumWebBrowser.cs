@@ -421,7 +421,7 @@ namespace CefSharp.WinForms
 
                 if (browserSettings == null)
                 {
-                    browserSettings = new BrowserSettings();
+                    browserSettings = new BrowserSettings(frameworkCreated: true);
                 }
 
                 managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
@@ -491,12 +491,6 @@ namespace CefSharp.WinForms
             {
                 parentFormMessageInterceptor.Dispose();
                 parentFormMessageInterceptor = null;
-            }
-
-            if (browserSettings != null)
-            {
-                browserSettings.Dispose();
-                browserSettings = null;
             }
 
             if (managedCefBrowserAdapter != null)
@@ -678,11 +672,12 @@ namespace CefSharp.WinForms
 
                     managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
 
-                    if (browserSettings != null)
+                    if (browserSettings.FrameworkCreated)
                     {
                         browserSettings.Dispose();
-                        browserSettings = null;
                     }
+
+                    browserSettings = null;
                 }
                 else
                 {
