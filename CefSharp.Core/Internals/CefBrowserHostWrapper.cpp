@@ -551,6 +551,22 @@ bool CefBrowserHostWrapper::WindowRenderingDisabled::get()
     return _browserHost->IsWindowRenderingDisabled();
 }
 
+bool CefBrowserHostWrapper::IsAudioMuted::get()
+{
+    ThrowIfDisposed();
+
+    ThrowIfExecutedOnNonCefUiThread();
+
+    return _browserHost->IsAudioMuted();
+}
+
+void CefBrowserHostWrapper::SetAudioMuted(bool mute)
+{
+    ThrowIfDisposed();
+
+    _browserHost->SetAudioMuted(mute);
+}
+
 IntPtr CefBrowserHostWrapper::GetOpenerWindowHandle()
 {
     ThrowIfDisposed();
