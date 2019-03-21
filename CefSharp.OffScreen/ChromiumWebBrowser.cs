@@ -411,11 +411,6 @@ namespace CefSharp.OffScreen
 
             managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
 
-            if (browserSettings.FrameworkCreated)
-            {
-                browserSettings.Dispose();
-            }
-
             browserSettings = null;
         }
 

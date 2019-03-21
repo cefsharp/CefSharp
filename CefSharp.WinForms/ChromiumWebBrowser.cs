@@ -672,11 +672,6 @@ namespace CefSharp.WinForms
 
                     managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
 
-                    if (browserSettings.FrameworkCreated)
-                    {
-                        browserSettings.Dispose();
-                    }
-
                     browserSettings = null;
                 }
                 else

@@ -30,13 +30,20 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
 
     if (browserSettings->IsDisposed)
     {
-        throw gcnew ObjectDisposedException("browserSettings", "browser settings has already been Disposed and cannot be used.");
+        throw gcnew ObjectDisposedException("browserSettings", "browser settings has already been Disposed." +
+            "BrowserSettings created by CefSharp are automatically disposed, to control the lifecycle create and set your own instance.");
     }
 
     if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
         *browserSettings->_browserSettings, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
     {
         throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser call failed, review the CEF log file for more details.");
+    }
+
+    //Dispose of BrowserSettings if we created it, if user created then they're responsible
+    if (browserSettings->FrameworkCreated)
+    {
+        delete browserSettings;
     }
 }
 
