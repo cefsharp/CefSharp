@@ -643,6 +643,13 @@ namespace CefSharp.WinForms
         /// </summary>
         /// <param name="handle">Window handle for the Control</param>
         /// <returns>Window Info</returns>
+        /// <example>
+        /// To re-enable Window Activation then remove WS_EX_NOACTIVATE from ExStyle
+        /// <code>
+        /// const uint WS_EX_NOACTIVATE = 0x08000000;
+        /// windowInfo.ExStyle &= ~WS_EX_NOACTIVATE;
+        ///</code>
+        /// </example>
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
         {
             //TODO: If we start adding more consts then extract them into a common class
