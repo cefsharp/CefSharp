@@ -30,7 +30,7 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
 
     if (browserSettings->IsDisposed)
     {
-        throw gcnew ObjectDisposedException("browserSettings", "browser settings has already been Disposed." +
+        throw gcnew ObjectDisposedException("browserSettings", "browser settings has already been disposed. " +
             "BrowserSettings created by CefSharp are automatically disposed, to control the lifecycle create and set your own instance.");
     }
 
