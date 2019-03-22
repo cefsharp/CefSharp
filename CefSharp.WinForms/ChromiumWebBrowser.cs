@@ -485,20 +485,6 @@ namespace CefSharp.WinForms
             {
                 IsBrowserInitialized = false;
 
-                browser = null;
-
-                if (parentFormMessageInterceptor != null)
-                {
-                    parentFormMessageInterceptor.Dispose();
-                    parentFormMessageInterceptor = null;
-                }
-                
-                if (managedCefBrowserAdapter != null)
-                {
-                    managedCefBrowserAdapter.Dispose();
-                    managedCefBrowserAdapter = null;
-                }
-
                 // Don't maintain a reference to event listeners anylonger:
                 AddressChanged = null;
                 ConsoleMessage = null;
@@ -509,6 +495,20 @@ namespace CefSharp.WinForms
                 LoadingStateChanged = null;
                 StatusMessage = null;
                 TitleChanged = null;
+
+                browser = null;
+
+                if (parentFormMessageInterceptor != null)
+                {
+                    parentFormMessageInterceptor.Dispose();
+                    parentFormMessageInterceptor = null;
+                }
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
 
                 // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
                 // otherwise the ILifeSpanHandler.DoClose will not be invoked.

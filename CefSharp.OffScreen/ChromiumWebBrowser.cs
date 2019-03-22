@@ -353,14 +353,7 @@ namespace CefSharp.OffScreen
 
             if (disposing)
             {
-                browser = null;
                 IsBrowserInitialized = false;
-
-                if (managedCefBrowserAdapter != null)
-                {
-                    managedCefBrowserAdapter.Dispose();
-                    managedCefBrowserAdapter = null;
-                }
 
                 // Don't reference event listeners any longer:
                 AddressChanged = null;
@@ -373,6 +366,14 @@ namespace CefSharp.OffScreen
                 Paint = null;
                 StatusMessage = null;
                 TitleChanged = null;
+
+                browser = null;
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
 
                 // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
                 // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,

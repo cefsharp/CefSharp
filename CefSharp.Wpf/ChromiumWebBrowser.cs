@@ -591,6 +591,25 @@ namespace CefSharp.Wpf
         {
             if (disposing)
             {
+                Interlocked.Exchange(ref browserInitialized, 0);
+
+                UiThreadRunAsync(() =>
+                {
+                    SetCurrentValue(IsBrowserInitializedProperty, false);
+                    WebBrowser = null;
+                });
+
+                // No longer reference event listeners:
+                ConsoleMessage = null;
+                FrameLoadEnd = null;
+                FrameLoadStart = null;
+                IsBrowserInitializedChanged = null;
+                LoadError = null;
+                LoadingStateChanged = null;
+                Paint = null;
+                StatusMessage = null;
+                TitleChanged = null;
+
                 browser = null;
 
                 // Incase we accidentally have a reference to the CEF drag data
@@ -599,7 +618,7 @@ namespace CefSharp.Wpf
                     currentDragData.Dispose();
                     currentDragData = null;
                 }
-                
+
                 PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
                 // Release window event listeners if PresentationSourceChangedHandler event wasn't
                 // fired before Dispose
@@ -641,24 +660,6 @@ namespace CefSharp.Wpf
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
-
-                Interlocked.Exchange(ref browserInitialized, 0);
-                UiThreadRunAsync(() =>
-                {
-                    SetCurrentValue(IsBrowserInitializedProperty, false);
-                    WebBrowser = null;
-                });
-
-                // No longer reference event listeners:
-                ConsoleMessage = null;
-                FrameLoadEnd = null;
-                FrameLoadStart = null;
-                IsBrowserInitializedChanged = null;
-                LoadError = null;
-                LoadingStateChanged = null;
-                Paint = null;
-                StatusMessage = null;
-                TitleChanged = null;
 
                 // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
                 // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
