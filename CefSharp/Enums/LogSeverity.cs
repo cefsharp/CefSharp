@@ -32,7 +32,12 @@ namespace CefSharp
         Error,
 
         /// <summary>
-        /// Completely disable logging
+        /// Fatal logging.
+        /// </summary>
+        Fatal,
+
+        /// <summary>
+        /// Disable logging to file for all messages, and to stderr for messages with severity less than FATAL.
         /// </summary>
         Disable = 99
     };

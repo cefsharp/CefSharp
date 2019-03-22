@@ -76,6 +76,9 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("ppapi-flash-path", @"C:\Program Files (x86)\Google\Chrome\Application\47.0.2526.106\PepperFlash\pepflashplayer.dll"); //Load a specific pepper flash version (Step 1 of 2)
             //settings.CefCommandLineArgs.Add("ppapi-flash-version", "20.0.0.228"); //Load a specific pepper flash version (Step 2 of 2)
 
+            //Audo play example
+            //settings.CefCommandLineArgs["autoplay-policy"] = "no-user-gesture-required";
+
             //NOTE: For OSR best performance you should run with GPU disabled:
             // `--disable-gpu --disable-gpu-compositing --enable-begin-frame-scheduling`
             // (you'll loose WebGL support but gain increased FPS and reduced CPU usage).
