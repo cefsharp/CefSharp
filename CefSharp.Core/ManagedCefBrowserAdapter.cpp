@@ -45,6 +45,8 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
     {
         delete browserSettings;
     }
+
+    delete windowInfo;
 }
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
