@@ -10,15 +10,19 @@
 #include "CefAppUnmanagedWrapper.h"
 #include "RegisterBoundObjectHandler.h"
 #include "JavascriptRootObjectWrapper.h"
+#include "Async\JavascriptAsyncMethodCallback.h"
 #include "Serialization\V8Serialization.h"
 #include "Serialization\JsObjectsSerialization.h"
-#include "Async\JavascriptAsyncMethodCallback.h"
+#include "Wrapper\V8Context.h"
+#include "Wrapper\Frame.h"
+#include "Wrapper\Browser.h"
 #include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
 
 using namespace System;
 using namespace System::Diagnostics;
 using namespace System::Collections::Generic;
+using namespace CefSharp::BrowserSubprocess;
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
 
@@ -62,6 +66,15 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
+        if (!Object::ReferenceEquals(_handler, nullptr))
+        {
+            Browser browserWrapper(browser);
+            Frame frameWrapper(frame);
+            V8Context contextWrapper(context);
+
+            _handler->OnContextCreated(%browserWrapper, %frameWrapper, %contextWrapper);
+        }
+
         if (_legacyBindingEnabled)
         {
             if (_javascriptObjects->Count > 0)
@@ -115,6 +128,15 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
+        if (!Object::ReferenceEquals(_handler, nullptr))
+        {
+            Browser browserWrapper(browser);
+            Frame frameWrapper(frame);
+            V8Context contextWrapper(context);
+
+            _handler->OnContextReleased(%browserWrapper, %frameWrapper, %contextWrapper);
+        }
+
         auto contextReleasedMessage = CefProcessMessage::Create(kOnContextReleasedRequest);
 
         SetInt64(contextReleasedMessage->GetArgumentList(), 0, frame->GetIdentifier());
@@ -674,7 +696,39 @@ namespace CefSharp
     {
         for each (CefCustomScheme^ scheme in _schemes->AsReadOnly())
         {
-            registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled, scheme->IsCSPBypassing);
+            int options = cef_scheme_options_t::CEF_SCHEME_OPTION_NONE;
+
+            if (scheme->IsStandard)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_STANDARD;
+            }
+
+            if (scheme->IsLocal)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_LOCAL;
+            }
+
+            if (scheme->IsDisplayIsolated)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_DISPLAY_ISOLATED;
+            }
+
+            if (scheme->IsSecure)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_SECURE;
+            }
+
+            if (scheme->IsCorsEnabled)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_CORS_ENABLED;
+            }
+
+            if (scheme->IsCSPBypassing)
+            {
+                options |= cef_scheme_options_t::CEF_SCHEME_OPTION_CSP_BYPASSING;
+            }
+
+            registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), options);
         }
     }
 }

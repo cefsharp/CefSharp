@@ -29,4 +29,5 @@ using namespace CefSharp;
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWpfProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWinFormsProject)];
+[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpOffScreenProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpTestProject)];

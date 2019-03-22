@@ -441,7 +441,7 @@ namespace CefSharp.WinForms
 
                 if (browserSettings == null)
                 {
-                    browserSettings = new BrowserSettings();
+                    browserSettings = new BrowserSettings(frameworkCreated: true);
                 }
 
                 managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
@@ -492,13 +492,7 @@ namespace CefSharp.WinForms
                     parentFormMessageInterceptor.Dispose();
                     parentFormMessageInterceptor = null;
                 }
-
-                if (browserSettings != null)
-                {
-                    browserSettings.Dispose();
-                    browserSettings = null;
-                }
-
+                
                 if (managedCefBrowserAdapter != null)
                 {
                     managedCefBrowserAdapter.Dispose();
@@ -528,11 +522,14 @@ namespace CefSharp.WinForms
         /// Loads the specified URL.
         /// </summary>
         /// <param name="url">The URL to be loaded.</param>
-        public void Load(String url)
+        public void Load(string url)
         {
             if (IsBrowserInitialized)
             {
-                this.GetMainFrame().LoadUrl(url);
+                using (var frame = this.GetMainFrame())
+                {
+                    frame.LoadUrl(url);
+                }
             }
             else
             {
@@ -650,6 +647,36 @@ namespace CefSharp.WinForms
             base.OnHandleCreated(e);
         }
 
+        /// <summary>
+        /// Override this method to handle creation of WindowInfo. This method can be used to customise aspects of
+        /// browser creation including configuration of settings such as <see cref="IWindowInfo.ExStyle"/>.
+        /// Window Activation is disabled by default, you can re-enable it by overriding and removing the
+        /// WS_EX_NOACTIVATE style from <see cref="IWindowInfo.ExStyle"/>.
+        /// </summary>
+        /// <param name="handle">Window handle for the Control</param>
+        /// <returns>Window Info</returns>
+        /// <example>
+        /// To re-enable Window Activation then remove WS_EX_NOACTIVATE from ExStyle
+        /// <code>
+        /// const uint WS_EX_NOACTIVATE = 0x08000000;
+        /// windowInfo.ExStyle &= ~WS_EX_NOACTIVATE;
+        ///</code>
+        /// </example>
+        protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
+        {
+            //TODO: If we start adding more consts then extract them into a common class
+            //Possibly in the CefSharp assembly and move the WPF ones into there as well.
+            const uint WS_EX_NOACTIVATE = 0x08000000;
+
+            var windowInfo = new WindowInfo();
+            windowInfo.SetAsChild(handle);
+            //Disable Window activation by default
+            //https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+            windowInfo.ExStyle |= WS_EX_NOACTIVATE;
+
+            return windowInfo;
+        }
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void CreateBrowser()
         {
@@ -659,16 +686,11 @@ namespace CefSharp.WinForms
             {
                 if (IsBrowserInitialized == false || browser == null)
                 {
-                    var windowInfo = new WindowInfo();
-                    windowInfo.SetAsChild(Handle);
+                    var windowInfo = CreateBrowserWindowInfo(Handle);
 
                     managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
 
-                    if (browserSettings != null)
-                    {
-                        browserSettings.Dispose();
-                        browserSettings = null;
-                    }
+                    browserSettings = null;
                 }
                 else
                 {

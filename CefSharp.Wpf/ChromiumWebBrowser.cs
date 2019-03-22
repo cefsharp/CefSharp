@@ -152,7 +152,7 @@ namespace CefSharp.Wpf
                 //New instance is created in the constructor, if you use
                 //xaml to initialize browser settings then it will also create a new
                 //instance, so we dispose of the old one
-                if (browserSettings != null)
+                if (browserSettings != null && browserSettings.FrameworkCreated)
                 {
                     browserSettings.Dispose();
                 }
@@ -531,7 +531,7 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
-            browserSettings = new BrowserSettings();
+            browserSettings = new BrowserSettings(frameworkCreated: true);
             RenderHandler = new InteropBitmapRenderHandler();
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
@@ -592,11 +592,6 @@ namespace CefSharp.Wpf
             if (disposing)
             {
                 browser = null;
-                if (browserSettings != null)
-                {
-                    browserSettings.Dispose();
-                    browserSettings = null;
-                }
 
                 // Incase we accidentally have a reference to the CEF drag data
                 if (currentDragData != null)
@@ -604,7 +599,7 @@ namespace CefSharp.Wpf
                     currentDragData.Dispose();
                     currentDragData = null;
                 }
-
+                
                 PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
                 // Release window event listeners if PresentationSourceChangedHandler event wasn't
                 // fired before Dispose
@@ -1777,13 +1772,7 @@ namespace CefSharp.Wpf
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
                 managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: null);
 
-                //Dispose of BrowserSettings as they shouldn't be reused ans it's not possible to change the settings
-                //after the browser has been created.
-                if (browserSettings != null)
-                {
-                    browserSettings.Dispose();
-                    browserSettings = null;
-                }
+                browserSettings = null;
             }
             browserCreated = true;
 
@@ -2254,7 +2243,10 @@ namespace CefSharp.Wpf
             // or before OnApplyTemplate has been called
             if (browser != null)
             {
-                browser.MainFrame.LoadUrl(url);
+                using (var frame = browser.MainFrame)
+                {
+                    frame.LoadUrl(url);
+                }
             }
         }
 
