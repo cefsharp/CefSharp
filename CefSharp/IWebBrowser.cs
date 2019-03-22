@@ -196,6 +196,12 @@ namespace CefSharp
         bool IsBrowserInitialized { get; }
 
         /// <summary>
+        /// A flag that indicates whether the WebBrowser has been disposed (<see langword="true" />) or not (<see langword="false" />)
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" /></value>
+        bool IsDisposed { get; }
+
+        /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance is loading; otherwise, <c>false</c>.</value>
