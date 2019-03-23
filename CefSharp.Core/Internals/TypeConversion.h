@@ -299,6 +299,11 @@ namespace CefSharp
             static NavigationEntry^ FromNative(const CefRefPtr<CefNavigationEntry> entry, bool current)
             {
                 SslStatus^ sslStatus;
+              
+                if (!entry.get())
+                {
+                    return nullptr;
+                }
 
                 if (!entry->IsValid())
                 {
