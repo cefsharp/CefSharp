@@ -16,6 +16,7 @@
 
 using namespace System::Collections::Generic;
 using namespace System::Collections::Specialized;
+using namespace System::Security::Cryptography::X509Certificates;
 using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
@@ -293,6 +294,51 @@ namespace CefSharp
                 }
 
                 return cookie;
+            }
+
+            static NavigationEntry^ FromNative(const CefRefPtr<CefNavigationEntry> entry, bool current)
+            {
+                SslStatus^ sslStatus;
+              
+                if (!entry.get())
+                {
+                    return nullptr;
+                }
+
+                if (!entry->IsValid())
+                {
+                    return gcnew NavigationEntry(current, DateTime::MinValue, nullptr, -1, nullptr, nullptr, (TransitionType)-1, nullptr, false, false, sslStatus);
+                }
+
+                auto time = entry->GetCompletionTime();
+                DateTime completionTime = CefTimeUtils::ConvertCefTimeToDateTime(time.GetDoubleT());
+                auto ssl = entry->GetSSLStatus();
+                X509Certificate2^ sslCertificate;
+
+                if (ssl.get())
+                {
+                    auto certificate = ssl->GetX509Certificate();
+                    if (certificate.get())
+                    {
+                        auto derEncodedCertificate = certificate->GetDEREncoded();
+                        auto byteCount = derEncodedCertificate->GetSize();
+                        if (byteCount > 0)
+                        {
+                            auto bytes = gcnew cli::array<Byte>(byteCount);
+                            pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
+
+                            derEncodedCertificate->GetData(static_cast<void*>(src), byteCount, 0);
+
+                            sslCertificate = gcnew X509Certificate2(bytes);
+                        }
+                    }
+
+                    sslStatus = gcnew SslStatus(ssl->IsSecureConnection(), (CertStatus)ssl->GetCertStatus(), (SslVersion)ssl->GetSSLVersion(), (SslContentStatus)ssl->GetContentStatus(), sslCertificate);
+                }
+
+                return gcnew NavigationEntry(current, completionTime, StringUtils::ToClr(entry->GetDisplayURL()), entry->GetHttpStatusCode(),
+                    StringUtils::ToClr(entry->GetOriginalURL()), StringUtils::ToClr(entry->GetTitle()), (TransitionType)entry->GetTransitionType(),
+                    StringUtils::ToClr(entry->GetURL()), entry->HasPostData(), true, sslStatus);
             }
         };
     }
