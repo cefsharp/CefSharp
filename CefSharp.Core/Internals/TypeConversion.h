@@ -300,6 +300,11 @@ namespace CefSharp
             {
                 SslStatus^ sslStatus;
 
+                if (!entry.get())
+                {
+                    return nullptr;
+                }
+
                 if (!entry->IsValid())
                 {
                     return gcnew NavigationEntry(current, DateTime::MinValue, nullptr, -1, nullptr, nullptr, (TransitionType)-1, nullptr, false, false, sslStatus);
