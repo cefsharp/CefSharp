@@ -18,7 +18,7 @@ namespace CefSharp
         /// register an object in advance or as part of the <see cref="ResolveObject"/>
         /// event that will be called if no object matching object is found in the registry.
         /// Objects binding is now initiated in Javascript through the CefSharp.BindObjectAsync
-        /// function (returns a Promose).
+        /// function (returns a Promise).
         /// For more detailed examples see https://github.com/cefsharp/CefSharp/issues/2246
         /// The equivilient to RegisterJsObject is isAsync = false
         /// The equivilient RegisterAsyncJsObject is isAsync = true

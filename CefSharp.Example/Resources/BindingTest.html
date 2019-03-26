@@ -454,6 +454,48 @@
 
                 bound.testCallbackWithDateTime(callback);
             });
+            
+            QUnit.test("Javascript Callback Test with 1900 DateTime", function (assert) {
+                var asyncCallback = assert.async();
+
+                function callback(dateTimeFirst, dateTimeSecondAsArray) {
+                    var arr = dateTimeSecondAsArray;
+                    var dateTimeSecond = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
+                    assert.equal(dateTimeFirst - dateTimeSecond, 0);
+
+                    asyncCallback();
+                }
+
+                bound.testCallbackWithDateTime1900(callback);
+            });
+
+            QUnit.test("Javascript Callback Test with 1970 DateTime", function (assert) {
+                var asyncCallback = assert.async();
+
+                function callback(dateTimeFirst, dateTimeSecondAsArray) {
+                    var arr = dateTimeSecondAsArray;
+                    var dateTimeSecond = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
+                    assert.equal(dateTimeFirst - dateTimeSecond, 0);
+
+                    asyncCallback();
+                }
+
+                bound.testCallbackWithDateTime1970(callback);
+            });
+
+            QUnit.test("Javascript Callback Test with 1985 DateTime", function (assert) {
+                var asyncCallback = assert.async();
+
+                function callback(dateTimeFirst, dateTimeSecondAsArray) {
+                    var arr = dateTimeSecondAsArray;
+                    var dateTimeSecond = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
+                    assert.equal(dateTimeFirst - dateTimeSecond, 0);
+
+                    asyncCallback();
+                }
+
+                bound.testCallbackWithDateTime1985(callback);
+            });
 
             QUnit.test("Javascript Callback Test", function( assert )
             {

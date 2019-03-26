@@ -65,6 +65,42 @@ namespace CefSharp.Example.JavascriptBinding
             });
         }
 
+        public void TestCallbackWithDateTime1900(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    var dateTime = new DateTime(1900, 01, 01, 12, 00, 00);
+                    await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                }
+            });
+        }
+
+        public void TestCallbackWithDateTime1970(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    var dateTime = new DateTime(1970, 01, 01, 12, 00, 00);
+                    await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                }
+            });
+        }
+
+        public void TestCallbackWithDateTime1985(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    var dateTime = new DateTime(1985, 01, 01, 12, 00, 00);
+                    await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                }
+            });
+        }
+        
         public void TestCallback(IJavascriptCallback javascriptCallback)
         {
             const int taskDelay = 1500;
