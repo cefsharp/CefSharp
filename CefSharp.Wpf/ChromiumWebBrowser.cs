@@ -610,6 +610,10 @@ namespace CefSharp.Wpf
                 StatusMessage = null;
                 TitleChanged = null;
 
+                // Release reference to handlers, except LifeSpanHandler which is done after Disposing
+                // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                this.SetHandlersToNullExceptLifeSpan();
+
                 browser = null;
 
                 // Incase we accidentally have a reference to the CEF drag data
@@ -661,10 +665,9 @@ namespace CefSharp.Wpf
                     managedCefBrowserAdapter = null;
                 }
 
-                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-                // we do it here for consistency)
-                this.SetHandlersToNull();
+                // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
+                // is called.
+                LifeSpanHandler = null;
 
                 WpfKeyboardHandler.Dispose();
 

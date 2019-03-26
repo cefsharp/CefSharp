@@ -496,6 +496,10 @@ namespace CefSharp.WinForms
                 StatusMessage = null;
                 TitleChanged = null;
 
+                // Release reference to handlers, except LifeSpanHandler which is done after Disposing
+                // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                this.SetHandlersToNullExceptLifeSpan();
+
                 browser = null;
 
                 if (parentFormMessageInterceptor != null)
@@ -510,9 +514,9 @@ namespace CefSharp.WinForms
                     managedCefBrowserAdapter = null;
                 }
 
-                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-                // otherwise the ILifeSpanHandler.DoClose will not be invoked.
-                this.SetHandlersToNull();
+                // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
+                // is called.
+                LifeSpanHandler = null;
             }
 
             Cef.RemoveDisposable(this);
