@@ -2176,14 +2176,17 @@ namespace CefSharp.Wpf
         /// This event data reports details about the mouse button that was pressed and the handled state.</param>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
+            var wpfKeyboardHandler = WpfKeyboardHandler as WpfKeyboardHandler;
+            if (wpfKeyboardHandler != null)
+            {
+                wpfKeyboardHandler.CloseIMEComposition();
+            }
+
             Focus();
             OnMouseButton(e);
 
             base.OnMouseDown(e);
 
-            // Closes IME candidate window.
-            NativeIME.SetFocus(IntPtr.Zero);
-            NativeIME.SetFocus(source.Handle);
         }
 
         /// <summary>

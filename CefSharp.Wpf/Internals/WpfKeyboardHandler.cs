@@ -28,6 +28,17 @@ namespace CefSharp.Wpf.Internals
 
         private HwndSourceHook sourceHook;
 
+        private bool hasIMEComposition;
+
+        public void CloseIMEComposition()
+        {
+            if (hasIMEComposition)
+            {
+                NativeIME.SetFocus(IntPtr.Zero);
+                NativeIME.SetFocus(source.Handle);
+            }
+        }
+
         internal bool IsActive { get; set; }
 
         public WpfKeyboardHandler(ChromiumWebBrowser owner)
@@ -95,6 +106,7 @@ namespace CefSharp.Wpf.Internals
 
                 case NativeIME.WM_IME_STARTCOMPOSITION:
                     OnIMEStartComposition(hwnd);
+                    hasIMEComposition = true;
                     handled = true;
                     break;
 
@@ -105,6 +117,7 @@ namespace CefSharp.Wpf.Internals
 
                 case NativeIME.WM_IME_ENDCOMPOSITION:
                     OnIMEEndComposition(hwnd);
+                    hasIMEComposition = false;
                     handled = true;
                     break;
             }
