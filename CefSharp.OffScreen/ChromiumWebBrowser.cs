@@ -738,6 +738,11 @@ namespace CefSharp.OffScreen
             RenderHandler?.OnImeCompositionRangeChanged(selectedRange, characterBounds);
         }
 
+        void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+        {
+            RenderHandler?.OnVirtualKeyboardRequested(browser, inputMode);
+        }
+
         /// <summary>
         /// Handles the <see cref="E:ConsoleMessage" /> event.
         /// </summary>
