@@ -107,5 +107,12 @@ namespace CefSharp.OffScreen
         /// <param name="selectedRange">is the range of characters that have been selected</param>
         /// <param name="characterBounds">is the bounds of each character in view coordinates.</param>
         void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds);
+
+        /// <summary>
+        /// Called when an on-screen keyboard should be shown or hidden for the specified browser. 
+        /// </summary>
+        /// <param name="browser">the browser</param>
+        /// <param name="inputMode">specifies what kind of keyboard should be opened. If <see cref="TextInputMode.None"/>, any existing keyboard for this browser should be hidden.</param>
+        void OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode);
     }
 }

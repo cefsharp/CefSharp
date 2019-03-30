@@ -591,6 +591,29 @@ namespace CefSharp.Wpf
         {
             if (disposing)
             {
+                Interlocked.Exchange(ref browserInitialized, 0);
+
+                UiThreadRunAsync(() =>
+                {
+                    SetCurrentValue(IsBrowserInitializedProperty, false);
+                    WebBrowser = null;
+                });
+
+                // No longer reference event listeners:
+                ConsoleMessage = null;
+                FrameLoadEnd = null;
+                FrameLoadStart = null;
+                IsBrowserInitializedChanged = null;
+                LoadError = null;
+                LoadingStateChanged = null;
+                Paint = null;
+                StatusMessage = null;
+                TitleChanged = null;
+
+                // Release reference to handlers, except LifeSpanHandler which is done after Disposing
+                // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                this.SetHandlersToNullExceptLifeSpan();
+
                 browser = null;
 
                 // Incase we accidentally have a reference to the CEF drag data
@@ -599,7 +622,7 @@ namespace CefSharp.Wpf
                     currentDragData.Dispose();
                     currentDragData = null;
                 }
-                
+
                 PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
                 // Release window event listeners if PresentationSourceChangedHandler event wasn't
                 // fired before Dispose
@@ -642,28 +665,9 @@ namespace CefSharp.Wpf
                     managedCefBrowserAdapter = null;
                 }
 
-                Interlocked.Exchange(ref browserInitialized, 0);
-                UiThreadRunAsync(() =>
-                {
-                    SetCurrentValue(IsBrowserInitializedProperty, false);
-                    WebBrowser = null;
-                });
-
-                // No longer reference event listeners:
-                ConsoleMessage = null;
-                FrameLoadEnd = null;
-                FrameLoadStart = null;
-                IsBrowserInitializedChanged = null;
-                LoadError = null;
-                LoadingStateChanged = null;
-                Paint = null;
-                StatusMessage = null;
-                TitleChanged = null;
-
-                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-                // we do it here for consistency)
-                this.SetHandlersToNull();
+                // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
+                // is called.
+                LifeSpanHandler = null;
 
                 WpfKeyboardHandler.Dispose();
 
@@ -941,6 +945,21 @@ namespace CefSharp.Wpf
         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
             //TODO: Implement this
+        }
+
+        void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+        {
+            OnVirtualKeyboardRequested(browser, inputMode);
+        }
+
+        /// <summary>
+        /// Called when an on-screen keyboard should be shown or hidden for the specified browser. 
+        /// </summary>
+        /// <param name="browser">the browser</param>
+        /// <param name="inputMode">specifies what kind of keyboard should be opened. If <see cref="TextInputMode.None"/>, any existing keyboard for this browser should be hidden.</param>
+        protected virtual void OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+        {
+
         }
 
         /// <summary>

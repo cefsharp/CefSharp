@@ -485,20 +485,6 @@ namespace CefSharp.WinForms
             {
                 IsBrowserInitialized = false;
 
-                browser = null;
-
-                if (parentFormMessageInterceptor != null)
-                {
-                    parentFormMessageInterceptor.Dispose();
-                    parentFormMessageInterceptor = null;
-                }
-                
-                if (managedCefBrowserAdapter != null)
-                {
-                    managedCefBrowserAdapter.Dispose();
-                    managedCefBrowserAdapter = null;
-                }
-
                 // Don't maintain a reference to event listeners anylonger:
                 AddressChanged = null;
                 ConsoleMessage = null;
@@ -510,9 +496,27 @@ namespace CefSharp.WinForms
                 StatusMessage = null;
                 TitleChanged = null;
 
-                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-                // otherwise the ILifeSpanHandler.DoClose will not be invoked.
-                this.SetHandlersToNull();
+                // Release reference to handlers, except LifeSpanHandler which is done after Disposing
+                // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                this.SetHandlersToNullExceptLifeSpan();
+
+                browser = null;
+
+                if (parentFormMessageInterceptor != null)
+                {
+                    parentFormMessageInterceptor.Dispose();
+                    parentFormMessageInterceptor = null;
+                }
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
+
+                // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
+                // is called.
+                LifeSpanHandler = null;
             }
 
             Cef.RemoveDisposable(this);

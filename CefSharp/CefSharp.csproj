@@ -99,6 +99,7 @@
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\AlphaType.cs" />
+    <Compile Include="Enums\TextInputMode.cs" />
     <Compile Include="Enums\ValueType.cs" />
     <Compile Include="Enums\ColorType.cs" />
     <Compile Include="Event\JavascriptBindingCompleteEventArgs.cs" />

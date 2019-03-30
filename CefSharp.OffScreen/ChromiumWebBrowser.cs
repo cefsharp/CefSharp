@@ -353,14 +353,7 @@ namespace CefSharp.OffScreen
 
             if (disposing)
             {
-                browser = null;
                 IsBrowserInitialized = false;
-
-                if (managedCefBrowserAdapter != null)
-                {
-                    managedCefBrowserAdapter.Dispose();
-                    managedCefBrowserAdapter = null;
-                }
 
                 // Don't reference event listeners any longer:
                 AddressChanged = null;
@@ -374,10 +367,21 @@ namespace CefSharp.OffScreen
                 StatusMessage = null;
                 TitleChanged = null;
 
-                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-                // we do it here for consistency)
-                this.SetHandlersToNull();
+                // Release reference to handlers, except LifeSpanHandler which is done after Disposing
+                // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                this.SetHandlersToNullExceptLifeSpan();
+
+                browser = null;
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
+
+                // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
+                // is called.
+                LifeSpanHandler = null;
             }
 
             Cef.RemoveDisposable(this);
@@ -732,6 +736,11 @@ namespace CefSharp.OffScreen
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
             RenderHandler?.OnImeCompositionRangeChanged(selectedRange, characterBounds);
+        }
+
+        void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+        {
+            RenderHandler?.OnVirtualKeyboardRequested(browser, inputMode);
         }
 
         /// <summary>

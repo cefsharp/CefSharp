@@ -352,6 +352,7 @@ namespace CefSharp
         /// <param name="postDataBytes"></param>
         /// <param name="contentType"></param>
         /// <remarks>This is an extension method</remarks>
+        [Obsolete("This method will be removed in version 75 as it has become unreliable see https://github.com/cefsharp/CefSharp/issues/2705 for details.")]
         public static void LoadUrlWithPostData(this IWebBrowser browser, string url, byte[] postDataBytes, string contentType = null)
         {
             using (var frame = browser.GetMainFrame())
