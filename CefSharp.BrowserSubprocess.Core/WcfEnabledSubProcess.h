@@ -9,6 +9,7 @@
 #include "CefBrowserWrapper.h"
 
 using namespace System;
+using namespace CefSharp::RenderProcess;
 
 namespace CefSharp
 {
@@ -25,7 +26,7 @@ namespace CefSharp
             int _parentProcessId;
 
         public:
-            WcfEnabledSubProcess(int parentProcessId, IEnumerable<String^>^ args) : SubProcess(args)
+            WcfEnabledSubProcess(int parentProcessId, IRenderProcessHandler^ handler, IEnumerable<String^>^ args) : SubProcess(handler,args)
             {
                 _parentProcessId = parentProcessId;
             }

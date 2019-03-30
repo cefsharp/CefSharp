@@ -400,11 +400,7 @@ namespace CefSharp.OffScreen
 
             if (browserSettings == null)
             {
-                browserSettings = new BrowserSettings();
-            }
-            else if (browserSettings.IsDisposed)
-            {
-                throw new ObjectDisposedException("browserSettings", "The BrowserSettings reference you have passed has already been disposed. You cannot reuse the BrowserSettings class");
+                browserSettings = new BrowserSettings(frameworkCreated: true);
             }
 
             if (windowInfo == null)
@@ -413,11 +409,9 @@ namespace CefSharp.OffScreen
                 windowInfo.SetAsWindowless(IntPtr.Zero);
             }
 
-            //Dispose of browser settings after we've created the browser
-            using (browserSettings)
-            {
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
-            }
+            managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
+
+            browserSettings = null;
         }
 
         /// <summary>
@@ -549,82 +543,6 @@ namespace CefSharp.OffScreen
             {
                 frame.LoadUrl(url);
             }
-        }
-
-        /// <summary>
-        /// Registers a Javascript object in this specific browser instance.
-        /// </summary>
-        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
-        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        /// <exception cref="System.Exception">Browser is already initialized. RegisterJsObject must be +
-        ///                                     called before the underlying CEF browser is created.</exception>
-        public void RegisterJsObject(string name, object objectToBind, BindingOptions options = null)
-        {
-            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
-                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
-                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
-                                    for details on the new binding options. If you perform cross-site navigations bound objects will
-                                    no longer be registered and you will have to migrate to the new method.");
-            }
-
-            if (IsBrowserInitialized)
-            {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
-                                    "called before the underlying CEF browser is created.");
-            }
-
-            //Enable WCF if not already enabled
-            CefSharpSettings.WcfEnabled = true;
-
-            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
-
-            if (objectRepository == null)
-            {
-                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
-            }
-
-            objectRepository.Register(name, objectToBind, false, options);
-        }
-
-        /// <summary>
-        /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
-        /// <para>Only methods of the object will be availabe.</para>
-        /// </summary>
-        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
-        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        /// <exception cref="System.Exception">Browser is already initialized. RegisterJsObject must be +
-        ///                                     called before the underlying CEF browser is created.</exception>
-        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
-        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
-        public void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null)
-        {
-            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
-                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
-                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
-                                    for details on the new binding options. If you perform cross-site navigations bound objects will
-                                    no longer be registered and you will have to migrate to the new method.");
-            }
-
-            if (IsBrowserInitialized)
-            {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
-                                    "called before the underlying CEF browser is created.");
-            }
-
-            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
-
-            if (objectRepository == null)
-            {
-                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
-            }
-
-            objectRepository.Register(name, objectToBind, true, options);
         }
 
         /// <summary>

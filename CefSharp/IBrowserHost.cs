@@ -403,6 +403,18 @@ namespace CefSharp
         bool WindowRenderingDisabled { get; }
 
         /// <summary>
+        /// Set whether the browser's audio is muted.
+        /// </summary>
+        /// <param name="mute">true or false</param>
+        void SetAudioMuted(bool mute);
+
+        /// <summary>
+        /// Returns true if the browser's audio is muted.
+        /// This method can only be called on the CEF UI thread.
+        /// </summary>
+        bool IsAudioMuted { get; }
+
+        /// <summary>
         /// Gets a value indicating whether the browserHost has been disposed of.
         /// </summary>
         bool IsDisposed { get; }

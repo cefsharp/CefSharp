@@ -98,6 +98,15 @@
     <ClInclude Include="RegisterBoundObjectRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Wrapper\Frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrapper\Browser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrapper\V8Context.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -155,6 +164,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WcfEnabledSubProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wrapper\Frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wrapper\Browser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

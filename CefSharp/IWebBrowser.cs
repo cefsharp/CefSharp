@@ -80,25 +80,6 @@ namespace CefSharp
         void Load(string url);
 
         /// <summary>
-        /// Registers a Javascript object in this specific browser instance.
-        /// </summary>
-        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
-        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        void RegisterJsObject(string name, object objectToBind, BindingOptions options = null);
-
-        /// <summary>
-        /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
-        /// <para>Only methods of the object will be available.</para>
-        /// </summary>
-        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
-        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
-        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
-        void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null);
-
-        /// <summary>
         /// The javascript object repository, one repository per ChromiumWebBrowser instance.
         /// </summary>
         IJavascriptObjectRepository JavascriptObjectRepository { get; }
@@ -194,6 +175,12 @@ namespace CefSharp
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         bool IsBrowserInitialized { get; }
+
+        /// <summary>
+        /// A flag that indicates whether the WebBrowser has been disposed (<see langword="true" />) or not (<see langword="false" />)
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" /></value>
+        bool IsDisposed { get; }
 
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
