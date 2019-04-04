@@ -344,6 +344,18 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnLoadingProgressChange(CefRefPtr<CefBrowser> browser, double progress)
+        {
+            auto handler = _browserControl->DisplayHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnLoadingProgressChange(_browserControl, browserWrapper, progress);
+            }
+        }
+
         bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
         {
             auto tooltip = StringUtils::ToClr(text);

@@ -234,9 +234,9 @@ namespace CefSharp
 
         /// <summary>
         /// The log severity. Only messages of this severity level or higher will be
-        /// logged. Also configurable using the "log-severity" command-line switch with
-        /// a value of "verbose", "info", "warning", "error", "error-report" or
-        /// "disable".
+        /// logged. When set to <see cref="CefSharp.LogSeverity.Disable"/> no messages will be written to the log file,
+        /// but Fatal messages will still be output to stderr. Also configurable using the "log-severity" command-line switch with
+        /// a value of "verbose", "info", "warning", "error", "fatal", "error-report" or "disable".
         /// </summary>
         property CefSharp::LogSeverity LogSeverity
         {

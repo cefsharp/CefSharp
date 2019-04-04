@@ -21,6 +21,7 @@ namespace CefSharp
     private:
         bool _isDisposed = false;
         bool _ownsPointer = false;
+        bool _frameworkCreated = false;
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -30,6 +31,12 @@ namespace CefSharp
         BrowserSettings(CefBrowserSettings* browserSettings)
         {
             _browserSettings = browserSettings;
+        }
+
+        BrowserSettings(bool frameworkCreated) : _browserSettings(new CefBrowserSettings())
+        {
+            _ownsPointer = true;
+            _frameworkCreated = frameworkCreated;
         }
 
     public:
@@ -383,6 +390,11 @@ namespace CefSharp
         virtual property bool IsDisposed
         {
             bool get() { return _isDisposed; }
+        }
+
+        virtual property bool FrameworkCreated
+        {
+            bool get() { return _frameworkCreated; }
         }
     };
 }

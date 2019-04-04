@@ -138,6 +138,13 @@ namespace CefSharp
                 bool get();
             }
 
+            virtual property bool IsAudioMuted
+            {
+                bool get();
+            }
+
+            virtual void SetAudioMuted(bool mute);
+
             virtual IntPtr GetOpenerWindowHandle();
 
             virtual void SendExternalBeginFrame();

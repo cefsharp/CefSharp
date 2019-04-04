@@ -84,10 +84,6 @@ namespace CefSharp.Wpf
         /// </summary>
         private IBrowser browser;
         /// <summary>
-        /// The dispose count
-        /// </summary>
-        private int disposeCount;
-        /// <summary>
         /// Location of the control on the screen, relative to Top/Left
         /// Used to calculate GetScreenPoint
         /// We're unable to call PointToScreen directly due to treading restrictions
@@ -116,6 +112,24 @@ namespace CefSharp.Wpf
         private static bool DesignMode;
 
         /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
+        public bool IsDisposed
+        {
+            get
+            {
+                return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
+            }
+        }
+
+        /// <summary>
         /// WPF Keyboard Handled forwards key events to the underlying browser
         /// </summary>
         public IWpfKeyboardHandler WpfKeyboardHandler { get; set; }
@@ -138,7 +152,7 @@ namespace CefSharp.Wpf
                 //New instance is created in the constructor, if you use
                 //xaml to initialize browser settings then it will also create a new
                 //instance, so we dispose of the old one
-                if (browserSettings != null)
+                if (browserSettings != null && browserSettings.FrameworkCreated)
                 {
                     browserSettings.Dispose();
                 }
@@ -517,7 +531,7 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
-            browserSettings = new BrowserSettings();
+            browserSettings = new BrowserSettings(frameworkCreated: true);
             RenderHandler = new InteropBitmapRenderHandler();
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
@@ -532,36 +546,59 @@ namespace CefSharp.Wpf
         /// </summary>
         ~ChromiumWebBrowser()
         {
-            if (DesignMode)
-            {
-                Dispose(false);
-            }
+            Dispose(false);
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Releases all resources used by the <see cref="ChromiumWebBrowser"/> object
         /// </summary>
         public void Dispose()
         {
-            if (DesignMode)
-            {
-                Dispose(true);
-            }
-
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        /// If not in design mode; Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
         /// </summary>
-        /// <param name="isDisposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        // This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        protected virtual void Dispose(bool isDisposing)
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
         {
-            //If disposeCount is 0 then we'll update it to 1 and begin disposing
-            if (Interlocked.CompareExchange(ref disposeCount, 1, 0) == 0)
+            // Attempt to move the disposeSignaled state from 0 to 1. If successful, we can be assured that
+            // this thread is the first thread to do so, and can safely dispose of the object.
+            if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
             {
+                return;
+            }
+
+            if (DesignMode)
+            {
+                return;
+            }
+
+            InternalDispose(disposing);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
+        /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        /// <remarks>
+        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void InternalDispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Interlocked.Exchange(ref browserInitialized, 0);
+
+                UiThreadRunAsync(() =>
+                {
+                    SetCurrentValue(IsBrowserInitializedProperty, false);
+                    WebBrowser = null;
+                });
+
                 // No longer reference event listeners:
                 ConsoleMessage = null;
                 FrameLoadEnd = null;
@@ -573,82 +610,71 @@ namespace CefSharp.Wpf
                 StatusMessage = null;
                 TitleChanged = null;
 
-                if (isDisposing)
+                // Release reference to handlers, except LifeSpanHandler which is done after Disposing
+                // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                this.SetHandlersToNullExceptLifeSpan();
+
+                browser = null;
+
+                // Incase we accidentally have a reference to the CEF drag data
+                if (currentDragData != null)
                 {
-                    browser = null;
-                    if (browserSettings != null)
-                    {
-                        browserSettings.Dispose();
-                        browserSettings = null;
-                    }
-
-                    //Incase we accidentally have a reference to the CEF drag data
-                    if (currentDragData != null)
-                    {
-                        currentDragData.Dispose();
-                        currentDragData = null;
-                    }
-
-                    PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
-                    // Release window event listeners if PresentationSourceChangedHandler event wasn't
-                    // fired before Dispose
-                    if (sourceWindow != null)
-                    {
-                        sourceWindow.StateChanged -= OnWindowStateChanged;
-                        sourceWindow.LocationChanged -= OnWindowLocationChanged;
-                        sourceWindow = null;
-                    }
-
-                    // Release internal event listeners:
-                    Loaded -= OnLoaded;
-                    SizeChanged -= OnActualSizeChanged;
-                    GotKeyboardFocus -= OnGotKeyboardFocus;
-                    LostKeyboardFocus -= OnLostKeyboardFocus;
-
-                    // Release internal event listeners for Drag Drop events:
-                    DragEnter -= OnDragEnter;
-                    DragOver -= OnDragOver;
-                    DragLeave -= OnDragLeave;
-                    Drop -= OnDrop;
-
-                    IsVisibleChanged -= OnIsVisibleChanged;
-
-                    if (tooltipTimer != null)
-                    {
-                        tooltipTimer.Tick -= OnTooltipTimerTick;
-                        tooltipTimer.Stop();
-                        tooltipTimer = null;
-                    }
-
-                    if (CleanupElement != null)
-                    {
-                        CleanupElement.Unloaded -= OnCleanupElementUnloaded;
-                    }
-
-                    if (managedCefBrowserAdapter != null)
-                    {
-                        managedCefBrowserAdapter.Dispose();
-                        managedCefBrowserAdapter = null;
-                    }
-
-                    Interlocked.Exchange(ref browserInitialized, 0);
-                    UiThreadRunAsync(() =>
-                    {
-                        SetCurrentValue(IsBrowserInitializedProperty, false);
-                        WebBrowser = null;
-                    });
+                    currentDragData.Dispose();
+                    currentDragData = null;
                 }
 
-                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-                // we do it here for consistency)
-                this.SetHandlersToNull();
+                PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+                // Release window event listeners if PresentationSourceChangedHandler event wasn't
+                // fired before Dispose
+                if (sourceWindow != null)
+                {
+                    sourceWindow.StateChanged -= OnWindowStateChanged;
+                    sourceWindow.LocationChanged -= OnWindowLocationChanged;
+                    sourceWindow = null;
+                }
 
-                Cef.RemoveDisposable(this);
+                // Release internal event listeners:
+                Loaded -= OnLoaded;
+                SizeChanged -= OnActualSizeChanged;
+                GotKeyboardFocus -= OnGotKeyboardFocus;
+                LostKeyboardFocus -= OnLostKeyboardFocus;
+
+                // Release internal event listeners for Drag Drop events:
+                DragEnter -= OnDragEnter;
+                DragOver -= OnDragOver;
+                DragLeave -= OnDragLeave;
+                Drop -= OnDrop;
+
+                IsVisibleChanged -= OnIsVisibleChanged;
+
+                if (tooltipTimer != null)
+                {
+                    tooltipTimer.Tick -= OnTooltipTimerTick;
+                    tooltipTimer.Stop();
+                    tooltipTimer = null;
+                }
+
+                if (CleanupElement != null)
+                {
+                    CleanupElement.Unloaded -= OnCleanupElementUnloaded;
+                }
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
+
+                // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
+                // is called.
+                LifeSpanHandler = null;
 
                 WpfKeyboardHandler.Dispose();
+
                 source = null;
             }
+
+            Cef.RemoveDisposable(this);
         }
 
         /// <summary>
@@ -919,6 +945,21 @@ namespace CefSharp.Wpf
         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
             //TODO: Implement this
+        }
+
+        void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+        {
+            OnVirtualKeyboardRequested(browser, inputMode);
+        }
+
+        /// <summary>
+        /// Called when an on-screen keyboard should be shown or hidden for the specified browser. 
+        /// </summary>
+        /// <param name="browser">the browser</param>
+        /// <param name="inputMode">specifies what kind of keyboard should be opened. If <see cref="TextInputMode.None"/>, any existing keyboard for this browser should be hidden.</param>
+        protected virtual void OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+        {
+
         }
 
         /// <summary>
@@ -1750,13 +1791,7 @@ namespace CefSharp.Wpf
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
                 managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: null);
 
-                //Dispose of BrowserSettings as they shouldn't be reused ans it's not possible to change the settings
-                //after the browser has been created.
-                if (browserSettings != null)
-                {
-                    browserSettings.Dispose();
-                    browserSettings = null;
-                }
+                browserSettings = null;
             }
             browserCreated = true;
 
@@ -2227,7 +2262,10 @@ namespace CefSharp.Wpf
             // or before OnApplyTemplate has been called
             if (browser != null)
             {
-                browser.MainFrame.LoadUrl(url);
+                using (var frame = browser.MainFrame)
+                {
+                    frame.LoadUrl(url);
+                }
             }
         }
 
@@ -2279,81 +2317,6 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Registers a Javascript object in this specific browser instance.
-        /// </summary>
-        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
-        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
-        ///                                     called before the underlying CEF browser is created.</exception>
-        public void RegisterJsObject(string name, object objectToBind, BindingOptions options = null)
-        {
-            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
-                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
-                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
-                                    for details on the new binding options. If you perform cross-site navigations bound objects will
-                                    no longer be registered and you will have to migrate to the new method.");
-            }
-
-            if (InternalIsBrowserInitialized())
-            {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
-                                    "called before the underlying CEF browser is created.");
-            }
-
-            //Enable WCF if not already enabled
-            CefSharpSettings.WcfEnabled = true;
-
-            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
-
-            if (objectRepository == null)
-            {
-                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
-            }
-
-            objectRepository.Register(name, objectToBind, false, options);
-        }
-
-        /// <summary>
-        /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
-        /// <para>Only methods of the object will be availabe.</para>
-        /// </summary>
-        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
-        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        /// <exception cref="System.Exception">Browser is already initialized. RegisterJsObject must be +
-        ///                                     called before the underlying CEF browser is created.</exception>
-        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
-        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
-        public void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null)
-        {
-            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
-                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
-                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
-                                    for details on the new binding options. If you perform cross-site navigations bound objects will
-                                    no longer be registered and you will have to migrate to the new method.");
-            }
-
-            if (InternalIsBrowserInitialized())
-            {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be " +
-                                    "called before the underlying CEF browser is created.");
-            }
-            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
-
-            if (objectRepository == null)
-            {
-                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
-            }
-
-            objectRepository.Register(name, objectToBind, true, options);
-        }
-
-        /// <summary>
         /// The javascript object repository, one repository per ChromiumWebBrowser instance.
         /// </summary>
         public IJavascriptObjectRepository JavascriptObjectRepository
@@ -2368,20 +2331,6 @@ namespace CefSharp.Wpf
         public IBrowser GetBrowser()
         {
             return browser;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is disposed.
-        /// </summary>
-        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
-        public bool IsDisposed
-        {
-            get
-            {
-                // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
-                // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
-                return Interlocked.CompareExchange(ref disposeCount, 1, 1) == 1;
-            }
         }
 
         /// <summary>
