@@ -45,6 +45,7 @@ namespace CefSharp.Example
                 { "/PopupTest.html", Resources.PopupTest },
                 { "/SchemeTest.html", Resources.SchemeTest },
                 { "/TooltipTest.html", Resources.TooltipTest },
+                { "/DragDropCursorsTest.html", Resources.DragDropCursorsTest },
                 { "/FramedWebGLTest.html", Resources.FramedWebGLTest },
                 { "/MultiBindingTest.html", Resources.MultiBindingTest },
                 { "/ScriptedMethodsTest.html", Resources.ScriptedMethodsTest },

@@ -152,6 +152,7 @@
     <None Include="Resources\assets\js\shBrushJScript.js" />
     <Content Include="Resources\assets\js\shCore.js" />
     <Content Include="Resources\BindingTestSingle.html" />
+    <Content Include="Resources\DragDropCursorsTest.html" />
     <Content Include="Resources\LegacyBindingTest.html" />
     <Content Include="Resources\CdmSupportTest.html" />
     <Content Include="Resources\CssAnimation.html" />

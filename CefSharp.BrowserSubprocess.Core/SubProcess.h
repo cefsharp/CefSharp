@@ -14,6 +14,7 @@
 using namespace System::Collections::Generic;
 using namespace System::Linq;
 using namespace CefSharp::Internals;
+using namespace CefSharp::RenderProcess;
 
 namespace CefSharp
 {
@@ -26,14 +27,14 @@ namespace CefSharp
             MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
 
         public:
-            SubProcess(IEnumerable<String^>^ args)
+            SubProcess(IRenderProcessHandler^ handler, IEnumerable<String^>^ args)
             {
                 auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserCreated);
                 auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserDestroyed);
                 auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
                 auto enableFocusedNodeChanged = CommandLineArgsParser::HasArgument(args, CefSharpArguments::FocusedNodeChangedEnabledArgument);
 
-                _cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
+                _cefApp = new CefAppUnmanagedWrapper(handler, schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
             }
 
             !SubProcess()

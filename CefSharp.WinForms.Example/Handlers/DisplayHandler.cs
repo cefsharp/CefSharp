@@ -67,6 +67,11 @@ namespace CefSharp.WinForms.Example.Handlers
             });
         }
 
+        void IDisplayHandler.OnLoadingProgressChange(IWebBrowser chromiumWebBrowser, IBrowser browser, double progress)
+        {
+
+        }
+
         bool IDisplayHandler.OnTooltipChanged(IWebBrowser browserControl, ref string text)
         {
             //text = "Sample text";

@@ -24,6 +24,7 @@ namespace CefSharp.Example
         public const string BasicSchemeTestUrl = BaseUrl + "/SchemeTest.html";
         public const string ResponseFilterTestUrl = BaseUrl + "/ResponseFilterTest.html";
         public const string DraggableRegionTestUrl = BaseUrl + "/DraggableRegionTest.html";
+        public const string DragDropCursorsTestUrl = BaseUrl + "/DragDropCursorsTest.html";
         public const string CssAnimationTestUrl = BaseUrl + "/CssAnimationTest.html";
         public const string CdmSupportTestUrl = BaseUrl + "/CdmSupportTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
@@ -75,6 +76,9 @@ namespace CefSharp.Example
             //Load the pepper flash player that comes with Google Chrome - may be possible to load these values from the registry and query the dll for it's version info (Step 2 not strictly required it seems)
             //settings.CefCommandLineArgs.Add("ppapi-flash-path", @"C:\Program Files (x86)\Google\Chrome\Application\47.0.2526.106\PepperFlash\pepflashplayer.dll"); //Load a specific pepper flash version (Step 1 of 2)
             //settings.CefCommandLineArgs.Add("ppapi-flash-version", "20.0.0.228"); //Load a specific pepper flash version (Step 2 of 2)
+
+            //Audo play example
+            //settings.CefCommandLineArgs["autoplay-policy"] = "no-user-gesture-required";
 
             //NOTE: For OSR best performance you should run with GPU disabled:
             // `--disable-gpu --disable-gpu-compositing --enable-begin-frame-scheduling`

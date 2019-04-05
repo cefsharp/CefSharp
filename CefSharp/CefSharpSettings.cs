@@ -73,7 +73,7 @@ namespace CefSharp
 
         /// <summary>
         /// CefSharp.BrowserSubprocess will monitor the parent process and exit if the parent process closes
-        /// before the subprocess. This currently defaults to false. 
+        /// before the subprocess. This currently defaults to true. 
         /// See https://github.com/cefsharp/CefSharp/issues/2359 for more information.
         /// </summary>
         public static bool SubprocessExitIfParentProcessClosed { get; set; }

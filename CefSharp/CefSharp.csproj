@@ -99,6 +99,9 @@
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\AlphaType.cs" />
+    <Compile Include="Enums\PointerType.cs" />
+    <Compile Include="Enums\TextInputMode.cs" />
+    <Compile Include="Enums\TouchEventType.cs" />
     <Compile Include="Enums\ValueType.cs" />
     <Compile Include="Enums\ColorType.cs" />
     <Compile Include="Event\JavascriptBindingCompleteEventArgs.cs" />
@@ -120,7 +123,11 @@
     <Compile Include="Internals\FileResourceHandler.cs" />
     <Compile Include="Lagacy\LegacyResourceHandlerFactory.cs" />
     <Compile Include="Lagacy\LegacyResourceHandlerFactoryItem.cs" />
+    <Compile Include="RenderProcess\IRenderProcessHandler.cs" />
+    <Compile Include="RenderProcess\IV8Context.cs" />
+    <Compile Include="RenderProcess\V8Exception.cs" />
     <Compile Include="RequestContextExtensions.cs" />
+    <Compile Include="Structs\TouchEvent.cs" />
     <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />

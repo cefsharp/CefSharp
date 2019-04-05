@@ -290,6 +290,13 @@ namespace CefSharp
         void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
 
         /// <summary>
+        /// Send a touch event to the browser.
+        /// WPF and OffScreen browsers only
+        /// </summary>
+        /// <param name="evt">touch event</param>
+        void SendTouchEvent(TouchEvent evt);
+
+        /// <summary>
         /// Set accessibility state for all frames.  If accessibilityState is Default then accessibility will be disabled by default
         /// and the state may be further controlled with the "force-renderer-accessibility" and "disable-renderer-accessibility"
         /// command-line switches. If accessibilityState is STATE_ENABLED then accessibility will be enabled.
@@ -401,6 +408,18 @@ namespace CefSharp
         /// Returns true if window rendering is disabled.
         /// </summary>
         bool WindowRenderingDisabled { get; }
+
+        /// <summary>
+        /// Set whether the browser's audio is muted.
+        /// </summary>
+        /// <param name="mute">true or false</param>
+        void SetAudioMuted(bool mute);
+
+        /// <summary>
+        /// Returns true if the browser's audio is muted.
+        /// This method can only be called on the CEF UI thread.
+        /// </summary>
+        bool IsAudioMuted { get; }
 
         /// <summary>
         /// Gets a value indicating whether the browserHost has been disposed of.

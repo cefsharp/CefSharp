@@ -210,5 +210,12 @@ namespace CefSharp
         /// Gets a value indicating if the browser settings has been disposed.
         /// </summary>
         bool IsDisposed { get; }
+
+        /// <summary>
+        /// Gets a value indicating if the browser settings instance was created internally by CefSharp.
+        /// instances created by CefSharp will be Disposed of after use. To control the lifespan yourself
+        /// create an set BrowserSettings yourself.
+        /// </summary>
+        bool FrameworkCreated { get; }
     }
 }
