@@ -108,7 +108,10 @@ namespace CefSharp.Wpf
         /// we can reuse the drag data provided from CEF
         /// </summary>
         private IDragData currentDragData;
-
+        /// <summary>
+        /// Keep the current drag&drop effects to return the appropriate effects on drag over.
+        /// </summary>
+        private DragDropEffects currentDragDropEffects;
         /// <summary>
         /// A flag that indicates whether or not the designer is active
         /// NOTE: Needs to be static for OnApplicationExit
@@ -798,14 +801,14 @@ namespace CefSharp.Wpf
                 if (browser != null)
                 {
                     //DoDragDrop will fire DragEnter event
-                    var result = DragDrop.DoDragDrop(this, dataObject, GetDragEffects(allowedOps));
+                    var result = DragDrop.DoDragDrop(this, dataObject, allowedOps.GetDragEffects());
 
                     //DragData was stored so when DoDragDrop fires DragEnter we reuse a clone of the IDragData provided here
                     currentDragData = null;
 
                     //If result == DragDropEffects.None then we'll send DragOperationsMask.None
                     //effectively cancelling the drag operation
-                    browser.GetHost().DragSourceEndedAt(x, y, GetDragOperationsMask(result));
+                    browser.GetHost().DragSourceEndedAt(x, y, result.GetDragOperationsMask());
                     browser.GetHost().DragSourceSystemDragEnded();
                 }
             });
@@ -824,7 +827,7 @@ namespace CefSharp.Wpf
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
-            //TODO: Someone should implement this
+            currentDragDropEffects = operation.GetDragEffects();
         }
 
         /// <summary>
@@ -1550,7 +1553,7 @@ namespace CefSharp.Wpf
             if (browser != null)
             {
                 var mouseEvent = GetMouseEvent(e);
-                var effect = GetDragOperationsMask(e.AllowedEffects);
+                var effect = e.AllowedEffects.GetDragOperationsMask();
 
                 browser.GetHost().DragTargetDragOver(mouseEvent, effect);
                 browser.GetHost().DragTargetDragDrop(mouseEvent);
@@ -1579,8 +1582,10 @@ namespace CefSharp.Wpf
         {
             if (browser != null)
             {
-                browser.GetHost().DragTargetDragOver(GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+                browser.GetHost().DragTargetDragOver(GetMouseEvent(e), e.AllowedEffects.GetDragOperationsMask());
             }
+            e.Effects = currentDragDropEffects;
+            e.Handled = true;
         }
 
         /// <summary>
@@ -1593,7 +1598,7 @@ namespace CefSharp.Wpf
             if (browser != null)
             {
                 var mouseEvent = GetMouseEvent(e);
-                var effect = GetDragOperationsMask(e.AllowedEffects);
+                var effect = e.AllowedEffects.GetDragOperationsMask();
 
                 //DoDragDrop will fire this handler for internally sourced Drag/Drop operations
                 //we use the existing IDragData (cloned copy)
@@ -1602,62 +1607,6 @@ namespace CefSharp.Wpf
                 browser.GetHost().DragTargetDragEnter(dragData, mouseEvent, effect);
                 browser.GetHost().DragTargetDragOver(mouseEvent, effect);
             }
-        }
-
-        /// <summary>
-        /// Converts .NET drag drop effects to CEF Drag Operations
-        /// </summary>
-        /// <param name="dragDropEffects">The drag drop effects.</param>
-        /// <returns>DragOperationsMask.</returns>
-        /// s
-        private static DragOperationsMask GetDragOperationsMask(DragDropEffects dragDropEffects)
-        {
-            var operations = DragOperationsMask.None;
-
-            if (dragDropEffects.HasFlag(DragDropEffects.All))
-            {
-                operations |= DragOperationsMask.Every;
-            }
-            if (dragDropEffects.HasFlag(DragDropEffects.Copy))
-            {
-                operations |= DragOperationsMask.Copy;
-            }
-            if (dragDropEffects.HasFlag(DragDropEffects.Move))
-            {
-                operations |= DragOperationsMask.Move;
-            }
-            if (dragDropEffects.HasFlag(DragDropEffects.Link))
-            {
-                operations |= DragOperationsMask.Link;
-            }
-
-            return operations;
-        }
-
-        /// <summary>
-        /// Gets the drag effects.
-        /// </summary>
-        /// <param name="mask">The mask.</param>
-        /// <returns>DragDropEffects.</returns>
-        private static DragDropEffects GetDragEffects(DragOperationsMask mask)
-        {
-            if ((mask & DragOperationsMask.Every) == DragOperationsMask.Every)
-            {
-                return DragDropEffects.All;
-            }
-            if ((mask & DragOperationsMask.Copy) == DragOperationsMask.Copy)
-            {
-                return DragDropEffects.Copy;
-            }
-            if ((mask & DragOperationsMask.Move) == DragOperationsMask.Move)
-            {
-                return DragDropEffects.Move;
-            }
-            if ((mask & DragOperationsMask.Link) == DragOperationsMask.Link)
-            {
-                return DragDropEffects.Link;
-            }
-            return DragDropEffects.None;
         }
 
         /// <summary>

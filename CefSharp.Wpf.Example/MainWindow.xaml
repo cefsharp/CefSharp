@@ -29,6 +29,7 @@
                 <MenuItem Header="_LegacyBinding Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.LegacyBindingTestUrl}}"/>
                 <MenuItem Header="_List Plugins" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PluginsTestUrl}}"/>
                 <MenuItem Header="_Tooltip Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.TooltipTestUrl}}"/>
+                <MenuItem Header="D_rag&amp;Drop Cursors Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.DragDropCursorsTestUrl}}"/>
                 <MenuItem Header="_Popup Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PopupParentUrl}}"/>
                 <MenuItem Header="_Popup Test Custom Scheme" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PopupTestUrl}}"/>
                 <MenuItem Header="_Basic Scheme Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.BasicSchemeTestUrl}}"/>
