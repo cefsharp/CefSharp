@@ -109,7 +109,7 @@ namespace CefSharp.Wpf
         /// </summary>
         private IDragData currentDragData;
         /// <summary>
-        /// Keep the current drag&drop effects to return the appropriate effects on drag over.
+        /// Keep the current drag&amp;drop effects to return the appropriate effects on drag over.
         /// </summary>
         private DragDropEffects currentDragDropEffects;
         /// <summary>
