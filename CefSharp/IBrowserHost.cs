@@ -290,6 +290,13 @@ namespace CefSharp
         void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
 
         /// <summary>
+        /// Send a touch event to the browser.
+        /// WPF and OffScreen browsers only
+        /// </summary>
+        /// <param name="evt">touch event</param>
+        void SendTouchEvent(TouchEvent evt);
+
+        /// <summary>
         /// Set accessibility state for all frames.  If accessibilityState is Default then accessibility will be disabled by default
         /// and the state may be further controlled with the "force-renderer-accessibility" and "disable-renderer-accessibility"
         /// command-line switches. If accessibilityState is STATE_ENABLED then accessibility will be enabled.
