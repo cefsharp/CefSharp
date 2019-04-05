@@ -63,6 +63,10 @@ namespace CefSharp.Wpf
         /// </summary>
         private bool ignoreUriChange;
         /// <summary>
+        /// Initial address
+        /// </summary>
+        private readonly string initialAddress;
+        /// <summary>
         /// Has the underlying Cef Browser been created (slightly different to initliazed in that
         /// the browser is initialized in an async fashion)
         /// </summary>
@@ -461,6 +465,13 @@ namespace CefSharp.Wpf
             {
                 NoInliningConstructor();
             }
+        }
+
+        public ChromiumWebBrowser(string initialAddress)
+        {
+            this.initialAddress = initialAddress;
+
+            NoInliningConstructor();
         }
 
         /// <summary>
@@ -1097,8 +1108,8 @@ namespace CefSharp.Wpf
                 {
                     SetCurrentValue(IsBrowserInitializedProperty, true);
 
-                    // If Address was previously set, only now can we actually do the load
-                    if (!string.IsNullOrEmpty(Address))
+                    // Only call Load if initialAddress is null and Address is not empty
+                    if (string.IsNullOrEmpty(initialAddress) && !string.IsNullOrEmpty(Address))
                     {
                         Load(Address);
                     }
@@ -1789,7 +1800,7 @@ namespace CefSharp.Wpf
                 var windowInfo = CreateOffscreenBrowserWindowInfo(source == null ? IntPtr.Zero : source.Handle);
                 //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: null);
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: initialAddress);
 
                 browserSettings = null;
             }
