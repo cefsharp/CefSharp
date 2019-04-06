@@ -102,6 +102,7 @@
     <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\InteropBitmapRenderHandler.cs" />
     <Compile Include="Rendering\WritableBitmapRenderHandler.cs" />
+    <Compile Include="VirtualKeyboardRequestedEventArgs.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>

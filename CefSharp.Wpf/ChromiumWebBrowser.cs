@@ -339,6 +339,12 @@ namespace CefSharp.Wpf
         public event EventHandler<PaintEventArgs> Paint;
 
         /// <summary>
+        /// Raised every time <see cref="IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser, TextInputMode)"/> is called. 
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI thread
+        /// </summary>
+        public event EventHandler<VirtualKeyboardRequestedEventArgs> VirtualKeyboardRequested;
+
+        /// <summary>
         /// Navigates to the previous page in the browser history. Will automatically be enabled/disabled depending on the
         /// browser state.
         /// </summary>
@@ -623,6 +629,7 @@ namespace CefSharp.Wpf
                 Paint = null;
                 StatusMessage = null;
                 TitleChanged = null;
+                VirtualKeyboardRequested = null;
 
                 // Release reference to handlers, except LifeSpanHandler which is done after Disposing
                 // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
@@ -973,7 +980,9 @@ namespace CefSharp.Wpf
         /// <param name="inputMode">specifies what kind of keyboard should be opened. If <see cref="TextInputMode.None"/>, any existing keyboard for this browser should be hidden.</param>
         protected virtual void OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
         {
+            var args = new VirtualKeyboardRequestedEventArgs(browser, inputMode);
 
+            VirtualKeyboardRequested?.Invoke(this, args);
         }
 
         /// <summary>
