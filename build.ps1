@@ -5,7 +5,10 @@
     [Parameter(Position = 1)]
     [string] $Version = "73.1.12.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "73.1.12.0"
+    [string] $AssemblyVersion = "73.1.12.0",
+    [string] $RedistVersion,
+    [string] $Suffix
+
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -13,8 +16,15 @@ $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 
 # Extract the current CEF Redist version from the CefSharp.Core\packages.config file
 # Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\Packages.config'))
-$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
+$PackagesXmlFilename = Join-Path $WorkingDir 'CefSharp.Core\Packages.config'
+$CefSharpCorePackagesXml = [xml](Get-Content ($PackagesXmlFilename))
+$RedistVersionNode = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version")
+if ($RedistVersion) {
+    $RedistVersionNode.value = $RedistVersion
+    $CefSharpCorePackagesXml.Save($PackagesXmlFilename)
+} else {
+    $RedistVersion = $RedistVersionNode.value
+}
 
 function Write-Diagnostic 
 {
@@ -281,21 +291,26 @@ function Nupkg
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
     }
+    
+    $NupkgVersion = $Version
+    if($Suffix) {
+        $NupkgVersion = $Version + '-' + $Suffix
+    }
 
     Write-Diagnostic "Building nuget package"
 
     # Build packages
-    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
-    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $NupkgVersion -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
+    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $NupkgVersion -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $NupkgVersion -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $NupkgVersion -OutputDirectory nuget
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
         return
     }
 
-    . $WorkingDir\AfterBuild.ps1 -Version $Version
+    . $WorkingDir\AfterBuild.ps1 -Version $NupkgVersion
 }
 
 function DownloadNuget()
