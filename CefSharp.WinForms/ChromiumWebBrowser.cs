@@ -320,7 +320,7 @@ namespace CefSharp.WinForms
         /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
         /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
         /// </summary>
-        public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
+        public event EventHandler IsBrowserInitializedChanged;
 
         /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
@@ -652,7 +652,7 @@ namespace CefSharp.WinForms
 
             ResizeBrowser();
 
-            IsBrowserInitializedChanged?.Invoke(this, new IsBrowserInitializedChangedEventArgs(IsBrowserInitialized));
+            IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
