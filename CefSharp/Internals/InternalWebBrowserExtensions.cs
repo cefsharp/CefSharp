@@ -6,13 +6,12 @@ namespace CefSharp.Internals
 {
     internal static class InternalWebBrowserExtensions
     {
-        internal static void SetHandlersToNull(this IWebBrowserInternal browser)
+        internal static void SetHandlersToNullExceptLifeSpan(this IWebBrowserInternal browser)
         {
             browser.DialogHandler = null;
             browser.RequestHandler = null;
             browser.DisplayHandler = null;
             browser.LoadHandler = null;
-            browser.LifeSpanHandler = null;
             browser.KeyboardHandler = null;
             browser.JsDialogHandler = null;
             browser.DragHandler = null;

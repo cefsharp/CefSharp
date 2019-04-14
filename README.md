@@ -75,7 +75,8 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 | Branch                                                               | CEF Version | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|------|-------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                      | 3578 | 2015 | 4.5.2 | Development     |
+| [master](https://github.com/cefsharp/CefSharp/)                      | 3683 | 2015 | 4.5.2 | Development     |
+| [cefsharp/73](https://github.com/cefsharp/CefSharp/tree/cefsharp/73) | 3683 | 2015 | 4.5.2 | **Pre-Release** |
 | [cefsharp/71](https://github.com/cefsharp/CefSharp/tree/cefsharp/71) | 3578 | 2015 | 4.5.2 | **Release**     |
 | [cefsharp/69](https://github.com/cefsharp/CefSharp/tree/cefsharp/69) | 3497 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/67](https://github.com/cefsharp/CefSharp/tree/cefsharp/67) | 3396 | 2015 | 4.5.2 | Unsupported     |
@@ -99,7 +100,7 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 To continue developing/supporting the project I (@amaitland) am asking for financial contributions. Donations of any size are greatly appreciated!
 
-`71.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=66538061)](https://www.bountysource.com/issues/66538061-funding-request-release-71-0-0?utm_source=66538061&utm_medium=shield&utm_campaign=ISSUE_BADGE)
+`73.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=71596940)](https://www.bountysource.com/issues/71596940-funding-request-release-73-0-0?utm_source=71596940&utm_medium=shield&utm_campaign=ISSUE_BADGE)
 
 Recurring contributions can be made through [BountySource Salt](https://salt.bountysource.com/teams/cefsharp) or contact me if you'd like to donate through `Paypal`.
 

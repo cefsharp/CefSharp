@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefSettings.cs" />
+    <Compile Include="Internals\DragOperationMaskExtensions.cs" />
     <Compile Include="Internals\MonitorInfo.cs" />
     <Compile Include="Internals\MonitorInfoEx.cs" />
     <Compile Include="Internals\RectStruct.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\InteropBitmapRenderHandler.cs" />
     <Compile Include="Rendering\WritableBitmapRenderHandler.cs" />
+    <Compile Include="VirtualKeyboardRequestedEventArgs.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>

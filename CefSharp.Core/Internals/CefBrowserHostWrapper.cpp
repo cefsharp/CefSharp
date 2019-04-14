@@ -315,6 +315,28 @@ void CefBrowserHostWrapper::SendMouseWheelEvent(MouseEvent mouseEvent, int delta
     }
 }
 
+void CefBrowserHostWrapper::SendTouchEvent(TouchEvent evt)
+{
+    ThrowIfDisposed();
+
+    if (_browserHost.get())
+    {
+        CefTouchEvent e;
+        e.id = evt.Id;
+        e.modifiers = (uint32)evt.Modifiers;
+        e.pointer_type = (cef_pointer_type_t)evt.PointerType;
+        e.pressure = evt.Pressure;
+        e.radius_x = evt.RadiusX;
+        e.radius_y = evt.RadiusY;
+        e.rotation_angle = evt.RotationAngle;
+        e.type = (cef_touch_event_type_t)evt.Type;
+        e.x = evt.X;
+        e.y = evt.Y;
+
+        _browserHost->SendTouchEvent(e);
+    }
+}
+
 void CefBrowserHostWrapper::SetAccessibilityState(CefState accessibilityState)
 {
     ThrowIfDisposed();
@@ -458,48 +480,7 @@ NavigationEntry^ CefBrowserHostWrapper::GetVisibleNavigationEntry()
 
     auto entry = _browserHost->GetVisibleNavigationEntry();
 
-    NavigationEntry^ navEntry;
-    SslStatus^ sslStatus;
-
-    //TODO: This code is duplicated in CefNavigationEntryVisitor
-    //TODO: NavigationEntry is a struct and so is SslStatus, this should
-    // be reviewed as it's likely not ideal.
-    if (entry->IsValid())
-    {
-        auto time = entry->GetCompletionTime();
-        DateTime completionTime = CefTimeUtils::ConvertCefTimeToDateTime(time.GetDoubleT());
-        auto ssl = entry->GetSSLStatus();
-        X509Certificate2^ sslCertificate;
-
-        if (ssl.get())
-        {
-            auto certificate = ssl->GetX509Certificate();
-            if (certificate.get())
-            {
-                auto derEncodedCertificate = certificate->GetDEREncoded();
-                auto byteCount = derEncodedCertificate->GetSize();
-                if (byteCount > 0)
-                {
-                    auto bytes = gcnew cli::array<Byte>(byteCount);
-                    pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
-
-                    derEncodedCertificate->GetData(static_cast<void*>(src), byteCount, 0);
-
-                    sslCertificate = gcnew X509Certificate2(bytes);
-                }
-            }
-            sslStatus = gcnew SslStatus(ssl->IsSecureConnection(), (CertStatus)ssl->GetCertStatus(), (SslVersion)ssl->GetSSLVersion(), (SslContentStatus)ssl->GetContentStatus(), sslCertificate);
-        }
-
-        navEntry = gcnew NavigationEntry(true, completionTime, StringUtils::ToClr(entry->GetDisplayURL()), entry->GetHttpStatusCode(), StringUtils::ToClr(entry->GetOriginalURL()), StringUtils::ToClr(entry->GetTitle()), (TransitionType)entry->GetTransitionType(), StringUtils::ToClr(entry->GetURL()), entry->HasPostData(), true, sslStatus);
-    }
-    else
-    {
-        //Invalid nav entry
-        navEntry = gcnew NavigationEntry(true, DateTime::MinValue, nullptr, -1, nullptr, nullptr, (TransitionType)-1, nullptr, false, false, sslStatus);
-    }
-
-    return navEntry;
+    return TypeConversion::FromNative(entry, true);
 }
 
 void CefBrowserHostWrapper::NotifyMoveOrResizeStarted()
@@ -549,6 +530,22 @@ bool CefBrowserHostWrapper::WindowRenderingDisabled::get()
     ThrowIfDisposed();
 
     return _browserHost->IsWindowRenderingDisabled();
+}
+
+bool CefBrowserHostWrapper::IsAudioMuted::get()
+{
+    ThrowIfDisposed();
+
+    ThrowIfExecutedOnNonCefUiThread();
+
+    return _browserHost->IsAudioMuted();
+}
+
+void CefBrowserHostWrapper::SetAudioMuted(bool mute)
+{
+    ThrowIfDisposed();
+
+    _browserHost->SetAudioMuted(mute);
 }
 
 IntPtr CefBrowserHostWrapper::GetOpenerWindowHandle()
@@ -609,66 +606,66 @@ int CefBrowserHostWrapper::GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam)
 
     switch (wparam)
     {
-        case VK_RETURN:
-            if ((lparam >> 16) & KF_EXTENDED)
-                modifiers |= EVENTFLAG_IS_KEY_PAD;
-            break;
-        case VK_INSERT:
-        case VK_DELETE:
-        case VK_HOME:
-        case VK_END:
-        case VK_PRIOR:
-        case VK_NEXT:
-        case VK_UP:
-        case VK_DOWN:
-        case VK_LEFT:
-        case VK_RIGHT:
-            if (!((lparam >> 16) & KF_EXTENDED))
-                modifiers |= EVENTFLAG_IS_KEY_PAD;
-            break;
-        case VK_NUMLOCK:
-        case VK_NUMPAD0:
-        case VK_NUMPAD1:
-        case VK_NUMPAD2:
-        case VK_NUMPAD3:
-        case VK_NUMPAD4:
-        case VK_NUMPAD5:
-        case VK_NUMPAD6:
-        case VK_NUMPAD7:
-        case VK_NUMPAD8:
-        case VK_NUMPAD9:
-        case VK_DIVIDE:
-        case VK_MULTIPLY:
-        case VK_SUBTRACT:
-        case VK_ADD:
-        case VK_DECIMAL:
-        case VK_CLEAR:
+    case VK_RETURN:
+        if ((lparam >> 16) & KF_EXTENDED)
             modifiers |= EVENTFLAG_IS_KEY_PAD;
-            break;
-        case VK_SHIFT:
-            if (IsKeyDown(VK_LSHIFT))
-                modifiers |= EVENTFLAG_IS_LEFT;
-            else if (IsKeyDown(VK_RSHIFT))
-                modifiers |= EVENTFLAG_IS_RIGHT;
-            break;
-        case VK_CONTROL:
-            if (IsKeyDown(VK_LCONTROL))
-                modifiers |= EVENTFLAG_IS_LEFT;
-            else if (IsKeyDown(VK_RCONTROL))
-                modifiers |= EVENTFLAG_IS_RIGHT;
-            break;
-        case VK_MENU:
-            if (IsKeyDown(VK_LMENU))
-                modifiers |= EVENTFLAG_IS_LEFT;
-            else if (IsKeyDown(VK_RMENU))
-                modifiers |= EVENTFLAG_IS_RIGHT;
-            break;
-        case VK_LWIN:
+        break;
+    case VK_INSERT:
+    case VK_DELETE:
+    case VK_HOME:
+    case VK_END:
+    case VK_PRIOR:
+    case VK_NEXT:
+    case VK_UP:
+    case VK_DOWN:
+    case VK_LEFT:
+    case VK_RIGHT:
+        if (!((lparam >> 16) & KF_EXTENDED))
+            modifiers |= EVENTFLAG_IS_KEY_PAD;
+        break;
+    case VK_NUMLOCK:
+    case VK_NUMPAD0:
+    case VK_NUMPAD1:
+    case VK_NUMPAD2:
+    case VK_NUMPAD3:
+    case VK_NUMPAD4:
+    case VK_NUMPAD5:
+    case VK_NUMPAD6:
+    case VK_NUMPAD7:
+    case VK_NUMPAD8:
+    case VK_NUMPAD9:
+    case VK_DIVIDE:
+    case VK_MULTIPLY:
+    case VK_SUBTRACT:
+    case VK_ADD:
+    case VK_DECIMAL:
+    case VK_CLEAR:
+        modifiers |= EVENTFLAG_IS_KEY_PAD;
+        break;
+    case VK_SHIFT:
+        if (IsKeyDown(VK_LSHIFT))
             modifiers |= EVENTFLAG_IS_LEFT;
-            break;
-        case VK_RWIN:
+        else if (IsKeyDown(VK_RSHIFT))
             modifiers |= EVENTFLAG_IS_RIGHT;
-            break;
+        break;
+    case VK_CONTROL:
+        if (IsKeyDown(VK_LCONTROL))
+            modifiers |= EVENTFLAG_IS_LEFT;
+        else if (IsKeyDown(VK_RCONTROL))
+            modifiers |= EVENTFLAG_IS_RIGHT;
+        break;
+    case VK_MENU:
+        if (IsKeyDown(VK_LMENU))
+            modifiers |= EVENTFLAG_IS_LEFT;
+        else if (IsKeyDown(VK_RMENU))
+            modifiers |= EVENTFLAG_IS_RIGHT;
+        break;
+    case VK_LWIN:
+        modifiers |= EVENTFLAG_IS_LEFT;
+        break;
+    case VK_RWIN:
+        modifiers |= EVENTFLAG_IS_RIGHT;
+        break;
     }
     return modifiers;
 }
