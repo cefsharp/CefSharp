@@ -1156,6 +1156,42 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnAudioStreamStarted(CefRefPtr<CefBrowser> browser, int audio_stream_id, int channels, ChannelLayout channel_layout, int sample_rate, int frames_per_buffer)
+        {
+            auto handler = _browserControl->AudioHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnAudioStreamStarted(_browserControl, browserWrapper, audio_stream_id, channels, (CefSharp::Enums::ChannelLayout)channel_layout, sample_rate, frames_per_buffer);
+            }
+        }
+
+        void ClientAdapter::OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, int audio_stream_id, const float** data, int frames, int64 pts)
+        {
+            auto handler = _browserControl->AudioHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnAudioStreamPacket(_browserControl, browserWrapper, audio_stream_id, IntPtr((void *)data), frames, pts);
+            }
+        }
+
+        void ClientAdapter::OnAudioStreamStopped(CefRefPtr<CefBrowser> browser, int audio_stream_id)
+        {
+            auto handler = _browserControl->AudioHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnAudioStreamStopped(_browserControl, browserWrapper, audio_stream_id);
+            }
+        }
+
         bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
         {
             auto handled = false;

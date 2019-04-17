@@ -32,7 +32,8 @@ namespace CefSharp
             public CefDialogHandler,
             public CefDragHandler,
             public CefDownloadHandler,
-            public CefFindHandler
+            public CefFindHandler,
+            public CefAudioHandler
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
@@ -100,6 +101,7 @@ namespace CefSharp
             virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefFindHandler> GetFindHandler() OVERRIDE { return this; }
+            virtual DECL CefRefPtr<CefAudioHandler> GetAudioHandler() OVERRIDE { return this; }
             virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
 
 
@@ -195,7 +197,12 @@ namespace CefSharp
                 CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
 
             //CefFindHandler
-            virtual DECL void OnFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate);
+            virtual DECL void OnFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate) OVERRIDE;
+
+            //CefAudioHandler
+            virtual DECL void OnAudioStreamStarted(CefRefPtr<CefBrowser> browser, int audio_stream_id, int channels, ChannelLayout channel_layout, int sample_rate, int frames_per_buffer) OVERRIDE;
+            virtual DECL void OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, int audio_stream_id, const float** data, int frames, int64 pts) OVERRIDE;
+            virtual DECL void OnAudioStreamStopped(CefRefPtr<CefBrowser> browser, int audio_stream_id) OVERRIDE;
 
             //sends out an eval script request to the render process
             Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, bool isBrowserPopup, int64 frameId, String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout);
