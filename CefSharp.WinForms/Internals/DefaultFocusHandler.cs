@@ -22,7 +22,8 @@ namespace CefSharp.WinForms.Internals
         public virtual void OnGotFocus(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
             //We don't deal with popups as they're rendered by default entirely by CEF
-            if (browser.IsPopup)
+            //For print dialogs the browser will be null, we don't want to deal with that either.
+            if (browser == null || browser.IsPopup)
             {
                 return;
             }
