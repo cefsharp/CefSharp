@@ -201,7 +201,7 @@ namespace CefSharp.WinForms.Example
 
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", SetLastError = true)]
-        static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+        private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         private void OnIsBrowserInitializedChanged(object sender, EventArgs e)
         {
