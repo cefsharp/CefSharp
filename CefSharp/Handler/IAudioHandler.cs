@@ -41,10 +41,10 @@ namespace CefSharp
         /// <param name="chromiumWebBrowser"></param>
         /// <param name="audioStreamId">will uniquely identify the stream across all future IAudioHandler callbacks</param>
         /// <param name="data">is an array representing the raw PCM data as a floating point type, i.e. 4-byte value(s)</param>
-        /// <param name="frames">is the number of frames in the PCM packet</param>
+        /// <param name="noOfFrames">is the number of frames in the PCM packet</param>
         /// <param name="pts">is the presentation timestamp (in milliseconds since the Unix Epoch)
         /// and represents the time at which the decompressed packet should be presented to the user</param>
-        void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, int audioStreamId, IntPtr data, int frames, long pts);
+        void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, int audioStreamId, IntPtr data, int noOfFrames, long pts);
 
         /// <summary>
         /// Called when the stream identified by <paramref name="audioStreamId"/> has stopped.

@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Callback\RunFileDialogCallback.cs" />
+    <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\ExtensionHandler.cs" />
     <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
     <Compile Include="JavascriptBinding\BoundObject.cs" />
