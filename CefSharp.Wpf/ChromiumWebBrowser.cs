@@ -31,8 +31,13 @@ namespace CefSharp.Wpf
     /// <seealso cref="System.Windows.Controls.Control" />
     /// <seealso cref="CefSharp.Internals.IRenderWebBrowser" />
     /// <seealso cref="CefSharp.Wpf.IWpfWebBrowser" />
+    [TemplatePart(Name = PartImageName, Type = typeof(Image))]
+    [TemplatePart(Name = PartPopupImageName, Type = typeof(Image))]
     public class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
     {
+        private const string PartImageName = "PART_image";
+        private const string PartPopupImageName = "PART_popupImage";
+
         /// <summary>
         /// The source
         /// </summary>
@@ -1924,12 +1929,12 @@ namespace CefSharp.Wpf
             if (image == null)
             {
                 // Create main window
-                image = (Image)GetTemplateChild("PART_image");
+                image = (Image)GetTemplateChild(PartImageName);
             }
 
             if (popupImage == null)
             {
-                popupImage = (Image)GetTemplateChild("PART_popupImage");
+                popupImage = (Image)GetTemplateChild(PartPopupImageName);
             }
         }
 
