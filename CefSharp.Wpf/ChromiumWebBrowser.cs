@@ -2259,42 +2259,45 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="TouchEventArgs"/> instance containing the event data.</param>
         private void OnTouch(TouchEventArgs e)
         {
-            var modifiers = e.GetModifiers();
-            var touchPoint = e.GetTouchPoint(this);
-            var touchEventType = TouchEventType.Cancelled;
-            switch (touchPoint.Action)
+            if (!e.Handled && browser != null)
             {
-                case TouchAction.Down:
-                    touchEventType = TouchEventType.Pressed;
-                    break;
-                case TouchAction.Move:
-                    touchEventType = TouchEventType.Moved;
-                    break;
-                case TouchAction.Up:
-                    touchEventType = TouchEventType.Released;
-                    break;
-                default:
-                    touchEventType = TouchEventType.Cancelled;
-                    break;
+                var modifiers = e.GetModifiers();
+                var touchPoint = e.GetTouchPoint(this);
+                var touchEventType = TouchEventType.Cancelled;
+                switch (touchPoint.Action)
+                {
+                    case TouchAction.Down:
+                        touchEventType = TouchEventType.Pressed;
+                        break;
+                    case TouchAction.Move:
+                        touchEventType = TouchEventType.Moved;
+                        break;
+                    case TouchAction.Up:
+                        touchEventType = TouchEventType.Released;
+                        break;
+                    default:
+                        touchEventType = TouchEventType.Cancelled;
+                        break;
+                }
+
+                var touchEvent = new TouchEvent()
+                {
+                    Id = e.TouchDevice.Id,
+                    X = (float)touchPoint.Position.X,
+                    Y = (float)touchPoint.Position.Y,
+                    RadiusX = 0,
+                    RadiusY = 0,
+                    RotationAngle = 0,
+                    PointerType = PointerType.Touch,
+                    Pressure = 0,
+                    Type = touchEventType,
+                    Modifiers = modifiers,
+                };
+
+                browser.GetHost().SendTouchEvent(touchEvent);
+
+                e.Handled = true;
             }
-
-            var touchEvent = new TouchEvent()
-            {
-                Id = e.TouchDevice.Id,
-                X = (float)touchPoint.Position.X,
-                Y = (float)touchPoint.Position.Y,
-                RadiusX = 0,
-                RadiusY = 0,
-                RotationAngle = 0,
-                PointerType = PointerType.Touch,
-                Pressure = 0,
-                Type = touchEventType,
-                Modifiers = modifiers,
-            };
-
-            browser.GetHost().SendTouchEvent(touchEvent);
-
-            e.Handled = true;
         }
 
         /// <summary>
@@ -2338,7 +2341,7 @@ namespace CefSharp.Wpf
         private void OnStylus(StylusEventArgs e, TouchEventType touchEventType)
         {
             var stylusPoints = e.GetStylusPoints(this);
-            if (e.StylusDevice != null && e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus && stylusPoints.Count > 0)
+            if (!e.Handled && browser != null && e.StylusDevice != null && e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus && stylusPoints.Count > 0)
             {
                 var modifiers = e.GetModifiers();
                 var pressure = stylusPoints[0].PressureFactor;
