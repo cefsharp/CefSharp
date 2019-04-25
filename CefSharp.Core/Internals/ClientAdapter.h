@@ -101,7 +101,17 @@ namespace CefSharp
             virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefFindHandler> GetFindHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefAudioHandler> GetAudioHandler() OVERRIDE { return this; }
+            virtual DECL CefRefPtr<CefAudioHandler> GetAudioHandler() OVERRIDE
+            {
+                //Audio Mirroring in CEF is only enabled when we a handler is returned
+                //We return NULL if no handler is specified for performance reasons
+                if (_browserControl->AudioHandler == nullptr)
+                {
+                    return NULL;
+                }
+
+                return this;
+            }
             virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
 
 
