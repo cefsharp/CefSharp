@@ -39,6 +39,17 @@ namespace CefSharp.Wpf.Internals
                 modifiers |= CefEventFlags.RightMouseButton;
             }
 
+            modifiers |= GetModifierKeys(modifiers);
+
+            return modifiers;
+        }
+
+        /// <summary>
+        /// Gets keyboard modifiers.
+        /// </summary>
+        /// <returns>CefEventFlags.</returns>
+        public static CefEventFlags GetModifierKeys(CefEventFlags modifiers = 0)
+        {
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
