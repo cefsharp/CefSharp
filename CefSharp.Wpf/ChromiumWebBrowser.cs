@@ -2220,6 +2220,60 @@ namespace CefSharp.Wpf
             }
         }
 
+        protected override void OnTouchDown(TouchEventArgs e)
+        {
+            Focus();
+            OnTouch(e);
+            base.OnTouchDown(e);
+        }
+
+        protected override void OnTouchMove(TouchEventArgs e)
+        {
+            OnTouch(e);
+            base.OnTouchMove(e);
+        }
+
+        protected override void OnTouchUp(TouchEventArgs e)
+        {
+            OnTouch(e);
+            base.OnTouchUp(e);
+        }
+
+        private void OnTouch(TouchEventArgs e)
+        {
+            var tp = e.GetTouchPoint(this);
+            var te = new TouchEvent()
+            {
+                Id = e.TouchDevice.Id,
+                X = (float)tp.Position.X,
+                Y = (float)tp.Position.Y,
+                RadiusX = 0,
+                RadiusY = 0,
+                RotationAngle = 0,
+                PointerType = PointerType.Touch,
+                Pressure = 0,
+                Type = GetTouchEventType(tp.Action),
+                //Modifiers = CefEventFlags.
+            };
+
+            browser.GetHost().SendTouchEvent(te);
+
+            TouchEventType GetTouchEventType(TouchAction touchAction)
+            {
+                switch (touchAction)
+                {
+                    case TouchAction.Down:
+                        return TouchEventType.Pressed;
+                    case TouchAction.Move:
+                        return TouchEventType.Moved;
+                    case TouchAction.Up:
+                        return TouchEventType.Released;
+                    default:
+                        return TouchEventType.Cancelled;
+                }
+            }
+        }
+
         /// <summary>
         /// Loads the specified URL.
         /// </summary>
