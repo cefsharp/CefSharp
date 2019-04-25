@@ -2303,6 +2303,7 @@ namespace CefSharp.Wpf
             {
                 var modifiers = e.GetModifiers();
                 var pressure = stylusPoints[0].PressureFactor;
+                var pointerType = e.StylusDevice.Inverted ? PointerType.Eraser : PointerType.Pen;
 
                 var touchEvent = new TouchEvent()
                 {
@@ -2312,7 +2313,7 @@ namespace CefSharp.Wpf
                     RadiusX = 0,
                     RadiusY = 0,
                     RotationAngle = 0,
-                    PointerType = PointerType.Pen,
+                    PointerType = pointerType,
                     Pressure = stylusPoints[0].PressureFactor,
                     Type = touchEventType,
                     Modifiers = modifiers,
