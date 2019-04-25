@@ -2261,6 +2261,23 @@ namespace CefSharp.Wpf
         {
             var modifiers = e.GetModifiers();
             var touchPoint = e.GetTouchPoint(this);
+            var touchEventType = TouchEventType.Cancelled;
+            switch (touchPoint.Action)
+            {
+                case TouchAction.Down:
+                    touchEventType = TouchEventType.Pressed;
+                    break;
+                case TouchAction.Move:
+                    touchEventType = TouchEventType.Moved;
+                    break;
+                case TouchAction.Up:
+                    touchEventType = TouchEventType.Released;
+                    break;
+                default:
+                    touchEventType = TouchEventType.Cancelled;
+                    break;
+            }
+
             var touchEvent = new TouchEvent()
             {
                 Id = e.TouchDevice.Id,
@@ -2271,28 +2288,13 @@ namespace CefSharp.Wpf
                 RotationAngle = 0,
                 PointerType = PointerType.Touch,
                 Pressure = 0,
-                Type = GetTouchEventType(touchPoint.Action),
+                Type = touchEventType,
                 Modifiers = modifiers,
             };
 
             browser.GetHost().SendTouchEvent(touchEvent);
 
             e.Handled = true;
-
-            TouchEventType GetTouchEventType(TouchAction touchAction)
-            {
-                switch (touchAction)
-                {
-                    case TouchAction.Down:
-                        return TouchEventType.Pressed;
-                    case TouchAction.Move:
-                        return TouchEventType.Moved;
-                    case TouchAction.Up:
-                        return TouchEventType.Released;
-                    default:
-                        return TouchEventType.Cancelled;
-                }
-            }
         }
 
         /// <summary>
