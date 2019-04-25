@@ -42,7 +42,7 @@ namespace CefSharp
                 _callback->OnRegistrationComplete(r);
             }
 
-            IMPLEMENT_REFCOUNTING(CefRegisterCdmCallbackAdapter)
+            IMPLEMENT_REFCOUNTING(CefRegisterCdmCallbackAdapter);
         };
     }
 }

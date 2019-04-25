@@ -45,7 +45,7 @@ namespace CefSharp
                 }
             };
 
-            IMPLEMENT_REFCOUNTING(CefTaskWrapper)
+            IMPLEMENT_REFCOUNTING(CefTaskWrapper);
         };
     }
 }
