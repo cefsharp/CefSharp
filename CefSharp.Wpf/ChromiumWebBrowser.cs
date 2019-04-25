@@ -2277,6 +2277,53 @@ namespace CefSharp.Wpf
             }
         }
 
+        protected override void OnStylusDown(StylusDownEventArgs e)
+        {
+            Focus();
+            OnStylus(e, TouchEventType.Pressed);
+            base.OnStylusDown(e);
+        }
+
+        protected override void OnStylusMove(StylusEventArgs e)
+        {
+            OnStylus(e, TouchEventType.Moved);
+            base.OnStylusMove(e);
+        }
+
+        protected override void OnStylusUp(StylusEventArgs e)
+        {
+            OnStylus(e, TouchEventType.Released);
+            base.OnStylusUp(e);
+        }
+
+        private void OnStylus(StylusEventArgs e, TouchEventType touchEventType)
+        {
+            var stylusPoints = e.GetStylusPoints(this);
+            if (e.StylusDevice != null && e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus && stylusPoints.Count > 0)
+            {
+                var modifiers = e.GetModifiers();
+                var pressure = stylusPoints[0].PressureFactor;
+
+                var touchEvent = new TouchEvent()
+                {
+                    Id = e.StylusDevice.Id,
+                    X = (float)stylusPoints[0].X,
+                    Y = (float)stylusPoints[0].Y,
+                    RadiusX = 0,
+                    RadiusY = 0,
+                    RotationAngle = 0,
+                    PointerType = PointerType.Pen,
+                    Pressure = stylusPoints[0].PressureFactor,
+                    Type = touchEventType,
+                    Modifiers = modifiers,
+                };
+
+                browser.GetHost().SendTouchEvent(touchEvent);
+
+                e.Handled = true;
+            }
+        }
+
         /// <summary>
         /// Loads the specified URL.
         /// </summary>
