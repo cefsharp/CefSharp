@@ -2220,6 +2220,10 @@ namespace CefSharp.Wpf
             }
         }
 
+        /// <summary>
+        /// Provides class handling for the <see cref="E:System.Windows.TouchDown" /> routed event that occurs when a touch presses inside this element.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.
         protected override void OnTouchDown(TouchEventArgs e)
         {
             Focus();
@@ -2227,18 +2231,30 @@ namespace CefSharp.Wpf
             base.OnTouchDown(e);
         }
 
+        /// <summary>
+        /// Provides class handling for the <see cref="E:System.Windows.TouchMove" /> routed event that occurs when a touch moves while inside this element.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.
         protected override void OnTouchMove(TouchEventArgs e)
         {
             OnTouch(e);
             base.OnTouchMove(e);
         }
 
+        /// <summary>
+        /// Provides class handling for the <see cref="E:System.Windows.TouchUp" /> routed event that occurs when a touch is released inside this element.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.
         protected override void OnTouchUp(TouchEventArgs e)
         {
             OnTouch(e);
             base.OnTouchUp(e);
         }
 
+        /// <summary>
+        /// Handles a <see cref="E:Touch" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="TouchEventArgs"/> instance containing the event data.</param>
         private void OnTouch(TouchEventArgs e)
         {
             var modifiers = e.GetModifiers();
@@ -2277,6 +2293,10 @@ namespace CefSharp.Wpf
             }
         }
 
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.StylusDown" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.
         protected override void OnStylusDown(StylusDownEventArgs e)
         {
             Focus();
@@ -2284,18 +2304,31 @@ namespace CefSharp.Wpf
             base.OnStylusDown(e);
         }
 
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.StylusMove" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.
         protected override void OnStylusMove(StylusEventArgs e)
         {
             OnStylus(e, TouchEventType.Moved);
             base.OnStylusMove(e);
         }
 
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.StylusUp" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.
         protected override void OnStylusUp(StylusEventArgs e)
         {
             OnStylus(e, TouchEventType.Released);
             base.OnStylusUp(e);
         }
 
+        /// <summary>
+        /// Handles a <see cref="E:Stylus" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="StylusEventArgs"/> instance containing the event data.</param>
+        /// <param name="touchEventType">The <see cref="TouchEventType"/> event type</param>
         private void OnStylus(StylusEventArgs e, TouchEventType touchEventType)
         {
             var stylusPoints = e.GetStylusPoints(this);
