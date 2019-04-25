@@ -2267,17 +2267,25 @@ namespace CefSharp.Wpf
                 switch (touchPoint.Action)
                 {
                     case TouchAction.Down:
+                    {
                         touchEventType = TouchEventType.Pressed;
                         break;
+                    }
                     case TouchAction.Move:
+                    {
                         touchEventType = TouchEventType.Moved;
                         break;
+                    }
                     case TouchAction.Up:
+                    {
                         touchEventType = TouchEventType.Released;
                         break;
+                    }
                     default:
+                    {
                         touchEventType = TouchEventType.Cancelled;
                         break;
+                    }
                 }
 
                 var touchEvent = new TouchEvent()
