@@ -2227,6 +2227,7 @@ namespace CefSharp.Wpf
         protected override void OnTouchDown(TouchEventArgs e)
         {
             Focus();
+            CaptureTouch(e.TouchDevice);
             OnTouch(e);
             base.OnTouchDown(e);
         }
@@ -2247,6 +2248,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.
         protected override void OnTouchUp(TouchEventArgs e)
         {
+            ReleaseTouchCapture(e.TouchDevice);
             OnTouch(e);
             base.OnTouchUp(e);
         }
@@ -2300,6 +2302,7 @@ namespace CefSharp.Wpf
         protected override void OnStylusDown(StylusDownEventArgs e)
         {
             Focus();
+            CaptureStylus();
             OnStylus(e, TouchEventType.Pressed);
             base.OnStylusDown(e);
         }
@@ -2320,6 +2323,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.
         protected override void OnStylusUp(StylusEventArgs e)
         {
+            ReleaseStylusCapture();
             OnStylus(e, TouchEventType.Released);
             base.OnStylusUp(e);
         }
