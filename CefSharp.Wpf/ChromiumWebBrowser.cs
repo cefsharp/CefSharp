@@ -2241,22 +2241,22 @@ namespace CefSharp.Wpf
 
         private void OnTouch(TouchEventArgs e)
         {
-            var tp = e.GetTouchPoint(this);
-            var te = new TouchEvent()
+            var touchPoint = e.GetTouchPoint(this);
+            var touchEvent = new TouchEvent()
             {
                 Id = e.TouchDevice.Id,
-                X = (float)tp.Position.X,
-                Y = (float)tp.Position.Y,
+                X = (float)touchPoint.Position.X,
+                Y = (float)touchPoint.Position.Y,
                 RadiusX = 0,
                 RadiusY = 0,
                 RotationAngle = 0,
                 PointerType = PointerType.Touch,
                 Pressure = 0,
-                Type = GetTouchEventType(tp.Action),
+                Type = GetTouchEventType(touchPoint.Action),
                 //Modifiers = CefEventFlags.
             };
 
-            browser.GetHost().SendTouchEvent(te);
+            browser.GetHost().SendTouchEvent(touchEvent);
 
             TouchEventType GetTouchEventType(TouchAction touchAction)
             {
