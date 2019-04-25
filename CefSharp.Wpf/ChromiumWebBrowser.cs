@@ -2261,7 +2261,7 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled && browser != null)
             {
-                var modifiers = e.GetModifiers();
+                var modifiers = WpfExtensions.GetModifierKeys();
                 var touchPoint = e.GetTouchPoint(this);
                 var touchEventType = TouchEventType.Cancelled;
                 switch (touchPoint.Action)
@@ -2343,7 +2343,7 @@ namespace CefSharp.Wpf
             var stylusPoints = e.GetStylusPoints(this);
             if (!e.Handled && browser != null && e.StylusDevice != null && e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus && stylusPoints.Count > 0)
             {
-                var modifiers = e.GetModifiers();
+                var modifiers = WpfExtensions.GetModifierKeys();
                 var pressure = stylusPoints[0].PressureFactor;
                 var pointerType = e.StylusDevice.Inverted ? PointerType.Eraser : PointerType.Pen;
 

@@ -39,90 +39,17 @@ namespace CefSharp.Wpf.Internals
                 modifiers |= CefEventFlags.RightMouseButton;
             }
 
-            if (Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightCtrl))
-            {
-                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
-            }
-
-            if (Keyboard.IsKeyDown(Key.LeftShift))
-            {
-                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightShift))
-            {
-                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsRight;
-            }
-
-            if (Keyboard.IsKeyDown(Key.LeftAlt))
-            {
-                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightAlt))
-            {
-                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsRight;
-            }
+            modifiers |= GetModifierKeys(modifiers);
 
             return modifiers;
         }
 
         /// <summary>
-        /// Gets the modifiers.
+        /// Gets keyboard modifiers.
         /// </summary>
-        /// <param name="e">The <see cref="TouchEventArgs"/> instance containing the event data.</param>
         /// <returns>CefEventFlags.</returns>
-        public static CefEventFlags GetModifiers(this TouchEventArgs e)
+        public static CefEventFlags GetModifierKeys(CefEventFlags modifiers = 0)
         {
-            CefEventFlags modifiers = 0;
-
-            if (Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightCtrl))
-            {
-                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
-            }
-
-            if (Keyboard.IsKeyDown(Key.LeftShift))
-            {
-                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightShift))
-            {
-                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsRight;
-            }
-
-            if (Keyboard.IsKeyDown(Key.LeftAlt))
-            {
-                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightAlt))
-            {
-                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsRight;
-            }
-
-            return modifiers;
-        }
-
-        /// <summary>
-        /// Gets the modifiers.
-        /// </summary>
-        /// <param name="e">The <see cref="StylusEventArgs"/> instance containing the event data.</param>
-        /// <returns>CefEventFlags.</returns>
-        public static CefEventFlags GetModifiers(this StylusEventArgs e)
-        {
-            CefEventFlags modifiers = 0;
-
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
