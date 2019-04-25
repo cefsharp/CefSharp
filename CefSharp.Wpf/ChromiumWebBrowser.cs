@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
 using CefSharp.Enums;
 using CefSharp.Internals;
@@ -559,7 +562,7 @@ namespace CefSharp.Wpf
             browserSettings = new BrowserSettings(frameworkCreated: true);
             RenderHandler = new InteropBitmapRenderHandler();
 
-            WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            WpfKeyboardHandler = new WpfIMEKeyboardHandler(this);
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
@@ -958,9 +961,48 @@ namespace CefSharp.Wpf
             }
         }
 
+        private Visual GetParentWindow()
+        {
+            var current = VisualTreeHelper.GetParent(this);
+            while (current != null && !(current is Window))
+            {
+                current = VisualTreeHelper.GetParent(current);
+            }
+
+            return current as Window;
+        }
+
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
-            OnImeCompositionRangeChanged(selectedRange, characterBounds);
+            var imeKeyboardHandler = WpfKeyboardHandler as WpfIMEKeyboardHandler;
+            if (imeKeyboardHandler.IsActive)
+            {
+                var screenInfo = GetScreenInfo();
+                var scaleFactor = screenInfo.HasValue ? screenInfo.Value.DeviceScaleFactor : 1.0f;
+
+                // Needs to be executed in 'source' window thread (imeKeyboardHandler subclassed 'source' in 'setup' function).
+                UiThreadRunSync(() =>
+                {
+                    var parentWindow = GetParentWindow();
+                    if (parentWindow != null)
+                    {
+                        var point = TransformToAncestor(parentWindow).Transform(new Point(0, 0));
+
+                        var rects = new List<Structs.Rect>();
+
+                        foreach (var item in characterBounds)
+                        {
+                            rects.Add(new Structs.Rect(
+                                (int)((point.X + item.X) * scaleFactor),
+                                (int)((point.Y + item.Y) * scaleFactor),
+                                (int)(item.Width * scaleFactor),
+                                (int)(item.Height * scaleFactor)));
+                        }
+
+                        imeKeyboardHandler.ChangeCompositionRange(selectedRange, rects);
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -2140,6 +2182,12 @@ namespace CefSharp.Wpf
         /// This event data reports details about the mouse button that was pressed and the handled state.</param>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
+            var wpfKeyboardHandler = WpfKeyboardHandler as WpfIMEKeyboardHandler;
+            if (wpfKeyboardHandler != null)
+            {
+                wpfKeyboardHandler.CloseIMEComposition();
+            }
+
             Focus();
             OnMouseButton(e);
 
