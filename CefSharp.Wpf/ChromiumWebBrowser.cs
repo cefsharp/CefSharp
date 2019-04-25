@@ -2353,7 +2353,7 @@ namespace CefSharp.Wpf
                     RadiusY = 0,
                     RotationAngle = 0,
                     PointerType = pointerType,
-                    Pressure = stylusPoints[0].PressureFactor,
+                    Pressure = pressure,
                     Type = touchEventType,
                     Modifiers = modifiers,
                 };
