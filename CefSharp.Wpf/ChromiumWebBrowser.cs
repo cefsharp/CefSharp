@@ -2229,6 +2229,8 @@ namespace CefSharp.Wpf
         protected override void OnTouchDown(TouchEventArgs e)
         {
             Focus();
+            // Capture touch so touch events are still pushed to CEF even if the touch leaves the control before a TouchUp.
+            // This behavior is similar to how other browsers handle touch input.
             CaptureTouch(e.TouchDevice);
             OnTouch(e);
             base.OnTouchDown(e);
@@ -2313,6 +2315,8 @@ namespace CefSharp.Wpf
         protected override void OnStylusDown(StylusDownEventArgs e)
         {
             Focus();
+            // Capture stylus so stylus events are still pushed to CEF even if the stylus leaves the control before a StylusUp.
+            // This behavior is similar to how other browsers handle stylus input.
             CaptureStylus();
             OnStylus(e, TouchEventType.Pressed);
             base.OnStylusDown(e);
