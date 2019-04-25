@@ -90,8 +90,19 @@ namespace CefSharp
             }
 
             auto browser = GetBrowser();
+            if (browser == nullptr)
+            {
+                return false;
+            }
 
-            return browser != nullptr;
+            //If the frame Id is still valid then we can attemp to execute the callback
+            auto frame = browser->GetFrame(_callback->FrameId);
+            if (frame == nullptr)
+            {
+                return false;
+            }
+
+            return frame->IsValid;
         }
 
         void JavascriptCallbackProxy::DisposedGuard()
