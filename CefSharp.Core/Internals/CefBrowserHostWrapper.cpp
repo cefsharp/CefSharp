@@ -413,6 +413,58 @@ void CefBrowserHostWrapper::ImeCommitText(String^ text, Nullable<Range> replacem
     _browserHost->ImeCommitText(StringUtils::ToNative(text), repRange, relativeCursorPos);
 }
 
+
+void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> selectionRange)
+{
+    ThrowIfDisposed();
+
+    std::vector<CefCompositionUnderline> underlinesVector = std::vector<CefCompositionUnderline>();
+    CefRange range;
+
+    if (underlines != nullptr && underlines->Length > 0)
+    {
+        for each (CompositionUnderline underline in underlines)
+        {
+            auto c = CefCompositionUnderline();
+            c.range = CefRange(underline.Range.From, underline.Range.To);
+            c.color = underline.Color;
+            c.background_color = underline.BackgroundColor;
+            c.thick = (int)underline.Thick;
+            underlinesVector.push_back(c);
+        }
+    }
+
+    if (selectionRange.HasValue)
+    {
+        range = CefRange(selectionRange.Value.From, selectionRange.Value.To);
+    }
+
+    //Replacement Range is Mac OSX only
+    _browserHost->ImeSetComposition(StringUtils::ToNative(text), underlinesVector, CefRange(UINT32_MAX, UINT32_MAX), range);
+}
+
+
+void CefBrowserHostWrapper::ImeSetComposition(const CefString& text, const std::vector<CefCompositionUnderline>& underlines, const CefRange& replacement_range, const CefRange& selection_range)
+{
+    ThrowIfDisposed();
+    _browserHost->ImeSetComposition(text, underlines, replacement_range, selection_range);
+}
+
+
+void CefBrowserHostWrapper::ImeCommitText(String^ text)
+{
+    ThrowIfDisposed();
+
+    //Range and cursor position are Mac OSX only
+    _browserHost->ImeCommitText(StringUtils::ToNative(text), CefRange(UINT32_MAX, UINT32_MAX), 0);
+}
+
+void CefBrowserHostWrapper::ImeCommitText(const CefString& text, const CefRange& replacement_range, int relative_cursor_pos)
+{
+    ThrowIfDisposed();
+    _browserHost->ImeCommitText(text, replacement_range, relative_cursor_pos);
+}
+
 void CefBrowserHostWrapper::ImeFinishComposingText(bool keepSelection)
 {
     ThrowIfDisposed();
@@ -606,66 +658,66 @@ int CefBrowserHostWrapper::GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam)
 
     switch (wparam)
     {
-    case VK_RETURN:
-        if ((lparam >> 16) & KF_EXTENDED)
+        case VK_RETURN:
+            if ((lparam >> 16) & KF_EXTENDED)
+                modifiers |= EVENTFLAG_IS_KEY_PAD;
+            break;
+        case VK_INSERT:
+        case VK_DELETE:
+        case VK_HOME:
+        case VK_END:
+        case VK_PRIOR:
+        case VK_NEXT:
+        case VK_UP:
+        case VK_DOWN:
+        case VK_LEFT:
+        case VK_RIGHT:
+            if (!((lparam >> 16) & KF_EXTENDED))
+                modifiers |= EVENTFLAG_IS_KEY_PAD;
+            break;
+        case VK_NUMLOCK:
+        case VK_NUMPAD0:
+        case VK_NUMPAD1:
+        case VK_NUMPAD2:
+        case VK_NUMPAD3:
+        case VK_NUMPAD4:
+        case VK_NUMPAD5:
+        case VK_NUMPAD6:
+        case VK_NUMPAD7:
+        case VK_NUMPAD8:
+        case VK_NUMPAD9:
+        case VK_DIVIDE:
+        case VK_MULTIPLY:
+        case VK_SUBTRACT:
+        case VK_ADD:
+        case VK_DECIMAL:
+        case VK_CLEAR:
             modifiers |= EVENTFLAG_IS_KEY_PAD;
-        break;
-    case VK_INSERT:
-    case VK_DELETE:
-    case VK_HOME:
-    case VK_END:
-    case VK_PRIOR:
-    case VK_NEXT:
-    case VK_UP:
-    case VK_DOWN:
-    case VK_LEFT:
-    case VK_RIGHT:
-        if (!((lparam >> 16) & KF_EXTENDED))
-            modifiers |= EVENTFLAG_IS_KEY_PAD;
-        break;
-    case VK_NUMLOCK:
-    case VK_NUMPAD0:
-    case VK_NUMPAD1:
-    case VK_NUMPAD2:
-    case VK_NUMPAD3:
-    case VK_NUMPAD4:
-    case VK_NUMPAD5:
-    case VK_NUMPAD6:
-    case VK_NUMPAD7:
-    case VK_NUMPAD8:
-    case VK_NUMPAD9:
-    case VK_DIVIDE:
-    case VK_MULTIPLY:
-    case VK_SUBTRACT:
-    case VK_ADD:
-    case VK_DECIMAL:
-    case VK_CLEAR:
-        modifiers |= EVENTFLAG_IS_KEY_PAD;
-        break;
-    case VK_SHIFT:
-        if (IsKeyDown(VK_LSHIFT))
+            break;
+        case VK_SHIFT:
+            if (IsKeyDown(VK_LSHIFT))
+                modifiers |= EVENTFLAG_IS_LEFT;
+            else if (IsKeyDown(VK_RSHIFT))
+                modifiers |= EVENTFLAG_IS_RIGHT;
+            break;
+        case VK_CONTROL:
+            if (IsKeyDown(VK_LCONTROL))
+                modifiers |= EVENTFLAG_IS_LEFT;
+            else if (IsKeyDown(VK_RCONTROL))
+                modifiers |= EVENTFLAG_IS_RIGHT;
+            break;
+        case VK_MENU:
+            if (IsKeyDown(VK_LMENU))
+                modifiers |= EVENTFLAG_IS_LEFT;
+            else if (IsKeyDown(VK_RMENU))
+                modifiers |= EVENTFLAG_IS_RIGHT;
+            break;
+        case VK_LWIN:
             modifiers |= EVENTFLAG_IS_LEFT;
-        else if (IsKeyDown(VK_RSHIFT))
+            break;
+        case VK_RWIN:
             modifiers |= EVENTFLAG_IS_RIGHT;
-        break;
-    case VK_CONTROL:
-        if (IsKeyDown(VK_LCONTROL))
-            modifiers |= EVENTFLAG_IS_LEFT;
-        else if (IsKeyDown(VK_RCONTROL))
-            modifiers |= EVENTFLAG_IS_RIGHT;
-        break;
-    case VK_MENU:
-        if (IsKeyDown(VK_LMENU))
-            modifiers |= EVENTFLAG_IS_LEFT;
-        else if (IsKeyDown(VK_RMENU))
-            modifiers |= EVENTFLAG_IS_RIGHT;
-        break;
-    case VK_LWIN:
-        modifiers |= EVENTFLAG_IS_LEFT;
-        break;
-    case VK_RWIN:
-        modifiers |= EVENTFLAG_IS_RIGHT;
-        break;
+            break;
     }
     return modifiers;
 }
