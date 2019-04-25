@@ -2191,6 +2191,8 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
         private void OnMouseButton(MouseButtonEventArgs e)
         {
+            // For mouse events from an actual mouse, e.StylusDevice will be null. For mouse events from touch and stylus, e.StylusDevice will not be null.
+            // If we don't check if e.StylusDevice == null, touch scrolls will also select text.
             if (!e.Handled && e.StylusDevice == null && browser != null)
             {
                 var modifiers = e.GetModifiers();
