@@ -2259,6 +2259,8 @@ namespace CefSharp.Wpf
 
             browser.GetHost().SendTouchEvent(touchEvent);
 
+            e.Handled = true;
+
             TouchEventType GetTouchEventType(TouchAction touchAction)
             {
                 switch (touchAction)
