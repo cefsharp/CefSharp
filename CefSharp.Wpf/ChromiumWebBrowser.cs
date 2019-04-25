@@ -2241,6 +2241,7 @@ namespace CefSharp.Wpf
 
         private void OnTouch(TouchEventArgs e)
         {
+            var modifiers = e.GetModifiers();
             var touchPoint = e.GetTouchPoint(this);
             var touchEvent = new TouchEvent()
             {
@@ -2253,7 +2254,7 @@ namespace CefSharp.Wpf
                 PointerType = PointerType.Touch,
                 Pressure = 0,
                 Type = GetTouchEventType(touchPoint.Action),
-                //Modifiers = CefEventFlags.
+                Modifiers = modifiers,
             };
 
             browser.GetHost().SendTouchEvent(touchEvent);
