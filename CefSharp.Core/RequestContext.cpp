@@ -167,19 +167,6 @@ namespace CefSharp
         return callback->Task;
     }
 
-    CefErrorCode RequestContext::ResolveHostCached(Uri^ origin, [Out] IList<String^>^ %resolvedIpAddresses)
-    {
-        ThrowIfDisposed();
-
-        std::vector<CefString> addresses;
-
-        auto errorCode = _requestContext->ResolveHostCached(StringUtils::ToNative(origin->AbsoluteUri), addresses);
-
-        resolvedIpAddresses = StringUtils::ToClr(addresses);
-
-        return (CefErrorCode)errorCode;
-    }
-
     bool RequestContext::DidLoadExtension(String^ extensionId)
     {
         ThrowIfDisposed();
