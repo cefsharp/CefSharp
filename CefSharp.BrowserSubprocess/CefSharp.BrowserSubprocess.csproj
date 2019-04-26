@@ -110,14 +110,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\CefSharp.props" />
   <PropertyGroup>
-    <PostBuildEvent>if $(PlatformName) == x86 (
-  "$(DevEnvDir)..\..\VC\bin\editbin" /largeaddressaware /TSAWARE "$(TargetPath)"
-  call "$(DevEnvDir)..\Tools\vsvars32.bat"
-  sn -R "$(TargetPath)" "$(ProjectDir)..\CefSharp.snk"
-) else (
-  "$(DevEnvDir)..\..\VC\bin\amd64\editbin" /TSAWARE "$(TargetPath)"
-)</PostBuildEvent>
+    <PostBuildEvent>$(CefSharpBrowserSubprocessPostBuildEvent)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
