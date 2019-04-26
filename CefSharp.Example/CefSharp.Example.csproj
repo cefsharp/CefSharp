@@ -85,6 +85,7 @@
     <Compile Include="Filters\PassThruResponseFilter.cs" />
     <Compile Include="Handlers\BrowserProcessHandler.cs" />
     <Compile Include="InMemorySchemeAndResourceHandlerFactory.cs" />
+    <Compile Include="JavascriptBinding\JavascriptCallbackBoundObject.cs" />
     <Compile Include="JavascriptBinding\JsSerializableClass.cs" />
     <Compile Include="JavascriptBinding\JsSerializableStruct.cs" />
     <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
@@ -153,6 +154,7 @@
     <Content Include="Resources\assets\js\shCore.js" />
     <Content Include="Resources\BindingTestSingle.html" />
     <Content Include="Resources\DragDropCursorsTest.html" />
+    <Content Include="Resources\JavascriptCallbackTest.html" />
     <Content Include="Resources\LegacyBindingTest.html" />
     <Content Include="Resources\CdmSupportTest.html" />
     <Content Include="Resources\CssAnimation.html" />

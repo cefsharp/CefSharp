@@ -37,11 +37,11 @@ namespace CefSharp
     public:
         static const CefString kPromiseCreatorScript;
 
-        CefAppUnmanagedWrapper(IRenderProcessHandler^ handler, List<CefCustomScheme^>^ schemes, bool enableFocusedNodeChanged, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
+        CefAppUnmanagedWrapper(IRenderProcessHandler^ handler, List<CefCustomScheme^>^ schemes, bool enableFocusedNodeChanged, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestroyed)
         {
             _handler = handler;
             _onBrowserCreated = onBrowserCreated;
-            _onBrowserDestroyed = onBrowserDestoryed;
+            _onBrowserDestroyed = onBrowserDestroyed;
             _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
             _extensions = gcnew List<V8Extension^>();
             _schemes = schemes;
