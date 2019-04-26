@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -19,8 +19,8 @@ namespace CefSharp
                 MCefRefPtr<JavascriptAsyncMethodHandler> _javascriptMethodHandler;
 
             public:
-                JavascriptAsyncMethodWrapper(int64 ownerId, JavascriptCallbackRegistry^ callbackRegistry, CefRefPtr<CefV8Value> promiseCreator, Func<JavascriptAsyncMethodCallback^, int64>^ methodCallbackSave)
-                    : _javascriptMethodHandler(new JavascriptAsyncMethodHandler(ownerId, callbackRegistry, promiseCreator, methodCallbackSave))
+                JavascriptAsyncMethodWrapper(int64 ownerId, JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64>^ methodCallbackSave)
+                    : _javascriptMethodHandler(new JavascriptAsyncMethodHandler(ownerId, callbackRegistry, methodCallbackSave))
                 {
 
                 }

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 #pragma once
@@ -22,16 +22,16 @@ using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
-    const CefString CefAppUnmanagedWrapper::kPromiseCreatorFunction = "cefsharp_CreatePromise";
     const CefString CefAppUnmanagedWrapper::kPromiseCreatorScript = ""
-        "function cefsharp_CreatePromise() {"
+        "(function()"
+        "{"
         "   var result = {};"
         "   var promise = new Promise(function(resolve, reject) {"
         "       result.res = resolve; result.rej = reject;"
         "   });"
         "   result.p = promise;"
         "   return result;"
-        "}";
+        "})();";
 
     CefRefPtr<CefRenderProcessHandler> CefAppUnmanagedWrapper::GetRenderProcessHandler()
     {
@@ -114,7 +114,7 @@ namespace CefSharp
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
-        
+
         JavascriptRootObjectWrapper^ wrapper;
         if (rootObjectWrappers->TryRemove(frame->GetIdentifier(), wrapper))
         {
@@ -227,7 +227,7 @@ namespace CefSharp
 
             return true;
         }
-    
+
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -254,7 +254,7 @@ namespace CefSharp
 
                 JavascriptRootObjectWrapper^ rootObjectWrapper;
                 browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
-                
+
                 //NOTE: In the rare case when when OnContextCreated hasn't been called we need to manually create the rootObjectWrapper
                 //It appears that OnContextCreated is only called for pages that have javascript on them, which makes sense
                 //as without javascript there is no need for a context.
@@ -275,14 +275,14 @@ namespace CefSharp
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-                    
+
                     if (context.get() && context->Enter())
                     {
                         try
                         {
                             CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, scriptUrl, startLine, result, exception);
-                            
+
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
@@ -331,14 +331,14 @@ namespace CefSharp
                     {
                         auto context = callbackWrapper->GetContext();
                         auto value = callbackWrapper->GetValue();
-                
+
                         if (context.get() && context->Enter())
                         {
                             try
                             {
                                 auto parameterList = argList->GetList(3);
                                 CefV8ValueList params;
-                                
+
                                 //Needs to be called within the context as for Dictionary (mapped to struct)
                                 //a V8Object will be created
                                 for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
@@ -348,7 +348,7 @@ namespace CefSharp
 
                                 result = value->ExecuteFunction(nullptr, params);
                                 success = result.get() != nullptr;
-                        
+
                                 //we need to do this here to be able to store the v8context
                                 if (success)
                                 {
@@ -418,7 +418,7 @@ namespace CefSharp
                 if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
                 {
 
-                    try 
+                    try
                     {
                         auto frame = browser->GetFrame(frameId);
                         if (frame.get())
@@ -484,9 +484,6 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnWebKitInitialized()
     {
-        //we need to do this because the builtin Promise object is not accesible
-        CefRegisterExtension("cefsharp/promisecreator", kPromiseCreatorScript, NULL);
-
         for each(CefExtension^ extension in _extensions->AsReadOnly())
         {
             //only support extensions without handlers now

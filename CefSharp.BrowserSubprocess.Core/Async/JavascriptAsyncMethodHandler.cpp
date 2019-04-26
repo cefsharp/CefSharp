@@ -1,9 +1,10 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "stdafx.h"
 #include "JavascriptAsyncMethodHandler.h"
+#include "CefAppUnmanagedWrapper.h"
 #include "../CefSharp.Core/Internals/Messaging/Messages.h"
 #include "../CefSharp.Core/Internals/Serialization/Primitives.h"
 #include "Serialization/V8Serialization.h"
@@ -21,8 +22,18 @@ namespace CefSharp
             {
                 auto context = CefV8Context::GetCurrentContext();
                 auto browser = context->GetBrowser();
+
+                CefRefPtr<CefV8Value> promiseData;
+                CefRefPtr<CefV8Exception> promiseException;
+
                 //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
-                auto promiseData = _promiseCreator->ExecuteFunctionWithContext(context, nullptr, CefV8ValueList());
+                if (!context->Eval(CefAppUnmanagedWrapper::kPromiseCreatorScript, CefString(), 0, promiseData, promiseException))
+                {
+                    exception = promiseException->GetMessage();
+
+                    return true;
+                }
+
                 retval = promiseData->GetValue("p");
 
                 auto resolve = promiseData->GetValue("res");

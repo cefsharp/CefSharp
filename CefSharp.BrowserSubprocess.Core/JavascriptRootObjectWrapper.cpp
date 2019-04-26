@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -37,11 +37,10 @@ namespace CefSharp
         {
             auto memberObjects = asyncRootObject->MemberObjects;
             auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
-            auto promiseCreator = v8Value->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
                 auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_callbackRegistry, saveMethod);
-                wrapperObject->Bind(obj, v8Value, promiseCreator);
+                wrapperObject->Bind(obj, v8Value);
 
                 _wrappedAsyncObjects->Add(wrapperObject);
             }
