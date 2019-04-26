@@ -1016,7 +1016,7 @@ namespace CefSharp
             if (!browser.IsBrowserInitialized)
             {
                 throw new Exception("Browser is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
-                                    "the IsBrowserInitialized property to determine when the browser has been intialized.");
+                                    "the IsBrowserInitialized property to determine when the browser has been initialized.");
             }
         }
 
