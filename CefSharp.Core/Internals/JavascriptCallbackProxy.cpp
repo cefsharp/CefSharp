@@ -96,6 +96,8 @@ namespace CefSharp
             }
 
             //If the frame Id is still valid then we can attemp to execute the callback
+            //NOTE: Currently it appears that the same FrameId is reused until a render process
+            //switch occurs, when a new frame Id is allocated.
             auto frame = browser->GetFrame(_callback->FrameId);
             if (frame == nullptr)
             {

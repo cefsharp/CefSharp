@@ -119,6 +119,9 @@
     <Compile Include="Handlers\RequestContextHandler.cs" />
     <Compile Include="Handlers\WpfBrowserProcessHandler.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="JavascriptCallbackMainWindow.xaml.cs">
+      <DependentUpon>JavascriptCallbackMainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TouchKeyboardWin10MainWindow.xaml.cs">
       <DependentUpon>TouchKeyboardWin10MainWindow.xaml</DependentUpon>
     </Compile>
@@ -144,6 +147,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="JavascriptCallbackMainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TouchKeyboardWin10MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
