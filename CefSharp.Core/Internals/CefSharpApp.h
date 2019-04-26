@@ -200,6 +200,6 @@ namespace CefSharp
             extraInfo->SetList(0, extensionList);
         }
 
-        IMPLEMENT_REFCOUNTING(CefSharpApp)
+        IMPLEMENT_REFCOUNTING(CefSharpApp);
     };
 }

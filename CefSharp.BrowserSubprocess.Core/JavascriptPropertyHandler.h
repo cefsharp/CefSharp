@@ -60,6 +60,6 @@ namespace CefSharp
             return true;
         }
 
-        IMPLEMENT_REFCOUNTING(JavascriptPropertyHandler)
+        IMPLEMENT_REFCOUNTING(JavascriptPropertyHandler);
     };
 }
