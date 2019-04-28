@@ -21,7 +21,6 @@ using CefSharp.Structs;
 using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
-using CefSharp.Wpf.IME;
 using CursorType = CefSharp.Enums.CursorType;
 using Point = System.Windows.Point;
 using Rect = CefSharp.Structs.Rect;
@@ -563,7 +562,7 @@ namespace CefSharp.Wpf
             browserSettings = new BrowserSettings(frameworkCreated: true);
             RenderHandler = new InteropBitmapRenderHandler();
 
-            WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            WpfKeyboardHandler = new WpfIMEKeyboardHandler(this);
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
@@ -707,10 +706,10 @@ namespace CefSharp.Wpf
             Cef.RemoveDisposable(this);
         }
 
-/// <summary>
-/// Gets the ScreenInfo - currently used to get the DPI scale factor.
-/// </summary>
-/// <returns>ScreenInfo containing the current DPI scale factor</returns>
+        /// <summary>
+        /// Gets the ScreenInfo - currently used to get the DPI scale factor.
+        /// </summary>
+        /// <returns>ScreenInfo containing the current DPI scale factor</returns>
         ScreenInfo? IRenderWebBrowser.GetScreenInfo()
         {
             return GetScreenInfo();
@@ -975,17 +974,16 @@ namespace CefSharp.Wpf
                 return current as Window;
             }
 
-            var imeKeyboardHandler = WpfKeyboardHandler as WpfKeyboardHandler;
+            var imeKeyboardHandler = WpfKeyboardHandler as WpfIMEKeyboardHandler;
             if (imeKeyboardHandler.IsActive)
             {
                 var screenInfo = GetScreenInfo();
                 var scaleFactor = screenInfo.HasValue ? screenInfo.Value.DeviceScaleFactor : 1.0f;
 
+                // Needs to be executed in 'source' window thread (imeKeyboardHandler subclassed 'source' in 'setup' function).
                 UiThreadRunSync(() =>
                 {
                     var parentWindow = GetParentWindow();
-                    Point pnt = parentWindow.PointToScreen(new Point(0, 0));
-
                     if (parentWindow != null)
                     {
                         var point = TransformToAncestor(parentWindow).Transform(new Point(0, 0));
@@ -2184,7 +2182,7 @@ namespace CefSharp.Wpf
         /// This event data reports details about the mouse button that was pressed and the handled state.</param>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            var wpfKeyboardHandler = WpfKeyboardHandler as WpfKeyboardHandler;
+            var wpfKeyboardHandler = WpfKeyboardHandler as WpfIMEKeyboardHandler;
             if (wpfKeyboardHandler != null)
             {
                 wpfKeyboardHandler.CloseIMEComposition();

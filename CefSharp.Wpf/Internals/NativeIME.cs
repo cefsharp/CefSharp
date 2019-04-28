@@ -1,32 +1,15 @@
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace CefSharp.Wpf.IME
+namespace CefSharp.Wpf.Internals
 {
     public static class NativeIME
     {
-        public const int WM_INPUTLANGCHANGE = 0x51;
-        public const int WM_KEYDOWN = 0x0100;
-        public const int WM_KEYUP = 0x101;
-        public const int WM_CHAR = 0x102;
-        public const int WM_SYSKEYDOWN = 0x0104;
-        public const int WM_SYSKEYUP = 0x105;
-        public const int WM_IME_STARTCOMPOSITION = 0x10D;
-        public const int WM_IME_ENDCOMPOSITION = 0x10E;
-        public const int WM_IME_COMPOSITION = 0x10F;
-        public const int WM_IME_SETCONTEXT = 0x281;
-        public const int WM_IME_NOTIFY = 0x282;
-        public const int WM_IME_CONTROL = 0x283;
-        public const int WM_IME_COMPOSITIONFULL = 0x284;
-        public const int WM_IME_SELECT = 0x285;
-        public const int WM_IME_CHAR = 0x286;
-        public const int WM_IME_REQUEST = 0x0288;
-        public const int WM_IME_KEYDOWN = 0x290;
-        public const int WM_IME_KEYUP = 0x291;
-        public const int WM_SYSCHAR = 0x0106;
-
-
         internal const uint GCS_RESULTSTR = 0x0800;
         internal const uint GCS_COMPSTR = 0x0008;
         internal const uint GCS_COMPATTR = 0x0010;
