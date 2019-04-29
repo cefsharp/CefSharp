@@ -961,19 +961,19 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
+        private Visual GetParentWindow()
         {
-            Visual GetParentWindow()
+            var current = VisualTreeHelper.GetParent(this);
+            while (current != null && !(current is Window))
             {
-                var current = VisualTreeHelper.GetParent(this);
-                while (current != null && !(current is Window))
-                {
-                    current = VisualTreeHelper.GetParent(current);
-                }
-
-                return current as Window;
+                current = VisualTreeHelper.GetParent(current);
             }
 
+            return current as Window;
+        }
+
+        void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
+        {
             var imeKeyboardHandler = WpfKeyboardHandler as WpfIMEKeyboardHandler;
             if (imeKeyboardHandler.IsActive)
             {
