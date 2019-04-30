@@ -35,8 +35,8 @@ namespace CefSharp.Wpf
     [TemplatePart(Name = PartPopupImageName, Type = typeof(Image))]
     public class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
     {
-        private const string PartImageName = "PART_image";
-        private const string PartPopupImageName = "PART_popupImage";
+        public const string PartImageName = "PART_image";
+        public const string PartPopupImageName = "PART_popupImage";
 
         /// <summary>
         /// The source
