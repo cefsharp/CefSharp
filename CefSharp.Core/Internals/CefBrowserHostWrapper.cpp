@@ -413,19 +413,6 @@ void CefBrowserHostWrapper::ImeCommitText(String^ text, Nullable<Range> replacem
     _browserHost->ImeCommitText(StringUtils::ToNative(text), repRange, relativeCursorPos);
 }
 
-
-void CefBrowserHostWrapper::ImeSetComposition(const CefString& text, const std::vector<CefCompositionUnderline>& underlines, const CefRange& replacement_range, const CefRange& selection_range)
-{
-    ThrowIfDisposed();
-    _browserHost->ImeSetComposition(text, underlines, replacement_range, selection_range);
-}
-
-void CefBrowserHostWrapper::ImeCommitText(const CefString& text, const CefRange& replacement_range, int relative_cursor_pos)
-{
-    ThrowIfDisposed();
-    _browserHost->ImeCommitText(text, replacement_range, relative_cursor_pos);
-}
-
 void CefBrowserHostWrapper::ImeFinishComposingText(bool keepSelection)
 {
     ThrowIfDisposed();

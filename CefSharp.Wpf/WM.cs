@@ -50,6 +50,13 @@ namespace CefSharp.Wpf
         SYSCHAR = 0x0106,
 
         /// <summary>
+        /// The WM_LBUTTONDOWN message is posted when the user presses the left mouse button while the cursor is in the client
+        /// area of a window. If the mouse is not captured, the message is posted to the window beneath the cursor.
+        /// Otherwise, the message is posted to the window that has captured the mouse.
+        /// </summary>
+        LBUTTONDOWN = 0x0201,
+
+        /// <summary>
         /// Sent to an application when the IME gets a character of the conversion result. A window receives this message through
         /// its WindowProc function. 
         /// </summary>
@@ -76,5 +83,5 @@ namespace CefSharp.Wpf
         /// Sent to an application when a window is activated. A window receives this message through its WindowProc function.
         /// </summary>
         IME_SETCONTEXT = 0x281,
-}
+    }
 }

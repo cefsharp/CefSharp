@@ -4,12 +4,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Threading;
+using Point = System.Windows.Point;
 using CefSharp;
 using CefSharp.Structs;
 using CefSharp.Wpf;
 using CefSharp.Wpf.Internals;
+using Rect = CefSharp.Structs.Rect;
 
 namespace CefSharp.Wpf.Internals
 {
@@ -23,20 +29,32 @@ namespace CefSharp.Wpf.Internals
         private HwndSourceHook sourceHook;
         private bool hasIMEComposition;
 
-        public void CloseIMEComposition()
-        {
-            if (hasIMEComposition)
-            {
-                // Set focus to 0, which destroys IME suggestions window.
-                NativeIME.SetFocus(IntPtr.Zero);
-                // Restore focus.
-                NativeIME.SetFocus(source.Handle);
-            }
-        }
-
         internal bool IsActive { get; set; }
 
-        public WpfIMEKeyboardHandler(ChromiumWebBrowser owner): base(owner) {}
+        public WpfIMEKeyboardHandler(ChromiumWebBrowser owner): base(owner)
+        {
+        }
+
+        public void OnImeCompositionRangeChanged(Control browser, ScreenInfo? screenInfo, Range selectedRange, Rect[] characterBounds)
+        {
+            var scaleFactor = screenInfo.HasValue ? screenInfo.Value.DeviceScaleFactor : 1.0f;
+
+            var browserOffsetWPFWindow = browser.TransformToAncestor(Window.GetWindow(browser)).Transform(new Point());
+
+            var rects = new List<Structs.Rect>();
+
+            foreach (var item in characterBounds)
+            {
+                rects.Add(new Structs.Rect(
+                    (int)((browserOffsetWPFWindow.X + item.X) * scaleFactor),
+                    (int)((browserOffsetWPFWindow.Y + item.Y) * scaleFactor),
+                    (int)(item.Width * scaleFactor),
+                    (int)(item.Height * scaleFactor)));
+            }
+
+            compositionBounds = rects;
+            MoveImeWindow(source.Handle);
+        }
 
         private void OwnerLostFocus(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -71,7 +89,9 @@ namespace CefSharp.Wpf.Internals
         public override void Dispose()
         {
             if (isDisposed)
+            {
                 return;
+            }
 
             isDisposed = true;
 
@@ -90,31 +110,53 @@ namespace CefSharp.Wpf.Internals
             handled = false;
 
             if (owner == null || owner.GetBrowserHost() == null || owner.IsDisposed || !IsActive || isDisposed)
+            {
                 return IntPtr.Zero;
+            }
 
             switch ((WM)msg)
             {
+                case WM.LBUTTONDOWN:
+                {
+                    if (hasIMEComposition)
+                    {
+                        // Set focus to 0, which destroys IME suggestions window.
+                        NativeIME.SetFocus(IntPtr.Zero);
+                        // Restore focus.
+                        NativeIME.SetFocus(source.Handle);
+                    }
+                }
+                break;
+
                 case WM.IME_SETCONTEXT:
+                {
                     OnIMESetContext(hwnd, (uint)msg, wParam, lParam);
                     handled = true;
-                    break;
+                }
+                break;
 
                 case WM.IME_STARTCOMPOSITION:
+                {
                     OnIMEStartComposition(hwnd);
                     hasIMEComposition = true;
                     handled = true;
-                    break;
+                }
+                break;
 
                 case WM.IME_COMPOSITION:
+                {
                     OnIMEComposition(hwnd, lParam.ToInt32());
                     handled = true;
-                    break;
+                }
+                break;
 
                 case WM.IME_ENDCOMPOSITION:
+                {
                     OnIMEEndComposition(hwnd);
                     hasIMEComposition = false;
                     handled = true;
-                    break;
+                }
+                break;
             }
 
             return handled ? IntPtr.Zero : new IntPtr(1);
@@ -129,8 +171,6 @@ namespace CefSharp.Wpf.Internals
             if (handler.GetResult((uint)lParam, out text))
             {
                 owner.GetBrowserHost().ImeCommitText(text, new Range(Int32.MaxValue, Int32.MaxValue), 0);
-
-                ResetComposition();
             }
             else
             {
@@ -153,14 +193,12 @@ namespace CefSharp.Wpf.Internals
         public void CancelComposition(IntPtr hwnd)
         {
             owner.GetBrowserHost().ImeCancelComposition();
-            ResetComposition();
             DestroyImeWindow(hwnd);
         }
 
         private void OnIMEEndComposition(IntPtr hwnd)
         {
             owner.GetBrowserHost().ImeFinishComposingText(false);
-            ResetComposition();
             DestroyImeWindow(hwnd);
         }
 
@@ -180,11 +218,6 @@ namespace CefSharp.Wpf.Internals
         {
             CreateImeWindow(hwnd);
             MoveImeWindow(hwnd);
-            ResetComposition();
-        }
-
-        private void ResetComposition()
-        {
         }
 
         private void CreateImeWindow(IntPtr hwnd)
@@ -218,7 +251,9 @@ namespace CefSharp.Wpf.Internals
         private void MoveImeWindow(IntPtr hwnd)
         {
             if (0 == compositionBounds.Count)
+            {
                 return;
+            }
 
             IntPtr hIMC = NativeIME.ImmGetContext(hwnd);
 
@@ -283,12 +318,6 @@ namespace CefSharp.Wpf.Internals
                 NativeIME.DestroyCaret();
                 systemCaret = false;
             }
-        }
-
-        internal void ChangeCompositionRange(Range selectionRange, List<Rect> bounds)
-        {
-            compositionBounds = bounds;
-            MoveImeWindow(source.Handle);
         }
 
         private void UpdateCaretPosition(int index)

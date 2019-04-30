@@ -160,6 +160,12 @@ namespace CefSharp
         /// will be selected after insertion or replacement. </param>
         void ImeSetComposition(string text, CompositionUnderline[] underlines, Range? replacementRange, Range? selectionRange);
 
+        /// <summary>
+        /// Completes the existing composition by optionally inserting the specified
+        /// text into the composition node.
+        /// This method is only used when window rendering is disabled. (WPF and OffScreen) 
+        /// </summary>
+        /// <param name="text">text that will be committed</param>
         /// <param name="replacementRange">is an optional range of the existing text that will be replaced. (MAC OSX ONLY)</param>
         /// <param name="relativeCursorPos">is where the cursor will be positioned relative to the current cursor position. (MAC OSX ONLY)</param>
         void ImeCommitText(string text, Range? replacementRange, int relativeCursorPos);

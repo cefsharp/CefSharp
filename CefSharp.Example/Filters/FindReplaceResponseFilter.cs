@@ -37,8 +37,8 @@ namespace CefSharp.Example.Filters
         private List<byte> overflow = new List<byte>();
 
         /// <summary>
-        /// Number of times the the string was found/replaced.	
-        /// </summary>	
+        /// Number of times the the string was found/replaced.
+        /// </summary>
         private long replaceCount;
 
         public FindReplaceResponseFilter(string find, string replacement)
