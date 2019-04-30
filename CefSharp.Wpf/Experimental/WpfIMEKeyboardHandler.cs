@@ -4,16 +4,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using CefSharp;
+using CefSharp.Internals;
 using CefSharp.Structs;
-using CefSharp.Wpf;
 using CefSharp.Wpf.Internals;
+using Point = System.Windows.Point;
+using Rect = CefSharp.Structs.Rect;
 
-namespace CefSharp.Wpf.Internals
+namespace CefSharp.Wpf.Experimental
 {
-    public class WpfIMEKeyboardHandler : WpfKeyboardHandler
+    public class WpfImeKeyboardHandler : WpfKeyboardHandler
     {
         private int languageCodeId;
         private bool systemCaret;
@@ -21,39 +23,51 @@ namespace CefSharp.Wpf.Internals
         private List<Rect> compositionBounds = new List<Rect>();
         private HwndSource source;
         private HwndSourceHook sourceHook;
-        private bool hasIMEComposition;
+        private bool hasImeComposition;
+        private MouseButtonEventHandler mouseDownEventHandler;
+        private bool isActive;
 
-        public void CloseIMEComposition()
+        public WpfImeKeyboardHandler(ChromiumWebBrowser owner) : base(owner)
         {
-            if (hasIMEComposition)
+        }
+
+        public void ChangeCompositionRange(Range selectionRange, Rect[] characterBounds)
+        {
+            if (!isActive)
             {
-                // Set focus to 0, which destroys IME suggestions window.
-                NativeIME.SetFocus(IntPtr.Zero);
-                // Restore focus.
-                NativeIME.SetFocus(source.Handle);
+                return;
             }
-        }
 
-        internal bool IsActive { get; set; }
+            var screenInfo = ((IRenderWebBrowser)owner).GetScreenInfo();
+            var scaleFactor = screenInfo.HasValue ? screenInfo.Value.DeviceScaleFactor : 1.0f;
 
-        public WpfIMEKeyboardHandler(ChromiumWebBrowser owner): base(owner) {}
+            //This is called on the CEF UI thread, we need to invoke back onte main UI thread to
+            //access the UI controls
+            owner.UiThreadRunAsync(() =>
+            {
+                //TODO: Getting the root window for every composition range change seems expensive,
+                //we should cache the position and update it on window move.
+                var parentWindow = Window.GetWindow(owner);
+                if (parentWindow != null)
+                {
+                    //TODO: What are we calculating here exactly???
+                    var point = owner.TransformToAncestor(parentWindow).Transform(new Point(0, 0));
 
-        private void OwnerLostFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-            IsActive = false;
+                    var rects = new List<Rect>();
 
-            // These calls are needed in order for IME to function correctly.
-            InputMethod.SetIsInputMethodEnabled(owner, false);
-            InputMethod.SetIsInputMethodSuspended(owner, false);
-        }
+                    foreach (var item in characterBounds)
+                    {
+                        rects.Add(new Rect(
+                            (int)((point.X + item.X) * scaleFactor),
+                            (int)((point.Y + item.Y) * scaleFactor),
+                            (int)(item.Width * scaleFactor),
+                            (int)(item.Height * scaleFactor)));
+                    }
 
-        private void OwnerGotFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-            // These calls are needed in order for IME to function correctly.
-            InputMethod.SetIsInputMethodEnabled(owner, true);
-            InputMethod.SetIsInputMethodSuspended(owner, true);
-
-            IsActive = true;
+                    compositionBounds = rects;
+                    MoveImeWindow(source.Handle);
+                }
+            });
         }
 
         public override void Setup(HwndSource source)
@@ -65,18 +79,26 @@ namespace CefSharp.Wpf.Internals
             owner.GotFocus += OwnerGotFocus;
             owner.LostFocus += OwnerLostFocus;
 
+            mouseDownEventHandler = new MouseButtonEventHandler(OwnerMouseDown);
+
+            owner.AddHandler(UIElement.MouseDownEvent, mouseDownEventHandler, true);
+
             owner.Focus();
         }
 
         public override void Dispose()
         {
             if (isDisposed)
+            {
                 return;
+            }
 
             isDisposed = true;
 
             owner.GotFocus -= OwnerGotFocus;
             owner.LostFocus -= OwnerLostFocus;
+
+            owner.RemoveHandler(UIElement.MouseDownEvent, mouseDownEventHandler);
 
             if (source != null && sourceHook != null)
             {
@@ -85,61 +107,98 @@ namespace CefSharp.Wpf.Internals
             }
         }
 
+        private void OwnerMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            CloseImeComposition();
+        }
+
+        private void OwnerLostFocus(object sender, RoutedEventArgs e)
+        {
+            isActive = false;
+
+            // These calls are needed in order for IME to function correctly.
+            InputMethod.SetIsInputMethodEnabled(owner, false);
+            InputMethod.SetIsInputMethodSuspended(owner, false);
+        }
+
+        private void OwnerGotFocus(object sender, RoutedEventArgs e)
+        {
+            // These calls are needed in order for IME to function correctly.
+            InputMethod.SetIsInputMethodEnabled(owner, true);
+            InputMethod.SetIsInputMethodSuspended(owner, true);
+
+            isActive = true;
+        }
+
         private IntPtr SourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             handled = false;
 
-            if (owner == null || owner.GetBrowserHost() == null || owner.IsDisposed || !IsActive || isDisposed)
+            if (!isActive || isDisposed || owner == null || owner.IsDisposed || owner.GetBrowserHost() == null)
+            {
                 return IntPtr.Zero;
+            }
 
             switch ((WM)msg)
             {
                 case WM.IME_SETCONTEXT:
-                    OnIMESetContext(hwnd, (uint)msg, wParam, lParam);
+                {
+                    OnImeSetContext(hwnd, (uint)msg, wParam, lParam);
                     handled = true;
                     break;
-
+                }
                 case WM.IME_STARTCOMPOSITION:
+                {
                     OnIMEStartComposition(hwnd);
-                    hasIMEComposition = true;
+                    hasImeComposition = true;
                     handled = true;
                     break;
-
+                }
                 case WM.IME_COMPOSITION:
-                    OnIMEComposition(hwnd, lParam.ToInt32());
+                {
+                    OnImeComposition(hwnd, lParam.ToInt32());
                     handled = true;
                     break;
-
+                }
                 case WM.IME_ENDCOMPOSITION:
-                    OnIMEEndComposition(hwnd);
-                    hasIMEComposition = false;
+                {
+                    OnImeEndComposition(hwnd);
+                    hasImeComposition = false;
                     handled = true;
                     break;
+                }
             }
 
             return handled ? IntPtr.Zero : new IntPtr(1);
         }
 
-        private void OnIMEComposition(IntPtr hwnd, int lParam)
+        private void CloseImeComposition()
+        {
+            if (hasImeComposition)
+            {
+                // Set focus to 0, which destroys IME suggestions window.
+                ImeNative.SetFocus(IntPtr.Zero);
+                // Restore focus.
+                ImeNative.SetFocus(source.Handle);
+            }
+        }
+
+        private void OnImeComposition(IntPtr hwnd, int lParam)
         {
             string text = string.Empty;
 
-            var handler = new IMEHandler(hwnd);
-
-            if (handler.GetResult((uint)lParam, out text))
+            if (ImeHandler.GetResult(hwnd, (uint)lParam, out text))
             {
-                owner.GetBrowserHost().ImeCommitText(text, new Range(Int32.MaxValue, Int32.MaxValue), 0);
-
-                ResetComposition();
+                owner.GetBrowserHost().ImeCommitText(text, new Range(int.MaxValue, int.MaxValue), 0);
             }
             else
             {
                 var underlines = new List<CompositionUnderline>();
                 int compositionStart = 0;
 
-                if (handler.GetComposition((uint)lParam, underlines, ref compositionStart, out text))
+                if (ImeHandler.GetComposition(hwnd, (uint)lParam, underlines, ref compositionStart, out text))
                 {
-                    owner.GetBrowserHost().ImeSetComposition(text, underlines.ToArray(), new Range(Int32.MaxValue, Int32.MaxValue), new Range(compositionStart, compositionStart));
+                    owner.GetBrowserHost().ImeSetComposition(text, underlines.ToArray(), new Range(int.MaxValue, int.MaxValue), new Range(compositionStart, compositionStart));
 
                     UpdateCaretPosition(compositionStart - 1);
                 }
@@ -153,23 +212,21 @@ namespace CefSharp.Wpf.Internals
         public void CancelComposition(IntPtr hwnd)
         {
             owner.GetBrowserHost().ImeCancelComposition();
-            ResetComposition();
             DestroyImeWindow(hwnd);
         }
 
-        private void OnIMEEndComposition(IntPtr hwnd)
+        private void OnImeEndComposition(IntPtr hwnd)
         {
             owner.GetBrowserHost().ImeFinishComposingText(false);
-            ResetComposition();
             DestroyImeWindow(hwnd);
         }
 
-        private void OnIMESetContext(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam)
+        private void OnImeSetContext(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam)
         {
             // We handle the IME Composition Window ourselves (but let the IME Candidates
             // Window be handled by IME through DefWindowProc()), so clear the
             // ISC_SHOWUICOMPOSITIONWINDOW flag:
-            NativeIME.DefWindowProc(hwnd, msg, wParam, (IntPtr)(lParam.ToInt64() & ~NativeIME.ISC_SHOWUICOMPOSITIONWINDOW));
+            ImeNative.DefWindowProc(hwnd, msg, wParam, (IntPtr)(lParam.ToInt64() & ~ImeNative.ISC_SHOWUICOMPOSITIONWINDOW));
             // TODO: should we call ImmNotifyIME?
 
             CreateImeWindow(hwnd);
@@ -180,11 +237,6 @@ namespace CefSharp.Wpf.Internals
         {
             CreateImeWindow(hwnd);
             MoveImeWindow(hwnd);
-            ResetComposition();
-        }
-
-        private void ResetComposition()
-        {
         }
 
         private void CreateImeWindow(IntPtr hwnd)
@@ -198,11 +250,11 @@ namespace CefSharp.Wpf.Internals
             // their window position, we also create a caret for Japanese IMEs.
             languageCodeId = PrimaryLangId(InputLanguageManager.Current.CurrentInputLanguage.KeyboardLayoutId);
 
-            if (languageCodeId == NativeIME.LANG_JAPANESE || languageCodeId == NativeIME.LANG_CHINESE)
+            if (languageCodeId == ImeNative.LANG_JAPANESE || languageCodeId == ImeNative.LANG_CHINESE)
             {
                 if (!systemCaret)
                 {
-                    if (NativeIME.CreateCaret(hwnd, IntPtr.Zero, 1, 1))
+                    if (ImeNative.CreateCaret(hwnd, IntPtr.Zero, 1, 1))
                     {
                         systemCaret = true;
                     }
@@ -212,20 +264,22 @@ namespace CefSharp.Wpf.Internals
 
         private int PrimaryLangId(int lgid)
         {
-            return (lgid & 0x3ff);
+            return lgid & 0x3ff;
         }
 
         private void MoveImeWindow(IntPtr hwnd)
         {
-            if (0 == compositionBounds.Count)
+            if (compositionBounds.Count == 0)
+            {
                 return;
+            }
 
-            IntPtr hIMC = NativeIME.ImmGetContext(hwnd);
+            var hIMC = ImeNative.ImmGetContext(hwnd);
 
-            Rect rc = compositionBounds[0];
+            var rc = compositionBounds[0];
 
-            int x = rc.X + rc.Width;
-            int y = rc.Y + rc.Height;
+            var x = rc.X + rc.Width;
+            var y = rc.Y + rc.Height;
 
             const int kCaretMargin = 1;
             // As written in a comment in ImeInput::CreateImeWindow(),
@@ -238,21 +292,21 @@ namespace CefSharp.Wpf.Internals
             // parameter CFS_CANDIDATEPOS.
             // Therefore, we do not only call ::ImmSetCandidateWindow() but also
             // set the positions of the temporary system caret if it exists.
-            var candidatePosition = new NativeIME.CANDIDATEFORM
+            var candidatePosition = new ImeNative.CANDIDATEFORM
             {
                 dwIndex = 0,
-                dwStyle = (int)NativeIME.CFS_CANDIDATEPOS,
-                ptCurrentPos = new NativeIME.POINT(x, y),
-                rcArea = new NativeIME.RECT(0, 0, 0, 0)
+                dwStyle = (int)ImeNative.CFS_CANDIDATEPOS,
+                ptCurrentPos = new ImeNative.POINT(x, y),
+                rcArea = new ImeNative.RECT(0, 0, 0, 0)
             };
-            NativeIME.ImmSetCandidateWindow(hIMC, ref candidatePosition);
+            ImeNative.ImmSetCandidateWindow(hIMC, ref candidatePosition);
 
             if (systemCaret)
             {
-                NativeIME.SetCaretPos(x, y);
+                ImeNative.SetCaretPos(x, y);
             }
 
-            if (languageCodeId == NativeIME.LANG_KOREAN)
+            if (languageCodeId == ImeNative.LANG_KOREAN)
             {
                 // Chinese IMEs and Japanese IMEs require the upper-left corner of
                 // the caret to move the position of their candidate windows.
@@ -264,33 +318,28 @@ namespace CefSharp.Wpf.Internals
             // ::ImmSetCandidateWindow() with its 'dwStyle' parameter CFS_EXCLUDE
             // to move their candidate windows when a user disables TSF and CUAS.
             // Therefore, we also set this parameter here.
-            var excludeRectangle = new NativeIME.CANDIDATEFORM
+            var excludeRectangle = new ImeNative.CANDIDATEFORM
             {
                 dwIndex = 0,
-                dwStyle = (int)NativeIME.CFS_EXCLUDE,
-                ptCurrentPos = new NativeIME.POINT(x, y),
-                rcArea = new NativeIME.RECT(rc.X, rc.Y, x, y + kCaretMargin)
+                dwStyle = (int)ImeNative.CFS_EXCLUDE,
+                ptCurrentPos = new ImeNative.POINT(x, y),
+                rcArea = new ImeNative.RECT(rc.X, rc.Y, x, y + kCaretMargin)
             };
-            NativeIME.ImmSetCandidateWindow(hIMC, ref excludeRectangle);
+            ImeNative.ImmSetCandidateWindow(hIMC, ref excludeRectangle);
 
-            NativeIME.ImmReleaseContext(hwnd, hIMC);
+            ImeNative.ImmReleaseContext(hwnd, hIMC);
         }
 
         private void DestroyImeWindow(IntPtr hwnd)
         {
             if (systemCaret)
             {
-                NativeIME.DestroyCaret();
+                ImeNative.DestroyCaret();
                 systemCaret = false;
             }
         }
 
-        internal void ChangeCompositionRange(Range selectionRange, List<Rect> bounds)
-        {
-            compositionBounds = bounds;
-            MoveImeWindow(source.Handle);
-        }
-
+        //TODO: Should we remove this, it's only a single method
         private void UpdateCaretPosition(int index)
         {
             MoveImeWindow(source.Handle);

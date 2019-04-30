@@ -4,11 +4,10 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Security;
 
 namespace CefSharp.Wpf.Internals
 {
-    public static class NativeIME
+    public static class ImeNative
     {
         internal const uint GCS_RESULTSTR = 0x0800;
         internal const uint GCS_COMPSTR = 0x0008;

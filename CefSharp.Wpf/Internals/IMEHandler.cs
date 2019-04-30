@@ -10,44 +10,37 @@ using CefSharp.Structs;
 namespace CefSharp.Wpf.Internals
 {
     /// <summary>
-    /// IMEHandler provides implementattion when message WM_IME_COMPOSITION is received.
+    /// ImeHandler provides implementation when message WM_IME_COMPOSITION is received.
     /// </summary>
-    public class IMEHandler
+    public static class ImeHandler
     {
         // Black SkColor value for underline.
         internal const uint ColorUNDERLINE = 0xFF000000;
         // White SkColor value for background.
-        internal const uint ColorBKCOLOR = 0xFFFFFFFF;    
+        internal const uint ColorBKCOLOR = 0xFFFFFFFF;
 
-        IntPtr hWnd;
-
-        public IMEHandler(IntPtr hWnd)
+        public static bool GetResult(IntPtr hwnd, uint lParam, out string text)
         {
-            this.hWnd = hWnd;
-        }
+            var hIMC = ImeNative.ImmGetContext(hwnd);
 
-        internal bool GetResult(uint lParam, out string text)
-        {
-            IntPtr hIMC = NativeIME.ImmGetContext(hWnd);
+            var ret = GetString(hIMC, lParam, ImeNative.GCS_RESULTSTR, out text);
 
-            var ret = GetString(hIMC, lParam, NativeIME.GCS_RESULTSTR, out text);
-
-            NativeIME.ImmReleaseContext(hWnd, hIMC);
+            ImeNative.ImmReleaseContext(hwnd, hIMC);
 
             return ret;
         }
 
-        internal bool GetComposition(uint lParam, List<CompositionUnderline> underlines, ref int compositionStart, out string text)
+        public static bool GetComposition(IntPtr hwnd, uint lParam, List<CompositionUnderline> underlines, ref int compositionStart, out string text)
         {
-            IntPtr hIMC = NativeIME.ImmGetContext(hWnd);
+            var hIMC = ImeNative.ImmGetContext(hwnd);
 
-            bool ret = GetString(hIMC, lParam, NativeIME.GCS_COMPSTR, out text);
+            bool ret = GetString(hIMC, lParam, ImeNative.GCS_COMPSTR, out text);
             if (ret)
             {
-                GetCompositionInfo(lParam, text, underlines, ref compositionStart);
+                GetCompositionInfo(hwnd, lParam, text, underlines, ref compositionStart);
             }
 
-            NativeIME.ImmReleaseContext(hWnd, hIMC);
+            ImeNative.ImmReleaseContext(hwnd, hIMC);
 
             return ret;
         }
@@ -61,7 +54,7 @@ namespace CefSharp.Wpf.Internals
                 return false;
             }
 
-            var strLen = NativeIME.ImmGetCompositionString(hIMC, type, null, 0);
+            var strLen = ImeNative.ImmGetCompositionString(hIMC, type, null, 0);
             if (strLen <= 0)
             {
                 return false;
@@ -69,21 +62,21 @@ namespace CefSharp.Wpf.Internals
 
             // buffer contains char (2 bytes)
             byte[] buffer = new byte[strLen];
-            NativeIME.ImmGetCompositionString(hIMC, type, buffer, strLen);
+            ImeNative.ImmGetCompositionString(hIMC, type, buffer, strLen);
             text = Encoding.Unicode.GetString(buffer);
 
             return true;
         }
 
-        private void GetCompositionInfo(uint lParam, string text, List<CompositionUnderline> underlines, ref int compositionStart)
+        private static void GetCompositionInfo(IntPtr hwnd, uint lParam, string text, List<CompositionUnderline> underlines, ref int compositionStart)
         {
-            IntPtr hIMC = NativeIME.ImmGetContext(hWnd);
+            var hIMC = ImeNative.ImmGetContext(hwnd);
 
             underlines.Clear();
 
             int targetStart = text.Length;
             int targetEnd = text.Length;
-            if (IsParam(lParam, NativeIME.GCS_COMPATTR))
+            if (IsParam(lParam, ImeNative.GCS_COMPATTR))
             {
                 GetCompositionSelectionRange(hIMC, ref targetStart, ref targetEnd);
             }
@@ -92,11 +85,11 @@ namespace CefSharp.Wpf.Internals
             // it means the cursor should not be moved and we therefore place the caret at
             // the beginning of the composition string. Otherwise we should honour the
             // GCS_CURSORPOS value if it's available.
-            if (!IsParam(lParam, NativeIME.CS_NOMOVECARET) && IsParam(lParam, NativeIME.GCS_CURSORPOS))
+            if (!IsParam(lParam, ImeNative.CS_NOMOVECARET) && IsParam(lParam, ImeNative.GCS_CURSORPOS))
             {
                 // IMM32 does not support non-zero-width selection in a composition. So
                 // always use the caret position as selection range.
-                int cursor = (int)NativeIME.ImmGetCompositionString(hIMC, NativeIME.GCS_CURSORPOS, null, 0);
+                int cursor = (int)ImeNative.ImmGetCompositionString(hIMC, ImeNative.GCS_CURSORPOS, null, 0);
                 compositionStart = cursor;
             }
             else
@@ -104,14 +97,14 @@ namespace CefSharp.Wpf.Internals
                 compositionStart = 0;
             }
 
-            if (IsParam(lParam, NativeIME.GCS_COMPCLAUSE))
+            if (IsParam(lParam, ImeNative.GCS_COMPCLAUSE))
             {
                 GetCompositionUnderlines(hIMC, targetStart, targetEnd, underlines);
             }
 
             if (underlines.Count == 0)
             {
-                Range range = new Range();
+                var range = new Range();
 
                 bool thick = false;
 
@@ -134,12 +127,12 @@ namespace CefSharp.Wpf.Internals
                 underlines.Add(new CompositionUnderline(range, ColorUNDERLINE, ColorBKCOLOR, thick));
             }
 
-            NativeIME.ImmReleaseContext(hWnd, hIMC);
+            ImeNative.ImmReleaseContext(hwnd, hIMC);
         }
 
         private static void GetCompositionUnderlines(IntPtr hIMC, int targetStart, int targetEnd, List<CompositionUnderline> underlines)
         {
-            var clauseSize = NativeIME.ImmGetCompositionString(hIMC, NativeIME.GCS_COMPCLAUSE, null, 0);
+            var clauseSize = ImeNative.ImmGetCompositionString(hIMC, ImeNative.GCS_COMPCLAUSE, null, 0);
             if (clauseSize <= 0)
             {
                 return;
@@ -149,7 +142,7 @@ namespace CefSharp.Wpf.Internals
 
             // buffer contains 32 bytes (4 bytes) array
             var clauseData = new byte[(int)clauseSize];
-            NativeIME.ImmGetCompositionString(hIMC, NativeIME.GCS_COMPCLAUSE, clauseData, clauseSize);
+            ImeNative.ImmGetCompositionString(hIMC, ImeNative.GCS_COMPCLAUSE, clauseData, clauseSize);
 
             var clauseLength_1 = clauseLength - 1;
             for (int i = 0; i < clauseLength_1; i++)
@@ -166,7 +159,7 @@ namespace CefSharp.Wpf.Internals
 
         private static void GetCompositionSelectionRange(IntPtr hIMC, ref int targetStart, ref int targetEnd)
         {
-            var attributeSize = NativeIME.ImmGetCompositionString(hIMC, NativeIME.GCS_COMPATTR, null, 0);
+            var attributeSize = ImeNative.ImmGetCompositionString(hIMC, ImeNative.GCS_COMPATTR, null, 0);
             if (attributeSize <= 0)
             {
                 return;
@@ -177,7 +170,7 @@ namespace CefSharp.Wpf.Internals
 
             // Buffer contains 8bit array
             var attributeData = new byte[attributeSize];
-            NativeIME.ImmGetCompositionString(hIMC, NativeIME.GCS_COMPATTR, attributeData, attributeSize);
+            ImeNative.ImmGetCompositionString(hIMC, ImeNative.GCS_COMPATTR, attributeData, attributeSize);
 
             for (start = 0; start < attributeSize; ++start)
             {
@@ -201,7 +194,7 @@ namespace CefSharp.Wpf.Internals
 
         private static bool IsSelectionAttribute(byte attribute)
         {
-            return (attribute == NativeIME.ATTR_TARGET_CONVERTED || attribute == NativeIME.ATTR_TARGET_NOTCONVERTED);
+            return (attribute == ImeNative.ATTR_TARGET_CONVERTED || attribute == ImeNative.ATTR_TARGET_NOTCONVERTED);
         }
 
         private static bool IsParam(uint lParam, uint type)
