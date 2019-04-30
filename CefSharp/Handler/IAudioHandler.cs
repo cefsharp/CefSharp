@@ -15,7 +15,7 @@ namespace CefSharp
     {
         /// <summary>
         /// Called when the stream identified by <paramref name="audioStreamId"/> has started.
-        /// <see cref="IAudioHandler.OnAudioSteamStopped"/> will always be called after  <see cref="IAudioHandler.OnAudioStreamStarted"/>;
+        /// <see cref="IAudioHandler.OnAudioSteamStopped"/> will always be called after  <see cref="OnAudioStreamStarted"/>;
         /// both methods may be called multiple times for the same stream.
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
@@ -48,7 +48,7 @@ namespace CefSharp
 
         /// <summary>
         /// Called when the stream identified by <paramref name="audioStreamId"/> has stopped.
-        /// <see cref="IAudioHandler.OnAudioStreamStopped"/> will always be called after <see cref="IAudioHandler.OnAudioStreamStarted"/>;
+        /// <see cref="OnAudioStreamStopped"/> will always be called after <see cref="IAudioHandler.OnAudioStreamStarted"/>;
         /// both methods may be called multiple times for the same stream.
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
