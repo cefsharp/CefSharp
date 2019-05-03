@@ -99,6 +99,7 @@
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\AlphaType.cs" />
+    <Compile Include="Enums\ChannelLayout.cs" />
     <Compile Include="Enums\PointerType.cs" />
     <Compile Include="Enums\TextInputMode.cs" />
     <Compile Include="Enums\TouchEventType.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Handler\IAccessibilityHandler.cs" />
     <Compile Include="Handler\IExtensionHandler.cs" />
     <Compile Include="IApp.cs" />
+    <Compile Include="Handler\IAudioHandler.cs" />
     <Compile Include="IExtension.cs" />
     <Compile Include="ISchemeRegistrar.cs" />
     <Compile Include="IValue.cs" />
