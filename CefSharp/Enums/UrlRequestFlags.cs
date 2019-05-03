@@ -46,7 +46,7 @@ namespace CefSharp
         /// If set user name, password, and cookies may be sent with the request, and
         /// cookies may be saved from the response.
         /// </summary>
-        AllowCachedCredentials = 1 << 3,
+        AllowStoredCredentials = 1 << 3,
 
         /// <summary>
         ///  If set upload progress events will be generated when a request has a body.

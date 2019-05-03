@@ -364,9 +364,9 @@ namespace CefSharp
 
                 request.Url = url;
                 request.Method = "POST";
-                //Add AllowCachedCredentials as per suggestion linked in
+                //Add AllowStoredCredentials as per suggestion linked in
                 //https://github.com/cefsharp/CefSharp/issues/2705#issuecomment-476819788
-                request.Flags = UrlRequestFlags.AllowCachedCredentials;
+                request.Flags = UrlRequestFlags.AllowStoredCredentials;
 
                 request.PostData.AddData(postDataBytes);
 
