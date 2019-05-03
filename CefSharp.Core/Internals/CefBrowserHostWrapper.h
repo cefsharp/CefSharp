@@ -89,6 +89,8 @@ namespace CefSharp
 
             virtual void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
 
+            virtual void SendTouchEvent(TouchEvent evt);
+
             virtual void Invalidate(PaintElementType type);
 
             virtual property bool IsBackgroundHost

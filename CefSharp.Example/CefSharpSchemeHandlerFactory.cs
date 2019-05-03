@@ -47,11 +47,13 @@ namespace CefSharp.Example
                 { "/ScriptedMethodsTest.html", Resources.ScriptedMethodsTest },
                 { "/ResponseFilterTest.html", Resources.ResponseFilterTest },
                 { "/DraggableRegionTest.html", Resources.DraggableRegionTest },
+                { "/DragDropCursorsTest.html", Resources.DragDropCursorsTest },
                 { "/CssAnimationTest.html", Resources.CssAnimation },
                 { "/CdmSupportTest.html", Resources.CdmSupportTest },
                 { "/Recaptcha.html", Resources.Recaptcha },
                 { "/UnicodeExampleGreaterThan32kb.html", Resources.UnicodeExampleGreaterThan32kb },
-                { "/UnocodeExampleEqualTo32kb.html", Resources.UnocodeExampleEqualTo32kb }
+                { "/UnocodeExampleEqualTo32kb.html", Resources.UnocodeExampleEqualTo32kb },
+                { "/JavascriptCallbackTest.html", Resources.JavascriptCallbackTest }
             };
         }
 

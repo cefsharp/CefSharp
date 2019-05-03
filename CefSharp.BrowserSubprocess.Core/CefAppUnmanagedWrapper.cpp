@@ -413,7 +413,7 @@ namespace CefSharp
                     auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                     if (callbackWrapper == nullptr)
                     {
-                        errorMessage = "Unable to find callbackWrapper";
+                        errorMessage = StringUtils::ToNative("Unable to find JavascriptCallback with Id " + jsCallbackId + " for Frame " + frameId);
                     }
                     else
                     {

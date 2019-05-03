@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Callback\RunFileDialogCallback.cs" />
+    <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\ExtensionHandler.cs" />
     <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
     <Compile Include="JavascriptBinding\BoundObject.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Filters\PassThruResponseFilter.cs" />
     <Compile Include="Handlers\BrowserProcessHandler.cs" />
     <Compile Include="InMemorySchemeAndResourceHandlerFactory.cs" />
+    <Compile Include="JavascriptBinding\JavascriptCallbackBoundObject.cs" />
     <Compile Include="JavascriptBinding\JsSerializableClass.cs" />
     <Compile Include="JavascriptBinding\JsSerializableStruct.cs" />
     <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
@@ -152,6 +154,8 @@
     <None Include="Resources\assets\js\shBrushJScript.js" />
     <Content Include="Resources\assets\js\shCore.js" />
     <Content Include="Resources\BindingTestSingle.html" />
+    <Content Include="Resources\DragDropCursorsTest.html" />
+    <Content Include="Resources\JavascriptCallbackTest.html" />
     <Content Include="Resources\LegacyBindingTest.html" />
     <Content Include="Resources\CdmSupportTest.html" />
     <Content Include="Resources\CssAnimation.html" />

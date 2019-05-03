@@ -3,9 +3,9 @@
     [Parameter(Position = 0)] 
     [string] $Target = "vs2015",
     [Parameter(Position = 1)]
-    [string] $Version = "73.1.12.0",
+    [string] $Version = "74.1.130",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "73.1.12.0"
+    [string] $AssemblyVersion = "74.1.130"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -345,7 +345,7 @@ function WriteAssemblyVersion
     $CurrentYear = Get-Date -Format yyyy
     
     $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
-    $NewString = $NewString -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion"""
+    $NewString = $NewString -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
     $NewString = $NewString -replace $Regex3, "public const string AssemblyCopyright = ""Copyright © $CurrentYear The CefSharp Authors"""
     
     $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
@@ -358,7 +358,7 @@ function WriteVersionToManifest($manifest)
     $Regex = 'assemblyIdentity version="(.*?)"';
     
     $ManifestData = Get-Content -Encoding UTF8 $Filename
-    $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion"""
+    $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion.0"""
     
     $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)

@@ -191,17 +191,6 @@ namespace CefSharp
         Task<ResolveCallbackResult> ResolveHostAsync(Uri origin);
 
         /// <summary>
-        /// Attempts to resolve origin to a list of associated IP addresses using
-        /// cached data. This method must be called on the CEF IO thread. Use
-        /// Cef.IOThreadTaskFactory to execute on that thread.
-        /// </summary>
-        /// <param name="origin">host name to resolve</param>
-        /// <param name="resolvedIpAddresses">list of resolved IP
-        /// addresses or empty list if no cached data is available.</param>
-        /// <returns> Returns <see cref="CefErrorCode.None"/> on success</returns>
-        CefErrorCode ResolveHostCached(Uri origin, out IList<string> resolvedIpAddresses);
-
-        /// <summary>
         /// Returns true if this context was used to load the extension identified by extensionId. Other contexts sharing the same storage will also have access to the extension (see HasExtension).
         /// This method must be called on the CEF UI thread.
         /// </summary>

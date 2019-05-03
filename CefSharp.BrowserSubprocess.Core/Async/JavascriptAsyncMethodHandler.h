@@ -38,7 +38,7 @@ namespace CefSharp
                     _methodCallbackSave = nullptr;
                 }
 
-                IMPLEMENT_REFCOUNTING(JavascriptAsyncMethodHandler)
+                IMPLEMENT_REFCOUNTING(JavascriptAsyncMethodHandler);
             };
         }
     }

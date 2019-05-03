@@ -201,38 +201,35 @@ namespace CefSharp.WinForms.Example
 
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", SetLastError = true)]
-        static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+        private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-        private void OnIsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs args)
+        private void OnIsBrowserInitializedChanged(object sender, EventArgs e)
         {
-            if (args.IsBrowserInitialized)
+            //Get the underlying browser host wrapper
+            var browserHost = Browser.GetBrowser().GetHost();
+            var requestContext = browserHost.RequestContext;
+            string errorMessage;
+            // Browser must be initialized before getting/setting preferences
+            var success = requestContext.SetPreference("enable_do_not_track", true, out errorMessage);
+            if (!success)
             {
-                //Get the underlying browser host wrapper
-                var browserHost = Browser.GetBrowser().GetHost();
-                var requestContext = browserHost.RequestContext;
-                string errorMessage;
-                // Browser must be initialized before getting/setting preferences
-                var success = requestContext.SetPreference("enable_do_not_track", true, out errorMessage);
-                if (!success)
-                {
-                    this.InvokeOnUiThreadIfRequired(() => MessageBox.Show("Unable to set preference enable_do_not_track errorMessage: " + errorMessage));
-                }
+                this.InvokeOnUiThreadIfRequired(() => MessageBox.Show("Unable to set preference enable_do_not_track errorMessage: " + errorMessage));
+            }
 
-                //Example of disable spellchecking
-                //success = requestContext.SetPreference("browser.enable_spellchecking", false, out errorMessage);
+            //Example of disable spellchecking
+            //success = requestContext.SetPreference("browser.enable_spellchecking", false, out errorMessage);
 
-                var preferences = requestContext.GetAllPreferences(true);
-                var doNotTrack = (bool)preferences["enable_do_not_track"];
+            var preferences = requestContext.GetAllPreferences(true);
+            var doNotTrack = (bool)preferences["enable_do_not_track"];
 
-                //Use this to check that settings preferences are working in your code
-                //success = requestContext.SetPreference("webkit.webprefs.minimum_font_size", 24, out errorMessage);
+            //Use this to check that settings preferences are working in your code
+            //success = requestContext.SetPreference("webkit.webprefs.minimum_font_size", 24, out errorMessage);
 
-                //If we're using CefSetting.MultiThreadedMessageLoop (the default) then to hook the message pump,
-                // which running in a different thread we have to use a NativeWindow
-                if (multiThreadedMessageLoopEnabled)
-                {
-                    SetupMessageInterceptor();
-                }
+            //If we're using CefSetting.MultiThreadedMessageLoop (the default) then to hook the message pump,
+            // which running in a different thread we have to use a NativeWindow
+            if (multiThreadedMessageLoopEnabled)
+            {
+                SetupMessageInterceptor();
             }
         }
 

@@ -364,6 +364,9 @@ namespace CefSharp
 
                 request.Url = url;
                 request.Method = "POST";
+                //Add AllowCachedCredentials as per suggestion linked in
+                //https://github.com/cefsharp/CefSharp/issues/2705#issuecomment-476819788
+                request.Flags = UrlRequestFlags.AllowCachedCredentials;
 
                 request.PostData.AddData(postDataBytes);
 
@@ -1013,7 +1016,7 @@ namespace CefSharp
             if (!browser.IsBrowserInitialized)
             {
                 throw new Exception("Browser is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
-                                    "the IsBrowserInitialized property to determine when the browser has been intialized.");
+                                    "the IsBrowserInitialized property to determine when the browser has been initialized.");
             }
         }
 
