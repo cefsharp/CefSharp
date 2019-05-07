@@ -188,7 +188,7 @@ namespace CefSharp.Example
             CefSharpSettings.FocusedNodeChangedEnabled = true;
 
             //Experimental option where bound async methods are queued on TaskScheduler.Default.
-            //CefSharpSettings.ConcurrentTaskExecution = true;
+            CefSharpSettings.ConcurrentTaskExecution = true;
 
             //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)
             //See issue https://github.com/cefsharp/CefSharp/issues/1203 for details

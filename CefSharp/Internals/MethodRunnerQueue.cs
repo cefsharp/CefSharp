@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
-    public sealed class MethodRunnerQueue
+    public sealed class MethodRunnerQueue : IMethodRunnerQueue
     {
         private readonly JavascriptObjectRepository repository;
         private readonly AutoResetEvent stopped = new AutoResetEvent(false);
@@ -67,29 +67,12 @@ namespace CefSharp.Internals
         {
             try
             {
-
-                if (CefSharpSettings.ConcurrentTaskExecution)
+                //Tasks are run in sequential order on the current Thread.
+                while (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    //New experimental behaviour that Starts the Tasks on TaskScheduler.Default 
-                    while (!cancellationTokenSource.IsCancellationRequested)
-                    {
-                        var task = queue.Take(cancellationTokenSource.Token);
-                        task.ContinueWith((t) =>
-                        {
-                            OnMethodInvocationComplete(t.Result);
-                        }, cancellationTokenSource.Token);
-                        task.Start(TaskScheduler.Default);
-                    }
-                }
-                else
-                {
-                    //Old behaviour, runs Tasks in sequential order on the current Thread.
-                    while (!cancellationTokenSource.IsCancellationRequested)
-                    {
-                        var task = queue.Take(cancellationTokenSource.Token);
-                        task.RunSynchronously();
-                        OnMethodInvocationComplete(task.Result);
-                    }
+                    var task = queue.Take(cancellationTokenSource.Token);
+                    task.RunSynchronously();
+                    OnMethodInvocationComplete(task.Result);
                 }
             }
             catch (OperationCanceledException)

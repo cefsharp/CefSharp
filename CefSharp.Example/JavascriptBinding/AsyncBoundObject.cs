@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CefSharp.Example.JavascriptBinding
 {
@@ -146,6 +147,25 @@ namespace CefSharp.Example.JavascriptBinding
             {
                 {"data", MethodReturnsDictionary2()}
             };
+        }
+
+        public Task<string> ReturnTaskStringAsync()
+        {
+            return Task.FromResult(nameof(ReturnTaskStringAsync));
+        }
+
+        public async void VoidReturnAsync()
+        {
+            await Task.Delay(1000);
+
+            Debug.WriteLine("Delayed 1 second.");
+        }
+
+        public async Task<string> AsyncWaitTwoSeconds(string str)
+        {
+            await Task.Delay(2000);
+
+            return str;
         }
     }
 }
