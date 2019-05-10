@@ -49,6 +49,40 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
     delete windowInfo;
 }
 
+void ManagedCefBrowserAdapter::InitializeBrowserProcessServiceHost(IBrowser^ browser)
+{
+    _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browser->Identifier, _javascriptCallbackFactory);
+    //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
+    // an exception about the process already being closed. Two relevant issues are #862 and #804.
+    if (_browserProcessServiceHost->State == CommunicationState::Created)
+    {
+        try
+        {
+            _browserProcessServiceHost->Open();
+        }
+        catch (Exception^)
+        {
+            //Ignore exception as it's likely cause when the browser is closing
+        }
+    }
+}
+
+void ManagedCefBrowserAdapter::DisposeBrowserProcessServiceHost()
+{
+    if (_browserProcessServiceHost != nullptr)
+    {
+        if (CefSharpSettings::WcfTimeout > TimeSpan::Zero)
+        {
+            _browserProcessServiceHost->Close(CefSharpSettings::WcfTimeout);
+        }
+        else
+        {
+            _browserProcessServiceHost->Abort();
+        }
+        _browserProcessServiceHost = nullptr;
+    }
+}
+
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
 {
     if (!_isDisposed)
@@ -61,20 +95,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
 
         if (CefSharpSettings::WcfEnabled)
         {
-            _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browser->Identifier, _javascriptCallbackFactory);
-            //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
-            // an exception about the process already being closed. Two relevant issues are #862 and #804.
-            if (_browserProcessServiceHost->State == CommunicationState::Created)
-            {
-                try
-                {
-                    _browserProcessServiceHost->Open();
-                }
-                catch (Exception^)
-                {
-                    //Ignore exception as it's likely cause when the browser is closing
-                }
-            }
+            InitializeBrowserProcessServiceHost(browser);
         }
 
         if (_webBrowserInternal != nullptr)
