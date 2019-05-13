@@ -62,7 +62,7 @@ namespace CefSharp
 
             if (CefSharpSettings::ConcurrentTaskExecution)
             {
-                _methodRunnerQueue = gcnew CefSharp::Internals::ParallelMethodRunnerQueue(_javaScriptObjectRepository);
+                _methodRunnerQueue = gcnew CefSharp::Internals::ConcurrentMethodRunnerQueue(_javaScriptObjectRepository);
             }
             else
             {

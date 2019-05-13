@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 namespace CefSharp.Internals
 {
     /// <summary>
-    /// ParallelMethodRunnerQueue - Async Javascript Binding methods are run
+    /// ConcurrentMethodRunnerQueue - Async Javascript Binding methods are run
     /// on the ThreadPool in parallel, when a method returns a Task
     /// the we use ContinueWith to be notified of completion then
     /// raise the MethodInvocationComplete event
     /// </summary>
-    public class ParallelMethodRunnerQueue : IMethodRunnerQueue
+    public class ConcurrentMethodRunnerQueue : IMethodRunnerQueue
     {
         private readonly JavascriptObjectRepository repository;
         private readonly AutoResetEvent stopped = new AutoResetEvent(false);
@@ -26,7 +26,7 @@ namespace CefSharp.Internals
 
         public event EventHandler<MethodInvocationCompleteArgs> MethodInvocationComplete;
 
-        public ParallelMethodRunnerQueue(JavascriptObjectRepository repository)
+        public ConcurrentMethodRunnerQueue(JavascriptObjectRepository repository)
         {
             this.repository = repository;
         }
