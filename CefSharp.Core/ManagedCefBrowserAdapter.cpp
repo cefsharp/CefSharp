@@ -49,7 +49,8 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
     delete windowInfo;
 }
 
-void ManagedCefBrowserAdapter::InitializeBrowserProcessServiceHost(IBrowser^ browser)
+// NOTE: This was moved out of OnAfterBrowserCreated to prevent the System.ServiceModel assembly from being loaded when WCF is not enabled.
+__declspec(noinline) void ManagedCefBrowserAdapter::InitializeBrowserProcessServiceHost(IBrowser^ browser)
 {
     _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browser->Identifier, _javascriptCallbackFactory);
     //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
@@ -67,7 +68,8 @@ void ManagedCefBrowserAdapter::InitializeBrowserProcessServiceHost(IBrowser^ bro
     }
 }
 
-void ManagedCefBrowserAdapter::DisposeBrowserProcessServiceHost()
+// NOTE: This was moved out of ~ManagedCefBrowserAdapter to prevent the System.ServiceModel assembly from being loaded when WCF is not enabled.
+__declspec(noinline) void ManagedCefBrowserAdapter::DisposeBrowserProcessServiceHost()
 {
     if (_browserProcessServiceHost != nullptr)
     {
