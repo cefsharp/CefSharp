@@ -95,6 +95,18 @@ namespace CefSharp.Internals
             try
             {
                 success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
+
+                //If don't support Tasks by default
+                if (success && result != null && (typeof(Task).IsAssignableFrom(result.GetType())))
+                {
+                    success = false;
+                    result = null;
+                    exception = @"Your method returned a Task which is not supported by default you must set CefSharpSettings.ConcurrentTaskExecution = true; 
+                    before creating your first ChromiumWebBrowser instance. This will likely change to the default at some point in the near future. 
+                    see https://github.com/cefsharp/CefSharp/issues/2758 for more details, please report any issues you have there, make sure you have 
+                    an example ready that reproduces your problem.";
+                }
+
             }
             catch (Exception e)
             {
