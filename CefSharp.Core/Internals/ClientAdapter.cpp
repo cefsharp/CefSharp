@@ -1419,6 +1419,24 @@ namespace CefSharp
 
                 handled = true;
             }
+            else if (name == kJavascriptMessageReceived)
+            {
+                auto frame = browser->GetFrame(GetInt64(argList, 0));
+
+                //In certain circumstances the frame has already been destroyed by the time
+                //we get here, only continue if we have a valid frame reference
+                if (frame.get())
+                {
+                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                    CefFrameWrapper frameWrapper(frame);
+
+                    auto message = DeserializeObject(argList, 1, callbackFactory);
+
+                    _browserControl->SetJavascriptMessageReceived(gcnew JavascriptMessageReceivedEventArgs(browserWrapper, %frameWrapper, message));
+                }
+
+                handled = true;
+            }
 
             return handled;
         }

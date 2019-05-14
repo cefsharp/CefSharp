@@ -107,6 +107,9 @@
     <ClInclude Include="Wrapper\V8Context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JavascriptPostMessageHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">

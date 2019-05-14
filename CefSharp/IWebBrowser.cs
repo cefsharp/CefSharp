@@ -74,6 +74,11 @@ namespace CefSharp
         event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
+        /// Event handler that will get called when the message that originates from CefSharp.PostMessage
+        /// </summary>
+        event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
+
+        /// <summary>
         /// Loads the specified URL.
         /// </summary>
         /// <param name="url">The URL to be loaded.</param>
