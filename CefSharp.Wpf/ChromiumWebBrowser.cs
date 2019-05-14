@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using CefSharp.Enums;
 using CefSharp.Internals;
 using CefSharp.Structs;
+using CefSharp.Wpf.Experimental;
 using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
@@ -31,8 +32,13 @@ namespace CefSharp.Wpf
     /// <seealso cref="System.Windows.Controls.Control" />
     /// <seealso cref="CefSharp.Internals.IRenderWebBrowser" />
     /// <seealso cref="CefSharp.Wpf.IWpfWebBrowser" />
+    [TemplatePart(Name = PartImageName, Type = typeof(Image))]
+    [TemplatePart(Name = PartPopupImageName, Type = typeof(Image))]
     public class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
     {
+        public const string PartImageName = "PART_image";
+        public const string PartPopupImageName = "PART_popupImage";
+
         /// <summary>
         /// The source
         /// </summary>
@@ -263,7 +269,10 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
-
+        /// <summary>
+        /// Implement <see cref="IAudioHandler" /> to handle audio events.
+        /// </summary>
+        public IAudioHandler AudioHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
         /// </summary>
@@ -965,7 +974,11 @@ namespace CefSharp.Wpf
         /// <param name="characterBounds">is the bounds of each character in view coordinates.</param>
         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
-            //TODO: Implement this
+            var imeKeyboardHandler = WpfKeyboardHandler as WpfImeKeyboardHandler;
+            if (imeKeyboardHandler != null)
+            {
+                imeKeyboardHandler.ChangeCompositionRange(selectedRange, characterBounds);
+            }
         }
 
         void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
@@ -1786,7 +1799,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="priority">The priority.</param>
-        private void UiThreadRunAsync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
+        internal void UiThreadRunAsync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
         {
             if (Dispatcher.CheckAccess())
             {
@@ -1924,12 +1937,12 @@ namespace CefSharp.Wpf
             if (image == null)
             {
                 // Create main window
-                image = (Image)GetTemplateChild("PART_image");
+                image = (Image)GetTemplateChild(PartImageName);
             }
 
             if (popupImage == null)
             {
-                popupImage = (Image)GetTemplateChild("PART_popupImage");
+                popupImage = (Image)GetTemplateChild(PartPopupImageName);
             }
         }
 
@@ -2184,7 +2197,7 @@ namespace CefSharp.Wpf
         /// Handles the <see cref="E:MouseButton" /> event.
         /// </summary>
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
-        private void OnMouseButton(MouseButtonEventArgs e)
+        protected internal virtual void OnMouseButton(MouseButtonEventArgs e)
         {
             if (!e.Handled && browser != null)
             {
