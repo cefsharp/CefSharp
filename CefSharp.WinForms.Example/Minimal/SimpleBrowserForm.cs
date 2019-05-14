@@ -4,7 +4,6 @@
 
 using System;
 using System.Windows.Forms;
-using CefSharp.Example;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.WinForms.Internals;
 
@@ -13,10 +12,13 @@ namespace CefSharp.WinForms.Example.Minimal
     public partial class SimpleBrowserForm : Form
     {
         private ChromiumWebBrowser browser;
+        private bool multiThreadedMessageLoop;
 
-        public SimpleBrowserForm()
+        public SimpleBrowserForm(bool multiThreadedMessageLoop)
         {
             InitializeComponent();
+
+            this.multiThreadedMessageLoop = multiThreadedMessageLoop;
 
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
@@ -51,6 +53,11 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
             browser.JavascriptObjectRepository.Register("bound", new BoundObject());
+            if (!multiThreadedMessageLoop)
+            {
+                browser.FocusHandler = null;
+            }
+
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
