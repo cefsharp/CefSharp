@@ -122,6 +122,9 @@
     <Compile Include="JavascriptCallbackMainWindow.xaml.cs">
       <DependentUpon>JavascriptCallbackMainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StandardTabControlWindow.xaml.cs">
+      <DependentUpon>StandardTabControlWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TouchKeyboardWin10MainWindow.xaml.cs">
       <DependentUpon>TouchKeyboardWin10MainWindow.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="JavascriptCallbackMainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardTabControlWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
