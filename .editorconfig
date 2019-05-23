@@ -105,6 +105,7 @@ dotnet_naming_symbols.private_internal_field_target.applicable_accessibilities =
 # Code style defaults
 dotnet_sort_system_directives_first                                            = true
 csharp_preserve_single_line_blocks                                             = true
+csharp_prefer_braces                                                           = true
 csharp_preserve_single_line_statements                                         = false
 dotnet_style_prefer_auto_properties                                            = true : suggestion
 
