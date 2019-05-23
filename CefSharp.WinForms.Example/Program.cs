@@ -45,7 +45,7 @@ namespace CefSharp.WinForms.Example
 
                 Cef.Initialize(settings);
 
-                var browser = new SimpleBrowserForm();
+                var browser = new SimpleBrowserForm(true);
                 Application.Run(browser);
             }
             else
@@ -58,10 +58,13 @@ namespace CefSharp.WinForms.Example
                 }
 #endif
 
-                const bool multiThreadedMessageLoop = true;
+                //When multiThreadedMessageLoop = true then externalMessagePump must be set to false
+                // To enable externalMessagePump set  multiThreadedMessageLoop = false and externalMessagePump = true
+                const bool multiThreadedMessageLoop = false;
+                const bool externalMessagePump = false;
 
-                var browser = new BrowserForm(multiThreadedMessageLoop);
-                //var browser = new SimpleBrowserForm();
+                //var browser = new BrowserForm(multiThreadedMessageLoop);
+                var browser = new SimpleBrowserForm(multiThreadedMessageLoop);
                 //var browser = new TabulationDemoForm();
 
                 IBrowserProcessHandler browserProcessHandler;
@@ -75,12 +78,20 @@ namespace CefSharp.WinForms.Example
                     //Get the current taskScheduler (must be called after the form is created)
                     var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-                    browserProcessHandler = new WinFormsBrowserProcessHandler(scheduler);
+                    if (externalMessagePump)
+                    {
+                        browserProcessHandler = new ScheduleMessagePumpBrowserProcessHandler(scheduler);
+                    }
+                    else
+                    {
+                        browserProcessHandler = new WinFormsBrowserProcessHandler(scheduler);
+                    }
+
                 }
 
                 var settings = new CefSettings();
                 settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
-                settings.ExternalMessagePump = !multiThreadedMessageLoop;
+                settings.ExternalMessagePump = externalMessagePump;
 
                 CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
 
