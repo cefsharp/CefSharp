@@ -142,9 +142,13 @@ namespace CefSharp.Wpf.Experimental
             // Set to false first if not already, because the value change (and raising of changes)
             // between false and true is necessary for IME to work in all circumstances
             if (InputMethod.GetIsInputMethodEnabled(owner))
+            {
                 InputMethod.SetIsInputMethodEnabled(owner, false);
+            }
             if (InputMethod.GetIsInputMethodSuspended(owner))
+            {
                 InputMethod.SetIsInputMethodSuspended(owner, false);
+            }
 
             // These calls are needed in order for IME to function correctly.
             InputMethod.SetIsInputMethodEnabled(owner, true);
