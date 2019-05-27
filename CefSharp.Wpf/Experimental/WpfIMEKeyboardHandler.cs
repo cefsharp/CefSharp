@@ -34,7 +34,9 @@ namespace CefSharp.Wpf.Experimental
         public void ChangeCompositionRange(Range selectionRange, Rect[] characterBounds)
         {
             if (!isActive)
+            {
                 return;
+            }
 
             var screenInfo = ((IRenderWebBrowser)owner).GetScreenInfo();
             var scaleFactor = screenInfo.HasValue ? screenInfo.Value.DeviceScaleFactor : 1.0f;
@@ -71,7 +73,9 @@ namespace CefSharp.Wpf.Experimental
         public override void Setup(HwndSource source)
         {
             if (isSetup)
+            {
                 return;
+            }
 
             isSetup = true;
 
@@ -90,7 +94,9 @@ namespace CefSharp.Wpf.Experimental
             // If the owner had focus before adding the handler then we have to run the "got focus" code here
             // or it won't set up IME when starting inline reply and then opening as new window
             if (hadFocus)
+            {
                 SetActive();
+            }
         }
 
         public override void Dispose()
@@ -98,7 +104,9 @@ namespace CefSharp.Wpf.Experimental
             // Note Setup can be run after disposing, to "reset" this instance
             // due to the code in ChromiumWebBrowser.PresentationSourceChangedHandler
             if (!isSetup)
+            {
                 return;
+            }
 
             isSetup = false;
 
