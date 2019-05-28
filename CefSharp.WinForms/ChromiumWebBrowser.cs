@@ -70,7 +70,7 @@ namespace CefSharp.WinForms
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public new bool IsDisposed
         {
             get
@@ -84,14 +84,14 @@ namespace CefSharp.WinForms
         /// MUST ONLY be cleared by DefaultFocusHandler.
         /// </summary>
         /// <value><c>true</c> if this instance is activating; otherwise, <c>false</c>.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool IsActivating { get; set; }
 
         /// <summary>
         /// Gets or sets the browser settings.
         /// </summary>
         /// <value>The browser settings.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IBrowserSettings BrowserSettings
         {
             get { return browserSettings; }
@@ -113,7 +113,7 @@ namespace CefSharp.WinForms
         /// Gets or sets the request context.
         /// </summary>
         /// <value>The request context.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IRequestContext RequestContext
         {
             get { return requestContext; }
@@ -137,13 +137,13 @@ namespace CefSharp.WinForms
         /// <value><c>true</c> if this instance is loading; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool IsLoading { get; private set; }
         /// <summary>
         /// The text that will be displayed as a ToolTip
         /// </summary>
         /// <value>The tooltip text.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public string TooltipText { get; private set; }
         /// <summary>
         /// The address (URL) which the browser control is currently displaying.
@@ -152,79 +152,79 @@ namespace CefSharp.WinForms
         /// <value>The address.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public string Address { get; private set; }
 
         /// <summary>
         /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
         /// </summary>
         /// <value>The dialog handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IDialogHandler DialogHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
         /// </summary>
         /// <value>The js dialog handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IJsDialogHandler JsDialogHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IKeyboardHandler" /> and assign to handle events related to key press.
         /// </summary>
         /// <value>The keyboard handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IKeyboardHandler KeyboardHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IRequestHandler" /> and assign to handle events related to browser requests.
         /// </summary>
         /// <value>The request handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IRequestHandler RequestHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IDownloadHandler" /> and assign to handle events related to downloading files.
         /// </summary>
         /// <value>The download handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IDownloadHandler DownloadHandler { get; set; }
         /// <summary>
         /// Implement <see cref="ILoadHandler" /> and assign to handle events related to browser load status.
         /// </summary>
         /// <value>The load handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public ILoadHandler LoadHandler { get; set; }
         /// <summary>
         /// Implement <see cref="ILifeSpanHandler" /> and assign to handle events related to popups.
         /// </summary>
         /// <value>The life span handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IDisplayHandler" /> and assign to handle events related to browser display state.
         /// </summary>
         /// <value>The display handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IDisplayHandler DisplayHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IContextMenuHandler" /> and assign to handle events related to the browser context menu
         /// </summary>
         /// <value>The menu handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IContextMenuHandler MenuHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
         /// <value>The render process message handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IFindHandler" /> to handle events related to find results.
         /// </summary>
         /// <value>The find handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IFindHandler FindHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IAudioHandler" /> to handle audio events.
         /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IAudioHandler AudioHandler { get; set; }
         /// <summary>
         /// The <see cref="IFocusHandler" /> for this ChromiumWebBrowser.
@@ -235,19 +235,19 @@ namespace CefSharp.WinForms
         /// needing to override the logic in OnGotFocus. The implementation in
         /// DefaultFocusHandler relies on very detailed behavior of how WinForms and
         /// Windows interact during window activation.</remarks>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IFocusHandler FocusHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IDragHandler" /> and assign to handle events related to dragging.
         /// </summary>
         /// <value>The drag handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IDragHandler DragHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
         /// </summary>
         /// <value>The resource handler factory.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace CefSharp.WinForms
         /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool CanGoForward { get; private set; }
         /// <summary>
         /// A flag that indicates whether the state of the control current supports the GoBack action (true) or not (false).
@@ -340,7 +340,7 @@ namespace CefSharp.WinForms
         /// <value><c>true</c> if this instance can go back; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool CanGoBack { get; private set; }
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
@@ -348,7 +348,7 @@ namespace CefSharp.WinForms
         /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool IsBrowserInitialized { get; private set; }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace CefSharp.WinForms
         /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
         /// and false in IRenderProcessMessageHandler.OnContextReleased
         /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace CefSharp.WinForms
         /// and should only be required when using <see cref="CefSettings.MultiThreadedMessageLoop"/>
         /// set to true.
         /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(true)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(true)]
         public bool UseParentFormMessageInterceptor { get; set; } = true;
 
         /// <summary>
@@ -548,7 +548,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// The javascript object repository, one repository per ChromiumWebBrowser instance.
         /// </summary>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
             get
