@@ -83,7 +83,6 @@ namespace CefSharp.Wpf.Experimental
             sourceHook = SourceHook;
             source.AddHook(SourceHook);
 
-            var hadFocus = owner.IsFocused;
             owner.GotFocus += OwnerGotFocus;
             owner.LostFocus += OwnerLostFocus;
 
@@ -93,7 +92,7 @@ namespace CefSharp.Wpf.Experimental
 
             // If the owner had focus before adding the handler then we have to run the "got focus" code here
             // or it won't set up IME when starting inline reply and then opening as new window
-            if (hadFocus)
+            if (owner.IsFocused)
             {
                 SetActive();
             }
