@@ -91,7 +91,7 @@ namespace CefSharp.Wpf.Experimental
             owner.AddHandler(UIElement.MouseDownEvent, mouseDownEventHandler, true);
 
             // If the owner had focus before adding the handler then we have to run the "got focus" code here
-            // or it won't set up IME when starting inline reply and then opening as new window
+            // or it won't set up IME properly in all cases
             if (owner.IsFocused)
             {
                 SetActive();
