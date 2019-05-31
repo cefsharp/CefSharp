@@ -79,7 +79,7 @@ namespace CefSharp.BrowserSubprocess
 
             Debug.WriteLine("BrowserSubprocess shutting down forcibly.");
 
-            Environment.Exit(0);
+            Process.GetCurrentProcess().Kill();
         }
     }
 }
