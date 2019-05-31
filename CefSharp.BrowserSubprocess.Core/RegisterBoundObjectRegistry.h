@@ -20,8 +20,11 @@ namespace CefSharp
     private ref class RegisterBoundObjectRegistry
     {
     private:
+        //Only access through Interlocked::Increment - used to generate unique callback Id's
+        //Is static so ids are unique to this process https://github.com/cefsharp/CefSharp/issues/2792
+        static int64 _lastCallback;
+
         initonly Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
-        int64 _lastCallback;
 
     public:
         RegisterBoundObjectRegistry()
