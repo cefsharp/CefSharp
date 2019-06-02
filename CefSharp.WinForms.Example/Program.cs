@@ -60,7 +60,7 @@ namespace CefSharp.WinForms.Example
 
                 //When multiThreadedMessageLoop = true then externalMessagePump must be set to false
                 // To enable externalMessagePump set  multiThreadedMessageLoop = false and externalMessagePump = true
-                const bool multiThreadedMessageLoop = false;
+                const bool multiThreadedMessageLoop = true;
                 const bool externalMessagePump = false;
 
                 var browser = new BrowserForm(multiThreadedMessageLoop);
