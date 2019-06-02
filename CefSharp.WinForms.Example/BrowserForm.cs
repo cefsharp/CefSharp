@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -37,6 +38,19 @@ namespace CefSharp.WinForms.Example
             ResizeEnd += (s, e) => ResumeLayout(true);
 
             this.multiThreadedMessageLoopEnabled = multiThreadedMessageLoopEnabled;
+        }
+
+        public IContainer Components
+        {
+            get
+            {
+                if (components == null)
+                {
+                    components = new Container();
+                }
+
+                return components;
+            }
         }
 
         private void BrowserFormLoad(object sender, EventArgs e)
