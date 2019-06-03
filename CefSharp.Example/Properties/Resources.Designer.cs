@@ -567,7 +567,7 @@ namespace CefSharp.Example.Properties {
         ///        (async function ()
         ///        {
         ///            await CefSharp.BindObjectAsync(&apos;boundObject&apos;);
-        ///            boundObject.SetCallBack(myFunction);
+        ///            boundObject.setCallBack(myFunction);
         ///
         ///            function myFunction(param)
         ///            {
@@ -578,8 +578,7 @@ namespace CefSharp.Example.Properties {
         ///    &lt;/script&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///
-        ///&lt;/b [rest of string was truncated]&quot;;.
+        ///    &lt; [rest of string was truncated]&quot;;.
         /// </summary>
         public static string JavascriptCallbackTest {
             get {
@@ -648,6 +647,31 @@ namespace CefSharp.Example.Properties {
         public static string PopupTest {
             get {
                 return ResourceManager.GetString("PopupTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;Post Message Test&lt;/title&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
+        ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
+        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///
+        ///    &lt;script type=&quot;text/javascript&quot;&gt;
+        ///        (async () =&gt;
+        ///        {
+        ///            QUnit.test(&quot;PostMessage Test:&quot;, function  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PostMessageTest {
+            get {
+                return ResourceManager.GetString("PostMessageTest", resourceCulture);
             }
         }
         

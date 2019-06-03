@@ -327,6 +327,11 @@ namespace CefSharp.WinForms
         public event EventHandler IsBrowserInitializedChanged;
 
         /// <summary>
+        /// Event handler that will get called when the message that originates from CefSharp.PostMessage
+        /// </summary>
+        public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
+
+        /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
@@ -499,6 +504,7 @@ namespace CefSharp.WinForms
                 LoadingStateChanged = null;
                 StatusMessage = null;
                 TitleChanged = null;
+                JavascriptMessageReceived = null;
 
                 // Release reference to handlers, except LifeSpanHandler which is done after Disposing
                 // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
@@ -781,6 +787,11 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
         {
             CanExecuteJavascriptInMainFrame = canExecute;
+        }
+
+        void IWebBrowserInternal.SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args)
+        {
+            JavascriptMessageReceived?.Invoke(this, args);
         }
 
         /// <summary>

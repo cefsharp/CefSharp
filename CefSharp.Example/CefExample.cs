@@ -18,6 +18,7 @@ namespace CefSharp.Example
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
         public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
+        public const string PostMessageTestUrl = BaseUrl + "/PostMessageTest.html";
         public const string PluginsTestUrl = BaseUrl + "/plugins.html";
         public const string PopupTestUrl = BaseUrl + "/PopupTest.html";
         public const string TooltipTestUrl = BaseUrl + "/TooltipTest.html";
@@ -52,7 +53,7 @@ namespace CefSharp.Example
             //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
             //CEF specific command line args
             //https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc?fileviewer=file-view-default
-            
+
             settings.RemoteDebuggingPort = 8088;
             //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
             //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 

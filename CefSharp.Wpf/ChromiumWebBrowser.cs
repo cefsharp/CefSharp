@@ -354,6 +354,11 @@ namespace CefSharp.Wpf
         public event EventHandler<VirtualKeyboardRequestedEventArgs> VirtualKeyboardRequested;
 
         /// <summary>
+        /// Event handler that will get called when the message that originates from CefSharp.PostMessage
+        /// </summary>
+        public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
+
+        /// <summary>
         /// Navigates to the previous page in the browser history. Will automatically be enabled/disabled depending on the
         /// browser state.
         /// </summary>
@@ -639,6 +644,7 @@ namespace CefSharp.Wpf
                 StatusMessage = null;
                 TitleChanged = null;
                 VirtualKeyboardRequested = null;
+                JavascriptMessageReceived = null;
 
                 // Release reference to handlers, except LifeSpanHandler which is done after Disposing
                 // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
@@ -1101,6 +1107,11 @@ namespace CefSharp.Wpf
         void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
         {
             CanExecuteJavascriptInMainFrame = canExecute;
+        }
+
+        void IWebBrowserInternal.SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args)
+        {
+            JavascriptMessageReceived?.Invoke(this, args);
         }
 
         /// <summary>
