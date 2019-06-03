@@ -11,7 +11,7 @@ namespace CefSharp.WinForms.Example.Handlers
 {
     /// <summary>
     /// Integreates CEF into the WinForms message loop, 
-    /// This implementation is very simplistic, the timer fires roughly <see cref="BrowserProcessHandler.MaxTimerDelay"/>
+    /// This implementation is very simplistic, the timer fires roughly <see cref="BrowserProcessHandler.ThirtyTimesPerSecond"/>
     /// times per second calling Cef.DoMessageLoopWork on the WinForms UI Thread. When OnScheduleMessagePumpWork
     /// is called with a delay of less than or equal to 0 then Cef.DoMessageLoopWork is called as CEF has signaled
     /// that it needs to perform work.
@@ -27,7 +27,7 @@ namespace CefSharp.WinForms.Example.Handlers
         public ScheduleMessagePumpBrowserProcessHandler(TaskScheduler scheduler)
         {
             factory = new TaskFactory(scheduler);
-            timer = new Timer { Interval = MaxTimerDelay, AutoReset = true };
+            timer = new Timer { Interval = ThirtyTimesPerSecond, AutoReset = true };
             timer.Start();
             timer.Elapsed += TimerTick;
         }

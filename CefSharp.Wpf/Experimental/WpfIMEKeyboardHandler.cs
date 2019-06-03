@@ -19,7 +19,7 @@ namespace CefSharp.Wpf.Experimental
     {
         private int languageCodeId;
         private bool systemCaret;
-        private bool isDisposed;
+        private bool isSetup;
         private List<Rect> compositionBounds = new List<Rect>();
         private HwndSource source;
         private HwndSourceHook sourceHook;
@@ -72,6 +72,13 @@ namespace CefSharp.Wpf.Experimental
 
         public override void Setup(HwndSource source)
         {
+            if (isSetup)
+            {
+                return;
+            }
+
+            isSetup = true;
+
             this.source = source;
             sourceHook = SourceHook;
             source.AddHook(SourceHook);
@@ -83,17 +90,24 @@ namespace CefSharp.Wpf.Experimental
 
             owner.AddHandler(UIElement.MouseDownEvent, mouseDownEventHandler, true);
 
-            owner.Focus();
+            // If the owner had focus before adding the handler then we have to run the "got focus" code here
+            // or it won't set up IME properly in all cases
+            if (owner.IsFocused)
+            {
+                SetActive();
+            }
         }
 
         public override void Dispose()
         {
-            if (isDisposed)
+            // Note Setup can be run after disposing, to "reset" this instance
+            // due to the code in ChromiumWebBrowser.PresentationSourceChangedHandler
+            if (!isSetup)
             {
                 return;
             }
 
-            isDisposed = true;
+            isSetup = false;
 
             owner.GotFocus -= OwnerGotFocus;
             owner.LostFocus -= OwnerLostFocus;
@@ -112,7 +126,37 @@ namespace CefSharp.Wpf.Experimental
             CloseImeComposition();
         }
 
+        private void OwnerGotFocus(object sender, RoutedEventArgs e)
+        {
+            SetActive();
+        }
+
         private void OwnerLostFocus(object sender, RoutedEventArgs e)
+        {
+            SetInactive();
+        }
+
+        private void SetActive()
+        {
+            // Set to false first if not already, because the value change (and raising of changes)
+            // between false and true is necessary for IME to work in all circumstances
+            if (InputMethod.GetIsInputMethodEnabled(owner))
+            {
+                InputMethod.SetIsInputMethodEnabled(owner, false);
+            }
+            if (InputMethod.GetIsInputMethodSuspended(owner))
+            {
+                InputMethod.SetIsInputMethodSuspended(owner, false);
+            }
+
+            // These calls are needed in order for IME to function correctly.
+            InputMethod.SetIsInputMethodEnabled(owner, true);
+            InputMethod.SetIsInputMethodSuspended(owner, true);
+
+            isActive = true;
+        }
+
+        private void SetInactive()
         {
             isActive = false;
 
@@ -121,20 +165,11 @@ namespace CefSharp.Wpf.Experimental
             InputMethod.SetIsInputMethodSuspended(owner, false);
         }
 
-        private void OwnerGotFocus(object sender, RoutedEventArgs e)
-        {
-            // These calls are needed in order for IME to function correctly.
-            InputMethod.SetIsInputMethodEnabled(owner, true);
-            InputMethod.SetIsInputMethodSuspended(owner, true);
-
-            isActive = true;
-        }
-
         private IntPtr SourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             handled = false;
 
-            if (!isActive || isDisposed || owner == null || owner.IsDisposed || owner.GetBrowserHost() == null)
+            if (!isActive || !isSetup || owner == null || owner.IsDisposed || owner.GetBrowserHost() == null)
             {
                 return IntPtr.Zero;
             }
@@ -198,7 +233,8 @@ namespace CefSharp.Wpf.Experimental
 
                 if (ImeHandler.GetComposition(hwnd, (uint)lParam, underlines, ref compositionStart, out text))
                 {
-                    owner.GetBrowserHost().ImeSetComposition(text, underlines.ToArray(), new Range(int.MaxValue, int.MaxValue), new Range(compositionStart, compositionStart));
+                    owner.GetBrowserHost().ImeSetComposition(text, underlines.ToArray(),
+                        new Range(int.MaxValue, int.MaxValue), new Range(compositionStart, compositionStart));
 
                     UpdateCaretPosition(compositionStart - 1);
                 }

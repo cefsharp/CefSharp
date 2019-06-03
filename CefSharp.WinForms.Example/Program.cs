@@ -60,11 +60,11 @@ namespace CefSharp.WinForms.Example
 
                 //When multiThreadedMessageLoop = true then externalMessagePump must be set to false
                 // To enable externalMessagePump set  multiThreadedMessageLoop = false and externalMessagePump = true
-                const bool multiThreadedMessageLoop = false;
+                const bool multiThreadedMessageLoop = true;
                 const bool externalMessagePump = false;
 
-                //var browser = new BrowserForm(multiThreadedMessageLoop);
-                var browser = new SimpleBrowserForm(multiThreadedMessageLoop);
+                var browser = new BrowserForm(multiThreadedMessageLoop);
+                //var browser = new SimpleBrowserForm(multiThreadedMessageLoop);
                 //var browser = new TabulationDemoForm();
 
                 IBrowserProcessHandler browserProcessHandler;
@@ -75,16 +75,16 @@ namespace CefSharp.WinForms.Example
                 }
                 else
                 {
-                    //Get the current taskScheduler (must be called after the form is created)
-                    var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-
                     if (externalMessagePump)
                     {
+                        //Get the current taskScheduler (must be called after the form is created)
+                        var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
                         browserProcessHandler = new ScheduleMessagePumpBrowserProcessHandler(scheduler);
                     }
                     else
                     {
-                        browserProcessHandler = new WinFormsBrowserProcessHandler(scheduler);
+                        //We'll add out WinForms timer to the components container so it's Diposed
+                        browserProcessHandler = new WinFormsBrowserProcessHandler(browser.Components);
                     }
 
                 }
