@@ -110,6 +110,13 @@ namespace CefSharp.WinForms
             }
         }
         /// <summary>
+        /// Activates browser upon creation, the default value is false. Prior to version 73
+        /// the default behaviour was to activate browser on creation (Equivilent of setting this property to true).
+        /// To restore this behaviour set this value to true immediately after you create the <see cref="ChromiumWebBrowser"/> instance.
+        /// https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+        /// </summary>
+        public bool ActivateBrowserOnCreation { get; set; }
+        /// <summary>
         /// Gets or sets the request context.
         /// </summary>
         /// <value>The request context.</value>
@@ -608,9 +615,13 @@ namespace CefSharp.WinForms
 
             var windowInfo = new WindowInfo();
             windowInfo.SetAsChild(handle);
-            //Disable Window activation by default
-            //https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
-            windowInfo.ExStyle |= WS_EX_NOACTIVATE;
+
+            if (!ActivateBrowserOnCreation)
+            {
+                //Disable Window activation by default
+                //https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+                windowInfo.ExStyle |= WS_EX_NOACTIVATE;
+            }
 
             return windowInfo;
         }
