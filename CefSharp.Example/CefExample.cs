@@ -17,6 +17,7 @@ namespace CefSharp.Example
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
+        public const string BindingTestsAsyncTaskUrl = BaseUrl + "/BindingTestsAsyncTask.html";
         public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
         public const string PluginsTestUrl = BaseUrl + "/plugins.html";
         public const string PopupTestUrl = BaseUrl + "/PopupTest.html";
@@ -52,7 +53,7 @@ namespace CefSharp.Example
             //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
             //CEF specific command line args
             //https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc?fileviewer=file-view-default
-            
+
             settings.RemoteDebuggingPort = 8088;
             //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
             //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 
@@ -187,8 +188,9 @@ namespace CefSharp.Example
             //This must be set before Cef.Initialized is called
             CefSharpSettings.FocusedNodeChangedEnabled = true;
 
-            //Experimental option where bound async methods are queued on TaskScheduler.Default.
-            CefSharpSettings.ConcurrentTaskExecution = true;
+            //Async Javascript Binding - methods are queued on TaskScheduler.Default.
+            //Set this to true to when you have methods that return Task<T>
+            //CefSharpSettings.ConcurrentTaskExecution = true;
 
             //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)
             //See issue https://github.com/cefsharp/CefSharp/issues/1203 for details
