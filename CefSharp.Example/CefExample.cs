@@ -19,6 +19,7 @@ namespace CefSharp.Example
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
         public const string BindingTestsAsyncTaskUrl = BaseUrl + "/BindingTestsAsyncTask.html";
         public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
+        public const string PostMessageTestUrl = BaseUrl + "/PostMessageTest.html";
         public const string PluginsTestUrl = BaseUrl + "/plugins.html";
         public const string PopupTestUrl = BaseUrl + "/PopupTest.html";
         public const string TooltipTestUrl = BaseUrl + "/TooltipTest.html";

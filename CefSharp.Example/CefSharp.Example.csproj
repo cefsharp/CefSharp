@@ -90,6 +90,8 @@
     <Compile Include="JavascriptBinding\JsSerializableClass.cs" />
     <Compile Include="JavascriptBinding\JsSerializableStruct.cs" />
     <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
+    <Compile Include="PostMessage\PostMessageExample.cs" />
+    <Compile Include="PostMessage\PostMessageExampleData.cs" />
     <Compile Include="RequestEventHandler\EventArgs\BaseRequestEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\CanSetCookieEventArg.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetAuthCredentialsEventArgs.cs" />
@@ -171,6 +173,7 @@
     <Content Include="Resources\FramedWebGLTest.html" />
     <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\DraggableRegionTest.html" />
+    <Content Include="Resources\PostMessageTest.html" />
     <Content Include="Resources\Recaptcha.html" />
     <Content Include="Resources\ResponseFilterTest.html" />
     <Content Include="Resources\SchemeTest.html" />

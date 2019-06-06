@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Post Message Test</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
+
+    <script type="text/javascript">
+        let PostMessageIntTestCallback;
+
+        (async () =>
+        {
+            QUnit.test("PostMessage Object Test:", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                const expectedResult = 'Update';
+
+                let responseFunc = function (msg)
+                {
+                    assert.equal(expectedResult, msg, "Return result " + expectedResult);
+
+                    asyncCallback();
+                };
+
+                CefSharp.PostMessage({ "Type": "Update", Data: { "Property": 123 }, "Callback": responseFunc });
+            });
+
+            QUnit.test("PostMessage Int Test:", function (assert)
+            {
+                var asyncCallback = assert.async();
+                const expectedResult = 123456;
+
+                PostMessageIntTestCallback = function (msg)
+                {
+                    assert.equal(expectedResult, msg, "Return result " + expectedResult);
+
+                    asyncCallback();
+                };
+
+                CefSharp.PostMessage(expectedResult);
+            });
+        })();
+    </script>
+</body>
+</html>

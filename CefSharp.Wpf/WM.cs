@@ -54,5 +54,27 @@ namespace CefSharp.Wpf
         /// its WindowProc function. 
         /// </summary>
         IME_CHAR = 0x0286,
+
+        /// <summary>
+        /// Sent immediately before the IME generates the composition string as a result of a keystroke. A window receives this
+        /// message through its WindowProc function.
+        /// </summary>
+        IME_STARTCOMPOSITION = 0x10D,
+
+        /// <summary>
+        /// Sent to an application when the IME ends composition. A window receives this message through its WindowProc function.
+        /// </summary>
+        IME_ENDCOMPOSITION = 0x10E,
+
+        /// <summary>
+        /// Sent to an application when the IME changes composition status as a result of a keystroke. A window receives this
+        /// message through its WindowProc function.
+        /// </summary>
+        IME_COMPOSITION = 0x10F,
+
+        /// <summary>
+        /// Sent to an application when a window is activated. A window receives this message through its WindowProc function.
+        /// </summary>
+        IME_SETCONTEXT = 0x281,
     }
 }

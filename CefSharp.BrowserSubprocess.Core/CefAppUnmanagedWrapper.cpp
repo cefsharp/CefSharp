@@ -9,6 +9,7 @@
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
 #include "RegisterBoundObjectHandler.h"
+#include "JavascriptPostMessageHandler.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "Async\JavascriptAsyncMethodCallback.h"
 #include "Serialization\V8Serialization.h"
@@ -75,15 +76,13 @@ namespace CefSharp
             _handler->OnContextCreated(%browserWrapper, %frameWrapper, %contextWrapper);
         }
 
+        auto rootObject = GetJsRootObjectWrapper(browser->GetIdentifier(), frame->GetIdentifier());
+
         if (_legacyBindingEnabled)
         {
-            if (_javascriptObjects->Count > 0)
+            if (_javascriptObjects->Count > 0 && rootObject != nullptr)
             {
-                auto rootObject = GetJsRootObjectWrapper(browser->GetIdentifier(), frame->GetIdentifier());
-                if (rootObject != nullptr)
-                {
-                    rootObject->Bind(_javascriptObjects->Values, context->GetGlobal());
-                }
+                rootObject->Bind(_javascriptObjects->Values, context->GetGlobal());
             }
         }
 
@@ -104,16 +103,19 @@ namespace CefSharp
         auto unBindObjFunction = CefV8Value::CreateFunction(kDeleteBoundObject, new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
         auto removeObjectFromCacheFunction = CefV8Value::CreateFunction(kRemoveObjectFromCache, new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
         auto isObjectCachedFunction = CefV8Value::CreateFunction(kIsObjectCached, new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects, nullptr));
+        auto postMessageFunction = CefV8Value::CreateFunction(kPostMessage, new JavascriptPostMessageHandler(rootObject == nullptr ? nullptr : rootObject->CallbackRegistry));
 
         cefSharpObj->SetValue(kBindObjectAsync, bindObjAsyncFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
         cefSharpObj->SetValue(kDeleteBoundObject, unBindObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
         cefSharpObj->SetValue(kRemoveObjectFromCache, removeObjectFromCacheFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
         cefSharpObj->SetValue(kIsObjectCached, isObjectCachedFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObj->SetValue(kPostMessage, postMessageFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
 
         cefSharpObjCamelCase->SetValue(kBindObjectAsyncCamelCase, bindObjAsyncFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
         cefSharpObjCamelCase->SetValue(kDeleteBoundObjectCamelCase, unBindObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
         cefSharpObjCamelCase->SetValue(kRemoveObjectFromCacheCamelCase, removeObjectFromCacheFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
         cefSharpObjCamelCase->SetValue(kIsObjectCachedCamelCase, isObjectCachedFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        cefSharpObjCamelCase->SetValue(kPostMessageCamelCase, postMessageFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
 
         //Send a message to the browser processing signaling that OnContextCreated has been called
         //only param is the FrameId. Previous sent only for main frame, now sent for all frames

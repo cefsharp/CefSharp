@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using CefSharp.SchemeHandler;
@@ -13,9 +12,13 @@ namespace CefSharp.Example.Handlers
     public class BrowserProcessHandler : IBrowserProcessHandler
     {
         /// <summary>
+        /// The interval between calls to Cef.DoMessageLoopWork
+        /// </summary>
+        protected const int SixtyTimesPerSecond = 1000 / 60;  // 60fps
+        /// <summary>
         /// The maximum number of milliseconds we're willing to wait between calls to OnScheduleMessagePumpWork().
         /// </summary>
-        protected const int MaxTimerDelay = 1000 / 30;  // 30fps
+        protected const int ThirtyTimesPerSecond = 1000 / 30;  //30fps
 
         void IBrowserProcessHandler.OnContextInitialized()
         {
@@ -101,11 +104,11 @@ namespace CefSharp.Example.Handlers
 
         void IBrowserProcessHandler.OnScheduleMessagePumpWork(long delay)
         {
-            //If the delay is greater than the Maximum then use MaxTimerDelay
+            //If the delay is greater than the Maximum then use ThirtyTimesPerSecond
             //instead - we do this to achieve a minimum number of FPS
-            if (delay > MaxTimerDelay)
+            if (delay > ThirtyTimesPerSecond)
             {
-                delay = MaxTimerDelay;
+                delay = ThirtyTimesPerSecond;
             }
             OnScheduleMessagePumpWork((int)delay);
         }

@@ -83,6 +83,7 @@
     <Reference Include="GalaSoft.MvvmLight.Platform">
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -122,6 +123,9 @@
     <Compile Include="JavascriptCallbackMainWindow.xaml.cs">
       <DependentUpon>JavascriptCallbackMainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StandardTabControlWindow.xaml.cs">
+      <DependentUpon>StandardTabControlWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TouchKeyboardWin10MainWindow.xaml.cs">
       <DependentUpon>TouchKeyboardWin10MainWindow.xaml</DependentUpon>
     </Compile>
@@ -148,6 +152,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="JavascriptCallbackMainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardTabControlWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

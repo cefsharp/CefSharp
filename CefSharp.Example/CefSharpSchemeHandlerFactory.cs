@@ -38,6 +38,7 @@ namespace CefSharp.Example
                 { "/BindingTest.html", Resources.BindingTest },
                 { "/BindingTestSingle.html", Resources.BindingTestSingle },
                 { "/LegacyBindingTest.html", Resources.LegacyBindingTest },
+                { "/PostMessageTest.html", Resources.PostMessageTest },
                 { "/ExceptionTest.html", Resources.ExceptionTest },
                 { "/PopupTest.html", Resources.PopupTest },
                 { "/SchemeTest.html", Resources.SchemeTest },

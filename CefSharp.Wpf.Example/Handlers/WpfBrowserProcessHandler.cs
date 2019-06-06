@@ -21,7 +21,7 @@ namespace CefSharp.Wpf.Example.Handlers
 
         public WpfBrowserProcessHandler(Dispatcher dispatcher)
         {
-            timer = new Timer { Interval = MaxTimerDelay, AutoReset = true };
+            timer = new Timer { Interval = ThirtyTimesPerSecond, AutoReset = true };
             timer.Start();
             timer.Elapsed += TimerTick;
 

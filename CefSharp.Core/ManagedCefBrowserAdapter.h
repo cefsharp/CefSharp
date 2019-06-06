@@ -39,6 +39,8 @@ namespace CefSharp
 
     private:
         void MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e);
+        void InitializeBrowserProcessServiceHost(IBrowser^ browser);
+        void DisposeBrowserProcessServiceHost();
 
     internal:
         MCefRefPtr<ClientAdapter> GetClientAdapter();
@@ -102,17 +104,9 @@ namespace CefSharp
                 _browserWrapper = nullptr;
             }
 
-            if (CefSharpSettings::WcfEnabled && _browserProcessServiceHost != nullptr)
+            if (CefSharpSettings::WcfEnabled)
             {
-                if (CefSharpSettings::WcfTimeout > TimeSpan::Zero)
-                {
-                    _browserProcessServiceHost->Close(CefSharpSettings::WcfTimeout);
-                }
-                else
-                {
-                    _browserProcessServiceHost->Abort();
-                }
-                _browserProcessServiceHost = nullptr;
+                DisposeBrowserProcessServiceHost();
             }
 
             _webBrowserInternal = nullptr;

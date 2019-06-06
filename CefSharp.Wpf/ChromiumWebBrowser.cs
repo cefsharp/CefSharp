@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using CefSharp.Enums;
 using CefSharp.Internals;
 using CefSharp.Structs;
+using CefSharp.Wpf.Experimental;
 using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
@@ -353,6 +354,11 @@ namespace CefSharp.Wpf
         public event EventHandler<VirtualKeyboardRequestedEventArgs> VirtualKeyboardRequested;
 
         /// <summary>
+        /// Event handler that will get called when the message that originates from CefSharp.PostMessage
+        /// </summary>
+        public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
+
+        /// <summary>
         /// Navigates to the previous page in the browser history. Will automatically be enabled/disabled depending on the
         /// browser state.
         /// </summary>
@@ -638,6 +644,7 @@ namespace CefSharp.Wpf
                 StatusMessage = null;
                 TitleChanged = null;
                 VirtualKeyboardRequested = null;
+                JavascriptMessageReceived = null;
 
                 // Release reference to handlers, except LifeSpanHandler which is done after Disposing
                 // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
@@ -973,7 +980,11 @@ namespace CefSharp.Wpf
         /// <param name="characterBounds">is the bounds of each character in view coordinates.</param>
         protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
-            //TODO: Implement this
+            var imeKeyboardHandler = WpfKeyboardHandler as WpfImeKeyboardHandler;
+            if (imeKeyboardHandler != null)
+            {
+                imeKeyboardHandler.ChangeCompositionRange(selectedRange, characterBounds);
+            }
         }
 
         void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
@@ -1096,6 +1107,11 @@ namespace CefSharp.Wpf
         void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
         {
             CanExecuteJavascriptInMainFrame = canExecute;
+        }
+
+        void IWebBrowserInternal.SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args)
+        {
+            JavascriptMessageReceived?.Invoke(this, args);
         }
 
         /// <summary>
@@ -1794,7 +1810,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="priority">The priority.</param>
-        private void UiThreadRunAsync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
+        internal void UiThreadRunAsync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
         {
             if (Dispatcher.CheckAccess())
             {

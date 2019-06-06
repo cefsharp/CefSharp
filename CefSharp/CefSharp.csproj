@@ -109,6 +109,7 @@
     <Compile Include="Enums\CefFileDialogFlags.cs" />
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
+    <Compile Include="Event\JavascriptMessageReceivedEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Handler\IAccessibilityHandler.cs" />

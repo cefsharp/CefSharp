@@ -177,6 +177,7 @@
     <ClInclude Include="Async\JavascriptAsyncMethodWrapper.h" />
     <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
+    <ClInclude Include="JavascriptPostMessageHandler.h" />
     <ClInclude Include="Wrapper\Frame.h" />
     <ClInclude Include="Wrapper\Browser.h" />
     <ClInclude Include="Wrapper\V8Context.h" />
