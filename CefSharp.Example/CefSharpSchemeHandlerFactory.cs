@@ -54,7 +54,8 @@ namespace CefSharp.Example
                 { "/Recaptcha.html", Resources.Recaptcha },
                 { "/UnicodeExampleGreaterThan32kb.html", Resources.UnicodeExampleGreaterThan32kb },
                 { "/UnocodeExampleEqualTo32kb.html", Resources.UnocodeExampleEqualTo32kb },
-                { "/JavascriptCallbackTest.html", Resources.JavascriptCallbackTest }
+                { "/JavascriptCallbackTest.html", Resources.JavascriptCallbackTest },
+                { "/BindingTestsAsyncTask.html", Resources.BindingTestsAsyncTask }
             };
         }
 

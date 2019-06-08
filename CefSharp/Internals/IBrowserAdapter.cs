@@ -10,7 +10,7 @@ namespace CefSharp.Internals
     /// </summary>
     public interface IBrowserAdapter
     {
-        MethodRunnerQueue MethodRunnerQueue { get; }
+        IMethodRunnerQueue MethodRunnerQueue { get; }
         JavascriptObjectRepository JavascriptObjectRepository { get; }
         IJavascriptCallbackFactory JavascriptCallbackFactory { get; }
         void OnAfterBrowserCreated(IBrowser browser);

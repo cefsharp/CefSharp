@@ -155,6 +155,7 @@
     <Content Include="Resources\assets\js\shBrushCSharp.js" />
     <None Include="Resources\assets\js\shBrushJScript.js" />
     <Content Include="Resources\assets\js\shCore.js" />
+    <Content Include="Resources\BindingTestsAsyncTask.html" />
     <Content Include="Resources\BindingTestSingle.html" />
     <Content Include="Resources\DragDropCursorsTest.html" />
     <Content Include="Resources\JavascriptCallbackTest.html" />

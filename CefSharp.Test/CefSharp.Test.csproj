@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="Framework\BinderFacts.cs" />
     <Compile Include="Framework\AsyncExtensionFacts.cs" />
+    <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
     <Compile Include="CefSharpFixture.cs" />
     <Compile Include="CefSharpFixtureCollection.cs" />
@@ -112,6 +113,10 @@
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
       <Name>CefSharp.Core</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
+      <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
+      <Name>CefSharp.Example</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.csproj">
       <Project>{483b158d-f57d-49d9-9046-31e6a73f8a53}</Project>
