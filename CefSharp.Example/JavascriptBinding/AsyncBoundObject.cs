@@ -6,6 +6,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -149,6 +151,10 @@ namespace CefSharp.Example.JavascriptBinding
             };
         }
 
+        //The Following Test methods can only be used when
+        //CefSharpSettings.ConcurrentTaskExecution = true;
+        //There is a seperate set of QUnit tests for these
+
         public Task<string> ReturnTaskStringAsync()
         {
             return Task.FromResult(nameof(ReturnTaskStringAsync));
@@ -166,6 +172,25 @@ namespace CefSharp.Example.JavascriptBinding
             await Task.Delay(2000);
 
             return str;
+        }
+
+        public async Task<string[]> AsyncDownloadFileAndSplitOnNewLines(string url)
+        {
+            var webClient = new WebClient();
+            var download = await webClient.DownloadStringTaskAsync(new Uri(url));
+
+            var lines = download.Split('\n').Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
+
+            return lines;
+        }
+
+        //We expect an exception here, so tell VS to ignore
+        [DebuggerHidden]
+        public async Task<string> AsyncThrowException()
+        {
+            await Task.Delay(2000);
+
+            throw new Exception("Expected Exception");
         }
     }
 }

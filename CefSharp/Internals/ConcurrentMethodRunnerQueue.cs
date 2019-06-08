@@ -109,7 +109,17 @@ namespace CefSharp.Internals
                                         {
                                             result.Success = false;
                                             result.Result = null;
-                                            result.Message = t.Exception.ToString();
+                                            var aggregateException = t.Exception;
+                                            //TODO: Add support for passing a more complex message
+                                            // to better represent the Exception
+                                            if (aggregateException.InnerExceptions.Count == 1)
+                                            {
+                                                result.Message = aggregateException.InnerExceptions[0].ToString();
+                                            }
+                                            else
+                                            {
+                                                result.Message = t.Exception.ToString();
+                                            }
                                         }
 
                                         OnMethodInvocationComplete(result);
