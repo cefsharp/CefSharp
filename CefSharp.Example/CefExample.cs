@@ -17,6 +17,7 @@ namespace CefSharp.Example
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
+        public const string BindingTestsAsyncTaskUrl = BaseUrl + "/BindingTestsAsyncTask.html";
         public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
         public const string PostMessageTestUrl = BaseUrl + "/PostMessageTest.html";
         public const string PluginsTestUrl = BaseUrl + "/plugins.html";
@@ -188,7 +189,8 @@ namespace CefSharp.Example
             //This must be set before Cef.Initialized is called
             CefSharpSettings.FocusedNodeChangedEnabled = true;
 
-            //Experimental option where bound async methods are queued on TaskScheduler.Default.
+            //Async Javascript Binding - methods are queued on TaskScheduler.Default.
+            //Set this to true to when you have methods that return Task<T>
             //CefSharpSettings.ConcurrentTaskExecution = true;
 
             //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)

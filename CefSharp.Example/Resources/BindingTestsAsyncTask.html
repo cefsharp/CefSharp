@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Binding Test Async Task</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
+</head>
+<body>
+    <div>
+        These tests require CefSharpSettings.ConcurrentTaskExecution = true;
+        Which by default is set to false
+    </div>
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
+
+    <script type="text/javascript">
+        function getRandomInt(min, max)
+        {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+        }
+
+        (async () =>
+        {
+            await CefSharp.BindObjectAsync("boundAsync");
+
+            QUnit.test("ReturnTaskStringAsync:", function (assert)
+            {
+                let asyncCallback = assert.async();
+
+                boundAsync.returnTaskStringAsync().then(function (actualResult)
+                {
+                    const expectedResult = 'ReturnTaskStringAsync';
+
+                    assert.equal(expectedResult, actualResult, "Return string " + expectedResult);
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("VoidReturnAsync Test:", function (assert)
+            {
+                let asyncCallback = assert.async();
+
+                boundAsync.voidReturnAsync().then(function (actualResult)
+                {
+                    const expectedResult = null;
+
+                    assert.equal(expectedResult, actualResult, "Return null");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async Download File Test:", function (assert)
+            {
+                let asyncCallback = assert.async();
+
+                const url = "https://raw.githubusercontent.com/cefsharp/CefSharp/master/.editorconfig";
+
+                const expectedResult = "# editorconfig.org";
+
+                boundAsync.asyncDownloadFileAndSplitOnNewLines(url).then(function (actualResult)
+                {
+                    assert.equal(expectedResult, actualResult[0], "Return string " + expectedResult);
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Multiple Async Download File Test:", function (assert)
+            {
+                let asyncCallback = assert.async();
+
+                const url = "https://raw.githubusercontent.com/cefsharp/CefSharp/master/.editorconfig";
+
+                let p1 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                let p2 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+
+                Promise.all([p1, p2]).then(function (values)
+                {
+                    let lineNo = getRandomInt(0, values[0].length);
+                    assert.equal(values[0].length, values[1].length, "Line Count " + values[0].length)
+                    assert.equal(values[0][lineNo], values[1][lineNo], "Return string " + values[0][lineNo]);
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async .Net Exception:", function (assert)
+            {
+                let asyncCallback = assert.async();
+
+                const expectedResult = "Expected Exception";
+
+                boundAsync.asyncThrowException().catch(function (ex)
+                {
+                    assert.equal(true, ex.includes(expectedResult), "Return string " + ex);
+
+                    asyncCallback();
+                });
+            });
+        })();
+    </script>
+
+</body>
+</html>

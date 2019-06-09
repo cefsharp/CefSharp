@@ -117,6 +117,8 @@
     <Compile Include="IApp.cs" />
     <Compile Include="Handler\IAudioHandler.cs" />
     <Compile Include="IExtension.cs" />
+    <Compile Include="Internals\IMethodRunnerQueue.cs" />
+    <Compile Include="Internals\ConcurrentMethodRunnerQueue.cs" />
     <Compile Include="ISchemeRegistrar.cs" />
     <Compile Include="IValue.cs" />
     <Compile Include="IImage.cs" />
