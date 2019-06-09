@@ -464,6 +464,9 @@ namespace CefSharp.WinForms.Example
 
                 if (devToolsPanel != null || !devToolsPanel.IsDisposed)
                 {
+                    //IBrowserHost.CloseDevTools() will not release the handle,
+                    //it will only trigger the ILifeSpanHandler.DoClose().
+                    //Dispose of the parent instead, ILifeSpanHandler.OnBeforeClose() will call after.
                     devToolsPanel.Dispose();
                 }
             }
