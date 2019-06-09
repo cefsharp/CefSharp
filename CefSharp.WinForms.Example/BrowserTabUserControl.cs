@@ -50,7 +50,7 @@ namespace CefSharp.WinForms.Example
                 //CefSharp focus handler implementation.
                 browser.FocusHandler = null;
             }
-            //browser.LifeSpanHandler = new LifeSpanHandler();
+            browser.LifeSpanHandler = new LifeSpanHandler();
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
