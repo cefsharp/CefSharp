@@ -434,5 +434,39 @@ namespace CefSharp.WinForms.Example
         {
             ToggleBottomToolStrip();
         }
+
+        public void ShowDevToolsDocked()
+        {
+            if (browserSplitContainer.Panel2Collapsed)
+            {
+                browserSplitContainer.Panel2Collapsed = false;
+
+                if (devToolsPanel == null || devToolsPanel.IsDisposed)
+                {
+                    devToolsPanel = new Panel()
+                    {
+                        Dock = DockStyle.Fill
+                    };
+                    browserSplitContainer.Panel2.Controls.Add(devToolsPanel);
+                }
+
+                var windowInfo = new WindowInfo();
+                windowInfo.SetAsChild(devToolsPanel.Handle);
+                Browser.GetBrowserHost().ShowDevTools(windowInfo);  
+            }
+        }
+
+        public void CloseDevToolsDocked()
+        {
+            if (!browserSplitContainer.Panel2Collapsed)
+            {
+               browserSplitContainer.Panel2Collapsed = true;
+
+                if (devToolsPanel != null || !devToolsPanel.IsDisposed)
+                {
+                    devToolsPanel.Dispose();
+                }
+            }
+        }
     }
 }

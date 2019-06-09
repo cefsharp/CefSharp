@@ -27,9 +27,15 @@ namespace CefSharp.WinForms.Example
             this.forwardButton = new System.Windows.Forms.ToolStripButton();
             this.urlTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.goButton = new System.Windows.Forms.ToolStripButton();
+            this.browserSplitContainer = new System.Windows.Forms.SplitContainer();
             this.browserPanel = new System.Windows.Forms.Panel();
+            this.devToolsPanel = new System.Windows.Forms.Panel();
             this.toolStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.browserSplitContainer)).BeginInit();
+            this.browserSplitContainer.Panel1.SuspendLayout();
+            this.browserSplitContainer.Panel2.SuspendLayout();
+            this.browserSplitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip2
@@ -154,17 +160,43 @@ namespace CefSharp.WinForms.Example
             this.goButton.Text = "Go";
             this.goButton.Click += new System.EventHandler(this.GoButtonClick);
             // 
+            // browserSplitContainer
+            // 
+            this.browserSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browserSplitContainer.Location = new System.Drawing.Point(0, 25);
+            this.browserSplitContainer.Name = "browserSplitContainer";
+            // 
+            // browserSplitContainer.Panel1
+            // 
+            this.browserSplitContainer.Panel1.Controls.Add(this.browserPanel);
+            // 
+            // browserSplitContainer.Panel2
+            // 
+            this.browserSplitContainer.Panel2.Controls.Add(this.devToolsPanel);
+            this.browserSplitContainer.Panel2Collapsed = true;
+            this.browserSplitContainer.Size = new System.Drawing.Size(730, 439);
+            this.browserSplitContainer.SplitterDistance = 481;
+            this.browserSplitContainer.TabIndex = 2;
+            // 
             // browserPanel
             // 
             this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.browserPanel.Location = new System.Drawing.Point(0, 25);
+            this.browserPanel.Location = new System.Drawing.Point(0, 0);
             this.browserPanel.Name = "browserPanel";
             this.browserPanel.Size = new System.Drawing.Size(730, 439);
-            this.browserPanel.TabIndex = 2;
+            this.browserPanel.TabIndex = 3;
+            // 
+            // devTooslPanel
+            // 
+            this.devToolsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.devToolsPanel.Location = new System.Drawing.Point(0, 0);
+            this.devToolsPanel.Name = "devTooslPanel";
+            this.devToolsPanel.Size = new System.Drawing.Size(96, 100);
+            this.devToolsPanel.TabIndex = 4;
             // 
             // BrowserTabUserControl
             // 
-            this.Controls.Add(this.browserPanel);
+            this.Controls.Add(this.browserSplitContainer);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.outputLabel);
@@ -175,6 +207,10 @@ namespace CefSharp.WinForms.Example
             this.toolStrip2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.browserSplitContainer.Panel1.ResumeLayout(false);
+            this.browserSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.browserSplitContainer)).EndInit();
+            this.browserSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,6 +231,8 @@ namespace CefSharp.WinForms.Example
         private System.Windows.Forms.ToolStripButton findNextButton;
         private System.Windows.Forms.ToolStripButton findCloseButton;
         private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.SplitContainer browserSplitContainer;
         private System.Windows.Forms.Panel browserPanel;
+        private System.Windows.Forms.Panel devToolsPanel;
     }
 }
