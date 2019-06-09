@@ -69,16 +69,29 @@ namespace CefSharp.WinForms.Example.Handlers
         bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
         {
             //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
-            //See the doc for this method for full details.    
-            // Allow devtools to close
-            if (browser.MainFrame.Url.Equals("chrome-devtools://devtools/devtools_app.html"))
-            {
-                return false;
-            }
+            //See the doc for this method for full details.
 
             var windowHandle = browser.GetHost().GetWindowHandle();
-
+            var parentHandle = Control.FromChildHandle(windowHandle);
             var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+
+            //Check devtools is in seperate window or docked in the same window
+            if (browser.MainFrame.Url.Equals("chrome-devtools://devtools/devtools_app.html"))
+            {
+                //If the IBrowserHost.CloseDevTools() is called whilst the brower is docked
+                //we need to handle it appropriately.
+                //The only way to release the handle is by disposing of its parent.
+                if (parentHandle != null)
+                {
+                    chromiumWebBrowser.Invoke(new Action(() =>
+                    {
+                        parentHandle.Dispose();
+                    }));
+                    return true;
+                }
+
+                return false;
+            }
 
             //If browser is disposed or the handle has been released then we don't
             //need to remove the tab (likely removed from menu)
