@@ -49,13 +49,13 @@ namespace CefSharp
         return _requestContext->IsSharingWith(requestContext);
     }
 
-    ICookieManager^ RequestContext::GetDefaultCookieManager(ICompletionCallback^ callback)
+    ICookieManager^ RequestContext::GetCookieManager(ICompletionCallback^ callback)
     {
         ThrowIfDisposed();
 
         CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
-        auto cookieManager = _requestContext->GetDefaultCookieManager(wrapper);
+        auto cookieManager = _requestContext->GetCookieManager(wrapper);
         if (cookieManager.get())
         {
             return gcnew CookieManager(cookieManager);

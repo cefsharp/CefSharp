@@ -42,7 +42,7 @@ namespace CefSharp
             auto context = CefV8Context::GetCurrentContext();
             if (context.get())
             {
-                auto browser = context->GetBrowser();
+                auto frame = context->GetFrame();
 
                 if (context.get() && context->Enter())
                 {
@@ -53,7 +53,7 @@ namespace CefSharp
                         auto request = CefProcessMessage::Create(kJavascriptMessageReceived);
                         auto argList = request->GetArgumentList();
 
-                        SetInt64(argList, 0, context->GetFrame()->GetIdentifier());
+                        SetInt64(argList, 0, frame->GetIdentifier());
 
                         auto params = CefListValue::Create();
                         SerializeV8Object(arguments[0], params, 0, _javascriptCallbackRegistry);
@@ -64,7 +64,7 @@ namespace CefSharp
                             argList->SetValue(1, params->GetValue(0));
                         }
 
-                        browser->SendProcessMessage(CefProcessId::PID_BROWSER, request);
+                        frame->SendProcessMessage(CefProcessId::PID_BROWSER, request);
 
                         retval = CefV8Value::CreateNull();
                     }

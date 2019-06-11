@@ -98,6 +98,8 @@
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
+    <Compile Include="DefaultResourceRequestHandlerFactory.cs" />
+    <Compile Include="DefaultResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
     <Compile Include="Enums\ChannelLayout.cs" />
     <Compile Include="Enums\PointerType.cs" />
@@ -114,11 +116,15 @@
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Handler\IAccessibilityHandler.cs" />
     <Compile Include="Handler\IExtensionHandler.cs" />
+    <Compile Include="Handler\ICookieAccessFilter.cs" />
+    <Compile Include="Handler\IResourceRequestHandler.cs" />
     <Compile Include="IApp.cs" />
     <Compile Include="Handler\IAudioHandler.cs" />
     <Compile Include="IExtension.cs" />
     <Compile Include="Internals\IMethodRunnerQueue.cs" />
     <Compile Include="Internals\ConcurrentMethodRunnerQueue.cs" />
+    <Compile Include="Internals\InMemoryResourceRequestHandler.cs" />
+    <Compile Include="IResourceRequestHandlerFactory.cs" />
     <Compile Include="ISchemeRegistrar.cs" />
     <Compile Include="IValue.cs" />
     <Compile Include="IImage.cs" />
@@ -126,8 +132,6 @@
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\DateTimeUtils.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
-    <Compile Include="Lagacy\LegacyResourceHandlerFactory.cs" />
-    <Compile Include="Lagacy\LegacyResourceHandlerFactoryItem.cs" />
     <Compile Include="RenderProcess\IRenderProcessHandler.cs" />
     <Compile Include="RenderProcess\IV8Context.cs" />
     <Compile Include="RenderProcess\V8Exception.cs" />
@@ -235,7 +239,6 @@
     <Compile Include="ICookieManager.cs" />
     <Compile Include="IMenuModel.cs" />
     <Compile Include="ProxyOptions.cs" />
-    <Compile Include="DefaultResourceHandlerFactoryItem.cs" />
     <Compile Include="Structs\Point.cs" />
     <Compile Include="Structs\Size.cs" />
     <Compile Include="ISslInfo.cs" />
@@ -248,7 +251,6 @@
     <Compile Include="Internals\MethodRunnerQueue.cs" />
     <Compile Include="CefSharpSettings.cs" />
     <Compile Include="Cookie.cs" />
-    <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
     <Compile Include="IBrowser.cs" />
     <Compile Include="IBrowserHost.cs" />
@@ -264,7 +266,6 @@
     <Compile Include="Internals\JavascriptCallbackSurrogate.cs" />
     <Compile Include="Internals\PendingTaskRepository.cs" />
     <Compile Include="Internals\ReflectionUtils.cs" />
-    <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="IResponse.cs" />
     <Compile Include="IWindowInfo.cs" />
     <Compile Include="Structs\MouseEvent.cs" />
@@ -311,7 +312,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internals\RenderprocessClientFactory.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Lagacy\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

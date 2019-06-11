@@ -5,28 +5,29 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
     /// <summary>
-    /// Default implementation of <see cref="IResourceHandlerFactory"/> it's used
+    /// Default implementation of <see cref="IResourceRequestHandlerFactory"/> it's used
     /// internally for the LoadHtml implementation - basically a resource handler is
     /// registered for a specific Url.
     /// </summary>
-    public class DefaultResourceHandlerFactory : IResourceHandlerFactory
+    public class DefaultResourceRequestHandlerFactory : IResourceRequestHandlerFactory
     {
         /// <summary>
         /// Resource handler thread safe dictionary
         /// </summary>
-        public ConcurrentDictionary<string, DefaultResourceHandlerFactoryItem> Handlers { get; private set; }
+        public ConcurrentDictionary<string, DefaultResourceRequestHandlerFactoryItem> Handlers { get; private set; }
 
         /// <summary>
         /// Create a new instance of DefaultResourceHandlerFactory
         /// </summary>
         /// <param name="comparer">string equality comparer</param>
-        public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
+        public DefaultResourceRequestHandlerFactory(IEqualityComparer<string> comparer = null)
         {
-            Handlers = new ConcurrentDictionary<string, DefaultResourceHandlerFactoryItem>(comparer ?? StringComparer.OrdinalIgnoreCase);
+            Handlers = new ConcurrentDictionary<string, DefaultResourceRequestHandlerFactoryItem>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace CefSharp
             Uri uri;
             if (Uri.TryCreate(url, UriKind.Absolute, out uri))
             {
-                var entry = new DefaultResourceHandlerFactoryItem(data, mimeType, oneTimeUse);
+                var entry = new DefaultResourceRequestHandlerFactoryItem(data, mimeType, oneTimeUse);
 
                 Handlers.AddOrUpdate(uri.AbsoluteUri, entry, (k, v) => entry);
                 return true;
@@ -57,7 +58,7 @@ namespace CefSharp
         /// <returns>returns true if successfully removed</returns>
         public virtual bool UnregisterHandler(string url)
         {
-            DefaultResourceHandlerFactoryItem entry;
+            DefaultResourceRequestHandlerFactoryItem entry;
             return Handlers.TryRemove(url, out entry);
         }
 
@@ -77,7 +78,7 @@ namespace CefSharp
         /// <param name="frame">the frame object</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <returns>To allow the resource to load normally return NULL otherwise return an instance of ResourceHandler with a valid stream</returns>
-        public virtual IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
+        public virtual IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool iNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
         {
             try
             {
@@ -87,7 +88,7 @@ namespace CefSharp
                     return null;
                 }
 
-                DefaultResourceHandlerFactoryItem entry;
+                DefaultResourceRequestHandlerFactoryItem entry;
 
                 if (Handlers.TryGetValue(request.Url, out entry))
                 {
@@ -96,7 +97,7 @@ namespace CefSharp
                         Handlers.TryRemove(request.Url, out entry);
                     }
 
-                    return ResourceHandler.FromByteArray(entry.Data, entry.MimeType);
+                    return new InMemoryResourceRequestHandler(entry.Data, entry.MimeType);
                 }
 
                 return null;

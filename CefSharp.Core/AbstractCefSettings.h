@@ -163,6 +163,20 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// The root directory that all CefSettings.CachePath and
+        /// RequestContextSettings.CachePath values must have in common. If this
+        /// value is empty and CefSettings.CachePath is non-empty then this value will
+        /// default to the CefSettings.CachePath value. Failure to set this value
+        /// correctly may result in the sandbox blocking read/write access to the
+        /// CachePath directory. NOTE: CefSharp does not implement the CHROMIUM SANDBOX.
+        /// </summary>
+        property String^ RootCachePath
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->root_cache_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->root_cache_path, value); }
+        }
+
+        /// <summary>
         /// The location where user data such as spell checking dictionary files will
         /// be stored on disk. If empty then the default platform-specific user data
         /// directory will be used ("~/.cef_user_data" directory on Linux,
@@ -382,6 +396,18 @@ namespace CefSharp
         {
             uint32 get() { return _cefSettings->background_color; }
             void set(uint32 value) { _cefSettings->background_color = value; }
+        }
+
+        /// <summary>
+        /// GUID string used for identifying the application. This is passed to the
+        /// system AV function for scanning downloaded files. By default, the GUID
+        /// will be an empty string and the file will be treated as an untrusted
+        /// file when the GUID is empty.
+        /// </summary>
+        property String^ ApplicationClientIdForFileScanning
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->application_client_id_for_file_scanning); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->application_client_id_for_file_scanning, value); }
         }
 
         /// <summary>

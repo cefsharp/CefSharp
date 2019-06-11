@@ -210,16 +210,6 @@ namespace CefSharp
             return bytesRead > 0;
         }
 
-        bool IResourceHandler.CanGetCookie(Cookie cookie)
-        {
-            return true;
-        }
-
-        bool IResourceHandler.CanSetCookie(Cookie cookie)
-        {
-            return true;
-        }
-
         void IResourceHandler.Cancel()
         {
             Cancel();

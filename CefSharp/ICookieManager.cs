@@ -37,24 +37,14 @@ namespace CefSharp
         bool SetCookie(string url, Cookie cookie, ISetCookieCallback callback = null);
 
         /// <summary>
-        /// Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
-        /// memory only. Otherwise, data will be stored at the specified path. To persist session cookies (cookies without an expiry 
-        /// date or validity interval) set <paramref name="persistSessionCookies"/> to true. Session cookies are generally intended to be transient and 
-        /// most Web browsers do not persist them.
-        /// </summary>
-        /// <param name="path">The file path to write cookies to.</param>
-        /// <param name="persistSessionCookies">A flag that determines whether session cookies will be persisted or not.</param>
-        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the
-        /// manager's storage has been initialized</param>
-        /// <returns>Returns false if cookies cannot be accessed</returns>
-        bool SetStoragePath(string path, bool persistSessionCookies, ICompletionCallback callback = null);
-
-        /// <summary>
-        /// Set the schemes supported by this manager. By default only "http" and "https" schemes are supported. Must be called before any cookies are accessed.
+        /// Set the schemes supported by this manager.  Calling this method with an empty <paramref name="schemes"/> value and <paramref name="includeDefaults"/>
+        /// set to false will disable all loading and saving of cookies for this manager. Must be called before any cookies are accessed.
         /// </summary>
         /// <param name="schemes">The list of supported schemes.</param>
-        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the change has been applied.</param>
-        void SetSupportedSchemes(string[] schemes, ICompletionCallback callback = null);
+        /// <param name="includeDefaults">If true the default schemes ("http", "https", "ws" and "wss") will also be supported. Calling this method with an empty schemes value and includeDefaults
+        /// set to false will disable all loading and saving of cookies for this manager</param>
+        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF UI thread after the change has been applied.</param>
+        void SetSupportedSchemes(string[] schemes, bool includeDefaults, ICompletionCallback callback = null);
 
         /// <summary>
         /// Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.

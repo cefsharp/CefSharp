@@ -60,24 +60,6 @@ namespace CefSharp
         bool ReadResponse(Stream dataOut, out int bytesRead, ICallback callback);
 
         /// <summary>
-        /// Return true if the specified cookie can be sent with the request or false
-        /// otherwise. If false is returned for any cookie then no cookies will be sent
-        /// with the request.
-        /// </summary>
-        /// <param name="cookie">cookie</param>
-        /// <returns>Return true if the specified cookie can be sent with the request or false
-        /// otherwise. If false is returned for any cookie then no cookies will be sent
-        /// with the request.</returns>
-        bool CanGetCookie(Cookie cookie);
-
-        /// <summary>
-        /// Return true if the specified cookie returned with the response can be set or false otherwise.
-        /// </summary>
-        /// <param name="cookie">cookie</param>
-        /// <returns>Return true if the specified cookie returned with the response can be set or false otherwise.</returns>
-        bool CanSetCookie(Cookie cookie);
-
-        /// <summary>
         /// Request processing has been canceled.
         /// </summary>
         void Cancel();

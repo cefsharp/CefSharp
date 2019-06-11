@@ -42,22 +42,6 @@ namespace CefSharp
         return _handler->ReadResponse(%writeStream, bytesRead, callbackWrapper);
     }
 
-    bool ResourceHandlerWrapper::CanGetCookie(const CefCookie& cefCookie)
-    {
-        auto cookie = GetCookie(cefCookie);
-
-        //Default value is true
-        return _handler->CanGetCookie(cookie);
-    }
-
-    bool ResourceHandlerWrapper::CanSetCookie(const CefCookie& cefCookie)
-    {
-        auto cookie = GetCookie(cefCookie);
-
-        //Default value is true
-        return _handler->CanSetCookie(cookie);
-    }
-
     void ResourceHandlerWrapper::Cancel()
     {
         _handler->Cancel();

@@ -10,18 +10,18 @@ using CefSharp.Example.Properties;
 namespace CefSharp.Example
 {
     /// <summary>
-    /// Demo ISchemeHandlerFactory and IResourceHandlerFactory, reads that from resource in memory, could just
+    /// Demo ISchemeHandlerFactory reads that from resource in memory, could just
     /// as easily be from files on disk - only use this method if you already have pre loaded data, don't perform
     /// any web requests here or database lookups, best for static data only.
     /// </summary>
-    public class InMemorySchemeAndResourceHandlerFactory : ISchemeHandlerFactory, IResourceHandlerFactory
+    public class InMemorySchemeHandlerFactory : ISchemeHandlerFactory
     {
         /// <summary>
         /// Just a simple dictionary for resource lookup
         /// </summary>
         private static readonly IDictionary<string, string> ResourceDictionary;
 
-        static InMemorySchemeAndResourceHandlerFactory()
+        static InMemorySchemeHandlerFactory()
         {
             ResourceDictionary = new Dictionary<string, string>
             {
@@ -77,47 +77,6 @@ namespace CefSharp.Example
                 //For css/js/etc it's important to specify a mime/type, here we use the file extension to perform a lookup
                 //there are overloads where you can specify more options including Encoding, mimeType
                 return ResourceHandler.FromString(resource, extension);
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// This is typically required for the internal implementation and is here for performance reasons,
-        /// in general you'd just return true
-        /// </summary>
-        bool IResourceHandlerFactory.HasHandlers
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// The main method when implementing an IResourceHandlerFactory, use for standard schemes like http/https
-        /// </summary>
-        /// <param name="browserControl">the ChromiumWebBrowser instance this handler is assocated with</param>
-        /// <param name="browser">browser</param>
-        /// <param name="frame">frame</param>
-        /// <param name="request">request, we'll use this to check the Url and load the appropriate resource</param>
-        /// <returns>
-        /// return null to invoke the default behaviour, this is important when you want to only intercept a few specific requests
-        /// if we have a string that represents our resource in the lookup dictionary then return it as an IResourceHandler
-        /// </returns>
-        IResourceHandler IResourceHandlerFactory.GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
-        {
-            var uri = new Uri(request.Url);
-            //Compare scheme and host
-            if (string.Equals(uri.Scheme, "http", StringComparison.OrdinalIgnoreCase) && string.Equals(uri.Host, "cefsharp", StringComparison.OrdinalIgnoreCase))
-            {
-                var fileName = uri.AbsolutePath;
-                var extension = Path.GetExtension(fileName);
-
-                string resource;
-                if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
-                {
-                    //For css/js/etc it's important to specify a mime/type, here we use the file extension to perform a lookup
-                    //there are overloads where you can specify more options including Encoding, mimeType
-                    return ResourceHandler.FromString(resource, extension);
-                }
             }
 
             return null;

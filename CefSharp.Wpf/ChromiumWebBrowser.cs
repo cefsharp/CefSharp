@@ -250,10 +250,10 @@ namespace CefSharp.Wpf
         /// <value>The drag handler.</value>
         public IDragHandler DragHandler { get; set; }
         /// <summary>
-        /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
+        /// Implement <see cref="IResourceRequestHandlerFactory" /> and control the loading of resources
         /// </summary>
         /// <value>The resource handler factory.</value>
-        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
+        public IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
         /// <summary>
         /// Implement <see cref="IRenderHandler"/> and control how the control is rendered
         /// </summary>
@@ -564,7 +564,6 @@ namespace CefSharp.Wpf
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
-            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             browserSettings = new BrowserSettings(frameworkCreated: true);
             RenderHandler = new InteropBitmapRenderHandler();
 

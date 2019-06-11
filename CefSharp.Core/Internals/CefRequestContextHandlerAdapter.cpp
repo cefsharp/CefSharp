@@ -14,33 +14,6 @@ namespace CefSharp
 {
     namespace Internals
     {
-        CefRefPtr<CefCookieManager> CefRequestContextHandlerAdapter::GetCookieManager()
-        {
-            if (Object::ReferenceEquals(_requestContextHandler, nullptr))
-            {
-                return NULL;
-            }
-
-            auto cookieManager = _requestContextHandler->GetCookieManager();
-
-            if (cookieManager == nullptr)
-            {
-                return NULL;
-            }
-
-            //Cookie manager can only be our managed wrapper
-            if (cookieManager->GetType() == CookieManager::typeid)
-            {
-                return (CookieManager^)cookieManager;
-            }
-
-            //Report the exception on the thread pool so it can be caught in AppDomain::UnhandledException
-            auto msg = gcnew String(L"ICookieManager must be of type " + CookieManager::typeid + ". CEF does not support custom implementation");
-            ReportUnhandledExceptions::Report(msg, gcnew NotSupportedException(msg));
-
-            return NULL;
-        }
-
         bool CefRequestContextHandlerAdapter::OnBeforePluginLoad(const CefString& mime_type,
             const CefString& plugin_url,
             bool is_main_frame,

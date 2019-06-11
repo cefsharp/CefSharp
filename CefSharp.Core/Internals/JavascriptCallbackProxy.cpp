@@ -42,9 +42,22 @@ namespace CefSharp
             }
             argList->SetList(3, paramList);
 
-            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+            auto frame = browserWrapper->Browser->GetFrame(_callback->FrameId);
 
-            return doneCallback.Value->Task;
+            if (frame.get() && frame->IsValid())
+            {
+                frame->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+
+                return doneCallback.Value->Task;
+            }
+            else
+            {
+                auto invalidFrameResponse = gcnew JavascriptResponse();
+                invalidFrameResponse->Success = false;
+                invalidFrameResponse->Message = "Frame with Id:" + _callback->FrameId + " is no longer valid.";
+
+                Task::FromResult(invalidFrameResponse);
+            }
         }
 
         CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateDestroyMessage()
