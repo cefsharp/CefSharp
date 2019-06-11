@@ -156,10 +156,10 @@ namespace CefSharp
         IFocusHandler FocusHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
+        /// Implement <see cref="IResourceRequestHandlerFactory" /> and control the loading of resources
         /// </summary>
         /// <value>The resource handler factory.</value>
-        IResourceHandlerFactory ResourceHandlerFactory { get; set; }
+        IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
 
         /// <summary>
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.

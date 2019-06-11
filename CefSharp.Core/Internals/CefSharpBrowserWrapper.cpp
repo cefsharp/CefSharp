@@ -245,17 +245,6 @@ List<String^>^ CefSharpBrowserWrapper::GetFrameNames()
     return StringUtils::ToClr(names);
 }
 
-//
-// Send a message to the specified |target_process|. Returns true if the
-// message was sent successfully.
-///
-/*--cef()--*/
-bool CefSharpBrowserWrapper::SendProcessMessage(CefProcessId targetProcess, CefRefPtr<CefProcessMessage> message)
-{
-    ThrowIfDisposed();
-    return _browser->SendProcessMessage(targetProcess, message);
-}
-
 MCefRefPtr<CefBrowser> CefSharpBrowserWrapper::Browser::get()
 {
     return _browser;

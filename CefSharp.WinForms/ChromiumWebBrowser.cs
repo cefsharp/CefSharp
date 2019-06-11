@@ -251,11 +251,11 @@ namespace CefSharp.WinForms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IDragHandler DragHandler { get; set; }
         /// <summary>
-        /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
+        /// Implement <see cref="IResourceRequestHandlerFactory" /> and control the loading of resources
         /// </summary>
         /// <value>The resource handler factory.</value>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
-        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
+        public IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
 
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
@@ -448,11 +448,6 @@ namespace CefSharp.WinForms
                 if (FocusHandler == null)
                 {
                     FocusHandler = new DefaultFocusHandler();
-                }
-
-                if (ResourceHandlerFactory == null)
-                {
-                    ResourceHandlerFactory = new DefaultResourceHandlerFactory();
                 }
 
                 if (browserSettings == null)

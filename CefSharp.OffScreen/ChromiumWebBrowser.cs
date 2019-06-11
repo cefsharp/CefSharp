@@ -169,10 +169,10 @@ namespace CefSharp.OffScreen
         /// <value>The drag handler.</value>
         public IDragHandler DragHandler { get; set; }
         /// <summary>
-        /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
+        /// Implement <see cref="IResourceRequestHandlerFactory" /> and control the loading of resources
         /// </summary>
         /// <value>The resource handler factory.</value>
-        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
+        public IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
         /// <summary>
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
@@ -312,7 +312,6 @@ namespace CefSharp.OffScreen
                 }
             }
 
-            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             RequestContext = requestContext;
 
             Cef.AddDisposable(this);

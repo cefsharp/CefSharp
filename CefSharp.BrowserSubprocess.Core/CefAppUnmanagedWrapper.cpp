@@ -46,7 +46,7 @@ namespace CefSharp
     };
 
     // CefRenderProcessHandler
-    void CefAppUnmanagedWrapper::OnBrowserCreated(CefRefPtr<CefBrowser> browser)
+    void CefAppUnmanagedWrapper::OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extraInfo)
     {
         auto wrapper = gcnew CefBrowserWrapper(browser);
         _onBrowserCreated->Invoke(wrapper);
@@ -125,7 +125,7 @@ namespace CefSharp
 
         SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
-        browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
+        frame->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
@@ -143,7 +143,7 @@ namespace CefSharp
 
         SetInt64(contextReleasedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
-        browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextReleasedMessage);
+        frame->SendProcessMessage(CefProcessId::PID_BROWSER, contextReleasedMessage);
 
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
 
@@ -202,7 +202,7 @@ namespace CefSharp
             list->SetBool(1, false);
         }
 
-        browser->SendProcessMessage(CefProcessId::PID_BROWSER, focusedNodeChangedMessage);
+        frame->SendProcessMessage(CefProcessId::PID_BROWSER, focusedNodeChangedMessage);
     }
 
     void CefAppUnmanagedWrapper::OnUncaughtException(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Exception> exception, CefRefPtr<CefV8StackTrace> stackTrace)
@@ -230,7 +230,7 @@ namespace CefSharp
 
         list->SetList(2, frames);
 
-        browser->SendProcessMessage(CefProcessId::PID_BROWSER, uncaughtExceptionMessage);
+        frame->SendProcessMessage(CefProcessId::PID_BROWSER, uncaughtExceptionMessage);
     }
 
     JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, int64 frameId)
@@ -269,7 +269,7 @@ namespace CefSharp
         return wrapper;
     }
 
-    bool CefAppUnmanagedWrapper::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message)
+    bool CefAppUnmanagedWrapper::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message)
     {
         auto handled = false;
         auto name = message->GetName();
@@ -313,7 +313,7 @@ namespace CefSharp
             responseArgList->SetBool(0, false);
             SetInt64(responseArgList, 1, callbackId);
             responseArgList->SetString(2, StringUtils::ToNative(errorMessage));
-            browser->SendProcessMessage(sourceProcessId, response);
+            frame->SendProcessMessage(sourceProcessId, response);
 
             return true;
         }
@@ -471,7 +471,7 @@ namespace CefSharp
             {
                 responseArgList->SetString(2, errorMessage);
             }
-            browser->SendProcessMessage(sourceProcessId, response);
+            frame->SendProcessMessage(sourceProcessId, response);
 
             handled = true;
         }
@@ -594,7 +594,7 @@ namespace CefSharp
 
                                 args->SetList(0, boundObjects);
 
-                                browser->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
+                                frame->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
                             }
                         }
                         finally

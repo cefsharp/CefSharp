@@ -18,7 +18,7 @@ namespace CefSharp.Internals
             browser.DownloadHandler = null;
             browser.MenuHandler = null;
             browser.FocusHandler = null;
-            browser.ResourceHandlerFactory = null;
+            browser.ResourceRequestHandlerFactory = null;
             browser.RenderProcessMessageHandler = null;
         }
     }

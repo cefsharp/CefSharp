@@ -70,18 +70,6 @@ namespace CefSharp
             throw new NotImplementedException("This method should never be called");
         }
 
-        bool IResourceHandler.CanGetCookie(Cookie cookie)
-        {
-            //Should never be called
-            throw new NotImplementedException("This method should never be called");
-        }
-
-        bool IResourceHandler.CanSetCookie(Cookie cookie)
-        {
-            //Should never be called
-            throw new NotImplementedException("This method should never be called");
-        }
-
         void IResourceHandler.Cancel()
         {
             //Should never be called

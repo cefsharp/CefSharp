@@ -82,10 +82,9 @@
     <Compile Include="Filters\ExperimentalStreamResponseFilter.cs" />
     <Compile Include="Filters\MemoryStreamResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
-    <Compile Include="FlashResourceHandlerFactory.cs" />
     <Compile Include="Filters\PassThruResponseFilter.cs" />
     <Compile Include="Handlers\BrowserProcessHandler.cs" />
-    <Compile Include="InMemorySchemeAndResourceHandlerFactory.cs" />
+    <Compile Include="InMemorySchemeHandlerFactory.cs" />
     <Compile Include="JavascriptBinding\JavascriptCallbackBoundObject.cs" />
     <Compile Include="JavascriptBinding\JsSerializableClass.cs" />
     <Compile Include="JavascriptBinding\JsSerializableStruct.cs" />

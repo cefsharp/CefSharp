@@ -38,8 +38,6 @@ namespace CefSharp
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback) OVERRIDE;
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl) OVERRIDE;
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback) OVERRIDE;
-        virtual bool CanGetCookie(const CefCookie& cookie) OVERRIDE;
-        virtual bool CanSetCookie(const CefCookie& cookie) OVERRIDE;
         virtual void Cancel() OVERRIDE;
 
         IMPLEMENT_REFCOUNTING(ResourceHandlerWrapper);
