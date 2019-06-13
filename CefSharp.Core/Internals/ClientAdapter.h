@@ -207,9 +207,6 @@ namespace CefSharp
             virtual DECL void OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, int audio_stream_id, const float** data, int frames, int64 pts) OVERRIDE;
             virtual DECL void OnAudioStreamStopped(CefRefPtr<CefBrowser> browser, int audio_stream_id) OVERRIDE;
 
-            //sends out an eval script request to the render process
-            Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, bool isBrowserPopup, int64 frameId, String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout);
-
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
     }

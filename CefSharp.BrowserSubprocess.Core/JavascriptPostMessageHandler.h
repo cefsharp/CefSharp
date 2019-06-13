@@ -44,7 +44,7 @@ namespace CefSharp
             {
                 auto frame = context->GetFrame();
 
-                if (context.get() && context->Enter())
+                if (frame.get() && frame->IsValid() && context->Enter())
                 {
                     try
                     {
@@ -53,15 +53,13 @@ namespace CefSharp
                         auto request = CefProcessMessage::Create(kJavascriptMessageReceived);
                         auto argList = request->GetArgumentList();
 
-                        SetInt64(argList, 0, frame->GetIdentifier());
-
                         auto params = CefListValue::Create();
                         SerializeV8Object(arguments[0], params, 0, _javascriptCallbackRegistry);
 
                         //We're only interested in the first param
                         if (params->GetSize() > 0)
                         {
-                            argList->SetValue(1, params->GetValue(0));
+                            argList->SetValue(0, params->GetValue(0));
                         }
 
                         frame->SendProcessMessage(CefProcessId::PID_BROWSER, request);

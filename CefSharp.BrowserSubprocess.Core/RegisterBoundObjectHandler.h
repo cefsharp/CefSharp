@@ -277,15 +277,13 @@ namespace CefSharp
                                 else
                                 {
                                     auto frame = context->GetFrame();
-                                    if (frame.get())
+                                    if (frame.get() && frame->IsValid())
                                     {
                                         //Obtain a callbackId then send off the Request for objects
                                         auto callbackId = _callbackRegistry->SaveMethodCallback(callback);
 
-                                        argList->SetInt(0, browser->GetIdentifier());
-                                        SetInt64(argList, 1, frame->GetIdentifier());
-                                        SetInt64(argList, 2, callbackId);
-                                        argList->SetList(3, params);
+                                        SetInt64(argList, 0, callbackId);
+                                        argList->SetList(1, params);
 
                                         frame->SendProcessMessage(CefProcessId::PID_BROWSER, request);
                                     }
@@ -295,7 +293,7 @@ namespace CefSharp
                             {
                                 auto frame = context->GetFrame();
 
-                                if (frame.get())
+                                if (frame.get() && frame->IsValid())
                                 {
                                     //Objects already bound or ignore cache
 
