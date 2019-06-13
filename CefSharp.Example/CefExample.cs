@@ -155,8 +155,14 @@ namespace CefSharp.Example
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
-                IsSecure = true //treated with the same security rules as those applied to "https" URLs
-                //SchemeHandlerFactory = new InMemorySchemeAndResourceHandlerFactory()
+                IsSecure = true, //treated with the same security rules as those applied to "https" URLs
+            });
+
+            settings.RegisterScheme(new CefCustomScheme
+            {
+                SchemeName = "https",
+                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
+                DomainName = "cefsharp.example"
             });
 
             settings.RegisterScheme(new CefCustomScheme
