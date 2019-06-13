@@ -10,8 +10,11 @@ namespace CefSharp
 {
     /// <summary>
     /// Used in conjunction with CefSettings.RegisterScheme to register a scheme.
-    /// You can register your own custom scheme e.g. custom:// or use an existing
-    /// scheme e.g. http://
+    /// You can register your own custom scheme e.g. custom:// if you are using a build in scheme
+    /// (http/https) then you should directly register your <see cref="ISchemeHandlerFactory"/> using
+    /// Cef.GetGlobalRequestContext().RegisterSchemeHandlerFactory - make sure the Global RequestContext has
+    /// been initialized before doing so, you can use <see cref="IBrowserProcessHandler.OnContextInitialized"/>
+    /// for notification of RequestContext initialization (Pass an IBrowserProcessHandler instance to Cef.Initialize)
     /// </summary>
     public sealed class CefCustomScheme
     {
