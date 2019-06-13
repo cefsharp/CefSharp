@@ -25,7 +25,7 @@ namespace CefSharp
             OnRegisterCustomSchemes(registrar);
         }
 
-        protected void OnRegisterCustomSchemes(ISchemeRegistrar registrar)
+        protected virtual void OnRegisterCustomSchemes(ISchemeRegistrar registrar)
         {
             foreach (var scheme in Schemes)
             {
