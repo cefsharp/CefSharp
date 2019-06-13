@@ -635,10 +635,8 @@ namespace CefSharp
                         auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
                         auto responseArgList = msg->GetArgumentList();
                         responseArgList->SetBool(0, true); //Use Legacy Behaviour (auto bind on context creation)
-                        responseArgList->SetInt(1, -1);  //BrowserId
-                        SetInt64(responseArgList, 2, 0); //FrameId
-                        SetInt64(responseArgList, 3, 0); //CallbackId
-                        SerializeJsObjects(objectRepository->GetObjects(nullptr), responseArgList, 4);
+                        SetInt64(responseArgList, 1, 0); //CallbackId
+                        SerializeJsObjects(objectRepository->GetObjects(nullptr), responseArgList, 2);
 
                         browser->GetMainFrame()->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
                     }
@@ -1050,10 +1048,8 @@ namespace CefSharp
                 {
                     auto objectRepository = _browserAdapter->JavascriptObjectRepository;
 
-                    auto browserId = argList->GetInt(0);
-                    auto frameId = GetInt64(argList, 1);
-                    auto callbackId = GetInt64(argList, 2);
-                    auto objectNames = argList->GetList(3);
+                    auto callbackId = GetInt64(argList, 0);
+                    auto objectNames = argList->GetList(1);
 
                     auto names = gcnew List<String^>(objectNames->GetSize());
                     for (auto i = 0; i < objectNames->GetSize(); i++)
@@ -1069,10 +1065,8 @@ namespace CefSharp
                     auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
                     auto responseArgList = msg->GetArgumentList();
                     responseArgList->SetBool(0, false); //Use LegacyBehaviour (false)
-                    responseArgList->SetInt(1, browserId);
-                    SetInt64(responseArgList, 2, frameId);
-                    SetInt64(responseArgList, 3, callbackId);
-                    SerializeJsObjects(objs, responseArgList, 4);
+                    SetInt64(responseArgList, 1, callbackId);
+                    SerializeJsObjects(objs, responseArgList, 2);
                     frame->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
                 }
 
@@ -1103,11 +1097,9 @@ namespace CefSharp
             }
             else if (name == kOnContextCreatedRequest)
             {
-                auto frame = browser->GetFrame(GetInt64(argList, 0));
-
                 //In certain circumstances the frame has already been destroyed by the time
                 //we get here, only continue if we have a valid frame reference
-                if (frame.get())
+                if (frame.get() && frame->IsValid())
                 {
                     if (frame->IsMain())
                     {
@@ -1129,11 +1121,9 @@ namespace CefSharp
             }
             else if (name == kOnContextReleasedRequest)
             {
-                auto frame = browser->GetFrame(GetInt64(argList, 0));
-
                 //In certain circumstances the frame has already been destroyed by the time
                 //we get here, only continue if we have a valid frame reference
-                if (frame.get())
+                if (frame.get() && frame->IsValid())
                 {
                     if (frame->IsMain())
                     {
@@ -1160,19 +1150,18 @@ namespace CefSharp
                 {
                     IDomNode^ node = nullptr;
 
-                    // 0: frame ID (int 64)
-                    // 1: is a node (bool)
-                    // 2: tag name (string)
-                    // 3: attributes (dictionary)
+                    // 0: is a node (bool)
+                    // 1: tag name (string)
+                    // 2: attributes (dictionary)
                     auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    CefFrameWrapper frameWrapper(frame);
 
-                    auto notEmpty = argList->GetBool(1);
+                    auto notEmpty = argList->GetBool(0);
                     if (notEmpty)
                     {
                         // Node information was passed from the render process.
-                        auto tagName = StringUtils::ToClr(argList->GetString(2));
-                        auto argAttributes = argList->GetDictionary(3);
+                        auto tagName = StringUtils::ToClr(argList->GetString(1));
+                        auto argAttributes = argList->GetDictionary(2);
                         auto attributes = gcnew System::Collections::Generic::Dictionary<String^, String^>();
                         CefDictionaryValue::KeyList keys;
                         argAttributes->GetKeys(keys);
@@ -1194,14 +1183,14 @@ namespace CefSharp
                 if (handler != nullptr)
                 {
                     auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    CefFrameWrapper frameWrapper(frame);
 
                     auto exception = gcnew JavascriptException();
-                    exception->Message = StringUtils::ToClr(argList->GetString(1));
+                    exception->Message = StringUtils::ToClr(argList->GetString(0));
 
                     auto stackTrace = gcnew System::Collections::Generic::List<JavascriptStackFrame^>();
 
-                    auto argFrames = argList->GetList(2);
+                    auto argFrames = argList->GetList(1);
 
                     for (auto i = 0; i < static_cast<int>(argFrames->GetSize()); i++)
                     {
@@ -1248,11 +1237,11 @@ namespace CefSharp
             }
             else if (name == kJavascriptAsyncMethodCallRequest && !_browserAdapter->IsDisposed)
             {
-                auto frameId = GetInt64(argList, 0);
-                auto objectId = GetInt64(argList, 1);
-                auto callbackId = GetInt64(argList, 2);
-                auto methodName = StringUtils::ToClr(argList->GetString(3));
-                auto arguments = argList->GetList(4);
+                auto frameId = frame->GetIdentifier();
+                auto objectId = GetInt64(argList, 0);
+                auto callbackId = GetInt64(argList, 1);
+                auto methodName = StringUtils::ToClr(argList->GetString(2));
+                auto arguments = argList->GetList(3);
                 auto methodInvocation = gcnew MethodInvocation(browser->GetIdentifier(), frameId, objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
                 for (auto i = 0; i < static_cast<int>(arguments->GetSize()); i++)
                 {
@@ -1265,16 +1254,14 @@ namespace CefSharp
             }
             else if (name == kJavascriptMessageReceived)
             {
-                auto frame = browser->GetFrame(GetInt64(argList, 0));
-
                 //In certain circumstances the frame has already been destroyed by the time
                 //we get here, only continue if we have a valid frame reference
-                if (frame.get())
+                if (frame.get() && frame->IsValid())
                 {
                     auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                     CefFrameWrapper frameWrapper(frame);
 
-                    auto message = DeserializeObject(argList, 1, callbackFactory);
+                    auto message = DeserializeObject(argList, 0, callbackFactory);
 
                     _browserControl->SetJavascriptMessageReceived(gcnew JavascriptMessageReceivedEventArgs(browserWrapper, %frameWrapper, message));
                 }
@@ -1283,37 +1270,6 @@ namespace CefSharp
             }
 
             return handled;
-        }
-
-        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, bool isBrowserPopup, int64 frameId, String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout)
-        {
-            auto browser = GetBrowserWrapper(browserId, isBrowserPopup);
-
-            //If we're unable to get the underlying browser wrapper then return null
-            if (browser == nullptr)
-            {
-                return nullptr;
-            }
-
-            auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
-            auto cefBrowser = browserWrapper->Browser;
-
-            //create a new taskcompletionsource
-            auto idAndComplectionSource = _pendingTaskRepository->CreatePendingTask(timeout);
-
-            auto message = CefProcessMessage::Create(kEvaluateJavascriptRequest);
-            auto argList = message->GetArgumentList();
-            SetInt64(argList, 0, frameId);
-            SetInt64(argList, 1, idAndComplectionSource.Key);
-            argList->SetString(2, StringUtils::ToNative(script));
-            argList->SetString(3, StringUtils::ToNative(scriptUrl));
-            argList->SetInt(4, startLine);
-
-            auto frame = cefBrowser->GetFrame(frameId);
-
-            frame->SendProcessMessage(CefProcessId::PID_RENDERER, message);
-
-            return idAndComplectionSource.Value->Task;
         }
 
         PendingTaskRepository<JavascriptResponse^>^ ClientAdapter::GetPendingTaskRepository()
@@ -1327,16 +1283,15 @@ namespace CefSharp
             {
                 auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
                 auto argList = message->GetArgumentList();
-                SetInt64(argList, 0, result->FrameId);
-                SetInt64(argList, 1, result->CallbackId.Value);
-                argList->SetBool(2, result->Success);
+                SetInt64(argList, 0, result->CallbackId.Value);
+                argList->SetBool(1, result->Success);
                 if (result->Success)
                 {
-                    SerializeV8Object(argList, 3, result->Result);
+                    SerializeV8Object(argList, 2, result->Result);
                 }
                 else
                 {
-                    argList->SetString(3, StringUtils::ToNative(result->Message));
+                    argList->SetString(2, StringUtils::ToNative(result->Message));
                 }
 
                 auto browser = GetBrowserWrapper(result->BrowserId);

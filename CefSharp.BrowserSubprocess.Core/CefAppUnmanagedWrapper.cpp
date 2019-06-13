@@ -123,8 +123,6 @@ namespace CefSharp
         //have been created
         auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
 
-        SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
-
         frame->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
     };
 
@@ -140,8 +138,6 @@ namespace CefSharp
         }
 
         auto contextReleasedMessage = CefProcessMessage::Create(kOnContextReleasedRequest);
-
-        SetInt64(contextReleasedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
         frame->SendProcessMessage(CefProcessId::PID_BROWSER, contextReleasedMessage);
 
@@ -172,19 +168,16 @@ namespace CefSharp
         auto focusedNodeChangedMessage = CefProcessMessage::Create(kOnFocusedNodeChanged);
         auto list = focusedNodeChangedMessage->GetArgumentList();
 
-        // Needed in the browser process to get the frame.
-        SetInt64(list, 0, frame->GetIdentifier());
-
         // The node will be empty if an element loses focus but another one
         // doesn't gain focus. Only transfer information if the node is an
         // element.
         if (node != nullptr && node->IsElement())
         {
             // True when a node exists, false if it doesn't.
-            list->SetBool(1, true);
+            list->SetBool(0, true);
 
             // Store the tag name.
-            list->SetString(2, node->GetElementTagName());
+            list->SetString(1, node->GetElementTagName());
 
             // Transfer the attributes in a Dictionary.
             auto attributes = CefDictionaryValue::Create();
@@ -195,11 +188,11 @@ namespace CefSharp
                 attributes->SetString(iter.first, iter.second);
             }
 
-            list->SetDictionary(3, attributes);
+            list->SetDictionary(2, attributes);
         }
         else
         {
-            list->SetBool(1, false);
+            list->SetBool(0, false);
         }
 
         frame->SendProcessMessage(CefProcessId::PID_BROWSER, focusedNodeChangedMessage);
@@ -210,9 +203,7 @@ namespace CefSharp
         auto uncaughtExceptionMessage = CefProcessMessage::Create(kOnUncaughtException);
         auto list = uncaughtExceptionMessage->GetArgumentList();
 
-        // Needed in the browser process to get the frame.
-        SetInt64(list, 0, frame->GetIdentifier());
-        list->SetString(1, exception->GetMessage());
+        list->SetString(0, exception->GetMessage());
 
         auto frames = CefListValue::Create();
         for (auto i = 0; i < stackTrace->GetFrameCount(); i++)
@@ -228,7 +219,7 @@ namespace CefSharp
             frames->SetList(i, frame);
         }
 
-        list->SetList(2, frames);
+        list->SetList(1, frames);
 
         frame->SendProcessMessage(CefProcessId::PID_BROWSER, uncaughtExceptionMessage);
     }
@@ -304,7 +295,7 @@ namespace CefSharp
                 throw gcnew Exception("Unsupported message type");
             }
 
-            auto callbackId = GetInt64(argList, 1);
+            auto callbackId = GetInt64(argList, 0);
             auto response = CefProcessMessage::Create(responseName);
             auto responseArgList = response->GetArgumentList();
             auto errorMessage = String::Format("Request BrowserId : {0} not found it's likely the browser is already closed", browser->GetIdentifier());
@@ -335,13 +326,12 @@ namespace CefSharp
                 response = CefProcessMessage::Create(kJavascriptCallbackResponse);
             }
 
-            //both messages have the frameId stored at 0 and callbackId stored at index 1
-            auto frameId = GetInt64(argList, 0);
-            int64 callbackId = GetInt64(argList, 1);
+            //both messages have callbackId stored at index 0
+            auto frameId = frame->GetIdentifier();
+            int64 callbackId = GetInt64(argList, 0);
 
             if (name == kEvaluateJavascriptRequest)
             {
-
                 JavascriptRootObjectWrapper^ rootObjectWrapper;
                 browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
 
@@ -357,12 +347,11 @@ namespace CefSharp
 
                 auto callbackRegistry = rootObjectWrapper->CallbackRegistry;
 
-                auto script = argList->GetString(2);
-                auto scriptUrl = argList->GetString(3);
-                auto startLine = argList->GetInt(4);
+                auto script = argList->GetString(1);
+                auto scriptUrl = argList->GetString(2);
+                auto startLine = argList->GetInt(3);
 
-                auto frame = browser->GetFrame(frameId);
-                if (frame.get())
+                if (frame.get() && frame->IsValid())
                 {
                     auto context = frame->GetV8Context();
 
@@ -410,7 +399,7 @@ namespace CefSharp
                 }
                 else
                 {
-                    auto jsCallbackId = GetInt64(argList, 2);
+                    auto jsCallbackId = GetInt64(argList, 1);
 
                     auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                     if (callbackWrapper == nullptr)
@@ -426,7 +415,7 @@ namespace CefSharp
                         {
                             try
                             {
-                                auto parameterList = argList->GetList(3);
+                                auto parameterList = argList->GetList(2);
                                 CefV8ValueList params;
 
                                 //Needs to be called within the context as for Dictionary (mapped to struct)
@@ -478,7 +467,7 @@ namespace CefSharp
         else if (name == kJavascriptCallbackDestroyRequest)
         {
             auto jsCallbackId = GetInt64(argList, 0);
-            auto frameId = GetInt64(argList, 1);
+            auto frameId = frame->GetIdentifier();
             JavascriptRootObjectWrapper^ rootObjectWrapper;
             browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
             if (rootObjectWrapper != nullptr && rootObjectWrapper->CallbackRegistry != nullptr)
@@ -517,10 +506,10 @@ namespace CefSharp
             }
             else
             {
-                auto browserId = argList->GetInt(1);
-                auto frameId = GetInt64(argList, 2);
-                auto callbackId = GetInt64(argList, 3);
-                auto javascriptObjects = DeserializeJsObjects(argList, 4);
+                auto browserId = browser->GetIdentifier();
+                auto frameId = frame->GetIdentifier();
+                auto callbackId = GetInt64(argList, 1);
+                auto javascriptObjects = DeserializeJsObjects(argList, 2);
 
                 //Caching of JavascriptObjects
                 //TODO: JSB Should caching be configurable? On a per object basis?
@@ -533,8 +522,7 @@ namespace CefSharp
                     _javascriptObjects->Add(obj->JavascriptName, obj);
                 }
 
-                auto frame = browser->GetFrame(frameId);
-                if (frame.get())
+                if (frame.get() && frame->IsValid())
                 {
                     auto rootObject = GetJsRootObjectWrapper(browser->GetIdentifier(), frameId);
 
@@ -609,8 +597,8 @@ namespace CefSharp
         }
         else if (name == kJavascriptAsyncMethodCallResponse)
         {
-            auto frameId = GetInt64(argList, 0);
-            auto callbackId = GetInt64(argList, 1);
+            auto frameId = frame->GetIdentifier();
+            auto callbackId = GetInt64(argList, 0);
 
             JavascriptRootObjectWrapper^ rootObjectWrapper;
             browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
@@ -620,11 +608,9 @@ namespace CefSharp
                 JavascriptAsyncMethodCallback^ callback;
                 if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
                 {
-
                     try
                     {
-                        auto frame = browser->GetFrame(frameId);
-                        if (frame.get())
+                        if (frame.get() && frame->IsValid())
                         {
                             auto context = frame->GetV8Context();
 
@@ -632,14 +618,14 @@ namespace CefSharp
                             {
                                 try
                                 {
-                                    auto success = argList->GetBool(2);
+                                    auto success = argList->GetBool(1);
                                     if (success)
                                     {
-                                        callback->Success(DeserializeV8Object(argList, 3));
+                                        callback->Success(DeserializeV8Object(argList, 2));
                                     }
                                     else
                                     {
-                                        callback->Fail(argList->GetString(3));
+                                        callback->Fail(argList->GetString(2));
                                     }
                                 }
                                 finally
