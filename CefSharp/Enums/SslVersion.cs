@@ -16,7 +16,7 @@ namespace CefSharp
         Tls1 = 3,
         Tls1_1 = 4,
         Tls1_2 = 5,
-        // Reserve 6 for TLS 1.3.
+        Tls1_3 = 6,
         Quic = 7,
     }
 }
