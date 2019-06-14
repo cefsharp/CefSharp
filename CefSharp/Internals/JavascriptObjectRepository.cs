@@ -80,7 +80,7 @@ namespace CefSharp.Internals
             {
                 RaiseResolveObjectEvent(AllObjects);
 
-                return objects.Values.ToList();
+                return objects.Values.Where(x => x.RootObject).ToList();
             }
 
             foreach (var name in names)
@@ -91,7 +91,7 @@ namespace CefSharp.Internals
                 }
             }
 
-            var objectsByName = objects.Values.Where(x => names.Contains(x.JavascriptName)).ToList();
+            var objectsByName = objects.Values.Where(x => names.Contains(x.JavascriptName) && x.RootObject).ToList();
 
             //TODO: JSB Add another event that signals when no object matching a name
             //in the list was provided.
@@ -117,11 +117,17 @@ namespace CefSharp.Internals
             }
         }
 
-        private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
+        private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames, bool rootObject)
         {
             var id = Interlocked.Increment(ref lastId);
 
-            var result = new JavascriptObject { Id = id, CamelCaseJavascriptNames = camelCaseJavascriptNames };
+            var result = new JavascriptObject
+            {
+                Id = id,
+                CamelCaseJavascriptNames = camelCaseJavascriptNames,
+                RootObject = rootObject
+            };
+
             objects[id] = result;
 
             return result;
@@ -167,7 +173,7 @@ namespace CefSharp.Internals
             }
 
             var camelCaseJavascriptNames = options == null ? true : options.CamelCaseJavascriptNames;
-            var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
+            var jsObject = CreateJavascriptObject(camelCaseJavascriptNames, rootObject: true);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
@@ -309,7 +315,7 @@ namespace CefSharp.Internals
                 //JavascriptObject and they are never released
                 if (!obj.IsAsync && result != null && IsComplexType(result.GetType()))
                 {
-                    var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
+                    var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames, rootObject: false);
                     jsObject.Value = result;
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
@@ -447,7 +453,7 @@ namespace CefSharp.Internals
                     var jsProperty = CreateJavaScriptProperty(propertyInfo, camelCaseJavascriptNames);
                     if (jsProperty.IsComplexType)
                     {
-                        var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
+                        var jsObject = CreateJavascriptObject(camelCaseJavascriptNames, rootObject: false);
                         jsObject.Name = propertyInfo.Name;
                         jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
                         jsObject.Value = jsProperty.GetValue(obj.Value);
