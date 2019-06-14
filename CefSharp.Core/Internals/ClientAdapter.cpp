@@ -623,26 +623,6 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
-            if (CefSharpSettings::LegacyJavascriptBindingEnabled)
-            {
-                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed && !browser->IsPopup())
-                {
-                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
-
-                    //For legacy binding we only send kJavascriptRootObjectResponse when we have bound objects
-                    if (objectRepository->HasBoundObjects)
-                    {
-                        auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
-                        auto responseArgList = msg->GetArgumentList();
-                        responseArgList->SetBool(0, true); //Use Legacy Behaviour (auto bind on context creation)
-                        SetInt64(responseArgList, 1, 0); //CallbackId
-                        SerializeJsObjects(objectRepository->GetObjects(nullptr), responseArgList, 2);
-
-                        browser->GetMainFrame()->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
-                    }
-                }
-            }
-
             auto handler = _browserControl->RequestHandler;
 
             if (handler != nullptr)
@@ -1064,9 +1044,8 @@ namespace CefSharp
 
                     auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
                     auto responseArgList = msg->GetArgumentList();
-                    responseArgList->SetBool(0, false); //Use LegacyBehaviour (false)
-                    SetInt64(responseArgList, 1, callbackId);
-                    SerializeJsObjects(objs, responseArgList, 2);
+                    SetInt64(responseArgList, 0, callbackId);
+                    SerializeJsObjects(objs, responseArgList, 1);
                     frame->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
                 }
 
