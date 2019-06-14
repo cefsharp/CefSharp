@@ -149,12 +149,13 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// The location where cache data will be stored on disk. If empty then
-        /// browsers will be created in "incognito mode" where in-memory caches are
-        /// used for storage and no data is persisted to disk. HTML5 databases such as
-        /// localStorage will only persist across sessions if a cache path is
-        /// specified. Can be overridden for individual CefRequestContext instances via
-        /// the RequestContextSettings.CachePath value.
+        /// The location where data for the global browser cache will be stored on disk.
+        /// In non-empty this must be either equal to or a child directory of CefSettings.RootCachePath
+        /// (if RootCachePath is empty it will default to this value).
+        /// If empty then browsers will be created in "incognito mode" where in-memory caches are used
+        /// for storage and no data is persisted to disk. HTML5 databases such as localStorage will
+        /// only persist across sessions if a cache path is specified. Can be overridden for individual
+        /// RequestContext instances via the RequestContextSettings.CachePath value.
         /// </summary>
         property String^ CachePath
         {
@@ -163,12 +164,14 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// The root directory that all CefSettings.CachePath and
-        /// RequestContextSettings.CachePath values must have in common. If this
-        /// value is empty and CefSettings.CachePath is non-empty then this value will
-        /// default to the CefSettings.CachePath value. Failure to set this value
-        /// correctly may result in the sandbox blocking read/write access to the
-        /// CachePath directory. NOTE: CefSharp does not implement the CHROMIUM SANDBOX.
+        /// The root directory that all CefSettings.CachePath and RequestContextSettings.CachePath values
+        /// must have in common. If this value is empty and CefSettings.CachePath is non-empty then this
+        /// value will default to the CefSettings.CachePath value. Failure to set this value correctly
+        /// may result in the sandbox blocking read/write access to the CachePath directory.
+        /// NOTE: CefSharp does not implement the CHROMIUM SANDBOX.
+        /// A non-empty RootCachePath can be used in conjuncation with an empty CefSettings.CachePath
+        /// in instances where you would like browsers attached to the Global RequestContext (the default)
+        /// created in "incognito mode" and instances created with a custom RequestContext using a disk based cache.
         /// </summary>
         property String^ RootCachePath
         {
