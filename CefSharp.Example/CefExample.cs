@@ -13,7 +13,9 @@ namespace CefSharp.Example
 {
     public static class CefExample
     {
-        public const string BaseUrl = "custom://cefsharp";
+        //TODO: Revert after https://bitbucket.org/chromiumembedded/cef/issues/2685/networkservice-custom-scheme-unable-to
+        //has been fixed.
+        public const string BaseUrl = "https://cefsharp.example";
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
@@ -107,6 +109,11 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("force-renderer-accessibility", "1");
             //settings.CefCommandLineArgs.Add("disable-renderer-accessibility", "1");
 
+            //Disable Network Service in WPF
+            //settings.CefCommandLineArgs.Add("disable-features", "NetworkService,VizDisplayCompositor");
+
+            //Disable Network Service in WinForms
+            //settings.CefCommandLineArgs.Add("disable-features", "NetworkService");
 
             //Enables Uncaught exception handler
             settings.UncaughtExceptionStackSize = 10;
