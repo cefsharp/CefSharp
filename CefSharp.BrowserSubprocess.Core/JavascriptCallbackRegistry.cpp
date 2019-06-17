@@ -20,7 +20,21 @@ namespace CefSharp
             auto result = gcnew JavascriptCallback();
             result->Id = newId;
             result->BrowserId = _browserId;
-            result->FrameId = context->GetFrame()->GetIdentifier();
+            result->FrameId = -1;
+
+            auto frame = context->GetFrame();
+
+            if (frame.get() && frame->IsValid())
+            {
+                //Issue https://bitbucket.org/chromiumembedded/cef/issues/2687/cefframe-getidentifier-differs-between
+                //prevents callbacks from working properly
+                //As a hack to get callbacks working we'll only return an Id for the main frame
+                //https://github.com/cefsharp/CefSharp/issues/2743#issuecomment-502566136
+                if (frame->IsMain())
+                {
+                    result->FrameId = frame->GetIdentifier();
+                }
+            }
             return result;
         }
 
