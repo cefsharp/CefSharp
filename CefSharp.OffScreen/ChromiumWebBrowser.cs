@@ -300,7 +300,7 @@ namespace CefSharp.OffScreen
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
-            RequestContext requestContext = null, bool automaticallyCreateBrowser = true)
+            IRequestContext requestContext = null, bool automaticallyCreateBrowser = true)
         {
             if (!Cef.IsInitialized)
             {
