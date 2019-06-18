@@ -21,9 +21,8 @@ namespace CefSharp
 {
     namespace Internals
     {
-        //TODO: NetworkService
-        // Deal with browser/frame null for serviceworker
-        //fix Ibrowser reference
+        //TODO: NetworkService - Code duplication should be improved
+        //going with the simplest and easiest option now
         private class CefResourceRequestHandlerAdapter : public CefResourceRequestHandler
         {
         private:
@@ -45,19 +44,23 @@ namespace CefSharp
 
             CefRefPtr<CefCookieAccessFilter> GetCookieAccessFilter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) OVERRIDE
             {
-                if (!Object::ReferenceEquals(_handler, nullptr))
-                {
-                    return NULL;
-                }
-
-                //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
-                CefSharpBrowserWrapper browserWrapper(browser);
-                CefFrameWrapper frameWrapper(frame);
+                ICookieAccessFilter^ accessFilter;
                 CefRequestWrapper requestWrapper(request);
 
-                auto resourceHandler = _handler->GetCookieAccessFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                //For ServiceWorker browser and frame will be null
+                if (browser.get() && frame.get())
+                {
+                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefFrameWrapper frameWrapper(frame);
 
-                if (resourceHandler == nullptr)
+                    accessFilter = _handler->GetCookieAccessFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                }
+                else
+                {
+                    accessFilter = _handler->GetCookieAccessFilter(_browserControl, nullptr, nullptr, %requestWrapper);
+                }
+
+                if (accessFilter == nullptr)
                 {
                     return NULL;
                 }
@@ -67,35 +70,43 @@ namespace CefSharp
 
             cef_return_value_t OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback) OVERRIDE
             {
-                if (!Object::ReferenceEquals(_handler, nullptr))
+                //For ServiceWorker browser and frame will be null
+                if (browser.get() && frame.get())
                 {
-                    return cef_return_value_t::RV_CONTINUE;
+                    //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
+                    CefSharpBrowserWrapper browserWrapper(browser);
+                    //We pass the frame and request wrappers to CefRequestCallbackWrapper so they can be disposed of
+                    //when the callback is executed
+                    auto frameWrapper = gcnew CefFrameWrapper(frame);
+                    auto requestWrapper = gcnew CefRequestWrapper(request);
+                    auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
+
+                    return (cef_return_value_t)_handler->OnBeforeResourceLoad(_browserControl, %browserWrapper, frameWrapper, requestWrapper, requestCallback);
                 }
 
-                //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
-                CefSharpBrowserWrapper browserWrapper(browser);
-                //We pass the frame and request wrappers to CefRequestCallbackWrapper so they can be disposed of
-                //when the callback is executed
-                auto frameWrapper = gcnew CefFrameWrapper(frame);
                 auto requestWrapper = gcnew CefRequestWrapper(request);
-                auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
+                auto requestCallback = gcnew CefRequestCallbackWrapper(callback, nullptr, requestWrapper);
 
-                return (cef_return_value_t)_handler->OnBeforeResourceLoad(_browserControl, %browserWrapper, frameWrapper, requestWrapper, requestCallback);
+                return (cef_return_value_t)_handler->OnBeforeResourceLoad(_browserControl, nullptr, nullptr, requestWrapper, requestCallback);
             }
 
             CefRefPtr<CefResourceHandler> GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) OVERRIDE
             {
-                if (!Object::ReferenceEquals(_handler, nullptr))
-                {
-                    return NULL;
-                }
-
-                //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
-                CefSharpBrowserWrapper browserWrapper(browser);
-                CefFrameWrapper frameWrapper(frame);
+                IResourceHandler^ resourceHandler;
                 CefRequestWrapper requestWrapper(request);
 
-                auto resourceHandler = _handler->GetResourceHandler(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                //For ServiceWorker browser and frame will be null
+                if (browser.get() && frame.get())
+                {
+                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefFrameWrapper frameWrapper(frame);
+
+                    resourceHandler = _handler->GetResourceHandler(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                }
+                else
+                {
+                    resourceHandler = _handler->GetResourceHandler(_browserControl, nullptr, nullptr, %requestWrapper);
+                }
 
                 if (resourceHandler == nullptr)
                 {
@@ -138,84 +149,108 @@ namespace CefSharp
 
             void OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, CefString& newUrl) OVERRIDE
             {
-                if (!Object::ReferenceEquals(_handler, nullptr))
+                auto managedNewUrl = StringUtils::ToClr(newUrl);
+                CefRequestWrapper requestWrapper(request);
+                CefResponseWrapper responseWrapper(response);
+
+                //For ServiceWorker browser and frame will be null
+                if (browser.get() && frame.get())
                 {
-                    auto managedNewUrl = StringUtils::ToClr(newUrl);
-                    //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
                     CefSharpBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
-                    CefRequestWrapper requestWrapper(request);
-                    CefResponseWrapper responseWrapper(response);
 
                     _handler->OnResourceRedirect(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, managedNewUrl);
-
-                    newUrl = StringUtils::ToNative(managedNewUrl);
                 }
+                else
+                {
+                    _handler->OnResourceRedirect(_browserControl, nullptr, nullptr, %requestWrapper, %responseWrapper, managedNewUrl);
+                }
+
+                newUrl = StringUtils::ToNative(managedNewUrl);
+
             }
 
             bool OnResourceResponse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response) OVERRIDE
             {
-                if (!Object::ReferenceEquals(_handler, nullptr))
-                {
-                    return false;
-                }
-
-                //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
-                CefSharpBrowserWrapper browserWrapper(browser);
-                CefFrameWrapper frameWrapper(frame);
                 CefRequestWrapper requestWrapper(request);
                 CefResponseWrapper responseWrapper(response);
 
-                return _handler->OnResourceResponse(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+                //For ServiceWorker browser and frame will be null
+                if (browser.get() && frame.get())
+                {
+
+                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefFrameWrapper frameWrapper(frame);
+
+                    return _handler->OnResourceResponse(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+                }
+
+                return _handler->OnResourceResponse(_browserControl, nullptr, nullptr, %requestWrapper, %responseWrapper);
             }
 
             CefRefPtr<CefResponseFilter> GetResourceResponseFilter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response) OVERRIDE
             {
-                if (!Object::ReferenceEquals(_handler, nullptr))
-                {
-                    return NULL;
-                }
-
-                //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
-                CefSharpBrowserWrapper browserWrapper(browser);
-                CefFrameWrapper frameWrapper(frame);
+                IResponseFilter^ responseFilter;
                 CefRequestWrapper requestWrapper(request);
                 CefResponseWrapper responseWrapper(response);
 
-                auto filter = _handler->GetResourceResponseFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+                //For ServiceWorker browser and frame will be null
+                if (browser.get() && frame.get())
+                {
+                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefFrameWrapper frameWrapper(frame);
 
-                if (filter == nullptr)
+                    responseFilter = _handler->GetResourceResponseFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+                }
+                else
+                {
+                    responseFilter = _handler->GetResourceResponseFilter(_browserControl, nullptr, nullptr, %requestWrapper, %responseWrapper);
+                }
+
+                if (responseFilter == nullptr)
                 {
                     return NULL;
                 }
 
-                return new CefResponseFilterAdapter(filter);
+                return new CefResponseFilterAdapter(responseFilter);
             }
 
             void OnResourceLoadComplete(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, URLRequestStatus status, int64 receivedContentLength) OVERRIDE
             {
-                if (!Object::ReferenceEquals(_handler, nullptr))
+                CefRequestWrapper requestWrapper(request);
+                CefResponseWrapper responseWrapper(response);
+
+                //For ServiceWorker browser and frame will be null
+                if (browser.get() && frame.get())
                 {
-                    //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
                     CefSharpBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
-                    CefRequestWrapper requestWrapper(request);
-                    CefResponseWrapper responseWrapper(response);
 
                     _handler->OnResourceLoadComplete(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
+                }
+                else
+                {
+                    _handler->OnResourceLoadComplete(_browserControl, nullptr, nullptr, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
                 }
             }
 
             void OnProtocolExecution(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool& allowOSExecution) OVERRIDE
             {
-                if (!Object::ReferenceEquals(_handler, nullptr))
+                CefRequestWrapper requestWrapper(request);
+
+                //For ServiceWorker browser and frame will be null
+                if (browser.get() && frame.get())
                 {
-                    //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
                     CefSharpBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
-                    CefRequestWrapper requestWrapper(request);
+
 
                     allowOSExecution = _handler->OnProtocolExecution(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                }
+                else
+                {
+
+                    allowOSExecution = _handler->OnProtocolExecution(_browserControl, nullptr, nullptr, %requestWrapper);
                 }
             }
 
