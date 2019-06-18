@@ -13,6 +13,11 @@ namespace CefSharp
     public interface IResponse : IDisposable
     {
         /// <summary>
+        /// Get/Set the response charset.
+        /// </summary>
+        string Charset { get; set; }
+
+        /// <summary>
         /// MimeType
         /// </summary>
         string MimeType { get; set; }
