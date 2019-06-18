@@ -29,8 +29,9 @@ namespace CefSharp
         /// <param name="browser">the browser object - may be null if originating from ServiceWorker or CefURLRequest</param>
         /// <param name="frame">the frame object - may be null if originating from ServiceWorker or CefURLRequest</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <param name="response">the response object - cannot be modified in this callback</param>
         /// <param name="cookie">the cookie object</param>
         /// <returns>Return true if the specified cookie returned with the response can be saved or false otherwise.</returns>
-        bool CanSaveCookie(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, Cookie cookie);
+        bool CanSaveCookie(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, Cookie cookie);
     }
 }
