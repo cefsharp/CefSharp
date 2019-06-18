@@ -17,9 +17,6 @@ namespace CefSharp
     private:
         gcroot<IResourceHandler^> _handler;
         gcroot<IRequest^> _request;
-
-        Cookie^ GetCookie(const CefCookie& cookie);
-
     public:
         ResourceHandlerWrapper(IResourceHandler^ handler)
             : _handler(handler)

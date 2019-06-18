@@ -46,9 +46,4 @@ namespace CefSharp
     {
         _handler->Cancel();
     }
-
-    Cookie^ ResourceHandlerWrapper::GetCookie(const CefCookie& cefCookie)
-    {
-        return TypeConversion::FromNative(cefCookie);
-    }
 }

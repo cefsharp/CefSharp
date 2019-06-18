@@ -16,6 +16,7 @@
 #include "ResourceHandlerWrapper.h"
 #include "CefResponseFilterAdapter.h"
 #include "CefRequestCallbackWrapper.h"
+#include "CefCookieAccessFilterAdapter.h"
 
 namespace CefSharp
 {
@@ -65,7 +66,7 @@ namespace CefSharp
                     return NULL;
                 }
 
-                throw gcnew NotImplementedException("Implement CefCookieAccessFilter wrapper");
+                return new CefCookieAccessFilterAdapter(accessFilter, _browserControl);
             }
 
             cef_return_value_t OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback) OVERRIDE
