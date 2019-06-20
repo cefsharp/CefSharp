@@ -41,16 +41,7 @@ namespace CefSharp
             }
             argList->SetList(2, paramList);
 
-            if (_callback->FrameId < 0)
-            {
-                auto invalidFrameResponse = gcnew JavascriptResponse();
-                invalidFrameResponse->Success = false;
-                invalidFrameResponse->Message = "Javascript callbacks are only supported via the main frame until an upstream issue is resolved, see https://github.com/cefsharp/CefSharp/issues/2743#issuecomment-502566136";
-
-                return Task::FromResult(invalidFrameResponse);
-            }
-
-            auto frame = browserWrapper->Browser->GetMainFrame();
+            auto frame = browserWrapper->Browser->GetFrame(_callback->FrameId);
 
             if (frame.get() && frame->IsValid())
             {
@@ -64,7 +55,7 @@ namespace CefSharp
                 invalidFrameResponse->Success = false;
                 invalidFrameResponse->Message = "Frame with Id:" + _callback->FrameId + " is no longer valid.";
 
-                return Task::FromResult(invalidFrameResponse);
+                Task::FromResult(invalidFrameResponse);
             }
         }
 
@@ -115,16 +106,8 @@ namespace CefSharp
                 return false;
             }
 
-            //https://github.com/cefsharp/CefSharp/issues/2743#issuecomment-502566136
-            if (_callback->FrameId < 0)
-            {
-                //We're only able to support callbacks in the main frame until the above issue
-                //is resolved.
-                return false;
-            }
-
             //If the frame Id is still valid then we can attemp to execute the callback
-            auto frame = browser->MainFrame;
+            auto frame = browser->GetFrame(_callback->FrameId);
             if (frame == nullptr)
             {
                 return false;
