@@ -110,6 +110,13 @@ namespace CefSharp.WinForms
             }
         }
         /// <summary>
+        /// Activates browser upon creation, the default value is false. Prior to version 73
+        /// the default behaviour was to activate browser on creation (Equivilent of setting this property to true).
+        /// To restore this behaviour set this value to true immediately after you create the <see cref="ChromiumWebBrowser"/> instance.
+        /// https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+        /// </summary>
+        public bool ActivateBrowserOnCreation { get; set; }
+        /// <summary>
         /// Gets or sets the request context.
         /// </summary>
         /// <value>The request context.</value>
@@ -327,6 +334,11 @@ namespace CefSharp.WinForms
         public event EventHandler IsBrowserInitializedChanged;
 
         /// <summary>
+        /// Event handler that will get called when the message that originates from CefSharp.PostMessage
+        /// </summary>
+        public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
+
+        /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
@@ -499,6 +511,7 @@ namespace CefSharp.WinForms
                 LoadingStateChanged = null;
                 StatusMessage = null;
                 TitleChanged = null;
+                JavascriptMessageReceived = null;
 
                 // Release reference to handlers, except LifeSpanHandler which is done after Disposing
                 // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
@@ -602,9 +615,13 @@ namespace CefSharp.WinForms
 
             var windowInfo = new WindowInfo();
             windowInfo.SetAsChild(handle);
-            //Disable Window activation by default
-            //https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
-            windowInfo.ExStyle |= WS_EX_NOACTIVATE;
+
+            if (!ActivateBrowserOnCreation)
+            {
+                //Disable Window activation by default
+                //https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+                windowInfo.ExStyle |= WS_EX_NOACTIVATE;
+            }
 
             return windowInfo;
         }
@@ -781,6 +798,11 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
         {
             CanExecuteJavascriptInMainFrame = canExecute;
+        }
+
+        void IWebBrowserInternal.SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args)
+        {
+            JavascriptMessageReceived?.Invoke(this, args);
         }
 
         /// <summary>

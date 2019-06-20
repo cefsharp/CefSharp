@@ -109,6 +109,7 @@
     <Compile Include="Enums\CefFileDialogFlags.cs" />
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
+    <Compile Include="Event\JavascriptMessageReceivedEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Handler\IAccessibilityHandler.cs" />
@@ -116,6 +117,8 @@
     <Compile Include="IApp.cs" />
     <Compile Include="Handler\IAudioHandler.cs" />
     <Compile Include="IExtension.cs" />
+    <Compile Include="Internals\IMethodRunnerQueue.cs" />
+    <Compile Include="Internals\ConcurrentMethodRunnerQueue.cs" />
     <Compile Include="ISchemeRegistrar.cs" />
     <Compile Include="IValue.cs" />
     <Compile Include="IImage.cs" />

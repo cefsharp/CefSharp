@@ -12,6 +12,7 @@ using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.Example.ModelBinding;
+using CefSharp.Example.PostMessage;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
 
@@ -152,6 +153,30 @@ namespace CefSharp.Wpf.Example.Views
             };
 
             CefExample.RegisterTestResources(browser);
+
+            browser.JavascriptMessageReceived += OnBrowserJavascriptMessageReceived;
+        }
+
+        private void OnBrowserJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
+        {
+            //Complext objects are initially expresses as IDicionary (in reality it's an ExpandoObject so you can use dynamic)
+            if (typeof(System.Dynamic.ExpandoObject).IsAssignableFrom(e.Message.GetType()))
+            {
+                //You can use dynamic to access properties
+                //dynamic msg = e.Message;
+                //Alternatively you can use the built in Model Binder to convert to a custom model
+                var msg = e.ConvertMessageTo<PostMessageExample>();
+                var callback = msg.Callback;
+                var type = msg.Type;
+                var property = msg.Data.Property;
+
+                callback.ExecuteAsync(type);
+            }
+            else if (e.Message is int)
+            {
+                e.Frame.ExecuteJavaScriptAsync("PostMessageIntTestCallback(" + (int)e.Message + ")");
+            }
+
         }
 
         private void OnBeforeDownloadFired(object sender, DownloadItem e)

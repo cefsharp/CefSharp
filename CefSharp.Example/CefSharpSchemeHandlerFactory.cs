@@ -38,6 +38,7 @@ namespace CefSharp.Example
                 { "/BindingTest.html", Resources.BindingTest },
                 { "/BindingTestSingle.html", Resources.BindingTestSingle },
                 { "/LegacyBindingTest.html", Resources.LegacyBindingTest },
+                { "/PostMessageTest.html", Resources.PostMessageTest },
                 { "/ExceptionTest.html", Resources.ExceptionTest },
                 { "/PopupTest.html", Resources.PopupTest },
                 { "/SchemeTest.html", Resources.SchemeTest },
@@ -53,7 +54,8 @@ namespace CefSharp.Example
                 { "/Recaptcha.html", Resources.Recaptcha },
                 { "/UnicodeExampleGreaterThan32kb.html", Resources.UnicodeExampleGreaterThan32kb },
                 { "/UnocodeExampleEqualTo32kb.html", Resources.UnocodeExampleEqualTo32kb },
-                { "/JavascriptCallbackTest.html", Resources.JavascriptCallbackTest }
+                { "/JavascriptCallbackTest.html", Resources.JavascriptCallbackTest },
+                { "/BindingTestsAsyncTask.html", Resources.BindingTestsAsyncTask }
             };
         }
 

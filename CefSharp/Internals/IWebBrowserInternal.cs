@@ -17,6 +17,7 @@ namespace CefSharp.Internals
         void SetTitle(TitleChangedEventArgs args);
         void SetTooltipText(string tooltipText);
         void SetCanExecuteJavascriptOnMainFrame(bool canExecute);
+        void SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args);
 
         void OnFrameLoadStart(FrameLoadStartEventArgs args);
         void OnFrameLoadEnd(FrameLoadEndEventArgs args);
