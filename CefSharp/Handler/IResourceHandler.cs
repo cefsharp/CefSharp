@@ -60,7 +60,7 @@ namespace CefSharp
         /// and pass the new URL via a Location header. Likewise with <paramref name="redirectUrl"/> it
         /// is valid to set a relative or fully qualified URL as the Location header
         /// value. If an error occured while setting up the request you can call
-        /// SetError() on <paramref name="response"/> to indicate the error condition.
+        /// <see cref="IResponse.ErrorCode"/> on <paramref name="response"/> to indicate the error condition.
         /// </summary>
         /// <param name="response">Use the response object to set the mime type, http status code and other optional header values.</param>
         /// <param name="responseLength">If the response length is not known set responseLength to -1</param>
