@@ -56,6 +56,7 @@ namespace CefSharp
             }
 
             virtual Task<JavascriptResponse^>^ ExecuteAsync(cli::array<Object^>^ parameters);
+            virtual Task<JavascriptResponse^>^ ExecuteWithTimeoutAsync(Nullable<TimeSpan> timeout, cli::array<Object^>^ parameters);
 
             virtual property Int64 Id
             {

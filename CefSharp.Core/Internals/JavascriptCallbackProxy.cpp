@@ -17,6 +17,11 @@ namespace CefSharp
     {
         Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteAsync(cli::array<Object^>^ parameters)
         {
+            return ExecuteWithTimeoutAsync(Nullable<TimeSpan>(), parameters);
+        }
+
+        Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteWithTimeoutAsync(Nullable<TimeSpan> timeout, cli::array<Object^>^ parameters)
+        {
             DisposedGuard();
 
             auto browser = GetBrowser();
@@ -27,7 +32,7 @@ namespace CefSharp
 
             auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
 
-            auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
+            auto doneCallback = _pendingTasks->CreatePendingTask(timeout);
 
             auto callbackMessage = CefProcessMessage::Create(kJavascriptCallbackRequest);
             auto argList = callbackMessage->GetArgumentList();
