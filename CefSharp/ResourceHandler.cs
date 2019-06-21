@@ -26,9 +26,9 @@ namespace CefSharp
         public const string DefaultMimeType = "text/html";
 
         /// <summary>
-        /// Gets or sets the CharSet
+        /// Gets or sets the Charset
         /// </summary>
-        public string CharSet { get; set; }
+        public string Charset { get; set; }
 
         /// <summary>
         /// Gets or sets the Mime Type.
@@ -178,9 +178,9 @@ namespace CefSharp
             response.StatusText = StatusText;
             response.Headers = Headers;
 
-            if (!string.IsNullOrEmpty(CharSet))
+            if (!string.IsNullOrEmpty(Charset))
             {
-                response.Charset = CharSet;
+                response.Charset = Charset;
             }
 
             if (ResponseLength.HasValue)
