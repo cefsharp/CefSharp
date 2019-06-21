@@ -307,6 +307,12 @@
     <ClInclude Include="Internals\CefCookieAccessFilterAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefResourceSkipCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internals\CefSharpBrowserWrapper.h">
