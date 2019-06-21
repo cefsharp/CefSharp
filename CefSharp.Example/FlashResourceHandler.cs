@@ -10,7 +10,7 @@ namespace CefSharp.Example
 {
     public class FlashResourceHandler : ResourceHandler
     {
-        public override bool ProcessRequestAsync(IRequest request, ICallback callback)
+        public override CefReturnValue ProcessRequestAsync(IRequest request, ICallback callback)
         {
             Task.Run(() =>
             {
@@ -41,7 +41,7 @@ namespace CefSharp.Example
                 }
             });
 
-            return true;
+            return CefReturnValue.ContinueAsync;
         }
     }
 }

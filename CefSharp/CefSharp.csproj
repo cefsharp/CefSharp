@@ -86,6 +86,8 @@
     <Compile Include="Callback\IRegisterCdmCallback.cs" />
     <Compile Include="Callback\IRequestCallback.cs" />
     <Compile Include="Callback\IResolveCallback.cs" />
+    <Compile Include="Callback\IResourceReadCallback.cs" />
+    <Compile Include="Callback\IResourceSkipCallback.cs" />
     <Compile Include="Callback\IRunContextMenuCallback.cs" />
     <Compile Include="Callback\IRunFileDialogCallback.cs" />
     <Compile Include="Callback\ISelectClientCertificateCallback.cs" />

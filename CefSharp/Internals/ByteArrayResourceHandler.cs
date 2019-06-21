@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using CefSharp.Callback;
 
 namespace CefSharp
 {
@@ -65,6 +66,24 @@ namespace CefSharp
         }
 
         void IResourceHandler.Cancel()
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Open(IRequest request, out bool handleRequest, ICallback callback)
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Skip(long bytesToSkip, out long bytesSkipped, IResourceSkipCallback callback)
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Read(Stream dataOut, out int bytesRead, IResourceReadCallback callback)
         {
             //Should never be called
             throw new NotImplementedException("This method should never be called");
