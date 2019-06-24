@@ -14,20 +14,20 @@ namespace CefSharp
     /// internally for the LoadHtml implementation - basically a resource handler is
     /// registered for a specific Url.
     /// </summary>
-    public class DefaultResourceRequestHandlerFactory : IResourceRequestHandlerFactory
+    public class ResourceRequestHandlerFactory : IResourceRequestHandlerFactory
     {
         /// <summary>
         /// Resource handler thread safe dictionary
         /// </summary>
-        public ConcurrentDictionary<string, DefaultResourceRequestHandlerFactoryItem> Handlers { get; private set; }
+        public ConcurrentDictionary<string, ResourceRequestHandlerFactoryItem> Handlers { get; private set; }
 
         /// <summary>
         /// Create a new instance of DefaultResourceHandlerFactory
         /// </summary>
         /// <param name="comparer">string equality comparer</param>
-        public DefaultResourceRequestHandlerFactory(IEqualityComparer<string> comparer = null)
+        public ResourceRequestHandlerFactory(IEqualityComparer<string> comparer = null)
         {
-            Handlers = new ConcurrentDictionary<string, DefaultResourceRequestHandlerFactoryItem>(comparer ?? StringComparer.OrdinalIgnoreCase);
+            Handlers = new ConcurrentDictionary<string, ResourceRequestHandlerFactoryItem>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace CefSharp
             Uri uri;
             if (Uri.TryCreate(url, UriKind.Absolute, out uri))
             {
-                var entry = new DefaultResourceRequestHandlerFactoryItem(data, mimeType, oneTimeUse);
+                var entry = new ResourceRequestHandlerFactoryItem(data, mimeType, oneTimeUse);
 
                 Handlers.AddOrUpdate(uri.AbsoluteUri, entry, (k, v) => entry);
                 return true;
@@ -58,16 +58,22 @@ namespace CefSharp
         /// <returns>returns true if successfully removed</returns>
         public virtual bool UnregisterHandler(string url)
         {
-            DefaultResourceRequestHandlerFactoryItem entry;
+            ResourceRequestHandlerFactoryItem entry;
             return Handlers.TryRemove(url, out entry);
         }
 
         /// <summary>
         /// Are there any <see cref="ResourceHandler"/>'s registered?
         /// </summary>
-        public bool HasHandlers
+        bool IResourceRequestHandlerFactory.HasHandlers
         {
             get { return Handlers.Count > 0; }
+        }
+
+        /// <inheritdoc /> 
+        IResourceRequestHandler IResourceRequestHandlerFactory.GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+        {
+            return GetResourceRequestHandler(chromiumWebBrowser, browser, frame, request, isNavigation, isDownload, requestInitiator, ref disableDefaultHandling);
         }
 
         /// <summary>
@@ -78,17 +84,11 @@ namespace CefSharp
         /// <param name="frame">the frame object</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <returns>To allow the resource to load normally return NULL otherwise return an instance of ResourceHandler with a valid stream</returns>
-        public virtual IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool iNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+        protected virtual IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
         {
             try
             {
-                //If we don't have anything registered, then return null
-                if (!HasHandlers)
-                {
-                    return null;
-                }
-
-                DefaultResourceRequestHandlerFactoryItem entry;
+                ResourceRequestHandlerFactoryItem entry;
 
                 if (Handlers.TryGetValue(request.Url, out entry))
                 {
