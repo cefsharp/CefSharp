@@ -562,7 +562,7 @@ namespace CefSharp
 
             auto resourceRequestHandlerFactory = _browserControl->ResourceRequestHandlerFactory;
 
-            if (resourceRequestHandlerFactory != nullptr)
+            if (resourceRequestHandlerFactory != nullptr && resourceRequestHandlerFactory->HasHandlers)
             {
                 auto factoryHandler = resourceRequestHandlerFactory->GetResourceRequestHandler(_browserControl, browserWrapper, %frameWrapper,
                     %requestWrapper, isNavigation, isDownload, StringUtils::ToClr(requestInitiator), disableDefaultHandling);
