@@ -16,7 +16,7 @@ namespace CefSharp.Handler
             return GetCookieAccessFilter(chromiumWebBrowser, browser, frame, request);
         }
 
-        protected ICookieAccessFilter GetCookieAccessFilter(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
+        protected virtual ICookieAccessFilter GetCookieAccessFilter(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {
             return null;
         }
@@ -26,7 +26,7 @@ namespace CefSharp.Handler
             return GetResourceHandler(browserControl, browser, frame, request);
         }
 
-        protected IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
+        protected virtual IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
         {
             return null;
         }
@@ -36,7 +36,7 @@ namespace CefSharp.Handler
             return GetResourceResponseFilter(chromiumWebBrowser, browser, frame, request, response);
         }
 
-        protected IResponseFilter GetResourceResponseFilter(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+        protected virtual IResponseFilter GetResourceResponseFilter(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
         {
             return null;
         }
@@ -46,7 +46,7 @@ namespace CefSharp.Handler
             return OnBeforeResourceLoad(chromiumWebBrowser, browser, frame, request, callback);
         }
 
-        private CefReturnValue OnBeforeResourceLoad(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
+        protected virtual CefReturnValue OnBeforeResourceLoad(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
             return CefReturnValue.Continue;
         }
@@ -56,7 +56,7 @@ namespace CefSharp.Handler
             return OnProtocolExecution(chromiumWebBrowser, browser, frame, request);
         }
 
-        protected bool OnProtocolExecution(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
+        protected virtual bool OnProtocolExecution(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {
             return false;
         }
@@ -66,7 +66,7 @@ namespace CefSharp.Handler
             OnResourceLoadComplete(chromiumWebBrowser, browser, frame, request, response, status, receivedContentLength);
         }
 
-        protected void OnResourceLoadComplete(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
+        protected virtual void OnResourceLoadComplete(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
         {
 
         }
@@ -76,7 +76,7 @@ namespace CefSharp.Handler
             OnResourceRedirect(chromiumWebBrowser, browser, frame, request, response, ref newUrl);
         }
 
-        protected void OnResourceRedirect(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
+        protected virtual void OnResourceRedirect(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
         {
 
         }
@@ -86,7 +86,7 @@ namespace CefSharp.Handler
             return OnResourceResponse(chromiumWebBrowser, browser, frame, request, response);
         }
 
-        private bool OnResourceResponse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+        protected virtual bool OnResourceResponse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
         {
             return false;
         }
