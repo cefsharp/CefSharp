@@ -11,12 +11,12 @@ using CefSharp.Handler;
 namespace CefSharp.Example.Handlers
 {
     /// <summary>
-    /// DefaultRequestHandler provides a base class for you to inherit from 
+    /// <see cref="RequestHandler"/> provides a base class for you to inherit from 
     /// you only need to implement the methods that are relevant to you. 
     /// If you implement the IRequestHandler interface you will need to
     /// implement every method
     /// </summary>
-    public class RequestHandler : DefaultRequestHandler
+    public class ExampleRequestHandler : RequestHandler
     {
         public static readonly string VersionNumberString = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
             Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);

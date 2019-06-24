@@ -11,7 +11,7 @@ namespace CefSharp.Handler
     /// This class provides default implementations of the methods from <see cref="IRequestHandler"/>,
     /// therefore providing a convenience base class for any custom request handler.
     /// </summary>
-    public class DefaultRequestHandler : IRequestHandler
+    public class RequestHandler : IRequestHandler
     {
         /// <summary>
         /// Called before browser navigation.

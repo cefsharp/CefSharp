@@ -9,7 +9,7 @@ namespace CefSharp.Handler
     /// This class provides default implementations of the methods from <see cref="IResourceRequestHandler"/>,
     /// therefore providing a convenience base class for any custom resource request handler.
     /// </summary>
-    public class DefaultResourceRequestHandler : IResourceRequestHandler
+    public class ResourceRequestHandler : IResourceRequestHandler
     {
         ICookieAccessFilter IResourceRequestHandler.GetCookieAccessFilter(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {

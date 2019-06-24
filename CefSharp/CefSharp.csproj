@@ -114,9 +114,9 @@
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
     <Compile Include="Event\JavascriptMessageReceivedEventArgs.cs" />
-    <Compile Include="Handler\DefaultRequestHandler.cs" />
+    <Compile Include="Handler\RequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
-    <Compile Include="Handler\DefaultResourceRequestHandler.cs" />
+    <Compile Include="Handler\ResourceRequestHandler.cs" />
     <Compile Include="Handler\IAccessibilityHandler.cs" />
     <Compile Include="Handler\IExtensionHandler.cs" />
     <Compile Include="Handler\ICookieAccessFilter.cs" />
