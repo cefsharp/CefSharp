@@ -479,10 +479,10 @@ namespace CefSharp
         {
             if (browser.ResourceRequestHandlerFactory == null)
             {
-                browser.ResourceRequestHandlerFactory = new DefaultResourceRequestHandlerFactory();
+                browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
             }
 
-            var handler = browser.ResourceRequestHandlerFactory as DefaultResourceRequestHandlerFactory;
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
 
             if (handler == null)
             {
@@ -511,10 +511,10 @@ namespace CefSharp
         {
             if (browser.ResourceRequestHandlerFactory == null)
             {
-                browser.ResourceRequestHandlerFactory = new DefaultResourceRequestHandlerFactory();
+                browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
             }
 
-            var handler = browser.ResourceRequestHandlerFactory as DefaultResourceRequestHandlerFactory;
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
 
             if (handler == null)
             {
@@ -536,7 +536,7 @@ namespace CefSharp
         /// <param name="url">the url of the resource to unregister</param>
         public static void UnRegisterResourceHandler(this IWebBrowser browser, string url)
         {
-            var handler = browser.ResourceRequestHandlerFactory as DefaultResourceRequestHandlerFactory;
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
 
             if (handler == null)
             {

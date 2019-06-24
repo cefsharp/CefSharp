@@ -40,11 +40,11 @@ namespace CefSharp
         /// <param name="browser">represent the source browser of the request, and may be null for requests originating from service workers.</param>
         /// <param name="frame">represent the source frame of the request, and may be null for requests originating from service workers.</param>
         /// <param name="request">represents the request contents and cannot be modified in this callback</param>
-        /// <param name="iNavigation">will be true if the resource request is a navigation</param>
+        /// <param name="isNavigation">will be true if the resource request is a navigation</param>
         /// <param name="isDownload">will be true if the resource request is a download</param>
         /// <param name="requestInitiator">is the origin (scheme + domain) of the page that initiated the request</param>
         /// <param name="disableDefaultHandling">Set to true to disable default handling of the request, in which case it will need to be handled via <see cref="IResourceRequestHandler.GetResourceHandler(IWebBrowser, IBrowser, IFrame, IRequest)"/> or it will be canceled</param>
         /// <returns>To allow the resource load to proceed with default handling return null. To specify a handler for the resource return a <see cref="IResourceRequestHandler"/> object.</returns>
-        IResourceRequestHandler GetResourceRequestHandler(IBrowser browser, IFrame frame, IRequest request, bool iNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling);
+        IResourceRequestHandler GetResourceRequestHandler(IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling);
     }
 }
