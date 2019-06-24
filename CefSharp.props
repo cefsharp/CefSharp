@@ -23,20 +23,7 @@ if $(PlatformName) == x86 (
 )
 ]]></CefSharpBrowserSubprocessPostBuildEvent>
 
-    <CefSharpBrowserSubprocessPostBuildEvent Condition="'$(VisualStudioVersion)'=='15.0'">
-      <![CDATA[
-if $(PlatformName) == x86 (
-  call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat"
-  editbin /largeaddressaware /TSAWARE "$(TargetPath)"  
-  sn -R "$(TargetPath)" "$(ProjectDir)..\CefSharp.snk"
-) else (
-  call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat"
-  editbin /TSAWARE "$(TargetPath)"
-)
-]]>
-    </CefSharpBrowserSubprocessPostBuildEvent>
-	
-    <CefSharpBrowserSubprocessPostBuildEvent Condition="'$(VisualStudioVersion)'=='16.0'">
+    <CefSharpBrowserSubprocessPostBuildEvent Condition="'$(VisualStudioVersion)'=='15.0' Or '$(VisualStudioVersion)'=='16.0'">
       <![CDATA[
 if $(PlatformName) == x86 (
   call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat"
