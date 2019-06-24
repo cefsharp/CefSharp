@@ -10,7 +10,7 @@ using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
-    public class WinFormsRequestHandler : RequestHandler
+    public class WinFormsRequestHandler : ExampleRequestHandler
     {
         private Action<string, int?> openNewTab;
 
