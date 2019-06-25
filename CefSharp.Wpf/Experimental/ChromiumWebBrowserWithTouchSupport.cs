@@ -20,20 +20,84 @@ namespace CefSharp.Wpf.Experimental
     /// </summary>
     public class ChromiumWebBrowserWithTouchSupport : ChromiumWebBrowser
     {
+        #region Mouse
+        //Mouse, touch and sylus pen will Run OnMouseXXX.
+        //Use e.StylusDevice == null to ensure only mouse.
+
+        /// <summary>
+        /// Handles the <see cref="E:MouseButton" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
         protected internal override void OnMouseButton(MouseButtonEventArgs e)
         {
             // For mouse events from an actual mouse, e.StylusDevice will be null.
-            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            // For mouse events from touch and stylus, e.StylusDevice will not be null.
             // If we don't check if e.StylusDevice == null, touch scrolls will also select text.
             if (e.StylusDevice == null)
             {
                 base.OnMouseButton(e);
             }
         }
+
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseMove" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (e.StylusDevice == null)
+            {
+                base.OnMouseMove(e);
+            }
+        }
+
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseUp" /> routed event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the mouse button was released.</param>
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            if (e.StylusDevice == null)
+            {
+                base.OnMouseUp(e);
+            }
+        }
+
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseDown" /> attached event reaches an
+        /// element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data.
+        /// This event data reports details about the mouse button that was pressed and the handled state.</param>
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (e.StylusDevice == null)
+            {
+                base.OnMouseDown(e);
+            }
+        }
+
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseLeave" /> attached event is raised on this element. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            if (e.StylusDevice == null)
+            {
+                base.OnMouseLeave(e);
+            }
+        }
+
+        #endregion
+
+        #region Touch
+        //Only Touch will Run OnTouchXXX.
+
         /// <summary>
         /// Provides class handling for the <see cref="E:System.Windows.TouchDown" /> routed event that occurs when a touch presses inside this element.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.</param>
         protected override void OnTouchDown(TouchEventArgs e)
         {
             Focus();
@@ -47,7 +111,7 @@ namespace CefSharp.Wpf.Experimental
         /// <summary>
         /// Provides class handling for the <see cref="E:System.Windows.TouchMove" /> routed event that occurs when a touch moves while inside this element.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.</param>
         protected override void OnTouchMove(TouchEventArgs e)
         {
             OnTouch(e);
@@ -57,7 +121,7 @@ namespace CefSharp.Wpf.Experimental
         /// <summary>
         /// Provides class handling for the <see cref="E:System.Windows.TouchUp" /> routed event that occurs when a touch is released inside this element.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.</param>
         protected override void OnTouchUp(TouchEventArgs e)
         {
             ReleaseTouchCapture(e.TouchDevice);
@@ -118,38 +182,54 @@ namespace CefSharp.Wpf.Experimental
             }
         }
 
+        #endregion Touch
+
+        #region Stylus Pen
+        //Both touch and stylus pen will Run OnStylusXXX.
+        //We use OnTouchXXX to handle touch, which is faster.
+        //Use e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus to ensure only stylus pen.
+
         /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.Input.StylusDown" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.
+        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.</param>
         protected override void OnStylusDown(StylusDownEventArgs e)
         {
-            Focus();
-            // Capture stylus so stylus events are still pushed to CEF even if the stylus leaves the control before a StylusUp.
-            // This behavior is similar to how other browsers handle stylus input.
-            CaptureStylus();
-            OnStylus(e, TouchEventType.Pressed);
+            if (e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus)
+            {
+                Focus();
+                // Capture stylus so stylus events are still pushed to CEF even if the stylus leaves the control before a StylusUp.
+                // This behavior is similar to how other browsers handle stylus input.
+                CaptureStylus();
+                OnStylus(e, TouchEventType.Pressed);
+            }
             base.OnStylusDown(e);
         }
 
         /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.Input.StylusMove" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.
+        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.</param>
         protected override void OnStylusMove(StylusEventArgs e)
         {
-            OnStylus(e, TouchEventType.Moved);
+            if (e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus)
+            {
+                OnStylus(e, TouchEventType.Moved);
+            }
             base.OnStylusMove(e);
         }
 
         /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.Input.StylusUp" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.
+        /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.</param>
         protected override void OnStylusUp(StylusEventArgs e)
         {
-            ReleaseStylusCapture();
-            OnStylus(e, TouchEventType.Released);
+            if (e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus)
+            {
+                ReleaseStylusCapture();
+                OnStylus(e, TouchEventType.Released);
+            }
             base.OnStylusUp(e);
         }
 
@@ -162,29 +242,30 @@ namespace CefSharp.Wpf.Experimental
         {
             var browser = GetBrowser();
 
-            var stylusPoints = e.GetStylusPoints(this);
-
-            if (!e.Handled && browser != null && e.StylusDevice != null && e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus && stylusPoints.Count > 0)
+            if (!e.Handled && browser != null)
             {
                 var modifiers = WpfExtensions.GetModifierKeys();
-                var pressure = stylusPoints[0].PressureFactor;
                 var pointerType = e.StylusDevice.Inverted ? PointerType.Eraser : PointerType.Pen;
-
-                var touchEvent = new TouchEvent()
+                //Send all points to host
+                foreach (var stylusPoint in e.GetStylusPoints(this))
                 {
-                    Id = e.StylusDevice.Id,
-                    X = (float)stylusPoints[0].X,
-                    Y = (float)stylusPoints[0].Y,
-                    PointerType = pointerType,
-                    Pressure = pressure,
-                    Type = touchEventType,
-                    Modifiers = modifiers,
-                };
+                    var touchEvent = new TouchEvent()
+                    {
+                        Id = e.StylusDevice.Id,
+                        X = (float)stylusPoint.X,
+                        Y = (float)stylusPoint.Y,
+                        PointerType = pointerType,
+                        Pressure = stylusPoint.PressureFactor,
+                        Type = touchEventType,
+                        Modifiers = modifiers,
+                    };
 
-                browser.GetHost().SendTouchEvent(touchEvent);
-
+                    browser.GetHost().SendTouchEvent(touchEvent);
+                }
                 e.Handled = true;
             }
         }
+
+        #endregion
     }
 }
