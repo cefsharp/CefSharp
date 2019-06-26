@@ -65,10 +65,22 @@ namespace CefSharp
         ReferrerPolicy ReferrerPolicy { get; }
 
         /// <summary>
-        /// Header Collection
+        /// Header Collection - If dealing with headers that only contain a single value then
+        /// it's easier to use <see cref="SetHeaderByName(string, string, bool)"/> or <see cref="GetHeaderByName(string)"/>.
+        /// You cannot modify the referrer using headers, use <see cref="SetReferrer(string, ReferrerPolicy)"/>.
         /// NOTE: This collection is a copy of the underlying type, to make changes, take a reference to the collection,
-        /// make your changes, then reassign the collection. At some point this will be replaced with a proper wrapper.
+        /// make your changes, then reassign the collection.
         /// </summary>
+        /// <example> 
+        /// This example shows how to modify headers, make sure you reassign the collection
+        /// once it's been modified.
+        /// <code>
+        /// var headers = request.Headers;
+        /// var userAgent = headers["User-Agent"];
+        /// headers["User-Agent"] = userAgent + " CefSharp";
+        /// request.Headers = headers;
+        /// </code>
+        /// </example>
         NameValueCollection Headers { get; set; }
 
         /// <summary>
