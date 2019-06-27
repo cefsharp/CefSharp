@@ -20,29 +20,17 @@ namespace CefSharp.Wpf.Experimental
     /// </summary>
     public class ChromiumWebBrowserWithTouchSupport : ChromiumWebBrowser
     {
-        //Mouse, touch and stylus pen will Run OnMouseXXX.
-
-        /// <summary>
-        /// Handles the <see cref="E:MouseButton" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
-        protected internal override void OnMouseButton(MouseButtonEventArgs e)
-        {
-            // For mouse events from an actual mouse, e.StylusDevice will be null.
-            // For mouse events from touch and stylus, e.StylusDevice will not be null.
-            // If we don't check if e.StylusDevice == null, touch scrolls will also select text.
-            if (e.StylusDevice == null)
-            {
-                base.OnMouseButton(e);
-            }
-        }
-
         /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseMove" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            //Mouse, touch, and stylus will raise mouse event.
+            //For mouse events from an actual mouse, e.StylusDevice will be null.
+            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            //We only handle event from mouse here.
+            //If not, touch will cause duplicate events (mousemove and touchmove) and so does stylus.
             //Use e.StylusDevice == null to ensure only mouse.
             if (e.StylusDevice == null)
             {
@@ -56,6 +44,11 @@ namespace CefSharp.Wpf.Experimental
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the mouse button was released.</param>
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
+            //Mouse, touch, and stylus will raise mouse event.
+            //For mouse events from an actual mouse, e.StylusDevice will be null.
+            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            //We only handle event from mouse here.
+            //If not, touch will cause duplicate events (mouseup and touchup) and so does stylus.
             //Use e.StylusDevice == null to ensure only mouse.
             if (e.StylusDevice == null)
             {
@@ -71,6 +64,11 @@ namespace CefSharp.Wpf.Experimental
         /// This event data reports details about the mouse button that was pressed and the handled state.</param>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
+            //Mouse, touch, and stylus will raise mouse event.
+            //For mouse events from an actual mouse, e.StylusDevice will be null.
+            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            //We only handle event from mouse here.
+            //If not, touch will cause duplicate events (mouseup and touchup) and so does stylus.
             //Use e.StylusDevice == null to ensure only mouse.
             if (e.StylusDevice == null)
             {
@@ -84,14 +82,17 @@ namespace CefSharp.Wpf.Experimental
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseLeave(MouseEventArgs e)
         {
+            //Mouse, touch, and stylus will raise mouse event.
+            //For mouse events from an actual mouse, e.StylusDevice will be null.
+            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            //We only handle event from mouse here.
+            //OnMouseLeave event from touch or stylus needn't to be handled.
             //Use e.StylusDevice == null to ensure only mouse.
             if (e.StylusDevice == null)
             {
                 base.OnMouseLeave(e);
             }
         }
-
-        //Only Touch will Run OnTouchXXX.
 
         /// <summary>
         /// Provides class handling for the <see cref="E:System.Windows.TouchDown" /> routed event that occurs when a touch presses inside this element.
@@ -181,15 +182,14 @@ namespace CefSharp.Wpf.Experimental
             }
         }
 
-        //Both touch and stylus pen will Run OnStylusXXX.
-        //We use the OnTouchXXX methods which contain more intermediate points to handle the user's touch so that we can track the user's fingers faster.
-
         /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.Input.StylusDown" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.</param>
         protected override void OnStylusDown(StylusDownEventArgs e)
         {
+            //Both touch and stylus will raise stylus event.
+            //We use the OnTouchXXX methods which contain more intermediate points to handle the user's touch so that we can track the user's fingers faster.
             //Use e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus to ensure only stylus pen.
             if (e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus)
             {
@@ -208,6 +208,8 @@ namespace CefSharp.Wpf.Experimental
         /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.</param>
         protected override void OnStylusMove(StylusEventArgs e)
         {
+            //Both touch and stylus will raise stylus event.
+            //We use the OnTouchXXX methods which contain more intermediate points to handle the user's touch so that we can track the user's fingers faster.
             //Use e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus to ensure only stylus pen.
             if (e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus)
             {
@@ -222,6 +224,8 @@ namespace CefSharp.Wpf.Experimental
         /// <param name="e">The <see cref="T:System.Windows.Input.StylusDownEventArgs" /> that contains the event data.</param>
         protected override void OnStylusUp(StylusEventArgs e)
         {
+            //Both touch and stylus will raise stylus event.
+            //We use the OnTouchXXX methods which contain more intermediate points to handle the user's touch so that we can track the user's fingers faster.
             //Use e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus to ensure only stylus pen.
             if (e.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus)
             {

@@ -2207,7 +2207,7 @@ namespace CefSharp.Wpf
         /// Handles the <see cref="E:MouseButton" /> event.
         /// </summary>
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
-        protected internal virtual void OnMouseButton(MouseButtonEventArgs e)
+        private void OnMouseButton(MouseButtonEventArgs e)
         {
             if (!e.Handled && browser != null)
             {
