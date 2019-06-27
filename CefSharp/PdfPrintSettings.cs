@@ -34,22 +34,22 @@ namespace CefSharp
         public int PageHeight { get; set; }
 
         /// <summary>
-        /// Margin in millimeters. Only used if MarginType is set to Custom.
+        /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
         public double MarginLeft { get; set; }
 
         /// <summary>
-        /// Margin in millimeters. Only used if MarginType is set to Custom.
+        /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
         public double MarginTop { get; set; }
 
         /// <summary>
-        /// Margin in millimeters. Only used if MarginType is set to Custom.
+        /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
         public double MarginRight { get; set; }
 
         /// <summary>
-        /// Margin in millimeters. Only used if MarginType is set to Custom.
+        /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
         public double MarginBottom { get; set; }
 
