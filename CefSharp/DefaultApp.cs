@@ -35,7 +35,7 @@ namespace CefSharp
                     continue;
                 }
 
-                var success = registrar.AddCustomScheme(scheme.SchemeName, scheme.IsStandard, scheme.IsLocal, scheme.IsDisplayIsolated, scheme.IsSecure, scheme.IsCorsEnabled, scheme.IsCSPBypassing);
+                var success = registrar.AddCustomScheme(scheme.SchemeName, scheme.Options);
 
                 if (!success)
                 {
