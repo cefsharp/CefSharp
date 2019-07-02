@@ -477,20 +477,19 @@ namespace CefSharp
         /// <returns>returns false if the Url was not successfully parsed into a Uri</returns>
         public static bool LoadHtml(this IWebBrowser browser, string html, string url, Encoding encoding, bool oneTimeUse = false)
         {
-            var handler = browser.ResourceHandlerFactory;
+            if (browser.ResourceRequestHandlerFactory == null)
+            {
+                browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
+            }
+
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
+
             if (handler == null)
             {
-                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
+                throw new Exception("LoadHtml can only be used with the default IResourceRequestHandlerFactory(DefaultResourceRequestHandlerFactory) implementation");
             }
 
-            var resourceHandler = handler as DefaultResourceHandlerFactory;
-
-            if (resourceHandler == null)
-            {
-                throw new Exception("LoadHtml can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
-            }
-
-            if (resourceHandler.RegisterHandler(url, ResourceHandler.GetByteArray(html, encoding, true), ResourceHandler.DefaultMimeType, oneTimeUse))
+            if (handler.RegisterHandler(url, ResourceHandler.GetByteArray(html, encoding, true), ResourceHandler.DefaultMimeType, oneTimeUse))
             {
                 browser.Load(url);
                 return true;
@@ -510,10 +509,16 @@ namespace CefSharp
         public static void RegisterResourceHandler(this IWebBrowser browser, string url, Stream stream, string mimeType = ResourceHandler.DefaultMimeType,
             bool oneTimeUse = false)
         {
-            var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
+            if (browser.ResourceRequestHandlerFactory == null)
+            {
+                browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
+            }
+
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
+
             if (handler == null)
             {
-                throw new Exception("RegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
+                throw new Exception("RegisterResourceHandler can only be used with the default IResourceRequestHandlerFactory(DefaultResourceRequestHandlerFactory) implementation");
             }
 
             using (var ms = new MemoryStream())
@@ -531,10 +536,11 @@ namespace CefSharp
         /// <param name="url">the url of the resource to unregister</param>
         public static void UnRegisterResourceHandler(this IWebBrowser browser, string url)
         {
-            var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
+
             if (handler == null)
             {
-                throw new Exception("UnRegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
+                throw new Exception("UnRegisterResourceHandler can only be used with the default IResourceRequestHandlerFactory(DefaultResourceRequestHandlerFactory) implementation");
             }
 
             handler.UnregisterHandler(url);
@@ -620,7 +626,7 @@ namespace CefSharp
                 throw new Exception("RequestContext is null, unable to obtain cookie manager");
             }
 
-            return requestContext.GetDefaultCookieManager(callback);
+            return requestContext.GetCookieManager(callback);
         }
 
         /// <summary>

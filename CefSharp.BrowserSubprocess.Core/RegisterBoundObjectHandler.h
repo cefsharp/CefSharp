@@ -240,6 +240,7 @@ namespace CefSharp
                                 if (cachedObjects->Count == objectCount && ignoreCache == false)
                                 {
                                     auto frame = context->GetFrame();
+
                                     if (frame.get())
                                     {
                                         if (Object::ReferenceEquals(_browserWrapper, nullptr))
@@ -268,45 +269,52 @@ namespace CefSharp
                                             response->SetValue("Message", CefV8Value::CreateString("OK"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
                                             callback->Success(response);
 
-                                            NotifyObjectBound(browser, objectNamesWithBoundStatus);
+                                            NotifyObjectBound(frame, objectNamesWithBoundStatus);
                                         }
                                     }
 
                                 }
                                 else
                                 {
-                                    //Obtain a callbackId then send off the Request for objects
-                                    auto callbackId = _callbackRegistry->SaveMethodCallback(callback);
+                                    auto frame = context->GetFrame();
+                                    if (frame.get() && frame->IsValid())
+                                    {
+                                        //Obtain a callbackId then send off the Request for objects
+                                        auto callbackId = _callbackRegistry->SaveMethodCallback(callback);
 
-                                    argList->SetInt(0, browser->GetIdentifier());
-                                    SetInt64(argList, 1, context->GetFrame()->GetIdentifier());
-                                    SetInt64(argList, 2, callbackId);
-                                    argList->SetList(3, params);
+                                        SetInt64(argList, 0, callbackId);
+                                        argList->SetList(1, params);
 
-                                    browser->SendProcessMessage(CefProcessId::PID_BROWSER, request);
+                                        frame->SendProcessMessage(CefProcessId::PID_BROWSER, request);
+                                    }
                                 }
                             }
                             else
                             {
-                                //Objects already bound or ignore cache
+                                auto frame = context->GetFrame();
 
-                                //Response object has no Accessor or Interceptor
-                                auto response = CefV8Value::CreateObject(NULL, NULL);
-
-                                //Objects already bound so we immediately resolve the Promise
-                                response->SetValue("Success", CefV8Value::CreateBool(false), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                response->SetValue("Count", CefV8Value::CreateInt(0), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                response->SetValue("Message", CefV8Value::CreateString("Object(s) already bound"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-
-                                CefV8ValueList returnArgs;
-                                returnArgs.push_back(response);
-                                //If all the requested objects are bound then we immediately execute resolve
-                                //with Success true and Count of 0
-                                resolve->ExecuteFunctionWithContext(context, nullptr, returnArgs);
-
-                                if (notifyIfAlreadyBound)
+                                if (frame.get() && frame->IsValid())
                                 {
-                                    NotifyObjectBound(browser, objectNamesWithBoundStatus);
+                                    //Objects already bound or ignore cache
+
+                                    //Response object has no Accessor or Interceptor
+                                    auto response = CefV8Value::CreateObject(NULL, NULL);
+
+                                    //Objects already bound so we immediately resolve the Promise
+                                    response->SetValue("Success", CefV8Value::CreateBool(false), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                    response->SetValue("Count", CefV8Value::CreateInt(0), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                    response->SetValue("Message", CefV8Value::CreateString("Object(s) already bound"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+
+                                    CefV8ValueList returnArgs;
+                                    returnArgs.push_back(response);
+                                    //If all the requested objects are bound then we immediately execute resolve
+                                    //with Success true and Count of 0
+                                    resolve->ExecuteFunctionWithContext(context, nullptr, returnArgs);
+
+                                    if (notifyIfAlreadyBound)
+                                    {
+                                        NotifyObjectBound(frame, objectNamesWithBoundStatus);
+                                    }
                                 }
                             }
                         }
@@ -331,7 +339,7 @@ namespace CefSharp
         }
 
     private:
-        void NotifyObjectBound(const CefRefPtr<CefBrowser> browser, List<Tuple<String^, bool, bool>^>^ objectNamesWithBoundStatus)
+        void NotifyObjectBound(const CefRefPtr<CefFrame> frame, List<Tuple<String^, bool, bool>^>^ objectNamesWithBoundStatus)
         {
             //Send message notifying Browser Process of which objects were bound
             //We do this after the objects have been created in the V8Context to gurantee
@@ -358,7 +366,7 @@ namespace CefSharp
 
             args->SetList(0, boundObjects);
 
-            browser->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
+            frame->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
         }
 
 

@@ -6,9 +6,14 @@
 
 #include "ManagedCefBrowserAdapter.h"
 #include "WindowInfo.h"
-#include "Internals/Messaging/Messages.h"
-#include "Internals/CefFrameWrapper.h"
-#include "Internals/CefSharpBrowserWrapper.h"
+#include "Internals\Messaging\Messages.h"
+#include "Internals\CefFrameWrapper.h"
+#include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\Serialization\Primitives.h"
+#include "Internals\Serialization\JsObjectsSerialization.h"
+
+using namespace CefSharp::Internals::Serialization;
+using namespace CefSharp::Internals::Messaging;
 
 using namespace CefSharp::Internals::Messaging;
 
@@ -34,8 +39,30 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
             "BrowserSettings created by CefSharp are automatically disposed, to control the lifecycle create and set your own instance.");
     }
 
+    CefRefPtr<CefDictionaryValue> extraInfo = CefDictionaryValue::Create();
+    auto legacyBindingEnabled = false;
+
+    if (CefSharpSettings::LegacyJavascriptBindingEnabled)
+    {
+        auto objectRepository = JavascriptObjectRepository;
+
+        legacyBindingEnabled = objectRepository->HasBoundObjects;
+
+        //For legacy binding we only add values if we have bond objects
+        if (legacyBindingEnabled)
+        {
+            auto listValue = CefListValue::Create();
+
+            SerializeJsObjects(objectRepository->GetObjects(nullptr), listValue, 0);
+
+            extraInfo->SetList("LegacyBindingObjects", listValue);
+        }
+    }
+
+    extraInfo->SetBool("LegacyBindingEnabled", legacyBindingEnabled);
+
     if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
-        *browserSettings->_browserSettings, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
+        *browserSettings->_browserSettings, extraInfo, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
     {
         throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser call failed, review the CEF log file for more details.");
     }

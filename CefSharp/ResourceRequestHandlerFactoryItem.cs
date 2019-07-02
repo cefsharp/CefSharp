@@ -4,7 +4,7 @@
 
 namespace CefSharp
 {
-    public class DefaultResourceHandlerFactoryItem
+    public class ResourceRequestHandlerFactoryItem
     {
         /// <summary>
         /// Data
@@ -27,7 +27,7 @@ namespace CefSharp
         /// <param name="data">The data in byte[] format that will be used for the response</param>
         /// <param name="mimeType">mime type</param>
         /// <param name="oneTimeUse">Whether or not the handler should be used once (true) or until manually unregistered (false)</param>
-        public DefaultResourceHandlerFactoryItem(byte[] data, string mimeType, bool oneTimeUse)
+        public ResourceRequestHandlerFactoryItem(byte[] data, string mimeType, bool oneTimeUse)
         {
             Data = data;
             MimeType = mimeType;

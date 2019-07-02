@@ -13,7 +13,7 @@ namespace CefSharp.Example
 {
     internal class CefSharpSchemeHandler : ResourceHandler
     {
-        public override bool ProcessRequestAsync(IRequest request, ICallback callback)
+        public override CefReturnValue ProcessRequestAsync(IRequest request, ICallback callback)
         {
             var uri = new Uri(request.Url);
             var fileName = uri.AbsolutePath;
@@ -63,7 +63,7 @@ namespace CefSharp.Example
                 }
             });
 
-            return true;
+            return CefReturnValue.ContinueAsync;
         }
     }
 }

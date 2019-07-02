@@ -31,8 +31,6 @@ namespace CefSharp
                 _requestContextHandler = nullptr;
             }
 
-            virtual CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE;
-
             virtual bool OnBeforePluginLoad(const CefString& mime_type,
                 const CefString& plugin_url,
                 bool is_main_frame,
