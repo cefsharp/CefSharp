@@ -206,9 +206,9 @@ namespace CefSharp.Example
             //Set this to true to when you have methods that return Task<T>
             //CefSharpSettings.ConcurrentTaskExecution = true;
 
-            //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)
+            //Legacy Binding Behaviour - Same as Javascript Binding in version 57 and below
             //See issue https://github.com/cefsharp/CefSharp/issues/1203 for details
-            //CefSharpSettings.LegacyJavascriptBindingEnabled = true;
+            CefSharpSettings.LegacyJavascriptBindingEnabled = true;
 
             //Exit the subprocess if the parent process happens to close
             //This is optional at the moment
