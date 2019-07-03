@@ -104,12 +104,7 @@ namespace CefSharp
                     hasCustomScheme = true;
 
                     argument += scheme->SchemeName + "|";
-                    argument += (scheme->IsStandard ? "T" : "F") + "|";
-                    argument += (scheme->IsLocal ? "T" : "F") + "|";
-                    argument += (scheme->IsDisplayIsolated ? "T" : "F") + "|";
-                    argument += (scheme->IsSecure ? "T" : "F") + "|";
-                    argument += (scheme->IsCorsEnabled ? "T" : "F") + "|";
-                    argument += (scheme->IsCSPBypassing ? "T" : "F") + ";";
+                    argument += ((int)scheme->Options).ToString() + ";";
                 }
 
                 if (hasCustomScheme)
