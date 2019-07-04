@@ -21,6 +21,12 @@ namespace CefSharp.Wpf
             //With OSR rendering it's fairly common for this to improve scrolling performace
             //https://peter.sh/experiments/chromium-command-line-switches/#disable-threaded-scrolling
             //CefCommandLineArgs.Add("disable-threaded-scrolling", "1");
+
+            //Disable GPU Compositing by default, it's causing all sorts of issues
+            //with OSR rendering currently.
+            //https://bitbucket.org/chromiumembedded/cef/issues/2696/delay-on-rendering-when-moving-mouse
+            //https://bitbucket.org/chromiumembedded/cef/issues/2700/cef-high-memory-usage-when-offscreen
+            CefCommandLineArgs.Add("disable-gpu-compositing", "1");
         }
     }
 }
