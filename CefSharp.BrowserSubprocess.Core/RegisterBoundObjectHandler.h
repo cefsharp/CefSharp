@@ -150,42 +150,9 @@ namespace CefSharp
                                 //If first argument is an object, we'll see if it contains config values
                                 if (arguments[0]->IsObject())
                                 {
-                                    //TODO: Look at adding some sort of javascript mapping layer to reduce the code duplication
-                                    if (arguments[0]->HasValue("NotifyIfAlreadyBound"))
-                                    {
-                                        auto notify = arguments[0]->GetValue("NotifyIfAlreadyBound");
-                                        if (notify->IsBool())
-                                        {
-                                            notifyIfAlreadyBound = notify->GetBoolValue();
-                                        }
-                                    }
-
-                                    if (arguments[0]->HasValue("IgnoreCache"))
-                                    {
-                                        auto ignore = arguments[0]->GetValue("IgnoreCache");
-                                        if (ignore->IsBool())
-                                        {
-                                            ignoreCache = ignore->GetBoolValue();
-                                        }
-                                    }
-
-                                    if (arguments[0]->HasValue("notifyIfAlreadyBound"))
-                                    {
-                                        auto notify = arguments[0]->GetValue("notifyIfAlreadyBound");
-                                        if (notify->IsBool())
-                                        {
-                                            notifyIfAlreadyBound = notify->GetBoolValue();
-                                        }
-                                    }
-
-                                    if (arguments[0]->HasValue("ignoreCache"))
-                                    {
-                                        auto ignore = arguments[0]->GetValue("ignoreCache");
-                                        if (ignore->IsBool())
-                                        {
-                                            ignoreCache = ignore->GetBoolValue();
-                                        }
-                                    }
+                                    //Upper and camelcase options are supported
+                                    notifyIfAlreadyBound = GetV8BoolValue(arguments[0], "NotifyIfAlreadyBound", "notifyIfAlreadyBound");
+                                    ignoreCache = GetV8BoolValue(arguments[0], "IgnoreCache", "ignoreCache");
 
                                     //If we have a config object then we remove that from the count
                                     objectCount = objectCount - 1;
@@ -367,6 +334,29 @@ namespace CefSharp
             args->SetList(0, boundObjects);
 
             frame->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
+        }
+
+        bool GetV8BoolValue(const CefRefPtr<CefV8Value> val, const CefString key, const CefString camelCaseKey)
+        {
+            if (val->HasValue(key))
+            {
+                auto obj = val->GetValue(key);
+                if (obj->IsBool())
+                {
+                    return obj->GetBoolValue();
+                }
+            }
+
+            if (val->HasValue(camelCaseKey))
+            {
+                auto obj = val->GetValue(camelCaseKey);
+                if (obj->IsBool())
+                {
+                    return obj->GetBoolValue();
+                }
+            }
+
+            return false;
         }
 
 
