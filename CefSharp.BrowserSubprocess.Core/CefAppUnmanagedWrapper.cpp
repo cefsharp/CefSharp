@@ -677,12 +677,4 @@ namespace CefSharp
             CefRegisterExtension(StringUtils::ToNative(extension->Name), StringUtils::ToNative(extension->JavascriptCode), NULL);
         }
     }
-
-    void CefAppUnmanagedWrapper::OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar)
-    {
-        for each (CefCustomScheme^ scheme in _schemes->AsReadOnly())
-        {
-            registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), (int)scheme->Options);
-        }
-    }
 }
