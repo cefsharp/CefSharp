@@ -908,6 +908,7 @@ namespace CefSharp.WinForms
                 {
                     return true;
                 }
+                case Keys.Shift | Keys.Tab:
                 case Keys.Shift | Keys.Right:
                 case Keys.Shift | Keys.Left:
                 case Keys.Shift | Keys.Up:
