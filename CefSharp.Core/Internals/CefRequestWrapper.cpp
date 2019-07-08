@@ -173,5 +173,19 @@ namespace CefSharp
 
             _wrappedRequest->SetPostData(CefPostData::Create());
         }
+
+        String^ CefRequestWrapper::GetHeaderByName(String^ name)
+        {
+            ThrowIfDisposed();
+
+            return StringUtils::ToClr(_wrappedRequest->GetHeaderByName(StringUtils::ToNative(name)));
+        }
+
+        void CefRequestWrapper::SetHeaderByName(String^ name, String^ value, bool overwrite)
+        {
+            ThrowIfDisposed();
+
+            _wrappedRequest->SetHeaderByName(StringUtils::ToNative(name), StringUtils::ToNative(value), overwrite);
+        }
     }
 }

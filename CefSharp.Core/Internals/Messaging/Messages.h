@@ -45,6 +45,9 @@ namespace CefSharp
             const CefString kOnUncaughtException = "OnUncaughtException";
             //Message containing a request/notification that JSB objects have been bound
             const CefString kJavascriptObjectsBoundInJavascript = "JavascriptObjectsBoundInJavascript";
+
+            //Message containing the CefSharp.PostMessage request
+            const CefString kJavascriptMessageReceived = "JavascriptMessageReceived";
         }
     }
 }

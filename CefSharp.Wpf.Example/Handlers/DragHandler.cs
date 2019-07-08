@@ -18,7 +18,7 @@ namespace CefSharp.Wpf.Example.Handlers
             return false;
         }
 
-        void IDragHandler.OnDraggableRegionsChanged(IWebBrowser browserControl, IBrowser browser, IList<DraggableRegion> regions)
+        void IDragHandler.OnDraggableRegionsChanged(IWebBrowser browserControl, IBrowser browser, IFrame frame, IList<DraggableRegion> regions)
         {
             //By default popup browers are native windows in WPF so we cannot handle their drag using this method
             if (browser.IsPopup == false)

@@ -12,6 +12,7 @@ using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.Example.ModelBinding;
+using CefSharp.Example.PostMessage;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
 
@@ -28,7 +29,7 @@ namespace CefSharp.Wpf.Example.Views
 
             //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
 
-            browser.RequestHandler = new RequestHandler();
+            browser.RequestHandler = new ExampleRequestHandler();
 
             //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
             if (CefSharpSettings.LegacyJavascriptBindingEnabled)
@@ -96,6 +97,7 @@ namespace CefSharp.Wpf.Example.Views
             downloadHandler.OnBeforeDownloadFired += OnBeforeDownloadFired;
             downloadHandler.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
             browser.DownloadHandler = downloadHandler;
+            browser.AudioHandler = new AudioHandler();
 
             //Read an embedded bitmap into a memory stream then register it as a resource you can then load custom://cefsharp/images/beach.jpg
             var beachImageStream = new MemoryStream();
@@ -112,6 +114,7 @@ namespace CefSharp.Wpf.Example.Views
             //browser.RequestContext = new RequestContext(new RequestContextHandler());
             //NOTE - This is very important for this example as the default page will not load otherwise
             //browser.RequestContext.RegisterSchemeHandlerFactory(CefSharpSchemeHandlerFactory.SchemeName, null, new CefSharpSchemeHandlerFactory());
+            //browser.RequestContext.RegisterSchemeHandlerFactory("https", "cefsharp.example", new CefSharpSchemeHandlerFactory());
 
             //You can start setting preferences on a RequestContext that you created straight away, still needs to be called on the CEF UI thread.
             //Cef.UIThreadTaskFactory.StartNew(delegate
@@ -147,10 +150,34 @@ namespace CefSharp.Wpf.Example.Views
                 var errorBody = string.Format("<html><body bgcolor=\"white\"><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>",
                                               args.FailedUrl, args.ErrorText, args.ErrorCode);
 
-                args.Frame.LoadStringForUrl(errorBody, args.FailedUrl);
+                args.Frame.LoadHtml(errorBody, base64Encode: true);
             };
 
             CefExample.RegisterTestResources(browser);
+
+            browser.JavascriptMessageReceived += OnBrowserJavascriptMessageReceived;
+        }
+
+        private void OnBrowserJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
+        {
+            //Complext objects are initially expresses as IDicionary (in reality it's an ExpandoObject so you can use dynamic)
+            if (typeof(System.Dynamic.ExpandoObject).IsAssignableFrom(e.Message.GetType()))
+            {
+                //You can use dynamic to access properties
+                //dynamic msg = e.Message;
+                //Alternatively you can use the built in Model Binder to convert to a custom model
+                var msg = e.ConvertMessageTo<PostMessageExample>();
+                var callback = msg.Callback;
+                var type = msg.Type;
+                var property = msg.Data.Property;
+
+                callback.ExecuteAsync(type);
+            }
+            else if (e.Message is int)
+            {
+                e.Frame.ExecuteJavaScriptAsync("PostMessageIntTestCallback(" + (int)e.Message + ")");
+            }
+
         }
 
         private void OnBeforeDownloadFired(object sender, DownloadItem e)

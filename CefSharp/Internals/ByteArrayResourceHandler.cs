@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using CefSharp.Callback;
 
 namespace CefSharp
 {
@@ -29,7 +30,7 @@ namespace CefSharp
         /// Initializes a new instance of the <see cref="ByteArrayResourceHandler"/> class.
         /// </summary>
         /// <param name="mimeType">mimeType</param>
-        /// <param name="filePath">filePath</param>
+        /// <param name="data">byte array</param>
         public ByteArrayResourceHandler(string mimeType, byte[] data)
         {
             if (string.IsNullOrEmpty(mimeType))
@@ -41,7 +42,6 @@ namespace CefSharp
             {
                 throw new ArgumentNullException("data", "Please provide a valid array");
             }
-
 
             MimeType = mimeType;
             Data = data;
@@ -65,19 +65,25 @@ namespace CefSharp
             throw new NotImplementedException("This method should never be called");
         }
 
-        bool IResourceHandler.CanGetCookie(Cookie cookie)
-        {
-            //Should never be called
-            throw new NotImplementedException("This method should never be called");
-        }
-
-        bool IResourceHandler.CanSetCookie(Cookie cookie)
-        {
-            //Should never be called
-            throw new NotImplementedException("This method should never be called");
-        }
-
         void IResourceHandler.Cancel()
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Open(IRequest request, out bool handleRequest, ICallback callback)
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Skip(long bytesToSkip, out long bytesSkipped, IResourceSkipCallback callback)
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Read(Stream dataOut, out int bytesRead, IResourceReadCallback callback)
         {
             //Should never be called
             throw new NotImplementedException("This method should never be called");

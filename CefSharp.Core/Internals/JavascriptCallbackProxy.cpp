@@ -17,6 +17,11 @@ namespace CefSharp
     {
         Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteAsync(cli::array<Object^>^ parameters)
         {
+            return ExecuteWithTimeoutAsync(Nullable<TimeSpan>(), parameters);
+        }
+
+        Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteWithTimeoutAsync(Nullable<TimeSpan> timeout, cli::array<Object^>^ parameters)
+        {
             DisposedGuard();
 
             auto browser = GetBrowser();
@@ -27,24 +32,36 @@ namespace CefSharp
 
             auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
 
-            auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
+            auto doneCallback = _pendingTasks->CreatePendingTask(timeout);
 
             auto callbackMessage = CefProcessMessage::Create(kJavascriptCallbackRequest);
             auto argList = callbackMessage->GetArgumentList();
-            SetInt64(argList, 0, _callback->FrameId);
-            SetInt64(argList, 1, doneCallback.Key);
-            SetInt64(argList, 2, _callback->Id);
+            SetInt64(argList, 0, doneCallback.Key);
+            SetInt64(argList, 1, _callback->Id);
             auto paramList = CefListValue::Create();
             for (int i = 0; i < parameters->Length; i++)
             {
                 auto param = parameters[i];
                 SerializeV8Object(paramList, i, param);
             }
-            argList->SetList(3, paramList);
+            argList->SetList(2, paramList);
 
-            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+            auto frame = browserWrapper->Browser->GetFrame(_callback->FrameId);
 
-            return doneCallback.Value->Task;
+            if (frame.get() && frame->IsValid())
+            {
+                frame->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+
+                return doneCallback.Value->Task;
+            }
+            else
+            {
+                auto invalidFrameResponse = gcnew JavascriptResponse();
+                invalidFrameResponse->Success = false;
+                invalidFrameResponse->Message = "Frame with Id:" + _callback->FrameId + " is no longer valid.";
+
+                Task::FromResult(invalidFrameResponse);
+            }
         }
 
         CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateDestroyMessage()
@@ -52,7 +69,6 @@ namespace CefSharp
             auto result = CefProcessMessage::Create(kJavascriptCallbackDestroyRequest);
             auto argList = result->GetArgumentList();
             SetInt64(argList, 0, _callback->Id);
-            SetInt64(argList, 1, _callback->FrameId);
             return result;
         }
 
@@ -90,8 +106,19 @@ namespace CefSharp
             }
 
             auto browser = GetBrowser();
+            if (browser == nullptr)
+            {
+                return false;
+            }
 
-            return browser != nullptr;
+            //If the frame Id is still valid then we can attemp to execute the callback
+            auto frame = browser->GetFrame(_callback->FrameId);
+            if (frame == nullptr)
+            {
+                return false;
+            }
+
+            return frame->IsValid;
         }
 
         void JavascriptCallbackProxy::DisposedGuard()

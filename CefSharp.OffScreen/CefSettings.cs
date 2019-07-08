@@ -21,5 +21,17 @@ namespace CefSharp.OffScreen
             //this can be removed in user code if required
             CefCommandLineArgs.Add("mute-audio", "1");
         }
+
+        /// <summary>
+        /// Enables Audio - by default audio is muted in the OffScreen implementatio.
+        /// This removes the mute-audio command line flag
+        /// </summary>
+        public void EnableAudio()
+        {
+            if(CefCommandLineArgs.ContainsKey("mute-audio"))
+            {
+                CefCommandLineArgs.Remove("mute-audio");
+            }
+        }
     }
 }

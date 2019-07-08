@@ -5,6 +5,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Enums;
 using CefSharp.Internals;
@@ -42,6 +43,24 @@ namespace CefSharp.OffScreen
         /// Flag to guard the creation of the underlying offscreen browser - only one instance can be created
         /// </summary>
         private bool browserCreated;
+
+        /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
+        public bool IsDisposed
+        {
+            get
+            {
+                return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
+            }
+        }
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
@@ -150,10 +169,10 @@ namespace CefSharp.OffScreen
         /// <value>The drag handler.</value>
         public IDragHandler DragHandler { get; set; }
         /// <summary>
-        /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
+        /// Implement <see cref="IResourceRequestHandlerFactory" /> and control the loading of resources
         /// </summary>
         /// <value>The resource handler factory.</value>
-        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
+        public IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
         /// <summary>
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
@@ -164,13 +183,15 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
-
+        /// <summary>
+        /// Implement <see cref="IAudioHandler" /> to handle audio events.
+        /// </summary>
+        public IAudioHandler AudioHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
         /// </summary>
         /// <value>The accessibility handler.</value>
         public IAccessibilityHandler AccessibilityHandler { get; set; }
-
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
@@ -258,6 +279,11 @@ namespace CefSharp.OffScreen
         public event EventHandler<OnPaintEventArgs> Paint;
 
         /// <summary>
+        /// Event handler that will get called when the message that originates from CefSharp.PostMessage
+        /// </summary>
+        public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
+
+        /// <summary>
         /// A flag that indicates if you can execute javascript in the main frame.
         /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
         /// and false in IRenderProcessMessageHandler.OnContextReleased
@@ -274,7 +300,7 @@ namespace CefSharp.OffScreen
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
-            RequestContext requestContext = null, bool automaticallyCreateBrowser = true)
+            IRequestContext requestContext = null, bool automaticallyCreateBrowser = true)
         {
             if (!Cef.IsInitialized)
             {
@@ -286,7 +312,6 @@ namespace CefSharp.OffScreen
                 }
             }
 
-            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             RequestContext = requestContext;
 
             Cef.AddDisposable(this);
@@ -311,7 +336,7 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Releases all resources used by the <see cref="ChromiumWebBrowser"/> object
         /// </summary>
         public void Dispose()
         {
@@ -320,44 +345,53 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        /// Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            // Don't reference event listeners any longer:
-            AddressChanged = null;
-            BrowserInitialized = null;
-            ConsoleMessage = null;
-            FrameLoadEnd = null;
-            FrameLoadStart = null;
-            LoadError = null;
-            LoadingStateChanged = null;
-            Paint = null;
-            StatusMessage = null;
-            TitleChanged = null;
-
-            Cef.RemoveDisposable(this);
+            // Attempt to move the disposeSignaled state from 0 to 1. If successful, we can be assured that
+            // this thread is the first thread to do so, and can safely dispose of the object.
+            if (Interlocked.CompareExchange(ref disposeSignaled, 1, 0) != 0)
+            {
+                return;
+            }
 
             if (disposing)
             {
-                browser = null;
                 IsBrowserInitialized = false;
+
+                // Don't reference event listeners any longer:
+                AddressChanged = null;
+                BrowserInitialized = null;
+                ConsoleMessage = null;
+                FrameLoadEnd = null;
+                FrameLoadStart = null;
+                LoadError = null;
+                LoadingStateChanged = null;
+                Paint = null;
+                StatusMessage = null;
+                TitleChanged = null;
+                JavascriptMessageReceived = null;
+
+                // Release reference to handlers, except LifeSpanHandler which is done after Disposing
+                // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                this.SetHandlersToNullExceptLifeSpan();
+
+                browser = null;
 
                 if (managedCefBrowserAdapter != null)
                 {
-                    if (!managedCefBrowserAdapter.IsDisposed)
-                    {
-                        managedCefBrowserAdapter.Dispose();
-                    }
+                    managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
+
+                // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
+                // is called.
+                LifeSpanHandler = null;
             }
 
-            // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
-            // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
-            // we do it here for consistency)
-            this.SetHandlersToNull();
+            Cef.RemoveDisposable(this);
         }
 
         /// <summary>
@@ -377,7 +411,7 @@ namespace CefSharp.OffScreen
 
             if (browserSettings == null)
             {
-                browserSettings = new BrowserSettings();
+                browserSettings = new BrowserSettings(frameworkCreated: true);
             }
 
             if (windowInfo == null)
@@ -386,11 +420,9 @@ namespace CefSharp.OffScreen
                 windowInfo.SetAsWindowless(IntPtr.Zero);
             }
 
-            //Dispose of browser settings after we've created the browser
-            using (browserSettings)
-            {
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
-            }
+            managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
+
+            browserSettings = null;
         }
 
         /// <summary>
@@ -522,82 +554,6 @@ namespace CefSharp.OffScreen
             {
                 frame.LoadUrl(url);
             }
-        }
-
-        /// <summary>
-        /// Registers a Javascript object in this specific browser instance.
-        /// </summary>
-        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
-        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        /// <exception cref="System.Exception">Browser is already initialized. RegisterJsObject must be +
-        ///                                     called before the underlying CEF browser is created.</exception>
-        public void RegisterJsObject(string name, object objectToBind, BindingOptions options = null)
-        {
-            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
-                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
-                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
-                                    for details on the new binding options. If you perform cross-site navigations bound objects will
-                                    no longer be registered and you will have to migrate to the new method.");
-            }
-
-            if (IsBrowserInitialized)
-            {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
-                                    "called before the underlying CEF browser is created.");
-            }
-
-            //Enable WCF if not already enabled
-            CefSharpSettings.WcfEnabled = true;
-
-            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
-
-            if (objectRepository == null)
-            {
-                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
-            }
-
-            objectRepository.Register(name, objectToBind, false, options);
-        }
-
-        /// <summary>
-        /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
-        /// <para>Only methods of the object will be availabe.</para>
-        /// </summary>
-        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
-        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
-        /// <exception cref="System.Exception">Browser is already initialized. RegisterJsObject must be +
-        ///                                     called before the underlying CEF browser is created.</exception>
-        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
-        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
-        public void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null)
-        {
-            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
-                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
-                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
-                                    for details on the new binding options. If you perform cross-site navigations bound objects will
-                                    no longer be registered and you will have to migrate to the new method.");
-            }
-
-            if (IsBrowserInitialized)
-            {
-                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
-                                    "called before the underlying CEF browser is created.");
-            }
-
-            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
-
-            if (objectRepository == null)
-            {
-                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
-            }
-
-            objectRepository.Register(name, objectToBind, true, options);
         }
 
         /// <summary>
@@ -789,6 +745,11 @@ namespace CefSharp.OffScreen
             RenderHandler?.OnImeCompositionRangeChanged(selectedRange, characterBounds);
         }
 
+        void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+        {
+            RenderHandler?.OnVirtualKeyboardRequested(browser, inputMode);
+        }
+
         /// <summary>
         /// Handles the <see cref="E:ConsoleMessage" /> event.
         /// </summary>
@@ -907,6 +868,11 @@ namespace CefSharp.OffScreen
         void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
         {
             CanExecuteJavascriptInMainFrame = canExecute;
+        }
+
+        void IWebBrowserInternal.SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args)
+        {
+            JavascriptMessageReceived?.Invoke(this, args);
         }
 
         /// <summary>

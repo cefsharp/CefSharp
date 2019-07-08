@@ -4,10 +4,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Example;
 using CefSharp.Example.Callback;
+using CefSharp.Example.Handlers;
 
 namespace CefSharp.WinForms.Example
 {
@@ -35,6 +38,19 @@ namespace CefSharp.WinForms.Example
             ResizeEnd += (s, e) => ResumeLayout(true);
 
             this.multiThreadedMessageLoopEnabled = multiThreadedMessageLoopEnabled;
+        }
+
+        public IContainer Components
+        {
+            get
+            {
+                if (components == null)
+                {
+                    components = new Container();
+                }
+
+                return components;
+            }
         }
 
         private void BrowserFormLoad(object sender, EventArgs e)
@@ -543,6 +559,80 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 control.Browser.GetBrowserHost().RunFileDialog(CefFileDialogMode.Open, "Open", null, new List<string> { "*.*" }, 0, new RunFileDialogCallback());
+            }
+        }
+
+        private void LoadExtensionsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                //The sample extension only works for http(s) schemes
+                if (control.Browser.Address.StartsWith("http"))
+                {
+                    var requestContext = control.Browser.GetBrowserHost().RequestContext;
+
+                    var dir = Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\CefSharp.Example\Extensions");
+                    dir = Path.GetFullPath(dir);
+                    if (!Directory.Exists(dir))
+                    {
+                        throw new DirectoryNotFoundException("Unable to locate example extensions folder - " + dir);
+                    }
+
+                    var extensionHandler = new ExtensionHandler
+                    {
+                        LoadExtensionPopup = (url) =>
+                        {
+                            BeginInvoke(new Action(() =>
+                            {
+                                var extensionForm = new Form();
+
+                                var extensionBrowser = new ChromiumWebBrowser(url);
+                                //extensionBrowser.IsBrowserInitializedChanged += (s, args) =>
+                                //{
+                                //    extensionBrowser.ShowDevTools();
+                                //};
+
+                                extensionForm.Controls.Add(extensionBrowser);
+
+                                extensionForm.Show(this);
+                            }));
+                        },
+                        GetActiveBrowser = (extension, isIncognito) =>
+                        {
+                            //Return the active browser for which the extension will act upon
+                            return control.Browser.GetBrowser();
+                        }
+                    };
+
+                    requestContext.LoadExtensionsFromDirectory(dir, extensionHandler);
+                }
+                else
+                {
+                    MessageBox.Show("The sample extension only works with http(s) schemes, please load a different website and try again", "Unable to load Extension");
+                }
+            }
+        }
+
+        private void JavascriptBindingStressTestToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Load(CefExample.BindingTestUrl);
+                control.Browser.LoadingStateChanged += (o, args) =>
+                {
+                    if (args.IsLoading == false)
+                    {
+                        Task.Delay(10000).ContinueWith(t =>
+                        {
+                            if (control.Browser != null)
+                            {
+                                control.Browser.Reload();
+                            }
+                        });
+                    }
+                };
             }
         }
     }

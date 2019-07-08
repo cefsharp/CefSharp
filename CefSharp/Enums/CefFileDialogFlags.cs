@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// FileDialog Flags
+    /// </summary>
     [Flags]
     public enum CefFileDialogFlags
     {

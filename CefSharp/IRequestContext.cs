@@ -44,14 +44,12 @@ namespace CefSharp
 
         /// <summary>
         /// Returns the default cookie manager for this object. This will be the global
-        /// cookie manager if this object is the global request context. Otherwise,
-        /// this will be the default cookie manager used when this request context does
-        /// not receive a value via IRequestContextHandler.GetCookieManager(). 
+        /// cookie manager if this object is the global request context. 
         /// </summary>
         /// <param name="callback">If callback is non-NULL it will be executed asnychronously on the CEF IO thread
         /// after the manager's storage has been initialized.</param>
         /// <returns>Returns the default cookie manager for this object</returns>
-        ICookieManager GetDefaultCookieManager(ICompletionCallback callback);
+        ICookieManager GetCookieManager(ICompletionCallback callback);
 
         /// <summary>
         /// Register a scheme handler factory for the specified schemeName and optional domainName.
@@ -97,7 +95,7 @@ namespace CefSharp
         /// <param name="name">name of preference</param>
         /// <returns>bool if the preference exists</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
@@ -113,7 +111,7 @@ namespace CefSharp
         /// <param name="name">preference name</param>
         /// <returns>Returns the value for the preference with the specified name</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
@@ -140,7 +138,7 @@ namespace CefSharp
         /// <returns>Returns true if the preference with the specified name can be modified
         /// using SetPreference</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
@@ -157,8 +155,8 @@ namespace CefSharp
         /// <param name="value">preference value</param>
         /// <param name="error">out error</param>
         /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
-        /// /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
@@ -191,14 +189,82 @@ namespace CefSharp
         Task<ResolveCallbackResult> ResolveHostAsync(Uri origin);
 
         /// <summary>
-        /// Attempts to resolve origin to a list of associated IP addresses using
-        /// cached data. This method must be called on the CEF IO thread. Use
-        /// Cef.IOThreadTaskFactory to execute on that thread.
+        /// Returns true if this context was used to load the extension identified by extensionId. Other contexts sharing the same storage will also have access to the extension (see HasExtension).
+        /// This method must be called on the CEF UI thread.
         /// </summary>
-        /// <param name="origin">host name to resolve</param>
-        /// <param name="resolvedIpAddresses">list of resolved IP
-        /// addresses or empty list if no cached data is available.</param>
-        /// <returns> Returns <see cref="CefErrorCode.None"/> on success</returns>
-        CefErrorCode ResolveHostCached(Uri origin, out IList<string> resolvedIpAddresses);
+        /// <returns>Returns true if this context was used to load the extension identified by extensionId</returns>
+        bool DidLoadExtension(string extensionId);
+
+        /// <summary>
+        /// Returns the extension matching extensionId or null if no matching extension is accessible in this context (see HasExtension).
+        /// This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <param name="extensionId">extension Id</param>
+        /// <returns>Returns the extension matching extensionId or null if no matching extension is accessible in this context</returns>
+        IExtension GetExtension(string extensionId);
+
+        /// <summary>
+        /// Retrieve the list of all extensions that this context has access to (see HasExtension).
+        /// <paramref name="extensionIds"/> will be populated with the list of extension ID values.
+        /// This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <param name="extensionIds">output a list of extensions Ids</param>
+        /// <returns>returns true on success otherwise false</returns>
+        bool GetExtensions(out IList<string> extensionIds);
+
+        /// <summary>
+        /// Returns true if this context has access to the extension identified by extensionId.
+        /// This may not be the context that was used to load the extension (see DidLoadExtension).
+        /// This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <param name="extensionId">extension id</param>
+        /// <returns>Returns true if this context has access to the extension identified by extensionId</returns>
+        bool HasExtension(string extensionId);
+
+        /// <summary>
+        /// Load an extension. If extension resources will be read from disk using the default load implementation then rootDirectoy
+        /// should be the absolute path to the extension resources directory and manifestJson should be null.
+        /// If extension resources will be provided by the client (e.g. via IRequestHandler and/or IExtensionHandler) then rootDirectory
+        /// should be a path component unique to the extension (if not absolute this will be internally prefixed with the PK_DIR_RESOURCES path)
+        /// and manifestJson should contain the contents that would otherwise be read from the "manifest.json" file on disk.
+        /// The loaded extension will be accessible in all contexts sharing the same storage (HasExtension returns true).
+        /// However, only the context on which this method was called is considered the loader (DidLoadExtension returns true) and only the
+        /// loader will receive IRequestContextHandler callbacks for the extension.
+        ///
+        /// <see cref="IExtensionHandler.OnExtensionLoaded"/> will be called on load success or
+        /// <see cref="IExtensionHandler.OnExtensionLoadFailed"/> will be called on load failure.
+        /// 
+        /// If the extension specifies a background script via the "background" manifest key then <see cref="IExtensionHandler.OnBeforeBackgroundBrowser"/>
+        /// will be called to create the background browser. See that method for additional information about background scripts.
+        /// 
+        /// For visible extension views the client application should evaluate the manifest to determine the correct extension URL to load and then
+        /// load the extension URL in a ChromiumWebBrowser instance after the extension has loaded.
+        ///
+        /// For example, the client can look for the "browser_action" manifest key as documented at https://developer.chrome.com/extensions/browserAction.
+        /// Extension URLs take the form "chrome-extension://&lt;extension_id&gt;/&lt;path&gt;"
+        /// Browsers that host extensions differ from normal browsers as follows:
+        /// 
+        /// - Can access chrome.* JavaScript APIs if allowed by the manifest. Visit chrome://extensions-support for the list of extension APIs currently supported by CEF.
+        /// - Main frame navigation to non-extension content is blocked.
+        /// - Pinch-zooming is disabled.
+        /// - <see cref="IBrowserHost.Extension"/> returns the hosted extension.
+        /// - CefBrowserHost::IsBackgroundHost returns true for background hosts.
+        ///
+        /// See https://developer.chrome.com/extensions for extension implementation and usage documentation.
+        /// </summary>
+        /// <param name="rootDirectory">If extension resources will be read from disk using the default load implementation then rootDirectoy
+        /// should be the absolute path to the extension resources directory and manifestJson should be null</param>
+        /// <param name="manifestJson">If extension resources will be provided by the client then rootDirectory should be a path component unique to the extension
+        /// and manifestJson should contain the contents that would otherwise be read from the manifest.json file on disk</param>
+        /// <param name="handler">handle events related to browser extensions</param>
+        /// <remarks>
+        /// For extensions that load a popup you are required to query the Manifest, build a Url in the format
+        /// chrome-extension://{extension.Identifier}/{default_popup} with default_popup url coming from the mainfest. With the extension
+        /// url you then need to open a new Form/Window/Tab and create a new ChromiumWebBrowser instance to host the extension popup.
+        /// To load a crx file you must first unzip them to a folder and pass the path containing the extension as <paramref name="rootDirectory"/>.
+        /// It in theory should be possible to load a crx file in memory, passing it's manifest.json file content as <paramref name="manifestJson"/>
+        /// then fulfilling the resource rquests made to <see cref="IExtensionHandler.GetExtensionResource(IExtension, IBrowser, string, IGetExtensionResourceCallback)"/>.
+        /// </remarks>
+        void LoadExtension(string rootDirectory, string manifestJson, IExtensionHandler handler);
     }
 }

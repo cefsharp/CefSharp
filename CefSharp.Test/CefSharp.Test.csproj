@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.redist.x86.3.3578.1860\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3578.1860\build\cef.redist.x86.props')" />
-  <Import Project="..\packages\cef.redist.x64.3.3578.1860\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3578.1860\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\cef.redist.x86.75.0.13\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.75.0.13\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.75.0.13\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.75.0.13\build\cef.redist.x64.props')" />
   <Import Project="..\packages\xunit.runner.visualstudio.2.2.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.2.0\build\net20\xunit.runner.visualstudio.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="Framework\BinderFacts.cs" />
     <Compile Include="Framework\AsyncExtensionFacts.cs" />
+    <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
     <Compile Include="CefSharpFixture.cs" />
     <Compile Include="CefSharpFixtureCollection.cs" />
@@ -112,6 +113,10 @@
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
       <Name>CefSharp.Core</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
+      <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
+      <Name>CefSharp.Example</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.csproj">
       <Project>{483b158d-f57d-49d9-9046-31e6a73f8a53}</Project>

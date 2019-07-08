@@ -14,19 +14,27 @@ namespace CefSharp
     {
     private:
         CefWindowInfo* _windowInfo;
+        bool _ownsPointer = false;
 
-    public:
-        WindowInfo() : _windowInfo(new CefWindowInfo())
-        {
-        }
-
+    internal:
         WindowInfo(CefWindowInfo* windowInfo) : _windowInfo(windowInfo)
         {
 
         }
 
+    public:
+        WindowInfo() : _windowInfo(new CefWindowInfo())
+        {
+            _ownsPointer = true;
+        }
+
         !WindowInfo()
         {
+            if (_ownsPointer)
+            {
+                delete _windowInfo;
+            }
+
             _windowInfo = NULL;
         }
 

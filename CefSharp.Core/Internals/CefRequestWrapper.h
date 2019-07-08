@@ -54,6 +54,9 @@ namespace CefSharp
             virtual property bool IsReadOnly { bool get(); }
             virtual void InitializePostData();
 
+            virtual String^ GetHeaderByName(String^ name);
+            virtual void SetHeaderByName(String^ name, String^ value, bool overwrite);
+
             operator CefRefPtr<CefRequest>()
             {
                 if (this == nullptr)

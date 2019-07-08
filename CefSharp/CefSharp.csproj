@@ -79,12 +79,15 @@
     <Compile Include="Callback\IDeleteCookiesCallback.cs" />
     <Compile Include="Callback\IDownloadItemCallback.cs" />
     <Compile Include="Callback\IFileDialogCallback.cs" />
+    <Compile Include="Callback\IGetExtensionResourceCallback.cs" />
     <Compile Include="Callback\IJavascriptCallback.cs" />
     <Compile Include="Callback\IJsDialogCallback.cs" />
     <Compile Include="Callback\IPrintToPdfCallback.cs" />
     <Compile Include="Callback\IRegisterCdmCallback.cs" />
     <Compile Include="Callback\IRequestCallback.cs" />
     <Compile Include="Callback\IResolveCallback.cs" />
+    <Compile Include="Callback\IResourceReadCallback.cs" />
+    <Compile Include="Callback\IResourceSkipCallback.cs" />
     <Compile Include="Callback\IRunContextMenuCallback.cs" />
     <Compile Include="Callback\IRunFileDialogCallback.cs" />
     <Compile Include="Callback\ISelectClientCertificateCallback.cs" />
@@ -96,22 +99,49 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="DefaultApp.cs" />
+    <Compile Include="Enums\SchemeOptions.cs" />
+    <Compile Include="ResourceRequestHandlerFactory.cs" />
+    <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
+    <Compile Include="Enums\ChannelLayout.cs" />
+    <Compile Include="Enums\PointerType.cs" />
+    <Compile Include="Enums\TextInputMode.cs" />
+    <Compile Include="Enums\TouchEventType.cs" />
     <Compile Include="Enums\ValueType.cs" />
     <Compile Include="Enums\ColorType.cs" />
     <Compile Include="Event\JavascriptBindingCompleteEventArgs.cs" />
     <Compile Include="Enums\CefFileDialogFlags.cs" />
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
+    <Compile Include="Event\JavascriptMessageReceivedEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />
+    <Compile Include="Handler\RequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
+    <Compile Include="Handler\ResourceRequestHandler.cs" />
     <Compile Include="Handler\IAccessibilityHandler.cs" />
+    <Compile Include="Handler\IExtensionHandler.cs" />
+    <Compile Include="Handler\ICookieAccessFilter.cs" />
+    <Compile Include="Handler\IResourceRequestHandler.cs" />
+    <Compile Include="IApp.cs" />
+    <Compile Include="Handler\IAudioHandler.cs" />
+    <Compile Include="IExtension.cs" />
+    <Compile Include="Internals\IMethodRunnerQueue.cs" />
+    <Compile Include="Internals\ConcurrentMethodRunnerQueue.cs" />
+    <Compile Include="Internals\InMemoryResourceRequestHandler.cs" />
+    <Compile Include="IResourceRequestHandlerFactory.cs" />
+    <Compile Include="ISchemeRegistrar.cs" />
     <Compile Include="IValue.cs" />
     <Compile Include="IImage.cs" />
     <Compile Include="IJavascriptObjectRepository.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\DateTimeUtils.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
+    <Compile Include="RenderProcess\IRenderProcessHandler.cs" />
+    <Compile Include="RenderProcess\IV8Context.cs" />
+    <Compile Include="RenderProcess\V8Exception.cs" />
+    <Compile Include="RequestContextExtensions.cs" />
+    <Compile Include="Structs\TouchEvent.cs" />
     <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
@@ -161,7 +191,6 @@
     <Compile Include="Event\ConsoleMessageEventArgs.cs" />
     <Compile Include="Event\FrameLoadEndEventArgs.cs" />
     <Compile Include="Event\FrameLoadStartEventArgs.cs" />
-    <Compile Include="Event\IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="Event\LoadErrorEventArgs.cs" />
     <Compile Include="Event\LoadingStateChangedEventArgs.cs" />
     <Compile Include="Event\StatusMessageEventHandler.cs" />
@@ -215,7 +244,6 @@
     <Compile Include="ICookieManager.cs" />
     <Compile Include="IMenuModel.cs" />
     <Compile Include="ProxyOptions.cs" />
-    <Compile Include="DefaultResourceHandlerFactoryItem.cs" />
     <Compile Include="Structs\Point.cs" />
     <Compile Include="Structs\Size.cs" />
     <Compile Include="ISslInfo.cs" />
@@ -228,7 +256,6 @@
     <Compile Include="Internals\MethodRunnerQueue.cs" />
     <Compile Include="CefSharpSettings.cs" />
     <Compile Include="Cookie.cs" />
-    <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
     <Compile Include="IBrowser.cs" />
     <Compile Include="IBrowserHost.cs" />
@@ -244,7 +271,6 @@
     <Compile Include="Internals\JavascriptCallbackSurrogate.cs" />
     <Compile Include="Internals\PendingTaskRepository.cs" />
     <Compile Include="Internals\ReflectionUtils.cs" />
-    <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="IResponse.cs" />
     <Compile Include="IWindowInfo.cs" />
     <Compile Include="Structs\MouseEvent.cs" />
@@ -291,7 +317,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internals\RenderprocessClientFactory.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Lagacy\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -101,6 +101,11 @@ namespace CefSharp
         void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
 
         /// <summary>
+        /// Returns the extension hosted in this browser or null if no extension is hosted. See <see cref="IRequestContext.LoadExtension"/> for details.
+        /// </summary>
+        IExtension Extension { get; }
+
+        /// <summary>
         /// Retrieve the window handle of the browser that opened this browser.
         /// </summary>
         /// <returns>The handler</returns>
@@ -124,6 +129,13 @@ namespace CefSharp
         /// </summary>
         /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
         void Invalidate(PaintElementType type);
+
+        /// <summary>
+        /// Returns true if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable.
+        /// See <see cref="IRequestContext.LoadExtension"/> for details.
+        /// </summary>
+        /// <returns>Returns true if this browser is hosting an extension background script.</returns>
+        bool IsBackgroundHost { get; }
 
         /// <summary>
         /// Begins a new composition or updates the existing composition. Blink has a
@@ -278,6 +290,13 @@ namespace CefSharp
         void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
 
         /// <summary>
+        /// Send a touch event to the browser.
+        /// WPF and OffScreen browsers only
+        /// </summary>
+        /// <param name="evt">touch event</param>
+        void SendTouchEvent(TouchEvent evt);
+
+        /// <summary>
         /// Set accessibility state for all frames.  If accessibilityState is Default then accessibility will be disabled by default
         /// and the state may be further controlled with the "force-renderer-accessibility" and "disable-renderer-accessibility"
         /// command-line switches. If accessibilityState is STATE_ENABLED then accessibility will be enabled.
@@ -389,6 +408,18 @@ namespace CefSharp
         /// Returns true if window rendering is disabled.
         /// </summary>
         bool WindowRenderingDisabled { get; }
+
+        /// <summary>
+        /// Set whether the browser's audio is muted.
+        /// </summary>
+        /// <param name="mute">true or false</param>
+        void SetAudioMuted(bool mute);
+
+        /// <summary>
+        /// Returns true if the browser's audio is muted.
+        /// This method can only be called on the CEF UI thread.
+        /// </summary>
+        bool IsAudioMuted { get; }
 
         /// <summary>
         /// Gets a value indicating whether the browserHost has been disposed of.

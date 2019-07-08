@@ -10,16 +10,16 @@ using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
-    public class WinFormsRequestHandler : RequestHandler
+    public class WinFormsRequestHandler : ExampleRequestHandler
     {
-        private Action<string, int?> openNewTab;
+        private readonly Action<string, int?> openNewTab;
 
         public WinFormsRequestHandler(Action<string, int?> openNewTab)
         {
             this.openNewTab = openNewTab;
         }
 
-        public override bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
+        protected override bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
         {
             if (openNewTab == null)
             {
@@ -36,7 +36,7 @@ namespace CefSharp.WinForms.Example.Handlers
             return true;
         }
 
-        public override bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
+        protected override bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
         {
             var control = (Control)browserControl;
 

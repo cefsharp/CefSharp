@@ -24,28 +24,11 @@ namespace CefSharp
 
         /// <summary>
         /// Objects registered using RegisterJsObject and RegisterAsyncJsObject
-        /// will be automatically bound in the first render process that's created
-        /// for a ChromiumWebBrowser instance. If you perform a cross-site
-        /// navigation a process switch will occur and bound objects will no longer
-        /// be automatically avaliable. For those upgrading from version 57 or below
-        /// that do no perform cross-site navigation (e.g. Single Page applications or
-        /// applications that only refer to a single domain) can set this property to 
-        /// true and use the old behaviour.Defaults to false
+        /// will be automatically bound when a V8Context is created. (Soon as the Javascript
+        /// context is created for a browser). This behaviour is like that seen with Javascript
+        /// Binding in version 57 and earlier.
         /// NOTE: Set this before your first call to RegisterJsObject or RegisterAsyncJsObject
         /// </summary>
-        /// <remarks>
-        /// Javascript binding in CefSharp version 57 and below used the
-        /// --process-per-tab Process Model to limit the number of render
-        /// processes to 1 per ChromiumWebBrowser instance, this allowed
-        /// us to communicate bound javascript objects when the process was
-        /// initially created (OnRenderViewReady is only called for the first
-        /// process creation or after a crash), subsiquently all bound objects
-        /// were registered in ever V8Context in OnContextCreated (executed in the render process).
-        /// Chromium has made changes and --process-per-tab is not currently working.
-        /// Performing a cross-site navigation (from one domain to a different domain)
-        /// will cause a new render process to be created, subsiquent render processes 
-        /// won't have access to the bound object information by default.
-        /// </remarks>
         public static bool LegacyJavascriptBindingEnabled { get; set; }
 
         /// <summary>
@@ -73,7 +56,7 @@ namespace CefSharp
 
         /// <summary>
         /// CefSharp.BrowserSubprocess will monitor the parent process and exit if the parent process closes
-        /// before the subprocess. This currently defaults to false. 
+        /// before the subprocess. This currently defaults to true. 
         /// See https://github.com/cefsharp/CefSharp/issues/2359 for more information.
         /// </summary>
         public static bool SubprocessExitIfParentProcessClosed { get; set; }

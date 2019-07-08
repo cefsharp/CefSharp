@@ -21,7 +21,7 @@ namespace CefSharp
             bool JavascriptAsyncMethodHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
             {
                 auto context = CefV8Context::GetCurrentContext();
-                auto browser = context->GetBrowser();
+                auto frame = context->GetFrame();
 
                 CefRefPtr<CefV8Value> promiseData;
                 CefRefPtr<CefV8Exception> promiseException;
@@ -59,13 +59,12 @@ namespace CefSharp
                     SerializeV8Object(arguments[i], params, i, _callbackRegistry);
                 }
 
-                SetInt64(argList, 0, context->GetFrame()->GetIdentifier());
-                SetInt64(argList, 1, _objectId);
-                SetInt64(argList, 2, callbackId);
-                argList->SetString(3, name);
-                argList->SetList(4, params);
+                SetInt64(argList, 0, _objectId);
+                SetInt64(argList, 1, callbackId);
+                argList->SetString(2, name);
+                argList->SetList(3, params);
 
-                browser->SendProcessMessage(CefProcessId::PID_BROWSER, request);
+                frame->SendProcessMessage(CefProcessId::PID_BROWSER, request);
 
                 return true;
             }

@@ -2,6 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#ifndef CEFSHARP_CORE_INTERNALS_CEFREQUESTCONTEXTHANDLERADAPTER_H_
+#define CEFSHARP_CORE_INTERNALS_CEFREQUESTCONTEXTHANDLERADAPTER_H_
+
 #pragma once
 
 #include "Stdafx.h"
@@ -28,8 +31,6 @@ namespace CefSharp
                 _requestContextHandler = nullptr;
             }
 
-            virtual CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE;
-
             virtual bool OnBeforePluginLoad(const CefString& mime_type,
                 const CefString& plugin_url,
                 bool is_main_frame,
@@ -43,3 +44,4 @@ namespace CefSharp
         };
     }
 }
+#endif  // CEFSHARP_CORE_INTERNALS_CEFREQUESTCONTEXTHANDLERADAPTER_H_
