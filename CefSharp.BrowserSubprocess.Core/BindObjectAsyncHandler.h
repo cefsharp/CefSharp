@@ -33,6 +33,13 @@ namespace CefSharp
             _browserWrapper = browserWrapper;
         }
 
+        ~BindObjectAsyncHandler()
+        {
+            _callbackRegistry = nullptr;
+            _javascriptObjects = nullptr;
+            _browserWrapper = nullptr;
+        }
+
         bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
         {
             auto context = CefV8Context::GetCurrentContext();
