@@ -17,10 +17,9 @@ namespace CefSharp
         public bool IsSecureConnection { get; private set; }
 
         /// <summary>
-        /// Returns a bitmask containing any and all problems verifying the server
-        /// certificate.
+        /// Returns a bitmask containing any and all problems verifying the server certificate.
+        /// If the certificate is valid then <see cref="CertStatus.None"/> is returned.
         /// </summary>
-        /// <returns></returns>
         public CertStatus CertStatus { get; private set; }
 
         /// <summary>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Internals;
@@ -18,6 +19,65 @@ namespace CefSharp
     /// </summary>
     public static class WebBrowserExtensions
     {
+        #region Legacy Javascript Binding
+        /// <summary>
+        /// Validates the browser before objects are registered
+        /// </summary>
+        private static void ValidateBrowserBeforeRegistering(this IWebBrowser webBrowser, [CallerMemberName] string callerName = "")
+        {
+            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
+            {
+                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
+                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
+                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
+                                    for details on the new binding options. If you perform cross-site navigations bound objects will
+                                    no longer be registered and you will have to migrate to the new method.");
+            }
+
+            if (webBrowser.IsBrowserInitialized)
+            {
+                throw new Exception("Browser is already initialized. " + callerName + " must be " +
+                                    "called before the underlying CEF browser is created.");
+            }
+
+            webBrowser.ThrowExceptionIfDisposed();
+        }
+
+        /// <summary>
+        /// Registers a Javascript object in this specific browser instance.
+        /// </summary>
+        /// <param name="webBrowser">The browser to perform the registering on</param>
+        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
+        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
+        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
+        /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
+        ///                                     called before the underlying CEF browser is created.</exception>
+        public static void RegisterJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
+        {
+            CefSharpSettings.WcfEnabled = true;
+            webBrowser.ValidateBrowserBeforeRegistering();
+            webBrowser.JavascriptObjectRepository.Register(name, objectToBind, false, options);
+        }
+
+        /// <summary>
+        /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
+        /// <para>Only methods of the object will be availabe.</para>
+        /// </summary>
+        /// <param name="webBrowser">The browser to perform the registering on</param>
+        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
+        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
+        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
+        /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
+        ///                                     called before the underlying CEF browser is created.</exception>
+        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
+        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
+        public static void RegisterAsyncJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
+        {
+            webBrowser.ValidateBrowserBeforeRegistering();
+            webBrowser.JavascriptObjectRepository.Register(name, objectToBind, true, options);
+        }
+        #endregion
+
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
         /// </summary>
@@ -211,11 +271,10 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string script)
         {
-            //TODO: Re-enable when Native IPC issue resolved.
-            //if (browser.CanExecuteJavascriptInMainFrame == false)
-            //{
-            //	ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            //}
+            if (browser.CanExecuteJavascriptInMainFrame == false)
+            {
+                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+            }
 
             using (var frame = browser.GetMainFrame())
             {
@@ -292,6 +351,7 @@ namespace CefSharp
         /// <param name="postDataBytes"></param>
         /// <param name="contentType"></param>
         /// <remarks>This is an extension method</remarks>
+        [Obsolete("This method will be removed in version 75 as it has become unreliable see https://github.com/cefsharp/CefSharp/issues/2705 for details.")]
         public static void LoadUrlWithPostData(this IWebBrowser browser, string url, byte[] postDataBytes, string contentType = null)
         {
             using (var frame = browser.GetMainFrame())
@@ -303,6 +363,9 @@ namespace CefSharp
 
                 request.Url = url;
                 request.Method = "POST";
+                //Add AllowStoredCredentials as per suggestion linked in
+                //https://github.com/cefsharp/CefSharp/issues/2705#issuecomment-476819788
+                request.Flags = UrlRequestFlags.AllowStoredCredentials;
 
                 request.PostData.AddData(postDataBytes);
 
@@ -376,6 +439,28 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Loads html as Data Uri
+        /// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs for details
+        /// If base64Encode is false then html will be Uri encoded
+        /// </summary>
+        /// <param name="frame">The <seealso cref="IFrame"/> instance this method extends</param>
+        /// <param name="html">Html to load as data uri.</param>
+        /// <param name="base64Encode">if true the html string will be base64 encoded using UTF8 encoding.</param>
+        public static void LoadHtml(this IFrame frame, string html, bool base64Encode = false)
+        {
+            if (base64Encode)
+            {
+                var base64EncodedHtml = Convert.ToBase64String(Encoding.UTF8.GetBytes(html));
+                frame.LoadUrl("data:text/html;base64," + base64EncodedHtml);
+            }
+            else
+            {
+                var uriEncodedHtml = Uri.EscapeDataString(html);
+                frame.LoadUrl("data:text/html," + uriEncodedHtml);
+            }
+        }
+
+        /// <summary>
         /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
         /// </summary>
         /// <remarks>
@@ -391,20 +476,19 @@ namespace CefSharp
         /// <returns>returns false if the Url was not successfully parsed into a Uri</returns>
         public static bool LoadHtml(this IWebBrowser browser, string html, string url, Encoding encoding, bool oneTimeUse = false)
         {
-            var handler = browser.ResourceHandlerFactory;
+            if (browser.ResourceRequestHandlerFactory == null)
+            {
+                browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
+            }
+
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
+
             if (handler == null)
             {
-                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
+                throw new Exception("LoadHtml can only be used with the default IResourceRequestHandlerFactory(DefaultResourceRequestHandlerFactory) implementation");
             }
 
-            var resourceHandler = handler as DefaultResourceHandlerFactory;
-
-            if (resourceHandler == null)
-            {
-                throw new Exception("LoadHtml can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
-            }
-
-            if (resourceHandler.RegisterHandler(url, ResourceHandler.GetByteArray(html, encoding, true), ResourceHandler.DefaultMimeType, oneTimeUse))
+            if (handler.RegisterHandler(url, ResourceHandler.GetByteArray(html, encoding, true), ResourceHandler.DefaultMimeType, oneTimeUse))
             {
                 browser.Load(url);
                 return true;
@@ -424,10 +508,16 @@ namespace CefSharp
         public static void RegisterResourceHandler(this IWebBrowser browser, string url, Stream stream, string mimeType = ResourceHandler.DefaultMimeType,
             bool oneTimeUse = false)
         {
-            var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
+            if (browser.ResourceRequestHandlerFactory == null)
+            {
+                browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
+            }
+
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
+
             if (handler == null)
             {
-                throw new Exception("RegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
+                throw new Exception("RegisterResourceHandler can only be used with the default IResourceRequestHandlerFactory(DefaultResourceRequestHandlerFactory) implementation");
             }
 
             using (var ms = new MemoryStream())
@@ -445,10 +535,11 @@ namespace CefSharp
         /// <param name="url">the url of the resource to unregister</param>
         public static void UnRegisterResourceHandler(this IWebBrowser browser, string url)
         {
-            var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
+
             if (handler == null)
             {
-                throw new Exception("UnRegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
+                throw new Exception("UnRegisterResourceHandler can only be used with the default IResourceRequestHandlerFactory(DefaultResourceRequestHandlerFactory) implementation");
             }
 
             handler.UnregisterHandler(url);
@@ -534,7 +625,7 @@ namespace CefSharp
                 throw new Exception("RequestContext is null, unable to obtain cookie manager");
             }
 
-            return requestContext.GetDefaultCookieManager(callback);
+            return requestContext.GetCookieManager(callback);
         }
 
         /// <summary>
@@ -872,11 +963,10 @@ namespace CefSharp
                 throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
             }
 
-            //TODO: Re-enable when Native IPC issue resolved.
-            //if(browser.CanExecuteJavascriptInMainFrame == false)
-            //{
-            //	ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            //}
+            if (browser.CanExecuteJavascriptInMainFrame == false)
+            {
+                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+            }
 
             using (var frame = browser.GetMainFrame())
             {
@@ -930,7 +1020,7 @@ namespace CefSharp
             if (!browser.IsBrowserInitialized)
             {
                 throw new Exception("Browser is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
-                                    "the IsBrowserInitialized property to determine when the browser has been intialized.");
+                                    "the IsBrowserInitialized property to determine when the browser has been initialized.");
             }
         }
 
@@ -1017,6 +1107,14 @@ namespace CefSharp
             return stringBuilder.ToString();
         }
 
+        private static void ThrowExceptionIfDisposed(this IWebBrowser browser)
+        {
+            if (browser.IsDisposed)
+            {
+                throw new ObjectDisposedException("browser", "Browser has been disposed");
+            }
+        }
+
         private static void ThrowExceptionIfFrameNull(IFrame frame)
         {
             if (frame == null)
@@ -1043,10 +1141,10 @@ namespace CefSharp
 
         private static void ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse()
         {
-            throw new Exception("Unable to execute javascript at this time, scripts can only be executed within a V8Context." +
-                                    "Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception." +
+            throw new Exception("Unable to execute javascript at this time, scripts can only be executed within a V8Context. " +
+                                    "Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception. " +
                                     "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript " +
-                                    "for more details on when you can execute javascript. For frames that do not contain Javascript then no" +
+                                    "for more details on when you can execute javascript. For frames that do not contain Javascript then no " +
                                     "V8Context will be created. Executing a script once the frame has loaded it's possible to create a V8Context. " +
                                     "You can use browser.GetMainFrame().ExecuteJavaScriptAsync(script) or browser.GetMainFrame().EvaluateScriptAsync " +
                                     "to bypass these checks (advanced users only).");

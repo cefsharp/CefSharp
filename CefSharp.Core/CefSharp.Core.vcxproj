@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.3.3578.1860\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.3578.1860\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.75.0.13\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.75.0.13\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -232,6 +232,7 @@
     <ClCompile Include="CookieManager.cpp" />
     <ClCompile Include="Internals\CefBrowserHostWrapper.cpp" />
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
+    <ClCompile Include="Internals\CefExtensionWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
     <ClCompile Include="Internals\CefSharpBrowserWrapper.cpp" />
     <ClCompile Include="Internals\CefValueWrapper.cpp" />
@@ -248,6 +249,7 @@
     <ClCompile Include="Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="Internals\Serialization\JsObjectsSerialization.cpp" />
     <ClCompile Include="Internals\CefRequestContextHandlerAdapter.cpp" />
+    <ClCompile Include="RequestContext.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -259,7 +261,15 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefCookieAccessFilterAdapter.h" />
+    <ClInclude Include="Internals\CefExtensionHandlerAdapter.h" />
+    <ClInclude Include="Internals\CefExtensionWrapper.h" />
+    <ClInclude Include="Internals\CefGetExtensionResourceCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefResourceRequestHandlerAdapter.h" />
+    <ClInclude Include="Internals\CefResourceSkipCallbackWrapper.h" />
     <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h" />
+    <ClInclude Include="Internals\CefSchemeRegistrarWrapper.h" />
     <ClInclude Include="Internals\CefValueWrapper.h" />
     <ClInclude Include="Internals\CefWriteHandlerWrapper.h" />
     <ClInclude Include="Internals\CefImageWrapper.h" />

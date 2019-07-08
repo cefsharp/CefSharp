@@ -9,7 +9,7 @@ namespace CefSharp.Structs
     /// rendering is disabled.
     /// </summary>
     /// <remarks>
-    /// See also <a href="https://cs.chromium.org/chromium/src/content/public/common/screen_info.h?q=content::ScreenInfo&sq=package:chromium&g=0&l=19">Chrome Source</a>
+    /// See also <a href="https://cs.chromium.org/chromium/src/content/public/common/screen_info.h?q=content::ScreenInfo&amp;sq=package:chromium&amp;g=0&amp;l=19">Chrome Source</a>
     /// </remarks>
     public struct ScreenInfo
     {

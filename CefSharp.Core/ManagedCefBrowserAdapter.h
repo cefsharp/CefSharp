@@ -2,6 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#ifndef CEFSHARP_CORE_MANAGEDCEFBROWSERADAPTER_H_
+#define CEFSHARP_CORE_MANAGEDCEFBROWSERADAPTER_H_
+
 #pragma once
 
 #include "Stdafx.h"
@@ -9,6 +12,7 @@
 #include "include\cef_client.h"
 
 #include "BrowserSettings.h"
+#include "RequestContext.h"
 #include "Internals/ClientAdapter.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "Internals/RenderClientAdapter.h"
@@ -29,12 +33,14 @@ namespace CefSharp
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
         JavascriptCallbackFactory^ _javascriptCallbackFactory;
-        MethodRunnerQueue^ _methodRunnerQueue;
+        IMethodRunnerQueue^ _methodRunnerQueue;
         IBrowser^ _browserWrapper;
         bool _isDisposed;
 
     private:
         void MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e);
+        void InitializeBrowserProcessServiceHost(IBrowser^ browser);
+        void DisposeBrowserProcessServiceHost();
 
     internal:
         MCefRefPtr<ClientAdapter> GetClientAdapter();
@@ -55,7 +61,16 @@ namespace CefSharp
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
             _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_clientAdapter->GetPendingTaskRepository());
-            _methodRunnerQueue = gcnew CefSharp::Internals::MethodRunnerQueue(_javaScriptObjectRepository);
+
+            if (CefSharpSettings::ConcurrentTaskExecution)
+            {
+                _methodRunnerQueue = gcnew CefSharp::Internals::ConcurrentMethodRunnerQueue(_javaScriptObjectRepository);
+            }
+            else
+            {
+                _methodRunnerQueue = gcnew CefSharp::Internals::MethodRunnerQueue(_javaScriptObjectRepository);
+            }
+
             _methodRunnerQueue->MethodInvocationComplete += gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
             _methodRunnerQueue->Start();
         }
@@ -89,17 +104,9 @@ namespace CefSharp
                 _browserWrapper = nullptr;
             }
 
-            if (CefSharpSettings::WcfEnabled && _browserProcessServiceHost != nullptr)
+            if (CefSharpSettings::WcfEnabled)
             {
-                if (CefSharpSettings::WcfTimeout > TimeSpan::Zero)
-                {
-                    _browserProcessServiceHost->Close(CefSharpSettings::WcfTimeout);
-                }
-                else
-                {
-                    _browserProcessServiceHost->Abort();
-                }
-                _browserProcessServiceHost = nullptr;
+                DisposeBrowserProcessServiceHost();
             }
 
             _webBrowserInternal = nullptr;
@@ -128,9 +135,10 @@ namespace CefSharp
             CefSharp::Internals::JavascriptObjectRepository^ get();
         }
 
-        virtual property MethodRunnerQueue^ MethodRunnerQueue
+        virtual property IMethodRunnerQueue^ MethodRunnerQueue
         {
-            CefSharp::Internals::MethodRunnerQueue^ get();
+            CefSharp::Internals::IMethodRunnerQueue^ get();
         }
     };
 }
+#endif  // CEFSHARP_CORE_INTERNALS_CLIENTADAPTER_H_

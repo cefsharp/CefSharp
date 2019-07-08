@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Drag&Drop Cursors Test</title>
+    <style>
+        .dropzone { width: 80px; height: 70px; padding: 10px; display: inline-block; border: 1px solid #aaaaaa; background: white; }
+
+        #drag { width: 200px; height: 50px; padding: 10px; border: 1px solid #aaaaaa; background: wheat; }
+    </style>
+    <script>
+        function allowDrop(ev, effect)
+        {
+            ev.dataTransfer.dropEffect = effect;
+            ev.preventDefault();
+        }
+
+        function drag(ev)
+        {
+            ev.dataTransfer.effectAllowed = "all";
+            ev.dataTransfer.setData("text/plain", ev.target.id);
+        }
+
+        function drop(ev)
+        {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text/plain");
+            var element = document.getElementById(data);
+            if (element)
+            {
+                ev.target.appendChild(element);
+            }
+            alert(ev.dataTransfer.dropEffect + " | " + data);
+        }
+    </script>
+</head>
+<body>
+    <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event, 'none')">None</div>
+    <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event, 'copy')">Copy</div>
+    <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event, 'move')">Move</div>
+    <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event, 'link')">Link</div>
+    <br>
+    <br>
+    <div id="drag" draggable="true" ondragstart="drag(event)">Drag me over the drop zones</div>
+</body>
+</html>

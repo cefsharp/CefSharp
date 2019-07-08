@@ -53,6 +53,66 @@ namespace CefSharp.Example.JavascriptBinding
             ExceptionTestObject = new ExceptionTestBoundObject();
         }
 
+        public void TestCallbackWithDateTime(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    if (javascriptCallback.CanExecute)
+                    {
+                        var dateTime = new DateTime(2019, 01, 01, 12, 00, 00);
+                        await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                    }
+                }
+            });
+        }
+
+        public void TestCallbackWithDateTime1900(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    if (javascriptCallback.CanExecute)
+                    {
+                        var dateTime = new DateTime(1900, 01, 01, 12, 00, 00);
+                        await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                    }
+                }
+            });
+        }
+
+        public void TestCallbackWithDateTime1970(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    if (javascriptCallback.CanExecute)
+                    {
+                        var dateTime = new DateTime(1970, 01, 01, 12, 00, 00);
+                        await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                    }
+                }
+            });
+        }
+
+        public void TestCallbackWithDateTime1985(IJavascriptCallback javascriptCallback)
+        {
+            Task.Run(async () =>
+            {
+                using (javascriptCallback)
+                {
+                    if (javascriptCallback.CanExecute)
+                    {
+                        var dateTime = new DateTime(1985, 01, 01, 12, 00, 00);
+                        await javascriptCallback.ExecuteAsync(dateTime, new[] { dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second });
+                    }
+                }
+            });
+        }
+
         public void TestCallback(IJavascriptCallback javascriptCallback)
         {
             const int taskDelay = 1500;
@@ -63,9 +123,12 @@ namespace CefSharp.Example.JavascriptBinding
 
                 using (javascriptCallback)
                 {
-                    //NOTE: Classes are not supported, simple structs are
-                    var response = new CallbackResponseStruct("This callback from C# was delayed " + taskDelay + "ms");
-                    await javascriptCallback.ExecuteAsync(response);
+                    if (javascriptCallback.CanExecute)
+                    {
+                        //NOTE: Classes are not supported, simple structs are
+                        var response = new CallbackResponseStruct("This callback from C# was delayed " + taskDelay + "ms");
+                        await javascriptCallback.ExecuteAsync(response);
+                    }
                 }
             });
         }
@@ -94,7 +157,10 @@ namespace CefSharp.Example.JavascriptBinding
                 {
                     using (javascriptCallback)
                     {
-                        await javascriptCallback.ExecuteAsync("message from C# " + simpleClass.TestString + " - " + simpleClass.SubClasses[0].PropertyOne);
+                        if (javascriptCallback.CanExecute)
+                        {
+                            await javascriptCallback.ExecuteAsync("message from C# " + simpleClass.TestString + " - " + simpleClass.SubClasses[0].PropertyOne);
+                        }
                     }
                 }
             });

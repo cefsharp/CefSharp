@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
-    public sealed class MethodRunnerQueue
+    public sealed class MethodRunnerQueue : IMethodRunnerQueue
     {
         private readonly JavascriptObjectRepository repository;
         private readonly AutoResetEvent stopped = new AutoResetEvent(false);
@@ -67,29 +67,12 @@ namespace CefSharp.Internals
         {
             try
             {
-
-                if (CefSharpSettings.ConcurrentTaskExecution)
+                //Tasks are run in sequential order on the current Thread.
+                while (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    //New experimental behaviour that Starts the Tasks on TaskScheduler.Default 
-                    while (!cancellationTokenSource.IsCancellationRequested)
-                    {
-                        var task = queue.Take(cancellationTokenSource.Token);
-                        task.ContinueWith((t) =>
-                        {
-                            OnMethodInvocationComplete(t.Result);
-                        }, cancellationTokenSource.Token);
-                        task.Start(TaskScheduler.Default);
-                    }
-                }
-                else
-                {
-                    //Old behaviour, runs Tasks in sequential order on the current Thread.
-                    while (!cancellationTokenSource.IsCancellationRequested)
-                    {
-                        var task = queue.Take(cancellationTokenSource.Token);
-                        task.RunSynchronously();
-                        OnMethodInvocationComplete(task.Result);
-                    }
+                    var task = queue.Take(cancellationTokenSource.Token);
+                    task.RunSynchronously();
+                    OnMethodInvocationComplete(task.Result);
                 }
             }
             catch (OperationCanceledException)
@@ -112,6 +95,23 @@ namespace CefSharp.Internals
             try
             {
                 success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
+
+                //We don't support Tasks by default
+                if (success && result != null && (typeof(Task).IsAssignableFrom(result.GetType())))
+                {
+                    //Use StringBuilder to improve the formatting/readability of the error message
+                    //I'm sure there's a better way I just cannot remember of the top of my head so going
+                    //with this for now, as it's only for error scenaiors I'm not concerned about performance.
+                    var builder = new System.Text.StringBuilder();
+                    builder.AppendLine("Your method returned a Task which is not supported by default you must set CefSharpSettings.ConcurrentTaskExecution = true; before creating your first ChromiumWebBrowser instance.");
+                    builder.AppendLine("This will likely change to the default at some point in the near future, subscribe to the issue link below to be notified of any changes.");
+                    builder.AppendLine("See https://github.com/cefsharp/CefSharp/issues/2758 for more details, please report any issues you have there, make sure you have an example ready that reproduces your problem.");
+
+                    success = false;
+                    result = null;
+                    exception = builder.ToString();
+                }
+
             }
             catch (Exception e)
             {

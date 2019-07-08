@@ -1,4 +1,4 @@
-﻿<Window x:Class="CefSharp.Wpf.Example.MainWindow"
+<Window x:Class="CefSharp.Wpf.Example.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
@@ -26,9 +26,12 @@
             </MenuItem>
             <MenuItem Header="_Tests">
                 <MenuItem Header="_Binding Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.BindingTestUrl}}"/>
+                <MenuItem Header="_Binding Test Single" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.BindingTestSingleUrl}}"/>
                 <MenuItem Header="_LegacyBinding Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.LegacyBindingTestUrl}}"/>
+                <MenuItem Header="_Post Message Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PostMessageTestUrl}}"/>
                 <MenuItem Header="_List Plugins" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PluginsTestUrl}}"/>
                 <MenuItem Header="_Tooltip Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.TooltipTestUrl}}"/>
+                <MenuItem Header="D_rag&amp;Drop Cursors Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.DragDropCursorsTestUrl}}"/>
                 <MenuItem Header="_Popup Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PopupParentUrl}}"/>
                 <MenuItem Header="_Popup Test Custom Scheme" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PopupTestUrl}}"/>
                 <MenuItem Header="_Basic Scheme Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.BasicSchemeTestUrl}}"/>
@@ -41,6 +44,8 @@
                 <MenuItem Header="_Print Current tab to PDF" Command="controls:CefSharpCommands.PrintTabToPdfCommand" />
                 <MenuItem Header="_Load Custom Request" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="CustomRequest" />
                 <MenuItem Header="_CDM/DRM Support Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.CdmSupportTestUrl}}"/>
+                <MenuItem Header="_Async JSB Task Tests" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="AsyncJsbTaskTests" />
+                <MenuItem Header="_Google Service Worker Demo" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="https://googlechrome.github.io/samples/service-worker/basic/"/>
             </MenuItem>
         </Menu>
         <controls:NonReloadingTabControl x:Name="TabControl"

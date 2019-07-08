@@ -16,6 +16,7 @@
 
 using namespace System::Collections::Generic;
 using namespace System::Collections::Specialized;
+using namespace System::Security::Cryptography::X509Certificates;
 using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
@@ -150,30 +151,33 @@ namespace CefSharp
                 {
                     cefValue->SetDouble(Convert::ToDouble(value));
                 }
-                else if (type == List<Object^>::typeid)
+                else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
                 {
-                    auto list = safe_cast<List<Object^>^>(value);
-                    auto cefList = CefListValue::Create();
-                    for (int i = 0; i < list->Count; i++)
-                    {
-                        auto value = list[i];
-                        SerializeV8Object(cefList, i, value);
-                    }
-                    cefValue->SetList(cefList);
-                }
-                else if (type == Dictionary<String^, Object^>::typeid)
-                {
-                    auto dictionary = safe_cast<Dictionary<String^, Object^>^>(value);
+                    auto dictionary = (System::Collections::IDictionary^) value;
                     auto cefDictionary = CefDictionaryValue::Create();
 
-                    for each (KeyValuePair<String^, Object^>^ entry in dictionary)
+                    for each (System::Collections::DictionaryEntry entry in dictionary)
                     {
-                        auto key = StringUtils::ToNative(entry->Key);
-                        auto value = entry->Value;
+                        auto key = StringUtils::ToNative(Convert::ToString(entry.Key));
+                        auto value = entry.Value;
                         SerializeV8Object(cefDictionary, key, value);
                     }
 
                     cefValue->SetDictionary(cefDictionary);
+                }
+                else if (System::Collections::IEnumerable::typeid->IsAssignableFrom(type))
+                {
+                    auto enumerable = (System::Collections::IEnumerable^) value;
+                    auto cefList = CefListValue::Create();
+
+                    int i = 0;
+                    for each (Object^ arrObj in enumerable)
+                    {
+                        SerializeV8Object(cefList, i, arrObj);
+
+                        i++;
+                    }
+                    cefValue->SetList(cefList);
                 }
 
                 return cefValue;
@@ -290,6 +294,51 @@ namespace CefSharp
                 }
 
                 return cookie;
+            }
+
+            static NavigationEntry^ FromNative(const CefRefPtr<CefNavigationEntry> entry, bool current)
+            {
+                SslStatus^ sslStatus;
+              
+                if (!entry.get())
+                {
+                    return nullptr;
+                }
+
+                if (!entry->IsValid())
+                {
+                    return gcnew NavigationEntry(current, DateTime::MinValue, nullptr, -1, nullptr, nullptr, (TransitionType)-1, nullptr, false, false, sslStatus);
+                }
+
+                auto time = entry->GetCompletionTime();
+                DateTime completionTime = CefTimeUtils::ConvertCefTimeToDateTime(time.GetDoubleT());
+                auto ssl = entry->GetSSLStatus();
+                X509Certificate2^ sslCertificate;
+
+                if (ssl.get())
+                {
+                    auto certificate = ssl->GetX509Certificate();
+                    if (certificate.get())
+                    {
+                        auto derEncodedCertificate = certificate->GetDEREncoded();
+                        auto byteCount = derEncodedCertificate->GetSize();
+                        if (byteCount > 0)
+                        {
+                            auto bytes = gcnew cli::array<Byte>(byteCount);
+                            pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
+
+                            derEncodedCertificate->GetData(static_cast<void*>(src), byteCount, 0);
+
+                            sslCertificate = gcnew X509Certificate2(bytes);
+                        }
+                    }
+
+                    sslStatus = gcnew SslStatus(ssl->IsSecureConnection(), (CertStatus)ssl->GetCertStatus(), (SslVersion)ssl->GetSSLVersion(), (SslContentStatus)ssl->GetContentStatus(), sslCertificate);
+                }
+
+                return gcnew NavigationEntry(current, completionTime, StringUtils::ToClr(entry->GetDisplayURL()), entry->GetHttpStatusCode(),
+                    StringUtils::ToClr(entry->GetOriginalURL()), StringUtils::ToClr(entry->GetTitle()), (TransitionType)entry->GetTransitionType(),
+                    StringUtils::ToClr(entry->GetURL()), entry->HasPostData(), true, sslStatus);
             }
         };
     }

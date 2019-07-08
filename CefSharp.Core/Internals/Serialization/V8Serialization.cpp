@@ -183,7 +183,7 @@ namespace CefSharp
 
             CefTime ConvertDateTimeToCefTime(DateTime dateTime)
             {
-                auto timeSpan = dateTime - DateTime(1970, 1, 1);
+                auto timeSpan = dateTime.ToUniversalTime() - DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind::Utc);
 
                 return CefTime(timeSpan.TotalSeconds);
             }

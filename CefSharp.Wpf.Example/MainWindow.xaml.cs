@@ -140,6 +140,16 @@ namespace CefSharp.Wpf.Example
                     browserViewModel.ShowDownloadInfo = !browserViewModel.ShowDownloadInfo;
                 }
 
+                if (param == "AsyncJsbTaskTests")
+                {
+                    //After this setting has changed all tests will run through the Concurrent MethodQueueRunner
+                    CefSharpSettings.ConcurrentTaskExecution = true;
+
+                    CreateNewTab(CefExample.BindingTestsAsyncTaskUrl, true);
+
+                    TabControl.SelectedIndex = TabControl.Items.Count - 1;
+                }
+
                 //NOTE: Add as required
                 //else if (param == "CustomRequest123")
                 //{

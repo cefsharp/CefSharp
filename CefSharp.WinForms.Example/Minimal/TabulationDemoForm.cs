@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -25,6 +26,19 @@ namespace CefSharp.WinForms.Example.Minimal
             txtURL.GotFocus += TxtUrlGotFocus;
             txtURL.LostFocus += TxtUrlLostFocus;
             grpBrowser.Controls.Add(userControl);
+        }
+
+        public IContainer Components
+        {
+            get
+            {
+                if (components == null)
+                {
+                    components = new Container();
+                }
+
+                return components;
+            }
         }
 
         private void TxtUrlLostFocus(object sender, EventArgs e)

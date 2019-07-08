@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.redist.x86.3.3578.1860\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3578.1860\build\cef.redist.x86.props')" />
-  <Import Project="..\packages\cef.redist.x64.3.3578.1860\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3578.1860\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\cef.redist.x86.75.0.13\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.75.0.13\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.75.0.13\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.75.0.13\build\cef.redist.x64.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -83,6 +83,7 @@
     <Reference Include="GalaSoft.MvvmLight.Platform">
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -109,6 +110,8 @@
     <Compile Include="Controls\CefSharpCommands.cs" />
     <Compile Include="Controls\ChromiumWebBrowserWithScreenshotSupport.cs" />
     <Compile Include="Controls\NonReloadingTabControl.cs" />
+    <Compile Include="Controls\TouchKeyboard\InputPaneRcw.cs" />
+    <Compile Include="Controls\TouchKeyboard\TouchKeyboardEventManager.cs" />
     <Compile Include="Handlers\AccessibilityHandler.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DragHandler.cs" />
@@ -117,6 +120,15 @@
     <Compile Include="Handlers\RequestContextHandler.cs" />
     <Compile Include="Handlers\WpfBrowserProcessHandler.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="JavascriptCallbackMainWindow.xaml.cs">
+      <DependentUpon>JavascriptCallbackMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardTabControlWindow.xaml.cs">
+      <DependentUpon>StandardTabControlWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TouchKeyboardWin10MainWindow.xaml.cs">
+      <DependentUpon>TouchKeyboardWin10MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SimpleMainWindow.xaml.cs">
       <DependentUpon>SimpleMainWindow.xaml</DependentUpon>
     </Compile>
@@ -139,6 +151,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="JavascriptCallbackMainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardTabControlWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TouchKeyboardWin10MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SimpleMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,6 +185,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="Controls\TouchKeyboard\Readme.md" />
     <None Include="crash_reporter.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

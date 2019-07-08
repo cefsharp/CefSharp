@@ -5,7 +5,8 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "RequestContext.h"
+
+#include "include\internal\cef_types_wrappers.h"
 
 namespace CefSharp
 {
@@ -17,6 +18,10 @@ namespace CefSharp
     /// </summary>
     public ref class BrowserSettings : IBrowserSettings
     {
+    private:
+        bool _isDisposed = false;
+        bool _ownsPointer = false;
+        bool _frameworkCreated = false;
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -28,17 +33,30 @@ namespace CefSharp
             _browserSettings = browserSettings;
         }
 
+        BrowserSettings(bool frameworkCreated) : _browserSettings(new CefBrowserSettings())
+        {
+            _ownsPointer = true;
+            _frameworkCreated = frameworkCreated;
+        }
+
     public:
         /// <summary>
         /// Default Constructor
         /// </summary>
         BrowserSettings() : _browserSettings(new CefBrowserSettings())
         {
+            _ownsPointer = true;
         }
 
         !BrowserSettings()
         {
+            if (_ownsPointer)
+            {
+                delete _browserSettings;
+            }
+
             _browserSettings = NULL;
+            _isDisposed = true;
         }
 
         ~BrowserSettings()
@@ -157,8 +175,8 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Controls whether JavaScript can be executed.
-        /// (Disable javascript)
+        /// Controls whether JavaScript can be executed. (Used to Enable/Disable javascript)
+        /// Also configurable using the "disable-javascript" command-line switch.
         /// </summary>
         virtual property CefState Javascript
         {
@@ -364,6 +382,19 @@ namespace CefSharp
         {
             int get() { return _browserSettings->windowless_frame_rate; }
             void set(int value) { _browserSettings->windowless_frame_rate = value; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the browser settings has been disposed.
+        /// </summary>
+        virtual property bool IsDisposed
+        {
+            bool get() { return _isDisposed; }
+        }
+
+        virtual property bool FrameworkCreated
+        {
+            bool get() { return _frameworkCreated; }
         }
     };
 }

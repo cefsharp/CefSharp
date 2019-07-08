@@ -1,52 +1,35 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
-    <head>
-        <title>Binding Test</title>
-        <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
-    </head>
-    <body>
-        <div id="qunit"></div>
-        <div id="qunit-fixture"></div>
-        <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
+<head>
+    <title>Binding Test</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
         (async () =>
         {
-            await CefSharp.BindObjectAsync("boundAsync", "bound");
+            await CefSharp.BindObjectAsync("boundAsync");
 
-            QUnit.test( "Struct Test:", function( assert )
+            QUnit.test("Async call (Divide 16 / 2):", function (assert)
             {
                 var asyncCallback = assert.async();
 
-                //Returns a Struct
-                boundAsync.returnObject('CefSharp Struct Test').then(function (actualResult)
+                boundAsync.div(16, 2).then(function (actualResult)
                 {
-                    const expectedResult = 'CefSharp Struct Test';
+                    const expectedResult = 8
 
-                    assert.equal(expectedResult, actualResult.Value, "Return class " + expectedResult);
+                    assert.equal(expectedResult, actualResult, "Divide 16 / 2 resulted in " + expectedResult);
 
                     asyncCallback();
-                });                
+                });
             });
-
-            QUnit.test( "Class Test:", function( assert )
-            {
-                var asyncCallback = assert.async();
-
-                //Returns a class
-                boundAsync.returnClass('CefSharp Class Test').then(function (actualResult)
-                {
-                    const expectedResult = 'CefSharp Class Test';
-
-                    assert.equal(expectedResult, actualResult.Value, "Return class " + expectedResult);
-
-                    asyncCallback();
-                });                
-            });
-
 
         })();
-        </script>
+    </script>
 
-    </body>
+</body>
 </html>

@@ -55,6 +55,14 @@ namespace CefSharp
         void OnFullscreenModeChange(IWebBrowser chromiumWebBrowser, IBrowser browser, bool fullscreen);
 
         /// <summary>
+        /// Called when the overall page loading progress has changed
+        /// </summary>
+        /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="process">ranges from 0.0 to 1.0.</param>
+        void OnLoadingProgressChange(IWebBrowser chromiumWebBrowser, IBrowser browser, double progress);
+
+        /// <summary>
         /// Called when the browser is about to display a tooltip. text contains the
         /// text that will be displayed in the tooltip. You can optionally modify text
         /// and then return false to allow the browser to display the tooltip.

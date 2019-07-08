@@ -95,13 +95,26 @@ namespace CefSharp
             {
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
-                    rect = CefRect(0, 0, 0, 0);
+                    //CEF doesn't like a 0 width or 0 height, cefclient
+                    //defaults these to 1, so we'll do the same
+                    rect = CefRect(0, 0, 1, 1);
                 }
                 else
                 {
                     auto viewRect = _renderWebBrowser->GetViewRect();
 
                     rect = CefRect(viewRect.X, viewRect.Y, viewRect.Width, viewRect.Height);
+
+                    //Cefclient defaults these to 1 instead of 0, we'll do the same
+                    if (rect.height == 0)
+                    {
+                        rect.height = 1;
+                    }
+
+                    if (rect.width == 0)
+                    {
+                        rect.width = 1;
+                    }
                 }
             };
 
@@ -226,7 +239,12 @@ namespace CefSharp
                 }
             }
 
-            IMPLEMENT_REFCOUNTING(RenderClientAdapter)
+            virtual DECL void OnVirtualKeyboardRequested(CefRefPtr<CefBrowser> browser, cef_text_input_mode_t input_mode) OVERRIDE
+            {
+                _renderWebBrowser->OnVirtualKeyboardRequested(GetBrowserWrapper(browser->GetIdentifier()), (CefSharp::Enums::TextInputMode)input_mode);
+            }
+
+            IMPLEMENT_REFCOUNTING(RenderClientAdapter);
         };
     }
 }

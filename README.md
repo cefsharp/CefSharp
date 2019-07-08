@@ -1,15 +1,15 @@
-[![CefSharp Logo](logo.png)](http://cefsharp.github.io/ "CefSharp - Embedded Chromium for .NET")
+[![CefSharp Logo](logo.png)](https://cefsharp.github.io/ "CefSharp - Embedded Chromium for .NET")
 
 [![Build status](https://ci.appveyor.com/api/projects/status/9g4mcuqruc283g66/branch/master?svg=true)](https://ci.appveyor.com/project/cefsharp/cefsharp/branch/master)
-[![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat&label=WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
-[![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
-[![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+[![CefSharp.WinForms](https://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat&label=WinForms)](https://www.nuget.org/packages/CefSharp.WinForms/)
+[![CefSharp.Wpf](https://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=Wpf)](https://www.nuget.org/packages/CefSharp.Wpf/)
+[![CefSharp.OffScreen](https://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](https://www.nuget.org/packages/CefSharp.OffScreen/)
 
 Got a quick question? Jump on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-[CefSharp](http://cefsharp.github.io/) lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the [Chromium Embedded Framework (CEF)](https://bitbucket.org/chromiumembedded/cef) by Marshall A. Greenblatt. About 30% of the bindings are written in C++/CLI with the majority of code here is C#. It can be used from C# or VB, or any other CLR language. CefSharp provides both WPF and WinForms web browser control implementations.
+[CefSharp](https://cefsharp.github.io/) lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the [Chromium Embedded Framework (CEF)](https://bitbucket.org/chromiumembedded/cef) by Marshall A. Greenblatt. About 30% of the bindings are written in C++/CLI with the majority of code here is C#. It can be used from C# or VB, or any other CLR language. CefSharp provides both WPF and WinForms web browser control implementations.
 
-CefSharp is [BSD](http://opensource.org/licenses/BSD-3-Clause "BSD License") licensed, so it can be used in both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file. 
+CefSharp is [BSD](https://opensource.org/licenses/BSD-3-Clause "BSD License") licensed, so it can be used in both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file. 
 
 If you like and use CefSharp please consider signing up for a small monthly donation, even $25 can help tremendously. See [Financial Support](#Financial-Support) for more details.
 
@@ -17,9 +17,9 @@ If you like and use CefSharp please consider signing up for a small monthly dona
 
 Stable binaries are released on NuGet, and contain everything you need  to embed Chromium in your .Net/CLR application. For usage see the [Quick Start](https://github.com/cefsharp/CefSharp/wiki/Quick-Start) guide or [FAQ #8](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CefSharp_binaries).
 
-- [CefSharp.WinForms](http://www.nuget.org/packages/CefSharp.WinForms/)
-- [CefSharp.Wpf](http://www.nuget.org/packages/CefSharp.Wpf/)
-- [CefSharp.OffScreen](http://www.nuget.org/packages/CefSharp.OffScreen/)
+- [CefSharp.WinForms](https://www.nuget.org/packages/CefSharp.WinForms/)
+- [CefSharp.Wpf](https://www.nuget.org/packages/CefSharp.Wpf/)
+- [CefSharp.OffScreen](https://www.nuget.org/packages/CefSharp.OffScreen/)
 
 ## Documentation
 
@@ -29,19 +29,17 @@ Stable binaries are released on NuGet, and contain everything you need  to embed
 * See the [Wiki](https://github.com/cefsharp/CefSharp/wiki) for work-in-progress documentation
 * See the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions) for help with common issues
 * Upgrading from an earlier version of CefSharp? See the [ChangeLog](https://github.com/cefsharp/CefSharp/wiki/ChangeLog) for breaking changes and upgrade tips.
-* [CefSharp API](http://cefsharp.github.io/api/55.0.0/) generated from the source code comments.
+* [CefSharp API](https://cefsharp.github.io/api/55.0.0/) generated from the source code comments.
 
 ## Contact
 
-If you have a simple question please start by asking it on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge). Please keep the `Issue Tracker` for **Bugs** only please! Before submitting a `PR` please read [CONTRIBUTING](https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md)
+If you have a very simple question please start by asking it on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge). Please keep the `Issue Tracker` for **Bugs** only please! Before submitting a `PR` please read [CONTRIBUTING](https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md)
 
-[Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp) as always is a useful resource, you can post your more complex issues here. 
+[Stackoverflow](https://stackoverflow.com/questions/tagged/cefsharp) is generally where questions should be asked, please search before posting, thanks!
 
 ## Branches & Forks
 
-This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/search?utf8=%E2%9C%93&q=cefsharp+fork%3Atrue&type=Repositories&ref=searchresults).
-
-*Note* Due to so many Forks - Github can't process them through the `Network Graphs` Section so, if you need to do a search use the following: `cefsharp fork:true` and it will be able to process all of the forks.
+This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 Development is done in the `master` branch. New features are preferably added in feature branches, if the changes are more than trivial. New `PR's` should be targeted against `master`.
 
@@ -75,8 +73,10 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 | Branch                                                               | CEF Version | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|------|-------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                      | 3538 | 2015 | 4.5.2 | Development     |
-| [cefsharp/69](https://github.com/cefsharp/CefSharp/tree/cefsharp/69) | 3497 | 2015 | 4.5.2 | **Release**     |
+| [master](https://github.com/cefsharp/CefSharp/)                      | 3729 | 2015 | 4.5.2 | Development     |
+| [cefsharp/73](https://github.com/cefsharp/CefSharp/tree/cefsharp/73) | 3683 | 2015 | 4.5.2 | **Release**     |
+| [cefsharp/71](https://github.com/cefsharp/CefSharp/tree/cefsharp/71) | 3578 | 2015 | 4.5.2 | Unsupported     |
+| [cefsharp/69](https://github.com/cefsharp/CefSharp/tree/cefsharp/69) | 3497 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/67](https://github.com/cefsharp/CefSharp/tree/cefsharp/67) | 3396 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/65](https://github.com/cefsharp/CefSharp/tree/cefsharp/65) | 3325 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/63](https://github.com/cefsharp/CefSharp/tree/cefsharp/63) | 3239 | 2013 | 4.5.2 | Unsupported     |
@@ -98,7 +98,7 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 To continue developing/supporting the project I (@amaitland) am asking for financial contributions. Donations of any size are greatly appreciated!
 
-`71.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=66538061)](https://www.bountysource.com/issues/66538061-funding-request-release-71-0-0?utm_source=66538061&utm_medium=shield&utm_campaign=ISSUE_BADGE)
+`73.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=71596940)](https://www.bountysource.com/issues/71596940-funding-request-release-73-0-0?utm_source=71596940&utm_medium=shield&utm_campaign=ISSUE_BADGE)
 
 Recurring contributions can be made through [BountySource Salt](https://salt.bountysource.com/teams/cefsharp) or contact me if you'd like to donate through `Paypal`.
 
@@ -117,3 +117,4 @@ Now that I (@amaitland) am a stay at home dad your contributions are the only re
 
 - [HtmlView](https://github.com/MISoftware/HtmlView) : Visual Studio extension bringing CefSharp for showing HTML pages inside VS.
 - [Chromely](https://github.com/mattkol/Chromely) : Build .NET/.NET Core HTML5 desktop apps using cross-platform native GUI API.
+- [SharpBrowser](https://github.com/sharpbrowser/SharpBrowser) : The fastest web browser for C# with tabbed browsing and HTML5/CSS3.

@@ -11,6 +11,7 @@ namespace CefSharp.WinForms.Internals
     /// <seealso cref="CefSharp.IFocusHandler" />
     public class DefaultFocusHandler : IFocusHandler
     {
+        private bool initialFocusOnNavigation;
         /// <summary>
         /// Called when the browser component has received focus.
         /// </summary>
@@ -22,7 +23,8 @@ namespace CefSharp.WinForms.Internals
         public virtual void OnGotFocus(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
             //We don't deal with popups as they're rendered by default entirely by CEF
-            if (browser.IsPopup)
+            //For print dialogs the browser will be null, we don't want to deal with that either.
+            if (browser == null || browser.IsPopup)
             {
                 return;
             }
@@ -92,8 +94,31 @@ namespace CefSharp.WinForms.Internals
             {
                 return false;
             }
+
+            var focusSourceNavigation = source == CefFocusSource.FocusSourceNavigation;
+
+            var winFormsBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
+
+            //The default behaviour when browser is activated by default
+            //This was the default prior to version 73
+            if (winFormsBrowser.ActivateBrowserOnCreation)
+            {
+                // Do not let the browser take focus when a Load method has been called
+                return focusSourceNavigation;
+            }
+
+            //For the very first navigation we let the browser
+            //take focus so touch screens work correctly.
+            //See https://github.com/cefsharp/CefSharp/issues/2776
+            if (!initialFocusOnNavigation && focusSourceNavigation)
+            {
+                initialFocusOnNavigation = true;
+
+                return false;
+            }
+
             // Do not let the browser take focus when a Load method has been called
-            return source == CefFocusSource.FocusSourceNavigation;
+            return focusSourceNavigation;
         }
 
         /// <summary>

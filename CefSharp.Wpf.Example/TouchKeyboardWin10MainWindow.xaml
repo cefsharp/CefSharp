@@ -1,0 +1,25 @@
+<Window x:Class="CefSharp.Wpf.Example.TouchKeyboardWin10MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        Title="SimpleMainWindow" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <wpf:ChromiumWebBrowser Grid.Row="0"
+                          x:Name="Browser"
+                          Address="http://www.google.com"/>
+        <StatusBar Grid.Row="1">
+            <ProgressBar HorizontalAlignment="Right"
+                         IsIndeterminate="{Binding WebBrowser.IsLoading}"
+                         Width="100"
+                         Height="16"
+                         Margin="3" />
+            <Separator />
+            <!-- TODO: Could show hover link URL here -->
+            <TextBlock />
+        </StatusBar>
+    </Grid>
+</Window>

@@ -31,7 +31,8 @@ namespace CefSharp
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame</param>
         /// <param name="regions">List of <see cref="DraggableRegion"/> objects or null if last region was removed.</param>
-        void OnDraggableRegionsChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IList<DraggableRegion> regions);
+        void OnDraggableRegionsChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IList<DraggableRegion> regions);
     }
 }

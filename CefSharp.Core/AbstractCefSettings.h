@@ -97,6 +97,18 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Set to true to enable date-based expiration of built in network security information (i.e. certificate transparency logs,
+        /// HSTS preloading and pinning information). Enabling this option improves network security but may cause HTTPS load failures when
+        /// using CEF binaries built more than 10 weeks in the past. See https://www.certificate-transparency.org/ and
+        /// https://www.chromium.org/hsts for details. Can be set globally using the CefSettings.EnableNetSecurityExpiration value.
+        /// </summary>
+        property bool EnableNetSecurityExpiration
+        {
+            bool get() { return _cefSettings->enable_net_security_expiration == 1; }
+            void set(bool value) { _cefSettings->enable_net_security_expiration = value; }
+        }
+
+        /// <summary>
         /// Set to true to control browser process main (UI) thread message pump
         /// scheduling via the IBrowserProcessHandler.OnScheduleMessagePumpWork
         /// callback. This option is recommended for use in combination with the
@@ -137,17 +149,34 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// The location where cache data will be stored on disk. If empty then
-        /// browsers will be created in "incognito mode" where in-memory caches are
-        /// used for storage and no data is persisted to disk. HTML5 databases such as
-        /// localStorage will only persist across sessions if a cache path is
-        /// specified. Can be overridden for individual CefRequestContext instances via
-        /// the RequestContextSettings.CachePath value.
+        /// The location where data for the global browser cache will be stored on disk.
+        /// In non-empty this must be either equal to or a child directory of CefSettings.RootCachePath
+        /// (if RootCachePath is empty it will default to this value).
+        /// If empty then browsers will be created in "incognito mode" where in-memory caches are used
+        /// for storage and no data is persisted to disk. HTML5 databases such as localStorage will
+        /// only persist across sessions if a cache path is specified. Can be overridden for individual
+        /// RequestContext instances via the RequestContextSettings.CachePath value.
         /// </summary>
         property String^ CachePath
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->cache_path); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
+        }
+
+        /// <summary>
+        /// The root directory that all CefSettings.CachePath and RequestContextSettings.CachePath values
+        /// must have in common. If this value is empty and CefSettings.CachePath is non-empty then this
+        /// value will default to the CefSettings.CachePath value. Failure to set this value correctly
+        /// may result in the sandbox blocking read/write access to the CachePath directory.
+        /// NOTE: CefSharp does not implement the CHROMIUM SANDBOX.
+        /// A non-empty RootCachePath can be used in conjuncation with an empty CefSettings.CachePath
+        /// in instances where you would like browsers attached to the Global RequestContext (the default)
+        /// created in "incognito mode" and instances created with a custom RequestContext using a disk based cache.
+        /// </summary>
+        property String^ RootCachePath
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->root_cache_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->root_cache_path, value); }
         }
 
         /// <summary>
@@ -222,9 +251,9 @@ namespace CefSharp
 
         /// <summary>
         /// The log severity. Only messages of this severity level or higher will be
-        /// logged. Also configurable using the "log-severity" command-line switch with
-        /// a value of "verbose", "info", "warning", "error", "error-report" or
-        /// "disable".
+        /// logged. When set to <see cref="CefSharp.LogSeverity.Disable"/> no messages will be written to the log file,
+        /// but Fatal messages will still be output to stderr. Also configurable using the "log-severity" command-line switch with
+        /// a value of "verbose", "info", "warning", "error", "fatal", "error-report" or "disable".
         /// </summary>
         property CefSharp::LogSeverity LogSeverity
         {
@@ -370,6 +399,18 @@ namespace CefSharp
         {
             uint32 get() { return _cefSettings->background_color; }
             void set(uint32 value) { _cefSettings->background_color = value; }
+        }
+
+        /// <summary>
+        /// GUID string used for identifying the application. This is passed to the
+        /// system AV function for scanning downloaded files. By default, the GUID
+        /// will be an empty string and the file will be treated as an untrusted
+        /// file when the GUID is empty.
+        /// </summary>
+        property String^ ApplicationClientIdForFileScanning
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->application_client_id_for_file_scanning); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->application_client_id_for_file_scanning, value); }
         }
 
         /// <summary>

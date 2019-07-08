@@ -1,0 +1,34 @@
+<Window x:Class="CefSharp.Wpf.Example.JavascriptCallbackMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        Title="JavascriptCallbackMainWindow" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4.5*" />
+            <RowDefinition Height="4.5*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <wpf:ChromiumWebBrowser Grid.Row="0"
+                          x:Name="BrowserOne"
+                          Address="custom://cefsharp/JavascriptCallbackTest.html"  BorderBrush="Red" BorderThickness="1"/>
+        <wpf:ChromiumWebBrowser Grid.Row="1"
+                          x:Name="BrowserTwo"
+                          Address="test://cefsharp/JavascriptCallbackTest.html" BorderBrush="Red" BorderThickness="1"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Execute Callback Immediately" Click="ExecuteCallbackImmediatelyClick" Margin="0, 0, 10, 0"/>
+            <Button Content="Execute Callback In 3 Seconds" Click="ExecuteCallbackInThreeSeconds"/>
+        </StackPanel>
+        <StatusBar Grid.Row="3">
+            <ProgressBar HorizontalAlignment="Right"
+                         IsIndeterminate="{Binding WebBrowser.IsLoading}"
+                         Width="100"
+                         Height="16"
+                         Margin="3" />
+            <Separator />
+            <!-- TODO: Could show hover link URL here -->
+            <TextBlock />
+        </StatusBar>
+    </Grid>
+</Window>

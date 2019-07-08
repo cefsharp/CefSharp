@@ -53,6 +53,12 @@ namespace CefSharp.Internals
         public List<JavascriptProperty> Properties { get; private set; }
 
         /// <summary>
+        /// A javascript object is created for every object, even those that are sub objects
+        /// it's important we only transmit the Root Objects (top level/parent)
+        /// </summary>
+        public bool RootObject { get; set; }
+
+        /// <summary>
         /// Gets or sets the value.
         /// </summary>
         public object Value { get; set; }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.3.3578.1860\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.3578.1860\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.75.0.13\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.75.0.13\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -172,11 +172,17 @@
     <ClInclude Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
+    <ClInclude Include="BindObjectAsyncHandler.h" />
+    <ClInclude Include="SubProcessApp.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodHandler.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodWrapper.h" />
     <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
+    <ClInclude Include="JavascriptPostMessageHandler.h" />
+    <ClInclude Include="Wrapper\Frame.h" />
+    <ClInclude Include="Wrapper\Browser.h" />
+    <ClInclude Include="Wrapper\V8Context.h" />
     <ClInclude Include="RegisterBoundObjectHandler.h" />
     <ClInclude Include="RegisterBoundObjectRegistry.h" />
     <ClInclude Include="resource.h" />
@@ -206,6 +212,8 @@
     <ClCompile Include="Async\JavascriptAsyncMethodWrapper.cpp" />
     <ClCompile Include="Async\JavascriptAsyncObjectWrapper.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
+    <ClCompile Include="Wrapper\Frame.cpp" />
+    <ClCompile Include="Wrapper\Browser.cpp" />
     <ClCompile Include="WcfEnabledSubProcess.cpp" />
     <ClCompile Include="JavascriptCallbackRegistry.cpp" />
     <ClCompile Include="JavascriptMethodHandler.cpp" />

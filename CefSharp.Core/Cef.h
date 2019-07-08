@@ -2,6 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#ifndef CEFSHARP_CORE_CEF_H_
+#define CEFSHARP_CORE_CEF_H_
+
 #pragma once
 
 #include "Stdafx.h"
@@ -21,7 +24,6 @@
 #include "CookieManager.h"
 #include "AbstractCefSettings.h"
 #include "RequestContext.h"
-#include "SchemeHandlerFactoryWrapper.h"
 
 using namespace System::Collections::Generic;
 using namespace System::Linq;
@@ -32,8 +34,6 @@ namespace CefSharp
 {
     public ref class Cef sealed
     {
-        #define ThrowIfCefNotInitialized() if (!_initialized) throw gcnew Exception(__FUNCTION__ + " requires that CefRequestContext be initialized first. The earlier possible place to execute " + __FUNCTION__ + " is in IBrowserProcessHandler.OnContextInitialized. Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.");
-
     private:
         static Object^ _sync;
 
@@ -140,7 +140,9 @@ namespace CefSharp
         /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(AbstractCefSettings^ cefSettings)
         {
-            return Initialize(cefSettings, false, nullptr);
+            auto cefApp = gcnew DefaultApp(nullptr, cefSettings->CefCustomSchemes);
+
+            return Initialize(cefSettings, false, cefApp);
         }
 
         /// <summary>
@@ -154,6 +156,23 @@ namespace CefSharp
         /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
+        {
+            auto cefApp = gcnew DefaultApp(browserProcessHandler, cefSettings->CefCustomSchemes);
+
+            return Initialize(cefSettings, performDependencyCheck, cefApp);
+        }
+
+        /// <summary>
+        /// Initializes CefSharp with user-provided settings.
+        /// It's important to note that Initialize/Shutdown <strong>MUST</strong> be called on your main
+        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
+        /// </summary>
+        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
+        /// <param name="cefApp">Implement this interface to provide handler implementations. Null if you don't wish to handle these events</param>
+        /// <returns>true if successful; otherwise, false.</returns>
+        static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IApp^ cefApp)
         {
             if (IsInitialized)
             {
@@ -179,33 +198,14 @@ namespace CefSharp
                 throw gcnew FileNotFoundException("CefSettings BrowserSubprocessPath not found.", cefSettings->BrowserSubprocessPath);
             }
 
-            if (CefSharpSettings::Proxy != nullptr && !cefSettings->CommandLineArgsDisabled)
-            {
-                cefSettings->CefCommandLineArgs->Add("proxy-server", CefSharpSettings::Proxy->IP + ":" + CefSharpSettings::Proxy->Port);
-
-                if (!String::IsNullOrEmpty(CefSharpSettings::Proxy->BypassList))
-                {
-                    cefSettings->CefCommandLineArgs->Add("proxy-bypass-list", CefSharpSettings::Proxy->BypassList);
-                }
-            }
-
             UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
             IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
             FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
+            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, cefApp));
             CefMainArgs main_args;
-            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, browserProcessHandler));
 
             auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
-
-            //Register SchemeHandlerFactories - must be called after CefInitialize
-            for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
-            {
-                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
-
-                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
-                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
-            }
 
             _initialized = success;
             _multiThreadedMessageLoop = cefSettings->MultiThreadedMessageLoop;
@@ -324,8 +324,6 @@ namespace CefSharp
             String^ targetDomain,
             bool allowTargetSubdomains)
         {
-            ThrowIfCefNotInitialized();
-
             return CefAddCrossOriginWhitelistEntry(
                 StringUtils::ToNative(sourceOrigin),
                 StringUtils::ToNative(targetProtocol),
@@ -350,8 +348,6 @@ namespace CefSharp
             bool allowTargetSubdomains)
 
         {
-            ThrowIfCefNotInitialized();
-
             return CefRemoveCrossOriginWhitelistEntry(
                 StringUtils::ToNative(sourceOrigin),
                 StringUtils::ToNative(targetProtocol),
@@ -366,45 +362,24 @@ namespace CefSharp
         /// </remarks>
         static bool ClearCrossOriginWhitelist()
         {
-            ThrowIfCefNotInitialized();
-
             return CefClearCrossOriginWhitelist();
         }
 
         /// <summary>
-        /// Returns the global cookie manager.
+        /// Returns the global cookie manager. By default data will be stored at CefSettings.CachePath if specified or in memory otherwise.
+        /// Using this method is equivalent to calling Cef.GetGlobalRequestContext().GetCookieManager()
+        /// The earlier possible place to access the ICookieManager is in IBrowserProcessHandler.OnContextInitialized.
+        /// Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
         /// </summary>
-        /// <returns>A the global cookie manager</returns>
+        /// <returns>A the global cookie manager or null if the RequestContext has not yet been initialized.</returns>
         static ICookieManager^ GetGlobalCookieManager()
         {
-            ThrowIfCefNotInitialized();
-
             auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
             if (cookieManager.get())
             {
                 return gcnew CookieManager(cookieManager);
             }
-            return nullptr;
-        }
 
-        /// <summary>
-        ///  Returns a cookie manager that neither stores nor retrieves cookies. All
-        /// usage of cookies will be blocked including cookies accessed via the network
-        /// (request/response headers), via JavaScript (document.cookie), and via
-        /// CefCookieManager methods. No cookies will be displayed in DevTools. If you
-        /// wish to only block cookies sent via the network use the IRequestHandler
-        /// CanGetCookies and CanSetCookie methods instead.
-        /// </summary>
-        /// <returns>A blocking cookie manager</returns>
-        static ICookieManager^ GetBlockingCookieManager()
-        {
-            ThrowIfCefNotInitialized();
-
-            auto cookieManager = CefCookieManager::GetBlockingManager();
-            if (cookieManager.get())
-            {
-                return gcnew CookieManager(cookieManager);
-            }
             return nullptr;
         }
 
@@ -426,10 +401,10 @@ namespace CefSharp
                 {
                     if (_initializedThreadId != Thread::CurrentThread->ManagedThreadId)
                     {
-                        throw gcnew Exception("Cef.Shutdown must be called on the same thread that Cef.Initialize was called - typically your UI thread." +
-                            "If you called Cef.Initialize on a Thread other than the UI thread then you will need to call Cef.Shutdown on the same thread." +
-                            "Cef.Initialize was called on ManagedThreadId: " + _initializedThreadId + "where Cef.Shutdown is being called on" +
-                            "ManagedThreadId:" + Thread::CurrentThread->ManagedThreadId);
+                        throw gcnew Exception("Cef.Shutdown must be called on the same thread that Cef.Initialize was called - typically your UI thread. " +
+                            "If you called Cef.Initialize on a Thread other than the UI thread then you will need to call Cef.Shutdown on the same thread. " +
+                            "Cef.Initialize was called on ManagedThreadId: " + _initializedThreadId + "where Cef.Shutdown is being called on " +
+                            "ManagedThreadId: " + Thread::CurrentThread->ManagedThreadId);
                     }
 
                     UIThreadTaskFactory = nullptr;
@@ -488,13 +463,13 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Clear all registered scheme handler factories.
+        /// Clear all scheme handler factories registered with the global request context.
+        /// Returns false on error. This function may be called on any thread in the browser process.
+        /// Using this function is equivalent to calling Cef.GetGlobalRequestContext().ClearSchemeHandlerFactories().
         /// </summary>
         /// <returns>Returns false on error.</returns>
         static bool ClearSchemeHandlerFactories()
         {
-            ThrowIfCefNotInitialized();
-
             return CefClearSchemeHandlerFactories();
         }
 
@@ -503,8 +478,6 @@ namespace CefSharp
         /// </summary>
         static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
         {
-            ThrowIfCefNotInitialized();
-
             CefVisitWebPluginInfo(new PluginVisitor(visitor));
         }
 
@@ -515,8 +488,6 @@ namespace CefSharp
         /// <returns>Returns List of <see cref="Plugin"/> structs.</returns>
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
-            ThrowIfCefNotInitialized();
-
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
 
@@ -530,8 +501,6 @@ namespace CefSharp
         /// </summary>
         static void RefreshWebPlugins()
         {
-            ThrowIfCefNotInitialized();
-
             CefRefreshWebPlugins();
         }
 
@@ -541,8 +510,6 @@ namespace CefSharp
         /// <param name="path">Path (directory + file).</param>
         static void UnregisterInternalWebPlugin(String^ path)
         {
-            ThrowIfCefNotInitialized();
-
             CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
         }
 
@@ -567,12 +534,12 @@ namespace CefSharp
 
         /// <summary>
         /// Gets the Global Request Context. Make sure to Dispose of this object when finished.
+        /// The earlier possible place to access the IRequestContext is in IBrowserProcessHandler.OnContextInitialized.
+        /// Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
         /// </summary>
-        /// <returns>Returns the global request context or null.</returns>
+        /// <returns>Returns the global request context or null if the RequestContext has not been initialized yet.</returns>
         static IRequestContext^ GetGlobalRequestContext()
         {
-            ThrowIfCefNotInitialized();
-
             auto context = CefRequestContext::GetGlobalContext();
 
             if (context.get())
@@ -760,3 +727,4 @@ namespace CefSharp
         }
     };
 }
+#endif  // CEFSHARP_CORE_CEF_H_

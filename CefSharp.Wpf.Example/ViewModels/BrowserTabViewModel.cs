@@ -120,7 +120,10 @@ namespace CefSharp.Wpf.Example.ViewModels
                     {
                         Task.Delay(10000).ContinueWith(t =>
                         {
-                            WebBrowser.Reload();
+                            if (WebBrowser != null)
+                            {
+                                WebBrowser.Reload();
+                            }
                         });
                     }
                 };

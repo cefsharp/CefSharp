@@ -50,4 +50,4 @@ e.g. 57.0.0 or 63.0.0-pre01
     - To compare with WPF run cefclient --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu
     - To compare with WinForms run cefclient --multi-threaded-message-loop
     - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
-    - Please include the version you tested with e.g. `cef_binary_3.3029.1611.g44e39a8_windows64_client.tar.bz2`
+    - Please include the version you tested with e.g. `cef_binary_3.3029.1611.g44e39a8_windows64_client.tar.bz2`. It's important to you test with the same version that `CefSharp` is based on. Check the release notes to determine the version (https://github.com/cefsharp/CefSharp/releases) or load `chrome://version` in the browser.
