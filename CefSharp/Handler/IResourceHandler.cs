@@ -46,7 +46,7 @@ namespace CefSharp
         /// <see cref="ICallback.Continue"/> can also be called from inside this method if
         /// header information is available immediately).
         /// To cancel the request return false.</returns>
-        [Obsolete("This method is deprecated. Use Open instead.")]
+        [Obsolete("This method is deprecated and will be removed in the next version. Use Open instead.")]
         bool ProcessRequest(IRequest request, ICallback callback);
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace CefSharp
         /// <returns>If data is available immediately copy to dataOut, set bytesRead to the number of bytes copied,
         /// and return true.To indicate response completion return false.</returns>
         /// <remarks>Depending on this size of your response this method may be called multiple times</remarks>
-        [Obsolete("This method is deprecated. Use Skip and Read instead.")]
+        [Obsolete("This method is deprecated and will be removed in the next version. Use Skip and Read instead.")]
         bool ReadResponse(Stream dataOut, out int bytesRead, ICallback callback);
 
         /// <summary>
