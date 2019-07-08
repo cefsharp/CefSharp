@@ -172,6 +172,7 @@
     <ClInclude Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
+    <ClInclude Include="BindObjectAsyncHandler.h" />
     <ClInclude Include="SubProcessApp.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodHandler.h" />
