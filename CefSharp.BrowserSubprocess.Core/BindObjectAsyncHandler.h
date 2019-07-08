@@ -36,12 +36,11 @@ namespace CefSharp
         bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
         {
             auto context = CefV8Context::GetCurrentContext();
+
             if (context.get() && context->Enter())
             {
                 try
                 {
-                    auto global = context->GetGlobal();
-
                     CefRefPtr<CefV8Value> promiseData;
                     CefRefPtr<CefV8Exception> promiseException;
                     //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
@@ -68,10 +67,6 @@ namespace CefSharp
                     auto resolve = promiseData->GetValue("res");
                     auto reject = promiseData->GetValue("rej");
 
-                    auto callback = gcnew JavascriptAsyncMethodCallback(context, resolve, reject);
-
-                    auto request = CefProcessMessage::Create(kJavascriptRootObjectRequest);
-                    auto argList = request->GetArgumentList();
                     auto params = CefListValue::Create();
 
                     auto boundObjectRequired = false;
@@ -96,6 +91,8 @@ namespace CefSharp
                             //If we have a config object then we remove that from the count
                             objectCount = objectCount - 1;
                         }
+
+                        auto global = context->GetGlobal();
 
                         //Loop through all arguments and ignore anything that's not a string
                         for (auto i = 0; i < arguments.size(); i++)
@@ -142,6 +139,8 @@ namespace CefSharp
 
                     if (frame.get() && frame->IsValid())
                     {
+                        auto callback = gcnew JavascriptAsyncMethodCallback(context, resolve, reject);
+
                         if (boundObjectRequired || ignoreCache)
                         {
                             //If the number of cached objects matches the number of args
@@ -179,10 +178,12 @@ namespace CefSharp
                                 callback->Success(response);
 
                                 NotifyObjectBound(frame, objectNamesWithBoundStatus);
-
                             }
                             else
                             {
+                                auto request = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                                auto argList = request->GetArgumentList();
+
                                 //Obtain a callbackId then send off the Request for objects
                                 auto callbackId = _callbackRegistry->SaveMethodCallback(callback);
 
