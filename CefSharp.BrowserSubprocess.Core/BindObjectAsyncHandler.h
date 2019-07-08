@@ -52,6 +52,15 @@ namespace CefSharp
                         return true;
                     }
 
+                    //when refreshing the browser this is sometimes null, in this case return true and log message
+                    //https://github.com/cefsharp/CefSharp/pull/2446
+                    if (promiseData == NULL)
+                    {
+                        LOG(WARNING) << "BindObjectAsyncHandler::Execute promiseData returned NULL";
+
+                        return true;
+                    }
+
                     //return the promose
                     retval = promiseData->GetValue("p");
 
@@ -129,16 +138,16 @@ namespace CefSharp
                         boundObjectRequired = true;
                     }
 
-                    if (boundObjectRequired || ignoreCache)
-                    {
-                        //If the number of cached objects matches the number of args
-                        //(we have a cached copy of all requested objects)
-                        //then we'll immediately bind the cached objects
-                        if (cachedObjects->Count == objectCount && ignoreCache == false)
-                        {
-                            auto frame = context->GetFrame();
+                    auto frame = context->GetFrame();
 
-                            if (frame.get() && frame->IsValid())
+                    if (frame.get() && frame->IsValid())
+                    {
+                        if (boundObjectRequired || ignoreCache)
+                        {
+                            //If the number of cached objects matches the number of args
+                            //(we have a cached copy of all requested objects)
+                            //then we'll immediately bind the cached objects
+                            if (cachedObjects->Count == objectCount && ignoreCache == false)
                             {
                                 if (Object::ReferenceEquals(_browserWrapper, nullptr))
                                 {
@@ -170,13 +179,9 @@ namespace CefSharp
                                 callback->Success(response);
 
                                 NotifyObjectBound(frame, objectNamesWithBoundStatus);
-                            }
 
-                        }
-                        else
-                        {
-                            auto frame = context->GetFrame();
-                            if (frame.get() && frame->IsValid())
+                            }
+                            else
                             {
                                 //Obtain a callbackId then send off the Request for objects
                                 auto callbackId = _callbackRegistry->SaveMethodCallback(callback);
@@ -187,12 +192,7 @@ namespace CefSharp
                                 frame->SendProcessMessage(CefProcessId::PID_BROWSER, request);
                             }
                         }
-                    }
-                    else
-                    {
-                        auto frame = context->GetFrame();
-
-                        if (frame.get() && frame->IsValid())
+                        else
                         {
                             //Objects already bound or ignore cache
 
@@ -215,6 +215,10 @@ namespace CefSharp
                                 NotifyObjectBound(frame, objectNamesWithBoundStatus);
                             }
                         }
+                    }
+                    else
+                    {
+                        exception = "BindObjectAsyncHandler::Execute - Frame is invalid.";
                     }
                 }
                 finally
