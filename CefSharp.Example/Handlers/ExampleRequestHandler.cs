@@ -102,7 +102,9 @@ namespace CefSharp.Example.Handlers
         protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
         {
             //NOTE: In most cases you examine the request.Url and only handle requests you are interested in
-            if (request.Url.ToLower().StartsWith("https://cefsharp.example") || request.Url.ToLower().StartsWith("https://googlechrome.github.io/samples/service-worker/"))
+            if (request.Url.ToLower().StartsWith("https://cefsharp.example")
+                || request.Url.ToLower().StartsWith("mailto:")
+                || request.Url.ToLower().StartsWith("https://googlechrome.github.io/samples/service-worker/"))
             {
                 return new ExampleResourceRequestHandler();
             }
