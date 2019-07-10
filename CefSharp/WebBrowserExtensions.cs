@@ -271,11 +271,10 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string script)
         {
-            //TODO: Re-enable when Native IPC issue resolved.
-            //if (browser.CanExecuteJavascriptInMainFrame == false)
-            //{
-            //	ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            //}
+            if (browser.CanExecuteJavascriptInMainFrame == false)
+            {
+                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+            }
 
             using (var frame = browser.GetMainFrame())
             {
@@ -964,11 +963,10 @@ namespace CefSharp
                 throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
             }
 
-            //TODO: Re-enable when Native IPC issue resolved.
-            //if(browser.CanExecuteJavascriptInMainFrame == false)
-            //{
-            //	ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            //}
+            if (browser.CanExecuteJavascriptInMainFrame == false)
+            {
+                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+            }
 
             using (var frame = browser.GetMainFrame())
             {

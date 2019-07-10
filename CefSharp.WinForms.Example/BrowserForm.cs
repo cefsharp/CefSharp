@@ -613,5 +613,27 @@ namespace CefSharp.WinForms.Example
                 }
             }
         }
+
+        private void JavascriptBindingStressTestToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Load(CefExample.BindingTestUrl);
+                control.Browser.LoadingStateChanged += (o, args) =>
+                {
+                    if (args.IsLoading == false)
+                    {
+                        Task.Delay(10000).ContinueWith(t =>
+                        {
+                            if (control.Browser != null)
+                            {
+                                control.Browser.Reload();
+                            }
+                        });
+                    }
+                };
+            }
+        }
     }
 }

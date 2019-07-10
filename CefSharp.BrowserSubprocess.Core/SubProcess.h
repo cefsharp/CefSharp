@@ -6,8 +6,8 @@
 
 #include "Stdafx.h"
 #include "include/cef_app.h"
-#include "include/cef_base.h"
 
+#include "SubProcessApp.h"
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
 
@@ -71,13 +71,17 @@ namespace CefSharp
                 CefEnableHighDPISupport();
             }
 
-            static int ExecuteProcess()
+            static int ExecuteProcess(IEnumerable<String^>^ args)
             {
                 auto hInstance = Process::GetCurrentProcess()->Handle;
 
                 CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-                return CefExecuteProcess(cefMainArgs, NULL, NULL);
+                auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
+
+                CefRefPtr<CefApp> app = new SubProcessApp(schemes);
+
+                return CefExecuteProcess(cefMainArgs, app, NULL);
             }
         };
     }

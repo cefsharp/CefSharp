@@ -114,6 +114,7 @@ namespace CefSharp.Wpf.Example.Views
             //browser.RequestContext = new RequestContext(new RequestContextHandler());
             //NOTE - This is very important for this example as the default page will not load otherwise
             //browser.RequestContext.RegisterSchemeHandlerFactory(CefSharpSchemeHandlerFactory.SchemeName, null, new CefSharpSchemeHandlerFactory());
+            //browser.RequestContext.RegisterSchemeHandlerFactory("https", "cefsharp.example", new CefSharpSchemeHandlerFactory());
 
             //You can start setting preferences on a RequestContext that you created straight away, still needs to be called on the CEF UI thread.
             //Cef.UIThreadTaskFactory.StartNew(delegate
