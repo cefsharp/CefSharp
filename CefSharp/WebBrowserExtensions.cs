@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Internals;
+using CefSharp.Web;
 
 namespace CefSharp
 {
@@ -426,16 +427,9 @@ namespace CefSharp
         /// <param name="base64Encode">if true the html string will be base64 encoded using UTF8 encoding.</param>
         public static void LoadHtml(this IWebBrowser browser, string html, bool base64Encode = false)
         {
-            if (base64Encode)
-            {
-                var base64EncodedHtml = Convert.ToBase64String(Encoding.UTF8.GetBytes(html));
-                browser.Load("data:text/html;base64," + base64EncodedHtml);
-            }
-            else
-            {
-                var uriEncodedHtml = Uri.EscapeDataString(html);
-                browser.Load("data:text/html," + uriEncodedHtml);
-            }
+            var htmlString = new HtmlString(html, base64Encode);
+
+            browser.Load(htmlString.ToDataUriString());
         }
 
         /// <summary>
@@ -448,16 +442,9 @@ namespace CefSharp
         /// <param name="base64Encode">if true the html string will be base64 encoded using UTF8 encoding.</param>
         public static void LoadHtml(this IFrame frame, string html, bool base64Encode = false)
         {
-            if (base64Encode)
-            {
-                var base64EncodedHtml = Convert.ToBase64String(Encoding.UTF8.GetBytes(html));
-                frame.LoadUrl("data:text/html;base64," + base64EncodedHtml);
-            }
-            else
-            {
-                var uriEncodedHtml = Uri.EscapeDataString(html);
-                frame.LoadUrl("data:text/html," + uriEncodedHtml);
-            }
+            var htmlString = new HtmlString(html, base64Encode);
+
+            frame.LoadUrl(htmlString.ToDataUriString());
         }
 
         /// <summary>

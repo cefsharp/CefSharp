@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Forms;
 using CefSharp.Internals;
+using CefSharp.Web;
 using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms
@@ -409,6 +410,17 @@ namespace CefSharp.WinForms
         /// </summary>
         [Obsolete("Should only be used by the WinForms Designer. Use the ChromiumWebBrowser(string, IRequestContext) constructor overload instead.")]
         public ChromiumWebBrowser()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// </summary>
+        /// <param name="html">html string to be initially loaded in the browser.</param>
+        /// <param name="requestContext">Request context that will be used for this browser instance,
+        /// if null the Global Request Context will be used</param>
+        public ChromiumWebBrowser(HtmlString html, IRequestContext requestContext = null) : this(html.ToDataUriString(), requestContext)
         {
 
         }
