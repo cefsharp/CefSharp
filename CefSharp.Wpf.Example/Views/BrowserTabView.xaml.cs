@@ -135,16 +135,12 @@ namespace CefSharp.Wpf.Example.Views
                     return;
                 }
 
-                // Don't display an error for external protocols that we allow the OS to
-                // handle. See OnProtocolExecution().
-                //if (args.ErrorCode == CefErrorCode.UnknownUrlScheme)
-                //{
-                //	var url = args.Frame.Url;
-                //	if (url.StartsWith("spotify:"))
-                //	{
-                //		return;
-                //	}
-                //}
+                //Don't display an error for external protocols that we allow the OS to
+                //handle in OnProtocolExecution().
+                if (args.ErrorCode == CefErrorCode.UnknownUrlScheme && args.Frame.Url.StartsWith("mailto"))
+                {
+                    return;
+                }
 
                 // Display a load error message.
                 var errorBody = string.Format("<html><body bgcolor=\"white\"><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>",

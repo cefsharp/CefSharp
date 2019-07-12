@@ -48,32 +48,6 @@ namespace CefSharp
             {
                 try
                 {
-                    CefRefPtr<CefV8Value> promiseData;
-                    CefRefPtr<CefV8Exception> promiseException;
-                    //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
-                    if (!context->Eval(CefAppUnmanagedWrapper::kPromiseCreatorScript, CefString(), 0, promiseData, promiseException))
-                    {
-                        exception = promiseException->GetMessage();
-
-                        return true;
-                    }
-
-                    //when refreshing the browser this is sometimes null, in this case return true and log message
-                    //https://github.com/cefsharp/CefSharp/pull/2446
-                    if (promiseData == NULL)
-                    {
-                        LOG(WARNING) << "BindObjectAsyncHandler::Execute promiseData returned NULL";
-
-                        return true;
-                    }
-
-                    //return the promose
-                    retval = promiseData->GetValue("p");
-
-                    //References to the promise resolve and reject methods
-                    auto resolve = promiseData->GetValue("res");
-                    auto reject = promiseData->GetValue("rej");
-
                     auto params = CefListValue::Create();
 
                     auto boundObjectRequired = false;
@@ -146,8 +120,6 @@ namespace CefSharp
 
                     if (frame.get() && frame->IsValid())
                     {
-                        auto callback = gcnew JavascriptAsyncMethodCallback(context, resolve, reject);
-
                         if (boundObjectRequired || ignoreCache)
                         {
                             //If the number of cached objects matches the number of args
@@ -157,7 +129,7 @@ namespace CefSharp
                             {
                                 if (Object::ReferenceEquals(_browserWrapper, nullptr))
                                 {
-                                    callback->Fail("Browser wrapper is null and unable to bind objects");
+                                    exception = "BindObjectAsyncHandler::Execute - Browser wrapper null, unable to bind objects";
 
                                     return true;
                                 }
@@ -176,18 +148,55 @@ namespace CefSharp
                                 //Cached objects only contains a list of objects not already bound
                                 rootObject->Bind(cachedObjects, context->GetGlobal());
 
-                                //Response object has no Accessor or Interceptor
-                                auto response = CefV8Value::CreateObject(NULL, NULL);
+                                //Objects already bound or ignore cache
+                                CefRefPtr<CefV8Value> promiseResolve;
+                                CefRefPtr<CefV8Exception> promiseException;
 
-                                response->SetValue("Count", CefV8Value::CreateInt(cachedObjects->Count), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                response->SetValue("Success", CefV8Value::CreateBool(true), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                response->SetValue("Message", CefV8Value::CreateString("OK"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                callback->Success(response);
+                                auto promiseResolveScript = StringUtils::ToNative("Promise.resolve({Success:true, Count:" + cachedObjects->Count + ", Message:'OK'});");
+
+                                if (context->Eval(promiseResolveScript, CefString(), 0, promiseResolve, promiseException))
+                                {
+                                    retval = promiseResolve;
+                                }
+                                else
+                                {
+                                    exception = promiseException->GetMessage();
+
+                                    return true;
+                                }
 
                                 NotifyObjectBound(frame, objectNamesWithBoundStatus);
                             }
                             else
                             {
+                                CefRefPtr<CefV8Value> promiseData;
+                                CefRefPtr<CefV8Exception> promiseException;
+                                //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
+                                if (!context->Eval(CefAppUnmanagedWrapper::kPromiseCreatorScript, CefString(), 0, promiseData, promiseException))
+                                {
+                                    exception = promiseException->GetMessage();
+
+                                    return true;
+                                }
+
+                                //when refreshing the browser this is sometimes null, in this case return true and log message
+                                //https://github.com/cefsharp/CefSharp/pull/2446
+                                if (promiseData == NULL)
+                                {
+                                    LOG(WARNING) << "BindObjectAsyncHandler::Execute promiseData returned NULL";
+
+                                    return true;
+                                }
+
+                                //return the promose
+                                retval = promiseData->GetValue("p");
+
+                                //References to the promise resolve and reject methods
+                                auto resolve = promiseData->GetValue("res");
+                                auto reject = promiseData->GetValue("rej");
+
+                                auto callback = gcnew JavascriptAsyncMethodCallback(context, resolve, reject);
+
                                 auto request = CefProcessMessage::Create(kJavascriptRootObjectRequest);
                                 auto argList = request->GetArgumentList();
 
@@ -203,24 +212,23 @@ namespace CefSharp
                         else
                         {
                             //Objects already bound or ignore cache
+                            CefRefPtr<CefV8Value> promiseResolve;
+                            CefRefPtr<CefV8Exception> promiseException;
 
-                            //Response object has no Accessor or Interceptor
-                            auto response = CefV8Value::CreateObject(NULL, NULL);
+                            auto promiseResolveScript = CefString("Promise.resolve({Success:false, Count:0, Message:'Object(s) already bound'});");
 
-                            //Objects already bound so we immediately resolve the Promise
-                            response->SetValue("Success", CefV8Value::CreateBool(false), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                            response->SetValue("Count", CefV8Value::CreateInt(0), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                            response->SetValue("Message", CefV8Value::CreateString("Object(s) already bound"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-
-                            CefV8ValueList returnArgs;
-                            returnArgs.push_back(response);
-                            //If all the requested objects are bound then we immediately execute resolve
-                            //with Success true and Count of 0
-                            resolve->ExecuteFunctionWithContext(context, nullptr, returnArgs);
-
-                            if (notifyIfAlreadyBound)
+                            if (context->Eval(promiseResolveScript, CefString(), 0, promiseResolve, promiseException))
                             {
-                                NotifyObjectBound(frame, objectNamesWithBoundStatus);
+                                retval = promiseResolve;
+
+                                if (notifyIfAlreadyBound)
+                                {
+                                    NotifyObjectBound(frame, objectNamesWithBoundStatus);
+                                }
+                            }
+                            else
+                            {
+                                exception = promiseException->GetMessage();
                             }
                         }
                     }

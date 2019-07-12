@@ -316,6 +316,7 @@
     <Compile Include="Internals\IWebBrowserInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internals\RenderprocessClientFactory.cs" />
+    <Compile Include="Web\HtmlString.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lagacy\" />

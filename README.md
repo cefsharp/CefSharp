@@ -98,9 +98,9 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 To continue developing/supporting the project I (@amaitland) am asking for financial contributions. Donations of any size are greatly appreciated!
 
-`73.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=71596940)](https://www.bountysource.com/issues/71596940-funding-request-release-73-0-0?utm_source=71596940&utm_medium=shield&utm_campaign=ISSUE_BADGE)
+`75.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=76601097)](https://www.bountysource.com/issues/76601097-funding-request-release-75-0-0?utm_source=76601097&utm_medium=shield&utm_campaign=ISSUE_BADGE)
 
-Recurring contributions can be made through [BountySource Salt](https://salt.bountysource.com/teams/cefsharp) or contact me if you'd like to donate through `Paypal`.
+Recurring contributions can be made through [BountySource Salt](https://salt.bountysource.com/teams/cefsharp) or one time contributions through [PayPal](https://paypal.me/AlexMaitland)
 
 Now that I (@amaitland) am a stay at home dad your contributions are the only reason I'm allowed to continue working on the project. Without continued funding the time I currently spend on the project will have to be put into finding other paid work.
 
