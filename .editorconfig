@@ -26,6 +26,11 @@ charset = utf-8-bom
 [*.{props,targets,config,nuspec,manifest}]
 indent_size = 2
 
+# Javascript Files
+[*.js]
+curly_bracket_next_line = true
+indent_brace_style      = Allman
+
 # C++ Files
 [*.{cpp,h,in}]
 curly_bracket_next_line = true
