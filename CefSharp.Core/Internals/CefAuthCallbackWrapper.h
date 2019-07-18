@@ -17,11 +17,10 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefAuthCallback> _callback;
-            IFrame^ _frame;
 
         public:
-            CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback, IFrame^ frame)
-                : _callback(callback), _frame(frame)
+            CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback)
+                : _callback(callback)
             {
 
             }
@@ -34,8 +33,6 @@ namespace CefSharp
             ~CefAuthCallbackWrapper()
             {
                 this->!CefAuthCallbackWrapper();
-                delete _frame;
-                _frame = nullptr;
 
                 _disposed = true;
             }

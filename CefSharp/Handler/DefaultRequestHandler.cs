@@ -80,15 +80,15 @@ namespace CefSharp.Handler
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
-        /// <param name="frame">The frame object that needs credentials (This will contain the URL that is being requested.)</param>
+        /// <param name="originUrl">is the origin making this authentication request</param>
         /// <param name="isProxy">indicates whether the host is a proxy server</param>
         /// <param name="host">hostname</param>
         /// <param name="port">port number</param>
         /// <param name="realm">realm</param>
         /// <param name="scheme">scheme</param>
         /// <param name="callback">Callback interface used for asynchronous continuation of authentication requests.</param>
-        /// <returns>Return true to continue the request and call CefAuthCallback::Continue() when the authentication information is available. Return false to cancel the request. </returns>
-        public virtual bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host,
+        /// <returns>Return true to continue the request and call <see cref="IAuthCallback.Continue(string, string)"/> when the authentication information is available. Return false to cancel the request. </returns>
+        public virtual bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, string originUrl, bool isProxy, string host,
             int port, string realm, string scheme, IAuthCallback callback)
         {
             callback.Dispose();

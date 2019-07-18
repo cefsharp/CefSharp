@@ -62,9 +62,9 @@ namespace CefSharp.Example.RequestEventHandler
             OnPluginCrashedEvent?.Invoke(this, args);
         }
 
-        protected override bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
+        protected override bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
-            var args = new GetAuthCredentialsEventArgs(browserControl, browser, frame, isProxy, host, port, realm, scheme, callback);
+            var args = new GetAuthCredentialsEventArgs(browserControl, browser, originUrl, isProxy, host, port, realm, scheme, callback);
 
             GetAuthCredentialsEvent?.Invoke(this, args);
 

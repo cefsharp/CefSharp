@@ -645,7 +645,7 @@ namespace CefSharp
             }
         }
 
-        bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
+        bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, const CefString& originUrl, bool isProxy,
             const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
         {
             if (isProxy && CefSharpSettings::Proxy != nullptr && CefSharpSettings::Proxy->IP == StringUtils::ToClr(host) && CefSharpSettings::Proxy->HasUsernameAndPassword())
@@ -662,11 +662,10 @@ namespace CefSharp
             }
 
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-            auto frameWrapper = gcnew CefFrameWrapper(frame);
-            auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback, frameWrapper);
+            auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback);
 
             return handler->GetAuthCredentials(
-                _browserControl, browserWrapper, frameWrapper, isProxy,
+                _browserControl, browserWrapper, StringUtils::ToClr(originUrl), isProxy,
                 StringUtils::ToClr(host), port, StringUtils::ToClr(realm),
                 StringUtils::ToClr(scheme), callbackWrapper);
         }
