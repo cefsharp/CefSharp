@@ -333,6 +333,17 @@
                 });
             });
 
+            QUnit.test("Async call (Test Empty Array):", function (assert) {
+                var asyncCallback = assert.async();
+
+                boundAsync.echoArray([]).then(function (res) {
+                    assert.equal(Array.isArray(res), true, "Expected result is an array");
+                    assert.equal(res.length, 0, "Expected result to be length 0 (empty array)");
+                    asyncCallback();
+                });
+            });
+
+
             QUnit.test("Async call (echoValueTypeArray):", function (assert)
             {
                 var asyncCallback = assert.async();

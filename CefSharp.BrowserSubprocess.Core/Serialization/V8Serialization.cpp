@@ -1,4 +1,4 @@
-// Copyright © 2015 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -59,20 +59,17 @@ namespace CefSharp
                 {
                     int arrLength = obj->GetArrayLength();
                     std::vector<CefString> keys;
+                    auto array = CefListValue::Create();
                     if (arrLength > 0 && obj->GetKeys(keys))
                     {
-                        auto array = CefListValue::Create();
                         for (int i = 0; i < arrLength; i++)
                         {
                             SerializeV8Object(obj->GetValue(keys[i]), array, i, callbackRegistry, seen);
                         }
 
-                        list->SetList(index, array);
                     }
-                    else
-                    {
-                        list->SetNull(index);
-                    }
+
+                    list->SetList(index, array);
                 }
                 else if (obj->IsFunction())
                 {
