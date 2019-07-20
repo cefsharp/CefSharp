@@ -5,6 +5,7 @@
 #include "Stdafx.h"
 
 #include "include\cef_values.h"
+#include "include\cef_parser.h"
 
 #include "V8Serialization.h"
 #include "Primitives.h"
@@ -122,6 +123,7 @@ namespace CefSharp
                     }
                     else
                     {
+                        //TODO: Don't throw an excepion here, it's going to crash the MethodRunnerQueue
                         throw gcnew NotSupportedException("Unable to serialize Type");
                     }
                 }
@@ -150,6 +152,25 @@ namespace CefSharp
                     }
                     list->SetList(index, subList);
                 }
+                else if (CefSharp::Web::JsonString::typeid->IsAssignableFrom(type))
+                {
+                    auto jsonString = (CefSharp::Web::JsonString^) obj;
+
+                    //Tried to use CefParseJSONAndReturnError, keeps returning error when
+                    //CefParseJson works for the same string, so must be a CEF bug
+                    auto jsonValue = CefParseJSON(StringUtils::ToNative(jsonString->Json),
+                        cef_json_parser_options_t::JSON_PARSER_ALLOW_TRAILING_COMMAS);
+
+                    if (jsonValue.get())
+                    {
+                        list->SetValue(index, jsonValue);
+                    }
+                    else
+                    {
+                        list->SetString(index, CefString("V8Serialization - Unable to parse JSON"));
+                    }
+                }
+
                 // Serialize class/structs to CefDictionary (key,value pairs)
                 else if (!type->IsPrimitive && !type->IsEnum)
                 {
@@ -175,6 +196,7 @@ namespace CefSharp
                 }
                 else
                 {
+                    //TODO: Don't throw an excepion here, it's going to crash the MethodRunnerQueue
                     throw gcnew NotSupportedException("Unable to serialize Type");
                 }
 

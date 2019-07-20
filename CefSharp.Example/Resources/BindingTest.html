@@ -277,7 +277,22 @@
                 });
             });
 
-            QUnit.test("Async call (returnStructArray):", function( assert )
+            QUnit.test("Async call (return Class as JsonString):", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                const expectedResult = 'CefSharp Class Test';
+
+                //Returns a class
+                boundAsync.returnClassAsJsonString(expectedResult).then(function (res)
+                {
+                    assert.equal(expectedResult, res.Value, "Class with a single property");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (returnStructArray):", function (assert)
             {
                 var asyncCallback = assert.async();
 
