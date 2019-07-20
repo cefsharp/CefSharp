@@ -1,27 +1,27 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
-    <head>
-        <title>Binding Test</title>
-        <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
-    </head>
-    <body>
-        <div id="qunit"></div>
-        <div id="qunit-fixture"></div>
-        <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
+<head>
+    <title>Binding Test</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
 
-        <!--<script type="text/javascript">
-        (async function() {
-            // <embed user provided code here>
+    <!--<script type="text/javascript">
+    (async function() {
+        // <embed user provided code here>
 
-            await CefSharp.BindObjectAsync("boundAsync", "bound");
-        })();
+        await CefSharp.BindObjectAsync("boundAsync", "bound");
+    })();
 
-        (async () => {
-            await CefSharp.BindObjectAsync("boundAsync", "bound");
-        })();
-        </script>-->
+    (async () => {
+        await CefSharp.BindObjectAsync("boundAsync", "bound");
+    })();
+    </script>-->
 
-        <script type="text/javascript">
+    <script type="text/javascript">
         (async () =>
         {
             // Verify that two objects are completely equal
@@ -49,24 +49,24 @@
 
             await CefSharp.BindObjectAsync("boundAsync", "bound");
 
-            QUnit.test( "BindObjectAsync Second call", function( assert )
+            QUnit.test("BindObjectAsync Second call", function (assert)
             {
                 let asyncCallback = assert.async();
-                CefSharp.BindObjectAsync("boundAsync", "bound").then(function(res)
+                CefSharp.BindObjectAsync("boundAsync", "bound").then(function (res)
                 {
                     assert.equal(res.Success, false, "Second call to BindObjectAsync with already bound objects as params returned false.");
                     asyncCallback();
                 });
             });
 
-            QUnit.test( "bound.repeat('hi ', 5)", function( assert )
+            QUnit.test("bound.repeat('hi ', 5)", function (assert)
             {
                 const expectedResult = "hi hi hi hi hi "
                 let actualResult = bound.repeat("hi ", 5);
-                assert.equal( actualResult, expectedResult, "We expect value to be " + actualResult );
+                assert.equal(actualResult, expectedResult, "We expect value to be " + actualResult);
             });
 
-            QUnit.test( "bound.myProperty", function( assert )
+            QUnit.test("bound.myProperty", function (assert)
             {
                 const expectedResult = 42;
                 let actualResult = bound.myProperty;
@@ -74,7 +74,7 @@
                 assert.equal(actualResult, expectedResult, "We expect value to be " + expectedResult);
             });
 
-            QUnit.test( "bound.subObject.simpleProperty", function( assert )
+            QUnit.test("bound.subObject.simpleProperty", function (assert)
             {
                 const expectedResult = "This is a very simple property.";
                 let actualResult = bound.subObject.simpleProperty;
@@ -91,7 +91,7 @@
                 bound.subObject.simpleProperty = expectedResult;
             });
 
-            QUnit.test( "Function delegate to c# method", function( assert )
+            QUnit.test("Function delegate to c# method", function (assert)
             {
                 function myFunction(functionParam)
                 {
@@ -100,10 +100,10 @@
 
                 const expectedResult = "42"
                 let actualResult = myFunction(bound.echoMyProperty);
-                assert.equal( actualResult, expectedResult, "We expect value to be " + actualResult );
+                assert.equal(actualResult, expectedResult, "We expect value to be " + actualResult);
             });
 
-            QUnit.test( "Function returning complex type", function( assert )
+            QUnit.test("Function returning complex type", function (assert)
             {
                 function myFunction(functionParam)
                 {
@@ -112,10 +112,10 @@
 
                 const expectedResult = "This is a very simple property."
                 let actualResult = bound.getSubObject().simpleProperty;
-                assert.equal( actualResult, expectedResult, "Call to bound.getSubObject().simpleProperty resulted in : " + actualResult );
+                assert.equal(actualResult, expectedResult, "Call to bound.getSubObject().simpleProperty resulted in : " + actualResult);
             });
 
-            QUnit.test("Stress Test", function( assert )
+            QUnit.test("Stress Test", function (assert)
             {
                 let stressTestCallCount = 1000;
                 for (var i = 1; i <= stressTestCallCount; i++)
@@ -123,10 +123,10 @@
                     assert.ok(true, bound.repeat("hi ", 5));
                 }
 
-                assert.ok(true,  "Stress Test done with : " + stressTestCallCount + " call to bound.repeat(\"hi \", 5)");
+                assert.ok(true, "Stress Test done with : " + stressTestCallCount + " call to bound.repeat(\"hi \", 5)");
             });
 
-            QUnit.test( "JSON Serializer Test", function( assert )
+            QUnit.test("JSON Serializer Test", function (assert)
             {
                 var json = bound.returnJsonEmployeeList();
                 var jsonObj = JSON.parse(json);
@@ -140,7 +140,7 @@
                 assert.equal("Peter Jones", employees[2].firstName + " " + employees[2].lastName, "Employee : " + employees[2].firstName + " " + employees[2].lastName);
             });
 
-            QUnit.test( "Javascript function sending variable number of parameters to Bound Object. (ParamArray Test)", function( assert )
+            QUnit.test("Javascript function sending variable number of parameters to Bound Object. (ParamArray Test)", function (assert)
             {
                 assert.equal(bound.methodWithParams('With 1 Params', 'hello-world'), "Name:With 1 Params;Args:hello-world", "Method with paramArray with one param");
                 assert.equal(bound.methodWithParams('With 2 Params', 'hello-world', 'chris was here'), "Name:With 2 Params;Args:hello-world, chris was here", "Method with paramArray with two params");
@@ -154,7 +154,7 @@
                 assert.equal(bound.methodWithThreeParamsOneOptionalOneArray(null, null, "Arg1", "Arg2"), "MethodWithThreeParamsOneOptionalOneArray:No Name Specified - No Optional Param Specified;Args:Arg1, Arg2", "bound.methodWithThreeParamsOneOptionalOneArray(null, null, 'Arg1', 'Arg2')");
             });
 
-            QUnit.test("Methods and Properties on bound object 'bound':", function( assert )
+            QUnit.test("Methods and Properties on bound object 'bound':", function (assert)
             {
                 for (var name in bound)
                 {
@@ -177,26 +177,26 @@
                     {
                         for (var sub in bound[name])
                         {
-                            var type  = bound[name][sub].constructor.name === 'Function' ? "Function" : "Property";
+                            var type = bound[name][sub].constructor.name === 'Function' ? "Function" : "Property";
                             assert.ok(true, name + "." + sub + "(" + type + ")");
                         }
                     }
                 }
             });
 
-            QUnit.test( "Async call (Throw .Net Exception)", function( assert )
+            QUnit.test("Async call (Throw .Net Exception)", function (assert)
             {
                 var asyncCallback = assert.async();
 
                 boundAsync.error().catch(function (e)
                 {
-                    assert.ok( true, "Error: " + e );
+                    assert.ok(true, "Error: " + e);
 
                     asyncCallback();
                 });
             });
 
-            QUnit.test( "Async call (Divide 16 / 2):", function( assert )
+            QUnit.test("Async call (Divide 16 / 2):", function (assert)
             {
                 var asyncCallback = assert.async();
 
@@ -207,10 +207,10 @@
                     assert.equal(expectedResult, actualResult, "Divide 16 / 2 resulted in " + expectedResult);
 
                     asyncCallback();
-                });                
+                });
             });
 
-            QUnit.test( "Async call (Divide 16 /0)", function( assert )
+            QUnit.test("Async call (Divide 16 /0)", function (assert)
             {
                 var asyncCallback = assert.async();
 
@@ -218,18 +218,18 @@
                 {
                     //Will always throw exception
                 },
-                function (e)
-                {
-                    assert.ok(true, "Error: " + e + "(" + Date() + ")");
+                    function (e)
+                    {
+                        assert.ok(true, "Error: " + e + "(" + Date() + ")");
 
-                    asyncCallback();
-                });
+                        asyncCallback();
+                    });
             });
 
-            QUnit.test( "Async call (Hello):", function( assert )
+            QUnit.test("Async call (Hello):", function (assert)
             {
                 var asyncCallback = assert.async();
-                
+
                 boundAsync.hello('CefSharp').then(function (res)
                 {
                     assert.equal(res, "Hello CefSharp")
@@ -238,10 +238,10 @@
                 });
             });
 
-            QUnit.test("Async call (Long Running Task):", function( assert )
+            QUnit.test("Async call (Long Running Task):", function (assert)
             {
                 var asyncCallback = assert.async();
-                
+
                 boundAsync.doSomething().then(function (res)
                 {
                     assert.ok(true, "Slept for 1000ms")
@@ -250,10 +250,10 @@
                 });
             });
 
-            QUnit.test("Async call (return Struct):", function( assert )
+            QUnit.test("Async call (return Struct):", function (assert)
             {
                 var asyncCallback = assert.async();
-                
+
                 boundAsync.returnObject('CefSharp Struct Test').then(function (res)
                 {
                     assert.equal(res.Value, "CefSharp Struct Test", "Struct with a single field");
@@ -305,7 +305,7 @@
                 });
             });
 
-            QUnit.test("Async call (returnClassesArray):", function( assert )
+            QUnit.test("Async call (returnClassesArray):", function (assert)
             {
                 var asyncCallback = assert.async();
 
@@ -333,10 +333,12 @@
                 });
             });
 
-            QUnit.test("Async call (Test Empty Array):", function (assert) {
+            QUnit.test("Async call (Test Empty Array):", function (assert)
+            {
                 var asyncCallback = assert.async();
 
-                boundAsync.echoArray([]).then(function (res) {
+                boundAsync.echoArray([]).then(function (res)
+                {
                     assert.equal(Array.isArray(res), true, "Expected result is an array");
                     assert.equal(res.length, 0, "Expected result to be length 0 (empty array)");
                     asyncCallback();
@@ -378,7 +380,7 @@
 
             QUnit.test("Async call (methodReturnList):", function (assert)
             {
-                const list1 = 
+                const list1 =
                     [
                         "Element 0 - First",
                         "Element 1",
@@ -435,16 +437,16 @@
                     boundAsync.methodReturnsDictionary1(),
                     boundAsync.methodReturnsDictionary2(),
                     boundAsync.methodReturnsDictionary3()
-                ]).then(function(results)
+                ]).then(function (results)
                 {
-                    assert.ok( deepEqual(results[0], dict1), "Call to bound.MethodReturnsDictionary1() resulted in : " + JSON.stringify(results[0]) );
-                    assert.ok( deepEqual(results[1], dict2), "Call to bound.MethodReturnsDictionary2() resulted in : " + JSON.stringify(results[1]) );
-                    assert.ok( deepEqual(results[2], dict3), "Call to bound.MethodReturnsDictionary3() resulted in : " + JSON.stringify(results[2]) );
+                    assert.ok(deepEqual(results[0], dict1), "Call to bound.MethodReturnsDictionary1() resulted in : " + JSON.stringify(results[0]));
+                    assert.ok(deepEqual(results[1], dict2), "Call to bound.MethodReturnsDictionary2() resulted in : " + JSON.stringify(results[1]));
+                    assert.ok(deepEqual(results[2], dict3), "Call to bound.MethodReturnsDictionary3() resulted in : " + JSON.stringify(results[2]));
                     asyncCallback();
                 });
             });
 
-            QUnit.test("Javascript Callback Test using object as parameter", function( assert )
+            QUnit.test("Javascript Callback Test using object as parameter", function (assert)
             {
                 var asyncCallback = assert.async();
 
@@ -456,16 +458,16 @@
                 }
 
                 bound.testCallbackFromObject(
-                {
-                    Callback: objectCallback, TestString: "Hello", SubClasses:
-                    [
-                        { PropertyOne: "Test Property One", Numbers: [1, 2, 3] },
-                        { PropertyOne: "Test Property Two", Numbers: [4, 5, 6] }
-                    ]
-                });
+                    {
+                        Callback: objectCallback, TestString: "Hello", SubClasses:
+                            [
+                                { PropertyOne: "Test Property One", Numbers: [1, 2, 3] },
+                                { PropertyOne: "Test Property Two", Numbers: [4, 5, 6] }
+                            ]
+                    });
             });
 
-            QUnit.test("Javascript Callback Test with DateTime", function( assert )
+            QUnit.test("Javascript Callback Test with DateTime", function (assert)
             {
                 var asyncCallback = assert.async();
 
@@ -480,11 +482,13 @@
 
                 bound.testCallbackWithDateTime(callback);
             });
-            
-            QUnit.test("Javascript Callback Test with 1900 DateTime", function (assert) {
+
+            QUnit.test("Javascript Callback Test with 1900 DateTime", function (assert)
+            {
                 var asyncCallback = assert.async();
 
-                function callback(dateTimeFirst, dateTimeSecondAsArray) {
+                function callback(dateTimeFirst, dateTimeSecondAsArray)
+                {
                     var arr = dateTimeSecondAsArray;
                     var dateTimeSecond = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
                     assert.equal(dateTimeFirst - dateTimeSecond, 0);
@@ -495,10 +499,12 @@
                 bound.testCallbackWithDateTime1900(callback);
             });
 
-            QUnit.test("Javascript Callback Test with 1970 DateTime", function (assert) {
+            QUnit.test("Javascript Callback Test with 1970 DateTime", function (assert)
+            {
                 var asyncCallback = assert.async();
 
-                function callback(dateTimeFirst, dateTimeSecondAsArray) {
+                function callback(dateTimeFirst, dateTimeSecondAsArray)
+                {
                     var arr = dateTimeSecondAsArray;
                     var dateTimeSecond = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
                     assert.equal(dateTimeFirst - dateTimeSecond, 0);
@@ -509,10 +515,12 @@
                 bound.testCallbackWithDateTime1970(callback);
             });
 
-            QUnit.test("Javascript Callback Test with 1985 DateTime", function (assert) {
+            QUnit.test("Javascript Callback Test with 1985 DateTime", function (assert)
+            {
                 var asyncCallback = assert.async();
 
-                function callback(dateTimeFirst, dateTimeSecondAsArray) {
+                function callback(dateTimeFirst, dateTimeSecondAsArray)
+                {
                     var arr = dateTimeSecondAsArray;
                     var dateTimeSecond = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
                     assert.equal(dateTimeFirst - dateTimeSecond, 0);
@@ -523,7 +531,7 @@
                 bound.testCallbackWithDateTime1985(callback);
             });
 
-            QUnit.test("Javascript Callback Test", function( assert )
+            QUnit.test("Javascript Callback Test", function (assert)
             {
                 var asyncCallback = assert.async();
 
@@ -555,65 +563,65 @@
             //    window.location.assign("http://www.google.com");
             //});
         })();
-        </script>
+    </script>
 
-        <script type="text/javascript">
-            QUnit.test( "Bind boundAsync2 and call (Hello):", function( assert )
+    <script type="text/javascript">
+        QUnit.test("Bind boundAsync2 and call (Hello):", function (assert)
+        {
+            var asyncCallback = assert.async();
+
+            //Can use both cefSharp.bindObjectAsync and CefSharp.BindObjectAsync, both do the same
+            cefSharp.bindObjectAsync({ NotifyIfAlreadyBound: true }, "boundAsync2").then(function (result)
             {
-                var asyncCallback = assert.async();
-
-                //Can use both cefSharp.bindObjectAsync and CefSharp.BindObjectAsync, both do the same
-                cefSharp.bindObjectAsync({ NotifyIfAlreadyBound: true }, "boundAsync2").then(function (result)
+                boundAsync2.hello('CefSharp').then(function (res)
                 {
-                    boundAsync2.hello('CefSharp').then(function (res)
-                    {
-                        assert.equal(res, "Hello CefSharp")
+                    assert.equal(res, "Hello CefSharp")
 
-                        assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
+                    assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
 
-                        assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
+                    assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
 
-                        asyncCallback();
-                    });
+                    asyncCallback();
                 });
             });
+        });
 
-            //Repeat of the previous test to make sure binding a deleted object is working
-            QUnit.test("Bind boundAsync2 and call (Hello) Second Attempt:", function (assert)
+        //Repeat of the previous test to make sure binding a deleted object is working
+        QUnit.test("Bind boundAsync2 and call (Hello) Second Attempt:", function (assert)
+        {
+            var asyncCallback = assert.async();
+
+            CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: true }, "boundAsync2").then(function (result)
             {
-                var asyncCallback = assert.async();
-
-                CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: true }, "boundAsync2").then(function (result)
+                boundAsync2.hello('CefSharp').then(function (res)
                 {
-                    boundAsync2.hello('CefSharp').then(function (res)
-                    {
-                        assert.equal(res, "Hello CefSharp")
+                    assert.equal(res, "Hello CefSharp")
 
-                        asyncCallback();
-                    });
+                    asyncCallback();
                 });
             });
+        });
 
-            //Repeat of the previous test to make sure binding a deleted object is working
-            QUnit.test( "Bind boundAsync2 and call (Hello) Third Attempt:", function( assert )
+        //Repeat of the previous test to make sure binding a deleted object is working
+        QUnit.test("Bind boundAsync2 and call (Hello) Third Attempt:", function (assert)
+        {
+            var asyncCallback = assert.async();
+
+            CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: true }, "boundAsync2").then(function (result)
             {
-                var asyncCallback = assert.async();
-
-                CefSharp.BindObjectAsync({ NotifyIfAlreadyBound : true, IgnoreCache : true }, "boundAsync2").then(function(result)
+                boundAsync2.hello('CefSharp').then(function (res)
                 {
-                    boundAsync2.hello('CefSharp').then(function (res)
-                    {
-                        assert.equal(res, "Hello CefSharp")
+                    assert.equal(res, "Hello CefSharp")
 
-                        assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
+                    assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
 
-                        assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
+                    assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
 
-                        asyncCallback();
-                    });
+                    asyncCallback();
                 });
             });
-        </script>
+        });
+    </script>
 
-    </body>
+</body>
 </html>
