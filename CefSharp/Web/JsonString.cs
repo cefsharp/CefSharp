@@ -23,7 +23,12 @@ namespace CefSharp.Web
         /// <param name="json">JSON string</param>
         public JsonString(string json)
         {
-            Json = json ?? throw new ArgumentNullException("json");
+            if (json == null)
+            {
+                throw new ArgumentNullException("json");
+            }
+
+            Json = json;
         }
 
         /// <summary>
