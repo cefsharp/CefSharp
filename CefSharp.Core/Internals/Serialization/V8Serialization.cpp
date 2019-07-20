@@ -110,21 +110,21 @@ namespace CefSharp
                     if (subType == SByte::typeid ||
                         subType == Int16::typeid ||
                         subType == Int32::typeid ||
-                        subType == Byte::typeid  ||
+                        subType == Byte::typeid ||
                         subType == UInt16::typeid)
                     {
                         list->SetInt(index, Convert::ToInt32(obj));
                     }
                     else if (subType == Int64::typeid ||
-                            subType == UInt32::typeid ||
-                            subType == UInt64::typeid)
+                        subType == UInt32::typeid ||
+                        subType == UInt64::typeid)
                     {
                         list->SetDouble(index, Convert::ToDouble(obj));
                     }
                     else
                     {
-                        //TODO: Don't throw an excepion here, it's going to crash the MethodRunnerQueue
-                        throw gcnew NotSupportedException("Unable to serialize Type");
+                        //Unexpected type, just convert it to a string
+                        list->SetString(index, Convert::ToString(obj));
                     }
                 }
                 // Serialize dictionary to CefDictionary (key,value pairs)
@@ -196,8 +196,7 @@ namespace CefSharp
                 }
                 else
                 {
-                    //TODO: Don't throw an excepion here, it's going to crash the MethodRunnerQueue
-                    throw gcnew NotSupportedException("Unable to serialize Type");
+                    list->SetString(index, StringUtils::ToNative("Unable to serialize Type - " + obj->GetType()->ToString());
                 }
 
                 ancestors->Remove(obj);
