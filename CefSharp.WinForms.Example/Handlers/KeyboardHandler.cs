@@ -7,7 +7,7 @@ namespace CefSharp.WinForms.Example.Handlers
     public class KeyboardHandler : IKeyboardHandler
     {
         /// <inheritdoc/>>
-        public bool OnPreKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
+        public bool OnPreKeyEvent(IWebBrowser chromiumWebBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
         {
             const int WM_SYSKEYDOWN = 0x104;
             const int WM_KEYDOWN = 0x100;
@@ -33,7 +33,7 @@ namespace CefSharp.WinForms.Example.Handlers
 
             var result = false;
 
-            var control = browserControl as Control;
+            var control = chromiumWebBrowser as Control;
             var msgType = 0;
             switch (type)
             {
@@ -121,7 +121,7 @@ namespace CefSharp.WinForms.Example.Handlers
         }
 
         /// <inheritdoc/>>
-        public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
+        public bool OnKeyEvent(IWebBrowser chromiumWebBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
         {
             var result = false;
             Debug.WriteLine("OnKeyEvent: KeyType: {0} 0x{1:X} Modifiers: {2}", type, windowsKeyCode, modifiers);

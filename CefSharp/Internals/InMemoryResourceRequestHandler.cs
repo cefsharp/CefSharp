@@ -20,7 +20,7 @@ namespace CefSharp.Internals
             return null;
         }
 
-        IResourceHandler IResourceRequestHandler.GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
+        IResourceHandler IResourceRequestHandler.GetResourceHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {
             return ResourceHandler.FromByteArray(data, mimeType);
         }

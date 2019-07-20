@@ -8,14 +8,14 @@ namespace CefSharp.Example.Handlers
 {
     public class RenderProcessMessageHandler : IRenderProcessMessageHandler
     {
-        void IRenderProcessMessageHandler.OnFocusedNodeChanged(IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node)
+        void IRenderProcessMessageHandler.OnFocusedNodeChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IDomNode node)
         {
             var message = node == null ? "lost focus" : node.ToString();
 
             Console.WriteLine("OnFocusedNodeChanged() - " + message);
         }
 
-        void IRenderProcessMessageHandler.OnContextCreated(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        void IRenderProcessMessageHandler.OnContextCreated(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
             // called for every created V8Context, check IFrame.IsMain to determine that V8Context is from Main frame
             if (frame.IsMain)
@@ -26,12 +26,12 @@ namespace CefSharp.Example.Handlers
             }
         }
 
-        void IRenderProcessMessageHandler.OnContextReleased(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        void IRenderProcessMessageHandler.OnContextReleased(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
             //The V8Context is about to be released, use this notification to cancel any long running tasks your might have
         }
 
-        void IRenderProcessMessageHandler.OnUncaughtException(IWebBrowser browserControl, IBrowser browser, IFrame frame, JavascriptException exception)
+        void IRenderProcessMessageHandler.OnUncaughtException(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, JavascriptException exception)
         {
             Console.WriteLine("OnUncaughtException() - " + exception.Message);
         }

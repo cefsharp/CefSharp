@@ -21,12 +21,12 @@ namespace CefSharp.Handler
             return null;
         }
 
-        IResourceHandler IResourceRequestHandler.GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
+        IResourceHandler IResourceRequestHandler.GetResourceHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {
-            return GetResourceHandler(browserControl, browser, frame, request);
+            return GetResourceHandler(chromiumWebBrowser, browser, frame, request);
         }
 
-        protected virtual IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
+        protected virtual IResourceHandler GetResourceHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {
             return null;
         }

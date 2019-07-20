@@ -88,7 +88,7 @@ namespace CefSharp.Example.Handlers
             return CefReturnValue.Continue;
         }
 
-        protected override void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
+        protected override void OnResourceRedirect(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
         {
             //Example of how to redirect - need to check `newUrl` in the second pass
             //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
@@ -102,7 +102,7 @@ namespace CefSharp.Example.Handlers
             return request.Url.StartsWith("mailto");
         }
 
-        protected override bool OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+        protected override bool OnResourceResponse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
         {
             //NOTE: You cannot modify the response, only the request
             // You can now access the headers
@@ -111,7 +111,7 @@ namespace CefSharp.Example.Handlers
             return false;
         }
 
-        protected override IResponseFilter GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+        protected override IResponseFilter GetResourceResponseFilter(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
         {
             var url = new Uri(request.Url);
             if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
@@ -136,7 +136,7 @@ namespace CefSharp.Example.Handlers
             return null;
         }
 
-        protected override void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
+        protected override void OnResourceLoadComplete(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
         {
             var url = new Uri(request.Url);
             if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
