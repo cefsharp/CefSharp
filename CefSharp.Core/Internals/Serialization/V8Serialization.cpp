@@ -124,7 +124,7 @@ namespace CefSharp
                     else
                     {
                         //Unexpected type, just convert it to a string
-                        list->SetString(index, Convert::ToString(obj));
+                        list->SetString(index, StringUtils::ToNative(Convert::ToString(obj)));
                     }
                 }
                 // Serialize dictionary to CefDictionary (key,value pairs)
@@ -196,7 +196,7 @@ namespace CefSharp
                 }
                 else
                 {
-                    list->SetString(index, StringUtils::ToNative("Unable to serialize Type - " + obj->GetType()->ToString());
+                    list->SetString(index, StringUtils::ToNative("Unable to serialize Type - " + obj->GetType()->ToString()));
                 }
 
                 ancestors->Remove(obj);
