@@ -6,7 +6,7 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public class OnProtocolExecutionEventArgs : BaseRequestEventArgs
     {
-        public OnProtocolExecutionEventArgs(IWebBrowser browserControl, IBrowser browser, string url) : base(browserControl, browser)
+        public OnProtocolExecutionEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser, string url) : base(chromiumWebBrowser, browser)
         {
             Url = url;
 

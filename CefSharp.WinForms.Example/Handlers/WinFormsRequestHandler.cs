@@ -19,14 +19,14 @@ namespace CefSharp.WinForms.Example.Handlers
             this.openNewTab = openNewTab;
         }
 
-        protected override bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
+        protected override bool OnOpenUrlFromTab(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
         {
             if (openNewTab == null)
             {
                 return false;
             }
 
-            var control = (Control)browserControl;
+            var control = (Control)chromiumWebBrowser;
 
             control.InvokeOnUiThreadIfRequired(delegate ()
             {
@@ -36,9 +36,9 @@ namespace CefSharp.WinForms.Example.Handlers
             return true;
         }
 
-        protected override bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
+        protected override bool OnSelectClientCertificate(IWebBrowser chromiumWebBrowser, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
         {
-            var control = (Control)browserControl;
+            var control = (Control)chromiumWebBrowser;
 
             control.InvokeOnUiThreadIfRequired(delegate ()
             {
