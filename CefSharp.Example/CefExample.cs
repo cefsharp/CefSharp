@@ -98,10 +98,6 @@ namespace CefSharp.Example
 
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1"); //Disable Vsync
 
-            //Disables the DirectWrite font rendering system on windows.
-            //Possibly useful when experiencing blury fonts.
-            //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
-
             // The following options control accessibility state for all frames.
             // These options only take effect if accessibility state is not set by IBrowserHost.SetAccessibilityState call.
             // --force-renderer-accessibility enables browser accessibility.

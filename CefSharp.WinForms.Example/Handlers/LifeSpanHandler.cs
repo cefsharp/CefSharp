@@ -13,7 +13,7 @@ namespace CefSharp.WinForms.Example.Handlers
     {
         private Dictionary<int, PopupAsChildHelper> popupasChildHelpers = new Dictionary<int, PopupAsChildHelper>();
 
-        bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
+        bool ILifeSpanHandler.OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
             //This option is typically used in WPF. This example demos using IWindowInfo.SetAsChild
@@ -22,11 +22,11 @@ namespace CefSharp.WinForms.Example.Handlers
 
             //Use IWindowInfo.SetAsChild to specify the parent handle
             //NOTE: user PopupAsChildHelper to handle with Form move and Control resize
-            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+            var webBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
 
-            chromiumWebBrowser.Invoke(new Action(() =>
+            webBrowser.Invoke(new Action(() =>
             {
-                if (chromiumWebBrowser.FindForm() is BrowserForm owner)
+                if (webBrowser.FindForm() is BrowserForm owner)
                 {
                     var control = new Control
                     {
@@ -45,7 +45,7 @@ namespace CefSharp.WinForms.Example.Handlers
             return false;
         }
 
-        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
+        void ILifeSpanHandler.OnAfterCreated(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
             if (browser.IsPopup)
             {
@@ -66,7 +66,7 @@ namespace CefSharp.WinForms.Example.Handlers
             }
         }
 
-        bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
+        bool ILifeSpanHandler.DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
             //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
             //See the doc for this method for full details.    
@@ -78,15 +78,15 @@ namespace CefSharp.WinForms.Example.Handlers
 
             var windowHandle = browser.GetHost().GetWindowHandle();
 
-            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+            var webBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
 
             //If browser is disposed or the handle has been released then we don't
             //need to remove the tab (likely removed from menu)
-            if (!chromiumWebBrowser.IsDisposed && chromiumWebBrowser.IsHandleCreated)
+            if (!webBrowser.IsDisposed && webBrowser.IsHandleCreated)
             {
-                chromiumWebBrowser.Invoke(new Action(() =>
+                webBrowser.Invoke(new Action(() =>
                 {
-                    if (chromiumWebBrowser.FindForm() is BrowserForm owner)
+                    if (webBrowser.FindForm() is BrowserForm owner)
                     {
                         owner.RemoveTab(windowHandle);
                     }
@@ -99,7 +99,7 @@ namespace CefSharp.WinForms.Example.Handlers
             return true;
         }
 
-        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
+        void ILifeSpanHandler.OnBeforeClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
             if (!browser.IsDisposed && browser.IsPopup)
             {

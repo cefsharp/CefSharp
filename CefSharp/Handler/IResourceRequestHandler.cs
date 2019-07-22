@@ -40,12 +40,12 @@ namespace CefSharp
         /// <summary>
         /// Called on the CEF IO thread before a resource is loaded. To specify a handler for the resource return a <see cref="IResourceHandler"/> object
         /// </summary>
-        /// <param name="browserControl">The browser UI control</param>
+        /// <param name="chromiumWebBrowser">The browser UI control</param>
         /// <param name="browser">the browser object - may be null if originating from ServiceWorker or CefURLRequest</param>
         /// <param name="frame">the frame object - may be null if originating from ServiceWorker or CefURLRequest</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <returns>To allow the resource to load using the default network loader return null otherwise return an instance of <see cref="IResourceHandler"/> with a valid stream</returns>
-        IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request);
+        IResourceHandler GetResourceHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request);
 
         /// <summary>
         /// Called on the CEF IO thread when a resource load is redirected.

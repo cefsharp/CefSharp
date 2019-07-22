@@ -535,11 +535,12 @@ namespace CefSharp
 
                 if (context.get() && context->Enter())
                 {
+                    JavascriptAsyncMethodCallback^ callback;
+
                     try
                     {
                         rootObject->Bind(javascriptObjects, context->GetGlobal());
 
-                        JavascriptAsyncMethodCallback^ callback;
                         if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
                         {
                             //Response object has no Accessor or Interceptor
@@ -588,28 +589,34 @@ namespace CefSharp
                     finally
                     {
                         context->Exit();
+
+                        delete callback;
                     }
                 }
+            }
+            else
+            {
+                LOG(INFO) << "CefAppUnmanagedWrapper Frame Invalid";
             }
 
             handled = true;
         }
         else if (name == kJavascriptAsyncMethodCallResponse)
         {
-            auto frameId = frame->GetIdentifier();
-            auto callbackId = GetInt64(argList, 0);
-
-            JavascriptRootObjectWrapper^ rootObjectWrapper;
-            browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
-
-            if (rootObjectWrapper != nullptr)
+            if (frame.get() && frame->IsValid())
             {
-                JavascriptAsyncMethodCallback^ callback;
-                if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
+                auto frameId = frame->GetIdentifier();
+                auto callbackId = GetInt64(argList, 0);
+
+                JavascriptRootObjectWrapper^ rootObjectWrapper;
+                browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
+
+                if (rootObjectWrapper != nullptr)
                 {
-                    try
+                    JavascriptAsyncMethodCallback^ callback;
+                    if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
                     {
-                        if (frame.get() && frame->IsValid())
+                        try
                         {
                             auto context = frame->GetV8Context();
 
@@ -637,11 +644,11 @@ namespace CefSharp
                                 callback->Fail("Unable to Enter Context");
                             }
                         }
-                    }
-                    finally
-                    {
-                        //dispose
-                        delete callback;
+                        finally
+                        {
+                            //dispose
+                            delete callback;
+                        }
                     }
                 }
             }

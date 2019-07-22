@@ -1381,6 +1381,14 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The zoom level at which the browser control is currently displaying.
         /// Can be set to 0 to clear the zoom level (resets to default zoom level).
+        /// NOTE: For browsers that share the same render process (same origin) this
+        /// property is only updated when the browser changes it's visible state.
+        /// If you have two browsers visible at the same time that share the same render
+        /// process then zooming one will not update this property in the other (unless
+        /// the control is hidden and then shown). You can isolate browser instances
+        /// using a <see cref="RequestContext"/>, they will then have their own render process
+        /// regardless of the process policy. You can manually get the Zoom level using
+        /// <see cref="IBrowserHost.GetZoomLevelAsync"/>
         /// </summary>
         /// <value>The zoom level.</value>
         public double ZoomLevel

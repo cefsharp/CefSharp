@@ -11,6 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CefSharp.Web;
 
 namespace CefSharp.Example.JavascriptBinding
 {
@@ -56,6 +57,11 @@ namespace CefSharp.Example.JavascriptBinding
             {
                 Value = name
             };
+        }
+
+        public JsonString ReturnClassAsJsonString(string name)
+        {
+            return JsonString.FromObject(new JsSerializableClass { Value = name });
         }
 
         public JsSerializableStruct[] ReturnStructArray(string name)

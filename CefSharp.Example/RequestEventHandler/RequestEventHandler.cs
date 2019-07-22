@@ -27,27 +27,27 @@ namespace CefSharp.Example.RequestEventHandler
         public event EventHandler<OnRenderProcessTerminatedEventArgs> OnRenderProcessTerminatedEvent;
         public event EventHandler<OnQuotaRequestEventArgs> OnQuotaRequestEvent;
 
-        protected override bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
+        protected override bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
         {
-            var args = new OnBeforeBrowseEventArgs(browserControl, browser, frame, request, userGesture, isRedirect);
+            var args = new OnBeforeBrowseEventArgs(chromiumWebBrowser, browser, frame, request, userGesture, isRedirect);
 
             OnBeforeBrowseEvent?.Invoke(this, args);
 
             return args.CancelNavigation;
         }
 
-        protected override bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
+        protected override bool OnOpenUrlFromTab(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
         {
-            var args = new OnOpenUrlFromTabEventArgs(browserControl, browser, frame, targetUrl, targetDisposition, userGesture);
+            var args = new OnOpenUrlFromTabEventArgs(chromiumWebBrowser, browser, frame, targetUrl, targetDisposition, userGesture);
 
             OnOpenUrlFromTabEvent?.Invoke(this, args);
 
             return args.CancelNavigation;
         }
 
-        protected override bool OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
+        protected override bool OnCertificateError(IWebBrowser chromiumWebBrowser, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
         {
-            var args = new OnCertificateErrorEventArgs(browserControl, browser, errorCode, requestUrl, sslInfo, callback);
+            var args = new OnCertificateErrorEventArgs(chromiumWebBrowser, browser, errorCode, requestUrl, sslInfo, callback);
 
             OnCertificateErrorEvent?.Invoke(this, args);
 
@@ -55,16 +55,16 @@ namespace CefSharp.Example.RequestEventHandler
             return args.ContinueAsync;
         }
 
-        protected override void OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath)
+        protected override void OnPluginCrashed(IWebBrowser chromiumWebBrowser, IBrowser browser, string pluginPath)
         {
-            var args = new OnPluginCrashedEventArgs(browserControl, browser, pluginPath);
+            var args = new OnPluginCrashedEventArgs(chromiumWebBrowser, browser, pluginPath);
 
             OnPluginCrashedEvent?.Invoke(this, args);
         }
 
-        protected override bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
+        protected override bool GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
-            var args = new GetAuthCredentialsEventArgs(browserControl, browser, frame, isProxy, host, port, realm, scheme, callback);
+            var args = new GetAuthCredentialsEventArgs(chromiumWebBrowser, browser, originUrl, isProxy, host, port, realm, scheme, callback);
 
             GetAuthCredentialsEvent?.Invoke(this, args);
 
@@ -72,16 +72,16 @@ namespace CefSharp.Example.RequestEventHandler
             return args.ContinueAsync;
         }
 
-        protected override void OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)
+        protected override void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
         {
-            var args = new OnRenderProcessTerminatedEventArgs(browserControl, browser, status);
+            var args = new OnRenderProcessTerminatedEventArgs(chromiumWebBrowser, browser, status);
 
             OnRenderProcessTerminatedEvent?.Invoke(this, args);
         }
 
-        protected override bool OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
+        protected override bool OnQuotaRequest(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
-            var args = new OnQuotaRequestEventArgs(browserControl, browser, originUrl, newSize, callback);
+            var args = new OnQuotaRequestEventArgs(chromiumWebBrowser, browser, originUrl, newSize, callback);
             OnQuotaRequestEvent?.Invoke(this, args);
 
             EnsureCallbackDisposal(callback);

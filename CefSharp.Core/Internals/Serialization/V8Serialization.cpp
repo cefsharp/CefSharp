@@ -5,6 +5,7 @@
 #include "Stdafx.h"
 
 #include "include\cef_values.h"
+#include "include\cef_parser.h"
 
 #include "V8Serialization.h"
 #include "Primitives.h"
@@ -109,20 +110,21 @@ namespace CefSharp
                     if (subType == SByte::typeid ||
                         subType == Int16::typeid ||
                         subType == Int32::typeid ||
-                        subType == Byte::typeid  ||
+                        subType == Byte::typeid ||
                         subType == UInt16::typeid)
                     {
                         list->SetInt(index, Convert::ToInt32(obj));
                     }
                     else if (subType == Int64::typeid ||
-                            subType == UInt32::typeid ||
-                            subType == UInt64::typeid)
+                        subType == UInt32::typeid ||
+                        subType == UInt64::typeid)
                     {
                         list->SetDouble(index, Convert::ToDouble(obj));
                     }
                     else
                     {
-                        throw gcnew NotSupportedException("Unable to serialize Type");
+                        //Unexpected type, just convert it to a string
+                        list->SetString(index, StringUtils::ToNative(Convert::ToString(obj)));
                     }
                 }
                 // Serialize dictionary to CefDictionary (key,value pairs)
@@ -150,6 +152,25 @@ namespace CefSharp
                     }
                     list->SetList(index, subList);
                 }
+                else if (CefSharp::Web::JsonString::typeid->IsAssignableFrom(type))
+                {
+                    auto jsonString = (CefSharp::Web::JsonString^) obj;
+
+                    //Tried to use CefParseJSONAndReturnError, keeps returning error when
+                    //CefParseJson works for the same string, so must be a CEF bug
+                    auto jsonValue = CefParseJSON(StringUtils::ToNative(jsonString->Json),
+                        cef_json_parser_options_t::JSON_PARSER_ALLOW_TRAILING_COMMAS);
+
+                    if (jsonValue.get())
+                    {
+                        list->SetValue(index, jsonValue);
+                    }
+                    else
+                    {
+                        list->SetString(index, CefString("V8Serialization - Unable to parse JSON"));
+                    }
+                }
+
                 // Serialize class/structs to CefDictionary (key,value pairs)
                 else if (!type->IsPrimitive && !type->IsEnum)
                 {
@@ -175,7 +196,7 @@ namespace CefSharp
                 }
                 else
                 {
-                    throw gcnew NotSupportedException("Unable to serialize Type");
+                    list->SetString(index, StringUtils::ToNative("Unable to serialize Type - " + obj->GetType()->ToString()));
                 }
 
                 ancestors->Remove(obj);

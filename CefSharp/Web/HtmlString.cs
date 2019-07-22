@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.IO;
 using System.Text;
 
 namespace CefSharp.Web
@@ -52,6 +53,20 @@ namespace CefSharp.Web
         public static explicit operator HtmlString(string html)
         {
             return new HtmlString(html, true);
+        }
+
+        /// <summary>
+        /// Creates a HtmlString for the given file name
+        /// Uses <see cref="File.ReadAllText(string, Encoding)"/> to read the
+        /// text using <see cref="Encoding.UTF8"/> encoding.
+        /// </summary>
+        /// <param name="fileName">file name</param>
+        /// <returns>HtmlString</returns>
+        public static HtmlString FromFile(string fileName)
+        {
+            var html = File.ReadAllText(fileName, Encoding.UTF8);
+
+            return (HtmlString)html;
         }
     }
 }
