@@ -40,6 +40,11 @@ namespace CefSharp.Wpf
         public const string PartPopupImageName = "PART_popupImage";
 
         /// <summary>
+        /// View Rectangle used by <see cref="GetViewRect"/>
+        /// </summary>
+        private Rect viewRect;
+
+        /// <summary>
         /// The source
         /// </summary>
         private HwndSource source;
@@ -754,11 +759,6 @@ namespace CefSharp.Wpf
         /// <returns>View Rectangle</returns>
         protected virtual Rect GetViewRect()
         {
-            //NOTE: Previous we used Math.Ceiling to round the sizing up, we
-            //now set UseLayoutRounding = true; on the control so the sizes are
-            //already rounded to a whole number for us.
-            var viewRect = new Rect(0, 0, (int)ActualWidth, (int)ActualHeight);
-
             return viewRect;
         }
 
@@ -1855,6 +1855,11 @@ namespace CefSharp.Wpf
         {
             // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
             CreateOffscreenBrowser(e.NewSize);
+
+            //NOTE: Previous we used Math.Ceiling to round the sizing up, we
+            //now set UseLayoutRounding = true; on the control so the sizes are
+            //already rounded to a whole number for us.
+            viewRect = new Rect(0, 0, (int)e.NewSize.Width, (int)e.NewSize.Height);
 
             if (browser != null)
             {
