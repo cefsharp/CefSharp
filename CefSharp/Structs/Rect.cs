@@ -54,12 +54,12 @@ namespace CefSharp.Structs
         /// </summary>
         /// <param name="dpi">Dpi to scale by</param>
         /// <returns>New rect with scaled values</returns>
-        public Rect ScaleByDpi(double dpi)
+        public Rect ScaleByDpi(float dpi)
         {
-            var x = (int)Math.Floor(X / dpi);
-            var y = (int)Math.Floor(Y / dpi);
-            var width = (int)Math.Floor(Width / dpi);
-            var height = (int)Math.Floor(Height / dpi);
+            var x = (int)Math.Ceiling(X / dpi);
+            var y = (int)Math.Ceiling(Y / dpi);
+            var width = (int)Math.Ceiling(Width / dpi);
+            var height = (int)Math.Ceiling(Height / dpi);
 
             return new Rect(x, y, width, height);
         }
