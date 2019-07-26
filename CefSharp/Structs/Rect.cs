@@ -2,11 +2,14 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Diagnostics;
+
 namespace CefSharp.Structs
 {
     /// <summary>
     /// Represents a rectangle
     /// </summary>
+    [DebuggerDisplay("X = {X}, Y = {Y}, Width = {Width}, Height = {Height}")]
     public struct Rect
     {
         /// <summary>
