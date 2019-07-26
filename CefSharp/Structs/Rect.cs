@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Diagnostics;
 
 namespace CefSharp.Structs
@@ -46,6 +47,21 @@ namespace CefSharp.Structs
             Y = y;
             Width = width;
             Height = height;
+        }
+
+        /// <summary>
+        /// Returns a new Rect with Scaled values
+        /// </summary>
+        /// <param name="dpi">Dpi to scale by</param>
+        /// <returns>New rect with scaled values</returns>
+        public Rect ScaleByDpi(double dpi)
+        {
+            var x = (int)Math.Floor(X / dpi);
+            var y = (int)Math.Floor(Y / dpi);
+            var width = (int)Math.Floor(Width / dpi);
+            var height = (int)Math.Floor(Height / dpi);
+
+            return new Rect(x, y, width, height);
         }
     }
 }

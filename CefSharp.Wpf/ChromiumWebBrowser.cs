@@ -732,11 +732,20 @@ namespace CefSharp.Wpf
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
         protected virtual ScreenInfo? GetScreenInfo()
         {
+            Rect rect = monitorInfo.Monitor;
+            Rect availableRect = monitorInfo.WorkArea;
+
+            if (DpiScaleFactor > 1.0)
+            {
+                rect = rect.ScaleByDpi(DpiScaleFactor);
+                availableRect = availableRect.ScaleByDpi(DpiScaleFactor);
+            }
+
             var screenInfo = new ScreenInfo
             {
                 DeviceScaleFactor = (float)DpiScaleFactor,
-                Rect = monitorInfo.Monitor, //TODO: Do values need to be scaled?
-                AvailableRect = monitorInfo.WorkArea //TODO: Do values need to be scaled?
+                Rect = rect,
+                AvailableRect = availableRect
             };
 
             return screenInfo;
