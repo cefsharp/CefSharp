@@ -459,7 +459,7 @@ namespace CefSharp.Wpf
         /// you must manually call IBrowserHost.NotifyScreenInfoChanged for the
         /// browser to be notified of the change.
         /// </summary>
-        public double DpiScaleFactor { get; set; }
+        public float DpiScaleFactor { get; set; }
 
         /// <summary>
         /// Initializes static members of the <see cref="ChromiumWebBrowser"/> class.
@@ -1672,7 +1672,7 @@ namespace CefSharp.Wpf
                 var matrix = source.CompositionTarget.TransformToDevice;
                 var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(matrix.M11);
 
-                DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
+                DpiScaleFactor = (float)source.CompositionTarget.TransformToDevice.M11;
 
                 WpfKeyboardHandler.Setup(source);
 
