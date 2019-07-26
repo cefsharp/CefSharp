@@ -107,7 +107,7 @@ Now that I (@amaitland) am a stay at home dad your contributions are the only re
 
 ## Links
 
-- [CefGlue](https://bitbucket.org/xilium/xilium.cefglue/): An alternative .NET CEF wrapper built using P/Invoke.
+- [CefGlue](https://gitlab.com/xiliumhq/chromiumembedded/cefglue): An alternative .NET CEF wrapper built using P/Invoke.
 - [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx) : Another P/Invoke .Net CEF wrapper
 - [CEF Bitbucket Project](https://bitbucket.org/chromiumembedded/cef/overview) : The official CEF issue tracker
 - [CEF Forum](http://magpcss.org/ceforum/) : The official CEF Forum
