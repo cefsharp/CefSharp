@@ -1,6 +1,6 @@
 image: Visual Studio 2015
 
-version: 75.1.40-CI{build}
+version: 75.1.140-CI{build}
 
 clone_depth: 10
 
