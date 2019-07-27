@@ -139,6 +139,12 @@ namespace CefSharp.Wpf
         private int disposeSignaled;
 
         /// <summary>
+        /// Hack to work around issue https://github.com/cefsharp/CefSharp/issues/2779
+        /// Enabled by default
+        /// </summary>
+        public bool EnableResizeHackForIssue2779 { get; set; }
+
+        /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
@@ -513,6 +519,8 @@ namespace CefSharp.Wpf
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void NoInliningConstructor()
         {
+            EnableResizeHackForIssue2779 = true;
+
             //Initialize CEF if it hasn't already been initialized
             if (!Cef.IsInitialized)
             {
@@ -1759,7 +1767,10 @@ namespace CefSharp.Wpf
                 }
                 case WindowState.Minimized:
                 {
-                    resizeHackForIssue2779Enabled = true;
+                    if (EnableResizeHackForIssue2779)
+                    {
+                        resizeHackForIssue2779Enabled = true;
+                    }
 
                     if (browser != null)
                     {
@@ -1929,7 +1940,7 @@ namespace CefSharp.Wpf
                     TaskContinuationOptions.OnlyOnRanToCompletion,
                     TaskScheduler.FromCurrentSynchronizationContext());
                 }
-                else
+                else if (EnableResizeHackForIssue2779)
                 {
                     resizeHackForIssue2779Enabled = true;
                 }
@@ -2386,35 +2397,38 @@ namespace CefSharp.Wpf
 
         private void ResizeHackFor2779()
         {
-            const int delayInMs = 50;
-
-            Task.Run(async () =>
+            if (EnableResizeHackForIssue2779)
             {
-                await Task.Delay(delayInMs);
+                const int delayInMs = 50;
 
-                if (browser != null)
+                Task.Run(async () =>
                 {
-                    resizeHackForIssue2779Size = new Structs.Size(viewRect.Width - 1, viewRect.Height - 1);
-                    browser.GetHost().WasResized();
-                }
+                    await Task.Delay(delayInMs);
 
-                await Task.Delay(delayInMs);
+                    if (browser != null)
+                    {
+                        resizeHackForIssue2779Size = new Structs.Size(viewRect.Width - 1, viewRect.Height - 1);
+                        browser.GetHost().WasResized();
+                    }
 
-                if (browser != null)
-                {
-                    resizeHackForIssue2779Size = null;
-                    browser.GetHost().WasResized();
-                }
+                    await Task.Delay(delayInMs);
 
-                await Task.Delay(delayInMs);
+                    if (browser != null)
+                    {
+                        resizeHackForIssue2779Size = null;
+                        browser.GetHost().WasResized();
+                    }
 
-                if (browser != null)
-                {
-                    resizeHackForIssue2779Enabled = false;
+                    await Task.Delay(delayInMs);
 
-                    browser.GetHost().Invalidate(PaintElementType.View);
-                }
-            });
+                    if (browser != null)
+                    {
+                        resizeHackForIssue2779Enabled = false;
+
+                        browser.GetHost().Invalidate(PaintElementType.View);
+                    }
+                });
+            }
         }
     }
 }
