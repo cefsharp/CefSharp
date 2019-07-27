@@ -43,7 +43,12 @@ namespace CefSharp.Wpf
         /// View Rectangle used by <see cref="GetViewRect"/>
         /// </summary>
         private Rect viewRect;
-
+        /// <summary>
+        /// Store the previous window state, used to determine if the
+        /// Windows was previous <see cref="WindowState.Minimized"/>
+        /// and resume rendering
+        /// </summary>
+        private WindowState previousWindowState;
         /// <summary>
         /// The source
         /// </summary>
@@ -1756,12 +1761,15 @@ namespace CefSharp.Wpf
                 case WindowState.Normal:
                 case WindowState.Maximized:
                 {
-                    if (browser != null)
+                    if (previousWindowState == WindowState.Minimized)
                     {
-                        browser.GetHost().WasHidden(false);
-                    }
+                        if (browser != null)
+                        {
+                            browser.GetHost().WasHidden(false);
+                        }
 
-                    ResizeHackFor2779();
+                        ResizeHackFor2779();
+                    }
 
                     break;
                 }
@@ -1779,6 +1787,8 @@ namespace CefSharp.Wpf
                     break;
                 }
             }
+
+            previousWindowState = window.WindowState;
         }
 
         /// <summary>
