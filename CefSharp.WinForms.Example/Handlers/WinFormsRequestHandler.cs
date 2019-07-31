@@ -43,10 +43,17 @@ namespace CefSharp.WinForms.Example.Handlers
             control.InvokeOnUiThreadIfRequired(delegate ()
             {
                 var selectedCertificateCollection = X509Certificate2UI.SelectFromCollection(certificates, "Certificates Dialog", "Select Certificate for authentication", X509SelectionFlag.SingleSelection);
-
-                //X509Certificate2UI.SelectFromCollection returns a collection, we've used SingleSelection, so just take the first
-                //The underlying CEF implementation only accepts a single certificate
-                callback.Select(selectedCertificateCollection[0]);
+                if (selectedCertificateCollection.Count > 0)
+                {
+                    //X509Certificate2UI.SelectFromCollection returns a collection, we've used SingleSelection, so just take the first
+                    //The underlying CEF implementation only accepts a single certificate
+                    callback.Select(selectedCertificateCollection[0]);
+                }
+                else
+                {
+                    //User canceled no certificate should be selected.
+                    callback.Select(null);
+                }
             });
 
             return true;
