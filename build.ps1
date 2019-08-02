@@ -320,6 +320,9 @@ function UpdateSymbolsWithGitLink()
         if(-not (Test-Path $gitlink))
         {
             Write-Diagnostic "Downloading GitLink"
+			#Powershell is having problems download GitLink SSL/TLS error, force TLS 1.2
+			#https://stackoverflow.com/a/55809878/4583726
+			[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
             $client = New-Object System.Net.WebClient;
             $client.DownloadFile('https://github.com/GitTools/GitLink/releases/download/2.3.0/GitLink.exe', $gitlink);
         }
