@@ -38,6 +38,22 @@ namespace CefSharp
             }
 
         public:
+            virtual property String^ Charset
+            {
+                String^ get()
+                {
+                    ThrowIfDisposed();
+
+                    return StringUtils::ToClr(_response->GetCharset());
+                }
+                void set(String^ val)
+                {
+                    ThrowIfDisposed();
+
+                    _response->SetCharset(StringUtils::ToNative(val));
+                }
+            }
+
             virtual property bool IsReadOnly
             {
                 bool get()

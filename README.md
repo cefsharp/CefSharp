@@ -33,15 +33,13 @@ Stable binaries are released on NuGet, and contain everything you need  to embed
 
 ## Contact
 
-If you have a simple question please start by asking it on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge). Please keep the `Issue Tracker` for **Bugs** only please! Before submitting a `PR` please read [CONTRIBUTING](https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md)
+If you have a very simple question please start by asking it on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge). Please keep the `Issue Tracker` for **Bugs** only please! Before submitting a `PR` please read [CONTRIBUTING](https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md)
 
-[Stackoverflow](https://stackoverflow.com/questions/tagged/cefsharp) as always is a useful resource, you can post your more complex issues here. 
+[Stackoverflow](https://stackoverflow.com/questions/tagged/cefsharp) is generally where questions should be asked, please search before posting, thanks!
 
 ## Branches & Forks
 
-This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/search?utf8=%E2%9C%93&q=cefsharp+fork%3Atrue&type=Repositories&ref=searchresults).
-
-*Note* Due to so many Forks - Github can't process them through the `Network Graphs` Section so, if you need to do a search use the following: `cefsharp fork:true` and it will be able to process all of the forks.
+This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 Development is done in the `master` branch. New features are preferably added in feature branches, if the changes are more than trivial. New `PR's` should be targeted against `master`.
 
@@ -70,12 +68,13 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk!
 
 ### Release Branches
 
-With each release a new branch is created, for example the `53.0.1` release corresponds to the `cefsharp/53` branch.
+With each release a new branch is created, for example the `73.1.130` release corresponds to the `cefsharp/73` branch.
 If you're new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch
 
 | Branch                                                               | CEF Version | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|------|-------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                      | 3729 | 2015 | 4.5.2 | Development     |
+| [master](https://github.com/cefsharp/CefSharp/)                      | 3809 | 2015 | 4.5.2 | Development     |
+| [cefsharp/73](https://github.com/cefsharp/CefSharp/tree/cefsharp/75) | 3770 | 2015 | 4.5.2 | **Pre-Release** |
 | [cefsharp/73](https://github.com/cefsharp/CefSharp/tree/cefsharp/73) | 3683 | 2015 | 4.5.2 | **Release**     |
 | [cefsharp/71](https://github.com/cefsharp/CefSharp/tree/cefsharp/71) | 3578 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/69](https://github.com/cefsharp/CefSharp/tree/cefsharp/69) | 3497 | 2015 | 4.5.2 | Unsupported     |
@@ -100,15 +99,15 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 To continue developing/supporting the project I (@amaitland) am asking for financial contributions. Donations of any size are greatly appreciated!
 
-`73.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=71596940)](https://www.bountysource.com/issues/71596940-funding-request-release-73-0-0?utm_source=71596940&utm_medium=shield&utm_campaign=ISSUE_BADGE)
+`75.0.0` Release: [![Bountysource](https://api.bountysource.com/badge/issue?issue_id=76601097)](https://www.bountysource.com/issues/76601097-funding-request-release-75-0-0?utm_source=76601097&utm_medium=shield&utm_campaign=ISSUE_BADGE)
 
-Recurring contributions can be made through [BountySource Salt](https://salt.bountysource.com/teams/cefsharp) or contact me if you'd like to donate through `Paypal`.
+Recurring contributions can be made through [BountySource Salt](https://salt.bountysource.com/teams/cefsharp) or one time contributions through [PayPal](https://paypal.me/AlexMaitland)
 
 Now that I (@amaitland) am a stay at home dad your contributions are the only reason I'm allowed to continue working on the project. Without continued funding the time I currently spend on the project will have to be put into finding other paid work.
 
 ## Links
 
-- [CefGlue](https://bitbucket.org/xilium/xilium.cefglue/): An alternative .NET CEF wrapper built using P/Invoke.
+- [CefGlue](https://gitlab.com/xiliumhq/chromiumembedded/cefglue): An alternative .NET CEF wrapper built using P/Invoke.
 - [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx) : Another P/Invoke .Net CEF wrapper
 - [CEF Bitbucket Project](https://bitbucket.org/chromiumembedded/cef/overview) : The official CEF issue tracker
 - [CEF Forum](http://magpcss.org/ceforum/) : The official CEF Forum

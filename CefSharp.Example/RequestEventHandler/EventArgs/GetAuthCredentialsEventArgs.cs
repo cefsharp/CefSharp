@@ -6,9 +6,9 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public class GetAuthCredentialsEventArgs : BaseRequestEventArgs
     {
-        public GetAuthCredentialsEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback) : base(browserControl, browser)
+        public GetAuthCredentialsEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback) : base(chromiumWebBrowser, browser)
         {
-            Frame = frame;
+            OriginUrl = originUrl;
             IsProxy = isProxy;
             Host = host;
             Port = port;
@@ -19,7 +19,7 @@ namespace CefSharp.Example.RequestEventHandler
             ContinueAsync = false; // default
         }
 
-        public IFrame Frame { get; private set; }
+        public string OriginUrl { get; private set; }
         public bool IsProxy { get; private set; }
         public string Host { get; private set; }
         public int Port { get; private set; }

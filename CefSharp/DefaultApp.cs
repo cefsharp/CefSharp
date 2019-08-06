@@ -25,8 +25,12 @@ namespace CefSharp
             OnRegisterCustomSchemes(registrar);
         }
 
-        protected void OnRegisterCustomSchemes(ISchemeRegistrar registrar)
+        protected virtual void OnRegisterCustomSchemes(ISchemeRegistrar registrar)
         {
+            //Possible we have duplicate scheme names, we'll only register the first one
+            //Keep a list so we don't call AddCustomScheme twice for the same scheme name
+            var registeredSchemes = new List<string>();
+
             foreach (var scheme in Schemes)
             {
                 //We don't need to register http or https, they're built in schemes
@@ -35,9 +39,18 @@ namespace CefSharp
                     continue;
                 }
 
-                var success = registrar.AddCustomScheme(scheme.SchemeName, scheme.IsStandard, scheme.IsLocal, scheme.IsDisplayIsolated, scheme.IsSecure, scheme.IsCorsEnabled, scheme.IsCSPBypassing);
+                //We've already registered this scheme name
+                if (registeredSchemes.Contains(scheme.SchemeName))
+                {
+                    continue;
+                }
 
-                if (!success)
+                var success = registrar.AddCustomScheme(scheme.SchemeName, scheme.Options);
+                if (success)
+                {
+                    registeredSchemes.Add(scheme.SchemeName);
+                }
+                else
                 {
                     var msg = "CefSchemeRegistrar::AddCustomScheme failed for schemeName:" + scheme.SchemeName;
                     //TODO: Log error

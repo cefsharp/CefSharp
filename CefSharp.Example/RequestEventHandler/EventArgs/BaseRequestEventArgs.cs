@@ -6,13 +6,13 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public abstract class BaseRequestEventArgs : System.EventArgs
     {
-        protected BaseRequestEventArgs(IWebBrowser browserControl, IBrowser browser)
+        protected BaseRequestEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
-            BrowserControl = browserControl;
+            ChromiumWebBrowser = chromiumWebBrowser;
             Browser = browser;
         }
 
-        public IWebBrowser BrowserControl { get; private set; }
+        public IWebBrowser ChromiumWebBrowser { get; private set; }
         public IBrowser Browser { get; private set; }
     }
 }

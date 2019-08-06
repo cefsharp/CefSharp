@@ -127,6 +127,13 @@ namespace CefSharp.WinForms.Example
 
         private void OnLoadError(object sender, LoadErrorEventArgs args)
         {
+            //Don't display an error for external protocols that we allow the OS to
+            //handle in OnProtocolExecution().
+            if (args.ErrorCode == CefErrorCode.UnknownUrlScheme && args.Frame.Url.StartsWith("mailto"))
+            {
+                return;
+            }
+
             DisplayOutput("Load Error:" + args.ErrorCode + ";" + args.ErrorText);
         }
 
@@ -259,7 +266,6 @@ namespace CefSharp.WinForms.Example
                             {
                                 const int WM_MOUSEACTIVATE = 0x0021;
                                 const int WM_NCLBUTTONDOWN = 0x00A1;
-                                const int WM_LBUTTONDOWN = 0x0201;
                                 const int WM_DESTROY = 0x0002;
 
                                 // Render process switch happened, need to find the new handle

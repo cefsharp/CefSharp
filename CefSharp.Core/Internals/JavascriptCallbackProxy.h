@@ -45,13 +45,18 @@ namespace CefSharp
                 auto browser = GetBrowser();
                 if (browser != nullptr && !browser->IsDisposed)
                 {
-                    auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
-                    browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
+                    auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser)->Browser;
+                    auto frame = browserWrapper->GetFrame(_callback->FrameId);
+                    if (frame.get() && frame->IsValid())
+                    {
+                        frame->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
+                    }
                 }
                 _disposed = true;
             }
 
             virtual Task<JavascriptResponse^>^ ExecuteAsync(cli::array<Object^>^ parameters);
+            virtual Task<JavascriptResponse^>^ ExecuteWithTimeoutAsync(Nullable<TimeSpan> timeout, cli::array<Object^>^ parameters);
 
             virtual property Int64 Id
             {

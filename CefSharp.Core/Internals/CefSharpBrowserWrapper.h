@@ -186,13 +186,6 @@ namespace CefSharp
             ///
             /*--cef()--*/
             virtual List<String^>^ GetFrameNames();
-
-            //
-            // Send a message to the specified |target_process|. Returns true if the
-            // message was sent successfully.
-            ///
-            /*--cef()--*/
-            virtual bool SendProcessMessage(CefProcessId targetProcess, CefRefPtr<CefProcessMessage> message);
         };
     }
 }

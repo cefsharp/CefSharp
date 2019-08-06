@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Forms;
 using CefSharp.Internals;
+using CefSharp.Web;
 using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms
@@ -251,11 +252,11 @@ namespace CefSharp.WinForms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IDragHandler DragHandler { get; set; }
         /// <summary>
-        /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
+        /// Implement <see cref="IResourceRequestHandlerFactory" /> and control the loading of resources
         /// </summary>
         /// <value>The resource handler factory.</value>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
-        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
+        public IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
 
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
@@ -416,6 +417,17 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
+        /// <param name="html">html string to be initially loaded in the browser.</param>
+        /// <param name="requestContext">Request context that will be used for this browser instance,
+        /// if null the Global Request Context will be used</param>
+        public ChromiumWebBrowser(HtmlString html, IRequestContext requestContext = null) : this(html.ToDataUriString(), requestContext)
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// </summary>
         /// <param name="address">The address.</param>
         /// <param name="requestContext">Request context that will be used for this browser instance,
         /// if null the Global Request Context will be used</param>
@@ -447,12 +459,13 @@ namespace CefSharp.WinForms
 
                 if (FocusHandler == null)
                 {
-                    FocusHandler = new DefaultFocusHandler();
-                }
-
-                if (ResourceHandlerFactory == null)
-                {
-                    ResourceHandlerFactory = new DefaultResourceHandlerFactory();
+                    //If the WinForms UI thread and the CEF UI thread are one in the same
+                    //then we don't need the FocusHandler, it's only required when using
+                    //MultiThreadedMessageLoop (the default)
+                    if (!Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+                    {
+                        FocusHandler = new DefaultFocusHandler();
+                    }
                 }
 
                 if (browserSettings == null)
@@ -913,6 +926,7 @@ namespace CefSharp.WinForms
                 {
                     return true;
                 }
+                case Keys.Shift | Keys.Tab:
                 case Keys.Shift | Keys.Right:
                 case Keys.Shift | Keys.Left:
                 case Keys.Shift | Keys.Up:

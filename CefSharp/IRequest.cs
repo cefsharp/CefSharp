@@ -65,10 +65,22 @@ namespace CefSharp
         ReferrerPolicy ReferrerPolicy { get; }
 
         /// <summary>
-        /// Header Collection
+        /// Header Collection - If dealing with headers that only contain a single value then
+        /// it's easier to use <see cref="SetHeaderByName(string, string, bool)"/> or <see cref="GetHeaderByName(string)"/>.
+        /// You cannot modify the referrer using headers, use <see cref="SetReferrer(string, ReferrerPolicy)"/>.
         /// NOTE: This collection is a copy of the underlying type, to make changes, take a reference to the collection,
-        /// make your changes, then reassign the collection. At some point this will be replaced with a proper wrapper.
+        /// make your changes, then reassign the collection.
         /// </summary>
+        /// <example> 
+        /// This example shows how to modify headers, make sure you reassign the collection
+        /// once it's been modified.
+        /// <code>
+        /// var headers = request.Headers;
+        /// var userAgent = headers["User-Agent"];
+        /// headers["User-Agent"] = userAgent + " CefSharp";
+        /// request.Headers = headers;
+        /// </code>
+        /// </example>
         NameValueCollection Headers { get; set; }
 
         /// <summary>
@@ -98,5 +110,22 @@ namespace CefSharp
         /// before calling otherwise the existing data will be overridden. 
         /// </summary>
         void InitializePostData();
+
+        /// <summary>
+        /// Returns the first header value for name or an empty string if not found.
+        /// Will not return the Referer value if any. Use <see cref="Headers"/> instead if name might have multiple values.
+        /// </summary>
+        /// <param name="name">header name</param>
+        /// <returns>Returns the first header value for name or an empty string if not found.</returns>
+        string GetHeaderByName(string name);
+
+        /// <summary>
+        /// Set the header name to value. The Referer value cannot be set using this method.
+        /// Use <see cref="SetReferrer(string, ReferrerPolicy)"/> instead.
+        /// </summary>
+        /// <param name="name">header name</param>
+        /// <param name="value">new header value</param>
+        /// <param name="overwrite">If overwrite is true any existing values will be replaced with the new value. If overwrite is false any existing values will not be overwritten</param>
+        void SetHeaderByName(string name, string value, bool overwrite);
     }
 }

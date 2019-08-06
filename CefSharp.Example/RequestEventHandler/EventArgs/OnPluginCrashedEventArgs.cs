@@ -6,7 +6,7 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public class OnPluginCrashedEventArgs : BaseRequestEventArgs
     {
-        public OnPluginCrashedEventArgs(IWebBrowser browserControl, IBrowser browser, string pluginPath) : base(browserControl, browser)
+        public OnPluginCrashedEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser, string pluginPath) : base(chromiumWebBrowser, browser)
         {
             PluginPath = pluginPath;
         }

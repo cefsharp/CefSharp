@@ -6,8 +6,8 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public class OnBeforeBrowseEventArgs : BaseRequestEventArgs
     {
-        public OnBeforeBrowseEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
-            : base(browserControl, browser)
+        public OnBeforeBrowseEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
+            : base(chromiumWebBrowser, browser)
         {
             Frame = frame;
             Request = request;

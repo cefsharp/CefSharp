@@ -5,11 +5,6 @@
     <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
 </head>
 <body>
-    <div>
-        These tests require CefSharpSettings.ConcurrentTaskExecution = true;
-        Which by default is set to false
-    </div>
-
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
     <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
@@ -19,43 +14,15 @@
         {
             await CefSharp.BindObjectAsync("boundAsync");
 
-            QUnit.test("ReturnTaskStringAsync:", function (assert)
+            QUnit.test("Async call (Divide 16 / 2):", function (assert)
             {
-                let asyncCallback = assert.async();
+                var asyncCallback = assert.async();
 
-                boundAsync.returnTaskStringAsync().then(function (actualResult)
+                boundAsync.div(16, 2).then(function (actualResult)
                 {
-                    const expectedResult = 'ReturnTaskStringAsync';
+                    const expectedResult = 8
 
-                    assert.equal(expectedResult, actualResult, "Return string " + expectedResult);
-
-                    asyncCallback();
-                });
-            });
-
-            QUnit.test("VoidReturnAsync Test:", function (assert)
-            {
-                let asyncCallback = assert.async();
-
-                boundAsync.voidReturnAsync().then(function (actualResult)
-                {
-                    const expectedResult = null;
-
-                    assert.equal(expectedResult, actualResult, "Return null");
-
-                    asyncCallback();
-                });
-            });
-
-            QUnit.test("AsyncWaitTwoSeconds Test:", function (assert)
-            {
-                let asyncCallback = assert.async();
-
-                const expectedResult = "This method waited two seconds";
-
-                boundAsync.asyncWaitTwoSeconds(expectedResult).then(function (actualResult)
-                {
-                    assert.equal(expectedResult, actualResult, "Return string " + expectedResult);
+                    assert.equal(expectedResult, actualResult, "Divide 16 / 2 resulted in " + expectedResult);
 
                     asyncCallback();
                 });

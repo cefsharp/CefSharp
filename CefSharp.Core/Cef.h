@@ -367,7 +367,7 @@ namespace CefSharp
 
         /// <summary>
         /// Returns the global cookie manager. By default data will be stored at CefSettings.CachePath if specified or in memory otherwise.
-        /// Using this method is equivalent to calling Cef.GetGlobalRequestContext().GetDefaultCookieManager()
+        /// Using this method is equivalent to calling Cef.GetGlobalRequestContext().GetCookieManager()
         /// The earlier possible place to access the ICookieManager is in IBrowserProcessHandler.OnContextInitialized.
         /// Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
         /// </summary>
@@ -375,26 +375,6 @@ namespace CefSharp
         static ICookieManager^ GetGlobalCookieManager()
         {
             auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
-            if (cookieManager.get())
-            {
-                return gcnew CookieManager(cookieManager);
-            }
-
-            return nullptr;
-        }
-
-        /// <summary>
-        ///  Returns a cookie manager that neither stores nor retrieves cookies. All
-        /// usage of cookies will be blocked including cookies accessed via the network
-        /// (request/response headers), via JavaScript (document.cookie), and via
-        /// CefCookieManager methods. No cookies will be displayed in DevTools. If you
-        /// wish to only block cookies sent via the network use the IRequestHandler
-        /// CanGetCookies and CanSetCookie methods instead.
-        /// </summary>
-        /// <returns>A blocking cookie manager</returns>
-        static ICookieManager^ GetBlockingCookieManager()
-        {
-            auto cookieManager = CefCookieManager::GetBlockingManager();
             if (cookieManager.get())
             {
                 return gcnew CookieManager(cookieManager);

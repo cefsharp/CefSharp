@@ -2,19 +2,26 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using CefSharp.Enums;
 using CefSharp.Internals;
 
 namespace CefSharp
 {
     /// <summary>
     /// Used in conjunction with CefSettings.RegisterScheme to register a scheme.
-    /// You can register your own custom scheme e.g. custom:// or use an existing
-    /// scheme e.g. http://
+    /// You can register your own custom scheme e.g. custom:// if you are using a build in scheme
+    /// (http/https) then you should directly register your <see cref="ISchemeHandlerFactory"/> using
+    /// Cef.GetGlobalRequestContext().RegisterSchemeHandlerFactory - make sure the Global RequestContext has
+    /// been initialized before doing so, you can use <see cref="IBrowserProcessHandler.OnContextInitialized"/>
+    /// for notification of RequestContext initialization (Pass an IBrowserProcessHandler instance to Cef.Initialize)
     /// </summary>
     public sealed class CefCustomScheme
     {
+        private SchemeOptions schemeOptions;
+
         /// <summary>
         /// Schema Name e.g. custom
         /// </summary>
@@ -51,7 +58,21 @@ namespace CefSharp
         /// as-is. For example, "scheme:///some%20text" will remain the same.
         /// Non-standard scheme URLs cannot be used as a target for form submission.
         /// </summary>
-        public bool IsStandard { get; set; }
+        public bool IsStandard
+        {
+            get { return schemeOptions.HasFlag(SchemeOptions.Standard); }
+            set
+            {
+                if (value)
+                {
+                    schemeOptions |= SchemeOptions.Standard;
+                }
+                else
+                {
+                    schemeOptions &= ~SchemeOptions.Standard;
+                }
+            }
+        }
 
         /// <summary>
         /// If true the scheme will be treated as local (i.e. with the
@@ -64,7 +85,21 @@ namespace CefSharp
         /// origins set the CefSettings.universal_access_from_file_urls_allowed value
         /// to true.
         /// </summary>
-        public bool IsLocal { get; set; }
+        public bool IsLocal
+        {
+            get { return schemeOptions.HasFlag(SchemeOptions.Local); }
+            set
+            {
+                if (value)
+                {
+                    schemeOptions |= SchemeOptions.Local;
+                }
+                else
+                {
+                    schemeOptions &= ~SchemeOptions.Local;
+                }
+            }
+        }
 
         /// <summary>
         /// If true the scheme will be treated as display-isolated.
@@ -72,26 +107,101 @@ namespace CefSharp
         /// from the same scheme. For example, pages in another origin cannot create
         /// iframes or hyperlinks to URLs with this scheme.
         /// </summary>
-        public bool IsDisplayIsolated { get; set; }
+        public bool IsDisplayIsolated
+        {
+            get { return schemeOptions.HasFlag(SchemeOptions.DisplayIsolated); }
+            set
+            {
+                if (value)
+                {
+                    schemeOptions |= SchemeOptions.DisplayIsolated;
+                }
+                else
+                {
+                    schemeOptions &= ~SchemeOptions.DisplayIsolated;
+                }
+            }
+        }
 
         /// <summary>
         /// If true the scheme will be treated with the same security
         /// rules as those applied to "https" URLs. For example, loading this scheme
         /// from other secure schemes will not trigger mixed content warnings.
         /// </summary>
-        public bool IsSecure { get; set; }
+        public bool IsSecure
+        {
+            get { return schemeOptions.HasFlag(SchemeOptions.Secure); }
+            set
+            {
+                if (value)
+                {
+                    schemeOptions |= SchemeOptions.Secure;
+                }
+                else
+                {
+                    schemeOptions &= ~SchemeOptions.Secure;
+                }
+            }
+        }
 
         /// <summary>
         /// If true the scheme can be sent CORS requests.
         /// This value should be true in most cases where IsStandard is true.
         /// </summary>
-        public bool IsCorsEnabled { get; set; }
+        public bool IsCorsEnabled
+        {
+            get { return schemeOptions.HasFlag(SchemeOptions.CorsEnabled); }
+            set
+            {
+                if (value)
+                {
+                    schemeOptions |= SchemeOptions.CorsEnabled;
+                }
+                else
+                {
+                    schemeOptions &= ~SchemeOptions.CorsEnabled;
+                }
+            }
+        }
 
         /// <summary>
         /// If true the scheme can bypass Content-Security-Policy(CSP) checks. 
         /// This value should be false in most cases where IsStandard is true.
         /// </summary>
-        public bool IsCSPBypassing { get; set; }
+        public bool IsCSPBypassing
+        {
+            get { return schemeOptions.HasFlag(SchemeOptions.CspBypassing); }
+            set
+            {
+                if (value)
+                {
+                    schemeOptions |= SchemeOptions.CspBypassing;
+                }
+                else
+                {
+                    schemeOptions &= ~SchemeOptions.CspBypassing;
+                }
+            }
+        }
+
+        /// <summary>
+        /// If true the scheme can perform Fetch API requests.
+        /// </summary>
+        public bool IsFetchEnabled
+        {
+            get { return schemeOptions.HasFlag(SchemeOptions.FetchEnabled); }
+            set
+            {
+                if (value)
+                {
+                    schemeOptions |= SchemeOptions.FetchEnabled;
+                }
+                else
+                {
+                    schemeOptions &= ~SchemeOptions.FetchEnabled;
+                }
+            }
+        }
 
         /// <summary>
         /// Factory Class that creates <see cref="IResourceHandler"/> instances
@@ -101,16 +211,30 @@ namespace CefSharp
         public ISchemeHandlerFactory SchemeHandlerFactory { get; set; }
 
         /// <summary>
+        /// Gets the underlying scheme options that represents
+        /// </summary>
+        public SchemeOptions Options
+        {
+            get { return schemeOptions; }
+        }
+
+        /// <summary>
         /// Creates a new CefCustomScheme.
         /// </summary>
         public CefCustomScheme()
         {
-            IsStandard = true;
-            IsLocal = false;
-            IsDisplayIsolated = false;
-            IsSecure = true;
-            IsCorsEnabled = true;
-            IsCSPBypassing = false;
+            schemeOptions = SchemeOptions.Standard | SchemeOptions.Secure | SchemeOptions.CorsEnabled;
+        }
+
+        /// <summary>
+        /// Creates a new CefCustomScheme.
+        /// </summary>
+        /// <param name="schemeName">scheme name</param>
+        /// <param name="options">scheme options</param>
+        public CefCustomScheme(string schemeName, SchemeOptions options)
+        {
+            SchemeName = schemeName;
+            schemeOptions = options;
         }
 
         /// <summary>
@@ -128,16 +252,13 @@ namespace CefSharp
                 schemes.Split(';').ToList().ForEach(x =>
                 {
                     var tokens = x.Split('|');
-                    var customScheme = new CefCustomScheme
-                    {
-                        SchemeName = tokens[0],
-                        IsStandard = tokens[1] == "T",
-                        IsLocal = tokens[2] == "T",
-                        IsDisplayIsolated = tokens[3] == "T",
-                        IsSecure = tokens[4] == "T",
-                        IsCorsEnabled = tokens[5] == "T",
-                        IsCSPBypassing = tokens[6] == "T"
-                    };
+                    var schemeName = tokens[0];
+                    var schemeOptions = SchemeOptions.None;
+
+                    Enum.TryParse(tokens[1], out schemeOptions);
+
+                    var customScheme = new CefCustomScheme(schemeName, schemeOptions);
+
                     customSchemes.Add(customScheme);
                 });
             }

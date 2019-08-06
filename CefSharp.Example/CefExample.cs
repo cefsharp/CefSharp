@@ -13,7 +13,9 @@ namespace CefSharp.Example
 {
     public static class CefExample
     {
-        public const string BaseUrl = "custom://cefsharp";
+        //TODO: Revert after https://bitbucket.org/chromiumembedded/cef/issues/2685/networkservice-custom-scheme-unable-to
+        //has been fixed.
+        public const string BaseUrl = "https://cefsharp.example";
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
@@ -96,10 +98,6 @@ namespace CefSharp.Example
 
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1"); //Disable Vsync
 
-            //Disables the DirectWrite font rendering system on windows.
-            //Possibly useful when experiencing blury fonts.
-            //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
-
             // The following options control accessibility state for all frames.
             // These options only take effect if accessibility state is not set by IBrowserHost.SetAccessibilityState call.
             // --force-renderer-accessibility enables browser accessibility.
@@ -107,6 +105,11 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("force-renderer-accessibility", "1");
             //settings.CefCommandLineArgs.Add("disable-renderer-accessibility", "1");
 
+            //Disable Network Service in WPF
+            //settings.CefCommandLineArgs.Add("disable-features", "NetworkService,VizDisplayCompositor");
+
+            //Disable Network Service in WinForms
+            //settings.CefCommandLineArgs.Add("disable-features", "NetworkService");
 
             //Enables Uncaught exception handler
             settings.UncaughtExceptionStackSize = 10;
@@ -155,8 +158,14 @@ namespace CefSharp.Example
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
-                IsSecure = true //treated with the same security rules as those applied to "https" URLs
-                //SchemeHandlerFactory = new InMemorySchemeAndResourceHandlerFactory()
+                IsSecure = true, //treated with the same security rules as those applied to "https" URLs
+            });
+
+            settings.RegisterScheme(new CefCustomScheme
+            {
+                SchemeName = "https",
+                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
+                DomainName = "cefsharp.example"
             });
 
             settings.RegisterScheme(new CefCustomScheme
@@ -193,7 +202,7 @@ namespace CefSharp.Example
             //Set this to true to when you have methods that return Task<T>
             //CefSharpSettings.ConcurrentTaskExecution = true;
 
-            //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)
+            //Legacy Binding Behaviour - Same as Javascript Binding in version 57 and below
             //See issue https://github.com/cefsharp/CefSharp/issues/1203 for details
             //CefSharpSettings.LegacyJavascriptBindingEnabled = true;
 
@@ -217,7 +226,7 @@ namespace CefSharp.Example
 
         public static async void RegisterTestResources(IWebBrowser browser)
         {
-            var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
+            var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
             if (handler != null)
             {
                 const string renderProcessCrashedBody = "<html><body><h1>Render Process Crashed</h1><p>Your seeing this message as the render process has crashed</p></body></html>";

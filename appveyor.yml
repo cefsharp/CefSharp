@@ -1,6 +1,6 @@
 image: Visual Studio 2015
 
-version: 74.1.130-CI{build}
+version: 76.1.50-CI{build}
 
 clone_depth: 10
 
@@ -27,7 +27,7 @@ deploy:
   provider: NuGet
   server: https://www.myget.org/F/cefsharp/api/v2/package
   api_key:
-    secure: q//EEhpYkeC7JaxBiK6ebPFiF3ixBi62pNWk0p7UIh8o/7Tm25DvbZPOoKf9dwsY
+    secure: /4s0qE0Jio8mtN87p4e2bnl2J4uIa8nO2Tq/O0mkmWy+zahCmfQM8IB2knN0qhKh
   skip_symbols: false
   symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
   artifact: nupkgfiles

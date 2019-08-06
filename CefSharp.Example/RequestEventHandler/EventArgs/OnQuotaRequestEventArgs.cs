@@ -6,8 +6,8 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public class OnQuotaRequestEventArgs : BaseRequestEventArgs
     {
-        public OnQuotaRequestEventArgs(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
-            : base(browserControl, browser)
+        public OnQuotaRequestEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
+            : base(chromiumWebBrowser, browser)
         {
             OriginUrl = originUrl;
             NewSize = newSize;

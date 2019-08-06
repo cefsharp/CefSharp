@@ -67,11 +67,13 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Callback\RunFileDialogCallback.cs" />
     <Compile Include="Handlers\AudioHandler.cs" />
+    <Compile Include="Handlers\ExampleResourceRequestHandler.cs" />
     <Compile Include="Handlers\ExtensionHandler.cs" />
     <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
     <Compile Include="JavascriptBinding\BoundObject.cs" />
@@ -82,10 +84,9 @@
     <Compile Include="Filters\ExperimentalStreamResponseFilter.cs" />
     <Compile Include="Filters\MemoryStreamResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
-    <Compile Include="FlashResourceHandlerFactory.cs" />
     <Compile Include="Filters\PassThruResponseFilter.cs" />
     <Compile Include="Handlers\BrowserProcessHandler.cs" />
-    <Compile Include="InMemorySchemeAndResourceHandlerFactory.cs" />
+    <Compile Include="InMemorySchemeHandlerFactory.cs" />
     <Compile Include="JavascriptBinding\JavascriptCallbackBoundObject.cs" />
     <Compile Include="JavascriptBinding\JsSerializableClass.cs" />
     <Compile Include="JavascriptBinding\JsSerializableStruct.cs" />
@@ -93,22 +94,14 @@
     <Compile Include="PostMessage\PostMessageExample.cs" />
     <Compile Include="PostMessage\PostMessageExampleData.cs" />
     <Compile Include="RequestEventHandler\EventArgs\BaseRequestEventArgs.cs" />
-    <Compile Include="RequestEventHandler\EventArgs\CanSetCookieEventArg.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetAuthCredentialsEventArgs.cs" />
-    <Compile Include="RequestEventHandler\EventArgs\GetResourceResponseFilterEventArgs.cs" />
-    <Compile Include="RequestEventHandler\EventArgs\CanGetCookiesEventArg.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnBeforeBrowseEventArgs.cs" />
-    <Compile Include="RequestEventHandler\EventArgs\OnBeforeResourceLoadEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnCertificateErrorEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnOpenUrlFromTabEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnPluginCrashedEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnProtocolExecutionEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnQuotaRequestEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\OnRenderProcessTerminatedEventArgs.cs" />
-    <Compile Include="RequestEventHandler\EventArgs\OnRenderViewReadyEventArgs.cs" />
-    <Compile Include="RequestEventHandler\EventArgs\OnResourceLoadCompleteEventArgs.cs" />
-    <Compile Include="RequestEventHandler\EventArgs\OnResourceRedirectEventArgs.cs" />
-    <Compile Include="RequestEventHandler\EventArgs\OnResourceResponseEventArgs.cs" />
     <Compile Include="RequestEventHandler\RequestEventHandler.cs" />
     <Compile Include="ScriptedMethodsBoundObject.cs" />
     <Compile Include="JavascriptBinding\ExceptionTestBoundObject.cs" />
@@ -124,7 +117,7 @@
     <Compile Include="Handlers\TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
     <Compile Include="Handlers\DownloadHandler.cs" />
-    <Compile Include="Handlers\RequestHandler.cs" />
+    <Compile Include="Handlers\ExampleRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -29,7 +29,7 @@ namespace CefSharp.Wpf.Example.Views
 
             //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
 
-            browser.RequestHandler = new RequestHandler();
+            browser.RequestHandler = new ExampleRequestHandler();
 
             //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
             if (CefSharpSettings.LegacyJavascriptBindingEnabled)
@@ -114,6 +114,7 @@ namespace CefSharp.Wpf.Example.Views
             //browser.RequestContext = new RequestContext(new RequestContextHandler());
             //NOTE - This is very important for this example as the default page will not load otherwise
             //browser.RequestContext.RegisterSchemeHandlerFactory(CefSharpSchemeHandlerFactory.SchemeName, null, new CefSharpSchemeHandlerFactory());
+            //browser.RequestContext.RegisterSchemeHandlerFactory("https", "cefsharp.example", new CefSharpSchemeHandlerFactory());
 
             //You can start setting preferences on a RequestContext that you created straight away, still needs to be called on the CEF UI thread.
             //Cef.UIThreadTaskFactory.StartNew(delegate
@@ -134,16 +135,12 @@ namespace CefSharp.Wpf.Example.Views
                     return;
                 }
 
-                // Don't display an error for external protocols that we allow the OS to
-                // handle. See OnProtocolExecution().
-                //if (args.ErrorCode == CefErrorCode.UnknownUrlScheme)
-                //{
-                //	var url = args.Frame.Url;
-                //	if (url.StartsWith("spotify:"))
-                //	{
-                //		return;
-                //	}
-                //}
+                //Don't display an error for external protocols that we allow the OS to
+                //handle in OnProtocolExecution().
+                if (args.ErrorCode == CefErrorCode.UnknownUrlScheme && args.Frame.Url.StartsWith("mailto"))
+                {
+                    return;
+                }
 
                 // Display a load error message.
                 var errorBody = string.Format("<html><body bgcolor=\"white\"><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>",

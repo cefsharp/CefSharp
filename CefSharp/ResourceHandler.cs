@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
+using CefSharp.Callback;
 
 namespace CefSharp
 {
@@ -23,6 +24,11 @@ namespace CefSharp
         /// MimeType to be used if none provided
         /// </summary>
         public const string DefaultMimeType = "text/html";
+
+        /// <summary>
+        /// Gets or sets the Charset
+        /// </summary>
+        public string Charset { get; set; }
 
         /// <summary>
         /// Gets or sets the Mime Type.
@@ -93,6 +99,116 @@ namespace CefSharp
             AutoDisposeStream = autoDisposeStream;
         }
 
+        bool IResourceHandler.Open(IRequest request, out bool handleRequest, ICallback callback)
+        {
+            var processRequest = ProcessRequestAsync(request, callback);
+
+            //Process the request in an async fashion
+            if (processRequest == CefReturnValue.ContinueAsync)
+            {
+                handleRequest = false;
+
+                return true;
+            }
+            else if (processRequest == CefReturnValue.Continue)
+            {
+                handleRequest = true;
+
+                return true;
+            }
+
+            //Cancel Request
+            handleRequest = true;
+
+            return false;
+        }
+
+        bool IResourceHandler.Skip(long bytesToSkip, out long bytesSkipped, IResourceSkipCallback callback)
+        {
+            //No Stream or Stream cannot seek then we indicate failure
+            if (Stream == null || !Stream.CanSeek)
+            {
+                //Indicate failure
+                bytesSkipped = -2;
+
+                return false;
+            }
+
+            bytesSkipped = bytesToSkip;
+
+            Stream.Seek(bytesToSkip, SeekOrigin.Current);
+
+            return false;
+        }
+
+        bool IResourceHandler.Read(Stream dataOut, out int bytesRead, IResourceReadCallback callback)
+        {
+            bytesRead = 0;
+
+            //We don't need the callback, as it's an unmanaged resource we should dispose it (could wrap it in a using statement).
+            callback.Dispose();
+
+            if (Stream == null)
+            {
+                return false;
+            }
+
+            //Data out represents an underlying buffer (typically 32kb in size).
+            var buffer = new byte[dataOut.Length];
+            bytesRead = Stream.Read(buffer, 0, buffer.Length);
+
+            // To indicate response completion set bytesRead to 0 and return false
+            if (bytesRead == 0)
+            {
+                return false;
+            }
+
+            dataOut.Write(buffer, 0, buffer.Length);
+
+            return bytesRead > 0;
+        }
+
+        void IResourceHandler.GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
+        {
+            redirectUrl = null;
+            responseLength = -1;
+
+            response.MimeType = MimeType;
+            response.StatusCode = StatusCode;
+            response.StatusText = StatusText;
+            response.Headers = Headers;
+
+            if (!string.IsNullOrEmpty(Charset))
+            {
+                response.Charset = Charset;
+            }
+
+            if (ResponseLength.HasValue)
+            {
+                responseLength = ResponseLength.Value;
+            }
+            else if (Stream != null && Stream.CanSeek)
+            {
+                //If no ResponseLength provided then attempt to infer the length
+                responseLength = Stream.Length;
+            };
+        }
+
+        void IResourceHandler.Cancel()
+        {
+            Stream = null;
+        }
+
+        bool IResourceHandler.ProcessRequest(IRequest request, ICallback callback)
+        {
+            throw new NotImplementedException("This method was deprecated and is no longer used.");
+        }
+
+        bool IResourceHandler.ReadResponse(Stream dataOut, out int bytesRead, ICallback callback)
+        {
+            throw new NotImplementedException("This method was deprecated and is no longer used.");
+        }
+
         /// <summary>
         /// Begin processing the request. If you have the data in memory you can execute the callback
         /// immediately and return true. For Async processing you would typically spawn a Task to perform processing,
@@ -106,125 +222,9 @@ namespace CefSharp
         /// <see cref="ICallback.Continue"/> can also be called from inside this method if
         /// header information is available immediately).
         /// To cancel the request return false.</returns>
-        public virtual bool ProcessRequestAsync(IRequest request, ICallback callback)
+        public virtual CefReturnValue ProcessRequestAsync(IRequest request, ICallback callback)
         {
-            callback.Continue();
-
-            return true;
-        }
-
-        /// <summary>
-        /// Populate the response stream, response length. When this method is called
-        /// the response should be fully populated with data.
-        /// It is possible to redirect to another url at this point in time.
-        /// NOTE: It's no longer manditory to implement this method, you can simply populate the
-        /// properties of this instance and they will be set by the default implementation. 
-        /// </summary>
-        /// <param name="response">The response object used to set Headers, StatusCode, etc</param>
-        /// <param name="responseLength">length of the response</param>
-        /// <param name="redirectUrl">If set the request will be redirect to specified Url</param>
-        /// <returns>The response stream</returns>
-        public virtual Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
-        {
-            redirectUrl = null;
-            responseLength = -1;
-
-            response.MimeType = MimeType;
-            response.StatusCode = StatusCode;
-            response.StatusText = StatusText;
-            response.Headers = Headers;
-
-            if (ResponseLength.HasValue)
-            {
-                responseLength = ResponseLength.Value;
-            }
-            else
-            {
-                //If no ResponseLength provided then attempt to infer the length
-                if (Stream != null && Stream.CanSeek)
-                {
-                    responseLength = Stream.Length;
-                }
-            }
-
-            return Stream;
-        }
-
-        /// <summary>
-        /// Called if the request is cancelled
-        /// </summary>
-        public virtual void Cancel()
-        {
-
-        }
-
-        bool IResourceHandler.ProcessRequest(IRequest request, ICallback callback)
-        {
-            return ProcessRequestAsync(request, callback);
-        }
-
-        void IResourceHandler.GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
-        {
-            if (ErrorCode.HasValue)
-            {
-                responseLength = 0;
-                redirectUrl = null;
-                response.ErrorCode = ErrorCode.Value;
-            }
-            else
-            {
-                Stream = GetResponse(response, out responseLength, out redirectUrl);
-
-                if (Stream != null && Stream.CanSeek)
-                {
-                    //Reset the stream position to 0
-                    Stream.Position = 0;
-                }
-            }
-        }
-
-        bool IResourceHandler.ReadResponse(Stream dataOut, out int bytesRead, ICallback callback)
-        {
-            //We don't need the callback, as it's an unmanaged resource we should dispose it (could wrap it in a using statement).
-            callback.Dispose();
-
-            if (Stream == null)
-            {
-                bytesRead = 0;
-
-                return false;
-            }
-
-            //Data out represents an underlying buffer (typically 32kb in size).
-            var buffer = new byte[dataOut.Length];
-            bytesRead = Stream.Read(buffer, 0, buffer.Length);
-
-            //If bytesRead is 0 then no point attempting a write to dataOut
-            if (bytesRead == 0)
-            {
-                return false;
-            }
-
-            dataOut.Write(buffer, 0, buffer.Length);
-
-            return bytesRead > 0;
-        }
-
-        bool IResourceHandler.CanGetCookie(Cookie cookie)
-        {
-            return true;
-        }
-
-        bool IResourceHandler.CanSetCookie(Cookie cookie)
-        {
-            return true;
-        }
-
-        void IResourceHandler.Cancel()
-        {
-            Cancel();
-
-            Stream = null;
+            return CefReturnValue.Continue;
         }
 
         /// <summary>

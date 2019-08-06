@@ -10,7 +10,7 @@ supportComment: >
   and feature requests. However, this issue appears to be a support request.
   Please use our support channels to get help with the project.
   
-  If you have a question, ask it on [Gitter](https://gitter.im/cefsharp/CefSharp),  [StackOverflow](http://stackoverflow.com/questions/tagged/cefsharp) or use [ceforum](http://magpcss.org/ceforum/) (for questions specific to `CEF`).
+  If you have a question, ask it on [StackOverflow](http://stackoverflow.com/questions/tagged/cefsharp) or use [ceforum](http://magpcss.org/ceforum/) (for questions specific to `CEF`).
   
   If you are new to `CefSharp` then we suggest you read https://github.com/cefsharp/CefSharp/wiki/General-Usage
 

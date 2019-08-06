@@ -6,12 +6,12 @@ namespace CefSharp.Example.Handlers
 {
     public class JsDialogHandler : IJsDialogHandler
     {
-        bool IJsDialogHandler.OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
+        bool IJsDialogHandler.OnJSDialog(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
         {
             return false;
         }
 
-        bool IJsDialogHandler.OnBeforeUnloadDialog(IWebBrowser browserControl, IBrowser browser, string message, bool isReload, IJsDialogCallback callback)
+        bool IJsDialogHandler.OnBeforeUnloadDialog(IWebBrowser chromiumWebBrowser, IBrowser browser, string message, bool isReload, IJsDialogCallback callback)
         {
             //Custom implementation would look something like
             // - Create/Show dialog on UI Thread
@@ -23,12 +23,12 @@ namespace CefSharp.Example.Handlers
             return false;
         }
 
-        void IJsDialogHandler.OnResetDialogState(IWebBrowser browserControl, IBrowser browser)
+        void IJsDialogHandler.OnResetDialogState(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
 
         }
 
-        void IJsDialogHandler.OnDialogClosed(IWebBrowser browserControl, IBrowser browser)
+        void IJsDialogHandler.OnDialogClosed(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
 
         }
