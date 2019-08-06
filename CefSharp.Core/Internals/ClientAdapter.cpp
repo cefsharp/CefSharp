@@ -1257,27 +1257,28 @@ namespace CefSharp
 
         void ClientAdapter::MethodInvocationComplete(MethodInvocationResult^ result)
         {
-            if (result->CallbackId.HasValue)
+            auto browser = GetBrowserWrapper(result->BrowserId);
+
+            if (result->CallbackId.HasValue && browser != nullptr)
             {
-                auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
-                auto argList = message->GetArgumentList();
-                SetInt64(argList, 0, result->CallbackId.Value);
-                argList->SetBool(1, result->Success);
-                if (result->Success)
-                {
-                    SerializeV8Object(argList, 2, result->Result);
-                }
-                else
-                {
-                    argList->SetString(2, StringUtils::ToNative(result->Message));
-                }
+                auto wrapper = static_cast<CefSharpBrowserWrapper^>(browser);
 
-                auto browser = GetBrowserWrapper(result->BrowserId);
+                auto frame = wrapper->Browser->GetFrame(result->FrameId);
 
-                if (browser != nullptr)
+                if (frame.get() && frame->IsValid())
                 {
-                    auto wrapper = static_cast<CefSharpBrowserWrapper^>(browser);
-                    auto frame = wrapper->Browser->GetFrame(result->FrameId);
+                    auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
+                    auto argList = message->GetArgumentList();
+                    SetInt64(argList, 0, result->CallbackId.Value);
+                    argList->SetBool(1, result->Success);
+                    if (result->Success)
+                    {
+                        SerializeV8Object(argList, 2, result->Result);
+                    }
+                    else
+                    {
+                        argList->SetString(2, StringUtils::ToNative(result->Message));
+                    }
 
                     frame->SendProcessMessage(CefProcessId::PID_RENDERER, message);
                 }
