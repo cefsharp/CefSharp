@@ -50,7 +50,13 @@ namespace CefSharp.WinForms.Example
                 //CefSharp focus handler implementation.
                 browser.FocusHandler = null;
             }
-            browser.LifeSpanHandler = new LifeSpanHandler();
+
+            //Handling DevTools docked inside the same window requires 
+            //an instance of the LifeSpanHandler all the window events,
+            //e.g. creation, resize, moving, closing etc.
+            browser.LifeSpanHandler = new LifeSpanHandler(false);
+
+
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
@@ -446,36 +452,46 @@ namespace CefSharp.WinForms.Example
             if (browserSplitContainer.Panel2Collapsed)
             {
                 browserSplitContainer.Panel2Collapsed = false;
-
-                if (devToolsPanel == null || devToolsPanel.IsDisposed)
-                {
-                    devToolsPanel = new Panel()
-                    {
-                        Dock = DockStyle.Fill
-                    };
-                    browserSplitContainer.Panel2.Controls.Add(devToolsPanel);
-                }
-
-                var windowInfo = new WindowInfo();
-                windowInfo.SetAsChild(devToolsPanel.Handle);
-                Browser.GetBrowserHost().ShowDevTools(windowInfo);  
             }
+
+            //Find devToolsPanel in Controls collection
+            Panel devToolsPanel = null;
+            devToolsPanel = (Panel)browserSplitContainer.Panel2.Controls.Find(nameof(devToolsPanel), false).FirstOrDefault();
+
+            if (devToolsPanel == null || devToolsPanel.IsDisposed)
+            {
+                devToolsPanel = new Panel()
+                {
+                    Name = nameof(devToolsPanel),
+                    Dock = DockStyle.Fill
+                };
+
+                EventHandler handler = null;
+                handler = (s, e) =>
+                {
+                    browserSplitContainer.Panel2.Controls.Remove(devToolsPanel);
+                    browserSplitContainer.Panel2Collapsed = true;
+                    devToolsPanel.Disposed -= handler;
+                };
+
+                //Subscribe for devToolsPanel dispose event
+                devToolsPanel.Disposed += handler;
+
+                //Add new devToolsPanel instance to Controls collection
+                browserSplitContainer.Panel2.Controls.Add(devToolsPanel);
+            }
+
+            var windowInfo = new WindowInfo();
+            windowInfo.SetAsChild(devToolsPanel.Handle);
+            Browser.GetBrowserHost().ShowDevTools(windowInfo);
         }
 
-        public void CloseDevToolsDocked()
+        public async Task<bool> CheckIfDevToolsIsOpenAsync()
         {
-            if (!browserSplitContainer.Panel2Collapsed)
+            return await Cef.UIThreadTaskFactory.StartNew(() =>
             {
-               browserSplitContainer.Panel2Collapsed = true;
-
-                if (devToolsPanel != null || !devToolsPanel.IsDisposed)
-                {
-                    //IBrowserHost.CloseDevTools() will not release the handle,
-                    //it will only trigger the ILifeSpanHandler.DoClose().
-                    //Dispose of the parent instead, ILifeSpanHandler.OnBeforeClose() will call after.
-                    devToolsPanel.Dispose();
-                }
-            }
+                return Browser.GetBrowserHost().HasDevTools;
+            });
         }
     }
 }
