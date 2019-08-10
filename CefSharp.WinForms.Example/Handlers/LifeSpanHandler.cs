@@ -11,8 +11,7 @@ namespace CefSharp.WinForms.Example.Handlers
 {
     public class LifeSpanHandler : ILifeSpanHandler
     {
-        public bool handlePopups;
-
+        private bool handlePopups;
         private Dictionary<int, PopupAsChildHelper> popupasChildHelpers = new Dictionary<int, PopupAsChildHelper>();
 
         public LifeSpanHandler(bool handleBrowserPopups)
