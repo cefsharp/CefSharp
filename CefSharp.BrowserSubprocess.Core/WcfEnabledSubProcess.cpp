@@ -58,30 +58,42 @@ namespace CefSharp
         {
             auto channelFactory = browser->ChannelFactory;
 
-            try
+            //Add null check for issue https://github.com/cefsharp/CefSharp/issues/2839
+            if (channelFactory == nullptr)
             {
-                if (channelFactory->State == CommunicationState::Opened)
+                LOG(ERROR) << "WcfEnabledSubProcess::OnBrowserDestroyed - browser->ChannelFactory was unexpectedly null, see https://github.com/cefsharp/CefSharp/issues/2839 for some debugging tips.";
+            }
+            else
+            {
+                try
                 {
-                    channelFactory->Close();
+                    if (channelFactory->State == CommunicationState::Opened)
+                    {
+                        channelFactory->Close();
+                    }
+                }
+                catch (Exception^)
+                {
+                    channelFactory->Abort();
                 }
             }
-            catch (Exception^)
-            {
-                channelFactory->Abort();
-            }
 
-            auto clientChannel = ((IClientChannel^)browser->BrowserProcess);
-
-            try
+            //Add null check for issue https://github.com/cefsharp/CefSharp/issues/2839
+            if (browser->BrowserProcess != nullptr)
             {
-                if (clientChannel->State == CommunicationState::Opened)
+                auto clientChannel = ((IClientChannel^)browser->BrowserProcess);
+
+                try
                 {
-                    clientChannel->Close();
+                    if (clientChannel->State == CommunicationState::Opened)
+                    {
+                        clientChannel->Close();
+                    }
                 }
-            }
-            catch (Exception^)
-            {
-                clientChannel->Abort();
+                catch (Exception^)
+                {
+                    clientChannel->Abort();
+                }
             }
 
             browser->ChannelFactory = nullptr;

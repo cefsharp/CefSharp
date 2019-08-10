@@ -91,6 +91,7 @@ namespace CefSharp
             {
                 String^ argument = "=";
                 bool hasCustomScheme = false;
+                auto registeredSchemes = gcnew List<String^>();
 
                 for each(CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
                 {
@@ -101,7 +102,15 @@ namespace CefSharp
                         continue;
                     }
 
+                    //We've already registered this scheme name
+                    if (registeredSchemes->Contains(scheme->SchemeName))
+                    {
+                        continue;
+                    }
+
                     hasCustomScheme = true;
+
+                    registeredSchemes->Add(scheme->SchemeName);
 
                     argument += scheme->SchemeName + "|";
                     argument += ((int)scheme->Options).ToString() + ";";

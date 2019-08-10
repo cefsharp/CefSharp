@@ -14,6 +14,7 @@ namespace CefSharp
     {
         /// <summary>
         /// Callback interface used to select a client certificate for authentication.
+        /// <see langword="null"/> value means that no client certificate should be used.
         /// </summary>
         /// <param name="selectedCert">selected certificate</param>
         void Select(X509Certificate2 selectedCert);
