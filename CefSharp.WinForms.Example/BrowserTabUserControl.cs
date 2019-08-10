@@ -466,16 +466,16 @@ namespace CefSharp.WinForms.Example
                     Dock = DockStyle.Fill
                 };
 
-                EventHandler handler = null;
-                handler = (s, e) =>
+                EventHandler devToolsPanelDisposedHandler = null;
+                devToolsPanelDisposedHandler = (s, e) =>
                 {
                     browserSplitContainer.Panel2.Controls.Remove(devToolsPanel);
                     browserSplitContainer.Panel2Collapsed = true;
-                    devToolsPanel.Disposed -= handler;
+                    devToolsPanel.Disposed -= devToolsPanelDisposedHandler;
                 };
 
                 //Subscribe for devToolsPanel dispose event
-                devToolsPanel.Disposed += handler;
+                devToolsPanel.Disposed += devToolsPanelDisposedHandler;
 
                 //Add new devToolsPanel instance to Controls collection
                 browserSplitContainer.Panel2.Controls.Add(devToolsPanel);
