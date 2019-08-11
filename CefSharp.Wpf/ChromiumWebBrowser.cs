@@ -784,12 +784,16 @@ namespace CefSharp.Wpf
         /// <returns>View Rectangle</returns>
         protected virtual Rect GetViewRect()
         {
-            if (resizeHackForIssue2779Size == null)
+            //Take a local copy as the value is set on a different thread,
+            //Its possible the struct is set to null after our initial check.
+            var resizeRect = resizeHackForIssue2779Size;
+
+            if (resizeRect == null)
             {
                 return viewRect;
             }
 
-            var size = resizeHackForIssue2779Size.Value;
+            var size = resizeRect.Value;
 
             return new Rect(0, 0, size.Width, size.Height);
         }
