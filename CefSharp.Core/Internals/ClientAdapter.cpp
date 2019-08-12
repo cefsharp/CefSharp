@@ -249,7 +249,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto args = gcnew LoadingStateChangedEventArgs(browserWrapper, canGoBack, canGoForward, isLoading);
 
-            if (!browser->IsPopup())
+            if (!browser->IsPopup() || _browserControl->HasParent)
             {
                 _browserControl->SetLoadingStateChange(args);
             }
@@ -267,7 +267,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto args = gcnew AddressChangedEventArgs(browserWrapper, StringUtils::ToClr(address));
 
-            if (!browser->IsPopup())
+            if (!browser->IsPopup() || _browserControl->HasParent)
             {
                 _browserControl->SetAddress(args);
             }
@@ -370,7 +370,7 @@ namespace CefSharp
                     returnFlag = handler->OnTooltipChanged(_browserControl, tooltip);
                 }
 
-                if (!browser->IsPopup())
+                if (!browser->IsPopup() || _browserControl->HasParent)
                 {
                     _tooltip = tooltip;
                     _browserControl->SetTooltipText(_tooltip);
@@ -384,7 +384,7 @@ namespace CefSharp
         {
             auto args = gcnew ConsoleMessageEventArgs((LogSeverity)level, StringUtils::ToClr(message), StringUtils::ToClr(source), line);
 
-            if (!browser->IsPopup())
+            if (!browser->IsPopup() || _browserControl->HasParent)
             {
                 _browserControl->OnConsoleMessage(args);
             }
@@ -403,7 +403,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto args = gcnew StatusMessageEventArgs(browserWrapper, StringUtils::ToClr(value));
 
-            if (!browser->IsPopup())
+            if (!browser->IsPopup() || _browserControl->HasParent)
             {
                 _browserControl->OnStatusMessage(args);
             }
@@ -454,7 +454,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             CefFrameWrapper frameWrapper(frame);
 
-            if (!browser->IsPopup())
+            if (!browser->IsPopup() || _browserControl->HasParent)
             {
                 _browserControl->OnFrameLoadStart(gcnew FrameLoadStartEventArgs(browserWrapper, %frameWrapper, (CefSharp::TransitionType)transitionType));
             }
@@ -471,7 +471,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             CefFrameWrapper frameWrapper(frame);
 
-            if (!browser->IsPopup())
+            if (!browser->IsPopup() || _browserControl->HasParent)
             {
                 _browserControl->OnFrameLoadEnd(gcnew FrameLoadEndEventArgs(browserWrapper, %frameWrapper, httpStatusCode));
             }
@@ -489,7 +489,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             CefFrameWrapper frameWrapper(frame);
 
-            if (!browser->IsPopup())
+            if (!browser->IsPopup() || _browserControl->HasParent)
             {
                 _browserControl->OnLoadError(gcnew LoadErrorEventArgs(browserWrapper, %frameWrapper,
                     (CefErrorCode)errorCode, StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl)));
