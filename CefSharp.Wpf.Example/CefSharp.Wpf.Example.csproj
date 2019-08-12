@@ -116,7 +116,7 @@
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DragHandler.cs" />
     <Compile Include="Handlers\MenuHandler.cs" />
-    <Compile Include="Handlers\LifespanHandler.cs" />
+    <Compile Include="Handlers\ExperimentalLifespanHandler.cs" />
     <Compile Include="Handlers\RequestContextHandler.cs" />
     <Compile Include="Handlers\WpfBrowserProcessHandler.cs" />
     <Compile Include="Program.cs" />

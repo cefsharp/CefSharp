@@ -90,7 +90,9 @@ namespace CefSharp.Wpf.Example.Views
             };
 
             browser.DisplayHandler = new DisplayHandler();
-            browser.LifeSpanHandler = new LifespanHandler();
+            //This LifeSpanHandler implementaion demos hosting a popup in a ChromiumWebBrowser
+            //instance, it's still considered Experimental
+            //browser.LifeSpanHandler = new ExperimentalLifespanHandler();
             browser.MenuHandler = new MenuHandler();
             browser.AccessibilityHandler = new AccessibilityHandler();
             var downloadHandler = new DownloadHandler();
