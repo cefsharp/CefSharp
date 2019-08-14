@@ -50,7 +50,13 @@ namespace CefSharp.WinForms.Example
                 //CefSharp focus handler implementation.
                 browser.FocusHandler = null;
             }
-            //browser.LifeSpanHandler = new LifeSpanHandler();
+
+            //Handling DevTools docked inside the same window requires 
+            //an instance of the LifeSpanHandler all the window events,
+            //e.g. creation, resize, moving, closing etc.
+            browser.LifeSpanHandler = new LifeSpanHandler(false);
+
+
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
@@ -439,6 +445,53 @@ namespace CefSharp.WinForms.Example
         private void FindCloseButtonClick(object sender, EventArgs e)
         {
             ToggleBottomToolStrip();
+        }
+
+        public void ShowDevToolsDocked()
+        {
+            if (browserSplitContainer.Panel2Collapsed)
+            {
+                browserSplitContainer.Panel2Collapsed = false;
+            }
+
+            //Find devToolsPanel in Controls collection
+            Panel devToolsPanel = null;
+            devToolsPanel = (Panel)browserSplitContainer.Panel2.Controls.Find(nameof(devToolsPanel), false).FirstOrDefault();
+
+            if (devToolsPanel == null || devToolsPanel.IsDisposed)
+            {
+                devToolsPanel = new Panel()
+                {
+                    Name = nameof(devToolsPanel),
+                    Dock = DockStyle.Fill
+                };
+
+                EventHandler devToolsPanelDisposedHandler = null;
+                devToolsPanelDisposedHandler = (s, e) =>
+                {
+                    browserSplitContainer.Panel2.Controls.Remove(devToolsPanel);
+                    browserSplitContainer.Panel2Collapsed = true;
+                    devToolsPanel.Disposed -= devToolsPanelDisposedHandler;
+                };
+
+                //Subscribe for devToolsPanel dispose event
+                devToolsPanel.Disposed += devToolsPanelDisposedHandler;
+
+                //Add new devToolsPanel instance to Controls collection
+                browserSplitContainer.Panel2.Controls.Add(devToolsPanel);
+            }
+
+            var windowInfo = new WindowInfo();
+            windowInfo.SetAsChild(devToolsPanel.Handle);
+            Browser.GetBrowserHost().ShowDevTools(windowInfo);
+        }
+
+        public async Task<bool> CheckIfDevToolsIsOpenAsync()
+        {
+            return await Cef.UIThreadTaskFactory.StartNew(() =>
+            {
+                return Browser.GetBrowserHost().HasDevTools;
+            });
         }
     }
 }
