@@ -54,8 +54,7 @@ namespace CefSharp.WinForms.Example
             //Handling DevTools docked inside the same window requires 
             //an instance of the LifeSpanHandler all the window events,
             //e.g. creation, resize, moving, closing etc.
-            browser.LifeSpanHandler = new LifeSpanHandler(false);
-
+            browser.LifeSpanHandler = new LifeSpanHandler(openPopupsAsTabs: false);
 
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
@@ -447,6 +446,8 @@ namespace CefSharp.WinForms.Example
             ToggleBottomToolStrip();
         }
 
+        //Example of DevTools docked within the existing UserControl,
+        //in this example it's hosted in a Panel with a SplitContainer
         public void ShowDevToolsDocked()
         {
             if (browserSplitContainer.Panel2Collapsed)
@@ -456,7 +457,7 @@ namespace CefSharp.WinForms.Example
 
             //Find devToolsPanel in Controls collection
             Panel devToolsPanel = null;
-            devToolsPanel = (Panel)browserSplitContainer.Panel2.Controls.Find(nameof(devToolsPanel), false).FirstOrDefault();
+            devToolsPanel = browserSplitContainer.Panel2.Controls.Find(nameof(devToolsPanel), false).FirstOrDefault() as Panel;
 
             if (devToolsPanel == null || devToolsPanel.IsDisposed)
             {
@@ -481,14 +482,24 @@ namespace CefSharp.WinForms.Example
                 browserSplitContainer.Panel2.Controls.Add(devToolsPanel);
             }
 
+            if (!devToolsPanel.IsHandleCreated)
+            {
+                //It's very important the handle for the control is created prior to calling
+                //SetAsChild, if the hasn't hasn't been created then manually call CreateControl();
+                //This code is not required for this example, it's left here for demo purposes.
+                devToolsPanel.CreateControl();
+            }
+
+            //Devtools will be a child of the DevToolsPanel
+            var rect = devToolsPanel.ClientRectangle;
             var windowInfo = new WindowInfo();
-            windowInfo.SetAsChild(devToolsPanel.Handle);
+            windowInfo.SetAsChild(devToolsPanel.Handle, rect.Left, rect.Top, rect.Right, rect.Bottom);
             Browser.GetBrowserHost().ShowDevTools(windowInfo);
         }
 
-        public async Task<bool> CheckIfDevToolsIsOpenAsync()
+        public Task<bool> CheckIfDevToolsIsOpenAsync()
         {
-            return await Cef.UIThreadTaskFactory.StartNew(() =>
+            return Cef.UIThreadTaskFactory.StartNew(() =>
             {
                 return Browser.GetBrowserHost().HasDevTools;
             });

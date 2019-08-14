@@ -9,14 +9,20 @@ using CefSharp.WinForms.Example.Helper;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
+    /// <summary>
+    /// Example LifeSpanHandler - this implementation is fairly complex and handles two scenariors
+    /// The first is having DevTools as a child of a WinForms control (in our case docked within a SplitContainer).
+    /// The second is hosting popups as Tabs.
+    /// In both cases extra handling is required to make sure the move/resize notifications update the browser correctly.
+    /// </summary>
     public class LifeSpanHandler : ILifeSpanHandler
     {
-        private bool handlePopups;
+        private readonly bool openPopupsAsTabs;
         private Dictionary<int, PopupAsChildHelper> popupasChildHelpers = new Dictionary<int, PopupAsChildHelper>();
 
-        public LifeSpanHandler(bool handleBrowserPopups)
+        public LifeSpanHandler(bool openPopupsAsTabs)
         {
-            handlePopups = handleBrowserPopups;
+            this.openPopupsAsTabs = openPopupsAsTabs;
         }
 
         bool ILifeSpanHandler.OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
@@ -29,7 +35,8 @@ namespace CefSharp.WinForms.Example.Handlers
             newBrowser = null;
 
             //If handling popups is set to false, CEF default behaviour is used instead.
-            if (handlePopups)
+            //When true we'll open the popup as a Tab.
+            if (openPopupsAsTabs)
             {
                 //Use IWindowInfo.SetAsChild to specify the parent handle
                 //NOTE: user PopupAsChildHelper to handle with Form move and Control resize
@@ -65,8 +72,8 @@ namespace CefSharp.WinForms.Example.Handlers
                 var windowHandle = browser.GetHost().GetWindowHandle();
 
                 //WinForms will kindly lookup the child control from it's handle
-                //If no parentControl then likely it's a popup and has no parent handle
-                //(Devtools by default will remain a popup, at this point the Url hasn't been set, so 
+                //If no parentControl then likely it's a native popup created by CEF
+                //(Devtools by default will open as a popup, at this point the Url hasn't been set, so 
                 // we're going with this assumption as it fits the use case of this example)
                 var parentControl = Control.FromChildHandle(windowHandle);
 
@@ -82,32 +89,31 @@ namespace CefSharp.WinForms.Example.Handlers
         bool ILifeSpanHandler.DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
             var windowHandle = browser.GetHost().GetWindowHandle();
-            var parentControl = Control.FromChildHandle(windowHandle);
             var webBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
 
-            //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
-            //See the doc for this method for full details.    
-            // Allow devtools to close
             if (browser.MainFrame.Url.Equals("devtools://devtools/devtools_app.html"))
             {
-                if (parentControl != null)
-                {
-                    //IBrowserHost.CloseDevTools() will not release the DevTools window handle,
-                    //be mindful it will trigger the ILifeSpanHandler.DoClose() which then needs to be handled appropriately if this scenario occurs.
-                    //Dispose of the DevTools parent, this will release the DevTools window handle
-                    //and the ILifeSpanHandler.OnBeforeClose() will call after.
-                    webBrowser.Invoke(new Action(() =>
-                    {
-                        parentControl.Dispose();
-                    }));
+                var parentControl = Control.FromChildHandle(windowHandle);
 
-                    return true;
+                //If the windowHandle doesn't have a matching WinForms control
+                //then we assume it's hosted by a native popup window (the default)
+                //and allow the default behaviour which sends a WM_CLOSE message
+                if (parentControl == null)
+                {
+                    return false;
                 }
 
-                return false;
+                //Dispose of the parent control we used to host DevTools, this will release the DevTools window handle
+                //and the ILifeSpanHandler.OnBeforeClose() will be call after.
+                webBrowser.Invoke(new Action(() =>
+                {
+                    parentControl.Dispose();
+                }));
+
+                return true;
             }
 
-            if (handlePopups)
+            if (openPopupsAsTabs)
             {
                 //If browser is disposed or the handle has been released then we don't
                 //need to remove the tab (likely removed from menu)

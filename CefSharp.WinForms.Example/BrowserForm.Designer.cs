@@ -146,7 +146,7 @@ namespace CefSharp.WinForms.Example
             // 
             this.showDevToolsMenuItem.Name = "showDevToolsMenuItem";
             this.showDevToolsMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.showDevToolsMenuItem.Text = "Show Dev Tools (Popup)";
+            this.showDevToolsMenuItem.Text = "Show Dev Tools (Default)";
             this.showDevToolsMenuItem.Click += new System.EventHandler(this.ShowDevToolsMenuItemClick);
             // 
             // closeDevToolsMenuItem
