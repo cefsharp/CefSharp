@@ -1899,8 +1899,6 @@ namespace CefSharp.Wpf
 
                 if (isVisible)
                 {
-                    host.Invalidate(PaintElementType.View);
-
                     //Fix for #1778 - When browser becomes visible we update the zoom level
                     //browsers of the same origin will share the same zoomlevel and
                     //we need to track the update, so our ZoomLevelProperty works
