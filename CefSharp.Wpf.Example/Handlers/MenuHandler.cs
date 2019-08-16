@@ -199,7 +199,7 @@ namespace CefSharp.Wpf.Example.Handlers
                                     break;
                                 }
                             }
-                        })
+                        }, keepTargetAlive: true)
                     });
                 }
                 webBrowser.ContextMenu = menu;
