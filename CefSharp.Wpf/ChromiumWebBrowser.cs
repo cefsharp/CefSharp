@@ -1767,10 +1767,13 @@ namespace CefSharp.Wpf
                 {
                     if (previousWindowState == WindowState.Minimized)
                     {
-                        if (browser != null)
+                        CefUiThreadRunAsync(() =>
                         {
-                            browser.GetHost().WasHidden(false);
-                        }
+                            if (browser != null)
+                            {
+                                browser.GetHost().WasHidden(false);
+                            }
+                        });
 
                         ResizeHackFor2779();
                     }
@@ -1784,10 +1787,13 @@ namespace CefSharp.Wpf
                         resizeHackForIssue2779Enabled = true;
                     }
 
-                    if (browser != null)
+                    CefUiThreadRunAsync(() =>
                     {
-                        browser.GetHost().WasHidden(true);
-                    }
+                        if (browser != null)
+                        {
+                            browser.GetHost().WasHidden(true);
+                        }
+                    });
                     break;
                 }
             }
@@ -1883,6 +1889,24 @@ namespace CefSharp.Wpf
             }
         }
 
+        internal void CefUiThreadRunAsync(Action action)
+        {
+            if (!IsDisposed && InternalIsBrowserInitialized())
+            {
+                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+                {
+                    action();
+                }
+                else
+                {
+                    Cef.UIThreadTaskFactory.StartNew(delegate
+                    {
+                        action();
+                    });
+                }
+            }
+        }
+
         /// <summary>
         /// Runs the specific Action on the Dispatcher in an sync fashion
         /// </summary>
@@ -1915,10 +1939,13 @@ namespace CefSharp.Wpf
             //already rounded to a whole number for us.
             viewRect = new Rect(0, 0, (int)e.NewSize.Width, (int)e.NewSize.Height);
 
-            if (browser != null)
+            CefUiThreadRunAsync(() =>
             {
-                browser.GetHost().WasResized();
-            }
+                if (browser != null)
+                {
+                    browser.GetHost().WasResized();
+                }
+            });
         }
 
         /// <summary>
@@ -1932,8 +1959,14 @@ namespace CefSharp.Wpf
 
             if (browser != null)
             {
-                var host = browser.GetHost();
-                host.WasHidden(!isVisible);
+                CefUiThreadRunAsync(() =>
+                {
+                    if (browser != null)
+                    {
+                        browser.GetHost().WasHidden(!isVisible);
+                    }
+                });
+
 
                 if (isVisible)
                 {
@@ -1943,7 +1976,7 @@ namespace CefSharp.Wpf
                     //browsers of the same origin will share the same zoomlevel and
                     //we need to track the update, so our ZoomLevelProperty works
                     //properly
-                    host.GetZoomLevelAsync().ContinueWith(t =>
+                    browser.GetHost().GetZoomLevelAsync().ContinueWith(t =>
                     {
                         if (!IsDisposed)
                         {
@@ -2415,10 +2448,8 @@ namespace CefSharp.Wpf
             {
                 const int delayInMs = 50;
 
-                Task.Run(async () =>
+                CefUiThreadRunAsync(async () =>
                 {
-                    await Task.Delay(delayInMs);
-
                     if (browser != null)
                     {
                         resizeHackForIssue2779Size = new Structs.Size(viewRect.Width - 1, viewRect.Height - 1);
@@ -2429,17 +2460,13 @@ namespace CefSharp.Wpf
 
                     if (browser != null)
                     {
+                        var host = browser.GetHost();
                         resizeHackForIssue2779Size = null;
-                        browser.GetHost().WasResized();
-                    }
+                        host.WasResized();
 
-                    await Task.Delay(delayInMs);
-
-                    if (browser != null)
-                    {
                         resizeHackForIssue2779Enabled = false;
 
-                        browser.GetHost().Invalidate(PaintElementType.View);
+                        host.Invalidate(PaintElementType.View);
                     }
                 });
             }
