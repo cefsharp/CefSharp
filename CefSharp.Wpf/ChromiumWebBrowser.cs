@@ -2190,6 +2190,15 @@ namespace CefSharp.Wpf
             Focus();
             OnMouseButton(e);
 
+            // We should only need to capture the left button exiting the browser
+            if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Pressed)
+            {
+                // Capture mouse so events are routed to the browser when it's outside of the control.
+                // This fixes selection issue https://github.com/cefsharp/CefSharp/issues/2870 and the issue with 
+                // no scrolling when on the right of a scroll bar: https://github.com/cefsharp/CefSharp/issues/2060
+                Mouse.Capture(this);
+            }
+
             base.OnMouseDown(e);
         }
 
@@ -2200,6 +2209,15 @@ namespace CefSharp.Wpf
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             OnMouseButton(e);
+
+            if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Released)
+            {
+                // Release the mouse capture that we grabbed on mouse down.
+                // We won't get here if e.g. the right mouse button is pressed and released
+                // while the left is still held, but in that case the left mouse capture seems
+                // to be released implicitly (even without the left mouse SendMouseClickEvent in leave below)
+                Mouse.Capture(null);
+            }
 
             base.OnMouseUp(e);
         }
@@ -2215,16 +2233,7 @@ namespace CefSharp.Wpf
                 var modifiers = e.GetModifiers();
                 var point = e.GetPosition(this);
 
-                //If the LeftMouse button is pressed when leaving the control we send a mouse click with mouseUp: true
-                //to let the browser know the mouse has been released
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, MouseButtonType.Left, mouseUp: true, clickCount: 1, modifiers: modifiers);
-                }
-                else
-                {
-                    browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
-                }
+                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
             }
