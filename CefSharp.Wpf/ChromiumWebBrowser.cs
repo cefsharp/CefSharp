@@ -1889,7 +1889,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        internal void CefUiThreadRunAsync(Action action)
+        protected void CefUiThreadRunAsync(Action action)
         {
             if (!IsDisposed && InternalIsBrowserInitialized())
             {
@@ -2435,7 +2435,7 @@ namespace CefSharp.Wpf
         /// Check is browserisinitialized
         /// </summary>
         /// <returns>true if browser is initialized</returns>
-        private bool InternalIsBrowserInitialized()
+        protected bool InternalIsBrowserInitialized()
         {
             // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
             // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
