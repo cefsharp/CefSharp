@@ -1701,33 +1701,11 @@ namespace CefSharp.Wpf
             {
                 source = (HwndSource)args.NewSource;
 
-                var matrix = source.CompositionTarget.TransformToDevice;
-                var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(matrix.M11);
-
-                DpiScaleFactor = (float)source.CompositionTarget.TransformToDevice.M11;
-
                 WpfKeyboardHandler.Setup(source);
 
-                if (notifyDpiChanged && browser != null)
-                {
-                    browser.GetHost().NotifyScreenInfoChanged();
-                }
+                var matrix = source.CompositionTarget.TransformToDevice;
 
-                //Ignore this for custom bitmap factories                   
-                if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
-                {
-                    if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
-                    {
-                        const int DefaultDpi = 96;
-                        var scale = DefaultDpi * DpiScaleFactor;
-
-                        RenderHandler = new WritableBitmapRenderHandler(scale, scale);
-                    }
-                    else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
-                    {
-                        RenderHandler = new InteropBitmapRenderHandler();
-                    }
-                }
+                NotifyDpiChange(matrix.M11);
 
                 var window = source.RootVisual as Window;
                 if (window != null)
@@ -2447,6 +2425,40 @@ namespace CefSharp.Wpf
             {
                 ZoomLevel = 0;
             });
+        }
+
+        /// <summary>
+        /// Manually notify the browser the DPI of the parent window has changed.
+        /// </summary>
+        /// <param name="newDpi">new DPI</param>
+        /// <remarks>.Net 4.6.2 adds HwndSource.DpiChanged which could be used to automatically
+        /// handle DPI change, unforunately we still target .Net 4.5.2</remarks>
+        public void NotifyDpiChange(double newDpi)
+        {
+            var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(newDpi);
+
+            DpiScaleFactor = (float)newDpi;
+
+            if (notifyDpiChanged && browser != null)
+            {
+                browser.GetHost().NotifyScreenInfoChanged();
+            }
+
+            //Ignore this for custom bitmap factories                   
+            if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
+            {
+                if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
+                {
+                    const int DefaultDpi = 96;
+                    var scale = DefaultDpi * DpiScaleFactor;
+
+                    RenderHandler = new WritableBitmapRenderHandler(scale, scale);
+                }
+                else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
+                {
+                    RenderHandler = new InteropBitmapRenderHandler();
+                }
+            }
         }
 
         /// <summary>
