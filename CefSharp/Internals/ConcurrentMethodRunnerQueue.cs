@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,11 +17,7 @@ namespace CefSharp.Internals
     public class ConcurrentMethodRunnerQueue : IMethodRunnerQueue
     {
         private readonly JavascriptObjectRepository repository;
-        private readonly AutoResetEvent stopped = new AutoResetEvent(false);
-        private readonly BlockingCollection<Func<MethodInvocationResult>> queue = new BlockingCollection<Func<MethodInvocationResult>>();
-        private readonly object lockObject = new object();
-        private volatile CancellationTokenSource cancellationTokenSource;
-        private volatile bool running;
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         public event EventHandler<MethodInvocationCompleteArgs> MethodInvocationComplete;
 
@@ -31,129 +26,80 @@ namespace CefSharp.Internals
             this.repository = repository;
         }
 
-        public void Start()
+        public void Dispose()
         {
-            lock (lockObject)
-            {
-                if (!running)
-                {
-                    cancellationTokenSource = new CancellationTokenSource();
-                    Task.Factory.StartNew(ConsumeTasks, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-                    running = true;
-                }
-            }
-        }
-
-        public void Stop()
-        {
-            lock (lockObject)
-            {
-                if (running)
-                {
-                    cancellationTokenSource.Cancel();
-                    stopped.WaitOne();
-                    //clear the queue
-                    while (queue.Count > 0)
-                    {
-                        queue.Take();
-                    }
-                    cancellationTokenSource = null;
-                    running = false;
-                }
-            }
+            cancellationTokenSource.Cancel();
         }
 
         public void Enqueue(MethodInvocation methodInvocation)
         {
-            queue.Add(() => ExecuteMethodInvocation(methodInvocation));
-        }
-
-        private void ConsumeTasks()
-        {
-            try
+            var task = new Task(() =>
             {
-                //Executes tasks on the ThreadPool
-                while (!cancellationTokenSource.IsCancellationRequested)
+                var result = ExecuteMethodInvocation(methodInvocation);
+
+                //If the call failed or returned null then we'll fire the event immediately
+                if (!result.Success || result.Result == null)
                 {
-                    var func = queue.Take(cancellationTokenSource.Token);
+                    OnMethodInvocationComplete(result, cancellationTokenSource.Token);
+                }
+                else
+                {
+                    var resultType = result.Result.GetType();
 
-                    var task = new Task(() =>
+                    //If the returned type is Task then we'll ContinueWith and perform the processing then.
+                    if (typeof(Task).IsAssignableFrom(resultType))
                     {
-                        var result = func();
+                        var resultTask = (Task)result.Result;
 
-                        //If the call failed or returned null then we'll fire the event immediately
-                        if (!result.Success || result.Result == null)
+                        if (resultType.IsGenericType)
                         {
-                            OnMethodInvocationComplete(result);
-                        }
-                        else
-                        {
-                            var resultType = result.Result.GetType();
-
-                            //If the returned type is Task then we'll ContinueWith and perform the processing then.
-                            if (typeof(Task).IsAssignableFrom(resultType))
+                            resultTask.ContinueWith((t) =>
                             {
-                                var resultTask = (Task)result.Result;
-
-                                if (resultType.IsGenericType)
+                                if (t.Status == TaskStatus.RanToCompletion)
                                 {
-                                    resultTask.ContinueWith((t) =>
-                                    {
-                                        if (t.Status == TaskStatus.RanToCompletion)
-                                        {
-                                            //We use some reflection to get the Result
-                                            //If someone has a better way of doing this then please submit a PR
-                                            result.Result = resultType.GetProperty("Result").GetValue(resultTask);
-                                        }
-                                        else
-                                        {
-                                            result.Success = false;
-                                            result.Result = null;
-                                            var aggregateException = t.Exception;
-                                            //TODO: Add support for passing a more complex message
-                                            // to better represent the Exception
-                                            if (aggregateException.InnerExceptions.Count == 1)
-                                            {
-                                                result.Message = aggregateException.InnerExceptions[0].ToString();
-                                            }
-                                            else
-                                            {
-                                                result.Message = t.Exception.ToString();
-                                            }
-                                        }
-
-                                        OnMethodInvocationComplete(result);
-                                    },
-                                    cancellationTokenSource.Token, TaskContinuationOptions.None, TaskScheduler.Default);
+                                    //We use some reflection to get the Result
+                                    //If someone has a better way of doing this then please submit a PR
+                                    result.Result = resultType.GetProperty("Result").GetValue(resultTask);
                                 }
                                 else
                                 {
-                                    //If it's not a generic Task then it doesn't have a return object
-                                    //So we'll just set the result to null and continue on
+                                    result.Success = false;
                                     result.Result = null;
-
-                                    OnMethodInvocationComplete(result);
+                                    var aggregateException = t.Exception;
+                                    //TODO: Add support for passing a more complex message
+                                    // to better represent the Exception
+                                    if (aggregateException.InnerExceptions.Count == 1)
+                                    {
+                                        result.Message = aggregateException.InnerExceptions[0].ToString();
+                                    }
+                                    else
+                                    {
+                                        result.Message = t.Exception.ToString();
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                OnMethodInvocationComplete(result);
-                            }
+
+                                OnMethodInvocationComplete(result, cancellationTokenSource.Token);
+                            },
+                            cancellationTokenSource.Token, TaskContinuationOptions.None, TaskScheduler.Default);
                         }
+                        else
+                        {
+                            //If it's not a generic Task then it doesn't have a return object
+                            //So we'll just set the result to null and continue on
+                            result.Result = null;
 
-                    }, cancellationTokenSource.Token);
-
-                    task.Start(TaskScheduler.Default);
+                            OnMethodInvocationComplete(result, cancellationTokenSource.Token);
+                        }
+                    }
+                    else
+                    {
+                        OnMethodInvocationComplete(result, cancellationTokenSource.Token);
+                    }
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                // Note: Task has been cancelled
-            }
-            finally
-            {
-                stopped.Set();
-            }
+
+            }, cancellationTokenSource.Token);
+
+            task.Start(TaskScheduler.Default);
         }
 
         private MethodInvocationResult ExecuteMethodInvocation(MethodInvocation methodInvocation)
@@ -183,9 +129,13 @@ namespace CefSharp.Internals
             };
         }
 
-        private void OnMethodInvocationComplete(MethodInvocationResult e)
+        private void OnMethodInvocationComplete(MethodInvocationResult e, CancellationToken token)
         {
-            MethodInvocationComplete?.Invoke(this, new MethodInvocationCompleteArgs(e));
+            //If cancellation has been requested we don't need to continue.
+            if (!token.IsCancellationRequested)
+            {
+                MethodInvocationComplete?.Invoke(this, new MethodInvocationCompleteArgs(e));
+            }
         }
     }
 }

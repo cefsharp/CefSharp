@@ -6,12 +6,10 @@ using System;
 
 namespace CefSharp.Internals
 {
-    public interface IMethodRunnerQueue
+    public interface IMethodRunnerQueue : IDisposable
     {
         event EventHandler<MethodInvocationCompleteArgs> MethodInvocationComplete;
 
         void Enqueue(MethodInvocation methodInvocation);
-        void Start();
-        void Stop();
     }
 }
