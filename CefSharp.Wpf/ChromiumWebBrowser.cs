@@ -2190,12 +2190,11 @@ namespace CefSharp.Wpf
             Focus();
             OnMouseButton(e);
 
-            // We should only need to capture the left button exiting the browser
+            //We should only need to capture the left button exiting the browser
             if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Pressed)
             {
-                // Capture mouse so events are routed to the browser when it's outside of the control.
-                // This fixes selection issue https://github.com/cefsharp/CefSharp/issues/2870 and the issue with 
-                // no scrolling when on the right of a scroll bar: https://github.com/cefsharp/CefSharp/issues/2060
+                //Capture/Release Mouse to allow for scrolling outside bounds of browser control (#2870, #2060).
+                //This doesn't capture the mouse outside of the WPF Window, see #2258  for further discussion on that topic.
                 Mouse.Capture(this);
             }
 
@@ -2212,10 +2211,10 @@ namespace CefSharp.Wpf
 
             if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Released)
             {
-                // Release the mouse capture that we grabbed on mouse down.
-                // We won't get here if e.g. the right mouse button is pressed and released
-                // while the left is still held, but in that case the left mouse capture seems
-                // to be released implicitly (even without the left mouse SendMouseClickEvent in leave below)
+                //Release the mouse capture that we grabbed on mouse down.
+                //We won't get here if e.g. the right mouse button is pressed and released
+                //while the left is still held, but in that case the left mouse capture seems
+                //to be released implicitly (even without the left mouse SendMouseClickEvent in leave below)
                 Mouse.Capture(null);
             }
 
