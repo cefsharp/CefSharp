@@ -540,8 +540,10 @@ namespace CefSharp
             CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isNavigation, bool isDownload, const CefString& requestInitiator, bool& disableDefaultHandling)
         {
             auto handler = _browserControl->RequestHandler;
+            auto resourceRequestHandlerFactory = _browserControl->ResourceRequestHandlerFactory;
 
-            if (handler == nullptr)
+            //No handler and no factory, we'll just return null
+            if (handler == nullptr && resourceRequestHandlerFactory == nullptr)
             {
                 return NULL;
             }
@@ -550,17 +552,16 @@ namespace CefSharp
             CefFrameWrapper frameWrapper(frame);
             CefRequestWrapper requestWrapper(request);
 
-            //TODO: Simplify this code
-
-            auto resourceRequestHandler = handler->GetResourceRequestHandler(_browserControl, browserWrapper, %frameWrapper,
-                %requestWrapper, isNavigation, isDownload, StringUtils::ToClr(requestInitiator), disableDefaultHandling);
-
-            if (resourceRequestHandler != nullptr)
+            if (handler != nullptr)
             {
-                return new CefResourceRequestHandlerAdapter(_browserControl, resourceRequestHandler);
-            }
+                auto resourceRequestHandler = handler->GetResourceRequestHandler(_browserControl, browserWrapper, %frameWrapper,
+                    %requestWrapper, isNavigation, isDownload, StringUtils::ToClr(requestInitiator), disableDefaultHandling);
 
-            auto resourceRequestHandlerFactory = _browserControl->ResourceRequestHandlerFactory;
+                if (resourceRequestHandler != nullptr)
+                {
+                    return new CefResourceRequestHandlerAdapter(_browserControl, resourceRequestHandler);
+                }
+            }
 
             if (resourceRequestHandlerFactory != nullptr && resourceRequestHandlerFactory->HasHandlers)
             {
