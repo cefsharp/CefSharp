@@ -100,6 +100,7 @@
     <Compile Include="Framework\BinderFacts.cs" />
     <Compile Include="Framework\AsyncExtensionFacts.cs" />
     <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />
+    <Compile Include="Framework\RequestFacts.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
     <Compile Include="CefSharpFixture.cs" />
     <Compile Include="CefSharpFixtureCollection.cs" />

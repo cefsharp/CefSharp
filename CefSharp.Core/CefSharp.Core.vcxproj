@@ -235,6 +235,8 @@
     <ClCompile Include="Internals\CefExtensionWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
     <ClCompile Include="Internals\CefSharpBrowserWrapper.cpp" />
+    <ClCompile Include="Internals\CefURLRequestClientAdapter.cpp" />
+    <ClCompile Include="Internals\CefURLRequestWrapper.cpp" />
     <ClCompile Include="Internals\CefValueWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
@@ -270,6 +272,8 @@
     <ClInclude Include="Internals\CefResourceSkipCallbackWrapper.h" />
     <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h" />
     <ClInclude Include="Internals\CefSchemeRegistrarWrapper.h" />
+    <ClInclude Include="Internals\CefURLRequestClientAdapter.h" />
+    <ClInclude Include="Internals\CefURLRequestWrapper.h" />
     <ClInclude Include="Internals\CefValueWrapper.h" />
     <ClInclude Include="Internals\CefWriteHandlerWrapper.h" />
     <ClInclude Include="Internals\CefImageWrapper.h" />
