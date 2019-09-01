@@ -1769,12 +1769,24 @@ namespace CefSharp.Wpf
                     {
                         await CefUiThreadRunAsync(async () =>
                         {
-                            if (browser != null)
+                            var host = browser?.GetHost();
+                            if (host != null && !host.IsDisposed)
                             {
-                                browser.GetHost().WasHidden(false);
-                            }
+                                try
+                                {
+                                    host.WasHidden(false);
 
-                            await ResizeHackFor2779();
+                                    await ResizeHackFor2779();
+                                }
+                                catch (ObjectDisposedException)
+                                {
+                                    // Because Dispose runs in another thread there's a race condition between
+                                    // that and this code running on the CEF UI thread, so the host could be disposed
+                                    // between the check and using it. We can either synchronize access using locking
+                                    // (potentially blocking the UI thread in Dispose) or catch the extremely rare
+                                    // exception, which is what we do here
+                                }
+                            }
                         });
                     }
 
@@ -1784,14 +1796,22 @@ namespace CefSharp.Wpf
                 {
                     await CefUiThreadRunAsync(() =>
                     {
-                        if (EnableResizeHackForIssue2779)
+                        var host = browser?.GetHost();
+                        if (host != null && !host.IsDisposed)
                         {
-                            resizeHackForIssue2779Enabled = true;
-                        }
+                            if (EnableResizeHackForIssue2779)
+                            {
+                                resizeHackForIssue2779Enabled = true;
+                            }
 
-                        if (browser != null)
-                        {
-                            browser.GetHost().WasHidden(true);
+                            try
+                            {
+                                host.WasHidden(true);
+                            }
+                            catch (ObjectDisposedException)
+                            {
+                                // See comment in catch in OnWindowStateChanged
+                            }
                         }
                     });
 
@@ -1954,9 +1974,17 @@ namespace CefSharp.Wpf
                     SetViewRect(e);
                 }
 
-                if (browser != null)
+                var host = browser?.GetHost();
+                if (host != null && !host.IsDisposed)
                 {
-                    browser.GetHost().WasResized();
+                    try
+                    {
+                        host.WasResized();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // See comment in catch in OnWindowStateChanged
+                    }
                 }
             });
         }
@@ -1982,18 +2010,26 @@ namespace CefSharp.Wpf
             {
                 await CefUiThreadRunAsync(async () =>
                 {
-                    if (browser != null)
+                    var host = browser?.GetHost();
+                    if (host != null && !host.IsDisposed)
                     {
-                        browser.GetHost().WasHidden(!isVisible);
-                    }
+                        try
+                        {
+                            host.WasHidden(!isVisible);
 
-                    if (isVisible)
-                    {
-                        await ResizeHackFor2779();
-                    }
-                    else if (EnableResizeHackForIssue2779)
-                    {
-                        resizeHackForIssue2779Enabled = true;
+                            if (isVisible)
+                            {
+                                await ResizeHackFor2779();
+                            }
+                            else if (EnableResizeHackForIssue2779)
+                            {
+                                resizeHackForIssue2779Enabled = true;
+                            }
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // See comment in catch in OnWindowStateChanged
+                        }
                     }
                 });
 
@@ -2471,23 +2507,23 @@ namespace CefSharp.Wpf
             {
                 const int delayInMs = 50;
 
-                if (browser != null)
+                var host = browser?.GetHost();
+                if (host != null && !host.IsDisposed)
                 {
                     resizeHackForIssue2779Size = new Structs.Size(viewRect.Width - 1, viewRect.Height - 1);
-                    browser.GetHost().WasResized();
-                }
-
-                await Task.Delay(delayInMs);
-
-                if (browser != null)
-                {
-                    var host = browser.GetHost();
-                    resizeHackForIssue2779Size = null;
                     host.WasResized();
 
-                    resizeHackForIssue2779Enabled = false;
+                    await Task.Delay(delayInMs);
 
-                    host.Invalidate(PaintElementType.View);
+                    if (!host.IsDisposed)
+                    {
+                        resizeHackForIssue2779Size = null;
+                        host.WasResized();
+
+                        resizeHackForIssue2779Enabled = false;
+
+                        host.Invalidate(PaintElementType.View);
+                    }
                 }
             }
         }
