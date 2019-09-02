@@ -118,7 +118,14 @@ namespace CefSharp
         IntPtr GetWindowHandle();
 
         /// <summary>
-        /// Get the current zoom level. The default zoom level is 0.0. This method can only be called on the CEF UI thread. 
+        /// Gets the current zoom level. The default zoom level is 0.0. This method can only be called on the CEF UI thread. 
+        /// </summary>
+        /// <returns>zoom level (default is 0.0)</returns>
+        double GetZoomLevel();
+
+        /// <summary>
+        /// Get the current zoom level. The default zoom level is 0.0. This method executes GetZoomLevel on the CEF UI thread
+        /// in an async fashion.
         /// </summary>
         /// <returns> a <see cref="Task{Double}"/> that when executed returns the zoom level as a double.</returns>
         Task<double> GetZoomLevelAsync();
