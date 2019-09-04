@@ -20,8 +20,8 @@ namespace CefSharp.Wpf.Rendering
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
     public abstract class AbstractRenderHandler : IDisposable, IRenderHandler
     {
-        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
-        protected static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
+        [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory", SetLastError = false)]
+        protected static extern void CopyMemory(IntPtr dest, IntPtr src, UIntPtr count);
 
         internal static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
         internal static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
