@@ -1,3 +1,7 @@
+// Copyright © 2019 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #pragma once
 
 #include "Stdafx.h"
@@ -8,21 +12,21 @@ namespace CefSharp
     namespace Internals
     {
 
-        /// Interface that should be implemented by the CefURLRequest client.
+        /// Interface that should be implemented by the CefUrlRequest client.
         /// The methods of this class will be called on the same thread that created
         /// the request unless otherwise documented. 
-        public class CefURLRequestClientAdapter : public CefURLRequestClient
+        public class CefUrlRequestClientAdapter : public CefURLRequestClient
         {
         private:
-            gcroot<IURLRequestClient^> _client;
+            gcroot<IUrlRequestClient^> _client;
 
         public:
-            CefURLRequestClientAdapter(IURLRequestClient^ client)
+            CefUrlRequestClientAdapter(IUrlRequestClient^ client)
             {
                 _client = client;
             }
 
-            ~CefURLRequestClientAdapter()
+            ~CefUrlRequestClientAdapter()
             {
                 delete _client;
                 _client = nullptr;
@@ -85,7 +89,7 @@ namespace CefSharp
                 const CefString& scheme,
                 CefRefPtr<CefAuthCallback> callback) OVERRIDE;
 
-            IMPLEMENT_REFCOUNTING(CefURLRequestClientAdapter);
+            IMPLEMENT_REFCOUNTING(CefUrlRequestClientAdapter);
         };
     }
 }

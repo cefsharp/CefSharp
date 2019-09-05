@@ -107,6 +107,8 @@
     <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IURLRequest.cs" />
     <Compile Include="IURLRequestClient.cs" />
+    <Compile Include="IUrlRequest.cs" />
+    <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />

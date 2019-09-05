@@ -83,10 +83,10 @@
     <ClCompile Include="RequestContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\CefURLRequestClientAdapter.cpp">
+    <ClCompile Include="Internals\CefUrlRequestClientAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\CefURLRequestWrapper.cpp">
+    <ClCompile Include="Internals\CefUrlRequestWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -319,10 +319,10 @@
     <ClInclude Include="Internals\CefResourceSkipCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefURLRequestWrapper.h">
+    <ClInclude Include="Internals\CefUrlRequestClientAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefURLRequestClientAdapter.h">
+    <ClInclude Include="Internals\CefUrlRequestWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

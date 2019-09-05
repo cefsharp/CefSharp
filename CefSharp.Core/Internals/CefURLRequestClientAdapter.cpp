@@ -3,41 +3,41 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-#include "CefURLRequestClientAdapter.h"
-#include "CefURLRequestWrapper.h"
+#include "CefUrlRequestClientAdapter.h"
+#include "CefUrlRequestWrapper.h"
 #include "CefAuthCallbackWrapper.h"
 
 #include "Cef.h"
 
 
-void CefURLRequestClientAdapter::OnRequestComplete(CefRefPtr<CefURLRequest> request)
+void CefUrlRequestClientAdapter::OnRequestComplete(CefRefPtr<CefURLRequest> request)
 {
-    _client->OnRequestComplete(gcnew CefURLRequestWrapper(request));
+    _client->OnRequestComplete(gcnew CefUrlRequestWrapper(request));
 }
 
 
-void CefURLRequestClientAdapter::OnUploadProgress(CefRefPtr<CefURLRequest> request, int64 current, int64 total)
+void CefUrlRequestClientAdapter::OnUploadProgress(CefRefPtr<CefURLRequest> request, int64 current, int64 total)
 {
-    _client->OnUploadProgress(gcnew CefURLRequestWrapper(request), current, total);
+    _client->OnUploadProgress(gcnew CefUrlRequestWrapper(request), current, total);
 }
 
-void CefURLRequestClientAdapter::OnDownloadProgress(CefRefPtr<CefURLRequest> request, int64 current, int64 total)
+void CefUrlRequestClientAdapter::OnDownloadProgress(CefRefPtr<CefURLRequest> request, int64 current, int64 total)
 {
-    _client->OnDownloadProgress(gcnew CefURLRequestWrapper(request), current, total);
+    _client->OnDownloadProgress(gcnew CefUrlRequestWrapper(request), current, total);
 }
 
-void CefURLRequestClientAdapter::OnDownloadData(CefRefPtr<CefURLRequest> request, const void* data, size_t data_length)
+void CefUrlRequestClientAdapter::OnDownloadData(CefRefPtr<CefURLRequest> request, const void* data, size_t data_length)
 {
     auto data_array = gcnew array<Byte>(data_length);
     pin_ptr<Byte> data_array_start = &data_array[0];
     memcpy(data_array_start, data, data_length);
     _client->OnDownloadData(
-        gcnew CefURLRequestWrapper(request),
+        gcnew CefUrlRequestWrapper(request),
         data_array
     );
 }
 
-bool CefURLRequestClientAdapter::GetAuthCredentials(bool isProxy,
+bool CefUrlRequestClientAdapter::GetAuthCredentials(bool isProxy,
     const CefString& host,
     int port,
     const CefString& realm,

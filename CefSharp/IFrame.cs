@@ -200,7 +200,6 @@ namespace CefSharp
         ///
         /// The request object will be marked as read-only after calling this method. 
         /// </summary>
-        //TODO: Implement IURLRequestClient.
-        IURLRequest CreateURLRequest(IRequest request, IURLRequestClient client);
+        IUrlRequest CreateUrlRequest(IRequest request, IUrlRequestClient client);
     }
 }

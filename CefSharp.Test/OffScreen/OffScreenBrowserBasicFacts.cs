@@ -130,13 +130,13 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
-        class URLRequestClient : IURLRequestClient
+        class URLRequestClient : IUrlRequestClient
         {
-            private Action<IURLRequest, byte[]> CompleteAction;
+            private Action<IUrlRequest, byte[]> CompleteAction;
             private MemoryStream ResponseBody = new MemoryStream();
             private BinaryWriter StreamWriter;
 
-            public URLRequestClient(Action<IURLRequest, byte[]> completeAction)
+            public URLRequestClient(Action<IUrlRequest, byte[]> completeAction)
             {
                 CompleteAction = completeAction;
                 StreamWriter = new BinaryWriter(ResponseBody);
@@ -146,23 +146,23 @@ namespace CefSharp.Test.OffScreen
                 return true;
             }
 
-            public void OnDownloadData(IURLRequest request, byte[] data)
+            public void OnDownloadData(IUrlRequest request, byte[] data)
             {
                 StreamWriter.Write(data);
             }
 
-            public void OnDownloadProgress(IURLRequest request, long current, long total)
+            public void OnDownloadProgress(IUrlRequest request, long current, long total)
             {
                 return;
             }
 
-            public void OnRequestComplete(IURLRequest request)
+            public void OnRequestComplete(IUrlRequest request)
             {
 
                 CompleteAction(request, ResponseBody.ToArray());
             }
 
-            public void OnUploadProgress(IURLRequest request, long current, long total)
+            public void OnUploadProgress(IUrlRequest request, long current, long total)
             {
                 return;
             }
@@ -179,12 +179,12 @@ namespace CefSharp.Test.OffScreen
                 Assert.True(mainFrame.IsValid);
 
 
-                IURLRequest urlRequest = null;
+                IUrlRequest urlRequest = null;
 
                 var t = new TaskCompletionSource<string>();
                 var wasCached = false;
                 var requestClient = new URLRequestClient(
-                    (IURLRequest request, byte[] responseBody) =>
+                    (IUrlRequest request, byte[] responseBody) =>
                     {
                         wasCached = request.ResponseWasCached();
                         t.TrySetResult(System.Text.Encoding.UTF8.GetString(responseBody));
@@ -198,7 +198,7 @@ namespace CefSharp.Test.OffScreen
 
                     request.Method = "GET";
                     request.Url = "https://code.jquery.com/jquery-3.4.1.min.js";
-                    urlRequest = mainFrame.CreateURLRequest(request, requestClient);
+                    urlRequest = mainFrame.CreateUrlRequest(request, requestClient);
                 });
 
                 var stringResult = await t.Task;

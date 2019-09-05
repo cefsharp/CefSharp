@@ -3,26 +3,26 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-#include "CefURLRequestWrapper.h"
+#include "CefUrlRequestWrapper.h"
 #include "CefResponseWrapper.h"
 
 #include "Cef.h"
 
-bool CefURLRequestWrapper::ResponseWasCached()
+bool CefUrlRequestWrapper::ResponseWasCached()
 {
     ThrowIfDisposed();
 
     return _urlRequest->ResponseWasCached();
 }
 
-IResponse^ CefURLRequestWrapper::GetResponse()
+IResponse^ CefUrlRequestWrapper::GetResponse()
 {
     ThrowIfDisposed();
 
     return gcnew CefResponseWrapper(_urlRequest->GetResponse());
 }
 
-UrlRequestStatus CefURLRequestWrapper::GetRequestStatus()
+UrlRequestStatus CefUrlRequestWrapper::GetRequestStatus()
 {
     ThrowIfDisposed();
 

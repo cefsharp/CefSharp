@@ -409,15 +409,15 @@ IRequest^ CefFrameWrapper::CreateRequest(bool initializePostData)
     return gcnew CefRequestWrapper(request);
 }
 
-IURLRequest^ CefFrameWrapper::CreateURLRequest(IRequest^ request, IURLRequestClient^ client)
+IUrlRequest^ CefFrameWrapper::CreateUrlRequest(IRequest^ request, IUrlRequestClient^ client)
 {
     ThrowIfDisposed();
 
     auto urlRequest = _frame->CreateURLRequest(
         (CefRequestWrapper^)request,
-        new CefURLRequestClientAdapter(client));
+        new CefUrlRequestClientAdapter(client));
 
-    return gcnew CefURLRequestWrapper(urlRequest);
+    return gcnew CefUrlRequestWrapper(urlRequest);
 }
 
 void CefFrameWrapper::ThrowIfFrameInvalid()

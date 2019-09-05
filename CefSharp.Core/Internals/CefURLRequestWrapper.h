@@ -1,3 +1,7 @@
+// Copyright © 2019 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #pragma once
 
 #include "Stdafx.h"
@@ -18,24 +22,24 @@ namespace CefSharp
         // be accessed on the same thread that created it. 
         ///
         /*--cef(source=library)--*/
-        ref class CefURLRequestWrapper : public IURLRequest, public CefWrapper
+        ref class CefUrlRequestWrapper : public IUrlRequest, public CefWrapper
         {
         private:
             MCefRefPtr<CefURLRequest> _urlRequest;
         internal:
-            CefURLRequestWrapper::CefURLRequestWrapper(CefRefPtr<CefURLRequest> &urlRequest)
+            CefUrlRequestWrapper::CefUrlRequestWrapper(CefRefPtr<CefURLRequest> &urlRequest)
                 : _urlRequest(urlRequest)
             {
             }
 
-            !CefURLRequestWrapper()
+            !CefUrlRequestWrapper()
             {
                 _urlRequest = NULL;
             }
 
-            ~CefURLRequestWrapper()
+            ~CefUrlRequestWrapper()
             {
-                this->!CefURLRequestWrapper();
+                this->!CefUrlRequestWrapper();
             }
 
         public:

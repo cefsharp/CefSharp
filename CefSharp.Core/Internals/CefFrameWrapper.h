@@ -277,7 +277,7 @@ namespace CefSharp
             // The |request| object will be marked as read-only after calling this method.
             ///
             /*--cef()--*/
-            virtual IURLRequest^ CreateURLRequest(IRequest^ request, IURLRequestClient^ client);
+            virtual IUrlRequest^ CreateUrlRequest(IRequest^ request, IUrlRequestClient^ client);
 
             void ThrowIfFrameInvalid();
         };
