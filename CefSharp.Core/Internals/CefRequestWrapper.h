@@ -65,6 +65,14 @@ namespace CefSharp
                 }
                 return _wrappedRequest.get();
             }
+
+            void ThrowIfReadOnly()
+            {
+                if (_wrappedRequest->IsReadOnly())
+                {
+                    throw gcnew NotSupportedException("IRequest is read-only and cannot be modified. Check IRequest.IsReadOnly to guard against this exception.");
+                }
+            }
         };
     }
 }
