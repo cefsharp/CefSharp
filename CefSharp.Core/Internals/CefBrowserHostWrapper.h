@@ -46,6 +46,7 @@ namespace CefSharp
             virtual void Print();
             virtual void PrintToPdf(String^ path, PdfPrintSettings^ settings, IPrintToPdfCallback^ callback);
             virtual void SetZoomLevel(double zoomLevel);
+            virtual double GetZoomLevel();
             virtual Task<double>^ GetZoomLevelAsync();
             virtual IntPtr GetWindowHandle();
             virtual void CloseBrowser(bool forceClose);
