@@ -1955,38 +1955,31 @@ namespace CefSharp.Wpf
             // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
             CreateOffscreenBrowser(e.NewSize);
 
-            // If the internal browser isn't initialized then the CEF UI thread is not yet running
-            // and so we need to set the view rectangle here because it has to be set.
-            var hasSetViewRect = false;
-            if (!InternalIsBrowserInitialized())
+            if (InternalIsBrowserInitialized())
             {
-                SetViewRect(e);
-                hasSetViewRect = true;
-            }
-
-            await CefUiThreadRunAsync(() =>
-            {
-                // If we haven't already set the view rectangle we do it here.
-                // If the browser is initialized we need to set this on the CEF UI thread to
-                // avoid the crash issue reported here: https://github.com/cefsharp/CefSharp/issues/2779
-                if (!hasSetViewRect)
+                await CefUiThreadRunAsync(() =>
                 {
                     SetViewRect(e);
-                }
 
-                var host = browser?.GetHost();
-                if (host != null && !host.IsDisposed)
-                {
-                    try
+                    var host = browser?.GetHost();
+                    if (host != null && !host.IsDisposed)
                     {
-                        host.WasResized();
+                        try
+                        {
+                            host.WasResized();
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // See comment in catch in OnWindowStateChanged
+                        }
                     }
-                    catch (ObjectDisposedException)
-                    {
-                        // See comment in catch in OnWindowStateChanged
-                    }
-                }
-            });
+                });
+            }
+            else
+            {
+                //If the browser hasn't been created yet then directly update the viewRect
+                SetViewRect(e);
+            }
         }
 
         private void SetViewRect(SizeChangedEventArgs e)
@@ -2039,16 +2032,13 @@ namespace CefSharp.Wpf
                     //browsers of the same origin will share the same zoomlevel and
                     //we need to track the update, so our ZoomLevelProperty works
                     //properly
-                    await browser.GetHost().GetZoomLevelAsync().ContinueWith(t =>
+                    var zoomLevel = await browser.GetHost().GetZoomLevelAsync();
+
+                    if (!IsDisposed)
                     {
-                        if (!IsDisposed)
-                        {
-                            SetCurrentValue(ZoomLevelProperty, t.Result);
-                        }
-                    },
-                    CancellationToken.None,
-                    TaskContinuationOptions.OnlyOnRanToCompletion,
-                    TaskScheduler.FromCurrentSynchronizationContext());
+                        SetCurrentValue(ZoomLevelProperty, zoomLevel);
+                    }
+
                 }
             }
         }
