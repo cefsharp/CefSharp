@@ -60,7 +60,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
 
                 //TODO: Performance analysis to determine which is the fastest memory copy function
                 //NativeMethodWrapper.CopyMemoryUsingHandle(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
-                CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (uint)numberOfBytes);
+                CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (UIntPtr)(uint)numberOfBytes);
 
                 //Take a reference to the backBufferHandle, once we're on the UI thread we need to check if it's still valid
                 var backBufferHandle = mappedFile.SafeMemoryMappedFileHandle;
