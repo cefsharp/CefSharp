@@ -14,11 +14,17 @@
       <ItemGroup>
         <Reference Include="CefSharp">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.dll</HintPath>
-          <Private>False</Private>
+          <Private Condition="!$(TargetFramework.StartsWith('netcoreapp'))">False</Private>
         </Reference>
         <Reference Include="CefSharp.Core">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll</HintPath>
-          <Private>False</Private>
+          <Private Condition="!$(TargetFramework.StartsWith('netcoreapp'))">False</Private>
+        </Reference>
+      </ItemGroup>      
+      <!-- Additional references for .NET Core -->
+      <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp'))">
+        <Reference Include="CefSharp.BrowserSubprocess.Core">
+          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.BrowserSubprocess.Core.dll</HintPath>
         </Reference>
       </ItemGroup>
     </When>
@@ -27,11 +33,17 @@
       <ItemGroup>
         <Reference Include="CefSharp">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.dll</HintPath>
-          <Private>False</Private>
+          <Private Condition="!$(TargetFramework.StartsWith('netcoreapp'))">False</Private>
         </Reference>
         <Reference Include="CefSharp.Core">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.dll</HintPath>
-          <Private>False</Private>
+          <Private Condition="!$(TargetFramework.StartsWith('netcoreapp'))">False</Private>
+        </Reference>
+      </ItemGroup>      
+      <!-- Additional references for .NET Core -->
+      <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp'))">
+        <Reference Include="CefSharp.BrowserSubprocess.Core">
+          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.BrowserSubprocess.Core.dll</HintPath>
         </Reference>
       </ItemGroup>
     </Otherwise>

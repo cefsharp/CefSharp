@@ -12,7 +12,7 @@
       <ItemGroup>
         <Reference Include="CefSharp.WinForms">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.WinForms.dll</HintPath>
-          <Private>False</Private>
+          <Private Condition="!$(TargetFramework.StartsWith('netcoreapp'))">False</Private>
         </Reference>
       </ItemGroup>
     </When>
@@ -21,7 +21,7 @@
       <ItemGroup>
         <Reference Include="CefSharp.WinForms">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.WinForms.dll</HintPath>
-          <Private>False</Private>
+          <Private Condition="!$(TargetFramework.StartsWith('netcoreapp'))">False</Private>
         </Reference>
       </ItemGroup>
     </Otherwise>
