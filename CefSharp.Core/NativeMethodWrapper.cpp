@@ -8,9 +8,9 @@
 
 namespace CefSharp
 {
-    void NativeMethodWrapper::CopyMemoryUsingHandle(IntPtr dest, IntPtr src, int numberOfBytes)
+    void NativeMethodWrapper::MemoryCopy(IntPtr dest, IntPtr src, int numberOfBytes)
     {
-        CopyMemory(dest.ToPointer(), src.ToPointer(), numberOfBytes);
+        RtlCopyMemory(dest.ToPointer(), src.ToPointer(), numberOfBytes);
     }
 
     bool NativeMethodWrapper::IsFocused(IntPtr handle)

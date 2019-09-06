@@ -4,7 +4,6 @@
 
 using System;
 using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,10 +19,6 @@ namespace CefSharp.Wpf.Rendering
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
     public abstract class AbstractRenderHandler : IDisposable, IRenderHandler
     {
-        // Note: In contrast to RtlMoveMemory, RtlCopyMemory requires that the buffers do not overlap.
-        [DllImport("kernel32.dll", EntryPoint = "RtlCopyMemory", SetLastError = false)]
-        protected static extern void CopyMemory(IntPtr dest, IntPtr src, UIntPtr count);
-
         internal static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
         internal static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
 

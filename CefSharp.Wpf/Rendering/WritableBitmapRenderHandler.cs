@@ -62,9 +62,7 @@ namespace CefSharp.Wpf.Rendering
                     currentSize.Width = width;
                 }
 
-                //TODO: Performance analysis to determine which is the fastest memory copy function
-                //NativeMethodWrapper.CopyMemoryUsingHandle(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
-                CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (UIntPtr)(uint)numberOfBytes);
+                NativeMethodWrapper.MemoryCopy(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
 
                 //Take a reference to the sourceBuffer that's used to update our WritableBitmap,
                 //once we're on the UI thread we need to check if it's still valid
