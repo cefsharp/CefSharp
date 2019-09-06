@@ -20,7 +20,11 @@ namespace CefSharp.Wpf.Rendering
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
     public abstract class AbstractRenderHandler : IDisposable, IRenderHandler
     {
-        [DllImport("kernel32.dll", EntryPoint = "RtlCopyMemory", SetLastError = false)]
+        //RtlCopyMemory doesn't actually exist as a function,it's an alias and only exists
+        //when running as a 64bit process. According to https://stackoverflow.com/a/47016390/4583726
+        //EntryPoint = "CopyMemory" was being mapped to RtlMoveMemory on Windows 10 at least
+        //Will update to the faster RtlCopyMemory later.
+        [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory", SetLastError = false)]
         protected static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
 
         internal static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
