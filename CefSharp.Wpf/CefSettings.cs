@@ -20,7 +20,7 @@ namespace CefSharp.Wpf
             //Disable multithreaded, compositor scrolling of web content
             //With OSR rendering it's fairly common for this to improve scrolling performace
             //https://peter.sh/experiments/chromium-command-line-switches/#disable-threaded-scrolling
-            //CefCommandLineArgs.Add("disable-threaded-scrolling", "1");
+            //CefCommandLineArgs.Add("disable-threaded-scrolling");
         }
     }
 }

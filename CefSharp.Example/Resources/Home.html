@@ -163,11 +163,11 @@
                             // There are many command line arguments that can either be turned on or off
 
                             // Enable WebRTC
-                            settings.CefCommandLineArgs.Add("enable-media-stream", "1");
+                            settings.CefCommandLineArgs.Add("enable-media-stream", string.Empty);
 
                             // Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
                             // Slightly improves Cef initialize time as it won't attempt to resolve a proxy
-                            settings.CefCommandLineArgs.Add("no-proxy-server", "1");
+                            settings.CefCommandLineArgs.Add("no-proxy-server", string.Empty);
 
 
                             Cef.Initialize(settings);
