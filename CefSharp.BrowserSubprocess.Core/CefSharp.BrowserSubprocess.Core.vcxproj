@@ -173,6 +173,7 @@
     <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
     <ClInclude Include="BindObjectAsyncHandler.h" />
+    <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="SubProcessApp.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodHandler.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
     <ClInclude Include="JavascriptPostMessageHandler.h" />
+    <ClCompile Include="WcfBrowserSubprocessExecutable.h" />
     <ClInclude Include="Wrapper\Frame.h" />
     <ClInclude Include="Wrapper\Browser.h" />
     <ClInclude Include="Wrapper\V8Context.h" />
