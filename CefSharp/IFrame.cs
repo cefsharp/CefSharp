@@ -71,7 +71,7 @@ namespace CefSharp
         /// Retrieve this frame's HTML source as a string sent to the specified visitor. 
         /// Use the <see cref="GetSourceAsync"/> method for a Task based async wrapper
         /// </summary>
-        /// <param name="visitor">visitor will recieve string values asynchronously</param>
+        /// <param name="visitor">visitor will receive string values asynchronously</param>
         void GetSource(IStringVisitor visitor);
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace CefSharp
         /// Retrieve this frame's display text as a string sent to the specified visitor. 
         /// Use the <see cref="GetTextAsync"/> method for a Task based async wrapper
         /// </summary>
-        /// <param name="visitor">visitor will recieve string values asynchronously</param>
+        /// <param name="visitor">visitor will receive string values asynchronously</param>
         void GetText(IStringVisitor visitor);
 
         /// <summary>
@@ -186,8 +186,8 @@ namespace CefSharp
         /// <summary>
         /// Create a new URL request that will be treated as originating from this frame
         /// and the associated browser. This request may be intercepted by the client via
-        /// IResourceRequestHandler or ISchemeHandlerFactory.
-        /// Use IURLRequest.Create instead if you do not want the request to have
+        /// <see cref="IResourceRequestHandler"/> or <see cref="ISchemeHandlerFactory"/>.
+        /// Use IUrlRequest.Create instead if you do not want the request to have
         /// this association, in which case it may be handled differently (see documentation on that method).
         ///
         /// Requests may originate from both the browser process and the render process.

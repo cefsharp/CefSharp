@@ -7,7 +7,6 @@
 #include "Stdafx.h"
 
 #include "include\cef_urlrequest.h"
-#include "include\cef_v8.h"
 #include "CefWrapper.h"
 
 namespace CefSharp
@@ -59,13 +58,19 @@ namespace CefSharp
             // The returned object is read-only and should not be modified.
             ///
             /*--cef()--*/
-            virtual IResponse^ GetResponse();
+            virtual property IResponse^ Response
+            {
+                IResponse^ get();
+            }
 
             ///
             // Returns the request status.
             ///
             /*--cef(default_retval=UR_UNKNOWN)--*/
-            virtual UrlRequestStatus GetRequestStatus();
+            virtual property UrlRequestStatus RequestStatus
+            {
+                UrlRequestStatus get();
+            }
         };
     }
 }

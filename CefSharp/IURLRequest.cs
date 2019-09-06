@@ -1,6 +1,7 @@
-// Copyright © 2015 The CefSharp Authors. All rights reserved.
+// Copyright © 2019 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 using System;
 
 namespace CefSharp
@@ -22,11 +23,11 @@ namespace CefSharp
         /// <summary>
         /// The response, or null if no response information is available
         /// </summary>
-        IResponse GetResponse();
+        IResponse Response { get; }
 
         /// <summary>
         /// The request status.
         /// </summary>
-        UrlRequestStatus GetRequestStatus();
+        UrlRequestStatus RequestStatus { get; }
     }
 }

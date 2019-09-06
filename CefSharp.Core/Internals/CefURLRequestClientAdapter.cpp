@@ -7,14 +7,11 @@
 #include "CefUrlRequestWrapper.h"
 #include "CefAuthCallbackWrapper.h"
 
-#include "Cef.h"
-
 
 void CefUrlRequestClientAdapter::OnRequestComplete(CefRefPtr<CefURLRequest> request)
 {
     _client->OnRequestComplete(gcnew CefUrlRequestWrapper(request));
 }
-
 
 void CefUrlRequestClientAdapter::OnUploadProgress(CefRefPtr<CefURLRequest> request, int64 current, int64 total)
 {

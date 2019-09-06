@@ -13,14 +13,14 @@ bool CefUrlRequestWrapper::ResponseWasCached::get()
     return _urlRequest->ResponseWasCached();
 }
 
-IResponse^ CefUrlRequestWrapper::GetResponse()
+IResponse^ CefUrlRequestWrapper::Response::get()
 {
     ThrowIfDisposed();
 
     return gcnew CefResponseWrapper(_urlRequest->GetResponse());
 }
 
-UrlRequestStatus CefUrlRequestWrapper::GetRequestStatus()
+UrlRequestStatus CefUrlRequestWrapper::RequestStatus::get()
 {
     ThrowIfDisposed();
 
