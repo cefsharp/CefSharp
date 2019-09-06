@@ -6,9 +6,7 @@
 #include "CefUrlRequestWrapper.h"
 #include "CefResponseWrapper.h"
 
-#include "Cef.h"
-
-bool CefUrlRequestWrapper::ResponseWasCached()
+bool CefUrlRequestWrapper::ResponseWasCached::get()
 {
     ThrowIfDisposed();
 

@@ -9,6 +9,7 @@ using CefSharp.OffScreen;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using CefSharp.Example;
 
 namespace CefSharp.Test.OffScreen
 {
@@ -130,43 +131,6 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
-        class URLRequestClient : IUrlRequestClient
-        {
-            private Action<IUrlRequest, byte[]> CompleteAction;
-            private MemoryStream ResponseBody = new MemoryStream();
-            private BinaryWriter StreamWriter;
-
-            public URLRequestClient(Action<IUrlRequest, byte[]> completeAction)
-            {
-                CompleteAction = completeAction;
-                StreamWriter = new BinaryWriter(ResponseBody);
-            }
-            public bool GetAuthCredentials(bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
-            {
-                return true;
-            }
-
-            public void OnDownloadData(IUrlRequest request, byte[] data)
-            {
-                StreamWriter.Write(data);
-            }
-
-            public void OnDownloadProgress(IUrlRequest request, long current, long total)
-            {
-                return;
-            }
-
-            public void OnRequestComplete(IUrlRequest request)
-            {
-
-                CompleteAction(request, ResponseBody.ToArray());
-            }
-
-            public void OnUploadProgress(IUrlRequest request, long current, long total)
-            {
-                return;
-            }
-        }
 
         [Fact]
         public async Task CanMakeUrlRequest()
@@ -183,10 +147,10 @@ namespace CefSharp.Test.OffScreen
 
                 var t = new TaskCompletionSource<string>();
                 var wasCached = false;
-                var requestClient = new URLRequestClient(
+                var requestClient = new UrlRequestClient(
                     (IUrlRequest request, byte[] responseBody) =>
                     {
-                        wasCached = request.ResponseWasCached();
+                        wasCached = request.ResponseWasCached;
                         t.TrySetResult(System.Text.Encoding.UTF8.GetString(responseBody));
                     }
                 );

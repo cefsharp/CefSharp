@@ -17,7 +17,7 @@ namespace CefSharp
         /// <summary>
         /// True if the response was served from the cache.
         /// </summary>
-        bool ResponseWasCached();
+        bool ResponseWasCached { get; }
         
         /// <summary>
         /// The response, or null if no response information is available

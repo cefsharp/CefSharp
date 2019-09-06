@@ -48,7 +48,10 @@ namespace CefSharp
             // responses for which revalidation was required.
             ///
             /*--cef()--*/
-            virtual bool ResponseWasCached();
+            virtual property bool ResponseWasCached
+            {
+                bool get();
+            }
             
             ///
             // Returns the response, or NULL if no response information is available.

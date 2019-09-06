@@ -26,10 +26,7 @@ namespace CefSharp.Test
                 //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 
                 settings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\Cache");
 
-                var t = new System.Threading.Thread(() => {
-                    Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
-                });
-
+                Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
             }
         }
 
