@@ -4,6 +4,8 @@
 
 using System;
 using System.Windows.Input;
+using CefSharp.Internals;
+using CefSharp.Wpf.Internals;
 
 namespace CefSharp.Wpf.Experimental
 {
@@ -46,5 +48,21 @@ namespace CefSharp.Wpf.Experimental
             }
         }
 
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            if (!e.Handled && !IsDisposed)
+            {
+                var modifiers = e.GetModifiers();
+                var point = e.GetPosition(this);
+
+                var host = this.GetBrowserHost();
+                if (host != null && !host.IsDisposed)
+                {
+                    host.SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
+                }
+
+                ((IWebBrowserInternal)this).SetTooltipText(null);
+            }
+        }
     }
 }
