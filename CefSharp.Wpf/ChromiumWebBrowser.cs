@@ -636,6 +636,10 @@ namespace CefSharp.Wpf
             {
                 Interlocked.Exchange(ref browserInitialized, 0);
 
+                //Stop rendering immediately so later on when we dispose of the
+                //RenderHandler no further OnPaint calls take place
+                browser.GetHost().WasHidden(true);
+
                 UiThreadRunAsync(() =>
                 {
                     SetCurrentValue(IsBrowserInitializedProperty, false);
@@ -711,8 +715,12 @@ namespace CefSharp.Wpf
                 WpfKeyboardHandler?.Dispose();
                 WpfKeyboardHandler = null;
 
-                RenderHandler?.Dispose();
+                //Take a copy of the RenderHandler then set to property to null
+                //Before we dispose, reduces the changes of any OnPaint calls
+                //using the RenderHandler after Dispose
+                var renderHandler = RenderHandler;
                 RenderHandler = null;
+                renderHandler?.Dispose();
 
                 source = null;
             }

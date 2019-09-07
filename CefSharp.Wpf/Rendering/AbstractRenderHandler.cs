@@ -119,7 +119,7 @@ namespace CefSharp.Wpf.Rendering
         /// <param name="image">image used as parent for rendered bitmap</param>
         public virtual void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
         {
-            if (image.Dispatcher.HasShutdownStarted)
+            if (IsDisposed || image.Dispatcher.HasShutdownStarted)
             {
                 return;
             }
