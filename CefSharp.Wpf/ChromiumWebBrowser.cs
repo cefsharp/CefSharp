@@ -673,8 +673,11 @@ namespace CefSharp.Wpf
                 browser = null;
 
                 // Incase we accidentally have a reference to the CEF drag data
-                currentDragData?.Dispose();
-                currentDragData = null;
+                if (currentDragData != null)
+                {
+                    currentDragData.Dispose();
+                    currentDragData = null;
+                }
 
                 PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
                 // Release window event listeners if PresentationSourceChangedHandler event wasn't
@@ -712,18 +715,17 @@ namespace CefSharp.Wpf
                     CleanupElement.Unloaded -= OnCleanupElementUnloaded;
                 }
 
-                managedCefBrowserAdapter?.Dispose();
-                managedCefBrowserAdapter = null;
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
 
                 // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
                 // is called.
                 LifeSpanHandler = null;
 
-                WpfKeyboardHandler?.Dispose();
-                WpfKeyboardHandler = null;
-
-                RenderHandler?.Dispose();
-                RenderHandler = null;
+                WpfKeyboardHandler.Dispose();
 
                 source = null;
             }
