@@ -42,11 +42,17 @@ namespace CefSharp.Wpf.Rendering
 
                 if (createNewBitmap)
                 {
-                    ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
+                    //If the MemoryMappedFile is smaller than we need then create a larger one
+                    //If it's larger then we need then rather than going through the costly expense of
+                    //allocating a new one we'll just use the old one and only access the number of bytes we require.
+                    if (viewAccessor == null || viewAccessor.Capacity < numberOfBytes)
+                    {
+                        ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
 
-                    mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
+                        mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
 
-                    viewAccessor = mappedFile.CreateViewAccessor();
+                        viewAccessor = mappedFile.CreateViewAccessor();
+                    }
 
                     currentSize.Height = height;
                     currentSize.Width = width;
