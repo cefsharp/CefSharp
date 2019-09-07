@@ -2313,7 +2313,7 @@ namespace CefSharp.Wpf
         /// <param name="newDpi">new DPI</param>
         /// <remarks>.Net 4.6.2 adds HwndSource.DpiChanged which could be used to automatically
         /// handle DPI change, unforunately we still target .Net 4.5.2</remarks>
-        public void NotifyDpiChange(double newDpi)
+        public virtual void NotifyDpiChange(double newDpi)
         {
             var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(newDpi);
 
@@ -2325,18 +2325,27 @@ namespace CefSharp.Wpf
             }
 
             //Ignore this for custom bitmap factories                   
-            if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
+            if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler || RenderHandler is DirectWritableBitmapRenderHandler)
             {
-                if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
+                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI) && !(RenderHandler is DirectWritableBitmapRenderHandler))
                 {
                     const int DefaultDpi = 96;
                     var scale = DefaultDpi * DpiScaleFactor;
-
-                    RenderHandler = new WritableBitmapRenderHandler(scale, scale);
+                    RenderHandler = new DirectWritableBitmapRenderHandler(scale, scale, invalidateDirtyRect: true);
                 }
-                else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
+                else
                 {
-                    RenderHandler = new InteropBitmapRenderHandler();
+                    if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
+                    {
+                        const int DefaultDpi = 96;
+                        var scale = DefaultDpi * DpiScaleFactor;
+
+                        RenderHandler = new WritableBitmapRenderHandler(scale, scale);
+                    }
+                    else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
+                    {
+                        RenderHandler = new InteropBitmapRenderHandler();
+                    }
                 }
             }
         }
