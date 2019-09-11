@@ -25,11 +25,11 @@ namespace CefSharp.OffScreen.Example
             // You need to replace this with your own call to Cef.Initialize();
             CefExample.Init(new CefSettings(), browserProcessHandler: new BrowserProcessHandler());
 
-            MainAsync("cachePath1", 1.0);
+            MainAsync("cache\\path1", 1.0);
             //Demo showing Zoom Level of 3.0
             //Using seperate request contexts allows the urls from the same domain to have independent zoom levels
             //otherwise they would be the same - default behaviour of Chromium
-            //MainAsync("cachePath2", 3.0);
+            //MainAsync("cache\\path2", 3.0);
 
             // We have to wait for something, otherwise the process will exit too soon.
             Console.ReadKey();
