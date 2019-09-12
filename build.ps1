@@ -331,8 +331,8 @@ function UpdateSymbolsWithGitLink()
     Write-Diagnostic "GitLink working dir : $WorkingDir"
     
     # Run GitLink in the workingDir
-    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x64 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
-    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x86 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
+    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x64 -ignore CefSharp.Example`,CefSharp.Wpf.Example`,CefSharp.OffScreen.Example`,CefSharp.WinForms.Example
+    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x86 -ignore CefSharp.Example`,CefSharp.Wpf.Example`,CefSharp.OffScreen.Example`,CefSharp.WinForms.Example
 }
 
 function WriteAssemblyVersion
