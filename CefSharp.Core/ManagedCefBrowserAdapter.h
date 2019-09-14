@@ -72,7 +72,6 @@ namespace CefSharp
             }
 
             _methodRunnerQueue->MethodInvocationComplete += gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
-            _methodRunnerQueue->Start();
         }
 
         !ManagedCefBrowserAdapter()
@@ -88,7 +87,7 @@ namespace CefSharp
             if (_methodRunnerQueue != nullptr)
             {
                 _methodRunnerQueue->MethodInvocationComplete -= gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
-                _methodRunnerQueue->Stop();
+                delete _methodRunnerQueue;
                 _methodRunnerQueue = nullptr;
             }
 

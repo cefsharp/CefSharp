@@ -19,7 +19,7 @@ namespace CefSharp
     {
     private:
         List<V8Extension^>^ _cefExtensions;
-        IDictionary<String^, String^>^ _cefCommandLineArgs;
+        CommandLineArgDictionary^ _cefCommandLineArgs;
 
     internal:
         ::CefSettings* _cefSettings;
@@ -36,7 +36,7 @@ namespace CefSharp
             BrowserSubprocessPath = Path::Combine(Path::GetDirectoryName(this->GetType()->Assembly->Location), "CefSharp.BrowserSubprocess.exe");
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             _cefExtensions = gcnew List<V8Extension^>();
-            _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
+            _cefCommandLineArgs = gcnew CommandLineArgDictionary();
 
             //Automatically discovered and load a system-wide installation of Pepper Flash.
             _cefCommandLineArgs->Add("enable-system-flash", "1");
@@ -80,9 +80,9 @@ namespace CefSharp
         /// added in OnBeforeCommandLineProcessing.
         // The CefSettings.command_line_args_disabled value can be used to start with an empty command-line object. Any values specified in CefSettings that equate to command-line arguments will be set before this method is called.
         /// </summary>
-        virtual property IDictionary<String^, String^>^ CefCommandLineArgs
+        virtual property CommandLineArgDictionary^ CefCommandLineArgs
         {
-            IDictionary<String^, String^>^ get() { return _cefCommandLineArgs; }
+            CommandLineArgDictionary^ get() { return _cefCommandLineArgs; }
         }
 
         /// <summary>

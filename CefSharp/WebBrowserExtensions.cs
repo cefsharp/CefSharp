@@ -259,7 +259,7 @@ namespace CefSharp
         /// you can provide a custom implementation if you require a custom implementation</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
         {
-            var script = GetScript(methodName, args);
+            var script = GetScriptForJavascriptMethodWithArgs(methodName, args);
 
             browser.ExecuteScriptAsync(script);
         }
@@ -990,7 +990,7 @@ namespace CefSharp
         /// <returns><see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution</returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, TimeSpan? timeout, string methodName, params object[] args)
         {
-            var script = GetScript(methodName, args);
+            var script = GetScriptForJavascriptMethodWithArgs(methodName, args);
 
             return browser.EvaluateScriptAsync(script, timeout);
         }
@@ -1052,7 +1052,7 @@ namespace CefSharp
         /// <param name="methodName">The javascript method name to execute</param>
         /// <param name="args">the arguments to be passed as params to the method</param>
         /// <returns>The Javascript code</returns>
-        private static string GetScript(string methodName, object[] args)
+        public static string GetScriptForJavascriptMethodWithArgs(string methodName, object[] args)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(methodName);

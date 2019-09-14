@@ -4,7 +4,6 @@
 
 using System;
 using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,9 +19,6 @@ namespace CefSharp.Wpf.Rendering
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
     public abstract class AbstractRenderHandler : IDisposable, IRenderHandler
     {
-        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
-        protected static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
-
         internal static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
         internal static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
 
@@ -80,8 +76,11 @@ namespace CefSharp.Wpf.Rendering
                 return;
             }
 
-            ReleaseMemoryMappedView(ref popupMemoryMappedFile, ref popupMemoryMappedViewAccessor);
-            ReleaseMemoryMappedView(ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
+            lock (lockObject)
+            {
+                ReleaseMemoryMappedView(ref popupMemoryMappedFile, ref popupMemoryMappedViewAccessor);
+                ReleaseMemoryMappedView(ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
+            }
         }
 
         protected void ReleaseMemoryMappedView(ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor stream)
@@ -123,7 +122,7 @@ namespace CefSharp.Wpf.Rendering
         /// <param name="image">image used as parent for rendered bitmap</param>
         public virtual void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
         {
-            if (image.Dispatcher.HasShutdownStarted)
+            if (IsDisposed || image.Dispatcher.HasShutdownStarted)
             {
                 return;
             }

@@ -636,6 +636,10 @@ namespace CefSharp.Wpf
             {
                 Interlocked.Exchange(ref browserInitialized, 0);
 
+                //Stop rendering immediately so later on when we dispose of the
+                //RenderHandler no further OnPaint calls take place
+                browser.GetHost().WasHidden(true);
+
                 UiThreadRunAsync(() =>
                 {
                     SetCurrentValue(IsBrowserInitializedProperty, false);
@@ -662,11 +666,8 @@ namespace CefSharp.Wpf
                 browser = null;
 
                 // Incase we accidentally have a reference to the CEF drag data
-                if (currentDragData != null)
-                {
-                    currentDragData.Dispose();
-                    currentDragData = null;
-                }
+                currentDragData?.Dispose();
+                currentDragData = null;
 
                 PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
                 // Release window event listeners if PresentationSourceChangedHandler event wasn't
@@ -704,17 +705,22 @@ namespace CefSharp.Wpf
                     CleanupElement.Unloaded -= OnCleanupElementUnloaded;
                 }
 
-                if (managedCefBrowserAdapter != null)
-                {
-                    managedCefBrowserAdapter.Dispose();
-                    managedCefBrowserAdapter = null;
-                }
+                managedCefBrowserAdapter?.Dispose();
+                managedCefBrowserAdapter = null;
 
                 // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
                 // is called.
                 LifeSpanHandler = null;
 
-                WpfKeyboardHandler.Dispose();
+                WpfKeyboardHandler?.Dispose();
+                WpfKeyboardHandler = null;
+
+                //Take a copy of the RenderHandler then set to property to null
+                //Before we dispose, reduces the changes of any OnPaint calls
+                //using the RenderHandler after Dispose
+                var renderHandler = RenderHandler;
+                RenderHandler = null;
+                renderHandler?.Dispose();
 
                 source = null;
             }
@@ -2307,7 +2313,7 @@ namespace CefSharp.Wpf
         /// <param name="newDpi">new DPI</param>
         /// <remarks>.Net 4.6.2 adds HwndSource.DpiChanged which could be used to automatically
         /// handle DPI change, unforunately we still target .Net 4.5.2</remarks>
-        public void NotifyDpiChange(double newDpi)
+        public virtual void NotifyDpiChange(double newDpi)
         {
             var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(newDpi);
 
@@ -2319,18 +2325,27 @@ namespace CefSharp.Wpf
             }
 
             //Ignore this for custom bitmap factories                   
-            if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler)
+            if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler || RenderHandler is DirectWritableBitmapRenderHandler)
             {
-                if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
+                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI) && !(RenderHandler is DirectWritableBitmapRenderHandler))
                 {
                     const int DefaultDpi = 96;
                     var scale = DefaultDpi * DpiScaleFactor;
-
-                    RenderHandler = new WritableBitmapRenderHandler(scale, scale);
+                    RenderHandler = new DirectWritableBitmapRenderHandler(scale, scale, invalidateDirtyRect: true);
                 }
-                else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
+                else
                 {
-                    RenderHandler = new InteropBitmapRenderHandler();
+                    if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
+                    {
+                        const int DefaultDpi = 96;
+                        var scale = DefaultDpi * DpiScaleFactor;
+
+                        RenderHandler = new WritableBitmapRenderHandler(scale, scale);
+                    }
+                    else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
+                    {
+                        RenderHandler = new InteropBitmapRenderHandler();
+                    }
                 }
             }
         }

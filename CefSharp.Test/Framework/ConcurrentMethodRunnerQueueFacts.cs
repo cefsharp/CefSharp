@@ -31,13 +31,12 @@ namespace CefSharp.Test.Framework
             methodInvocation.Parameters.Add("Echo Me!");
             var methodRunnerQueue = new ConcurrentMethodRunnerQueue(objectRepository);
 
-            methodRunnerQueue.Start();
             methodRunnerQueue.Enqueue(methodInvocation);
 
             //Wait a litle for the queue to start processing our Method call
             await Task.Delay(500);
 
-            var ex = Record.Exception(() => methodRunnerQueue.Stop());
+            var ex = Record.Exception(() => methodRunnerQueue.Dispose());
 
             Assert.Null(ex);
         }
@@ -59,14 +58,13 @@ namespace CefSharp.Test.Framework
 
             methodRunnerQueue.MethodInvocationComplete += (sender, args) =>
             {
-                methodRunnerQueue.Stop();
+                methodRunnerQueue.Dispose();
 
                 actualResult = args.Result.Result.ToString();
 
                 manualResetEvent.Set();
             };
 
-            methodRunnerQueue.Start();
             methodRunnerQueue.Enqueue(methodInvocation);
 
             manualResetEvent.WaitOne(3000);

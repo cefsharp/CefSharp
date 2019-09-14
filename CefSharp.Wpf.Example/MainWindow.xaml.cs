@@ -3,7 +3,10 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
@@ -140,6 +143,11 @@ namespace CefSharp.Wpf.Example
                     browserViewModel.ShowDownloadInfo = !browserViewModel.ShowDownloadInfo;
                 }
 
+                if (param == "ResizeHackTests")
+                {
+                    ReproduceWasResizedCrashAsync();
+                }
+
                 if (param == "AsyncJsbTaskTests")
                 {
                     //After this setting has changed all tests will run through the Concurrent MethodQueueRunner
@@ -223,5 +231,76 @@ namespace CefSharp.Wpf.Example
         {
             Close();
         }
+
+        private void CloseTab(BrowserTabViewModel browserViewModel)
+        {
+            if (BrowserTabs.Remove(browserViewModel))
+            {
+                browserViewModel.WebBrowser?.Dispose();
+            }
+        }
+
+        private void ReproduceWasResizedCrashAsync()
+        {
+            CreateNewTab();
+            CreateNewTab();
+
+            WindowState = WindowState.Normal;
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    var random = new Random();
+
+                    for (int i = 0; i < 20; i++)
+                    {
+                        for (int j = 0; j < 150; j++)
+                        {
+                            Dispatcher.Invoke(new Action(() =>
+                            {
+                                var newWidth = Width + (i % 2 == 0 ? -5 : 5);
+                                var newHeight = Height + (i % 2 == 0 ? -5 : 5);
+                                if (newWidth < 500 || newWidth > 1500)
+                                {
+                                    newWidth = 1000;
+                                }
+                                if (newHeight < 500 || newHeight > 1500)
+                                {
+                                    newHeight = 1000;
+                                }
+                                Width = newWidth;
+                                Height = newHeight;
+
+                                // Get all indexes but the selected one
+                                var indexes = new List<int>();
+                                for (int k = 0; k < TabControl.Items.Count; k++)
+                                {
+                                    if (TabControl.SelectedIndex != k)
+                                    {
+                                        indexes.Add(k);
+                                    }
+                                }
+
+                                // Select a random unselected tab
+                                TabControl.SelectedIndex = indexes[random.Next(0, indexes.Count)];
+
+                                // Close a tab and create a tab once in a while
+                                if (random.Next(0, 5) == 0)
+                                {
+                                    CloseTab(BrowserTabs[Math.Max(1, TabControl.SelectedIndex)]); // Don't close the first tab
+                                    CreateNewTab();
+                                }
+                            }));
+
+                            // Sleep random amount of time
+                            Thread.Sleep(random.Next(1, 11));
+                        }
+                    }
+                }
+                catch (TaskCanceledException) { } // So it doesn't break on VS stop
+            });
+        }
+
     }
 }

@@ -42,19 +42,23 @@ namespace CefSharp.Wpf.Rendering
 
                 if (createNewBitmap)
                 {
-                    ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
+                    //If the MemoryMappedFile is smaller than we need then create a larger one
+                    //If it's larger then we need then rather than going through the costly expense of
+                    //allocating a new one we'll just use the old one and only access the number of bytes we require.
+                    if (viewAccessor == null || viewAccessor.Capacity < numberOfBytes)
+                    {
+                        ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
 
-                    mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
+                        mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
 
-                    viewAccessor = mappedFile.CreateViewAccessor();
+                        viewAccessor = mappedFile.CreateViewAccessor();
+                    }
 
                     currentSize.Height = height;
                     currentSize.Width = width;
                 }
 
-                //TODO: Performance analysis to determine which is the fastest memory copy function
-                //NativeMethodWrapper.CopyMemoryUsingHandle(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
-                CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (uint)numberOfBytes);
+                NativeMethodWrapper.MemoryCopy(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
 
                 //Take a reference to the backBufferHandle, once we're on the UI thread we need to check if it's still valid
                 var backBufferHandle = mappedFile.SafeMemoryMappedFileHandle;
