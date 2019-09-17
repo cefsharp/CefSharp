@@ -12,21 +12,19 @@ namespace CefSharp.Example
     {
         private Action<IUrlRequest, byte[]> CompleteAction;
         private MemoryStream ResponseBody = new MemoryStream();
-        private BinaryWriter StreamWriter;
 
         public UrlRequestClient(Action<IUrlRequest, byte[]> completeAction)
         {
             CompleteAction = completeAction;
-            StreamWriter = new BinaryWriter(ResponseBody);
         }
         public bool GetAuthCredentials(bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
             return true;
         }
 
-        public void OnDownloadData(IUrlRequest request, byte[] data)
+        public void OnDownloadData(IUrlRequest request, Stream data)
         {
-            StreamWriter.Write(data);
+            data.CopyTo(ResponseBody);
         }
 
         public void OnDownloadProgress(IUrlRequest request, long current, long total)

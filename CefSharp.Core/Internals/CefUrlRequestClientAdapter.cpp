@@ -7,6 +7,7 @@
 #include "CefUrlRequestWrapper.h"
 #include "CefAuthCallbackWrapper.h"
 
+using namespace System::IO;
 
 void CefUrlRequestClientAdapter::OnRequestComplete(CefRefPtr<CefURLRequest> request)
 {
@@ -25,12 +26,10 @@ void CefUrlRequestClientAdapter::OnDownloadProgress(CefRefPtr<CefURLRequest> req
 
 void CefUrlRequestClientAdapter::OnDownloadData(CefRefPtr<CefURLRequest> request, const void* data, size_t data_length)
 {
-    auto data_array = gcnew array<Byte>(data_length);
-    pin_ptr<Byte> data_array_start = &data_array[0];
-    memcpy(data_array_start, data, data_length);
+    UnmanagedMemoryStream readStream((Byte*)data, (Int64)data_length, (Int64)data_length, FileAccess::Read);
     _client->OnDownloadData(
         gcnew CefUrlRequestWrapper(request),
-        data_array
+        %readStream
     );
 }
 

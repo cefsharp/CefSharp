@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.IO;
+
 namespace CefSharp
 {
     /// <summary>
@@ -33,8 +35,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="request"></param>
         /// <param name="data">Contains the current bytes received since the last call.</param>
-        void OnDownloadData(IUrlRequest request, byte[] data);
-
+        void OnDownloadData(IUrlRequest request, Stream data);
 
         /// <summary>
         /// Notifies the client of download progress.
