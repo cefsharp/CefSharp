@@ -80,6 +80,15 @@ namespace CefSharp.Example
                 return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType, autoDisposeStream: true);
             }
 
+            if (fileName.EndsWith("Logo.png", StringComparison.OrdinalIgnoreCase))
+            {
+                //Convenient helper method to lookup the mimeType
+                var mimeType = ResourceHandler.GetMimeType(".png");
+                //Load a resource handler for Logo.png
+                //mimeType is optional and will default to text/html
+                return ResourceHandler.FromFilePath("..\\..\\..\\..\\CefSharp.WinForms.Example\\Resources\\chromium-256.png", mimeType, autoDisposeStream: true);
+            }
+
             if (uri.Host == "cefsharp.com" && schemeName == "https" && (string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(fileName, "/PostDataAjaxTest.html", StringComparison.OrdinalIgnoreCase)))
             {
