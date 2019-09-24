@@ -24,8 +24,11 @@ namespace CefSharp.Wpf
         public Rect DirtyRect { get; private set; }
 
         /// <summary>
-        /// Buffer
+        /// Pointer to the unmanaged buffer that holds the bitmap.
+        /// The buffer shouldn't be accessed outside the scope of <see cref="ChromiumWebBrowser.Paint"/> event.
+        /// A copy should be taken as the buffer is reused internally and may potentialy be freed. 
         /// </summary>
+        /// <remarks>The bitmap will be width * height * 4 bytes in size and represents a BGRA image with an upper-left origin</remarks>
         public IntPtr Buffer { get; private set; }
 
         /// <summary>
