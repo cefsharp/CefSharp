@@ -916,7 +916,10 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="isPopup">indicates whether the element is the view or the popup widget.</param>
         /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
+        /// <param name="buffer">The bitmap will be width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
+        /// The buffer should no be used outside the scope of this method, a copy should be taken. As the buffer is reused
+        /// internally and potentially even freed.
+        /// </param>
         /// <param name="width">width</param>
         /// <param name="height">height</param>
         protected virtual void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
