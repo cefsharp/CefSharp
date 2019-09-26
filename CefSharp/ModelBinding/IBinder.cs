@@ -7,16 +7,25 @@ using System;
 namespace CefSharp.ModelBinding
 {
     /// <summary>
-    /// Binds incoming request data to a model type
+    /// Converts input params into complex .Net types (can also be used for type conversion).
+    /// This feature is similar in concept to ASP.NET MVC Model Binding.
+    /// Objects passed from javascript are represented as <see cref="System.Collections.Generic.IDictionary{string, object}"/>
+    /// and arrays/lists as <see cref="System.Collections.Generic.IList{object}"/><object>
+    /// See <see cref="DefaultBinder"/> for the default implementation.
     /// </summary>
+    /// <remarks>
+    /// A model binder can be specified in <see cref="BindingOptions.Binder"/> and passed into
+    /// <see cref="IJavascriptObjectRepository.Register(string, object, bool, BindingOptions)"/>
+    /// </remarks>
     public interface IBinder
     {
         /// <summary>
-        /// Bind to the given model type
+        /// Bind to the given model type, can also be used for type conversion e.g. int to uint
         /// </summary>
         /// <param name="obj">object to be converted into a model</param>
-        /// <param name="modelType">Model type to bind to</param>
-        /// <returns>Bound model</returns>
+        /// <param name="modelType">the target param type</param>
+        /// <returns>if the modelType is directly assignable then do so, otherwise perform a conversion
+        /// or create a complex object that matches <paramref name="modelType"/></returns>
         object Bind(object obj, Type modelType);
     }
 }
