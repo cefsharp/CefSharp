@@ -8,13 +8,13 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using CefSharp.Internals;
 using GalaSoft.MvvmLight.Command;
 using Size = System.Windows.Size;
 
@@ -29,13 +29,14 @@ namespace CefSharp.Wpf.Example.Controls
         private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
 
         private static readonly PixelFormat PixelFormat = PixelFormats.Pbgra32;
-        private static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
+        private static readonly int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
 
         private volatile bool isTakingScreenshot = false;
         private Size? screenshotSize;
         private int oldFrameRate;
         private int ignoreFrames = 0;
         private TaskCompletionSource<InteropBitmap> screenshotTaskCompletionSource;
+        private CancellationTokenRegistration? cancellationTokenRegistration;
 
         public ICommand ScreenshotCommand { get; set; }
 
@@ -44,7 +45,7 @@ namespace CefSharp.Wpf.Example.Controls
             ScreenshotCommand = new RelayCommand(TakeScreenshot);
         }
 
-        public Task<InteropBitmap> TakeScreenshot(Size screenshotSize, int? frameRate = 1, int? ignoreFrames = 0, TimeSpan? timeout = null)
+        public Task<InteropBitmap> TakeScreenshot(Size screenshotSize, int? frameRate = 1, int? ignoreFrames = 0, CancellationToken? cancellationToken = null)
         {
             if (screenshotTaskCompletionSource != null && screenshotTaskCompletionSource.Task.Status == TaskStatus.Running)
             {
@@ -70,9 +71,16 @@ namespace CefSharp.Wpf.Example.Controls
 
             screenshotTaskCompletionSource = new TaskCompletionSource<InteropBitmap>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            if (timeout.HasValue)
+            if (cancellationToken.HasValue)
             {
-                screenshotTaskCompletionSource = screenshotTaskCompletionSource.WithTimeout(timeout.Value);
+                var token = cancellationToken.Value;
+                cancellationTokenRegistration = token.Register(() =>
+                {
+                    screenshotTaskCompletionSource.TrySetCanceled();
+
+                    cancellationTokenRegistration?.Dispose();
+
+                }, useSynchronizationContext: false);
             }
 
             if (frameRate.HasValue)
@@ -142,15 +150,10 @@ namespace CefSharp.Wpf.Example.Controls
                         //Let the browser know the size changes so normal rendering can continue
                         browserHost.WasResized();
 
-                        if (viewAccessor != null)
-                        {
-                            viewAccessor.Dispose();
-                        }
+                        viewAccessor?.Dispose();
+                        mappedFile?.Dispose();
 
-                        if (mappedFile != null)
-                        {
-                            mappedFile.Dispose();
-                        }
+                        cancellationTokenRegistration?.Dispose();
                     }));
                 }
             }
