@@ -23,9 +23,9 @@ namespace CefSharp.ModelBinding
         /// Bind to the given model type, can also be used for type conversion e.g. int to uint
         /// </summary>
         /// <param name="obj">object to be converted into a model</param>
-        /// <param name="modelType">the target param type</param>
+        /// <param name="targetParamType">the target param type</param>
         /// <returns>if the modelType is directly assignable then do so, otherwise perform a conversion
-        /// or create a complex object that matches <paramref name="modelType"/></returns>
-        object Bind(object obj, Type modelType);
+        /// or create a complex object that matches <paramref name="targetParamType"/></returns>
+        object Bind(object obj, Type targetParamType);
     }
 }

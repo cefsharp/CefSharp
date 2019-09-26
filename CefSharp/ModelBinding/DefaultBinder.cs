@@ -17,7 +17,7 @@ namespace CefSharp.ModelBinding
     /// </summary>
     public class DefaultBinder : IBinder
     {
-        private readonly static MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
+        private static readonly MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
 
         private readonly IFieldNameConverter fieldNameConverter;
 
@@ -45,9 +45,9 @@ namespace CefSharp.ModelBinding
         /// Bind to the given model type
         /// </summary>
         /// <param name="obj">object to be converted into a model</param>
-        /// <param name="modelType">Model type to bind to</param>
+        /// <param name="targetParamType">the target param type</param>
         /// <returns>Bound model</returns>
-        public virtual object Bind(object obj, Type modelType)
+        public virtual object Bind(object obj, Type targetParamType)
         {
             if (obj == null)
             {
@@ -57,35 +57,35 @@ namespace CefSharp.ModelBinding
             var objType = obj.GetType();
 
             // If the object can be directly assigned to the modelType then return immediately. 
-            if (modelType.IsAssignableFrom(objType))
+            if (targetParamType.IsAssignableFrom(objType))
             {
                 return obj;
             }
 
-            if (modelType.IsEnum && modelType.IsEnumDefined(obj))
+            if (targetParamType.IsEnum && targetParamType.IsEnumDefined(obj))
             {
-                return Enum.ToObject(modelType, obj);
+                return Enum.ToObject(targetParamType, obj);
             }
 
             var typeConverter = TypeDescriptor.GetConverter(objType);
 
             // If the object can be converted to the modelType (eg: double to int)
-            if (typeConverter.CanConvertTo(modelType))
+            if (typeConverter.CanConvertTo(targetParamType))
             {
-                return typeConverter.ConvertTo(obj, modelType);
+                return typeConverter.ConvertTo(obj, targetParamType);
             }
 
             Type genericType = null;
-            if (modelType.IsCollection() || modelType.IsArray() || modelType.IsEnumerable())
+            if (targetParamType.IsCollection() || targetParamType.IsArray() || targetParamType.IsEnumerable())
             {
                 // Make sure it has a generic type
-                if (modelType.GetTypeInfo().IsGenericType)
+                if (targetParamType.GetTypeInfo().IsGenericType)
                 {
-                    genericType = modelType.GetGenericArguments().FirstOrDefault();
+                    genericType = targetParamType.GetGenericArguments().FirstOrDefault();
                 }
                 else
                 {
-                    var ienumerable = modelType.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType).FirstOrDefault(i => i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+                    var ienumerable = targetParamType.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType).FirstOrDefault(i => i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
                     genericType = ienumerable == null ? null : ienumerable.GetGenericArguments().FirstOrDefault();
                 }
 
@@ -96,7 +96,7 @@ namespace CefSharp.ModelBinding
                 }
             }
 
-            var bindingContext = this.CreateBindingContext(obj, modelType, genericType);
+            var bindingContext = this.CreateBindingContext(obj, targetParamType, genericType);
             var destinationType = bindingContext.DestinationType;
 
             if (destinationType.IsCollection() || destinationType.IsArray() || destinationType.IsEnumerable())
@@ -154,7 +154,7 @@ namespace CefSharp.ModelBinding
                 }
             }
 
-            if (modelType.IsArray())
+            if (targetParamType.IsArray())
             {
                 var generictoArrayMethod = ToArrayMethodInfo.MakeGenericMethod(new[] { genericType });
                 return generictoArrayMethod.Invoke(null, new[] { bindingContext.Model });
