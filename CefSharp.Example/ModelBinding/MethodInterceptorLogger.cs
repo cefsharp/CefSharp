@@ -10,9 +10,9 @@ namespace CefSharp.Example.ModelBinding
 {
     public class MethodInterceptorLogger : IMethodInterceptor
     {
-        object IMethodInterceptor.Intercept(Func<object> method, string methodName)
+        object IMethodInterceptor.Intercept(Func<object[], object> method, object[] parameters, string methodName)
         {
-            object result = method();
+            object result = method(parameters);
             Debug.WriteLine("Called " + methodName);
             return result;
         }
