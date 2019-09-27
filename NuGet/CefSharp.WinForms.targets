@@ -14,31 +14,31 @@
   <Choose>
     <When Condition="'$(Platform)' == 'AnyCPU'">
       <ItemGroup>
-        <None Include="@(CefSharpWinFormsBinaries32)">
-          <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <ContentWithTargetPath Include="@(CefSharpWinFormsBinaries32)">
+          <TargetPath>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="@(CefSharpWinFormsBinaries64)">
-          <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </ContentWithTargetPath>
+        <ContentWithTargetPath Include="@(CefSharpWinFormsBinaries64)">
+          <TargetPath>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
+        </ContentWithTargetPath>
       </ItemGroup>
     </When>
     <When Condition="'$(Platform)' == 'x64'">
       <ItemGroup>
-        <None Include="@(CefSharpWinFormsBinaries64)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <ContentWithTargetPath Include="@(CefSharpWinFormsBinaries64)">
+          <TargetPath>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
+        </ContentWithTargetPath>
       </ItemGroup>
     </When>
     <!-- x86, and Win32 -->
     <Otherwise>
       <ItemGroup>
-        <None Include="@(CefSharpWinFormsBinaries32)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <ContentWithTargetPath Include="@(CefSharpWinFormsBinaries32)">
+          <TargetPath>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
+        </ContentWithTargetPath>
       </ItemGroup>
     </Otherwise>
   </Choose>
