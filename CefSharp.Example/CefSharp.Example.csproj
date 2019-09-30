@@ -82,7 +82,7 @@
     <Compile Include="Filters\FindReplaceMultiResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceResponseFilter.cs" />
     <Compile Include="Filters\ExperimentalStreamResponseFilter.cs" />
-    <Compile Include="Filters\MemoryStreamResponseFilter.cs" />
+    <Compile Include="Filters\StreamResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
     <Compile Include="Filters\PassThruResponseFilter.cs" />
     <Compile Include="Handlers\BrowserProcessHandler.cs" />
@@ -90,6 +90,7 @@
     <Compile Include="JavascriptBinding\JavascriptCallbackBoundObject.cs" />
     <Compile Include="JavascriptBinding\JsSerializableClass.cs" />
     <Compile Include="JavascriptBinding\JsSerializableStruct.cs" />
+    <Compile Include="JavascriptBinding\UIntAddModel.cs" />
     <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
     <Compile Include="PostMessage\PostMessageExample.cs" />
     <Compile Include="PostMessage\PostMessageExampleData.cs" />

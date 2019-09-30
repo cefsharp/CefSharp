@@ -198,5 +198,15 @@ namespace CefSharp.Example.JavascriptBinding
 
             throw new Exception("Expected Exception");
         }
+
+        public uint UIntAddModel(UIntAddModel model)
+        {
+            return model.ParamA + model.ParamB;
+        }
+
+        public uint UIntAdd(uint paramA, uint paramB)
+        {
+            return paramA + paramB;
+        }
     }
 }

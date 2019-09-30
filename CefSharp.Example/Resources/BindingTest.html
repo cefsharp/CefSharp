@@ -226,6 +226,34 @@
                     });
             });
 
+            QUnit.test("Async call (UIntAddModel 3 + 2):", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.uIntAddModel({ ParamA: 3, ParamB: 2 }).then(function (actualResult)
+                {
+                    const expectedResult = 5
+
+                    assert.equal(expectedResult, actualResult, "Add 3 + 2 resulted in " + expectedResult);
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (UIntAdd 3 + 2):", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.uIntAdd(3, 2).then(function (actualResult)
+                {
+                    const expectedResult = 5
+
+                    assert.equal(expectedResult, actualResult, "Add 3 + 2 resulted in " + expectedResult);
+
+                    asyncCallback();
+                });
+            });
+
             QUnit.test("Async call (Hello):", function (assert)
             {
                 var asyncCallback = assert.async();

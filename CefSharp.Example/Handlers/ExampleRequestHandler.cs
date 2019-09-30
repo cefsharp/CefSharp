@@ -103,6 +103,7 @@ namespace CefSharp.Example.Handlers
         {
             //NOTE: In most cases you examine the request.Url and only handle requests you are interested in
             if (request.Url.ToLower().StartsWith("https://cefsharp.example")
+                || request.Url.ToLower().StartsWith(CefSharpSchemeHandlerFactory.SchemeName)
                 || request.Url.ToLower().StartsWith("mailto:")
                 || request.Url.ToLower().StartsWith("https://googlechrome.github.io/samples/service-worker/"))
             {
