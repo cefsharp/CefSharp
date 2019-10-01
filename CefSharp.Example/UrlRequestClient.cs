@@ -7,40 +7,39 @@ using System.IO;
 
 namespace CefSharp.Example
 {
-
     public class UrlRequestClient : IUrlRequestClient
     {
-        private Action<IUrlRequest, byte[]> CompleteAction;
-        private MemoryStream ResponseBody = new MemoryStream();
+        private readonly Action<IUrlRequest, byte[]> completeAction;
+        private readonly MemoryStream responseBody = new MemoryStream();
 
         public UrlRequestClient(Action<IUrlRequest, byte[]> completeAction)
         {
-            CompleteAction = completeAction;
+            this.completeAction = completeAction;
         }
-        public bool GetAuthCredentials(bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
+
+        bool IUrlRequestClient.GetAuthCredentials(bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
             return true;
         }
 
-        public void OnDownloadData(IUrlRequest request, Stream data)
+        void IUrlRequestClient.OnDownloadData(IUrlRequest request, Stream data)
         {
-            data.CopyTo(ResponseBody);
+            data.CopyTo(responseBody);
         }
 
-        public void OnDownloadProgress(IUrlRequest request, long current, long total)
+        void IUrlRequestClient.OnDownloadProgress(IUrlRequest request, long current, long total)
         {
-            return;
+
         }
 
-        public void OnRequestComplete(IUrlRequest request)
+        void IUrlRequestClient.OnRequestComplete(IUrlRequest request)
         {
-
-            CompleteAction(request, ResponseBody.ToArray());
+            this?.completeAction(request, responseBody.ToArray());
         }
 
-        public void OnUploadProgress(IUrlRequest request, long current, long total)
+        void IUrlRequestClient.OnUploadProgress(IUrlRequest request, long current, long total)
         {
-            return;
+
         }
     }
 }

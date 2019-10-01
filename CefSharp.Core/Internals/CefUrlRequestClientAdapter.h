@@ -11,7 +11,6 @@ namespace CefSharp
 {
     namespace Internals
     {
-
         /// Interface that should be implemented by the CefUrlRequest client.
         /// The methods of this class will be called on the same thread that created
         /// the request unless otherwise documented. 

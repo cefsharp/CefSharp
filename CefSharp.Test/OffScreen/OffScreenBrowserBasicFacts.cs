@@ -2,14 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
-using System.IO;
-using System.Threading;
-using CefSharp.OffScreen;
+using System.Text;
 using System.Threading.Tasks;
+using CefSharp.Example;
+using CefSharp.OffScreen;
 using Xunit;
 using Xunit.Abstractions;
-using CefSharp.Example;
 
 namespace CefSharp.Test.OffScreen
 {
@@ -142,18 +140,13 @@ namespace CefSharp.Test.OffScreen
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
 
-
-                IUrlRequest urlRequest = null;
-
-                var t = new TaskCompletionSource<string>();
+                var taskCompletionSource = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
                 var wasCached = false;
-                var requestClient = new UrlRequestClient(
-                    (IUrlRequest request, byte[] responseBody) =>
-                    {
-                        wasCached = request.ResponseWasCached;
-                        t.TrySetResult(System.Text.Encoding.UTF8.GetString(responseBody));
-                    }
-                );
+                var requestClient = new UrlRequestClient((IUrlRequest req, byte[] responseBody) =>
+                {
+                    wasCached = req.ResponseWasCached;
+                    taskCompletionSource.TrySetResult(Encoding.UTF8.GetString(responseBody));
+                });
 
                 //Make the request on the CEF UI Thread
                 await Cef.UIThreadTaskFactory.StartNew(delegate
@@ -162,10 +155,10 @@ namespace CefSharp.Test.OffScreen
 
                     request.Method = "GET";
                     request.Url = "https://code.jquery.com/jquery-3.4.1.min.js";
-                    urlRequest = mainFrame.CreateUrlRequest(request, requestClient);
+                    var urlRequest = mainFrame.CreateUrlRequest(request, requestClient);
                 });
 
-                var stringResult = await t.Task;
+                var stringResult = await taskCompletionSource.Task;
 
                 Assert.True(!string.IsNullOrEmpty(stringResult));
                 Assert.True(wasCached);

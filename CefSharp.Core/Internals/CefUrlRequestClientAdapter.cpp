@@ -27,6 +27,7 @@ void CefUrlRequestClientAdapter::OnDownloadProgress(CefRefPtr<CefURLRequest> req
 void CefUrlRequestClientAdapter::OnDownloadData(CefRefPtr<CefURLRequest> request, const void* data, size_t data_length)
 {
     UnmanagedMemoryStream readStream((Byte*)data, (Int64)data_length, (Int64)data_length, FileAccess::Read);
+
     _client->OnDownloadData(
         gcnew CefUrlRequestWrapper(request),
         %readStream

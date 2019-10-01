@@ -21,7 +21,7 @@ namespace CefSharp
         // be accessed on the same thread that created it. 
         ///
         /*--cef(source=library)--*/
-        ref class CefUrlRequestWrapper : public IUrlRequest, public CefWrapper
+        public ref class CefUrlRequestWrapper : public IUrlRequest, public CefWrapper
         {
         private:
             MCefRefPtr<CefURLRequest> _urlRequest;
@@ -51,7 +51,7 @@ namespace CefSharp
             {
                 bool get();
             }
-            
+
             ///
             // Returns the response, or NULL if no response information is available.
             // Response information will only be available after the upload has completed.

@@ -413,6 +413,16 @@ IUrlRequest^ CefFrameWrapper::CreateUrlRequest(IRequest^ request, IUrlRequestCli
 {
     ThrowIfDisposed();
 
+    if (request == nullptr)
+    {
+        throw gcnew ArgumentNullException("request");
+    }
+
+    if (client == nullptr)
+    {
+        throw gcnew ArgumentNullException("client");
+    }
+
     auto urlRequest = _frame->CreateURLRequest(
         (CefRequestWrapper^)request,
         new CefUrlRequestClientAdapter(client));
