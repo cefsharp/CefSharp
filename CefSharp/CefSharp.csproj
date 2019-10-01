@@ -107,7 +107,6 @@
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
-    <Compile Include="Enums\ChannelLayout.cs" />
     <Compile Include="Enums\PointerType.cs" />
     <Compile Include="Enums\TextInputMode.cs" />
     <Compile Include="Enums\TouchEventType.cs" />
@@ -127,7 +126,6 @@
     <Compile Include="Handler\ICookieAccessFilter.cs" />
     <Compile Include="Handler\IResourceRequestHandler.cs" />
     <Compile Include="IApp.cs" />
-    <Compile Include="Handler\IAudioHandler.cs" />
     <Compile Include="IExtension.cs" />
     <Compile Include="Internals\IMethodRunnerQueue.cs" />
     <Compile Include="Internals\ConcurrentMethodRunnerQueue.cs" />

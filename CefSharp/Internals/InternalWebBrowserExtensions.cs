@@ -8,7 +8,6 @@ namespace CefSharp.Internals
     {
         internal static void SetHandlersToNullExceptLifeSpan(this IWebBrowserInternal browser)
         {
-            browser.AudioHandler = null;
             browser.DialogHandler = null;
             browser.FindHandler = null;
             browser.RequestHandler = null;
