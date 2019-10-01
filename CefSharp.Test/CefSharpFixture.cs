@@ -2,16 +2,26 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.OffScreen;
 using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using CefSharp.OffScreen;
 
 namespace CefSharp.Test
 {
     public class CefSharpFixture : IDisposable
     {
+        private readonly TaskScheduler scheduler;
+        private readonly Thread thread;
+
         public CefSharpFixture()
         {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
+            scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            thread = Thread.CurrentThread;
+
             if (!Cef.IsInitialized)
             {
                 var isDefault = AppDomain.CurrentDomain.IsDefaultAppDomain();
@@ -32,9 +42,17 @@ namespace CefSharp.Test
 
         public void Dispose()
         {
-            if (Cef.IsInitialized)
+            var factory = new TaskFactory(scheduler);
+
+            if (thread.IsAlive)
             {
-                Cef.Shutdown();
+                factory.StartNew(() =>
+                {
+                    if (Cef.IsInitialized)
+                    {
+                        Cef.Shutdown();
+                    }
+                });
             }
         }
     }
