@@ -290,6 +290,11 @@ IRequest^ Frame::CreateRequest(bool initializePostData)
     throw gcnew NotImplementedException();
 }
 
+IUrlRequest^ Frame::CreateUrlRequest(IRequest^ request, IUrlRequestClient^ client)
+{
+    throw gcnew NotImplementedException();
+}
+
 bool Frame::IsDisposed::get()
 {
     return _disposed;

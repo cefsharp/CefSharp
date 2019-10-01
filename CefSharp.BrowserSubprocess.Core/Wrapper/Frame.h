@@ -244,6 +244,8 @@ namespace CefSharp
             
             virtual IRequest^ CreateRequest(bool initializePostData);
 
+            virtual IUrlRequest^ CreateUrlRequest(IRequest^ request, IUrlRequestClient^ client);
+
             virtual property bool IsDisposed
             {
                 bool get();
