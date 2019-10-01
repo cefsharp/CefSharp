@@ -2,10 +2,14 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.IO;
+using System.Threading;
 using CefSharp.OffScreen;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using CefSharp.Example;
 
 namespace CefSharp.Test.OffScreen
 {
@@ -124,6 +128,47 @@ namespace CefSharp.Test.OffScreen
                     Assert.Equal(test, (string)javascriptResponse.Result);
                     output.WriteLine("{0} passes {1}", test, javascriptResponse.Result);
                 }
+            }
+        }
+
+
+        [Fact]
+        public async Task CanMakeUrlRequest()
+        {
+            using (var browser = new ChromiumWebBrowser("https://code.jquery.com/jquery-3.4.1.min.js"))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+
+
+                IUrlRequest urlRequest = null;
+
+                var t = new TaskCompletionSource<string>();
+                var wasCached = false;
+                var requestClient = new UrlRequestClient(
+                    (IUrlRequest request, byte[] responseBody) =>
+                    {
+                        wasCached = request.ResponseWasCached;
+                        t.TrySetResult(System.Text.Encoding.UTF8.GetString(responseBody));
+                    }
+                );
+
+                //Make the request on the CEF UI Thread
+                await Cef.UIThreadTaskFactory.StartNew(delegate
+                {
+                    var request = mainFrame.CreateRequest(false);
+
+                    request.Method = "GET";
+                    request.Url = "https://code.jquery.com/jquery-3.4.1.min.js";
+                    urlRequest = mainFrame.CreateUrlRequest(request, requestClient);
+                });
+
+                var stringResult = await t.Task;
+
+                Assert.True(!string.IsNullOrEmpty(stringResult));
+                Assert.True(wasCached);
             }
         }
 
