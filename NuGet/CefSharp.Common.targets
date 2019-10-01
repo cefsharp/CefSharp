@@ -9,7 +9,7 @@
   </Target>
 
   <PropertyGroup>
-    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
+    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' ">.</CefSharpTargetDir>
   </PropertyGroup>
 
   <!--
