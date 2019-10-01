@@ -450,6 +450,18 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Set command line argument to enable Print Preview
+        /// See https://bitbucket.org/chromiumembedded/cef/issues/123/add-support-for-print-preview for details
+        /// </summary>
+        void EnablePrintPreview()
+        {
+            if (!_cefCommandLineArgs->ContainsKey("enable-print-preview"))
+            {
+                _cefCommandLineArgs->Add("enable-print-preview");
+            }
+        }
+
+        /// <summary>
         /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance
         /// This will disable WebGL, look at the source to determine which flags best suite
         /// your requirements.
