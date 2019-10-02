@@ -107,12 +107,6 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("force-renderer-accessibility");
             //settings.CefCommandLineArgs.Add("disable-renderer-accessibility");
 
-            //Disable Network Service in WPF
-            //settings.CefCommandLineArgs.Add("disable-features", "NetworkService,VizDisplayCompositor");
-
-            //Disable Network Service in WinForms
-            //settings.CefCommandLineArgs.Add("disable-features", "NetworkService");
-
             //Enables Uncaught exception handler
             settings.UncaughtExceptionStackSize = 10;
 
