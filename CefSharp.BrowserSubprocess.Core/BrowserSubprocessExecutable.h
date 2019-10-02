@@ -29,9 +29,42 @@ namespace CefSharp
 
             }
 
+            /// <summary>
+            /// This function should be called from the application entry point function (typically Program.Main)
+            /// to execute a secondary process e.g. gpu, plugin, renderer, utility
+            /// It can be used to run secondary processes (BrowserSubProcess) from your main applications executable
+            /// or from a separate executable specified by the CefSettings.BrowserSubprocessPath value.
+            /// CefSharp defaults to using the latter approach, a default implementation (CefSharp.BrowserSubProcess.exe) is
+            /// supplied, see https://github.com/cefsharp/CefSharp/wiki/General-Usage#processes for more details.
+            /// </summary>
+            /// <param name="args">command line args</param>
+            /// <returns>
+            /// If called for the browser process (identified by no "type" command-line value) it will return immediately
+            /// with a value of -1. If called for a recognized secondary process it will block until the process should exit
+            /// and then return the process exit code.
+            /// </returns
+            int Main(IEnumerable<String^>^ args)
+            {
+                return Main(args, nullptr);
+            }
+
+            /// <summary>
+            /// This function should be called from the application entry point function (typically Program.Main)
+            /// to execute a secondary process e.g. gpu, plugin, renderer, utility
+            /// It can be used to run secondary processes (BrowserSubProcess) from your main applications executable
+            /// or from a separate executable specified by the CefSettings.BrowserSubprocessPath value.
+            /// CefSharp defaults to using the latter approach, a default implementation (CefSharp.BrowserSubProcess.exe) is
+            /// supplied, see https://github.com/cefsharp/CefSharp/wiki/General-Usage#processes for more details.
+            /// </summary>
+            /// <param name="args">command line args</param>
+            /// <param name="handler">An option IRenderProcessHandler implementation, use null if no handler is required</param>
+            /// <returns>
+            /// If called for the browser process (identified by no "type" command-line value) it will return immediately
+            /// with a value of -1. If called for a recognized secondary process it will block until the process should exit
+            /// and then return the process exit code.
+            /// </returns>
             int Main(IEnumerable<String^>^ args, IRenderProcessHandler^ handler)
             {
-                int result;
                 auto type = CommandLineArgsParser::GetArgumentValue(args, CefSharpArguments::SubProcessTypeArgument);
 
                 auto parentProcessId = -1;
@@ -54,19 +87,15 @@ namespace CefSharp
 
                     try
                     {
-                        result = subProcess->Run();
+                        return subProcess->Run();
                     }
                     finally
                     {
                         delete subProcess;
                     }
                 }
-                else
-                {
-                    result = SubProcess::ExecuteProcess(args);
-                }
 
-                return result;
+                return SubProcess::ExecuteProcess(args);
             }
 
         protected:
