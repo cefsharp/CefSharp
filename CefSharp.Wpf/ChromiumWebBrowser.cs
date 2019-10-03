@@ -2125,7 +2125,13 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (!e.Handled && browser != null)
+            //Mouse, touch, and stylus will raise mouse event.
+            //For mouse events from an actual mouse, e.StylusDevice will be null.
+            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            //We only handle event from mouse here.
+            //If not, touch will cause duplicate events (mousemove and touchmove) and so does stylus.
+            //Use e.StylusDevice == null to ensure only mouse.
+            if (!e.Handled && browser != null && e.StylusDevice == null)
             {
                 var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
@@ -2171,8 +2177,17 @@ namespace CefSharp.Wpf
         /// This event data reports details about the mouse button that was pressed and the handled state.</param>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            Focus();
-            OnMouseButton(e);
+            //Mouse, touch, and stylus will raise mouse event.
+            //For mouse events from an actual mouse, e.StylusDevice will be null.
+            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            //We only handle event from mouse here.
+            //If not, touch will cause duplicate events (mouseup and touchup) and so does stylus.
+            //Use e.StylusDevice == null to ensure only mouse.
+            if (e.StylusDevice == null)
+            {
+                Focus();
+                OnMouseButton(e);
+            }
 
             base.OnMouseDown(e);
         }
@@ -2183,9 +2198,18 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the mouse button was released.</param>
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
-            OnMouseButton(e);
+            //Mouse, touch, and stylus will raise mouse event.
+            //For mouse events from an actual mouse, e.StylusDevice will be null.
+            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            //We only handle event from mouse here.
+            //If not, touch will cause duplicate events (mouseup and touchup) and so does stylus.
+            //Use e.StylusDevice == null to ensure only mouse.
+            if (e.StylusDevice == null)
+            {
+                OnMouseButton(e);
 
-            base.OnMouseUp(e);
+                base.OnMouseUp(e);
+            }
         }
 
         /// <summary>
@@ -2194,7 +2218,13 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            if (!e.Handled && browser != null)
+            //Mouse, touch, and stylus will raise mouse event.
+            //For mouse events from an actual mouse, e.StylusDevice will be null.
+            //For mouse events from touch and stylus, e.StylusDevice will not be null.
+            //We only handle event from mouse here.
+            //OnMouseLeave event from touch or stylus needn't to be handled.
+            //Use e.StylusDevice == null to ensure only mouse.
+            if (!e.Handled && browser != null && e.StylusDevice == null)
             {
                 var modifiers = e.GetModifiers();
                 var point = e.GetPosition(this);
@@ -2246,6 +2276,94 @@ namespace CefSharp.Wpf
                 {
                     browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, e.ClickCount, modifiers);
                 }
+
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Provides class handling for the <see cref="E:System.Windows.TouchDown" /> routed event that occurs when a touch presses inside this element.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.</param>
+        protected override void OnTouchDown(TouchEventArgs e)
+        {
+            Focus();
+            // Capture touch so touch events are still pushed to CEF even if the touch leaves the control before a TouchUp.
+            // This behavior is similar to how other browsers handle touch input.
+            CaptureTouch(e.TouchDevice);
+            OnTouch(e);
+            base.OnTouchDown(e);
+        }
+
+        /// <summary>
+        /// Provides class handling for the <see cref="E:System.Windows.TouchMove" /> routed event that occurs when a touch moves while inside this element.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.</param>
+        protected override void OnTouchMove(TouchEventArgs e)
+        {
+            OnTouch(e);
+            base.OnTouchMove(e);
+        }
+
+        /// <summary>
+        /// Provides class handling for the <see cref="E:System.Windows.TouchUp" /> routed event that occurs when a touch is released inside this element.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.TouchEventArgs" /> that contains the event data.</param>
+        protected override void OnTouchUp(TouchEventArgs e)
+        {
+            ReleaseTouchCapture(e.TouchDevice);
+            OnTouch(e);
+            base.OnTouchUp(e);
+        }
+
+        /// <summary>
+        /// Handles a <see cref="E:Touch" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="TouchEventArgs"/> instance containing the event data.</param>
+        private void OnTouch(TouchEventArgs e)
+        {
+            var browser = GetBrowser();
+
+            if (!e.Handled && browser != null)
+            {
+                var modifiers = WpfExtensions.GetModifierKeys();
+                var touchPoint = e.GetTouchPoint(this);
+                var touchEventType = TouchEventType.Cancelled;
+                switch (touchPoint.Action)
+                {
+                    case TouchAction.Down:
+                    {
+                        touchEventType = TouchEventType.Pressed;
+                        break;
+                    }
+                    case TouchAction.Move:
+                    {
+                        touchEventType = TouchEventType.Moved;
+                        break;
+                    }
+                    case TouchAction.Up:
+                    {
+                        touchEventType = TouchEventType.Released;
+                        break;
+                    }
+                    default:
+                    {
+                        touchEventType = TouchEventType.Cancelled;
+                        break;
+                    }
+                }
+
+                var touchEvent = new TouchEvent()
+                {
+                    Id = e.TouchDevice.Id,
+                    X = (float)touchPoint.Position.X,
+                    Y = (float)touchPoint.Position.Y,
+                    PointerType = PointerType.Touch,
+                    Type = touchEventType,
+                    Modifiers = modifiers,
+                };
+
+                browser.GetHost().SendTouchEvent(touchEvent);
 
                 e.Handled = true;
             }
