@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using CefSharp.Handler;
 
@@ -37,6 +36,8 @@ namespace CefSharp.Example.Handlers
             //Example #1
             //Return true and call IRequestCallback.Continue() at a later time to continue or cancel the request.
             //In this instance we'll use a Task, typically you'd invoke a call to the UI Thread and display a Dialog to the user
+            //You can cast the IWebBrowser param to ChromiumWebBrowser to easily access
+            //control, from there you can invoke onto the UI thread, should be in an async fashion
             Task.Run(() =>
             {
                 //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
@@ -77,19 +78,35 @@ namespace CefSharp.Example.Handlers
 
         protected override bool GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
-            //NOTE: If you do not wish to implement this method returning false is the default behaviour
-            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
+            //NOTE: We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
 
-            callback.Dispose();
-            return false;
-        }
+            //Example #1
+            //Spawn a Task to execute our callback and return true;
+            //Typical usage would see you invoke onto the UI thread to open a username/password dialog
+            //Then execute the callback with the response username/password
+            //You can cast the IWebBrowser param to ChromiumWebBrowser to easily access
+            //control, from there you can invoke onto the UI thread, should be in an async fashion
+            //Load https://httpbin.org/basic-auth/cefsharp/passwd in the browser to test
+            Task.Run(() =>
+            {
+                using (callback)
+                {
+                    if (originUrl.Contains("https://httpbin.org/basic-auth/"))
+                    {
+                        var parts = originUrl.Split('/');
+                        var username = parts[parts.Length - 2];
+                        var password = parts[parts.Length - 1];
+                        callback.Continue(username, password);
+                    }
+                }
+            });
 
-        protected override bool OnSelectClientCertificate(IWebBrowser chromiumWebBrowser, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
-        {
-            //NOTE: If you do not wish to implement this method returning false is the default behaviour
-            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
-            callback.Dispose();
-            return false;
+            return true;
+
+            //Example #2
+            //Return false to cancel the request
+            //callback.Dispose();
+            //return false;
         }
 
         protected override void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
