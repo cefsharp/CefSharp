@@ -4,6 +4,7 @@
 
 using System;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using CefSharp.Handler;
 
 namespace CefSharp.Example.Handlers
@@ -31,23 +32,42 @@ namespace CefSharp.Example.Handlers
 
         protected override bool OnCertificateError(IWebBrowser chromiumWebBrowser, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
         {
-            //NOTE: If you do not wish to implement this method returning false is the default behaviour
-            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
-            //callback.Dispose();
-            //return false;
+            //NOTE: We also suggest you wrap callback in a using statement or explicitly execute callback.Dispose as callback wraps an unmanaged resource.
 
-            //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
-            if (!callback.IsDisposed)
+            //Example #1
+            //Return true and call IRequestCallback.Continue() at a later time to continue or cancel the request.
+            //In this instance we'll use a Task, typically you'd invoke a call to the UI Thread and display a Dialog to the user
+            Task.Run(() =>
             {
-                using (callback)
+                //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
+                if (!callback.IsDisposed)
                 {
-                    //To allow certificate
-                    //callback.Continue(true);
-                    //return true;
+                    using (callback)
+                    {
+                        //We'll allow the expired certificate from badssl.com
+                        if (requestUrl.ToLower().Contains("https://expired.badssl.com/"))
+                        {
+                            callback.Continue(true);
+                        }
+                        else
+                        {
+                            callback.Continue(false);
+                        }
+                    }
                 }
-            }
+            });
 
-            return false;
+            return true;
+
+            //Example #2
+            //Execute the callback and return true to immediately allow the invalid certificate
+            //callback.Continue(true); //Callback will Dispose it's self once exeucted
+            //return true;
+
+            //Example #3
+            //Return false for the default behaviour (cancel request immediately)
+            //callback.Dispose(); //Dispose of callback
+            //return false;
         }
 
         protected override void OnPluginCrashed(IWebBrowser chromiumWebBrowser, IBrowser browser, string pluginPath)
