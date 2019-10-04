@@ -33,7 +33,12 @@ namespace CefSharp.ModelBinding
         /// <param name="propertyInfo">The bindable property to represent.</param>
         public BindingMemberInfo(PropertyInfo propertyInfo)
         {
-            this.propertyInfo = propertyInfo ?? throw new ArgumentNullException("propertyInfo");
+            if (propertyInfo == null)
+            {
+                throw new ArgumentNullException("propertyInfo");
+            }
+
+            this.propertyInfo = propertyInfo;
 
             Type = propertyInfo.PropertyType;
             Name = propertyInfo.Name;
@@ -45,7 +50,12 @@ namespace CefSharp.ModelBinding
         /// <param name="fieldInfo">The bindable field to represent.</param>
         public BindingMemberInfo(FieldInfo fieldInfo)
         {
-            this.fieldInfo = fieldInfo ?? throw new ArgumentNullException("fieldInfo");
+            if (fieldInfo == null)
+            {
+                throw new ArgumentNullException("fieldInfo");
+            }
+
+            this.fieldInfo = fieldInfo;
 
             Type = fieldInfo.FieldType;
             Name = fieldInfo.Name;
