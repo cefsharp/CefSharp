@@ -13,7 +13,7 @@ namespace CefSharp
     /// </summary>
     public class JavascriptMessageReceivedEventArgs : EventArgs
     {
-        private static readonly IBinder Binder = new DefaultBinder(new DefaultFieldNameConverter());
+        private static readonly IBinder Binder = new DefaultBinder();
 
         public IFrame Frame { get; private set; }
         public IBrowser Browser { get; private set; }

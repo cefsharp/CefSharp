@@ -2,8 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.ModelBinding;
 using System.Collections.Generic;
+using CefSharp.ModelBinding;
 using Xunit;
 
 namespace CefSharp.Test.Framework
@@ -13,14 +13,14 @@ namespace CefSharp.Test.Framework
     /// </summary>
     public class BinderFacts
     {
-        enum TestEnum
+        private enum TestEnum
         {
             A,
             B,
             C
         }
 
-        class TestObject
+        private class TestObject
         {
             public string AString;
             public bool ABool;
@@ -32,7 +32,7 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void BindsComplexObjects()
         {
-            var binder = new DefaultBinder(new DefaultFieldNameConverter());
+            var binder = new DefaultBinder();
             var obj = new Dictionary<string, object>
             {
                 { "AnEnum", 2 },
@@ -54,7 +54,7 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void BindsEnums()
         {
-            var binder = new DefaultBinder(new DefaultFieldNameConverter());
+            var binder = new DefaultBinder();
             var result = binder.Bind(2, typeof(TestEnum));
 
             Assert.Equal(TestEnum.C, result);
@@ -63,7 +63,7 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void BindsIntegersWithPrecisionLoss()
         {
-            var binder = new DefaultBinder(new DefaultFieldNameConverter());
+            var binder = new DefaultBinder();
             var result = binder.Bind(2.5678, typeof(int));
 
             Assert.Equal(3, result);
@@ -77,7 +77,7 @@ namespace CefSharp.Test.Framework
         public void BindsDoublesWithoutPrecisionLoss()
         {
             const double Expected = 2.5678;
-            var binder = new DefaultBinder(new DefaultFieldNameConverter());
+            var binder = new DefaultBinder();
             var result = binder.Bind(Expected, typeof(double));
 
             Assert.Equal(Expected, result);

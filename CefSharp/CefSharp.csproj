@@ -233,14 +233,8 @@
     <Compile Include="ModelBinding\DefaultBinder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ModelBinding\DefaultFieldNameConverter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ModelBinding\IMethodInterceptor.cs" />
     <Compile Include="ModelBinding\IBinder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ModelBinding\IFieldNameConverter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelBinding\ModelBindingExtensions.cs" />

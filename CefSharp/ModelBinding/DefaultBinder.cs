@@ -19,28 +19,6 @@ namespace CefSharp.ModelBinding
     {
         private static readonly MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
 
-        private readonly IFieldNameConverter fieldNameConverter;
-
-        /// <summary>
-        /// List of property names to be ignored
-        /// </summary>
-        public IEnumerable<string> BlackListedPropertyNames { get; set; }
-
-        /// <summary>
-        /// DefaultBinder constructor
-        /// </summary>
-        /// <param name="fieldNameConverter">used to convert field names to property names</param>
-        public DefaultBinder(IFieldNameConverter fieldNameConverter)
-        {
-            if (fieldNameConverter == null)
-            {
-                throw new ArgumentNullException("fieldNameConverter");
-            }
-
-            this.fieldNameConverter = fieldNameConverter;
-            BlackListedPropertyNames = new List<string>();
-        }
-
         /// <summary>
         /// Bind to the given model type
         /// </summary>
@@ -175,7 +153,7 @@ namespace CefSharp.ModelBinding
             {
                 DestinationType = modelType,
                 Model = CreateModel(modelType, genericType),
-                ValidModelBindingMembers = GetBindingMembers(modelType, genericType).ToList(),
+                ValidModelBindingMembers = BindingMemberInfo.Collect(genericType ?? modelType).ToList(),
                 Object = obj,
                 GenericType = genericType
             };
@@ -206,19 +184,6 @@ namespace CefSharp.ModelBinding
 
                 modelProperty.SetValue(context.Model, model);
             }
-        }
-
-        /// <summary>
-        /// Get binding members
-        /// </summary>
-        /// <param name="modelType">model type</param>
-        /// <param name="genericType">generic type</param>
-        /// <returns>collection of binding member informations</returns>
-        protected virtual IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType)
-        {
-            var blackListHash = new HashSet<string>(BlackListedPropertyNames, StringComparer.Ordinal);
-
-            return BindingMemberInfo.Collect(genericType ?? modelType).Where(member => !blackListHash.Contains(member.Name));
         }
 
         /// <summary>
