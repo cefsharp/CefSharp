@@ -89,9 +89,9 @@ namespace CefSharp.ModelBinding
                 genericType = typeof(object);
             }
 
-            var listType = typeof(List<>).MakeGenericType(genericType);
+            var modelType = typeof(List<>).MakeGenericType(genericType);
+            var model = (IList)Activator.CreateInstance(modelType);
             var list = (IList<object>)obj;
-            var model = (IList)Activator.CreateInstance(listType);
 
             for (var i = 0; i < collection.Count; i++)
             {
@@ -146,18 +146,9 @@ namespace CefSharp.ModelBinding
 
                     if (dictionary.TryGetValue(modelProperty.Name, out val))
                     {
-                        if (modelProperty.Type.IsAssignableFrom(objType))
-                        {
-                            // Simply set the property
-                            modelProperty.SetValue(model, obj);
-                        }
-                        else
-                        {
-                            // Cannot directly set the property attempt to bind
-                            var subModel = Bind(obj, modelProperty.Type);
+                        var propertyVal = Bind(val, modelProperty.Type);
 
-                            modelProperty.SetValue(model, subModel);
-                        }
+                        modelProperty.SetValue(model, propertyVal);
                     }
                 }
             }
