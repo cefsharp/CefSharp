@@ -224,9 +224,6 @@
     <Compile Include="IPopupFeatures.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResponseFilter.cs" />
-    <Compile Include="ModelBinding\BindingContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ModelBinding\BindingMemberInfo.cs">
       <SubType>Code</SubType>
     </Compile>

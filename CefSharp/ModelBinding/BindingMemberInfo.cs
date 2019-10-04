@@ -25,7 +25,7 @@ namespace CefSharp.ModelBinding
         /// <summary>
         /// Gets the data type of the property or field represented by this BindingMemberInfo.
         /// </summary>
-        public Type PropertyType { get; private set; }
+        public Type Type { get; private set; }
 
         /// <summary>
         /// Constructs a BindingMemberInfo instance for a property.
@@ -35,7 +35,7 @@ namespace CefSharp.ModelBinding
         {
             this.propertyInfo = propertyInfo ?? throw new ArgumentNullException("propertyInfo");
 
-            PropertyType = propertyInfo.PropertyType;
+            Type = propertyInfo.PropertyType;
             Name = propertyInfo.Name;
         }
 
@@ -47,7 +47,7 @@ namespace CefSharp.ModelBinding
         {
             this.fieldInfo = fieldInfo ?? throw new ArgumentNullException("fieldInfo");
 
-            PropertyType = fieldInfo.FieldType;
+            Type = fieldInfo.FieldType;
             Name = fieldInfo.Name;
         }
 
