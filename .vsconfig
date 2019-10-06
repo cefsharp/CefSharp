@@ -23,7 +23,7 @@
     "Microsoft.VisualStudio.Component.VC.Redist.14.Latest",
     "Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Core",
     "Microsoft.VisualStudio.Component.VC.CLI.Support",
-    "Microsoft.VisualStudio.Component.Windows10SDK.17763",
+    "Microsoft.VisualStudio.Component.Windows10SDK.18362",
     "Microsoft.VisualStudio.Workload.NativeDesktop"
   ]
 }
