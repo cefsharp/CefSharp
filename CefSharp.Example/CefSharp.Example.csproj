@@ -72,7 +72,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Callback\RunFileDialogCallback.cs" />
-    <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\ExampleResourceRequestHandler.cs" />
     <Compile Include="Handlers\ExtensionHandler.cs" />
     <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
@@ -127,6 +126,7 @@
     </Compile>
     <Compile Include="CefSharpSchemeHandler.cs" />
     <Compile Include="CefSharpSchemeHandlerFactory.cs" />
+    <Compile Include="UrlRequestClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

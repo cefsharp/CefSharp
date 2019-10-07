@@ -9,8 +9,8 @@ namespace CefSharp.ModelBinding
     /// <summary>
     /// Converts input params into complex .Net types (can also be used for type conversion).
     /// This feature is similar in concept to ASP.NET MVC Model Binding.
-    /// Objects passed from javascript are represented as <see cref="System.Collections.Generic.IDictionary{string, object}"/>
-    /// and arrays/lists as <see cref="System.Collections.Generic.IList{object}"/><object>
+    /// Objects passed from javascript are represented as <see cref="System.Collections.Generic.IDictionary{TKey, TValue}"/>
+    /// and arrays/lists as <see cref="System.Collections.Generic.IList{T}"/>
     /// See <see cref="DefaultBinder"/> for the default implementation.
     /// </summary>
     /// <remarks>

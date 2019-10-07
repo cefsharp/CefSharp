@@ -103,12 +103,14 @@
     <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
     <Compile Include="Internals\CommandLineArgDictionary.cs" />
+    <Compile Include="Internals\ParentProcessMonitor.cs" />
     <Compile Include="Internals\ReadOnlyNameValueCollection.cs" />
     <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="IUrlRequest.cs" />
+    <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
-    <Compile Include="Enums\ChannelLayout.cs" />
     <Compile Include="Enums\PointerType.cs" />
     <Compile Include="Enums\TextInputMode.cs" />
     <Compile Include="Enums\TouchEventType.cs" />
@@ -128,7 +130,6 @@
     <Compile Include="Handler\ICookieAccessFilter.cs" />
     <Compile Include="Handler\IResourceRequestHandler.cs" />
     <Compile Include="IApp.cs" />
-    <Compile Include="Handler\IAudioHandler.cs" />
     <Compile Include="IExtension.cs" />
     <Compile Include="Internals\IMethodRunnerQueue.cs" />
     <Compile Include="Internals\ConcurrentMethodRunnerQueue.cs" />
@@ -223,23 +224,14 @@
     <Compile Include="IPopupFeatures.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResponseFilter.cs" />
-    <Compile Include="ModelBinding\BindingContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ModelBinding\BindingMemberInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelBinding\DefaultBinder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ModelBinding\DefaultFieldNameConverter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ModelBinding\IMethodInterceptor.cs" />
     <Compile Include="ModelBinding\IBinder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ModelBinding\IFieldNameConverter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelBinding\ModelBindingExtensions.cs" />

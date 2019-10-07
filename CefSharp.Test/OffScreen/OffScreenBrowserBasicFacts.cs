@@ -2,8 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.OffScreen;
+using System.Text;
 using System.Threading.Tasks;
+using CefSharp.Example;
+using CefSharp.OffScreen;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -124,6 +126,42 @@ namespace CefSharp.Test.OffScreen
                     Assert.Equal(test, (string)javascriptResponse.Result);
                     output.WriteLine("{0} passes {1}", test, javascriptResponse.Result);
                 }
+            }
+        }
+
+
+        [Fact]
+        public async Task CanMakeUrlRequest()
+        {
+            using (var browser = new ChromiumWebBrowser("https://code.jquery.com/jquery-3.4.1.min.js"))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+
+                var taskCompletionSource = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
+                var wasCached = false;
+                var requestClient = new UrlRequestClient((IUrlRequest req, byte[] responseBody) =>
+                {
+                    wasCached = req.ResponseWasCached;
+                    taskCompletionSource.TrySetResult(Encoding.UTF8.GetString(responseBody));
+                });
+
+                //Make the request on the CEF UI Thread
+                await Cef.UIThreadTaskFactory.StartNew(delegate
+                {
+                    var request = mainFrame.CreateRequest(false);
+
+                    request.Method = "GET";
+                    request.Url = "https://code.jquery.com/jquery-3.4.1.min.js";
+                    var urlRequest = mainFrame.CreateUrlRequest(request, requestClient);
+                });
+
+                var stringResult = await taskCompletionSource.Task;
+
+                Assert.True(!string.IsNullOrEmpty(stringResult));
+                Assert.True(wasCached);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.76.1.9\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.76.1.9\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.77.1.11\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.77.1.11\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -235,6 +235,8 @@
     <ClCompile Include="Internals\CefExtensionWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
     <ClCompile Include="Internals\CefSharpBrowserWrapper.cpp" />
+    <ClCompile Include="Internals\CefUrlRequestClientAdapter.cpp" />
+    <ClCompile Include="Internals\CefUrlRequestWrapper.cpp" />
     <ClCompile Include="Internals\CefValueWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
@@ -270,6 +272,8 @@
     <ClInclude Include="Internals\CefResourceSkipCallbackWrapper.h" />
     <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h" />
     <ClInclude Include="Internals\CefSchemeRegistrarWrapper.h" />
+    <ClInclude Include="Internals\CefUrlRequestClientAdapter.h" />
+    <ClInclude Include="Internals\CefUrlRequestWrapper.h" />
     <ClInclude Include="Internals\CefValueWrapper.h" />
     <ClInclude Include="Internals\CefWriteHandlerWrapper.h" />
     <ClInclude Include="Internals\CefImageWrapper.h" />

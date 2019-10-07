@@ -16,7 +16,7 @@ namespace CefSharp
         /// </summary>
         public static BindingOptions DefaultBinder
         {
-            get { return new BindingOptions { Binder = new DefaultBinder(new DefaultFieldNameConverter()) }; }
+            get { return new BindingOptions { Binder = new DefaultBinder() }; }
         }
 
         /// <summary>

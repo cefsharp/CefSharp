@@ -10,6 +10,13 @@ using CefSharp.Handler;
 
 namespace CefSharp.Example.Handlers
 {
+    /// <summary>
+    /// ExampleResourceRequestHandler demonstrates some of the features you can perform
+    /// using a <see cref="ResourceRequestHandler"/>
+    /// </summary>
+    /// <remarks>
+    /// A <see cref="ResourceRequestHandler"/> represents a single resource request
+    /// </remarks>
     public class ExampleResourceRequestHandler : ResourceRequestHandler
     {
         private MemoryStream memoryStream;

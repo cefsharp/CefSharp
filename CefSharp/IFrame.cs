@@ -71,7 +71,7 @@ namespace CefSharp
         /// Retrieve this frame's HTML source as a string sent to the specified visitor. 
         /// Use the <see cref="GetSourceAsync"/> method for a Task based async wrapper
         /// </summary>
-        /// <param name="visitor">visitor will recieve string values asynchronously</param>
+        /// <param name="visitor">visitor will receive string values asynchronously</param>
         void GetSource(IStringVisitor visitor);
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace CefSharp
         /// Retrieve this frame's display text as a string sent to the specified visitor. 
         /// Use the <see cref="GetTextAsync"/> method for a Task based async wrapper
         /// </summary>
-        /// <param name="visitor">visitor will recieve string values asynchronously</param>
+        /// <param name="visitor">visitor will receive string values asynchronously</param>
         void GetText(IStringVisitor visitor);
 
         /// <summary>
@@ -182,5 +182,24 @@ namespace CefSharp
         /// <param name="initializePostData">Initialize the PostData object when creating this request</param>
         /// <returns>A new instance of the request</returns>
         IRequest CreateRequest(bool initializePostData = true);
+
+        /// <summary>
+        /// Create a new URL request that will be treated as originating from this frame
+        /// and the associated browser. This request may be intercepted by the client via
+        /// <see cref="IResourceRequestHandler"/> or <see cref="ISchemeHandlerFactory"/>.
+        /// Use IUrlRequest.Create instead if you do not want the request to have
+        /// this association, in which case it may be handled differently (see documentation on that method).
+        ///
+        /// Requests may originate from both the browser process and the render process.
+        /// For requests originating from the browser process: - POST data may only contain a single element
+        /// of type PDE_TYPE_FILE or PDE_TYPE_BYTES.
+        /// For requests originating from the render process: - POST data may only contain a single element of type PDE_TYPE_BYTES.
+        /// - If the response contains Content-Disposition or Mime-Type header values that would not normally be rendered then
+        /// the response may receive special handling inside the browser
+        /// for example, via the file download code path instead of the URL request code path).
+        ///
+        /// The request object will be marked as read-only after calling this method. 
+        /// </summary>
+        IUrlRequest CreateUrlRequest(IRequest request, IUrlRequestClient client);
     }
 }

@@ -39,13 +39,13 @@ namespace CefSharp
             _cefCommandLineArgs = gcnew CommandLineArgDictionary();
 
             //Automatically discovered and load a system-wide installation of Pepper Flash.
-            _cefCommandLineArgs->Add("enable-system-flash", "1");
+            _cefCommandLineArgs->Add("enable-system-flash");
 
             //CEF has switched to the new process model defined that was implemented
             //in the Chromium Site isolation project, we'll continue to use the older
             //process model by default.
             //https://github.com/cefsharp/CefSharp/issues/2553
-            _cefCommandLineArgs->Add("process-per-site-instance", "1");
+            _cefCommandLineArgs->Add("process-per-site-instance");
         }
 
         !AbstractCefSettings()
@@ -445,7 +445,19 @@ namespace CefSharp
         {
             if (!_cefCommandLineArgs->ContainsKey("disable-gpu"))
             {
-                _cefCommandLineArgs->Add("disable-gpu", "1");
+                _cefCommandLineArgs->Add("disable-gpu");
+            }
+        }
+
+        /// <summary>
+        /// Set command line argument to enable Print Preview
+        /// See https://bitbucket.org/chromiumembedded/cef/issues/123/add-support-for-print-preview for details
+        /// </summary>
+        void EnablePrintPreview()
+        {
+            if (!_cefCommandLineArgs->ContainsKey("enable-print-preview"))
+            {
+                _cefCommandLineArgs->Add("enable-print-preview");
             }
         }
 
@@ -462,12 +474,12 @@ namespace CefSharp
             // See https://bitbucket.org/chromiumembedded/cef/issues/1257 for details.
             if (!_cefCommandLineArgs->ContainsKey("disable-gpu"))
             {
-                _cefCommandLineArgs->Add("disable-gpu", "1");
+                _cefCommandLineArgs->Add("disable-gpu");
             }
 
             if (!_cefCommandLineArgs->ContainsKey("disable-gpu-compositing"))
             {
-                _cefCommandLineArgs->Add("disable-gpu-compositing", "1");
+                _cefCommandLineArgs->Add("disable-gpu-compositing");
             }
 
             // Synchronize the frame rate between all processes. This results in
@@ -479,7 +491,7 @@ namespace CefSharp
             // See https://bitbucket.org/chromiumembedded/cef/issues/1368 for details.
             if (!_cefCommandLineArgs->ContainsKey("enable-begin-frame-scheduling"))
             {
-                _cefCommandLineArgs->Add("enable-begin-frame-scheduling", "1");
+                _cefCommandLineArgs->Add("enable-begin-frame-scheduling");
             }
         }
     };
