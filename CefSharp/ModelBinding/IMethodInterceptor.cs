@@ -22,7 +22,7 @@ namespace CefSharp.ModelBinding
         /// <returns>The method result</returns>
         /// <example>
         /// 
-        /// object IMethodInterceptor.Intercept(Func&lt;object[], object&gt method, object[] parameters, string methodName)
+        /// object IMethodInterceptor.Intercept(Func&lt;object[], object&gt; method, object[] parameters, string methodName)
         /// {
         ///   object result = method(parameters);
         ///   Debug.WriteLine("Called " + methodName);
