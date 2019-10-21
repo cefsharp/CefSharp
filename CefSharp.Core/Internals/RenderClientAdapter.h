@@ -106,12 +106,12 @@ namespace CefSharp
                     rect = CefRect(viewRect.X, viewRect.Y, viewRect.Width, viewRect.Height);
 
                     //Cefclient defaults these to 1 instead of 0, we'll do the same
-                    if (rect.height == 0)
+                    if (rect.height <= 0)
                     {
                         rect.height = 1;
                     }
 
-                    if (rect.width == 0)
+                    if (rect.width <= 0)
                     {
                         rect.width = 1;
                     }
