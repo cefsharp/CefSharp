@@ -33,7 +33,7 @@ namespace CefSharp
         {
             _cefSettings->multi_threaded_message_loop = true;
             _cefSettings->no_sandbox = true;
-            BrowserSubprocessPath = Path::Combine(Path::GetDirectoryName(this->GetType()->Assembly->Location), "CefSharp.BrowserSubprocess.exe");
+            BrowserSubprocessPath = Path::Combine(Path::GetDirectoryName(AbstractCefSettings::typeid->Assembly->Location), "CefSharp.BrowserSubprocess.exe");
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             _cefExtensions = gcnew List<V8Extension^>();
             _cefCommandLineArgs = gcnew CommandLineArgDictionary();
