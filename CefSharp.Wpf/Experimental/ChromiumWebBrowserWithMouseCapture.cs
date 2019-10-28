@@ -50,6 +50,8 @@ namespace CefSharp.Wpf.Experimental
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
+            base.OnMouseLeave(e);
+
             if (!e.Handled && !IsDisposed)
             {
                 var modifiers = e.GetModifiers();
@@ -62,6 +64,20 @@ namespace CefSharp.Wpf.Experimental
                 }
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
+            }
+        }
+
+        protected override void OnLostMouseCapture(MouseEventArgs e)
+        {
+            base.OnLostMouseCapture(e);
+
+            if (!e.Handled && !IsDisposed)
+            {
+                var host = this.GetBrowserHost();
+                if (host != null && !host.IsDisposed)
+                {
+                    host.SendCaptureLostEvent();
+                }
             }
         }
     }
