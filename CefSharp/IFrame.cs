@@ -94,6 +94,9 @@ namespace CefSharp
         /// In newer versions initially loading about:blank no longer creates a renderer process. You
         /// can load a Data Uri initially then call this method.
         /// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+        /// WARNING: This method will fail with "bad IPC message" reason
+        /// INVALID_INITIATOR_ORIGIN (213) unless you first navigate to the
+        /// request origin using some other mechanism (LoadURL, link click, etc).
         /// </summary>
         /// <param name="request">request to be loaded in the frame</param>
         void LoadRequest(IRequest request);
