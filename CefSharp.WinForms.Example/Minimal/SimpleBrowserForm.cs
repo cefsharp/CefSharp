@@ -13,12 +13,14 @@ namespace CefSharp.WinForms.Example.Minimal
     public partial class SimpleBrowserForm : Form
     {
         private ChromiumWebBrowser browser;
+        private IFocusHandler customFocusHandler;
         private bool multiThreadedMessageLoop;
 
-        public SimpleBrowserForm(bool multiThreadedMessageLoop)
+        public SimpleBrowserForm(bool multiThreadedMessageLoop, IFocusHandler customFocusHandler = null)
         {
             InitializeComponent();
 
+            this.customFocusHandler = customFocusHandler;
             this.multiThreadedMessageLoop = multiThreadedMessageLoop;
 
             Text = "CefSharp";
@@ -70,6 +72,12 @@ namespace CefSharp.WinForms.Example.Minimal
             if (!multiThreadedMessageLoop)
             {
                 browser.FocusHandler = null;
+            }
+
+            //Only override if we have a custom handler
+            if (customFocusHandler != null)
+            {
+                browser.FocusHandler = customFocusHandler;
             }
 
         }
