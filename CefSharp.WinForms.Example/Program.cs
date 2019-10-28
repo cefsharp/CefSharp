@@ -95,6 +95,7 @@ namespace CefSharp.WinForms.Example
 
                 CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
 
+                //Application.Run(new MultiFormAppContext(multiThreadedMessageLoop));
                 Application.Run(browser);
             }
 
