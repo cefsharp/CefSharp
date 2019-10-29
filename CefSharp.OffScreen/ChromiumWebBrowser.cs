@@ -277,6 +277,13 @@ namespace CefSharp.OffScreen
         public event EventHandler<OnPaintEventArgs> Paint;
 
         /// <summary>
+        /// Used by <see cref="ScreenshotAsync(bool, PopupBlending)"/> as the <see cref="Paint"/>
+        /// event happens before the bitmap buffer is updated. We do this to allow users to mark <see cref="OnPaintEventArgs.Handled"/>
+        /// to true and stop the buffer from being updated.
+        /// </summary>
+        private event EventHandler<OnPaintEventArgs> AfterPaint;
+
+        /// <summary>
         /// Event handler that will get called when the message that originates from CefSharp.PostMessage
         /// </summary>
         public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
@@ -368,6 +375,7 @@ namespace CefSharp.OffScreen
                 LoadError = null;
                 LoadingStateChanged = null;
                 Paint = null;
+                AfterPaint = null;
                 StatusMessage = null;
                 TitleChanged = null;
                 JavascriptMessageReceived = null;
@@ -519,17 +527,26 @@ namespace CefSharp.OffScreen
 
             if (screenshot == null || ignoreExistingScreenshot)
             {
-                EventHandler<OnPaintEventArgs> paint = null; // otherwise we cannot reference ourselves in the anonymous method below
+                EventHandler<OnPaintEventArgs> afterPaint = null; // otherwise we cannot reference ourselves in the anonymous method below
 
-                paint = (sender, e) =>
+                afterPaint = (sender, e) =>
                 {
                     // Chromium has rendered.  Tell the task about it.
-                    Paint -= paint;
+                    AfterPaint -= afterPaint;
 
-                    completionSource.TrySetResultAsync(ScreenshotOrNull(blend));
+                    //If the user handled the Paint event then we'll throw an exception here
+                    //as it's not possible to use ScreenShotAsync as the buffer wasn't updated.
+                    if (e.Handled)
+                    {
+                        completionSource.TrySetException(new InvalidOperationException("OnPaintEventArgs.Handled = true, unable to process request. The buffer has not been updated"));
+                    }
+                    else
+                    {
+                        completionSource.TrySetResultAsync(ScreenshotOrNull(blend));
+                    }
                 };
 
-                Paint += paint;
+                AfterPaint += afterPaint;
             }
             else
             {
@@ -677,10 +694,11 @@ namespace CefSharp.OffScreen
         {
             var handled = false;
 
+            var args = new OnPaintEventArgs(type == PaintElementType.Popup, dirtyRect, buffer, width, height);
+
             var handler = Paint;
             if (handler != null)
             {
-                var args = new OnPaintEventArgs(type == PaintElementType.Popup, dirtyRect, buffer, width, height);
                 handler(this, args);
                 handled = args.Handled;
             }
@@ -688,6 +706,12 @@ namespace CefSharp.OffScreen
             if (!handled)
             {
                 RenderHandler?.OnPaint(type, dirtyRect, buffer, width, height);
+            }
+
+            var afterHandler = AfterPaint;
+            if (afterHandler != null)
+            {
+                afterHandler(this, args);
             }
         }
 
