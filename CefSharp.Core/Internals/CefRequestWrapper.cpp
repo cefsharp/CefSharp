@@ -111,22 +111,18 @@ namespace CefSharp
             CefRequest::HeaderMap hm;
             _wrappedRequest->GetHeaderMap(hm);
 
-            NameValueCollection^ headers;
-
-            if (_wrappedRequest->IsReadOnly())
-            {
-                headers = gcnew ReadOnlyNameValueCollection();
-            }
-            else
-            {
-                headers = gcnew NameValueCollection();
-            }
+            auto headers = gcnew HeaderNameValueCollection();
 
             for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
             {
                 String^ name = StringUtils::ToClr(it->first);
                 String^ value = StringUtils::ToClr(it->second);
                 headers->Add(name, value);
+            }
+
+            if (_wrappedRequest->IsReadOnly())
+            {
+                headers->SetReadOnly();
             }
 
             return headers;

@@ -104,7 +104,7 @@
     <Compile Include="Enums\SchemeOptions.cs" />
     <Compile Include="Internals\CommandLineArgDictionary.cs" />
     <Compile Include="Internals\ParentProcessMonitor.cs" />
-    <Compile Include="Internals\ReadOnlyNameValueCollection.cs" />
+    <Compile Include="Internals\HeaderNameValueCollection.cs" />
     <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
