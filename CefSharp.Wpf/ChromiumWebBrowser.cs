@@ -2015,11 +2015,13 @@ namespace CefSharp.Wpf
                     //properly
                     var zoomLevel = await browser.GetHost().GetZoomLevelAsync();
 
-                    if (!IsDisposed)
+                    UiThreadRunAsync(() =>
                     {
-                        SetCurrentValue(ZoomLevelProperty, zoomLevel);
-                    }
-
+                        if (!IsDisposed)
+                        {
+                            SetCurrentValue(ZoomLevelProperty, zoomLevel);
+                        }
+                    });
                 }
             }
         }
