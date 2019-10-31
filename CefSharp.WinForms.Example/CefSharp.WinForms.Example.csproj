@@ -92,6 +92,7 @@
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\LifeSpanHandler.cs" />
     <Compile Include="Handlers\MenuHandler.cs" />
+    <Compile Include="Handlers\MultiFormFocusHandler.cs" />
     <Compile Include="Handlers\ScheduleMessagePumpBrowserProcessHandler.cs" />
     <Compile Include="Handlers\WinFormsBrowserProcessHandler.cs" />
     <Compile Include="Handlers\WinFormsRequestHandler.cs" />

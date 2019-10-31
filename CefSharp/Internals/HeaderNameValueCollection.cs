@@ -6,9 +6,13 @@ using System.Collections.Specialized;
 
 namespace CefSharp.Internals
 {
-    public class ReadOnlyNameValueCollection : NameValueCollection
+    /// <summary>
+    /// A <see cref="NameValueCollection"/> implementation
+    /// that can optionally be set to ReadOnly (used to represent the CefHeaderMap)
+    /// </summary>
+    public class HeaderNameValueCollection : NameValueCollection
     {
-        public ReadOnlyNameValueCollection()
+        public void SetReadOnly()
         {
             IsReadOnly = true;
         }
