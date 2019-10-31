@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -44,7 +45,7 @@ namespace CefSharp.Internals
         /// this is done to speed up finding the object in O(1) time
         /// instead of traversing the JavaScriptRootObject tree.
         /// </summary>
-        private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
+        private readonly ConcurrentDictionary<long, JavascriptObject> objects = new ConcurrentDictionary<long, JavascriptObject>();
 
         /// <summary>
         /// Has the browser this repository is associated with been initilized (set in OnAfterCreated)
@@ -195,7 +196,8 @@ namespace CefSharp.Internals
             {
                 if (string.Equals(kvp.Value.Name, name, StringComparison.OrdinalIgnoreCase))
                 {
-                    objects.Remove(kvp.Key);
+                    JavascriptObject obj;
+                    objects.TryRemove(kvp.Key, out obj);
 
                     return true;
                 }
