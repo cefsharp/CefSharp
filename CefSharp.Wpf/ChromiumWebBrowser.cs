@@ -2026,7 +2026,7 @@ namespace CefSharp.Wpf
                     }
                 });
 
-                if (browser != null) 
+                if (browser != null)
                 {
                     //Fix for #1778 - When browser becomes visible we update the zoom level
                     //browsers of the same origin will share the same zoomlevel and
@@ -2036,13 +2036,13 @@ namespace CefSharp.Wpf
 
                     if (!IsDisposed) 
                     {
-                        await Dispatcher.BeginInvoke(new Action(() => 
+                        UiThreadRunAsync(() => 
                         {
                             if (!IsDisposed) 
                             {
                                 SetCurrentValue(ZoomLevelProperty, zoomLevel);
                             }
-                        }));
+                        });
                     }
                 }
             }
