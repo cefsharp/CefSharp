@@ -108,14 +108,6 @@ namespace CefSharp
         void LoadUrl(string url);
 
         /// <summary>
-        /// Load the contents of html with the specified dummy url.
-        /// </summary>
-        /// <param name="html">html to be loaded</param>
-        /// <param name="url"> should have a standard scheme (for example, http scheme) or behaviors like 
-        /// link clicks and web security restrictions may not behave as expected.</param>
-        void LoadStringForUrl(string html, string url);
-
-        /// <summary>
         /// Execute a string of JavaScript code in this frame.
         /// </summary>
         /// <param name="code">Javascript to execute</param>

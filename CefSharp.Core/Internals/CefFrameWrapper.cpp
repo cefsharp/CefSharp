@@ -210,20 +210,6 @@ void CefFrameWrapper::LoadUrl(String^ url)
 }
 
 ///
-// Load the contents of |html| with the specified dummy |url|. |url|
-// should have a standard scheme (for example, http scheme) or behaviors like
-// link clicks and web security restrictions may not behave as expected.
-///
-/*--cef()--*/
-void CefFrameWrapper::LoadStringForUrl(String^ html, String^ url)
-{
-    ThrowIfDisposed();
-    ThrowIfFrameInvalid();
-
-    _frame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
-}
-
-///
 // Execute a string of JavaScript code in this frame. The |script_url|
 // parameter is the URL where the script in question can be found, if any.
 // The renderer may request this URL to show the developer the source of the
