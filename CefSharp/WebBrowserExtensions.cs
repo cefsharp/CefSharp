@@ -382,22 +382,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Load the string contents with the specified dummy url. Web security restrictions may not behave as expected. 
-        /// </summary>
-        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
-        /// <param name="html">html string to load</param>
-        /// <param name="url">the url should have a standard scheme (for example, http scheme) or behaviors like link clicks</param>
-        public static void LoadString(this IWebBrowser browser, string html, string url)
-        {
-            using (var frame = browser.GetMainFrame())
-            {
-                ThrowExceptionIfFrameNull(frame);
-
-                frame.LoadStringForUrl(html, url);
-            }
-        }
-
-        /// <summary>
         /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
         /// </summary>
         /// <remarks>

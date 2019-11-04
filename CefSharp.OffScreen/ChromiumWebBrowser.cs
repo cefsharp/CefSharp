@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using CefSharp.Enums;
 using CefSharp.Internals;
 using CefSharp.Structs;
+using CefSharp.Web;
 using Point = System.Drawing.Point;
 using Size = System.Drawing.Size;
 
@@ -294,6 +295,20 @@ namespace CefSharp.OffScreen
         /// and false in IRenderProcessMessageHandler.OnContextReleased
         /// </summary>
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
+
+        /// <summary>
+        /// Create a new OffScreen Chromium Browser. If you use <see cref="CefSharpSettings.LegacyJavascriptBindingEnabled"/> = true then you must
+        /// set <paramref name="automaticallyCreateBrowser"/> to false and call <see cref="CreateBrowser"/> after the objects are registered.
+        /// </summary>
+        /// <param name="html">html string to be initially loaded in the browser.</param>
+        /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
+        /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
+        /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
+        /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
+        public ChromiumWebBrowser(HtmlString html, BrowserSettings browserSettings = null,
+            IRequestContext requestContext = null, bool automaticallyCreateBrowser = true) : this(html.ToDataUriString(), browserSettings, requestContext, automaticallyCreateBrowser)
+        {
+        }
 
         /// <summary>
         /// Create a new OffScreen Chromium Browser. If you use <see cref="CefSharpSettings.LegacyJavascriptBindingEnabled"/> = true then you must

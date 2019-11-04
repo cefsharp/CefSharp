@@ -1684,7 +1684,7 @@ namespace CefSharp.Wpf
 
                 var matrix = source.CompositionTarget.TransformToDevice;
 
-                NotifyDpiChange(matrix.M11);
+                NotifyDpiChange((float)matrix.M11);
 
                 var window = source.RootVisual as Window;
                 if (window != null)
@@ -2431,11 +2431,17 @@ namespace CefSharp.Wpf
         /// <param name="newDpi">new DPI</param>
         /// <remarks>.Net 4.6.2 adds HwndSource.DpiChanged which could be used to automatically
         /// handle DPI change, unforunately we still target .Net 4.5.2</remarks>
-        public virtual void NotifyDpiChange(double newDpi)
+        public virtual void NotifyDpiChange(float newDpi)
         {
+            //Do nothing
+            if (DpiScaleFactor.Equals(newDpi))
+            {
+                return;
+            }
+
             var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(newDpi);
 
-            DpiScaleFactor = (float)newDpi;
+            DpiScaleFactor = newDpi;
 
             if (notifyDpiChanged && browser != null)
             {
