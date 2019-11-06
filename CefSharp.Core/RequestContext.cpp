@@ -145,6 +145,15 @@ namespace CefSharp
         _requestContext->ClearCertificateExceptions(wrapper);
     }
 
+    void RequestContext::ClearHttpAuthCredentials(ICompletionCallback^ callback)
+    {
+        ThrowIfDisposed();
+
+        CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
+
+        _requestContext->ClearHttpAuthCredentials(wrapper);
+    }
+
     void RequestContext::CloseAllConnections(ICompletionCallback^ callback)
     {
         ThrowIfDisposed();
