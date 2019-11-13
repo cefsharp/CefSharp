@@ -8,6 +8,6 @@
 #community_bridge: # Replace with a single Community Bridge project-name e.g., cloud-foundry
 #custom: # Replace with a single custom sponsorship URL
 
-#github: amaitland
-patreon: alexmaitland
+github: amaitland
+#patreon: alexmaitland
 custom: https://paypal.me/AlexMaitland
