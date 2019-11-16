@@ -253,7 +253,11 @@ namespace CefSharp.Wpf.Experimental
 
         private void OnImeEndComposition(IntPtr hwnd)
         {
-            owner.GetBrowserHost().ImeFinishComposingText(false);
+            if(languageCodeId != ImeNative.LANG_KOREAN)
+            {
+                owner.GetBrowserHost().ImeFinishComposingText(false);
+            }
+
             DestroyImeWindow(hwnd);
         }
 
