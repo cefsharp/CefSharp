@@ -380,8 +380,10 @@ function WriteVersionToResourceFile($resourceFile)
     
     $ResourceData = Get-Content -Encoding UTF8 $Filename
     $CurrentYear = Get-Date -Format yyyy
+	#Assembly version with comma instead of dot
+	$CppAssemblyVersion = $AssemblyVersion -replace '\.', ','
     
-    $NewString = $ResourceData -replace $Regex1, "VERSION $AssemblyVersion"
+    $NewString = $ResourceData -replace $Regex1, "VERSION $CppAssemblyVersion"
     $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
     $NewString = $NewString -replace $Regex3, "Copyright © $CurrentYear The CefSharp Authors"
     

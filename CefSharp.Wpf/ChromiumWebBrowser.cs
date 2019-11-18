@@ -497,6 +497,71 @@ namespace CefSharp.Wpf
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// Use this constructor to load the browser before it's attached to the Visual Tree.
+        /// The underlying browser will be created with the specified <paramref name="width"/> and
+        /// <paramref name="height"/>. CEF requires posative values for <paramref name="width"/> and
+        /// <paramref name="height"/>, if values less than 1 are specified then the default value of
+        /// 1 will be used instead.
+        /// You can subscribe to the <see cref="LoadingStateChanged"/> event and attach the browser
+        /// to it's parent control when Loading is complete (<see cref="LoadingStateChangedEventArgs.IsLoading"/> is false).
+        /// </summary>
+        /// <param name="parentWindowHwndSource">HwndSource</param>
+        /// <param name="initialAddress">address to be loaded when the browser is created.</param>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        /// <example>
+        /// <code>
+        /// //Obtain Hwnd from parent window
+        /// var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
+        /// var browser = new ChromiumWebBrowser(hwndSource, "github.com", 1024, 768);
+        /// browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
+        /// 
+        /// private void OnBrowserLoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
+        /// {
+        ///   if (e.IsLoading == false)
+        ///   {
+        ///     var b = (ChromiumWebBrowser)sender;
+        ///     b.LoadingStateChanged -= OnBrowserLoadingStateChanged;
+        ///     Dispatcher.InvokeAsync(() =>
+        ///     {
+        ///       //Attach to visual tree
+        ///       ParentControl.Child = b;
+        ///     });
+        ///   }
+        /// }
+        /// </code>
+        /// </example>
+        public ChromiumWebBrowser(HwndSource parentWindowHwndSource, string initialAddress, int width, int height) : this(initialAddress)
+        {
+            source = parentWindowHwndSource;
+
+            CreateOffscreenBrowser(new Size(width, height));
+
+            RoutedEventHandler handler = null;
+            handler = (sender, args) =>
+            {
+                Loaded -= handler;
+
+                //If the browser has finished rendering before we attach to the Visual Tree
+                //then ask for a new frame to be generated
+                var host = this.GetBrowserHost();
+                if (host != null)
+                {
+                    host.Invalidate(PaintElementType.View);
+                }
+            };
+
+            Loaded += handler;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// The specified <paramref name="initialAddress"/> will be loaded initially.
+        /// Use this constructor if you are loading a Chrome Extension.
+        /// </summary>
+        /// <param name="initialAddress">address to be loaded when the browser is created.</param>
         public ChromiumWebBrowser(string initialAddress)
         {
             this.initialAddress = initialAddress;
