@@ -500,17 +500,15 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
         /// Use this constructor to load the browser before it's attached to the Visual Tree.
-        /// The underlying browser will be created with the specified <paramref name="width"/> and
-        /// <paramref name="height"/>. CEF requires posative values for <paramref name="width"/> and
-        /// <paramref name="height"/>, if values less than 1 are specified then the default value of
-        /// 1 will be used instead.
+        /// The underlying CefBrowser will be created with the specified <paramref name="size"/>.
+        /// CEF requires posative values for <see cref="Size.Width"/> and <see cref="Size.Height"/>,
+        /// if values less than 1 are specified then the default value of 1 will be used instead.
         /// You can subscribe to the <see cref="LoadingStateChanged"/> event and attach the browser
         /// to it's parent control when Loading is complete (<see cref="LoadingStateChangedEventArgs.IsLoading"/> is false).
         /// </summary>
-        /// <param name="parentWindowHwndSource">HwndSource</param>
+        /// <param name="parentWindowHwndSource">HwndSource for the Window that will host the browser.</param>
         /// <param name="initialAddress">address to be loaded when the browser is created.</param>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
+        /// <param name="size">size</param>
         /// <example>
         /// <code>
         /// //Obtain Hwnd from parent window
@@ -533,27 +531,9 @@ namespace CefSharp.Wpf
         /// }
         /// </code>
         /// </example>
-        public ChromiumWebBrowser(HwndSource parentWindowHwndSource, string initialAddress, int width, int height) : this(initialAddress)
+        public ChromiumWebBrowser(HwndSource parentWindowHwndSource, string initialAddress, Size size) : this(initialAddress)
         {
-            source = parentWindowHwndSource;
-
-            CreateOffscreenBrowser(new Size(width, height));
-
-            RoutedEventHandler handler = null;
-            handler = (sender, args) =>
-            {
-                Loaded -= handler;
-
-                //If the browser has finished rendering before we attach to the Visual Tree
-                //then ask for a new frame to be generated
-                var host = this.GetBrowserHost();
-                if (host != null)
-                {
-                    host.Invalidate(PaintElementType.View);
-                }
-            };
-
-            Loaded += handler;
+            CreateBrowser(parentWindowHwndSource, size);
         }
 
         /// <summary>
@@ -1830,6 +1810,47 @@ namespace CefSharp.Wpf
             //We maintain a manual reference to the controls screen location
             //(relative to top/left of the screen)
             browserScreenLocation = GetBrowserScreenLocation();
+        }
+
+        /// <summary>
+        /// Create the underlying CefBrowser instance with the specified <paramref name="initialSize"/>.
+        /// This method should only be used in instances where you need the browser
+        /// to load before it's attached to the Visual Tree. 
+        /// </summary>
+        /// <param name="parentWindowHwndSource">HwndSource for the Window that will host the browser.</param>
+        /// <param name="initialSize">initial size</param>
+        /// <returns>Returns false if browser already created, otherwise true.</returns>
+        public bool CreateBrowser(HwndSource parentWindowHwndSource, Size initialSize)
+        {
+            if (initialSize.IsEmpty || initialSize.Equals(new Size(0, 0)))
+            {
+                throw new Exception("Invalid size, must be greater than 0,0");
+            }
+
+            source = parentWindowHwndSource;
+
+            if (!CreateOffscreenBrowser(initialSize))
+            {
+                return false;
+            }
+
+            RoutedEventHandler handler = null;
+            handler = (sender, args) =>
+            {
+                Loaded -= handler;
+
+                //If the browser has finished rendering before we attach to the Visual Tree
+                //then ask for a new frame to be generated
+                var host = this.GetBrowserHost();
+                if (host != null)
+                {
+                    host.Invalidate(PaintElementType.View);
+                }
+            };
+
+            Loaded += handler;
+
+            return true;
         }
 
         /// <summary>
