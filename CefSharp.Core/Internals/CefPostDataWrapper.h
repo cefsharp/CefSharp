@@ -9,7 +9,7 @@
 #include "include\cef_request.h"
 
 #include "Internals\TypeConversion.h"
-#include "CefPostDataElementWrapper.h"
+#include "PostDataElement.h"
 #include "CefWrapper.h"
 
 using namespace System::Collections::Generic;
@@ -88,7 +88,7 @@ namespace CefSharp
                         {
                             CefPostDataElement *el = it->get();
 
-                            _postDataElements->Add(gcnew CefPostDataElementWrapper(el));
+                            _postDataElements->Add(gcnew PostDataElement(el));
                         }
                     }
 
@@ -113,7 +113,7 @@ namespace CefSharp
 
                 _postDataElements->Add(element);
 
-                auto elementWrapper = (CefPostDataElementWrapper^)element;
+                auto elementWrapper = (PostDataElement^)element;
 
                 return _postData->AddElement(elementWrapper);
             }
@@ -134,7 +134,7 @@ namespace CefSharp
 
                 _postDataElements->Remove(element);
 
-                auto elementWrapper = (CefPostDataElementWrapper^)element;
+                auto elementWrapper = (PostDataElement^)element;
 
                 return _postData->RemoveElement(elementWrapper);
             }
@@ -152,7 +152,7 @@ namespace CefSharp
             {
                 auto element = CefPostDataElement::Create();
 
-                return gcnew CefPostDataElementWrapper(element);
+                return gcnew PostDataElement(element);
             }
 
             virtual property bool HasExcludedElements
