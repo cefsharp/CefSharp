@@ -112,6 +112,9 @@ namespace CefSharp.Example
             //Enables Uncaught exception handler
             settings.UncaughtExceptionStackSize = 10;
 
+            //Disable WebAssembly
+            //settings.JavascriptFlags = "--noexpose_wasm";
+
             // Off Screen rendering (WPF/Offscreen)
             if (settings.WindowlessRenderingEnabled)
             {
