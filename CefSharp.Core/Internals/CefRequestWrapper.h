@@ -17,17 +17,17 @@ namespace CefSharp
     {
         private ref class CefRequestWrapper : public IRequest, public CefWrapper
         {
-            MCefRefPtr<CefRequest> _wrappedRequest;
+            MCefRefPtr<CefRequest> _request;
             IPostData^ _postData;
         internal:
             CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) :
-                _wrappedRequest(cefRequest), _postData(nullptr)
+                _request(cefRequest), _postData(nullptr)
             {
             }
 
             !CefRequestWrapper()
             {
-                _wrappedRequest = nullptr;
+                _request = nullptr;
             }
 
             ~CefRequestWrapper()
@@ -63,12 +63,12 @@ namespace CefSharp
                 {
                     return NULL;
                 }
-                return _wrappedRequest.get();
+                return _request.get();
             }
 
             void ThrowIfReadOnly()
             {
-                if (_wrappedRequest->IsReadOnly())
+                if (_request->IsReadOnly())
                 {
                     throw gcnew NotSupportedException("IRequest is read-only and cannot be modified. Check IRequest.IsReadOnly to guard against this exception.");
                 }

@@ -16,7 +16,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            return (UrlRequestFlags)_wrappedRequest->GetFlags();
+            return (UrlRequestFlags)_request->GetFlags();
         }
 
         void CefRequestWrapper::Flags::set(UrlRequestFlags flags)
@@ -24,14 +24,14 @@ namespace CefSharp
             ThrowIfDisposed();
             ThrowIfReadOnly();
 
-            _wrappedRequest->SetFlags((int)flags);
+            _request->SetFlags((int)flags);
         }
 
         String^ CefRequestWrapper::Url::get()
         {
             ThrowIfDisposed();
 
-            return StringUtils::ToClr(_wrappedRequest->GetURL());
+            return StringUtils::ToClr(_request->GetURL());
         }
 
         void CefRequestWrapper::Url::set(String^ url)
@@ -45,14 +45,14 @@ namespace CefSharp
             ThrowIfReadOnly();
 
             CefString str = StringUtils::ToNative(url);
-            _wrappedRequest->SetURL(str);
+            _request->SetURL(str);
         }
 
         String^ CefRequestWrapper::Method::get()
         {
             ThrowIfDisposed();
 
-            return StringUtils::ToClr(_wrappedRequest->GetMethod());
+            return StringUtils::ToClr(_request->GetMethod());
         }
 
         void CefRequestWrapper::Method::set(String^ method)
@@ -65,14 +65,14 @@ namespace CefSharp
             ThrowIfDisposed();
             ThrowIfReadOnly();
 
-            _wrappedRequest->SetMethod(StringUtils::ToNative(method));
+            _request->SetMethod(StringUtils::ToNative(method));
         }
 
         UInt64 CefRequestWrapper::Identifier::get()
         {
             ThrowIfDisposed();
 
-            return _wrappedRequest->GetIdentifier();
+            return _request->GetIdentifier();
         }
 
         void CefRequestWrapper::SetReferrer(String^ referrerUrl, CefSharp::ReferrerPolicy policy)
@@ -80,28 +80,28 @@ namespace CefSharp
             ThrowIfDisposed();
             ThrowIfReadOnly();
 
-            _wrappedRequest->SetReferrer(StringUtils::ToNative(referrerUrl), (cef_referrer_policy_t)policy);
+            _request->SetReferrer(StringUtils::ToNative(referrerUrl), (cef_referrer_policy_t)policy);
         }
 
         String^ CefRequestWrapper::ReferrerUrl::get()
         {
             ThrowIfDisposed();
 
-            return StringUtils::ToClr(_wrappedRequest->GetReferrerURL());
+            return StringUtils::ToClr(_request->GetReferrerURL());
         }
 
         CefSharp::ResourceType CefRequestWrapper::ResourceType::get()
         {
             ThrowIfDisposed();
 
-            return (CefSharp::ResourceType)_wrappedRequest->GetResourceType();
+            return (CefSharp::ResourceType)_request->GetResourceType();
         }
 
         CefSharp::ReferrerPolicy CefRequestWrapper::ReferrerPolicy::get()
         {
             ThrowIfDisposed();
 
-            return (CefSharp::ReferrerPolicy)_wrappedRequest->GetReferrerPolicy();
+            return (CefSharp::ReferrerPolicy)_request->GetReferrerPolicy();
         }
 
         NameValueCollection^ CefRequestWrapper::Headers::get()
@@ -109,7 +109,7 @@ namespace CefSharp
             ThrowIfDisposed();
 
             CefRequest::HeaderMap hm;
-            _wrappedRequest->GetHeaderMap(hm);
+            _request->GetHeaderMap(hm);
 
             auto headers = gcnew HeaderNameValueCollection();
 
@@ -120,7 +120,7 @@ namespace CefSharp
                 headers->Add(name, value);
             }
 
-            if (_wrappedRequest->IsReadOnly())
+            if (_request->IsReadOnly())
             {
                 headers->SetReadOnly();
             }
@@ -145,14 +145,14 @@ namespace CefSharp
                 }
             }
 
-            _wrappedRequest->SetHeaderMap(hm);
+            _request->SetHeaderMap(hm);
         }
 
         TransitionType CefRequestWrapper::TransitionType::get()
         {
             ThrowIfDisposed();
 
-            return (CefSharp::TransitionType) _wrappedRequest->GetTransitionType();
+            return (CefSharp::TransitionType) _request->GetTransitionType();
         }
 
         IPostData^ CefRequestWrapper::PostData::get()
@@ -161,7 +161,7 @@ namespace CefSharp
 
             if (_postData == nullptr)
             {
-                auto postData = _wrappedRequest->GetPostData();
+                auto postData = _request->GetPostData();
                 if (postData.get())
                 {
                     _postData = gcnew CefSharp::PostData(postData);
@@ -174,7 +174,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            return _wrappedRequest->IsReadOnly();
+            return _request->IsReadOnly();
         }
 
         void CefRequestWrapper::InitializePostData()
@@ -183,14 +183,14 @@ namespace CefSharp
 
             ThrowIfReadOnly();
 
-            _wrappedRequest->SetPostData(CefPostData::Create());
+            _request->SetPostData(CefPostData::Create());
         }
 
         String^ CefRequestWrapper::GetHeaderByName(String^ name)
         {
             ThrowIfDisposed();
 
-            return StringUtils::ToClr(_wrappedRequest->GetHeaderByName(StringUtils::ToNative(name)));
+            return StringUtils::ToClr(_request->GetHeaderByName(StringUtils::ToNative(name)));
         }
 
         void CefRequestWrapper::SetHeaderByName(String^ name, String^ value, bool overwrite)
@@ -198,7 +198,7 @@ namespace CefSharp
             ThrowIfDisposed();
             ThrowIfReadOnly();
 
-            _wrappedRequest->SetHeaderByName(StringUtils::ToNative(name), StringUtils::ToNative(value), overwrite);
+            _request->SetHeaderByName(StringUtils::ToNative(name), StringUtils::ToNative(value), overwrite);
         }
     }
 }
