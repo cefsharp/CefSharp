@@ -83,7 +83,7 @@
     <ClCompile Include="Internals\CefUrlRequestClientAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\CefUrlRequestWrapper.cpp">
+    <ClCompile Include="UrlRequest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Request.cpp">
@@ -313,7 +313,7 @@
     <ClInclude Include="Internals\CefUrlRequestClientAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefUrlRequestWrapper.h">
+    <ClInclude Include="UrlRequest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PostDataElement.h">

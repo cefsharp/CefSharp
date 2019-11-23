@@ -5,6 +5,7 @@
 #include "Stdafx.h"
 #include <msclr/lock.h>
 
+#include "UrlRequest.h"
 #include "Request.h"
 #include "Internals\CefSharpBrowserWrapper.h"
 #include "Internals\CefFrameWrapper.h"
@@ -12,7 +13,6 @@
 #include "Internals\ClientAdapter.h"
 #include "Internals\Serialization\Primitives.h"
 #include "Internals\Messaging\Messages.h"
-#include "Internals\CefURLRequestWrapper.h"
 #include "Internals\CefURLRequestClientAdapter.h" 
 
 using namespace CefSharp::Internals::Messaging;
@@ -413,7 +413,7 @@ IUrlRequest^ CefFrameWrapper::CreateUrlRequest(IRequest^ request, IUrlRequestCli
         (Request^)request,
         new CefUrlRequestClientAdapter(client));
 
-    return gcnew CefUrlRequestWrapper(urlRequest);
+    return gcnew UrlRequest(urlRequest);
 }
 
 void CefFrameWrapper::ThrowIfFrameInvalid()

@@ -129,9 +129,8 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
-
         [Fact]
-        public async Task CanMakeUrlRequest()
+        public async Task CanMakeFrameUrlRequest()
         {
             using (var browser = new ChromiumWebBrowser("https://code.jquery.com/jquery-3.4.1.min.js"))
             {
@@ -148,7 +147,7 @@ namespace CefSharp.Test.OffScreen
                     taskCompletionSource.TrySetResult(Encoding.UTF8.GetString(responseBody));
                 });
 
-                //Make the request on the CEF UI Thread
+                //Can be created on any valid CEF Thread, here we'll use the CEF UI Thread
                 await Cef.UIThreadTaskFactory.StartNew(delegate
                 {
                     var request = mainFrame.CreateRequest(false);
@@ -165,5 +164,34 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Fact]
+        public async Task CanMakeUrlRequest()
+        {
+            var taskCompletionSource = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
+            IUrlRequest urlRequest = null;
+            int statusCode = -1;
+
+            //Can be created on any valid CEF Thread, here we'll use the CEF UI Thread
+            await Cef.UIThreadTaskFactory.StartNew(delegate
+            {
+                var requestClient = new UrlRequestClient((IUrlRequest req, byte[] responseBody) =>
+                {
+                    statusCode = req.Response.StatusCode;
+                    taskCompletionSource.TrySetResult(Encoding.UTF8.GetString(responseBody));
+                });
+
+                var request = new Request();
+                request.Method = "GET";
+                request.Url = "https://code.jquery.com/jquery-3.4.1.min.js";
+
+                //Global RequestContext will be used
+                urlRequest = new UrlRequest(request, requestClient);
+            });
+
+            var stringResult = await taskCompletionSource.Task;
+
+            Assert.True(!string.IsNullOrEmpty(stringResult));
+            Assert.Equal(200, statusCode);
+        }
     }
 }
