@@ -8,7 +8,7 @@
 #include "include\cef_resource_request_handler.h"
 
 #include "CefResponseWrapper.h"
-#include "CefRequestWrapper.h"
+#include "Request.h"
 #include "CefFrameWrapper.h"
 #include "CefSharpBrowserWrapper.h"
 
@@ -39,7 +39,7 @@ namespace CefSharp
 
             bool CanSendCookie(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, const CefCookie& cookie) OVERRIDE
             {
-                CefRequestWrapper requestWrapper(request);
+                Request requestWrapper(request);
                 auto managedCookie = TypeConversion::FromNative(cookie);
 
                 //For ServiceWorker browser and frame will be null
@@ -57,7 +57,7 @@ namespace CefSharp
 
             bool CanSaveCookie(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, const CefCookie& cookie) OVERRIDE
             {
-                CefRequestWrapper requestWrapper(request);
+                Request requestWrapper(request);
                 CefResponseWrapper responseWrapper(response);
                 auto managedCookie = TypeConversion::FromNative(cookie);
 

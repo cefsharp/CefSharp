@@ -4,13 +4,13 @@
 
 #include "Stdafx.h"
 
-#include "Internals/CefRequestWrapper.h"
+#include "Request.h"
+#include "ResourceHandlerWrapper.h"
 #include "Internals/CefResponseWrapper.h"
 #include "Internals/CefCallbackWrapper.h"
 #include "Internals/CefResourceReadCallbackWrapper.h"
 #include "Internals/CefResourceSkipCallbackWrapper.h"
 #include "Internals/TypeConversion.h"
-#include "ResourceHandlerWrapper.h"
 
 using namespace System::Runtime::InteropServices;
 using namespace System::IO;
@@ -20,7 +20,7 @@ namespace CefSharp
     bool ResourceHandlerWrapper::Open(CefRefPtr<CefRequest> request, bool& handleRequest, CefRefPtr<CefCallback> callback)
     {
         auto callbackWrapper = gcnew CefCallbackWrapper(callback);
-        _request = gcnew CefRequestWrapper(request);
+        _request = gcnew Request(request);
 
         return _handler->Open(_request, handleRequest, callbackWrapper);
     }
@@ -63,7 +63,7 @@ namespace CefSharp
     bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
         auto callbackWrapper = gcnew CefCallbackWrapper(callback);
-        _request = gcnew CefRequestWrapper(request);
+        _request = gcnew Request(request);
 
         return _handler->ProcessRequest(_request, callbackWrapper);
     }

@@ -5,14 +5,14 @@
 #include "Stdafx.h"
 #include <msclr/lock.h>
 
+#include "UrlRequest.h"
+#include "Request.h"
 #include "Internals\CefSharpBrowserWrapper.h"
-#include "Internals\CefRequestWrapper.h"
 #include "Internals\CefFrameWrapper.h"
 #include "Internals\StringVisitor.h"
 #include "Internals\ClientAdapter.h"
 #include "Internals\Serialization\Primitives.h"
 #include "Internals\Messaging\Messages.h"
-#include "Internals\CefURLRequestWrapper.h"
 #include "Internals\CefURLRequestClientAdapter.h" 
 
 using namespace CefSharp::Internals::Messaging;
@@ -193,7 +193,7 @@ void CefFrameWrapper::LoadRequest(IRequest^ request)
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
 
-    auto requestWrapper = (CefRequestWrapper^)request;
+    auto requestWrapper = (Request^)request;
     _frame->LoadRequest(requestWrapper);
 }
 
@@ -392,7 +392,7 @@ IRequest^ CefFrameWrapper::CreateRequest(bool initializePostData)
         request->SetPostData(CefPostData::Create());
     }
 
-    return gcnew CefRequestWrapper(request);
+    return gcnew Request(request);
 }
 
 IUrlRequest^ CefFrameWrapper::CreateUrlRequest(IRequest^ request, IUrlRequestClient^ client)
@@ -410,10 +410,10 @@ IUrlRequest^ CefFrameWrapper::CreateUrlRequest(IRequest^ request, IUrlRequestCli
     }
 
     auto urlRequest = _frame->CreateURLRequest(
-        (CefRequestWrapper^)request,
+        (Request^)request,
         new CefUrlRequestClientAdapter(client));
 
-    return gcnew CefUrlRequestWrapper(urlRequest);
+    return gcnew UrlRequest(urlRequest);
 }
 
 void CefFrameWrapper::ThrowIfFrameInvalid()

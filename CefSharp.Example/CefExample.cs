@@ -72,6 +72,8 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("disable-plugins-discovery"); //Disable discovering third-party plugins. Effectively loading only ones shipped with the browser plus third-party ones as specified by --extra-plugin-dir and --load-plugin switches
             //settings.CefCommandLineArgs.Add("enable-system-flash"); //Automatically discovered and load a system-wide installation of Pepper Flash.
             //settings.CefCommandLineArgs.Add("allow-running-insecure-content"); //By default, an https page cannot run JavaScript, CSS or plugins from http URLs. This provides an override to get the old insecure behavior. Only available in 47 and above.
+            //https://peter.sh/experiments/chromium-command-line-switches/#disable-site-isolation-trials
+            //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
 
             //settings.CefCommandLineArgs.Add("enable-logging"); //Enable Logging for the Renderer process (will open with a cmd prompt and output debug messages - use in conjunction with setting LogSeverity = LogSeverity.Verbose;)
             //settings.LogSeverity = LogSeverity.Verbose; // Needed for enable-logging to output messages
@@ -109,6 +111,9 @@ namespace CefSharp.Example
 
             //Enables Uncaught exception handler
             settings.UncaughtExceptionStackSize = 10;
+
+            //Disable WebAssembly
+            //settings.JavascriptFlags = "--noexpose_wasm";
 
             // Off Screen rendering (WPF/Offscreen)
             if (settings.WindowlessRenderingEnabled)

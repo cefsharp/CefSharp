@@ -18,7 +18,7 @@
 #include "CefFrameWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
 #include "CefMenuModelWrapper.h"
-#include "CefRequestWrapper.h"
+#include "Request.h"
 #include "CefResourceRequestHandlerAdapter.h"
 #include "CefRequestCallbackWrapper.h"
 #include "CefRunContextMenuCallbackWrapper.h"
@@ -515,7 +515,7 @@ namespace CefSharp
 
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             CefFrameWrapper frameWrapper(frame);
-            CefRequestWrapper requestWrapper(request);
+            Request requestWrapper(request);
 
             return handler->OnBeforeBrowse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, userGesture, isRedirect);
         }
@@ -550,7 +550,7 @@ namespace CefSharp
 
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             CefFrameWrapper frameWrapper(frame);
-            CefRequestWrapper requestWrapper(request);
+            Request requestWrapper(request);
 
             if (handler != nullptr)
             {
