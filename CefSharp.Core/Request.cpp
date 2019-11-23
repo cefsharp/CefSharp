@@ -168,6 +168,15 @@ namespace CefSharp
         return _postData;
     }
 
+    void Request::PostData::set(IPostData^ postData)
+    {
+        ThrowIfDisposed();
+
+        ThrowIfReadOnly();
+
+        _request->SetPostData((CefSharp::PostData^)postData);
+    }
+
     bool Request::IsReadOnly::get()
     {
         ThrowIfDisposed();

@@ -53,7 +53,7 @@ namespace CefSharp
         virtual property ReferrerPolicy ReferrerPolicy { CefSharp::ReferrerPolicy get(); }
         virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
         virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
-        virtual property IPostData^ PostData { IPostData^ get(); }
+        virtual property IPostData^ PostData { IPostData^ get(); void set(IPostData^ postData);  }
         virtual property bool IsReadOnly { bool get(); }
         virtual void InitializePostData();
 

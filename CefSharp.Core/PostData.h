@@ -175,5 +175,14 @@ namespace CefSharp
                 throw gcnew Exception(gcnew String(L"This IPostDataWrapper is readonly and cannot be modified."));
             }
         }
+
+        operator CefRefPtr<CefPostData>()
+        {
+            if (this == nullptr)
+            {
+                return NULL;
+            }
+            return _postData.get();
+        }
     };
 }
