@@ -4,7 +4,7 @@
 
 #include "Stdafx.h"
 #include "CefRequestWrapper.h"
-#include "CefPostDataWrapper.h"
+#include "PostData.h"
 
 using namespace System::Text;
 
@@ -164,7 +164,7 @@ namespace CefSharp
                 auto postData = _wrappedRequest->GetPostData();
                 if (postData.get())
                 {
-                    _postData = gcnew CefPostDataWrapper(postData);
+                    _postData = gcnew CefSharp::PostData(postData);
                 }
             }
             return _postData;

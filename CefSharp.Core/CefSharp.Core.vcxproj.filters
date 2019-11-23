@@ -199,9 +199,6 @@
     <ClInclude Include="Internals\Messaging\Messages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefPostDataWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\JavascriptCallbackProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -323,6 +320,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PostDataElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PostData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

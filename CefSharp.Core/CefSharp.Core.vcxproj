@@ -293,7 +293,6 @@
     <ClInclude Include="Internals\CefFrameWrapper.h" />
     <ClInclude Include="Internals\CefMenuModelWrapper.h" />
     <ClInclude Include="Internals\CefPdfPrintCallbackWrapper.h" />
-    <ClInclude Include="Internals\CefPostDataWrapper.h" />
     <ClInclude Include="Internals\CefRegisterCdmCallbackAdapter.h" />
     <ClInclude Include="Internals\CefResolveCallbackAdapter.h" />
     <ClInclude Include="Internals\CefResponseFilterAdapter.h" />
@@ -306,6 +305,7 @@
     <ClInclude Include="Internals\CefWrapper.h" />
     <ClInclude Include="PopupFeatures.h" />
     <ClInclude Include="Internals\CefRequestContextHandlerAdapter.h" />
+    <ClInclude Include="PostData.h" />
     <ClInclude Include="PostDataElement.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WindowInfo.h" />
