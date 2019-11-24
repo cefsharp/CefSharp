@@ -254,7 +254,7 @@ namespace CefSharp.Wpf.Experimental
         private void OnImeEndComposition(IntPtr hwnd)
         {
             // Korean IMEs somehow ignore function calls to ::ImeFinishComposingText()
-            // The same letter is commited in ::OnImeComposition.
+            // The same letter is commited in ::OnImeComposition()
             if (languageCodeId != ImeNative.LANG_KOREAN)
             {
                 owner.GetBrowserHost().ImeFinishComposingText(false);
