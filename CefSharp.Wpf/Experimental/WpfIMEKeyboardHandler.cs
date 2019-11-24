@@ -177,31 +177,31 @@ namespace CefSharp.Wpf.Experimental
             switch ((WM)msg)
             {
                 case WM.IME_SETCONTEXT:
-                    {
-                        OnImeSetContext(hwnd, (uint)msg, wParam, lParam);
-                        handled = true;
-                        break;
-                    }
+                {
+                    OnImeSetContext(hwnd, (uint)msg, wParam, lParam);
+                    handled = true;
+                    break;
+                }
                 case WM.IME_STARTCOMPOSITION:
-                    {
-                        OnIMEStartComposition(hwnd);
-                        hasImeComposition = true;
-                        handled = true;
-                        break;
-                    }
+                {
+                    OnIMEStartComposition(hwnd);
+                    hasImeComposition = true;
+                    handled = true;
+                    break;
+                }
                 case WM.IME_COMPOSITION:
-                    {
-                        OnImeComposition(hwnd, lParam.ToInt32());
-                        handled = true;
-                        break;
-                    }
+                {
+                    OnImeComposition(hwnd, lParam.ToInt32());
+                    handled = true;
+                    break;
+                }
                 case WM.IME_ENDCOMPOSITION:
-                    {
-                        OnImeEndComposition(hwnd);
-                        hasImeComposition = false;
-                        handled = true;
-                        break;
-                    }
+                {
+                    OnImeEndComposition(hwnd);
+                    hasImeComposition = false;
+                    handled = true;
+                    break;
+                }
             }
 
             return handled ? IntPtr.Zero : new IntPtr(1);
@@ -253,13 +253,7 @@ namespace CefSharp.Wpf.Experimental
 
         private void OnImeEndComposition(IntPtr hwnd)
         {
-            // Korean IMEs somehow ignore function calls to ::ImeFinishComposingText()
-            // The same letter is commited in ::OnImeComposition.
-            if (languageCodeId != ImeNative.LANG_KOREAN)
-            {
-                owner.GetBrowserHost().ImeFinishComposingText(false);
-            }
-
+            owner.GetBrowserHost().ImeFinishComposingText(false);
             DestroyImeWindow(hwnd);
         }
 
