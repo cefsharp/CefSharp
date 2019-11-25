@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.IO;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -41,6 +42,22 @@ namespace CefSharp
                     requestContext.LoadExtension(dir, null, handler);
                 }
             }
+        }
+
+        /// <summary>
+        /// Clears all HTTP authentication credentials that were added as part of handling
+        /// <see cref="IRequestHandler.GetAuthCredentials(IWebBrowser, IBrowser, string, bool, string, int, string, string, IAuthCallback)"/>.
+        /// </summary>
+        /// <param name="requestContext">request context</param>
+        /// <returns>A task that represents the ClearHttpAuthCredentials operation.
+        /// Result indicates if the credentials cleared successfully.</returns>
+        public static Task<bool> ClearHttpAuthCredentialsAsync(this IRequestContext requestContext)
+        {
+            var handler = new TaskCompletionCallback();
+
+            requestContext.ClearHttpAuthCredentials(handler);
+
+            return handler.Task;
         }
     }
 }

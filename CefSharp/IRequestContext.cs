@@ -178,7 +178,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
         /// completion. This param is optional</param>
-        void ClearHttpAuthCredentials(ICompletionCallback callback);
+        void ClearHttpAuthCredentials(ICompletionCallback callback = null);
 
         /// <summary>
         /// Clears all active and idle connections that Chromium currently has.

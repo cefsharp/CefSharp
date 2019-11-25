@@ -17,9 +17,6 @@
     <ClCompile Include="Stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\CefRequestWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\CookieVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -86,7 +83,10 @@
     <ClCompile Include="Internals\CefUrlRequestClientAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\CefUrlRequestWrapper.cpp">
+    <ClCompile Include="UrlRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Request.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,9 +104,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefSharpApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\CefRequestWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CookieVisitor.h">
@@ -197,12 +194,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\Messaging\Messages.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\CefPostDataWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\CefPostDataElementWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\JavascriptCallbackProxy.h">
@@ -322,7 +313,16 @@
     <ClInclude Include="Internals\CefUrlRequestClientAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefUrlRequestWrapper.h">
+    <ClInclude Include="UrlRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PostDataElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PostData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

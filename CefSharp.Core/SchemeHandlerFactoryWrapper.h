@@ -10,7 +10,7 @@
 
 #include "Internals\CefSharpBrowserWrapper.h"
 #include "Internals\CefFrameWrapper.h"
-#include "Internals\CefRequestWrapper.h"
+#include "Request.h"
 #include "ResourceHandlerWrapper.h"
 
 using namespace System::IO;
@@ -37,7 +37,7 @@ namespace CefSharp
         {
             CefSharpBrowserWrapper browserWrapper(browser);
             CefFrameWrapper frameWrapper(frame);
-            CefRequestWrapper requestWrapper(request);
+            Request requestWrapper(request);
 
             auto handler = _factory->Create(%browserWrapper, %frameWrapper, StringUtils::ToClr(schemeName), %requestWrapper);
 

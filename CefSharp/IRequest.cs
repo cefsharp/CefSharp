@@ -86,7 +86,7 @@ namespace CefSharp
         /// <summary>
         /// Post data
         /// </summary>
-        IPostData PostData { get; }
+        IPostData PostData { get; set; }
 
         /// <summary>
         /// Get the transition type for this request.

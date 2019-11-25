@@ -133,6 +133,19 @@ namespace CefSharp.Wpf.Example
                     cmd.Execute(null);
                 }
 
+                if (param == "ClearHttpAuthCredentials")
+                {
+                    var browserHost = browserViewModel.WebBrowser.GetBrowserHost();
+                    if (browserHost != null && !browserHost.IsDisposed)
+                    {
+                        var requestContext = browserHost.RequestContext;
+                        requestContext.ClearHttpAuthCredentialsAsync().ContinueWith(x =>
+                        {
+                            Console.WriteLine("RequestContext.ClearHttpAuthCredentials returned " + x.Result);
+                        });
+                    }
+                }
+
                 if (param == "ToggleSidebar")
                 {
                     browserViewModel.ShowSidebar = !browserViewModel.ShowSidebar;
