@@ -139,6 +139,7 @@ namespace CefSharp.Wpf.Example
                     if (browserHost != null && !browserHost.IsDisposed)
                     {
                         var requestContext = browserHost.RequestContext;
+                        requestContext.ClearHttpAuthCredentials();
                         requestContext.ClearHttpAuthCredentialsAsync().ContinueWith(x =>
                         {
                             Console.WriteLine("RequestContext.ClearHttpAuthCredentials returned " + x.Result);

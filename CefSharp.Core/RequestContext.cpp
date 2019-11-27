@@ -149,6 +149,13 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
+        //TODO: Remove this once CEF Issue has been resolved
+        //ClearHttpAuthCredentials crashes when no callback specified
+        if (callback == nullptr)
+        {
+            callback = gcnew CefSharp::Callback::NoOpCompletionCallback();
+        }
+
         CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
         _requestContext->ClearHttpAuthCredentials(wrapper);
