@@ -93,6 +93,7 @@
     <Compile Include="Callback\IRunFileDialogCallback.cs" />
     <Compile Include="Callback\ISelectClientCertificateCallback.cs" />
     <Compile Include="Callback\ISetCookieCallback.cs" />
+    <Compile Include="Callback\NoOpCompletionCallback.cs" />
     <Compile Include="Callback\TaskDeleteCookiesCallback.cs" />
     <Compile Include="Callback\TaskSetCookieCallback.cs" />
     <Compile Include="Callback\TaskRegisterCdmCallback.cs" />
