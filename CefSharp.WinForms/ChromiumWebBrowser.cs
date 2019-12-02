@@ -52,6 +52,12 @@ namespace CefSharp.WinForms
         /// </summary>
         private bool browserCreated;
         /// <summary>
+        /// A flag indicating if the <see cref="Address"/> was used when calling CreateBrowser
+        /// If false and <see cref="Address"/> contains a non empty string Load will be called
+        /// on the main frame
+        /// </summary>
+        private bool initialAddressLoaded;
+        /// <summary>
         /// Browser initialization settings
         /// </summary>
         private IBrowserSettings browserSettings;
@@ -645,6 +651,8 @@ namespace CefSharp.WinForms
                 {
                     var windowInfo = CreateBrowserWindowInfo(Handle);
 
+                    initialAddressLoaded = !string.IsNullOrEmpty(Address);
+
                     managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
 
                     browserSettings = null;
@@ -680,6 +688,13 @@ namespace CefSharp.WinForms
             }
 
             ResizeBrowser();
+
+            //If Load was called after the call to CreateBrowser we'll call Load
+            //on the MainFrame
+            if (!initialAddressLoaded && !string.IsNullOrEmpty(Address))
+            {
+                browser.MainFrame.LoadUrl(Address);
+            }
 
             IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
         }
