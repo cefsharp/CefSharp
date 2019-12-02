@@ -12,7 +12,6 @@ using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.WinForms.Example.Handlers;
-using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example
 {
@@ -93,8 +92,9 @@ namespace CefSharp.WinForms.Example
 
             CefExample.RegisterTestResources(browser);
 
-            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
-            DisplayOutput(version);
+            var version = string.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
+            //Set label directly, don't use DisplayOutput as call would be a NOOP (no valid handle yet).
+            outputLabel.Text = version;
         }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace CefSharp.WinForms.Example
 
         private void DisplayOutput(string output)
         {
-            this.InvokeOnUiThreadIfRequired(() => outputLabel.Text = output);
+            outputLabel.InvokeOnUiThreadIfRequired(() => outputLabel.Text = output);
         }
 
         private void HandleToolStripLayout(object sender, LayoutEventArgs e)

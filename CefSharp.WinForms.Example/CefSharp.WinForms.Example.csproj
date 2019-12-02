@@ -88,6 +88,7 @@
     <Compile Include="ChromiumContainerControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\LifeSpanHandler.cs" />
