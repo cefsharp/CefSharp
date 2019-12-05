@@ -2273,6 +2273,15 @@ namespace CefSharp.Wpf
             {
                 Focus();
                 OnMouseButton(e);
+
+                //We should only need to capture the left button exiting the browser
+                if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Pressed)
+                {
+                    //Capture/Release Mouse to allow for scrolling outside bounds of browser control (#2258).
+                    //Known issue when capturing and the device has a touch screen, to workaround this issue
+                    //disable WPF StylusAndTouchSupport see for details https://github.com/dotnet/wpf/issues/1323#issuecomment-513870984
+                    CaptureMouse();
+                }
             }
 
             base.OnMouseDown(e);
@@ -2294,8 +2303,18 @@ namespace CefSharp.Wpf
             {
                 OnMouseButton(e);
 
-                base.OnMouseUp(e);
+                if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Released)
+                {
+                    //Release the mouse capture that we grabbed on mouse down.
+                    //We won't get here if e.g. the right mouse button is pressed and released
+                    //while the left is still held, but in that case the left mouse capture seems
+                    //to be released implicitly (even without the left mouse SendMouseClickEvent in leave below)
+                    //Use ReleaseMouseCapture over Mouse.Capture(null); as it has additional Mouse.Captured == this check
+                    ReleaseMouseCapture();
+                }
             }
+
+            base.OnMouseUp(e);
         }
 
         /// <summary>
@@ -2315,21 +2334,22 @@ namespace CefSharp.Wpf
                 var modifiers = e.GetModifiers();
                 var point = e.GetPosition(this);
 
-                //If the LeftMouse button is pressed when leaving the control we send a mouse click with mouseUp: true
-                //to let the browser know the mouse has been released
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, MouseButtonType.Left, mouseUp: true, clickCount: 1, modifiers: modifiers);
-                }
-                else
-                {
-                    browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
-                }
+                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
             }
 
             base.OnMouseLeave(e);
+        }
+
+        protected override void OnLostMouseCapture(MouseEventArgs e)
+        {
+            if (!e.Handled && browser != null)
+            {
+                browser.GetHost().SendCaptureLostEvent();
+            }
+
+            base.OnLostMouseCapture(e);
         }
 
         /// <summary>

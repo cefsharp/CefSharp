@@ -368,13 +368,37 @@ namespace CefSharp
         /// <summary>
         /// Returns the global cookie manager. By default data will be stored at CefSettings.CachePath if specified or in memory otherwise.
         /// Using this method is equivalent to calling Cef.GetGlobalRequestContext().GetCookieManager()
-        /// The earlier possible place to access the ICookieManager is in IBrowserProcessHandler.OnContextInitialized.
-        /// Alternative use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
+        /// The cookie managers storage is created in an async fashion, whilst this method may return a cookie manager instance,
+        /// there may be a short delay before you can Get/Write cookies.
+        /// To be sure the cookie manager has been initialized use one of the following
+        /// - Use the GetGlobalCookieManager(ICompletionCallback) overload and access the ICookieManager after
+        ///   ICompletionCallback.OnComplete has been called.
+        /// - Access the ICookieManager instance in IBrowserProcessHandler.OnContextInitialized.
+        /// - Use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
         /// </summary>
         /// <returns>A the global cookie manager or null if the RequestContext has not yet been initialized.</returns>
         static ICookieManager^ GetGlobalCookieManager()
         {
-            auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
+            return GetGlobalCookieManager(nullptr);
+        }
+
+        /// <summary>
+        /// Returns the global cookie manager. By default data will be stored at CefSettings.CachePath if specified or in memory otherwise.
+        /// Using this method is equivalent to calling Cef.GetGlobalRequestContext().GetCookieManager()
+        /// The cookie managers storage is created in an async fashion, whilst this method may return a cookie manager instance,
+        /// there may be a short delay before you can Get/Write cookies.
+        /// To be sure the cookie manager has been initialized use one of the following
+        /// - Access the ICookieManager after ICompletionCallback.OnComplete has been called
+        /// - Access the ICookieManager instance in IBrowserProcessHandler.OnContextInitialized.
+        /// - Use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
+        /// </summary>
+        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF UI thread after the manager's storage has been initialized.</param>
+        /// <returns>A the global cookie manager or null if the RequestContext has not yet been initialized.</returns>
+        static ICookieManager^ GetGlobalCookieManager(ICompletionCallback^ callback)
+        {
+            CefRefPtr<CefCompletionCallback> c = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
+
+            auto cookieManager = CefCookieManager::GetGlobalManager(c);
             if (cookieManager.get())
             {
                 return gcnew CookieManager(cookieManager);
