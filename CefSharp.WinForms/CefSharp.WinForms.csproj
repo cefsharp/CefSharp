@@ -76,6 +76,7 @@
     <Compile Include="ChromiumWebBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WebBrowserExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">

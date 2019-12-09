@@ -9,7 +9,7 @@ namespace CefSharp.WinForms
     /// <summary>
     /// Helper extensions for performing common CefSharp related WinForms tasks
     /// </summary>
-    public static class WinFormsWebBrowserExtensions
+    public static class WebBrowserExtensions
     {
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool DestroyWindow(IntPtr hWnd);
