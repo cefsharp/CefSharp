@@ -396,7 +396,8 @@ namespace CefSharp
 
         /// <summary>
         /// Returns the current visible navigation entry for this browser. This method
-        /// can only be called on the CEF UI thread.
+        /// can only be called on the CEF UI thread which by default is not the same
+        /// as your application UI thread.
         /// </summary>
         /// <returns>the current navigation entry</returns>
         NavigationEntry GetVisibleNavigationEntry();
