@@ -82,6 +82,7 @@ namespace CefSharp
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
         /// </summary>
+        /// <param name="webBrowser">the ChromiumWebBrowser instance</param>
         /// <returns>Frame</returns>
         public static IFrame GetMainFrame(this IWebBrowser webBrowser)
         {
