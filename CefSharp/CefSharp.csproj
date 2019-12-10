@@ -148,6 +148,7 @@
     <Compile Include="RenderProcess\IV8Context.cs" />
     <Compile Include="RenderProcess\V8Exception.cs" />
     <Compile Include="RequestContextExtensions.cs" />
+    <Compile Include="ResponseFilter\StreamResponseFilter.cs" />
     <Compile Include="Structs\TouchEvent.cs" />
     <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />

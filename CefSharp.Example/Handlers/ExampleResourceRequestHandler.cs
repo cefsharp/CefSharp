@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using CefSharp.Example.Filters;
 using CefSharp.Handler;
+using CefSharp.ResponseFilter;
 
 namespace CefSharp.Example.Handlers
 {
