@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.HwndHost", "CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost.csproj", "{B0942DE1-D92A-4EB4-A407-47D2E223108B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.HwndHost.Example", "CefSharp.Wpf.HwndHost.Example\CefSharp.Wpf.HwndHost.Example.csproj", "{9F7C8D25-3BD2-414B-9C6C-52E371E0C5E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59D2B203-3AD7-49F7-A64F-868440F29D5C}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.config = NuGet.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0942DE1-D92A-4EB4-A407-47D2E223108B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0942DE1-D92A-4EB4-A407-47D2E223108B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0942DE1-D92A-4EB4-A407-47D2E223108B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0942DE1-D92A-4EB4-A407-47D2E223108B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F7C8D25-3BD2-414B-9C6C-52E371E0C5E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F7C8D25-3BD2-414B-9C6C-52E371E0C5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F7C8D25-3BD2-414B-9C6C-52E371E0C5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F7C8D25-3BD2-414B-9C6C-52E371E0C5E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B97382D3-C9AF-48BB-88B2-2094A9B20BAD}
+	EndGlobalSection
+EndGlobal
