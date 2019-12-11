@@ -26,6 +26,12 @@ namespace CefSharp
         public const string DefaultMimeType = "text/html";
 
         /// <summary>
+        /// We reuse a temp buffer where possible for copying the data from the stream
+        /// into the output stream
+        /// </summary>
+        private byte[] tempBuffer;
+
+        /// <summary>
         /// Gets or sets the Charset
         /// </summary>
         public string Charset { get; set; }
@@ -153,9 +159,14 @@ namespace CefSharp
                 return false;
             }
 
-            //Data out represents an underlying buffer (typically 32kb in size).
-            var buffer = new byte[dataOut.Length];
-            bytesRead = Stream.Read(buffer, 0, buffer.Length);
+            //Data out represents an underlying unmanaged buffer (typically 64kb in size).
+            //We reuse a temp buffer where possible
+            if (tempBuffer == null || tempBuffer.Length < dataOut.Length)
+            {
+                tempBuffer = new byte[dataOut.Length];
+            }
+
+            bytesRead = Stream.Read(tempBuffer, 0, tempBuffer.Length);
 
             // To indicate response completion set bytesRead to 0 and return false
             if (bytesRead == 0)
@@ -163,7 +174,9 @@ namespace CefSharp
                 return false;
             }
 
-            dataOut.Write(buffer, 0, buffer.Length);
+            //We need to use bytesRead instead of tempbuffer.Length otherwise
+            //garbage from the previous copy would be written to dataOut
+            dataOut.Write(tempBuffer, 0, bytesRead);
 
             return bytesRead > 0;
         }
@@ -197,6 +210,7 @@ namespace CefSharp
         void IResourceHandler.Cancel()
         {
             Stream = null;
+            tempBuffer = null;
         }
 
         bool IResourceHandler.ProcessRequest(IRequest request, ICallback callback)
