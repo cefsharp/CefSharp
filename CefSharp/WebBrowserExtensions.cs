@@ -19,6 +19,41 @@ namespace CefSharp
     /// </summary>
     public static class WebBrowserExtensions
     {
+        #region Legacy Javascript Binding
+        /// <summary>
+        /// Registers a Javascript object in this specific browser instance.
+        /// </summary>
+        /// <param name="webBrowser">The browser to perform the registering on</param>
+        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
+        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
+        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
+        /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
+        ///                                     called before the underlying CEF browser is created.</exception>
+        [Obsolete("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.")]
+        public static void RegisterJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
+        {
+            throw new NotImplementedException("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.");
+        }
+
+        /// <summary>
+        /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
+        /// <para>Only methods of the object will be availabe.</para>
+        /// </summary>
+        /// <param name="webBrowser">The browser to perform the registering on</param>
+        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
+        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
+        /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
+        /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
+        ///                                     called before the underlying CEF browser is created.</exception>
+        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
+        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
+        [Obsolete("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.")]
+        public static void RegisterAsyncJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
+        {
+            throw new NotImplementedException("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.");
+        }
+        #endregion
+
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
         /// </summary>
