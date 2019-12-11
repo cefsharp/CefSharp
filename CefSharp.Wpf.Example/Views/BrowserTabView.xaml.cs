@@ -31,33 +31,11 @@ namespace CefSharp.Wpf.Example.Views
 
             browser.RequestHandler = new ExampleRequestHandler();
 
-            //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
-            if (CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                browser.RegisterJsObject("bound", new BoundObject(), options: BindingOptions.DefaultBinder);
-            }
-            else
-            {
-                //Objects can still be pre registered, they can also be registered when required, see ResolveObject below
-                //browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync:false, options: BindingOptions.DefaultBinder);
-            }
-
             var bindingOptions = new BindingOptions()
             {
                 Binder = BindingOptions.DefaultBinder.Binder,
                 MethodInterceptor = new MethodInterceptorLogger() // intercept .net methods calls from js and log it
             };
-
-            //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
-            if (CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), options: bindingOptions);
-            }
-            else
-            {
-                //Objects can still be pre registered, they can also be registered when required, see ResolveObject below
-                //browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
-            }
 
             //To use the ResolveObject below and bind an object with isAsync:false we must set CefSharpSettings.WcfEnabled = true before
             //the browser is initialized.
@@ -147,7 +125,7 @@ namespace CefSharp.Wpf.Example.Views
                 var errorBody = string.Format("<html><body bgcolor=\"white\"><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>",
                                               args.FailedUrl, args.ErrorText, args.ErrorCode);
 
-                args.Frame.LoadHtml(errorBody, base64Encode:true);
+                args.Frame.LoadHtml(errorBody, base64Encode: true);
             };
 
             CefExample.RegisterTestResources(browser);
