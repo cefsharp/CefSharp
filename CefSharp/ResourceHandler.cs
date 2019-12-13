@@ -90,7 +90,8 @@ namespace CefSharp
         /// <param name="stream">Optional Stream - must be set at some point to provide a valid response</param>
         /// <param name="autoDisposeStream">When true the Stream will be disposed when this instance is Diposed, you will
         /// be unable to use this ResourceHandler after the Stream has been disposed</param>
-        public ResourceHandler(string mimeType = DefaultMimeType, Stream stream = null, bool autoDisposeStream = false)
+        /// <param name="charset">response charset</param>
+        public ResourceHandler(string mimeType = DefaultMimeType, Stream stream = null, bool autoDisposeStream = false, string charset = null)
         {
             if (string.IsNullOrEmpty(mimeType))
             {
@@ -103,6 +104,7 @@ namespace CefSharp
             Headers = new NameValueCollection();
             Stream = stream;
             AutoDisposeStream = autoDisposeStream;
+            Charset = charset;
         }
 
         bool IResourceHandler.Open(IRequest request, out bool handleRequest, ICallback callback)
@@ -262,8 +264,9 @@ namespace CefSharp
         /// </summary>
         /// <param name="data">data</param>
         /// <param name="mimeType">mimeType</param>
+        /// <param name="charSet">response charset</param>
         /// <returns>IResourceHandler</returns>
-        public static IResourceHandler FromByteArray(byte[] data, string mimeType = null)
+        public static IResourceHandler FromByteArray(byte[] data, string mimeType = null, string charSet = null)
         {
             return new ByteArrayResourceHandler(mimeType ?? DefaultMimeType, data);
         }
@@ -321,10 +324,11 @@ namespace CefSharp
         /// <param name="mimeType">Type of MIME.</param>
         /// <param name="autoDisposeStream">Dispose of the stream when finished with (you will only be able to serve one
         /// request).</param>
+        /// <param name="charSet">response charset</param>
         /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromStream(Stream stream, string mimeType = DefaultMimeType, bool autoDisposeStream = false)
+        public static ResourceHandler FromStream(Stream stream, string mimeType = DefaultMimeType, bool autoDisposeStream = false, string charSet = null)
         {
-            return new ResourceHandler(mimeType, stream, autoDisposeStream);
+            return new ResourceHandler(mimeType, stream, autoDisposeStream, charSet);
         }
 
         /// <summary>
