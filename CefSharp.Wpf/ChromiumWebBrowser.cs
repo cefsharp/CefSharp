@@ -1743,6 +1743,8 @@ namespace CefSharp.Wpf
 
                 monitorInfo.Init();
                 MonitorInfo.GetMonitorInfoForWindowHandle(source.Handle, ref monitorInfo);
+
+                source.AddHook(DpiChangedHook);
             }
             else if (args.OldSource != null)
             {
@@ -1755,6 +1757,8 @@ namespace CefSharp.Wpf
                     window.LocationChanged -= OnWindowLocationChanged;
                     sourceWindow = null;
                 }
+
+                (args.OldSource as HwndSource)?.RemoveHook(DpiChangedHook);
             }
         }
 
@@ -2033,6 +2037,17 @@ namespace CefSharp.Wpf
 
             //Initial value for screen location
             browserScreenLocation = GetBrowserScreenLocation();
+        }
+
+        private IntPtr DpiChangedHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            int WM_DPICHANGED = 0x02E0;
+            if (msg == WM_DPICHANGED)
+            {
+                var dpi = wParam.CastToInt32() & 0xffff;
+                NotifyDpiChange(dpi / 96);
+            }
+            return IntPtr.Zero;
         }
 
         /// <summary>
