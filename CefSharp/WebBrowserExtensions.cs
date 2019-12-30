@@ -6,7 +6,6 @@ using System;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Internals;
@@ -22,29 +21,6 @@ namespace CefSharp
     {
         #region Legacy Javascript Binding
         /// <summary>
-        /// Validates the browser before objects are registered
-        /// </summary>
-        private static void ValidateBrowserBeforeRegistering(this IWebBrowser webBrowser, [CallerMemberName] string callerName = "")
-        {
-            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
-                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
-                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
-                                    for details on the new binding options. If you perform cross-site navigations bound objects will
-                                    no longer be registered and you will have to migrate to the new method.");
-            }
-
-            if (webBrowser.IsBrowserInitialized)
-            {
-                throw new Exception("Browser is already initialized. " + callerName + " must be " +
-                                    "called before the underlying CEF browser is created.");
-            }
-
-            webBrowser.ThrowExceptionIfDisposed();
-        }
-
-        /// <summary>
         /// Registers a Javascript object in this specific browser instance.
         /// </summary>
         /// <param name="webBrowser">The browser to perform the registering on</param>
@@ -53,11 +29,10 @@ namespace CefSharp
         /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
         /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
         ///                                     called before the underlying CEF browser is created.</exception>
+        [Obsolete("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.")]
         public static void RegisterJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
         {
-            CefSharpSettings.WcfEnabled = true;
-            webBrowser.ValidateBrowserBeforeRegistering();
-            webBrowser.JavascriptObjectRepository.Register(name, objectToBind, false, options);
+            throw new NotImplementedException("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.");
         }
 
         /// <summary>
@@ -72,16 +47,17 @@ namespace CefSharp
         ///                                     called before the underlying CEF browser is created.</exception>
         /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
         /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
+        [Obsolete("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.")]
         public static void RegisterAsyncJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
         {
-            webBrowser.ValidateBrowserBeforeRegistering();
-            webBrowser.JavascriptObjectRepository.Register(name, objectToBind, true, options);
+            throw new NotImplementedException("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.");
         }
         #endregion
 
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
         /// </summary>
+        /// <param name="webBrowser">the ChromiumWebBrowser instance</param>
         /// <returns>Frame</returns>
         public static IFrame GetMainFrame(this IWebBrowser webBrowser)
         {

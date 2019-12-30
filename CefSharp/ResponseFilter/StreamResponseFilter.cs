@@ -5,20 +5,21 @@
 using System;
 using System.IO;
 
-namespace CefSharp.Example.Filters
+namespace CefSharp.ResponseFilter
 {
     /// <summary>
     /// StreamResponseFilter - copies all data from IResponseFilter.Filter
-    /// to the provided Stream. This is provided as an example to get you started and has not been
-    /// production tested. If you experience problems you should refer to the CEF documentation
-    /// and ask any questions you have on http://magpcss.org/ceforum/index.php
-    /// Make sure to ask your question in the context of the CEF API (remember that CefSharp is just a wrapper).
-    /// https://magpcss.org/ceforum/apidocs3/projects/(default)/CefResponseFilter.html#Filter(void*,size_t,size_t&,void*,size_t,size_t&)
+    /// to the provided Stream. The <see cref="Stream"/> must be writable, no data will be copied otherwise.
+    /// The StreamResponseFilter will release it's reference (set to null) to the <see cref="Stream"/> when it's Disposed.
     /// </summary>
     public class StreamResponseFilter : IResponseFilter
     {
         private Stream responseStream;
 
+        /// <summary>
+        /// StreamResponseFilter constructor
+        /// </summary>
+        /// <param name="stream">a writable stream</param>
         public StreamResponseFilter(Stream stream)
         {
             responseStream = stream;
@@ -26,9 +27,7 @@ namespace CefSharp.Example.Filters
 
         bool IResponseFilter.InitFilter()
         {
-            //Will only be called a single time.
-            //The filter will not be installed if this method returns false.
-            return true;
+            return responseStream != null && responseStream.CanWrite;
         }
 
         FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)

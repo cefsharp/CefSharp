@@ -110,6 +110,7 @@
     <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
+    <Compile Include="Lagacy\ResourceHandler.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="RenderProcess\IV8Context.cs" />
     <Compile Include="RenderProcess\V8Exception.cs" />
     <Compile Include="RequestContextExtensions.cs" />
+    <Compile Include="ResponseFilter\StreamResponseFilter.cs" />
     <Compile Include="Structs\TouchEvent.cs" />
     <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
@@ -317,9 +319,7 @@
     <Compile Include="Web\HtmlString.cs" />
     <Compile Include="Web\JsonString.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lagacy\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

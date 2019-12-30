@@ -15,6 +15,7 @@
 #include <include/cef_origin_whitelist.h>
 #include <include/cef_web_plugin.h>
 #include <include/cef_crash_util.h>
+#include <include/cef_parser.h>
 #include <include/internal/cef_types.h>
 
 #include "Internals/CefSharpApp.h"
@@ -748,6 +749,20 @@ namespace CefSharp
             RegisterWidevineCdm(path, callback);
 
             return callback->Task;
+        }
+
+        /// <summary>
+        /// Returns the mime type for the specified file extension or an empty string if unknown.
+        /// </summary>
+        /// <param name="extension">file extension</param>
+        /// <returns>Returns the mime type for the specified file extension or an empty string if unknown.</returns>
+        static String^ GetMimeType(String^ extension)
+        {
+            if (extension->StartsWith("."))
+            {
+                extension = extension->Substring(1, extension->Length - 1);
+            }
+            return StringUtils::ToClr(CefGetMimeType(StringUtils::ToNative(extension)));
         }
     };
 }

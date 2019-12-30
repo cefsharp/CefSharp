@@ -492,6 +492,8 @@ NavigationEntry^ CefBrowserHostWrapper::GetVisibleNavigationEntry()
 {
     ThrowIfDisposed();
 
+    ThrowIfExecutedOnNonCefUiThread();
+
     auto entry = _browserHost->GetVisibleNavigationEntry();
 
     return TypeConversion::FromNative(entry, true);

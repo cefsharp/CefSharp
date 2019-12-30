@@ -25,15 +25,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="../" class="navbar-brand">CefSharp</a>
+                <a href="home.html" class="navbar-brand">CefSharp</a>
             </div>
             <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="../getting-started">Getting started</a>
+                        <a href="#the-basics">The Basics</a>
                     </li>
                     <li>
-                        <a href="test-suite">Test Suite</a>
+                        <a href="BindingTest.html">JavaScript Binding Tests</a>
                     </li>
                 </ul>
             </nav>
@@ -163,11 +163,11 @@
                             // There are many command line arguments that can either be turned on or off
 
                             // Enable WebRTC
-                            settings.CefCommandLineArgs.Add("enable-media-stream", string.Empty);
+                            settings.CefCommandLineArgs.Add("enable-media-stream");
 
                             // Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
                             // Slightly improves Cef initialize time as it won't attempt to resolve a proxy
-                            settings.CefCommandLineArgs.Add("no-proxy-server", string.Empty);
+                            settings.CefCommandLineArgs.Add("no-proxy-server");
 
 
                             Cef.Initialize(settings);
