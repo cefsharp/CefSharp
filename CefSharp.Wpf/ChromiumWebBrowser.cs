@@ -676,6 +676,7 @@ namespace CefSharp.Wpf
         {
             if (disposing)
             {
+                CanExecuteJavascriptInMainFrame = false;
                 Interlocked.Exchange(ref browserInitialized, 0);
 
                 //Stop rendering immediately so later on when we dispose of the
@@ -2608,6 +2609,9 @@ namespace CefSharp.Wpf
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
+            this.ThrowExceptionIfDisposed();
+            this.ThrowExceptionIfBrowserNotInitialized();
+
             return browser;
         }
 

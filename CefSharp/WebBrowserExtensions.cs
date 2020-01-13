@@ -59,26 +59,26 @@ namespace CefSharp
         /// </summary>
         /// <param name="webBrowser">the ChromiumWebBrowser instance</param>
         /// <returns>Frame</returns>
-        public static IFrame GetMainFrame(this IWebBrowser webBrowser)
+        public static IFrame GetMainFrame(this IWebBrowser browser)
         {
-            var browser = webBrowser.GetBrowser();
+            var cefBrowser = browser.GetBrowser();
 
-            ThrowExceptionIfBrowserNull(browser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
-            return browser.MainFrame;
+            return cefBrowser.MainFrame;
         }
 
         /// <summary>
         /// Returns the focused frame for the browser window.
         /// </summary>
         /// <returns>Frame</returns>
-        public static IFrame GetFocusedFrame(this IWebBrowser webBrowser)
+        public static IFrame GetFocusedFrame(this IWebBrowser browser)
         {
-            var browser = webBrowser.GetBrowser();
+            var cefBrowser = browser.GetBrowser();
 
-            ThrowExceptionIfBrowserNull(browser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
-            return browser.FocusedFrame;
+            return cefBrowser.FocusedFrame;
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace CefSharp
         {
             var cefBrowser = browser.GetBrowser();
 
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.StopLoad();
         }
@@ -511,7 +511,7 @@ namespace CefSharp
         {
             var cefBrowser = browser.GetBrowser();
 
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.GoBack();
         }
@@ -523,7 +523,7 @@ namespace CefSharp
         {
             var cefBrowser = browser.GetBrowser();
 
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.GoForward();
         }
@@ -547,7 +547,7 @@ namespace CefSharp
         {
             var cefBrowser = browser.GetBrowser();
 
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.Reload(ignoreCache);
         }
@@ -607,7 +607,7 @@ namespace CefSharp
         /// <param name="zoomLevel">zoom level</param>
         public static void SetZoomLevel(this IBrowser cefBrowser, double zoomLevel)
         {
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
@@ -662,7 +662,7 @@ namespace CefSharp
         public static void Find(this IWebBrowser browser, int identifier, string searchText, bool forward, bool matchCase, bool findNext)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.Find(identifier, searchText, forward, matchCase, findNext);
         }
@@ -674,6 +674,8 @@ namespace CefSharp
         /// <param name="clearSelection">clear the current search selection</param>
         public static void StopFinding(this IBrowser cefBrowser, bool clearSelection)
         {
+            cefBrowser.ThrowExceptionIfBrowserNull();
+
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
@@ -688,7 +690,7 @@ namespace CefSharp
         public static void StopFinding(this IWebBrowser browser, bool clearSelection)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.StopFinding(clearSelection);
         }
@@ -732,7 +734,7 @@ namespace CefSharp
         public static void Print(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.Print();
         }
@@ -749,7 +751,7 @@ namespace CefSharp
         public static Task<bool> PrintToPdfAsync(this IWebBrowser browser, string path, PdfPrintSettings settings = null)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             return cefBrowser.PrintToPdfAsync(path, settings);
         }
@@ -773,7 +775,7 @@ namespace CefSharp
         public static void ShowDevTools(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
             cefBrowser.ShowDevTools();
         }
 
@@ -796,7 +798,7 @@ namespace CefSharp
         public static void CloseDevTools(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
             cefBrowser.CloseDevTools();
         }
 
@@ -823,7 +825,7 @@ namespace CefSharp
         public static void ReplaceMisspelling(this IWebBrowser browser, string word)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.ReplaceMisspelling(word);
         }
@@ -861,7 +863,7 @@ namespace CefSharp
         public static void AddWordToDictionary(this IWebBrowser browser, string word)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.AddWordToDictionary(word);
         }
@@ -869,13 +871,15 @@ namespace CefSharp
         public static void SendMouseWheelEvent(this IWebBrowser browser, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
             var cefBrowser = browser.GetBrowser();
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            cefBrowser.ThrowExceptionIfBrowserNull();
 
             cefBrowser.SendMouseWheelEvent(x, y, deltaX, deltaY, modifiers);
         }
 
         public static void SendMouseWheelEvent(this IBrowser browser, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
+            browser.ThrowExceptionIfBrowserNull();
+
             var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
@@ -962,15 +966,6 @@ namespace CefSharp
             internalBrowser.HasParent = true;
         }
 
-        public static void ThrowExceptionIfBrowserNotInitialized(this IWebBrowser browser)
-        {
-            if (!browser.IsBrowserInitialized)
-            {
-                throw new Exception("Browser is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
-                                    "the IsBrowserInitialized property to determine when the browser has been initialized.");
-            }
-        }
-
         /// <summary>
         /// Function used to encode the params passed to <see cref="ExecuteScriptAsync(IWebBrowser, string, object[])"/>,
         /// <see cref="EvaluateScriptAsync(IWebBrowser, string, object[])"/> and <see cref="EvaluateScriptAsync(IWebBrowser, TimeSpan?, string, object[])"/>
@@ -1054,7 +1049,17 @@ namespace CefSharp
             return stringBuilder.ToString();
         }
 
-        private static void ThrowExceptionIfDisposed(this IWebBrowser browser)
+        internal static void ThrowExceptionIfBrowserNotInitialized(this IWebBrowser browser)
+        {
+            if (!browser.IsBrowserInitialized)
+            {
+                throw new Exception("The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
+                                    "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
+                                    "the IsBrowserInitialized property to determine when the browser has been initialized.");
+            }
+        }
+
+        internal static void ThrowExceptionIfDisposed(this IWebBrowser browser)
         {
             if (browser.IsDisposed)
             {
@@ -1070,7 +1075,7 @@ namespace CefSharp
             }
         }
 
-        private static void ThrowExceptionIfBrowserNull(IBrowser browser)
+        private static void ThrowExceptionIfBrowserNull(this IBrowser browser)
         {
             if (browser == null)
             {
