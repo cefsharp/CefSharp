@@ -760,23 +760,29 @@ namespace CefSharp
         /// Open developer tools in its own window. 
         /// </summary>
         /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends</param>
-        public static void ShowDevTools(this IBrowser cefBrowser)
+        /// <param name="windowInfo">window info used for showing dev tools</param>
+        /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
+        /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
+        public static void ShowDevTools(this IBrowser cefBrowser, IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0)
         {
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
-            host.ShowDevTools();
+            host.ShowDevTools(windowInfo, inspectElementAtX, inspectElementAtY);
         }
 
         /// <summary>
         /// Open developer tools in its own window. 
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
-        public static void ShowDevTools(this IWebBrowser browser)
+        /// <param name="windowInfo">window info used for showing dev tools</param>
+        /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
+        /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
+        public static void ShowDevTools(this IWebBrowser browser, IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0)
         {
             var cefBrowser = browser.GetBrowser();
             cefBrowser.ThrowExceptionIfBrowserNull();
-            cefBrowser.ShowDevTools();
+            cefBrowser.ShowDevTools(windowInfo, inspectElementAtX, inspectElementAtY);
         }
 
         /// <summary>
