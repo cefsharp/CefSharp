@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="PlatformCheck" BeforeTargets="ResolveAssemblyReferences" Condition="(('$(Platform)' != 'x86') AND ('$(Platform)' != 'x64') AND ('$(Platform)' != 'Win32') AND '$(CefSharpAnyCpuSupport)' != 'true')">
-    <Error Text="$(MSBuildThisFileName) contains unmanaged resoures, set your project and solution platform to x86 or x64. Alternatively for AnyCPU Support see https://github.com/cefsharp/CefSharp/issues/1714" />
+    <Message Text="$(MSBuildThisFileName) contains unmanaged resoures which must be copied to your build output folder." />
+	<Message Text="$(MSBuildThisFileName) relies on the Solution Platform (not the TargetPlatform property that's defined individually in your [cs|vb|vcx]proj files) to determine which platform to target." />
+	<Message Text="For details on changing your Solution Platform see https://msdn.microsoft.com/en-us/library/ms185328.aspx#Anchor_0" />
+	<Error   Text="$(MSBuildThisFileName) is unable to proceeed as your current Solution Platform is '$(Platform)'. To target AnyCPU please read https://github.com/cefsharp/CefSharp/issues/1714. Alternatively change your Solution Platform to x86 or x64 and the relevant files will be copied automatically." HelpKeyword="CefSharpSolutionPlatformCheck" />
   </Target>
   
   <Target Name="FrameworkVersionCheck" BeforeTargets="ResolveAssemblyReferences" Condition="(('$(TargetFrameworkVersion)' == 'v4.5.1') OR ('$(TargetFrameworkVersion)' == 'v4.5') OR ('$(TargetFrameworkVersion)' == 'v4.0'))">
