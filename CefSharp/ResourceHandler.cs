@@ -202,10 +202,17 @@ namespace CefSharp
             {
                 responseLength = ResponseLength.Value;
             }
-            else if (Stream != null && Stream.CanSeek)
+
+            if (Stream != null && Stream.CanSeek)
             {
-                //If no ResponseLength provided then attempt to infer the length
-                responseLength = Stream.Length;
+                //ResponseLength property has higher precedence over Stream.Length
+                if (ResponseLength == null || responseLength == 0)
+                {
+                    //If no ResponseLength provided then attempt to infer the length
+                    responseLength = Stream.Length;
+                }
+
+                Stream.Position = 0;
             };
         }
 
