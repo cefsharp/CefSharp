@@ -67,6 +67,14 @@ namespace CefSharp
             {
                 auto type = CommandLineArgsParser::GetArgumentValue(args, CefSharpArguments::SubProcessTypeArgument);
 
+                if (String::IsNullOrEmpty(type))
+                {
+                    //If --type param missing from command line CEF/Chromium assums
+                    //this is the main process (as all subprocesses must have a type param).
+                    //Return -1 to indicate this behaviour.
+                    return -1;
+                }
+
                 auto parentProcessId = -1;
 
                 // The Crashpad Handler doesn't have any HostProcessIdArgument, so we must not try to

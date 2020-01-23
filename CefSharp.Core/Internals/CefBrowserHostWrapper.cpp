@@ -159,7 +159,7 @@ void CefBrowserHostWrapper::ShowDevTools(IWindowInfo^ windowInfo, int inspectEle
 
     if (windowInfo == nullptr)
     {
-        nativeWindowInfo.SetAsPopup(_browserHost->GetWindowHandle(), "DevTools");
+        nativeWindowInfo.SetAsPopup(NULL, "DevTools");
     }
     else
     {

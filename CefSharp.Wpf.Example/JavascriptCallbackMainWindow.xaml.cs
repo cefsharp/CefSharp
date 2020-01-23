@@ -19,8 +19,8 @@ namespace CefSharp.Wpf.Example
             boundObjectOne = new JavascriptCallbackBoundObject(BrowserOne);
             boundObjectTwo = new JavascriptCallbackBoundObject(BrowserTwo);
 
-            BrowserOne.JavascriptObjectRepository.Register("boundObject", boundObjectOne);
-            BrowserTwo.JavascriptObjectRepository.Register("boundObject", boundObjectTwo);
+            BrowserOne.JavascriptObjectRepository.Register("boundObject", boundObjectOne, false);
+            BrowserTwo.JavascriptObjectRepository.Register("boundObject", boundObjectTwo, false);
         }
 
         private void ExecuteCallbackImmediatelyClick(object sender, RoutedEventArgs e)

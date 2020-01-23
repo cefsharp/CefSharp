@@ -379,6 +379,7 @@ namespace CefSharp.OffScreen
 
             if (disposing)
             {
+                CanExecuteJavascriptInMainFrame = false;
                 IsBrowserInitialized = false;
 
                 // Don't reference event listeners any longer:
@@ -610,6 +611,7 @@ namespace CefSharp.OffScreen
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
+            this.ThrowExceptionIfDisposed();
             this.ThrowExceptionIfBrowserNotInitialized();
 
             return browser;

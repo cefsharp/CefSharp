@@ -513,6 +513,7 @@ namespace CefSharp.WinForms
         {
             if (disposing)
             {
+                CanExecuteJavascriptInMainFrame = false;
                 IsBrowserInitialized = false;
 
                 // Don't maintain a reference to event listeners anylonger:
@@ -911,6 +912,7 @@ namespace CefSharp.WinForms
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
+            this.ThrowExceptionIfDisposed();
             this.ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
