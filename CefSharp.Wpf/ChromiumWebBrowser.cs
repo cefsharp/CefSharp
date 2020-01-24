@@ -140,11 +140,28 @@ namespace CefSharp.Wpf
         /// </summary>
         private static bool DesignMode;
 
+        private bool resizeHackForIssue2779Enabled;
+        private CefSharp.Structs.Size? resizeHackForIssue2779Size;
+
         /// <summary>
         /// The value for disposal, if it's 1 (one) then this instance is either disposed
         /// or in the process of getting disposed
         /// </summary>
         private int disposeSignaled;
+
+        /// <summary>
+        /// Hack to work around issue https://github.com/cefsharp/CefSharp/issues/2779
+        /// Enabled by default
+        /// </summary>
+        public bool EnableResizeHackForIssue2779 { get; set; }
+
+        /// <summary>
+        /// Number of miliseconds to wait after resizing the browser when it first
+        /// becomes visible. After the delay the browser will revert to it's
+        /// original size.
+        /// Hack to work around issue https://github.com/cefsharp/CefSharp/issues/2779
+        /// </summary>
+        public int ResizeHackForIssue2279DelayInMs { get; set; }
 
         /// <summary>
         /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
@@ -643,6 +660,9 @@ namespace CefSharp.Wpf
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void NoInliningConstructor()
         {
+            EnableResizeHackForIssue2779 = true;
+            ResizeHackForIssue2279DelayInMs = 50;
+
             //Initialize CEF if it hasn't already been initialized
             if (!Cef.IsInitialized)
             {
@@ -909,7 +929,18 @@ namespace CefSharp.Wpf
         /// <returns>View Rectangle</returns>
         protected virtual Rect GetViewRect()
         {
-            return viewRect;
+            //Take a local copy as the value is set on a different thread,
+            //Its possible the struct is set to null after our initial check.
+            var resizeRect = resizeHackForIssue2779Size;
+
+            if (resizeRect == null)
+            {
+                return viewRect;
+            }
+
+            var size = resizeRect.Value;
+
+            return new Rect(0, 0, size.Width, size.Height);
         }
 
         bool IRenderWebBrowser.GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY)
@@ -1054,6 +1085,11 @@ namespace CefSharp.Wpf
         /// <param name="height">height</param>
         protected virtual void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
+            if (resizeHackForIssue2779Enabled)
+            {
+                return;
+            }
+
             var paint = Paint;
             if (paint != null)
             {
@@ -1868,7 +1904,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void OnWindowStateChanged(object sender, EventArgs e)
+        private async void OnWindowStateChanged(object sender, EventArgs e)
         {
             var window = (Window)sender;
 
@@ -1879,16 +1915,54 @@ namespace CefSharp.Wpf
                 {
                     if (previousWindowState == WindowState.Minimized && browser != null)
                     {
-                        browser.GetHost().WasHidden(false);
+                        await CefUiThreadRunAsync(async () =>
+                        {
+                            var host = browser?.GetHost();
+                            if (host != null && !host.IsDisposed)
+                            {
+                                try
+                                {
+                                    host.WasHidden(false);
+
+                                    await ResizeHackFor2779();
+                                }
+                                catch (ObjectDisposedException)
+                                {
+                                    // Because Dispose runs in another thread there's a race condition between
+                                    // that and this code running on the CEF UI thread, so the host could be disposed
+                                    // between the check and using it. We can either synchronize access using locking
+                                    // (potentially blocking the UI thread in Dispose) or catch the extremely rare
+                                    // exception, which is what we do here
+                                }
+                            }
+                        });
                     }
+
                     break;
                 }
                 case WindowState.Minimized:
                 {
-                    if (browser != null)
+                    await CefUiThreadRunAsync(() =>
                     {
-                        browser.GetHost().WasHidden(true);
-                    }
+                        var host = browser?.GetHost();
+                        if (host != null && !host.IsDisposed)
+                        {
+                            if (EnableResizeHackForIssue2779)
+                            {
+                                resizeHackForIssue2779Enabled = true;
+                            }
+
+                            try
+                            {
+                                host.WasHidden(true);
+                            }
+                            catch (ObjectDisposedException)
+                            {
+                                // See comment in catch in OnWindowStateChanged
+                            }
+                        }
+                    });
+
                     break;
                 }
             }
@@ -2031,6 +2105,24 @@ namespace CefSharp.Wpf
             }
         }
 
+        protected async Task CefUiThreadRunAsync(Action action)
+        {
+            if (!IsDisposed && InternalIsBrowserInitialized())
+            {
+                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+                {
+                    action();
+                }
+                else
+                {
+                    await Cef.UIThreadTaskFactory.StartNew(delegate
+                    {
+                        action();
+                    });
+                }
+            }
+        }
+
         /// <summary>
         /// Runs the specific Action on the Dispatcher in an sync fashion
         /// </summary>
@@ -2053,20 +2145,44 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="SizeChangedEventArgs"/> instance containing the event data.</param>
-        private void OnActualSizeChanged(object sender, SizeChangedEventArgs e)
+        private async void OnActualSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
             CreateOffscreenBrowser(e.NewSize);
 
+            if (InternalIsBrowserInitialized())
+            {
+                await CefUiThreadRunAsync(() =>
+                {
+                    SetViewRect(e);
+
+                    var host = browser?.GetHost();
+                    if (host != null && !host.IsDisposed)
+                    {
+                        try
+                        {
+                            host.WasResized();
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // See comment in catch in OnWindowStateChanged
+                        }
+                    }
+                });
+            }
+            else
+            {
+                //If the browser hasn't been created yet then directly update the viewRect
+                SetViewRect(e);
+            }
+        }
+
+        private void SetViewRect(SizeChangedEventArgs e)
+        {
             //NOTE: Previous we used Math.Ceiling to round the sizing up, we
             //now set UseLayoutRounding = true; on the control so the sizes are
             //already rounded to a whole number for us.
             viewRect = new Rect(0, 0, (int)e.NewSize.Width, (int)e.NewSize.Height);
-
-            if (browser != null)
-            {
-                browser.GetHost().WasResized();
-            }
         }
 
         /// <summary>
@@ -2074,31 +2190,52 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
-        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
+        private async void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
             var isVisible = (bool)args.NewValue;
 
             if (browser != null)
             {
-                var host = browser.GetHost();
-                host.WasHidden(!isVisible);
+                await CefUiThreadRunAsync(async () =>
+                {
+                    var host = browser?.GetHost();
+                    if (host != null && !host.IsDisposed)
+                    {
+                        try
+                        {
+                            host.WasHidden(!isVisible);
 
-                if (isVisible)
+                            if (isVisible)
+                            {
+                                await ResizeHackFor2779();
+                            }
+                            else if (EnableResizeHackForIssue2779)
+                            {
+                                resizeHackForIssue2779Enabled = true;
+                            }
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // See comment in catch in OnWindowStateChanged
+                        }
+                    }
+                });
+
+                if (browser != null)
                 {
                     //Fix for #1778 - When browser becomes visible we update the zoom level
                     //browsers of the same origin will share the same zoomlevel and
                     //we need to track the update, so our ZoomLevelProperty works
                     //properly
-                    host.GetZoomLevelAsync().ContinueWith(t =>
+                    var zoomLevel = await browser.GetHost().GetZoomLevelAsync();
+
+                    UiThreadRunAsync(() =>
                     {
                         if (!IsDisposed)
                         {
-                            SetCurrentValue(ZoomLevelProperty, t.Result);
+                            SetCurrentValue(ZoomLevelProperty, zoomLevel);
                         }
-                    },
-                    CancellationToken.None,
-                    TaskContinuationOptions.OnlyOnRanToCompletion,
-                    TaskScheduler.FromCurrentSynchronizationContext());
+                    });
                 }
             }
         }
@@ -2737,6 +2874,31 @@ namespace CefSharp.Wpf
             // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
             // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
             return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
+        }
+
+        private async Task ResizeHackFor2779()
+        {
+            if (EnableResizeHackForIssue2779)
+            {
+                var host = browser?.GetHost();
+                if (host != null && !host.IsDisposed)
+                {
+                    resizeHackForIssue2779Size = new Structs.Size(viewRect.Width + 1, viewRect.Height + 1);
+                    host.WasResized();
+
+                    await Task.Delay(ResizeHackForIssue2279DelayInMs);
+
+                    if (!host.IsDisposed)
+                    {
+                        resizeHackForIssue2779Size = null;
+                        host.WasResized();
+
+                        resizeHackForIssue2779Enabled = false;
+
+                        host.Invalidate(PaintElementType.View);
+                    }
+                }
+            }
         }
     }
 }
