@@ -48,6 +48,9 @@ namespace CefSharp
             _ownsPointer = true;
         }
 
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
         !BrowserSettings()
         {
             if (_ownsPointer)
@@ -59,6 +62,9 @@ namespace CefSharp
             _isDisposed = true;
         }
 
+        /// <summary>
+        /// Destructor.
+        /// </summary>
         ~BrowserSettings()
         {
             this->!BrowserSettings();
@@ -392,6 +398,9 @@ namespace CefSharp
             bool get() { return _isDisposed; }
         }
 
+        /// <summary>
+        /// True if framework created.
+        /// </summary>
         virtual property bool FrameworkCreated
         {
             bool get() { return _frameworkCreated; }

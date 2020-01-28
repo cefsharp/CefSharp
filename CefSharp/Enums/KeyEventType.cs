@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Values that represent key event types.
+    /// </summary>
     public enum KeyEventType
     {
         /// <summary>

@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Values that represent referrer policies.
+    /// </summary>
     public enum ReferrerPolicy
     {
         /// <summary>

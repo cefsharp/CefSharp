@@ -17,6 +17,10 @@ using namespace System::Collections::ObjectModel;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Form Post Data
+    /// </summary>
+    /// <seealso cref="T:IPostData"/>
     public ref class PostData : public IPostData, public CefWrapper
     {
         MCefRefPtr<CefPostData> _postData;
@@ -29,11 +33,17 @@ namespace CefSharp
 
         }
 
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
         !PostData()
         {
             _postData = nullptr;
         }
 
+        /// <summary>
+        /// Destructor.
+        /// </summary>
         ~PostData()
         {
             this->!PostData();
@@ -52,12 +62,30 @@ namespace CefSharp
             _disposed = true;
         }
 
+        /// <summary>
+        /// Throw exception if Readonly
+        /// </summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        void ThrowIfReadOnly()
+        {
+            if (IsReadOnly)
+            {
+                throw gcnew Exception(gcnew String(L"This IPostDataWrapper is readonly and cannot be modified."));
+            }
+        }
+
     public:
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         PostData()
         {
             _postData = CefPostData::Create();
         }
 
+        /// <summary>
+        /// Returns true if this object is read-only.
+        /// </summary>
         virtual property bool IsReadOnly
         {
             bool get()
@@ -68,6 +96,9 @@ namespace CefSharp
             }
         }
 
+        /// <summary>
+        /// Retrieve the post data elements.
+        /// </summary>
         virtual property IList<IPostDataElement^>^ Elements
         {
             IList<IPostDataElement^>^ get()
@@ -99,6 +130,11 @@ namespace CefSharp
             }
         }
 
+        /// <summary>
+        /// Add the specified <see cref="IPostDataElement"/>.
+        /// </summary>
+        /// <param name="element">element to be added.</param>
+        /// <returns>Returns true if the add succeeds.</returns>
         virtual bool AddElement(IPostDataElement^ element)
         {
             ThrowIfDisposed();
@@ -121,6 +157,11 @@ namespace CefSharp
             return _postData->AddElement(elementWrapper);
         }
 
+        /// <summary>
+        /// Remove  the specified <see cref="IPostDataElement"/>.
+        /// </summary>
+        /// <param name="element">element to be removed.</param>
+        /// <returns> Returns true if the add succeeds.</returns>
         virtual bool RemoveElement(IPostDataElement^ element)
         {
             ThrowIfDisposed();
@@ -142,6 +183,9 @@ namespace CefSharp
             return _postData->RemoveElement(elementWrapper);
         }
 
+        /// <summary>
+        /// Remove all existing post data elements.
+        /// </summary>
         virtual void RemoveElements()
         {
             ThrowIfDisposed();
@@ -151,6 +195,10 @@ namespace CefSharp
             _postData->RemoveElements();
         }
 
+        /// <summary>
+        /// Create a new <see cref="IPostDataElement"/> instance
+        /// </summary>
+        /// <returns>PostDataElement</returns>
         virtual IPostDataElement^ CreatePostDataElement()
         {
             auto element = CefPostDataElement::Create();
@@ -158,6 +206,12 @@ namespace CefSharp
             return gcnew PostDataElement(element);
         }
 
+        /// <summary>
+        /// Returns true if the underlying POST data includes elements that are not
+        /// represented by this IPostData object (for example, multi-part file upload
+        /// data). Modifying IPostData objects with excluded elements may result in
+        /// the request failing.
+        /// </summary>
         virtual property bool HasExcludedElements
         {
             bool get()
@@ -165,14 +219,6 @@ namespace CefSharp
                 ThrowIfDisposed();
 
                 return _postData->HasExcludedElements();
-            }
-        }
-
-        void ThrowIfReadOnly()
-        {
-            if (IsReadOnly)
-            {
-                throw gcnew Exception(gcnew String(L"This IPostDataWrapper is readonly and cannot be modified."));
             }
         }
 

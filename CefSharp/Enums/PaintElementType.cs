@@ -9,7 +9,13 @@ namespace CefSharp
     /// </summary>
     public enum PaintElementType
     {
+        /// <summary>
+        /// An enum constant representing the view option.
+        /// </summary>
         View = 0,
+        /// <summary>
+        /// An enum constant representing the popup option.
+        /// </summary>
         Popup
     };
 }

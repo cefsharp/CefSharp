@@ -11,6 +11,7 @@
 
 namespace CefSharp
 {
+    /// <exclude />
     public ref class CookieManager : public ICookieManager
     {
     private:

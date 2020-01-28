@@ -28,6 +28,7 @@ using CefSharp;
 
 namespace CefSharp
 {
+    /// <exclude />
     public static class AssemblyInfo
     {
         public const bool ClsCompliant = false;

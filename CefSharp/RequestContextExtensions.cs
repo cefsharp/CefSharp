@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// RequestContext extensions.
+    /// </summary>
     public static class RequestContextExtensions
     {
         /// <summary>

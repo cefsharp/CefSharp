@@ -79,7 +79,7 @@ namespace CefSharp
         /// <summary>
         /// Called before a resource is loaded. To specify a handler for the resource return a <see cref="ResourceHandler"/> object
         /// </summary>
-        /// <param name="browserControl">The browser UI control</param>
+        /// <param name="chromiumWebBrowser">The browser UI control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="frame">the frame object</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>

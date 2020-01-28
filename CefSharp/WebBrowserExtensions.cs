@@ -57,7 +57,7 @@ namespace CefSharp
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
         /// </summary>
-        /// <param name="webBrowser">the ChromiumWebBrowser instance</param>
+        /// <param name="browser">the ChromiumWebBrowser instance</param>
         /// <returns>Frame</returns>
         public static IFrame GetMainFrame(this IWebBrowser browser)
         {
@@ -874,6 +874,15 @@ namespace CefSharp
             cefBrowser.AddWordToDictionary(word);
         }
 
+        /// <summary>
+        /// Send a mouse wheel event to the browser.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="x">The x coordinate relative to upper-left corner of view.</param>
+        /// <param name="y">The y coordinate relative to upper-left corner of view.</param>
+        /// <param name="deltaX">The delta x coordinate.</param>
+        /// <param name="deltaY">The delta y coordinate.</param>
+        /// <param name="modifiers">The modifiers.</param>
         public static void SendMouseWheelEvent(this IWebBrowser browser, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
             var cefBrowser = browser.GetBrowser();
@@ -882,6 +891,15 @@ namespace CefSharp
             cefBrowser.SendMouseWheelEvent(x, y, deltaX, deltaY, modifiers);
         }
 
+        /// <summary>
+        /// Send a mouse wheel event to the browser.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="x">The x coordinate relative to upper-left corner of view.</param>
+        /// <param name="y">The y coordinate relative to upper-left corner of view.</param>
+        /// <param name="deltaX">The delta x coordinate.</param>
+        /// <param name="deltaY">The delta y coordinate.</param>
+        /// <param name="modifiers">The modifiers.</param>
         public static void SendMouseWheelEvent(this IBrowser browser, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
             browser.ThrowExceptionIfBrowserNull();
@@ -892,6 +910,15 @@ namespace CefSharp
             host.SendMouseWheelEvent(new MouseEvent(x, y, modifiers), deltaX, deltaY);
         }
 
+        /// <summary>
+        /// Send a mouse wheel event to the browser.
+        /// </summary>
+        /// <param name="host">browserHost.</param>
+        /// <param name="x">The x coordinate relative to upper-left corner of view.</param>
+        /// <param name="y">The y coordinate relative to upper-left corner of view.</param>
+        /// <param name="deltaX">The delta x coordinate.</param>
+        /// <param name="deltaY">The delta y coordinate.</param>
+        /// <param name="modifiers">The modifiers.</param>
         public static void SendMouseWheelEvent(this IBrowserHost host, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
             ThrowExceptionIfBrowserHostNull(host);
@@ -899,6 +926,16 @@ namespace CefSharp
             host.SendMouseWheelEvent(new MouseEvent(x, y, modifiers), deltaX, deltaY);
         }
 
+        /// <summary>
+        /// Send a mouse click event to the browser.
+        /// </summary>
+        /// <param name="host">browserHost.</param>
+        /// <param name="x">The x coordinate relative to upper-left corner of view.</param>
+        /// <param name="y">The y coordinate relative to upper-left corner of view.</param>
+        /// <param name="mouseButtonType">Type of the mouse button.</param>
+        /// <param name="mouseUp">True to mouse up.</param>
+        /// <param name="clickCount">Number of clicks.</param>
+        /// <param name="modifiers">The modifiers.</param>
         public static void SendMouseClickEvent(this IBrowserHost host, int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
             ThrowExceptionIfBrowserHostNull(host);
@@ -906,6 +943,14 @@ namespace CefSharp
             host.SendMouseClickEvent(new MouseEvent(x, y, modifiers), mouseButtonType, mouseUp, clickCount);
         }
 
+        /// <summary>
+        /// Send a mouse move event to the browser
+        /// </summary>
+        /// <param name="host">browserHost.</param>
+        /// <param name="x">The x coordinate relative to upper-left corner of view.</param>
+        /// <param name="y">The y coordinate relative to upper-left corner of view.</param>
+        /// <param name="mouseLeave">mouse leave</param>
+        /// <param name="modifiers">The modifiers.</param>
         public static void SendMouseMoveEvent(this IBrowserHost host, int x, int y, bool mouseLeave, CefEventFlags modifiers)
         {
             ThrowExceptionIfBrowserHostNull(host);
@@ -913,6 +958,18 @@ namespace CefSharp
             host.SendMouseMoveEvent(new MouseEvent(x, y, modifiers), mouseLeave);
         }
 
+        /// <summary>
+        /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
+        /// asynchronously and the method returns a Task encapsulating the response from the Javascript This simple helper extension will
+        /// encapsulate params in single quotes (unless int, uint, etc)
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        /// <param name="timeout">(Optional) The timeout after which the Javascript code execution should be aborted.</param>
+        /// <returns>
+        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
+        /// </returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null)
         {
             if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32.MaxValue)
@@ -965,6 +1022,11 @@ namespace CefSharp
             return browser.EvaluateScriptAsync(script, timeout);
         }
 
+        /// <summary>
+        /// An IWebBrowser extension method that sets the <see cref="IWebBrowserInternal.HasParent"/>
+        /// property used when passing a ChromiumWebBrowser instance to <see cref="ILifeSpanHandler.OnBeforePopup"/>
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void SetAsPopup(this IWebBrowser browser)
         {
             var internalBrowser = (IWebBrowserInternal)browser;

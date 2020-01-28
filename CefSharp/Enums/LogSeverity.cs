@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// LogSeverity
+    /// </summary>
     public enum LogSeverity
     {
         /// <summary>

@@ -15,10 +15,30 @@ namespace CefSharp
     {
         private static readonly IBinder Binder = new DefaultBinder();
 
+
+        /// <summary>
+        /// The frame that called CefSharp.PostMessage in Javascript
+        /// </summary>
         public IFrame Frame { get; private set; }
+
+        /// <summary>
+        /// The browser that hosts the <see cref="IFrame"/>
+        /// </summary>
         public IBrowser Browser { get; private set; }
+
+        /// <summary>
+        /// Message can be a primative type or a simple object that represents a copy
+        /// of the data sent from the browser
+        /// </summary>
         public object Message { get; private set; }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="browser">The browser that hosts the <see cref="IFrame"/></param>
+        /// <param name="frame">The frame that called CefSharp.PostMessage in Javascript.</param>
+        /// <param name="message">Message can be a primative type or a simple object that represents a copy of the data sent from the
+        /// browser.</param>
         public JavascriptMessageReceivedEventArgs(IBrowser browser, IFrame frame, object message)
         {
             Browser = browser;
