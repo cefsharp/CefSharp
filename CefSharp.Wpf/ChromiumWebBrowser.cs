@@ -30,7 +30,6 @@ namespace CefSharp.Wpf
     /// ChromiumWebBrowser is the WPF web browser control
     /// </summary>
     /// <seealso cref="System.Windows.Controls.Control" />
-    /// <seealso cref="CefSharp.Internals.IRenderWebBrowser" />
     /// <seealso cref="CefSharp.Wpf.IWpfWebBrowser" />
     [TemplatePart(Name = PartImageName, Type = typeof(Image))]
     [TemplatePart(Name = PartPopupImageName, Type = typeof(Image))]
