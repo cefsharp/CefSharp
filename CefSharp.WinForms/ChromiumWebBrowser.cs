@@ -18,7 +18,6 @@ namespace CefSharp.WinForms
     /// ChromiumWebBrowser is the WinForms web browser control
     /// </summary>
     /// <seealso cref="System.Windows.Forms.Control" />
-    /// <seealso cref="CefSharp.Internals.IWebBrowserInternal" />
     /// <seealso cref="CefSharp.WinForms.IWinFormsWebBrowser" />
     [Docking(DockingBehavior.AutoDock), DefaultEvent("LoadingStateChanged"), ToolboxBitmap(typeof(ChromiumWebBrowser)),
     Description("CefSharp ChromiumWebBrowser - Chromium Embedded Framework .Net wrapper. https://github.com/cefsharp/CefSharp"),
