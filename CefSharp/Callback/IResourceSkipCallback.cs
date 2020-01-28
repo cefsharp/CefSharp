@@ -7,7 +7,7 @@ using System;
 namespace CefSharp.Callback
 {
     /// <summary>
-    /// Callback for asynchronous continuation of <see cref="IResourceHandler.Skip(long, long, IResourceSkipCallback)"/>.
+    /// Callback for asynchronous continuation of <see cref="IResourceHandler.Skip"/>.
     /// </summary>
     public interface IResourceSkipCallback : IDisposable
     {

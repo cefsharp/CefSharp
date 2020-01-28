@@ -27,6 +27,7 @@ namespace CefSharp
         /// <summary>
         /// Execute the javascript callback
         /// </summary>
+        /// <param name="timeout">timeout</param>
         /// <param name="parms">param array of objects</param>
         /// <returns>JavascriptResponse</returns>
         Task<JavascriptResponse> ExecuteWithTimeoutAsync(TimeSpan? timeout, params object[] parms);

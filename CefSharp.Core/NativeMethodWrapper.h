@@ -8,6 +8,7 @@
 
 namespace CefSharp
 {
+    /// <exclude />
     public ref class NativeMethodWrapper sealed
     {
     public:

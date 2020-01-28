@@ -11,7 +11,8 @@ namespace CefSharp
     public interface IResourceRequestHandler
     {
         /// <summary>
-        /// Called on the CEF IO thread before a resource request is loaded. . 
+        /// Called on the CEF IO thread before a resource request is loaded.
+        /// To optionally filter cookies for the request return a <see cref="ICookieAccessFilter"/> object.
         /// </summary>
         /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object - may be null if originating from ServiceWorker or CefURLRequest</param>

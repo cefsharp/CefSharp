@@ -59,7 +59,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
-        /// <param name="process">ranges from 0.0 to 1.0.</param>
+        /// <param name="progress">ranges from 0.0 to 1.0.</param>
         void OnLoadingProgressChange(IWebBrowser chromiumWebBrowser, IBrowser browser, double progress);
 
         /// <summary>

@@ -9,8 +9,17 @@ namespace CefSharp
     /// </summary>
     public enum PostDataElementType
     {
+        /// <summary>
+        /// An enum constant representing the empty option.
+        /// </summary>
         Empty = 0,
+        /// <summary>
+        /// An enum constant representing the bytes option.
+        /// </summary>
         Bytes,
+        /// <summary>
+        /// An enum constant representing the file option.
+        /// </summary>
         File
     }
 }

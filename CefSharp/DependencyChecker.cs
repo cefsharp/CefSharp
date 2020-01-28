@@ -52,6 +52,9 @@ namespace CefSharp
             "cef_200_percent.pak"
         };
 
+        /// <summary>
+        /// List of Optional CEF Dependencies
+        /// </summary>
         public static string[] CefOptionalDependencies =
         {
             // Angle and Direct3D support
@@ -177,7 +180,7 @@ namespace CefSharp
             string path;
 
             Uri pathUri;
-            if(Uri.TryCreate(browserSubProcessPath, UriKind.Absolute, out pathUri) && pathUri.IsAbsoluteUri)
+            if (Uri.TryCreate(browserSubProcessPath, UriKind.Absolute, out pathUri) && pathUri.IsAbsoluteUri)
             {
                 path = Path.GetDirectoryName(browserSubProcessPath);
             }
@@ -186,7 +189,7 @@ namespace CefSharp
                 var executingAssembly = Assembly.GetExecutingAssembly();
 
                 path = Path.GetDirectoryName(executingAssembly.Location);
-            }            
+            }
 
             if (string.IsNullOrEmpty(locale))
             {

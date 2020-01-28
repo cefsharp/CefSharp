@@ -17,12 +17,23 @@ namespace CefSharp
     {
         private readonly IDictionary<string, string> _attributes;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="tagName">Name of the tag.</param>
+        /// <param name="attributes">The attributes.</param>
         public DomNode(string tagName, IDictionary<string, string> attributes)
         {
             TagName = tagName;
             _attributes = attributes;
         }
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -47,6 +58,13 @@ namespace CefSharp
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Get the value of an attribute.
+        /// </summary>
+        /// <param name="name">The name of the attribute value to get.</param>
+        /// <returns>
+        /// The attribute value if the name exists in the DomNode's attributes. Null if the name does not exist.
+        /// </returns>
         public string this[string name]
         {
             get
@@ -60,8 +78,20 @@ namespace CefSharp
             }
         }
 
+        /// <summary>
+        /// The name of the HTML element.
+        /// </summary>
+        /// <value>
+        /// The name of the tag.
+        /// </value>
         public string TagName { get; private set; }
 
+        /// <summary>
+        /// Get a read only list of the attribute names.
+        /// </summary>
+        /// <value>
+        /// A list of names of the attributes.
+        /// </value>
         public ReadOnlyCollection<string> AttributeNames
         {
             get
@@ -75,6 +105,13 @@ namespace CefSharp
             }
         }
 
+        /// <summary>
+        /// Determine if the DomNode has the requested attribute.
+        /// </summary>
+        /// <param name="attributeName">The name of the attribute value.</param>
+        /// <returns>
+        /// True if the attribute exists in the DomNode, false if it does not.
+        /// </returns>
         public bool HasAttribute(string attributeName)
         {
             if (_attributes == null)
@@ -85,6 +122,12 @@ namespace CefSharp
             return _attributes.ContainsKey(attributeName);
         }
 
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns>
+        /// The enumerator.
+        /// </returns>
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
             if (_attributes == null)

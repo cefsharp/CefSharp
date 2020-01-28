@@ -35,7 +35,7 @@ namespace CefSharp
         /// <summary>
         /// Called on the CEF IO thread before a resource request is initiated.
         /// This method will not be called if the client associated with <paramref name="browser"/> returns a non-NULL value
-        /// from <see cref="IRequestHandler.GetResourceRequestHandler"/> for the same request (identified by <see cref="IRequest.GetIdentifier"/>).
+        /// from <see cref="IRequestHandler.GetResourceRequestHandler"/> for the same request (identified by <see cref="IRequest.Identifier"/>).
         /// </summary>
         /// <param name="browser">represent the source browser of the request, and may be null for requests originating from service workers.</param>
         /// <param name="frame">represent the source frame of the request, and may be null for requests originating from service workers.</param>

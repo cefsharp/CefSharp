@@ -33,6 +33,11 @@ using namespace msclr::interop;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Global CEF methods are exposed through this class. e.g. CefInitalize maps to Cef.Initialize
+    /// CEF API Doc https://magpcss.org/ceforum/apidocs3/projects/(default)/(_globals).html
+    /// This class cannot be inherited.
+    /// </summary>
     public ref class Cef sealed
     {
     private:
@@ -688,7 +693,7 @@ namespace CefSharp
         /// The client application is responsible for downloading an appropriate
         /// platform-specific CDM binary distribution from Google, extracting the
         /// contents, and building the required directory structure on the local machine.
-        /// The <see cref="CefSharp.IBrowserHost.StartDownload"/> method class can be used
+        /// The <see cref="CefSharp::IBrowserHost::StartDownload"/> method class can be used
         /// to implement this functionality in CefSharp. Contact Google via
         /// https://www.widevine.com/contact.html for details on CDM download.
         /// 
@@ -702,7 +707,7 @@ namespace CefSharp
         ///
         /// If any of these files are missing or if the manifest file has incorrect
         /// contents the registration will fail and callback will receive an ErrorCode
-        /// value of <see cref="CefSharp.CdmRegistrationErrorCode.IncorrectContents"/>.
+        /// value of <see cref="CefSharp::CdmRegistrationErrorCode::IncorrectContents"/>.
         ///
         /// The manifest.json file must contain the following keys:
         ///   A. "os": Supported OS (e.g. "mac", "win" or "linux").
@@ -715,13 +720,13 @@ namespace CefSharp
         ///
         /// A through E are used to verify compatibility with the current Chromium
         /// version. If the CDM is not compatible the registration will fail and
-        /// callback will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode.Incompatible"/>.
+        /// callback will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode::Incompatible"/>.
         ///
         /// If registration is not supported at the time that Cef.RegisterWidevineCdm() is called then callback
-        /// will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode.NotSupported"/>.
+        /// will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode::NotSupported"/>.
         /// </summary>
         /// <param name="path"> is a directory that contains the Widevine CDM files</param>
-        /// <param name="callback">optional callback - <see cref="IRegisterCdmCallback.OnRegistrationCompletecallback"/> 
+        /// <param name="callback">optional callback - <see cref="IRegisterCdmCallback::OnRegistrationCompletecallback"/> 
         /// will be executed asynchronously once registration is complete</param>
         static void RegisterWidevineCdm(String^ path, [Optional] IRegisterCdmCallback^ callback)
         {
