@@ -44,15 +44,15 @@ namespace CefSharp
         bool IsLoading { get; }
 
         /// <summary>
-        /// Request that the browser close. The JavaScript 'onbeforeunload' event will
-        /// be fired. If |forceClose| is false the event handler, if any, will be
-        /// allowed to prompt the user and the user can optionally cancel the close.
-        /// If |force_close| is true the prompt will not be displayed and the close
-        /// will proceed. Results in a call to CefLifeSpanHandler::DoClose() if the
-        /// event handler allows the close or if |force_close| is true. See
-        /// CefLifeSpanHandler::DoClose() documentation for additional usage
-        /// information.
+        /// Request that the browser close. The JavaScript 'onbeforeunload' event will be fired.
         /// </summary>
+        /// <param name="forceClose">
+        /// If forceClose is false the event handler, if any, will be allowed to prompt the user and the
+        /// user can optionally cancel the close. If forceClose is true the prompt will not be displayed
+        /// and the close will proceed. Results in a call to <see cref="ILifeSpanHandler.DoClose"/> if
+        /// the event handler allows the close or if forceClose is true
+        /// See <see cref="ILifeSpanHandler.DoClose"/> documentation for additional usage information.
+        /// </param>
         void CloseBrowser(bool forceClose);
 
         /// <summary>
