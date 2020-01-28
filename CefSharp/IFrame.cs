@@ -195,6 +195,8 @@ namespace CefSharp
         ///
         /// The request object will be marked as read-only after calling this method. 
         /// </summary>
+        /// <param name="request">the web request</param>
+        /// <param name="client">the client</param>
         IUrlRequest CreateUrlRequest(IRequest request, IUrlRequestClient client);
     }
 }
