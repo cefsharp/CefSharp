@@ -36,7 +36,14 @@ namespace CefSharp.Wpf
     [TemplatePart(Name = PartPopupImageName, Type = typeof(Image))]
     public class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
     {
+        /// <summary>
+        /// TemplatePart Name constant for the Image used to represent the browser
+        /// </summary>
         public const string PartImageName = "PART_image";
+        /// <summary>
+        /// TemplatePart Name constant for the Image used to represent the popup
+        /// overlayed on the browser
+        /// </summary>
         public const string PartPopupImageName = "PART_popupImage";
 
         /// <summary>
@@ -1981,6 +1988,13 @@ namespace CefSharp.Wpf
             }
         }
 
+        /// <summary>
+        /// Run the Action on the CEF UI Thread in an async fashion
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>
+        /// An asynchronous result.
+        /// </returns>
         protected async Task CefUiThreadRunAsync(Action action)
         {
             if (!IsDisposed && InternalIsBrowserInitialized())
@@ -2471,6 +2485,11 @@ namespace CefSharp.Wpf
             base.OnMouseLeave(e);
         }
 
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.LostMouseCapture" /> attached event reaches an element in
+        /// its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains event data.</param>
         protected override void OnLostMouseCapture(MouseEventArgs e)
         {
             if (!e.Handled && browser != null)
