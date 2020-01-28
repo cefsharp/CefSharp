@@ -241,15 +241,15 @@ namespace CefSharp
         auto frames = CefListValue::Create();
         for (auto i = 0; i < stackTrace->GetFrameCount(); i++)
         {
-            auto frame = CefListValue::Create();
+            auto stackTraceFrame = CefListValue::Create();
             auto frameArg = stackTrace->GetFrame(i);
 
-            frame->SetString(0, frameArg->GetFunctionName());
-            frame->SetInt(1, frameArg->GetLineNumber());
-            frame->SetInt(2, frameArg->GetColumn());
-            frame->SetString(3, frameArg->GetScriptNameOrSourceURL());
+            stackTraceFrame->SetString(0, frameArg->GetFunctionName());
+            stackTraceFrame->SetInt(1, frameArg->GetLineNumber());
+            stackTraceFrame->SetInt(2, frameArg->GetColumn());
+            stackTraceFrame->SetString(3, frameArg->GetScriptNameOrSourceURL());
 
-            frames->SetList(i, frame);
+            frames->SetList(i, stackTraceFrame);
         }
 
         list->SetList(1, frames);
@@ -579,8 +579,8 @@ namespace CefSharp
                             for (auto i = 0; i < javascriptObjects->Count; i++)
                             {
                                 auto dict = CefDictionaryValue::Create();
-                                auto name = javascriptObjects[i]->JavascriptName;
-                                dict->SetString("Name", StringUtils::ToNative(name));
+                                auto objectName = javascriptObjects[i]->JavascriptName;
+                                dict->SetString("Name", StringUtils::ToNative(objectName));
                                 dict->SetBool("IsCached", false);
                                 dict->SetBool("AlreadyBound", false);
 

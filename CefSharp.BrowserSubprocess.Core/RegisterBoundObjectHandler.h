@@ -96,8 +96,6 @@ namespace CefSharp
 
                             auto objectName = arguments[0]->GetStringValue();
 
-                            auto global = context->GetGlobal();
-
                             auto success = global->DeleteValue(objectName);
 
                             retval = CefV8Value::CreateBool(success);
