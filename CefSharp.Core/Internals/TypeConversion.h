@@ -159,8 +159,8 @@ namespace CefSharp
                     for each (System::Collections::DictionaryEntry entry in dictionary)
                     {
                         auto key = StringUtils::ToNative(Convert::ToString(entry.Key));
-                        auto value = entry.Value;
-                        SerializeV8Object(cefDictionary, key, value);
+                        auto entryValue = entry.Value;
+                        SerializeV8Object(cefDictionary, key, entryValue);
                     }
 
                     cefValue->SetDictionary(cefDictionary);

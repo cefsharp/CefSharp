@@ -190,9 +190,9 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), isPopup);
+                auto innerBrowserWrapper = GetBrowserWrapper(browser->GetIdentifier(), isPopup);
 
-                handler->OnAfterCreated(_browserControl, browserWrapper);
+                handler->OnAfterCreated(_browserControl, innerBrowserWrapper);
             }
         }
 
@@ -1026,11 +1026,11 @@ namespace CefSharp
                     for (auto i = 0; i < boundObjects->GetSize(); i++)
                     {
                         auto obj = boundObjects->GetDictionary(i);
-                        auto name = obj->GetString("Name");
+                        auto objectName = obj->GetString("Name");
                         auto alreadyBound = obj->GetBool("AlreadyBound");
                         auto isCached = obj->GetBool("IsCached");
 
-                        objs->Add(Tuple::Create(StringUtils::ToClr(name), alreadyBound, isCached));
+                        objs->Add(Tuple::Create(StringUtils::ToClr(objectName), alreadyBound, isCached));
                     }
 
                     objectRepository->ObjectsBound(objs);
@@ -1137,13 +1137,13 @@ namespace CefSharp
 
                     for (auto i = 0; i < static_cast<int>(argFrames->GetSize()); i++)
                     {
-                        auto frame = argFrames->GetList(i);
+                        auto argFrame = argFrames->GetList(i);
 
                         auto stackFrame = gcnew JavascriptStackFrame();
-                        stackFrame->FunctionName = StringUtils::ToClr(frame->GetString(0));
-                        stackFrame->LineNumber = frame->GetInt(1);
-                        stackFrame->ColumnNumber = frame->GetInt(2);
-                        stackFrame->SourceName = StringUtils::ToClr(frame->GetString(3));
+                        stackFrame->FunctionName = StringUtils::ToClr(argFrame->GetString(0));
+                        stackFrame->LineNumber = argFrame->GetInt(1);
+                        stackFrame->ColumnNumber = argFrame->GetInt(2);
+                        stackFrame->SourceName = StringUtils::ToClr(argFrame->GetString(3));
 
                         stackTrace->Add(stackFrame);
                     }
@@ -1204,9 +1204,9 @@ namespace CefSharp
                     auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                     CefFrameWrapper frameWrapper(frame);
 
-                    auto message = DeserializeObject(argList, 0, callbackFactory);
+                    auto deserializedMessage = DeserializeObject(argList, 0, callbackFactory);
 
-                    _browserControl->SetJavascriptMessageReceived(gcnew JavascriptMessageReceivedEventArgs(browserWrapper, %frameWrapper, message));
+                    _browserControl->SetJavascriptMessageReceived(gcnew JavascriptMessageReceivedEventArgs(browserWrapper, %frameWrapper, deserializedMessage));
                 }
 
                 handled = true;
