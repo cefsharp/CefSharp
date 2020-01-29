@@ -30,17 +30,17 @@ Still have a question to ask or unsure where to go next? Start with the Gitter C
 Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
-    - What version are you using? Nuget? CI Nuget? build from a branch? If so which branch? Please include the exact version number you are using (no ambiguous statements like `Latest from Nuget`)
-e.g. 57.0.0 or 63.0.0-pre01
-    - Please only create an issue if you can reproduce the problem with the latest version. (If you are using the latest stable release please check to see if there is a newer `-pre` release and test with that also).
+    - What version are you using? Nuget? CI Nuget? build from a branch? If so please link to the relevant commit.
+	- Please include the exact version number you are using e.g. 79.1.350 (no ambiguous statements like `Latest from Nuget`)
+    - Please only create an issue if you can reproduce the problem with version 79.1.350 or greater.
 
 - **What architecture x86 or x64?**
-
+    <x86/x64>
 - **On what operating system?**
-    - Win7, Win 8, Win10, etc?
+    <Win7/Win8.1/Win10>
 
 - **Are you using `WinForms`, `WPF` or `OffScreen`?**
-
+    <WinForms/WPF/OffScreen>
 - **What steps will reproduce the problem?**
     - Please provide detailed information here, enough for someone else to reprodce your problem.
     - Please no binary (zip, etc) links, fork the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample) and push your changes to `GitHub`. (Alternatively use a code sharing service list `Gist` or `Pastebin`).
@@ -54,9 +54,11 @@ e.g. 57.0.0 or 63.0.0-pre01
 
     - Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
 
-- **Does this problem also occur in the `CEF` Sample Application from http://opensource.spotify.com/cefbuilds/index.html?**
-
-    - To compare with WPF/OffScreen run cefclient --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu
-    - To compare with WinForms run cefclient --multi-threaded-message-loop
+- **Does this problem also occur in the `CEF` Sample Application**
+    - Download one of the following:
+	    - For x86 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.35%2Bgfebbb4a%2Bchromium-79.0.3945.130_windows32_client.tar.bz2
+	    - For x64 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.35%2Bgfebbb4a%2Bchromium-79.0.3945.130_windows64_client.tar.bz2
+	- If you are using WPF/OffScreen run cefclient --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu
+    - If you are using WinForms run cefclient --multi-threaded-message-loop
+	- **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED ABOVE**
     - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
-    - Please include the version you tested with e.g. `cef_binary_3.3029.1611.g44e39a8_windows64_client.tar.bz2`. It's important to you test with the same version that `CefSharp` is based on. Check the release notes to determine the version (https://github.com/cefsharp/CefSharp/releases) or load `chrome://version` in the browser.
