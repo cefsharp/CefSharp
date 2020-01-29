@@ -42,8 +42,6 @@ namespace CefSharp
                 {
                     try
                     {
-                        auto global = context->GetGlobal();
-
                         if (name == kIsObjectCached || name == kIsObjectCachedCamelCase)
                         {
                             if (arguments.size() == 0 || arguments.size() > 1)
@@ -95,6 +93,8 @@ namespace CefSharp
                             }
 
                             auto objectName = arguments[0]->GetStringValue();
+
+                            auto global = context->GetGlobal();
 
                             auto success = global->DeleteValue(objectName);
 
