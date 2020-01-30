@@ -2440,8 +2440,6 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="TouchEventArgs"/> instance containing the event data.</param>
         private void OnTouch(TouchEventArgs e)
         {
-            var browser = GetBrowser();
-
             if (!e.Handled && browser != null)
             {
                 var modifiers = WpfExtensions.GetModifierKeys();
@@ -2621,7 +2619,14 @@ namespace CefSharp.Wpf
         public IBrowser GetBrowser()
         {
             this.ThrowExceptionIfDisposed();
-            this.ThrowExceptionIfBrowserNotInitialized();
+
+            //We don't use the this.ThrowExceptionIfBrowserNotInitialized(); extension method here
+            // As it relies on the IWebBrowser.IsBrowserInitialized property which is a DependencyProperty
+            // in WPF and will throw an InvalidOperationException if called on a Non-UI thread.
+            if (!InternalIsBrowserInitialized())
+            {
+                throw new Exception(WebBrowserExtensions.BrowserNotInitializedExceptionErrorMessage);
+            }
 
             return browser;
         }
