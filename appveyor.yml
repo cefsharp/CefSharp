@@ -19,7 +19,7 @@ build_script:
 test: off
 
 artifacts:
-  - path: NuGet\*.nupkg
+  - path: NuGet\**\*.nupkg
     name: nupkgfiles
 
 # Publish to myget.org feed
