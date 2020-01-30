@@ -21,7 +21,7 @@ namespace CefSharp
         internal const string BrowserNotInitializedExceptionErrorMessage =
             "The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
             "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
-            "the IsBrowserInitialized property to determine when the browser has been initialized."
+            "the IsBrowserInitialized property to determine when the browser has been initialized.";
 
         #region Legacy Javascript Binding
         /// <summary>
