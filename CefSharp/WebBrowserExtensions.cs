@@ -18,6 +18,11 @@ namespace CefSharp
     /// </summary>
     public static class WebBrowserExtensions
     {
+        internal const string BrowserNotInitializedExceptionErrorMessage =
+            "The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
+            "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
+            "the IsBrowserInitialized property to determine when the browser has been initialized."
+
         #region Legacy Javascript Binding
         /// <summary>
         /// Registers a Javascript object in this specific browser instance.
@@ -1158,15 +1163,17 @@ namespace CefSharp
         /// <summary>
         /// An IWebBrowser extension method that throw exception if browser not initialized.
         /// </summary>
+        /// <remarks>
+        /// Not used in WPF as IsBrowserInitialized is a dependency property and can only be checked on the UI thread(throws
+        /// InvalidOperationException if called on another Thread).
+        /// </remarks>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         internal static void ThrowExceptionIfBrowserNotInitialized(this IWebBrowser browser)
         {
             if (!browser.IsBrowserInitialized)
             {
-                throw new Exception("The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
-                                    "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
-                                    "the IsBrowserInitialized property to determine when the browser has been initialized.");
+                throw new Exception(BrowserNotInitializedExceptionErrorMessage);
             }
         }
 
