@@ -404,7 +404,8 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Set command line argument to disable GPU Acceleration, this will disable WebGL.
+        /// Set command line argument to disable GPU Acceleration. WebGL will use
+		/// software rendering via Swiftshader (https://swiftshader.googlesource.com/SwiftShader#introduction)
         /// </summary>
         void DisableGpuAcceleration()
         {
@@ -427,14 +428,14 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance This will disable WebGL, look at the source
-        /// to determine which flags best suite your requirements.
+        /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance Swiftshader will be used for WebGL, look at the source
+        /// to determine which flags best suite your requirements. See https://swiftshader.googlesource.com/SwiftShader#introduction for
+		/// details on Swiftshader
         /// </summary>
         void SetOffScreenRenderingBestPerformanceArgs()
         {
             // Use software rendering and compositing (disable GPU) for increased FPS
-            // and decreased CPU usage. This will also disable WebGL so remove these
-            // switches if you need that capability.
+            // and decreased CPU usage. 
             // See https://bitbucket.org/chromiumembedded/cef/issues/1257 for details.
             if (!_cefCommandLineArgs->ContainsKey("disable-gpu"))
             {
