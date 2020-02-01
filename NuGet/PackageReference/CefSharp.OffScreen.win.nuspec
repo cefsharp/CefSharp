@@ -28,12 +28,12 @@
   </metadata>
   <files>
     <!-- pdb and xml files not copied see https://github.com/dotnet/sdk/issues/1458 -->
-	<file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.dll" target="lib\netcoreapp3.0" />
-	<file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.pdb" target="lib\netcoreapp3.0" />
-	<file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.xml" target="lib\netcoreapp3.0" />
-	<file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.dll" target="lib\net452" />
-	<file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.pdb" target="lib\net452" />
-	<file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.xml" target="lib\net452" />
+    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.dll" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.pdb" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.xml" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.dll" target="lib\net452" />
+    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.pdb" target="lib\net452" />
+    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.xml" target="lib\net452" />
 
     <file src="..\Readme.txt" target="" />
   </files>

@@ -9,7 +9,7 @@
       <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>false</Visible>
-	  <PublishState>Included</PublishState>
+      <PublishState>Included</PublishState>
     </Content>
     <!-- <Content Include="@(CefSharpCommonBinaries64)"> -->
       <!-- <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link> -->
@@ -23,9 +23,9 @@
       <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>false</Visible>
-	  <PublishState>Included</PublishState>
+      <PublishState>Included</PublishState>
     </Content>
-	
+    
     <!-- <Content Include="@(CefSharpCommonBinaries64)"> -->
       <!-- <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link> -->
       <!-- <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> -->

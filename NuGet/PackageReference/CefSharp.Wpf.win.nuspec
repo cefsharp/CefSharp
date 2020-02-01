@@ -28,12 +28,12 @@
   </metadata>
   <files>
     <!-- pdb and xml files not copied see https://github.com/dotnet/sdk/issues/1458 -->
-	<file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.dll" target="lib\netcoreapp3.0" />
-	<file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.pdb" target="lib\netcoreapp3.0" />
-	<file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.xml" target="lib\netcoreapp3.0" />
-	<file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.dll" target="lib\net452" />
-	<file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.pdb" target="lib\net452" />
-	<file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.xml" target="lib\net452" />
+    <file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.dll" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.pdb" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.xml" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.dll" target="lib\net452" />
+    <file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.pdb" target="lib\net452" />
+    <file src="..\..\CefSharp.Wpf\bin\$Platform$\Release\CefSharp.Wpf.xml" target="lib\net452" />
 
     <file src="..\Readme.txt" target="" />
   </files>
