@@ -918,6 +918,17 @@ namespace CefSharp.WinForms
         }
 
         /// <summary>
+        /// Gets the default size of the control.
+        /// </summary>
+        /// <value>
+        /// The default <see cref="T:System.Drawing.Size" /> of the control.
+        /// </value>
+        protected override Size DefaultSize
+        {
+            get { return new Size(200, 100); }
+        }
+
+        /// <summary>
         /// Makes certain keys as Input keys when CefSettings.MultiThreadedMessageLoop = false
         /// </summary>
         /// <param name="keyData">key data</param>
