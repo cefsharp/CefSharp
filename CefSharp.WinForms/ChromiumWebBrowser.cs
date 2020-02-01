@@ -416,10 +416,12 @@ namespace CefSharp.WinForms
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// **Important** - When using this constructor the <see cref="Control.Dock"/> property
+        /// will default to <see cref="DockStyle.Fill"/>.
         /// </summary>
         /// <param name="html">html string to be initially loaded in the browser.</param>
-        /// <param name="requestContext">Request context that will be used for this browser instance,
-        /// if null the Global Request Context will be used</param>
+        /// <param name="requestContext">(Optional) Request context that will be used for this browser instance, if null the Global
+        /// Request Context will be used.</param>
         public ChromiumWebBrowser(HtmlString html, IRequestContext requestContext = null) : this(html.ToDataUriString(), requestContext)
         {
 
@@ -427,10 +429,12 @@ namespace CefSharp.WinForms
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// **Important** - When using this constructor the <see cref="Control.Dock"/> property
+        /// will default to <see cref="DockStyle.Fill"/>.
         /// </summary>
         /// <param name="address">The address.</param>
-        /// <param name="requestContext">Request context that will be used for this browser instance,
-        /// if null the Global Request Context will be used</param>
+        /// <param name="requestContext">(Optional) Request context that will be used for this browser instance, if null the Global
+        /// Request Context will be used.</param>
         public ChromiumWebBrowser(string address, IRequestContext requestContext = null)
         {
             Dock = DockStyle.Fill;
