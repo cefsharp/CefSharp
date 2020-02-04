@@ -168,7 +168,8 @@ namespace CefSharp
                 tempBuffer = new byte[dataOut.Length];
             }
 
-            bytesRead = Stream.Read(tempBuffer, 0, tempBuffer.Length);
+            //Only read the number of bytes that can be written to dataOut
+            bytesRead = Stream.Read(tempBuffer, 0, (int)dataOut.Length);
 
             // To indicate response completion set bytesRead to 0 and return false
             if (bytesRead == 0)
