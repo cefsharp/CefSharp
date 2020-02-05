@@ -219,8 +219,14 @@ namespace CefSharp
 
         void IResourceHandler.Cancel()
         {
-            Stream = null;
-            tempBuffer = null;
+            // Prior to Prior to https://bitbucket.org/chromiumembedded/cef/commits/90301bdb7fd0b32137c221f38e8785b3a8ad8aa4
+            // This method was unexpectedly being called during Read (from a different thread),
+            // changes to the threading model were made and I haven't confirmed if this is still
+            // the case.
+            // 
+            // The documentation for Cancel is vaigue and there aren't any examples that
+            // illustrage it's intended use case so for now we'll just keep things
+            // simple and free our resources in Dispose
         }
 
         bool IResourceHandler.ProcessRequest(IRequest request, ICallback callback)
@@ -988,8 +994,10 @@ namespace CefSharp
             if (AutoDisposeStream && Stream != null)
             {
                 Stream.Dispose();
-                Stream = null;
             }
+
+            Stream = null;
+            tempBuffer = null;
         }
     }
 }
