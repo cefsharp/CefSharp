@@ -50,6 +50,7 @@ namespace CefSharp
             virtual Task<double>^ GetZoomLevelAsync();
             virtual IntPtr GetWindowHandle();
             virtual void CloseBrowser(bool forceClose);
+            virtual bool TryCloseBrowser();
 
             virtual void DragTargetDragEnter(IDragData^ dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations);
             virtual void DragTargetDragOver(MouseEvent mouseEvent, DragOperationsMask allowedOperations);

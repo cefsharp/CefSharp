@@ -150,6 +150,13 @@ void CefBrowserHostWrapper::CloseBrowser(bool forceClose)
     _browserHost->CloseBrowser(forceClose);
 }
 
+bool CefBrowserHostWrapper::TryCloseBrowser()
+{
+    ThrowIfDisposed();
+
+    return _browserHost->TryCloseBrowser();
+}
+
 void CefBrowserHostWrapper::ShowDevTools(IWindowInfo^ windowInfo, int inspectElementAtX, int inspectElementAtY)
 {
     ThrowIfDisposed();
