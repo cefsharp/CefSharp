@@ -37,6 +37,15 @@ namespace CefSharp
         void CloseBrowser(bool forceClose);
 
         /// <summary>
+        /// Helper for closing a browser. Call this method from the top-level window close handler. Internally this calls CloseBrowser(false) if the close has not yet been initiated. This method returns false while the close is pending and true after the close has completed.
+        /// See <see cref="CloseBrowser(bool)"/> and <see cref="ILifeSpanHandler.DoClose(IWebBrowser, IBrowser)"/> documentation for additional usage information. This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <returns>
+        /// This method returns false while the close is pending and true after the close has completed
+        /// </returns>
+        bool TryCloseBrowser();
+
+        /// <summary>
         /// Explicitly close the developer tools window if one exists for this browser instance.
         /// </summary>
         void CloseDevTools();
