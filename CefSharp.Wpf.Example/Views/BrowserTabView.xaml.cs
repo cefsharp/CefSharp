@@ -41,6 +41,12 @@ namespace CefSharp.Wpf.Example.Views
             //the browser is initialized.
             CefSharpSettings.WcfEnabled = true;
 
+            if (CefSharpSettings.LegacyJavascriptBindingEnabled)
+            {
+                browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
+                browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+            }
+
             //If you call CefSharp.BindObjectAsync in javascript and pass in the name of an object which is not yet
             //bound, then ResolveObject will be called, you can then register it
             browser.JavascriptObjectRepository.ResolveObject += (sender, e) =>
