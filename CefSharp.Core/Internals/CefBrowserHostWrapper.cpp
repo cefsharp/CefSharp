@@ -153,6 +153,7 @@ void CefBrowserHostWrapper::CloseBrowser(bool forceClose)
 bool CefBrowserHostWrapper::TryCloseBrowser()
 {
     ThrowIfDisposed();
+    ThrowIfExecutedOnNonCefUiThread();
 
     return _browserHost->TryCloseBrowser();
 }
