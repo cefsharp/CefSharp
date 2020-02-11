@@ -190,9 +190,7 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                auto innerBrowserWrapper = GetBrowserWrapper(browser->GetIdentifier(), isPopup);
-
-                handler->OnAfterCreated(_browserControl, innerBrowserWrapper);
+                handler->OnAfterCreated(_browserControl, browserWrapper);
             }
         }
 
