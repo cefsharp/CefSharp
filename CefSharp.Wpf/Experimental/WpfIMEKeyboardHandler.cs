@@ -241,7 +241,7 @@ namespace CefSharp.Wpf.Experimental
         private void OnImeComposition(IntPtr hwnd, int lParam)
         {
             string text = string.Empty;
-                
+
             if (ImeHandler.GetResult(hwnd, (uint)lParam, out text))
             {
                 owner.GetBrowserHost().ImeCommitText(text, new Range(int.MaxValue, int.MaxValue), 0);
@@ -255,7 +255,7 @@ namespace CefSharp.Wpf.Experimental
             {
                 var underlines = new List<CompositionUnderline>();
                 int compositionStart = 0;
-                
+
                 if (ImeHandler.GetComposition(hwnd, (uint)lParam, underlines, ref compositionStart, out text))
                 {
                     owner.GetBrowserHost().ImeSetComposition(text, underlines.ToArray(),
