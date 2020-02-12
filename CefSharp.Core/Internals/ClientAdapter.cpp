@@ -164,6 +164,8 @@ namespace CefSharp
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
+            BrowserRefCounter::Instance->Increment();
+
             auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
 
             auto isPopup = browser->IsPopup() && !_browserControl->HasParent;
@@ -240,6 +242,8 @@ namespace CefSharp
             {
                 _cefBrowser = NULL;
             }
+
+            BrowserRefCounter::Instance->Decrement();
         }
 
         void ClientAdapter::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)

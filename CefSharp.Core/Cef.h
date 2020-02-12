@@ -769,6 +769,33 @@ namespace CefSharp
             }
             return StringUtils::ToClr(CefGetMimeType(StringUtils::ToNative(extension)));
         }
+
+        /// <summary>
+        /// Helper method to ensure all ChromiumWebBrowser instances have been
+        /// closed/disposed, should be called before Cef.Shutdown.
+        /// Disposes all remaning ChromiumWebBrowser instances
+        /// then waits for CEF to release it's remaning CefBrowser instances.
+        /// Finally a small delay of 50ms to allow for CEF to finish it's cleanup.
+        /// Should only be called when MultiThreadedMessageLoop = true;
+        /// (Hasn't been tested when when CEF integrates into main message loop).
+        /// </summary>
+        static void WaitForBrowsersToClose()
+        {
+            //Dispose of any remaining browser instances
+            for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
+            {
+                delete diposable;
+            }
+
+            //Clear the list as we've disposed of them all now.
+            _disposables->Clear();
+
+            //Wait for the browsers to close
+            BrowserRefCounter::Instance->WaitForBrowsersToClose(500);
+
+            //A few extra ms to allow for CEF to finish 
+            Thread::Sleep(50);
+        }
     };
 }
 #endif  // CEFSHARP_CORE_CEF_H_
