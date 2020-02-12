@@ -245,6 +245,11 @@ namespace CefSharp.Wpf.Experimental
             if (ImeHandler.GetResult(hwnd, (uint)lParam, out text))
             {
                 owner.GetBrowserHost().ImeCommitText(text, new Range(int.MaxValue, int.MaxValue), 0);
+                if (languageCodeId == ImeNative.LANG_KOREAN)
+                {
+                    owner.GetBrowserHost().ImeSetComposition(text, new CompositionUnderline[0], new Range(int.MaxValue, int.MaxValue), new Range(0, 0));
+                    owner.GetBrowserHost().ImeFinishComposingText(false);
+                }
             }
             else
             {
