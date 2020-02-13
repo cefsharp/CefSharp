@@ -16,12 +16,12 @@ namespace CefSharp.Internals
     /// </summary>
     public class ConcurrentMethodRunnerQueue : IMethodRunnerQueue
     {
-        private readonly JavascriptObjectRepository repository;
+        private readonly IJavascriptObjectRepositoryInternal repository;
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         public event EventHandler<MethodInvocationCompleteArgs> MethodInvocationComplete;
 
-        public ConcurrentMethodRunnerQueue(JavascriptObjectRepository repository)
+        public ConcurrentMethodRunnerQueue(IJavascriptObjectRepositoryInternal repository)
         {
             this.repository = repository;
         }

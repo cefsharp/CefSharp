@@ -25,7 +25,7 @@ namespace CefSharp.Test.Framework
         {
             var boundObject = new AsyncBoundObject();
 
-            var objectRepository = new JavascriptObjectRepository();
+            IJavascriptObjectRepositoryInternal objectRepository = new JavascriptObjectRepository();
             objectRepository.Register("testObject", boundObject, true, new BindingOptions { CamelCaseJavascriptNames = false });
             var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add("Echo Me!");
@@ -47,7 +47,7 @@ namespace CefSharp.Test.Framework
             const string expectedResult = "Echo Me!";
             var boundObject = new AsyncBoundObject();
 
-            var objectRepository = new JavascriptObjectRepository();
+            IJavascriptObjectRepositoryInternal objectRepository = new JavascriptObjectRepository();
             objectRepository.Register("testObject", boundObject, true, new BindingOptions { CamelCaseJavascriptNames = false });
             var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add(expectedResult);

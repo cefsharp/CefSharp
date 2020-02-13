@@ -106,6 +106,7 @@
     <Compile Include="Internals\BrowserRefCounter.cs" />
     <Compile Include="Internals\CommandLineArgDictionary.cs" />
     <Compile Include="Internals\CookieManagerDecorator.cs" />
+    <Compile Include="Internals\IJavascriptObjectRepositoryInternal.cs" />
     <Compile Include="Internals\ParentProcessMonitor.cs" />
     <Compile Include="Internals\HeaderNameValueCollection.cs" />
     <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />

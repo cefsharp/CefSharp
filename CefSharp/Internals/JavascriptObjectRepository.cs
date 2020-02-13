@@ -30,7 +30,7 @@ namespace CefSharp.Internals
     /// All of the registered objects are tracked via meta-data for the objects 
     /// expressed starting with the JavaScriptObject type.
     /// </summary>
-    public class JavascriptObjectRepository : IJavascriptObjectRepository
+    public class JavascriptObjectRepository : IJavascriptObjectRepositoryInternal
     {
         public const string AllObjects = "All";
 
@@ -50,7 +50,7 @@ namespace CefSharp.Internals
         /// <summary>
         /// Has the browser this repository is associated with been initilized (set in OnAfterCreated)
         /// </summary>
-        public bool IsBrowserInitialized { get; set; }
+        bool IJavascriptObjectRepositoryInternal.IsBrowserInitialized { get; set; }
 
         public void Dispose()
         {
@@ -59,19 +59,17 @@ namespace CefSharp.Internals
             ObjectsBoundInJavascript = null;
         }
 
-        public bool HasBoundObjects
+        bool IJavascriptObjectRepository.HasBoundObjects
         {
             get { return objects.Count > 0; }
         }
 
-        public bool IsBound(string name)
+        bool IJavascriptObjectRepository.IsBound(string name)
         {
             return objects.Values.Any(x => x.Name == name);
         }
 
-        //Ideally this would internal, unfurtunately it's used in C++
-        //and it's hard to expose internals
-        public List<JavascriptObject> GetObjects(List<string> names = null)
+        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetObjects(List<string> names)
         {
             //If there are no objects names or the count is 0 then we will raise
             //the resolve event then return all objects that are registered,
@@ -84,9 +82,11 @@ namespace CefSharp.Internals
                 return objects.Values.Where(x => x.RootObject).ToList();
             }
 
+            IJavascriptObjectRepository repository = this;
+
             foreach (var name in names)
             {
-                if (!IsBound(name))
+                if (repository.IsBound(name))
                 {
                     RaiseResolveObjectEvent(name);
                 }
@@ -99,7 +99,7 @@ namespace CefSharp.Internals
             return objectsByName;
         }
 
-        public void ObjectsBound(List<Tuple<string, bool, bool>> objs)
+        void IJavascriptObjectRepositoryInternal.ObjectsBound(List<Tuple<string, bool, bool>> objs)
         {
             var boundObjectHandler = ObjectBoundInJavascript;
             var boundObjectsHandler = ObjectsBoundInJavascript;
@@ -134,7 +134,7 @@ namespace CefSharp.Internals
             return result;
         }
 
-        public void Register(string name, object value, bool isAsync, BindingOptions options)
+        void IJavascriptObjectRepository.Register(string name, object value, bool isAsync, BindingOptions options)
         {
             if (name == null)
             {
@@ -146,9 +146,11 @@ namespace CefSharp.Internals
                 throw new ArgumentNullException("value");
             }
 
+            IJavascriptObjectRepositoryInternal repository = this;
+
             //Enable WCF if not already enabled - can only be done before the browser has been initliazed
             //if done after the subprocess won't be WCF enabled it we'll have to throw an exception
-            if (!IsBrowserInitialized && !isAsync)
+            if (!repository.IsBrowserInitialized && !isAsync)
             {
                 CefSharpSettings.WcfEnabled = true;
             }
@@ -185,12 +187,12 @@ namespace CefSharp.Internals
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
         }
 
-        public void UnRegisterAll()
+        void IJavascriptObjectRepository.UnRegisterAll()
         {
             objects.Clear();
         }
 
-        public bool UnRegister(string name)
+        bool IJavascriptObjectRepository.UnRegister(string name)
         {
             foreach (var kvp in objects)
             {
@@ -206,7 +208,7 @@ namespace CefSharp.Internals
             return false;
         }
 
-        internal bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
+        bool IJavascriptObjectRepositoryInternal.TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
         {
             exception = "";
             result = null;
@@ -334,7 +336,7 @@ namespace CefSharp.Internals
             return false;
         }
 
-        internal bool TryGetProperty(long objectId, string name, out object result, out string exception)
+        bool IJavascriptObjectRepositoryInternal.TryGetProperty(long objectId, string name, out object result, out string exception)
         {
             exception = "";
             result = null;
@@ -364,7 +366,7 @@ namespace CefSharp.Internals
             return false;
         }
 
-        internal bool TrySetProperty(long objectId, string name, object value, out string exception)
+        bool IJavascriptObjectRepositoryInternal.TrySetProperty(long objectId, string name, object value, out string exception)
         {
             exception = "";
             JavascriptObject obj;

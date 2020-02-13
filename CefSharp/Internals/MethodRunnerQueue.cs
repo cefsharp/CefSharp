@@ -14,12 +14,12 @@ namespace CefSharp.Internals
         //Limit to 1 task per methodRunnerQueue
         //https://social.msdn.microsoft.com/Forums/vstudio/en-US/d0bcb415-fb1e-42e4-90f8-c43a088537fb/aborting-a-long-running-task-in-tpl?forum=parallelextensions
         private readonly TaskFactory methodRunnerQueueTaskFactory = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(1));
-        private readonly JavascriptObjectRepository repository;
+        private readonly IJavascriptObjectRepositoryInternal repository;
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         public event EventHandler<MethodInvocationCompleteArgs> MethodInvocationComplete;
 
-        public MethodRunnerQueue(JavascriptObjectRepository repository)
+        public MethodRunnerQueue(IJavascriptObjectRepositoryInternal repository)
         {
             this.repository = repository;
         }

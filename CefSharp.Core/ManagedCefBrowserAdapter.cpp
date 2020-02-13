@@ -162,7 +162,7 @@ IJavascriptCallbackFactory^ ManagedCefBrowserAdapter::JavascriptCallbackFactory:
     return _javascriptCallbackFactory;
 }
 
-JavascriptObjectRepository^ ManagedCefBrowserAdapter::JavascriptObjectRepository::get()
+IJavascriptObjectRepositoryInternal^ ManagedCefBrowserAdapter::JavascriptObjectRepository::get()
 {
     return _javaScriptObjectRepository;
 }
