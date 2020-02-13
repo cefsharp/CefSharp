@@ -27,7 +27,7 @@ Still have a question to ask or unsure where to go next? Start with the Gitter C
 
 Before posting a bug report please take the time to read https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/
 
---
+---
 ### Bug Report
 Delete this line and everything above, and then fill in the details below.
 
