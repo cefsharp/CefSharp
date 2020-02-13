@@ -22,14 +22,14 @@ namespace CefSharp
         private:
             WeakReference^ _browserAdapter;
             JavascriptCallback^ _callback;
-            PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
+            IPendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
             bool _disposed;
 
             CefRefPtr<CefProcessMessage> CreateDestroyMessage();
             IBrowser^ GetBrowser();
             void DisposedGuard();
         public:
-            JavascriptCallbackProxy(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserAdapter)
+            JavascriptCallbackProxy(JavascriptCallback^ callback, IPendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserAdapter)
                 :_callback(callback), _pendingTasks(pendingTasks), _disposed(false)
             {
                 _browserAdapter = browserAdapter;

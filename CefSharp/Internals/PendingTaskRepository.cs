@@ -14,7 +14,7 @@ namespace CefSharp.Internals
     /// Class to store TaskCompletionSources indexed by a unique id.
     /// </summary>
     /// <typeparam name="TResult">The type of the result produced by the tasks held.</typeparam>
-    public sealed class PendingTaskRepository<TResult>
+    public sealed class PendingTaskRepository<TResult> : IPendingTaskRepository<TResult>
     {
         private readonly ConcurrentDictionary<long, TaskCompletionSource<TResult>> pendingTasks =
             new ConcurrentDictionary<long, TaskCompletionSource<TResult>>();

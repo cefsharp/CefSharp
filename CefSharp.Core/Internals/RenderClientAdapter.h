@@ -25,8 +25,8 @@ namespace CefSharp
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
 
         public:
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, IBrowserAdapter^ browserAdapter) :
-                ClientAdapter(webBrowserInternal, browserAdapter)
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, IBrowserAdapter^ browserAdapter, IPendingTaskRepository<JavascriptResponse^>^ pendingTaskRepository) :
+                ClientAdapter(webBrowserInternal, browserAdapter, pendingTaskRepository)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
             }

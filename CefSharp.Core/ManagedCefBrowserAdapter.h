@@ -33,6 +33,7 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         IJavascriptObjectRepositoryInternal^ _javaScriptObjectRepository;
+        IPendingTaskRepository<JavascriptResponse^>^ _pendingTaskRepository;
         JavascriptCallbackFactory^ _javascriptCallbackFactory;
         IMethodRunnerQueue^ _methodRunnerQueue;
         IBrowser^ _browserWrapper;
@@ -50,18 +51,22 @@ namespace CefSharp
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
             : _isDisposed(false)
         {
+            _pendingTaskRepository = gcnew PendingTaskRepository<JavascriptResponse^>();
+
             if (offScreenRendering)
             {
-                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this);
+                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this, _pendingTaskRepository);
             }
             else
             {
-                _clientAdapter = new ClientAdapter(webBrowserInternal, this);
+                _clientAdapter = new ClientAdapter(webBrowserInternal, this, _pendingTaskRepository);
             }
 
             _webBrowserInternal = webBrowserInternal;
+
             _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
-            _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_clientAdapter->GetPendingTaskRepository());
+            _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_pendingTaskRepository);
+
 
             if (CefSharpSettings::ConcurrentTaskExecution)
             {
@@ -83,6 +88,9 @@ namespace CefSharp
         ~ManagedCefBrowserAdapter()
         {
             _isDisposed = true;
+
+            //this will dispose the repository and cancel all pending tasks
+            delete _pendingTaskRepository;
 
             // Stop the method runner before releasing browser adapter and browser wrapper (#2529)
             if (_methodRunnerQueue != nullptr)
