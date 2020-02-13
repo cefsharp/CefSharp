@@ -58,6 +58,7 @@ Delete this line and everything above, and then fill in the details below.
 
 - **Please provide any additional information below.**
     - A stack trace if available, any Exception information.
+      - If you are seeing a crash in `libcef.dll` then please download `libcef.dll.pdb` and place it next to `libcef.dll` to obtain a detailed stack trace, see https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#loading-native-symbols-for-easier-diagnosis for details.
 
     - Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
 
