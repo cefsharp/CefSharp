@@ -17,13 +17,15 @@ So you have a question to ask, where can you look for answers? Read on. Think yo
 - You can see all the `CefSharp` tagged issues on `Stackoverflow`, some useful stuff there : http://stackoverflow.com/questions/tagged/cefsharp
 - You can search the `Gitter Chat Channel` for past questions/conversations, you can search through every discussion from the beginning : https://gitter.im/cefsharp/CefSharp
 
-Still have a question? Great, ask it on `Gitter`. https://gitter.im/cefsharp/CefSharp
+Still have a question? Great, ask it on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp) or [Gitter](https://gitter.im/cefsharp/CefSharp). Larger complex questions should be asked on `Stackoverflow`
 
 **Note: CefSharp is just a wrapper around the Chromium Embedded Project, it's worth searching http://magpcss.org/ceforum/index.php if your problem involves a low level Chromium error message**
 
-We ask that you put in a reasonable amount of effort in searching through the resources listed above. The developers have full time jobs, they have lives, families, the time they have available to contribute this project is a precious resource, make sure you use it wisely! Remember the more time we spend answering the same questions over and over again, less time goes into writing code, adding new features, actually fixing bugs!
+We ask that you put in a reasonable amount of effort in searching through the resources listed above. The developers have full time jobs, they have lives, families, the time they have available to contribute this project is a precious resource, make sure you use it wisely! Remember the more time we spend answering the same questions over and over again, less time goes into writing code, adding new features, actually fixing bugs! 
 
 Still have a question to ask or unsure where to go next? Start with the Gitter Chat room : https://gitter.im/cefsharp/CefSharp
+
+Before posting a bug report please take the time to read https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/
 
 --
 ### Bug Report
@@ -36,14 +38,21 @@ Delete this line and everything above, and then fill in the details below.
 
 - **What architecture x86 or x64?**
     <x86/x64>
+    
 - **On what operating system?**
     <Win7/Win8.1/Win10>
 
 - **Are you using `WinForms`, `WPF` or `OffScreen`?**
     <WinForms/WPF/OffScreen>
+    
 - **What steps will reproduce the problem?**
-    - Please provide detailed information here, enough for someone else to reprodce your problem.
-    - Please no binary (zip, etc) links, fork the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample) and push your changes to `GitHub`. (Alternatively use a code sharing service list `Gist` or `Pastebin`).
+    - Please provide detailed information here, enough for someone else to reprodce your problem. 
+    - Does the problem reproduce using the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample)?
+    - If code is required to reproduce your problem then please provide one of the following
+      - Fork the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample) and push your changes to `GitHub` (this is the preferred option).
+      - Use a code sharing service list `Gist` or `Pastebin`
+      - Paste your **formatted code as part of this issue** (only do this for small amounts of code and make sure you **format the code so it's reabily**)
+      - Please no binary attachments (zip, 7z, etc), code needs to be easily reviewed in a web browser.
 
 - **What is the expected output? What do you see instead?**
 
