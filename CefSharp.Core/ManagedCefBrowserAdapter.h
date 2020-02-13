@@ -36,7 +36,7 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
 #endif
         IWebBrowserInternal^ _webBrowserInternal;
-        JavascriptObjectRepository^ _javaScriptObjectRepository;
+        IJavascriptObjectRepositoryInternal^ _javaScriptObjectRepository;
         JavascriptCallbackFactory^ _javascriptCallbackFactory;
         IMethodRunnerQueue^ _methodRunnerQueue;
         IBrowser^ _browserWrapper;
@@ -138,9 +138,9 @@ namespace CefSharp
             CefSharp::Internals::IJavascriptCallbackFactory^ get();
         }
 
-        virtual property JavascriptObjectRepository^ JavascriptObjectRepository
+        virtual property IJavascriptObjectRepositoryInternal^ JavascriptObjectRepository
         {
-            CefSharp::Internals::JavascriptObjectRepository^ get();
+            CefSharp::Internals::IJavascriptObjectRepositoryInternal^ get();
         }
 
         virtual property IMethodRunnerQueue^ MethodRunnerQueue

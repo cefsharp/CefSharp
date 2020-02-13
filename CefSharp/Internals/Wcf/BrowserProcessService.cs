@@ -9,7 +9,7 @@ namespace CefSharp.Internals.Wcf
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     internal class BrowserProcessService : IBrowserProcess
     {
-        private readonly JavascriptObjectRepository javascriptObjectRepository;
+        private readonly IJavascriptObjectRepositoryInternal javascriptObjectRepository;
         private readonly BrowserProcessServiceHost host;
 
         public BrowserProcessService()

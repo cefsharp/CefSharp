@@ -31,7 +31,7 @@ namespace CefSharp.Internals
     /// All of the registered objects are tracked via meta-data for the objects 
     /// expressed starting with the JavaScriptObject type.
     /// </summary>
-    public class JavascriptObjectRepository : FreezableBase, IJavascriptObjectRepository
+    public class JavascriptObjectRepository : FreezableBase, IJavascriptObjectRepositoryInternal
     {
         public const string AllObjects = "All";
         public const string LegacyObjects = "Legacy";
@@ -47,7 +47,7 @@ namespace CefSharp.Internals
         /// this is done to speed up finding the object in O(1) time
         /// instead of traversing the JavaScriptRootObject tree.
         /// </summary>
-        private readonly ConcurrentDictionary<long, JavascriptObject> objects = new ConcurrentDictionary<long, JavascriptObject>();
+        protected readonly ConcurrentDictionary<long, JavascriptObject> objects = new ConcurrentDictionary<long, JavascriptObject>();
 
         /// <summary>
         /// Javascript Name converter
@@ -103,7 +103,7 @@ namespace CefSharp.Internals
             return objects.Values.Any(x => x.Name == name);
         }
 
-        public List<JavascriptObject> GetLegacyBoundObjects()
+        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetLegacyBoundObjects()
         {
             RaiseResolveObjectEvent(LegacyObjects);
 
@@ -112,7 +112,7 @@ namespace CefSharp.Internals
 
         //Ideally this would internal, unfurtunately it's used in C++
         //and it's hard to expose internals
-        public List<JavascriptObject> GetObjects(List<string> names = null)
+        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetObjects(List<string> names)
         {
             //If there are no objects names or the count is 0 then we will raise
             //the resolve event then return all objects that are registered,
@@ -140,7 +140,7 @@ namespace CefSharp.Internals
             return objectsByName;
         }
 
-        public void ObjectsBound(List<Tuple<string, bool, bool>> objs)
+        void IJavascriptObjectRepositoryInternal.ObjectsBound(List<Tuple<string, bool, bool>> objs)
         {
             var boundObjectHandler = ObjectBoundInJavascript;
             var boundObjectsHandler = ObjectsBoundInJavascript;
@@ -255,7 +255,12 @@ namespace CefSharp.Internals
             return false;
         }
 
-        internal bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
+        bool IJavascriptObjectRepositoryInternal.TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
+        {
+            return TryCallMethod(objectId, name, parameters, out result, out exception);
+        }
+
+        protected virtual bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
         {
             exception = "";
             result = null;
@@ -384,7 +389,12 @@ namespace CefSharp.Internals
             return false;
         }
 
-        internal bool TryGetProperty(long objectId, string name, out object result, out string exception)
+        bool IJavascriptObjectRepositoryInternal.TryGetProperty(long objectId, string name, out object result, out string exception)
+        {
+            return TryGetProperty(objectId, name, out result, out exception);
+        }
+
+        protected virtual bool TryGetProperty(long objectId, string name, out object result, out string exception)
         {
             exception = "";
             result = null;
@@ -414,7 +424,12 @@ namespace CefSharp.Internals
             return false;
         }
 
-        internal bool TrySetProperty(long objectId, string name, object value, out string exception)
+        bool IJavascriptObjectRepositoryInternal.TrySetProperty(long objectId, string name, object value, out string exception)
+        {
+            return TrySetProperty(objectId, name, value, out exception);
+        }
+
+        protected virtual bool TrySetProperty(long objectId, string name, object value, out string exception)
         {
             exception = "";
             JavascriptObject obj;

@@ -14,9 +14,9 @@ namespace CefSharp.Internals.Wcf
     {
         private const long OneHundredAndTwentyEightMegaBytesInBytes = 128 * 1024 * 1024;
 
-        public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
+        public IJavascriptObjectRepositoryInternal JavascriptObjectRepository { get; private set; }
 
-        public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId, IJavascriptCallbackFactory callbackFactory)
+        public BrowserProcessServiceHost(IJavascriptObjectRepositoryInternal javascriptObjectRepository, int parentProcessId, int browserId, IJavascriptCallbackFactory callbackFactory)
             : base(typeof(BrowserProcessService), new Uri[0])
         {
             JavascriptObjectRepository = javascriptObjectRepository;
