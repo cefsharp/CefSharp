@@ -117,7 +117,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
     if (!_isDisposed)
     {
         _browserWrapper = browser;
-        _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference(this);
+        _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference<IBrowserAdapter^>(this);
 
         //Browser has been initialized, it's now too late to register a sync JSB object if Wcf wasn't enabled
         _javaScriptObjectRepository->IsBrowserInitialized = true;

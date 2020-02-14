@@ -74,16 +74,15 @@ namespace CefSharp
 
         IBrowser^ JavascriptCallbackProxy::GetBrowser()
         {
-            IBrowser^ result = nullptr;
-            if (_browserAdapter->IsAlive)
+            IBrowserAdapter^ browserAdapter;
+            if (_browserAdapter->TryGetTarget(browserAdapter))
             {
-                auto browserAdapter = static_cast<IBrowserAdapter^>(_browserAdapter->Target);
                 if (!browserAdapter->IsDisposed)
                 {
-                    result = browserAdapter->GetBrowser(_callback->BrowserId);
+                    return browserAdapter->GetBrowser(_callback->BrowserId);
                 }
             }
-            return result;
+            return nullptr;
         }
 
         Int64 JavascriptCallbackProxy::Id::get()

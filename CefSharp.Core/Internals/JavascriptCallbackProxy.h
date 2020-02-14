@@ -20,7 +20,7 @@ namespace CefSharp
         private ref class JavascriptCallbackProxy : public IJavascriptCallback
         {
         private:
-            WeakReference^ _browserAdapter;
+            WeakReference<IBrowserAdapter^>^ _browserAdapter;
             JavascriptCallback^ _callback;
             IPendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
             bool _disposed;
@@ -29,7 +29,7 @@ namespace CefSharp
             IBrowser^ GetBrowser();
             void DisposedGuard();
         public:
-            JavascriptCallbackProxy(JavascriptCallback^ callback, IPendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserAdapter)
+            JavascriptCallbackProxy(JavascriptCallback^ callback, IPendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference<IBrowserAdapter^>^ browserAdapter)
                 :_callback(callback), _pendingTasks(pendingTasks), _disposed(false)
             {
                 _browserAdapter = browserAdapter;
