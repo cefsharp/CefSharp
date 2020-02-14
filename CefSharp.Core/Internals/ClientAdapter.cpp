@@ -982,6 +982,15 @@ namespace CefSharp
 
         bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
         {
+            auto browserAdapter = _browserAdapter;
+
+            //If our host object (ManagedCefBrowserAdapter) is null or disposed
+            // then we just return false 
+            if (Object::ReferenceEquals(browserAdapter, nullptr) || browserAdapter->IsDisposed)
+            {
+                return false;
+            }
+
             auto handled = false;
             auto name = message->GetName();
             auto argList = message->GetArgumentList();
@@ -989,53 +998,47 @@ namespace CefSharp
             //TODO: JSB Rename messages (remove Root from name)
             if (name == kJavascriptRootObjectRequest)
             {
-                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
+                auto objectRepository = browserAdapter->JavascriptObjectRepository;
+
+                auto callbackId = GetInt64(argList, 0);
+                auto objectNames = argList->GetList(1);
+
+                auto names = gcnew List<String^>(objectNames->GetSize());
+                for (auto i = 0; i < objectNames->GetSize(); i++)
                 {
-                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
-
-                    auto callbackId = GetInt64(argList, 0);
-                    auto objectNames = argList->GetList(1);
-
-                    auto names = gcnew List<String^>(objectNames->GetSize());
-                    for (auto i = 0; i < objectNames->GetSize(); i++)
-                    {
-                        names->Add(StringUtils::ToClr(objectNames->GetString(i)));
-                    }
-
-                    //Call GetObjects with the list of names provided (will default to all if the list is empty
-                    //Previously we only sent a response if there were bound objects, now we always send
-                    //a response so the promise is resolved.
-                    auto objs = objectRepository->GetObjects(names);
-
-                    auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
-                    auto responseArgList = msg->GetArgumentList();
-                    SetInt64(responseArgList, 0, callbackId);
-                    SerializeJsObjects(objs, responseArgList, 1);
-                    frame->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
+                    names->Add(StringUtils::ToClr(objectNames->GetString(i)));
                 }
+
+                //Call GetObjects with the list of names provided (will default to all if the list is empty
+                //Previously we only sent a response if there were bound objects, now we always send
+                //a response so the promise is resolved.
+                auto objs = objectRepository->GetObjects(names);
+
+                auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
+                auto responseArgList = msg->GetArgumentList();
+                SetInt64(responseArgList, 0, callbackId);
+                SerializeJsObjects(objs, responseArgList, 1);
+                frame->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
 
                 handled = true;
             }
             else if (name == kJavascriptObjectsBoundInJavascript)
             {
-                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
+                auto objectRepository = browserAdapter->JavascriptObjectRepository;
+
+                auto boundObjects = argList->GetList(0);
+                auto objs = gcnew List<Tuple<String^, bool, bool>^>(boundObjects->GetSize());
+                for (auto i = 0; i < boundObjects->GetSize(); i++)
                 {
-                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+                    auto obj = boundObjects->GetDictionary(i);
+                    auto objectName = obj->GetString("Name");
+                    auto alreadyBound = obj->GetBool("AlreadyBound");
+                    auto isCached = obj->GetBool("IsCached");
 
-                    auto boundObjects = argList->GetList(0);
-                    auto objs = gcnew List<Tuple<String^, bool, bool>^>(boundObjects->GetSize());
-                    for (auto i = 0; i < boundObjects->GetSize(); i++)
-                    {
-                        auto obj = boundObjects->GetDictionary(i);
-                        auto objectName = obj->GetString("Name");
-                        auto alreadyBound = obj->GetBool("AlreadyBound");
-                        auto isCached = obj->GetBool("IsCached");
-
-                        objs->Add(Tuple::Create(StringUtils::ToClr(objectName), alreadyBound, isCached));
-                    }
-
-                    objectRepository->ObjectsBound(objs);
+                    objs->Add(Tuple::Create(StringUtils::ToClr(objectName), alreadyBound, isCached));
                 }
+
+                objectRepository->ObjectsBound(objs);
 
                 handled = true;
             }
@@ -1179,7 +1182,7 @@ namespace CefSharp
 
                 handled = true;
             }
-            else if (name == kJavascriptAsyncMethodCallRequest && !_browserAdapter->IsDisposed)
+            else if (name == kJavascriptAsyncMethodCallRequest)
             {
                 auto frameId = frame->GetIdentifier();
                 auto objectId = GetInt64(argList, 0);
@@ -1192,7 +1195,7 @@ namespace CefSharp
                     methodInvocation->Parameters->Add(DeserializeObject(arguments, i, _javascriptCallbackFactory));
                 }
 
-                _browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
+                browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
 
                 handled = true;
             }
