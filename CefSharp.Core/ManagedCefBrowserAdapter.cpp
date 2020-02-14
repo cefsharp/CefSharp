@@ -157,11 +157,6 @@ IBrowser^ ManagedCefBrowserAdapter::GetBrowser(int browserId)
     return _clientAdapter->GetBrowserWrapper(browserId);
 }
 
-IJavascriptCallbackFactory^ ManagedCefBrowserAdapter::JavascriptCallbackFactory::get()
-{
-    return _javascriptCallbackFactory;
-}
-
 IJavascriptObjectRepositoryInternal^ ManagedCefBrowserAdapter::JavascriptObjectRepository::get()
 {
     return _javaScriptObjectRepository;

@@ -52,20 +52,21 @@ namespace CefSharp
             : _isDisposed(false)
         {
             _pendingTaskRepository = gcnew PendingTaskRepository<JavascriptResponse^>();
+            _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_pendingTaskRepository);
 
             if (offScreenRendering)
             {
-                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this, _pendingTaskRepository);
+                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this, _pendingTaskRepository, _javascriptCallbackFactory);
             }
             else
             {
-                _clientAdapter = new ClientAdapter(webBrowserInternal, this, _pendingTaskRepository);
+                _clientAdapter = new ClientAdapter(webBrowserInternal, this, _pendingTaskRepository, _javascriptCallbackFactory);
             }
 
             _webBrowserInternal = webBrowserInternal;
 
             _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
-            _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_pendingTaskRepository);
+
 
 
             if (CefSharpSettings::ConcurrentTaskExecution)
@@ -89,8 +90,12 @@ namespace CefSharp
         {
             _isDisposed = true;
 
+            delete _javascriptCallbackFactory;
+            _javascriptCallbackFactory = nullptr;
+
             //this will dispose the repository and cancel all pending tasks
             delete _pendingTaskRepository;
+            _pendingTaskRepository = nullptr;
 
             // Stop the method runner before releasing browser adapter and browser wrapper (#2529)
             if (_methodRunnerQueue != nullptr)
@@ -132,11 +137,6 @@ namespace CefSharp
         virtual void Resize(int width, int height);
 
         virtual IBrowser^ GetBrowser(int browserId);
-
-        virtual property IJavascriptCallbackFactory^ JavascriptCallbackFactory
-        {
-            CefSharp::Internals::IJavascriptCallbackFactory^ get();
-        }
 
         virtual property IJavascriptObjectRepositoryInternal^ JavascriptObjectRepository
         {

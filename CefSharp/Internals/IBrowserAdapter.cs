@@ -12,7 +12,6 @@ namespace CefSharp.Internals
     {
         IMethodRunnerQueue MethodRunnerQueue { get; }
         IJavascriptObjectRepositoryInternal JavascriptObjectRepository { get; }
-        IJavascriptCallbackFactory JavascriptCallbackFactory { get; }
         void OnAfterBrowserCreated(IBrowser browser);
         IBrowser GetBrowser(int browserId);
         bool IsDisposed { get; }
