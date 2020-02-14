@@ -86,7 +86,7 @@ namespace CefSharp.Internals
 
             foreach (var name in names)
             {
-                if (repository.IsBound(name))
+                if (!repository.IsBound(name))
                 {
                     RaiseResolveObjectEvent(name);
                 }
