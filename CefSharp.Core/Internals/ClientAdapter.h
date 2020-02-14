@@ -46,15 +46,17 @@ namespace CefSharp
             //contains in-progress eval script tasks
             gcroot<IPendingTaskRepository<JavascriptResponse^>^> _pendingTaskRepository;
             gcroot<IJavascriptCallbackFactory^> _javascriptCallbackFactory;
+            gcroot<IMethodRunnerQueue^> _methodRunnerQueue;
             //contains js callback factories for each browser
             IBrowser^ GetBrowserWrapper(int browserId, bool isPopup);
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter, IPendingTaskRepository<JavascriptResponse^>^ pendingTaskRepository, gcroot<IJavascriptCallbackFactory^> javascriptCallbackFactory) :
+            ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter, IPendingTaskRepository<JavascriptResponse^>^ pendingTaskRepository, gcroot<IJavascriptCallbackFactory^> javascriptCallbackFactory, IMethodRunnerQueue^ methodRunnerQueue) :
                 _browserControl(browserControl),
                 _browserAdapter(browserAdapter),
                 _pendingTaskRepository(pendingTaskRepository),
                 _javascriptCallbackFactory(javascriptCallbackFactory),
+                _methodRunnerQueue(methodRunnerQueue),
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
                 _browserHwnd(NULL)
             {
@@ -74,6 +76,7 @@ namespace CefSharp
                 _popupBrowsers = nullptr;
                 _pendingTaskRepository = nullptr;
                 _javascriptCallbackFactory = nullptr;
+                _methodRunnerQueue = nullptr;
             }
 
             HWND GetBrowserHwnd() { return _browserHwnd; }

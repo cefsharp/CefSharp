@@ -162,11 +162,7 @@ IJavascriptObjectRepositoryInternal^ ManagedCefBrowserAdapter::JavascriptObjectR
     return _javaScriptObjectRepository;
 }
 
-IMethodRunnerQueue^ ManagedCefBrowserAdapter::MethodRunnerQueue::get()
-{
-    return _methodRunnerQueue;
-}
-
+//We cannot subscribe to the managed event using an unmanaged method so we have to keep this here for now.
 void ManagedCefBrowserAdapter::MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e)
 {
     auto result = e->Result;

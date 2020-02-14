@@ -51,24 +51,6 @@ namespace CefSharp
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
             : _isDisposed(false)
         {
-            _pendingTaskRepository = gcnew PendingTaskRepository<JavascriptResponse^>();
-            _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_pendingTaskRepository);
-
-            if (offScreenRendering)
-            {
-                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this, _pendingTaskRepository, _javascriptCallbackFactory);
-            }
-            else
-            {
-                _clientAdapter = new ClientAdapter(webBrowserInternal, this, _pendingTaskRepository, _javascriptCallbackFactory);
-            }
-
-            _webBrowserInternal = webBrowserInternal;
-
-            _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
-
-
-
             if (CefSharpSettings::ConcurrentTaskExecution)
             {
                 _methodRunnerQueue = gcnew CefSharp::Internals::ConcurrentMethodRunnerQueue(_javaScriptObjectRepository);
@@ -79,6 +61,22 @@ namespace CefSharp
             }
 
             _methodRunnerQueue->MethodInvocationComplete += gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
+
+            _pendingTaskRepository = gcnew PendingTaskRepository<JavascriptResponse^>();
+            _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_pendingTaskRepository);
+
+            if (offScreenRendering)
+            {
+                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this, _pendingTaskRepository, _javascriptCallbackFactory, _methodRunnerQueue);
+            }
+            else
+            {
+                _clientAdapter = new ClientAdapter(webBrowserInternal, this, _pendingTaskRepository, _javascriptCallbackFactory, _methodRunnerQueue);
+            }
+
+            _webBrowserInternal = webBrowserInternal;
+
+            _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
         }
 
         !ManagedCefBrowserAdapter()
@@ -141,11 +139,6 @@ namespace CefSharp
         virtual property IJavascriptObjectRepositoryInternal^ JavascriptObjectRepository
         {
             CefSharp::Internals::IJavascriptObjectRepositoryInternal^ get();
-        }
-
-        virtual property IMethodRunnerQueue^ MethodRunnerQueue
-        {
-            CefSharp::Internals::IMethodRunnerQueue^ get();
         }
     };
 }
