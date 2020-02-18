@@ -81,7 +81,7 @@ namespace CefSharp.OffScreen.Example
                 var onUi = Cef.CurrentlyOnThread(CefThreadIds.TID_UI);
 
                 // For Google.com pre-pupulate the search text box
-                await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
+                await browser.EvaluateScriptAsync("document.querySelector('[name=q]').value = 'CefSharp Was Here!'");
 
                 //Example using SendKeyEvent for input instead of javascript
                 //var browserHost = browser.GetBrowserHost();
