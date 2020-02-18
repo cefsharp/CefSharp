@@ -15,7 +15,7 @@ namespace CefSharp
     /// </summary>
     public class DomNode : IDomNode
     {
-        private readonly IDictionary<string, string> _attributes;
+        private readonly IDictionary<string, string> attributes;
 
         /// <summary>
         /// Constructor.
@@ -25,7 +25,7 @@ namespace CefSharp
         public DomNode(string tagName, IDictionary<string, string> attributes)
         {
             TagName = tagName;
-            _attributes = attributes;
+            this.attributes = attributes;
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace CefSharp
         public override string ToString()
         {
             var sb = new StringBuilder();
-            if (_attributes != null)
+            if (attributes != null)
             {
-                foreach (var pair in _attributes)
+                foreach (var pair in attributes)
                 {
                     sb.AppendFormat("{0}{1}:'{2}'", 0 < sb.Length ? ", " : String.Empty, pair.Key, pair.Value);
                 }
@@ -69,12 +69,12 @@ namespace CefSharp
         {
             get
             {
-                if (_attributes == null || _attributes.Count < 1 || !_attributes.ContainsKey(name))
+                if (attributes == null || attributes.Count < 1 || !attributes.ContainsKey(name))
                 {
                     return null;
                 }
 
-                return _attributes[name];
+                return attributes[name];
             }
         }
 
@@ -96,12 +96,12 @@ namespace CefSharp
         {
             get
             {
-                if (_attributes == null)
+                if (attributes == null)
                 {
                     return new ReadOnlyCollection<string>(new List<string>());
                 }
 
-                return Array.AsReadOnly<string>(_attributes.Keys.ToArray());
+                return Array.AsReadOnly<string>(attributes.Keys.ToArray());
             }
         }
 
@@ -114,12 +114,12 @@ namespace CefSharp
         /// </returns>
         public bool HasAttribute(string attributeName)
         {
-            if (_attributes == null)
+            if (attributes == null)
             {
                 return false;
             }
 
-            return _attributes.ContainsKey(attributeName);
+            return attributes.ContainsKey(attributeName);
         }
 
         /// <summary>
@@ -130,12 +130,12 @@ namespace CefSharp
         /// </returns>
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
-            if (_attributes == null)
+            if (attributes == null)
             {
                 return new Dictionary<string, string>().GetEnumerator();
             }
 
-            return _attributes.GetEnumerator();
+            return attributes.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
