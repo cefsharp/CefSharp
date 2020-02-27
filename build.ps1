@@ -3,9 +3,9 @@
     [Parameter(Position = 0)] 
     [string] $Target = "vs2015",
     [Parameter(Position = 1)]
-    [string] $Version = "79.1.360",
+    [string] $Version = "79.1.380",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "79.1.360"
+    [string] $AssemblyVersion = "79.1.380"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
