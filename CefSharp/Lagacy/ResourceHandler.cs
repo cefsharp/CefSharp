@@ -71,7 +71,7 @@ namespace CefSharp.Lagacy
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
         /// </summary>
-        /// <param name="mimeType">Optional mimeType defaults to <see cref="DefaultMimeType"/></param>
+        /// <param name="mimeType">Optional mimeType defaults to <see cref="CefSharp.ResourceHandler.DefaultMimeType"/></param>
         /// <param name="stream">Optional Stream - must be set at some point to provide a valid response</param>
         /// <param name="autoDisposeStream">When true the Stream will be disposed when this instance is Diposed, you will
         /// be unable to use this ResourceHandler after the Stream has been disposed</param>

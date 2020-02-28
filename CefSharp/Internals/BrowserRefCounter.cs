@@ -12,7 +12,7 @@ namespace CefSharp.Internals
     /// This includes CefBrowser popup instances.
     /// </summary>
     /// <remarks>
-    /// Roughtly based on <see cref="CountdownEvent"/>, unforeunately <see cref="CountdownEvent.AddCount"/>
+    /// Roughtly based on <see cref="CountdownEvent"/>, unforeunately <see cref="CountdownEvent.AddCount(int)"/>
     /// doesn't reset the internal <see cref="ManualResetEventSlim"/> when Count is aleady 0.
     /// In our case it's valid to increase the number of browsers and reset the event.
     /// </remarks>
