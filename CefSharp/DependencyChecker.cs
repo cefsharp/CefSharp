@@ -33,7 +33,8 @@ namespace CefSharp
             // V8 native mapping files, see
             // https://groups.google.com/a/chromium.org/forum/#!topic/chromium-packagers/75J9Y1vIc_E
             // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=12580
-            "natives_blob.bin",
+            // "natives_blob.bin" was removed
+            // https://bugs.chromium.org/p/v8/issues/detail?id=7624#c60
             "snapshot_blob.bin",
             "v8_context_snapshot.bin"
         };
