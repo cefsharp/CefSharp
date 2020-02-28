@@ -21,7 +21,7 @@ namespace CefSharp.Test
             // CefSharp requires a default AppDomain which means that xunit is not able
             // to provide the correct binding redirects defined in the app.config
             // so we have to provide them manually via AssemblyResolve
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
 
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
@@ -61,10 +61,10 @@ namespace CefSharp.Test
                 });
             }
 
-            AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomainAssemblyResolve;
         }
 
-        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        private Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
         {
             var asemblyName = new AssemblyName(args.Name);
             var path = Path.Combine(Environment.CurrentDirectory, asemblyName.Name + ".dll");
