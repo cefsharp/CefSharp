@@ -109,10 +109,6 @@
     <Compile Include="Wpf\WpfBrowserBasicFacts.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.BrowserSubprocess\CefSharp.BrowserSubprocess.csproj">
-      <Project>{23ee5140-2c2c-4b53-a954-10b08dca6bd6}</Project>
-      <Name>CefSharp.BrowserSubprocess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
       <Name>CefSharp.Core</Name>

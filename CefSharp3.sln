@@ -76,6 +76,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.OffScreen.Example"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Test", "CefSharp.Test\CefSharp.Test.csproj", "{7A4D5447-183B-4A11-8E63-9848991B46FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{23EE5140-2C2C-4B53-A954-10B08DCA6BD6} = {23EE5140-2C2C-4B53-A954-10B08DCA6BD6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
