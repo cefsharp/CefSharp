@@ -67,7 +67,7 @@ namespace CefSharp.Test.Framework
 
             methodRunnerQueue.Enqueue(methodInvocation);
 
-            manualResetEvent.WaitOne(3000);
+            manualResetEvent.WaitOne(6000);
 
             Assert.Equal(expectedResult, actualResult);
         }

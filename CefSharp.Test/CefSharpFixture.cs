@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.OffScreen;
@@ -17,6 +18,11 @@ namespace CefSharp.Test
 
         public CefSharpFixture()
         {
+            // CefSharp requires a default AppDomain which means that xunit is not able
+            // to provide the correct binding redirects defined in the app.config
+            // so we have to provide them manually via AssemblyResolve
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             scheduler = TaskScheduler.FromCurrentSynchronizationContext();
@@ -54,6 +60,19 @@ namespace CefSharp.Test
                     }
                 });
             }
+
+            AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            var asemblyName = new AssemblyName(args.Name);
+            var path = Path.Combine(Environment.CurrentDirectory, asemblyName.Name + ".dll");
+            if (File.Exists(path))
+            {
+                return Assembly.LoadFrom(path);
+            }
+            return null;
         }
     }
 }

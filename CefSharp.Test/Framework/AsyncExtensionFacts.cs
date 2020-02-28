@@ -12,6 +12,8 @@ namespace CefSharp.Test.Framework
     /// <summary>
     /// Async Extensions - This test doesn't need to be part of the 
     /// </summary>
+    //NOTE: All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle
+    [Collection(CefSharpFixtureCollection.Key)]
     public class AsyncExtensionFacts
     {
         private readonly ITestOutputHelper output;
