@@ -15,10 +15,8 @@ skip_commits:
 build_script:
   - ps: .\build.ps1
 
-# Test our Release x64 build
-test:
-  assemblies:
-    - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
+# Disable tests
+test: off
 
 artifacts:
   - path: NuGet\**\*.nupkg
