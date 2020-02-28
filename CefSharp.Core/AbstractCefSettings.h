@@ -49,9 +49,6 @@ namespace CefSharp
             _cefExtensions = gcnew List<V8Extension^>();
             _cefCommandLineArgs = gcnew CommandLineArgDictionary();
 
-            //Automatically discovered and load a system-wide installation of Pepper Flash.
-            _cefCommandLineArgs->Add("enable-system-flash");
-
             //Disable site isolation trials as this causes problems with frames
             //being hosted in different render processes.
             //https://github.com/cefsharp/CefSharp/issues/2967
@@ -405,7 +402,7 @@ namespace CefSharp
 
         /// <summary>
         /// Set command line argument to disable GPU Acceleration. WebGL will use
-		/// software rendering via Swiftshader (https://swiftshader.googlesource.com/SwiftShader#introduction)
+        /// software rendering via Swiftshader (https://swiftshader.googlesource.com/SwiftShader#introduction)
         /// </summary>
         void DisableGpuAcceleration()
         {
@@ -430,7 +427,7 @@ namespace CefSharp
         /// <summary>
         /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance Swiftshader will be used for WebGL, look at the source
         /// to determine which flags best suite your requirements. See https://swiftshader.googlesource.com/SwiftShader#introduction for
-		/// details on Swiftshader
+        /// details on Swiftshader
         /// </summary>
         void SetOffScreenRenderingBestPerformanceArgs()
         {
