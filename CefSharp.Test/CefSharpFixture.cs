@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,18 +12,28 @@ using Xunit;
 
 namespace CefSharp.Test
 {
-    public class CefSharpFixture : IAsyncLifetime
+    public class CefSharpFixture : IAsyncLifetime, IDisposable
     {
-        private readonly TaskScheduler scheduler;
+        private readonly BlockingCollection<Action> queue;
         private readonly Thread thread;
+        private readonly CancellationTokenSource cts;
 
         public CefSharpFixture()
         {
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            queue = new BlockingCollection<Action>();
+            cts = new CancellationTokenSource();
 
-            scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            thread = Thread.CurrentThread;
+            using (var resetEvent = new ManualResetEventSlim())
+            {
+                thread = new Thread(Run);
+                thread.Start(resetEvent);
 
+                resetEvent.Wait();
+            }
+        }
+
+        private void CefInitialize()
+        {
             if (!Cef.IsInitialized)
             {
                 var isDefault = AppDomain.CurrentDomain.IsDefaultAppDomain();
@@ -41,26 +52,73 @@ namespace CefSharp.Test
             }
         }
 
+        private void CefShutdown()
+        {
+            if (Cef.IsInitialized)
+            {
+                Cef.Shutdown();
+            }
+        }
+
         public Task InitializeAsync()
         {
-            return Task.CompletedTask;
+            return Post(CefInitialize);
         }
 
         public Task DisposeAsync()
         {
-            var factory = new TaskFactory(scheduler);
+            return Post(CefShutdown);
+        }
 
-            if (thread.IsAlive)
+        public void Dispose()
+        {
+            queue.CompleteAdding();
+
+            cts.Cancel();
+            
+            if (!thread.Join(TimeSpan.FromSeconds(5)))
             {
-                return factory.StartNew(() =>
-                {
-                    if (Cef.IsInitialized)
-                    {
-                        Cef.Shutdown();
-                    }
-                });
+                thread.Abort();
             }
-            return Task.CompletedTask;
+
+            queue.Dispose();
+        }
+
+        private void Run(object state)
+        {
+            ((ManualResetEventSlim)state).Set();
+
+            try
+            {
+                foreach (var action in queue.GetConsumingEnumerable(cts.Token))
+                {
+                    action();
+                }
+            }
+            catch (OperationCanceledException) { }
+        }
+
+        private Task Post(Action action)
+        {
+            var tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            if (!queue.TryAdd(() =>
+            {
+                try
+                {
+                    action();
+                    tcs.SetResult(null);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            }))
+            {
+                tcs.SetCanceled();
+            }
+
+            return tcs.Task;
         }
     }
 }
