@@ -58,8 +58,6 @@ namespace CefSharp.Test.Framework
 
             methodRunnerQueue.MethodInvocationComplete += (sender, args) =>
             {
-                methodRunnerQueue.Dispose();
-
                 actualResult = args.Result.Result.ToString();
 
                 manualResetEvent.Set();
@@ -70,6 +68,8 @@ namespace CefSharp.Test.Framework
             manualResetEvent.WaitOne(3000);
 
             Assert.Equal(expectedResult, actualResult);
+
+            methodRunnerQueue.Dispose();
         }
     }
 }
