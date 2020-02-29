@@ -5,7 +5,7 @@
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-[assembly: Xunit.TestFramework("CefSharp.Test.BindingRedirectHelper", "CefSharp.Test")]
+[assembly: Xunit.TestFramework("CefSharp.Test.CefSharpXunitTestFramework", "CefSharp.Test")]
 
 namespace CefSharp.Test
 {
