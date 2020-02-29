@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\cef.redist.x86.80.0.4\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.80.0.4\build\cef.redist.x86.props')" />
   <Import Project="..\packages\cef.redist.x64.80.0.4\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.80.0.4\build\cef.redist.x64.props')" />
@@ -192,6 +192,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CefSharp.BrowserSubprocess\CefSharp.BrowserSubprocess.csproj">
+      <Project>{23ee5140-2c2c-4b53-a954-10b08dca6bd6}</Project>
+      <Name>CefSharp.BrowserSubprocess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
       <Name>CefSharp.Core</Name>
