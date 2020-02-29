@@ -97,11 +97,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingRedirectAssemblyResolver.cs" />
     <Compile Include="Framework\BinderFacts.cs" />
     <Compile Include="Framework\AsyncExtensionFacts.cs" />
     <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
-    <Compile Include="BindingRedirectHelper.cs" />
+    <Compile Include="CefSharpXunitTestFramework.cs" />
     <Compile Include="CefSharpFixture.cs" />
     <Compile Include="CefSharpFixtureCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

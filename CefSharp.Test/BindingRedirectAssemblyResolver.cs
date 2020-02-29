@@ -5,28 +5,23 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Xunit.Abstractions;
-using Xunit.Sdk;
-
-[assembly: Xunit.TestFramework("CefSharp.Test.BindingRedirectHelper", "CefSharp.Test")]
 
 namespace CefSharp.Test
 {
-    public class BindingRedirectHelper : XunitTestFramework
+    /// <summary>
+    /// CefSharp requires a default AppDomain which means that xunit is not able
+    /// to provide the correct binding redirects defined in the app.config
+    /// so we have to provide them manually via <see cref="AppDomain.CurrentDomain.AssemblyResolve"/>
+    /// </summary>
+    internal class BindingRedirectAssemblyResolver : IDisposable
     {
-        public BindingRedirectHelper(IMessageSink messageSink)
-          : base(messageSink)
+        internal BindingRedirectAssemblyResolver()
         {
-            // CefSharp requires a default AppDomain which means that xunit is not able
-            // to provide the correct binding redirects defined in the app.config
-            // so we have to provide them manually via AssemblyResolve
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
+
         }
-
-        public new void Dispose()
+        void IDisposable.Dispose()
         {
-            base.Dispose();
-
             AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomainAssemblyResolve;
         }
 
@@ -34,10 +29,12 @@ namespace CefSharp.Test
         {
             var asemblyName = new AssemblyName(args.Name);
             var path = Path.Combine(Environment.CurrentDirectory, asemblyName.Name + ".dll");
+
             if (File.Exists(path))
             {
                 return Assembly.LoadFrom(path);
             }
+
             return null;
         }
     }
