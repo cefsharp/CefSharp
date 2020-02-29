@@ -7,10 +7,11 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.OffScreen;
+using Xunit;
 
 namespace CefSharp.Test
 {
-    public class CefSharpFixture : IDisposable
+    public class CefSharpFixture : IAsyncLifetime
     {
         private readonly TaskScheduler scheduler;
         private readonly Thread thread;
@@ -40,13 +41,18 @@ namespace CefSharp.Test
             }
         }
 
-        public void Dispose()
+        public Task InitializeAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task DisposeAsync()
         {
             var factory = new TaskFactory(scheduler);
 
             if (thread.IsAlive)
             {
-                factory.StartNew(() =>
+                return factory.StartNew(() =>
                 {
                     if (Cef.IsInitialized)
                     {
@@ -54,6 +60,7 @@ namespace CefSharp.Test
                     }
                 });
             }
+            return Task.CompletedTask;
         }
     }
 }
