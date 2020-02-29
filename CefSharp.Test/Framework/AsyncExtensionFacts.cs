@@ -12,8 +12,8 @@ namespace CefSharp.Test.Framework
     /// <summary>
     /// Async Extensions - This test doesn't need to be part of the 
     /// </summary>
-    //NOTE: All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle and binding redirects
-    [Collection(CefSharpFixtureCollection.Key)]
+    //NOTE: All Test classes which require binding redirects defined in app.config must be part of this collection
+    [Collection(BindingRedirectFixtureCollection.Key)]
     public class AsyncExtensionFacts
     {
         private readonly ITestOutputHelper output;

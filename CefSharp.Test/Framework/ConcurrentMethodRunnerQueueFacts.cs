@@ -53,7 +53,7 @@ namespace CefSharp.Test.Framework
             var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add(expectedResult);
             var methodRunnerQueue = new ConcurrentMethodRunnerQueue(objectRepository);
-            var tcs = new TaskCompletionSource<string>().WithTimeout(TimeSpan.FromSeconds(3));
+            var tcs = new TaskCompletionSource<string>().WithTimeout(TimeSpan.FromSeconds(30));
 
             methodRunnerQueue.MethodInvocationComplete += (sender, args) =>
             {
