@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Example.JavascriptBinding;
@@ -43,7 +42,7 @@ namespace CefSharp.Test.Framework
         }
 
         [Fact]
-        public async Task ValidateAsyncTaskMethodOutput()
+        public void ValidateAsyncTaskMethodOutput()
         {
             const string expectedResult = "Echo Me!";
             var boundObject = new AsyncBoundObject();
@@ -53,18 +52,22 @@ namespace CefSharp.Test.Framework
             var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add(expectedResult);
             var methodRunnerQueue = new ConcurrentMethodRunnerQueue(objectRepository);
-            var tcs = new TaskCompletionSource<string>().WithTimeout(TimeSpan.FromSeconds(30));
+            var manualResetEvent = new ManualResetEvent(false);
+
+            var actualResult = "";
 
             methodRunnerQueue.MethodInvocationComplete += (sender, args) =>
             {
                 methodRunnerQueue.Dispose();
 
-                tcs.TrySetResult(args.Result.Result.ToString());
+                actualResult = args.Result.Result.ToString();
+
+                manualResetEvent.Set();
             };
 
             methodRunnerQueue.Enqueue(methodInvocation);
 
-            var actualResult = await tcs.Task;
+            manualResetEvent.WaitOne(3000);
 
             Assert.Equal(expectedResult, actualResult);
         }
