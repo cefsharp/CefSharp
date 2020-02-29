@@ -133,10 +133,15 @@
     <Compile Include="WebBrowserTestExtensions.cs" />
     <Compile Include="WinForms\WinFormsBrowserBasicFacts.cs" />
     <Compile Include="Wpf\WpfBrowserBasicFacts.cs" />
+    <Compile Include="xunit\WinFormsFactAttribute.cs" />
     <Compile Include="xunit\WpfFactAttribute.cs" />
+    <Compile Include="xunit\WinFormsFactDiscoverer.cs" />
     <Compile Include="xunit\WpfFactDiscoverer.cs" />
+    <Compile Include="xunit\WinFormsTestCase.cs" />
     <Compile Include="xunit\WpfTestCase.cs" />
+    <Compile Include="xunit\WinFormsTheoryAttribute.cs" />
     <Compile Include="xunit\WpfTheoryAttribute.cs" />
+    <Compile Include="xunit\WinFormsTheoryDiscoverer.cs" />
     <Compile Include="xunit\WpfTheoryDiscoverer.cs" />
   </ItemGroup>
   <ItemGroup>
