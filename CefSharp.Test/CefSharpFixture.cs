@@ -30,6 +30,7 @@ namespace CefSharp.Test
                     throw new Exception(@"Add <add key=""xunit.appDomain"" value=""denied""/> to your app.config to disable appdomains");
                 }
 
+                CefSharpSettings.ShutdownOnExit = false;
                 var settings = new CefSettings();
 
                 //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
