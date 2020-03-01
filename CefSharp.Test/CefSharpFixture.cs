@@ -3,33 +3,21 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Concurrent;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.OffScreen;
+using Nito.AsyncEx;
 using Xunit;
 
 namespace CefSharp.Test
 {
     public class CefSharpFixture : IAsyncLifetime, IDisposable
     {
-        private readonly BlockingCollection<Action> queue;
-        private readonly Thread thread;
-        private readonly CancellationTokenSource cts;
+        private readonly AsyncContextThread contextThread;
 
         public CefSharpFixture()
         {
-            queue = new BlockingCollection<Action>();
-            cts = new CancellationTokenSource();
-
-            using (var resetEvent = new ManualResetEventSlim())
-            {
-                thread = new Thread(Run);
-                thread.Start(resetEvent);
-
-                resetEvent.Wait();
-            }
+            contextThread = new AsyncContextThread();
         }
 
         private void CefInitialize()
@@ -62,63 +50,17 @@ namespace CefSharp.Test
 
         public Task InitializeAsync()
         {
-            return Post(CefInitialize);
+            return contextThread.Factory.StartNew(CefInitialize);
         }
 
         public Task DisposeAsync()
         {
-            return Post(CefShutdown);
+            return contextThread.Factory.StartNew(CefShutdown);
         }
 
         public void Dispose()
         {
-            queue.CompleteAdding();
-
-            cts.Cancel();
-            
-            if (!thread.Join(TimeSpan.FromSeconds(5)))
-            {
-                thread.Abort();
-            }
-
-            queue.Dispose();
-        }
-
-        private void Run(object state)
-        {
-            ((ManualResetEventSlim)state).Set();
-
-            try
-            {
-                foreach (var action in queue.GetConsumingEnumerable(cts.Token))
-                {
-                    action();
-                }
-            }
-            catch (OperationCanceledException) { }
-        }
-
-        private Task Post(Action action)
-        {
-            var tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
-
-            if (!queue.TryAdd(() =>
-            {
-                try
-                {
-                    action();
-                    tcs.SetResult(null);
-                }
-                catch (Exception ex)
-                {
-                    tcs.SetException(ex);
-                }
-            }))
-            {
-                tcs.SetCanceled();
-            }
-
-            return tcs.Task;
+            contextThread.Dispose();
         }
     }
 }
