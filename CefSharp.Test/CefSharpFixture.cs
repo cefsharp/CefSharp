@@ -4,24 +4,24 @@
 
 using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.OffScreen;
+using Nito.AsyncEx;
+using Xunit;
 
 namespace CefSharp.Test
 {
-    public class CefSharpFixture : IDisposable
+    public class CefSharpFixture : IAsyncLifetime, IDisposable
     {
-        private readonly TaskScheduler scheduler;
-        private readonly Thread thread;
+        private readonly AsyncContextThread contextThread;
 
         public CefSharpFixture()
         {
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            contextThread = new AsyncContextThread();
+        }
 
-            scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            thread = Thread.CurrentThread;
-
+        private void CefInitialize()
+        {
             if (!Cef.IsInitialized)
             {
                 var isDefault = AppDomain.CurrentDomain.IsDefaultAppDomain();
@@ -40,20 +40,27 @@ namespace CefSharp.Test
             }
         }
 
+        private void CefShutdown()
+        {
+            if (Cef.IsInitialized)
+            {
+                Cef.Shutdown();
+            }
+        }
+
+        public Task InitializeAsync()
+        {
+            return contextThread.Factory.StartNew(CefInitialize);
+        }
+
+        public Task DisposeAsync()
+        {
+            return contextThread.Factory.StartNew(CefShutdown);
+        }
+
         public void Dispose()
         {
-            var factory = new TaskFactory(scheduler);
-
-            if (thread.IsAlive)
-            {
-                factory.StartNew(() =>
-                {
-                    if (Cef.IsInitialized)
-                    {
-                        Cef.Shutdown();
-                    }
-                });
-            }
+            contextThread.Dispose();
         }
     }
 }
