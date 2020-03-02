@@ -119,6 +119,9 @@
     <Reference Include="xunit.execution.desktop, Version=2.4.1.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.extensibility.execution.2.4.1\lib\net452\xunit.execution.desktop.dll</HintPath>
     </Reference>
+    <Reference Include="Xunit.StaFact, Version=0.3.0.0, Culture=neutral, PublicKeyToken=593f35978b459a4b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xunit.StaFact.0.3.18\lib\net452\Xunit.StaFact.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingRedirectAssemblyResolver.cs" />
@@ -133,16 +136,6 @@
     <Compile Include="WebBrowserTestExtensions.cs" />
     <Compile Include="WinForms\WinFormsBrowserBasicFacts.cs" />
     <Compile Include="Wpf\WpfBrowserBasicFacts.cs" />
-    <Compile Include="xunit\WinFormsFactAttribute.cs" />
-    <Compile Include="xunit\WpfFactAttribute.cs" />
-    <Compile Include="xunit\WinFormsFactDiscoverer.cs" />
-    <Compile Include="xunit\WpfFactDiscoverer.cs" />
-    <Compile Include="xunit\WinFormsTestCase.cs" />
-    <Compile Include="xunit\WpfTestCase.cs" />
-    <Compile Include="xunit\WinFormsTheoryAttribute.cs" />
-    <Compile Include="xunit\WpfTheoryAttribute.cs" />
-    <Compile Include="xunit\WinFormsTheoryDiscoverer.cs" />
-    <Compile Include="xunit\WpfTheoryDiscoverer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
