@@ -18,7 +18,6 @@ namespace CefSharp.Test
         internal BindingRedirectAssemblyResolver()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
-
         }
         void IDisposable.Dispose()
         {
@@ -28,7 +27,19 @@ namespace CefSharp.Test
         private static Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
         {
             var asemblyName = new AssemblyName(args.Name);
+
+            // during tests and test discovery outside of visual studio the Environment.CurrentDirectory points to the output directory
             var path = Path.Combine(Environment.CurrentDirectory, asemblyName.Name + ".dll");
+
+            if (File.Exists(path))
+            {
+                return Assembly.LoadFrom(path);
+            }
+
+            // during test discovery inside of visual studio the current directory points to e.g. "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE"
+            // which is why we are also checking the executing assembly which points to the output directory
+            // strangely enough though the execution assembly is different when test discovery happens outside of visual studio but in that case the Environment.CurrentDirectory is correct...
+            path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), asemblyName.Name + ".dll");
 
             if (File.Exists(path))
             {
