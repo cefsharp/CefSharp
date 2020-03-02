@@ -27,9 +27,8 @@ namespace CefSharp.Test.WinForms
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                var form = new System.Windows.Forms.Form();
-                form.Controls.Add(browser);
-                form.Show();
+                browser.Size = new System.Drawing.Size(1024, 768);
+                browser.CreateControl();
 
                 await browser.LoadPageAsync();
 
