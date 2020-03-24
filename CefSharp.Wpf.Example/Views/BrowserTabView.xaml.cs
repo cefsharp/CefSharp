@@ -81,7 +81,7 @@ namespace CefSharp.Wpf.Example.Views
             //Read an embedded bitmap into a memory stream then register it as a resource you can then load custom://cefsharp/images/beach.jpg
             var beachImageStream = new MemoryStream();
             CefSharp.Example.Properties.Resources.beach.Save(beachImageStream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            browser.RegisterResourceHandler(CefExample.BaseUrl + "/images/beach.jpg", beachImageStream, ResourceHandler.GetMimeType(".jpg"));
+            browser.RegisterResourceHandler(CefExample.BaseUrl + "/images/beach.jpg", beachImageStream, Cef.GetMimeType("jpg"));
 
             var dragHandler = new DragHandler();
             dragHandler.RegionsChanged += OnDragHandlerRegionsChanged;
