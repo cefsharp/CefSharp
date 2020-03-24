@@ -763,10 +763,16 @@ namespace CefSharp
         /// <returns>Returns the mime type for the specified file extension or an empty string if unknown.</returns>
         static String^ GetMimeType(String^ extension)
         {
+            if (extension == nullptr)
+            {
+                throw gcnew ArgumentNullException("extension");
+            }
+
             if (extension->StartsWith("."))
             {
                 extension = extension->Substring(1, extension->Length - 1);
             }
+
             return StringUtils::ToClr(CefGetMimeType(StringUtils::ToNative(extension)));
         }
 

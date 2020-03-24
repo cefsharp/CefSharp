@@ -258,7 +258,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Gets the resource from the file path specified. Use the <see cref="GetMimeType"/>
+        /// Gets the resource from the file path specified. Use the Cef.GetMimeType()
         /// helper method to lookup the mimeType if required. Uses CefStreamResourceHandler for reading the data
         /// </summary>
         /// <param name="filePath">Location of the file.</param>
