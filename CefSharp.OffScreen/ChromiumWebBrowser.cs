@@ -66,8 +66,6 @@ namespace CefSharp.OffScreen
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
-        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
-        /// binding.</remarks>
         public bool IsBrowserInitialized { get; private set; }
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
