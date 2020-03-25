@@ -205,7 +205,7 @@ namespace CefSharp.Wpf
                 }
                 if (value != null && value.GetType() != typeof(RequestContext))
                 {
-                    throw new Exception(string.Format("RequestContxt can only be of type {0} or null", typeof(RequestContext)));
+                    throw new Exception(string.Format("RequestContext can only be of type {0} or null", typeof(RequestContext)));
                 }
                 requestContext = value;
             }
