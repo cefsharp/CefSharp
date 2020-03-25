@@ -23,6 +23,14 @@ namespace CefSharp.SchemeHandler
         private readonly FileShare resourceFileShare;
 
         /// <summary>
+        /// <see cref="ResourceHandler.GetMimeType(string)"/> is being deprecated in favour of using
+        /// Chromiums native mimeType lookup which is accessible using Cef.GetMimeType, this method is however
+        /// not directly avaliable as it exists in CefSharp.Core, to get around this we set
+        /// this static delegate with a reference to Cef.GetMimeType when Cef.Initialize is called.
+        /// </summary>
+        public static Func<string, string> GetMimeTypeDelegate = (s) => { return ResourceHandler.GetMimeType(s); };
+
+        /// <summary>
         /// Initialize a new instance of FolderSchemeHandlerFactory
         /// </summary>
         /// <param name="rootFolder">Root Folder where all your files exist, requests cannot be made outside of this folder</param>
@@ -88,8 +96,8 @@ namespace CefSharp.SchemeHandler
             if (filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
             {
                 var fileExtension = Path.GetExtension(filePath);
-                var mimeType = ResourceHandler.GetMimeType(fileExtension);
-                var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, resourceFileShare); 
+                var mimeType = GetMimeTypeDelegate(fileExtension);
+                var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, resourceFileShare);
                 return ResourceHandler.FromStream(stream, mimeType);
             }
 

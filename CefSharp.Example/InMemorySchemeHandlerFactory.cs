@@ -76,7 +76,7 @@ namespace CefSharp.Example
             {
                 //For css/js/etc it's important to specify a mime/type, here we use the file extension to perform a lookup
                 //there are overloads where you can specify more options including Encoding, mimeType
-                return ResourceHandler.FromString(resource, extension);
+                return ResourceHandler.FromString(resource, mimeType: Cef.GetMimeType(extension));
             }
 
             return null;

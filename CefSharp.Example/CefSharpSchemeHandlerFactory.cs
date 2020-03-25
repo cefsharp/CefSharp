@@ -97,7 +97,7 @@ namespace CefSharp.Example
 
             if (string.Equals(fileName, "/EmptyResponseFilterTest.html", StringComparison.OrdinalIgnoreCase))
             {
-                return ResourceHandler.FromString("", ".html");
+                return ResourceHandler.FromString("", mimeType: ResourceHandler.DefaultMimeType);
             }
 
             string resource;
