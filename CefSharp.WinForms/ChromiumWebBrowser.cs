@@ -73,6 +73,12 @@ namespace CefSharp.WinForms
         private int disposeSignaled;
 
         /// <summary>
+        /// Parking control used to temporarily host the CefBrowser instance
+        /// when <see cref="RecreatingHandle"/> is <c>true</c>.
+        /// </summary>
+        private Control parkingControl;
+
+        /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
@@ -547,6 +553,9 @@ namespace CefSharp.WinForms
                     managedCefBrowserAdapter = null;
                 }
 
+                parkingControl?.Dispose();
+                parkingControl = null;
+
                 // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
                 // is called.
                 LifeSpanHandler = null;
@@ -608,6 +617,25 @@ namespace CefSharp.WinForms
             base.OnHandleCreated(e);
         }
 
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            //When the Control is being Recreated then we'll park
+            //the browser (set to a temp parent) and assign to
+            //our new handle when it's ready.
+            if (RecreatingHandle)
+            {
+                parkingControl = new Control();
+                parkingControl.CreateControl();
+
+                var host = this.GetBrowserHost();
+                var hwnd = host.GetWindowHandle();
+
+                NativeMethodWrapper.SetWindowParent(hwnd, parkingControl.Handle);
+            }
+
+            base.OnHandleDestroyed(e);
+        }
+
         /// <summary>
         /// Override this method to handle creation of WindowInfo. This method can be used to customise aspects of
         /// browser creation including configuration of settings such as <see cref="IWindowInfo.ExStyle"/>.
@@ -649,7 +677,20 @@ namespace CefSharp.WinForms
 
             if (((IWebBrowserInternal)this).HasParent == false)
             {
-                if (IsBrowserInitialized == false || browser == null)
+                //If we are Recreating our handle we will have re-parented our
+                //browser to parkingControl. We'll assign the browser to our newly
+                //created handle now.
+                if (RecreatingHandle && IsBrowserInitialized && browser != null)
+                {
+                    var host = this.GetBrowserHost();
+                    var hwnd = host.GetWindowHandle();
+
+                    NativeMethodWrapper.SetWindowParent(hwnd, Handle);
+
+                    parkingControl.Dispose();
+                    parkingControl = null;
+                }
+                else
                 {
                     var windowInfo = CreateBrowserWindowInfo(Handle);
 
@@ -658,12 +699,6 @@ namespace CefSharp.WinForms
                     managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
 
                     browserSettings = null;
-                }
-                else
-                {
-                    //If the browser already exists we'll reparent it to the new Handle
-                    var browserHandle = browser.GetHost().GetWindowHandle();
-                    NativeMethodWrapper.SetWindowParent(browserHandle, Handle);
                 }
             }
         }
