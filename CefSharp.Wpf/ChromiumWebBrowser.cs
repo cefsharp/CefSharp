@@ -1894,6 +1894,12 @@ namespace CefSharp.Wpf
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
                 managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: initialAddress);
 
+                //Dispose of BrowserSettings if we created it, if user created then they're responsible
+                if (browserSettings.FrameworkCreated)
+                {
+                    browserSettings.Dispose();
+                }
+
                 browserSettings = null;
             }
             browserCreated = true;

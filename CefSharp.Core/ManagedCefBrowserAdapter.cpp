@@ -67,12 +67,6 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
         throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser call failed, review the CEF log file for more details.");
     }
 
-    //Dispose of BrowserSettings if we created it, if user created then they're responsible
-    if (browserSettings->FrameworkCreated)
-    {
-        delete browserSettings;
-    }
-
     delete windowInfo;
 }
 

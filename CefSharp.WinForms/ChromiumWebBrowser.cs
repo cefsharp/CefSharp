@@ -106,7 +106,20 @@ namespace CefSharp.WinForms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IBrowserSettings BrowserSettings
         {
-            get { return browserSettings; }
+            get
+            {
+                //We keep a reference to the browserSettings for the case where
+                //the Control Handle is destroyed then Created see https://github.com/cefsharp/CefSharp/issues/2840
+                //As it's not possible to change settings after the browser has been
+                //created, and changing browserSettings then creating a new handle will
+                //give a subtle different user experience if you aren't expecting it we
+                //return null here even though we still have a reference.
+                if (browserCreated)
+                {
+                    return null;
+                }
+                return browserSettings;
+            }
             set
             {
                 if (browserCreated)
@@ -553,6 +566,14 @@ namespace CefSharp.WinForms
                     managedCefBrowserAdapter = null;
                 }
 
+                //Dispose of BrowserSettings if we created it, if user created then they're responsible
+                if (browserSettings.FrameworkCreated)
+                {
+                    browserSettings.Dispose();
+                }
+
+                browserSettings = null;
+
                 parkingControl?.Dispose();
                 parkingControl = null;
 
@@ -697,8 +718,6 @@ namespace CefSharp.WinForms
                     initialAddressLoaded = !string.IsNullOrEmpty(Address);
 
                     managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
-
-                    browserSettings = null;
                 }
             }
         }
