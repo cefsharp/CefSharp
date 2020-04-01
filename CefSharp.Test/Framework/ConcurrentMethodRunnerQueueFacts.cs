@@ -42,7 +42,7 @@ namespace CefSharp.Test.Framework
             Assert.Null(ex);
         }
 
-        [Fact]
+        [Fact(Skip = "Times out when run through appveyor, issue https://github.com/cefsharp/CefSharp/issues/3067")]
         public async Task ValidateAsyncTaskMethodOutput()
         {
             const string expectedResult = "Echo Me!";
