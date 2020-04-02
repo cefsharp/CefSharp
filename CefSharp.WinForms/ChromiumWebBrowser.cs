@@ -399,6 +399,20 @@ namespace CefSharp.WinForms
         public bool UseParentFormMessageInterceptor { get; set; } = true;
 
         /// <summary>
+        /// By default when <see cref="Control.OnHandleDestroyed(EventArgs)"/> is called
+        /// the underlying Browser Hwnd is only parked (moved to a temp parent) 
+        /// when <see cref="Control.RecreatingHandle"/> is <c>true</c>, there are a few other
+        /// cases where parking of the control is desired, you can force parking by setting
+        /// this property to <c>true</c>.
+        /// </summary>
+        /// <remarks>
+        /// You may wish to set this property to <c>true</c> when using the browser in conjunction
+        /// with https://github.com/dockpanelsuite/dockpanelsuite
+        /// </remarks>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(true)]
+        public bool ParkControlOnHandleDestroyed { get; set; } = false;
+
+        /// <summary>
         /// Initializes static members of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
         static ChromiumWebBrowser()
@@ -643,7 +657,7 @@ namespace CefSharp.WinForms
             //When the Control is being Recreated then we'll park
             //the browser (set to a temp parent) and assign to
             //our new handle when it's ready.
-            if (RecreatingHandle)
+            if (RecreatingHandle || ParkControlOnHandleDestroyed)
             {
                 parkingControl = new Control();
                 parkingControl.CreateControl();
@@ -701,7 +715,7 @@ namespace CefSharp.WinForms
                 //If we are Recreating our handle we will have re-parented our
                 //browser to parkingControl. We'll assign the browser to our newly
                 //created handle now.
-                if (RecreatingHandle && IsBrowserInitialized && browser != null)
+                if ((RecreatingHandle || ParkControlOnHandleDestroyed) && IsBrowserInitialized && browser != null)
                 {
                     var host = this.GetBrowserHost();
                     var hwnd = host.GetWindowHandle();
