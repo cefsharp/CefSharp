@@ -9,18 +9,18 @@
 
 namespace CefSharp
 {
-    private class PluginVisitor : public CefWebPluginInfoVisitor
+    private class CefWebPluginInfoVisitorAdaptor : public CefWebPluginInfoVisitor
     {
     private:
         gcroot<IWebPluginInfoVisitor^> _visitor;
 
     public:
-        PluginVisitor(IWebPluginInfoVisitor^ visitor) : _visitor(visitor)
+        CefWebPluginInfoVisitorAdaptor(IWebPluginInfoVisitor^ visitor) : _visitor(visitor)
         {
 
         }
 
-        ~PluginVisitor()
+        ~CefWebPluginInfoVisitorAdaptor()
         {
             delete _visitor;
             _visitor = nullptr;
@@ -36,6 +36,6 @@ namespace CefSharp
             return _visitor->Visit(plugin, count, total);
         }
 
-        IMPLEMENT_REFCOUNTING(PluginVisitor);
+        IMPLEMENT_REFCOUNTING(CefWebPluginInfoVisitorAdaptor);
     };
 }

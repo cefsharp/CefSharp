@@ -23,7 +23,7 @@
 #include "CefRequestCallbackWrapper.h"
 #include "CefRunContextMenuCallbackWrapper.h"
 #include "CefSslInfoWrapper.h"
-#include "CefSharpBrowserWrapper.h"
+#include "CefBrowserWrapper.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "Messaging\Messages.h"
 #include "PopupFeatures.h"
@@ -166,7 +166,7 @@ namespace CefSharp
         {
             BrowserRefCounter::Instance->Increment();
 
-            auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
+            auto browserWrapper = gcnew CefBrowserWrapper(browser);
 
             auto isPopup = browser->IsPopup() && !_browserControl->HasParent;
 
@@ -205,7 +205,7 @@ namespace CefSharp
                 //By this point it's possible IBrowser references have been disposed
                 //Rather than attempting to rework the rather complex closing logic
                 //It's easier to pass in a new wrapper and dispose it straight away
-                CefSharpBrowserWrapper browserWrapper(browser);
+                CefBrowserWrapper browserWrapper(browser);
 
                 return handler->DoClose(_browserControl, %browserWrapper);
             }
@@ -223,7 +223,7 @@ namespace CefSharp
                 //By this point it's possible IBrowser references have been disposed
                 //Rather than attempting to rework the rather complex closing logic
                 //It's easier to pass in a new wrapper and dispose it straight away
-                CefSharpBrowserWrapper browserWrapper(browser);
+                CefBrowserWrapper browserWrapper(browser);
 
                 handler->OnBeforeClose(_browserControl, %browserWrapper);
             }
@@ -233,7 +233,7 @@ namespace CefSharp
                 // Remove from the browser popup list.
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
                 _popupBrowsers->Remove(browser->GetIdentifier());
-                // Dispose the CefSharpBrowserWrapper
+                // Dispose the CefBrowserWrapper
                 delete browserWrapper;
             }
             //TODO: When creating a new ChromiumWebBrowser and passing in a newBrowser to OnBeforePopup
@@ -802,7 +802,7 @@ namespace CefSharp
             //For DevTools (which is hosted as a popup) OnSetFocus is called before OnAfterCreated so we don't
             // have a reference to the standard popup IBrowser wrapper, so we just pass a
             // short term reference.
-            CefSharpBrowserWrapper browserWrapper(browser);
+            CefBrowserWrapper browserWrapper(browser);
 
             return handler->OnSetFocus(_browserControl, %browserWrapper, (CefFocusSource)source);
         }
@@ -1228,7 +1228,7 @@ namespace CefSharp
 
             if (result->CallbackId.HasValue && browser != nullptr)
             {
-                auto wrapper = static_cast<CefSharpBrowserWrapper^>(browser);
+                auto wrapper = static_cast<CefBrowserWrapper^>(browser);
 
                 auto frame = wrapper->Browser->GetFrame(result->FrameId);
 

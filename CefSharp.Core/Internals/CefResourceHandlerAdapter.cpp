@@ -5,7 +5,7 @@
 #include "Stdafx.h"
 
 #include "Request.h"
-#include "ResourceHandlerWrapper.h"
+#include "CefResourceHandlerAdapter.h"
 #include "Internals/CefResponseWrapper.h"
 #include "Internals/CefCallbackWrapper.h"
 #include "Internals/CefResourceReadCallbackWrapper.h"
@@ -17,7 +17,7 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-    bool ResourceHandlerWrapper::Open(CefRefPtr<CefRequest> request, bool& handleRequest, CefRefPtr<CefCallback> callback)
+    bool CefResourceHandlerAdapter::Open(CefRefPtr<CefRequest> request, bool& handleRequest, CefRefPtr<CefCallback> callback)
     {
         auto callbackWrapper = gcnew CefCallbackWrapper(callback);
         _request = gcnew Request(request);
@@ -25,7 +25,7 @@ namespace CefSharp
         return _handler->Open(_request, handleRequest, callbackWrapper);
     }
 
-    void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
+    void CefResourceHandlerAdapter::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
         String^ newRedirectUrl;
 
@@ -36,14 +36,14 @@ namespace CefSharp
         redirectUrl = StringUtils::ToNative(newRedirectUrl);
     }
 
-    bool ResourceHandlerWrapper::Skip(int64 bytesToSkip, int64& bytesSkipped, CefRefPtr<CefResourceSkipCallback> callback)
+    bool CefResourceHandlerAdapter::Skip(int64 bytesToSkip, int64& bytesSkipped, CefRefPtr<CefResourceSkipCallback> callback)
     {
         auto callbackWrapper = gcnew CefResourceSkipCallbackWrapper(callback);
 
         return _handler->Skip(bytesToSkip, bytesSkipped, callbackWrapper);
     }
 
-    bool ResourceHandlerWrapper::Read(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefResourceReadCallback> callback)
+    bool CefResourceHandlerAdapter::Read(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefResourceReadCallback> callback)
     {
         auto writeStream = gcnew UnmanagedMemoryStream((Byte*)dataOut, (Int64)bytesToRead, (Int64)bytesToRead, FileAccess::Write);
         auto callbackWrapper = gcnew CefResourceReadCallbackWrapper(callback);
@@ -51,7 +51,7 @@ namespace CefSharp
         return _handler->Read(writeStream, bytesRead, callbackWrapper);
     }
 
-    void ResourceHandlerWrapper::Cancel()
+    void CefResourceHandlerAdapter::Cancel()
     {
         _handler->Cancel();
 
@@ -60,7 +60,7 @@ namespace CefSharp
     }
 
     //Deprecated
-    bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
+    bool CefResourceHandlerAdapter::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
         auto callbackWrapper = gcnew CefCallbackWrapper(callback);
         _request = gcnew Request(request);
@@ -68,7 +68,7 @@ namespace CefSharp
         return _handler->ProcessRequest(_request, callbackWrapper);
     }
 
-    bool ResourceHandlerWrapper::ReadResponse(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefCallback> callback)
+    bool CefResourceHandlerAdapter::ReadResponse(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefCallback> callback)
     {
         auto writeStream = gcnew UnmanagedMemoryStream((Byte*)dataOut, (Int64)bytesToRead, (Int64)bytesToRead, FileAccess::Write);
         auto callbackWrapper = gcnew CefCallbackWrapper(callback);

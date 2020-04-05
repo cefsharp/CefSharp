@@ -10,7 +10,7 @@
 #include "include\cef_extension_handler.h"
 #include "BrowserSettings.h"
 #include "CefExtensionWrapper.h"
-#include "CefSharpBrowserWrapper.h"
+#include "CefBrowserWrapper.h"
 #include "CefGetExtensionResourceCallbackWrapper.h"
 #include "WindowInfo.h"
 
@@ -125,8 +125,8 @@ namespace CefSharp
                 BrowserSettings browserSettingsWrapper(&settings);
 
                 return _handler->OnBeforeBrowser(gcnew CefExtensionWrapper(extension),
-                    gcnew CefSharpBrowserWrapper(browser),
-                    gcnew CefSharpBrowserWrapper(active_browser),
+                    gcnew CefBrowserWrapper(browser),
+                    gcnew CefBrowserWrapper(active_browser),
                     index,
                     StringUtils::ToClr(url),
                     active,
@@ -151,7 +151,7 @@ namespace CefSharp
             {
                 //TODO: Should extension be auto disposed?
                 auto activeBrowser = _handler->GetActiveBrowser(gcnew CefExtensionWrapper(extension),
-                    gcnew CefSharpBrowserWrapper(browser),
+                    gcnew CefBrowserWrapper(browser),
                     includeIncognito);
 
                 if (activeBrowser == nullptr)
@@ -160,7 +160,7 @@ namespace CefSharp
                 }
 
                 //TODO: CLean this up
-                auto wrapper = static_cast<CefSharpBrowserWrapper^>(activeBrowser);
+                auto wrapper = static_cast<CefBrowserWrapper^>(activeBrowser);
 
                 return wrapper->Browser.get();
             }
@@ -180,9 +180,9 @@ namespace CefSharp
                 CefRefPtr<CefBrowser> target_browser) OVERRIDE
             {
                 return _handler->CanAccessBrowser(gcnew CefExtensionWrapper(extension),
-                    gcnew CefSharpBrowserWrapper(browser),
+                    gcnew CefBrowserWrapper(browser),
                     includeIncognito,
-                    gcnew CefSharpBrowserWrapper(target_browser));
+                    gcnew CefBrowserWrapper(target_browser));
             }
 
             ///
@@ -203,7 +203,7 @@ namespace CefSharp
                 CefRefPtr<CefGetExtensionResourceCallback> callback) OVERRIDE
             {
                 return _handler->GetExtensionResource(gcnew CefExtensionWrapper(extension),
-                    gcnew CefSharpBrowserWrapper(browser),
+                    gcnew CefBrowserWrapper(browser),
                     StringUtils::ToClr(file),
                     gcnew CefGetExtensionResourceCallbackWrapper(callback));
             }

@@ -13,27 +13,27 @@ namespace CefSharp
 {
     namespace Internals
     {
-        private ref class CefSharpBrowserWrapper : public IBrowser, public CefWrapper
+        private ref class CefBrowserWrapper : public IBrowser, public CefWrapper
         {
         private:
             MCefRefPtr<CefBrowser> _browser;
             IBrowserHost^ _browserHost;
 
         internal:
-            CefSharpBrowserWrapper::CefSharpBrowserWrapper(CefRefPtr<CefBrowser> &browser)
+            CefBrowserWrapper::CefBrowserWrapper(CefRefPtr<CefBrowser> &browser)
                 : _browser(browser), _browserHost(nullptr)
             {
             }
 
-            !CefSharpBrowserWrapper()
+            !CefBrowserWrapper()
             {
                 // Release the reference.
                 _browser = nullptr;
             }
 
-            ~CefSharpBrowserWrapper()
+            ~CefBrowserWrapper()
             {
-                this->!CefSharpBrowserWrapper();
+                this->!CefBrowserWrapper();
                 delete _browserHost;
                 _browserHost = nullptr;
                 _disposed = true;

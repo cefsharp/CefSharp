@@ -8,7 +8,7 @@
 #include "WindowInfo.h"
 #include "Internals\Messaging\Messages.h"
 #include "Internals\CefFrameWrapper.h"
-#include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\CefBrowserWrapper.h"
 #include "Internals\Serialization\Primitives.h"
 #include "Internals\Serialization\JsObjectsSerialization.h"
 

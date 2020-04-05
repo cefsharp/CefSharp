@@ -9,25 +9,28 @@
 
 namespace CefSharp
 {
-    private class StringVisitor : public CefStringVisitor
+    private class CefStringVisitorAdaptor : public CefStringVisitor
     {
     private:
         gcroot<IStringVisitor^> _visitor;
 
     public:
-        StringVisitor(IStringVisitor^ visitor) :
+        CefStringVisitorAdaptor(IStringVisitor^ visitor) :
             _visitor(visitor)
         {
         }
 
-        ~StringVisitor()
+        ~CefStringVisitorAdaptor()
         {
             delete _visitor;
             _visitor = nullptr;
         }
 
-        virtual void Visit(const CefString& string) OVERRIDE;
+        virtual void Visit(const CefString& string) OVERRIDE
+        {
+            _visitor->Visit(StringUtils::ToClr(string));
+        }
 
-        IMPLEMENT_REFCOUNTING(StringVisitor);
+        IMPLEMENT_REFCOUNTING(CefStringVisitorAdaptor);
     };
 }

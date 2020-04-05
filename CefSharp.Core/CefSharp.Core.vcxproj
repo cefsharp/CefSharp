@@ -234,15 +234,13 @@
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
     <ClCompile Include="Internals\CefExtensionWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
-    <ClCompile Include="Internals\CefSharpBrowserWrapper.cpp" />
+    <ClCompile Include="Internals\CefBrowserWrapper.cpp" />
     <ClCompile Include="Internals\CefUrlRequestClientAdapter.cpp" />
     <ClCompile Include="Internals\CefValueWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
-    <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\JavascriptCallbackProxy.cpp" />
     <ClCompile Include="Internals\JavascriptCallbackFactory.cpp" />
     <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp" />
-    <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
     <ClCompile Include="Internals\Serialization\V8Serialization.cpp" />
@@ -251,7 +249,7 @@
     <ClCompile Include="Internals\CefRequestContextHandlerAdapter.cpp" />
     <ClCompile Include="Request.cpp" />
     <ClCompile Include="RequestContext.cpp" />
-    <ClCompile Include="ResourceHandlerWrapper.cpp" />
+    <ClCompile Include="Internals\CefResourceHandlerAdapter.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -297,7 +295,7 @@
     <ClInclude Include="Internals\CefResponseFilterAdapter.h" />
     <ClInclude Include="Internals\CefResponseWrapper.h" />
     <ClInclude Include="Internals\CefRunContextMenuCallbackWrapper.h" />
-    <ClInclude Include="Internals\CefSharpBrowserWrapper.h" />
+    <ClInclude Include="Internals\CefBrowserWrapper.h" />
     <ClInclude Include="Internals\CefSslInfoWrapper.h" />
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
@@ -312,19 +310,19 @@
     <ClInclude Include="WindowInfo.h" />
     <ClInclude Include="Internals\CefCompletionCallbackAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
-    <ClInclude Include="Internals\CookieVisitor.h" />
+    <ClInclude Include="Internals\CefCookieVisitorAdapter.h" />
     <ClInclude Include="Internals\CefSharpApp.h" />
     <ClInclude Include="Internals\CefJSDialogCallbackWrapper.h" />
     <ClInclude Include="Internals\JavascriptCallbackProxy.h" />
     <ClInclude Include="Internals\JavascriptCallbackFactory.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
     <ClInclude Include="Internals\Messaging\Messages.h" />
-    <ClInclude Include="Internals\PluginVisitor.h" />
+    <ClInclude Include="Internals\CefWebPluginInfoVisitorAdapter.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="Internals\CefRequestCallbackWrapper.h" />
     <ClInclude Include="Internals\Serialization\ObjectsSerialization.h" />
-    <ClInclude Include="Internals\StringVisitor.h" />
+    <ClInclude Include="Internals\CefStringVisitorAdapter.h" />
     <ClInclude Include="Internals\TypeConversion.h" />
     <ClInclude Include="NativeMethodWrapper.h" />
     <ClInclude Include="Internals\Serialization\V8Serialization.h" />
@@ -334,8 +332,8 @@
     <ClInclude Include="RequestContext.h" />
     <ClInclude Include="RequestContextSettings.h" />
     <ClInclude Include="Internals\Serialization\JsObjectsSerialization.h" />
-    <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
-    <ClInclude Include="ResourceHandlerWrapper.h" />
+    <ClInclude Include="Internals\CefSchemeHandlerFactoryAdapter.h" />
+    <ClInclude Include="Internals\CefResourceHandlerAdapter.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="vcclr_local.h" />

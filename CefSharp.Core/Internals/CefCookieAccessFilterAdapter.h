@@ -10,7 +10,7 @@
 #include "CefResponseWrapper.h"
 #include "Request.h"
 #include "CefFrameWrapper.h"
-#include "CefSharpBrowserWrapper.h"
+#include "CefBrowserWrapper.h"
 
 namespace CefSharp
 {
@@ -46,7 +46,7 @@ namespace CefSharp
                 if (browser.get() && frame.get())
                 {
 
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
                     return _handler->CanSendCookie(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, managedCookie);
@@ -65,7 +65,7 @@ namespace CefSharp
                 if (browser.get() && frame.get())
                 {
 
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
                     return _handler->CanSaveCookie(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, managedCookie);

@@ -30,7 +30,7 @@ namespace CefSharp
                 throw gcnew InvalidOperationException("Browser instance is null. Check CanExecute before calling this method.");
             }
 
-            auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
+            auto browserWrapper = static_cast<CefBrowserWrapper^>(browser);
 
             auto doneCallback = _pendingTasks->CreatePendingTask(timeout);
 

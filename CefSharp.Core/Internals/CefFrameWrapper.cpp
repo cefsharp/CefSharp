@@ -7,9 +7,9 @@
 
 #include "UrlRequest.h"
 #include "Request.h"
-#include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\CefBrowserWrapper.h"
 #include "Internals\CefFrameWrapper.h"
-#include "Internals\StringVisitor.h"
+#include "Internals\CefStringVisitorAdapter.h"
 #include "Internals\ClientAdapter.h"
 #include "Internals\Serialization\Primitives.h"
 #include "Internals\Messaging\Messages.h"
@@ -138,7 +138,7 @@ Task<String^>^ CefFrameWrapper::GetSourceAsync()
     ThrowIfFrameInvalid();
 
     auto taskStringVisitor = gcnew TaskStringVisitor();
-    _frame->GetSource(new StringVisitor(taskStringVisitor));
+    _frame->GetSource(new CefStringVisitorAdapter(taskStringVisitor));
     return taskStringVisitor->Task;
 }
 
@@ -152,7 +152,7 @@ void CefFrameWrapper::GetSource(IStringVisitor^ visitor)
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
 
-    _frame->GetSource(new StringVisitor(visitor));
+    _frame->GetSource(new CefStringVisitorAdapter(visitor));
 }
 
 ///
@@ -166,7 +166,7 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
     ThrowIfFrameInvalid();
 
     auto taskStringVisitor = gcnew TaskStringVisitor();
-    _frame->GetText(new StringVisitor(taskStringVisitor));
+    _frame->GetText(new CefStringVisitorAdapter(taskStringVisitor));
     return taskStringVisitor->Task;
 }
 
@@ -180,7 +180,7 @@ void CefFrameWrapper::GetText(IStringVisitor^ visitor)
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
 
-    _frame->GetText(new StringVisitor(visitor));
+    _frame->GetText(new CefStringVisitorAdapter(visitor));
 }
 
 
@@ -379,7 +379,7 @@ IBrowser^ CefFrameWrapper::Browser::get()
         return _owningBrowser;
     }
 
-    _owningBrowser = gcnew CefSharpBrowserWrapper(_frame->GetBrowser());
+    _owningBrowser = gcnew CefBrowserWrapper(_frame->GetBrowser());
     return _owningBrowser;
 }
 

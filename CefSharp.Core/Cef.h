@@ -19,7 +19,7 @@
 #include <include/internal/cef_types.h>
 
 #include "Internals/CefSharpApp.h"
-#include "Internals/PluginVisitor.h"
+#include "Internals/CefWebPluginInfoVisitorAdapter.h"
 #include "Internals/CefTaskScheduler.h"
 #include "Internals/CefRegisterCdmCallbackAdapter.h"
 #include "CookieManager.h"
@@ -511,7 +511,7 @@ namespace CefSharp
         /// </summary>
         static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
         {
-            CefVisitWebPluginInfo(new PluginVisitor(visitor));
+            CefVisitWebPluginInfo(new CefWebPluginInfoVisitorAdapter(visitor));
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace CefSharp
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
-            CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
+            CefRefPtr<CefWebPluginInfoVisitorAdapter> visitor = new CefWebPluginInfoVisitorAdapter(taskVisitor);
 
             CefVisitWebPluginInfo(visitor);
 
