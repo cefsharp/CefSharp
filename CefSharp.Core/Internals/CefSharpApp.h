@@ -9,7 +9,7 @@
 #include "include\cef_app.h"
 #include "include\cef_scheme.h"
 
-#include "AbstractCefSettings.h"
+#include "CefSettingsBase.h"
 #include "CefSchemeHandlerFactoryAdapter.h"
 #include "Internals\CefSchemeRegistrarWrapper.h"
 
@@ -20,11 +20,11 @@ namespace CefSharp
         private class CefSharpApp : public CefApp,
             public CefBrowserProcessHandler
         {
-            gcroot<AbstractCefSettings^> _cefSettings;
+            gcroot<CefSettingsBase^> _cefSettings;
             gcroot<IApp^> _app;
 
         public:
-            CefSharpApp(AbstractCefSettings^ cefSettings, IApp^ app) :
+            CefSharpApp(CefSettingsBase^ cefSettings, IApp^ app) :
                 _cefSettings(cefSettings),
                 _app(app)
             {

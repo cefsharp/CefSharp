@@ -23,7 +23,7 @@
 #include "Internals/CefTaskScheduler.h"
 #include "Internals/CefRegisterCdmCallbackAdapter.h"
 #include "CookieManager.h"
-#include "AbstractCefSettings.h"
+#include "CefSettingsBase.h"
 #include "RequestContext.h"
 
 using namespace System::Collections::Generic;
@@ -144,7 +144,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize(AbstractCefSettings^ cefSettings)
+        static bool Initialize(CefSettingsBase^ cefSettings)
         {
             auto cefApp = gcnew DefaultApp(nullptr, cefSettings->CefCustomSchemes);
 
@@ -161,7 +161,7 @@ namespace CefSharp
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
+        static bool Initialize(CefSettingsBase^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
         {
             auto cefApp = gcnew DefaultApp(browserProcessHandler, cefSettings->CefCustomSchemes);
 
@@ -178,7 +178,7 @@ namespace CefSharp
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <param name="cefApp">Implement this interface to provide handler implementations. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IApp^ cefApp)
+        static bool Initialize(CefSettingsBase^ cefSettings, bool performDependencyCheck, IApp^ cefApp)
         {
             if (IsInitialized)
             {

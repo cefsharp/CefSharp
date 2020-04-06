@@ -327,7 +327,7 @@
     <ClInclude Include="NativeMethodWrapper.h" />
     <ClInclude Include="Internals\Serialization\V8Serialization.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
-    <ClInclude Include="AbstractCefSettings.h" />
+    <ClInclude Include="CefSettingsBase.h" />
     <ClInclude Include="Internals\Serialization\Primitives.h" />
     <ClInclude Include="RequestContext.h" />
     <ClInclude Include="RequestContextSettings.h" />

@@ -401,7 +401,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// ParentFormMessageInterceptor hooks the Form handle and forwards
         /// the move/active messages to the browser, the default is true
-        /// and should only be required when using <see cref="AbstractCefSettings.MultiThreadedMessageLoop"/>
+        /// and should only be required when using <see cref="CefSettingsBase.MultiThreadedMessageLoop"/>
         /// set to true.
         /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(true)]

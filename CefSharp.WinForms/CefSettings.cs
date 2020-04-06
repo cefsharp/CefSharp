@@ -8,7 +8,7 @@ namespace CefSharp.WinForms
     /// Initialization settings. Many of these and other settings can also configured
     /// using command-line switches.
     /// </summary>
-    public class CefSettings : AbstractCefSettings
+    public class CefSettings : CefSettingsBase
     {
     }
 }
