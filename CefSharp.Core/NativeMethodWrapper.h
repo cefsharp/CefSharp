@@ -19,5 +19,6 @@ namespace CefSharp
         static bool IsFocused(IntPtr handle);
         static void SetWindowPosition(IntPtr handle, int x, int y, int width, int height);
         static void SetWindowParent(IntPtr child, IntPtr newParent);
+        static void RemoveExNoActivateStyle(IntPtr browserHwnd);
     };
 }

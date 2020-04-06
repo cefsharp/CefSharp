@@ -24,6 +24,10 @@ namespace CefSharp.WinForms
     Designer(typeof(ChromiumWebBrowserDesigner))]
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
+        //TODO: If we start adding more consts then extract them into a common class
+        //Possibly in the CefSharp assembly and move the WPF ones into there as well.
+        private const uint WS_EX_NOACTIVATE = 0x08000000;
+
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
@@ -56,6 +60,11 @@ namespace CefSharp.WinForms
         /// on the main frame
         /// </summary>
         private bool initialAddressLoaded;
+        /// <summary>
+        /// If true the the WS_EX_NOACTIVATE style will be removed so that future mouse clicks
+        /// inside the browser correctly activate and focus the window.
+        /// </summary>
+        private bool removeExNoActivateStyle;
         /// <summary>
         /// Browser initialization settings
         /// </summary>
@@ -688,10 +697,6 @@ namespace CefSharp.WinForms
         /// </example>
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
         {
-            //TODO: If we start adding more consts then extract them into a common class
-            //Possibly in the CefSharp assembly and move the WPF ones into there as well.
-            const uint WS_EX_NOACTIVATE = 0x08000000;
-
             var windowInfo = new WindowInfo();
             windowInfo.SetAsChild(handle);
 
@@ -728,6 +733,10 @@ namespace CefSharp.WinForms
                 else
                 {
                     var windowInfo = CreateBrowserWindowInfo(Handle);
+
+                    //We actually check if WS_EX_NOACTIVATE was set for instances
+                    //the user has override CreateBrowserWindowInfo and not called base.CreateBrowserWindowInfo
+                    removeExNoActivateStyle = (windowInfo.ExStyle & WS_EX_NOACTIVATE) == WS_EX_NOACTIVATE;
 
                     initialAddressLoaded = !string.IsNullOrEmpty(Address);
 
@@ -793,6 +802,18 @@ namespace CefSharp.WinForms
             CanGoBack = args.CanGoBack;
             CanGoForward = args.CanGoForward;
             IsLoading = args.IsLoading;
+
+            if (removeExNoActivateStyle && browser != null)
+            {
+                removeExNoActivateStyle = false;
+
+                var host = this.GetBrowserHost();
+                var hwnd = host.GetWindowHandle();
+                //Remove the WS_EX_NOACTIVATE style so that future mouse clicks inside the
+                //browser correctly activate and focus the browser. 
+                //https://github.com/chromiumembedded/cef/blob/9df4a54308a88fd80c5774d91c62da35afb5fd1b/tests/cefclient/browser/root_window_win.cc#L1088
+                NativeMethodWrapper.RemoveExNoActivateStyle(hwnd);
+            }
 
             var handler = LoadingStateChanged;
             if (handler != null)

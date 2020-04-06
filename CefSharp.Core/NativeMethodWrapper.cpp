@@ -45,4 +45,17 @@ namespace CefSharp
 
         SetParent(childHwnd, newParentHwnd);
     }
+
+    void NativeMethodWrapper::RemoveExNoActivateStyle(IntPtr browserHwnd)
+    {
+        HWND hwnd = static_cast<HWND>(browserHwnd.ToPointer());
+
+        auto exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+
+        if (exStyle & WS_EX_NOACTIVATE)
+        {
+            //Remove WS_EX_NOACTIVATE
+            SetWindowLongPtr(hwnd, GWL_EXSTYLE, exStyle & ~WS_EX_NOACTIVATE);
+        }
+    }
 }
