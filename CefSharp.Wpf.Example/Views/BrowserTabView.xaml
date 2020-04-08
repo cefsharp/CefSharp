@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CefSharp.Wpf.Example.Views.BrowserTabView"
+<UserControl x:Class="CefSharp.Wpf.Example.Views.BrowserTabView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -440,6 +440,23 @@
                             <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
                         </TransformGroup>
                     </FrameworkElement.LayoutTransform>
+                    <!--<cefSharp:ChromiumWebBrowser.Resources>
+                        -->
+                    <!-- Apply custom style to wrap ToolTip Issue https://github.com/cefsharp/CefSharp/issues/2488 -->
+                    <!--
+                        <Style TargetType="ToolTip">
+                            <Style.Resources>
+                                <Style TargetType="ContentPresenter">
+                                    <Style.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </Style.Resources>
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="MaxWidth" Value="500" />
+                        </Style>
+                    </cefSharp:ChromiumWebBrowser.Resources>-->
                 </cefSharp:ChromiumWebBrowser>
             </Grid>
         </DockPanel>

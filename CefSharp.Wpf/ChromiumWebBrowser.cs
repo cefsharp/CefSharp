@@ -2151,7 +2151,18 @@ namespace CefSharp.Wpf
                     toolTip.IsOpen = false;
                 }
 
-                toolTip.Content = new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap };
+                //If no ToolTip style is defined then we'll
+                //use a TextBlock to ensure the Text is wrapped
+                //If a style is applied leave to the user to apply relevant wrapping
+                //Issue https://github.com/cefsharp/CefSharp/issues/2488
+                if (toolTip.Style == null)
+                {
+                    toolTip.Content = new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap };
+                }
+                else
+                {
+                    toolTip.SetCurrentValue(ContentControl.ContentProperty, text);
+                }
                 toolTip.Placement = PlacementMode.Mouse;
                 toolTip.Visibility = Visibility.Visible;
                 toolTip.IsOpen = true;
