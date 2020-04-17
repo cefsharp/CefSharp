@@ -24,11 +24,11 @@ It maybe helpful to run the `cefclient` application and compare output with `Cef
 - Extract and run cefclient.exe
     - If you are using WPF/OffScreen run
     ```
-    cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu
+    cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --disable-gpu-compositing --no-sandbox --disable-site-isolation-trials
     ```
     - If you are using WinForms run
     ```
-    cefclient.exe --multi-threaded-message-loop
+    cefclient.exe --multi-threaded-message-loop --no-sandbox --disable-site-isolation-trials
     ```
 
 ### What should I include when creating an `Issue`?
