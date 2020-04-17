@@ -3,9 +3,9 @@
     [Parameter(Position = 0)] 
     [string] $Target = "vs2015",
     [Parameter(Position = 1)]
-    [string] $Version = "80.0.40",
+    [string] $Version = "81.2.170",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "80.1.20"
+    [string] $AssemblyVersion = "81.2.170"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -293,16 +293,16 @@ function Nupkg
     . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
     . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
     . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-	
-	# Build newer style packages
-	. $nuget pack nuget\PackageReference\CefSharp.Common.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;Platform=x86;PlatformNative=Win32"
-	. $nuget pack nuget\PackageReference\CefSharp.Common.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;Platform=x64;PlatformNative=x64"
+    
+    # Build newer style packages
+    . $nuget pack nuget\PackageReference\CefSharp.Common.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;Platform=x86;PlatformNative=Win32"
+    . $nuget pack nuget\PackageReference\CefSharp.Common.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;Platform=x64;PlatformNative=x64"
     . $nuget pack nuget\PackageReference\CefSharp.OffScreen.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x86"
-	. $nuget pack nuget\PackageReference\CefSharp.OffScreen.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
-	. $nuget pack nuget\PackageReference\CefSharp.Wpf.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x86"
-	. $nuget pack nuget\PackageReference\CefSharp.Wpf.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
-	. $nuget pack nuget\PackageReference\CefSharp.WinForms.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x86"
-	. $nuget pack nuget\PackageReference\CefSharp.WinForms.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
+    . $nuget pack nuget\PackageReference\CefSharp.OffScreen.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
+    . $nuget pack nuget\PackageReference\CefSharp.Wpf.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x86"
+    . $nuget pack nuget\PackageReference\CefSharp.Wpf.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
+    . $nuget pack nuget\PackageReference\CefSharp.WinForms.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x86"
+    . $nuget pack nuget\PackageReference\CefSharp.WinForms.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
@@ -334,9 +334,9 @@ function UpdateSymbolsWithGitLink()
         if(-not (Test-Path $gitlink))
         {
             Write-Diagnostic "Downloading GitLink"
-			#Powershell is having problems download GitLink SSL/TLS error, force TLS 1.2
-			#https://stackoverflow.com/a/55809878/4583726
-			[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
+            #Powershell is having problems download GitLink SSL/TLS error, force TLS 1.2
+            #https://stackoverflow.com/a/55809878/4583726
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
             $client = New-Object System.Net.WebClient;
             $client.DownloadFile('https://github.com/GitTools/GitLink/releases/download/2.3.0/GitLink.exe', $gitlink);
         }
@@ -390,8 +390,8 @@ function WriteVersionToResourceFile($resourceFile)
     
     $ResourceData = Get-Content -Encoding UTF8 $Filename
     $CurrentYear = Get-Date -Format yyyy
-	#Assembly version with comma instead of dot
-	$CppAssemblyVersion = $AssemblyVersion -replace '\.', ','
+    #Assembly version with comma instead of dot
+    $CppAssemblyVersion = $AssemblyVersion -replace '\.', ','
     
     $NewString = $ResourceData -replace $Regex1, "VERSION $CppAssemblyVersion"
     $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
