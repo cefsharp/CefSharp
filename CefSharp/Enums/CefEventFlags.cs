@@ -33,5 +33,6 @@ namespace CefSharp
         IsKeyPad = 1 << 9,
         IsLeft = 1 << 10,
         IsRight = 1 << 11,
+        EVENTFLAG_ALTGR_DOWN = 1 << 12
     }
 }
