@@ -237,10 +237,6 @@ namespace CefSharp.Wpf.HwndHost
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IAudioHandler" /> to handle audio events.
-        /// </summary>
-        public IAudioHandler AudioHandler { get; set; }
 
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
@@ -586,7 +582,6 @@ namespace CefSharp.Wpf.HwndHost
 
                 // Release reference to handlers, except LifeSpanHandler which is done after Disposing
                 // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
-                AudioHandler = null;
                 FindHandler = null;
                 DialogHandler = null;
                 RequestHandler = null;

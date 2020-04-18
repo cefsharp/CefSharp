@@ -59,7 +59,7 @@
             <Version>73.1.13</Version>
         </PackageReference>-->
     <PackageReference Include="CefSharp.Common">
-      <Version>75.0.110-CI3194</Version>
+      <Version>79.1.360</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
