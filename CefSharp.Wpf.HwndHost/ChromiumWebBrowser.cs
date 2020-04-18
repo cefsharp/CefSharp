@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using CefSharp.Internals;
 using CefSharp.Wpf.HwndHost.Internals;
@@ -19,7 +20,6 @@ namespace CefSharp.Wpf.HwndHost
     /// ChromiumWebBrowser is the WPF web browser control
     /// </summary>
     /// <seealso cref="System.Windows.Controls.Control" />
-    /// <seealso cref="CefSharp.Internals.IRenderWebBrowser" />
     /// <seealso cref="CefSharp.Wpf.IWpfWebBrowser" />
     /// based on https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/walkthrough-hosting-a-win32-control-in-wpf
     /// and https://stackoverflow.com/questions/6500336/custom-dwm-drawn-window-frame-flickers-on-resizing-if-the-window-contains-a-hwnd/17471534#17471534
@@ -40,6 +40,40 @@ namespace CefSharp.Wpf.HwndHost
         [DllImport("user32.dll", EntryPoint = "DestroyWindow", CharSet = CharSet.Unicode)]
         private static extern bool DestroyWindow(IntPtr hwnd);
 
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
+        private static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int index);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+        private static extern int SetWindowLong32(HandleRef hWnd, int index, int dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+        private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int index, IntPtr dwNewLong);
+
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowlongptra
+        //SetWindowLongPtr for x64, SetWindowLong for x86
+        private void RemoveExNoActivateStyle(IntPtr hwnd)
+        {
+            var exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+
+            if (IntPtr.Size == 8)
+            {
+                if ((exStyle.ToInt64() & WS_EX_NOACTIVATE) == WS_EX_NOACTIVATE)
+                {
+                    exStyle = new IntPtr(exStyle.ToInt64() & ~WS_EX_NOACTIVATE);
+                    //Remove WS_EX_NOACTIVATE
+                    SetWindowLongPtr64(new HandleRef(this, hwnd), GWL_EXSTYLE, exStyle);
+                }
+            }
+            else
+            {
+                if ((exStyle.ToInt32() & WS_EX_NOACTIVATE) == WS_EX_NOACTIVATE)
+                {
+                    //Remove WS_EX_NOACTIVATE
+                    SetWindowLong32(new HandleRef(this, hwnd), GWL_EXSTYLE, (int)(exStyle.ToInt32() & ~WS_EX_NOACTIVATE));
+                }
+            }
+        }
+
         private const int WS_CHILD = 0x40000000,
             WS_VISIBLE = 0x10000000,
             LBS_NOTIFY = 0x00000001,
@@ -49,11 +83,13 @@ namespace CefSharp.Wpf.HwndHost
             WS_BORDER = 0x00800000,
             WS_CLIPCHILDREN = 0x02000000;
 
+        private const uint WS_EX_NOACTIVATE = 0x08000000;
+        private const int GWL_EXSTYLE = -20;
+
         /// <summary>
         /// Handle we'll use to host the browser
         /// </summary>
         private IntPtr hwndHost;
-
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
@@ -99,6 +135,30 @@ namespace CefSharp.Wpf.HwndHost
         /// or in the process of getting disposed
         /// </summary>
         private int disposeSignaled;
+
+        /// <summary>
+        /// If true the the WS_EX_NOACTIVATE style will be removed so that future mouse clicks
+        /// inside the browser correctly activate and focus the window.
+        /// </summary>
+        private bool removeExNoActivateStyle;
+
+        /// <summary>
+        /// Current DPI Scale
+        /// </summary>
+        private double dpiScale;
+
+        /// <summary>
+        /// The HwndSource RootVisual (Window) - We store a reference
+        /// to unsubscribe event handlers
+        /// </summary>
+        private Window sourceWindow;
+
+        /// <summary>
+        /// Store the previous window state, used to determine if the
+        /// Windows was previous <see cref="WindowState.Minimized"/>
+        /// and resume rendering
+        /// </summary>
+        private WindowState previousWindowState;
 
         /// <summary>
         /// Activates browser upon creation, the default value is false. Prior to version 73
@@ -459,8 +519,6 @@ namespace CefSharp.Wpf.HwndHost
 
             WebBrowser = this;
 
-            //Loaded += OnLoaded;
-
             SizeChanged += OnSizeChanged;
             IsVisibleChanged += OnIsVisibleChanged;
 
@@ -487,7 +545,51 @@ namespace CefSharp.Wpf.HwndHost
             //TODO: frameworkCreated is internal, we can expose this as internalsvisibleto later on
             //browserSettings.GetType().
 
+            PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
+
             UseLayoutRounding = true;
+        }
+
+        private void PresentationSourceChangedHandler(object sender, SourceChangedEventArgs args)
+        {
+            if (args.NewSource != null)
+            {
+                var source = (HwndSource)args.NewSource;
+
+                var matrix = source.CompositionTarget.TransformToDevice;
+
+                dpiScale = matrix.M11;
+
+                //TODO:
+                var window = source.RootVisual as Window;
+                if (window != null)
+                {
+                    window.StateChanged += OnWindowStateChanged;
+                    window.LocationChanged += OnWindowLocationChanged;
+                    sourceWindow = window;
+                }
+            }
+            else if (args.OldSource != null)
+            {
+                //TODO:
+                var window = args.OldSource.RootVisual as Window;
+                if (window != null)
+                {
+                    window.StateChanged -= OnWindowStateChanged;
+                    window.LocationChanged -= OnWindowLocationChanged;
+                    sourceWindow = null;
+                }
+            }
+        }
+
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            dpiScale = newDpi.DpiScaleX;
+
+            //If the DPI changed then we need to resize.
+            ResizeBrowser((int)ActualWidth, (int)ActualHeight);
+
+            base.OnDpiChanged(oldDpi, newDpi);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -558,14 +660,27 @@ namespace CefSharp.Wpf.HwndHost
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void InternalDispose(bool disposing)
         {
+            Interlocked.Exchange(ref browserInitialized, 0);
+
             if (disposing)
             {
                 SizeChanged -= OnSizeChanged;
                 IsVisibleChanged -= OnIsVisibleChanged;
 
+                PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+                // Release window event listeners if PresentationSourceChangedHandler event wasn't
+                // fired before Dispose
+                if (sourceWindow != null)
+                {
+                    sourceWindow.StateChanged -= OnWindowStateChanged;
+                    sourceWindow.LocationChanged -= OnWindowLocationChanged;
+                    sourceWindow = null;
+                }
+
+
                 UiThreadRunAsync(() =>
                 {
-                    SetCurrentValue(IsBrowserInitializedProperty, false);
+                    OnIsBrowserInitializedChanged(true, false);
                     WebBrowser = null;
                 });
 
@@ -598,11 +713,8 @@ namespace CefSharp.Wpf.HwndHost
 
                 browser = null;
 
-                if (managedCefBrowserAdapter != null)
-                {
-                    managedCefBrowserAdapter.Dispose();
-                    managedCefBrowserAdapter = null;
-                }
+                managedCefBrowserAdapter?.Dispose();
+                managedCefBrowserAdapter = null;
 
                 // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
                 // is called.
@@ -635,6 +747,18 @@ namespace CefSharp.Wpf.HwndHost
         /// <param name="args">The <see cref="LoadingStateChangedEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
+            if (removeExNoActivateStyle && InternalIsBrowserInitialized())
+            {
+                removeExNoActivateStyle = false;
+
+                var host = this.GetBrowserHost();
+                var hwnd = host.GetWindowHandle();
+                //Remove the WS_EX_NOACTIVATE style so that future mouse clicks inside the
+                //browser correctly activate and focus the browser. 
+                //https://github.com/chromiumembedded/cef/blob/9df4a54308a88fd80c5774d91c62da35afb5fd1b/tests/cefclient/browser/root_window_win.cc#L1088
+                RemoveExNoActivateStyle(hwnd);
+            }
+
             UiThreadRunAsync(() =>
             {
                 SetCurrentValue(CanGoBackProperty, args.CanGoBack);
@@ -750,7 +874,7 @@ namespace CefSharp.Wpf.HwndHost
             {
                 if (!IsDisposed)
                 {
-                    SetCurrentValue(IsBrowserInitializedProperty, true);
+                    OnIsBrowserInitializedChanged(false, true);
 
                     // Only call Load if initialAddress is null and Address is not empty
                     if (string.IsNullOrEmpty(initialAddress) && !string.IsNullOrEmpty(Address))
@@ -869,35 +993,13 @@ namespace CefSharp.Wpf.HwndHost
         /// binding.</remarks>
         public bool IsBrowserInitialized
         {
-            get { return (bool)GetValue(IsBrowserInitializedProperty); }
+            get { return InternalIsBrowserInitialized(); }
         }
-
-        /// <summary>
-        /// The is browser initialized property
-        /// </summary>
-        public static readonly DependencyProperty IsBrowserInitializedProperty =
-            DependencyProperty.Register(nameof(IsBrowserInitialized), typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
 
         /// <summary>
         /// Event called after the underlying CEF browser instance has been created. 
         /// </summary>
-        public event DependencyPropertyChangedEventHandler IsBrowserInitializedChanged;
-
-        /// <summary>
-        /// Handles the <see cref="E:IsBrowserInitializedChanged" /> event.
-        /// </summary>
-        /// <param name="d">The d.</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
-        private static void OnIsBrowserInitializedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var owner = (ChromiumWebBrowser)d;
-            var oldValue = (bool)e.OldValue;
-            var newValue = (bool)e.NewValue;
-
-            owner.OnIsBrowserInitializedChanged(oldValue, newValue);
-
-            owner.IsBrowserInitializedChanged?.Invoke(owner, e);
-        }
+        public event EventHandler IsBrowserInitializedChanged;
 
         /// <summary>
         /// Called when [is browser initialized changed].
@@ -908,6 +1010,8 @@ namespace CefSharp.Wpf.HwndHost
         {
             if (newValue && !IsDisposed)
             {
+                IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
+
                 var task = this.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
                 {
@@ -1070,10 +1174,6 @@ namespace CefSharp.Wpf.HwndHost
         /// </example>
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
         {
-            //TODO: If we start adding more consts then extract them into a common class
-            //Possibly in the CefSharp assembly and move the WPF ones into there as well.
-            const uint WS_EX_NOACTIVATE = 0x08000000;
-
             var windowInfo = new WindowInfo();
             windowInfo.SetAsChild(handle);
 
@@ -1094,18 +1194,13 @@ namespace CefSharp.Wpf.HwndHost
 
             if (((IWebBrowserInternal)this).HasParent == false)
             {
-                if (IsBrowserInitialized == false || browser == null)
-                {
-                    var windowInfo = CreateBrowserWindowInfo(Handle);
+                var windowInfo = CreateBrowserWindowInfo(hwndHost);
 
-                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
-                }
-                else
-                {
-                    //If the browser already exists we'll reparent it to the new Handle
-                    var browserHandle = browser.GetHost().GetWindowHandle();
-                    NativeMethodWrapper.SetWindowParent(browserHandle, Handle);
-                }
+                //We actually check if WS_EX_NOACTIVATE was set for instances
+                //the user has override CreateBrowserWindowInfo and not called base.CreateBrowserWindowInfo
+                removeExNoActivateStyle = (windowInfo.ExStyle & WS_EX_NOACTIVATE) == WS_EX_NOACTIVATE;
+
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
             }
         }
 
@@ -1135,7 +1230,7 @@ namespace CefSharp.Wpf.HwndHost
         {
             var isVisible = (bool)args.NewValue;
 
-            if (browser != null)
+            if (InternalIsBrowserInitialized())
             {
                 var host = browser.GetHost();
 
@@ -1201,14 +1296,9 @@ namespace CefSharp.Wpf.HwndHost
                                     "after the underlying CEF browser is initialized (CefLifeSpanHandler::OnAfterCreated).");
             }
 
-            // Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called
-            // or before OnApplyTemplate has been called
-            if (browser != null)
+            using (var frame = browser.MainFrame)
             {
-                using (var frame = browser.MainFrame)
-                {
-                    frame.LoadUrl(url);
-                }
+                frame.LoadUrl(url);
             }
         }
 
@@ -1280,7 +1370,52 @@ namespace CefSharp.Wpf.HwndHost
         {
             if (InternalIsBrowserInitialized())
             {
+                if (dpiScale > 1)
+                {
+                    width = (int)(width * dpiScale);
+                    height = (int)(height * dpiScale);
+                }
+
                 managedCefBrowserAdapter.Resize(width, height);
+            }
+        }
+
+        private void OnWindowStateChanged(object sender, EventArgs e)
+        {
+            var window = (Window)sender;
+
+            switch (window.WindowState)
+            {
+                case WindowState.Normal:
+                case WindowState.Maximized:
+                {
+                    if (previousWindowState == WindowState.Minimized && InternalIsBrowserInitialized())
+                    {
+                        ResizeBrowser((int)ActualWidth, (int)ActualHeight);
+                    }
+                    break;
+                }
+                case WindowState.Minimized:
+                {
+                    if (InternalIsBrowserInitialized())
+                    {
+                        //Set the browser size to 0,0 to reduce CPU usage
+                        ResizeBrowser(0, 0);
+                    }
+                    break;
+                }
+            }
+
+            previousWindowState = window.WindowState;
+        }
+
+        private void OnWindowLocationChanged(object sender, EventArgs e)
+        {
+            if (InternalIsBrowserInitialized())
+            {
+                var host = browser.GetHost();
+
+                host.NotifyMoveOrResizeStarted();
             }
         }
     }
