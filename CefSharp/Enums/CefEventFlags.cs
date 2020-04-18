@@ -33,6 +33,6 @@ namespace CefSharp
         IsKeyPad = 1 << 9,
         IsLeft = 1 << 10,
         IsRight = 1 << 11,
-        AltgrDown = 1 << 12
+        AltGrDown = 1 << 12
     }
 }
