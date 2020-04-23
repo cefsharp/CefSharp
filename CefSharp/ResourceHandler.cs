@@ -146,7 +146,8 @@ namespace CefSharp
 
             Stream.Seek(bytesToSkip, SeekOrigin.Current);
 
-            return false;
+            //If data is available immediately set bytesSkipped to the number of of bytes skipped and return true.
+            return true;
         }
 
         bool IResourceHandler.Read(Stream dataOut, out int bytesRead, IResourceReadCallback callback)
