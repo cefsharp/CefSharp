@@ -66,9 +66,16 @@ Delete this line and everything above, and then fill in the details below.
 
 - **Does this problem also occur in the `CEF` Sample Application**
     - Download one of the following:
-	    - For x86 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.36%2Bg90301bd%2Bchromium-79.0.3945.130_windows32_client.tar.bz2
-	    - For x64 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.36%2Bg90301bd%2Bchromium-79.0.3945.130_windows64_client.tar.bz2
-	- If you are using WPF/OffScreen run cefclient --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu
-    - If you are using WinForms run cefclient --multi-threaded-message-loop
+    - For x86 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.36%2Bg90301bd%2Bchromium-79.0.3945.130_windows32_client.tar.bz2
+    - For x64 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.36%2Bg90301bd%2Bchromium-79.0.3945.130_windows64_client.tar.bz2
+	- Extract and run cefclient.exe
+		- If you are using WPF/OffScreen run
+		```
+		cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --disable-gpu-compositing --no-sandbox --disable-site-isolation-trials
+		```
+		- If you are using WinForms run
+		```
+		cefclient.exe --multi-threaded-message-loop --no-sandbox --disable-site-isolation-trials
+		```
 	- **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED ABOVE**
     - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
