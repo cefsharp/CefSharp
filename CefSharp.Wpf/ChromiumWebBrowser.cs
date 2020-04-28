@@ -2202,7 +2202,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.KeyEventArgs" /> that contains the event data.</param>
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            if (!e.Handled)
+            if (!e.Handled && browser != null)
             {
                 WpfKeyboardHandler.HandleKeyPress(e);
             }
@@ -2217,7 +2217,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.KeyEventArgs" /> that contains the event data.</param>
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
-            if (!e.Handled)
+            if (!e.Handled && browser != null)
             {
                 WpfKeyboardHandler.HandleKeyPress(e);
             }
@@ -2231,7 +2231,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
         protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
-            if (!e.Handled)
+            if (!e.Handled && browser != null)
             {
                 WpfKeyboardHandler.HandleTextInput(e);
             }
