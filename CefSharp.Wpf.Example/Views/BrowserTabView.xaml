@@ -130,7 +130,7 @@
                                  Grid.Row="0"
                                  Margin="6"
                                  AcceptsReturn="True"
-                                 Text="bound.subObject.simpleProperty = (bound.myProperty++).toString();">
+                                 Text="1 + 1">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Enter"
                                             Modifiers="Control"
