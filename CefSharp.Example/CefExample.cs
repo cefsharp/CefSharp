@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using CefSharp.Example.Properties;
 using CefSharp.Example.Proxy;
@@ -152,7 +153,7 @@ namespace CefSharp.Example
             if (DebuggingSubProcess)
             {
                 var architecture = Environment.Is64BitProcess ? "x64" : "x86";
-                settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe";
+                settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe");
             }
 
             settings.RegisterScheme(new CefCustomScheme
