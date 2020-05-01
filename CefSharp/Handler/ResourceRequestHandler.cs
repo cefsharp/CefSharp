@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+
 namespace CefSharp.Handler
 {
     /// <summary>
@@ -286,6 +288,22 @@ namespace CefSharp.Handler
         protected virtual bool OnResourceResponse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
         {
             return false;
+        }
+
+        /// <summary>
+        /// Called when the unamanged resource is freed.
+        /// Unmanaged resources are ref counted and freed when
+        /// the last reference is released, this works differently
+        /// to .Net garbage collection.
+        /// </summary>
+        protected virtual void Dispose()
+        {
+
+        }
+
+        void IDisposable.Dispose()
+        {
+            Dispose();
         }
     }
 }
