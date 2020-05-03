@@ -30,6 +30,8 @@ namespace CefSharp.Test
                     throw new Exception(@"Add <add key=""xunit.appDomain"" value=""denied""/> to your app.config to disable appdomains");
                 }
 
+                Cef.EnableWaitForBrowsersToClose();
+
                 CefSharpSettings.ShutdownOnExit = false;
                 var settings = new CefSettings();
 

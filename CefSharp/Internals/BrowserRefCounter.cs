@@ -16,18 +16,18 @@ namespace CefSharp.Internals
     /// doesn't reset the internal <see cref="ManualResetEventSlim"/> when Count is aleady 0.
     /// In our case it's valid to increase the number of browsers and reset the event.
     /// </remarks>
-    public class BrowserRefCounter
+    public class BrowserRefCounter : IBrowserRefCounter
     {
         private volatile int count = 0;
         private ManualResetEventSlim manualResetEvent = new ManualResetEventSlim();
 
         /// TODO: Refactor this so it's not static.
-        public static BrowserRefCounter Instance = new BrowserRefCounter();
+        public static IBrowserRefCounter Instance = new NoOpBrowserRefCounter();
 
         /// <summary>
         /// Increment browser count
         /// </summary>
-        public void Increment()
+        void IBrowserRefCounter.Increment()
         {
             var newCount = Interlocked.Increment(ref count);
 
@@ -40,7 +40,7 @@ namespace CefSharp.Internals
         /// <summary>
         /// Decrement browser count
         /// </summary>
-        public bool Decrement()
+        bool IBrowserRefCounter.Decrement()
         {
             var newCount = Interlocked.Decrement(ref count);
             if (newCount == 0)
@@ -67,7 +67,7 @@ namespace CefSharp.Internals
         /// <value>
         /// The count.
         /// </value>
-        public int Count
+        int IBrowserRefCounter.Count
         {
             get
             {
@@ -80,7 +80,7 @@ namespace CefSharp.Internals
         /// Blocks until the CefBrowser count has reached 0 or the timeout has been reached
         /// </summary>
         /// <param name="timeoutInMiliseconds">(Optional) The timeout in miliseconds.</param>
-        public void WaitForBrowsersToClose(int timeoutInMiliseconds = 500)
+        void IBrowserRefCounter.WaitForBrowsersToClose(int timeoutInMiliseconds)
         {
             if (!manualResetEvent.IsSet)
             {
@@ -93,7 +93,7 @@ namespace CefSharp.Internals
         /// </summary>
         /// <param name="timeoutInMiliseconds">(Optional) The timeout in miliseconds.</param>
         /// <param name="cancellationToken">(Optional) The cancellation token.</param>
-        public void WaitForBrowsersToClose(int timeoutInMiliseconds, CancellationToken cancellationToken)
+        void IBrowserRefCounter.WaitForBrowsersToClose(int timeoutInMiliseconds, CancellationToken cancellationToken)
         {
             if (!manualResetEvent.IsSet)
             {

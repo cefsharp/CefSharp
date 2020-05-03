@@ -103,6 +103,8 @@
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
+    <Compile Include="Internals\IBrowserRefCounter.cs" />
+    <Compile Include="Internals\NoOpBrowserRefCounter.cs" />
     <Compile Include="Internals\PathCheck.cs" />
     <Compile Include="Internals\BrowserRefCounter.cs" />
     <Compile Include="Internals\CommandLineArgDictionary.cs" />
