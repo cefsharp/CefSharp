@@ -75,7 +75,7 @@ namespace CefSharp.Internals
         /// <param name="path">path</param>
         public static bool IsAbsolute(string path)
         {
-            //Based on Chromium FilePath::IsAbolsute
+            //Based on Chromium FilePath::IsAbsolute
             //https://source.chromium.org/chromium/chromium/src/+/master:base/files/file_path.cc;drc=1c097f5f790782b2ad0b897cd9e2921ce9713585;l=97?q=IsAbsolute&ss=chromium&originalUrl=https:%2F%2Fcs.chromium.org%2F
             var pos = FindDriveLetter(path);
             if (pos != -1)
