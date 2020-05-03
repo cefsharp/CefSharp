@@ -21,6 +21,8 @@ namespace CefSharp.Test.Framework
             Assert.True(PathCheck.IsAbsolute(@"C:/foo1"));
             Assert.True(PathCheck.IsAbsolute(@"c:\"));
             Assert.True(PathCheck.IsAbsolute(@"C:/foo2"));
+            Assert.True(PathCheck.IsAbsolute(@"C:\Users\appveyor\AppData\Local\CefSharp\Tests\Cache"));
+
         }
 
         [Fact]
@@ -28,7 +30,6 @@ namespace CefSharp.Test.Framework
         {
             Assert.False(PathCheck.IsAbsolute(@"\"));
             Assert.False(PathCheck.IsAbsolute(@"/"));
-            Assert.False(PathCheck.IsAbsolute(@"C:foo.txt"));
             Assert.False(PathCheck.IsAbsolute(@"C:"));
             Assert.False(PathCheck.IsAbsolute(@"."));
             Assert.False(PathCheck.IsAbsolute(@".."));
@@ -39,10 +40,10 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void AssertPathAbsoluteInValid()
         {
-            Assert.Throws<Exception>(() => PathCheck.IsAbsolute(@"\"));
-            Assert.Throws<Exception>(() => PathCheck.IsAbsolute(@"c:foo"));
-            Assert.Throws<Exception>(() => PathCheck.IsAbsolute(@"cache"));
-            Assert.Throws<Exception>(() => PathCheck.IsAbsolute(@"locales\"));
+            Assert.Throws<Exception>(() => PathCheck.AssertAbsolute(@"\", "Path"));
+            Assert.Throws<Exception>(() => PathCheck.AssertAbsolute(@"c:foo", "Path"));
+            Assert.Throws<Exception>(() => PathCheck.AssertAbsolute(@"cache", "Path"));
+            Assert.Throws<Exception>(() => PathCheck.AssertAbsolute(@"locales\", "Path"));
         }
     }
 }
