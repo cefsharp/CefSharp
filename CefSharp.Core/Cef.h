@@ -190,10 +190,17 @@ namespace CefSharp
                     "calling Cef.Initialize after you've created an instance of ChromiumWebBrowser, it must be before the first instance is created.");
             }
 
+            //Empty string is acceptable, the main application executable will be used
             if (cefSettings->BrowserSubprocessPath == nullptr)
             {
                 throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
             }
+
+            PathCheck::AssertAbsolute(cefSettings->RootCachePath, "CefSettings.RootCachePath");
+            PathCheck::AssertAbsolute(cefSettings->CachePath, "CefSettings.CachePath");
+            PathCheck::AssertAbsolute(cefSettings->LocalesDirPath, "CefSettings.LocalesDirPath");
+            PathCheck::AssertAbsolute(cefSettings->BrowserSubprocessPath, "CefSettings.BrowserSubprocessPath");
+
 
             if (performDependencyCheck)
             {
@@ -201,7 +208,7 @@ namespace CefSharp
             }
             else if (!File::Exists(cefSettings->BrowserSubprocessPath))
             {
-                throw gcnew FileNotFoundException("CefSettings BrowserSubprocessPath not found.", cefSettings->BrowserSubprocessPath);
+                throw gcnew FileNotFoundException("CefSettings.BrowserSubprocessPath not found.", cefSettings->BrowserSubprocessPath);
             }
 
             UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));

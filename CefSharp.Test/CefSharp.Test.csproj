@@ -128,6 +128,7 @@
     <Compile Include="Framework\BinderFacts.cs" />
     <Compile Include="Framework\AsyncExtensionFacts.cs" />
     <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />
+    <Compile Include="Framework\PathCheckFacts.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
     <Compile Include="CefSharpXunitTestFramework.cs" />
     <Compile Include="CefSharpFixture.cs" />

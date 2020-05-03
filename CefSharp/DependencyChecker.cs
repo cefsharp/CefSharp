@@ -224,24 +224,5 @@ namespace CefSharp
                 throw new Exception(builder.ToString());
             }
         }
-
-        /// <summary>
-        /// Throw exception if the path provided is non-asbolute
-        /// CEF now explicitly requires absolute paths
-        /// https://bitbucket.org/chromiumembedded/cef/issues/2916/not-persisting-in-local-stoage-when-using
-        /// </summary>
-        /// <param name="path">path</param>
-        /// <param name="settingName">string to appear at the start of
-        /// the exception, e.g. CefSettings.BrowserSubProcessPath</param>
-        public static void AssertPathAbsolute(string path, string settingName)
-        {
-            const string directorySeperator = "\\";
-
-            //IsPathRooted will return true for paths that start with a single slash, e.g. \programfiles
-            if (!Path.IsPathRooted(path) || Path.GetPathRoot(path).Equals(directorySeperator, StringComparison.Ordinal))
-            {
-                throw new Exception(settingName + " now requires an absolute path, the path provided is non-absolute: " + path);
-            }
-        }
     }
 }

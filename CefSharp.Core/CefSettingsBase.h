@@ -135,8 +135,9 @@ namespace CefSharp
 
         /// <summary>
         /// The path to a separate executable that will be launched for sub-processes. By default the browser process executable is used.
-        /// See the comments on Cef.ExecuteProcess() for details. Also configurable using the "browser-subprocess-path" command-line
-        /// switch. Default is CefSharp.BrowserSubprocess.exe.
+        /// See the comments on Cef.ExecuteProcess() for details. If this value is non-empty then it must be an absolute path.
+        /// Also configurable using the "browser-subprocess-path" command-line switch.
+        /// Defaults to using the provided CefSharp.BrowserSubprocess.exe instance
         /// </summary>
         property String^ BrowserSubprocessPath
         {
@@ -145,11 +146,12 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// The location where data for the global browser cache will be stored on disk. In non-empty this must be either equal to or a
-        /// child directory of CefSettings.RootCachePath (if RootCachePath is empty it will default to this value). If empty then
-        /// browsers will be created in "incognito mode" where in-memory caches are used for storage and no data is persisted to disk.
-        /// HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. Can be overridden for
-        /// individual RequestContext instances via the RequestContextSettings.CachePath value.
+        /// The location where data for the global browser cache will be stored on disk. In this value is non-empty then it must be
+        /// an absolute path that is must be either equal to or a child directory of CefSettings.RootCachePath (if RootCachePath is
+        /// empty it will default to this value). If the value is empty then browsers will be created in "incognito mode" where
+        /// in-memory caches are used for storage and no data is persisted to disk. HTML5 databases such as localStorage will only
+        /// persist across sessions if a cache path is specified. Can be overridden for individual RequestContext instances via the
+        /// RequestContextSettings.CachePath value.
         /// </summary>
         property String^ CachePath
         {
@@ -159,11 +161,12 @@ namespace CefSharp
 
         /// <summary>
         /// The root directory that all CefSettings.CachePath and RequestContextSettings.CachePath values must have in common. If this
-        /// value is empty and CefSettings.CachePath is non-empty then this value will default to the CefSettings.CachePath value.
-        /// Failure to set this value correctly may result in the sandbox blocking read/write access to the CachePath directory. NOTE:
-        /// CefSharp does not implement the CHROMIUM SANDBOX. A non-empty RootCachePath can be used in conjuncation with an empty
-        /// CefSettings.CachePath in instances where you would like browsers attached to the Global RequestContext (the default)
-        /// created in "incognito mode" and instances created with a custom RequestContext using a disk based cache.
+        /// value is empty and CefSettings.CachePath is non-empty then it will default to the CefSettings.CachePath value.
+        /// If this value is non-empty then it must be an absolute path.  Failure to set this value correctly may result in the sandbox
+        /// blocking read/write access to the CachePath directory. NOTE: CefSharp does not implement the CHROMIUM SANDBOX. A non-empty
+        /// RootCachePath can be used in conjuncation with an empty CefSettings.CachePath in instances where you would like browsers
+        /// attached to the Global RequestContext (the default) created in "incognito mode" and instances created with a custom
+        /// RequestContext using a disk based cache.
         /// </summary>
         property String^ RootCachePath
         {
@@ -172,9 +175,9 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// The location where user data such as spell checking dictionary files will be stored on disk. If empty then the default
-        /// platform-specific user data directory will be used ("Local Settings\Application Data\CEF\User Data" directory under the user
-        /// profile directory on Windows).
+        /// The location where user data such as spell checking dictionary files will be stored on disk. If this value is empty then the
+        /// default user data directory will be used ("Local Settings\Application Data\CEF\User Data" directory under the user
+        /// profile directory on Windows). If this value is non-empty then it must be an absolute path.
         /// </summary>
         property String^ UserDataPath
         {
@@ -203,7 +206,8 @@ namespace CefSharp
 
         /// <summary>
         /// The fully qualified path for the locales directory. If this value is empty the locales directory must be located in the
-        /// module directory. Also configurable using the "locales-dir-path" command-line switch.
+        /// module directory. If this value is non-empty then it must be an absolute path. Also configurable using the "locales-dir-path"
+        /// command-line switch.
         /// </summary>
         property String^ LocalesDirPath
         {
