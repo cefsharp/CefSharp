@@ -147,6 +147,11 @@ namespace CefSharp.Wpf
         private int disposeSignaled;
 
         /// <summary>
+        /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
+        /// </summary>
+        private long canExecuteJavascriptInMainFrameId;
+
+        /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
@@ -1251,8 +1256,21 @@ namespace CefSharp.Wpf
             LoadError?.Invoke(this, args);
         }
 
-        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
+        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
         {
+            //When loading pages of a different origin the frameId changes
+            //For the first loading of a new origin the messages from the render process
+            //Arrive in a different order than expected, the OnContextCreated message
+            //arrives before the OnContextReleased, then the message for OnContextReleased
+            //incorrectly overrides the value
+            //https://github.com/cefsharp/CefSharp/issues/3021
+
+            if (frameId > canExecuteJavascriptInMainFrameId && !canExecute)
+            {
+                return;
+            }
+
+            canExecuteJavascriptInMainFrameId = frameId;
             CanExecuteJavascriptInMainFrame = canExecute;
         }
 

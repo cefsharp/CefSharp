@@ -1048,7 +1048,7 @@ namespace CefSharp
                 {
                     if (frame->IsMain())
                     {
-                        _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(frame->GetIdentifier(), true);
                     }
 
                     auto handler = _browserControl->RenderProcessMessageHandler;
@@ -1072,7 +1072,7 @@ namespace CefSharp
                 {
                     if (frame->IsMain())
                     {
-                        _browserControl->SetCanExecuteJavascriptOnMainFrame(false);
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(frame->GetIdentifier(), false);
                     }
 
                     auto handler = _browserControl->RenderProcessMessageHandler;
