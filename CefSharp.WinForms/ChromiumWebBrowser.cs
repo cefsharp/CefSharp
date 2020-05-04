@@ -660,7 +660,7 @@ namespace CefSharp.WinForms
                 // NOTE: Had to move the code out of this function otherwise the designer would crash
                 CreateBrowser();
 
-                ResizeBrowser();
+                ResizeBrowser(Width, Height);
             }
 
             base.OnHandleCreated(e);
@@ -771,7 +771,7 @@ namespace CefSharp.WinForms
                 });
             }
 
-            ResizeBrowser();
+            ResizeBrowser(Width, Height);
 
             //If Load was called after the call to CreateBrowser we'll call Load
             //on the MainFrame
@@ -985,19 +985,36 @@ namespace CefSharp.WinForms
 
             if (!designMode && initialized)
             {
-                ResizeBrowser();
+                ResizeBrowser(Width, Height);
             }
         }
 
         /// <summary>
         /// Resizes the browser.
         /// </summary>
-        private void ResizeBrowser()
+        private void ResizeBrowser(int width, int height)
         {
             if (IsBrowserInitialized)
             {
-                managedCefBrowserAdapter.Resize(Width, Height);
+                managedCefBrowserAdapter.Resize(width, height);
             }
+        }
+
+        /// <summary>
+        /// When minimized set the browser window size to 0x0 to reduce resource usage.
+        /// https://github.com/chromiumembedded/cef/blob/c7701b8a6168f105f2c2d6b239ce3958da3e3f13/tests/cefclient/browser/browser_window_std_win.cc#L87
+        /// </summary>
+        internal void HideInternal()
+        {
+            ResizeBrowser(0, 0);
+        }
+
+        /// <summary>
+        /// Show the browser (called after previous minimised)
+        /// </summary>
+        internal void ShowInternal()
+        {
+            ResizeBrowser(Width, Height);
         }
 
         /// <summary>
