@@ -22,6 +22,8 @@ namespace CefSharp.OffScreen.Example
             Console.WriteLine("You may see a lot of Chromium debugging output, please wait...");
             Console.WriteLine();
 
+            Cef.EnableWaitForBrowsersToClose();
+
             // You need to replace this with your own call to Cef.Initialize();
             CefExample.Init(new CefSettings(), browserProcessHandler: new BrowserProcessHandler());
 
@@ -33,6 +35,11 @@ namespace CefSharp.OffScreen.Example
 
             // We have to wait for something, otherwise the process will exit too soon.
             Console.ReadKey();
+
+            //Wait until the browser has finished closing (which by default happens on a different thread).
+            //Cef.EnableWaitForBrowsersToClose(); must be called before Cef.Initialize to enable this feature
+            //See https://github.com/cefsharp/CefSharp/issues/3047 for details
+            Cef.WaitForBrowsersToClose();
 
             // Clean up Chromium objects.  You need to call this in your application otherwise
             // you will get a crash when closing.
