@@ -209,6 +209,7 @@ namespace CefSharp
 
         /// <summary>
         /// Notify the browser that the window hosting it is about to be moved or resized.
+        /// This will dismiss any existing popups (dropdowns).
         /// </summary>
         void NotifyMoveOrResizeStarted();
 
