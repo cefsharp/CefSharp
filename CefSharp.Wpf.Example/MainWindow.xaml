@@ -48,6 +48,7 @@
                 <MenuItem Header="_Async JSB Task Tests" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="AsyncJsbTaskTests" />
                 <MenuItem Header="_Resize Hack Tests" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ResizeHackTests" />
                 <MenuItem Header="_Google Service Worker Demo" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="https://googlechrome.github.io/samples/service-worker/basic/"/>
+                <MenuItem Header="Load Example Extension" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="LoadExtension"/>
             </MenuItem>
         </Menu>
         <controls:NonReloadingTabControl x:Name="TabControl"
