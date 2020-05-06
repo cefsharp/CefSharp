@@ -23,6 +23,14 @@ namespace CefSharp.SchemeHandler
         private readonly FileShare resourceFileShare;
 
         /// <summary>
+        /// <see cref="ResourceHandler.GetMimeType(string)"/> is being deprecated in favour of using
+        /// Chromiums native mimeType lookup which is accessible using Cef.GetMimeType, this method is however
+        /// not directly avaliable as it exists in CefSharp.Core, to get around this we set
+        /// this static delegate with a reference to Cef.GetMimeType when Cef.Initialize is called.
+        /// </summary>
+        public static Func<string, string> GetMimeTypeDelegate = (s) => { return ResourceHandler.GetMimeType(s); };
+
+        /// <summary>
         /// Initialize a new instance of FolderSchemeHandlerFactory
         /// </summary>
         /// <param name="rootFolder">Root Folder where all your files exist, requests cannot be made outside of this folder</param>
@@ -61,10 +69,29 @@ namespace CefSharp.SchemeHandler
         /// </returns>
         IResourceHandler ISchemeHandlerFactory.Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
         {
+            return Create(browser, frame, schemeName, request);
+        }
+
+        /// <summary>
+        /// If the file requested is within the rootFolder then a IResourceHandler reference to the file requested will be returned
+        /// otherwise a 404 ResourceHandler will be returned.
+        /// </summary>
+        /// <param name="browser">the browser window that originated the
+        /// request or null if the request did not originate from a browser window
+        /// (for example, if the request came from CefURLRequest).</param>
+        /// <param name="frame">frame that originated the request
+        /// or null if the request did not originate from a browser window
+        /// (for example, if the request came from CefURLRequest).</param>
+        /// <param name="schemeName">the scheme name</param>
+        /// <param name="request">The request. (will not contain cookie data)</param>
+        /// <returns>
+        /// A IResourceHandler
+        /// </returns>
+        protected virtual IResourceHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
+        {
             if (this.schemeName != null && !schemeName.Equals(this.schemeName, StringComparison.OrdinalIgnoreCase))
             {
                 return ResourceHandler.ForErrorMessage(string.Format("SchemeName {0} does not match the expected SchemeName of {1}.", schemeName, this.schemeName), HttpStatusCode.NotFound);
-
             }
 
             var uri = new Uri(request.Url);
@@ -88,8 +115,8 @@ namespace CefSharp.SchemeHandler
             if (filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
             {
                 var fileExtension = Path.GetExtension(filePath);
-                var mimeType = ResourceHandler.GetMimeType(fileExtension);
-                var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, resourceFileShare); 
+                var mimeType = GetMimeTypeDelegate(fileExtension);
+                var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, resourceFileShare);
                 return ResourceHandler.FromStream(stream, mimeType);
             }
 

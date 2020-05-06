@@ -150,6 +150,14 @@ void CefBrowserHostWrapper::CloseBrowser(bool forceClose)
     _browserHost->CloseBrowser(forceClose);
 }
 
+bool CefBrowserHostWrapper::TryCloseBrowser()
+{
+    ThrowIfDisposed();
+    ThrowIfExecutedOnNonCefUiThread();
+
+    return _browserHost->TryCloseBrowser();
+}
+
 void CefBrowserHostWrapper::ShowDevTools(IWindowInfo^ windowInfo, int inspectElementAtX, int inspectElementAtY)
 {
     ThrowIfDisposed();
@@ -159,7 +167,7 @@ void CefBrowserHostWrapper::ShowDevTools(IWindowInfo^ windowInfo, int inspectEle
 
     if (windowInfo == nullptr)
     {
-        nativeWindowInfo.SetAsPopup(_browserHost->GetWindowHandle(), "DevTools");
+        nativeWindowInfo.SetAsPopup(NULL, "DevTools");
     }
     else
     {

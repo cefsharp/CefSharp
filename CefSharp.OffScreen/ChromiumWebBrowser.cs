@@ -20,7 +20,6 @@ namespace CefSharp.OffScreen
     /// An offscreen instance of Chromium that you can use to take
     /// snapshots or evaluate JavaScript.
     /// </summary>
-    /// <seealso cref="CefSharp.Internals.IRenderWebBrowser" />
     public class ChromiumWebBrowser : IRenderWebBrowser
     {
         /// <summary>
@@ -52,6 +51,11 @@ namespace CefSharp.OffScreen
         private int disposeSignaled;
 
         /// <summary>
+        /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
+        /// </summary>
+        private long canExecuteJavascriptInMainFrameId;
+
+        /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
@@ -67,8 +71,6 @@ namespace CefSharp.OffScreen
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
-        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
-        /// binding.</remarks>
         public bool IsBrowserInitialized { get; private set; }
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
@@ -379,6 +381,7 @@ namespace CefSharp.OffScreen
 
             if (disposing)
             {
+                CanExecuteJavascriptInMainFrame = false;
                 IsBrowserInitialized = false;
 
                 // Don't reference event listeners any longer:
@@ -443,6 +446,11 @@ namespace CefSharp.OffScreen
 
             managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
 
+            //Dispose of BrowserSettings if we created it, if user created then they're responsible
+            if (browserSettings.FrameworkCreated)
+            {
+                browserSettings.Dispose();
+            }
             browserSettings = null;
         }
 
@@ -610,6 +618,7 @@ namespace CefSharp.OffScreen
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
+            this.ThrowExceptionIfDisposed();
             this.ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
@@ -902,8 +911,21 @@ namespace CefSharp.OffScreen
             TooltipText = tooltipText;
         }
 
-        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
+        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
         {
+            //When loading pages of a different origin the frameId changes
+            //For the first loading of a new origin the messages from the render process
+            //Arrive in a different order than expected, the OnContextCreated message
+            //arrives before the OnContextReleased, then the message for OnContextReleased
+            //incorrectly overrides the value
+            //https://github.com/cefsharp/CefSharp/issues/3021
+
+            if (frameId > canExecuteJavascriptInMainFrameId && !canExecute)
+            {
+                return;
+            }
+
+            canExecuteJavascriptInMainFrameId = frameId;
             CanExecuteJavascriptInMainFrame = canExecute;
         }
 

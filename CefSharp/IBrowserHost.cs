@@ -21,7 +21,7 @@ namespace CefSharp
         /// <summary>
         /// Add the specified word to the spelling dictionary.
         /// </summary>
-        /// <param name="word"></param>
+        /// <param name="word">custom word to be added to dictionary</param>
         void AddWordToDictionary(string word);
 
         /// <summary>
@@ -35,6 +35,15 @@ namespace CefSharp
         /// See <see cref="ILifeSpanHandler.DoClose"/> documentation for additional usage information.
         /// </param>
         void CloseBrowser(bool forceClose);
+
+        /// <summary>
+        /// Helper for closing a browser. Call this method from the top-level window close handler. Internally this calls CloseBrowser(false) if the close has not yet been initiated. This method returns false while the close is pending and true after the close has completed.
+        /// See <see cref="CloseBrowser(bool)"/> and <see cref="ILifeSpanHandler.DoClose(IWebBrowser, IBrowser)"/> documentation for additional usage information. This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <returns>
+        /// This method returns false while the close is pending and true after the close has completed
+        /// </returns>
+        bool TryCloseBrowser();
 
         /// <summary>
         /// Explicitly close the developer tools window if one exists for this browser instance.
@@ -66,7 +75,7 @@ namespace CefSharp
         void DragTargetDragDrop(MouseEvent mouseEvent);
 
         /// <summary>
-        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging"/> call has ended either in a drop or by being cancelled.
+        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging(IDragData, DragOperationsMask, int, int)"/> call has ended either in a drop or by being cancelled.
         /// If the web view is both the drag source and the drag target then all DragTarget* methods should be called before DragSource* methods.
         /// This method is only used when window rendering is disabled. 
         /// </summary>
@@ -82,7 +91,7 @@ namespace CefSharp
         void DragTargetDragLeave();
 
         /// <summary>
-        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging"/> call has completed.
+        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging(IDragData, DragOperationsMask, int, int)"/> call has completed.
         /// This method may be called immediately without first calling DragSourceEndedAt to cancel a drag operation.
         /// If the web view is both the drag source and the drag target then all DragTarget* methods should be called before DragSource* mthods.
         /// This method is only used when window rendering is disabled. 
@@ -200,6 +209,7 @@ namespace CefSharp
 
         /// <summary>
         /// Notify the browser that the window hosting it is about to be moved or resized.
+        /// This will dismiss any existing popups (dropdowns).
         /// </summary>
         void NotifyMoveOrResizeStarted();
 

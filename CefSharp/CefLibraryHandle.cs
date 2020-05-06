@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace CefSharp
@@ -31,17 +32,39 @@ namespace CefSharp
             LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008
         }
 
-        public CefLibraryHandle(string filename) : base(IntPtr.Zero, true)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="path">libcef.dll full path.</param>
+        public CefLibraryHandle(string path) : base(IntPtr.Zero, true)
         {
-            var handle = LoadLibraryEx(filename, IntPtr.Zero, LoadLibraryFlags.LOAD_WITH_ALTERED_SEARCH_PATH);
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("NotFound", path);
+            }
+
+            var handle = LoadLibraryEx(path, IntPtr.Zero, LoadLibraryFlags.LOAD_WITH_ALTERED_SEARCH_PATH);
             base.SetHandle(handle);
         }
 
+        /// <summary>
+        /// When overridden in a derived class, gets a value indicating whether the handle value is invalid.
+        /// </summary>
+        /// <value>
+        /// true if the handle value is invalid; otherwise, false.
+        /// </value>
         public override bool IsInvalid
         {
             get { return this.handle == IntPtr.Zero; }
         }
 
+        /// <summary>
+        /// When overridden in a derived class, executes the code required to free the handle.
+        /// </summary>
+        /// <returns>
+        /// true if the handle is released successfully; otherwise, in the event of a catastrophic failure, false. In this case, it
+        /// generates a releaseHandleFailed MDA Managed Debugging Assistant.
+        /// </returns>
         protected override bool ReleaseHandle()
         {
             return FreeLibrary(this.handle);

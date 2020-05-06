@@ -63,6 +63,8 @@ namespace CefSharp
 
         RequestContext(RequestContextSettings^ settings) : _settings(settings)
         {
+            PathCheck::AssertAbsolute(settings->CachePath, "RequestContextSettings.CachePath");
+
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
         }
 
@@ -74,6 +76,8 @@ namespace CefSharp
 
         RequestContext(RequestContextSettings^ settings, IRequestContextHandler^ requestContextHandler) : _settings(settings)
         {
+            PathCheck::AssertAbsolute(settings->CachePath, "RequestContextSettings.CachePath");
+
             _requestContext = CefRequestContext::CreateContext(settings, new CefRequestContextHandlerAdapter(requestContextHandler));
         }
 

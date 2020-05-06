@@ -4,10 +4,22 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Values that represent mouse button types.
+    /// </summary>
     public enum MouseButtonType
     {
+        /// <summary>
+        /// Left Mouse Button
+        /// </summary>
         Left = 0,
+        /// <summary>
+        /// Middle Mouse Button
+        /// </summary>
         Middle,
+        /// <summary>
+        /// Right Mouse Button
+        /// </summary>
         Right
     }
 }

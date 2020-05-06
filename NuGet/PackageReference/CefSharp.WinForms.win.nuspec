@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata minClientVersion="4.0.0">
+    <id>CefSharp.WinForms.win-$Platform$</id>
+    <version>$version$</version>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
+    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The CefSharp Chromium-based browser component (WinForms control).</description>
+    <tags>winforms chrome browser chromium-embedded cefsharp</tags>
+    <copyright>Copyright © The CefSharp Authors</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="CefSharp.Common.win-$Platform$" version="[$version$]" />
+      </group>
+      <group targetFramework=".NETCoreApp3.0">
+        <dependency id="CefSharp.Common.win-$Platform$" version="[$version$]" />
+      </group>
+    </dependencies>
+    <releaseNotes>
+    <![CDATA[
+      See https://github.com/cefsharp/CefSharp/releases/tag/v$version$ for release notes including Known Issues, Breaking Changes, Bugs Fixed, new features.
+      Important you read the release notes to see what's changed in this version.
+    ]]>
+    </releaseNotes>
+  </metadata>
+  <files>
+    <!-- pdb and xml files not copied see https://github.com/dotnet/sdk/issues/1458 -->
+    <file src="..\..\CefSharp.WinForms\bin\$Platform$\Release\CefSharp.WinForms.dll" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.WinForms\bin\$Platform$\Release\CefSharp.WinForms.pdb" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.WinForms\bin\$Platform$\Release\CefSharp.WinForms.xml" target="lib\netcoreapp3.0" />
+    <file src="..\..\CefSharp.WinForms\bin\$Platform$\Release\CefSharp.WinForms.dll" target="lib\net452" />
+    <file src="..\..\CefSharp.WinForms\bin\$Platform$\Release\CefSharp.WinForms.pdb" target="lib\net452" />
+    <file src="..\..\CefSharp.WinForms\bin\$Platform$\Release\CefSharp.WinForms.xml" target="lib\net452" />
+
+    <file src="..\Readme.txt" target="" />
+  </files>
+</package>

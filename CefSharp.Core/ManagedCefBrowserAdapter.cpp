@@ -8,7 +8,7 @@
 #include "WindowInfo.h"
 #include "Internals\Messaging\Messages.h"
 #include "Internals\CefFrameWrapper.h"
-#include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\CefBrowserWrapper.h"
 #include "Internals\Serialization\Primitives.h"
 #include "Internals\Serialization\JsObjectsSerialization.h"
 
@@ -65,12 +65,6 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
         *browserSettings->_browserSettings, extraInfo, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
     {
         throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser call failed, review the CEF log file for more details.");
-    }
-
-    //Dispose of BrowserSettings if we created it, if user created then they're responsible
-    if (browserSettings->FrameworkCreated)
-    {
-        delete browserSettings;
     }
 
     delete windowInfo;

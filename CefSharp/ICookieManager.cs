@@ -20,7 +20,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="url">The cookie URL.</param>
         /// <param name="name">The name of the cookie.</param>
-        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF UI thread after the cookies have been deleted.</param>
+        /// <param name="callback">If non-NULL it will be executed asynchronously on the CEF UI thread after the cookies have been deleted.</param>
         /// <returns>Returns false if a non-empty invalid URL is specified or if cookies cannot be accessed; otherwise, true.</returns>
         bool DeleteCookies(string url = null, string name = null, IDeleteCookiesCallback callback = null);
 
@@ -32,7 +32,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="url">The cookie URL</param>
         /// <param name="cookie">The cookie</param>
-        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF UI thread after the cookie has been set.</param>
+        /// <param name="callback">If non-NULL it will be executed asynchronously on the CEF UI thread after the cookie has been set.</param>
         /// <returns>Returns false if an invalid URL is specified or if cookies cannot be accessed.</returns>
         bool SetCookie(string url, Cookie cookie, ISetCookieCallback callback = null);
 

@@ -12,6 +12,9 @@ namespace CefSharp.Internals
     /// </summary>
     public class HeaderNameValueCollection : NameValueCollection
     {
+        /// <summary>
+        /// Set the NameValueCollection to Readonly after it's been updated
+        /// </summary>
         public void SetReadOnly()
         {
             IsReadOnly = true;

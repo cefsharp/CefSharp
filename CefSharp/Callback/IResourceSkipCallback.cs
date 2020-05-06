@@ -7,7 +7,7 @@ using System;
 namespace CefSharp.Callback
 {
     /// <summary>
-    /// Callback for asynchronous continuation of <see cref="IResourceHandler.Skip(long, long, IResourceSkipCallback)"/>.
+    /// Callback for asynchronous continuation of <see cref="IResourceHandler.Skip"/>.
     /// </summary>
     public interface IResourceSkipCallback : IDisposable
     {
@@ -16,7 +16,7 @@ namespace CefSharp.Callback
         /// </summary>
         /// <param name="bytesSkipped">If bytesSkipped &gt; 0 then either Skip() will be called
         /// again until the requested number of bytes have been skipped or the request will proceed.
-        /// If bytesSkipped &lte; the request will fail with ERR_REQUEST_RANGE_NOT_SATISFIABLE.</param>
+        /// If bytesSkipped &lt;= the request will fail with ERR_REQUEST_RANGE_NOT_SATISFIABLE.</param>
         void Continue(Int64 bytesSkipped);
 
         /// <summary>

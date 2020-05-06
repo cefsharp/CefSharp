@@ -2,16 +2,19 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+
 namespace CefSharp
 {
     /// <summary>
     /// Implement this interface to handle events related to browser requests.
     /// The methods of this class will be called on the CEF IO thread unless otherwise indicated.
     /// </summary>
-    public interface IResourceRequestHandler
+    public interface IResourceRequestHandler : IDisposable
     {
         /// <summary>
-        /// Called on the CEF IO thread before a resource request is loaded. . 
+        /// Called on the CEF IO thread before a resource request is loaded.
+        /// To optionally filter cookies for the request return a <see cref="ICookieAccessFilter"/> object.
         /// </summary>
         /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object - may be null if originating from ServiceWorker or CefURLRequest</param>

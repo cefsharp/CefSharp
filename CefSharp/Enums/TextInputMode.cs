@@ -11,15 +11,45 @@ namespace CefSharp.Enums
     /// </summary>
     public enum TextInputMode
     {
+        /// <summary>
+        /// An enum constant representing the default option.
+        /// </summary>
         Default = 0,
+        /// <summary>
+        /// An enum constant representing the none option.
+        /// </summary>
         None,
+        /// <summary>
+        /// An enum constant representing the text option.
+        /// </summary>
         Text,
+        /// <summary>
+        /// An enum constant representing the tel option.
+        /// </summary>
         Tel,
+        /// <summary>
+        /// An enum constant representing the URL option.
+        /// </summary>
         Url,
+        /// <summary>
+        /// An enum constant representing the mail option.
+        /// </summary>
         EMail,
+        /// <summary>
+        /// An enum constant representing the numeric option.
+        /// </summary>
         Numeric,
+        /// <summary>
+        /// An enum constant representing the decimal option.
+        /// </summary>
         Decimal,
+        /// <summary>
+        /// An enum constant representing the search option.
+        /// </summary>
         Search,
+        /// <summary>
+        /// An enum constant representing the Maximum option.
+        /// </summary>
         Max = Search
     }
 }

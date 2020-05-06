@@ -12,8 +12,8 @@
 #include "CefResponseWrapper.h"
 #include "Request.h"
 #include "CefFrameWrapper.h"
-#include "CefSharpBrowserWrapper.h"
-#include "ResourceHandlerWrapper.h"
+#include "CefBrowserWrapper.h"
+#include "CefResourceHandlerAdapter.h"
 #include "CefResponseFilterAdapter.h"
 #include "CefRequestCallbackWrapper.h"
 #include "CefCookieAccessFilterAdapter.h"
@@ -51,7 +51,7 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
                     accessFilter = _handler->GetCookieAccessFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
@@ -75,7 +75,7 @@ namespace CefSharp
                 if (browser.get() && frame.get())
                 {
                     //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     //We pass the frame and request wrappers to CefRequestCallbackWrapper so they can be disposed of
                     //when the callback is executed
                     auto frameWrapper = gcnew CefFrameWrapper(frame);
@@ -99,7 +99,7 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
                     resourceHandler = _handler->GetResourceHandler(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
@@ -145,7 +145,7 @@ namespace CefSharp
                     return new CefStreamResourceHandler(StringUtils::ToNative(byteArrayResourceHandler->MimeType), streamReader);
                 }
 
-                return new ResourceHandlerWrapper(resourceHandler);
+                return new CefResourceHandlerAdapter(resourceHandler);
             }
 
             void OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, CefString& newUrl) OVERRIDE
@@ -157,7 +157,7 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
                     _handler->OnResourceRedirect(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, managedNewUrl);
@@ -180,7 +180,7 @@ namespace CefSharp
                 if (browser.get() && frame.get())
                 {
 
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
                     return _handler->OnResourceResponse(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
@@ -198,7 +198,7 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
                     responseFilter = _handler->GetResourceResponseFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
@@ -224,7 +224,7 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
                     _handler->OnResourceLoadComplete(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
@@ -242,7 +242,7 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefSharpBrowserWrapper browserWrapper(browser);
+                    CefBrowserWrapper browserWrapper(browser);
                     CefFrameWrapper frameWrapper(frame);
 
 

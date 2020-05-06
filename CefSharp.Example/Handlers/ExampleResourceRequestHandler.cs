@@ -155,5 +155,13 @@ namespace CefSharp.Example.Handlers
                 var dataAsUtf8String = Encoding.UTF8.GetString(data);
             }
         }
+
+        protected override void Dispose()
+        {
+            memoryStream?.Dispose();
+            memoryStream = null;
+
+            base.Dispose();
+        }
     }
 }

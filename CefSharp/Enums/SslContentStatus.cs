@@ -10,8 +10,17 @@ namespace CefSharp
     /// </summary>
     public enum SslContentStatus
     {
+        /// <summary>
+        /// HTTP page, or HTTPS page with no insecure content..
+        /// </summary>
         NormalContent = 0,
+        /// <summary>
+        /// HTTPS page containing "displayed" HTTP resources (e.g. images, CSS).
+        /// </summary>
         DisplayedInsecureContent = 1 << 0,
+        /// <summary>
+        /// HTTPS page containing "executed" HTTP resources (i.e. script)
+        /// </summary>
         RanInsecureContent = 1 << 1,
     }
 }

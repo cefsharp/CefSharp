@@ -17,7 +17,7 @@ namespace CefSharp
         /// <summary>
         /// Gets a copy of the current drag data
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a clone of the current object</returns>
         IDragData Clone();
 
         /// <summary>

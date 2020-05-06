@@ -1,6 +1,6 @@
 image: Visual Studio 2015
 
-version: 78.3.10-CI{build}
+version: 81.3.10-CI{build}
 
 clone_depth: 10
 
@@ -15,11 +15,13 @@ skip_commits:
 build_script:
   - ps: .\build.ps1
 
-# Disable tests
-test: off
+# Test our Release x64 build
+test:
+  assemblies:
+    - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
 
 artifacts:
-  - path: NuGet\*.nupkg
+  - path: NuGet\**\*.nupkg
     name: nupkgfiles
 
 # Publish to myget.org feed

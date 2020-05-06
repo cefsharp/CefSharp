@@ -26,6 +26,7 @@ using namespace CefSharp::ModelBinding;
 
 namespace CefSharp
 {
+    /// <exclude />
     public ref class ManagedCefBrowserAdapter : public IBrowserAdapter
     {
         MCefRefPtr<ClientAdapter> _clientAdapter;

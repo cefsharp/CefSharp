@@ -19,11 +19,11 @@
 #include <include/internal/cef_types.h>
 
 #include "Internals/CefSharpApp.h"
-#include "Internals/PluginVisitor.h"
+#include "Internals/CefWebPluginInfoVisitorAdapter.h"
 #include "Internals/CefTaskScheduler.h"
 #include "Internals/CefRegisterCdmCallbackAdapter.h"
 #include "CookieManager.h"
-#include "AbstractCefSettings.h"
+#include "CefSettingsBase.h"
 #include "RequestContext.h"
 
 using namespace System::Collections::Generic;
@@ -33,6 +33,11 @@ using namespace msclr::interop;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Global CEF methods are exposed through this class. e.g. CefInitalize maps to Cef.Initialize
+    /// CEF API Doc https://magpcss.org/ceforum/apidocs3/projects/(default)/(_globals).html
+    /// This class cannot be inherited.
+    /// </summary>
     public ref class Cef sealed
     {
     private:
@@ -42,6 +47,7 @@ namespace CefSharp
         static HashSet<IDisposable^>^ _disposables;
         static int _initializedThreadId;
         static bool _multiThreadedMessageLoop = true;
+        static bool _waitForBrowsersToCloseEnabled = false;
 
         static Cef()
         {
@@ -139,7 +145,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize(AbstractCefSettings^ cefSettings)
+        static bool Initialize(CefSettingsBase^ cefSettings)
         {
             auto cefApp = gcnew DefaultApp(nullptr, cefSettings->CefCustomSchemes);
 
@@ -156,7 +162,7 @@ namespace CefSharp
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
+        static bool Initialize(CefSettingsBase^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
         {
             auto cefApp = gcnew DefaultApp(browserProcessHandler, cefSettings->CefCustomSchemes);
 
@@ -173,7 +179,7 @@ namespace CefSharp
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <param name="cefApp">Implement this interface to provide handler implementations. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        static bool Initialize(AbstractCefSettings^ cefSettings, bool performDependencyCheck, IApp^ cefApp)
+        static bool Initialize(CefSettingsBase^ cefSettings, bool performDependencyCheck, IApp^ cefApp)
         {
             if (IsInitialized)
             {
@@ -185,10 +191,17 @@ namespace CefSharp
                     "calling Cef.Initialize after you've created an instance of ChromiumWebBrowser, it must be before the first instance is created.");
             }
 
+            //Empty string is acceptable, the main application executable will be used
             if (cefSettings->BrowserSubprocessPath == nullptr)
             {
                 throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
             }
+
+            PathCheck::AssertAbsolute(cefSettings->RootCachePath, "CefSettings.RootCachePath");
+            PathCheck::AssertAbsolute(cefSettings->CachePath, "CefSettings.CachePath");
+            PathCheck::AssertAbsolute(cefSettings->LocalesDirPath, "CefSettings.LocalesDirPath");
+            PathCheck::AssertAbsolute(cefSettings->BrowserSubprocessPath, "CefSettings.BrowserSubprocessPath");
+
 
             if (performDependencyCheck)
             {
@@ -196,12 +209,15 @@ namespace CefSharp
             }
             else if (!File::Exists(cefSettings->BrowserSubprocessPath))
             {
-                throw gcnew FileNotFoundException("CefSettings BrowserSubprocessPath not found.", cefSettings->BrowserSubprocessPath);
+                throw gcnew FileNotFoundException("CefSettings.BrowserSubprocessPath not found.", cefSettings->BrowserSubprocessPath);
             }
 
             UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
             IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
             FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
+
+            //To allow FolderSchemeHandlerFactory to access GetMimeType we pass in a Func
+            CefSharp::SchemeHandler::FolderSchemeHandlerFactory::GetMimeTypeDelegate = gcnew Func<String^, String^>(&GetMimeType);
 
             CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, cefApp));
             CefMainArgs main_args;
@@ -409,6 +425,27 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Called prior to calling Cef.Shutdown, this diposes of any remaning
+        /// ChromiumWebBrowser instances. In WPF this is used from Dispatcher.ShutdownStarted
+        /// to release the unmanaged resources held by the ChromiumWebBrowser instances.
+        /// Generally speaking you don't need to call this yourself.
+        /// </summary>
+        static void PreShutdown()
+        {
+            msclr::lock l(_sync);
+
+            for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
+            {
+                delete diposable;
+            }
+
+            _disposables->Clear();
+
+            GC::Collect();
+            GC::WaitForPendingFinalizers();
+        }
+
+        /// <summary>
         /// Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
         /// shut down CEF on the first call (all subsequent calls will be ignored).
         /// This method should be called on the main application thread to shut down the CEF browser process before the application exits. 
@@ -503,7 +540,7 @@ namespace CefSharp
         /// </summary>
         static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
         {
-            CefVisitWebPluginInfo(new PluginVisitor(visitor));
+            CefVisitWebPluginInfo(new CefWebPluginInfoVisitorAdapter(visitor));
         }
 
         /// <summary>
@@ -514,7 +551,7 @@ namespace CefSharp
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
-            CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
+            CefRefPtr<CefWebPluginInfoVisitorAdapter> visitor = new CefWebPluginInfoVisitorAdapter(taskVisitor);
 
             CefVisitWebPluginInfo(visitor);
 
@@ -688,7 +725,7 @@ namespace CefSharp
         /// The client application is responsible for downloading an appropriate
         /// platform-specific CDM binary distribution from Google, extracting the
         /// contents, and building the required directory structure on the local machine.
-        /// The <see cref="CefSharp.IBrowserHost.StartDownload"/> method class can be used
+        /// The <see cref="CefSharp::IBrowserHost::StartDownload"/> method class can be used
         /// to implement this functionality in CefSharp. Contact Google via
         /// https://www.widevine.com/contact.html for details on CDM download.
         /// 
@@ -702,7 +739,7 @@ namespace CefSharp
         ///
         /// If any of these files are missing or if the manifest file has incorrect
         /// contents the registration will fail and callback will receive an ErrorCode
-        /// value of <see cref="CefSharp.CdmRegistrationErrorCode.IncorrectContents"/>.
+        /// value of <see cref="CefSharp::CdmRegistrationErrorCode::IncorrectContents"/>.
         ///
         /// The manifest.json file must contain the following keys:
         ///   A. "os": Supported OS (e.g. "mac", "win" or "linux").
@@ -715,13 +752,13 @@ namespace CefSharp
         ///
         /// A through E are used to verify compatibility with the current Chromium
         /// version. If the CDM is not compatible the registration will fail and
-        /// callback will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode.Incompatible"/>.
+        /// callback will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode::Incompatible"/>.
         ///
         /// If registration is not supported at the time that Cef.RegisterWidevineCdm() is called then callback
-        /// will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode.NotSupported"/>.
+        /// will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode::NotSupported"/>.
         /// </summary>
         /// <param name="path"> is a directory that contains the Widevine CDM files</param>
-        /// <param name="callback">optional callback - <see cref="IRegisterCdmCallback.OnRegistrationCompletecallback"/> 
+        /// <param name="callback">optional callback - <see cref="IRegisterCdmCallback::OnRegistrationCompletecallback"/> 
         /// will be executed asynchronously once registration is complete</param>
         static void RegisterWidevineCdm(String^ path, [Optional] IRegisterCdmCallback^ callback)
         {
@@ -758,11 +795,72 @@ namespace CefSharp
         /// <returns>Returns the mime type for the specified file extension or an empty string if unknown.</returns>
         static String^ GetMimeType(String^ extension)
         {
+            if (extension == nullptr)
+            {
+                throw gcnew ArgumentNullException("extension");
+            }
+
             if (extension->StartsWith("."))
             {
                 extension = extension->Substring(1, extension->Length - 1);
             }
+
             return StringUtils::ToClr(CefGetMimeType(StringUtils::ToNative(extension)));
+        }
+
+        /// <summary>
+        /// WaitForBrowsersToClose is not enabled by default, call this method
+        /// before Cef.Initialize to enable. If you aren't calling Cef.Initialize
+        /// explicitly then this should be called before creating your first
+        /// ChromiumWebBrowser instance.
+        /// </summary>
+        static void EnableWaitForBrowsersToClose()
+        {
+            if (_waitForBrowsersToCloseEnabled)
+            {
+                return;
+            }
+
+            if (IsInitialized)
+            {
+                throw gcnew Exception("Must be enabled before Cef.Initialize is called. ");
+            }
+
+            _waitForBrowsersToCloseEnabled = true;
+
+            BrowserRefCounter::Instance = gcnew BrowserRefCounter();
+        }
+
+        /// <summary>
+        /// Helper method to ensure all ChromiumWebBrowser instances have been
+        /// closed/disposed, should be called before Cef.Shutdown.
+        /// Disposes all remaning ChromiumWebBrowser instances
+        /// then waits for CEF to release it's remaning CefBrowser instances.
+        /// Finally a small delay of 50ms to allow for CEF to finish it's cleanup.
+        /// Should only be called when MultiThreadedMessageLoop = true;
+        /// (Hasn't been tested when when CEF integrates into main message loop).
+        /// </summary>
+        static void WaitForBrowsersToClose()
+        {
+            if (!_waitForBrowsersToCloseEnabled)
+            {
+                throw gcnew Exception("This feature is currently disabled. Call Cef.EnableWaitForBrowsersToClose before calling Cef.Initialize to enable.");
+            }
+
+            //Dispose of any remaining browser instances
+            for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
+            {
+                delete diposable;
+            }
+
+            //Clear the list as we've disposed of them all now.
+            _disposables->Clear();
+
+            //Wait for the browsers to close
+            BrowserRefCounter::Instance->WaitForBrowsersToClose(500);
+
+            //A few extra ms to allow for CEF to finish 
+            Thread::Sleep(50);
         }
     };
 }

@@ -3,8 +3,10 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Example;
+using CefSharp.Internals;
 using CefSharp.OffScreen;
 using Xunit;
 using Xunit.Abstractions;
@@ -48,6 +50,34 @@ namespace CefSharp.Test.OffScreen
 
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
+        }
+
+        [Fact]
+        public void BrowserRefCountDecrementedOnDispose()
+        {
+            var manualResetEvent = new ManualResetEvent(false);
+
+            var browser = new ChromiumWebBrowser("https://google.com");
+            browser.LoadingStateChanged += (sender, e) =>
+            {
+                if (!e.IsLoading)
+                {
+                    manualResetEvent.Set();
+                }
+            };
+
+            manualResetEvent.WaitOne();
+
+            //TODO: Refactor this so reference is injected into browser
+            Assert.Equal(1, BrowserRefCounter.Instance.Count);
+
+            browser.Dispose();
+
+            Assert.Equal(1, BrowserRefCounter.Instance.Count);
+
+            Cef.WaitForBrowsersToClose();
+
+            Assert.Equal(0, BrowserRefCounter.Instance.Count);
         }
 
         [Fact]

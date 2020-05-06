@@ -1,15 +1,33 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
-    <head>
-        <title>Popup Test</title>
-    </head>
-    <body>
-        <a href="https://github.com/CefSharp/CefSharp" target="_blank">target=_blank</a>
-        <br />
-        <a href="#" onclick="window.open('https://github.com/CefSharp/CefSharp')">window.open()</a>
-        <br />
-        <a href="#" onclick="window.open('custom://cefsharp/BindingTest.html')">BindingTest.html</a>
-        <br />
-        <a href="#" onclick="window.open('custom://cefsharp/MultiBindingTest.html')">MultiBindingTest.html</a>
-    </body>
+<head>
+    <title>Popup Test</title>
+</head>
+<body>
+    <a href="https://github.com/CefSharp/CefSharp" target="_blank">target=_blank</a>
+    <br />
+    <a href="#" onclick="window.open('https://github.com/CefSharp/CefSharp')">window.open()</a>
+    <br />
+    <a href="#" onclick="window.open('custom://cefsharp/BindingTest.html')">BindingTest.html</a>
+    <br />
+    <a href="#" onclick="window.open('custom://cefsharp/MultiBindingTest.html')">MultiBindingTest.html</a>
+    <br />
+    <button onclick="openWin()">Open "myWindow"</button>
+    <button onclick="closeWin()">Close "myWindow"</button>
+
+    <script>
+        var myWindow;
+
+        function openWin()
+        {
+            myWindow = window.open("", "myWindow", "width=200,height=100");
+            myWindow.document.write("<p>This is 'myWindow'</p>");
+        }
+
+        function closeWin()
+        {
+            myWindow.close();
+        }
+    </script>
+</body>
 </html>

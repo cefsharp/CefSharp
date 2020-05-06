@@ -30,13 +30,19 @@ namespace CefSharp.Wpf
     /// ChromiumWebBrowser is the WPF web browser control
     /// </summary>
     /// <seealso cref="System.Windows.Controls.Control" />
-    /// <seealso cref="CefSharp.Internals.IRenderWebBrowser" />
     /// <seealso cref="CefSharp.Wpf.IWpfWebBrowser" />
     [TemplatePart(Name = PartImageName, Type = typeof(Image))]
     [TemplatePart(Name = PartPopupImageName, Type = typeof(Image))]
     public class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
     {
+        /// <summary>
+        /// TemplatePart Name constant for the Image used to represent the browser
+        /// </summary>
         public const string PartImageName = "PART_image";
+        /// <summary>
+        /// TemplatePart Name constant for the Image used to represent the popup
+        /// overlayed on the browser
+        /// </summary>
         public const string PartPopupImageName = "PART_popupImage";
 
         /// <summary>
@@ -141,6 +147,11 @@ namespace CefSharp.Wpf
         private int disposeSignaled;
 
         /// <summary>
+        /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
+        /// </summary>
+        private long canExecuteJavascriptInMainFrameId;
+
+        /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
@@ -199,7 +210,7 @@ namespace CefSharp.Wpf
                 }
                 if (value != null && value.GetType() != typeof(RequestContext))
                 {
-                    throw new Exception(string.Format("RequestContxt can only be of type {0} or null", typeof(RequestContext)));
+                    throw new Exception(string.Format("RequestContext can only be of type {0} or null", typeof(RequestContext)));
                 }
                 requestContext = value;
             }
@@ -474,13 +485,88 @@ namespace CefSharp.Wpf
 
             if (CefSharpSettings.ShutdownOnExit)
             {
-                var app = Application.Current;
-
-                if (app != null)
+                //Use Dispatcher.FromThread as it returns null if no dispatcher
+                //is avaliable for this thread.
+                var dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
+                if (dispatcher == null)
                 {
-                    app.Exit += OnApplicationExit;
+                    //No dispatcher then we'll rely on Application.Exit
+                    var app = Application.Current;
+
+                    if (app != null)
+                    {
+                        app.Exit += OnApplicationExit;
+                    }
                 }
+                else
+                {
+                    dispatcher.ShutdownStarted += DispatcherShutdownStarted;
+                    dispatcher.ShutdownFinished += DispatcherShutdownFinished;
+                }
+
             }
+        }
+
+        /// <summary>
+        /// Handles Dispatcher Shutdown
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
+        private static void DispatcherShutdownStarted(object sender, EventArgs e)
+        {
+            var dispatcher = (Dispatcher)sender;
+
+            dispatcher.ShutdownStarted -= DispatcherShutdownStarted;
+
+            if (!DesignMode)
+            {
+                CefPreShutdown();
+            }
+        }
+
+        private static void DispatcherShutdownFinished(object sender, EventArgs e)
+        {
+            var dispatcher = (Dispatcher)sender;
+
+            dispatcher.ShutdownFinished -= DispatcherShutdownFinished;
+
+            if (!DesignMode)
+            {
+                CefShutdown();
+            }
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:ApplicationExit" /> event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ExitEventArgs"/> instance containing the event data.</param>
+        private static void OnApplicationExit(object sender, ExitEventArgs e)
+        {
+            if (!DesignMode)
+            {
+                CefShutdown();
+            }
+        }
+
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void CefPreShutdown()
+        {
+            Cef.PreShutdown();
+        }
+
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void CefShutdown()
+        {
+            Cef.Shutdown();
         }
 
         /// <summary>
@@ -676,11 +762,13 @@ namespace CefSharp.Wpf
         {
             if (disposing)
             {
+                CanExecuteJavascriptInMainFrame = false;
                 Interlocked.Exchange(ref browserInitialized, 0);
 
                 //Stop rendering immediately so later on when we dispose of the
                 //RenderHandler no further OnPaint calls take place
-                browser.GetHost().WasHidden(true);
+                //Check browser not null as it's possible to call Dispose before it's created
+                browser?.GetHost().WasHidden(true);
 
                 UiThreadRunAsync(() =>
                 {
@@ -1168,8 +1256,21 @@ namespace CefSharp.Wpf
             LoadError?.Invoke(this, args);
         }
 
-        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
+        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
         {
+            //When loading pages of a different origin the frameId changes
+            //For the first loading of a new origin the messages from the render process
+            //Arrive in a different order than expected, the OnContextCreated message
+            //arrives before the OnContextReleased, then the message for OnContextReleased
+            //incorrectly overrides the value
+            //https://github.com/cefsharp/CefSharp/issues/3021
+
+            if (frameId > canExecuteJavascriptInMainFrameId && !canExecute)
+            {
+                return;
+            }
+
+            canExecuteJavascriptInMainFrameId = frameId;
             CanExecuteJavascriptInMainFrame = canExecute;
         }
 
@@ -1332,6 +1433,15 @@ namespace CefSharp.Wpf
         #endregion IsLoading dependency property
 
         #region IsBrowserInitialized dependency property
+
+        /// <summary>
+        /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
+        /// </summary>
+        /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
+        bool IWebBrowser.IsBrowserInitialized
+        {
+            get { return InternalIsBrowserInitialized(); }
+        }
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
@@ -1877,6 +1987,12 @@ namespace CefSharp.Wpf
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
                 managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: initialAddress);
 
+                //Dispose of BrowserSettings if we created it, if user created then they're responsible
+                if (browserSettings.FrameworkCreated)
+                {
+                    browserSettings.Dispose();
+                }
+
                 browserSettings = null;
             }
             browserCreated = true;
@@ -1985,29 +2101,6 @@ namespace CefSharp.Wpf
                     TaskScheduler.FromCurrentSynchronizationContext());
                 }
             }
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:ApplicationExit" /> event.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="ExitEventArgs"/> instance containing the event data.</param>
-        private static void OnApplicationExit(object sender, ExitEventArgs e)
-        {
-            if (!DesignMode)
-            {
-                CefShutdown();
-            }
-        }
-
-        /// <summary>
-        /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void CefShutdown()
-        {
-            Cef.Shutdown();
         }
 
         /// <summary>
@@ -2128,7 +2221,18 @@ namespace CefSharp.Wpf
                     toolTip.IsOpen = false;
                 }
 
-                toolTip.Content = new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap };
+                //If no ToolTip style is defined then we'll
+                //use a TextBlock to ensure the Text is wrapped
+                //If a style is applied leave to the user to apply relevant wrapping
+                //Issue https://github.com/cefsharp/CefSharp/issues/2488
+                if (toolTip.Style == null)
+                {
+                    toolTip.Content = new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap };
+                }
+                else
+                {
+                    toolTip.SetCurrentValue(ContentControl.ContentProperty, text);
+                }
                 toolTip.Placement = PlacementMode.Mouse;
                 toolTip.Visibility = Visibility.Visible;
                 toolTip.IsOpen = true;
@@ -2168,7 +2272,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.KeyEventArgs" /> that contains the event data.</param>
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            if (!e.Handled)
+            if (!e.Handled && browser != null)
             {
                 WpfKeyboardHandler.HandleKeyPress(e);
             }
@@ -2183,7 +2287,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.KeyEventArgs" /> that contains the event data.</param>
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
-            if (!e.Handled)
+            if (!e.Handled && browser != null)
             {
                 WpfKeyboardHandler.HandleKeyPress(e);
             }
@@ -2197,7 +2301,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
         protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
-            if (!e.Handled)
+            if (!e.Handled && browser != null)
             {
                 WpfKeyboardHandler.HandleTextInput(e);
             }
@@ -2342,6 +2446,11 @@ namespace CefSharp.Wpf
             base.OnMouseLeave(e);
         }
 
+        /// <summary>
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.LostMouseCapture" /> attached event reaches an element in
+        /// its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains event data.</param>
         protected override void OnLostMouseCapture(MouseEventArgs e)
         {
             if (!e.Handled && browser != null)
@@ -2428,8 +2537,6 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="TouchEventArgs"/> instance containing the event data.</param>
         private void OnTouch(TouchEventArgs e)
         {
-            var browser = GetBrowser();
-
             if (!e.Handled && browser != null)
             {
                 var modifiers = WpfExtensions.GetModifierKeys();
@@ -2608,6 +2715,16 @@ namespace CefSharp.Wpf
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
+            this.ThrowExceptionIfDisposed();
+
+            //We don't use the this.ThrowExceptionIfBrowserNotInitialized(); extension method here
+            // As it relies on the IWebBrowser.IsBrowserInitialized property which is a DependencyProperty
+            // in WPF and will throw an InvalidOperationException if called on a Non-UI thread.
+            if (!InternalIsBrowserInitialized())
+            {
+                throw new Exception(WebBrowserExtensions.BrowserNotInitializedExceptionErrorMessage);
+            }
+
             return browser;
         }
 

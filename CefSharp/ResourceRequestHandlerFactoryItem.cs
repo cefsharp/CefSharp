@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// A resource request handler factory item.
+    /// </summary>
     public class ResourceRequestHandlerFactoryItem
     {
         /// <summary>

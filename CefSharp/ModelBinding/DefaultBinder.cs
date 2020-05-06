@@ -61,6 +61,15 @@ namespace CefSharp.ModelBinding
             return BindObject(targetType, objType, obj);
         }
 
+        /// <summary>
+        /// Bind collection.
+        /// </summary>
+        /// <param name="targetType">the target param type.</param>
+        /// <param name="objType">Type of the object.</param>
+        /// <param name="obj">object to be converted into a model.</param>
+        /// <returns>
+        /// An object.
+        /// </returns>
         protected virtual object BindCollection(Type targetType, Type objType, object obj)
         {
             var collection = obj as ICollection;
@@ -129,6 +138,15 @@ namespace CefSharp.ModelBinding
             return model;
         }
 
+        /// <summary>
+        /// Bind object.
+        /// </summary>
+        /// <param name="targetType">the target param type.</param>
+        /// <param name="objType">Type of the object.</param>
+        /// <param name="obj">object to be converted into a model.</param>
+        /// <returns>
+        /// An object.
+        /// </returns>
         protected virtual object BindObject(Type targetType, Type objType, object obj)
         {
             var model = Activator.CreateInstance(targetType, true);

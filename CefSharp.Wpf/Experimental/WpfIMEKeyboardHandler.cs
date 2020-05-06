@@ -15,6 +15,10 @@ using Rect = CefSharp.Structs.Rect;
 
 namespace CefSharp.Wpf.Experimental
 {
+    /// <summary>
+    /// A WPF Keyboard handler implementation that supports IME
+    /// </summary>
+    /// <seealso cref="T:CefSharp.Wpf.Internals.WpfKeyboardHandler"/>
     public class WpfImeKeyboardHandler : WpfKeyboardHandler
     {
         private int languageCodeId;
@@ -27,10 +31,19 @@ namespace CefSharp.Wpf.Experimental
         private MouseButtonEventHandler mouseDownEventHandler;
         private bool isActive;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
         public WpfImeKeyboardHandler(ChromiumWebBrowser owner) : base(owner)
         {
         }
 
+        /// <summary>
+        /// Change composition range.
+        /// </summary>
+        /// <param name="selectionRange">The selection range.</param>
+        /// <param name="characterBounds">The character bounds.</param>
         public void ChangeCompositionRange(Range selectionRange, Rect[] characterBounds)
         {
             if (!isActive)
@@ -70,6 +83,10 @@ namespace CefSharp.Wpf.Experimental
             });
         }
 
+        /// <summary>
+        /// Setup the Ime Keyboard Handler specific hooks and events
+        /// </summary>
+        /// <param name="source">HwndSource.</param>
         public override void Setup(HwndSource source)
         {
             if (isSetup)
@@ -98,6 +115,9 @@ namespace CefSharp.Wpf.Experimental
             }
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public override void Dispose()
         {
             // Note Setup can be run after disposing, to "reset" this instance
@@ -225,6 +245,11 @@ namespace CefSharp.Wpf.Experimental
             if (ImeHandler.GetResult(hwnd, (uint)lParam, out text))
             {
                 owner.GetBrowserHost().ImeCommitText(text, new Range(int.MaxValue, int.MaxValue), 0);
+                if (languageCodeId == ImeNative.LANG_KOREAN)
+                {
+                    owner.GetBrowserHost().ImeSetComposition(text, new CompositionUnderline[0], new Range(int.MaxValue, int.MaxValue), new Range(0, 0));
+                    owner.GetBrowserHost().ImeFinishComposingText(false);
+                }
             }
             else
             {
@@ -245,6 +270,10 @@ namespace CefSharp.Wpf.Experimental
             }
         }
 
+        /// <summary>
+        /// Cancel composition.
+        /// </summary>
+        /// <param name="hwnd">The hwnd.</param>
         public void CancelComposition(IntPtr hwnd)
         {
             owner.GetBrowserHost().ImeCancelComposition();

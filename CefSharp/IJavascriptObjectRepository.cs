@@ -30,10 +30,11 @@ namespace CefSharp
         /// only methods will be exposed and when called from javascript will return a Promise to be awaited. 
         /// This method is newer and recommended for everyone starting out as it is faster and more reliable.
         /// If false then methods and properties will be registered, this method relies on a WCF service to communicate.
+        /// If you are targeting .Net Core then you can only use isAsync = true as Microsoft has chosen not to support WCF.
         /// </param>
         /// <param name="options">binding options, by default method/property names are camelCased, you can control this
         /// and other advanced options though this class.</param>
-        void Register(string name, object objectToBind, bool isAsync = false, BindingOptions options = null);
+        void Register(string name, object objectToBind, bool isAsync, BindingOptions options = null);
         /// <summary>
         /// UnRegister all the currently bound objects from the repository. If you unregister an object that is currently
         /// bound in JavaScript then the method/property calls will fail.

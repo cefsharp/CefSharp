@@ -12,16 +12,49 @@ namespace CefSharp
     [Flags]
     public enum ContextMenuMediaState
     {
+        /// <summary>
+        /// None
+        /// </summary>
         None = 0,
+        /// <summary>
+        /// Error
+        /// </summary>
         Error = 1 << 0,
+        /// <summary>
+        /// Paused
+        /// </summary>
         Paused = 1 << 1,
+        /// <summary>
+        /// Muted
+        /// </summary>
         Muted = 1 << 2,
+        /// <summary>
+        /// Loop
+        /// </summary>
         Loop = 1 << 3,
+        /// <summary>
+        /// CanSave
+        /// </summary>
         CanSave = 1 << 4,
+        /// <summary>
+        /// HasAudio
+        /// </summary>
         HasAudio = 1 << 5,
+        /// <summary>
+        /// HasVideo
+        /// </summary>
         HasVideo = 1 << 6,
+        /// <summary>
+        /// ControlRootElement
+        /// </summary>
         ControlRootElement = 1 << 7,
+        /// <summary>
+        /// CanPrint
+        /// </summary>
         CanPrint = 1 << 8,
+        /// <summary>
+        /// CanRotate
+        /// </summary>
         CanRotate = 1 << 9,
     }
 }

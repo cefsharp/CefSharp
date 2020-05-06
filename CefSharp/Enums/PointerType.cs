@@ -9,10 +9,25 @@ namespace CefSharp.Enums
     /// </summary>
     public enum PointerType
     {
+        /// <summary>
+        /// An enum constant representing the touch option.
+        /// </summary>
         Touch = 0,
+        /// <summary>
+        /// An enum constant representing the mouse option.
+        /// </summary>
         Mouse,
+        /// <summary>
+        /// An enum constant representing the pen option.
+        /// </summary>
         Pen,
+        /// <summary>
+        /// An enum constant representing the eraser option.
+        /// </summary>
         Eraser,
+        /// <summary>
+        /// An enum constant representing the unknown option.
+        /// </summary>
         Unknown
     }
 }

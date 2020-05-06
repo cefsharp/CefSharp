@@ -20,7 +20,7 @@
 #include "include\wrapper\cef_closure_task.h"
 
 #include "CookieManager.h"
-#include "SchemeHandlerFactoryWrapper.h"
+#include "Internals\CefSchemeHandlerFactoryAdapter.h"
 #include "Internals\CefCompletionCallbackAdapter.h"
 #include "Internals\CefExtensionWrapper.h"
 #include "Internals\CefExtensionHandlerAdapter.h"
@@ -67,7 +67,7 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
-        auto wrapper = new SchemeHandlerFactoryWrapper(factory);
+        auto wrapper = new CefSchemeHandlerFactoryAdapter(factory);
         return _requestContext->RegisterSchemeHandlerFactory(StringUtils::ToNative(schemeName), StringUtils::ToNative(domainName), wrapper);
     }
 

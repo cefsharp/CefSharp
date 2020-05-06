@@ -8,7 +8,7 @@ namespace CefSharp.Wpf
     /// Initialization settings. Many of these and other settings can also configured
     /// using command-line switches.
     /// </summary>
-    public class CefSettings : AbstractCefSettings
+    public class CefSettings : CefSettingsBase
     {
         /// <summary>
         /// Intialize with default values
@@ -21,8 +21,6 @@ namespace CefSharp.Wpf
             //With OSR rendering it's fairly common for this to improve scrolling performace
             //https://peter.sh/experiments/chromium-command-line-switches/#disable-threaded-scrolling
             //CefCommandLineArgs.Add("disable-threaded-scrolling");
-
-            CefCommandLineArgs.Add("disable-gpu-compositing");
         }
     }
 }

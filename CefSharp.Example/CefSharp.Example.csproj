@@ -126,6 +126,7 @@
     <Compile Include="CefSharpSchemeHandler.cs" />
     <Compile Include="CefSharpSchemeHandlerFactory.cs" />
     <Compile Include="UrlRequestClient.cs" />
+    <Compile Include="AcceptRangeResourceHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

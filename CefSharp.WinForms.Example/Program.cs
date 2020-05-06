@@ -41,7 +41,7 @@ namespace CefSharp.WinForms.Example
 #endif
 
                 var settings = new CefSettings();
-                settings.BrowserSubprocessPath = "CefSharp.WinForms.Example.exe";
+                settings.BrowserSubprocessPath = System.IO.Path.GetFullPath("CefSharp.WinForms.Example.exe");
 
                 Cef.Initialize(settings);
 

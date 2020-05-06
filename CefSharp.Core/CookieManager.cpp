@@ -5,7 +5,7 @@
 #include "Stdafx.h"
 #include "CookieManager.h"
 
-#include "Internals\CookieVisitor.h"
+#include "Internals\CefCookieVisitorAdapter.h"
 #include "Internals\CefCompletionCallbackAdapter.h"
 #include "Internals\CefSetCookieCallbackAdapter.h"
 #include "Internals\CefDeleteCookiesCallbackAdapter.h"
@@ -70,7 +70,7 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
-        CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
+        CefRefPtr<CefCookieVisitorAdapter> cookieVisitor = new CefCookieVisitorAdapter(visitor);
 
         return _cookieManager->VisitAllCookies(cookieVisitor);
     }
@@ -79,7 +79,7 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
-        CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
+        CefRefPtr<CefCookieVisitorAdapter> cookieVisitor = new CefCookieVisitorAdapter(visitor);
 
         return _cookieManager->VisitUrlCookies(StringUtils::ToNative(url), includeHttpOnly, cookieVisitor);
     }

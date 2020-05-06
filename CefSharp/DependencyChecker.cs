@@ -33,7 +33,8 @@ namespace CefSharp
             // V8 native mapping files, see
             // https://groups.google.com/a/chromium.org/forum/#!topic/chromium-packagers/75J9Y1vIc_E
             // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=12580
-            "natives_blob.bin",
+            // "natives_blob.bin" was removed
+            // https://bugs.chromium.org/p/v8/issues/detail?id=7624#c60
             "snapshot_blob.bin",
             "v8_context_snapshot.bin"
         };
@@ -52,6 +53,9 @@ namespace CefSharp
             "cef_200_percent.pak"
         };
 
+        /// <summary>
+        /// List of Optional CEF Dependencies
+        /// </summary>
         public static string[] CefOptionalDependencies =
         {
             // Angle and Direct3D support
@@ -177,7 +181,7 @@ namespace CefSharp
             string path;
 
             Uri pathUri;
-            if(Uri.TryCreate(browserSubProcessPath, UriKind.Absolute, out pathUri) && pathUri.IsAbsoluteUri)
+            if (Uri.TryCreate(browserSubProcessPath, UriKind.Absolute, out pathUri) && pathUri.IsAbsoluteUri)
             {
                 path = Path.GetDirectoryName(browserSubProcessPath);
             }
@@ -186,7 +190,7 @@ namespace CefSharp
                 var executingAssembly = Assembly.GetExecutingAssembly();
 
                 path = Path.GetDirectoryName(executingAssembly.Location);
-            }            
+            }
 
             if (string.IsNullOrEmpty(locale))
             {

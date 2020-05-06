@@ -134,5 +134,20 @@ namespace CefSharp
             //returns null if cookies cannot be accessed.
             return Task.FromResult(false);
         }
+
+        /// <summary>
+        /// Retrieve a snapshot of current navigation entries
+        /// </summary>
+        /// <param name="browserHost">browserHost</param>
+        /// <param name="currentOnly">If true the List will only contain the current navigation entry.
+        /// If false the List will include all navigation entries will be included. Default is false</param>
+        public static Task<List<NavigationEntry>> GetNavigationEntriesAsync(this IBrowserHost browserHost, bool currentOnly = false)
+        {
+            var visitor = new TaskNavigationEntryVisitor();
+
+            browserHost.GetNavigationEntries(visitor, currentOnly);
+
+            return visitor.Task;
+        }
     }
 }

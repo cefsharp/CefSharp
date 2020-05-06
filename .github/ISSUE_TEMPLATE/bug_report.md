@@ -17,46 +17,65 @@ So you have a question to ask, where can you look for answers? Read on. Think yo
 - You can see all the `CefSharp` tagged issues on `Stackoverflow`, some useful stuff there : http://stackoverflow.com/questions/tagged/cefsharp
 - You can search the `Gitter Chat Channel` for past questions/conversations, you can search through every discussion from the beginning : https://gitter.im/cefsharp/CefSharp
 
-Still have a question? Great, ask it on `Gitter`. https://gitter.im/cefsharp/CefSharp
+Still have a question? Great, ask it on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp) or [Gitter](https://gitter.im/cefsharp/CefSharp). Larger complex questions should be asked on `Stackoverflow`
 
 **Note: CefSharp is just a wrapper around the Chromium Embedded Project, it's worth searching http://magpcss.org/ceforum/index.php if your problem involves a low level Chromium error message**
 
-We ask that you put in a reasonable amount of effort in searching through the resources listed above. The developers have full time jobs, they have lives, families, the time they have available to contribute this project is a precious resource, make sure you use it wisely! Remember the more time we spend answering the same questions over and over again, less time goes into writing code, adding new features, actually fixing bugs!
+We ask that you put in a reasonable amount of effort in searching through the resources listed above. The developers have full time jobs, they have lives, families, the time they have available to contribute this project is a precious resource, make sure you use it wisely! Remember the more time we spend answering the same questions over and over again, less time goes into writing code, adding new features, actually fixing bugs! 
 
 Still have a question to ask or unsure where to go next? Start with the Gitter Chat room : https://gitter.im/cefsharp/CefSharp
 
---
+Before posting a bug report please take the time to read https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/
+
+---
 ### Bug Report
 Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
-    - What version are you using? Nuget? CI Nuget? build from a branch? If so which branch? Please include the exact version number you are using (no ambiguous statements like `Latest from Nuget`)
-e.g. 57.0.0 or 63.0.0-pre01
-    - Please only create an issue if you can reproduce the problem with the latest version. (If you are using the latest stable release please check to see if there is a newer `-pre` release and test with that also).
+    - What version are you using? Nuget? CI Nuget? build from a branch? If so please link to the relevant commit.
+	- Please include the exact version number you are using e.g. 79.1.360 (no ambiguous statements like `Latest from Nuget`)
+    - Please only create an issue if you can reproduce the problem with version 79.1.360 or greater.
 
 - **What architecture x86 or x64?**
-
+    <x86/x64>
+    
 - **On what operating system?**
-    - Win7, Win 8, Win10, etc?
+    <Win7/Win8.1/Win10>
 
 - **Are you using `WinForms`, `WPF` or `OffScreen`?**
-
+    <WinForms/WPF/OffScreen>
+    
 - **What steps will reproduce the problem?**
-    - Please provide detailed information here, enough for someone else to reprodce your problem.
-    - Please no binary (zip, etc) links, fork the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample) and push your changes to `GitHub`. (Alternatively use a code sharing service list `Gist` or `Pastebin`).
+    - Please provide detailed information here, enough for someone else to reprodce your problem. 
+    - Does the problem reproduce using the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample)?
+    - If code is required to reproduce your problem then please provide one of the following
+      - Fork the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample) and push your changes to `GitHub` (this is the preferred option).
+      - Use a code sharing service list `Gist` or `Pastebin`
+      - Paste your **formatted code as part of this issue** (only do this for small amounts of code and make sure you **format the code so it's reabily**)
+      - Please no binary attachments (zip, 7z, etc), code needs to be easily reviewed in a web browser.
 
 - **What is the expected output? What do you see instead?**
 
 - **Please provide any additional information below.**
     - A stack trace if available, any Exception information.
+      - If you are seeing a crash in `libcef.dll` then please download `libcef.dll.pdb` and place it next to `libcef.dll` to obtain a detailed stack trace, see https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#loading-native-symbols-for-easier-diagnosis for details.
 
     - Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
 
     - Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
 
-- **Does this problem also occur in the `CEF` Sample Application from http://opensource.spotify.com/cefbuilds/index.html?**
-
-    - To compare with WPF/OffScreen run cefclient --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu
-    - To compare with WinForms run cefclient --multi-threaded-message-loop
+- **Does this problem also occur in the `CEF` Sample Application**
+    - Download one of the following:
+    - For x86 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.36%2Bg90301bd%2Bchromium-79.0.3945.130_windows32_client.tar.bz2
+    - For x64 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.36%2Bg90301bd%2Bchromium-79.0.3945.130_windows64_client.tar.bz2
+	- Extract and run cefclient.exe
+		- If you are using WPF/OffScreen run
+		```
+		cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --disable-gpu-compositing --no-sandbox --disable-site-isolation-trials
+		```
+		- If you are using WinForms run
+		```
+		cefclient.exe --multi-threaded-message-loop --no-sandbox --disable-site-isolation-trials
+		```
+	- **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED ABOVE**
     - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
-    - Please include the version you tested with e.g. `cef_binary_3.3029.1611.g44e39a8_windows64_client.tar.bz2`. It's important to you test with the same version that `CefSharp` is based on. Check the release notes to determine the version (https://github.com/cefsharp/CefSharp/releases) or load `chrome://version` in the browser.

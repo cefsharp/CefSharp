@@ -42,8 +42,6 @@ namespace CefSharp
                 {
                     try
                     {
-                        auto global = context->GetGlobal();
-
                         if (name == kIsObjectCached || name == kIsObjectCachedCamelCase)
                         {
                             if (arguments.size() == 0 || arguments.size() > 1)

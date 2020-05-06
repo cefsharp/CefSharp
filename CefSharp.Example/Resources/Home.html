@@ -158,7 +158,7 @@
 
                             // By default CEF uses an in memory cache, to save cached data e.g. passwords you need to specify a cache path
                             // NOTE: The executing user must have sufficent privileges to write to this folder.
-                            settings.CachePath = "cache";
+                            settings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache");
 
                             // There are many command line arguments that can either be turned on or off
 

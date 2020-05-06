@@ -22,6 +22,8 @@ namespace CefSharp.OffScreen.Example
             Console.WriteLine("You may see a lot of Chromium debugging output, please wait...");
             Console.WriteLine();
 
+            Cef.EnableWaitForBrowsersToClose();
+
             // You need to replace this with your own call to Cef.Initialize();
             CefExample.Init(new CefSettings(), browserProcessHandler: new BrowserProcessHandler());
 
@@ -33,6 +35,11 @@ namespace CefSharp.OffScreen.Example
 
             // We have to wait for something, otherwise the process will exit too soon.
             Console.ReadKey();
+
+            //Wait until the browser has finished closing (which by default happens on a different thread).
+            //Cef.EnableWaitForBrowsersToClose(); must be called before Cef.Initialize to enable this feature
+            //See https://github.com/cefsharp/CefSharp/issues/3047 for details
+            Cef.WaitForBrowsersToClose();
 
             // Clean up Chromium objects.  You need to call this in your application otherwise
             // you will get a crash when closing.
@@ -47,7 +54,10 @@ namespace CefSharp.OffScreen.Example
             var browserSettings = new BrowserSettings();
             //Reduce rendering speed to one frame per second so it's easier to take screen shots
             browserSettings.WindowlessFrameRate = 1;
-            var requestContextSettings = new RequestContextSettings { CachePath = cachePath };
+            var requestContextSettings = new RequestContextSettings
+            {
+                CachePath = Path.GetFullPath(cachePath)
+            };
 
             // RequestContext can be shared between browser instances and allows for custom settings
             // e.g. CachePath
@@ -81,7 +91,7 @@ namespace CefSharp.OffScreen.Example
                 var onUi = Cef.CurrentlyOnThread(CefThreadIds.TID_UI);
 
                 // For Google.com pre-pupulate the search text box
-                await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
+                await browser.EvaluateScriptAsync("document.querySelector('[name=q]').value = 'CefSharp Was Here!'");
 
                 //Example using SendKeyEvent for input instead of javascript
                 //var browserHost = browser.GetBrowserHost();
