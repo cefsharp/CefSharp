@@ -26,7 +26,8 @@ namespace CefSharp
 
         /// <summary>
         /// Configure the browser binding property name.
-        /// Use a custom property name when calling registred objects, example 'CefSharp.BindObjectAsync'
+        /// Use a custom property name when calling registred objects, example 'CefSharp.BindObjectAsync'.
+        /// Alphanumeric and underscores characters only.
         /// The default value is 'CefSharp'
         ///
         /// NOTE: There are two properties to be mindful of, this and <see cref="JavascriptBindingPropertyNameCamelCase"/>
@@ -36,6 +37,7 @@ namespace CefSharp
         /// <summary>
         /// Configure the browser binding property name with camel case.
         /// Use a custom property name when calling registred objects, example 'cefSharp.BindObjectAsync'
+        /// Alphanumeric and underscores characters only.
         /// The default value is 'cefSharp'.
         ///
         /// NOTE: There are two properties to be mindful of, this and <see cref="JavascriptBindingPropertyName"/>
