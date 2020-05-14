@@ -5,7 +5,7 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Lists some of the error codes that can be reported by CEF.
+    /// This file contains the list of network errors.
     /// 
     /// For a complete up-to-date list, see the CEF source code
     /// (cef_errorcode_t in include/internal/cef_types.h)
@@ -17,6 +17,18 @@ namespace CefSharp
         /// No error occurred.
         /// </summary>
         None = 0,
+
+        //
+        // Ranges:
+        //     0- 99 System related errors
+        //   100-199 Connection related errors
+        //   200-299 Certificate errors
+        //   300-399 HTTP errors
+        //   400-499 Cache errors
+        //   500-599 ?
+        //   600-699 FTP errors
+        //   700-799 Certificate manager errors
+        //   800-899 DNS resolver errors
 
         /// <summary>
         /// An asynchronous IO operation is not yet complete.  This usually does not
@@ -144,6 +156,25 @@ namespace CefSharp
         /// The error can be emitted by code in chrome/browser/policy/policy_helpers.cc.
         /// </summary>
         BlockedEnrollmentCheckPending = -24,
+
+        // The upload failed because the upload stream needed to be re-read, due to a
+        // retry or a redirect, but the upload stream doesn't support that operation.
+        UploadStreamRewindNotSupported = -25,
+
+        // The request failed because the URLRequestContext is shutting down, or has
+        // been shut down.
+        ContextShutDown = -26,
+
+        // The request failed because the response was delivered along with requirements
+        // which are not met ('X-Frame-Options' and 'Content-Security-Policy' ancestor
+        // checks and 'Cross-Origin-Resource-Policy', for instance).
+        BlockedByResponse = -27,
+
+        // Error -28 was removed (BLOCKED_BY_XSS_AUDITOR).
+
+        // The request was blocked by system policy disallowing some or all cleartext
+        // requests. Used for NetworkSecurityPolicy on Android.
+        CleartextNotPermitted = -29,
 
         /// <summary>
         /// A connection was closed (corresponding to a TCP FIN).
@@ -300,12 +331,10 @@ namespace CefSharp
         /// <summary>
         /// A known TLS strict server didn't offer the renegotiation extension.
         /// </summary>
-        SslUnsafeNegotiation = -128,
+        //Removed
+        //SslUnsafeNegotiation = -128,
 
-        /// <summary>
-        /// The SSL server attempted to use a weak ephemeral Diffie-Hellman key.
-        /// </summary>
-        SslWeakServerEphemeralDhKey = -129,
+        // Error -129 was removed (SSL_WEAK_SERVER_EPHEMERAL_DH_KEY).
 
         /// <summary>
         /// Could not create a connection to the proxy server. An error occurred
@@ -383,10 +412,9 @@ namespace CefSharp
         /// </summary>
         MsgTooBig = -142,
 
-        /// <summary>
-        /// A SPDY session already exists, and should be used instead of this connection.
-        /// </summary>
-        SpdySessionAlreadyExists = -143,
+        // Error -143 was removed (SPDY_SESSION_ALREADY_EXISTS)
+
+        // Error -144 was removed (LIMIT_VIOLATION).
 
         /// <summary>
         /// Websocket protocol error. Indicates that we are terminating the connection
@@ -394,11 +422,7 @@ namespace CefSharp
         /// </summary>
         WsProtocolError = -145,
 
-        /// <summary>
-        /// Connection was aborted for switching to another ptotocol.
-        /// WebSocket abort SocketStream connection when alternate protocol is found.
-        /// </summary>
-        ProtocolSwitched = -146,
+        // Error -146 was removed (PROTOCOL_SWITCHED)
 
         /// <summary>
         /// Returned when attempting to bind an address that is already in use.
@@ -427,11 +451,7 @@ namespace CefSharp
         /// </summary>
         ClientAuthCertTypeUnsupported = -151,
 
-        /// <summary>
-        /// Server requested one type of cert, then requested a different type while the
-        /// first was still being generated.
-        /// </summary>
-        OriginBoundCertGenerationTypeMismatch = -152,
+        // Error -152 was removed (ORIGIN_BOUND_CERT_GENERATION_TYPE_MISMATCH)
 
         /// <summary>
         /// An SSL peer sent us a fatal decrypt_error alert. This typically occurs when
@@ -457,16 +477,9 @@ namespace CefSharp
         /// </summary>
         SslServerCertChanged = -156,
 
-        /// <summary>
-        /// The SSL server indicated that an unnecessary TLS version fallback was
-        /// performed.
-        /// </summary>
-        SslInappropriateFallback = -157,
+        // Error -157 was removed (SSL_INAPPROPRIATE_FALLBACK).
 
-        /// <summary>
-        /// Certificate Transparency: All Signed Certificate Timestamps failed to verify.
-        /// </summary>
-        CtNoSctsVerifiedOk = -158,
+        // Error -158 was removed (CT_NO_SCTS_VERIFIED_OK).
 
         /// <summary>
         /// The SSL server sent us a fatal unrecognized_name alert.
@@ -500,6 +513,132 @@ namespace CefSharp
         /// library.
         /// </summary>
         SslClientAuthCertBadFormat = -164,
+
+        // Error -165 was removed (SSL_FALLBACK_BEYOND_MINIMUM_VERSION).
+
+        /// <summary>
+        /// Resolving a hostname to an IP address list included the IPv4 address
+        /// "127.0.53.53". This is a special IP address which ICANN has recommended to
+        /// indicate there was a name collision, and alert admins to a potential
+        /// problem.
+        /// </summary>
+        ICANNNameCollision = -166,
+
+        /// <summary>
+        /// The SSL server presented a certificate which could not be decoded. This is
+        /// not a certificate error code as no X509Certificate object is available. This
+        /// error is fatal.
+        /// </summary>
+        SslServerCertBadFormat = -167,
+
+        /// <summary>
+        /// Certificate Transparency: Received a signed tree head that failed to parse.
+        /// </summary>
+        CtSthParsingFailed = -168,
+
+        /// <summary>
+        /// Certificate Transparency: Received a signed tree head whose JSON parsing was
+        /// OK but was missing some of the fields.
+        /// </summary>
+        CtSthIncomplete = -169,
+
+        /// <summary>
+        /// The attempt to reuse a connection to send proxy auth credentials failed
+        /// before the AuthController was used to generate credentials. The caller should
+        /// reuse the controller with a new connection. This error is only used
+        /// internally by the network stack.
+        /// </summary>
+        UnableToReuseConnectionForProxyAuth = -170,
+
+        /// <summary>
+        /// Certificate Transparency: Failed to parse the received consistency proof.
+        /// </summary>
+        CtConsistencyProofParsingFailed = -171,
+
+        /// <summary>
+        /// The SSL server required an unsupported cipher suite that has since been
+        /// removed. This error will temporarily be signaled on a fallback for one or two
+        /// releases immediately following a cipher suite's removal, after which the
+        /// fallback will be removed.
+        /// </summary>
+        SslObsoleteCipher = -172,
+
+        /// <summary>
+        /// When a WebSocket handshake is done successfully and the connection has been
+        /// upgraded, the URLRequest is cancelled with this error code.
+        /// </summary>
+        WsUpgrade = -173,
+
+        /// <summary>
+        /// Socket ReadIfReady support is not implemented. This error should not be user
+        /// visible, because the normal Read() method is used as a fallback.
+        /// </summary>
+        ReadIfReadyNotImplemented = -174,
+
+        // Error -175 was removed (SSL_VERSION_INTERFERENCE).
+
+        /// <summary>
+        /// No socket buffer space is available.
+        /// </summary>
+        NoBufferSpace = -176,
+
+        /// <summary>
+        //// There were no common signature algorithms between our client certificate
+        /// private key and the server's preferences.
+        /// </summary>
+        SslClientAuthNoCommonAlgorithms = -177,
+
+        /// <summary>
+        /// TLS 1.3 early data was rejected by the server. This will be received before
+        /// any data is returned from the socket. The request should be retried with
+        /// early data disabled.
+        /// </summary>
+        EarlyDataRejected = -178,
+
+        /// <summary>
+        /// TLS 1.3 early data was offered, but the server responded with TLS 1.2 or
+        /// earlier. This is an internal error code to account for a
+        /// backwards-compatibility issue with early data and TLS 1.2. It will be
+        /// received before any data is returned from the socket. The request should be
+        /// retried with early data disabled.
+        ///
+        /// See https://tools.ietf.org/html/rfc8446#appendix-D.3 for details.
+        /// </summary>
+        WrongVersionOnEarlyData = -179,
+
+        /// <summary>
+        /// TLS 1.3 was enabled, but a lower version was negotiated and the server
+        /// returned a value indicating it supported TLS 1.3. This is part of a security
+        /// check in TLS 1.3, but it may also indicate the user is behind a buggy
+        /// TLS-terminating proxy which implemented TLS 1.2 incorrectly. (See
+        /// https://crbug.com/boringssl/226.)
+        /// </summary>
+        Tls13DownGradeDetected = -180,
+
+        /// <summary>
+        /// The server's certificate has a keyUsage extension incompatible with the
+        /// negotiated TLS key exchange method.
+        /// </summary>
+        SslKeyUsageIncompatible = -181,
+
+        // Certificate error codes
+        //
+        // The values of certificate error codes must be consecutive.
+
+        // The server responded with a certificate whose common name did not match
+        // the host name.  This could mean:
+        //
+        // 1. An attacker has redirected our traffic to their server and is
+        //    presenting a certificate for which they know the private key.
+        //
+        // 2. The server is misconfigured and responding with the wrong cert.
+        //
+        // 3. The user is on a wireless network and is being redirected to the
+        //    network's login page.
+        //
+        // 4. The OS has used a DNS search suffix and the server doesn't have
+        //    a certificate for the abbreviated name in the address bar.
+        //
 
         /// <summary>
         /// The server responded with a certificate whose common name did not match the host name.
@@ -572,6 +711,8 @@ namespace CefSharp
         /// </summary>
         CertWeakSignatureAlgorithm = -208,
 
+        // -209 is availible: was CERT_NOT_IN_DNS.
+
         /// <summary>
         /// The host name specified in the certificate is not unique.
         /// </summary>
@@ -589,6 +730,37 @@ namespace CefSharp
         CertNameConstraintViolation = -212,
 
         /// <summary>
+        /// The certificate's validity period is too long.
+        /// </summary>
+        CertValidityTooLong = -213,
+
+        /// <summary>
+        /// Certificate Transparency was required for this connection, but the server
+        // did not provide CT information that complied with the policy.
+        /// </summary>
+        CertificateTransparencyRequired = -214,
+
+        /// <summary>
+        /// The certificate chained to a legacy Symantec root that is no longer trusted.
+        /// https://g.co/chrome/symantecpkicerts
+        /// </summary>
+        CertSymantecLegacy = -215,
+
+        // -216 was QUIC_CERT_ROOT_NOT_KNOWN which has been renumbered to not be in the
+        // certificate error range.
+
+        /// <summary>
+        /// The certificate is known to be used for interception by an entity other
+        /// the device owner.
+        /// </summary>
+        CertKnownInterceptionBlocked = -217,
+
+        /// <summary>
+        /// The connection uses an obsolete version of SSL/TLS.
+        /// </summary>
+        SslObsoleteVersion = -218,
+
+        /// <summary>
         /// Add new certificate error codes here.
         ///
         /// Update the value of CERT_END whenever you add a new certificate error
@@ -596,7 +768,7 @@ namespace CefSharp
         ///
         /// The value immediately past the last certificate error code.
         /// </summary>
-        CertEnd = -213,
+        CertEnd = -219,
 
         /// <summary>
         /// The URL is invalid.
@@ -661,10 +833,7 @@ namespace CefSharp
         /// </summary>
         ResponseHeadersTooBig = -325,
 
-        /// <summary>
-        /// The PAC requested by HTTP did not have a valid status code (non-200).
-        /// </summary>
-        PacStatusNotOk = -326,
+        // Error -326 was removed (PAC_STATUS_NOT_OK)
 
         /// <summary>
         /// The evaluation of the PAC script failed.
@@ -708,10 +877,8 @@ namespace CefSharp
         /// </summary>
         UnrecognizedFtpDirectoryListingFormat = -334,
 
-        /// <summary>
-        /// Attempted use of an unknown SPDY stream id.
-        /// </summary>
-        InvalidSpdyStream = -335,
+        // Obsolete.  Was only logged in NetLog when an HTTP/2 pushed stream expired.
+        // NET_ERROR(INVALID_SPDY_STREAM, -335)
 
         /// <summary>
         /// There are no supported proxies in the provided list.
@@ -804,6 +971,10 @@ namespace CefSharp
         /// </summary>
         SpdyPingFailed = -352,
 
+        // Obsolete.  Kept here to avoid reuse, as the old error can still appear on
+        // histograms.
+        // NET_ERROR(PIPELINE_EVICTION, -353)
+
         /// <summary>
         /// The HTTP response body transferred fewer bytes than were advertised by the
         /// Content-Length header when the connection is closed.
@@ -832,10 +1003,9 @@ namespace CefSharp
         /// </summary>
         QuicHandshakeFailed = -358,
 
-        /// <summary>
-        /// An https resource was requested over an insecure QUIC connection.
-        /// </summary>
-        RequestForSecureResourceOverInsecureQuic = -359,
+        // Obsolete.  Kept here to avoid reuse, as the old error can still appear on
+        // histograms.
+        // NET_ERROR(REQUEST_FOR_SECURE_RESOURCE_OVER_INSECURE_QUIC, -359)
 
         /// <summary>
         /// Transport security is inadequate for the SPDY version.
@@ -861,6 +1031,96 @@ namespace CefSharp
         /// Proxy Auth Requested without a valid Client Socket Handle.
         /// </summary>
         ProxyAuthRequestedWithNoConnection = -364,
+
+
+        /// <summary>
+        /// HTTP_1_1_REQUIRED error code received on HTTP/2 session.
+        /// </summary>
+        Http11Required = -365,
+
+        /// <summary>
+        /// HTTP_1_1_REQUIRED error code received on HTTP/2 session to proxy.
+        /// </summary>
+        ProxyHttp11Required = -366,
+
+        /// <summary>
+        /// The PAC script terminated fatally and must be reloaded.
+        /// </summary>
+        PacScriptTerminated = -367,
+
+        // Obsolete. Kept here to avoid reuse.
+        // Request is throttled because of a Backoff header.
+        // See: crbug.com/486891.
+        // NET_ERROR(TEMPORARY_BACKOFF, -369)
+
+        /// <summary>
+        /// The server was expected to return an HTTP/1.x response, but did not. Rather
+        /// than treat it as HTTP/0.9, this error is returned.
+        /// </summary>
+        InvalidHttpResponse = -370,
+
+        /// <summary>
+        /// Initializing content decoding failed.
+        /// </summary>
+        ContentDecodingInitFailed = -371,
+
+        /// <summary>
+        /// Received HTTP/2 RST_STREAM frame with NO_ERROR error code.  This error should
+        /// be handled internally by HTTP/2 code, and should not make it above the
+        /// SpdyStream layer.
+        /// </summary>
+        Http2RstStreamNoErrorReceived = -372,
+
+        /// <summary>
+        /// The pushed stream claimed by the request is no longer available.
+        /// </summary>
+        Http2PushedStreamNoAvailable = -373,
+
+        /// <summary>
+        /// A pushed stream was claimed and later reset by the server. When this happens,
+        /// the request should be retried.
+        /// </summary>
+        Http2ClaimedPushStreamResetByServer = -374,
+
+        /// <summary>
+        /// An HTTP transaction was retried too many times due for authentication or
+        /// invalid certificates. This may be due to a bug in the net stack that would
+        /// otherwise infinite loop, or if the server or proxy continually requests fresh
+        /// credentials or presents a fresh invalid certificate.
+        /// </summary>
+        TooManyRetries = -375,
+
+        /// <summary>
+        /// Received an HTTP/2 frame on a closed stream.
+        /// </summary>
+        Http2StreamClosed = -376,
+
+        /// <summary>
+        /// Client is refusing an HTTP/2 stream.
+        /// </summary>
+        Http2ClientRefusedStream = -377,
+
+        /// <summary>
+        /// A pushed HTTP/2 stream was claimed by a request based on matching URL and
+        /// request headers, but the pushed response headers do not match the request.
+        /// </summary>
+        Http2PushedResponseDoesNotMatch = -378,
+
+        /// <summary>
+        /// The server returned a non-2xx HTTP response code.
+        ///
+        /// Not that this error is only used by certain APIs that interpret the HTTP
+        /// response itself. URLRequest for instance just passes most non-2xx
+        /// response back as success.
+        /// </summary>
+        HttpResponseCodeFailure = -379,
+
+        /// <summary>
+        /// The certificate presented on a QUIC connection does not chain to a known root
+        /// and the origin connected to is not on a list of domains where unknown roots
+        /// are allowed.
+        /// </summary>
+        QuicCertRootNotKnown = -380,
 
         /// <summary>
         /// The cache does not have the requested entry.
@@ -921,6 +1181,29 @@ namespace CefSharp
         CacheLockTimeout = -409,
 
         /// <summary>
+        /// Received a challenge after the transaction has read some data, and the
+        /// credentials aren't available.  There isn't a way to get them at that point.
+        /// </summary>
+        CacheAuthFailureAfterRead = -410,
+
+        /// <summary>
+        /// Internal not-quite error code for the HTTP cache. In-memory hints suggest
+        /// that the cache entry would not have been useable with the transaction's
+        /// current configuration (e.g. load flags, mode, etc.)
+        /// </summary>
+        CacheEntryNotSuitable = -411,
+
+        /// <summary>
+        /// The disk cache is unable to doom this entry.
+        /// </summary>
+        CacheDoomFailure = -412,
+
+        /// <summary>
+        /// The disk cache is unable to open or create this entry.
+        /// </summary>
+        CacheOpenOrCreateFilure = -413,
+
+        /// <summary>
         /// The server's response was insecure (e.g. there was a cert error).
         /// </summary>
         InsecureResponse = -501,
@@ -935,6 +1218,16 @@ namespace CefSharp
         /// An error adding to the OS certificate database (e.g. OS X Keychain).
         /// </summary>
         AddUserCertFailed = -503,
+
+        /// <summary>
+        /// An error occurred while handling a signed exchange.
+        /// </summary>
+        InvalidSignedExchange = -504,
+
+        /// <summary>
+        /// An error occurred while handling a Web Bundle source.
+        /// </summary>
+        InvalidWebBundle = -505,
 
         /// <summary>
         /// A generic error for failed FTP control connection command.
@@ -1036,7 +1329,8 @@ namespace CefSharp
         /// <summary>
         /// Server-bound certificate generation failed.
         /// </summary>
-        OriginBoundCertGenerationFailed = -711,
+        //Error -711 was removed (ORIGIN_BOUND_CERT_GENERATION_FAILED)
+        //OriginBoundCertGenerationFailed = -711,
 
         /// <summary>
         /// Failure to export private key.
@@ -1056,7 +1350,8 @@ namespace CefSharp
         /// <summary>
         /// Failure to import Channel ID.
         /// </summary>
-        ChannelIdImportFailed = -715,
+        //Error -715 was removed (CHANNEL_ID_IMPORT_FAILED)
+        //ChannelIdImportFailed = -715,
 
         /// <summary>
         /// DNS resolver received a malformed response.
@@ -1099,6 +1394,13 @@ namespace CefSharp
         /// <summary>
         /// Failed to sort addresses according to RFC3484.
         /// </summary>
-        DnsSortError = -806
+        DnsSortError = -806,
+
+        // Error -807 was removed (DNS_HTTP_FAILED)
+
+        /// <summary>
+        /// Failed to resolve the hostname of a DNS-over-HTTPS server.
+        /// </summary>
+        DnsSecureResolverHostnameResolutionFailed = -808
     };
 }

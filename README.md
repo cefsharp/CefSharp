@@ -68,12 +68,13 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk!
 
 ### Release Branches
 
-With each release a new branch is created, for example the `73.1.130` release corresponds to the `cefsharp/73` branch.
+With each release a new branch is created, for example the `79.1.360` release corresponds to the `cefsharp/79` branch.
 If you're new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch
 
 | Branch                                                               | CEF Version | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|------|-------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                      | 3945 | 2015 | 4.5.2 | Development     |
+| [master](https://github.com/cefsharp/CefSharp/)                      | 4044 | 2015 | 4.5.2 | Development     |
+| [cefsharp/81](https://github.com/cefsharp/CefSharp/tree/cefsharp/81) | 4044 | 2015 | 4.5.2 | **Pre-Release** |
 | [cefsharp/79](https://github.com/cefsharp/CefSharp/tree/cefsharp/79) | 3945 | 2015 | 4.5.2 | **Release**     |
 | [cefsharp/77](https://github.com/cefsharp/CefSharp/tree/cefsharp/77) | 3865 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/75](https://github.com/cefsharp/CefSharp/tree/cefsharp/75) | 3770 | 2015 | 4.5.2 | Unsupported     |
