@@ -114,6 +114,7 @@
     <Compile Include="Internals\CookieManagerDecorator.cs" />
     <Compile Include="Internals\ParentProcessMonitor.cs" />
     <Compile Include="Internals\HeaderNameValueCollection.cs" />
+    <Compile Include="Internals\StringCheck.cs" />
     <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />

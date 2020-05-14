@@ -66,6 +66,26 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
 
     extraInfo->SetBool("LegacyBindingEnabled", legacyBindingEnabled);
 
+    // Retrieve the configurable binding property names, throw exception if empty or illegal characters
+    auto jsBindingPropertyName = _javaScriptObjectRepository->Settings->WindowPropertyName;
+    if (!StringCheck::EnsureLettersAndNumbers(jsBindingPropertyName))
+    {
+        throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser invalid or illegal characters used for binding property names. Alphanumeric and underscores characters only.");
+    }
+
+    if (_javaScriptObjectRepository->Settings->IsWindowPropertyNameCamelCase())
+    {
+        extraInfo->SetString("JsBindingPropertyNameCamelCase", StringUtils::ToNative(jsBindingPropertyName));
+    }
+    else
+    {
+        extraInfo->SetString("JsBindingPropertyName", StringUtils::ToNative(jsBindingPropertyName));
+
+        // Convert to camelCase
+        auto camelCasePropertyName = _javaScriptObjectRepository->ConvertStringToCamelCase(jsBindingPropertyName);
+        extraInfo->SetString("JsBindingPropertyNameCamelCase", StringUtils::ToNative(camelCasePropertyName));
+    }
+
     if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
         *browserSettings->_browserSettings, extraInfo, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
     {
