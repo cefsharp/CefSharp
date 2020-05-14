@@ -61,15 +61,16 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
 
     extraInfo->SetBool("LegacyBindingEnabled", legacyBindingEnabled);
 
-    // Retrieve the configurable binding property names, if empty default to 'CefSharp' and 'cefSharp'.
+    // Retrieve the configurable binding property names.
+    // If empty or illegal characters then default to 'CefSharp' and 'cefSharp'.
     auto jsBindingPropertyName = CefSharpSettings::JavascriptBindingPropertyName;
-    if (String::IsNullOrWhiteSpace(jsBindingPropertyName))
+    if (!StringCheck::EnsureLettersAndNumbers(jsBindingPropertyName))
     {
         jsBindingPropertyName = "CefSharp";
     }
 
     auto jsBindingPropertyNameCamelCase = CefSharpSettings::JavascriptBindingPropertyNameCamelCase;
-    if (String::IsNullOrWhiteSpace(jsBindingPropertyNameCamelCase))
+    if (!StringCheck::EnsureLettersAndNumbers(jsBindingPropertyNameCamelCase))
     {
         jsBindingPropertyNameCamelCase = "cefSharp";
     }
