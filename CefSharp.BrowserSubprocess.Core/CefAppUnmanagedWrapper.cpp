@@ -86,6 +86,9 @@ namespace CefSharp
                 }
             }
         }
+
+        _jsBindingPropertyName = extraInfo->GetString("JsBindingPropertyName");
+        _jsBindingPropertyNameCamelCase = extraInfo->GetString("JsBindingPropertyNameCamelCase");
     }
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
@@ -124,11 +127,11 @@ namespace CefSharp
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
 
         auto cefSharpObj = CefV8Value::CreateObject(NULL, NULL);
-        global->SetValue("CefSharp", cefSharpObj, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+        global->SetValue(_jsBindingPropertyName, cefSharpObj, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
         //We'll support both CefSharp and cefSharp, for those who prefer the JS style
         auto cefSharpObjCamelCase = CefV8Value::CreateObject(NULL, NULL);
-        global->SetValue("cefSharp", cefSharpObjCamelCase, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+        global->SetValue(_jsBindingPropertyNameCamelCase, cefSharpObjCamelCase, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
         //TODO: JSB: Split functions into their own classes
         //Browser wrapper is only used for BindObjectAsync

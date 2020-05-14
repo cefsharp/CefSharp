@@ -23,6 +23,24 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Configure the browser binding property name.
+        /// Use a custom property name when calling registred objects, example 'CefSharp.BindObjectAsync'
+        /// The default value is 'CefSharp'
+        ///
+        /// NOTE: There are two properties to be mindful of, this and <see cref="JavascriptBindingPropertyNameCamelCase"/>
+        /// </summary>
+        public static string JavascriptBindingPropertyName { get; set; }
+
+        /// <summary>
+        /// Configure the browser binding property name with camel case.
+        /// Use a custom property name when calling registred objects, example 'cefSharp.BindObjectAsync'
+        /// The default value is 'cefSharp'.
+        ///
+        /// NOTE: There are two properties to be mindful of, this and <see cref="JavascriptBindingPropertyName"/>
+        /// </summary>
+        public static string JavascriptBindingPropertyNameCamelCase { get; set; }
+
+        /// <summary>
         /// Objects registered using RegisterJsObject and RegisterAsyncJsObject
         /// will be automatically bound when a V8Context is created. (Soon as the Javascript
         /// context is created for a browser). This behaviour is like that seen with Javascript

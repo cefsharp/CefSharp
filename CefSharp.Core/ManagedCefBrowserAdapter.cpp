@@ -48,7 +48,7 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
 
         legacyBindingEnabled = objectRepository->HasBoundObjects;
 
-        //For legacy binding we only add values if we have bond objects
+        //For legacy binding we only add values if we have bond objects.
         if (legacyBindingEnabled)
         {
             auto listValue = CefListValue::Create();
@@ -60,6 +60,28 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
     }
 
     extraInfo->SetBool("LegacyBindingEnabled", legacyBindingEnabled);
+
+    // Retrieve the configurable binding property names, if empty default to 'CefSharp' and 'cefSharp'.
+    auto jsBindingPropertyName = CefSharpSettings::JavascriptBindingPropertyName;
+    if (String::IsNullOrWhiteSpace(jsBindingPropertyName))
+    {
+        jsBindingPropertyName = "CefSharp";
+    }
+
+    auto jsBindingPropertyNameCamelCase = CefSharpSettings::JavascriptBindingPropertyNameCamelCase;
+    if (String::IsNullOrWhiteSpace(jsBindingPropertyNameCamelCase))
+    {
+        jsBindingPropertyNameCamelCase = "cefSharp";
+    }
+
+    extraInfo->SetString("JsBindingPropertyName", StringUtils::ToNative(jsBindingPropertyName));
+    extraInfo->SetString("JsBindingPropertyNameCamelCase", StringUtils::ToNative(jsBindingPropertyNameCamelCase));
+
+    if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
+        *browserSettings->_browserSettings, extraInfo, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
+    {
+        throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser call failed, review the CEF log file for more details.");
+    }
 
     if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
         *browserSettings->_browserSettings, extraInfo, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
