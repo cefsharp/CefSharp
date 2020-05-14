@@ -20,6 +20,8 @@ namespace CefSharp
             LegacyJavascriptBindingEnabled = false;
             WcfTimeout = TimeSpan.FromSeconds(2);
             SubprocessExitIfParentProcessClosed = true;
+            JavascriptBindingPropertyName = "CefSharp";
+            JavascriptBindingPropertyNameCamelCase = "cefSharp";
         }
 
         /// <summary>
