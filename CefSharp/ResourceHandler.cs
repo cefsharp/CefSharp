@@ -295,7 +295,6 @@ namespace CefSharp
         [Obsolete("Use ResourceHandler.FromString(resource, mimeType: Cef.GetMimeType(fileExtension)); instead, this method will be removed")]
         public static IResourceHandler FromString(string text, string fileExtension)
         {
-            //TODO: Remove GetMimeType when this method is removed.
             var mimeType = GetMimeType(fileExtension);
             return FromString(text, Encoding.UTF8, false, mimeType);
         }
@@ -999,7 +998,8 @@ namespace CefSharp
         /// <param name="extension">The extension.</param>
         /// <returns>System.String.</returns>
         /// <exception cref="System.ArgumentNullException">extension</exception>
-        private static string GetMimeType(string extension)
+        [Obsolete("This method is deprecated and will be removed use Cef.GetMimeType(extension); instead. See https://github.com/cefsharp/CefSharp/issues/3041 for details.")]
+        public static string GetMimeType(string extension)
         {
             if (extension == null)
             {
