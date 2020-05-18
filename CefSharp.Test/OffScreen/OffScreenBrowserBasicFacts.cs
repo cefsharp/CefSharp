@@ -223,5 +223,26 @@ namespace CefSharp.Test.OffScreen
             Assert.True(!string.IsNullOrEmpty(stringResult));
             Assert.Equal(200, statusCode);
         }
+
+        [Theory]
+        //TODO: Add more urls
+        [InlineData("http://www.google.com", "http://cefsharp.github.io/")]
+        public async Task CanExecuteJavascriptInMainFrameAfterNavigatingToDifferentOrigin(string firstUrl, string secondUrl)
+        {
+            using (var browser = new ChromiumWebBrowser(firstUrl))
+            {
+                await browser.LoadPageAsync();
+
+                Assert.True(browser.CanExecuteJavascriptInMainFrame);
+
+                await browser.LoadPageAsync(secondUrl);
+
+                Assert.True(browser.CanExecuteJavascriptInMainFrame);
+
+                await browser.LoadPageAsync(firstUrl);
+
+                Assert.True(browser.CanExecuteJavascriptInMainFrame);
+            }
+        }
     }
 }
