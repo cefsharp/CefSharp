@@ -104,6 +104,7 @@
     <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
+    <Compile Include="Internals\MimeTypeMapping.cs" />
     <Compile Include="Internals\NoOpBrowserRefCounter.cs" />
     <Compile Include="Internals\PathCheck.cs" />
     <Compile Include="Internals\BrowserRefCounter.cs" />
@@ -129,7 +130,6 @@
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
     <Compile Include="Event\JavascriptMessageReceivedEventArgs.cs" />
-    <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Handler\RequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Handler\ResourceRequestHandler.cs" />
