@@ -88,14 +88,17 @@ namespace CefSharp.Test.Framework
             Assert.Equal(2.0, result);
         }
 
-        [Fact]
-        public void NullToValueType()
+        [Theory]
+        [InlineData(0, typeof(int))]
+        [InlineData(0d, typeof(double))]
+        [InlineData(false, typeof(bool))]
+        public void NullToValueTypeTheory(object excepectedResult, Type conversionType)
         {
             var binder = new DefaultBinder();
 
-            Assert.Equal(0, (int)binder.Bind(null, typeof(int)));
-            Assert.Equal(0, (double)binder.Bind(null, typeof(double)));
-            Assert.Equal(false, (bool)binder.Bind(null, typeof(bool)));
+            var actualResult = binder.Bind(null, conversionType);
+
+            Assert.Equal(excepectedResult, actualResult);
         }
 
         [Fact]
