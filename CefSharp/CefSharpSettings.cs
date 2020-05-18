@@ -20,29 +20,7 @@ namespace CefSharp
             LegacyJavascriptBindingEnabled = false;
             WcfTimeout = TimeSpan.FromSeconds(2);
             SubprocessExitIfParentProcessClosed = true;
-            JavascriptBindingPropertyName = "CefSharp";
-            JavascriptBindingPropertyNameCamelCase = "cefSharp";
         }
-
-        /// <summary>
-        /// Configure the browser binding property name.
-        /// Use a custom property name when calling registred objects, example 'CefSharp.BindObjectAsync'.
-        /// Alphanumeric and underscores characters only.
-        /// The default value is 'CefSharp'
-        ///
-        /// NOTE: There are two properties to be mindful of, this and <see cref="JavascriptBindingPropertyNameCamelCase"/>
-        /// </summary>
-        public static string JavascriptBindingPropertyName { get; set; }
-
-        /// <summary>
-        /// Configure the browser binding property name with camel case.
-        /// Use a custom property name when calling registred objects, example 'cefSharp.BindObjectAsync'
-        /// Alphanumeric and underscores characters only.
-        /// The default value is 'cefSharp'.
-        ///
-        /// NOTE: There are two properties to be mindful of, this and <see cref="JavascriptBindingPropertyName"/>
-        /// </summary>
-        public static string JavascriptBindingPropertyNameCamelCase { get; set; }
 
         /// <summary>
         /// Objects registered using RegisterJsObject and RegisterAsyncJsObject

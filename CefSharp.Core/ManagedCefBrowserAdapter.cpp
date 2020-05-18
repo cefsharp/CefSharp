@@ -62,15 +62,21 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
     extraInfo->SetBool("LegacyBindingEnabled", legacyBindingEnabled);
 
     // Retrieve the configurable binding property names, throw exception if empty or illegal characters
-    auto jsBindingPropertyName = CefSharpSettings::JavascriptBindingPropertyName;
-    auto jsBindingPropertyNameCamelCase = CefSharpSettings::JavascriptBindingPropertyNameCamelCase;
-    if (!StringCheck::EnsureLettersAndNumbers(jsBindingPropertyName) || !StringCheck::EnsureLettersAndNumbers(jsBindingPropertyNameCamelCase))
+    auto jsBindingPropertyName = _javaScriptObjectRepository->WindowPropertyName;
+    if (!StringCheck::EnsureLettersAndNumbers(jsBindingPropertyName))
     {
         throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser invalid or illegal characters used for binding property names. Alphanumeric and underscores characters only.");
     }
 
-    extraInfo->SetString("JsBindingPropertyName", StringUtils::ToNative(jsBindingPropertyName));
-    extraInfo->SetString("JsBindingPropertyNameCamelCase", StringUtils::ToNative(jsBindingPropertyNameCamelCase));
+    if (StringCheck::IsFirstCharacterLowercase(jsBindingPropertyName))
+    {
+        extraInfo->SetString("JsBindingPropertyNameCamelCase", StringUtils::ToNative(jsBindingPropertyName));
+    }
+    else
+    {
+        extraInfo->SetString("JsBindingPropertyName", StringUtils::ToNative(jsBindingPropertyName));
+        extraInfo->SetString("JsBindingPropertyNameCamelCase", StringUtils::ToNative(_javaScriptObjectRepository->ConvertToCamelCase(jsBindingPropertyName)));
+    }
 
     if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
         *browserSettings->_browserSettings, extraInfo, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))

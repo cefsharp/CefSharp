@@ -13,6 +13,7 @@ namespace CefSharp
     /// </summary>
     public interface IJavascriptObjectRepository : IDisposable
     {
+        string WindowPropertyName { get; set; }
         /// <summary>
         /// Register an object for binding in Javascript. You can either
         /// register an object in advance or as part of the <see cref="ResolveObject"/>

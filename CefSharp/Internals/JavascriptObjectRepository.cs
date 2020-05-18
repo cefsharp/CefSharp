@@ -52,6 +52,13 @@ namespace CefSharp.Internals
         /// </summary>
         public bool IsBrowserInitialized { get; set; }
 
+        public string WindowPropertyName { get; set; }
+
+        public JavascriptObjectRepository()
+        {
+            WindowPropertyName = "CefSharp";
+        }
+
         public void Dispose()
         {
             ResolveObject = null;
@@ -404,6 +411,8 @@ namespace CefSharp.Internals
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods</param>
         private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool analyseProperties, bool readPropertyValue, bool camelCaseJavascriptNames)
         {
+            var isWindowPropertyFirstCharacterLowercase = StringCheck.IsFirstCharacterLowercase(WindowPropertyName);
+
             if (obj.Value == null)
             {
                 return;
@@ -425,7 +434,7 @@ namespace CefSharp.Internals
                         continue;
                     }
 
-                    var jsMethod = CreateJavaScriptMethod(methodInfo, camelCaseJavascriptNames);
+                    var jsMethod = CreateJavaScriptMethod(methodInfo, camelCaseJavascriptNames, isWindowPropertyFirstCharacterLowercase);
                     obj.Methods.Add(jsMethod);
                 }
             }
@@ -444,12 +453,12 @@ namespace CefSharp.Internals
                         continue;
                     }
 
-                    var jsProperty = CreateJavaScriptProperty(propertyInfo, camelCaseJavascriptNames);
+                    var jsProperty = CreateJavaScriptProperty(propertyInfo, camelCaseJavascriptNames, isWindowPropertyFirstCharacterLowercase);
                     if (jsProperty.IsComplexType)
                     {
                         var jsObject = CreateJavascriptObject(camelCaseJavascriptNames, rootObject: false);
                         jsObject.Name = propertyInfo.Name;
-                        jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
+                        jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames, isWindowPropertyFirstCharacterLowercase);
                         jsObject.Value = jsProperty.GetValue(obj.Value);
                         jsProperty.JsObject = jsObject;
 
@@ -469,12 +478,12 @@ namespace CefSharp.Internals
             ResolveObject?.Invoke(this, new JavascriptBindingEventArgs(this, name));
         }
 
-        private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo, bool camelCaseJavascriptNames)
+        private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo, bool camelCaseJavascriptNames, bool isWindowPropertyCamelCase)
         {
             var jsMethod = new JavascriptMethod();
 
             jsMethod.ManagedName = methodInfo.Name;
-            jsMethod.JavascriptName = GetJavascriptName(methodInfo.Name, camelCaseJavascriptNames);
+            jsMethod.JavascriptName = GetJavascriptName(methodInfo.Name, camelCaseJavascriptNames, isWindowPropertyCamelCase);
             jsMethod.Function = methodInfo.Invoke;
             jsMethod.ParameterCount = methodInfo.GetParameters().Length;
             jsMethod.Parameters = methodInfo.GetParameters()
@@ -489,12 +498,12 @@ namespace CefSharp.Internals
             return jsMethod;
         }
 
-        private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo, bool camelCaseJavascriptNames)
+        private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo, bool camelCaseJavascriptNames, bool isWindowPropertyCamelCase)
         {
             var jsProperty = new JavascriptProperty();
 
             jsProperty.ManagedName = propertyInfo.Name;
-            jsProperty.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
+            jsProperty.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames, isWindowPropertyCamelCase);
             jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
@@ -533,13 +542,21 @@ namespace CefSharp.Internals
             return !baseType.IsPrimitive && baseType != typeof(string);
         }
 
-        private static string GetJavascriptName(string str, bool camelCaseJavascriptNames)
+        private static string GetJavascriptName(string str, bool camelCaseJavascriptNames, bool isWindowPropertyCamelCase)
         {
-            if (!camelCaseJavascriptNames)
+            if (!isWindowPropertyCamelCase)
             {
-                return str;
+                if (!camelCaseJavascriptNames)
+                {
+                    return str;
+                }
             }
 
+            return ConvertToCamelCase(str);
+        }
+
+        public static string ConvertToCamelCase(string str)
+        {
             if (string.IsNullOrEmpty(str))
             {
                 return string.Empty;

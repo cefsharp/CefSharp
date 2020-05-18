@@ -22,5 +22,18 @@ namespace CefSharp.Internals
 
             return false;
         }
+
+        public static bool IsFirstCharacterLowercase(string str)
+        {
+            if (!string.IsNullOrEmpty(str))
+            {
+                if (char.IsLetter(str[0]))
+                {
+                    return char.IsLower(str[0]);
+                }
+            }
+
+            return false;
+        }
     }
 }
