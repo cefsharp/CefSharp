@@ -303,7 +303,8 @@ void CefBrowserHostWrapper::SendKeyEvent(int message, int wParam, int lParam)
 
     // mimic alt-gr check behaviour from
     // src/ui/events/win/events_win_utils.cc: GetModifiersFromKeyState
-    if ((keyEvent.type == KEYEVENT_CHAR) && IsKeyDown(VK_RMENU)) {
+    if ((keyEvent.type == KEYEVENT_CHAR) && IsKeyDown(VK_RMENU))
+    {
         // reverse AltGr detection taken from PlatformKeyMap::UsesAltGraph
         // instead of checking all combination for ctrl-alt, just check current char
         HKL current_layout = ::GetKeyboardLayout(0);
@@ -314,7 +315,8 @@ void CefBrowserHostWrapper::SendKeyEvent(int message, int wParam, int lParam)
         // 2 Either CTRL key is pressed.
         // 4 Either ALT key is pressed.
         SHORT scan_res = ::VkKeyScanExW(wParam, current_layout);
-        if (((scan_res >> 8) & 0xFF) == (2 | 4)) {  // ctrl-alt pressed
+        if (((scan_res >> 8) & 0xFF) == (2 | 4)) // ctrl-alt pressed
+        {  
             keyEvent.modifiers &= ~(EVENTFLAG_CONTROL_DOWN | EVENTFLAG_ALT_DOWN);
             keyEvent.modifiers |= EVENTFLAG_ALTGR_DOWN;
         }
