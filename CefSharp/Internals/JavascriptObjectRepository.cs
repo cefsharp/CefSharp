@@ -64,11 +64,14 @@ namespace CefSharp.Internals
             get { return objects.Count > 0; }
         }
 
-        public string WindowPropertyName { get; set; }
+        /// <summary>
+        /// Configurable settings for this repository, such as setting the property name CefSharp injects into the window.
+        /// </summary>
+        public JavascriptObjectRepositorySettings Settings { get; }
 
         public JavascriptObjectRepository()
         {
-            WindowPropertyName = "CefSharp";
+            Settings = new JavascriptObjectRepositorySettings();
         }
 
         public bool IsBound(string name)
@@ -547,6 +550,11 @@ namespace CefSharp.Internals
                 return str;
             }
 
+            return ConvertStringToCamelCase(str);
+        }
+
+        public static string ConvertStringToCamelCase(string str)
+        {
             if (string.IsNullOrEmpty(str))
             {
                 return string.Empty;
