@@ -283,22 +283,48 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot;&gt;
+        ///    &lt;title&gt;QUnit Javascript Binding API Object Name&lt;/title&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.10.0.css&quot;&gt;
+        ///    &lt;script&gt;
+        ///        if (!window.bindingApiObject)
+        ///        {
+        ///            window.bindingApiObject = cefSharp;
+        ///        }
+        ///    &lt;/script&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
+        ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
+        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string BindingApiCustomObjectNameTest {
+            get {
+                return ResourceManager.GetString("BindingApiCustomObjectNameTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
-        ///    &lt;head&gt;
-        ///        &lt;title&gt;Binding Test&lt;/title&gt;
-        ///        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
-        ///    &lt;/head&gt;
-        ///    &lt;body&gt;
-        ///        &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
-        ///        &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
-        ///        &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;Binding Test&lt;/title&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
+        ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
+        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
         ///
-        ///        &lt;!--&lt;script type=&quot;text/javascript&quot;&gt;
-        ///        (async function() {
-        ///            // &lt;embed user provided code here&gt;
+        ///    &lt;!--&lt;script type=&quot;text/javascript&quot;&gt;
+        ///    (async function() {
+        ///        // &lt;embed user provided code here&gt;
         ///
-        ///     [rest of string was truncated]&quot;;.
+        ///        await CefSharp.BindObjectAsync(&quot;boundAsy [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTest {
             get {
@@ -339,16 +365,16 @@ namespace CefSharp.Example.Properties {
         ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///    &lt;div&gt;
-        ///        These tests require CefSharpSettings.ConcurrentTaskExecution = true;
-        ///        Which by default is set to false
-        ///    &lt;/div&gt;
-        ///
         ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
         ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
         ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
         ///
-        ///    &lt;script typ [rest of string was truncated]&quot;;.
+        ///    &lt;script type=&quot;text/javascript&quot;&gt;
+        ///        (async () =&gt;
+        ///        {
+        ///            await CefSharp.BindObjectAsync(&quot;boundAsync&quot;);
+        ///
+        ///            QUnit.test(&quot;Async [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTestSingle {
             get {
@@ -659,17 +685,17 @@ namespace CefSharp.Example.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
-        ///    &lt;head&gt;
-        ///        &lt;title&gt;Popup Test&lt;/title&gt;
-        ///    &lt;/head&gt;
-        ///    &lt;body&gt;
-        ///        &lt;a href=&quot;https://github.com/CefSharp/CefSharp&quot; target=&quot;_blank&quot;&gt;target=_blank&lt;/a&gt;
-        ///        &lt;br /&gt;
-        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/CefSharp/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
-        ///        &lt;br /&gt;
-        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;custom://cefsharp/BindingTest.html&apos;)&quot;&gt;BindingTest.html&lt;/a&gt;
-        ///        &lt;br /&gt;
-        ///        &lt;a href=&quot;#&quot; onclick [rest of string was truncated]&quot;;.
+        ///&lt;head&gt;
+        ///    &lt;title&gt;Popup Test&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;a href=&quot;https://github.com/CefSharp/CefSharp&quot; target=&quot;_blank&quot;&gt;target=_blank&lt;/a&gt;
+        ///    &lt;br /&gt;
+        ///    &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/CefSharp/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
+        ///    &lt;br /&gt;
+        ///    &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;custom://cefsharp/BindingTest.html&apos;)&quot;&gt;BindingTest.html&lt;/a&gt;
+        ///    &lt;br /&gt;
+        ///    &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;custom://cefsharp/MultiBindin [rest of string was truncated]&quot;;.
         /// </summary>
         public static string PopupTest {
             get {
@@ -692,9 +718,11 @@ namespace CefSharp.Example.Properties {
         ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
         ///
         ///    &lt;script type=&quot;text/javascript&quot;&gt;
+        ///        let PostMessageIntTestCallback;
+        ///
         ///        (async () =&gt;
         ///        {
-        ///            QUnit.test(&quot;PostMessage Test:&quot;, function  [rest of string was truncated]&quot;;.
+        ///           [rest of string was truncated]&quot;;.
         /// </summary>
         public static string PostMessageTest {
             get {

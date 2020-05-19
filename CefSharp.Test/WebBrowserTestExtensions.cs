@@ -36,5 +36,37 @@ namespace CefSharp.Test
             }
             return tcs.Task;
         }
+
+        public static Task<bool> WaitForQUnitTestExeuctionToComplete(this IWebBrowser browser)
+        {
+            //If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously
+            //and switch to tcs.TrySetResult below - no need for the custom extension method
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            EventHandler<JavascriptMessageReceivedEventArgs> handler = null;
+            handler = (sender, args) =>
+            {
+                browser.JavascriptMessageReceived -= handler;
+
+                dynamic msg = args.Message;
+                //Wait for while page to finish loading not just the first frame
+                if (msg.Type == "QUnitExecutionComplete")
+                {
+                    var details = msg.Details;
+                    var total = (int)details.total;
+                    var passed = (int)details.passed;
+
+                    tcs.TrySetResult(total == passed);
+                }
+                else
+                {
+                    tcs.TrySetException(new Exception("WaitForQUnitTestExeuctionToComplete - Incorrect Message Type"));
+                }
+            };
+
+            browser.JavascriptMessageReceived += handler;
+
+            return tcs.Task;
+        }
     }
 }

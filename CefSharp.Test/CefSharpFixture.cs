@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using CefSharp.Example;
 using CefSharp.OffScreen;
 using Nito.AsyncEx;
 using Xunit;
@@ -34,6 +35,13 @@ namespace CefSharp.Test
 
                 CefSharpSettings.ShutdownOnExit = false;
                 var settings = new CefSettings();
+
+                settings.RegisterScheme(new CefCustomScheme
+                {
+                    SchemeName = "https",
+                    SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
+                    DomainName = CefExample.ExampleDomain
+                });
 
                 //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
                 //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 

@@ -28,7 +28,7 @@ namespace CefSharp
         bool _focusedNodeChangedEnabled;
         bool _legacyBindingEnabled;
 
-        // The property names used to call binded objects
+        // The property names used to call bound objects
         CefString _jsBindingPropertyName;
         CefString _jsBindingPropertyNameCamelCase;
 

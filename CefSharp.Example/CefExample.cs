@@ -16,7 +16,8 @@ namespace CefSharp.Example
     {
         //TODO: Revert after https://bitbucket.org/chromiumembedded/cef/issues/2685/networkservice-custom-scheme-unable-to
         //has been fixed.
-        public const string BaseUrl = "https://cefsharp.example";
+        public const string ExampleDomain = "cefsharp.example";
+        public const string BaseUrl = "https://" + ExampleDomain;
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
@@ -32,6 +33,7 @@ namespace CefSharp.Example
         public const string DragDropCursorsTestUrl = BaseUrl + "/DragDropCursorsTest.html";
         public const string CssAnimationTestUrl = BaseUrl + "/CssAnimationTest.html";
         public const string CdmSupportTestUrl = BaseUrl + "/CdmSupportTest.html";
+        public const string BindingApiCustomObjectNameTestUrl = BaseUrl + "/BindingApiCustomObjectNameTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
         public const string RenderProcessCrashedUrl = "http://processcrashed";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
@@ -171,7 +173,7 @@ namespace CefSharp.Example
             {
                 SchemeName = "https",
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
-                DomainName = "cefsharp.example"
+                DomainName = ExampleDomain
             });
 
             settings.RegisterScheme(new CefCustomScheme
