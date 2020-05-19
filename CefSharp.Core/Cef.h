@@ -805,7 +805,17 @@ namespace CefSharp
                 extension = extension->Substring(1, extension->Length - 1);
             }
 
-            return StringUtils::ToClr(CefGetMimeType(StringUtils::ToNative(extension)));
+            auto mimeType = StringUtils::ToClr(CefGetMimeType(StringUtils::ToNative(extension)));
+
+            //Lookup to see if we have a custom mapping
+            //MimeTypeMapping::GetCustomMapping will Fallback
+            //to application/octet-stream if no mapping found
+            if (String::IsNullOrEmpty(mimeType))
+            {
+                return MimeTypeMapping::GetCustomMapping(extension);
+            }
+
+            return mimeType;
         }
 
         /// <summary>
