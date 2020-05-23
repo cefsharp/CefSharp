@@ -27,6 +27,8 @@ namespace CefSharp.Wpf.Example.Views
         {
             InitializeComponent();
 
+            DataContextChanged += OnDataContextChanged;
+
             //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
 
             browser.RequestHandler = new ExampleRequestHandler();
@@ -41,28 +43,34 @@ namespace CefSharp.Wpf.Example.Views
             //the browser is initialized.
             CefSharpSettings.WcfEnabled = true;
 
-            if (CefSharpSettings.LegacyJavascriptBindingEnabled)
-            {
-                browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
-                browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
-            }
-
             //If you call CefSharp.BindObjectAsync in javascript and pass in the name of an object which is not yet
             //bound, then ResolveObject will be called, you can then register it
             browser.JavascriptObjectRepository.ResolveObject += (sender, e) =>
             {
                 var repo = e.ObjectRepository;
-                if (e.ObjectName == "boundAsync2")
+
+                //When JavascriptObjectRepository.Settings.LegacyBindingEnabled = true
+                //This event will be raised with ObjectName == Legacy so you can bind your
+                //legacy objects
+                if (e.ObjectName == "Legacy")
                 {
-                    repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+                    repo.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
+                    repo.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
                 }
-                else if (e.ObjectName == "bound")
+                else
                 {
-                    browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
-                }
-                else if (e.ObjectName == "boundAsync")
-                {
-                    browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+                    if (e.ObjectName == "boundAsync2")
+                    {
+                        repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+                    }
+                    else if (e.ObjectName == "bound")
+                    {
+                        browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
+                    }
+                    else if (e.ObjectName == "boundAsync")
+                    {
+                        browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+                    }
                 }
             };
 
@@ -137,6 +145,18 @@ namespace CefSharp.Wpf.Example.Views
             CefExample.RegisterTestResources(browser);
 
             browser.JavascriptMessageReceived += OnBrowserJavascriptMessageReceived;
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            //TODO: Ideally we'd be able to bind this directly without having to use codebehind
+            var viewModel = e.NewValue as BrowserTabViewModel;
+
+            if (viewModel != null)
+            {
+
+                browser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = viewModel.LegacyBindingEnabled;
+            }
         }
 
         private void OnBrowserJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)

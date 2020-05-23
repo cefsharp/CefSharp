@@ -92,6 +92,13 @@ namespace CefSharp.Wpf.Example.ViewModels
             set { Set(ref downloadItem, value); }
         }
 
+        private bool legacyBindingEnabled;
+        public bool LegacyBindingEnabled
+        {
+            get { return legacyBindingEnabled; }
+            set { Set(ref legacyBindingEnabled, value); }
+        }
+
         public ICommand GoCommand { get; private set; }
         public ICommand HomeCommand { get; private set; }
         public ICommand ExecuteJavaScriptCommand { get; private set; }
