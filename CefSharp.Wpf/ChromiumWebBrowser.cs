@@ -800,6 +800,7 @@ namespace CefSharp.Wpf
                 ConsoleMessage = null;
                 FrameLoadEnd = null;
                 FrameLoadStart = null;
+                AddressChanged = null;
                 IsBrowserInitializedChanged = null;
                 LoadError = null;
                 LoadingStateChanged = null;
@@ -1417,6 +1418,11 @@ namespace CefSharp.Wpf
                                         new UIPropertyMetadata(null, OnAddressChanged));
 
         /// <summary>
+        /// Event called when the browser address has changed
+        /// </summary>
+        public event DependencyPropertyChangedEventHandler AddressChanged;
+
+        /// <summary>
         /// Handles the <see cref="E:AddressChanged" /> event.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -1428,6 +1434,8 @@ namespace CefSharp.Wpf
             var newValue = (string)args.NewValue;
 
             owner.OnAddressChanged(oldValue, newValue);
+
+            owner.AddressChanged?.Invoke(owner, args);
         }
 
         /// <summary>
