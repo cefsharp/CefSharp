@@ -33,6 +33,7 @@ namespace CefSharp.Internals
     public class JavascriptObjectRepository : IJavascriptObjectRepository
     {
         public const string AllObjects = "All";
+        public const string LegacyObjects = "Legacy";
 
         private static long lastId;
 
@@ -64,9 +65,26 @@ namespace CefSharp.Internals
             get { return objects.Count > 0; }
         }
 
+        /// <summary>
+        /// Configurable settings for this repository, such as the property names CefSharp injects into the window.
+        /// </summary>
+        public JavascriptBindingSettings Settings { get; private set; }
+
+        public JavascriptObjectRepository()
+        {
+            Settings = new JavascriptBindingSettings();
+        }
+
         public bool IsBound(string name)
         {
             return objects.Values.Any(x => x.Name == name);
+        }
+
+        public List<JavascriptObject> GetLegacyBoundObjects()
+        {
+            RaiseResolveObjectEvent(LegacyObjects);
+
+            return objects.Values.Where(x => x.RootObject).ToList();
         }
 
         //Ideally this would internal, unfurtunately it's used in C++
@@ -540,6 +558,11 @@ namespace CefSharp.Internals
                 return str;
             }
 
+            return ConvertStringToCamelCase(str);
+        }
+
+        private static string ConvertStringToCamelCase(string str)
+        {
             if (string.IsNullOrEmpty(str))
             {
                 return string.Empty;
