@@ -18,11 +18,11 @@ namespace CefSharp.Internals
             frozen = true;
         }
 
-        protected void ThrowIfFrozen()
+        protected void ThrowIfFrozen([System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
         {
             if (frozen)
             {
-                throw new Exception(nameof(FreezableBase) + " can no longer be modified, settings must be changed before the underlying browser has been created.");
+                throw new Exception(GetType().Name + "." + memberName + " can no longer be modified, settings must be changed before the underlying browser has been created.");
             }
         }
     }
