@@ -117,6 +117,8 @@ namespace CefSharp.ModelBinding
             // serialize the Guid to a Javascript safe object (string)
             if (value is Guid guid)
                 return SerializeGuid(guid);
+            if (value is Version version)
+                return SerializeVersion(version);
             // serialize the dictionary 
             if (value is IDictionary dict)
                 return SerializeDictionary(dict);
@@ -197,6 +199,15 @@ namespace CefSharp.ModelBinding
                 javaScriptObject[property.ConvertNameToCamelCase()] = SerializeObject(property.GetValue(value));
             }
             return javaScriptObject;
+        }
+        /// <summary>
+        /// Javascript does not natively support the <see cref="Version"/> class so it is serialized to a string here
+        /// </summary>
+        /// <param name="version">the instance of Version to be serialized</param>
+        /// <returns>a string representation of the <paramref name="version"/> instance</returns>
+        private static string SerializeVersion(Version version)
+        {
+            return version.ToString();
         }
 
         /// <summary>

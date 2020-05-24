@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using CefSharp.ModelBinding.Converters;
 
 namespace CefSharp.ModelBinding
 {
@@ -31,6 +32,7 @@ namespace CefSharp.ModelBinding
         public TypeSafeBinder()
         {
             BinderGuidConverter.Register();
+            BinderVersionConverter.Register();
         }
 
         /// <summary>

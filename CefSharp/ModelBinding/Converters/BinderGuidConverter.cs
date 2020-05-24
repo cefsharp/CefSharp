@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace CefSharp.ModelBinding
+namespace CefSharp.ModelBinding.Converters
 {
     /// <summary>
     /// A special <see cref="Guid"/> type converter that is registered to allow for easy conversion between Javascript & .NET bridge.

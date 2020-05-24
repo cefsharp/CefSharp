@@ -118,7 +118,8 @@
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
-    <Compile Include="ModelBinding\BindingGuidConverter.cs" />
+    <Compile Include="ModelBinding\Converters\BinderGuidConverter.cs" />
+    <Compile Include="ModelBinding\Converters\BinderVersionConverter.cs" />
     <Compile Include="ModelBinding\TypeSafeInterceptor.cs" />
     <Compile Include="ModelBinding\TypeBindingException.cs" />
     <Compile Include="ModelBinding\TypeSafeBinder.cs" />
