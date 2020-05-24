@@ -78,8 +78,26 @@ namespace CefSharp.ModelBinding
             }
         }
 
+
         /// <summary>
-        /// Returns an enumerable sequence of bindable properties for the specified type.
+        /// Builds a collection of the public and instance based <see cref="PropertyInfo"/> members for a <see cref="Type"/>. 
+        /// </summary>
+        /// <param name="type">The type to enumerate for properties.</param>
+        /// <returns>All valid properties for the provided type.</returns>
+        /// <remarks>
+        /// <see cref="Collect"/> is slightly misleading in it's description, as fields are quite different than properties.
+        /// This method only returns properties which is more aligned with how something like JSON.NET works.
+        /// </remarks>
+        public static IEnumerable<BindingMemberInfo> CollectProperties(Type type)
+        {
+            return type
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead && p.CanWrite)
+                .Where(property => !property.GetIndexParameters().Any())
+                .Select(property => new BindingMemberInfo(property));
+        }
+
+        /// <summary>
+        ///     Returns an enumerable sequence of bindable properties for the specified type.
         /// </summary>
         /// <param name="type">The type to enumerate.</param>
         /// <returns>Bindable properties.</returns>
