@@ -79,6 +79,29 @@ namespace CefSharp
         /// </summary>
         public static bool ConcurrentTaskExecution { get; set; }
 
+
+        /// <summary>
+        /// This changes the behavior of CefSharp so that marshaling of data between .NET and Javascript is type-safe. <br/> <br/>
+        /// 
+        /// Javascript objects passed to .NET will be run through a strict type binder that validates their structure. <br/> <br/>
+        /// 
+        /// .NET objects returned to Javascript are properly serialized so that .NET only types like <see cref="Guid"/> and <see cref="Tuple"/> become available in Javascript. <br/> <br/>
+        ///
+        /// This means if you have a class with a <see cref="Guid"/> property, it will automatically be handled when you return that class to Javascript. <br/> <br/>
+        /// And when you pass the same object back to .NET as the parameter of a method, it will be marshaled back to the original class with the correct values. <br/> <br/>
+        ///
+        /// It will also enable asynchronous task to be ran without <see cref="ConcurrentTaskExecution"/> being set to true. <br/> <br/>
+        ///
+        /// When this setting is enabled any failures to marshal data will raise exceptions so you can catch errors in your code. <br/> <br/>
+        ///
+        /// The best part is your .NET code can continue to use .NET coding conventions without forcing your Javascript and TypeScript code to drop theirs.  <br/> <br/>
+        /// Please note, returning Structs to Javascript when this mode is enabled for security reasons.   <br/>
+        ///
+        ///  This setting has no backwards compatibility with the default binding behavior, so if you built code around it enabling this will probably break app. <br/> <br/>
+        ///  All bound objects and CefSharp post will use a internal TypeSafe binder and interceptor to passively handle objects.
+        /// </summary>
+        public static bool TypeSafeMarshaling { get; set; }
+
         /// <summary>
         /// If true a message will be sent from the render subprocess to the
         /// browser when a DOM node (or no node) gets focus. The default is

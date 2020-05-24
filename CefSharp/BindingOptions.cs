@@ -12,11 +12,24 @@ namespace CefSharp
     public class BindingOptions
     {
         /// <summary>
+        /// Returns the default binder based on the current <see cref="CefSharpSettings"/> that are defined
+        /// </summary>
+        /// <returns>An instance of the default binder.</returns>
+        private static IBinder GetDefaultBinder()
+        {
+            if (CefSharpSettings.TypeSafeMarshaling)
+            {
+                return new TypeSafeBinder();
+            }
+            return new DefaultBinder();
+        }
+
+        /// <summary>
         /// Set of options with the default binding
         /// </summary>
         public static BindingOptions DefaultBinder
         {
-            get { return new BindingOptions { Binder = new DefaultBinder() }; }
+            get { return new BindingOptions { Binder = GetDefaultBinder() }; }
         }
 
         /// <summary>

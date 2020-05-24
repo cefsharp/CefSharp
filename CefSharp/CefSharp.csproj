@@ -118,6 +118,10 @@
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
+    <Compile Include="ModelBinding\BindingGuidConverter.cs" />
+    <Compile Include="ModelBinding\TypeSafeInterceptor.cs" />
+    <Compile Include="ModelBinding\TypeBindingException.cs" />
+    <Compile Include="ModelBinding\TypeSafeBinder.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
