@@ -113,15 +113,16 @@ namespace CefSharp.ModelBinding
             var resultType = value.GetType();
             // check if the incoming value needs special care
             // this would be a lot cleaner with C# 8.0 pattern matching
-            switch (value)
-            {
-                case Guid guid:
-                    return SerializeGuid(guid);
-                case IDictionary dict:
-                    return SerializeDictionary(dict);
-                case ICollection collection:
-                    return SerializeCollection(collection);
-            }
+
+            // serialize the Guid to a Javascript safe object (string)
+            if (value is Guid guid)
+                return SerializeGuid(guid);
+            // serialize the dictionary 
+            if (value is IDictionary dict)
+                return SerializeDictionary(dict);
+            // serialize the list
+            if (value is ICollection collection)
+                return SerializeCollection(collection);
             // serialize tuples so they are usable
             if (resultType.IsTupleType() || resultType.IsValueTupleType())
                 return SerializeTuple(value);

@@ -263,9 +263,6 @@ namespace CefSharp.ModelBinding
             throw new TypeBindingException(typeof(string), destinationType, BindingFailureCode.SourceNotAssignable);
         }
 
-
-      
-
         /// <summary>
         /// ReadOnly Dictionary that maps <see cref="TypeCode"/> members to their corresponding <see cref="Type"/> instance.
         /// </summary>
