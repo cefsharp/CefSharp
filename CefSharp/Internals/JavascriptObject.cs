@@ -36,11 +36,6 @@ namespace CefSharp.Internals
         public bool IsAsync { get; set; }
 
         /// <summary>
-        /// Indicate if JavascriptName is camel case or not
-        /// </summary>
-        public bool CamelCaseJavascriptNames { get; set; }
-
-        /// <summary>
         /// Gets the methods of the <see cref="JavascriptObject" />.
         /// </summary>
         [DataMember]
@@ -66,6 +61,8 @@ namespace CefSharp.Internals
         public IBinder Binder { get; set; }
 
         public IMethodInterceptor MethodInterceptor { get; set; }
+
+        public IJavascriptNameConverter NameConverter { get; set; }
 
         public JavascriptObject()
         {
