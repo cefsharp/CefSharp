@@ -73,7 +73,7 @@ namespace CefSharp.Test.OffScreen
 
             browser.Dispose();
 
-            Assert.Equal(1, BrowserRefCounter.Instance.Count);
+            Assert.True(BrowserRefCounter.Instance.Count <= 1);
 
             Cef.WaitForBrowsersToClose();
 
