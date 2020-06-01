@@ -2,13 +2,15 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-namespace CefSharp.ModelBinding
+using System.Reflection;
+
+namespace CefSharp.JavascriptBinding
 {
     public class CamelCaseJavascriptNameConverter : IJavascriptNameConverter
     {
-        string IJavascriptNameConverter.ConvertToJavascript(string name)
+        string IJavascriptNameConverter.ConvertToJavascript(MemberInfo memberInfo)
         {
-            return ConvertStringToCamelCase(name);
+            return ConvertStringToCamelCase(memberInfo.Name);
         }
 
         private static string ConvertStringToCamelCase(string str)

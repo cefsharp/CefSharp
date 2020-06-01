@@ -111,6 +111,7 @@
     <Compile Include="Internals\MimeTypeMapping.cs" />
     <Compile Include="IRegistration.cs" />
     <Compile Include="JavascriptBindingSettings.cs" />
+    <Compile Include="JavascriptBinding\JavascriptBindingSettings.cs" />
     <Compile Include="Internals\NoOpBrowserRefCounter.cs" />
     <Compile Include="Internals\PathCheck.cs" />
     <Compile Include="Internals\BrowserRefCounter.cs" />
@@ -123,8 +124,8 @@
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
-    <Compile Include="ModelBinding\CamelCaseNamingConverter.cs" />
-    <Compile Include="ModelBinding\IJavascriptNameConverter.cs" />
+    <Compile Include="JavascriptBinding\CamelCaseNamingConverter.cs" />
+    <Compile Include="JavascriptBinding\IJavascriptNameConverter.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
@@ -171,7 +172,7 @@
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="JavascriptException.cs" />
-    <Compile Include="JavascriptBindingExtensions.cs" />
+    <Compile Include="JavascriptBinding\JavascriptBindingExtensions.cs" />
     <Compile Include="JavascriptStackFrame.cs" />
     <Compile Include="Structs\CompositionUnderline.cs" />
     <Compile Include="DomNode.cs" />
