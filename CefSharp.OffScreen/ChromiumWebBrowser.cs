@@ -299,7 +299,7 @@ namespace CefSharp.OffScreen
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
 
         /// <summary>
-        /// Create a new OffScreen Chromium Browser. If you use <see cref="CefSharpSettings.LegacyJavascriptBindingEnabled"/> = true then you must
+        /// Create a new OffScreen Chromium Browser. If you use <see cref="JavascriptBindingSettings.LegacyBindingEnabled"/> = true then you must
         /// set <paramref name="automaticallyCreateBrowser"/> to false and call <see cref="CreateBrowser"/> after the objects are registered.
         /// </summary>
         /// <param name="html">html string to be initially loaded in the browser.</param>
@@ -313,7 +313,7 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Create a new OffScreen Chromium Browser. If you use <see cref="CefSharpSettings.LegacyJavascriptBindingEnabled"/> = true then you must
+        /// Create a new OffScreen Chromium Browser. If you use <see cref="JavascriptBindingSettings.LegacyBindingEnabled"/> = true then you must
         /// set <paramref name="automaticallyCreateBrowser"/> to false and call <see cref="CreateBrowser"/> after the objects are registered.
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>

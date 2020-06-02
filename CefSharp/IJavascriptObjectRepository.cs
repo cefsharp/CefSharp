@@ -4,6 +4,7 @@
 
 using System;
 using CefSharp.Event;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -13,6 +14,10 @@ namespace CefSharp
     /// </summary>
     public interface IJavascriptObjectRepository : IDisposable
     {
+        /// <summary>
+        /// Javascript Binding Settings
+        /// </summary>
+        JavascriptBindingSettings Settings { get; }
         /// <summary>
         /// Register an object for binding in Javascript. You can either
         /// register an object in advance or as part of the <see cref="ResolveObject"/>

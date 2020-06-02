@@ -28,7 +28,7 @@
             <MenuItem Header="_Tests">
                 <MenuItem Header="_Binding Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.BindingTestUrl}}"/>
                 <MenuItem Header="_Binding Test Single" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.BindingTestSingleUrl}}"/>
-                <MenuItem Header="_LegacyBinding Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.LegacyBindingTestUrl}}"/>
+                <MenuItem Header="_LegacyBinding Test" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="LegacyBindingTest"/>
                 <MenuItem Header="_Post Message Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PostMessageTestUrl}}"/>
                 <MenuItem Header="_List Plugins" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PluginsTestUrl}}"/>
                 <MenuItem Header="_Tooltip Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.TooltipTestUrl}}"/>

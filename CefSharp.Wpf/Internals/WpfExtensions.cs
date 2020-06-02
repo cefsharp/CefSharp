@@ -92,17 +92,21 @@ namespace CefSharp.Wpf.Internals
         {
             CefEventFlags modifiers = 0;
 
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift))
+            //Only read modifiers once for performance reasons
+            //https://referencesource.microsoft.com/#PresentationCore/Core/CSharp/System/Windows/Input/KeyboardDevice.cs,227
+            var keyboardDeviceModifiers = e.KeyboardDevice.Modifiers;
+
+            if (keyboardDeviceModifiers.HasFlag(ModifierKeys.Shift))
             {
                 modifiers |= CefEventFlags.ShiftDown;
             }
 
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Alt))
+            if (keyboardDeviceModifiers.HasFlag(ModifierKeys.Alt))
             {
                 modifiers |= CefEventFlags.AltDown;
             }
 
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
+            if (keyboardDeviceModifiers.HasFlag(ModifierKeys.Control))
             {
                 modifiers |= CefEventFlags.ControlDown;
             }

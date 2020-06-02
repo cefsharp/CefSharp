@@ -22,11 +22,13 @@
     <None Include="@(CefRedist32)">
       <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <PublishState>Include</PublishState>
       <Visible>false</Visible>
     </None>
     <None Include="@(CefSharpCommonBinaries32)">
       <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <PublishState>Include</PublishState>
       <Visible>false</Visible>
     </None>
   </ItemGroup>
@@ -35,11 +37,13 @@
     <None Include="@(CefRedist64)">
       <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <PublishState>Include</PublishState>
       <Visible>false</Visible>
     </None>
     <None Include="@(CefSharpCommonBinaries64)">
       <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <PublishState>Include</PublishState>
       <Visible>false</Visible>
     </None>
   </ItemGroup>
@@ -48,21 +52,25 @@
     <None Include="@(CefRedist32)">
       <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <PublishState>Include</PublishState>
       <Visible>false</Visible>
     </None>
     <None Include="@(CefRedist64)">
       <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <PublishState>Include</PublishState>
       <Visible>false</Visible>
     </None>
     <None Include="@(CefSharpCommonBinaries32)">
       <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <PublishState>Include</PublishState>
       <Visible>false</Visible>
     </None>
     <None Include="@(CefSharpCommonBinaries64)">
       <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <PublishState>Include</PublishState>
       <Visible>false</Visible>
     </None>
   </ItemGroup>

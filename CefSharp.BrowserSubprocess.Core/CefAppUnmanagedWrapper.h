@@ -28,6 +28,10 @@ namespace CefSharp
         bool _focusedNodeChangedEnabled;
         bool _legacyBindingEnabled;
 
+        // The property names used to call bound objects
+        CefString _jsBindingPropertyName;
+        CefString _jsBindingPropertyNameCamelCase;
+
         // The serialized registered object data waiting to be used.
         gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
 

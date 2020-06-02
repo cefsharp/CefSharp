@@ -103,7 +103,10 @@
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
+    <Compile Include="Internals\FreezableBase.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
+    <Compile Include="Internals\MimeTypeMapping.cs" />
+    <Compile Include="JavascriptBindingSettings.cs" />
     <Compile Include="Internals\NoOpBrowserRefCounter.cs" />
     <Compile Include="Internals\PathCheck.cs" />
     <Compile Include="Internals\BrowserRefCounter.cs" />
@@ -111,10 +114,13 @@
     <Compile Include="Internals\CookieManagerDecorator.cs" />
     <Compile Include="Internals\ParentProcessMonitor.cs" />
     <Compile Include="Internals\HeaderNameValueCollection.cs" />
+    <Compile Include="Internals\StringCheck.cs" />
     <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
+    <Compile Include="ModelBinding\CamelCaseNamingConverter.cs" />
+    <Compile Include="ModelBinding\IJavascriptNameConverter.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
@@ -128,7 +134,6 @@
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
     <Compile Include="Event\JavascriptMessageReceivedEventArgs.cs" />
-    <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Handler\RequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Handler\ResourceRequestHandler.cs" />
@@ -323,7 +328,6 @@
     <Compile Include="Web\HtmlString.cs" />
     <Compile Include="Web\JsonString.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

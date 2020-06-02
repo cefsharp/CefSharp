@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Event;
+using CefSharp.ModelBinding;
 
 namespace CefSharp.Internals
 {
@@ -33,6 +34,7 @@ namespace CefSharp.Internals
     public class JavascriptObjectRepository : IJavascriptObjectRepository
     {
         public const string AllObjects = "All";
+        public const string LegacyObjects = "Legacy";
 
         private static long lastId;
 
@@ -64,9 +66,26 @@ namespace CefSharp.Internals
             get { return objects.Count > 0; }
         }
 
+        /// <summary>
+        /// Configurable settings for this repository, such as the property names CefSharp injects into the window.
+        /// </summary>
+        public JavascriptBindingSettings Settings { get; private set; }
+
+        public JavascriptObjectRepository()
+        {
+            Settings = new JavascriptBindingSettings();
+        }
+
         public bool IsBound(string name)
         {
             return objects.Values.Any(x => x.Name == name);
+        }
+
+        public List<JavascriptObject> GetLegacyBoundObjects()
+        {
+            RaiseResolveObjectEvent(LegacyObjects);
+
+            return objects.Values.Where(x => x.RootObject).ToList();
         }
 
         //Ideally this would internal, unfurtunately it's used in C++
@@ -118,15 +137,15 @@ namespace CefSharp.Internals
             }
         }
 
-        private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames, bool rootObject)
+        private JavascriptObject CreateJavascriptObject(bool rootObject, IJavascriptNameConverter nameConveter)
         {
             var id = Interlocked.Increment(ref lastId);
 
             var result = new JavascriptObject
             {
                 Id = id,
-                CamelCaseJavascriptNames = camelCaseJavascriptNames,
-                RootObject = rootObject
+                RootObject = rootObject,
+                NameConverter = nameConveter
             };
 
             objects[id] = result;
@@ -173,8 +192,20 @@ namespace CefSharp.Internals
                     "create your own Object and proxy the calls if you need to access a Window/Form/Control.", "value");
             }
 
-            var camelCaseJavascriptNames = options == null ? true : options.CamelCaseJavascriptNames;
-            var jsObject = CreateJavascriptObject(camelCaseJavascriptNames, rootObject: true);
+            IJavascriptNameConverter nameConverter = null;
+
+            //If a custom name converter was provided we'll use that
+            //as a preference
+            if (options != null && options.NameConverter != null)
+            {
+                nameConverter = options.NameConverter;
+            }
+            else if (options == null || options.CamelCaseJavascriptNames)
+            {
+                nameConverter = new CamelCaseJavascriptNameConverter();
+            }
+
+            var jsObject = CreateJavascriptObject(rootObject: true, nameConveter: nameConverter);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
@@ -182,7 +213,7 @@ namespace CefSharp.Internals
             jsObject.Binder = options?.Binder;
             jsObject.MethodInterceptor = options?.MethodInterceptor;
 
-            AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
+            AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false, nameConverter: nameConverter);
         }
 
         public void UnRegisterAll()
@@ -211,6 +242,7 @@ namespace CefSharp.Internals
             exception = "";
             result = null;
             JavascriptObject obj;
+
             if (!objects.TryGetValue(objectId, out obj))
             {
                 return false;
@@ -309,12 +341,12 @@ namespace CefSharp.Internals
                 //JavascriptObject and they are never released
                 if (!obj.IsAsync && result != null && IsComplexType(result.GetType()))
                 {
-                    var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames, rootObject: false);
+                    var jsObject = CreateJavascriptObject(rootObject: false, nameConveter: obj.NameConverter);
                     jsObject.Value = result;
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
-                    AnalyseObjectForBinding(jsObject, analyseMethods: false, analyseProperties: true, readPropertyValue: true, camelCaseJavascriptNames: obj.CamelCaseJavascriptNames);
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, analyseProperties: true, readPropertyValue: true, nameConverter: obj.NameConverter);
 
                     result = jsObject;
                 }
@@ -401,8 +433,8 @@ namespace CefSharp.Internals
         /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
         /// <param name="analyseProperties">Analyse properties for inclusion in metadata model</param>
         /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
-        /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods</param>
-        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool analyseProperties, bool readPropertyValue, bool camelCaseJavascriptNames)
+        /// <param name="nameConverter">convert names of properties/methods</param>
+        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool analyseProperties, bool readPropertyValue, IJavascriptNameConverter nameConverter)
         {
             if (obj.Value == null)
             {
@@ -425,7 +457,7 @@ namespace CefSharp.Internals
                         continue;
                     }
 
-                    var jsMethod = CreateJavaScriptMethod(methodInfo, camelCaseJavascriptNames);
+                    var jsMethod = CreateJavaScriptMethod(methodInfo, nameConverter);
                     obj.Methods.Add(jsMethod);
                 }
             }
@@ -444,16 +476,16 @@ namespace CefSharp.Internals
                         continue;
                     }
 
-                    var jsProperty = CreateJavaScriptProperty(propertyInfo, camelCaseJavascriptNames);
+                    var jsProperty = CreateJavaScriptProperty(propertyInfo, nameConverter);
                     if (jsProperty.IsComplexType)
                     {
-                        var jsObject = CreateJavascriptObject(camelCaseJavascriptNames, rootObject: false);
+                        var jsObject = CreateJavascriptObject(rootObject: false, nameConveter: nameConverter);
                         jsObject.Name = propertyInfo.Name;
-                        jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
+                        jsObject.JavascriptName = nameConverter == null ? propertyInfo.Name : nameConverter.ConvertToJavascript(propertyInfo.Name);
                         jsObject.Value = jsProperty.GetValue(obj.Value);
                         jsProperty.JsObject = jsObject;
 
-                        AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, analyseProperties: true, readPropertyValue: readPropertyValue, camelCaseJavascriptNames: camelCaseJavascriptNames);
+                        AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, analyseProperties: true, readPropertyValue: readPropertyValue, nameConverter: nameConverter);
                     }
                     else if (readPropertyValue)
                     {
@@ -469,12 +501,12 @@ namespace CefSharp.Internals
             ResolveObject?.Invoke(this, new JavascriptBindingEventArgs(this, name));
         }
 
-        private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo, bool camelCaseJavascriptNames)
+        private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo, IJavascriptNameConverter nameConverter)
         {
             var jsMethod = new JavascriptMethod();
 
             jsMethod.ManagedName = methodInfo.Name;
-            jsMethod.JavascriptName = GetJavascriptName(methodInfo.Name, camelCaseJavascriptNames);
+            jsMethod.JavascriptName = nameConverter == null ? methodInfo.Name : nameConverter.ConvertToJavascript(methodInfo.Name);
             jsMethod.Function = methodInfo.Invoke;
             jsMethod.ParameterCount = methodInfo.GetParameters().Length;
             jsMethod.Parameters = methodInfo.GetParameters()
@@ -489,12 +521,12 @@ namespace CefSharp.Internals
             return jsMethod;
         }
 
-        private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo, bool camelCaseJavascriptNames)
+        private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo, IJavascriptNameConverter nameConverter)
         {
             var jsProperty = new JavascriptProperty();
 
             jsProperty.ManagedName = propertyInfo.Name;
-            jsProperty.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
+            jsProperty.JavascriptName = nameConverter == null ? propertyInfo.Name : nameConverter.ConvertToJavascript(propertyInfo.Name);
             jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
@@ -531,21 +563,6 @@ namespace CefSharp.Internals
             }
 
             return !baseType.IsPrimitive && baseType != typeof(string);
-        }
-
-        private static string GetJavascriptName(string str, bool camelCaseJavascriptNames)
-        {
-            if (!camelCaseJavascriptNames)
-            {
-                return str;
-            }
-
-            if (string.IsNullOrEmpty(str))
-            {
-                return string.Empty;
-            }
-
-            return char.ToLowerInvariant(str[0]) + str.Substring(1);
         }
     }
 }
