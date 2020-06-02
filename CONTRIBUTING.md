@@ -18,18 +18,20 @@ The upstream [`CEF` forum](http://magpcss.org/ceforum/) is a valuable resource, 
 
 It maybe helpful to run the `cefclient` application and compare output with `CefSharp`. The `WinForms` and `WPF` versions use two different rendering modes, `WPF` uses Offscreen Rendering (`OSR`). `OffScreen` also uses `OSR` mode.
 
-- Download one of the following:
-    - For x86 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.36%2Bg90301bd%2Bchromium-79.0.3945.130_windows32_client.tar.bz2
-    - For x64 download http://opensource.spotify.com/cefbuilds/cef_binary_79.1.36%2Bg90301bd%2Bchromium-79.0.3945.130_windows64_client.tar.bz2
-- Extract and run cefclient.exe
-    - If you are using WPF/OffScreen run
-    ```
-    cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --disable-gpu-compositing --no-sandbox --disable-site-isolation-trials
-    ```
-    - If you are using WinForms run
-    ```
-    cefclient.exe --multi-threaded-message-loop --no-sandbox --disable-site-isolation-trials
-    ```
+  - Download one of the following:
+    - For x86 download http://opensource.spotify.com/cefbuilds/cef_binary_81.3.10%2Bgb223419%2Bchromium-81.0.4044.138_windows32_client.tar.bz2
+    - For x64 download http://opensource.spotify.com/cefbuilds/cef_binary_81.3.10%2Bgb223419%2Bchromium-81.0.4044.138_windows64_client.tar.bz2
+	- Extract and run cefclient.exe
+		- If you are using WPF/OffScreen run
+		```
+		cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --no-sandbox --disable-site-isolation-trials
+		```
+		- If you are using WinForms run
+		```
+		cefclient.exe --multi-threaded-message-loop --no-sandbox --disable-site-isolation-trials
+		```
+	- **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED ABOVE**
+    - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
 
 ### What should I include when creating an `Issue`?
 
