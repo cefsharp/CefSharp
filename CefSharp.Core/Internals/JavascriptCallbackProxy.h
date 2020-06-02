@@ -12,6 +12,7 @@
 #include "Internals\CefBrowserWrapper.h"
 
 using namespace System::Threading::Tasks;
+using namespace CefSharp::JavascriptBinding;
 
 namespace CefSharp
 {
@@ -20,6 +21,7 @@ namespace CefSharp
         private ref class JavascriptCallbackProxy : public IJavascriptCallback
         {
         private:
+            //TODO: Code Cleanup: Change to WeakReference<IBrowserAdapter^>^
             WeakReference^ _browserAdapter;
             JavascriptCallback^ _callback;
             PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
@@ -27,6 +29,7 @@ namespace CefSharp
 
             CefRefPtr<CefProcessMessage> CreateDestroyMessage();
             IBrowser^ GetBrowser();
+            IJavascriptNameConverter^ GetJavascriptNameConverter();
             void DisposedGuard();
         public:
             JavascriptCallbackProxy(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserAdapter)

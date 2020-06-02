@@ -95,7 +95,7 @@ namespace CefSharp.Internals
         public JavascriptObjectRepository()
         {
             Settings = new JavascriptBindingSettings();
-            nameConverter = new CamelCaseJavascriptNameConverter();
+            nameConverter = new LegacyCamelCaseJavascriptNameConverter();
         }
 
         public bool IsBound(string name)

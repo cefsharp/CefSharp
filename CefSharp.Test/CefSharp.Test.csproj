@@ -128,8 +128,11 @@
     <Compile Include="Framework\BinderFacts.cs" />
     <Compile Include="Framework\AsyncExtensionFacts.cs" />
     <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />
+    <Compile Include="Framework\CamelCaseNamingConverterFacts.cs" />
+    <Compile Include="Framework\LegacyCamelCaseJavascriptNameConverterFacts.cs" />
     <Compile Include="Framework\MimeTypeMappingFacts.cs" />
     <Compile Include="Framework\PathCheckFacts.cs" />
+    <Compile Include="Framework\TestMemberInfo.cs" />
     <Compile Include="JavascriptBinding\IntegrationTestFacts.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
     <Compile Include="CefSharpXunitTestFramework.cs" />

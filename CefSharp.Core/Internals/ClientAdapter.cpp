@@ -1328,7 +1328,7 @@ namespace CefSharp
                     argList->SetBool(1, result->Success);
                     if (result->Success)
                     {
-                        SerializeV8Object(argList, 2, result->Result);
+                        SerializeV8Object(argList, 2, result->Result, result->NameConverter);
                     }
                     else
                     {

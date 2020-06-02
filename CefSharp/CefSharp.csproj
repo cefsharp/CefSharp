@@ -110,7 +110,6 @@
     <Compile Include="Internals\IBrowserRefCounter.cs" />
     <Compile Include="Internals\MimeTypeMapping.cs" />
     <Compile Include="IRegistration.cs" />
-    <Compile Include="JavascriptBindingSettings.cs" />
     <Compile Include="JavascriptBinding\JavascriptBindingSettings.cs" />
     <Compile Include="Internals\NoOpBrowserRefCounter.cs" />
     <Compile Include="Internals\PathCheck.cs" />
@@ -124,8 +123,9 @@
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
-    <Compile Include="JavascriptBinding\CamelCaseNamingConverter.cs" />
+    <Compile Include="JavascriptBinding\CamelCaseJavascriptNameConverter.cs" />
     <Compile Include="JavascriptBinding\IJavascriptNameConverter.cs" />
+    <Compile Include="JavascriptBinding\LegacyCamelCaseJavascriptNameConverter.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />

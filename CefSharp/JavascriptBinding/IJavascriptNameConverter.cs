@@ -19,5 +19,17 @@ namespace CefSharp.JavascriptBinding
         /// <param name="memberInfo">property/field/method</param>
         /// <returns>javascript name</returns>
         string ConvertToJavascript(MemberInfo memberInfo);
+
+        /// <summary>
+        /// This method exists for backwards compatability reasons, historically
+        /// only the bound methods/fields/properties were converted. Objects returned
+        /// from a method call were not translated. To preserve this functionality
+        /// for upgrading users we split this into two methods. Typically thie method
+        /// would return the same result as <see cref="ConvertToJavascript(string)"/>
+        /// Issue #2442
+        /// </summary>
+        /// <param name="memberInfo">property/field/method</param>
+        /// <returns>javascript name</returns>
+        string ConvertReturnedObjectPropertyAndFieldToNameJavascript(MemberInfo memberInfo);
     }
 }
