@@ -43,6 +43,11 @@ namespace CefSharp
                 throw new ArgumentNullException("data", "Please provide a valid array");
             }
 
+            if (data.Length == 0)
+            {
+                throw new Exception("Unable to load byte[] with length 0.");
+            }
+
             MimeType = mimeType;
             Data = data;
         }
