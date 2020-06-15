@@ -81,6 +81,86 @@ namespace CefSharp.ModelBinding
 
 
         /// <summary>
+        ///     Attempts to bind an object to a
+        ///     <see cref="T:ValueTuple" /><br />
+        ///     <see cref="T:ValueTuple{T1}" /><br />
+        ///     <see cref="T:ValueTuple{T1, T2}" /><br />
+        ///     <see cref="T:ValueTuple{T1, T2, T3}" /><br />
+        ///     <see cref="T:ValueTuple{T1, T2, T3, T4}" /><br />
+        ///     <see cref="T:ValueTuple{T1, T2, T3, T4, T5}" /><br />
+        ///     <see cref="T:ValueTuple{T1, T2, T3, T4, T5, T6}" /><br />
+        ///     <see cref="T:ValueTuple{T1, T2, T3, T4, T5, T6, T7}" /><br />
+        ///     <see cref="T:ValueTuple{T1, T2, T3, T4, T5, T6, T7, TRest}" /><br />
+        /// </summary>
+        /// <param name="nativeType">
+        ///     the generic <see cref="T:ValueTuple" /> the <paramref name="javaScriptObject" /> will be bound
+        ///     to.
+        /// </param>
+        /// <param name="javaScriptObject">A collection that contains all the components of the tuple.</param>
+        /// <returns>A tuple I'd fucking hope</returns>
+        private object BindValueTuple(Type nativeType, object javaScriptObject)
+        {
+            if (!(javaScriptObject is IList<object> components))
+            {
+                return null;
+            }
+
+            // the zero index of the tuple
+            const int index = 0;
+            // all of the component types
+            var types = (from field in nativeType.GetTypeInfo().DeclaredFields where field.IsPublic && !field.IsStatic select field.FieldType).ToArray();
+            if (components.Count != types.Length)
+            {
+                throw new ArgumentOutOfRangeException($"The source object contains {components.Count} components. The number of component types found is {types.Length}.");
+            }
+
+            // The ValueTuple struct contains static methods for creating value tuples.
+            // However generic type arguments aren't assigned which means the types technically are mismatched. 
+            // (=> ValueTuple<object, object> is not the same as ValueTuple<SpecialObject, ManagedCode>.
+            // So we use reflection to dynamically build the ValueTuple.Create call with our generic arguments.
+            object Create(params object[] args)
+            {
+                return nativeType.GetMethods().First(m =>
+                {
+                    if (!string.Equals(m.Name, "Create", StringComparison.Ordinal))
+                    {
+                        return false;
+                    }
+
+                    return m.GetParameters().Length == types.Length;
+                }).MakeGenericMethod(types).Invoke(null, args);
+            }
+
+            // Who's That Pokémon?!
+            // Using Activator.CreateInstance and a LINQ sort was less code,
+            // but it throws an exception when not running .NET 4.7.2+
+            switch ((components.Count - index))
+            {
+                case 0:
+                    return null;
+                case 1:
+                    return Create(Bind(components[index], types[index]));
+                case 2:
+                    return Create(Bind(components[index], types[index]), Bind(components[index + 1], types[index + 1]));
+                case 3:
+                    return Create(Bind(components[index], types[index]), Bind(components[index + 1], types[index + 1]), Bind(components[index + 2], types[index + 2]));
+                case 4:
+                    return Create(Bind(components[index], types[index]), Bind(components[index + 1], types[index + 1]), Bind(components[index + 2], types[index + 2]), Bind(components[index + 3], types[index + 3]));
+                case 5:
+                    return Create(Bind(components[index], types[index]), Bind(components[index + 1], types[index + 1]), Bind(components[index + 2], types[index + 2]), Bind(components[index + 3], types[index + 3]), Bind(components[index + 4], types[index + 4]));
+                case 6:
+                    return Create(Bind(components[index], types[index]), Bind(components[index + 1], types[index + 1]), Bind(components[index + 2], types[index + 2]), Bind(components[index + 3], types[index + 3]), Bind(components[index + 4], types[index + 4]), Bind(components[index + 5], types[index + 5]));
+                case 7:
+                    return Create(Bind(components[index], types[index]), Bind(components[index + 1], types[index + 1]), Bind(components[index + 2], types[index + 2]), Bind(components[index + 3], types[index + 3]), Bind(components[index + 4], types[index + 4]), Bind(components[index + 5], types[index + 5]), Bind(components[index + 6], types[index + 6]));
+                case 8:
+                    return Create(Bind(components[index], types[index]), Bind(components[index + 1], types[index + 1]), Bind(components[index + 2], types[index + 2]), Bind(components[index + 3], types[index + 3]), Bind(components[index + 4], types[index + 4]), Bind(components[index + 5], types[index + 5]), Bind(components[index + 6], types[index + 6]), Bind(components[index + 7], types[index + 7]));
+                default:
+                    return Create(Bind(components[index], types[index]), Bind(components[index + 1], types[index + 1]), Bind(components[index + 2], types[index + 2]), Bind(components[index + 3], types[index + 3]), Bind(components[index + 4], types[index + 4]), Bind(components[index + 5], types[index + 5]), Bind(components[index + 6], types[index + 6]), Bind(components.Skip(index + 6), components[index + 7].GetType()));
+            }
+        }
+
+
+        /// <summary>
         /// Binds a Javascript collection to a .NET collection
         /// </summary>
         /// <param name="nativeType">The native collection type.</param>

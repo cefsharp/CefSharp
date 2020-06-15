@@ -333,27 +333,6 @@ namespace CefSharp.ModelBinding
                 || sourceObject is decimal;
         }
 
-
-        /// <summary>
-        /// Checks if a type is a <see cref="Tuple"/>.
-        /// This check wouldn't need to be here if the version was bumped, which should be considered given every other version of .NET is EOL
-        /// </summary>
-        /// <param name="source">The type to check.</param>
-        /// <returns><see langword="true" /> if the type is a <see cref="Tuple"/> of any size, otherwise <see langword="false" />.</returns>
-        public static bool IsTupleType(this Type source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            // if the source is a class, is a generic type, then it might be an old Tuple type
-            if (source.IsClass && source.IsGenericType && TupleTypes.Contains(source))
-            {
-                return true;
-            }
-            return false;
-        }
-
-
         /// <summary>
         /// Supports ValueTypes even though CefSharp targets an older version
         /// </summary>
@@ -361,29 +340,24 @@ namespace CefSharp.ModelBinding
         /// <returns><see langword="true" /> if the type is a ValueTuple of any size, otherwise <see langword="false" />.</returns>
         public static bool IsValueTupleType(this Type source)
         {
-            // if the source is a structure. has any generic arguments, and it's name contains ValueTuple then return true.
-            // should allow CefSharp to support newer versions of .NET without the host application downgrading.
-            if (source.IsValueType && source.GetTypeInfo().GetGenericArguments().Any() && (source?.FullName?.Contains($"{nameof(System)}.Value{nameof(Tuple)}") ?? false))
+            var definition = source?.GetGenericTypeDefinition();
+            if (definition == null)
             {
-                return true;
+                return false;
             }
-            return false;
+            var definitionName = definition.FullName;
+            if (string.IsNullOrWhiteSpace(definitionName))
+            {
+                return false;
+            }
+            return string.Equals(definitionName, "System.ValueTuple`1", StringComparison.InvariantCulture) ||
+                string.Equals(definitionName, "System.ValueTuple`2", StringComparison.InvariantCulture) ||
+                string.Equals(definitionName, "System.ValueTuple`3", StringComparison.InvariantCulture) ||
+                string.Equals(definitionName, "System.ValueTuple`4", StringComparison.InvariantCulture) ||
+                string.Equals(definitionName, "System.ValueTuple`5", StringComparison.InvariantCulture) ||
+                string.Equals(definitionName, "System.ValueTuple`6", StringComparison.InvariantCulture) ||
+                string.Equals(definitionName, "System.ValueTuple`7", StringComparison.InvariantCulture);
         }
-
-        /// <summary>
-        /// A HashSet which contains all the different <see cref="Tuple"/> types for quick comparision.
-        /// </summary>
-        private static readonly HashSet<Type> TupleTypes = new HashSet<Type>(
-            new[] {
-                typeof(Tuple<>),
-                typeof(Tuple<,>),
-                typeof(Tuple<,,>),
-                typeof(Tuple<,,,>),
-                typeof(Tuple<,,,,>),
-                typeof(Tuple<,,,,,>),
-                typeof(Tuple<,,,,,,>),
-                typeof(Tuple<,,,,,,,>)}
-        );
 
 
         /// <summary>

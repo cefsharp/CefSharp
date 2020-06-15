@@ -126,7 +126,7 @@ namespace CefSharp.ModelBinding
             if (value is ICollection collection)
                 return SerializeCollection(collection);
             // serialize tuples so they are usable
-            if (resultType.IsTupleType() || resultType.IsValueTupleType())
+            if (resultType.IsValueTupleType())
                 return SerializeTuple(value);
             // no conversion necessary other than a cast 
             if (resultType.IsEnum)
@@ -229,12 +229,7 @@ namespace CefSharp.ModelBinding
         private static List<object> SerializeTuple(object tuple)
         {
             // ValueTuples are structs, so we get it objects fields
-            if (tuple.GetType().IsValueTupleType())
-            {
-                return tuple.GetType().GetFields().Select(field => SerializeObject(field.GetValue(tuple))).ToList();
-            }
-            // Tuples are classes so we get the properties
-            return tuple.GetType().GetProperties().Select(property => SerializeObject(property.GetValue(tuple))).ToList();
+            return tuple.GetType().GetFields().Select(field => SerializeObject(field.GetValue(tuple))).ToList();
         }
 
         /// <summary>
