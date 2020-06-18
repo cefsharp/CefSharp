@@ -105,6 +105,11 @@ namespace CefSharp
             Stream = stream;
             AutoDisposeStream = autoDisposeStream;
             Charset = charset;
+
+            //https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+            //Potential workaround for requests coming from different scheme
+            //e.g. request from https made to myScheme
+            Headers.Add("Access-Control-Allow-Origin", "*");
         }
 
         bool IResourceHandler.Open(IRequest request, out bool handleRequest, ICallback callback)

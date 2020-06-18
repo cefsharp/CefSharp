@@ -50,18 +50,18 @@ namespace CefSharp
             {
                 ThrowIfDisposed();
 
+                //Only free the callback when cancel called 
+                //Need to be able to pause/resume #3145
                 _callback->Pause();
-
-                delete this;
             }
 
             virtual void Resume()
             {
                 ThrowIfDisposed();
 
+                //Only free the callback when cancel called 
+                //Need to be able to pause/resume #3145
                 _callback->Resume();
-
-                _callback = NULL;
             }
         };
     }
