@@ -11,7 +11,7 @@ Got a quick question? Jump on [![Gitter](https://badges.gitter.im/Join%20Chat.sv
 
 CefSharp is [BSD](https://opensource.org/licenses/BSD-3-Clause "BSD License") licensed, so it can be used in both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file. 
 
-If you like and use CefSharp please consider signing up for a small monthly donation, even $25 can help tremendously. See [Financial Support](#Financial-Support) for more details.
+If you like and use CefSharp please consider signing up for a small monthly donation, even $20 can help tremendously. See [Financial Support](#Financial-Support) for more details.
 
 ## Releases
 
@@ -103,7 +103,7 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 To continue developing/supporting the project I (@amaitland) am asking for financial contributions. Donations of any size are greatly appreciated!
 
-Recurring contributions can be made through [GitHub Sponsors](https://github.com/sponsors/amaitland) it only takes a GitHub account and a credit card.  Currently GitHub is **doubling(!)** all pledges so is very much the preferred method of donation.  I can also take contributions through [PayPal](https://paypal.me/AlexMaitland).
+Recurring contributions can be made through [GitHub Sponsors](https://github.com/sponsors/amaitland) it only takes a GitHub account and a credit card.  Currently GitHub is **doubling(!)** all pledges so is very much the preferred method of donation. I can also take contributions through [PayPal](https://paypal.me/AlexMaitland).
 
 Now that I (@amaitland) am a stay at home dad your contributions are the only reason I'm allowed to continue working on the project. Without continued funding the time I currently spend on the project will have to be put into finding other paid work.
 
