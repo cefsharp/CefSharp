@@ -81,6 +81,9 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("allow-running-insecure-content"); //By default, an https page cannot run JavaScript, CSS or plugins from http URLs. This provides an override to get the old insecure behavior. Only available in 47 and above.
             //https://peter.sh/experiments/chromium-command-line-switches/#disable-site-isolation-trials
             //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
+            //NOTE: Running the Network Service in Process is not something CEF officially supports
+            //It may or may not work for newer versions.
+            //settings.CefCommandLineArgs.Add("enable-features", "CastMediaRouteProvider,NetworkServiceInProcess");
 
             //settings.CefCommandLineArgs.Add("enable-logging"); //Enable Logging for the Renderer process (will open with a cmd prompt and output debug messages - use in conjunction with setting LogSeverity = LogSeverity.Verbose;)
             //settings.LogSeverity = LogSeverity.Verbose; // Needed for enable-logging to output messages
