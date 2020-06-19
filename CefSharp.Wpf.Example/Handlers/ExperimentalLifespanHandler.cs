@@ -30,7 +30,7 @@ namespace CefSharp.Wpf.Example.Handlers
             chromiumWebBrowser.Dispatcher.Invoke(() =>
             {
                 var owner = Window.GetWindow(chromiumWebBrowser);
-                popupChromiumWebBrowser = new ChromiumWebBrowser(targetUrl);
+                popupChromiumWebBrowser = new ChromiumWebBrowser();
 
                 popupChromiumWebBrowser.SetAsPopup();
                 popupChromiumWebBrowser.LifeSpanHandler = this;
