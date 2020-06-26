@@ -261,6 +261,8 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
+    <ClInclude Include="Internals\CefRegistrationWrapper.h" />
     <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefCookieAccessFilterAdapter.h" />
     <ClInclude Include="Internals\CefExtensionHandlerAdapter.h" />

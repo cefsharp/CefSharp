@@ -57,6 +57,86 @@ namespace CefSharp
         bool HasDevTools { get; }
 
         /// <summary>
+        /// Send a method call message over the DevTools protocol. <paramref name="message"/> must be a
+        /// UTF8-encoded JSON dictionary that contains "id" (int), "method" (string)
+        /// and "params" (dictionary, optional) values. See the DevTools protocol
+        /// documentation at https://chromedevtools.github.io/devtools-protocol/ for
+        /// details of supported methods and the expected "params" dictionary contents.
+        /// <paramref name="message"/> will be copied if necessary. This method will return true if
+        /// called on the CEF UI thread and the message was successfully submitted for
+        /// validation, otherwise false. Validation will be applied asynchronously and
+        /// any messages that fail due to formatting errors or missing parameters may
+        /// be discarded without notification. Prefer ExecuteDevToolsMethod if a more
+        /// structured approach to message formatting is desired.
+        ///
+        /// Every valid method call will result in an asynchronous method result or
+        /// error message that references the sent message "id". Event messages are
+        /// received while notifications are enabled (for example, between method calls
+        /// for "Page.enable" and "Page.disable"). All received messages will be
+        /// delivered to the observer(s) registered with AddDevToolsMessageObserver.
+        /// See <see cref="IDevToolsMessageObserver.OnDevToolsMessage"/>  documentation for details
+        /// of received message contents.
+        ///
+        /// Usage of the SendDevToolsMessage, ExecuteDevToolsMethod and
+        /// AddDevToolsMessageObserver methods does not require an active DevTools
+        /// front-end or remote-debugging session. Other active DevTools sessions will
+        /// continue to function independently. However, any modification of global
+        /// browser state by one session may not be reflected in the UI of other
+        /// sessions.
+        ///
+        /// Communication with the DevTools front-end (when displayed) can be logged
+        /// for development purposes by passing the
+        /// `--devtools-protocol-log-file=<path>` command-line flag.
+        /// </summary>
+        /// <param name="messageAsJson">must be a UTF8-encoded JSON dictionary that contains "id" (int), "method" (string)
+        /// and "params" (dictionary, optional) values. See comments above for further details.</param>
+        /// <returns>returns true if called on the CEF UI thread and the message was successfully submitted for
+        /// validation, otherwise false.</returns>
+        bool SendDevToolsMessage(string messageAsJson);
+
+        /// <summary>
+        /// Execute a method call over the DevTools protocol. This is a more structured
+        /// version of SendDevToolsMessage.
+        /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
+        /// of supported methods and the expected <paramref name="paramsAsJson"/> dictionary contents.
+        /// See the SendDevToolsMessage documentation for additional usage information.
+        /// </summary>
+        /// <param name="messageId">is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned
+        /// automatically based on previous values)</param>
+        /// <param name="method">is the method name</param>
+        /// <param name="paramsAsJson">are the method parameters represented as a JSON string,
+        /// which may be empty.</param>
+        /// <returns>return the assigned message Id if called on the CEF UI thread and the message was
+        /// successfully submitted for validation, otherwise 0</returns>
+        int ExecuteDevToolsMethod(int messageId, string method, string paramsAsJson);
+
+        /// <summary>
+        /// Execute a method call over the DevTools protocol. This is a more structured
+        /// version of SendDevToolsMessage.
+        /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
+        /// of supported methods and the expected <paramref name="paramsAsJson"/> dictionary contents.
+        /// See the SendDevToolsMessage documentation for additional usage information.
+        /// </summary>
+        /// <param name="messageId">is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned
+        /// automatically based on previous values)</param>
+        /// <param name="method">is the method name</param>
+        /// <param name="parameters">are the method parameters represented as a dictionary,
+        /// which may be empty.</param>
+        /// <returns>return the assigned message Id if called on the CEF UI thread and the message was
+        /// successfully submitted for validation, otherwise 0</returns>
+        int ExecuteDevToolsMethod(int messageId, string method, IDictionary<string, object> parameters = null);
+
+        /// <summary>
+        /// Add an observer for DevTools protocol messages (method results and events).
+        /// The observer will remain registered until the returned Registration object
+        /// is destroyed. See the SendDevToolsMessage documentation for additional
+        /// usage information.
+        /// </summary>
+        /// <param name="observer">DevTools observer</param>
+        /// <returns>The observer will remain registered until the returned IRegistration object is Disposed.</returns>
+        IRegistration AddDevToolsMessageObserver(IDevToolsMessageObserver observer);
+
+        /// <summary>
         /// Call this method when the user drags the mouse into the web view (before calling <see cref="DragTargetDragOver"/>/<see cref="DragTargetDragLeave"/>/<see cref="DragTargetDragDrop"/>).
         /// </summary>
         void DragTargetDragEnter(IDragData dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations);
