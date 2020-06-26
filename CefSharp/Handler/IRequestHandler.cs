@@ -30,6 +30,13 @@ namespace CefSharp
         bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect);
 
         /// <summary>
+        /// Called on the CEF UI thread when the window.document object of the main frame has been created.
+        /// </summary>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        void OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, IBrowser browser);
+
+        /// <summary>
         /// Called on the UI thread before OnBeforeBrowse in certain limited cases
         /// where navigating a new or different browser might be desirable. This
         /// includes user-initiated navigation that might open in a special way (e.g.
