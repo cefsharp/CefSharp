@@ -105,6 +105,8 @@
     <Compile Include="DefaultApp.cs" />
     <Compile Include="DevToolsExtensions.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
+    <Compile Include="Experimental\DevToolsExtensions.cs" />
+    <Compile Include="Experimental\TaskMethodDevToolsMessageObserver.cs" />
     <Compile Include="Internals\FreezableBase.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
     <Compile Include="Internals\MimeTypeMapping.cs" />

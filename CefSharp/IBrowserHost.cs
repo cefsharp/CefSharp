@@ -112,10 +112,10 @@ namespace CefSharp
 
         /// <summary>
         /// Execute a method call over the DevTools protocol. This is a more structured
-        /// version of SendDevToolsMessage.
+        /// version of <see cref="SendDevToolsMessage"/>.
         /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
         /// of supported methods and the expected <paramref name="paramsAsJson"/> dictionary contents.
-        /// See the SendDevToolsMessage documentation for additional usage information.
+        /// See the <see cref="SendDevToolsMessage"/> documentation for additional usage information.
         /// </summary>
         /// <param name="messageId">is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned
         /// automatically based on previous values)</param>
@@ -128,8 +128,8 @@ namespace CefSharp
 
         /// <summary>
         /// Add an observer for DevTools protocol messages (method results and events).
-        /// The observer will remain registered until the returned Registration object
-        /// is destroyed. See the SendDevToolsMessage documentation for additional
+        /// The observer will remain registered until the returned <see cref="IRegistration"/> object
+        /// is Disposed. See the <see cref="SendDevToolsMessage"/> documentation for additional
         /// usage information.
         /// </summary>
         /// <param name="observer">DevTools observer</param>

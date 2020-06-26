@@ -9,6 +9,7 @@ using System.IO;
 using System.Threading.Tasks;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
+using CefSharp.Experimental;
 
 namespace CefSharp.OffScreen.Example
 {
@@ -77,8 +78,9 @@ namespace CefSharp.OffScreen.Example
                 }
                 await LoadPageAsync(browser);
 
+
                 //Check preferences on the CEF UI Thread
-                await Cef.UIThreadTaskFactory.StartNew(delegate
+                await Cef.UIThreadTaskFactory.StartNew(async delegate
                 {
                     var preferences = requestContext.GetAllPreferences(true);
 
@@ -86,6 +88,8 @@ namespace CefSharp.OffScreen.Example
                     var doNotTrack = (bool)preferences["enable_do_not_track"];
 
                     Debug.WriteLine("DoNotTrack: " + doNotTrack);
+
+                    var screenShot = await browser.GetBrowser().CaptureScreenShotAsPng();
                 });
 
                 var onUi = Cef.CurrentlyOnThread(CefThreadIds.TID_UI);
