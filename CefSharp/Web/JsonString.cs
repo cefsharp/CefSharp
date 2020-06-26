@@ -31,6 +31,11 @@ namespace CefSharp.Web
             Json = json;
         }
 
+        public override string ToString()
+        {
+            return Json;
+        }
+
         /// <summary>
         /// Create a JsonString from the specfied object using the build in <see cref="DataContractJsonSerializer"/>
         /// </summary>

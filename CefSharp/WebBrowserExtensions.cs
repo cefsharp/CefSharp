@@ -1221,7 +1221,7 @@ namespace CefSharp
         /// </summary>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="browserHost">The browser host.</param>
-        private static void ThrowExceptionIfBrowserHostNull(IBrowserHost browserHost)
+        internal static void ThrowExceptionIfBrowserHostNull(IBrowserHost browserHost)
         {
             if (browserHost == null)
             {
