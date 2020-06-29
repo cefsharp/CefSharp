@@ -262,8 +262,6 @@ IRegistration^ CefBrowserHostWrapper::AddDevToolsMessageObserver(IDevToolsMessag
 {
     ThrowIfDisposed();
 
-    ThrowIfExecutedOnNonCefUiThread();
-
     auto registration = _browserHost->AddDevToolsMessageObserver(new CefDevToolsMessageObserverAdapter(observer));
 
     return gcnew CefRegistrationWrapper(registration);
