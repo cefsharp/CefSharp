@@ -595,7 +595,7 @@ namespace CefSharp.WinForms
                 }
 
                 //Dispose of BrowserSettings if we created it, if user created then they're responsible
-                if (browserSettings.FrameworkCreated)
+                if (browserSettings != null && browserSettings.FrameworkCreated)
                 {
                     browserSettings.Dispose();
                 }
