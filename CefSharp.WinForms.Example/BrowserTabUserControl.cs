@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -384,6 +385,13 @@ namespace CefSharp.WinForms.Example
             {
                 Browser.Load(url);
             }
+            else
+            {
+                var searchUrl = "https://www.google.com/search?q=" + WebUtility.HtmlEncode(url);
+
+                Browser.Load(searchUrl);
+            }
+
         }
 
         public async void CopySourceToClipBoardAsync()
