@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -387,7 +386,7 @@ namespace CefSharp.WinForms.Example
             }
             else
             {
-                var searchUrl = "https://www.google.com/search?q=" + WebUtility.HtmlEncode(url);
+                var searchUrl = "https://www.google.com/search?q=" + Uri.EscapeDataString(url);
 
                 Browser.Load(searchUrl);
             }
