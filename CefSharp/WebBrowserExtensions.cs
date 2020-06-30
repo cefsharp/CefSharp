@@ -1208,7 +1208,7 @@ namespace CefSharp
         /// </summary>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        private static void ThrowExceptionIfBrowserNull(this IBrowser browser)
+        internal static void ThrowExceptionIfBrowserNull(this IBrowser browser)
         {
             if (browser == null)
             {
