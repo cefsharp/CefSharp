@@ -107,9 +107,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Accessibility\AccessibilityNode.cs" />
+    <Compile Include="Accessibility\AccessibilityTree.cs" />
+    <Compile Include="Accessibility\BrowserAutomationPeer.cs" />
+    <Compile Include="Controls\ChromiumWebBrowserWithAccessibilitySupport.cs" />
     <Compile Include="Controls\CefSharpCommands.cs" />
     <Compile Include="Controls\ChromiumWebBrowserWithScreenshotSupport.cs" />
     <Compile Include="Controls\NonReloadingTabControl.cs" />
+    <Compile Include="Accessibility\TabControlAutomationPeer.cs" />
     <Compile Include="Controls\TouchKeyboard\InputPaneRcw.cs" />
     <Compile Include="Controls\TouchKeyboard\TouchKeyboardEventManager.cs" />
     <Compile Include="Handlers\AccessibilityHandler.cs" />

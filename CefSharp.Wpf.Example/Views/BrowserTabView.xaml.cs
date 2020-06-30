@@ -115,7 +115,7 @@ namespace CefSharp.Wpf.Example.Views
             //instance, it's still considered Experimental
             //browser.LifeSpanHandler = new ExperimentalLifespanHandler();
             browser.MenuHandler = new MenuHandler();
-            browser.AccessibilityHandler = new AccessibilityHandler();
+            browser.AccessibilityHandler = new AccessibilityHandler(browser);
             var downloadHandler = new DownloadHandler();
             downloadHandler.OnBeforeDownloadFired += OnBeforeDownloadFired;
             downloadHandler.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
