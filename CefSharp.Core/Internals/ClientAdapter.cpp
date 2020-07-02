@@ -648,6 +648,18 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnDocumentAvailableInMainFrame(CefRefPtr<CefBrowser> browser)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnDocumentAvailableInMainFrame(_browserControl, browserWrapper);
+            }
+        }
+
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, const CefString& originUrl, bool isProxy,
             const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
         {

@@ -384,6 +384,13 @@ namespace CefSharp.WinForms.Example
             {
                 Browser.Load(url);
             }
+            else
+            {
+                var searchUrl = "https://www.google.com/search?q=" + Uri.EscapeDataString(url);
+
+                Browser.Load(searchUrl);
+            }
+
         }
 
         public async void CopySourceToClipBoardAsync()

@@ -55,6 +55,11 @@ namespace CefSharp
             _disposables = gcnew HashSet<IDisposable^>();
         }
 
+        static bool CurrentOnUiThread()
+        {
+            return CefCurrentlyOn(CefThreadId::TID_UI);
+        }
+
     public:
 
         static property TaskFactory^ UIThreadTaskFactory;
@@ -215,6 +220,10 @@ namespace CefSharp
             UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
             IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
             FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
+
+            //Allows us to execute Tasks on the CEF UI thread in CefSharp.dll
+            CefThread::UiThreadTaskFactory = UIThreadTaskFactory;
+            CefThread::CurrentOnUiThreadDelegate = gcnew Func<bool>(&CurrentOnUiThread); ;
 
             //To allow FolderSchemeHandlerFactory to access GetMimeType we pass in a Func
             CefSharp::SchemeHandler::FolderSchemeHandlerFactory::GetMimeTypeDelegate = gcnew Func<String^, String^>(&GetMimeType);
@@ -472,6 +481,8 @@ namespace CefSharp
                     UIThreadTaskFactory = nullptr;
                     IOThreadTaskFactory = nullptr;
                     FileThreadTaskFactory = nullptr;
+                    CefThread::UiThreadTaskFactory = nullptr;
+                    CefThread::CurrentOnUiThreadDelegate = nullptr;
 
                     for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
                     {

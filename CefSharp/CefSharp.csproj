@@ -78,6 +78,7 @@
     <Compile Include="Callback\ICallback.cs" />
     <Compile Include="Callback\ICompletionCallback.cs" />
     <Compile Include="Callback\IDeleteCookiesCallback.cs" />
+    <Compile Include="Callback\IDevToolsMessageObserver.cs" />
     <Compile Include="Callback\IDownloadItemCallback.cs" />
     <Compile Include="Callback\IFileDialogCallback.cs" />
     <Compile Include="Callback\IGetExtensionResourceCallback.cs" />
@@ -102,10 +103,13 @@
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
+    <Compile Include="DevToolsExtensions.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
+    <Compile Include="Internals\CefThread.cs" />
     <Compile Include="Internals\FreezableBase.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
     <Compile Include="Internals\MimeTypeMapping.cs" />
+    <Compile Include="IRegistration.cs" />
     <Compile Include="JavascriptBindingSettings.cs" />
     <Compile Include="Internals\NoOpBrowserRefCounter.cs" />
     <Compile Include="Internals\PathCheck.cs" />

@@ -16,11 +16,11 @@ namespace CefSharp.Wpf.Example.Handlers
         bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
-            newBrowser = null;
+            //newBrowser = null;
 
             var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
-            ChromiumWebBrowser chromiumBrowser = null;
+            ChromiumWebBrowser popupChromiumWebBrowser = null;
 
             var windowX = (windowInfo.X == int.MinValue) ? double.NaN : windowInfo.X;
             var windowY = (windowInfo.Y == int.MinValue) ? double.NaN : windowInfo.Y;
@@ -30,13 +30,10 @@ namespace CefSharp.Wpf.Example.Handlers
             chromiumWebBrowser.Dispatcher.Invoke(() =>
             {
                 var owner = Window.GetWindow(chromiumWebBrowser);
-                chromiumBrowser = new ChromiumWebBrowser
-                {
-                    Address = targetUrl,
-                };
+                popupChromiumWebBrowser = new ChromiumWebBrowser();
 
-                chromiumBrowser.SetAsPopup();
-                chromiumBrowser.LifeSpanHandler = this;
+                popupChromiumWebBrowser.SetAsPopup();
+                popupChromiumWebBrowser.LifeSpanHandler = this;
 
                 var popup = new Window
                 {
@@ -44,7 +41,7 @@ namespace CefSharp.Wpf.Example.Handlers
                     Top = windowY,
                     Width = windowWidth,
                     Height = windowHeight,
-                    Content = chromiumBrowser,
+                    Content = popupChromiumWebBrowser,
                     Owner = owner,
                     Title = targetFrameName
                 };
@@ -69,7 +66,7 @@ namespace CefSharp.Wpf.Example.Handlers
                 };
             });
 
-            newBrowser = chromiumBrowser;
+            newBrowser = popupChromiumWebBrowser;
 
             return false;
         }

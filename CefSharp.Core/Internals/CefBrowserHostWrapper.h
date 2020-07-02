@@ -71,6 +71,11 @@ namespace CefSharp
                 bool get();
             }
 
+            virtual bool SendDevToolsMessage(String^ messageAsJson);
+            virtual int ExecuteDevToolsMethod(int messageId, String^ method, String^ paramsAsJson);
+            virtual int ExecuteDevToolsMethod(int messageId, String^ method, IDictionary<String^, Object^>^ paramaters);
+            virtual IRegistration^ AddDevToolsMessageObserver(IDevToolsMessageObserver^ observer);
+
             virtual void AddWordToDictionary(String^ word);
             virtual void ReplaceMisspelling(String^ word);
 

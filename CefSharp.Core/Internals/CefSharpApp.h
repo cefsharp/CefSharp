@@ -157,9 +157,9 @@ namespace CefSharp
                         CefString name = StringUtils::ToNative(kvp->Key);
                         CefString value = StringUtils::ToNative(kvp->Value);
 
-                        if (kvp->Key == "disable-features")
+                        if (kvp->Key == "disable-features" || kvp->Key == "enable-features")
                         {
-                            //Temp workaround so we can set the disable-features command line argument
+                            //Temp workaround so we can set the disable-features/enable-features command line argument
                             // See https://github.com/cefsharp/CefSharp/issues/2408
                             commandLine->AppendSwitchWithValue(name, value);
                         }
