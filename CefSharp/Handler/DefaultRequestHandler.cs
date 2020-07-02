@@ -187,5 +187,10 @@ namespace CefSharp.Handler
         public virtual void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
         {
         }
+
+        public virtual void OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
+
+        }
     }
 }
