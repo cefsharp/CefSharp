@@ -24,4 +24,12 @@
 		  <Visible>false</Visible>
     </None>
   </ItemGroup>
+
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="CefSharpWinForms_TransformX86Config" Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')" AfterTargets="_CopyAppConfigFile">
+    <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)app.config.x86.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
+  </Target>
+  <Target Name="CefSharpWinForms_TransformX64Config" Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x64')" AfterTargets="_CopyAppConfigFile">
+    <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)app.config.x64.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
+  </Target>
 </Project>
