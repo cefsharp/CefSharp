@@ -42,15 +42,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms.Example",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{A23AA466-1903-44F2-946D-25AD0500D56B}"
 	ProjectSection(SolutionItems) = preProject
+		NuGet\CefSharp.Common.app.config.x64.transform = NuGet\CefSharp.Common.app.config.x64.transform
+		NuGet\CefSharp.Common.app.config.x86.transform = NuGet\CefSharp.Common.app.config.x86.transform
 		NuGet\CefSharp.Common.nuspec = NuGet\CefSharp.Common.nuspec
 		NuGet\CefSharp.Common.props = NuGet\CefSharp.Common.props
 		NuGet\CefSharp.Common.targets = NuGet\CefSharp.Common.targets
+		NuGet\CefSharp.OffScreen.app.config.x64.transform = NuGet\CefSharp.OffScreen.app.config.x64.transform
+		NuGet\CefSharp.OffScreen.app.config.x86.transform = NuGet\CefSharp.OffScreen.app.config.x86.transform
 		NuGet\CefSharp.OffScreen.nuspec = NuGet\CefSharp.OffScreen.nuspec
 		NuGet\CefSharp.OffScreen.props = NuGet\CefSharp.OffScreen.props
+		NuGet\CefSharp.OffScreen.targets = NuGet\CefSharp.OffScreen.targets
+		NuGet\CefSharp.WinForms.app.config.x64.transform = NuGet\CefSharp.WinForms.app.config.x64.transform
+		NuGet\CefSharp.WinForms.app.config.x86.transform = NuGet\CefSharp.WinForms.app.config.x86.transform
 		NuGet\CefSharp.WinForms.nuspec = NuGet\CefSharp.WinForms.nuspec
 		NuGet\CefSharp.WinForms.props = NuGet\CefSharp.WinForms.props
+		NuGet\CefSharp.WinForms.targets = NuGet\CefSharp.WinForms.targets
+		NuGet\CefSharp.Wpf.app.config.x64.transform = NuGet\CefSharp.Wpf.app.config.x64.transform
+		NuGet\CefSharp.Wpf.app.config.x86.transform = NuGet\CefSharp.Wpf.app.config.x86.transform
 		NuGet\CefSharp.Wpf.nuspec = NuGet\CefSharp.Wpf.nuspec
 		NuGet\CefSharp.Wpf.props = NuGet\CefSharp.Wpf.props
+		NuGet\CefSharp.Wpf.targets = NuGet\CefSharp.Wpf.targets
 		NuGet\Readme.txt = NuGet\Readme.txt
 	EndProjectSection
 EndProject
