@@ -2018,7 +2018,14 @@ namespace CefSharp.Wpf
         protected virtual IWindowInfo CreateOffscreenBrowserWindowInfo(IntPtr handle)
         {
             var windowInfo = new WindowInfo();
-            windowInfo.SetAsWindowless(handle);
+            if (handle == IntPtr.Zero)
+            {
+                windowInfo.SetAsWindowless(handle);
+            }
+            else
+            {
+                windowInfo.SetAsChild(handle);
+            }
             return windowInfo;
         }
 
