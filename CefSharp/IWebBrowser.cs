@@ -174,6 +174,11 @@ namespace CefSharp
         IFindHandler FindHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IAudioHandler" /> to handle audio events.
+        /// </summary>
+        IAudioHandler AudioHandler { get; set; }
+
+        /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>

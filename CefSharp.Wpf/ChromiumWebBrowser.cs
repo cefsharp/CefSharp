@@ -307,7 +307,10 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
-
+        /// <summary>
+        /// Implement <see cref="IAudioHandler" /> to handle audio events.
+        /// </summary>
+        public IAudioHandler AudioHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
         /// </summary>
