@@ -77,6 +77,7 @@
     <Compile Include="Callback\RunFileDialogCallback.cs" />
     <Compile Include="DevTools\DevToolsExtensions.cs" />
     <Compile Include="DevTools\TaskMethodDevToolsMessageObserver.cs" />
+    <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\ExampleResourceRequestHandler.cs" />
     <Compile Include="Handlers\ExtensionHandler.cs" />
     <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
