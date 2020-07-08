@@ -1,13 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <RootNamespace>CefSharp.Wpf.HwndHost</RootNamespace>
-	<CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
-	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CefSharp.Wpf.HwndHost.xml</DocumentationFile>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net462</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>CefSharp.Wpf.HwndHost</RootNamespace>
+        <CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CefSharp.Wpf.HwndHost.xml</DocumentationFile>
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <EmbedAllSources>true</EmbedAllSources>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CefSharp.Common" Version="83.4.20" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CefSharp.Common" Version="83.4.20" />
+    </ItemGroup>
 </Project>
