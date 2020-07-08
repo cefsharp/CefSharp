@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.HwndHost", "CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost.csproj", "{B0942DE1-D92A-4EB4-A407-47D2E223108B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Wpf.HwndHost", "CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost.csproj", "{B0942DE1-D92A-4EB4-A407-47D2E223108B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.HwndHost.Example", "CefSharp.Wpf.HwndHost.Example\CefSharp.Wpf.HwndHost.Example.csproj", "{9F7C8D25-3BD2-414B-9C6C-52E371E0C5E8}"
 EndProject

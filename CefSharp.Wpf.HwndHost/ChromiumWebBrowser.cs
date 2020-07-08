@@ -448,6 +448,11 @@ namespace CefSharp.Wpf.HwndHost
         public ICommand RedoCommand { get; private set; }
 
         /// <summary>
+        /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
+        /// </summary>
+        private long canExecuteJavascriptInMainFrameId;
+
+        /// <summary>
         /// A flag that indicates if you can execute javascript in the main frame.
         /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
         /// and false in IRenderProcessMessageHandler.OnContextReleased
@@ -836,8 +841,21 @@ namespace CefSharp.Wpf.HwndHost
             LoadError?.Invoke(this, args);
         }
 
-        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(bool canExecute)
+        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
         {
+            //When loading pages of a different origin the frameId changes
+            //For the first loading of a new origin the messages from the render process
+            //Arrive in a different order than expected, the OnContextCreated message
+            //arrives before the OnContextReleased, then the message for OnContextReleased
+            //incorrectly overrides the value
+            //https://github.com/cefsharp/CefSharp/issues/3021
+
+            if (frameId > canExecuteJavascriptInMainFrameId && !canExecute)
+            {
+                return;
+            }
+
+            canExecuteJavascriptInMainFrameId = frameId;
             CanExecuteJavascriptInMainFrame = canExecute;
         }
 
