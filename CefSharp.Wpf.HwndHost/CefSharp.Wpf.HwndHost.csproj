@@ -4,6 +4,7 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>CefSharp.Wpf.HwndHost</RootNamespace>
 	<CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CefSharp.Wpf.HwndHost.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
