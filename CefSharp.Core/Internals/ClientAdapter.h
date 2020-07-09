@@ -32,7 +32,8 @@ namespace CefSharp
             public CefDialogHandler,
             public CefDragHandler,
             public CefDownloadHandler,
-            public CefFindHandler
+            public CefFindHandler,
+            public CefAudioHandler
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
@@ -94,6 +95,7 @@ namespace CefSharp
             virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefFindHandler> GetFindHandler() OVERRIDE { return this; }
+            virtual DECL CefRefPtr<CefAudioHandler> GetAudioHandler() OVERRIDE { return this; }
             virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
 
 
@@ -184,6 +186,13 @@ namespace CefSharp
 
             //CefFindHandler
             virtual DECL void OnFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate) OVERRIDE;
+
+            //CefAudioHandler
+            virtual DECL bool GetAudioParameters(CefRefPtr<CefBrowser> browser, CefAudioParameters & params) OVERRIDE;
+            virtual DECL void OnAudioStreamStarted(CefRefPtr<CefBrowser> browser, const CefAudioParameters& params, int channels) OVERRIDE;
+            virtual DECL void OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, const float** data, int frames, int64 pts) OVERRIDE;
+            virtual DECL void OnAudioStreamStopped(CefRefPtr<CefBrowser> browser) OVERRIDE;
+            virtual DECL void OnAudioStreamError(CefRefPtr<CefBrowser> browser, const CefString& message) OVERRIDE;
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
