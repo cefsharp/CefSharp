@@ -49,7 +49,7 @@ namespace CefSharp
         /// <param name="options">binding options - camelCaseJavascriptNames default to true </param>
         /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
         ///                                     called before the underlying CEF browser is created.</exception>
-        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
+        /// <remarks>The registered methods can only be called in an async way, they will all return immediately and the resulting
         /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
         [Obsolete("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.")]
         public static void RegisterAsyncJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
@@ -241,7 +241,7 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         /// <param name="methodName">The javascript method name to execute.</param>
         /// <param name="args">the arguments to be passed as params to the method. Args are encoded using
-        /// <see cref="EncodeScriptParam"/>, you can provide a custom implementation if you require a custom implementation.</param>
+        /// <see cref="EncodeScriptParam"/>, you can provide a custom implementation if you require one.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
         {
             var script = GetScriptForJavascriptMethodWithArgs(methodName, args);
@@ -282,7 +282,7 @@ namespace CefSharp
         /// </remarks>
         /// <param name="webBrowser">The ChromiumWebBrowser instance this method extends.</param>
         /// <param name="script">The Javascript code that should be executed.</param>
-        /// <param name="oneTime">(Optional) The script will only be executed on first page load, subsiquent page loads will be ignored.</param>
+        /// <param name="oneTime">(Optional) The script will only be executed on first page load, subsequent page loads will be ignored.</param>
         public static void ExecuteScriptAsyncWhenPageLoaded(this IWebBrowser webBrowser, string script, bool oneTime = true)
         {
             var useLoadingStateChangedEventHandler = webBrowser.IsBrowserInitialized == false || oneTime == false;
