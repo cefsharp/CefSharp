@@ -66,7 +66,7 @@ namespace CefSharp.Wpf
         {
             if (CanExecuteChanged != null)
             {
-                CanExecuteChanged(this, new EventArgs());
+                CanExecuteChanged(this, EventArgs.Empty);
             }
         }
     }
