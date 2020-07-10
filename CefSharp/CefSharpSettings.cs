@@ -73,9 +73,11 @@ namespace CefSharp
         public static ProxyOptions Proxy { get; set; }
 
         /// <summary>
-        /// This influences the behavior of RegisterAsyncJsObject and how method calls are made.
-        /// By default the <see cref="Internals.MethodRunnerQueue"/> executes Tasks in a sync fashion.
-        /// Setting this property to true will allocate new Tasks on TaskScheduler.Default for execution.
+        /// This influences the behavior of how methods are executed for objects registered using
+        /// <see cref="IJavascriptObjectRepository.Register(string, object, bool, BindingOptions)"/>.
+        /// By default the <see cref="Internals.MethodRunnerQueue"/> queues Tasks for execution in a sequential order.
+        /// A single method is exeucted at a time. Setting this property to true allows for concurrent task execution.
+        /// Method calls are executed on <see cref="System.Threading.Tasks.TaskScheduler.Default"/> (ThreadPool).
         /// </summary>
         public static bool ConcurrentTaskExecution { get; set; }
 
