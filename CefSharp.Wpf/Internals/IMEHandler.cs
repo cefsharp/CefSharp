@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media;
 using CefSharp.Structs;
 
 namespace CefSharp.Wpf.Internals
@@ -15,9 +16,19 @@ namespace CefSharp.Wpf.Internals
     public static class ImeHandler
     {
         // Black SkColor value for underline.
-        internal const uint ColorUNDERLINE = 0xFF000000;
-        // Transparent SkColor value for background.
-        internal const uint ColorBKCOLOR = 0x00000000;
+        internal static uint ColorUNDERLINE = 0xFF000000;
+        // White SkColor value for background.
+        internal static uint ColorBKCOLOR = 0xFFFFFFFF;
+
+        public static void SetBackgroundColor(Color bkColor)
+        {
+            ColorBKCOLOR = ColorToUint(ref bkColor);
+        }
+
+        public static void SetUnderlineColor(Color ulColor)
+        {
+            ColorUNDERLINE = ColorToUint(ref ulColor);
+        }
 
         public static bool GetResult(IntPtr hwnd, uint lParam, out string text)
         {
@@ -43,6 +54,11 @@ namespace CefSharp.Wpf.Internals
             ImeNative.ImmReleaseContext(hwnd, hIMC);
 
             return ret;
+        }
+
+        private static uint ColorToUint(ref Color color)
+        {
+            return (uint)(((color.A << 24) | (color.R << 16) | (color.G << 8) | color.B) & 0xffffffffL);
         }
 
         private static bool GetString(IntPtr hIMC, uint lParam, uint type, out string text)

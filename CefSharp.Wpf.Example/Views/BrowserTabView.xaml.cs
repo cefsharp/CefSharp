@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Example.JavascriptBinding;
@@ -15,6 +16,7 @@ using CefSharp.Example.ModelBinding;
 using CefSharp.Example.PostMessage;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
+using CefSharp.Wpf.Experimental;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -30,6 +32,8 @@ namespace CefSharp.Wpf.Example.Views
             DataContextChanged += OnDataContextChanged;
 
             //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
+
+            browser.WpfKeyboardHandler = new WpfImeKeyboardHandler(browser, Colors.Transparent);
 
             browser.RequestHandler = new ExampleRequestHandler();
 

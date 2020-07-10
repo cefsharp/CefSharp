@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Wpf.Internals;
@@ -35,8 +36,19 @@ namespace CefSharp.Wpf.Experimental
         /// Constructor.
         /// </summary>
         /// <param name="owner">The owner.</param>
-        public WpfImeKeyboardHandler(ChromiumWebBrowser owner) : base(owner)
+        /// <param name="backgroundColor">SkColor value for background.</param>
+        /// <param name="underlineColor">SkColor value for underline.</param>
+        public WpfImeKeyboardHandler(ChromiumWebBrowser owner, Color? backgroundColor = null, Color? underlineColor = null) : base(owner)
         {
+            if(backgroundColor != null)
+            {
+                ImeHandler.SetBackgroundColor(backgroundColor.Value);
+            }
+
+            if (underlineColor != null)
+            {
+                ImeHandler.SetUnderlineColor(underlineColor.Value);
+            }
         }
 
         /// <summary>
