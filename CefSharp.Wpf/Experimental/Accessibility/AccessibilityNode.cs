@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -10,7 +9,7 @@ using System.Windows.Automation.Peers;
 using Point = System.Windows.Point;
 using Rect = System.Windows.Rect;
 
-namespace CefSharp.Wpf.Example.Accessibility
+namespace CefSharp.Wpf.Experimental.Accessibility
 {
     public class AccessibilityNode : FrameworkElementAutomationPeer
     {
@@ -92,7 +91,7 @@ namespace CefSharp.Wpf.Example.Accessibility
         protected override Rect GetBoundingRectangleCore()
         {
             CefSharp.Structs.Rect location = GetLocation();
-            Point point = CefPointToScreen(new Point(location.X, location.Y));
+            Point point = CefPointToScreen(location.X, location.Y);
             Size size = new Size(location.Width, location.Height);
             return new Rect(point, size);
         }
@@ -211,7 +210,9 @@ namespace CefSharp.Wpf.Example.Accessibility
         public void Update(IDictionary<string, IValue> node)
         {
             if (node == null || !node.ContainsKey("id"))
+            {
                 return;
+            }
 
             Id = node["id"].GetInt();
 
@@ -275,11 +276,13 @@ namespace CefSharp.Wpf.Example.Accessibility
             }
         }
 
-        public CefSharp.Structs.Rect GetLocation()
+        protected virtual CefSharp.Structs.Rect GetLocation()
         {
-            AccessibilityNode offsetNode = accessibilityTree.GetNode(offsetContainerId);
+            var offsetNode = accessibilityTree.GetNode(offsetContainerId);
             if (offsetNode == null)
+            {
                 return location;
+            }
 
             // Add offset from parent location
             int x = location.X;
@@ -287,34 +290,42 @@ namespace CefSharp.Wpf.Example.Accessibility
             CefSharp.Structs.Rect offsetNodeRect = offsetNode.GetLocation();
             x += offsetNodeRect.X - offsetNode.scroll.X;
             y += offsetNodeRect.Y - offsetNode.scroll.Y;
-            
+
             return new CefSharp.Structs.Rect(x, y, location.Width, location.Height);
         }
 
-        public List<AccessibilityNode> GetChildAccessibilityNodes()
+        public virtual List<AccessibilityNode> GetChildAccessibilityNodes()
         {
             return childIds.Select(x => accessibilityTree.GetNode(x)).Where(y => y != null).ToList();
         }
 
-        public bool HasFocus()
+        protected virtual bool HasFocus()
         {
             return Id == accessibilityTree.FocusedNodeId;
         }
 
-        private Point CefPointToScreen(Point p)
+        protected virtual Point CefPointToScreen(int x, int y)
         {
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
-            int pixelX = (int)(p.X / (g.DpiX / 96));
-            int pixelY = (int)(p.Y / (g.DpiY / 96));
-            return Owner.PointToScreen(new Point(pixelX, pixelY));
+            var browser = (ChromiumWebBrowser)Owner;
+
+            if (browser.DpiScaleFactor > 1)
+            {
+                //
+                int pixelX = (int)(x / (browser.DpiScaleFactor / 96));
+                int pixelY = (int)(y / (browser.DpiScaleFactor / 96));
+
+                return Owner.PointToScreen(new Point(pixelX, pixelY));
+            }
+
+            return Owner.PointToScreen(new Point(x, y));
         }
 
-        internal void OnChildrenChanged()
+        protected virtual void OnChildrenChanged()
         {
             RaiseAutomationEvent(AutomationEvents.StructureChanged);
         }
 
-        internal void OnFocusChanged()
+        public virtual void OnFocusChanged()
         {
             RaiseAutomationEvent(AutomationEvents.AutomationFocusChanged);
         }

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-             xmlns:cefSharpControls="clr-namespace:CefSharp.Wpf.Example.Controls"
              xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
@@ -424,7 +423,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
 
-                <cefSharpControls:ChromiumWebBrowserWithAccessibilitySupport x:Name="browser"
+                <cefSharp:ChromiumWebBrowser x:Name="browser"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
@@ -458,7 +457,7 @@
                             <Setter Property="MaxWidth" Value="500" />
                         </Style>
                     </cefSharp:ChromiumWebBrowser.Resources>-->
-                </cefSharpControls:ChromiumWebBrowserWithAccessibilitySupport>
+                </cefSharp:ChromiumWebBrowser>
             </Grid>
         </DockPanel>
     </Grid>

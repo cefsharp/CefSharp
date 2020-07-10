@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -2592,6 +2593,19 @@ namespace CefSharp.Wpf
 
                 e.Handled = true;
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            var handler = AccessibilityHandler as Experimental.Accessibility.AccessibilityHandler;
+
+            if (handler == null)
+            {
+                return base.OnCreateAutomationPeer();
+            }
+
+            return handler.AutomationPeer;
+
         }
 
         /// <summary>

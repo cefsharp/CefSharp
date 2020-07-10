@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Automation.Peers;
 
-namespace CefSharp.Wpf.Example.Accessibility
+namespace CefSharp.Wpf.Experimental.Accessibility
 {
     public class BrowserAutomationPeer : FrameworkElementAutomationPeer
     {
@@ -18,7 +18,7 @@ namespace CefSharp.Wpf.Example.Accessibility
             this.accessibilityTrees = new Dictionary<string, AccessibilityTree>();
         }
 
-        public void OnAccessibilityTreeChange(string treeId, IDictionary<string, IValue> accessibilityUpdateDictionary)
+        public virtual void OnAccessibilityTreeChange(string treeId, IDictionary<string, IValue> accessibilityUpdateDictionary)
         {
             AccessibilityTree accessibilityTree;
             if (accessibilityTrees.ContainsKey(treeId))

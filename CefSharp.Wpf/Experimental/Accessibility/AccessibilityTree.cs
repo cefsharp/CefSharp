@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Automation.Peers;
 
-namespace CefSharp.Wpf.Example.Accessibility
+namespace CefSharp.Wpf.Experimental.Accessibility
 {
     public class AccessibilityTree : FrameworkElementAutomationPeer
     {
@@ -26,7 +26,7 @@ namespace CefSharp.Wpf.Example.Accessibility
 
         protected override List<AutomationPeer> GetChildrenCore()
         {
-            AccessibilityNode rootNode = GetRootNode();
+            var rootNode = GetRootNode();
             if (rootNode == null)
             {
                 return new List<AutomationPeer>(0);
@@ -38,28 +38,32 @@ namespace CefSharp.Wpf.Example.Accessibility
             };
         }
 
-        public AccessibilityNode GetRootNode()
+        protected virtual AccessibilityNode GetRootNode()
         {
             return GetNode(RootNodeId);
         }
 
-        public AccessibilityNode GetFocusedNode()
+        protected virtual AccessibilityNode GetFocusedNode()
         {
             return GetNode(FocusedNodeId);
         }
 
-        public void Update(IDictionary<string, IValue> accessibilityUpdateDictionary)
+        public virtual void Update(IDictionary<string, IValue> accessibilityUpdateDictionary)
         {
             if (accessibilityUpdateDictionary == null || !accessibilityUpdateDictionary.ContainsKey("events"))
+            {
                 return;
+            }
 
-            IList<IValue> events = accessibilityUpdateDictionary["events"].GetList();
-            IList<IValue> updates = accessibilityUpdateDictionary["updates"].GetList();
+            var events = accessibilityUpdateDictionary["events"].GetList();
+            var updates = accessibilityUpdateDictionary["updates"].GetList();
             if (events == null || updates == null)
+            {
                 return;
+            }
 
-            List<IDictionary<string, IValue>> eventDictionaries = events.Select(x => x.GetDictionary()).Where(y => y.ContainsKey("event_type")).ToList();
-            List<IDictionary<string, IValue>> updateDictionaries = updates.Select(x => x.GetDictionary()).ToList();
+            var eventDictionaries = events.Select(x => x.GetDictionary()).Where(y => y.ContainsKey("event_type")).ToList();
+            var updateDictionaries = updates.Select(x => x.GetDictionary()).ToList();
 
             foreach (var eventDictionary in eventDictionaries)
             {
@@ -75,7 +79,7 @@ namespace CefSharp.Wpf.Example.Accessibility
             }
         }
 
-        private void UpdateLayout(IDictionary<string, IValue> eventDictionary, List<IDictionary<string, IValue>> updateDictionaries)
+        protected virtual void UpdateLayout(IDictionary<string, IValue> eventDictionary, List<IDictionary<string, IValue>> updateDictionaries)
         {
             foreach (var updateDictionary in updateDictionaries)
             {
@@ -114,7 +118,7 @@ namespace CefSharp.Wpf.Example.Accessibility
             }
         }
 
-        private void UpdateFocus(IDictionary<string, IValue> eventDictionary, List<IDictionary<string, IValue>> updateDictionaries)
+        protected virtual void UpdateFocus(IDictionary<string, IValue> eventDictionary, List<IDictionary<string, IValue>> updateDictionaries)
         {
             bool focusedNodeChanged = false;
 
@@ -130,7 +134,7 @@ namespace CefSharp.Wpf.Example.Accessibility
 
             if (focusedNodeChanged)
             {
-                AccessibilityNode focusedNode = GetFocusedNode();
+                var focusedNode = GetFocusedNode();
                 if (focusedNode == null)
                 {
                     foreach (var updateDictionary in updateDictionaries)
@@ -144,10 +148,12 @@ namespace CefSharp.Wpf.Example.Accessibility
             }
         }
 
-        private void RemoveNode(AccessibilityNode node)
+        protected virtual void RemoveNode(AccessibilityNode node)
         {
             if (node == null)
+            {
                 return;
+            }
 
             foreach (var child in node.GetChildAccessibilityNodes())
             {
@@ -157,20 +163,24 @@ namespace CefSharp.Wpf.Example.Accessibility
             accessibilityNodeMap.Remove(node.Id);
         }
 
-        private void UpdateNodes(IDictionary<string, IValue> update)
+        protected virtual void UpdateNodes(IDictionary<string, IValue> update)
         {
             if (update == null || !update.ContainsKey("nodes"))
+            {
                 return;
+            }
 
-            IList<IValue> nodes = update["nodes"].GetList();
+            var nodes = update["nodes"].GetList();
             foreach (var node in nodes)
             {
-                IDictionary<string, IValue> nodeDictionary = node.GetDictionary();
+                var nodeDictionary = node.GetDictionary();
                 if (nodeDictionary == null)
+                {
                     continue;
+                }
 
                 int nodeId = nodeDictionary["id"].GetInt();
-                AccessibilityNode accessibilityNode = GetNode(nodeId);
+                var accessibilityNode = GetNode(nodeId);
 
                 // Create if it is a new one
                 if (accessibilityNode != null)

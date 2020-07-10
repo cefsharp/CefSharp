@@ -79,6 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefSettings.cs" />
+    <Compile Include="Experimental\Accessibility\AccessibilityHandler.cs" />
+    <Compile Include="Experimental\Accessibility\AccessibilityNode.cs" />
+    <Compile Include="Experimental\Accessibility\AccessibilityTree.cs" />
+    <Compile Include="Experimental\Accessibility\BrowserAutomationPeer.cs" />
+    <Compile Include="Experimental\Accessibility\TabControlAutomationPeer.cs" />
     <Compile Include="Experimental\ChromiumWebBrowserWithTouchSupport.cs" />
     <Compile Include="Internals\DragOperationMaskExtensions.cs" />
     <Compile Include="Internals\ImeHandler.cs" />

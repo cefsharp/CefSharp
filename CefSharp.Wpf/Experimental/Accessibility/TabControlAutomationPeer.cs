@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Media;
 
-namespace CefSharp.Wpf.Example.Accessibility
+namespace CefSharp.Wpf.Experimental.Accessibility
 {
     /// <summary>
     /// Default TabControl's AutomationPeer doesn’t know anything about the controls within it, since they’re loaded dynamically.
@@ -20,14 +20,14 @@ namespace CefSharp.Wpf.Example.Accessibility
 
         protected override List<AutomationPeer> GetChildrenCore()
         {
-            List<AutomationPeer> list = base.GetChildrenCore();
+            var list = base.GetChildrenCore();
             list.AddRange(GetChildPeers(Owner));
             return list;
         }
 
         private List<AutomationPeer> GetChildPeers(UIElement element)
         {
-            List<AutomationPeer> list = new List<AutomationPeer>();
+            var list = new List<AutomationPeer>();
             for (var i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
             {
                 if (VisualTreeHelper.GetChild(element, i) is UIElement child)

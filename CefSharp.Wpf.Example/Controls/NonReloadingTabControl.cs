@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using TabControlAutomationPeer = CefSharp.Wpf.Example.Accessibility.TabControlAutomationPeer;
+using TabControlAutomationPeer = CefSharp.Wpf.Experimental.Accessibility.TabControlAutomationPeer;
 
 namespace CefSharp.Wpf.Example.Controls
 {

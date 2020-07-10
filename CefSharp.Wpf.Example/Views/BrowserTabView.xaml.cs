@@ -15,6 +15,7 @@ using CefSharp.Example.ModelBinding;
 using CefSharp.Example.PostMessage;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
+using CefSharp.Wpf.Experimental.Accessibility;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -115,7 +116,18 @@ namespace CefSharp.Wpf.Example.Views
             //instance, it's still considered Experimental
             //browser.LifeSpanHandler = new ExperimentalLifespanHandler();
             browser.MenuHandler = new MenuHandler();
+
+            //Enable experimental Accessibility support 
             browser.AccessibilityHandler = new AccessibilityHandler(browser);
+            browser.IsBrowserInitializedChanged += (sender, args) =>
+            {
+                if ((bool)args.NewValue)
+                {
+                    //Uncomment to enable support
+                    //browser.GetBrowserHost().SetAccessibilityState(CefState.Enabled);
+                }
+            };
+
             var downloadHandler = new DownloadHandler();
             downloadHandler.OnBeforeDownloadFired += OnBeforeDownloadFired;
             downloadHandler.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
