@@ -62,7 +62,7 @@ namespace CefSharp.Wpf.HwndHost.Internals
         /// </summary>
         public void RaiseCanExecuteChanged()
         {
-            CanExecuteChanged?.Invoke(this, new EventArgs());
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
