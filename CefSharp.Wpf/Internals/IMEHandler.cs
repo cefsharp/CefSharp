@@ -46,11 +46,6 @@ namespace CefSharp.Wpf.Internals
             return ret;
         }
 
-        private static uint ColorToUint(ref Color color)
-        {
-            return (uint)(((color.A << 24) | (color.R << 16) | (color.G << 8) | color.B) & 0xffffffffL);
-        }
-
         private static bool GetString(IntPtr hIMC, uint lParam, uint type, out string text)
         {
             text = string.Empty;
