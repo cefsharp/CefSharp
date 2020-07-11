@@ -6,7 +6,6 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using CefSharp.Example.Handlers;
-using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
