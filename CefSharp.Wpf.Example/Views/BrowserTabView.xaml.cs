@@ -8,7 +8,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Example.JavascriptBinding;
@@ -16,8 +15,6 @@ using CefSharp.Example.ModelBinding;
 using CefSharp.Example.PostMessage;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
-using CefSharp.Wpf.Experimental;
-using CefSharp.Wpf.Internals;
 
 namespace CefSharp.Wpf.Example.Views
 {

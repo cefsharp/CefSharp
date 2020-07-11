@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Wpf.Internals;
