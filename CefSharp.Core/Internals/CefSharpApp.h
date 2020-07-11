@@ -75,10 +75,12 @@ namespace CefSharp
 
             virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> commandLine) OVERRIDE
             {
+#ifndef NETCOREAPP
                 if (CefSharpSettings::WcfEnabled)
                 {
                     commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
                 }
+#endif
 
                 if (CefSharpSettings::SubprocessExitIfParentProcessClosed)
                 {

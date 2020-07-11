@@ -6,6 +6,7 @@ using System;
 using CefSharp.Enums;
 using CefSharp.Structs;
 using Point = System.Drawing.Point;
+using Range = CefSharp.Structs.Range;
 using Size = System.Drawing.Size;
 
 namespace CefSharp.OffScreen

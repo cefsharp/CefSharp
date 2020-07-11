@@ -11,6 +11,7 @@ using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Wpf.Internals;
 using Point = System.Windows.Point;
+using Range = CefSharp.Structs.Range;
 using Rect = CefSharp.Structs.Rect;
 
 namespace CefSharp.Wpf.Experimental

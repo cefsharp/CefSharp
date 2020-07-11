@@ -10,6 +10,7 @@
 #include "WcfEnabledSubProcess.h"
 #include "BrowserSubprocessExecutable.h"
 
+#ifndef NETCOREAPP
 using namespace System;
 using namespace CefSharp::Internals;
 
@@ -44,3 +45,4 @@ namespace CefSharp
         };
     }
 }
+#endif

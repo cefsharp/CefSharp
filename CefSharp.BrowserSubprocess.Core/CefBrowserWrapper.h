@@ -62,8 +62,10 @@ namespace CefSharp
         property int BrowserId;
         property bool IsPopup;
 
+#ifndef NETCOREAPP
         // This allows us to create the WCF proxies back to our parent process.
         property ChannelFactory<IBrowserProcess^>^ ChannelFactory;
+#endif
 
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;

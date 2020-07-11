@@ -21,6 +21,7 @@ using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
 using CursorType = CefSharp.Enums.CursorType;
 using Point = System.Windows.Point;
+using Range = CefSharp.Structs.Range;
 using Rect = CefSharp.Structs.Rect;
 using Size = System.Windows.Size;
 

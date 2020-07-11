@@ -5,6 +5,7 @@
 using System;
 using CefSharp.Enums;
 using CefSharp.Structs;
+using Range = CefSharp.Structs.Range;
 
 namespace CefSharp.OffScreen
 {
