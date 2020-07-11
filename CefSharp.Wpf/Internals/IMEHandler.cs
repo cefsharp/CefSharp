@@ -16,19 +16,9 @@ namespace CefSharp.Wpf.Internals
     public static class ImeHandler
     {
         // Black SkColor value for underline.
-        internal static uint ColorUNDERLINE = 0xFF000000;
+        public static uint ColorUNDERLINE = 0xFF000000;
         // White SkColor value for background.
-        internal static uint ColorBKCOLOR = 0xFFFFFFFF;
-
-        public static void SetBackgroundColor(Color bkColor)
-        {
-            ColorBKCOLOR = ColorToUint(ref bkColor);
-        }
-
-        public static void SetUnderlineColor(Color ulColor)
-        {
-            ColorUNDERLINE = ColorToUint(ref ulColor);
-        }
+        public static uint ColorBKCOLOR = 0xFFFFFFFF;
 
         public static bool GetResult(IntPtr hwnd, uint lParam, out string text)
         {

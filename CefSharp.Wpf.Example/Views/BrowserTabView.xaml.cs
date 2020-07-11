@@ -17,6 +17,7 @@ using CefSharp.Example.PostMessage;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
 using CefSharp.Wpf.Experimental;
+using CefSharp.Wpf.Internals;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -33,7 +34,14 @@ namespace CefSharp.Wpf.Example.Views
 
             //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
 
-            browser.WpfKeyboardHandler = new WpfImeKeyboardHandler(browser, Colors.Transparent);
+            //Please remove the comments below to use the Experimental WpfImeKeyboardHandler.
+            //browser.WpfKeyboardHandler = new WpfImeKeyboardHandler(browser);
+
+            //Please remove the comments below to specify the color of the CompositionUnderline.
+            //var transparent = Colors.Transparent;
+            //var black = Colors.Black;
+            //ImeHandler.ColorBKCOLOR = Cef.ColorSetARGB(transparent.A, transparent.R, transparent.G, transparent.B);
+            //ImeHandler.ColorUNDERLINE = Cef.ColorSetARGB(black.A, black.R, black.G, black.B);
 
             browser.RequestHandler = new ExampleRequestHandler();
 
