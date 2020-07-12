@@ -25,7 +25,6 @@
     <AssemblyName>CefSharp.BrowserSubprocess.Core</AssemblyName>
     <RootNamespace>CefSharpBrowserSubprocessCore</RootNamespace>
     <Keyword>NetCoreCProj</Keyword>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
