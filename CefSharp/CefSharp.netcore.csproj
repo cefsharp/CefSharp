@@ -13,6 +13,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CefSharp</RootNamespace>
     <AssemblyName>CefSharp</AssemblyName>
+    <DocumentationFile>$(BaseOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>

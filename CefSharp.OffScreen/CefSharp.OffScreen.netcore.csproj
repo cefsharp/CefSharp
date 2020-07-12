@@ -13,6 +13,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CefSharp.OffScreen</RootNamespace>
     <AssemblyName>CefSharp.OffScreen</AssemblyName>
+    <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <SignAssembly>true</SignAssembly>

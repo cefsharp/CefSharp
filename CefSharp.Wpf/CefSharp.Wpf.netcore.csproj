@@ -13,6 +13,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CefSharp.Wpf</RootNamespace>
     <AssemblyName>CefSharp.Wpf</AssemblyName>
+    <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <SignAssembly>true</SignAssembly>
