@@ -1,5 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+       to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin.netcore\</BaseOutputPath>
+  </PropertyGroup>
+
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CefSharp.OffScreen</RootNamespace>
@@ -16,4 +25,13 @@
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
     <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+    <None Remove="bin/**/*.*" />
+    <None Remove="obj/**/*.*" />
+    <Compile Remove="obj/**/*.*" />
+  </ItemGroup>
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
 </Project>

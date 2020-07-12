@@ -73,30 +73,30 @@
     <LinkIncremental>true</LinkIncremental>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
-    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
-    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
