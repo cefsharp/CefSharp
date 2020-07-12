@@ -8,6 +8,5 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Platforms>x86;x64</Platforms>
   </PropertyGroup>
 </Project>
