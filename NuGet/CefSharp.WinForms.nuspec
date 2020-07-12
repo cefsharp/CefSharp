@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CefSharp.WinForms</id>
+    <version>$version$</version>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
+    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The CefSharp Chromium-based browser component (WinForms control).</description>
+    <tags>winforms chrome browser chromium-embedded cefsharp</tags>
+    <copyright>Copyright © The CefSharp Authors</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="CefSharp.Common" version="[$version$]" />
+      </group>
+      <group targetFramework=".NETCoreApp3.0">
+        <dependency id="CefSharp.Common" version="[$version$]" />
+      </group>
+    </dependencies>
+    <releaseNotes>
+    <![CDATA[
+      See https://github.com/cefsharp/CefSharp/releases/tag/v$version$ for release notes including Known Issues, Breaking Changes, Bugs Fixed, new features.
+      Important you read the release notes to see what's changed in this version.
+    ]]>
+    </releaseNotes>
+  </metadata>
+  <files>
+    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
+         solve this using a .props file instead. -->
+    <file src="..\CefSharp.WinForms\bin\x86\Release\CefSharp.WinForms.dll" target="CefSharp\x86" />
+    <file src="..\CefSharp.WinForms\bin\x86\Release\CefSharp.WinForms.xml" target="CefSharp\x86" />
+    <file src="..\CefSharp.WinForms\bin\x86\Release\CefSharp.WinForms.pdb" target="CefSharp\x86" />
+
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.dll" target="CefSharp\x64" />
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.xml" target="CefSharp\x64" />
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.pdb" target="CefSharp\x64" />
+
+    <file src="CefSharp.WinForms.props" target="build" />
+    <file src="CefSharp.WinForms.targets" target="build" />
+
+    <file src="Readme.txt" target="" />
+
+    <file src="..\CefSharp.WinForms\**\*.cs" target="src\CefSharp.WinForms" />
+  </files>
+</package>

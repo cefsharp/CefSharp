@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\cef.redist.x86.83.4.2\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.83.4.2\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.83.4.2\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.83.4.2\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CefSharp.WinForms.Example</RootNamespace>
     <AssemblyName>CefSharp.WinForms.Example</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
@@ -19,40 +22,48 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\x86\Debug\</OutputPath>
     <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
     <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.0.12035, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\nunit\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.cs">
@@ -61,11 +72,50 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Browser.cs">
+    <Compile Include="BrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Browser.Designer.cs">
-      <DependentUpon>Browser.cs</DependentUpon>
+    <Compile Include="BrowserForm.Designer.cs">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrowserTabUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrowserTabUserControl.Designer.cs">
+      <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChromeWidgetMessageInterceptor.cs" />
+    <Compile Include="ChromiumContainerControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ControlExtensions.cs" />
+    <Compile Include="Handlers\DisplayHandler.cs" />
+    <Compile Include="Handlers\KeyboardHandler.cs" />
+    <Compile Include="Handlers\LifeSpanHandler.cs" />
+    <Compile Include="Handlers\MenuHandler.cs" />
+    <Compile Include="Handlers\MultiFormFocusHandler.cs" />
+    <Compile Include="Handlers\ScheduleMessagePumpBrowserProcessHandler.cs" />
+    <Compile Include="Handlers\WinFormsBrowserProcessHandler.cs" />
+    <Compile Include="Handlers\WinFormsRequestHandler.cs" />
+    <Compile Include="Helper\PopupAsChildHelper.cs" />
+    <Compile Include="InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Minimal\MultiFormAppContext.cs" />
+    <Compile Include="Minimal\SimpleBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Minimal\SimpleBrowserForm.Designer.cs">
+      <DependentUpon>SimpleBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Minimal\TabulationDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Minimal\TabulationDemoForm.Designer.cs">
+      <DependentUpon>TabulationDemoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs">
     </Compile>
@@ -81,9 +131,22 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Browser.resx">
-      <DependentUpon>Browser.cs</DependentUpon>
+    <EmbeddedResource Include="BrowserForm.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrowserTabUserControl.resx">
+      <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputBox.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Minimal\SimpleBrowserForm.resx">
+      <DependentUpon>SimpleBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Minimal\TabulationDemoForm.resx">
+      <DependentUpon>TabulationDemoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -93,6 +156,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="crash_reporter.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
     <None Include="Resources\nav_left_green.png" />
   </ItemGroup>
   <ItemGroup>
@@ -108,30 +176,24 @@
     <None Include="Resources\chromium-256.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
+      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
+      <Name>CefSharp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
       <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
       <Name>CefSharp.Example</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.vcxproj">
-      <Project>{978c9b2b-04b6-4359-a341-ca3fcbe98d32}</Project>
+    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.csproj">
+      <Project>{882505ad-246d-402a-8414-347efb8e2c8d}</Project>
       <Name>CefSharp.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
-      <Name>CefSharp.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
+    <ProjectReference Include="..\CefSharp\CefSharp.csproj">
+      <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>
       <Name>CefSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="$(SolutionDir)\CefSharp.props" />
+  <Import Project="$(SolutionDir)\CefSharp.Native.props" />
 </Project>

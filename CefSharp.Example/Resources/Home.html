@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Getting started &middot; CefSharp </title>
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Page-specific extras -->
+    <link href="assets/css/docs.css" rel="stylesheet">
+    <link href="assets/css/shCore.css" rel="stylesheet">
+    <link href="assets/css/shCoreDefault.css" rel="stylesheet">
+</head>
+<body>
+    <a class="sr-only" href="#content">Skip navigation</a>
+    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="home.html" class="navbar-brand">CefSharp</a>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#the-basics">The Basics</a>
+                    </li>
+                    <li>
+                        <a href="BindingTest.html">JavaScript Binding Tests</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Docs page layout -->
+    <div class="bs-header" id="content">
+        <div class="container">
+            <h1>
+                Getting started
+            </h1>
+            <p>
+                An overview of CefSharp, how to use it, and an overview of some of the included features.
+            </p>
+        </div>
+    </div>
+    <div class="container bs-docs-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="bs-sidebar hidden-print" role="complementary">
+                    <ul class="nav bs-sidenav">
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li>
+                            <a href="#the-basics">The Basics</a>
+                            <ul class="nav">
+                                <li><a href="#features-custom-schemes">Stuff #1</a></li>
+                                <li><a href="#features-javascript-integration">Stuff #2</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#features">Features</a>
+                            <ul class="nav">
+                                <li><a href="#features-custom-schemes">Custom Schemes</a></li>
+                                <li><a href="#features-javascript-integration">JavaScript Integration</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#useful-links">Useful Links</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9" role="main">
+                <div class="bs-docs-section">
+                    <div class="page-header">
+                        <h2 id="introduction">Introduction to CefSharp</h2>
+                    </div>
+                    <p class="lead">
+                        Welcome to CefSharp! We are excited about you being here.
+                    </p>
+                    <p>
+                        So, what is CefSharp, really? You probably have a bit of a clue already, since you've actually managed to
+                        download (and perhaps even compile) the software. Nonetheless, let's try to explain it in a few bullet
+                        points:
+
+                        <ul>
+                            <li>
+                                <strong>A framework</strong> for embedding web-browsing-like capabilities to a standard .NET
+                                application (WPF or Windows Forms).
+                            </li>
+                            <li>
+                                <strong>A set of high-level custom controls</strong> to make it reasonably easy to integrate
+                                these capabilities in your application.
+                            </li>
+                            <li>
+                                <strong>
+                                    Built on top of <a href="https://bitbucket.org/chromiumembedded/cef">CEF</a>,
+                                </strong> the Chromium Embedded Framework by Marshall A. Greenblatt.
+                            </li>
+                            <li>
+                                <strong>CefSharp</strong> does little more than package CEF in a nice convenient .Net Wrapper.
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="bs-docs-section">
+                    <div class="page-header">
+                        <h2 id="the-basics">The Basics</h2>
+                    </div>
+                    <p class="lead">
+                        When getting started with CefSharp it's important to understand a few basics.
+                    </p>
+                    <h3>Initialize/Shutdown Cef</h3>
+                    <p>
+                        It's important to note that it's neccesary to Initialize the underlying CEF library. This can be achieved in one of two ways, explicitly and implicitly.
+                        When you create a new instance of ChromiumWebBrowser it will check if CEF has been initialized and if not, initialize it for you with the defaults.
+                        For those wishing to specify some custom settings then you can explicitly initialize CEF yourself like below
+
+                        <pre data-shbrush="csharp">
+                        public static void Init()
+                        {
+                            var settings = new CefSettings();
+
+                            // Increase the log severity so CEF outputs detailed information, useful for debugging
+                            settings.LogSeverity = LogSeverity.Verbose;
+
+                            Cef.Initialize(settings);
+                        }
+                        </pre>
+
+                        CEF also requires that you call Shutdown when your finished with it. If you don't call Shutdown explicitly then it will be called for you on exit.
+                        You can call Shutdown explicitly which will be required in some instances.
+
+                        <pre data-shbrush="csharp">
+                        private static void OnApplicationExit(object sender, EventArgs e)
+                        {
+                            Cef.Shutdown();
+                        }
+                        </pre>
+
+                        It's important to note CEF that Initialize/Shutdown <strong>MUST</strong> be called on your main applicaiton thread (Typically the UI thead). If you call them on different
+                        threads, your application will hang.
+                    </p>
+
+                    <h3>Settings and Command Line Arguments</h3>
+                    <p>
+                        There are many settings and command line arguments that can influence the way CEF behaves. Here are some examples
+
+                        <pre data-shbrush="csharp">
+                        public static void Init()
+                        {
+                            // Specify Global Settings and Command Line Arguments
+                            var settings = new CefSettings();
+
+                            // By default CEF uses an in memory cache, to save cached data e.g. passwords you need to specify a cache path
+                            // NOTE: The executing user must have sufficent privileges to write to this folder.
+                            settings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache");
+
+                            // There are many command line arguments that can either be turned on or off
+
+                            // Enable WebRTC
+                            settings.CefCommandLineArgs.Add("enable-media-stream");
+
+                            // Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
+                            // Slightly improves Cef initialize time as it won't attempt to resolve a proxy
+                            settings.CefCommandLineArgs.Add("no-proxy-server");
+
+
+                            Cef.Initialize(settings);
+                        }
+                        </pre>
+
+                        There are some settings which can be applied to a specific ChromiumWebBrowser instance. Note BrowserSettings are set slightly different in WPF than WinForms
+                        see the example projects for more information.
+
+                        <pre data-shbrush="csharp">
+                        var browser = new ChromiumWebBrowser(url)
+                        {
+                            BrowserSettings =
+                            {
+                                DefaultEncoding = "UTF-8",
+                                WebGl = CefState.Disabled
+                            }
+                        };
+                        </pre>
+                    </p>
+                </div>
+                <div class="bs-docs-section">
+                    <div class="page-header">
+                        <h2 id="features">Features</h2>
+                    </div>
+                    <h3>State-of-the-art HTML5 and Javascript support</h3>
+                    <p>
+                        Perhaps very obvious, but still worth mentioning. Since CefSharp is based on
+                        <a href="https://bitbucket.org/chromiumembedded/cef">CEF</a>, which is in turn based on
+                        <a href="http://www.chromium.org/Home">Chromium</a> (version 43 for the time being), CefSharp provides
+                        one of the best HTML5 rendering experiences available -
+                        <a href="http://html5test.com/compare/browser/mybrowser/chrome-41/chrome-43/ie-11.html">
+                            470+ points out of 555
+                        </a> on <a href="http://www.html5test.com">html5test.com</a>. Note:
+                        <a href="http://en.wiktionary.org/wiki/your_mileage_may_vary" title="Your mileage may vary">YMMV</a>
+                        depending on .DLLs you add and features you enable.
+                    </p>
+                    <h3>Support for both x86 and x64</h3>
+                    <p>
+                        Chromium 47 supports both x86 and x64, and so do we as of CefSharp 47.0.0 For the time being, it does not
+                        "auto-detect" the platform being used (since this is quite complex), so you have to choose either one for
+                        your project. This practically means that you will have to compile &amp; package separate
+                        binaries/installers of your app for x86 and x64 respectively if you want/need to support both of them.
+                    </p>
+                    <h3 id="features-custom-schemes">Custom Schemes</h3>
+                    <p>
+                        Declare a factory class like this:
+
+                        <pre data-shbrush="csharp">
+                        internal class CefSharpSchemeHandlerFactory : ISchemeHandlerFactory
+                        {
+                            public const string SchemeName = "custom";
+                            public IResourceHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
+                            {
+                                if (schemeName == SchemeName && request.Url.EndsWith("CefSharp.Core.xml", System.StringComparison.OrdinalIgnoreCase))
+                                {
+                                    //Display the debug.log file in the browser
+                                    return ResourceHandler.FromFileName("CefSharp.Core.xml", ".xml");
+                                }
+                                return new CefSharpSchemeHandler();
+                            }
+                        }
+                        </pre>
+                        ...and the actual scheme handler class like this:
+
+                        <pre data-shbrush="csharp">
+                        //This Resource handler (scheme handler factory returns IResourceHandler) downloads a file
+                        // and servces the content as the response, you could just as easily read from a database or disk
+                        public class FlashResourceHandler : ResourceHandler
+                        {
+                            public override bool ProcessRequestAsync(IRequest request, ICallback callback)
+                            {
+                                Task.Run(() =>
+                                {
+                                    using (callback)
+                                    {
+                                        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://samples.mplayerhq.hu/SWF/zeldaADPCM5bit.swf");
+
+                                        var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                                        // Get the stream associated with the response.
+                                        var receiveStream = httpWebResponse.GetResponseStream();
+                                        var mime = httpWebResponse.ContentType;
+
+                                        var stream = new MemoryStream();
+                                        receiveStream.CopyTo(stream);
+                                        httpWebResponse.Close();
+
+                                        //Reset the stream position to 0 so the stream can be copied into the underlying unmanaged buffer
+                                        stream.Position = 0;
+
+                                        //Populate the response values - No longer need to implement GetResponseHeaders (unless you need to perform a redirect)
+                                        ResponseLength = stream.Length;
+                                        MimeType = mime;
+                                        StatusCode = (int)HttpStatusCode.OK;
+                                        Stream = stream;
+
+                                        callback.Continue();
+                                    }
+                                });
+
+                                return true;
+                            }
+                        }
+                        </pre>
+                        Finally, you have to register this scheme handler using some code like this:
+
+                        <pre data-shbrush="csharp">
+                        public static void Init()
+                        {
+                            // Pseudo code; you probably need more in your CefSettings also.
+                            var settings = new CefSettings();
+
+                            settings.RegisterScheme(new CefCustomScheme
+                            {
+                                SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
+                                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
+                            });
+
+                            Cef.Initialize(settings);
+                        }
+                        </pre>
+                        It's important that the scheme registration takes place before the <code>Cef.Initialize()</code> gets
+                        called. (This is different to how things was being done in CefSharp version 1.)
+                    </p>
+                    <h4>Asynchrony</h4>
+                    <p>
+                        CefSharp supports custom schemes using an
+                        <a href="https://en.wikipedia.org/wiki/Asynchronous_I/O">asynchronous</a> pattern, which is desirable if
+                        your custom scheme handler performs e.g. network requests or other long-running operations. In other, more
+                        trivial cases (e.g. if you are just serving out static content which is already loaded in memory), you can
+                        just signal using the <code>requestCompletedCallback()</code> straight away, as in the example above.
+                    </p>
+
+                    <h3 id="features-javascript-integration">JavaScript integration</h3>
+                    <p>
+                        If you are reading this page in either one of the <strong>CefSharp.Wpf.Example</strong> or
+                        <strong>CefSharp.WinForms.Example</strong> sample applications, you can use the boxes on the right side
+                        of the screen to run arbitrary JavaScript code towards the context of this page. By default, the content
+                        of the block below will be modified/inspected by the script code.
+
+                        <pre id="modify-me">You can modify the value of this text field using JavaScript!</pre>
+                        For more details and further examples read <a href="https://github.com/cefsharp/CefSharp/wiki/General-Usage#javascript-integration">General Usage Guide - Javascript Integration</a>
+
+                        The C# code for performing these kinds of interactions is quite simple. Like this:
+                    </p>
+
+                    <pre data-shbrush="csharp">
+                        using CefSharp; //EvaluateScriptAsync is an extension method
+                        webBrowser.ExecuteScriptAsync(someScriptCode);
+                    </pre>
+
+                    <p>
+                        The code above will run the provided JavaScript snippet (which may do interesting things, like
+                        interrogating or modifying the DOM of the page, just to name one example out of many potential ones). The
+                        execution is of the "fire-and-forget" style; any result of the execution is silently disregarded. The
+                        execution is also <em>asynchronous</em> in nature, a term which means that (among other things) the method
+                        may return before the actual code has actually been executed.
+                    </p>
+
+                    <p>
+                        This is the preferrably approach if possible, since it does not deadlock the UI in any way. However, we
+                        realize that it's not suitable for all scenarios. Have faith &mdash; there is a solution even for cases
+                        where you <em>do</em> need to return a value. Just write your code like this:
+                    </p>
+
+                    <pre data-shbrush="csharp">
+                        using CefSharp; //EvaluateScriptAsync is an extension method
+                        var result = await webBrowser.EvaluateScriptAsync("10 + 20");
+                    </pre>
+
+                    <p>
+                        Please note that only a limited number of data types are supported when returning the result above. Simple
+                        value types (int, float, etc) and strings all work, but do not expect to be able to return other JavaScript
+                        objects.
+                    </p>
+                </div>
+                <div class="bs-docs-section">
+                    <div class="page-header">
+                        <h2 id="useful-links">
+                            Useful Links
+                        </h2>
+                    </div>
+                    <p>
+                        Here are a few pointers that might help you further explore the wonderful world of CefSharp:
+                    </p>
+                    <ul>
+                        <li>The <a href="http://github.com/cefsharp/CefSharp">GitHub project page</a></li>
+                        <li>
+                            The current list of <a href="https://github.com/cefsharp/CefSharp/issues?state=open">open issues</a>.
+                            Please check this list before reporting in new issues, to ensure that your problem isn't already covered.
+                        </li>
+                        <li>
+                            Our list of <a href="https://github.com/cefsharp/CefSharp/releases">releases</a>. Perhaps we've
+                            released something new since the version you are using? (Your current version is $foo.)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer
+    ================================================== -->
+    <footer class="bs-footer" role="contentinfo">
+        <div class="container">
+            <p>
+                Based on the <a href="http://getbootstrap.com/getting-started/">Twitter Bootstrap documentation</a> HTML/CSS template,
+                whose code is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>
+                and documentation is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+            </p>
+            <ul class="footer-links">
+                <li><a href="https://github.com/cefsharp/CefSharp/issues?state=open">Issues</a></li>
+                <li class="muted">&middot;</li>
+                <li><a href="https://github.com/cefsharp/CefSharp/releases">Releases</a></li>
+            </ul>
+        </div>
+    </footer>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/shCore.js"></script>
+    <script src="assets/js/shBrushCSharp.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="assets/js/application.js"></script>
+</body>
+</html>

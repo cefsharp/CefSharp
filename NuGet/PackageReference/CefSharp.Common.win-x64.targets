@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="'$(PlatformTarget)' == 'x64'">
+    <Content Include="@(CefRedist64)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+      <PublishState>Included</PublishState>
+    </Content>
+    <!-- <Content Include="@(CefSharpCommonBinaries64)"> -->
+      <!-- <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link> -->
+      <!-- <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> -->
+      <!-- <Visible>false</Visible> -->
+    <!-- </Content> -->
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(PlatformTarget)' == 'AnyCPU'">
+    <Content Include="@(CefRedist64)">
+      <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+      <PublishState>Included</PublishState>
+    </Content>
+    
+    <!-- <Content Include="@(CefSharpCommonBinaries64)"> -->
+      <!-- <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link> -->
+      <!-- <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> -->
+      <!-- <Visible>false</Visible> -->
+    <!-- </Content> -->
+  </ItemGroup>
+</Project>

@@ -1,0 +1,158 @@
+# editorconfig.org
+# Mostly based on https://github.com/dotnet/corefx/blob/master/.editorconfig
+# References
+# https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017
+# https://kent-boogaart.com/blog/editorconfig-reference-for-c-developers
+
+# top-most EditorConfig file
+root = true
+
+# Default settings:
+# A newline ending every file
+# Use 4 spaces as indentation
+[*]
+insert_final_newline     = true
+indent_style             = space
+indent_size              = 4
+charset                  = utf-8
+end_of_line              = crlf
+trim_trailing_whitespace = true
+
+# Powershell files (build.ps1)
+[*.ps1]
+charset = utf-8-bom
+
+# Xml config files
+[*.{props,targets,config,nuspec,manifest}]
+indent_size = 2
+
+# Javascript Files
+[*.js]
+curly_bracket_next_line = true
+indent_brace_style      = Allman
+
+# C++ Files
+[*.{cpp,h,in}]
+curly_bracket_next_line = true
+indent_brace_style      = Allman
+
+[*.cs]
+# Capitalization styles
+dotnet_naming_style.constant_field_case_style.capitalization                   = pascal_case
+dotnet_naming_style.property_case_style.capitalization                         = pascal_case
+dotnet_naming_style.static_field_case_style.capitalization                     = pascal_case
+dotnet_naming_style.private_internal_field_case_style.capitalization           = camel_case
+
+# New line preferences
+csharp_new_line_before_open_brace                                              = all
+csharp_new_line_before_else                                                    = true
+csharp_new_line_before_catch                                                   = true
+csharp_new_line_before_finally                                                 = true
+csharp_new_line_before_members_in_object_initializers                          = true
+csharp_new_line_before_members_in_anonymous_types                              = true
+csharp_new_line_between_query_expression_clauses                               = true
+
+# Indentation preferences
+csharp_indent_block_contents                                                   = true
+csharp_indent_braces                                                           = false
+csharp_indent_case_contents                                                    = true
+csharp_indent_case_contents_when_block                                         = false
+csharp_indent_switch_labels                                                    = true
+csharp_indent_labels                                                           = one_less_than_current
+
+# this.
+dotnet_style_qualification_for_field                                           = false : suggestion
+dotnet_style_qualification_for_property                                        = false : suggestion
+dotnet_style_qualification_for_method                                          = false : suggestion
+dotnet_style_qualification_for_event                                           = false : suggestion
+
+# Prefer using var
+csharp_style_var_for_built_in_types                                            = true : none
+csharp_style_var_when_type_is_apparent                                         = true : suggestion
+csharp_style_var_elsewhere                                                     = true : suggestion
+
+# use language keywords instead of BCL types
+dotnet_style_predefined_type_for_locals_parameters_members                     = true : suggestion
+dotnet_style_predefined_type_for_member_access                                 = true : suggestion
+
+# Constant fields
+dotnet_naming_rule.constant_field_style.severity                               = error
+dotnet_naming_rule.constant_field_style.symbols                                = constant_field_target
+dotnet_naming_rule.constant_field_style.style                                  = constant_field_case_style
+
+dotnet_naming_symbols.constant_field_target.applicable_kinds                   = field
+dotnet_naming_symbols.constant_field_target.required_modifiers                 = const
+
+# Properties
+dotnet_naming_rule.property_style.severity                                     = error
+dotnet_naming_rule.property_style.symbols                                      = property_target
+dotnet_naming_rule.property_style.style                                        = property_case_style
+
+dotnet_naming_symbols.property_target.applicable_kinds                         = property
+dotnet_naming_symbols.property_target.required_modifiers                       = *
+
+# Static fields
+dotnet_naming_rule.static_field_style.severity                                 = error
+dotnet_naming_rule.static_field_style.symbols                                  = static_field_target
+dotnet_naming_rule.static_field_style.style                                    = static_field_case_style
+
+dotnet_naming_symbols.static_field_target.applicable_kinds                     = field
+dotnet_naming_symbols.static_field_target.required_modifiers                   = static
+
+# Private and internal fields
+dotnet_naming_rule.private_internal_field_style.severity                       = error
+dotnet_naming_rule.private_internal_field_style.symbols                        = private_internal_field_target
+dotnet_naming_rule.private_internal_field_style.style                          = private_internal_field_case_style
+
+dotnet_naming_symbols.private_internal_field_target.applicable_kinds           = field
+dotnet_naming_symbols.private_internal_field_target.applicable_accessibilities = private, internal
+
+# Code style defaults
+dotnet_sort_system_directives_first                                            = true
+csharp_preserve_single_line_blocks                                             = true
+csharp_prefer_braces                                                           = true
+csharp_preserve_single_line_statements                                         = false
+dotnet_style_prefer_auto_properties                                            = true : suggestion
+
+# Expression-level preferences
+dotnet_style_object_initializer                                                = true : suggestion
+dotnet_style_collection_initializer                                            = true : suggestion
+dotnet_style_explicit_tuple_names                                              = false : suggestion
+dotnet_style_coalesce_expression                                               = false : suggestion
+dotnet_style_null_propagation                                                  = false : suggestion
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods                                         = false : none
+csharp_style_expression_bodied_constructors                                    = false : none
+csharp_style_expression_bodied_operators                                       = false : none
+csharp_style_expression_bodied_properties                                      = false : none
+csharp_style_expression_bodied_indexers                                        = false : none
+csharp_style_expression_bodied_accessors                                       = false : none
+
+# Space preferences
+csharp_space_after_cast                                                        = false
+csharp_space_after_colon_in_inheritance_clause                                 = true
+csharp_space_after_comma                                                       = true
+csharp_space_after_dot                                                         = false
+csharp_space_after_keywords_in_control_flow_statements                         = true
+csharp_space_after_semicolon_in_for_statement                                  = true
+csharp_space_around_binary_operators                                           = before_and_after
+csharp_space_around_declaration_statements                                     = do_not_ignore
+csharp_space_before_colon_in_inheritance_clause                                = true
+csharp_space_before_comma                                                      = false
+csharp_space_before_dot                                                        = false
+csharp_space_before_open_square_brackets                                       = false
+csharp_space_before_semicolon_in_for_statement                                 = false
+csharp_space_between_empty_square_brackets                                     = false
+csharp_space_between_method_call_empty_parameter_list_parentheses              = false
+csharp_space_between_method_call_name_and_opening_parenthesis                  = false
+csharp_space_between_method_call_parameter_list_parentheses                    = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses       = false
+csharp_space_between_method_declaration_name_and_open_parenthesis              = false
+csharp_space_between_method_declaration_parameter_list_parentheses             = false
+csharp_space_between_parentheses                                               = false
+csharp_space_between_square_brackets                                           = false
+
+# Modifier order
+csharp_preferred_modifier_order                                                = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async : error
+

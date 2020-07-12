@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="AfterBuild">
+        <ItemGroup>
+            <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
+            <SubProcessFiles Include="$(SolutionDir)\CefSharp.BrowserSubprocess\bin\$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
+    </Target>
+  
+  <Target Name="CefSharpCopyLibs86" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x86'">
+    <Message Importance="high" Text="Copying cef.redist x86 files" />
+    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+  
+  <Target Name="CefSharpCopyLibs64" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x64'">
+    <Message Importance="high" Text="Copying cef.redist x64 files" />
+    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>  
+</Project>
