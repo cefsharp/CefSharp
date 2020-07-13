@@ -7,23 +7,31 @@
    -->
 
   <!-- Copy platform specific libraries to the platform specific folders. -->
-  <ItemGroup Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
-    <None Include="@(CefSharpWpfBinaries32)">
-      <Link>x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Include</PublishState>
-      <Visible>false</Visible>
-    </None>
-  </ItemGroup>
+  <Choose>
+    <When Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
+      <ItemGroup>
+        <None Include="@(CefSharpWpfBinaries32)">
+          <Link>x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+        </None>
+      </ItemGroup>
+    </When>
+  </Choose>
 
-  <ItemGroup Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x64')">
-    <None Include="@(CefSharpWpfBinaries64)">
-      <Link>x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Include</PublishState>
-      <Visible>false</Visible>
-    </None>
-  </ItemGroup>
+  <Choose>
+    <When Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x64')">
+      <ItemGroup>
+        <None Include="@(CefSharpWpfBinaries64)">
+          <Link>x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+        </None>
+      </ItemGroup>
+    </When>
+  </Choose>
 
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
   <Target Name="CefSharpWpf_TransformX86Config" Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')" AfterTargets="_CopyAppConfigFile">

@@ -9,36 +9,44 @@
     correct ordering .props imports, which we require as this depends on the cef.redist packages
     exporting an ItemGroup
    -->
-  <ItemGroup Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
-    <None Include="@(CefRedist32)">
-      <Link>x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Include</PublishState>
-      <Visible>false</Visible>
-    </None>
-    <None Include="@(CefSharpCommonBinaries32)">
-      <Link>x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Include</PublishState>
-      <Visible>false</Visible>
-    </None>
-  </ItemGroup>
+  <Choose>
+    <When Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
+      <ItemGroup>
+        <None Include="@(CefRedist32)">
+          <Link>x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+        </None>
+        <None Include="@(CefSharpCommonBinaries32)">
+          <Link>x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+        </None>
+      </ItemGroup>
+    </When>
+  </Choose>
 
-  <ItemGroup Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x64')">
-    <None Include="@(CefRedist64)">
-      <Link>x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Include</PublishState>
-      <Visible>false</Visible>
-    </None>
-    <None Include="@(CefSharpCommonBinaries64)">
-      <Link>x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Include</PublishState>
-      <Visible>false</Visible>
-    </None>
-  </ItemGroup>
-
+  <Choose>
+    <When Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x64')">
+      <ItemGroup>
+        <None Include="@(CefRedist64)">
+          <Link>x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+        </None>
+        <None Include="@(CefSharpCommonBinaries64)">
+          <Link>x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+        </None>
+      </ItemGroup>
+    </When>
+  </Choose>
+  
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
   <Target Name="CefSharpCommon_TransformX86Config" Condition="('$(Platform)' == 'AnyCPU') OR ('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')" AfterTargets="_CopyAppConfigFile">
     <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)app.config.x86.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
