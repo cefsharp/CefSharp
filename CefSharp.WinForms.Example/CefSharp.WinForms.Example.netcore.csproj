@@ -14,12 +14,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CefSharp.WinForms.Example</RootNamespace>
     <AssemblyName>CefSharp.WinForms.Example</AssemblyName>
-    <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Platforms>x86;x64</Platforms>
   </PropertyGroup>
