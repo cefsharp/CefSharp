@@ -708,7 +708,7 @@ namespace CefSharp.Wpf
             browserSettings = new BrowserSettings(frameworkCreated: true);
             RenderHandler = new InteropBitmapRenderHandler();
 
-            WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            WpfKeyboardHandler = new WpfImeKeyboardHandler(this);
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
