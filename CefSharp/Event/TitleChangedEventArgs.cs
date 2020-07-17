@@ -12,6 +12,11 @@ namespace CefSharp
     public class TitleChangedEventArgs : EventArgs
     {
         /// <summary>
+        /// Access to the underlying <see cref="IBrowser"/> object
+        /// </summary>
+        public IBrowser Browser { get; private set; }
+
+        /// <summary>
         /// The new title
         /// </summary>
         public string Title { get; private set; }
@@ -19,9 +24,11 @@ namespace CefSharp
         /// <summary>
         /// Creates a new TitleChanged event arg
         /// </summary>
+        /// <param name="browser">browser</param>
         /// <param name="title">the new title</param>
-        public TitleChangedEventArgs(string title)
+        public TitleChangedEventArgs(IBrowser browser, string title)
         {
+            Browser = browser;
             Title = title;
         }
     }

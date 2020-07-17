@@ -14,17 +14,24 @@ namespace CefSharp
         /// <summary>
         /// Creates a new ConsoleMessageEventArgs event argument.
         /// </summary>
+        /// <param name="browser">browser</param>
         /// <param name="level">level</param>
         /// <param name="message">message</param>
         /// <param name="source">source</param>
         /// <param name="line">line number</param>
-        public ConsoleMessageEventArgs(LogSeverity level, string message, string source, int line)
+        public ConsoleMessageEventArgs(IBrowser browser, LogSeverity level, string message, string source, int line)
         {
+            Browser = browser;
             Level = level;
             Message = message;
             Source = source;
             Line = line;
         }
+
+        /// <summary>
+        /// Access to the underlying <see cref="IBrowser"/> object
+        /// </summary>
+        public IBrowser Browser { get; private set; }
 
         /// <summary>
         /// Log level
