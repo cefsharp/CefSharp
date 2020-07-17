@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using CefSharp.Structs;
-using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
