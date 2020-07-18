@@ -50,18 +50,6 @@ namespace CefSharp.WinForms.Example
             }
             else
             {
-#if NETCOREAPP
-                //We are using our current exe as the BrowserSubProcess
-                //Multiple instances will be spawned to handle all the 
-                //Chromium proceses, render, gpu, network, plugin, etc.
-                var subProcessExe = new CefSharp.BrowserSubprocess.BrowserSubprocessExecutable();
-                var result = subProcessExe.Main(args);
-                if (result > 0)
-                {
-                    return result;
-                }
-#endif
-
 #if DEBUG
                 if (!System.Diagnostics.Debugger.IsAttached)
                 {

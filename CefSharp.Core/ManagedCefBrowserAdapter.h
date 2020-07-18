@@ -21,6 +21,7 @@
 using namespace System::Diagnostics;
 #ifndef NETCOREAPP
 using namespace System::ServiceModel;
+using namespace CefSharp::Internals::Wcf;
 #endif
 using namespace System::Threading;
 using namespace System::Threading::Tasks;

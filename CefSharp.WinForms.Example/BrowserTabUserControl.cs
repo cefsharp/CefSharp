@@ -65,10 +65,12 @@ namespace CefSharp.WinForms.Example
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             browser.LoadError += OnLoadError;
 
-#if !NETCOREAPP
+#if NETCOREAPP
+            browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), options: BindingOptions.DefaultBinder);
+#else
             browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
-#endif
             browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: BindingOptions.DefaultBinder);
+#endif
 
             //If you call CefSharp.BindObjectAsync in javascript and pass in the name of an object which is not yet
             //bound, then ResolveObject will be called, you can then register it
@@ -77,7 +79,11 @@ namespace CefSharp.WinForms.Example
                 var repo = e.ObjectRepository;
                 if (e.ObjectName == "boundAsync2")
                 {
+#if NETCOREAPP
+                    repo.Register("boundAsync2", new AsyncBoundObject(), options: BindingOptions.DefaultBinder);
+#else
                     repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: BindingOptions.DefaultBinder);
+#endif
                 }
             };
 

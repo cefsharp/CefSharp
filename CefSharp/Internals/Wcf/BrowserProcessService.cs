@@ -2,10 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#if !NETCOREAPP
 using System.ServiceModel;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     internal class BrowserProcessService : IBrowserProcess
@@ -49,4 +48,3 @@ namespace CefSharp.Internals
         }
     }
 }
-#endif

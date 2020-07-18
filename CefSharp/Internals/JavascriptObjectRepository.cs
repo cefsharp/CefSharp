@@ -153,7 +153,11 @@ namespace CefSharp.Internals
             return result;
         }
 
+#if NETCOREAPP
+        public void Register(string name, object value, BindingOptions options)
+#else
         public void Register(string name, object value, bool isAsync, BindingOptions options)
+#endif
         {
             if (name == null)
             {
@@ -165,9 +169,12 @@ namespace CefSharp.Internals
                 throw new ArgumentNullException("value");
             }
 
-#if !NETCOREAPP
+
             //Enable WCF if not already enabled - can only be done before the browser has been initliazed
             //if done after the subprocess won't be WCF enabled it we'll have to throw an exception
+#if NETCOREAPP
+            var isAsync = true;
+#else
             if (!IsBrowserInitialized && !isAsync)
             {
                 CefSharpSettings.WcfEnabled = true;
@@ -177,13 +184,7 @@ namespace CefSharp.Internals
             {
                 throw new InvalidOperationException(@"To enable synchronous JS bindings set WcfEnabled true in CefSharpSettings before you create
                                                     your ChromiumWebBrowser instances.");
-            }
-#else
-            // WCF is not available on .NET Core.
-            if (!isAsync)
-            {
-                throw new NotSupportedException("Synchronous JS bindings are not supported.");
-            }
+            }            
 #endif
 
             //Validation name is unique

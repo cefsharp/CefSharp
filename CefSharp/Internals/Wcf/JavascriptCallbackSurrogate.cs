@@ -2,14 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#if !NETCOREAPP
 using System;
 using System.CodeDom;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     internal sealed class JavascriptCallbackSurrogate : IDataContractSurrogate
     {
@@ -71,4 +70,3 @@ namespace CefSharp.Internals
         }
     }
 }
-#endif

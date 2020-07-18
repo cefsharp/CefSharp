@@ -2,14 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#if !NETCOREAPP
 using System;
 using System.Net.Security;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     public class BrowserProcessServiceHost : ServiceHost
     {
@@ -68,4 +67,3 @@ namespace CefSharp.Internals
         }
     }
 }
-#endif

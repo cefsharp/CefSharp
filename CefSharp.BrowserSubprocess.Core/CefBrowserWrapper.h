@@ -12,7 +12,9 @@
 #include "JavascriptRootObjectWrapper.h"
 
 using namespace CefSharp::Internals::Async;
+#ifndef NETCOREAPP
 using namespace System::ServiceModel;
+#endif
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
@@ -65,9 +67,8 @@ namespace CefSharp
 #ifndef NETCOREAPP
         // This allows us to create the WCF proxies back to our parent process.
         property ChannelFactory<IBrowserProcess^>^ ChannelFactory;
-#endif
-
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
+#endif
     };
 }

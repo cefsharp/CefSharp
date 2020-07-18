@@ -4,7 +4,7 @@
 
 using System.Runtime.Serialization;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     [DataContract]
     [KnownType(typeof(bool[]))]

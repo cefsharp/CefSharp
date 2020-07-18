@@ -12,29 +12,24 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RootNamespace>CefSharp.WinForms.Example</RootNamespace>
-        <AssemblyName>CefSharp.WinForms.Example</AssemblyName>
-        <UseWindowsForms>true</UseWindowsForms>
+        <RootNamespace>CefSharp.Wpf.Example</RootNamespace>
+        <AssemblyName>CefSharp.Wpf.Example</AssemblyName>
+        <UseWPF>true</UseWPF>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <Platforms>x86;x64</Platforms>
+        <StartupObject>CefSharp.Wpf.Example.Program</StartupObject>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
-        <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
+        <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Compile Update="Properties\Resources.Designer.cs">
-            <AutoGen>True</AutoGen>
-            <DesignTime>True</DesignTime>
-            <DependentUpon>Resources.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
     <ItemGroup>
         <None Include="crash_reporter.cfg">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

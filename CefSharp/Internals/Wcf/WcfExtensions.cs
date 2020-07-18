@@ -2,13 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#if !NETCOREAPP
 using System;
 using System.ServiceModel.Description;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
-    internal static class WCFExtensions
+    internal static class WcfExtensions
     {
         public static void ApplyOperationBehavior<T>(this ServiceDescription description,
             Func<OperationDescription, T> behaviorFactory,
@@ -53,4 +52,3 @@ namespace CefSharp.Internals
         }
     }
 }
-#endif

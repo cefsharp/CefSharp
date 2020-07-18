@@ -2,14 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#if !NETCOREAPP
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     internal sealed class JavascriptCallbackEndpointBehavior : IEndpointBehavior
     {
@@ -47,4 +46,3 @@ namespace CefSharp.Internals
         }
     }
 }
-#endif

@@ -50,7 +50,9 @@ namespace CefSharp.Wpf.Example.Views
 
             //To use the ResolveObject below and bind an object with isAsync:false we must set CefSharpSettings.WcfEnabled = true before
             //the browser is initialized.
+#if !NETCOREAPP
             CefSharpSettings.WcfEnabled = true;
+#endif
 
             //If you call CefSharp.BindObjectAsync in javascript and pass in the name of an object which is not yet
             //bound, then ResolveObject will be called, you can then register it
@@ -61,6 +63,23 @@ namespace CefSharp.Wpf.Example.Views
                 //When JavascriptObjectRepository.Settings.LegacyBindingEnabled = true
                 //This event will be raised with ObjectName == Legacy so you can bind your
                 //legacy objects
+#if NETCOREAPP
+                if (e.ObjectName == "Legacy")
+                {
+                    repo.Register("boundAsync", new AsyncBoundObject(), options: bindingOptions);
+                }
+                else
+                {
+                    if (e.ObjectName == "boundAsync")
+                    {
+                        repo.Register("boundAsync", new AsyncBoundObject(), options: bindingOptions);
+                    }
+                    else if (e.ObjectName == "boundAsync2")
+                    {
+                        repo.Register("boundAsync2", new AsyncBoundObject(), options: bindingOptions);
+                    }
+                }
+#else
                 if (e.ObjectName == "Legacy")
                 {
                     repo.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
@@ -81,6 +100,7 @@ namespace CefSharp.Wpf.Example.Views
                         repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
                     }
                 }
+#endif
             };
 
             browser.JavascriptObjectRepository.ObjectBoundInJavascript += (sender, e) =>

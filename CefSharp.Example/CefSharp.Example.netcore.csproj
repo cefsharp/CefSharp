@@ -16,7 +16,6 @@
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Platforms>x86;x64</Platforms>
   </PropertyGroup>
   
   <ItemGroup>

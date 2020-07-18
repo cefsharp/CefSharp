@@ -159,18 +159,16 @@ namespace CefSharp.Example
 
             //settings.LogSeverity = LogSeverity.Verbose;
 
-#if !NETCOREAPP
             if (DebuggingSubProcess)
             {
+
+#if NETCOREAPP
+                settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin.netcore\\Debug\\netcoreapp3.1\\CefSharp.BrowserSubprocess.exe");
+#else
                 var architecture = Environment.Is64BitProcess ? "x64" : "x86";
                 settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe");
-            }
-#else
-            // We use our Applications exe as the BrowserSubProcess, multiple copies
-            // will be spawned.
-            var exePath = Process.GetCurrentProcess().MainModule.FileName;
-            settings.BrowserSubprocessPath = exePath;
 #endif
+            }
 
             settings.RegisterScheme(new CefCustomScheme
             {
@@ -241,14 +239,7 @@ namespace CefSharp.Example
             //see https://github.com/cefsharp/CefSharp/wiki/General-Usage#proxy-resolution
             //CefSharpSettings.Proxy = new ProxyOptions(ip: "127.0.0.1", port: "8080", username: "cefsharp", password: "123");
 
-            bool performDependencyCheck =
-#if !NETCOREAPP
-                !DebuggingSubProcess;
-#else
-                // For .NET Core, don't perform a dependency check, to allow publishing single-file
-                // executables.
-                false;
-#endif
+            bool performDependencyCheck = !DebuggingSubProcess;
 
             if (!Cef.Initialize(settings, performDependencyCheck: performDependencyCheck, browserProcessHandler: browserProcessHandler))
             {

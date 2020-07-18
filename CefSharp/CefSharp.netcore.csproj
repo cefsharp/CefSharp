@@ -22,8 +22,11 @@
 
   <ItemGroup>
     <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+    <EmbeddedResource Remove="Internals\Wcf\**" />
     <None Remove="bin/**/*.*" />
+    <None Remove="Internals\Wcf\**" />
     <None Remove="obj/**/*.*" />
+    <Compile Remove="Internals\Wcf\**" />
     <Compile Remove="obj/**/*.*" />
   </ItemGroup>
 

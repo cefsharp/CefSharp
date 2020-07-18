@@ -30,6 +30,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="name">object name</param>
         /// <param name="objectToBind">the object that will be bound in javascript</param>
+#if !NETCOREAPP
         /// <param name="isAsync">
         /// if true the object will be registered for async communication,
         /// only methods will be exposed and when called from javascript will return a Promise to be awaited. 
@@ -37,9 +38,14 @@ namespace CefSharp
         /// If false then methods and properties will be registered, this method relies on a WCF service to communicate.
         /// If you are targeting .Net Core then you can only use isAsync = true as Microsoft has chosen not to support WCF.
         /// </param>
+#endif
         /// <param name="options">binding options, by default method/property names are camelCased, you can control this
         /// and other advanced options though this class.</param>
+#if NETCOREAPP
+        void Register(string name, object objectToBind, BindingOptions options = null);
+#else
         void Register(string name, object objectToBind, bool isAsync, BindingOptions options = null);
+#endif
         /// <summary>
         /// UnRegister all the currently bound objects from the repository. If you unregister an object that is currently
         /// bound in JavaScript then the method/property calls will fail.
