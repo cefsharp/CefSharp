@@ -186,13 +186,15 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
-
+        /// <summary>
+        /// Implement <see cref="IAudioHandler" /> to handle audio events.
+        /// </summary>
+        public IAudioHandler AudioHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
         /// </summary>
         /// <value>The accessibility handler.</value>
         public IAccessibilityHandler AccessibilityHandler { get; set; }
-
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI

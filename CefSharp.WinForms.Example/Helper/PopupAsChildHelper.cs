@@ -6,7 +6,6 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Helper
 {
@@ -44,7 +43,7 @@ namespace CefSharp.WinForms.Example.Helper
         /// <summary>
         /// The browsers window handle(hwnd)
         /// </summary>
-        private IntPtr browserHandle;
+        private readonly IntPtr browserHandle;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParentFormMessageInterceptor"/> class.

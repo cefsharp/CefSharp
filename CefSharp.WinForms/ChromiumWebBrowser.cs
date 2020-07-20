@@ -268,6 +268,11 @@ namespace CefSharp.WinForms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IFindHandler FindHandler { get; set; }
         /// <summary>
+        /// Implement <see cref="IAudioHandler" /> to handle audio events.
+        /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
+        public IAudioHandler AudioHandler { get; set; }
+        /// <summary>
         /// The <see cref="IFocusHandler" /> for this ChromiumWebBrowser.
         /// </summary>
         /// <value>The focus handler.</value>
@@ -595,7 +600,7 @@ namespace CefSharp.WinForms
                 }
 
                 //Dispose of BrowserSettings if we created it, if user created then they're responsible
-                if (browserSettings.FrameworkCreated)
+                if (browserSettings != null && browserSettings.FrameworkCreated)
                 {
                     browserSettings.Dispose();
                 }

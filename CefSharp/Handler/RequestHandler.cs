@@ -263,5 +263,21 @@ namespace CefSharp.Handler
         protected virtual void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
         {
         }
+
+        /// <inheritdoc/>
+        void IRequestHandler.OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
+            OnDocumentAvailableInMainFrame(chromiumWebBrowser, browser);
+        }
+
+        /// <summary>
+        /// Called on the CEF UI thread when the window.document object of the main frame has been created.
+        /// </summary>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        protected virtual void OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
+
+        }
     }
 }

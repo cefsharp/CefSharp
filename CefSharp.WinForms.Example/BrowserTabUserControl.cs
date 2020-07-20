@@ -39,6 +39,8 @@ namespace CefSharp.WinForms.Example
             browser.RequestHandler = new WinFormsRequestHandler(openNewTab);
             browser.JsDialogHandler = new JsDialogHandler();
             browser.DownloadHandler = new DownloadHandler();
+            browser.AudioHandler = new AudioHandler();
+
             if (multiThreadedMessageLoopEnabled)
             {
                 browser.KeyboardHandler = new KeyboardHandler();
@@ -384,6 +386,13 @@ namespace CefSharp.WinForms.Example
             {
                 Browser.Load(url);
             }
+            else
+            {
+                var searchUrl = "https://www.google.com/search?q=" + Uri.EscapeDataString(url);
+
+                Browser.Load(searchUrl);
+            }
+
         }
 
         public async void CopySourceToClipBoardAsync()

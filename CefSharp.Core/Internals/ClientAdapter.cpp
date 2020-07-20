@@ -284,8 +284,6 @@ namespace CefSharp
 
         bool ClientAdapter::OnAutoResize(CefRefPtr<CefBrowser> browser, const CefSize& new_size)
         {
-            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
             auto handler = _browserControl->DisplayHandler;
 
             if (handler == nullptr)
@@ -293,12 +291,15 @@ namespace CefSharp
                 return false;
             }
 
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
             return handler->OnAutoResize(_browserControl, browserWrapper, CefSharp::Structs::Size(new_size.width, new_size.height));
         }
 
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
-            auto args = gcnew TitleChangedEventArgs(StringUtils::ToClr(title));
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto args = gcnew TitleChangedEventArgs(browserWrapper, StringUtils::ToClr(title));
 
             if (browser->IsPopup() && !_browserControl->HasParent)
             {
@@ -384,7 +385,9 @@ namespace CefSharp
 
         bool ClientAdapter::OnConsoleMessage(CefRefPtr<CefBrowser> browser, cef_log_severity_t level, const CefString& message, const CefString& source, int line)
         {
-            auto args = gcnew ConsoleMessageEventArgs((LogSeverity)level, StringUtils::ToClr(message), StringUtils::ToClr(source), line);
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            auto args = gcnew ConsoleMessageEventArgs(browserWrapper, (LogSeverity)level, StringUtils::ToClr(message), StringUtils::ToClr(source), line);
 
             if (!browser->IsPopup() || _browserControl->HasParent)
             {
@@ -645,6 +648,18 @@ namespace CefSharp
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
                 handler->OnRenderProcessTerminated(_browserControl, browserWrapper, (CefTerminationStatus)status);
+            }
+        }
+
+        void ClientAdapter::OnDocumentAvailableInMainFrame(CefRefPtr<CefBrowser> browser)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnDocumentAvailableInMainFrame(_browserControl, browserWrapper);
             }
         }
 
@@ -977,6 +992,79 @@ namespace CefSharp
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
                 handler->OnFindResult(_browserControl, browserWrapper, identifier, count, rect, activeMatchOrdinal, finalUpdate);
+            }
+        }
+
+        bool ClientAdapter::GetAudioParameters(CefRefPtr<CefBrowser> browser, CefAudioParameters & params)
+        {
+            auto handler = _browserControl->AudioHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto parameters = new AudioParameters((CefSharp::Enums::ChannelLayout)params.channel_layout, params.sample_rate, params.frames_per_buffer);
+
+            auto result = handler->GetAudioParameters(_browserControl, browserWrapper, *parameters);
+
+            if (result)
+            {
+                params.channel_layout = (cef_channel_layout_t)parameters->ChannelLayout;
+                params.sample_rate = parameters->SampleRate;
+                params.frames_per_buffer = parameters->FramesPerBuffer;
+            }
+
+            return result;
+        }
+
+        void ClientAdapter::OnAudioStreamStarted(CefRefPtr<CefBrowser> browser, const CefAudioParameters& params, int channels)
+        {
+            auto handler = _browserControl->AudioHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                AudioParameters parameters((CefSharp::Enums::ChannelLayout)params.channel_layout, params.sample_rate, params.frames_per_buffer);
+
+                handler->OnAudioStreamStarted(_browserControl, browserWrapper, parameters, channels);
+            }
+        }
+
+        void ClientAdapter::OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, const float** data, int frames, int64 pts)
+        {
+            auto handler = _browserControl->AudioHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnAudioStreamPacket(_browserControl, browserWrapper, IntPtr((void *)data), frames, pts);
+            }
+        }
+
+        void ClientAdapter::OnAudioStreamStopped(CefRefPtr<CefBrowser> browser)
+        {
+            auto handler = _browserControl->AudioHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnAudioStreamStopped(_browserControl, browserWrapper);
+            }
+        }
+
+        void ClientAdapter::OnAudioStreamError(CefRefPtr<CefBrowser> browser, const CefString& message)
+        {
+            auto handler = _browserControl->AudioHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnAudioStreamError(_browserControl, browserWrapper, StringUtils::ToClr(message));
             }
         }
 
