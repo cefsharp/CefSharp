@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -110,22 +111,54 @@ namespace CefSharp.Test.OffScreen
 
             var boundObj = new AsyncBoundObject();
 
-            var browser = new ChromiumWebBrowser("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url");
-            browser.JavascriptObjectRepository.Register("bound", boundObj, true);
+            using (var browser = new ChromiumWebBrowser("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url"))
+            {
+                browser.JavascriptObjectRepository.Register("bound", boundObj, true);
 
-            await browser.LoadPageAsync();
-            browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+                await browser.LoadPageAsync();
+                browser.GetMainFrame().ExecuteJavaScriptAsync(script);
 
-            await Task.Delay(2000);
-            Assert.True(boundObj.MethodCalled);
+                await Task.Delay(2000);
+                Assert.True(boundObj.MethodCalled);
 
-            boundObj.MethodCalled = false;
+                boundObj.MethodCalled = false;
 
-            browser.Load("https://www.google.com");
-            await browser.LoadPageAsync();
-            browser.GetMainFrame().ExecuteJavaScriptAsync(script);
-            await Task.Delay(2000);
-            Assert.True(boundObj.MethodCalled);
+                browser.Load("https://www.google.com");
+                await browser.LoadPageAsync();
+                browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+                await Task.Delay(2000);
+                Assert.True(boundObj.MethodCalled);
+            }
+        }
+
+        [Fact]
+        public async Task JavascriptBindingMultipleObjects()
+        {
+            const string script = @"
+                (async function()
+                {
+                    await CefSharp.BindObjectAsync('first');
+                    await CefSharp.BindObjectAsync('first', 'second');
+                })();";
+
+            var objectNames = new List<string>();
+            var boundObj = new AsyncBoundObject();
+
+            using (var browser = new ChromiumWebBrowser("https://www.google.com"))
+            {
+                browser.JavascriptObjectRepository.ResolveObject += (s, e) =>
+                {
+                    objectNames.Add(e.ObjectName);
+
+                    e.ObjectRepository.Register(e.ObjectName, boundObj, isAsync: true);
+                };
+
+                await browser.LoadPageAsync();
+                browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+
+                await Task.Delay(2000);
+                Assert.Equal(new[] { "first", "second" }, objectNames);
+            }
         }
 
         /// <summary>
