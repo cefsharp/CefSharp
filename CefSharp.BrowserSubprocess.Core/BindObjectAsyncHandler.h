@@ -49,6 +49,12 @@ namespace CefSharp
                 try
                 {
                     auto params = CefListValue::Create();
+                    //We need to store a seperate index into our params as
+                    //there are instances we skip over already cached objects
+                    //and end up with empty strings in the list.
+                    //e.g. first object is already bound/cached, we previously
+                    //second object isn't we end up with a list of "", "secondObject"
+                    int paramsIndex = 0;
 
                     auto boundObjectRequired = false;
                     auto notifyIfAlreadyBound = false;
@@ -95,7 +101,7 @@ namespace CefSharp
                                 {
                                     //If no matching object found then we'll add the object name to the list
                                     boundObjectRequired = true;
-                                    params->SetString(i, objectName);
+                                    params->SetString(paramsIndex++, objectName);
 
                                     JavascriptObject^ obj;
                                     if (_javascriptObjects->TryGetValue(managedObjectName, obj))
