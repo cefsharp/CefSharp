@@ -1,4 +1,11 @@
-image: Visual Studio 2015
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      target: vs2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      target: vs2017
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      target: vs2019
 
 version: 84.3.30-CI{build}
 
@@ -13,7 +20,7 @@ skip_commits:
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
-  - ps: .\build.ps1
+  - ps: .\build.ps1 $env:target
 
 # Test our Release x64 build
 test:
