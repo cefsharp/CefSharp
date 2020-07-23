@@ -211,7 +211,7 @@ namespace CefSharp
                     charBounds[index] = Rect((*it).x, (*it).y, (*it).width, (*it).height);
                 }
 
-                _renderWebBrowser->OnImeCompositionRangeChanged(Range(selectedRange.from, selectedRange.to), charBounds);
+                _renderWebBrowser->OnImeCompositionRangeChanged(CefSharp::Structs::Range(selectedRange.from, selectedRange.to), charBounds);
             }
 
             //CefAccessibilityHandler

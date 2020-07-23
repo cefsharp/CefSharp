@@ -1,0 +1,127 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30223.230
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.netcore", "CefSharp\CefSharp.netcore.csproj", "{39E385AD-DC5C-451E-B061-09AF3EE038EB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.Core.netcore", "CefSharp.Core\CefSharp.Core.netcore.vcxproj", "{7B495581-2271-4F41-9476-ACB86E8C864F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.BrowserSubprocess.Core.netcore", "CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.netcore.vcxproj", "{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.WinForms.netcore", "CefSharp.WinForms\CefSharp.WinForms.netcore.csproj", "{B91EB129-F892-402C-AF08-F3E1D5B80B09}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Wpf.netcore", "CefSharp.Wpf\CefSharp.Wpf.netcore.csproj", "{99A1985B-2C79-4DE5-A0AD-0513647B9737}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.OffScreen.netcore", "CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj", "{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47D0DC8C-D707-4D8A-A578-7737AA9CE79B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		appveyor.yml = appveyor.yml
+		CefSharp.Native.props = CefSharp.Native.props
+		CefSharp.props = CefSharp.props
+		CONTRIBUTING.md = CONTRIBUTING.md
+		ISSUE_TEMPLATE.md = ISSUE_TEMPLATE.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{A23AA466-1903-44F2-946D-25AD0500D56B}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\CefSharp.Common.nuspec = NuGet\CefSharp.Common.nuspec
+		NuGet\CefSharp.Common.props = NuGet\CefSharp.Common.props
+		NuGet\CefSharp.Common.targets = NuGet\CefSharp.Common.targets
+		NuGet\CefSharp.OffScreen.nuspec = NuGet\CefSharp.OffScreen.nuspec
+		NuGet\CefSharp.OffScreen.props = NuGet\CefSharp.OffScreen.props
+		NuGet\CefSharp.WinForms.nuspec = NuGet\CefSharp.WinForms.nuspec
+		NuGet\CefSharp.WinForms.props = NuGet\CefSharp.WinForms.props
+		NuGet\CefSharp.Wpf.nuspec = NuGet\CefSharp.Wpf.nuspec
+		NuGet\CefSharp.Wpf.props = NuGet\CefSharp.Wpf.props
+		NuGet\Readme.txt = NuGet\Readme.txt
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Example.netcore", "CefSharp.Example\CefSharp.Example.netcore.csproj", "{89540209-0C6D-4387-BE8A-7593B8D7784A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.WinForms.Example.netcore", "CefSharp.WinForms.Example\CefSharp.WinForms.Example.netcore.csproj", "{64E47346-0BB1-4DF7-B135-12D70E1F2F32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39E385AD-DC5C-451E-B061-09AF3EE038EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{39E385AD-DC5C-451E-B061-09AF3EE038EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{39E385AD-DC5C-451E-B061-09AF3EE038EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{39E385AD-DC5C-451E-B061-09AF3EE038EB}.Debug|x86.Build.0 = Debug|Any CPU
+		{39E385AD-DC5C-451E-B061-09AF3EE038EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{39E385AD-DC5C-451E-B061-09AF3EE038EB}.Release|x64.Build.0 = Release|Any CPU
+		{39E385AD-DC5C-451E-B061-09AF3EE038EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{39E385AD-DC5C-451E-B061-09AF3EE038EB}.Release|x86.Build.0 = Release|Any CPU
+		{7B495581-2271-4F41-9476-ACB86E8C864F}.Debug|x64.ActiveCfg = Debug|x64
+		{7B495581-2271-4F41-9476-ACB86E8C864F}.Debug|x64.Build.0 = Debug|x64
+		{7B495581-2271-4F41-9476-ACB86E8C864F}.Debug|x86.ActiveCfg = Debug|Win32
+		{7B495581-2271-4F41-9476-ACB86E8C864F}.Debug|x86.Build.0 = Debug|Win32
+		{7B495581-2271-4F41-9476-ACB86E8C864F}.Release|x64.ActiveCfg = Release|x64
+		{7B495581-2271-4F41-9476-ACB86E8C864F}.Release|x64.Build.0 = Release|x64
+		{7B495581-2271-4F41-9476-ACB86E8C864F}.Release|x86.ActiveCfg = Release|Win32
+		{7B495581-2271-4F41-9476-ACB86E8C864F}.Release|x86.Build.0 = Release|Win32
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}.Debug|x64.ActiveCfg = Debug|x64
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}.Debug|x64.Build.0 = Debug|x64
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}.Debug|x86.ActiveCfg = Debug|Win32
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}.Debug|x86.Build.0 = Debug|Win32
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}.Release|x64.ActiveCfg = Release|x64
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}.Release|x64.Build.0 = Release|x64
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}.Release|x86.ActiveCfg = Release|Win32
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}.Release|x86.Build.0 = Release|Win32
+		{B91EB129-F892-402C-AF08-F3E1D5B80B09}.Debug|x64.ActiveCfg = Debug|x64
+		{B91EB129-F892-402C-AF08-F3E1D5B80B09}.Debug|x64.Build.0 = Debug|x64
+		{B91EB129-F892-402C-AF08-F3E1D5B80B09}.Debug|x86.ActiveCfg = Debug|x86
+		{B91EB129-F892-402C-AF08-F3E1D5B80B09}.Debug|x86.Build.0 = Debug|x86
+		{B91EB129-F892-402C-AF08-F3E1D5B80B09}.Release|x64.ActiveCfg = Release|x64
+		{B91EB129-F892-402C-AF08-F3E1D5B80B09}.Release|x64.Build.0 = Release|x64
+		{B91EB129-F892-402C-AF08-F3E1D5B80B09}.Release|x86.ActiveCfg = Release|x86
+		{B91EB129-F892-402C-AF08-F3E1D5B80B09}.Release|x86.Build.0 = Release|x86
+		{99A1985B-2C79-4DE5-A0AD-0513647B9737}.Debug|x64.ActiveCfg = Debug|x64
+		{99A1985B-2C79-4DE5-A0AD-0513647B9737}.Debug|x64.Build.0 = Debug|x64
+		{99A1985B-2C79-4DE5-A0AD-0513647B9737}.Debug|x86.ActiveCfg = Debug|x86
+		{99A1985B-2C79-4DE5-A0AD-0513647B9737}.Debug|x86.Build.0 = Debug|x86
+		{99A1985B-2C79-4DE5-A0AD-0513647B9737}.Release|x64.ActiveCfg = Release|x64
+		{99A1985B-2C79-4DE5-A0AD-0513647B9737}.Release|x64.Build.0 = Release|x64
+		{99A1985B-2C79-4DE5-A0AD-0513647B9737}.Release|x86.ActiveCfg = Release|x86
+		{99A1985B-2C79-4DE5-A0AD-0513647B9737}.Release|x86.Build.0 = Release|x86
+		{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}.Debug|x64.ActiveCfg = Debug|x64
+		{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}.Debug|x64.Build.0 = Debug|x64
+		{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}.Debug|x86.ActiveCfg = Debug|x86
+		{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}.Debug|x86.Build.0 = Debug|x86
+		{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}.Release|x64.ActiveCfg = Release|x64
+		{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}.Release|x64.Build.0 = Release|x64
+		{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}.Release|x86.ActiveCfg = Release|x86
+		{6680485E-7A5A-4661-86EB-F7B7B6AE4ADE}.Release|x86.Build.0 = Release|x86
+		{89540209-0C6D-4387-BE8A-7593B8D7784A}.Debug|x64.ActiveCfg = Debug|x64
+		{89540209-0C6D-4387-BE8A-7593B8D7784A}.Debug|x64.Build.0 = Debug|x64
+		{89540209-0C6D-4387-BE8A-7593B8D7784A}.Debug|x86.ActiveCfg = Debug|x86
+		{89540209-0C6D-4387-BE8A-7593B8D7784A}.Debug|x86.Build.0 = Debug|x86
+		{89540209-0C6D-4387-BE8A-7593B8D7784A}.Release|x64.ActiveCfg = Release|x64
+		{89540209-0C6D-4387-BE8A-7593B8D7784A}.Release|x64.Build.0 = Release|x64
+		{89540209-0C6D-4387-BE8A-7593B8D7784A}.Release|x86.ActiveCfg = Release|x86
+		{89540209-0C6D-4387-BE8A-7593B8D7784A}.Release|x86.Build.0 = Release|x86
+		{64E47346-0BB1-4DF7-B135-12D70E1F2F32}.Debug|x64.ActiveCfg = Debug|x64
+		{64E47346-0BB1-4DF7-B135-12D70E1F2F32}.Debug|x64.Build.0 = Debug|x64
+		{64E47346-0BB1-4DF7-B135-12D70E1F2F32}.Debug|x86.ActiveCfg = Debug|x86
+		{64E47346-0BB1-4DF7-B135-12D70E1F2F32}.Debug|x86.Build.0 = Debug|x86
+		{64E47346-0BB1-4DF7-B135-12D70E1F2F32}.Release|x64.ActiveCfg = Release|x64
+		{64E47346-0BB1-4DF7-B135-12D70E1F2F32}.Release|x64.Build.0 = Release|x64
+		{64E47346-0BB1-4DF7-B135-12D70E1F2F32}.Release|x86.ActiveCfg = Release|x86
+		{64E47346-0BB1-4DF7-B135-12D70E1F2F32}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97E41A52-091D-4375-A0F7-696C2F3F3684}
+	EndGlobalSection
+EndGlobal

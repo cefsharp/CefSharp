@@ -65,7 +65,9 @@ namespace CefSharp.WinForms.Example
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             browser.LoadError += OnLoadError;
 
+#if !NETCOREAPP
             browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
+#endif
             browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: BindingOptions.DefaultBinder);
 
             //If you call CefSharp.BindObjectAsync in javascript and pass in the name of an object which is not yet
@@ -90,7 +92,9 @@ namespace CefSharp.WinForms.Example
             eventObject.EventArrived += OnJavascriptEventArrived;
             // Use the default of camelCaseJavascriptNames
             // .Net methods starting with a capitol will be translated to starting with a lower case letter when called from js
+#if !NETCOREAPP
             browser.JavascriptObjectRepository.Register("boundEvent", eventObject, isAsync: false, options: BindingOptions.DefaultBinder);
+#endif
 
             CefExample.RegisterTestResources(browser);
 

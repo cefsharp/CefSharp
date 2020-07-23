@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include "WcfEnabledSubProcess.h"
 
+#ifndef NETCOREAPP
 using namespace System::ServiceModel;
 
 namespace CefSharp
@@ -101,3 +102,4 @@ namespace CefSharp
         }
     }
 }
+#endif

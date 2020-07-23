@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CefSharp.Callback;
 using CefSharp.Enums;
 using CefSharp.Structs;
+using Range = CefSharp.Structs.Range;
 using Size = CefSharp.Structs.Size;
 
 namespace CefSharp
