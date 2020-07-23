@@ -36,22 +36,22 @@ namespace CefSharp
         /// <summary>
         /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
-        public double MarginLeft { get; set; }
+        public int MarginLeft { get; set; }
 
         /// <summary>
         /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
-        public double MarginTop { get; set; }
+        public int MarginTop { get; set; }
 
         /// <summary>
         /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
-        public double MarginRight { get; set; }
+        public int MarginRight { get; set; }
 
         /// <summary>
         /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
-        public double MarginBottom { get; set; }
+        public int MarginBottom { get; set; }
 
         /// <summary>
         /// Margin type.
