@@ -16,8 +16,8 @@ namespace CefSharp.Wpf.Internals
     {
         // Black SkColor value for underline.
         public static uint ColorUNDERLINE = 0xFF000000;
-        // White SkColor value for background.
-        public static uint ColorBKCOLOR = 0xFFFFFFFF;
+        // Transparent SkColor value for background.
+        public static uint ColorBKCOLOR = 0x00000000;
 
         public static bool GetResult(IntPtr hwnd, uint lParam, out string text)
         {
