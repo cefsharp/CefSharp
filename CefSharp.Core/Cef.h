@@ -558,7 +558,7 @@ namespace CefSharp
         /// Async returns a list containing Plugin Information
         /// (Wrapper around CefVisitWebPluginInfo)
         /// </summary>
-        /// <returns>Returns List of <see cref="Plugin"/> structs.</returns>
+        /// <returns>Returns List of <see cref="WebPluginInfo"/> structs.</returns>
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
@@ -769,7 +769,7 @@ namespace CefSharp
         /// will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode::NotSupported"/>.
         /// </summary>
         /// <param name="path"> is a directory that contains the Widevine CDM files</param>
-        /// <param name="callback">optional callback - <see cref="IRegisterCdmCallback::OnRegistrationCompletecallback"/> 
+        /// <param name="callback">optional callback - <see cref="IRegisterCdmCallback::OnRegistrationComplete"/> 
         /// will be executed asynchronously once registration is complete</param>
         static void RegisterWidevineCdm(String^ path, [Optional] IRegisterCdmCallback^ callback)
         {
