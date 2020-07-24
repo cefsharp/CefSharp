@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		appveyor.yml = appveyor.yml
-		CefSharp.Native.props = CefSharp.Native.props
+		CefSharp.AfterBuild.targets = CefSharp.AfterBuild.targets
 		CefSharp.props = CefSharp.props
 		CONTRIBUTING.md = CONTRIBUTING.md
 		ISSUE_TEMPLATE.md = ISSUE_TEMPLATE.md
@@ -44,12 +44,24 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Example.netcore", "CefSharp.Example\CefSharp.Example.netcore.csproj", "{89540209-0C6D-4387-BE8A-7593B8D7784A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.WinForms.Example.netcore", "CefSharp.WinForms.Example\CefSharp.WinForms.Example.netcore.csproj", "{64E47346-0BB1-4DF7-B135-12D70E1F2F32}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C} = {6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}
+		{FBFBD752-467C-444F-93E4-80D6242E8513} = {FBFBD752-467C-444F-93E4-80D6242E8513}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.BrowserSubprocess.netcore", "CefSharp.BrowserSubprocess\CefSharp.BrowserSubprocess.netcore.csproj", "{FBFBD752-467C-444F-93E4-80D6242E8513}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Wpf.Example.netcore", "CefSharp.Wpf.Example\CefSharp.Wpf.Example.netcore.csproj", "{E73A3B0C-457E-4065-BCE9-A10CAA8F4F2A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C} = {6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}
+		{FBFBD752-467C-444F-93E4-80D6242E8513} = {FBFBD752-467C-444F-93E4-80D6242E8513}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.OffScreen.Example.netcore", "CefSharp.OffScreen.Example\CefSharp.OffScreen.Example.netcore.csproj", "{A430C9D4-0952-44A2-989A-23C476B7A1F0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C} = {6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}
+		{FBFBD752-467C-444F-93E4-80D6242E8513} = {FBFBD752-467C-444F-93E4-80D6242E8513}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

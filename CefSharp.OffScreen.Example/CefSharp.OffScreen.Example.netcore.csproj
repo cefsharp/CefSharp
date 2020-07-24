@@ -43,6 +43,6 @@
         <Compile Remove="obj/**/*.*" />
     </ItemGroup>
 
-    <Import Project="$(SolutionDir)\CefSharp.Native.props" />
+    <Import Project="$(SolutionDir)\CefSharp.AfterBuild.targets" />
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>

@@ -76,24 +76,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
-  <!-- Copy the CEF redist files. -->
-  <ItemGroup Condition="'$(PlatformTarget)' == 'x86'">
-    <Content Include="@(CefRedist32)">
-      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-      <PublishState>Included</PublishState>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition="'$(PlatformTarget)' == 'x64'">
-    <Content Include="@(CefRedist64)">
-      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-      <PublishState>Included</PublishState>
-    </Content>
-  </ItemGroup>
   
   <ItemGroup>
     <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
