@@ -226,4 +226,13 @@
   <data name="BindingApiCustomObjectNameTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BindingApiCustomObjectNameTest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="BindingTestAsync" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BindingTestAsync.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="BindingTestSync" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BindingTestSync.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="BindingTestNetCore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BindingTestNetCore.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

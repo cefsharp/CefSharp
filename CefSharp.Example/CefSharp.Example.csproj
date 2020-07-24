@@ -156,6 +156,9 @@
     <Content Include="Resources\assets\js\shBrushCSharp.js" />
     <None Include="Resources\assets\js\shBrushJScript.js" />
     <Content Include="Resources\assets\js\shCore.js" />
+    <Content Include="Resources\BindingTestNetCore.html" />
+    <Content Include="Resources\BindingTestAsync.js" />
+    <Content Include="Resources\BindingTestSync.js" />
     <Content Include="Resources\BindingTestsAsyncTask.html" />
     <Content Include="Resources\BindingApiCustomObjectNameTest.html" />
     <Content Include="Resources\BindingTestSingle.html" />
