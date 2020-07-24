@@ -63,6 +63,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.OffScreen.Example.
 		{FBFBD752-467C-444F-93E4-80D6242E8513} = {FBFBD752-467C-444F-93E4-80D6242E8513}
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Test.netcore", "CefSharp.Test\CefSharp.Test.netcore.csproj", "{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C} = {6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}
+		{FBFBD752-467C-444F-93E4-80D6242E8513} = {FBFBD752-467C-444F-93E4-80D6242E8513}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -159,6 +165,14 @@ Global
 		{A430C9D4-0952-44A2-989A-23C476B7A1F0}.Release|x64.Build.0 = Release|x64
 		{A430C9D4-0952-44A2-989A-23C476B7A1F0}.Release|x86.ActiveCfg = Release|x86
 		{A430C9D4-0952-44A2-989A-23C476B7A1F0}.Release|x86.Build.0 = Release|x86
+		{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}.Debug|x64.ActiveCfg = Debug|x64
+		{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}.Debug|x64.Build.0 = Debug|x64
+		{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}.Debug|x86.ActiveCfg = Debug|x86
+		{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}.Debug|x86.Build.0 = Debug|x86
+		{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}.Release|x64.ActiveCfg = Release|x64
+		{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}.Release|x64.Build.0 = Release|x64
+		{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}.Release|x86.ActiveCfg = Release|x86
+		{51890C83-8FA3-4C9D-B3B7-A7DDF3C14A40}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

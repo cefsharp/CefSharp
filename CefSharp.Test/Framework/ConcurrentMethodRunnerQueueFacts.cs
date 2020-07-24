@@ -27,7 +27,11 @@ namespace CefSharp.Test.Framework
             var boundObject = new AsyncBoundObject();
 
             var objectRepository = new JavascriptObjectRepository();
+#if NETCOREAPP
+            objectRepository.Register("testObject", boundObject, new BindingOptions { CamelCaseJavascriptNames = false });
+#else
             objectRepository.Register("testObject", boundObject, true, new BindingOptions { CamelCaseJavascriptNames = false });
+#endif
             var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add("Echo Me!");
             var methodRunnerQueue = new ConcurrentMethodRunnerQueue(objectRepository);
@@ -49,7 +53,11 @@ namespace CefSharp.Test.Framework
             var boundObject = new AsyncBoundObject();
 
             var objectRepository = new JavascriptObjectRepository();
+#if NETCOREAPP
+            objectRepository.Register("testObject", boundObject, new BindingOptions { CamelCaseJavascriptNames = false });
+#else
             objectRepository.Register("testObject", boundObject, true, new BindingOptions { CamelCaseJavascriptNames = false });
+#endif
             var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add(expectedResult);
             var methodRunnerQueue = new ConcurrentMethodRunnerQueue(objectRepository);

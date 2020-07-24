@@ -113,7 +113,11 @@ namespace CefSharp.Test.OffScreen
 
             using (var browser = new ChromiumWebBrowser("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url"))
             {
+#if NETCOREAPP
+                browser.JavascriptObjectRepository.Register("bound", boundObj);
+#else
                 browser.JavascriptObjectRepository.Register("bound", boundObj, true);
+#endif
 
                 await browser.LoadPageAsync();
                 browser.GetMainFrame().ExecuteJavaScriptAsync(script);
@@ -149,8 +153,11 @@ namespace CefSharp.Test.OffScreen
                 browser.JavascriptObjectRepository.ResolveObject += (s, e) =>
                 {
                     objectNames.Add(e.ObjectName);
-
+#if NETCOREAPP
+                    e.ObjectRepository.Register(e.ObjectName, boundObj);
+#else
                     e.ObjectRepository.Register(e.ObjectName, boundObj, isAsync: true);
+#endif
                 };
 
                 await browser.LoadPageAsync();
