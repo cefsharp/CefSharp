@@ -28,9 +28,11 @@ namespace CefSharp.Wpf.Experimental.Accessibility
         private List<AutomationPeer> GetChildPeers(UIElement element)
         {
             var list = new List<AutomationPeer>();
+
             for (var i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
             {
-                if (VisualTreeHelper.GetChild(element, i) is UIElement child)
+                var child = VisualTreeHelper.GetChild(element, i) as UIElement;
+                if (child != null)
                 {
                     var childPeer = CreatePeerForElement(child);
                     if (childPeer != null)
