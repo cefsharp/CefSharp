@@ -160,7 +160,9 @@ namespace CefSharp
                     {
                         auto key = StringUtils::ToNative(Convert::ToString(entry.Key));
                         auto entryValue = entry.Value;
-                        SerializeV8Object(cefDictionary, key, entryValue);
+                        //We don't pass a nameConverter here as the keys should
+                        //remain unchanged
+                        SerializeV8Object(cefDictionary, key, entryValue, nullptr);
                     }
 
                     cefValue->SetDictionary(cefDictionary);
@@ -173,7 +175,9 @@ namespace CefSharp
                     int i = 0;
                     for each (Object^ arrObj in enumerable)
                     {
-                        SerializeV8Object(cefList, i, arrObj);
+                        //We don't pass a nameConverter here as the keys should
+                        //remain unchanged
+                        SerializeV8Object(cefList, i, arrObj, nullptr);
 
                         i++;
                     }
@@ -299,7 +303,7 @@ namespace CefSharp
             static NavigationEntry^ FromNative(const CefRefPtr<CefNavigationEntry> entry, bool current)
             {
                 SslStatus^ sslStatus;
-              
+
                 if (!entry.get())
                 {
                     return nullptr;

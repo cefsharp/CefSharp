@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using CefSharp.JavascriptBinding;
 
 namespace CefSharp.ModelBinding
 {
@@ -18,6 +19,12 @@ namespace CefSharp.ModelBinding
     public class DefaultBinder : IBinder
     {
         private static readonly MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
+        private readonly IJavascriptNameConverter javascriptNameConverter;
+
+        public DefaultBinder(IJavascriptNameConverter javascriptNameConverter = null)
+        {
+            this.javascriptNameConverter = javascriptNameConverter;
+        }
 
         /// <summary>
         /// Bind to the given model type
@@ -147,13 +154,20 @@ namespace CefSharp.ModelBinding
             if (typeof(IDictionary<string, object>).IsAssignableFrom(objType))
             {
                 var dictionary = (IDictionary<string, object>)obj;
+                //TODO: Add Caching
                 var members = BindingMemberInfo.Collect(targetType).ToList();
 
+                //TODO: We currently go through all the propertie/fields and
+                //atempt to find a match in the dictionary, we should probably
+                //do the reverse and go through all the keys in the dictionary
+                //and see if there is a match to a property member
                 foreach (var modelProperty in members)
                 {
                     object val;
 
-                    if (dictionary.TryGetValue(modelProperty.Name, out val))
+                    var propertyName = GetPropertyName(modelProperty);
+
+                    if (dictionary.TryGetValue(propertyName, out val))
                     {
                         var propertyVal = Bind(val, modelProperty.Type);
 
@@ -163,6 +177,15 @@ namespace CefSharp.ModelBinding
             }
 
             return model;
+        }
+
+        private string GetPropertyName(BindingMemberInfo modelProperty)
+        {
+            if (javascriptNameConverter == null)
+            {
+                return modelProperty.Name;
+            }
+            return javascriptNameConverter.ConvertReturnedObjectPropertyAndFieldToNameJavascript(modelProperty);
         }
     }
 }

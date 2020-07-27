@@ -4,7 +4,7 @@
 
 using System;
 using CefSharp.Event;
-using CefSharp.Internals;
+using CefSharp.JavascriptBinding;
 
 namespace CefSharp
 {
@@ -18,6 +18,12 @@ namespace CefSharp
         /// Javascript Binding Settings
         /// </summary>
         JavascriptBindingSettings Settings { get; }
+        /// <summary>
+        /// Converted .Net method/property/field names to the name that
+        /// will be used in Javasript. Used for when .Net naming conventions
+        /// differ from Javascript naming conventions.
+        /// </summary>
+        IJavascriptNameConverter NameConverter { get; set; }
         /// <summary>
         /// Register an object for binding in Javascript. You can either
         /// register an object in advance or as part of the <see cref="ResolveObject"/>

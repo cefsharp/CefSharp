@@ -31,6 +31,7 @@ namespace CefSharp
             }
 
             auto browserWrapper = static_cast<CefBrowserWrapper^>(browser);
+            auto javascriptNameConverter = GetJavascriptNameConverter();
 
             auto doneCallback = _pendingTasks->CreatePendingTask(timeout);
 
@@ -42,7 +43,7 @@ namespace CefSharp
             for (int i = 0; i < parameters->Length; i++)
             {
                 auto param = parameters[i];
-                SerializeV8Object(paramList, i, param);
+                SerializeV8Object(paramList, i, param, javascriptNameConverter);
             }
             argList->SetList(2, paramList);
 
@@ -72,15 +73,30 @@ namespace CefSharp
             return result;
         }
 
+        //TODO: Reduce code duplication
         IBrowser^ JavascriptCallbackProxy::GetBrowser()
         {
             IBrowser^ result = nullptr;
-            if (_browserAdapter->IsAlive)
+            IBrowserAdapter^ browserAdapter;
+            if (_browserAdapter->TryGetTarget(browserAdapter))
             {
-                auto browserAdapter = static_cast<IBrowserAdapter^>(_browserAdapter->Target);
                 if (!browserAdapter->IsDisposed)
                 {
                     result = browserAdapter->GetBrowser(_callback->BrowserId);
+                }
+            }
+            return result;
+        }
+
+        IJavascriptNameConverter^ JavascriptCallbackProxy::GetJavascriptNameConverter()
+        {
+            IJavascriptNameConverter^ result = nullptr;
+            IBrowserAdapter^ browserAdapter;
+            if (_browserAdapter->TryGetTarget(browserAdapter))
+            {
+                if (!browserAdapter->IsDisposed && browserAdapter->JavascriptObjectRepository != nullptr)
+                {
+                    result = browserAdapter->JavascriptObjectRepository->NameConverter;
                 }
             }
             return result;

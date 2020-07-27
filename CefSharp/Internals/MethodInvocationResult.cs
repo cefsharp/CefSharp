@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.JavascriptBinding;
+
 namespace CefSharp.Internals
 {
     public sealed class MethodInvocationResult
@@ -17,5 +19,7 @@ namespace CefSharp.Internals
         public bool Success { get; set; }
 
         public object Result { get; set; }
+
+        public IJavascriptNameConverter NameConverter { get; set; }
     }
 }

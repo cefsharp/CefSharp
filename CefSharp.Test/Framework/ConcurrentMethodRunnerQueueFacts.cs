@@ -27,10 +27,11 @@ namespace CefSharp.Test.Framework
             var boundObject = new AsyncBoundObject();
 
             var objectRepository = new JavascriptObjectRepository();
+            objectRepository.NameConverter = null;
 #if NETCOREAPP
-            objectRepository.Register("testObject", boundObject, new BindingOptions { CamelCaseJavascriptNames = false });
+            objectRepository.Register("testObject", boundObject, BindingOptions.DefaultBinder);
 #else
-            objectRepository.Register("testObject", boundObject, true, new BindingOptions { CamelCaseJavascriptNames = false });
+            objectRepository.Register("testObject", boundObject, true, BindingOptions.DefaultBinder);
 #endif
             var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add("Echo Me!");
@@ -53,10 +54,11 @@ namespace CefSharp.Test.Framework
             var boundObject = new AsyncBoundObject();
 
             var objectRepository = new JavascriptObjectRepository();
+            objectRepository.NameConverter = null;
 #if NETCOREAPP
-            objectRepository.Register("testObject", boundObject, new BindingOptions { CamelCaseJavascriptNames = false });
+            objectRepository.Register("testObject", boundObject, BindingOptions.DefaultBinder);
 #else
-            objectRepository.Register("testObject", boundObject, true, new BindingOptions { CamelCaseJavascriptNames = false });
+            objectRepository.Register("testObject", boundObject, true, BindingOptions.DefaultBinder);
 #endif
             var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add(expectedResult);

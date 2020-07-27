@@ -14,8 +14,7 @@ namespace CefSharp.ModelBinding
     /// </summary>
     public class BindingMemberInfo
     {
-        private readonly PropertyInfo propertyInfo;
-        private readonly FieldInfo fieldInfo;
+        private readonly MemberInfo memberInfo;
 
         /// <summary>
         /// Gets the name of the property or field represented by this BindingMemberInfo.
@@ -38,7 +37,7 @@ namespace CefSharp.ModelBinding
                 throw new ArgumentNullException("propertyInfo");
             }
 
-            this.propertyInfo = propertyInfo;
+            memberInfo = propertyInfo;
 
             Type = propertyInfo.PropertyType;
             Name = propertyInfo.Name;
@@ -55,7 +54,7 @@ namespace CefSharp.ModelBinding
                 throw new ArgumentNullException("fieldInfo");
             }
 
-            this.fieldInfo = fieldInfo;
+            memberInfo = fieldInfo;
 
             Type = fieldInfo.FieldType;
             Name = fieldInfo.Name;
@@ -68,14 +67,19 @@ namespace CefSharp.ModelBinding
         /// <param name="newValue">The value to assign in the specified object to this BindingMemberInfo's property or field.</param>
         public void SetValue(object destinationObject, object newValue)
         {
-            if (propertyInfo == null)
+            if (memberInfo is PropertyInfo)
             {
-                fieldInfo.SetValue(destinationObject, newValue);
+                ((PropertyInfo)memberInfo).SetValue(destinationObject, newValue, null);
             }
             else
             {
-                propertyInfo.SetValue(destinationObject, newValue, null);
+                ((FieldInfo)memberInfo).SetValue(destinationObject, newValue);
             }
+        }
+
+        public static implicit operator MemberInfo(BindingMemberInfo info)
+        {
+            return info.memberInfo;
         }
 
         /// <summary>
