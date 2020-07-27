@@ -77,9 +77,9 @@ namespace CefSharp
         IBrowser^ JavascriptCallbackProxy::GetBrowser()
         {
             IBrowser^ result = nullptr;
-            if (_browserAdapter->IsAlive)
+            IBrowserAdapter^ browserAdapter;
+            if (_browserAdapter->TryGetTarget(browserAdapter))
             {
-                auto browserAdapter = static_cast<IBrowserAdapter^>(_browserAdapter->Target);
                 if (!browserAdapter->IsDisposed)
                 {
                     result = browserAdapter->GetBrowser(_callback->BrowserId);
@@ -91,9 +91,9 @@ namespace CefSharp
         IJavascriptNameConverter^ JavascriptCallbackProxy::GetJavascriptNameConverter()
         {
             IJavascriptNameConverter^ result = nullptr;
-            if (_browserAdapter->IsAlive)
+            IBrowserAdapter^ browserAdapter;
+            if (_browserAdapter->TryGetTarget(browserAdapter))
             {
-                auto browserAdapter = static_cast<IBrowserAdapter^>(_browserAdapter->Target);
                 if (!browserAdapter->IsDisposed && browserAdapter->JavascriptObjectRepository != nullptr)
                 {
                     result = browserAdapter->JavascriptObjectRepository->NameConverter;

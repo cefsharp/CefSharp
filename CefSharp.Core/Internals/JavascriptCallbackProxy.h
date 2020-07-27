@@ -21,8 +21,7 @@ namespace CefSharp
         private ref class JavascriptCallbackProxy : public IJavascriptCallback
         {
         private:
-            //TODO: Code Cleanup: Change to WeakReference<IBrowserAdapter^>^
-            WeakReference^ _browserAdapter;
+            WeakReference<IBrowserAdapter^>^ _browserAdapter;
             JavascriptCallback^ _callback;
             PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
             bool _disposed;
@@ -32,7 +31,7 @@ namespace CefSharp
             IJavascriptNameConverter^ GetJavascriptNameConverter();
             void DisposedGuard();
         public:
-            JavascriptCallbackProxy(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserAdapter)
+            JavascriptCallbackProxy(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference<IBrowserAdapter^>^ browserAdapter)
                 :_callback(callback), _pendingTasks(pendingTasks), _disposed(false)
             {
                 _browserAdapter = browserAdapter;
