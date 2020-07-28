@@ -10,6 +10,8 @@ skip_commits:
     - '**/*.md'
     - '**/*.html'
     - '**/*.js'
+    - '**/*.css'
+    - '**/*.txt'
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
