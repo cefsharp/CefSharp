@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+       to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+        <BaseOutputPath>bin.netcore\</BaseOutputPath>
+    </PropertyGroup>
+
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>CefSharp.Wpf.Example</RootNamespace>
+        <AssemblyName>CefSharp.Wpf.Example</AssemblyName>
+        <UseWPF>true</UseWPF>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <Platforms>x86;x64</Platforms>
+        <StartupObject>CefSharp.Wpf.Example.Program</StartupObject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+        <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
+        <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
+        <PackageReference Condition="'$(PlatformTarget)' == 'x86'" Include="cef.redist.x86" Version="84.3.3" />
+        <PackageReference Condition="'$(PlatformTarget)' == 'x64'" Include="cef.redist.x64" Version="84.3.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="crash_reporter.cfg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+        <None Remove="bin/**/*.*" />
+        <None Remove="obj/**/*.*" />
+        <Compile Remove="obj/**/*.*" />
+    </ItemGroup>
+
+    <Import Project="$(SolutionDir)\CefSharp.AfterBuild.targets" />
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+</Project>

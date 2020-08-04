@@ -10,6 +10,7 @@
 #include "JavascriptMethodHandler.h"
 
 using namespace System::Runtime::Serialization;
+using namespace CefSharp::Internals::Wcf;
 
 namespace CefSharp
 {

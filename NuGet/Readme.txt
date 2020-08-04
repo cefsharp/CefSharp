@@ -30,7 +30,7 @@ What's New:
 
 Basic Troubleshooting:
   - Minimum of .Net 4.5.2
-  - Make sure `VC++ 2015 Redist` is installed (either `x86` or `x64` depending on your application)
+  - Minimum of `Visual C++ 2015 Redist` is installed (either `x86` or `x64` depending on your application). VC++ 2017/2019 are backwards compatible. 
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (CEF code)
     * icudtl.dat (Unicode Support data)

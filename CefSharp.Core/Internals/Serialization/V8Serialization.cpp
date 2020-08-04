@@ -12,6 +12,19 @@
 
 using namespace System::Collections::Generic;
 
+namespace
+{
+    String^ GetJavascriptName(System::Reflection::MemberInfo^ memberInfo, IJavascriptNameConverter^ nameConverter)
+    {
+        if (nameConverter == nullptr)
+        {
+            return memberInfo->Name;
+        }
+
+        return nameConverter->ConvertReturnedObjectPropertyAndFieldToNameJavascript(memberInfo);
+    }
+}
+
 namespace CefSharp
 {
     namespace Internals
@@ -19,17 +32,17 @@ namespace CefSharp
         namespace Serialization
         {
             template<typename TList, typename TIndex>
-            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj)
+            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, IJavascriptNameConverter^ nameConverter)
             {
                 // Collection of ancestors to currently serialised object.
                 // This enables prevention of endless loops due to cycles in graphs where
                 // a child references one of its ancestors.
                 auto ancestors = gcnew HashSet<Object^>();
-                SerializeV8SimpleObject(list, index, obj, ancestors);
+                SerializeV8SimpleObject(list, index, obj, ancestors, nameConverter);
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, HashSet<Object^>^ ancestors)
+            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, HashSet<Object^>^ ancestors, IJavascriptNameConverter^ nameConverter)
             {
                 list->SetNull(index);
 
@@ -135,7 +148,7 @@ namespace CefSharp
                     for each (System::Collections::DictionaryEntry kvp in dict)
                     {
                         auto fieldName = StringUtils::ToNative(Convert::ToString(kvp.Key));
-                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, ancestors);
+                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, ancestors, nameConverter);
                     }
                     list->SetDictionary(index, subDict);
                 }
@@ -147,7 +160,7 @@ namespace CefSharp
                     int i = 0;
                     for each (Object^ arrObj in enumerable)
                     {
-                        SerializeV8SimpleObject(subList, i, arrObj, ancestors);
+                        SerializeV8SimpleObject(subList, i, arrObj, ancestors, nameConverter);
                         i++;
                     }
                     list->SetList(index, subList);
@@ -179,18 +192,18 @@ namespace CefSharp
 
                     for (int i = 0; i < fields->Length; i++)
                     {
-                        auto fieldName = StringUtils::ToNative(fields[i]->Name);
+                        auto fieldName = GetJavascriptName(fields[i], nameConverter);
                         auto fieldValue = fields[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, ancestors);
+                        SerializeV8SimpleObject(subDict, StringUtils::ToNative(fieldName), fieldValue, ancestors, nameConverter);
                     }
 
                     auto properties = type->GetProperties();
 
                     for (int i = 0; i < properties->Length; i++)
                     {
-                        auto propertyName = StringUtils::ToNative(properties[i]->Name);
+                        auto propertyName = GetJavascriptName(properties[i], nameConverter);
                         auto propertyValue = properties[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, propertyName, propertyValue, ancestors);
+                        SerializeV8SimpleObject(subDict, StringUtils::ToNative(propertyName), propertyValue, ancestors, nameConverter);
                     }
                     list->SetDictionary(index, subDict);
                 }

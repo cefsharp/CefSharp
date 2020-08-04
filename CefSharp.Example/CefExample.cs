@@ -20,6 +20,7 @@ namespace CefSharp.Example
         public const string BaseUrl = "https://" + ExampleDomain;
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
+        public const string BindingTestNetCoreUrl = BaseUrl + "/BindingTestNetCore.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
         public const string BindingTestsAsyncTaskUrl = BaseUrl + "/BindingTestsAsyncTask.html";
         public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
@@ -161,8 +162,13 @@ namespace CefSharp.Example
 
             if (DebuggingSubProcess)
             {
+
+#if NETCOREAPP
+                settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin.netcore\\Debug\\netcoreapp3.1\\CefSharp.BrowserSubprocess.exe");
+#else
                 var architecture = Environment.Is64BitProcess ? "x64" : "x86";
                 settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe");
+#endif
             }
 
             settings.RegisterScheme(new CefCustomScheme
@@ -195,10 +201,17 @@ namespace CefSharp.Example
                 IsSecure = true //treated with the same security rules as those applied to "https" URLs
             });
 
+            const string cefSharpExampleResourcesFolder =
+#if !NETCOREAPP
+                @"..\..\..\..\CefSharp.Example\Resources";
+#else
+                @"..\..\..\..\..\CefSharp.Example\Resources";
+#endif
+
             settings.RegisterScheme(new CefCustomScheme
             {
                 SchemeName = "localfolder",
-                SchemeHandlerFactory = new FolderSchemeHandlerFactory(rootFolder: @"..\..\..\..\CefSharp.Example\Resources",
+                SchemeHandlerFactory = new FolderSchemeHandlerFactory(rootFolder: cefSharpExampleResourcesFolder,
                                                                     schemeName: "localfolder", //Optional param no schemename checking if null
                                                                     hostName: "cefsharp", //Optional param no hostname checking if null
                                                                     defaultPage: "home.html") //Optional param will default to index.html
@@ -227,7 +240,9 @@ namespace CefSharp.Example
             //see https://github.com/cefsharp/CefSharp/wiki/General-Usage#proxy-resolution
             //CefSharpSettings.Proxy = new ProxyOptions(ip: "127.0.0.1", port: "8080", username: "cefsharp", password: "123");
 
-            if (!Cef.Initialize(settings, performDependencyCheck: !DebuggingSubProcess, browserProcessHandler: browserProcessHandler))
+            bool performDependencyCheck = !DebuggingSubProcess;
+
+            if (!Cef.Initialize(settings, performDependencyCheck: performDependencyCheck, browserProcessHandler: browserProcessHandler))
             {
                 throw new Exception("Unable to Initialize Cef");
             }

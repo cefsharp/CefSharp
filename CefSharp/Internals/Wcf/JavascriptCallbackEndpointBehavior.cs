@@ -8,7 +8,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     internal sealed class JavascriptCallbackEndpointBehavior : IEndpointBehavior
     {

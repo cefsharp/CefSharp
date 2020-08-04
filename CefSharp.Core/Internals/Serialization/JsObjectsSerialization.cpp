@@ -53,9 +53,11 @@ namespace CefSharp
                         propertyList->SetNull(j++);
                     }
 
+                    //TODO: Can we remove this safely? It doesn't appear to actually be used as PropertyValue
+                    //should only be set when using Sync Binding
                     if (jsProperty->PropertyValue != nullptr)
                     {
-                        SerializeV8Object(propertyList, j++, jsProperty->PropertyValue);
+                        SerializeV8Object(propertyList, j++, jsProperty->PropertyValue, nullptr);
                     }
                     else
                     {

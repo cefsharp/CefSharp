@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     [ServiceContract(SessionMode = SessionMode.Required)]
     [ServiceKnownType(typeof(object[]))]
@@ -14,6 +14,7 @@ namespace CefSharp.Internals
     [ServiceKnownType(typeof(JavascriptMethod))]
     [ServiceKnownType(typeof(JavascriptProperty))]
     [ServiceKnownType(typeof(JavascriptCallback))]
+
     public interface IBrowserProcess
     {
         [OperationContract]

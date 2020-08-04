@@ -89,6 +89,7 @@ void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, BrowserSet
     delete windowInfo;
 }
 
+#ifndef NETCOREAPP
 // NOTE: This was moved out of OnAfterBrowserCreated to prevent the System.ServiceModel assembly from being loaded when WCF is not enabled.
 __declspec(noinline) void ManagedCefBrowserAdapter::InitializeBrowserProcessServiceHost(IBrowser^ browser)
 {
@@ -124,21 +125,24 @@ __declspec(noinline) void ManagedCefBrowserAdapter::DisposeBrowserProcessService
         _browserProcessServiceHost = nullptr;
     }
 }
+#endif
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
 {
     if (!_isDisposed)
     {
         _browserWrapper = browser;
-        _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference(this);
+        _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference<IBrowserAdapter^>(this);
 
         //Browser has been initialized, it's now too late to register a sync JSB object if Wcf wasn't enabled
         _javaScriptObjectRepository->IsBrowserInitialized = true;
 
+#ifndef NETCOREAPP
         if (CefSharpSettings::WcfEnabled)
         {
             InitializeBrowserProcessServiceHost(browser);
         }
+#endif
 
         if (_webBrowserInternal != nullptr)
         {

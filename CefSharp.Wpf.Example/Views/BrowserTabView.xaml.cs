@@ -15,6 +15,7 @@ using CefSharp.Example.ModelBinding;
 using CefSharp.Example.PostMessage;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
+using CefSharp.Wpf.Experimental.Accessibility;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -31,6 +32,15 @@ namespace CefSharp.Wpf.Example.Views
 
             //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
 
+            //Please remove the comments below to use the Experimental WpfImeKeyboardHandler.
+            //browser.WpfKeyboardHandler = new WpfImeKeyboardHandler(browser);
+
+            //Please remove the comments below to specify the color of the CompositionUnderline.
+            //var transparent = Colors.Transparent;
+            //var black = Colors.Black;
+            //ImeHandler.ColorBKCOLOR = Cef.ColorSetARGB(transparent.A, transparent.R, transparent.G, transparent.B);
+            //ImeHandler.ColorUNDERLINE = Cef.ColorSetARGB(black.A, black.R, black.G, black.B);
+
             browser.RequestHandler = new ExampleRequestHandler();
 
             var bindingOptions = new BindingOptions()
@@ -41,7 +51,9 @@ namespace CefSharp.Wpf.Example.Views
 
             //To use the ResolveObject below and bind an object with isAsync:false we must set CefSharpSettings.WcfEnabled = true before
             //the browser is initialized.
+#if !NETCOREAPP
             CefSharpSettings.WcfEnabled = true;
+#endif
 
             //If you call CefSharp.BindObjectAsync in javascript and pass in the name of an object which is not yet
             //bound, then ResolveObject will be called, you can then register it
@@ -52,6 +64,23 @@ namespace CefSharp.Wpf.Example.Views
                 //When JavascriptObjectRepository.Settings.LegacyBindingEnabled = true
                 //This event will be raised with ObjectName == Legacy so you can bind your
                 //legacy objects
+#if NETCOREAPP
+                if (e.ObjectName == "Legacy")
+                {
+                    repo.Register("boundAsync", new AsyncBoundObject(), options: bindingOptions);
+                }
+                else
+                {
+                    if (e.ObjectName == "boundAsync")
+                    {
+                        repo.Register("boundAsync", new AsyncBoundObject(), options: bindingOptions);
+                    }
+                    else if (e.ObjectName == "boundAsync2")
+                    {
+                        repo.Register("boundAsync2", new AsyncBoundObject(), options: bindingOptions);
+                    }
+                }
+#else
                 if (e.ObjectName == "Legacy")
                 {
                     repo.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
@@ -72,6 +101,7 @@ namespace CefSharp.Wpf.Example.Views
                         repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
                     }
                 }
+#endif
             };
 
             browser.JavascriptObjectRepository.ObjectBoundInJavascript += (sender, e) =>
@@ -86,7 +116,18 @@ namespace CefSharp.Wpf.Example.Views
             //instance, it's still considered Experimental
             //browser.LifeSpanHandler = new ExperimentalLifespanHandler();
             browser.MenuHandler = new MenuHandler();
-            browser.AccessibilityHandler = new AccessibilityHandler();
+
+            //Enable experimental Accessibility support 
+            browser.AccessibilityHandler = new AccessibilityHandler(browser);
+            browser.IsBrowserInitializedChanged += (sender, args) =>
+            {
+                if ((bool)args.NewValue)
+                {
+                    //Uncomment to enable support
+                    //browser.GetBrowserHost().SetAccessibilityState(CefState.Enabled);
+                }
+            };
+
             var downloadHandler = new DownloadHandler();
             downloadHandler.OnBeforeDownloadFired += OnBeforeDownloadFired;
             downloadHandler.OnDownloadUpdatedFired += OnDownloadUpdatedFired;

@@ -7,7 +7,6 @@
 #include "Stdafx.h"
 
 #include "SubProcess.h"
-#include "WcfEnabledSubProcess.h"
 
 using namespace System;
 using namespace CefSharp::Internals;

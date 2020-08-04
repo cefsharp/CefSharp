@@ -5,9 +5,9 @@
 using System;
 using System.ServiceModel.Description;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
-    internal static class WCFExtensions
+    internal static class WcfExtensions
     {
         public static void ApplyOperationBehavior<T>(this ServiceDescription description,
             Func<OperationDescription, T> behaviorFactory,

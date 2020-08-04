@@ -21,7 +21,7 @@ namespace CefSharp
         /// WcfBrowserSubprocessExecutable provides the fundimental browser process handling for
         /// CefSharp.BrowserSubprocess.exe and can be used to self host the BrowserSubProcess in your
         /// existing application (preferred approach for .Net Core).
-        /// If the <see cref="CefSharpArguments.WcfEnabledArgument"/> command line argument is
+        /// If the <see cref="CefSharpArguments::WcfEnabledArgument"/> command line argument is
         /// present then the WcfEnabledSubProcess implementation is used.
         /// </summary>
         public ref class WcfBrowserSubprocessExecutable : BrowserSubprocessExecutable

@@ -1,6 +1,6 @@
 image: Visual Studio 2015
 
-version: 83.4.2-CI{build}
+version: 84.3.30-CI{build}
 
 clone_depth: 10
 
@@ -10,6 +10,8 @@ skip_commits:
     - '**/*.md'
     - '**/*.html'
     - '**/*.js'
+    - '**/*.css'
+    - '**/*.txt'
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:

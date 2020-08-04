@@ -4,7 +4,7 @@
 
 using System.ServiceModel;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     internal class BrowserProcessService : IBrowserProcess

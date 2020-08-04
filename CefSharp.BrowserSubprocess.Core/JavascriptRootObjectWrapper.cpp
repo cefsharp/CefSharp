@@ -27,6 +27,7 @@ namespace CefSharp
 
                     _wrappedAsyncObjects->Add(wrapperObject);
                 }
+#ifndef NETCOREAPP
                 else
                 {
                     if (_browserProcess == nullptr)
@@ -41,6 +42,7 @@ namespace CefSharp
 
                     _wrappedObjects->Add(wrapperObject);
                 }
+#endif
             }
         }
     }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using TabControlAutomationPeer = CefSharp.Wpf.Experimental.Accessibility.TabControlAutomationPeer;
 
 namespace CefSharp.Wpf.Example.Controls
 {
@@ -188,6 +190,11 @@ namespace CefSharp.Wpf.Example.Controls
             var item = selectedItem as TabItem ?? ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
 
             return item;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new TabControlAutomationPeer(this);
         }
     }
 }

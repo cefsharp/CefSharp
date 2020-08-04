@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     internal sealed class JavascriptCallbackSurrogate : IDataContractSurrogate
     {

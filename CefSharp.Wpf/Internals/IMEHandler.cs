@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using CefSharp.Structs;
+using Range = CefSharp.Structs.Range;
 
 namespace CefSharp.Wpf.Internals
 {
@@ -15,9 +16,9 @@ namespace CefSharp.Wpf.Internals
     public static class ImeHandler
     {
         // Black SkColor value for underline.
-        internal const uint ColorUNDERLINE = 0xFF000000;
-        // White SkColor value for background.
-        internal const uint ColorBKCOLOR = 0xFFFFFFFF;
+        public static uint ColorUNDERLINE = 0xFF000000;
+        // Transparent SkColor value for background.
+        public static uint ColorBKCOLOR = 0x00000000;
 
         public static bool GetResult(IntPtr hwnd, uint lParam, out string text)
         {

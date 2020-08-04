@@ -67,7 +67,10 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
+#if !NETCOREAPP
             browser.JavascriptObjectRepository.Register("bound", new BoundObject(), false);
+#endif
+
             if (!multiThreadedMessageLoop)
             {
                 browser.FocusHandler = null;

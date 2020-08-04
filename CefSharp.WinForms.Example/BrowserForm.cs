@@ -566,7 +566,14 @@ namespace CefSharp.WinForms.Example
                 {
                     var requestContext = control.Browser.GetBrowserHost().RequestContext;
 
-                    var dir = Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\CefSharp.Example\Extensions");
+                    const string cefSharpExampleResourcesFolder =
+#if !NETCOREAPP
+                        @"..\..\..\..\CefSharp.Example\Extensions";
+#else
+                        @"..\..\..\..\..\CefSharp.Example\Resources";
+#endif
+
+                    var dir = Path.Combine(AppContext.BaseDirectory, cefSharpExampleResourcesFolder);
                     dir = Path.GetFullPath(dir);
                     if (!Directory.Exists(dir))
                     {

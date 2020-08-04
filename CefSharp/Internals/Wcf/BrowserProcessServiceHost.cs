@@ -8,7 +8,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 
-namespace CefSharp.Internals
+namespace CefSharp.Internals.Wcf
 {
     public class BrowserProcessServiceHost : ServiceHost
     {

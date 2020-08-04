@@ -12,6 +12,7 @@ using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Web;
 using Point = System.Drawing.Point;
+using Range = CefSharp.Structs.Range;
 using Size = System.Drawing.Size;
 
 namespace CefSharp.OffScreen

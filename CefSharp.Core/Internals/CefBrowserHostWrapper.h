@@ -105,8 +105,8 @@ namespace CefSharp
                 bool get();
             }
 
-            virtual void ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> replacementRange, Nullable<Range> selectionRange);
-            virtual void ImeCommitText(String^ text, Nullable<Range> replacementRange, int relativeCursorPos);
+            virtual void ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<CefSharp::Structs::Range> replacementRange, Nullable<CefSharp::Structs::Range> selectionRange);
+            virtual void ImeCommitText(String^ text, Nullable<CefSharp::Structs::Range> replacementRange, int relativeCursorPos);
             virtual void ImeFinishComposingText(bool keepSelection);
             virtual void ImeCancelComposition();
 

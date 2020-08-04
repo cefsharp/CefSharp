@@ -31,6 +31,28 @@ namespace CefSharp.Test.JavascriptBinding
             this.output = output;
         }
 
+#if NETCOREAPP
+        [Fact]
+        public async Task LoadJavaScriptBindingQunitTestsSuccessfulCompletion()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingTestNetCoreUrl, automaticallyCreateBrowser: false))
+            {
+                //TODO: Extract this into some sort of helper setup method
+                var bindingOptions = BindingOptions.DefaultBinder;
+                var repo = browser.JavascriptObjectRepository;
+
+                repo.Register("boundAsync", new AsyncBoundObject(), options: bindingOptions);
+                repo.Register("boundAsync2", new AsyncBoundObject(), options: bindingOptions);
+
+                browser.CreateBrowser();
+                var success = await browser.WaitForQUnitTestExeuctionToComplete();
+
+                Assert.True(success);
+
+                output.WriteLine("QUnit Tests result: {0}", success);
+            }
+        }
+#else
         [Fact]
         public async Task LoadJavaScriptBindingQunitTestsSuccessfulCompletion()
         {
@@ -52,6 +74,7 @@ namespace CefSharp.Test.JavascriptBinding
                 output.WriteLine("QUnit Tests result: {0}", success);
             }
         }
+#endif
 
         [Fact]
         public async Task IsObjectCachedWithInvalidObjectNameReturnsFalse()
