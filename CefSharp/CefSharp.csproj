@@ -106,7 +106,6 @@
     <Compile Include="DevToolsExtensions.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
     <Compile Include="Internals\CefThread.cs" />
-    <Compile Include="Internals\FreezableBase.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
     <Compile Include="Internals\MimeTypeMapping.cs" />
     <Compile Include="IRegistration.cs" />
