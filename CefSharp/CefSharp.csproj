@@ -119,7 +119,7 @@
     <Compile Include="Internals\ParentProcessMonitor.cs" />
     <Compile Include="Internals\HeaderNameValueCollection.cs" />
     <Compile Include="Internals\StringCheck.cs" />
-    <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="Internals\Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
