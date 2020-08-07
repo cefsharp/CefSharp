@@ -35,7 +35,7 @@ namespace CefSharp.Wpf
     /// <seealso cref="CefSharp.Wpf.IWpfWebBrowser" />
     [TemplatePart(Name = PartImageName, Type = typeof(Image))]
     [TemplatePart(Name = PartPopupImageName, Type = typeof(Image))]
-    public class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
+    public partial class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
     {
         /// <summary>
         /// TemplatePart Name constant for the Image used to represent the browser

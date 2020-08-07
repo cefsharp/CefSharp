@@ -18,6 +18,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG;WINFORMS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -27,6 +28,7 @@
     <DebugSymbols>true</DebugSymbols>
     <Optimize>true</Optimize>
     <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;WINFORMS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -40,6 +42,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG;WINFORMS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -50,6 +53,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DocumentationFile>bin\x86\Release\CefSharp.WinForms.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;WINFORMS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,6 +69,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs">
+      <Link>ChromiumWebBrowser.Partial.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CefSettings.cs" />
     <Compile Include="ChromiumWebBrowserDesigner.cs" />
     <Compile Include="Internals\DefaultFocusHandler.cs" />

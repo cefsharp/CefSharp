@@ -19,6 +19,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	<DefineConstants>OFFSCREEN</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +32,10 @@
     <None Remove="bin/**/*.*" />
     <None Remove="obj/**/*.*" />
     <Compile Remove="obj/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs" Link="ChromiumWebBrowser.Partial.cs" />
   </ItemGroup>
 
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
