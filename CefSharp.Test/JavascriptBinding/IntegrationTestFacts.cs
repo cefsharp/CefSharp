@@ -2,10 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Example;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.OffScreen;
+using CefSharp.Web;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -112,6 +115,48 @@ namespace CefSharp.Test.JavascriptBinding
                 var result = await browser.EvaluateScriptAsync("customApi.isObjectCached('doesntexist') === false");
 
                 Assert.True(result.Success);
+            }
+        }
+
+        [Theory]
+        [InlineData("Event", "Event1")]
+        [InlineData("Event", "Event2")]
+        [InlineData("CustomEvent", "Event1")]
+        [InlineData("CustomEvent", "Event2")]
+        public async Task JavascriptsEventsReceived(string jsEventObject, string eventToRaise)
+        {
+            using (var cancelSource = new CancellationTokenSource())
+            using (var events = new BlockingCollection<string>())
+            using (var browser = new JavascriptTestWebBrowser())
+            {
+                cancelSource.CancelAfter(10_000);
+                while (!browser.IsBrowserInitialized)
+                {
+                    await Task.Delay(50);
+                }
+
+                browser.PageEvent += (o, e) =>
+                {
+                    try
+                    {
+                        events.Add(e);
+                    }
+                    catch { }
+                };
+                string rawHtml = $"<html><head><script>window.dispatchEvent(new {jsEventObject}(\"{eventToRaise}\"));</script></head><body><h1>testing</h1></body></html>";
+                var html = new HtmlString(rawHtml, true);
+                browser.Load(html.ToDataUriString());
+                string eventName = null;
+                try
+                {
+                    eventName = events.Take(cancelSource.Token);
+                }
+                catch
+                {
+                    Assert.True(false, "did not receive event");
+                }
+
+                Assert.Equal(eventToRaise, eventName);
             }
         }
     }

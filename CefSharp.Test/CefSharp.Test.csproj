@@ -134,6 +134,7 @@
     <Compile Include="Framework\PathCheckFacts.cs" />
     <Compile Include="Framework\TestMemberInfo.cs" />
     <Compile Include="JavascriptBinding\IntegrationTestFacts.cs" />
+    <Compile Include="JavascriptBinding\JavascriptTestWebBrowser.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
     <Compile Include="CefSharpXunitTestFramework.cs" />
     <Compile Include="CefSharpFixture.cs" />
