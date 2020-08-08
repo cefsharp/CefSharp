@@ -22,9 +22,9 @@ namespace CefSharp.Test.JavascriptBinding
 
         private void OnJavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
         {
-            if (e.Message is string eventName)
+            if (e.Message is string)
             {
-                PageEvent?.Invoke(this, eventName);
+                PageEvent?.Invoke(this, (string)e.Message);
             }
         }
 
