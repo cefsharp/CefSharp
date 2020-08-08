@@ -129,7 +129,7 @@ namespace CefSharp.Test.JavascriptBinding
             using (var events = new BlockingCollection<string>())
             using (var browser = new JavascriptTestWebBrowser())
             {
-                cancelSource.CancelAfter(10_000);
+                cancelSource.CancelAfter(10000);
                 while (!browser.IsBrowserInitialized)
                 {
                     await Task.Delay(50);
