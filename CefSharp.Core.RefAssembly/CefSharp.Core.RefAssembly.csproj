@@ -8,6 +8,7 @@
         <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <NoWarn>CS1591,CS0436</NoWarn>
     </PropertyGroup>
 
     <!-- <PropertyGroup Condition="'$(Configuration)'=='Release'"> -->
@@ -15,8 +16,12 @@
     <!-- </PropertyGroup> -->
 
     <ItemGroup>
-        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
-        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj">
+          <Private>false</Private>
+        </ProjectReference>
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj">
+          <Private>false</Private>
+        </ProjectReference>
     </ItemGroup>
 
     <!-- GenApi -->
@@ -30,36 +35,20 @@
         <GenAPITargetPath>$(GenAPITargetDir)$(AssemblyName).cs</GenAPITargetPath>
     </PropertyGroup>
 
+    <!--
+    Call GenApi before we compile as to generate the source which is then used
+    to by this project to generate the dll
+    -->
     <Target Name="GenApiBeforeCompile" BeforeTargets="Compile">
         <Message Text="BeforeCompile" Importance="high" />
 
-        <Message Text="IntermediateTargetPath : $(IntermediateTargetPath)" Importance="high" />
+        <CallTarget Targets="GenerateReferenceAssemblySource"/>
         
-        <PropertyGroup>
-            <IntermediateTargetPath Condition="'$(IntermediateTargetPath)' == ''">$(IntermediateOutputPath)$(TargetName)$(TargetExt)</IntermediateTargetPath>
-        </PropertyGroup>
+        <!--
+        GenApi generates our VC++ dispose/finalise methods are public sealed override void Dispose()
+        which won't compile, this just replaces that with public void Dispose
+        -->
 
-        <ItemGroup Condition="'$(GenAPILibPath)' == ''">
-            <!-- build out a list of directories where dependencies are located -->
-            <_referencePathDirectoriesWithDuplicates Include="@(ReferencePath->'%(RootDir)%(Directory)'->TrimEnd('\'))" />
-            <!-- strip metadata, removing duplicates -->
-            <_referencePathDirectories Include="%(_referencePathDirectoriesWithDuplicates.Identity)" />
-        </ItemGroup>
-
-        <PropertyGroup Condition="'$(GenAPILibPath)' == ''">
-            <GenAPILibPath>@(_referencePathDirectories)</GenAPILibPath>
-        </PropertyGroup>
-
-        <Message Text="GenAPILibPath : $(GenAPILibPath)" Importance="high" />
-        <Message Text="IntermediateTargetPath : $(IntermediateTargetPath)" Importance="high" />
-
-        <Exec Command="$(_GenAPICommand) &quot;$(IntermediateTargetPath)&quot; --lib-path &quot;$(GenAPILibPath)&quot; --out &quot;$(GenAPITargetPath)&quot; $(GenAPIAdditionalParameters)" />
-
-        <ItemGroup>
-            <FileWrites Condition="'$(SkipGenAPITargetPathFileWrite)' != 'true'" Include="$(GenAPITargetPath)"/>
-        </ItemGroup>
-
-        <Message Text="Generated reference assembly source code: $(GenAPITargetPath)" Importance="high" />
-
+        <WriteLinesToFile File="$(GenAPITargetPath)" Lines="$([System.IO.File]::ReadAllText($(GenAPITargetPath)).Replace('public sealed override void Dispose()','public void Dispose()'))" Overwrite="true" Encoding="utf-8" />
     </Target>
 </Project>
