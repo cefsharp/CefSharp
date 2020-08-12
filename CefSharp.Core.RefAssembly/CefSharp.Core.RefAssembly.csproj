@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>CefSharp.Core</RootNamespace>
+        <AssemblyName>CefSharp.Core</AssemblyName>
+        <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <SignAssembly>false</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+
+    <!-- <PropertyGroup Condition="'$(Configuration)'=='Release'"> -->
+    <!-- <ProduceReferenceAssembly>true</ProduceReferenceAssembly> -->
+    <!-- </PropertyGroup> -->
+
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+    </ItemGroup>
+
+    <!-- GenApi -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.GenAPI" Version="5.0.0-beta.20374.3" GeneratePathProperty="true" />
+    </ItemGroup>
+    <PropertyGroup>
+        <GenerateReferenceAssemblySource>false</GenerateReferenceAssemblySource>
+        <IntermediateTargetPath>$(SolutionDir)CefSharp.Core\bin.netcore\x64\$(Configuration)\CefSharp.Core.dll</IntermediateTargetPath>
+        <GenAPITargetDir>$(ProjectDir)</GenAPITargetDir>
+        <GenAPITargetPath>$(GenAPITargetDir)$(AssemblyName).cs</GenAPITargetPath>
+    </PropertyGroup>
+
+    <Target Name="GenApiBeforeCompile" BeforeTargets="Compile">
+        <Message Text="BeforeCompile" Importance="high" />
+
+        <Message Text="IntermediateTargetPath : $(IntermediateTargetPath)" Importance="high" />
+        
+        <PropertyGroup>
+            <IntermediateTargetPath Condition="'$(IntermediateTargetPath)' == ''">$(IntermediateOutputPath)$(TargetName)$(TargetExt)</IntermediateTargetPath>
+        </PropertyGroup>
+
+        <ItemGroup Condition="'$(GenAPILibPath)' == ''">
+            <!-- build out a list of directories where dependencies are located -->
+            <_referencePathDirectoriesWithDuplicates Include="@(ReferencePath->'%(RootDir)%(Directory)'->TrimEnd('\'))" />
+            <!-- strip metadata, removing duplicates -->
+            <_referencePathDirectories Include="%(_referencePathDirectoriesWithDuplicates.Identity)" />
+        </ItemGroup>
+
+        <PropertyGroup Condition="'$(GenAPILibPath)' == ''">
+            <GenAPILibPath>@(_referencePathDirectories)</GenAPILibPath>
+        </PropertyGroup>
+
+        <Message Text="GenAPILibPath : $(GenAPILibPath)" Importance="high" />
+        <Message Text="IntermediateTargetPath : $(IntermediateTargetPath)" Importance="high" />
+
+        <Exec Command="$(_GenAPICommand) &quot;$(IntermediateTargetPath)&quot; --lib-path &quot;$(GenAPILibPath)&quot; --out &quot;$(GenAPITargetPath)&quot; $(GenAPIAdditionalParameters)" />
+
+        <ItemGroup>
+            <FileWrites Condition="'$(SkipGenAPITargetPathFileWrite)' != 'true'" Include="$(GenAPITargetPath)"/>
+        </ItemGroup>
+
+        <Message Text="Generated reference assembly source code: $(GenAPITargetPath)" Importance="high" />
+
+    </Target>
+</Project>
