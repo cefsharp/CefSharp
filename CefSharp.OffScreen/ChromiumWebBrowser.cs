@@ -21,7 +21,7 @@ namespace CefSharp.OffScreen
     /// An offscreen instance of Chromium that you can use to take
     /// snapshots or evaluate JavaScript.
     /// </summary>
-    public class ChromiumWebBrowser : IRenderWebBrowser
+    public partial class ChromiumWebBrowser : IRenderWebBrowser
     {
         /// <summary>
         /// The managed cef browser adapter

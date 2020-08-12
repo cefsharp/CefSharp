@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CefSharp;
 
@@ -17,14 +16,6 @@ using CefSharp;
 [assembly: AssemblyVersion(AssemblyInfo.AssemblyVersion)]
 [assembly: AssemblyFileVersion(AssemblyInfo.AssemblyFileVersion)]
 [assembly: CLSCompliant(AssemblyInfo.ClsCompliant)]
-
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpCoreProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpBrowserSubprocessProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpBrowserSubprocessCoreProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpWpfProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpWinFormsProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpOffScreenProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpTestProject)]
 
 namespace CefSharp
 {

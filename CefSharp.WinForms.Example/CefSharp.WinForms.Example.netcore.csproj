@@ -26,8 +26,8 @@
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
-        <PackageReference Condition="'$(PlatformTarget)' == 'x86'" Include="cef.redist.x86" Version="84.3.3" />
-        <PackageReference Condition="'$(PlatformTarget)' == 'x64'" Include="cef.redist.x64" Version="84.3.3" />
+        <PackageReference Include="cef.redist.x86" Version="84.3.10" />
+        <PackageReference Include="cef.redist.x64" Version="84.3.10" />
     </ItemGroup>
 
     <ItemGroup>

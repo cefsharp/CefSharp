@@ -19,6 +19,10 @@
     <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+    
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
 
   <ItemGroup>
     <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
@@ -28,6 +32,10 @@
     <None Remove="obj/**/*.*" />
     <Compile Remove="Internals\Wcf\**" />
     <Compile Remove="obj/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Internals\Partial\ChromiumWebBrowser.Partial.cs" />
   </ItemGroup>
 
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />

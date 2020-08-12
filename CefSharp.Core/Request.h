@@ -37,6 +37,23 @@ namespace CefSharp
             _disposed = true;
         }
 
+        operator CefRefPtr<CefRequest>()
+        {
+            if (this == nullptr)
+            {
+                return NULL;
+            }
+            return _request.get();
+        }
+
+        void ThrowIfReadOnly()
+        {
+            if (_request->IsReadOnly())
+            {
+                throw gcnew NotSupportedException("IRequest is read-only and cannot be modified. Check IRequest.IsReadOnly to guard against this exception.");
+            }
+        }
+
     public:
         Request()
         {
@@ -59,22 +76,5 @@ namespace CefSharp
 
         virtual String^ GetHeaderByName(String^ name);
         virtual void SetHeaderByName(String^ name, String^ value, bool overwrite);
-
-        operator CefRefPtr<CefRequest>()
-        {
-            if (this == nullptr)
-            {
-                return NULL;
-            }
-            return _request.get();
-        }
-
-        void ThrowIfReadOnly()
-        {
-            if (_request->IsReadOnly())
-            {
-                throw gcnew NotSupportedException("IRequest is read-only and cannot be modified. Check IRequest.IsReadOnly to guard against this exception.");
-            }
-        }
     };
 }

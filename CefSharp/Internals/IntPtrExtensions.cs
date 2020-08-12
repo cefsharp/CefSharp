@@ -6,7 +6,7 @@ using System;
 
 namespace CefSharp.Internals
 {
-    internal static class IntPtrExtensions
+    public static class IntPtrExtensions
     {
         /// <summary>
         /// Do an unchecked conversion from IntPtr to int

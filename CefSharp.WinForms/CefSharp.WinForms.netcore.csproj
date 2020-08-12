@@ -19,6 +19,11 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	<DefineConstants>WINFORMS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,6 +44,10 @@
     <None Remove="bin/**/*.*" />
     <None Remove="obj/**/*.*" />
     <Compile Remove="obj/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs" Link="ChromiumWebBrowser.Partial.cs" />
   </ItemGroup>
 
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />

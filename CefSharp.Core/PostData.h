@@ -74,6 +74,15 @@ namespace CefSharp
             }
         }
 
+        operator CefRefPtr<CefPostData>()
+        {
+            if (this == nullptr)
+            {
+                return NULL;
+            }
+            return _postData.get();
+        }
+
     public:
         /// <summary>
         /// Default constructor.
@@ -220,15 +229,6 @@ namespace CefSharp
 
                 return _postData->HasExcludedElements();
             }
-        }
-
-        operator CefRefPtr<CefPostData>()
-        {
-            if (this == nullptr)
-            {
-                return NULL;
-            }
-            return _postData.get();
         }
     };
 }

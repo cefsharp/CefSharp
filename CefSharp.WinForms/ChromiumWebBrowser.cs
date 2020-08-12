@@ -22,7 +22,7 @@ namespace CefSharp.WinForms
     [Docking(DockingBehavior.AutoDock), DefaultEvent("LoadingStateChanged"), ToolboxBitmap(typeof(ChromiumWebBrowser)),
     Description("CefSharp ChromiumWebBrowser - Chromium Embedded Framework .Net wrapper. https://github.com/cefsharp/CefSharp"),
     Designer(typeof(ChromiumWebBrowserDesigner))]
-    public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
+    public partial class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         //TODO: If we start adding more consts then extract them into a common class
         //Possibly in the CefSharp assembly and move the WPF ones into there as well.

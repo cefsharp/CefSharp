@@ -119,7 +119,7 @@
     <Compile Include="Internals\ParentProcessMonitor.cs" />
     <Compile Include="Internals\HeaderNameValueCollection.cs" />
     <Compile Include="Internals\StringCheck.cs" />
-    <Compile Include="Internals\TaskScheduler\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="Internals\Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
@@ -317,7 +317,6 @@
     <Compile Include="Internals\JavascriptObjectRepository.cs" />
     <Compile Include="Internals\JavascriptProperty.cs" />
     <Compile Include="CefCustomScheme.cs" />
-    <Compile Include="Internals\InternalWebBrowserExtensions.cs" />
     <Compile Include="Visitor\ICookieVisitor.cs" />
     <Compile Include="Visitor\INavigationEntryVisitor.cs" />
     <Compile Include="Visitor\IStringVisitor.cs" />
@@ -335,6 +334,9 @@
     <Compile Include="Internals\RenderprocessClientFactory.cs" />
     <Compile Include="Web\HtmlString.cs" />
     <Compile Include="Web\JsonString.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Internals\Partial\Readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

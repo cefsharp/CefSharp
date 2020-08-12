@@ -17,7 +17,7 @@ namespace CefSharp
     private:
         const CefPopupFeatures* _popupFeatures;
 
-    public:
+    internal:
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -27,6 +27,7 @@ namespace CefSharp
             _popupFeatures = popupFeatures;
         }
 
+    public:
         !PopupFeatures()
         {
             _popupFeatures = NULL;

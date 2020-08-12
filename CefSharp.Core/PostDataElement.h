@@ -36,6 +36,15 @@ namespace CefSharp
             _disposed = true;
         }
 
+        operator CefRefPtr<CefPostDataElement>()
+        {
+            if (this == nullptr)
+            {
+                return NULL;
+            }
+            return _postDataElement.get();
+        }
+
     public:
         PostDataElement()
         {
@@ -111,15 +120,6 @@ namespace CefSharp
                 pin_ptr<Byte> src = &val[0];
                 _postDataElement->SetToBytes(val->Length, static_cast<void*>(src));
             }
-        }
-
-        operator CefRefPtr<CefPostDataElement>()
-        {
-            if (this == nullptr)
-            {
-                return NULL;
-            }
-            return _postDataElement.get();
         }
     };
 }

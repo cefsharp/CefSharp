@@ -18,7 +18,7 @@ namespace CefSharp
     /// </summary>
     public static class WebBrowserExtensions
     {
-        internal const string BrowserNotInitializedExceptionErrorMessage =
+        public const string BrowserNotInitializedExceptionErrorMessage =
             "The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
             "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
             "the IsBrowserInitialized property to determine when the browser has been initialized.";
@@ -1169,7 +1169,7 @@ namespace CefSharp
         /// </remarks>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        internal static void ThrowExceptionIfBrowserNotInitialized(this IWebBrowser browser)
+        public static void ThrowExceptionIfBrowserNotInitialized(this IWebBrowserInternal browser)
         {
             if (!browser.IsBrowserInitialized)
             {
@@ -1182,7 +1182,7 @@ namespace CefSharp
         /// </summary>
         /// <exception cref="ObjectDisposedException">Thrown when a supplied object has been disposed.</exception>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        internal static void ThrowExceptionIfDisposed(this IWebBrowser browser)
+        public static void ThrowExceptionIfDisposed(this IWebBrowserInternal browser)
         {
             if (browser.IsDisposed)
             {
