@@ -11,7 +11,7 @@ matrix:
 
 #Skip builing if we only modify text files
 skip_commits:
-  files:
+  - files:
     - '**/*.md'
     - '**/*.html'
     - '**/*.js'
