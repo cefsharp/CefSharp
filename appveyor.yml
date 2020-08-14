@@ -24,6 +24,8 @@ for:
     matrix:
       only:
         - image: Visual Studio 2019
+    before_build:
+        dotnet restore CefSharp3.netcore.sln
     build:
       project: CefSharp3.netcore.sln
     test:
