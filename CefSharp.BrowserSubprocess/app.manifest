@@ -8,7 +8,7 @@
     xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <assemblyIdentity version="83.4.2.0" name="CefSharp.BrowserSubprocess.app" />
+  <assemblyIdentity version="84.4.0.0" name="CefSharp.BrowserSubprocess.app" />
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
