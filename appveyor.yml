@@ -1,10 +1,13 @@
+version: 84.4.0-CI{build}
+
 image:
   - Visual Studio 2015
   - Visual Studio 2019
 
-version: 84.4.0-CI{build}
-
 clone_depth: 10
+
+matrix:
+  - fast_finish: true
 
 #Skip builing if we only modify text files
 skip_commits:
@@ -14,9 +17,6 @@ skip_commits:
     - '**/*.js'
     - '**/*.css'
     - '**/*.txt'
-	
-matrix:
-  fast_finish: true
 	
 for:
   -
