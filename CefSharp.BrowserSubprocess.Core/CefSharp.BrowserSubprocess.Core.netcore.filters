@@ -194,4 +194,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Assembly.manifest" />
+  </ItemGroup>
 </Project>
