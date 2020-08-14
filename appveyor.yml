@@ -9,15 +9,6 @@ clone_depth: 10
 matrix:
   - fast_finish: true
 
-#Skip builing if we only modify text files
-skip_commits:
-  - files:
-    - '**/*.md'
-    - '**/*.html'
-    - '**/*.js'
-    - '**/*.css'
-    - '**/*.txt'
-	
 for:
   -
     matrix:
@@ -53,3 +44,12 @@ deploy:
   skip_symbols: true
   symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
   artifact: nupkgfiles
+
+#Skip builing if we only modify text files
+skip_commits:
+  - files:
+    - '**/*.md'
+    - '**/*.html'
+    - '**/*.js'
+    - '**/*.css'
+    - '**/*.txt'
