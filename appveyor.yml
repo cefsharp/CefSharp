@@ -30,6 +30,11 @@ for:
         msbuild /t:restore CefSharp3.netcore.sln
     build:
       project: CefSharp3.netcore.sln
+    after_build:
+        nuget pack nuget\PackageReference\CefSharp.Common.NETCore.nuspec -NoPackageAnalysis -Version $APPVEYOR_BUILD_VERSION -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;" &
+        nuget pack nuget\PackageReference\CefSharp.OffScreen.NETCore.nuspec -NoPackageAnalysis -Version $APPVEYOR_BUILD_VERSION -OutputDirectory nuget\PackageReference &
+        nuget pack nuget\PackageReference\CefSharp.Wpf.NETCore.nuspec -NoPackageAnalysis -Version $APPVEYOR_BUILD_VERSION -OutputDirectory nuget\PackageReference &
+nuget pack nuget\PackageReference\CefSharp.WinForms.NETCore.nuspec -NoPackageAnalysis -Version $APPVEYOR_BUILD_VERSION -OutputDirectory nuget\PackageReference
     test:
         # Test our Release x64 build
         assemblies:
