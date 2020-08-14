@@ -8,6 +8,8 @@ clone_depth: 10
 
 matrix:
   fast_finish: true
+  
+configuration: Release
 
 for:
   -
