@@ -25,8 +25,8 @@ for:
       only:
         - image: Visual Studio 2019
     before_build:
-        nuget restore CefSharp.Core\packages.config -PackagesDirectory packages
-        nuget restore CefSharp.BrowserSubprocess.Core\packages.config  -PackagesDirectory packages
+        nuget restore CefSharp.Core\packages.config -PackagesDirectory packages &
+        nuget restore CefSharp.BrowserSubprocess.Core\packages.config  -PackagesDirectory packages &
         msbuild /t:restore CefSharp3.netcore.sln
     build:
       project: CefSharp3.netcore.sln
