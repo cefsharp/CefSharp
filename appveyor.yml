@@ -14,22 +14,22 @@ for:
     matrix:
       only:
         - image: Visual Studio 2015
-	build_script:
-		- ps: .\build.ps1
-	test:
-		# Test our Release x64 build
-		assemblies:
-			- CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
+    build_script:
+        - ps: .\build.ps1
+    test:
+        # Test our Release x64 build
+        assemblies:
+            - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
   -
     matrix:
-	  only:
-	    - image: Visual Studio 2019
-	build:
-	  project: CefSharp3.netcore.sln
-	test:
-		# Test our Release x64 build
-		assemblies:
-			- CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\CefSharp.Test.dll  
+      only:
+        - image: Visual Studio 2019
+    build:
+      project: CefSharp3.netcore.sln
+    test:
+        # Test our Release x64 build
+        assemblies:
+            - CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\CefSharp.Test.dll  
 
 artifacts:
   - path: NuGet\**\*.nupkg
