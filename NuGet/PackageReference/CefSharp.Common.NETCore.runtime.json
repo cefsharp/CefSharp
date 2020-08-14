@@ -1,0 +1,14 @@
+{
+  "runtimes": {
+    "win-x64": {
+      "CefSharp.Common.NETCore": {
+        "chromiumembeddedframework.runtime.win-x86": "84.4.0"
+      }
+    },
+    "win-x86": {
+      "CefSharp.Common.NETCore": {
+        "chromiumembeddedframework.runtime.win-x64": "84.4.0"
+      }
+    }
+  }
+}

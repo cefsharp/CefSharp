@@ -295,14 +295,11 @@ function Nupkg
     . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
     
     # Build newer style packages
-    . $nuget pack nuget\PackageReference\CefSharp.Common.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;Platform=x86;PlatformNative=Win32"
-    . $nuget pack nuget\PackageReference\CefSharp.Common.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;Platform=x64;PlatformNative=x64"
-    . $nuget pack nuget\PackageReference\CefSharp.OffScreen.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x86"
-    . $nuget pack nuget\PackageReference\CefSharp.OffScreen.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
-    . $nuget pack nuget\PackageReference\CefSharp.Wpf.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x86"
-    . $nuget pack nuget\PackageReference\CefSharp.Wpf.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
-    . $nuget pack nuget\PackageReference\CefSharp.WinForms.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x86"
-    . $nuget pack nuget\PackageReference\CefSharp.WinForms.win.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "Platform=x64"
+	# Net Core isn't current built as part of this script so we cannot generate these directly
+    #. $nuget pack nuget\PackageReference\CefSharp.Common.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;"
+    #. $nuget pack nuget\PackageReference\CefSharp.OffScreen.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
+    #. $nuget pack nuget\PackageReference\CefSharp.Wpf.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
+    #. $nuget pack nuget\PackageReference\CefSharp.WinForms.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
