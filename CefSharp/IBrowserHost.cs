@@ -179,14 +179,17 @@ namespace CefSharp
         void DragSourceSystemDragEnded();
 
         /// <summary>
-        /// Search for text
+        /// Search for <paramref name="searchText"/>.
         /// </summary>
-        /// <param name="identifier">can be used to have multiple searches running simultaniously</param>
+        /// <param name="identifier">must be a unique ID and these IDs
+        /// must strictly increase so that newer requests always have greater IDs than
+        /// older requests. If identifier is zero or less than the previous ID value
+        /// then it will be automatically assigned a new valid ID. </param>
         /// <param name="searchText">text to search for</param>
         /// <param name="forward">indicates whether to search forward or backward within the page</param>
         /// <param name="matchCase">indicates whether the search should be case-sensitive</param>
         /// <param name="findNext">indicates whether this is the first request or a follow-up</param>
-        /// <remarks>The IFindHandler instance, if any, will be called to report find results. </remarks>
+        /// <remarks>The <see cref="IFindHandler"/> instance, if any, will be called to report find results.</remarks>
         void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
 
         /// <summary>
