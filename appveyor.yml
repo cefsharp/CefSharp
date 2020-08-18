@@ -26,18 +26,8 @@ for:
     matrix:
       only:
         - image: Visual Studio 2019
-    before_build:
-        nuget restore CefSharp.Core\packages.config -PackagesDirectory packages &
-        nuget restore CefSharp.BrowserSubprocess.Core\packages.config  -PackagesDirectory packages &
-        msbuild /t:restore CefSharp3.netcore.sln
     build_script:
-      msbuild /t:build CefSharp3.netcore.sln /p:Platform=x86 &
-      msbuild /t:build CefSharp3.netcore.sln /p:Platform=x64
-    after_build:
-        nuget pack nuget\PackageReference\CefSharp.Common.NETCore.nuspec -NoPackageAnalysis -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;" &
-        nuget pack nuget\PackageReference\CefSharp.OffScreen.NETCore.nuspec -NoPackageAnalysis -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory nuget\PackageReference &
-        nuget pack nuget\PackageReference\CefSharp.Wpf.NETCore.nuspec -NoPackageAnalysis -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory nuget\PackageReference &
-        nuget pack nuget\PackageReference\CefSharp.WinForms.NETCore.nuspec -NoPackageAnalysis -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory nuget\PackageReference
+        - ps: .\build.netcore.ps1
     test_script:
         # Test our Release x64 build
         dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\CefSharp.Test.dll
