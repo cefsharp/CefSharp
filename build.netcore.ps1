@@ -105,8 +105,8 @@ function Msvs
     )
     
     &msbuild $Arguments
-	
-	if ($LastExitCode -ne 0)
+    
+    if ($LastExitCode -ne 0)
     {
         Die "Build failed"
     }
@@ -175,8 +175,8 @@ function Compile
     Write-Diagnostic "Compile Packages"
     
     # Compile
-    Msvs 'Release' 'x86'
     Msvs 'Release' 'x64'
+    Msvs 'Release' 'x86'
 }
 
 function Nupkg
