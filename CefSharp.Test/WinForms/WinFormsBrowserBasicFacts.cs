@@ -34,7 +34,7 @@ namespace CefSharp.Test.WinForms
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
-                Assert.True(mainFrame.Url.Contains("www.google"));
+                Assert.Contains("www.google", mainFrame.Url);
 
                 output.WriteLine("Url {0}", mainFrame.Url);
             }

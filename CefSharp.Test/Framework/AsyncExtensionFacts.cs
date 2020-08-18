@@ -68,13 +68,13 @@ namespace CefSharp.Test.Framework
                 var callback = new TaskDeleteCookiesCallback();
 
                 //Execute OnComplete on seperate Thread as in practice will be called on the CEF IO Thread.
-                Task.Delay(100).ContinueWith(x =>
-                {
-                    var c = (IDeleteCookiesCallback)callback;
+                _ = Task.Delay(100).ContinueWith(x =>
+                  {
+                      var c = (IDeleteCookiesCallback)callback;
 
-                    c.OnComplete(numberOfCookiesDeleted);
-                    c.Dispose();
-                }, TaskScheduler.Default);
+                      c.OnComplete(numberOfCookiesDeleted);
+                      c.Dispose();
+                  }, TaskScheduler.Default);
 
                 var result = await callback.Task;
 
@@ -88,14 +88,14 @@ namespace CefSharp.Test.Framework
             var callback = new TaskDeleteCookiesCallback();
 
             //Execute Dispose on seperate Thread as in practice will be called on the CEF IO Thread.
-            Task.Delay(100).ContinueWith(x =>
-            {
-                var c = (IDeleteCookiesCallback)callback;
+            _ = Task.Delay(100).ContinueWith(x =>
+              {
+                  var c = (IDeleteCookiesCallback)callback;
 
                 //Dispose of the callback, no cookies were deleted
                 //This is a realworld example of how CEF interacts with the callback
                 c.Dispose();
-            }, TaskScheduler.Default);
+              }, TaskScheduler.Default);
 
             var result = await callback.Task;
 

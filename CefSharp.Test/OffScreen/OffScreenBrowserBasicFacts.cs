@@ -47,7 +47,7 @@ namespace CefSharp.Test.OffScreen
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
-                Assert.True(mainFrame.Url.Contains("www.google"));
+                Assert.Contains("www.google", mainFrame.Url);
 
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
@@ -90,7 +90,7 @@ namespace CefSharp.Test.OffScreen
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
-                Assert.True(mainFrame.Url.Contains("www.google"));
+                Assert.Contains("www.google", mainFrame.Url);
 
                 var javascriptResponse = await browser.EvaluateScriptAsync("2 + 2");
                 Assert.True(javascriptResponse.Success);

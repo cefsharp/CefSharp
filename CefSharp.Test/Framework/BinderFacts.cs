@@ -22,6 +22,7 @@ namespace CefSharp.Test.Framework
             C
         }
 
+#pragma warning disable CS0649
         private class TestObject
         {
             public string AString;
@@ -30,6 +31,7 @@ namespace CefSharp.Test.Framework
             public double ADouble;
             public TestEnum AnEnum;
         }
+#pragma warning restore CS0649
 
         [Fact]
         public void BindsComplexObjects()

@@ -10,7 +10,7 @@ namespace CefSharp.Wpf.Internals
     /// <summary>
     /// The RECT structure defines the coordinates of the upper-left and lower-right corners of a rectangle.
     /// </summary>
-    /// <see cref="http://msdn.microsoft.com/en-us/library/dd162897%28VS.85%29.aspx"/>
+    /// <see cref="https://docs.microsoft.com/en-us/previous-versions/dd162897(v=vs.85)"/>
     /// <remarks>
     /// By convention, the right and bottom edges of the rectangle are normally considered exclusive. 
     /// In other words, the pixel whose coordinates are ( right, bottom ) lies immediately outside of the the rectangle. 
