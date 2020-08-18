@@ -101,7 +101,8 @@ function Msvs
         "$CefSln",
         "/t:build",
         "/p:Configuration=$Configuration",
-        "/p:Platform=$Platform"
+        "/p:Platform=$Platform",
+        "/verbosity:m"
     )
     
     &msbuild $Arguments
