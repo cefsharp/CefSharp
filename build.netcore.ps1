@@ -170,7 +170,7 @@ function Compile
     # Restore packages
     . $nuget restore CefSharp.Core\packages.config -PackagesDirectory packages
     . $nuget restore CefSharp.BrowserSubprocess.Core\packages.config  -PackagesDirectory packages
-    &dotnet msbuild /t:restore CefSharp3.netcore.sln
+    &msbuild /t:restore CefSharp3.netcore.sln
     
     Write-Diagnostic "Compile Packages"
     
