@@ -44,7 +44,7 @@ namespace CefSharp.JavascriptBinding
         }
 
         /// <summary>
-        /// Objects registered using <see cref="IJavascriptObjectRepository.Register(string, object, bool, BindingOptions)"/>
+        /// Objects registered using <see cref="IJavascriptObjectRepository.Register"/>
         /// will be automatically bound when a V8Context is created. (Soon as the Javascript
         /// context is created for a browser). This behaviour is like that seen with Javascript
         /// Binding in version 57 and earlier.

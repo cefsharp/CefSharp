@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="4.0.0">
-    <id>CefSharp.OffScreen.win-$Platform$</id>
+    <id>CefSharp.OffScreen.NETCore</id>
     <version>$version$</version>
     <authors>The CefSharp Authors</authors>
     <owners>The CefSharp Authors</owners>
@@ -12,11 +12,8 @@
     <tags>osr chrome browser chromium-embedded cefsharp</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
-      <group targetFramework=".NETFramework4.5.2">
-        <dependency id="CefSharp.Common.win-$Platform$" version="[$version$]" />
-      </group>
-      <group targetFramework=".NETCoreApp3.0">
-        <dependency id="CefSharp.Common.win-$Platform$" version="[$version$]" />
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="CefSharp.Common.NETCore" version="[$version$]" include="Runtime,Compile,Build,Native,ContentFiles" />
       </group>
     </dependencies>
     <releaseNotes>
@@ -28,12 +25,8 @@
   </metadata>
   <files>
     <!-- pdb and xml files not copied see https://github.com/dotnet/sdk/issues/1458 -->
-    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.dll" target="lib\netcoreapp3.0" />
-    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.pdb" target="lib\netcoreapp3.0" />
-    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.xml" target="lib\netcoreapp3.0" />
-    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.dll" target="lib\net452" />
-    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.pdb" target="lib\net452" />
-    <file src="..\..\CefSharp.OffScreen\bin\$Platform$\Release\CefSharp.OffScreen.xml" target="lib\net452" />
+	<file src="..\..\CefSharp.OffScreen\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.OffScreen.dll" target="ref\netcoreapp3.1"/>
+    <file src="..\..\CefSharp.OffScreen\bin.netcore\Release\netcoreapp3.1\CefSharp.OffScreen.dll" target="lib\netcoreapp3.1"/>
 
     <file src="..\Readme.txt" target="" />
   </files>

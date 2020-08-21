@@ -1,26 +1,36 @@
-image: Visual Studio 2015
+version: 84.4.0-CI{build}
 
-version: 84.3.30-CI{build}
+image:
+  - Visual Studio 2015
+  - Visual Studio 2019
 
 clone_depth: 10
 
-#Skip builing if we only modify text files
-skip_commits:
-  files:
-    - '**/*.md'
-    - '**/*.html'
-    - '**/*.js'
-    - '**/*.css'
-    - '**/*.txt'
+matrix:
+  fast_finish: true
+  
+configuration: Release
 
-# to run your custom scripts instead of automatic MSBuild
-build_script:
-  - ps: .\build.ps1
-
-# Test our Release x64 build
-test:
-  assemblies:
-    - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
+for:
+  -
+    matrix:
+      only:
+        - image: Visual Studio 2015
+    build_script:
+        - ps: .\build.ps1
+    test:
+        # Test our Release x64 build
+        assemblies:
+            - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
+  -
+    matrix:
+      only:
+        - image: Visual Studio 2019
+    build_script:
+        - ps: .\build.netcore.ps1
+    test_script:
+        # Test our Release x64 build
+        dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\CefSharp.Test.dll
 
 artifacts:
   - path: NuGet\**\*.nupkg
@@ -32,6 +42,15 @@ deploy:
   server: https://www.myget.org/F/cefsharp/api/v2/package
   api_key:
     secure: Zf7UgKf482O82zGWbbPjL+tIK9Y6R1pEHpLgoSZCfuzl4SLfjchqL1MHdlBlb4IY
-  skip_symbols: false
+  skip_symbols: true
   symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
   artifact: nupkgfiles
+
+#Skip builing if we only modify text files
+skip_commits:
+  files:
+    - '**/*.md'
+    - '**/*.html'
+    - '**/*.js'
+    - '**/*.css'
+    - '**/*.txt'

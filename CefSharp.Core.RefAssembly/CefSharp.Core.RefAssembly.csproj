@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <RootNamespace>CefSharp.Core</RootNamespace>
         <AssemblyName>CefSharp.Core</AssemblyName>
         <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <SignAssembly>false</SignAssembly>
+        <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <NoWarn>CS1591,CS0436</NoWarn>

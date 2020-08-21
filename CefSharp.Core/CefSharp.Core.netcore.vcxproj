@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.84.3.10\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.84.3.10\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.84.4.0\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.84.4.0\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -143,6 +143,9 @@
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <DelayLoadDLLs>libcef.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -170,6 +173,9 @@
       <MapExports>false</MapExports>
       <KeyFile>$(LinkKeyFile)</KeyFile>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -191,6 +197,9 @@
       <TargetMachine>MachineX86</TargetMachine>
       <KeyFile>$(LinkKeyFile)</KeyFile>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -209,6 +218,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <KeyFile>$(LinkKeyFile)</KeyFile>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -338,6 +350,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Assembly.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

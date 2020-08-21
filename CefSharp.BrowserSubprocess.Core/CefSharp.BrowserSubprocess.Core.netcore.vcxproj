@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.84.3.10\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.84.3.10\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.84.4.0\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.84.4.0\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -115,6 +115,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion);</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -131,6 +134,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion);</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -146,6 +152,9 @@
       <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -160,6 +169,9 @@
       <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
@@ -226,6 +238,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Assembly.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
