@@ -51,7 +51,7 @@ IDictionary<String^, IValue^>^ CefValueWrapper::GetDictionary()
     CefDictionaryValue::KeyList keys;
     dictionary->GetKeys(keys);
 
-    for (auto i = 0; i < keys.size(); i++)
+    for (size_t i = 0; i < keys.size(); i++)
     {
         auto key = keys[i];
         auto keyValue = StringUtils::ToClr(key);
@@ -70,7 +70,7 @@ IList<IValue^>^ CefValueWrapper::GetList()
     auto list = _cefValue->GetList();
     auto result = gcnew List<IValue^>(list->GetSize());
 
-    for (auto i = 0; i < list->GetSize(); i++)
+    for (size_t i = 0; i < list->GetSize(); i++)
     {
         result->Add(gcnew CefValueWrapper(list->GetValue(i)));
     }

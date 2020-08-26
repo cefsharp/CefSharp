@@ -22,6 +22,7 @@ namespace CefSharp
             void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, HashSet<Object^>^ seen, IJavascriptNameConverter^ nameConverter);
 
             template void SerializeV8Object(const CefRefPtr<CefListValue>& list, const int& index, Object^ obj, IJavascriptNameConverter^ nameConverter);
+            template void SerializeV8Object(const CefRefPtr<CefListValue>& list, const size_t& index, Object^ obj, IJavascriptNameConverter^ nameConverter);
             template void SerializeV8Object(const CefRefPtr<CefDictionaryValue>& list, const CefString& index, Object^ obj, IJavascriptNameConverter^ nameConverter);
         }
     }

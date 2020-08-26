@@ -1086,7 +1086,7 @@ namespace CefSharp
                     auto objectNames = argList->GetList(1);
 
                     auto names = gcnew List<String^>(objectNames->GetSize());
-                    for (auto i = 0; i < objectNames->GetSize(); i++)
+                    for (size_t i = 0; i < objectNames->GetSize(); i++)
                     {
                         names->Add(StringUtils::ToClr(objectNames->GetString(i)));
                     }
@@ -1113,7 +1113,7 @@ namespace CefSharp
 
                     auto boundObjects = argList->GetList(0);
                     auto objs = gcnew List<Tuple<String^, bool, bool>^>(boundObjects->GetSize());
-                    for (auto i = 0; i < boundObjects->GetSize(); i++)
+                    for (size_t i = 0; i < boundObjects->GetSize(); i++)
                     {
                         auto obj = boundObjects->GetDictionary(i);
                         auto objectName = obj->GetString("Name");

@@ -54,7 +54,7 @@ namespace CefSharp
                 auto request = CefProcessMessage::Create(kJavascriptAsyncMethodCallRequest);
                 auto argList = request->GetArgumentList();
                 auto params = CefListValue::Create();
-                for (auto i = 0; i < arguments.size(); i++)
+                for (size_t i = 0; i < arguments.size(); i++)
                 {
                     SerializeV8Object(arguments[i], params, i, _callbackRegistry);
                 }
