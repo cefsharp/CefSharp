@@ -83,7 +83,7 @@ namespace CefSharp
                     if (obj->GetKeys(keys) && keys.size() > 0)
                     {
                         auto result = CefDictionaryValue::Create();
-                        for (int i = 0; i < keys.size(); i++)
+                        for (size_t i = 0; i < keys.size(); i++)
                         {
                             auto p_keyStr = StringUtils::ToClr(keys[i].ToString());
                             if ((obj->HasValue(keys[i])) && (!p_keyStr->StartsWith("__")))
@@ -150,7 +150,7 @@ namespace CefSharp
                     auto subList = list->GetList(index);
                     auto size = subList->GetSize();
                     auto result = CefV8Value::CreateArray(size);
-                    for (auto i = 0; i < size; i++)
+                    for (size_t i = 0; i < size; i++)
                     {
                         result->SetValue(i, DeserializeV8Object(subList, i));
                     }
@@ -165,7 +165,7 @@ namespace CefSharp
                     std::vector<CefString> keys;
                     subDict->GetKeys(keys);
                     auto result = CefV8Value::CreateObject(nullptr, nullptr);
-                    for (auto i = 0; i < size; i++)
+                    for (size_t i = 0; i < size; i++)
                     {
                         result->SetValue(keys[i], DeserializeV8Object(subDict, keys[i]), V8_PROPERTY_ATTRIBUTE_NONE);
                     }
