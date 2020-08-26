@@ -19,7 +19,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CefSharp.Common" Version="83.4.20" />
+        <PackageReference Include="CefSharp.Common" Version="84.4.10" />
     </ItemGroup>
 	
 	<ItemGroup>
