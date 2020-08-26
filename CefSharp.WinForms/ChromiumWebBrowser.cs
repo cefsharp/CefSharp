@@ -673,6 +673,18 @@ namespace CefSharp.WinForms
 
         protected override void OnHandleDestroyed(EventArgs e)
         {
+            if (!designMode)
+            {
+                // NOTE: Had to move the code out of this function otherwise the designer would crash
+                OnHandleDestroyedInternal();
+            }
+
+            base.OnHandleDestroyed(e);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void OnHandleDestroyedInternal()
+        {
             //When the Control is being Recreated then we'll park
             //the browser (set to a temp parent) and assign to
             //our new handle when it's ready.
@@ -686,8 +698,6 @@ namespace CefSharp.WinForms
 
                 NativeMethodWrapper.SetWindowParent(hwnd, parkingControl.Handle);
             }
-
-            base.OnHandleDestroyed(e);
         }
 
         /// <summary>
