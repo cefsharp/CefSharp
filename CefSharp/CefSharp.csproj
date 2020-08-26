@@ -104,6 +104,7 @@
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="DevToolsExtensions.cs" />
+    <Compile Include="Enums\CompositionUnderlineStyle.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
     <Compile Include="Internals\CefThread.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
