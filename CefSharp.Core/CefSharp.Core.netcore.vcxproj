@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.84.4.0\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.84.4.0\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.84.4.1\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.84.4.1\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -349,10 +349,10 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Manifest Include="Assembly.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="Assembly.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
