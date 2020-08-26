@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Enums;
+
 namespace CefSharp.Structs
 {
     /// <summary>
@@ -31,6 +33,11 @@ namespace CefSharp.Structs
         public bool Thick { get; private set; }
 
         /// <summary>
+        /// Style
+        /// </summary>
+        public CompositionUnderlineStyle Style { get; private set; }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="range">Underline character range.</param>
@@ -46,6 +53,26 @@ namespace CefSharp.Structs
             Color = color;
             BackgroundColor = backGroundColor;
             Thick = thick;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="range">Underline character range.</param>
+        /// <param name="color">Text color. 32-bit ARGB color value, not premultiplied. The color components are always in a known order.
+        /// Equivalent to the SkColor type.</param>
+        /// <param name="backGroundColor">Background color. 32-bit ARGB color value, not premultiplied. The color components are always in
+        /// a known order. Equivalent to the SkColor type.</param>
+        /// <param name="thick">True for thickunderline.</param>
+        /// <param name="style">Style</param>
+        public CompositionUnderline(Range range, uint color, uint backGroundColor, bool thick, CompositionUnderlineStyle style)
+            : this()
+        {
+            Range = range;
+            Color = color;
+            BackgroundColor = backGroundColor;
+            Thick = thick;
+            Style = style;
         }
     }
 }
