@@ -143,21 +143,31 @@ namespace CefSharp.DevTools
                     Success = success
                 };
 
+                //TODO: Improve this
+                var memoryStream = new MemoryStream((int)result.Length);
+
+                result.CopyTo(memoryStream);
+
+                methodResult.ResultAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
+
                 if (success)
                 {
-                    //TODO: Improve this
-                    var memoryStream = new MemoryStream((int)result.Length);
-
-                    result.CopyTo(memoryStream);
-
-                    methodResult.ResultAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
+                    Task.Run(() =>
+                    {
+                        //Make sure continuation runs on Thread Pool
+                        taskCompletionSource.TrySetResult(methodResult);
+                    });
+                }
+                else
+                {
+                    Task.Run(() =>
+                    {
+                        //TODO: Improve format error message
+                        //Make sure continuation runs on Thread Pool
+                        taskCompletionSource.TrySetException(new DevToolsClientException(methodResult.ResultAsJsonString));
+                    });
                 }
 
-                Task.Run(() =>
-                {
-                    //Make sure continuation runs on Thread Pool
-                    taskCompletionSource.TrySetResult(methodResult);
-                });
             }
         }
     }

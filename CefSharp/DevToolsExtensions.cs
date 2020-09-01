@@ -103,6 +103,22 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Gets a new Instance of the DevTools client for the chromiumWebBrowser
+        /// instance.
+        /// </summary>
+        /// <param name="chromiumWebBrowser">the chromiumWebBrowser instance</param>
+        /// <returns>DevToolsClient</returns>
+        public static DevToolsClient GetDevToolsClient(this IWebBrowser chromiumWebBrowser)
+        {
+            ((IWebBrowserInternal)chromiumWebBrowser).ThrowExceptionIfDisposed();
+            ((IWebBrowserInternal)chromiumWebBrowser).ThrowExceptionIfBrowserNotInitialized();
+
+            var browser = chromiumWebBrowser.GetBrowser();
+
+            return browser.GetDevToolsClient();
+        }
+
+        /// <summary>
         /// Gets a new Instance of the DevTools client 
         /// </summary>
         /// <param name="browser">the IBrowser instance</param>

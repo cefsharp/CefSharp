@@ -105,8 +105,10 @@
     <Compile Include="DefaultApp.cs" />
     <Compile Include="DevToolsExtensions.cs" />
     <Compile Include="DevTools\DevToolsClient.cs" />
+    <Compile Include="DevTools\DevToolsClientException.cs" />
     <Compile Include="DevTools\DevToolsEventArgs.cs" />
     <Compile Include="DevTools\DevToolsMethodResult.cs" />
+    <Compile Include="DevTools\Network\Network.cs" />
     <Compile Include="Enums\CompositionUnderlineStyle.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
     <Compile Include="Internals\CefThread.cs" />
