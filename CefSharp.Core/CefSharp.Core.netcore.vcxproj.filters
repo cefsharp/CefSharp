@@ -338,9 +338,9 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Manifest Include="Assembly.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="Assembly.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

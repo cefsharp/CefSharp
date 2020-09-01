@@ -499,6 +499,7 @@ void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<Compositi
             c.color = underline.Color;
             c.background_color = underline.BackgroundColor;
             c.thick = (int)underline.Thick;
+            c.style = (cef_composition_underline_style_t)underline.Style;
             underlinesVector.push_back(c);
         }
     }

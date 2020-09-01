@@ -82,7 +82,7 @@ namespace CefSharp
                         auto global = context->GetGlobal();
 
                         //Loop through all arguments and ignore anything that's not a string
-                        for (auto i = 0; i < arguments.size(); i++)
+                        for (size_t i = 0; i < arguments.size(); i++)
                         {
                             //Validate arg as being a string
                             if (arguments[i]->IsString())

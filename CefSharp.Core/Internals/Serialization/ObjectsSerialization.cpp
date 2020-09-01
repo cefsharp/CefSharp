@@ -55,7 +55,7 @@ namespace CefSharp
                 {
                     auto subList = list->GetList(index);
                     auto array = gcnew List<Object^>(subList->GetSize());
-                    for (auto i = 0; i < subList->GetSize(); i++)
+                    for (size_t i = 0; i < subList->GetSize(); i++)
                     {
                         array->Add(DeserializeObject(subList, i, javascriptCallbackFactory));
                     }
@@ -69,7 +69,7 @@ namespace CefSharp
                     std::vector<CefString> keys;
                     subDict->GetKeys(keys);
 
-                    for (auto i = 0; i < keys.size(); i++)
+                    for (size_t i = 0; i < keys.size(); i++)
                     {
                         auto key = StringUtils::ToClr(keys[i]);
                         auto value = DeserializeObject(subDict, keys[i], javascriptCallbackFactory);
