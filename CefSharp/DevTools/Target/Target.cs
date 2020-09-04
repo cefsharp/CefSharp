@@ -6,7 +6,7 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// Supports additional targets discovery and allows to attach to them.
     /// </summary>
-    public partial class Target
+    public partial class Target : DevToolsDomainBase
     {
         public Target(CefSharp.DevTools.DevToolsClient client)
         {
@@ -17,153 +17,139 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Activates (focuses) the target.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ActivateTarget(string targetId)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> ActivateTargetAsync(string targetId)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"targetId", targetId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.ActivateTarget", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("targetId", targetId);
+            var result = await _client.ExecuteDevToolsMethodAsync("Target.activateTarget", dict);
             return result;
         }
 
         /// <summary>
         /// Attaches to the target with given id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> AttachToTarget(string targetId, bool flatten)
+        public async System.Threading.Tasks.Task<AttachToTargetResponse> AttachToTargetAsync(string targetId, bool? flatten = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"targetId", targetId}, {"flatten", flatten}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.AttachToTarget", dict);
-            return result;
-        }
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("targetId", targetId);
+            if (flatten.HasValue)
+            {
+                dict.Add("flatten", flatten.Value);
+            }
 
-        /// <summary>
-        /// Attaches to the browser target, only uses flat sessionId mode.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> AttachToBrowserTarget()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.AttachToBrowserTarget", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Target.attachToTarget", dict);
+            return result.DeserializeJson<AttachToTargetResponse>();
         }
 
         /// <summary>
         /// Closes the target. If the target is a page that gets closed too.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> CloseTarget(string targetId)
+        public async System.Threading.Tasks.Task<CloseTargetResponse> CloseTargetAsync(string targetId)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"targetId", targetId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.CloseTarget", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Inject object to the target's main frame that provides a communication
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ExposeDevToolsProtocol(string targetId, string bindingName)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"targetId", targetId}, {"bindingName", bindingName}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.ExposeDevToolsProtocol", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> CreateBrowserContext(bool disposeOnDetach, string proxyServer, string proxyBypassList)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"disposeOnDetach", disposeOnDetach}, {"proxyServer", proxyServer}, {"proxyBypassList", proxyBypassList}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.CreateBrowserContext", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Returns all browser contexts created with `Target.createBrowserContext` method.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetBrowserContexts()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.GetBrowserContexts", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("targetId", targetId);
+            var result = await _client.ExecuteDevToolsMethodAsync("Target.closeTarget", dict);
+            return result.DeserializeJson<CloseTargetResponse>();
         }
 
         /// <summary>
         /// Creates a new page.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> CreateTarget(string url, int width, int height, string browserContextId, bool enableBeginFrameControl, bool newWindow, bool background)
+        public async System.Threading.Tasks.Task<CreateTargetResponse> CreateTargetAsync(string url, int? width = null, int? height = null, string browserContextId = null, bool? enableBeginFrameControl = null, bool? newWindow = null, bool? background = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"url", url}, {"width", width}, {"height", height}, {"browserContextId", browserContextId}, {"enableBeginFrameControl", enableBeginFrameControl}, {"newWindow", newWindow}, {"background", background}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.CreateTarget", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("url", url);
+            if (width.HasValue)
+            {
+                dict.Add("width", width.Value);
+            }
+
+            if (height.HasValue)
+            {
+                dict.Add("height", height.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(browserContextId)))
+            {
+                dict.Add("browserContextId", browserContextId);
+            }
+
+            if (enableBeginFrameControl.HasValue)
+            {
+                dict.Add("enableBeginFrameControl", enableBeginFrameControl.Value);
+            }
+
+            if (newWindow.HasValue)
+            {
+                dict.Add("newWindow", newWindow.Value);
+            }
+
+            if (background.HasValue)
+            {
+                dict.Add("background", background.Value);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Target.createTarget", dict);
+            return result.DeserializeJson<CreateTargetResponse>();
         }
 
         /// <summary>
         /// Detaches session with given id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DetachFromTarget(string sessionId, string targetId)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DetachFromTargetAsync(string sessionId = null, string targetId = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"sessionId", sessionId}, {"targetId", targetId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.DetachFromTarget", dict);
-            return result;
-        }
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (!(string.IsNullOrEmpty(sessionId)))
+            {
+                dict.Add("sessionId", sessionId);
+            }
 
-        /// <summary>
-        /// Deletes a BrowserContext. All the belonging pages will be closed without calling their
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisposeBrowserContext(string browserContextId)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"browserContextId", browserContextId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.DisposeBrowserContext", dict);
-            return result;
-        }
+            if (!(string.IsNullOrEmpty(targetId)))
+            {
+                dict.Add("targetId", targetId);
+            }
 
-        /// <summary>
-        /// Returns information about a target.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetTargetInfo(string targetId)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"targetId", targetId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.GetTargetInfo", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Target.detachFromTarget", dict);
             return result;
         }
 
         /// <summary>
         /// Retrieves a list of available targets.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetTargets()
+        public async System.Threading.Tasks.Task<GetTargetsResponse> GetTargetsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.GetTargets", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Target.getTargets", dict);
+            return result.DeserializeJson<GetTargetsResponse>();
         }
 
         /// <summary>
         /// Sends protocol message over session with given id.
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SendMessageToTarget(string message, string sessionId, string targetId)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SendMessageToTargetAsync(string message, string sessionId = null, string targetId = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"message", message}, {"sessionId", sessionId}, {"targetId", targetId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.SendMessageToTarget", dict);
-            return result;
-        }
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("message", message);
+            if (!(string.IsNullOrEmpty(sessionId)))
+            {
+                dict.Add("sessionId", sessionId);
+            }
 
-        /// <summary>
-        /// Controls whether to automatically attach to new targets which are considered to be related to
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetAutoAttach(bool autoAttach, bool waitForDebuggerOnStart, bool flatten)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"autoAttach", autoAttach}, {"waitForDebuggerOnStart", waitForDebuggerOnStart}, {"flatten", flatten}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.SetAutoAttach", dict);
+            if (!(string.IsNullOrEmpty(targetId)))
+            {
+                dict.Add("targetId", targetId);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Target.sendMessageToTarget", dict);
             return result;
         }
 
         /// <summary>
         /// Controls whether to discover available targets and notify via
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetDiscoverTargets(bool discover)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetDiscoverTargetsAsync(bool discover)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"discover", discover}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.SetDiscoverTargets", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetRemoteLocations(System.Collections.Generic.IList<RemoteLocation> locations)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"locations", locations}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Target.SetRemoteLocations", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("discover", discover);
+            var result = await _client.ExecuteDevToolsMethodAsync("Target.setDiscoverTargets", dict);
             return result;
         }
     }

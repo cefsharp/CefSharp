@@ -56,7 +56,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True when the request has POST data. Note that postData might still be omitted when this flag is true when the data is too long.
         /// </summary>
-        public bool HasPostData
+        public bool? HasPostData
         {
             get;
             set;
@@ -101,7 +101,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Whether is loaded via link preload.
         /// </summary>
-        public bool IsLinkPreload
+        public bool? IsLinkPreload
         {
             get;
             set;

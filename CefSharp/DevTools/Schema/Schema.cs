@@ -6,7 +6,7 @@ namespace CefSharp.DevTools.Schema
     /// <summary>
     /// This domain is deprecated.
     /// </summary>
-    public partial class Schema
+    public partial class Schema : DevToolsDomainBase
     {
         public Schema(CefSharp.DevTools.DevToolsClient client)
         {
@@ -17,11 +17,11 @@ namespace CefSharp.DevTools.Schema
         /// <summary>
         /// Returns supported domains.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetDomains()
+        public async System.Threading.Tasks.Task<GetDomainsResponse> GetDomainsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Schema.GetDomains", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Schema.getDomains", dict);
+            return result.DeserializeJson<GetDomainsResponse>();
         }
     }
 }

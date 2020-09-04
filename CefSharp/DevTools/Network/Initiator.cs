@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// Initiator line number, set for Parser type or for Script type (when script is importing
-        public long LineNumber
+        public long? LineNumber
         {
             get;
             set;

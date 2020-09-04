@@ -47,7 +47,7 @@ namespace CefSharp.DevTools.Console
         /// <summary>
         /// Line number in the resource that generated this message (1-based).
         /// </summary>
-        public int Line
+        public int? Line
         {
             get;
             set;
@@ -56,7 +56,7 @@ namespace CefSharp.DevTools.Console
         /// <summary>
         /// Column number in the resource that generated this message (1-based).
         /// </summary>
-        public int Column
+        public int? Column
         {
             get;
             set;

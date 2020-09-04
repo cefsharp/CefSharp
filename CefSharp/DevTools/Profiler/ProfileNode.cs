@@ -29,7 +29,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Number of samples where this node was on top of the call stack.
         /// </summary>
-        public int HitCount
+        public int? HitCount
         {
             get;
             set;
@@ -38,7 +38,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Child node ids.
         /// </summary>
-        public int Children
+        public int? Children
         {
             get;
             set;

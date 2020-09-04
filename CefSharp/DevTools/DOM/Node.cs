@@ -18,7 +18,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The id of the parent node if any.
         /// </summary>
-        public int ParentId
+        public int? ParentId
         {
             get;
             set;
@@ -72,7 +72,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Child count for `Container` nodes.
         /// </summary>
-        public int ChildNodeCount
+        public int? ChildNodeCount
         {
             get;
             set;
@@ -252,7 +252,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Whether the node is SVG.
         /// </summary>
-        public bool IsSVG
+        public bool? IsSVG
         {
             get;
             set;

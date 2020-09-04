@@ -55,7 +55,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True if cookie is secure.
         /// </summary>
-        public bool Secure
+        public bool? Secure
         {
             get;
             set;
@@ -64,7 +64,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True if cookie is http-only.
         /// </summary>
-        public bool HttpOnly
+        public bool? HttpOnly
         {
             get;
             set;
@@ -82,7 +82,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie expiration date, session cookie if not set
         /// </summary>
-        public long Expires
+        public long? Expires
         {
             get;
             set;

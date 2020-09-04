@@ -38,7 +38,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Ids of samples top nodes.
         /// </summary>
-        public int Samples
+        public int? Samples
         {
             get;
             set;
@@ -46,7 +46,7 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// Time intervals between adjacent samples in microseconds. The first delta is relative to the
-        public int TimeDeltas
+        public int? TimeDeltas
         {
             get;
             set;

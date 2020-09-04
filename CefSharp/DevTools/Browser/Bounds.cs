@@ -11,7 +11,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The offset from the left edge of the screen to the window in pixels.
         /// </summary>
-        public int Left
+        public int? Left
         {
             get;
             set;
@@ -20,7 +20,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The offset from the top edge of the screen to the window in pixels.
         /// </summary>
-        public int Top
+        public int? Top
         {
             get;
             set;
@@ -29,7 +29,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The window width in pixels.
         /// </summary>
-        public int Width
+        public int? Width
         {
             get;
             set;
@@ -38,7 +38,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The window height in pixels.
         /// </summary>
-        public int Height
+        public int? Height
         {
             get;
             set;

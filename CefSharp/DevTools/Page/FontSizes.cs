@@ -11,7 +11,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Default standard font size.
         /// </summary>
-        public int Standard
+        public int? Standard
         {
             get;
             set;
@@ -20,7 +20,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Default fixed font size.
         /// </summary>
-        public int Fixed
+        public int? Fixed
         {
             get;
             set;

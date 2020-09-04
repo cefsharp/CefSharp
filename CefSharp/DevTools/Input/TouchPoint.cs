@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// X radius of the touch area (default: 1.0).
         /// </summary>
-        public long RadiusX
+        public long? RadiusX
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Y radius of the touch area (default: 1.0).
         /// </summary>
-        public long RadiusY
+        public long? RadiusY
         {
             get;
             set;
@@ -46,7 +46,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Rotation angle (default: 0.0).
         /// </summary>
-        public long RotationAngle
+        public long? RotationAngle
         {
             get;
             set;
@@ -55,7 +55,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Force (default: 1.0).
         /// </summary>
-        public long Force
+        public long? Force
         {
             get;
             set;
@@ -64,7 +64,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Identifier used to track touch sources between events, must be unique within an event.
         /// </summary>
-        public long Id
+        public long? Id
         {
             get;
             set;

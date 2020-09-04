@@ -29,7 +29,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the value associated with the property may be changed (data descriptors only).
         /// </summary>
-        public bool Writable
+        public bool? Writable
         {
             get;
             set;
@@ -70,7 +70,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the result was thrown during the evaluation.
         /// </summary>
-        public bool WasThrown
+        public bool? WasThrown
         {
             get;
             set;
@@ -79,7 +79,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the property is owned for the object.
         /// </summary>
-        public bool IsOwn
+        public bool? IsOwn
         {
             get;
             set;

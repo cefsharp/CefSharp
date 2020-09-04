@@ -65,7 +65,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Frame swap timestamp.
         /// </summary>
-        public long Timestamp
+        public long? Timestamp
         {
             get;
             set;

@@ -6,7 +6,7 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Security
     /// </summary>
-    public partial class Security
+    public partial class Security : DevToolsDomainBase
     {
         public Security(CefSharp.DevTools.DevToolsClient client)
         {
@@ -17,49 +17,42 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Disables tracking security state changes.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Disable()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Security.Disable", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Security.disable", dict);
             return result;
         }
 
         /// <summary>
         /// Enables tracking security state changes.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Enable()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Security.Enable", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Enable/disable whether all certificate errors should be ignored.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetIgnoreCertificateErrors(bool ignore)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"ignore", ignore}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Security.SetIgnoreCertificateErrors", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Security.enable", dict);
             return result;
         }
 
         /// <summary>
         /// Handles a certificate error that fired a certificateError event.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> HandleCertificateError(int eventId, string action)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> HandleCertificateErrorAsync(int eventId, string action)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"eventId", eventId}, {"action", action}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Security.HandleCertificateError", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("eventId", eventId);
+            dict.Add("action", action);
+            var result = await _client.ExecuteDevToolsMethodAsync("Security.handleCertificateError", dict);
             return result;
         }
 
         /// <summary>
         /// Enable/disable overriding certificate errors. If enabled, all certificate error events need to
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetOverrideCertificateErrors(bool @override)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetOverrideCertificateErrorsAsync(bool @override)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"@override", @override}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Security.SetOverrideCertificateErrors", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("@override", @override);
+            var result = await _client.ExecuteDevToolsMethodAsync("Security.setOverrideCertificateErrors", dict);
             return result;
         }
     }

@@ -6,7 +6,7 @@ namespace CefSharp.DevTools.Performance
     /// <summary>
     /// Performance
     /// </summary>
-    public partial class Performance
+    public partial class Performance : DevToolsDomainBase
     {
         public Performance(CefSharp.DevTools.DevToolsClient client)
         {
@@ -17,40 +17,36 @@ namespace CefSharp.DevTools.Performance
         /// <summary>
         /// Disable collecting and reporting metrics.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Disable()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Performance.Disable", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Performance.disable", dict);
             return result;
         }
 
         /// <summary>
         /// Enable collecting and reporting metrics.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Enable(string timeDomain)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync(string timeDomain = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"timeDomain", timeDomain}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Performance.Enable", dict);
-            return result;
-        }
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (!(string.IsNullOrEmpty(timeDomain)))
+            {
+                dict.Add("timeDomain", timeDomain);
+            }
 
-        /// <summary>
-        /// Sets time domain to use for collecting and reporting duration metrics.
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetTimeDomain(string timeDomain)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"timeDomain", timeDomain}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Performance.SetTimeDomain", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Performance.enable", dict);
             return result;
         }
 
         /// <summary>
         /// Retrieve current values of run-time metrics.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetMetrics()
+        public async System.Threading.Tasks.Task<GetMetricsResponse> GetMetricsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Performance.GetMetrics", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Performance.getMetrics", dict);
+            return result.DeserializeJson<GetMetricsResponse>();
         }
     }
 }

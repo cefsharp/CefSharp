@@ -6,7 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Profiler
     /// </summary>
-    public partial class Profiler
+    public partial class Profiler : DevToolsDomainBase
     {
         public Profiler(CefSharp.DevTools.DevToolsClient client)
         {
@@ -17,147 +17,103 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// 
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Disable()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.Disable", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.disable", dict);
             return result;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Enable()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.Enable", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.enable", dict);
             return result;
         }
 
         /// <summary>
         /// Collect coverage data for the current isolate. The coverage data may be incomplete due to
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetBestEffortCoverage()
+        public async System.Threading.Tasks.Task<GetBestEffortCoverageResponse> GetBestEffortCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.GetBestEffortCoverage", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.getBestEffortCoverage", dict);
+            return result.DeserializeJson<GetBestEffortCoverageResponse>();
         }
 
         /// <summary>
         /// Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetSamplingInterval(int interval)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetSamplingIntervalAsync(int interval)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"interval", interval}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.SetSamplingInterval", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("interval", interval);
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.setSamplingInterval", dict);
             return result;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Start()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> StartAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.Start", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.start", dict);
             return result;
         }
 
         /// <summary>
         /// Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StartPreciseCoverage(bool callCount, bool detailed, bool allowTriggeredUpdates)
+        public async System.Threading.Tasks.Task<StartPreciseCoverageResponse> StartPreciseCoverageAsync(bool? callCount = null, bool? detailed = null, bool? allowTriggeredUpdates = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"callCount", callCount}, {"detailed", detailed}, {"allowTriggeredUpdates", allowTriggeredUpdates}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.StartPreciseCoverage", dict);
-            return result;
-        }
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (callCount.HasValue)
+            {
+                dict.Add("callCount", callCount.Value);
+            }
 
-        /// <summary>
-        /// Enable type profile.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StartTypeProfile()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.StartTypeProfile", dict);
-            return result;
+            if (detailed.HasValue)
+            {
+                dict.Add("detailed", detailed.Value);
+            }
+
+            if (allowTriggeredUpdates.HasValue)
+            {
+                dict.Add("allowTriggeredUpdates", allowTriggeredUpdates.Value);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.startPreciseCoverage", dict);
+            return result.DeserializeJson<StartPreciseCoverageResponse>();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Stop()
+        public async System.Threading.Tasks.Task<StopResponse> StopAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.Stop", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.stop", dict);
+            return result.DeserializeJson<StopResponse>();
         }
 
         /// <summary>
         /// Disable precise code coverage. Disabling releases unnecessary execution count records and allows
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StopPreciseCoverage()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> StopPreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.StopPreciseCoverage", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Disable type profile. Disabling releases type profile data collected so far.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StopTypeProfile()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.StopTypeProfile", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.stopPreciseCoverage", dict);
             return result;
         }
 
         /// <summary>
         /// Collect coverage data for the current isolate, and resets execution counters. Precise code
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> TakePreciseCoverage()
+        public async System.Threading.Tasks.Task<TakePreciseCoverageResponse> TakePreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.TakePreciseCoverage", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Collect type profile.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> TakeTypeProfile()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.TakeTypeProfile", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Enable run time call stats collection.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableRuntimeCallStats()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.EnableRuntimeCallStats", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Disable run time call stats collection.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableRuntimeCallStats()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.DisableRuntimeCallStats", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Retrieve run time call stats.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetRuntimeCallStats()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.GetRuntimeCallStats", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.takePreciseCoverage", dict);
+            return result.DeserializeJson<TakePreciseCoverageResponse>();
         }
     }
 }

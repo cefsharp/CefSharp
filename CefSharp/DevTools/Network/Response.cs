@@ -110,7 +110,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Remote port.
         /// </summary>
-        public int RemotePort
+        public int? RemotePort
         {
             get;
             set;
@@ -119,7 +119,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the disk cache.
         /// </summary>
-        public bool FromDiskCache
+        public bool? FromDiskCache
         {
             get;
             set;
@@ -128,7 +128,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the ServiceWorker.
         /// </summary>
-        public bool FromServiceWorker
+        public bool? FromServiceWorker
         {
             get;
             set;
@@ -137,7 +137,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the prefetch cache.
         /// </summary>
-        public bool FromPrefetchCache
+        public bool? FromPrefetchCache
         {
             get;
             set;
@@ -173,7 +173,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The time at which the returned response was generated.
         /// </summary>
-        public long ResponseTime
+        public long? ResponseTime
         {
             get;
             set;

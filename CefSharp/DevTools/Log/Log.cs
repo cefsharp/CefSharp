@@ -6,7 +6,7 @@ namespace CefSharp.DevTools.Log
     /// <summary>
     /// Provides access to log entries.
     /// </summary>
-    public partial class Log
+    public partial class Log : DevToolsDomainBase
     {
         public Log(CefSharp.DevTools.DevToolsClient client)
         {
@@ -17,49 +17,50 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Clears the log.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Clear()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> ClearAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Log.Clear", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Log.clear", dict);
             return result;
         }
 
         /// <summary>
         /// Disables log domain, prevents further log entries from being reported to the client.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Disable()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Log.Disable", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Log.disable", dict);
             return result;
         }
 
         /// <summary>
         /// Enables log domain, sends the entries collected so far to the client by means of the
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Enable()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Log.Enable", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Log.enable", dict);
             return result;
         }
 
         /// <summary>
         /// start violation reporting.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StartViolationsReport(System.Collections.Generic.IList<ViolationSetting> config)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> StartViolationsReportAsync(System.Collections.Generic.IList<ViolationSetting> config)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"config", config}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Log.StartViolationsReport", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("config", config);
+            var result = await _client.ExecuteDevToolsMethodAsync("Log.startViolationsReport", dict);
             return result;
         }
 
         /// <summary>
         /// Stop violation reporting.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StopViolationsReport()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> StopViolationsReportAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Log.StopViolationsReport", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Log.stopViolationsReport", dict);
             return result;
         }
     }

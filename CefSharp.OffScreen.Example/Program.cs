@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
-using CefSharp.DevTools.Network;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
 
@@ -78,11 +77,11 @@ namespace CefSharp.OffScreen.Example
                 }
                 await LoadPageAsync(browser);
 
-                var devToolsClient = browser.GetDevToolsClient();
-
-                var devToolsNetwork = new Network(devToolsClient);
-
-                var success = await devToolsNetwork.ClearBrowserCacheAsync();
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var success = await devToolsClient.Browser.GetVersionAsync();
+                    //var success = await devToolsClient.Network.ClearBrowserCacheAsync();
+                }
 
                 //Check preferences on the CEF UI Thread
                 await Cef.UIThreadTaskFactory.StartNew(delegate

@@ -5,7 +5,7 @@ namespace CefSharp.DevTools.Network
 {
     /// <summary>
     /// Network domain allows tracking network activities of the page. It exposes information about http,
-    public partial class Network
+    public partial class Network : DevToolsDomainBase
     {
         public Network(CefSharp.DevTools.DevToolsClient client)
         {
@@ -16,294 +16,286 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Tells whether clearing browser cache is supported.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> CanClearBrowserCache()
+        public async System.Threading.Tasks.Task<CanClearBrowserCacheResponse> CanClearBrowserCacheAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.CanClearBrowserCache", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.canClearBrowserCache", dict);
+            return result.DeserializeJson<CanClearBrowserCacheResponse>();
         }
 
         /// <summary>
         /// Tells whether clearing browser cookies is supported.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> CanClearBrowserCookies()
+        public async System.Threading.Tasks.Task<CanClearBrowserCookiesResponse> CanClearBrowserCookiesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.CanClearBrowserCookies", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.canClearBrowserCookies", dict);
+            return result.DeserializeJson<CanClearBrowserCookiesResponse>();
         }
 
         /// <summary>
         /// Tells whether emulation of network conditions is supported.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> CanEmulateNetworkConditions()
+        public async System.Threading.Tasks.Task<CanEmulateNetworkConditionsResponse> CanEmulateNetworkConditionsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.CanEmulateNetworkConditions", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.canEmulateNetworkConditions", dict);
+            return result.DeserializeJson<CanEmulateNetworkConditionsResponse>();
         }
 
         /// <summary>
         /// Clears browser cache.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ClearBrowserCache()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> ClearBrowserCacheAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.ClearBrowserCache", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.clearBrowserCache", dict);
             return result;
         }
 
         /// <summary>
         /// Clears browser cookies.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ClearBrowserCookies()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> ClearBrowserCookiesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.ClearBrowserCookies", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Response to Network.requestIntercepted which either modifies the request to continue with any
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ContinueInterceptedRequest(string interceptionId, string errorReason, string rawResponse, string url, string method, string postData, Headers headers, AuthChallengeResponse authChallengeResponse)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"interceptionId", interceptionId}, {"errorReason", errorReason}, {"rawResponse", rawResponse}, {"url", url}, {"method", method}, {"postData", postData}, {"headers", headers}, {"authChallengeResponse", authChallengeResponse}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.ContinueInterceptedRequest", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.clearBrowserCookies", dict);
             return result;
         }
 
         /// <summary>
         /// Deletes browser cookies with matching name and url or domain/path pair.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DeleteCookies(string name, string url, string domain, string path)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DeleteCookiesAsync(string name, string url = null, string domain = null, string path = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"name", name}, {"url", url}, {"domain", domain}, {"path", path}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.DeleteCookies", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("name", name);
+            if (!(string.IsNullOrEmpty(url)))
+            {
+                dict.Add("url", url);
+            }
+
+            if (!(string.IsNullOrEmpty(domain)))
+            {
+                dict.Add("domain", domain);
+            }
+
+            if (!(string.IsNullOrEmpty(path)))
+            {
+                dict.Add("path", path);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.deleteCookies", dict);
             return result;
         }
 
         /// <summary>
         /// Disables network tracking, prevents network events from being sent to the client.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Disable()
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.Disable", dict);
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.disable", dict);
             return result;
         }
 
         /// <summary>
         /// Activates emulation of network conditions.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EmulateNetworkConditions(bool offline, long latency, long downloadThroughput, long uploadThroughput, string connectionType)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> EmulateNetworkConditionsAsync(bool offline, long latency, long downloadThroughput, long uploadThroughput, string connectionType = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"offline", offline}, {"latency", latency}, {"downloadThroughput", downloadThroughput}, {"uploadThroughput", uploadThroughput}, {"connectionType", connectionType}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.EmulateNetworkConditions", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("offline", offline);
+            dict.Add("latency", latency);
+            dict.Add("downloadThroughput", downloadThroughput);
+            dict.Add("uploadThroughput", uploadThroughput);
+            if (!(string.IsNullOrEmpty(connectionType)))
+            {
+                dict.Add("connectionType", connectionType);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.emulateNetworkConditions", dict);
             return result;
         }
 
         /// <summary>
         /// Enables network tracking, network events will now be delivered to the client.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Enable(int maxTotalBufferSize, int maxResourceBufferSize, int maxPostDataSize)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync(int? maxTotalBufferSize = null, int? maxResourceBufferSize = null, int? maxPostDataSize = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"maxTotalBufferSize", maxTotalBufferSize}, {"maxResourceBufferSize", maxResourceBufferSize}, {"maxPostDataSize", maxPostDataSize}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.Enable", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (maxTotalBufferSize.HasValue)
+            {
+                dict.Add("maxTotalBufferSize", maxTotalBufferSize.Value);
+            }
+
+            if (maxResourceBufferSize.HasValue)
+            {
+                dict.Add("maxResourceBufferSize", maxResourceBufferSize.Value);
+            }
+
+            if (maxPostDataSize.HasValue)
+            {
+                dict.Add("maxPostDataSize", maxPostDataSize.Value);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.enable", dict);
             return result;
         }
 
         /// <summary>
         /// Returns all browser cookies. Depending on the backend support, will return detailed cookie
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetAllCookies()
+        public async System.Threading.Tasks.Task<GetAllCookiesResponse> GetAllCookiesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.GetAllCookies", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Returns the DER-encoded certificate.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetCertificate(string origin)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"origin", origin}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.GetCertificate", dict);
-            return result;
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.getAllCookies", dict);
+            return result.DeserializeJson<GetAllCookiesResponse>();
         }
 
         /// <summary>
         /// Returns all browser cookies for the current URL. Depending on the backend support, will return
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetCookies(string urls)
+        public async System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string urls = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"urls", urls}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.GetCookies", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (!(string.IsNullOrEmpty(urls)))
+            {
+                dict.Add("urls", urls);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.getCookies", dict);
+            return result.DeserializeJson<GetCookiesResponse>();
         }
 
         /// <summary>
         /// Returns content served for the given request.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetResponseBody(string requestId)
+        public async System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"requestId", requestId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.GetResponseBody", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("requestId", requestId);
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.getResponseBody", dict);
+            return result.DeserializeJson<GetResponseBodyResponse>();
         }
 
         /// <summary>
         /// Returns post data sent with the request. Returns an error when no data was sent with the request.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetRequestPostData(string requestId)
+        public async System.Threading.Tasks.Task<GetRequestPostDataResponse> GetRequestPostDataAsync(string requestId)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"requestId", requestId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.GetRequestPostData", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Returns content served for the given currently intercepted request.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetResponseBodyForInterception(string interceptionId)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"interceptionId", interceptionId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.GetResponseBodyForInterception", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Returns a handle to the stream representing the response body. Note that after this command,
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> TakeResponseBodyForInterceptionAsStream(string interceptionId)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"interceptionId", interceptionId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.TakeResponseBodyForInterceptionAsStream", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// This method sends a new XMLHttpRequest which is identical to the original one. The following
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ReplayXHR(string requestId)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"requestId", requestId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.ReplayXHR", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Searches for given string in response content.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SearchInResponseBody(string requestId, string query, bool caseSensitive, bool isRegex)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"requestId", requestId}, {"query", query}, {"caseSensitive", caseSensitive}, {"isRegex", isRegex}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SearchInResponseBody", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Blocks URLs from loading.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetBlockedURLs(string urls)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"urls", urls}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetBlockedURLs", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Toggles ignoring of service worker for each request.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetBypassServiceWorker(bool bypass)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"bypass", bypass}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetBypassServiceWorker", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("requestId", requestId);
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.getRequestPostData", dict);
+            return result.DeserializeJson<GetRequestPostDataResponse>();
         }
 
         /// <summary>
         /// Toggles ignoring cache for each request. If `true`, cache will not be used.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetCacheDisabled(bool cacheDisabled)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetCacheDisabledAsync(bool cacheDisabled)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"cacheDisabled", cacheDisabled}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetCacheDisabled", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("cacheDisabled", cacheDisabled);
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.setCacheDisabled", dict);
             return result;
         }
 
         /// <summary>
         /// Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetCookie(string name, string value, string url, string domain, string path, bool secure, bool httpOnly, string sameSite, long expires, string priority)
+        public async System.Threading.Tasks.Task<SetCookieResponse> SetCookieAsync(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, string sameSite = null, long? expires = null, string priority = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"name", name}, {"value", value}, {"url", url}, {"domain", domain}, {"path", path}, {"secure", secure}, {"httpOnly", httpOnly}, {"sameSite", sameSite}, {"expires", expires}, {"priority", priority}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetCookie", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("name", name);
+            dict.Add("value", value);
+            if (!(string.IsNullOrEmpty(url)))
+            {
+                dict.Add("url", url);
+            }
+
+            if (!(string.IsNullOrEmpty(domain)))
+            {
+                dict.Add("domain", domain);
+            }
+
+            if (!(string.IsNullOrEmpty(path)))
+            {
+                dict.Add("path", path);
+            }
+
+            if (secure.HasValue)
+            {
+                dict.Add("secure", secure.Value);
+            }
+
+            if (httpOnly.HasValue)
+            {
+                dict.Add("httpOnly", httpOnly.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(sameSite)))
+            {
+                dict.Add("sameSite", sameSite);
+            }
+
+            if (expires.HasValue)
+            {
+                dict.Add("expires", expires.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(priority)))
+            {
+                dict.Add("priority", priority);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.setCookie", dict);
+            return result.DeserializeJson<SetCookieResponse>();
         }
 
         /// <summary>
         /// Sets given cookies.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetCookies(System.Collections.Generic.IList<CookieParam> cookies)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetCookiesAsync(System.Collections.Generic.IList<CookieParam> cookies)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"cookies", cookies}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetCookies", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// For testing.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetDataSizeLimitsForTest(int maxTotalSize, int maxResourceSize)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"maxTotalSize", maxTotalSize}, {"maxResourceSize", maxResourceSize}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetDataSizeLimitsForTest", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("cookies", cookies);
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.setCookies", dict);
             return result;
         }
 
         /// <summary>
         /// Specifies whether to always send extra HTTP headers with the requests from this page.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetExtraHTTPHeaders(Headers headers)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetExtraHTTPHeadersAsync(Headers headers)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"headers", headers}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetExtraHTTPHeaders", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Specifies whether to sned a debug header to all outgoing requests.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetAttachDebugHeader(bool enabled)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"enabled", enabled}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetAttachDebugHeader", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Sets the requests to intercept that match the provided patterns and optionally resource types.
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetRequestInterception(System.Collections.Generic.IList<RequestPattern> patterns)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"patterns", patterns}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetRequestInterception", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("headers", headers);
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.setExtraHTTPHeaders", dict);
             return result;
         }
 
         /// <summary>
         /// Allows overriding user agent with the given string.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetUserAgentOverride(string userAgent, string acceptLanguage, string platform, Emulation.UserAgentMetadata userAgentMetadata)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetUserAgentOverrideAsync(string userAgent, string acceptLanguage = null, string platform = null, Emulation.UserAgentMetadata userAgentMetadata = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"userAgent", userAgent}, {"acceptLanguage", acceptLanguage}, {"platform", platform}, {"userAgentMetadata", userAgentMetadata}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.SetUserAgentOverride", dict);
-            return result;
-        }
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("userAgent", userAgent);
+            if (!(string.IsNullOrEmpty(acceptLanguage)))
+            {
+                dict.Add("acceptLanguage", acceptLanguage);
+            }
 
-        /// <summary>
-        /// Returns information about the COEP/COOP isolation status.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> GetSecurityIsolationStatus(string frameId)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"frameId", frameId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Network.GetSecurityIsolationStatus", dict);
+            if (!(string.IsNullOrEmpty(platform)))
+            {
+                dict.Add("platform", platform);
+            }
+
+            if ((userAgentMetadata) != (null))
+            {
+                dict.Add("userAgentMetadata", userAgentMetadata);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Network.setUserAgentOverride", dict);
             return result;
         }
     }

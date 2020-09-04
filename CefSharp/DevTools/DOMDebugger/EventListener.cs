@@ -92,7 +92,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Node the listener is added to (if any).
         /// </summary>
-        public int BackendNodeId
+        public int? BackendNodeId
         {
             get;
             set;

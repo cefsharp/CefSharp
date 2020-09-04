@@ -38,7 +38,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// last-modified timestamp as reported by server.
         /// </summary>
-        public long LastModified
+        public long? LastModified
         {
             get;
             set;
@@ -47,7 +47,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Resource content size.
         /// </summary>
-        public long ContentSize
+        public long? ContentSize
         {
             get;
             set;
@@ -56,7 +56,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// True if the resource failed to load.
         /// </summary>
-        public bool Failed
+        public bool? Failed
         {
             get;
             set;
@@ -65,7 +65,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// True if the resource was canceled during loading.
         /// </summary>
-        public bool Canceled
+        public bool? Canceled
         {
             get;
             set;

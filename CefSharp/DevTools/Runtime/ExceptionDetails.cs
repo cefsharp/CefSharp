@@ -82,7 +82,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Identifier of the context where exception happened.
         /// </summary>
-        public int ExecutionContextId
+        public int? ExecutionContextId
         {
             get;
             set;

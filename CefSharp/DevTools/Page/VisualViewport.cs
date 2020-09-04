@@ -74,7 +74,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Page zoom factor (CSS to device independent pixels ratio).
         /// </summary>
-        public long Zoom
+        public long? Zoom
         {
             get;
             set;

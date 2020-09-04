@@ -18,7 +18,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// For "midi" permission, may also specify sysex control.
         /// </summary>
-        public bool Sysex
+        public bool? Sysex
         {
             get;
             set;
@@ -26,7 +26,7 @@ namespace CefSharp.DevTools.Browser
 
         /// <summary>
         /// For "push" permission, may specify userVisibleOnly.
-        public bool UserVisibleOnly
+        public bool? UserVisibleOnly
         {
             get;
             set;
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// For "clipboard" permission, may specify allowWithoutSanitization.
         /// </summary>
-        public bool AllowWithoutSanitization
+        public bool? AllowWithoutSanitization
         {
             get;
             set;

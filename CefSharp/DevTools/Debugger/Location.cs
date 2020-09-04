@@ -29,7 +29,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Column number in the script (0-based).
         /// </summary>
-        public int ColumnNumber
+        public int? ColumnNumber
         {
             get;
             set;

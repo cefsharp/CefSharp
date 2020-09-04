@@ -20,7 +20,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The index of the signature which caused the error.
         /// </summary>
-        public int SignatureIndex
+        public int? SignatureIndex
         {
             get;
             set;

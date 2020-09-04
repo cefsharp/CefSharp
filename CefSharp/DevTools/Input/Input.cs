@@ -6,7 +6,7 @@ namespace CefSharp.DevTools.Input
     /// <summary>
     /// Input
     /// </summary>
-    public partial class Input
+    public partial class Input : DevToolsDomainBase
     {
         public Input(CefSharp.DevTools.DevToolsClient client)
         {
@@ -17,89 +17,167 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Dispatches a key event to the page.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DispatchKeyEvent(string type, int modifiers, long timestamp, string text, string unmodifiedText, string keyIdentifier, string code, string key, int windowsVirtualKeyCode, int nativeVirtualKeyCode, bool autoRepeat, bool isKeypad, bool isSystemKey, int location, string commands)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DispatchKeyEventAsync(string type, int? modifiers = null, long? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string commands = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"type", type}, {"modifiers", modifiers}, {"timestamp", timestamp}, {"text", text}, {"unmodifiedText", unmodifiedText}, {"keyIdentifier", keyIdentifier}, {"code", code}, {"key", key}, {"windowsVirtualKeyCode", windowsVirtualKeyCode}, {"nativeVirtualKeyCode", nativeVirtualKeyCode}, {"autoRepeat", autoRepeat}, {"isKeypad", isKeypad}, {"isSystemKey", isSystemKey}, {"location", location}, {"commands", commands}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.DispatchKeyEvent", dict);
-            return result;
-        }
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("type", type);
+            if (modifiers.HasValue)
+            {
+                dict.Add("modifiers", modifiers.Value);
+            }
 
-        /// <summary>
-        /// This method emulates inserting text that doesn't come from a key press,
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> InsertText(string text)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"text", text}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.InsertText", dict);
+            if (timestamp.HasValue)
+            {
+                dict.Add("timestamp", timestamp.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(text)))
+            {
+                dict.Add("text", text);
+            }
+
+            if (!(string.IsNullOrEmpty(unmodifiedText)))
+            {
+                dict.Add("unmodifiedText", unmodifiedText);
+            }
+
+            if (!(string.IsNullOrEmpty(keyIdentifier)))
+            {
+                dict.Add("keyIdentifier", keyIdentifier);
+            }
+
+            if (!(string.IsNullOrEmpty(code)))
+            {
+                dict.Add("code", code);
+            }
+
+            if (!(string.IsNullOrEmpty(key)))
+            {
+                dict.Add("key", key);
+            }
+
+            if (windowsVirtualKeyCode.HasValue)
+            {
+                dict.Add("windowsVirtualKeyCode", windowsVirtualKeyCode.Value);
+            }
+
+            if (nativeVirtualKeyCode.HasValue)
+            {
+                dict.Add("nativeVirtualKeyCode", nativeVirtualKeyCode.Value);
+            }
+
+            if (autoRepeat.HasValue)
+            {
+                dict.Add("autoRepeat", autoRepeat.Value);
+            }
+
+            if (isKeypad.HasValue)
+            {
+                dict.Add("isKeypad", isKeypad.Value);
+            }
+
+            if (isSystemKey.HasValue)
+            {
+                dict.Add("isSystemKey", isSystemKey.Value);
+            }
+
+            if (location.HasValue)
+            {
+                dict.Add("location", location.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(commands)))
+            {
+                dict.Add("commands", commands);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Input.dispatchKeyEvent", dict);
             return result;
         }
 
         /// <summary>
         /// Dispatches a mouse event to the page.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DispatchMouseEvent(string type, long x, long y, int modifiers, long timestamp, string button, int buttons, int clickCount, long deltaX, long deltaY, string pointerType)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DispatchMouseEventAsync(string type, long x, long y, int? modifiers = null, long? timestamp = null, string button = null, int? buttons = null, int? clickCount = null, long? deltaX = null, long? deltaY = null, string pointerType = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"type", type}, {"x", x}, {"y", y}, {"modifiers", modifiers}, {"timestamp", timestamp}, {"button", button}, {"buttons", buttons}, {"clickCount", clickCount}, {"deltaX", deltaX}, {"deltaY", deltaY}, {"pointerType", pointerType}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.DispatchMouseEvent", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("type", type);
+            dict.Add("x", x);
+            dict.Add("y", y);
+            if (modifiers.HasValue)
+            {
+                dict.Add("modifiers", modifiers.Value);
+            }
+
+            if (timestamp.HasValue)
+            {
+                dict.Add("timestamp", timestamp.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(button)))
+            {
+                dict.Add("button", button);
+            }
+
+            if (buttons.HasValue)
+            {
+                dict.Add("buttons", buttons.Value);
+            }
+
+            if (clickCount.HasValue)
+            {
+                dict.Add("clickCount", clickCount.Value);
+            }
+
+            if (deltaX.HasValue)
+            {
+                dict.Add("deltaX", deltaX.Value);
+            }
+
+            if (deltaY.HasValue)
+            {
+                dict.Add("deltaY", deltaY.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(pointerType)))
+            {
+                dict.Add("pointerType", pointerType);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Input.dispatchMouseEvent", dict);
             return result;
         }
 
         /// <summary>
         /// Dispatches a touch event to the page.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DispatchTouchEvent(string type, System.Collections.Generic.IList<TouchPoint> touchPoints, int modifiers, long timestamp)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DispatchTouchEventAsync(string type, System.Collections.Generic.IList<TouchPoint> touchPoints, int? modifiers = null, long? timestamp = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"type", type}, {"touchPoints", touchPoints}, {"modifiers", modifiers}, {"timestamp", timestamp}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.DispatchTouchEvent", dict);
-            return result;
-        }
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("type", type);
+            dict.Add("touchPoints", touchPoints);
+            if (modifiers.HasValue)
+            {
+                dict.Add("modifiers", modifiers.Value);
+            }
 
-        /// <summary>
-        /// Emulates touch event from the mouse event parameters.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EmulateTouchFromMouseEvent(string type, int x, int y, string button, long timestamp, long deltaX, long deltaY, int modifiers, int clickCount)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"type", type}, {"x", x}, {"y", y}, {"button", button}, {"timestamp", timestamp}, {"deltaX", deltaX}, {"deltaY", deltaY}, {"modifiers", modifiers}, {"clickCount", clickCount}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.EmulateTouchFromMouseEvent", dict);
+            if (timestamp.HasValue)
+            {
+                dict.Add("timestamp", timestamp.Value);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("Input.dispatchTouchEvent", dict);
             return result;
         }
 
         /// <summary>
         /// Ignores input events (useful while auditing page).
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetIgnoreInputEvents(bool ignore)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetIgnoreInputEventsAsync(bool ignore)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"ignore", ignore}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.SetIgnoreInputEvents", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Synthesizes a pinch gesture over a time period by issuing appropriate touch events.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SynthesizePinchGesture(long x, long y, long scaleFactor, int relativeSpeed, string gestureSourceType)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"x", x}, {"y", y}, {"scaleFactor", scaleFactor}, {"relativeSpeed", relativeSpeed}, {"gestureSourceType", gestureSourceType}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.SynthesizePinchGesture", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Synthesizes a scroll gesture over a time period by issuing appropriate touch events.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SynthesizeScrollGesture(long x, long y, long xDistance, long yDistance, long xOverscroll, long yOverscroll, bool preventFling, int speed, string gestureSourceType, int repeatCount, int repeatDelayMs, string interactionMarkerName)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"x", x}, {"y", y}, {"xDistance", xDistance}, {"yDistance", yDistance}, {"xOverscroll", xOverscroll}, {"yOverscroll", yOverscroll}, {"preventFling", preventFling}, {"speed", speed}, {"gestureSourceType", gestureSourceType}, {"repeatCount", repeatCount}, {"repeatDelayMs", repeatDelayMs}, {"interactionMarkerName", interactionMarkerName}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.SynthesizeScrollGesture", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Synthesizes a tap gesture over a time period by issuing appropriate touch events.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SynthesizeTapGesture(long x, long y, int duration, int tapCount, string gestureSourceType)
-        {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"x", x}, {"y", y}, {"duration", duration}, {"tapCount", tapCount}, {"gestureSourceType", gestureSourceType}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("Input.SynthesizeTapGesture", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("ignore", ignore);
+            var result = await _client.ExecuteDevToolsMethodAsync("Input.setIgnoreInputEvents", dict);
             return result;
         }
     }

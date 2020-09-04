@@ -38,7 +38,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The alpha component, in the [0-1] range (default: 1).
         /// </summary>
-        public long A
+        public long? A
         {
             get;
             set;

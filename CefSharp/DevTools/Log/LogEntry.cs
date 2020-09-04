@@ -56,7 +56,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Line number in the resource.
         /// </summary>
-        public int LineNumber
+        public int? LineNumber
         {
             get;
             set;

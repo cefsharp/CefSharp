@@ -6,7 +6,7 @@ namespace CefSharp.DevTools.IO
     /// <summary>
     /// Input/Output operations for streams produced by DevTools.
     /// </summary>
-    public partial class IO
+    public partial class IO : DevToolsDomainBase
     {
         public IO(CefSharp.DevTools.DevToolsClient client)
         {
@@ -17,31 +17,44 @@ namespace CefSharp.DevTools.IO
         /// <summary>
         /// Close the stream, discard any temporary backing storage.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Close(string handle)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> CloseAsync(string handle)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"handle", handle}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("IO.Close", dict);
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("handle", handle);
+            var result = await _client.ExecuteDevToolsMethodAsync("IO.close", dict);
             return result;
         }
 
         /// <summary>
         /// Read a chunk of the stream
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> Read(string handle, int offset, int size)
+        public async System.Threading.Tasks.Task<ReadResponse> ReadAsync(string handle, int? offset = null, int? size = null)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"handle", handle}, {"offset", offset}, {"size", size}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("IO.Read", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("handle", handle);
+            if (offset.HasValue)
+            {
+                dict.Add("offset", offset.Value);
+            }
+
+            if (size.HasValue)
+            {
+                dict.Add("size", size.Value);
+            }
+
+            var result = await _client.ExecuteDevToolsMethodAsync("IO.read", dict);
+            return result.DeserializeJson<ReadResponse>();
         }
 
         /// <summary>
         /// Return UUID of Blob object specified by a remote object id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ResolveBlob(string objectId)
+        public async System.Threading.Tasks.Task<ResolveBlobResponse> ResolveBlobAsync(string objectId)
         {
-            var dict = new System.Collections.Generic.Dictionary<string, object>{{"objectId", objectId}, };
-            var result = await _client.ExecuteDevToolsMethodAsync("IO.ResolveBlob", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("objectId", objectId);
+            var result = await _client.ExecuteDevToolsMethodAsync("IO.resolveBlob", dict);
+            return result.DeserializeJson<ResolveBlobResponse>();
         }
     }
 }
