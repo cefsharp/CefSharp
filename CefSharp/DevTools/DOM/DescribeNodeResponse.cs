@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// DescribeNodeResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class DescribeNodeResponse
     {
-        /// <summary>
-        /// Node description.
-        /// </summary>
-        public Node node
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Node node
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Node description.
+        /// </summary>
+        public Node Node
+        {
+            get
+            {
+                return node;
+            }
         }
     }
 }

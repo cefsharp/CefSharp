@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// CloseTargetResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CloseTargetResponse
     {
-        /// <summary>
-        /// success
-        /// </summary>
-        public bool success
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool success
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// success
+        /// </summary>
+        public bool Success
+        {
+            get
+            {
+                return success;
+            }
         }
     }
 }

@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// AddScriptToEvaluateOnNewDocumentResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AddScriptToEvaluateOnNewDocumentResponse
     {
-        /// <summary>
-        /// Identifier of the added script.
-        /// </summary>
-        public string identifier
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string identifier
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Identifier of the added script.
+        /// </summary>
+        public string Identifier
+        {
+            get
+            {
+                return identifier;
+            }
         }
     }
 }

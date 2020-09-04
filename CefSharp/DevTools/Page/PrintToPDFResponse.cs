@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// PrintToPDFResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PrintToPDFResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string data
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Base64-encoded pdf data. Empty if |returnAsStream| is specified.
         /// </summary>
-        public string data
+        public string Data
+        {
+            get
+            {
+                return data;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string stream
         {
             get;
             set;
@@ -20,10 +37,12 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// A handle of the stream that holds resulting PDF data.
         /// </summary>
-        public string stream
+        public string Stream
         {
-            get;
-            set;
+            get
+            {
+                return stream;
+            }
         }
     }
 }

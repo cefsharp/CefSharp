@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SetInstrumentationBreakpointResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SetInstrumentationBreakpointResponse
     {
-        /// <summary>
-        /// Id of the created breakpoint for further reference.
-        /// </summary>
-        public string breakpointId
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string breakpointId
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Id of the created breakpoint for further reference.
+        /// </summary>
+        public string BreakpointId
+        {
+            get
+            {
+                return breakpointId;
+            }
         }
     }
 }

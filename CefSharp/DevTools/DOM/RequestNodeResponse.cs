@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// RequestNodeResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestNodeResponse
     {
-        /// <summary>
-        /// Node id for given object.
-        /// </summary>
-        public int nodeId
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal int nodeId
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Node id for given object.
+        /// </summary>
+        public int NodeId
+        {
+            get
+            {
+                return nodeId;
+            }
         }
     }
 }

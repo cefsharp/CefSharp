@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// StopResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class StopResponse
     {
-        /// <summary>
-        /// Recorded profile.
-        /// </summary>
-        public Profile profile
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Profile profile
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Recorded profile.
+        /// </summary>
+        public Profile Profile
+        {
+            get
+            {
+                return profile;
+            }
         }
     }
 }

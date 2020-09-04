@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// CallFunctionOnResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CallFunctionOnResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal RemoteObject result
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Call result.
         /// </summary>
-        public RemoteObject result
+        public RemoteObject Result
+        {
+            get
+            {
+                return result;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal ExceptionDetails exceptionDetails
         {
             get;
             set;
@@ -20,10 +37,12 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception details.
         /// </summary>
-        public ExceptionDetails exceptionDetails
+        public ExceptionDetails ExceptionDetails
         {
-            get;
-            set;
+            get
+            {
+                return exceptionDetails;
+            }
         }
     }
 }

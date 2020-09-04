@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// GetTargetsResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetTargetsResponse
     {
-        /// <summary>
-        /// The list of targets.
-        /// </summary>
-        public System.Collections.Generic.IList<TargetInfo> targetInfos
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<TargetInfo> targetInfos
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// The list of targets.
+        /// </summary>
+        public System.Collections.Generic.IList<TargetInfo> TargetInfos
+        {
+            get
+            {
+                return targetInfos;
+            }
         }
     }
 }

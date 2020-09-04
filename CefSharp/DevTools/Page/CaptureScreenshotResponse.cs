@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// CaptureScreenshotResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CaptureScreenshotResponse
     {
-        /// <summary>
-        /// Base64-encoded image data.
-        /// </summary>
-        public string data
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string data
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Base64-encoded image data.
+        /// </summary>
+        public string Data
+        {
+            get
+            {
+                return data;
+            }
         }
     }
 }

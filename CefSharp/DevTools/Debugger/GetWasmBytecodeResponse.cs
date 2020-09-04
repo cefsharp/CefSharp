@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// GetWasmBytecodeResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetWasmBytecodeResponse
     {
-        /// <summary>
-        /// Script source.
-        /// </summary>
-        public string bytecode
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string bytecode
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Script source.
+        /// </summary>
+        public string Bytecode
+        {
+            get
+            {
+                return bytecode;
+            }
         }
     }
 }

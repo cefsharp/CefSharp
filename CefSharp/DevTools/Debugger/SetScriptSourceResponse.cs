@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SetScriptSourceResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SetScriptSourceResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<CallFrame> callFrames
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// New stack trace in case editing has happened while VM was stopped.
         /// </summary>
-        public System.Collections.Generic.IList<CallFrame> callFrames
+        public System.Collections.Generic.IList<CallFrame> CallFrames
+        {
+            get
+            {
+                return callFrames;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool? stackChanged
         {
             get;
             set;
@@ -20,7 +37,16 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Whether current call stack  was modified after applying the changes.
         /// </summary>
-        public bool? stackChanged
+        public bool? StackChanged
+        {
+            get
+            {
+                return stackChanged;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Runtime.StackTrace asyncStackTrace
         {
             get;
             set;
@@ -29,7 +55,16 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Async stack trace, if any.
         /// </summary>
-        public Runtime.StackTrace asyncStackTrace
+        public Runtime.StackTrace AsyncStackTrace
+        {
+            get
+            {
+                return asyncStackTrace;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Runtime.StackTraceId asyncStackTraceId
         {
             get;
             set;
@@ -38,7 +73,16 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Async stack trace, if any.
         /// </summary>
-        public Runtime.StackTraceId asyncStackTraceId
+        public Runtime.StackTraceId AsyncStackTraceId
+        {
+            get
+            {
+                return asyncStackTraceId;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Runtime.ExceptionDetails exceptionDetails
         {
             get;
             set;
@@ -47,10 +91,12 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Exception details if any.
         /// </summary>
-        public Runtime.ExceptionDetails exceptionDetails
+        public Runtime.ExceptionDetails ExceptionDetails
         {
-            get;
-            set;
+            get
+            {
+                return exceptionDetails;
+            }
         }
     }
 }

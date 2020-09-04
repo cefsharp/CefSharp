@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetFrameTreeResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetFrameTreeResponse
     {
-        /// <summary>
-        /// Present frame tree structure.
-        /// </summary>
-        public FrameTree frameTree
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal FrameTree frameTree
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Present frame tree structure.
+        /// </summary>
+        public FrameTree FrameTree
+        {
+            get
+            {
+                return frameTree;
+            }
         }
     }
 }

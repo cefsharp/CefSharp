@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetRequestPostDataResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetRequestPostDataResponse
     {
-        /// <summary>
-        /// Request body string, omitting files from multipart requests
-        /// </summary>
-        public string postData
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string postData
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Request body string, omitting files from multipart requests
+        /// </summary>
+        public string PostData
+        {
+            get
+            {
+                return postData;
+            }
         }
     }
 }

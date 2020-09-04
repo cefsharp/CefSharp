@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// TakePreciseCoverageResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class TakePreciseCoverageResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<ScriptCoverage> result
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Coverage data for the current isolate.
         /// </summary>
-        public System.Collections.Generic.IList<ScriptCoverage> result
+        public System.Collections.Generic.IList<ScriptCoverage> Result
+        {
+            get
+            {
+                return result;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal long timestamp
         {
             get;
             set;
@@ -20,10 +37,12 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
         /// </summary>
-        public long timestamp
+        public long Timestamp
         {
-            get;
-            set;
+            get
+            {
+                return timestamp;
+            }
         }
     }
 }

@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// SetCookieResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SetCookieResponse
     {
-        /// <summary>
-        /// True if successfully set cookie.
-        /// </summary>
-        public bool success
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool success
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// True if successfully set cookie.
+        /// </summary>
+        public bool Success
+        {
+            get
+            {
+                return success;
+            }
         }
     }
 }

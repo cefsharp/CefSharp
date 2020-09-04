@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetNavigationHistoryResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetNavigationHistoryResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal int currentIndex
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Index of the current navigation history entry.
         /// </summary>
-        public int currentIndex
+        public int CurrentIndex
+        {
+            get
+            {
+                return currentIndex;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<NavigationEntry> entries
         {
             get;
             set;
@@ -20,10 +37,12 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Array of navigation history entries.
         /// </summary>
-        public System.Collections.Generic.IList<NavigationEntry> entries
+        public System.Collections.Generic.IList<NavigationEntry> Entries
         {
-            get;
-            set;
+            get
+            {
+                return entries;
+            }
         }
     }
 }

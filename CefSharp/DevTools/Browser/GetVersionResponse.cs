@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// GetVersionResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetVersionResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string protocolVersion
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Protocol version.
         /// </summary>
-        public string protocolVersion
+        public string ProtocolVersion
+        {
+            get
+            {
+                return protocolVersion;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string product
         {
             get;
             set;
@@ -20,7 +37,16 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Product name.
         /// </summary>
-        public string product
+        public string Product
+        {
+            get
+            {
+                return product;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string revision
         {
             get;
             set;
@@ -29,7 +55,16 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Product revision.
         /// </summary>
-        public string revision
+        public string Revision
+        {
+            get
+            {
+                return revision;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string userAgent
         {
             get;
             set;
@@ -38,7 +73,16 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// User-Agent.
         /// </summary>
-        public string userAgent
+        public string UserAgent
+        {
+            get
+            {
+                return userAgent;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string jsVersion
         {
             get;
             set;
@@ -47,10 +91,12 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// V8 version.
         /// </summary>
-        public string jsVersion
+        public string JsVersion
         {
-            get;
-            set;
+            get
+            {
+                return jsVersion;
+            }
         }
     }
 }

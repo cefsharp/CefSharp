@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.IO
     /// <summary>
     /// ReadResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ReadResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool? base64Encoded
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Set if the data is base64-encoded
         /// </summary>
-        public bool? base64Encoded
+        public bool? Base64Encoded
+        {
+            get
+            {
+                return base64Encoded;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string data
         {
             get;
             set;
@@ -20,7 +37,16 @@ namespace CefSharp.DevTools.IO
         /// <summary>
         /// Data that were read.
         /// </summary>
-        public string data
+        public string Data
+        {
+            get
+            {
+                return data;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool eof
         {
             get;
             set;
@@ -29,10 +55,12 @@ namespace CefSharp.DevTools.IO
         /// <summary>
         /// Set if the end-of-file condition occured while reading.
         /// </summary>
-        public bool eof
+        public bool Eof
         {
-            get;
-            set;
+            get
+            {
+                return eof;
+            }
         }
     }
 }

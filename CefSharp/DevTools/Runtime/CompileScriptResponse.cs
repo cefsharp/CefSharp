@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// CompileScriptResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CompileScriptResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string scriptId
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Id of the script.
         /// </summary>
-        public string scriptId
+        public string ScriptId
+        {
+            get
+            {
+                return scriptId;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal ExceptionDetails exceptionDetails
         {
             get;
             set;
@@ -20,10 +37,12 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception details.
         /// </summary>
-        public ExceptionDetails exceptionDetails
+        public ExceptionDetails ExceptionDetails
         {
-            get;
-            set;
+            get
+            {
+                return exceptionDetails;
+            }
         }
     }
 }

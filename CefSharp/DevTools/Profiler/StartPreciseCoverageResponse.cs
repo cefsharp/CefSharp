@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// StartPreciseCoverageResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class StartPreciseCoverageResponse
     {
-        /// <summary>
-        /// Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
-        /// </summary>
-        public long timestamp
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal long timestamp
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
+        /// </summary>
+        public long Timestamp
+        {
+            get
+            {
+                return timestamp;
+            }
         }
     }
 }

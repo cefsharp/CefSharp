@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetAllCookiesResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetAllCookiesResponse
     {
-        /// <summary>
-        /// Array of cookie objects.
-        /// </summary>
-        public System.Collections.Generic.IList<Cookie> cookies
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<Cookie> cookies
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Array of cookie objects.
+        /// </summary>
+        public System.Collections.Generic.IList<Cookie> Cookies
+        {
+            get
+            {
+                return cookies;
+            }
         }
     }
 }

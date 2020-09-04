@@ -79,7 +79,8 @@ namespace CefSharp.OffScreen.Example
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
-                    var success = await devToolsClient.Browser.GetVersionAsync();
+                    var response = await devToolsClient.Browser.GetVersionAsync();
+                    var jsVersion = response.JsVersion;
                     //var success = await devToolsClient.Network.ClearBrowserCacheAsync();
                 }
 

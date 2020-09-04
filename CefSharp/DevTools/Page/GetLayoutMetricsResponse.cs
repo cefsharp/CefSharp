@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetLayoutMetricsResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetLayoutMetricsResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal LayoutViewport layoutViewport
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Metrics relating to the layout viewport.
         /// </summary>
-        public LayoutViewport layoutViewport
+        public LayoutViewport LayoutViewport
+        {
+            get
+            {
+                return layoutViewport;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal VisualViewport visualViewport
         {
             get;
             set;
@@ -20,7 +37,16 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Metrics relating to the visual viewport.
         /// </summary>
-        public VisualViewport visualViewport
+        public VisualViewport VisualViewport
+        {
+            get
+            {
+                return visualViewport;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal DOM.Rect contentSize
         {
             get;
             set;
@@ -29,10 +55,12 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Size of scrollable area.
         /// </summary>
-        public DOM.Rect contentSize
+        public DOM.Rect ContentSize
         {
-            get;
-            set;
+            get
+            {
+                return contentSize;
+            }
         }
     }
 }

@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// NavigateResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class NavigateResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string frameId
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Frame id that has navigated (or failed to navigate)
         /// </summary>
-        public string frameId
+        public string FrameId
+        {
+            get
+            {
+                return frameId;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string loaderId
         {
             get;
             set;
@@ -20,7 +37,16 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Loader identifier.
         /// </summary>
-        public string loaderId
+        public string LoaderId
+        {
+            get
+            {
+                return loaderId;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string errorText
         {
             get;
             set;
@@ -29,10 +55,12 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// User friendly error message, present if and only if navigation has failed.
         /// </summary>
-        public string errorText
+        public string ErrorText
         {
-            get;
-            set;
+            get
+            {
+                return errorText;
+            }
         }
     }
 }

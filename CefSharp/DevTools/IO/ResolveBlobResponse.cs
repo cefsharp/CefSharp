@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.IO
     /// <summary>
     /// ResolveBlobResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ResolveBlobResponse
     {
-        /// <summary>
-        /// UUID of the specified Blob.
-        /// </summary>
-        public string uuid
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string uuid
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// UUID of the specified Blob.
+        /// </summary>
+        public string Uuid
+        {
+            get
+            {
+                return uuid;
+            }
         }
     }
 }

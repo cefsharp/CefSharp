@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// QueryObjectsResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class QueryObjectsResponse
     {
-        /// <summary>
-        /// Array with objects.
-        /// </summary>
-        public RemoteObject objects
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal RemoteObject objects
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Array with objects.
+        /// </summary>
+        public RemoteObject Objects
+        {
+            get
+            {
+                return objects;
+            }
         }
     }
 }

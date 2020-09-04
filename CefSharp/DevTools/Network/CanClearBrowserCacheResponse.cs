@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// CanClearBrowserCacheResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CanClearBrowserCacheResponse
     {
-        /// <summary>
-        /// True if browser cache can be cleared.
-        /// </summary>
-        public bool result
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool result
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// True if browser cache can be cleared.
+        /// </summary>
+        public bool Result
+        {
+            get
+            {
+                return result;
+            }
         }
     }
 }

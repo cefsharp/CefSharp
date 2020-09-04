@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// QuerySelectorAllResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class QuerySelectorAllResponse
     {
-        /// <summary>
-        /// Query selector result.
-        /// </summary>
-        public int nodeIds
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal int nodeIds
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Query selector result.
+        /// </summary>
+        public int NodeIds
+        {
+            get
+            {
+                return nodeIds;
+            }
         }
     }
 }

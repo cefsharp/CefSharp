@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetOuterHTMLResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetOuterHTMLResponse
     {
-        /// <summary>
-        /// Outer HTML markup.
-        /// </summary>
-        public string outerHTML
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string outerHTML
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Outer HTML markup.
+        /// </summary>
+        public string OuterHTML
+        {
+            get
+            {
+                return outerHTML;
+            }
         }
     }
 }

@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Schema
     /// <summary>
     /// GetDomainsResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetDomainsResponse
     {
-        /// <summary>
-        /// List of supported domains.
-        /// </summary>
-        public System.Collections.Generic.IList<Domain> domains
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<Domain> domains
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// List of supported domains.
+        /// </summary>
+        public System.Collections.Generic.IList<Domain> Domains
+        {
+            get
+            {
+                return domains;
+            }
         }
     }
 }

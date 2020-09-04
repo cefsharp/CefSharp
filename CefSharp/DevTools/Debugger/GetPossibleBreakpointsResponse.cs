@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// GetPossibleBreakpointsResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetPossibleBreakpointsResponse
     {
-        /// <summary>
-        /// List of the possible breakpoint locations.
-        /// </summary>
-        public System.Collections.Generic.IList<BreakLocation> locations
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<BreakLocation> locations
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// List of the possible breakpoint locations.
+        /// </summary>
+        public System.Collections.Generic.IList<BreakLocation> Locations
+        {
+            get
+            {
+                return locations;
+            }
         }
     }
 }

@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetAppManifestResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetAppManifestResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string url
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Manifest location.
         /// </summary>
-        public string url
+        public string Url
+        {
+            get
+            {
+                return url;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<AppManifestError> errors
         {
             get;
             set;
@@ -20,7 +37,16 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// errors
         /// </summary>
-        public System.Collections.Generic.IList<AppManifestError> errors
+        public System.Collections.Generic.IList<AppManifestError> Errors
+        {
+            get
+            {
+                return errors;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string data
         {
             get;
             set;
@@ -29,7 +55,16 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Manifest content.
         /// </summary>
-        public string data
+        public string Data
+        {
+            get
+            {
+                return data;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal AppManifestParsedProperties parsed
         {
             get;
             set;
@@ -38,10 +73,12 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Parsed manifest properties
         /// </summary>
-        public AppManifestParsedProperties parsed
+        public AppManifestParsedProperties Parsed
         {
-            get;
-            set;
+            get
+            {
+                return parsed;
+            }
         }
     }
 }

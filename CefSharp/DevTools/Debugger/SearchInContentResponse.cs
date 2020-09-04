@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SearchInContentResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SearchInContentResponse
     {
-        /// <summary>
-        /// List of search matches.
-        /// </summary>
-        public System.Collections.Generic.IList<SearchMatch> result
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<SearchMatch> result
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// List of search matches.
+        /// </summary>
+        public System.Collections.Generic.IList<SearchMatch> Result
+        {
+            get
+            {
+                return result;
+            }
         }
     }
 }

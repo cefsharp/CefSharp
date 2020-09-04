@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// CreateTargetResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CreateTargetResponse
     {
-        /// <summary>
-        /// The id of the page opened.
-        /// </summary>
-        public string targetId
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string targetId
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// The id of the page opened.
+        /// </summary>
+        public string TargetId
+        {
+            get
+            {
+                return targetId;
+            }
         }
     }
 }

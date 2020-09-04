@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// ResolveNodeResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ResolveNodeResponse
     {
-        /// <summary>
-        /// JavaScript object wrapper for given node.
-        /// </summary>
-        public Runtime.RemoteObject @object
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Runtime.RemoteObject @object
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// JavaScript object wrapper for given node.
+        /// </summary>
+        public Runtime.RemoteObject Object
+        {
+            get
+            {
+                return @object;
+            }
         }
     }
 }

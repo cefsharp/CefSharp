@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetDocumentResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetDocumentResponse
     {
-        /// <summary>
-        /// Resulting node.
-        /// </summary>
-        public Node root
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Node root
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Resulting node.
+        /// </summary>
+        public Node Root
+        {
+            get
+            {
+                return root;
+            }
         }
     }
 }

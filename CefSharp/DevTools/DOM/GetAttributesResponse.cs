@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetAttributesResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetAttributesResponse
     {
-        /// <summary>
-        /// An interleaved array of node attribute names and values.
-        /// </summary>
-        public string attributes
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string attributes
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// An interleaved array of node attribute names and values.
+        /// </summary>
+        public string Attributes
+        {
+            get
+            {
+                return attributes;
+            }
         }
     }
 }

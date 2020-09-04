@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOMDebugger
     /// <summary>
     /// GetEventListenersResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetEventListenersResponse
     {
-        /// <summary>
-        /// Array of relevant listeners.
-        /// </summary>
-        public System.Collections.Generic.IList<EventListener> listeners
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<EventListener> listeners
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Array of relevant listeners.
+        /// </summary>
+        public System.Collections.Generic.IList<EventListener> Listeners
+        {
+            get
+            {
+                return listeners;
+            }
         }
     }
 }

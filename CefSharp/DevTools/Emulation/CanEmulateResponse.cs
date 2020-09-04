@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// CanEmulateResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CanEmulateResponse
     {
-        /// <summary>
-        /// True if emulation is supported.
-        /// </summary>
-        public bool result
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool result
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// True if emulation is supported.
+        /// </summary>
+        public bool Result
+        {
+            get
+            {
+                return result;
+            }
         }
     }
 }

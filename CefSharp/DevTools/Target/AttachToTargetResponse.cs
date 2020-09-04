@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// AttachToTargetResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AttachToTargetResponse
     {
-        /// <summary>
-        /// Id assigned to the session.
-        /// </summary>
-        public string sessionId
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string sessionId
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Id assigned to the session.
+        /// </summary>
+        public string SessionId
+        {
+            get
+            {
+                return sessionId;
+            }
         }
     }
 }

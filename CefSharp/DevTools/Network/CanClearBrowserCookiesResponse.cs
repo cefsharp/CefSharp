@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// CanClearBrowserCookiesResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CanClearBrowserCookiesResponse
     {
-        /// <summary>
-        /// True if browser cookies can be cleared.
-        /// </summary>
-        public bool result
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool result
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// True if browser cookies can be cleared.
+        /// </summary>
+        public bool Result
+        {
+            get
+            {
+                return result;
+            }
         }
     }
 }

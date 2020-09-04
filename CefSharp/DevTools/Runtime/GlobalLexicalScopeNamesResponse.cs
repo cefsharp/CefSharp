@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// GlobalLexicalScopeNamesResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GlobalLexicalScopeNamesResponse
     {
-        /// <summary>
-        /// names
-        /// </summary>
-        public string names
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string names
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// names
+        /// </summary>
+        public string Names
+        {
+            get
+            {
+                return names;
+            }
         }
     }
 }

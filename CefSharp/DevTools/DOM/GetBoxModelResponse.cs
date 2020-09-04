@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetBoxModelResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetBoxModelResponse
     {
-        /// <summary>
-        /// Box model for the node.
-        /// </summary>
-        public BoxModel model
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal BoxModel model
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Box model for the node.
+        /// </summary>
+        public BoxModel Model
+        {
+            get
+            {
+                return model;
+            }
         }
     }
 }

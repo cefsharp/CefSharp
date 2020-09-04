@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// CanEmulateNetworkConditionsResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CanEmulateNetworkConditionsResponse
     {
-        /// <summary>
-        /// True if emulation of network conditions is supported.
-        /// </summary>
-        public bool result
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal bool result
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// True if emulation of network conditions is supported.
+        /// </summary>
+        public bool Result
+        {
+            get
+            {
+                return result;
+            }
         }
     }
 }

@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// GetBestEffortCoverageResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GetBestEffortCoverageResponse
     {
-        /// <summary>
-        /// Coverage data for the current isolate.
-        /// </summary>
-        public System.Collections.Generic.IList<ScriptCoverage> result
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<ScriptCoverage> result
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Coverage data for the current isolate.
+        /// </summary>
+        public System.Collections.Generic.IList<ScriptCoverage> Result
+        {
+            get
+            {
+                return result;
+            }
         }
     }
 }

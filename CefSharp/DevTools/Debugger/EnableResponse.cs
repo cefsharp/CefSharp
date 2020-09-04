@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// EnableResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class EnableResponse
     {
-        /// <summary>
-        /// Unique identifier of the debugger.
-        /// </summary>
-        public string debuggerId
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal string debuggerId
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Unique identifier of the debugger.
+        /// </summary>
+        public string DebuggerId
+        {
+            get
+            {
+                return debuggerId;
+            }
         }
     }
 }

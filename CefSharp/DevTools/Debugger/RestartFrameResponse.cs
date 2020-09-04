@@ -6,12 +6,29 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// RestartFrameResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RestartFrameResponse
     {
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal System.Collections.Generic.IList<CallFrame> callFrames
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// New stack trace.
         /// </summary>
-        public System.Collections.Generic.IList<CallFrame> callFrames
+        public System.Collections.Generic.IList<CallFrame> CallFrames
+        {
+            get
+            {
+                return callFrames;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Runtime.StackTrace asyncStackTrace
         {
             get;
             set;
@@ -20,7 +37,16 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Async stack trace, if any.
         /// </summary>
-        public Runtime.StackTrace asyncStackTrace
+        public Runtime.StackTrace AsyncStackTrace
+        {
+            get
+            {
+                return asyncStackTrace;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal Runtime.StackTraceId asyncStackTraceId
         {
             get;
             set;
@@ -29,10 +55,12 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Async stack trace, if any.
         /// </summary>
-        public Runtime.StackTraceId asyncStackTraceId
+        public Runtime.StackTraceId AsyncStackTraceId
         {
-            get;
-            set;
+            get
+            {
+                return asyncStackTraceId;
+            }
         }
     }
 }

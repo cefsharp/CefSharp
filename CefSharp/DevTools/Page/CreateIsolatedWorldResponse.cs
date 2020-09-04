@@ -6,15 +6,25 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// CreateIsolatedWorldResponse
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CreateIsolatedWorldResponse
     {
-        /// <summary>
-        /// Execution context of the isolated world.
-        /// </summary>
-        public int executionContextId
+        [System.Runtime.Serialization.DataMemberAttribute]
+        internal int executionContextId
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Execution context of the isolated world.
+        /// </summary>
+        public int ExecutionContextId
+        {
+            get
+            {
+                return executionContextId;
+            }
         }
     }
 }
