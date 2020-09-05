@@ -24,7 +24,7 @@ It maybe helpful to run the `cefclient` application and compare output with `Cef
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
-		cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --no-sandbox --disable-site-isolation-trials
+		cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --no-sandbox --disable-site-isolation-trials --disable-gpu-compositing
 		```
 		- If you are using WinForms run
 		```
