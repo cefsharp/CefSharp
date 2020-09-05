@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.Debugger
 {
+    using System.Linq;
+
     /// <summary>
     /// Debugger domain exposes JavaScript debugging capabilities. It allows setting and removing
     public partial class Debugger : DevToolsDomainBase
@@ -19,7 +21,7 @@ namespace CefSharp.DevTools.Debugger
         public async System.Threading.Tasks.Task<DevToolsMethodResult> ContinueToLocationAsync(Location location, string targetCallFrames = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("location", location);
+            dict.Add("location", location.ToDictionary());
             if (!(string.IsNullOrEmpty(targetCallFrames)))
             {
                 dict.Add("targetCallFrames", targetCallFrames);
@@ -105,10 +107,10 @@ namespace CefSharp.DevTools.Debugger
         public async System.Threading.Tasks.Task<GetPossibleBreakpointsResponse> GetPossibleBreakpointsAsync(Location start, Location end = null, bool? restrictToFunction = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("start", start);
+            dict.Add("start", start.ToDictionary());
             if ((end) != (null))
             {
-                dict.Add("end", end);
+                dict.Add("end", end.ToDictionary());
             }
 
             if (restrictToFunction.HasValue)
@@ -228,7 +230,7 @@ namespace CefSharp.DevTools.Debugger
         public async System.Threading.Tasks.Task<SetBreakpointResponse> SetBreakpointAsync(Location location, string condition = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("location", location);
+            dict.Add("location", location.ToDictionary());
             if (!(string.IsNullOrEmpty(condition)))
             {
                 dict.Add("condition", condition);
@@ -340,7 +342,7 @@ namespace CefSharp.DevTools.Debugger
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scopeNumber", scopeNumber);
             dict.Add("variableName", variableName);
-            dict.Add("newValue", newValue);
+            dict.Add("newValue", newValue.ToDictionary());
             dict.Add("callFrameId", callFrameId);
             var result = await _client.ExecuteDevToolsMethodAsync("Debugger.setVariableValue", dict);
             return result;
@@ -359,7 +361,7 @@ namespace CefSharp.DevTools.Debugger
 
             if ((skipList) != (null))
             {
-                dict.Add("skipList", skipList);
+                dict.Add("skipList", skipList.Select(x => x.ToDictionary()));
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Debugger.stepInto", dict);
@@ -384,7 +386,7 @@ namespace CefSharp.DevTools.Debugger
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if ((skipList) != (null))
             {
-                dict.Add("skipList", skipList);
+                dict.Add("skipList", skipList.Select(x => x.ToDictionary()));
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Debugger.stepOver", dict);

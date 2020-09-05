@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
     /// </summary>
-    public class UserAgentMetadata
+    public class UserAgentMetadata : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("brands"), IsRequired = (true))]
         public System.Collections.Generic.IList<UserAgentBrandVersion> Brands
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fullVersion"), IsRequired = (true))]
         public string FullVersion
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("platform"), IsRequired = (true))]
         public string Platform
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("platformVersion"), IsRequired = (true))]
         public string PlatformVersion
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("architecture"), IsRequired = (true))]
         public string Architecture
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("model"), IsRequired = (true))]
         public string Model
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mobile"), IsRequired = (true))]
         public bool Mobile
         {
             get;

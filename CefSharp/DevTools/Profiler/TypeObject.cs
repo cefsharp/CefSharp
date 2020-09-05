@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Describes a type collected during runtime.
     /// </summary>
-    public class TypeObject
+    public class TypeObject : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name of a type collected with type profiling.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;

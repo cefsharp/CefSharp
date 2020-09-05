@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// Backend node with a friendly name.
     /// </summary>
-    public class BackendNode
+    public class BackendNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// `Node`'s nodeType.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeType"), IsRequired = (true))]
         public int NodeType
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`'s nodeName.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeName"), IsRequired = (true))]
         public string NodeName
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (true))]
         public int BackendNodeId
         {
             get;

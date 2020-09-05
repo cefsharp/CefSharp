@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.Emulation
 {
+    using System.Linq;
+
     /// <summary>
     /// This domain emulates different environments for the page.
     /// </summary>
@@ -51,7 +53,7 @@ namespace CefSharp.DevTools.Emulation
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if ((color) != (null))
             {
-                dict.Add("color", color);
+                dict.Add("color", color.ToDictionary());
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Emulation.setDefaultBackgroundColorOverride", dict);
@@ -99,17 +101,17 @@ namespace CefSharp.DevTools.Emulation
 
             if ((screenOrientation) != (null))
             {
-                dict.Add("screenOrientation", screenOrientation);
+                dict.Add("screenOrientation", screenOrientation.ToDictionary());
             }
 
             if ((viewport) != (null))
             {
-                dict.Add("viewport", viewport);
+                dict.Add("viewport", viewport.ToDictionary());
             }
 
             if ((displayFeature) != (null))
             {
-                dict.Add("displayFeature", displayFeature);
+                dict.Add("displayFeature", displayFeature.ToDictionary());
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Emulation.setDeviceMetricsOverride", dict);
@@ -129,7 +131,7 @@ namespace CefSharp.DevTools.Emulation
 
             if ((features) != (null))
             {
-                dict.Add("features", features);
+                dict.Add("features", features.Select(x => x.ToDictionary()));
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Emulation.setEmulatedMedia", dict);
@@ -206,7 +208,7 @@ namespace CefSharp.DevTools.Emulation
 
             if ((userAgentMetadata) != (null))
             {
-                dict.Add("userAgentMetadata", userAgentMetadata);
+                dict.Add("userAgentMetadata", userAgentMetadata.ToDictionary());
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Emulation.setUserAgentOverride", dict);

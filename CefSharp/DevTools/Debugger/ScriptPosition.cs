@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Location in the source code.
     /// </summary>
-    public class ScriptPosition
+    public class ScriptPosition : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
         public int LineNumber
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
         public int ColumnNumber
         {
             get;

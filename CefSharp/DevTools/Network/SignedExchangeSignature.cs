@@ -5,11 +5,12 @@ namespace CefSharp.DevTools.Network
 {
     /// <summary>
     /// Information about a signed exchange signature.
-    public class SignedExchangeSignature
+    public class SignedExchangeSignature : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Signed exchange signature label.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("label"), IsRequired = (true))]
         public string Label
         {
             get;
@@ -19,6 +20,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The hex string of signed exchange signature.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signature"), IsRequired = (true))]
         public string Signature
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature integrity.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("integrity"), IsRequired = (true))]
         public string Integrity
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature cert Url.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certUrl"), IsRequired = (false))]
         public string CertUrl
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The hex string of signed exchange signature cert sha256.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certSha256"), IsRequired = (false))]
         public string CertSha256
         {
             get;
@@ -55,6 +60,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature validity Url.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validityUrl"), IsRequired = (true))]
         public string ValidityUrl
         {
             get;
@@ -64,6 +70,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature date.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("date"), IsRequired = (true))]
         public int Date
         {
             get;
@@ -73,6 +80,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature expires.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("expires"), IsRequired = (true))]
         public int Expires
         {
             get;
@@ -82,6 +90,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The encoded certificates.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificates"), IsRequired = (false))]
         public string Certificates
         {
             get;

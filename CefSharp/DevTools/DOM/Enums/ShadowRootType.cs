@@ -8,8 +8,20 @@ namespace CefSharp.DevTools.DOM
     /// </summary>
     public enum ShadowRootType
     {
+        /// <summary>
+        /// user-agent
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("user-agent"))]
         UserAgent,
+        /// <summary>
+        /// open
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("open"))]
         Open,
+        /// <summary>
+        /// closed
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("closed"))]
         Closed
     }
 }

@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.Browser
 {
+    using System.Linq;
+
     /// <summary>
     /// The Browser domain defines methods and events for browser managing.
     /// </summary>

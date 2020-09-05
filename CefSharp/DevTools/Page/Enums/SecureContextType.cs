@@ -8,9 +8,25 @@ namespace CefSharp.DevTools.Page
     /// </summary>
     public enum SecureContextType
     {
+        /// <summary>
+        /// Secure
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Secure"))]
         Secure,
+        /// <summary>
+        /// SecureLocalhost
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SecureLocalhost"))]
         SecureLocalhost,
+        /// <summary>
+        /// InsecureScheme
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("InsecureScheme"))]
         InsecureScheme,
+        /// <summary>
+        /// InsecureAncestor
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("InsecureAncestor"))]
         InsecureAncestor
     }
 }

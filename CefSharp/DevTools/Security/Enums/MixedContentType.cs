@@ -7,8 +7,20 @@ namespace CefSharp.DevTools.Security
     /// A description of mixed content (HTTP resources on HTTPS pages), as defined by
     public enum MixedContentType
     {
+        /// <summary>
+        /// blockable
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("blockable"))]
         Blockable,
+        /// <summary>
+        /// optionally-blockable
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("optionally-blockable"))]
         OptionallyBlockable,
+        /// <summary>
+        /// none
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("none"))]
         None
     }
 }

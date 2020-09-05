@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.DOMDebugger
     /// <summary>
     /// Object event listener.
     /// </summary>
-    public class EventListener
+    public class EventListener : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// `EventListener`'s type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// `EventListener`'s useCapture.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("useCapture"), IsRequired = (true))]
         public bool UseCapture
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// `EventListener`'s passive flag.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("passive"), IsRequired = (true))]
         public bool Passive
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// `EventListener`'s once flag.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("once"), IsRequired = (true))]
         public bool Once
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Script id of the handler code.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
         public string ScriptId
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Line number in the script (0-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
         public int LineNumber
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Column number in the script (0-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
         public int ColumnNumber
         {
             get;
@@ -74,6 +81,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Event handler function value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("handler"), IsRequired = (false))]
         public Runtime.RemoteObject Handler
         {
             get;
@@ -83,6 +91,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Event original handler function value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("originalHandler"), IsRequired = (false))]
         public Runtime.RemoteObject OriginalHandler
         {
             get;
@@ -92,6 +101,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Node the listener is added to (if any).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (false))]
         public int? BackendNodeId
         {
             get;

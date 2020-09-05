@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Default font sizes.
     /// </summary>
-    public class FontSizes
+    public class FontSizes : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Default standard font size.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("standard"), IsRequired = (false))]
         public int? Standard
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Default fixed font size.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fixed"), IsRequired = (false))]
         public int? Fixed
         {
             get;

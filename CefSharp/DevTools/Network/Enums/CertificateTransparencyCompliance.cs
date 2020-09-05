@@ -8,8 +8,20 @@ namespace CefSharp.DevTools.Network
     /// </summary>
     public enum CertificateTransparencyCompliance
     {
+        /// <summary>
+        /// unknown
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("unknown"))]
         Unknown,
+        /// <summary>
+        /// not-compliant
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("not-compliant"))]
         NotCompliant,
+        /// <summary>
+        /// compliant
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("compliant"))]
         Compliant
     }
 }

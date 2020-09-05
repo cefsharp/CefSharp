@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// A cookie with was not sent with a request with the corresponding reason.
     /// </summary>
-    public class BlockedCookieWithReason
+    public class BlockedCookieWithReason : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The reason(s) the cookie was blocked.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedReasons"), IsRequired = (true))]
         public string BlockedReasons
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The cookie object representing the cookie which was not sent.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookie"), IsRequired = (true))]
         public Cookie Cookie
         {
             get;

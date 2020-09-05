@@ -8,8 +8,20 @@ namespace CefSharp.DevTools.Browser
     /// </summary>
     public enum PermissionSetting
     {
+        /// <summary>
+        /// granted
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("granted"))]
         Granted,
+        /// <summary>
+        /// denied
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("denied"))]
         Denied,
+        /// <summary>
+        /// prompt
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("prompt"))]
         Prompt
     }
 }

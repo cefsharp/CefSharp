@@ -7,7 +7,15 @@ namespace CefSharp.DevTools.Network
     /// Stages of the interception to begin intercepting. Request will intercept before the request is
     public enum InterceptionStage
     {
+        /// <summary>
+        /// Request
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Request"))]
         Request,
+        /// <summary>
+        /// HeadersReceived
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("HeadersReceived"))]
         HeadersReceived
     }
 }

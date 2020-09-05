@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Layout viewport position and dimensions.
     /// </summary>
-    public class LayoutViewport
+    public class LayoutViewport : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Horizontal offset relative to the document (CSS pixels).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageX"), IsRequired = (true))]
         public int PageX
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Vertical offset relative to the document (CSS pixels).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageY"), IsRequired = (true))]
         public int PageY
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Width (CSS pixels), excludes scrollbar if present.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientWidth"), IsRequired = (true))]
         public int ClientWidth
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Height (CSS pixels), excludes scrollbar if present.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientHeight"), IsRequired = (true))]
         public int ClientHeight
         {
             get;

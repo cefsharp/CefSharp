@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Post data entry for HTTP request
     /// </summary>
-    public class PostDataEntry
+    public class PostDataEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bytes"), IsRequired = (false))]
         public string Bytes
         {
             get;

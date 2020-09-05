@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.Runtime
 {
+    using System.Linq;
+
     /// <summary>
     /// Runtime domain exposes JavaScript runtime by means of remote evaluation and mirror objects.
     public partial class Runtime : DevToolsDomainBase
@@ -47,7 +49,7 @@ namespace CefSharp.DevTools.Runtime
 
             if ((arguments) != (null))
             {
-                dict.Add("arguments", arguments);
+                dict.Add("arguments", arguments.Select(x => x.ToDictionary()));
             }
 
             if (silent.HasValue)

@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// CrossOriginEmbedderPolicyStatus
     /// </summary>
-    public class CrossOriginEmbedderPolicyStatus
+    public class CrossOriginEmbedderPolicyStatus : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
         public string Value
         {
             get;

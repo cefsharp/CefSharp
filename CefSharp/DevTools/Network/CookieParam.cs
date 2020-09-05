@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Cookie parameter object
     /// </summary>
-    public class CookieParam
+    public class CookieParam : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Cookie name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
         public string Value
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// The request-URI to associate with the setting of the cookie. This value can affect the
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
         public string Url
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie domain.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("domain"), IsRequired = (false))]
         public string Domain
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie path.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("path"), IsRequired = (false))]
         public string Path
         {
             get;
@@ -55,6 +60,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True if cookie is secure.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("secure"), IsRequired = (false))]
         public bool? Secure
         {
             get;
@@ -64,6 +70,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True if cookie is http-only.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("httpOnly"), IsRequired = (false))]
         public bool? HttpOnly
         {
             get;
@@ -73,6 +80,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie SameSite type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sameSite"), IsRequired = (false))]
         public string SameSite
         {
             get;
@@ -82,6 +90,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie expiration date, session cookie if not set
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("expires"), IsRequired = (false))]
         public long? Expires
         {
             get;
@@ -91,6 +100,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie Priority.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("priority"), IsRequired = (false))]
         public string Priority
         {
             get;

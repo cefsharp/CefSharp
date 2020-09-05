@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Frame hierarchy.
     /// </summary>
-    public class FrameTree
+    public class FrameTree : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Frame information for this tree item.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frame"), IsRequired = (true))]
         public Frame Frame
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Child frames.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("childFrames"), IsRequired = (false))]
         public System.Collections.Generic.IList<FrameTree> ChildFrames
         {
             get;

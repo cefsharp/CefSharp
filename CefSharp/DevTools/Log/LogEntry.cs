@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Log
     /// <summary>
     /// Log entry.
     /// </summary>
-    public class LogEntry
+    public class LogEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Log entry source.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("source"), IsRequired = (true))]
         public string Source
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Log entry severity.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("level"), IsRequired = (true))]
         public string Level
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Logged text.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
         public string Text
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Timestamp when this entry was added.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timestamp"), IsRequired = (true))]
         public long Timestamp
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// URL of the resource if known.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
         public string Url
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Line number in the resource.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (false))]
         public int? LineNumber
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// JavaScript stack trace.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stackTrace"), IsRequired = (false))]
         public Runtime.StackTrace StackTrace
         {
             get;
@@ -74,6 +81,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Identifier of the network request associated with this entry.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("networkRequestId"), IsRequired = (false))]
         public string NetworkRequestId
         {
             get;
@@ -83,6 +91,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Identifier of the worker associated with this entry.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerId"), IsRequired = (false))]
         public string WorkerId
         {
             get;
@@ -92,6 +101,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Call arguments.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("args"), IsRequired = (false))]
         public System.Collections.Generic.IList<Runtime.RemoteObject> Args
         {
             get;

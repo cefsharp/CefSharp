@@ -8,8 +8,20 @@ namespace CefSharp.DevTools.Page
     /// </summary>
     public enum CrossOriginIsolatedContextType
     {
+        /// <summary>
+        /// Isolated
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Isolated"))]
         Isolated,
+        /// <summary>
+        /// NotIsolated
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("NotIsolated"))]
         NotIsolated,
+        /// <summary>
+        /// NotIsolatedFeatureDisabled
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("NotIsolatedFeatureDisabled"))]
         NotIsolatedFeatureDisabled
     }
 }

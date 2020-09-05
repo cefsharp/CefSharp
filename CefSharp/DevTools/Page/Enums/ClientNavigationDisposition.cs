@@ -8,9 +8,25 @@ namespace CefSharp.DevTools.Page
     /// </summary>
     public enum ClientNavigationDisposition
     {
+        /// <summary>
+        /// currentTab
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("currentTab"))]
         CurrentTab,
+        /// <summary>
+        /// newTab
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("newTab"))]
         NewTab,
+        /// <summary>
+        /// newWindow
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("newWindow"))]
         NewWindow,
+        /// <summary>
+        /// download
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("download"))]
         Download
     }
 }

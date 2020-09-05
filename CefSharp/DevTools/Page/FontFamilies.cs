@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Generic font families collection.
     /// </summary>
-    public class FontFamilies
+    public class FontFamilies : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The standard font-family.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("standard"), IsRequired = (false))]
         public string Standard
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The fixed font-family.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fixed"), IsRequired = (false))]
         public string Fixed
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The serif font-family.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("serif"), IsRequired = (false))]
         public string Serif
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The sansSerif font-family.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sansSerif"), IsRequired = (false))]
         public string SansSerif
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The cursive font-family.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cursive"), IsRequired = (false))]
         public string Cursive
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The fantasy font-family.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fantasy"), IsRequired = (false))]
         public string Fantasy
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The pictograph font-family.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pictograph"), IsRequired = (false))]
         public string Pictograph
         {
             get;

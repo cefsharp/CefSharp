@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object internal property descriptor. This property isn't normally visible in JavaScript code.
     /// </summary>
-    public class InternalPropertyDescriptor
+    public class InternalPropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Conventional property name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// The value associated with the property.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
         public RemoteObject Value
         {
             get;

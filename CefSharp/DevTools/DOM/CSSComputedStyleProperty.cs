@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// CSSComputedStyleProperty
     /// </summary>
-    public class CSSComputedStyleProperty
+    public class CSSComputedStyleProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Computed style property name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Computed style property value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
         public string Value
         {
             get;

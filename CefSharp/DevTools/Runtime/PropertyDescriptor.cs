@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object property descriptor.
     /// </summary>
-    public class PropertyDescriptor
+    public class PropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Property name or symbol description.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// The value associated with the property.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
         public RemoteObject Value
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the value associated with the property may be changed (data descriptors only).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("writable"), IsRequired = (false))]
         public bool? Writable
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// A function which serves as a getter for the property, or `undefined` if there is no getter
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("get"), IsRequired = (false))]
         public RemoteObject Get
         {
             get;
@@ -45,6 +49,7 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// A function which serves as a setter for the property, or `undefined` if there is no setter
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("set"), IsRequired = (false))]
         public RemoteObject Set
         {
             get;
@@ -53,6 +58,7 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// True if the type of this property descriptor may be changed and if the property may be
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("configurable"), IsRequired = (true))]
         public bool Configurable
         {
             get;
@@ -61,6 +67,7 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// True if this property shows up during enumeration of the properties on the corresponding
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("enumerable"), IsRequired = (true))]
         public bool Enumerable
         {
             get;
@@ -70,6 +77,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the result was thrown during the evaluation.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("wasThrown"), IsRequired = (false))]
         public bool? WasThrown
         {
             get;
@@ -79,6 +87,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the property is owned for the object.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isOwn"), IsRequired = (false))]
         public bool? IsOwn
         {
             get;
@@ -88,6 +97,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Property symbol object, if the property is of the `symbol` type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("symbol"), IsRequired = (false))]
         public RemoteObject Symbol
         {
             get;

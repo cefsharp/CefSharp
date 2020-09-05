@@ -8,7 +8,15 @@ namespace CefSharp.DevTools.Network
     /// </summary>
     public enum CrossOriginEmbedderPolicyValue
     {
+        /// <summary>
+        /// None
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("None"))]
         None,
+        /// <summary>
+        /// RequireCorp
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("RequireCorp"))]
         RequireCorp
     }
 }

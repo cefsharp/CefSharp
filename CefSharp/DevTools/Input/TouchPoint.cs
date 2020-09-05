@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Input
     /// <summary>
     /// TouchPoint
     /// </summary>
-    public class TouchPoint
+    public class TouchPoint : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// X coordinate of the event relative to the main frame's viewport in CSS pixels.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("x"), IsRequired = (true))]
         public long X
         {
             get;
@@ -19,6 +20,7 @@ namespace CefSharp.DevTools.Input
 
         /// <summary>
         /// Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("y"), IsRequired = (true))]
         public long Y
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// X radius of the touch area (default: 1.0).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("radiusX"), IsRequired = (false))]
         public long? RadiusX
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Y radius of the touch area (default: 1.0).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("radiusY"), IsRequired = (false))]
         public long? RadiusY
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Rotation angle (default: 0.0).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rotationAngle"), IsRequired = (false))]
         public long? RotationAngle
         {
             get;
@@ -55,6 +60,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Force (default: 1.0).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("force"), IsRequired = (false))]
         public long? Force
         {
             get;
@@ -64,6 +70,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Identifier used to track touch sources between events, must be unique within an event.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (false))]
         public long? Id
         {
             get;

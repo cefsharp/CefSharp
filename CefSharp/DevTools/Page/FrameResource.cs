@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Resource on the page.
     /// </summary>
-    public class FrameResource
+    public class FrameResource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Resource URL.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
         public string Url
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Type of this resource.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Resource mimeType as determined by the browser.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mimeType"), IsRequired = (true))]
         public string MimeType
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// last-modified timestamp as reported by server.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lastModified"), IsRequired = (false))]
         public long? LastModified
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Resource content size.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentSize"), IsRequired = (false))]
         public long? ContentSize
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// True if the resource failed to load.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("failed"), IsRequired = (false))]
         public bool? Failed
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// True if the resource was canceled during loading.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("canceled"), IsRequired = (false))]
         public bool? Canceled
         {
             get;

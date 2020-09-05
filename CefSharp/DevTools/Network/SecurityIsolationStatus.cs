@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// SecurityIsolationStatus
     /// </summary>
-    public class SecurityIsolationStatus
+    public class SecurityIsolationStatus : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("coop"), IsRequired = (true))]
         public CrossOriginOpenerPolicyStatus Coop
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("coep"), IsRequired = (true))]
         public CrossOriginEmbedderPolicyStatus Coep
         {
             get;

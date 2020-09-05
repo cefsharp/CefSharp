@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// The installability error
     /// </summary>
-    public class InstallabilityError
+    public class InstallabilityError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The error id (e.g. 'manifest-missing-suitable-icon').
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorId"), IsRequired = (true))]
         public string ErrorId
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The list of error arguments (e.g. {name:'minimum-icon-size-in-pixels', value:'64'}).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorArguments"), IsRequired = (true))]
         public System.Collections.Generic.IList<InstallabilityErrorArgument> ErrorArguments
         {
             get;

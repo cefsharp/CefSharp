@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// RemoteLocation
     /// </summary>
-    public class RemoteLocation
+    public class RemoteLocation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("host"), IsRequired = (true))]
         public string Host
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("port"), IsRequired = (true))]
         public int Port
         {
             get;

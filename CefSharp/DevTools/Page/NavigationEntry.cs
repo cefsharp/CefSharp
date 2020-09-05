@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Navigation history entry.
     /// </summary>
-    public class NavigationEntry
+    public class NavigationEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Unique id of the navigation history entry.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
         public int Id
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// URL of the navigation history entry.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
         public string Url
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// URL that the user typed in the url bar.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("userTypedURL"), IsRequired = (true))]
         public string UserTypedURL
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Title of the navigation history entry.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("title"), IsRequired = (true))]
         public string Title
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Transition type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("transitionType"), IsRequired = (true))]
         public string TransitionType
         {
             get;

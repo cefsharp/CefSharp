@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.Log
 {
+    using System.Linq;
+
     /// <summary>
     /// Provides access to log entries.
     /// </summary>
@@ -49,7 +51,7 @@ namespace CefSharp.DevTools.Log
         public async System.Threading.Tasks.Task<DevToolsMethodResult> StartViolationsReportAsync(System.Collections.Generic.IList<ViolationSetting> config)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("config", config);
+            dict.Add("config", config.Select(x => x.ToDictionary()));
             var result = await _client.ExecuteDevToolsMethodAsync("Log.startViolationsReport", dict);
             return result;
         }

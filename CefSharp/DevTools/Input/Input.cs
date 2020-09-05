@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.Input
 {
+    using System.Linq;
+
     /// <summary>
     /// Input
     /// </summary>
@@ -155,7 +157,7 @@ namespace CefSharp.DevTools.Input
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("type", type);
-            dict.Add("touchPoints", touchPoints);
+            dict.Add("touchPoints", touchPoints.Select(x => x.ToDictionary()));
             if (modifiers.HasValue)
             {
                 dict.Add("modifiers", modifiers.Value);

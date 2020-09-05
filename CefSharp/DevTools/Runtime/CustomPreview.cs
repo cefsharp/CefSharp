@@ -6,10 +6,11 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// CustomPreview
     /// </summary>
-    public class CustomPreview
+    public class CustomPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The JSON-stringified result of formatter.header(object, config) call.
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("header"), IsRequired = (true))]
         public string Header
         {
             get;
@@ -18,6 +19,7 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// If formatter returns true as a result of formatter.hasBody call then bodyGetterId will
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bodyGetterId"), IsRequired = (false))]
         public string BodyGetterId
         {
             get;

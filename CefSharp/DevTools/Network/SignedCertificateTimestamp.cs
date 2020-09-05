@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Details of a signed certificate timestamp (SCT).
     /// </summary>
-    public class SignedCertificateTimestamp
+    public class SignedCertificateTimestamp : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Validation status.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
         public string Status
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Origin.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
         public string Origin
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Log name / description.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("logDescription"), IsRequired = (true))]
         public string LogDescription
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Log ID.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("logId"), IsRequired = (true))]
         public string LogId
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Issuance date.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timestamp"), IsRequired = (true))]
         public long Timestamp
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Hash algorithm.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("hashAlgorithm"), IsRequired = (true))]
         public string HashAlgorithm
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signature algorithm.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signatureAlgorithm"), IsRequired = (true))]
         public string SignatureAlgorithm
         {
             get;
@@ -74,6 +81,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signature data.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signatureData"), IsRequired = (true))]
         public string SignatureData
         {
             get;

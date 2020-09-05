@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// JavaScript call frame. Array of call frames form the call stack.
     /// </summary>
-    public class CallFrame
+    public class CallFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Call frame identifier. This identifier is only valid while the virtual machine is paused.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callFrameId"), IsRequired = (true))]
         public string CallFrameId
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Name of the JavaScript function called on this call frame.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functionName"), IsRequired = (true))]
         public string FunctionName
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Location in the source code.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functionLocation"), IsRequired = (false))]
         public Location FunctionLocation
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Location in the source code.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("location"), IsRequired = (true))]
         public Location Location
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// JavaScript script name or url.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
         public string Url
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Scope chain for this call frame.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scopeChain"), IsRequired = (true))]
         public System.Collections.Generic.IList<Scope> ScopeChain
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// `this` object for this call frame.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("this"), IsRequired = (true))]
         public Runtime.RemoteObject This
         {
             get;
@@ -74,6 +81,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// The value being returned, if the function is at return point.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("returnValue"), IsRequired = (false))]
         public Runtime.RemoteObject ReturnValue
         {
             get;

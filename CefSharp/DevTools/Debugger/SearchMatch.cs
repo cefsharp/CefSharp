@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Search match for resource.
     /// </summary>
-    public class SearchMatch
+    public class SearchMatch : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Line number in resource content.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
         public long LineNumber
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Line with match content.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineContent"), IsRequired = (true))]
         public string LineContent
         {
             get;

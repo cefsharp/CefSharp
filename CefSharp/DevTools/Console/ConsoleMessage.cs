@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Console
     /// <summary>
     /// Console message.
     /// </summary>
-    public class ConsoleMessage
+    public class ConsoleMessage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Message source.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("source"), IsRequired = (true))]
         public string Source
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Console
         /// <summary>
         /// Message severity.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("level"), IsRequired = (true))]
         public string Level
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Console
         /// <summary>
         /// Message text.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
         public string Text
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Console
         /// <summary>
         /// URL of the message origin.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
         public string Url
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Console
         /// <summary>
         /// Line number in the resource that generated this message (1-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("line"), IsRequired = (false))]
         public int? Line
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Console
         /// <summary>
         /// Column number in the resource that generated this message (1-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("column"), IsRequired = (false))]
         public int? Column
         {
             get;

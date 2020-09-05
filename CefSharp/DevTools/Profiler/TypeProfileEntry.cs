@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Source offset and types for a parameter or return value.
     /// </summary>
-    public class TypeProfileEntry
+    public class TypeProfileEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Source offset of the parameter or end of function for return values.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offset"), IsRequired = (true))]
         public int Offset
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// The types for this parameter or return value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("types"), IsRequired = (true))]
         public System.Collections.Generic.IList<TypeObject> Types
         {
             get;

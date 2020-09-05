@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Chrome histogram bucket.
     /// </summary>
-    public class Bucket
+    public class Bucket : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Minimum value (inclusive).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("low"), IsRequired = (true))]
         public int Low
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Maximum value (exclusive).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("high"), IsRequired = (true))]
         public int High
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Number of samples.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("count"), IsRequired = (true))]
         public int Count
         {
             get;

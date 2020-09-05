@@ -8,11 +8,35 @@ namespace CefSharp.DevTools.Network
     /// </summary>
     public enum SignedExchangeErrorField
     {
+        /// <summary>
+        /// signatureSig
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureSig"))]
         SignatureSig,
+        /// <summary>
+        /// signatureIntegrity
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureIntegrity"))]
         SignatureIntegrity,
+        /// <summary>
+        /// signatureCertUrl
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureCertUrl"))]
         SignatureCertUrl,
+        /// <summary>
+        /// signatureCertSha256
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureCertSha256"))]
         SignatureCertSha256,
+        /// <summary>
+        /// signatureValidityUrl
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureValidityUrl"))]
         SignatureValidityUrl,
+        /// <summary>
+        /// signatureTimestamps
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureTimestamps"))]
         SignatureTimestamps
     }
 }

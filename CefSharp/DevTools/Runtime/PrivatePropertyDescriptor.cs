@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object private field descriptor.
     /// </summary>
-    public class PrivatePropertyDescriptor
+    public class PrivatePropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Private property name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// The value associated with the private property.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
         public RemoteObject Value
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// A function which serves as a getter for the private property,
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("get"), IsRequired = (false))]
         public RemoteObject Get
         {
             get;
@@ -36,6 +39,7 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// A function which serves as a setter for the private property,
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("set"), IsRequired = (false))]
         public RemoteObject Set
         {
             get;

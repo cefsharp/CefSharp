@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.Page
 {
+    using System.Linq;
+
     /// <summary>
     /// Actions and events related to the inspected page belong to the page domain.
     /// </summary>
@@ -58,7 +60,7 @@ namespace CefSharp.DevTools.Page
 
             if ((clip) != (null))
             {
-                dict.Add("clip", clip);
+                dict.Add("clip", clip.ToDictionary());
             }
 
             if (fromSurface.HasValue)

@@ -8,8 +8,20 @@ namespace CefSharp.DevTools.Input
     /// </summary>
     public enum GestureSourceType
     {
+        /// <summary>
+        /// default
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("default"))]
         Default,
+        /// <summary>
+        /// touch
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("touch"))]
         Touch,
+        /// <summary>
+        /// mouse
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("mouse"))]
         Mouse
     }
 }

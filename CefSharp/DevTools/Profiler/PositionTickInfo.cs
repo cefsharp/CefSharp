@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Specifies a number of samples attributed to a certain source position.
     /// </summary>
-    public class PositionTickInfo
+    public class PositionTickInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Source line number (1-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("line"), IsRequired = (true))]
         public int Line
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Number of samples attributed to the source line.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ticks"), IsRequired = (true))]
         public int Ticks
         {
             get;

@@ -7,8 +7,20 @@ namespace CefSharp.DevTools.Network
     /// Represents the cookie's 'Priority' status:
     public enum CookiePriority
     {
+        /// <summary>
+        /// Low
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Low"))]
         Low,
+        /// <summary>
+        /// Medium
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Medium"))]
         Medium,
+        /// <summary>
+        /// High
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("High"))]
         High
     }
 }

@@ -5,11 +5,12 @@ namespace CefSharp.DevTools.Runtime
 {
     /// <summary>
     /// Detailed information about exception (or error) that was thrown during script compilation or
-    public class ExceptionDetails
+    public class ExceptionDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Exception id.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("exceptionId"), IsRequired = (true))]
         public int ExceptionId
         {
             get;
@@ -19,6 +20,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception text, which should be used together with exception object when available.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
         public string Text
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Line number of the exception location (0-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
         public int LineNumber
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Column number of the exception location (0-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
         public int ColumnNumber
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Script ID of the exception location.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (false))]
         public string ScriptId
         {
             get;
@@ -55,6 +60,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// URL of the exception location, to be used when the script was not reported.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
         public string Url
         {
             get;
@@ -64,6 +70,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// JavaScript stack trace if available.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stackTrace"), IsRequired = (false))]
         public StackTrace StackTrace
         {
             get;
@@ -73,6 +80,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception object if available.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("exception"), IsRequired = (false))]
         public RemoteObject Exception
         {
             get;
@@ -82,6 +90,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Identifier of the context where exception happened.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("executionContextId"), IsRequired = (false))]
         public int? ExecutionContextId
         {
             get;

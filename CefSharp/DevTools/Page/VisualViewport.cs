@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Visual viewport position, dimensions, and scale.
     /// </summary>
-    public class VisualViewport
+    public class VisualViewport : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Horizontal offset relative to the layout viewport (CSS pixels).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offsetX"), IsRequired = (true))]
         public long OffsetX
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Vertical offset relative to the layout viewport (CSS pixels).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offsetY"), IsRequired = (true))]
         public long OffsetY
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Horizontal offset relative to the document (CSS pixels).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageX"), IsRequired = (true))]
         public long PageX
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Vertical offset relative to the document (CSS pixels).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageY"), IsRequired = (true))]
         public long PageY
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Width (CSS pixels), excludes scrollbar if present.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientWidth"), IsRequired = (true))]
         public long ClientWidth
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Height (CSS pixels), excludes scrollbar if present.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientHeight"), IsRequired = (true))]
         public long ClientHeight
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Scale relative to the ideal viewport (size at width=device-width).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scale"), IsRequired = (true))]
         public long Scale
         {
             get;
@@ -74,6 +81,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Page zoom factor (CSS to device independent pixels ratio).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("zoom"), IsRequired = (false))]
         public long? Zoom
         {
             get;

@@ -7,7 +7,15 @@ namespace CefSharp.DevTools.Security
     /// The action to take when a certificate error occurs. continue will continue processing the
     public enum CertificateErrorAction
     {
+        /// <summary>
+        /// continue
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("continue"))]
         Continue,
+        /// <summary>
+        /// cancel
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cancel"))]
         Cancel
     }
 }

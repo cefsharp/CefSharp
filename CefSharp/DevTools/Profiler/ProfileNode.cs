@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Profile node. Holds callsite information, execution statistics and child nodes.
     /// </summary>
-    public class ProfileNode
+    public class ProfileNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Unique id of the node.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
         public int Id
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Function location.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callFrame"), IsRequired = (true))]
         public Runtime.CallFrame CallFrame
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Number of samples where this node was on top of the call stack.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("hitCount"), IsRequired = (false))]
         public int? HitCount
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Child node ids.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("children"), IsRequired = (false))]
         public int? Children
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// The reason of being not optimized. The function may be deoptimized or marked as don't
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("deoptReason"), IsRequired = (false))]
         public string DeoptReason
         {
             get;
@@ -55,6 +60,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// An array of source position ticks.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("positionTicks"), IsRequired = (false))]
         public System.Collections.Generic.IList<PositionTickInfo> PositionTicks
         {
             get;

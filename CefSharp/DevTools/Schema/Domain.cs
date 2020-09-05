@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Schema
     /// <summary>
     /// Description of the protocol domain.
     /// </summary>
-    public class Domain
+    public class Domain : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Domain name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Schema
         /// <summary>
         /// Domain version.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("version"), IsRequired = (true))]
         public string Version
         {
             get;

@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.DOM
 {
+    using System.Linq;
+
     /// <summary>
     /// This domain exposes DOM read/write operations. Each DOM Node is represented with its mirror object
     public partial class DOM : DevToolsDomainBase

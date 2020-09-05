@@ -8,7 +8,15 @@ namespace CefSharp.DevTools.Security
     /// </summary>
     public enum SafetyTipStatus
     {
+        /// <summary>
+        /// badReputation
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("badReputation"))]
         BadReputation,
+        /// <summary>
+        /// lookalike
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("lookalike"))]
         Lookalike
     }
 }

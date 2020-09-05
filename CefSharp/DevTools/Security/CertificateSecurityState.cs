@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Details about the security state of the page certificate.
     /// </summary>
-    public class CertificateSecurityState
+    public class CertificateSecurityState : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Protocol name (e.g. "TLS 1.2" or "QUIC").
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("protocol"), IsRequired = (true))]
         public string Protocol
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Key Exchange used by the connection, or the empty string if not applicable.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyExchange"), IsRequired = (true))]
         public string KeyExchange
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// (EC)DH group used by the connection, if applicable.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyExchangeGroup"), IsRequired = (false))]
         public string KeyExchangeGroup
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Cipher name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cipher"), IsRequired = (true))]
         public string Cipher
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// TLS MAC. Note that AEAD ciphers do not have separate MACs.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mac"), IsRequired = (false))]
         public string Mac
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Page certificate.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificate"), IsRequired = (true))]
         public string Certificate
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Certificate subject name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subjectName"), IsRequired = (true))]
         public string SubjectName
         {
             get;
@@ -74,6 +81,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Name of the issuing CA.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("issuer"), IsRequired = (true))]
         public string Issuer
         {
             get;
@@ -83,6 +91,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Certificate valid from date.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validFrom"), IsRequired = (true))]
         public long ValidFrom
         {
             get;
@@ -92,6 +101,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Certificate valid to (expiration) date
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validTo"), IsRequired = (true))]
         public long ValidTo
         {
             get;
@@ -101,6 +111,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// The highest priority network error code, if the certificate has an error.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateNetworkError"), IsRequired = (false))]
         public string CertificateNetworkError
         {
             get;
@@ -110,6 +121,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the certificate uses a weak signature aglorithm.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateHasWeakSignature"), IsRequired = (true))]
         public bool CertificateHasWeakSignature
         {
             get;
@@ -119,6 +131,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the certificate has a SHA1 signature in the chain.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateHasSha1Signature"), IsRequired = (true))]
         public bool CertificateHasSha1Signature
         {
             get;
@@ -128,6 +141,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if modern SSL
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("modernSSL"), IsRequired = (true))]
         public bool ModernSSL
         {
             get;
@@ -137,6 +151,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the connection is using an obsolete SSL protocol.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("obsoleteSslProtocol"), IsRequired = (true))]
         public bool ObsoleteSslProtocol
         {
             get;
@@ -146,6 +161,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the connection is using an obsolete SSL key exchange.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("obsoleteSslKeyExchange"), IsRequired = (true))]
         public bool ObsoleteSslKeyExchange
         {
             get;
@@ -155,6 +171,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the connection is using an obsolete SSL cipher.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("obsoleteSslCipher"), IsRequired = (true))]
         public bool ObsoleteSslCipher
         {
             get;
@@ -164,6 +181,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the connection is using an obsolete SSL signature.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("obsoleteSslSignature"), IsRequired = (true))]
         public bool ObsoleteSslSignature
         {
             get;

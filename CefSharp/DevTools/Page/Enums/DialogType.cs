@@ -8,9 +8,25 @@ namespace CefSharp.DevTools.Page
     /// </summary>
     public enum DialogType
     {
+        /// <summary>
+        /// alert
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("alert"))]
         Alert,
+        /// <summary>
+        /// confirm
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("confirm"))]
         Confirm,
+        /// <summary>
+        /// prompt
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("prompt"))]
         Prompt,
+        /// <summary>
+        /// beforeunload
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("beforeunload"))]
         Beforeunload
     }
 }

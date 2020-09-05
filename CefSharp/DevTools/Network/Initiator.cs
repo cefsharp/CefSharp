@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about the request initiator.
     /// </summary>
-    public class Initiator
+    public class Initiator : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Type of this initiator.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Initiator JavaScript stack trace, set for Script only.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stack"), IsRequired = (false))]
         public Runtime.StackTrace Stack
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Initiator URL, set for Parser type or for Script type (when script is importing module) or for SignedExchange type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
         public string Url
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// Initiator line number, set for Parser type or for Script type (when script is importing
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (false))]
         public long? LineNumber
         {
             get;

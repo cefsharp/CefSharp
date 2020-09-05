@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// Box model.
     /// </summary>
-    public class BoxModel
+    public class BoxModel : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Content box
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("content"), IsRequired = (true))]
         public long Content
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Padding box
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("padding"), IsRequired = (true))]
         public long Padding
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Border box
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("border"), IsRequired = (true))]
         public long Border
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Margin box
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("margin"), IsRequired = (true))]
         public long Margin
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Node width
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("width"), IsRequired = (true))]
         public int Width
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Node height
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("height"), IsRequired = (true))]
         public int Height
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Shape outside coordinates
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shapeOutside"), IsRequired = (false))]
         public ShapeOutsideInfo ShapeOutside
         {
             get;

@@ -8,8 +8,20 @@ namespace CefSharp.DevTools.Page
     /// </summary>
     public enum AdFrameType
     {
+        /// <summary>
+        /// none
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("none"))]
         None,
+        /// <summary>
+        /// child
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("child"))]
         Child,
+        /// <summary>
+        /// root
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("root"))]
         Root
     }
 }

@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// WebSocket response data.
     /// </summary>
-    public class WebSocketResponse
+    public class WebSocketResponse : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// HTTP response status code.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
         public int Status
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response status text.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("statusText"), IsRequired = (true))]
         public string StatusText
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response headers.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
         public Headers Headers
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response headers text.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headersText"), IsRequired = (false))]
         public string HeadersText
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP request headers.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeaders"), IsRequired = (false))]
         public Headers RequestHeaders
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP request headers text.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeadersText"), IsRequired = (false))]
         public string RequestHeadersText
         {
             get;

@@ -8,7 +8,15 @@ namespace CefSharp.DevTools.Debugger
     /// </summary>
     public enum ScriptLanguage
     {
+        /// <summary>
+        /// JavaScript
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("JavaScript"))]
         JavaScript,
+        /// <summary>
+        /// WebAssembly
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WebAssembly"))]
         WebAssembly
     }
 }

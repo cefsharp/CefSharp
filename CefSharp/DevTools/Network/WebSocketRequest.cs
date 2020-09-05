@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// WebSocket request data.
     /// </summary>
-    public class WebSocketRequest
+    public class WebSocketRequest : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// HTTP request headers.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
         public Headers Headers
         {
             get;

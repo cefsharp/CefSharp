@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// HTTP response data.
     /// </summary>
-    public class Response
+    public class Response : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Response URL. This URL can be different from CachedResource.url in case of redirect.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
         public string Url
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response status code.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
         public int Status
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response status text.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("statusText"), IsRequired = (true))]
         public string StatusText
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response headers.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
         public Headers Headers
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response headers text.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headersText"), IsRequired = (false))]
         public string HeadersText
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Resource mimeType as determined by the browser.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mimeType"), IsRequired = (true))]
         public string MimeType
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Refined HTTP request headers that were actually transmitted over the network.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeaders"), IsRequired = (false))]
         public Headers RequestHeaders
         {
             get;
@@ -74,6 +81,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP request headers text.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeadersText"), IsRequired = (false))]
         public string RequestHeadersText
         {
             get;
@@ -83,6 +91,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies whether physical connection was actually reused for this request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("connectionReused"), IsRequired = (true))]
         public bool ConnectionReused
         {
             get;
@@ -92,6 +101,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Physical connection id that was actually used for this request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("connectionId"), IsRequired = (true))]
         public long ConnectionId
         {
             get;
@@ -101,6 +111,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Remote IP address.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("remoteIPAddress"), IsRequired = (false))]
         public string RemoteIPAddress
         {
             get;
@@ -110,6 +121,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Remote port.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("remotePort"), IsRequired = (false))]
         public int? RemotePort
         {
             get;
@@ -119,6 +131,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the disk cache.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fromDiskCache"), IsRequired = (false))]
         public bool? FromDiskCache
         {
             get;
@@ -128,6 +141,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the ServiceWorker.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fromServiceWorker"), IsRequired = (false))]
         public bool? FromServiceWorker
         {
             get;
@@ -137,6 +151,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the prefetch cache.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fromPrefetchCache"), IsRequired = (false))]
         public bool? FromPrefetchCache
         {
             get;
@@ -146,6 +161,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Total number of bytes received for this request so far.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("encodedDataLength"), IsRequired = (true))]
         public long EncodedDataLength
         {
             get;
@@ -155,6 +171,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Timing information for the given request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timing"), IsRequired = (false))]
         public ResourceTiming Timing
         {
             get;
@@ -164,6 +181,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Response source of response from ServiceWorker.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("serviceWorkerResponseSource"), IsRequired = (false))]
         public string ServiceWorkerResponseSource
         {
             get;
@@ -173,6 +191,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The time at which the returned response was generated.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseTime"), IsRequired = (false))]
         public long? ResponseTime
         {
             get;
@@ -182,6 +201,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cache Storage Cache Name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cacheStorageCacheName"), IsRequired = (false))]
         public string CacheStorageCacheName
         {
             get;
@@ -191,6 +211,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Protocol used to fetch this request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("protocol"), IsRequired = (false))]
         public string Protocol
         {
             get;
@@ -200,6 +221,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Security state of the request resource.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
         public string SecurityState
         {
             get;
@@ -209,6 +231,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Security details for the request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityDetails"), IsRequired = (false))]
         public SecurityDetails SecurityDetails
         {
             get;

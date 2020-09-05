@@ -6,10 +6,11 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Description of an isolated world.
     /// </summary>
-    public class ExecutionContextDescription
+    public class ExecutionContextDescription : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Unique id of the execution context. It can be used to specify in which execution context
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
         public int Id
         {
             get;
@@ -19,6 +20,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Execution context origin.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
         public string Origin
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Human readable name describing given context.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Embedder-specific auxiliary data.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("auxData"), IsRequired = (false))]
         public object AuxData
         {
             get;

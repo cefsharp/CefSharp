@@ -7,8 +7,20 @@ namespace CefSharp.DevTools.Network
     /// Represents the cookie's 'SameSite' status:
     public enum CookieSameSite
     {
+        /// <summary>
+        /// Strict
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Strict"))]
         Strict,
+        /// <summary>
+        /// Lax
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Lax"))]
         Lax,
+        /// <summary>
+        /// None
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("None"))]
         None
     }
 }

@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Parsed app manifest properties.
     /// </summary>
-    public class AppManifestParsedProperties
+    public class AppManifestParsedProperties : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Computed scope value
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scope"), IsRequired = (true))]
         public string Scope
         {
             get;

@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Mirror object referencing original JavaScript object.
     /// </summary>
-    public class RemoteObject
+    public class RemoteObject : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Object type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object subtype hint. Specified for `object` or `wasm` type values only.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subtype"), IsRequired = (false))]
         public string Subtype
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object class (constructor) name. Specified for `object` type values only.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("className"), IsRequired = (false))]
         public string ClassName
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Remote object value in case of primitive values or JSON values (if it was requested).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
         public object Value
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// Primitive value which can not be JSON-stringified does not have `value`, but gets this
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("unserializableValue"), IsRequired = (false))]
         public string UnserializableValue
         {
             get;
@@ -55,6 +60,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// String representation of the object.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("description"), IsRequired = (false))]
         public string Description
         {
             get;
@@ -64,6 +70,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Unique object identifier (for non-primitive values).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("objectId"), IsRequired = (false))]
         public string ObjectId
         {
             get;
@@ -73,6 +80,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Preview containing abbreviated property values. Specified for `object` type values only.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("preview"), IsRequired = (false))]
         public ObjectPreview Preview
         {
             get;
@@ -82,6 +90,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("customPreview"), IsRequired = (false))]
         public CustomPreview CustomPreview
         {
             get;

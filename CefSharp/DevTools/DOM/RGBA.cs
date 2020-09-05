@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// A structure holding an RGBA color.
     /// </summary>
-    public class RGBA
+    public class RGBA : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The red component, in the [0-255] range.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("r"), IsRequired = (true))]
         public int R
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The green component, in the [0-255] range.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("g"), IsRequired = (true))]
         public int G
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The blue component, in the [0-255] range.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("b"), IsRequired = (true))]
         public int B
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The alpha component, in the [0-1] range (default: 1).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("a"), IsRequired = (false))]
         public long? A
         {
             get;

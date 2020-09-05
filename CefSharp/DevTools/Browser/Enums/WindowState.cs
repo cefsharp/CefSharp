@@ -8,9 +8,25 @@ namespace CefSharp.DevTools.Browser
     /// </summary>
     public enum WindowState
     {
+        /// <summary>
+        /// normal
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("normal"))]
         Normal,
+        /// <summary>
+        /// minimized
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("minimized"))]
         Minimized,
+        /// <summary>
+        /// maximized
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("maximized"))]
         Maximized,
+        /// <summary>
+        /// fullscreen
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("fullscreen"))]
         Fullscreen
     }
 }

@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Profile.
     /// </summary>
-    public class Profile
+    public class Profile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The list of profile nodes. First item is the root node.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodes"), IsRequired = (true))]
         public System.Collections.Generic.IList<ProfileNode> Nodes
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Profiling start timestamp in microseconds.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startTime"), IsRequired = (true))]
         public long StartTime
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Profiling end timestamp in microseconds.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endTime"), IsRequired = (true))]
         public long EndTime
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Ids of samples top nodes.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("samples"), IsRequired = (false))]
         public int? Samples
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// Time intervals between adjacent samples in microseconds. The first delta is relative to the
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timeDeltas"), IsRequired = (false))]
         public int? TimeDeltas
         {
             get;

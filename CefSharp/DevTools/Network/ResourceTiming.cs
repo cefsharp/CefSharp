@@ -6,10 +6,11 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Timing information for the request.
     /// </summary>
-    public class ResourceTiming
+    public class ResourceTiming : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Timing's requestTime is a baseline in seconds, while the other numbers are ticks in
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestTime"), IsRequired = (true))]
         public long RequestTime
         {
             get;
@@ -19,6 +20,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started resolving proxy.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("proxyStart"), IsRequired = (true))]
         public long ProxyStart
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished resolving proxy.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("proxyEnd"), IsRequired = (true))]
         public long ProxyEnd
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started DNS address resolve.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("dnsStart"), IsRequired = (true))]
         public long DnsStart
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished DNS address resolve.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("dnsEnd"), IsRequired = (true))]
         public long DnsEnd
         {
             get;
@@ -55,6 +60,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started connecting to the remote host.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("connectStart"), IsRequired = (true))]
         public long ConnectStart
         {
             get;
@@ -64,6 +70,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Connected to the remote host.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("connectEnd"), IsRequired = (true))]
         public long ConnectEnd
         {
             get;
@@ -73,6 +80,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started SSL handshake.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sslStart"), IsRequired = (true))]
         public long SslStart
         {
             get;
@@ -82,6 +90,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished SSL handshake.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sslEnd"), IsRequired = (true))]
         public long SslEnd
         {
             get;
@@ -91,6 +100,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started running ServiceWorker.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerStart"), IsRequired = (true))]
         public long WorkerStart
         {
             get;
@@ -100,6 +110,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished Starting ServiceWorker.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerReady"), IsRequired = (true))]
         public long WorkerReady
         {
             get;
@@ -109,6 +120,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started fetch event.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerFetchStart"), IsRequired = (true))]
         public long WorkerFetchStart
         {
             get;
@@ -118,6 +130,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Settled fetch event respondWith promise.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerRespondWithSettled"), IsRequired = (true))]
         public long WorkerRespondWithSettled
         {
             get;
@@ -127,6 +140,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started sending request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sendStart"), IsRequired = (true))]
         public long SendStart
         {
             get;
@@ -136,6 +150,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished sending request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sendEnd"), IsRequired = (true))]
         public long SendEnd
         {
             get;
@@ -145,6 +160,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Time the server started pushing request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pushStart"), IsRequired = (true))]
         public long PushStart
         {
             get;
@@ -154,6 +170,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Time the server finished pushing request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pushEnd"), IsRequired = (true))]
         public long PushEnd
         {
             get;
@@ -163,6 +180,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished receiving response headers.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("receiveHeadersEnd"), IsRequired = (true))]
         public long ReceiveHeadersEnd
         {
             get;

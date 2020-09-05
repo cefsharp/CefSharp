@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Chrome histogram.
     /// </summary>
-    public class Histogram
+    public class Histogram : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Sum of sample values.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sum"), IsRequired = (true))]
         public int Sum
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Total number of samples.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("count"), IsRequired = (true))]
         public int Count
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Buckets.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("buckets"), IsRequired = (true))]
         public System.Collections.Generic.IList<Bucket> Buckets
         {
             get;

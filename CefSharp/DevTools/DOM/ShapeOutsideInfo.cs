@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// CSS Shape Outside details.
     /// </summary>
-    public class ShapeOutsideInfo
+    public class ShapeOutsideInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Shape bounds
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bounds"), IsRequired = (true))]
         public long Bounds
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Shape coordinate details
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shape"), IsRequired = (true))]
         public object Shape
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Margin shape bounds
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("marginShape"), IsRequired = (true))]
         public object MarginShape
         {
             get;

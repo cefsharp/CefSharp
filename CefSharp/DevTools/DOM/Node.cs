@@ -5,10 +5,11 @@ namespace CefSharp.DevTools.DOM
 {
     /// <summary>
     /// DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.
-    public class Node
+    public class Node : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Node identifier that is passed into the rest of the DOM messages as the `nodeId`. Backend
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeId"), IsRequired = (true))]
         public int NodeId
         {
             get;
@@ -18,6 +19,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The id of the parent node if any.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentId"), IsRequired = (false))]
         public int? ParentId
         {
             get;
@@ -27,6 +29,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The BackendNodeId for this node.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (true))]
         public int BackendNodeId
         {
             get;
@@ -36,6 +39,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`'s nodeType.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeType"), IsRequired = (true))]
         public int NodeType
         {
             get;
@@ -45,6 +49,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`'s nodeName.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeName"), IsRequired = (true))]
         public string NodeName
         {
             get;
@@ -54,6 +59,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`'s localName.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("localName"), IsRequired = (true))]
         public string LocalName
         {
             get;
@@ -63,6 +69,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`'s nodeValue.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeValue"), IsRequired = (true))]
         public string NodeValue
         {
             get;
@@ -72,6 +79,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Child count for `Container` nodes.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("childNodeCount"), IsRequired = (false))]
         public int? ChildNodeCount
         {
             get;
@@ -81,6 +89,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Child nodes of this node when requested with children.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("children"), IsRequired = (false))]
         public System.Collections.Generic.IList<Node> Children
         {
             get;
@@ -90,6 +99,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Attributes of the `Element` node in the form of flat array `[name1, value1, name2, value2]`.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("attributes"), IsRequired = (false))]
         public string Attributes
         {
             get;
@@ -99,6 +109,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Document URL that `Document` or `FrameOwner` node points to.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("documentURL"), IsRequired = (false))]
         public string DocumentURL
         {
             get;
@@ -108,6 +119,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Base URL that `Document` or `FrameOwner` node uses for URL completion.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("baseURL"), IsRequired = (false))]
         public string BaseURL
         {
             get;
@@ -117,6 +129,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `DocumentType`'s publicId.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("publicId"), IsRequired = (false))]
         public string PublicId
         {
             get;
@@ -126,6 +139,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `DocumentType`'s systemId.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("systemId"), IsRequired = (false))]
         public string SystemId
         {
             get;
@@ -135,6 +149,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `DocumentType`'s internalSubset.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("internalSubset"), IsRequired = (false))]
         public string InternalSubset
         {
             get;
@@ -144,6 +159,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Document`'s XML version in case of XML documents.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("xmlVersion"), IsRequired = (false))]
         public string XmlVersion
         {
             get;
@@ -153,6 +169,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Attr`'s name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (false))]
         public string Name
         {
             get;
@@ -162,6 +179,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Attr`'s value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
         public string Value
         {
             get;
@@ -171,6 +189,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Pseudo element type for this node.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (false))]
         public string PseudoType
         {
             get;
@@ -180,6 +199,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Shadow root type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRootType"), IsRequired = (false))]
         public string ShadowRootType
         {
             get;
@@ -189,6 +209,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Frame ID for frame owner elements.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frameId"), IsRequired = (false))]
         public string FrameId
         {
             get;
@@ -198,6 +219,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Content document for frame owner elements.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentDocument"), IsRequired = (false))]
         public Node ContentDocument
         {
             get;
@@ -207,6 +229,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Shadow root list for given element host.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRoots"), IsRequired = (false))]
         public System.Collections.Generic.IList<Node> ShadowRoots
         {
             get;
@@ -216,6 +239,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Content document fragment for template elements.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("templateContent"), IsRequired = (false))]
         public Node TemplateContent
         {
             get;
@@ -225,6 +249,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Pseudo elements associated with this node.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoElements"), IsRequired = (false))]
         public System.Collections.Generic.IList<Node> PseudoElements
         {
             get;
@@ -234,6 +259,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Import document for the HTMLImport links.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("importedDocument"), IsRequired = (false))]
         public Node ImportedDocument
         {
             get;
@@ -243,6 +269,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Distributed nodes for given insertion point.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("distributedNodes"), IsRequired = (false))]
         public System.Collections.Generic.IList<BackendNode> DistributedNodes
         {
             get;
@@ -252,6 +279,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Whether the node is SVG.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isSVG"), IsRequired = (false))]
         public bool? IsSVG
         {
             get;

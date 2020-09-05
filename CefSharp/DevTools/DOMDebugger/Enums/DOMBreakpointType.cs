@@ -8,8 +8,20 @@ namespace CefSharp.DevTools.DOMDebugger
     /// </summary>
     public enum DOMBreakpointType
     {
+        /// <summary>
+        /// subtree-modified
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("subtree-modified"))]
         SubtreeModified,
+        /// <summary>
+        /// attribute-modified
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("attribute-modified"))]
         AttributeModified,
+        /// <summary>
+        /// node-removed
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("node-removed"))]
         NodeRemoved
     }
 }

@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Security details about a request.
     /// </summary>
-    public class SecurityDetails
+    public class SecurityDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Protocol name (e.g. "TLS 1.2" or "QUIC").
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("protocol"), IsRequired = (true))]
         public string Protocol
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Key Exchange used by the connection, or the empty string if not applicable.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyExchange"), IsRequired = (true))]
         public string KeyExchange
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// (EC)DH group used by the connection, if applicable.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyExchangeGroup"), IsRequired = (false))]
         public string KeyExchangeGroup
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cipher name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cipher"), IsRequired = (true))]
         public string Cipher
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// TLS MAC. Note that AEAD ciphers do not have separate MACs.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mac"), IsRequired = (false))]
         public string Mac
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Certificate ID value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateId"), IsRequired = (true))]
         public int CertificateId
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Certificate subject name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subjectName"), IsRequired = (true))]
         public string SubjectName
         {
             get;
@@ -74,6 +81,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Subject Alternative Name (SAN) DNS names and IP addresses.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sanList"), IsRequired = (true))]
         public string SanList
         {
             get;
@@ -83,6 +91,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Name of the issuing CA.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("issuer"), IsRequired = (true))]
         public string Issuer
         {
             get;
@@ -92,6 +101,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Certificate valid from date.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validFrom"), IsRequired = (true))]
         public long ValidFrom
         {
             get;
@@ -101,6 +111,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Certificate valid to (expiration) date
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validTo"), IsRequired = (true))]
         public long ValidTo
         {
             get;
@@ -110,6 +121,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// List of signed certificate timestamps (SCTs).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signedCertificateTimestampList"), IsRequired = (true))]
         public System.Collections.Generic.IList<SignedCertificateTimestamp> SignedCertificateTimestampList
         {
             get;
@@ -119,6 +131,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Whether the request complied with Certificate Transparency policy
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateTransparencyCompliance"), IsRequired = (true))]
         public string CertificateTransparencyCompliance
         {
             get;

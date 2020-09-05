@@ -139,6 +139,7 @@
     <Compile Include="DevTools\DevToolsClient.cs" />
     <Compile Include="DevTools\DevToolsClient.Generated.cs" />
     <Compile Include="DevTools\DevToolsClientException.cs" />
+    <Compile Include="DevTools\DevToolsDomainEntityBase.cs" />
     <Compile Include="DevTools\DevToolsDomainBase.cs" />
     <Compile Include="DevTools\DevToolsEventArgs.cs" />
     <Compile Include="DevTools\DevToolsMethodResult.cs" />

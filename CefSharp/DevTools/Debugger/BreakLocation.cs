@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// BreakLocation
     /// </summary>
-    public class BreakLocation
+    public class BreakLocation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Script identifier as reported in the `Debugger.scriptParsed`.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
         public string ScriptId
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Line number in the script (0-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
         public int LineNumber
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Column number in the script (0-based).
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (false))]
         public int? ColumnNumber
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (false))]
         public string Type
         {
             get;

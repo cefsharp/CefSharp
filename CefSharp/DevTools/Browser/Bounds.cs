@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Browser window bounds information
     /// </summary>
-    public class Bounds
+    public class Bounds : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The offset from the left edge of the screen to the window in pixels.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("left"), IsRequired = (false))]
         public int? Left
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The offset from the top edge of the screen to the window in pixels.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("top"), IsRequired = (false))]
         public int? Top
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The window width in pixels.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("width"), IsRequired = (false))]
         public int? Width
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The window height in pixels.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("height"), IsRequired = (false))]
         public int? Height
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The window state. Default to normal.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("windowState"), IsRequired = (false))]
         public string WindowState
         {
             get;

@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// WebSocket message data. This represents an entire WebSocket message, not just a fragmented frame as the name suggests.
     /// </summary>
-    public class WebSocketFrame
+    public class WebSocketFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// WebSocket message opcode.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("opcode"), IsRequired = (true))]
         public long Opcode
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// WebSocket message mask.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mask"), IsRequired = (true))]
         public bool Mask
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// WebSocket message payload data.
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("payloadData"), IsRequired = (true))]
         public string PayloadData
         {
             get;

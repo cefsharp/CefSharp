@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
     /// </summary>
-    public class UserAgentBrandVersion
+    public class UserAgentBrandVersion : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("brand"), IsRequired = (true))]
         public string Brand
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// 
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("version"), IsRequired = (true))]
         public string Version
         {
             get;

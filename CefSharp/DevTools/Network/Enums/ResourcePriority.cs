@@ -8,10 +8,30 @@ namespace CefSharp.DevTools.Network
     /// </summary>
     public enum ResourcePriority
     {
+        /// <summary>
+        /// VeryLow
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("VeryLow"))]
         VeryLow,
+        /// <summary>
+        /// Low
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Low"))]
         Low,
+        /// <summary>
+        /// Medium
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Medium"))]
         Medium,
+        /// <summary>
+        /// High
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("High"))]
         High,
+        /// <summary>
+        /// VeryHigh
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("VeryHigh"))]
         VeryHigh
     }
 }

@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Coverage data for a JavaScript function.
     /// </summary>
-    public class FunctionCoverage
+    public class FunctionCoverage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// JavaScript function name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functionName"), IsRequired = (true))]
         public string FunctionName
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Source ranges inside the function with coverage data.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranges"), IsRequired = (true))]
         public System.Collections.Generic.IList<CoverageRange> Ranges
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Whether coverage data for this function has block granularity.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isBlockCoverage"), IsRequired = (true))]
         public bool IsBlockCoverage
         {
             get;

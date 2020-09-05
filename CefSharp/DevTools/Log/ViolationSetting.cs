@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Log
     /// <summary>
     /// Violation configuration setting.
     /// </summary>
-    public class ViolationSetting
+    public class ViolationSetting : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Violation type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Time threshold to trigger upon.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("threshold"), IsRequired = (true))]
         public long Threshold
         {
             get;

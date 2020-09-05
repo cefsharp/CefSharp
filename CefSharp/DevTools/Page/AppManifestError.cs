@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Error while paring app manifest.
     /// </summary>
-    public class AppManifestError
+    public class AppManifestError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Error message.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("message"), IsRequired = (true))]
         public string Message
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// If criticial, this is a non-recoverable parse error.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("critical"), IsRequired = (true))]
         public int Critical
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Error line.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("line"), IsRequired = (true))]
         public int Line
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Error column.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("column"), IsRequired = (true))]
         public int Column
         {
             get;

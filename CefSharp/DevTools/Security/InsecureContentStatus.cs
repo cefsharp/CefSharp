@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Information about insecure content on the page.
     /// </summary>
-    public class InsecureContentStatus
+    public class InsecureContentStatus : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Always false.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranMixedContent"), IsRequired = (true))]
         public bool RanMixedContent
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always false.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("displayedMixedContent"), IsRequired = (true))]
         public bool DisplayedMixedContent
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always false.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("containedMixedForm"), IsRequired = (true))]
         public bool ContainedMixedForm
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always false.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranContentWithCertErrors"), IsRequired = (true))]
         public bool RanContentWithCertErrors
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always false.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("displayedContentWithCertErrors"), IsRequired = (true))]
         public bool DisplayedContentWithCertErrors
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always set to unknown.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranInsecureContentStyle"), IsRequired = (true))]
         public string RanInsecureContentStyle
         {
             get;
@@ -65,6 +71,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always set to unknown.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("displayedInsecureContentStyle"), IsRequired = (true))]
         public string DisplayedInsecureContentStyle
         {
             get;

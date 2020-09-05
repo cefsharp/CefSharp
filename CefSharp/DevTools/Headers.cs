@@ -9,5 +9,9 @@ namespace CefSharp.DevTools
     //TODO: Properly implement this type
     public class Headers : NameValueCollection
     {
+        public NameValueCollection ToDictionary()
+        {
+            return this;
+        }
     }
 }

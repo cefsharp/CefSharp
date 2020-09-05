@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// Screen orientation.
     /// </summary>
-    public class ScreenOrientation
+    public class ScreenOrientation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Orientation type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Orientation angle.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("angle"), IsRequired = (true))]
         public int Angle
         {
             get;

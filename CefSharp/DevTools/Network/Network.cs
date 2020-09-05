@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.Network
 {
+    using System.Linq;
+
     /// <summary>
     /// Network domain allows tracking network activities of the page. It exposes information about http,
     public partial class Network : DevToolsDomainBase
@@ -257,7 +259,7 @@ namespace CefSharp.DevTools.Network
         public async System.Threading.Tasks.Task<DevToolsMethodResult> SetCookiesAsync(System.Collections.Generic.IList<CookieParam> cookies)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("cookies", cookies);
+            dict.Add("cookies", cookies.Select(x => x.ToDictionary()));
             var result = await _client.ExecuteDevToolsMethodAsync("Network.setCookies", dict);
             return result;
         }
@@ -268,7 +270,7 @@ namespace CefSharp.DevTools.Network
         public async System.Threading.Tasks.Task<DevToolsMethodResult> SetExtraHTTPHeadersAsync(Headers headers)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("headers", headers);
+            dict.Add("headers", headers.ToDictionary());
             var result = await _client.ExecuteDevToolsMethodAsync("Network.setExtraHTTPHeaders", dict);
             return result;
         }
@@ -292,7 +294,7 @@ namespace CefSharp.DevTools.Network
 
             if ((userAgentMetadata) != (null))
             {
-                dict.Add("userAgentMetadata", userAgentMetadata);
+                dict.Add("userAgentMetadata", userAgentMetadata.ToDictionary());
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Network.setUserAgentOverride", dict);

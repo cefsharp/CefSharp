@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// PropertyPreview
     /// </summary>
-    public class PropertyPreview
+    public class PropertyPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Property name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object type. Accessor means that the property itself is an accessor property.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// User-friendly property value string.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
         public string Value
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Nested value preview.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("valuePreview"), IsRequired = (false))]
         public ObjectPreview ValuePreview
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object subtype hint. Specified for `object` type values only.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subtype"), IsRequired = (false))]
         public string Subtype
         {
             get;

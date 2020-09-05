@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Coverage data for a JavaScript script.
     /// </summary>
-    public class ScriptCoverage
+    public class ScriptCoverage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// JavaScript script id.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
         public string ScriptId
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// JavaScript script name or url.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
         public string Url
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Functions contained in the script that has coverage data.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functions"), IsRequired = (true))]
         public System.Collections.Generic.IList<FunctionCoverage> Functions
         {
             get;

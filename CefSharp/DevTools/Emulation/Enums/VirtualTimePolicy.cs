@@ -7,8 +7,20 @@ namespace CefSharp.DevTools.Emulation
     /// advance: If the scheduler runs out of immediate work, the virtual time base may fast forward to
     public enum VirtualTimePolicy
     {
+        /// <summary>
+        /// advance
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("advance"))]
         Advance,
+        /// <summary>
+        /// pause
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("pause"))]
         Pause,
+        /// <summary>
+        /// pauseIfNetworkFetchesPending
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("pauseIfNetworkFetchesPending"))]
         PauseIfNetworkFetchesPending
     }
 }

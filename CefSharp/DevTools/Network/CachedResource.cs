@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about the cached resource.
     /// </summary>
-    public class CachedResource
+    public class CachedResource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Resource URL. This is the url of the original network request.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
         public string Url
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Type of this resource.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cached response data.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("response"), IsRequired = (false))]
         public Response Response
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cached response body size.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bodySize"), IsRequired = (true))]
         public long BodySize
         {
             get;

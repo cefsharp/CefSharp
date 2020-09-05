@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Collected counter information.
     /// </summary>
-    public class CounterInfo
+    public class CounterInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Counter name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Counter value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
         public int Value
         {
             get;

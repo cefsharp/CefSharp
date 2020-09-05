@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Performance
     /// <summary>
     /// Run-time execution metric.
     /// </summary>
-    public class Metric
+    public class Metric : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Metric name.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Performance
         /// <summary>
         /// Metric value.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
         public long Value
         {
             get;

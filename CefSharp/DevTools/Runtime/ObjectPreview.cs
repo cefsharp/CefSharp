@@ -6,11 +6,12 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object containing abbreviated remote object value.
     /// </summary>
-    public class ObjectPreview
+    public class ObjectPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Object type.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
         {
             get;
@@ -20,6 +21,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object subtype hint. Specified for `object` type values only.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subtype"), IsRequired = (false))]
         public string Subtype
         {
             get;
@@ -29,6 +31,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// String representation of the object.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("description"), IsRequired = (false))]
         public string Description
         {
             get;
@@ -38,6 +41,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True iff some of the properties or entries of the original object did not fit.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("overflow"), IsRequired = (true))]
         public bool Overflow
         {
             get;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// List of the properties.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("properties"), IsRequired = (true))]
         public System.Collections.Generic.IList<PropertyPreview> Properties
         {
             get;
@@ -56,6 +61,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// List of the entries. Specified for `map` and `set` subtype values only.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("entries"), IsRequired = (false))]
         public System.Collections.Generic.IList<EntryPreview> Entries
         {
             get;

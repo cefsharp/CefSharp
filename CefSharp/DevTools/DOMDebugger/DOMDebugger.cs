@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 namespace CefSharp.DevTools.DOMDebugger
 {
+    using System.Linq;
+
     /// <summary>
     /// DOM debugging allows setting breakpoints on particular DOM operations and events. JavaScript
     public partial class DOMDebugger : DevToolsDomainBase

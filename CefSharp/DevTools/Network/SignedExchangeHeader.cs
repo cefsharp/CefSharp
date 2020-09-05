@@ -5,11 +5,12 @@ namespace CefSharp.DevTools.Network
 {
     /// <summary>
     /// Information about a signed exchange header.
-    public class SignedExchangeHeader
+    public class SignedExchangeHeader : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Signed exchange request URL.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestUrl"), IsRequired = (true))]
         public string RequestUrl
         {
             get;
@@ -19,6 +20,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange response code.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseCode"), IsRequired = (true))]
         public int ResponseCode
         {
             get;
@@ -28,6 +30,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange response headers.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseHeaders"), IsRequired = (true))]
         public Headers ResponseHeaders
         {
             get;
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange response signature.
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signatures"), IsRequired = (true))]
         public System.Collections.Generic.IList<SignedExchangeSignature> Signatures
         {
             get;
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange header integrity hash in the form of "sha256-<base64-hash-value>".
         /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headerIntegrity"), IsRequired = (true))]
         public string HeaderIntegrity
         {
             get;

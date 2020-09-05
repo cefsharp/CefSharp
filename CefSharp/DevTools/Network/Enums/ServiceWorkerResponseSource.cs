@@ -8,9 +8,25 @@ namespace CefSharp.DevTools.Network
     /// </summary>
     public enum ServiceWorkerResponseSource
     {
+        /// <summary>
+        /// cache-storage
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cache-storage"))]
         CacheStorage,
+        /// <summary>
+        /// http-cache
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("http-cache"))]
         HttpCache,
+        /// <summary>
+        /// fallback-code
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("fallback-code"))]
         FallbackCode,
+        /// <summary>
+        /// network
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("network"))]
         Network
     }
 }
