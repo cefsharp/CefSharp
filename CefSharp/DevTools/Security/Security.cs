@@ -39,11 +39,11 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Handles a certificate error that fired a certificateError event.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> HandleCertificateErrorAsync(int eventId, string action)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> HandleCertificateErrorAsync(int eventId, CertificateErrorAction action)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("eventId", eventId);
-            dict.Add("action", action);
+            dict.Add("action", this.EnumToString(action));
             var result = await _client.ExecuteDevToolsMethodAsync("Security.handleCertificateError", dict);
             return result;
         }

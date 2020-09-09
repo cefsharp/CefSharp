@@ -182,7 +182,7 @@ namespace CefSharp.DevTools.Network
         /// Response source of response from ServiceWorker.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("serviceWorkerResponseSource"), IsRequired = (false))]
-        public string ServiceWorkerResponseSource
+        public ServiceWorkerResponseSource ServiceWorkerResponseSource
         {
             get;
             set;
@@ -222,7 +222,7 @@ namespace CefSharp.DevTools.Network
         /// Security state of the request resource.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public string SecurityState
+        public Security.SecurityState SecurityState
         {
             get;
             set;

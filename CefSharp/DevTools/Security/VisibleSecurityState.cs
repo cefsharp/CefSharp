@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Security
         /// The security level of the page.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public string SecurityState
+        public SecurityState SecurityState
         {
             get;
             set;

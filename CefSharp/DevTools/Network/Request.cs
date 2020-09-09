@@ -82,7 +82,7 @@ namespace CefSharp.DevTools.Network
         /// The mixed content type of the request.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentType"), IsRequired = (false))]
-        public string MixedContentType
+        public Security.MixedContentType MixedContentType
         {
             get;
             set;
@@ -92,7 +92,7 @@ namespace CefSharp.DevTools.Network
         /// Priority of the resource request at the time request is sent.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("initialPriority"), IsRequired = (true))]
-        public string InitialPriority
+        public ResourcePriority InitialPriority
         {
             get;
             set;

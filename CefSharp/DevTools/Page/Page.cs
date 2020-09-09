@@ -192,7 +192,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Navigates current page to the given URL.
         /// </summary>
-        public async System.Threading.Tasks.Task<NavigateResponse> NavigateAsync(string url, string referrer = null, string transitionType = null, string frameId = null, string referrerPolicy = null)
+        public async System.Threading.Tasks.Task<NavigateResponse> NavigateAsync(string url, string referrer = null, TransitionType? transitionType = null, string frameId = null, ReferrerPolicy? referrerPolicy = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
@@ -201,9 +201,9 @@ namespace CefSharp.DevTools.Page
                 dict.Add("referrer", referrer);
             }
 
-            if (!(string.IsNullOrEmpty(transitionType)))
+            if (transitionType.HasValue)
             {
-                dict.Add("transitionType", transitionType);
+                dict.Add("transitionType", this.EnumToString(transitionType));
             }
 
             if (!(string.IsNullOrEmpty(frameId)))
@@ -211,9 +211,9 @@ namespace CefSharp.DevTools.Page
                 dict.Add("frameId", frameId);
             }
 
-            if (!(string.IsNullOrEmpty(referrerPolicy)))
+            if (referrerPolicy.HasValue)
             {
-                dict.Add("referrerPolicy", referrerPolicy);
+                dict.Add("referrerPolicy", this.EnumToString(referrerPolicy));
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Page.navigate", dict);

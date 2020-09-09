@@ -100,7 +100,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Dispatches a mouse event to the page.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DispatchMouseEventAsync(string type, long x, long y, int? modifiers = null, long? timestamp = null, string button = null, int? buttons = null, int? clickCount = null, long? deltaX = null, long? deltaY = null, string pointerType = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> DispatchMouseEventAsync(string type, long x, long y, int? modifiers = null, long? timestamp = null, MouseButton? button = null, int? buttons = null, int? clickCount = null, long? deltaX = null, long? deltaY = null, string pointerType = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("type", type);
@@ -116,9 +116,9 @@ namespace CefSharp.DevTools.Input
                 dict.Add("timestamp", timestamp.Value);
             }
 
-            if (!(string.IsNullOrEmpty(button)))
+            if (button.HasValue)
             {
-                dict.Add("button", button);
+                dict.Add("button", this.EnumToString(button));
             }
 
             if (buttons.HasValue)

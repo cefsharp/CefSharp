@@ -21,7 +21,7 @@ namespace CefSharp.DevTools.Network
         /// If set, only requests for matching resource types will be intercepted.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("resourceType"), IsRequired = (false))]
-        public string ResourceType
+        public ResourceType ResourceType
         {
             get;
             set;
@@ -31,7 +31,7 @@ namespace CefSharp.DevTools.Network
         /// Stage at wich to begin intercepting requests. Default is Request.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("interceptionStage"), IsRequired = (false))]
-        public string InterceptionStage
+        public InterceptionStage InterceptionStage
         {
             get;
             set;

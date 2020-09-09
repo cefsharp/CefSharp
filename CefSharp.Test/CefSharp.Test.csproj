@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingRedirectAssemblyResolver.cs" />
+    <Compile Include="DevTools\DevToolsClientFacts.cs" />
     <Compile Include="Framework\BinderFacts.cs" />
     <Compile Include="Framework\AsyncExtensionFacts.cs" />
     <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />

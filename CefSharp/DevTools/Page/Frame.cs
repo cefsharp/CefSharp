@@ -111,7 +111,7 @@ namespace CefSharp.DevTools.Page
         /// Indicates whether this frame was tagged as an ad.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("adFrameType"), IsRequired = (false))]
-        public string AdFrameType
+        public AdFrameType AdFrameType
         {
             get;
             set;
@@ -121,7 +121,7 @@ namespace CefSharp.DevTools.Page
         /// Indicates whether the main document is a secure context and explains why that is the case.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("secureContextType"), IsRequired = (true))]
-        public string SecureContextType
+        public SecureContextType SecureContextType
         {
             get;
             set;
@@ -131,7 +131,7 @@ namespace CefSharp.DevTools.Page
         /// Indicates whether this is a cross origin isolated context.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("crossOriginIsolatedContextType"), IsRequired = (true))]
-        public string CrossOriginIsolatedContextType
+        public CrossOriginIsolatedContextType CrossOriginIsolatedContextType
         {
             get;
             set;

@@ -39,11 +39,11 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Removes DOM breakpoint that was set using `setDOMBreakpoint`.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RemoveDOMBreakpointAsync(int nodeId, string type)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> RemoveDOMBreakpointAsync(int nodeId, DOMBreakpointType type)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            dict.Add("type", type);
+            dict.Add("type", this.EnumToString(type));
             var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeDOMBreakpoint", dict);
             return result;
         }
@@ -78,11 +78,11 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Sets breakpoint on particular operation with DOM.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetDOMBreakpointAsync(int nodeId, string type)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetDOMBreakpointAsync(int nodeId, DOMBreakpointType type)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            dict.Add("type", type);
+            dict.Add("type", this.EnumToString(type));
             var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setDOMBreakpoint", dict);
             return result;
         }

@@ -190,7 +190,7 @@ namespace CefSharp.DevTools.DOM
         /// Pseudo element type for this node.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (false))]
-        public string PseudoType
+        public PseudoType PseudoType
         {
             get;
             set;
@@ -200,7 +200,7 @@ namespace CefSharp.DevTools.DOM
         /// Shadow root type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRootType"), IsRequired = (false))]
-        public string ShadowRootType
+        public ShadowRootType ShadowRootType
         {
             get;
             set;

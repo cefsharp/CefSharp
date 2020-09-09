@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Security
         /// Security state representing the severity of the factor being explained.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public string SecurityState
+        public SecurityState SecurityState
         {
             get;
             set;
@@ -52,7 +52,7 @@ namespace CefSharp.DevTools.Security
         /// The type of mixed content described by the explanation.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentType"), IsRequired = (true))]
-        public string MixedContentType
+        public MixedContentType MixedContentType
         {
             get;
             set;

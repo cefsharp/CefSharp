@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Network
         /// The reason(s) the cookie was blocked.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedReasons"), IsRequired = (true))]
-        public string BlockedReasons
+        public CookieBlockedReason BlockedReasons
         {
             get;
             set;

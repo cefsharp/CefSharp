@@ -104,16 +104,16 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Activates emulation of network conditions.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EmulateNetworkConditionsAsync(bool offline, long latency, long downloadThroughput, long uploadThroughput, string connectionType = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResult> EmulateNetworkConditionsAsync(bool offline, long latency, long downloadThroughput, long uploadThroughput, ConnectionType? connectionType = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("offline", offline);
             dict.Add("latency", latency);
             dict.Add("downloadThroughput", downloadThroughput);
             dict.Add("uploadThroughput", uploadThroughput);
-            if (!(string.IsNullOrEmpty(connectionType)))
+            if (connectionType.HasValue)
             {
-                dict.Add("connectionType", connectionType);
+                dict.Add("connectionType", this.EnumToString(connectionType));
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Network.emulateNetworkConditions", dict);
@@ -204,7 +204,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
         /// </summary>
-        public async System.Threading.Tasks.Task<SetCookieResponse> SetCookieAsync(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, string sameSite = null, long? expires = null, string priority = null)
+        public async System.Threading.Tasks.Task<SetCookieResponse> SetCookieAsync(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, CookieSameSite? sameSite = null, long? expires = null, CookiePriority? priority = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("name", name);
@@ -234,9 +234,9 @@ namespace CefSharp.DevTools.Network
                 dict.Add("httpOnly", httpOnly.Value);
             }
 
-            if (!(string.IsNullOrEmpty(sameSite)))
+            if (sameSite.HasValue)
             {
-                dict.Add("sameSite", sameSite);
+                dict.Add("sameSite", this.EnumToString(sameSite));
             }
 
             if (expires.HasValue)
@@ -244,9 +244,9 @@ namespace CefSharp.DevTools.Network
                 dict.Add("expires", expires.Value);
             }
 
-            if (!(string.IsNullOrEmpty(priority)))
+            if (priority.HasValue)
             {
-                dict.Add("priority", priority);
+                dict.Add("priority", this.EnumToString(priority));
             }
 
             var result = await _client.ExecuteDevToolsMethodAsync("Network.setCookie", dict);

@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Security
         /// Describes whether the page triggers any safety tips or reputation warnings. Default is unknown.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("safetyTipStatus"), IsRequired = (true))]
-        public string SafetyTipStatus
+        public SafetyTipStatus SafetyTipStatus
         {
             get;
             set;

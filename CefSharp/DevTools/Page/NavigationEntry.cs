@@ -52,7 +52,7 @@ namespace CefSharp.DevTools.Page
         /// Transition type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("transitionType"), IsRequired = (true))]
-        public string TransitionType
+        public TransitionType TransitionType
         {
             get;
             set;

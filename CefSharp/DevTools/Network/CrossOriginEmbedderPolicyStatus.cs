@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Network
         /// 
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
-        public string Value
+        public CrossOriginEmbedderPolicyValue Value
         {
             get;
             set;

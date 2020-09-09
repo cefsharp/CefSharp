@@ -132,7 +132,7 @@ namespace CefSharp.DevTools.Network
         /// Whether the request complied with Certificate Transparency policy
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateTransparencyCompliance"), IsRequired = (true))]
-        public string CertificateTransparencyCompliance
+        public CertificateTransparencyCompliance CertificateTransparencyCompliance
         {
             get;
             set;
