@@ -30,7 +30,7 @@ namespace CefSharp.DevTools
                 {
                     var str = values[i].Trim('\r', '\n', '"', ' ');
 
-                    var enumVal = Parse(enumType.GetElementType(), str);
+                    var enumVal = StringToEnumInternal(enumType.GetElementType(), str);
 
                     returnValues.SetValue(enumVal, i);
                 }
@@ -48,23 +48,21 @@ namespace CefSharp.DevTools
                 enumType = Nullable.GetUnderlyingType(enumType);
             }
 
-            return Parse(enumType, input);
+            return StringToEnumInternal(enumType, input);
+        }
 
-            throw new DevToolsClientException("No Matching Enum Value Found for " + input);
-
-            static object Parse(Type enumType, string input)
+        private static object StringToEnumInternal(Type enumType, string input)
+        {
+            foreach (var name in Enum.GetNames(enumType))
             {
-                foreach (var name in Enum.GetNames(enumType))
+                var enumMemberAttribute = ((EnumMemberAttribute[])enumType.GetField(name).GetCustomAttributes(typeof(EnumMemberAttribute), true)).Single();
+                if (enumMemberAttribute.Value == input)
                 {
-                    var enumMemberAttribute = ((EnumMemberAttribute[])enumType.GetField(name).GetCustomAttributes(typeof(EnumMemberAttribute), true)).Single();
-                    if (enumMemberAttribute.Value == input)
-                    {
-                        return Enum.Parse(enumType, name);
-                    }
+                    return Enum.Parse(enumType, name);
                 }
-
-                return (Enum.GetValues(enumType).GetValue(0));
             }
+
+            return (Enum.GetValues(enumType).GetValue(0));
         }
 
         public static string EnumToString(Enum e)
