@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Id of the script.
+        /// scriptId
         /// </summary>
         public string ScriptId
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Exception details.
+        /// exceptionDetails
         /// </summary>
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {

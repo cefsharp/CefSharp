@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.ApplicationCache
         }
 
         /// <summary>
-        /// Relevant application cache data for the document in given frame.
+        /// applicationCache
         /// </summary>
         public CefSharp.DevTools.ApplicationCache.ApplicationCache ApplicationCache
         {

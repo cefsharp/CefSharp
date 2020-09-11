@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.SystemInfo
         }
 
         /// <summary>
-        /// Information about the GPUs on the system.
+        /// gpu
         /// </summary>
         public CefSharp.DevTools.SystemInfo.GPUInfo Gpu
         {
@@ -35,7 +35,8 @@ namespace CefSharp.DevTools.SystemInfo
         }
 
         /// <summary>
-        /// A platform-dependent description of the model of the machine. On Mac OS, this is, for
+        /// modelName
+        /// </summary>
         public string ModelName
         {
             get
@@ -52,7 +53,8 @@ namespace CefSharp.DevTools.SystemInfo
         }
 
         /// <summary>
-        /// A platform-dependent description of the version of the machine. On Mac OS, this is, for
+        /// modelVersion
+        /// </summary>
         public string ModelVersion
         {
             get
@@ -69,7 +71,8 @@ namespace CefSharp.DevTools.SystemInfo
         }
 
         /// <summary>
-        /// The command line string used to launch the browser. Will be the empty string if not
+        /// commandLine
+        /// </summary>
         public string CommandLine
         {
             get

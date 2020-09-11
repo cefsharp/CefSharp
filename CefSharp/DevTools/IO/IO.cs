@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.IO
     /// </summary>
     public partial class IO : DevToolsDomainBase
     {
-        public IO(CefSharp.DevTools.DevToolsClient client)
+        public IO(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Close the stream, discard any temporary backing storage.
         /// </summary>

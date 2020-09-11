@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Metrics relating to the layout viewport.
+        /// layoutViewport
         /// </summary>
         public CefSharp.DevTools.Page.LayoutViewport LayoutViewport
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Metrics relating to the visual viewport.
+        /// visualViewport
         /// </summary>
         public CefSharp.DevTools.Page.VisualViewport VisualViewport
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Size of scrollable area.
+        /// contentSize
         /// </summary>
         public CefSharp.DevTools.DOM.Rect ContentSize
         {

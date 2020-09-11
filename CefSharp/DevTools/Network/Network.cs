@@ -7,14 +7,16 @@ namespace CefSharp.DevTools.Network
 
     /// <summary>
     /// Network domain allows tracking network activities of the page. It exposes information about http,
+    /// file, data and other requests and responses, their headers, bodies, timing, etc.
+    /// </summary>
     public partial class Network : DevToolsDomainBase
     {
-        public Network(CefSharp.DevTools.DevToolsClient client)
+        public Network(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears browser cache.
         /// </summary>
@@ -117,6 +119,8 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// Returns all browser cookies. Depending on the backend support, will return detailed cookie
+        /// information in the `cookies` field.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetAllCookiesResponse> GetAllCookiesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -137,6 +141,8 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// Returns all browser cookies for the current URL. Depending on the backend support, will return
+        /// detailed cookie information in the `cookies` field.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string[] urls = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -184,6 +190,10 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// Returns a handle to the stream representing the response body. Note that after this command,
+        /// the intercepted request can't be continued as is -- you either need to cancel it or to provide
+        /// the response body. The stream only supports sequential read, IO.read will fail if the position
+        /// is specified.
+        /// </summary>
         public async System.Threading.Tasks.Task<TakeResponseBodyForInterceptionAsStreamResponse> TakeResponseBodyForInterceptionAsStreamAsync(string interceptionId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -194,6 +204,9 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// This method sends a new XMLHttpRequest which is identical to the original one. The following
+        /// parameters should be identical: method, url, async, request body, extra headers, withCredentials
+        /// attribute, user, password.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReplayXHRAsync(string requestId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

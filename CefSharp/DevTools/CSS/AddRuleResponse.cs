@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The newly created rule.
+        /// rule
         /// </summary>
         public CefSharp.DevTools.CSS.CSSRule Rule
         {

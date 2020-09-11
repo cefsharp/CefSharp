@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Promise result. Will contain rejected value if promise was rejected.
+        /// result
         /// </summary>
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Exception details if stack strace is available.
+        /// exceptionDetails
         /// </summary>
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {

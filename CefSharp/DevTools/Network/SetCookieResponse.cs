@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Network
         }
 
         /// <summary>
-        /// True if successfully set cookie.
+        /// success
         /// </summary>
         public bool Success
         {

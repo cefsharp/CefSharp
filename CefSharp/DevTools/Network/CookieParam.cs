@@ -30,6 +30,8 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// The request-URI to associate with the setting of the cookie. This value can affect the
+        /// default domain and path values of the created cookie.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
         public string Url
         {

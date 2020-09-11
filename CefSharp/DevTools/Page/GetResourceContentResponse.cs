@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Resource content.
+        /// content
         /// </summary>
         public string Content
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// True, if content was served as base64.
+        /// base64Encoded
         /// </summary>
         public bool Base64Encoded
         {

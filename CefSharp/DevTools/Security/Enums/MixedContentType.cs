@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.Security
 {
     /// <summary>
     /// A description of mixed content (HTTP resources on HTTPS pages), as defined by
+    /// https://www.w3.org/TR/mixed-content/#categories
+    /// </summary>
     public enum MixedContentType
     {
         /// <summary>

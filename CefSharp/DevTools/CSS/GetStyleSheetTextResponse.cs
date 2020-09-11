@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The stylesheet text.
+        /// text
         /// </summary>
         public string Text
         {

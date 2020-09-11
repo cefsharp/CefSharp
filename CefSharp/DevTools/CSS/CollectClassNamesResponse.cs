@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Class name list.
+        /// classNames
         /// </summary>
         public string[] ClassNames
         {

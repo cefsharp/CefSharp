@@ -7,14 +7,21 @@ namespace CefSharp.DevTools.DOM
 
     /// <summary>
     /// This domain exposes DOM read/write operations. Each DOM Node is represented with its mirror object
+    /// that has an `id`. This `id` can be used to get additional information on the Node, resolve it into
+    /// the JavaScript object wrapper, etc. It is important that client receives DOM events only for the
+    /// nodes that are known to the client. Backend keeps track of the nodes that were sent to the client
+    /// and never sends the same node twice. It is client's responsibility to collect information about
+    /// the nodes that were sent to the client.<p>Note that `iframe` owner elements will return
+    /// corresponding document elements as their child nodes.</p>
+    /// </summary>
     public partial class DOM : DevToolsDomainBase
     {
-        public DOM(CefSharp.DevTools.DevToolsClient client)
+        public DOM(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Collects class names for the node with given id and all of it's child nodes.
         /// </summary>
@@ -28,6 +35,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Creates a deep copy of the specified node and places it into the target container before the
+        /// given anchor.
+        /// </summary>
         public async System.Threading.Tasks.Task<CopyToResponse> CopyToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -44,6 +53,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Describes node given its id, does not require domain to be enabled. Does not start tracking any
+        /// objects, can be used for automation.
+        /// </summary>
         public async System.Threading.Tasks.Task<DescribeNodeResponse> DescribeNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, int? depth = null, bool? pierce = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -78,6 +89,9 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Scrolls the specified rect of the given node into view if not already visible.
+        /// Note: exactly one between nodeId, backendNodeId and objectId should be passed
+        /// to identify the node.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ScrollIntoViewIfNeededAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, CefSharp.DevTools.DOM.Rect rect = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -117,6 +131,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Discards search results from the session with the given id. `getSearchResults` should no longer
+        /// be called for that search.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DiscardSearchResultsAsync(string searchId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -198,6 +214,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Returns quads that describe node position on the page. This method
+        /// might return multiple quads for inline nodes.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetContentQuadsResponse> GetContentQuadsAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -262,6 +280,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Returns node id at given location. Depending on whether DOM domain is enabled, nodeId is
+        /// either returned or not.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetNodeForLocationResponse> GetNodeForLocationAsync(int x, int y, bool? includeUserAgentShadowDOM = null, bool? ignorePointerEventsNone = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -319,6 +339,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Returns search results from given `fromIndex` to given `toIndex` from the search with the given
+        /// identifier.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetSearchResultsResponse> GetSearchResultsAsync(string searchId, int fromIndex, int toIndex)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -388,6 +410,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Searches for a given string in the DOM tree. Use `getSearchResults` to access search results or
+        /// `cancelSearch` to end this search session.
+        /// </summary>
         public async System.Threading.Tasks.Task<PerformSearchResponse> PerformSearchAsync(string query, bool? includeUserAgentShadowDOM = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -482,6 +506,9 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Requests that children of the node with given id are returned to the caller in form of
+        /// `setChildNodes` events where not only immediate children are retrieved, but all children down to
+        /// the specified depth.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RequestChildNodesAsync(int nodeId, int? depth = null, bool? pierce = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -502,6 +529,9 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Requests that the node is sent to the caller given the JavaScript node object reference. All
+        /// nodes that form the path from the node to the root are also sent to the client as a series of
+        /// `setChildNodes` notifications.
+        /// </summary>
         public async System.Threading.Tasks.Task<RequestNodeResponse> RequestNodeAsync(string objectId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -555,6 +585,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Sets attributes on element with given id. This method is useful when user edits some existing
+        /// attribute value and types in several attribute name/value pairs.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributesAsTextAsync(int nodeId, string text, string name = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -619,6 +651,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Returns file information for the given
+        /// File wrapper.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetFileInfoResponse> GetFileInfoAsync(string objectId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -629,6 +663,8 @@ namespace CefSharp.DevTools.DOM
 
         /// <summary>
         /// Enables console to refer to the node with given id via $x (see Command Line API for more details
+        /// $x functions).
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectedNodeAsync(int nodeId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

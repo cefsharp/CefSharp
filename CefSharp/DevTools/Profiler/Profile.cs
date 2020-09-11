@@ -50,6 +50,8 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// Time intervals between adjacent samples in microseconds. The first delta is relative to the
+        /// profile startTime.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("timeDeltas"), IsRequired = (false))]
         public int[] TimeDeltas
         {

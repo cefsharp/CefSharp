@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// Recorded sampling heap profile.
+        /// profile
         /// </summary>
         public CefSharp.DevTools.HeapProfiler.SamplingHeapProfile Profile
         {

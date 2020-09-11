@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Id of the node for given path.
+        /// nodeId
         /// </summary>
         public int NodeId
         {

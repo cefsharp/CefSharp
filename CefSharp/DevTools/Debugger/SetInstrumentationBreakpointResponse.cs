@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Id of the created breakpoint for further reference.
+        /// breakpointId
         /// </summary>
         public string BreakpointId
         {

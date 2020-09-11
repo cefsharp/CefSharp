@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Media
     /// </summary>
     public partial class Media : DevToolsDomainBase
     {
-        public Media(CefSharp.DevTools.DevToolsClient client)
+        public Media(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enables the Media domain
         /// </summary>

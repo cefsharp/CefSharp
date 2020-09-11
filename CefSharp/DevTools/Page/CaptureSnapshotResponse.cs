@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Serialized page data.
+        /// data
         /// </summary>
         public string Data
         {

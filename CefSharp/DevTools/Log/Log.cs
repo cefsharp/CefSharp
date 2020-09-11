@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Log
     /// </summary>
     public partial class Log : DevToolsDomainBase
     {
-        public Log(CefSharp.DevTools.DevToolsClient client)
+        public Log(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears the log.
         /// </summary>
@@ -38,6 +38,8 @@ namespace CefSharp.DevTools.Log
 
         /// <summary>
         /// Enables log domain, sends the entries collected so far to the client by means of the
+        /// `entryAdded` notification.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

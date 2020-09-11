@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// Commandline parameters
+        /// arguments
         /// </summary>
         public string[] Arguments
         {

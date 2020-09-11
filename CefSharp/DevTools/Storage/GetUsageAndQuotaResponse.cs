@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Storage
         }
 
         /// <summary>
-        /// Storage usage (bytes).
+        /// usage
         /// </summary>
         public long Usage
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Storage
         }
 
         /// <summary>
-        /// Storage quota (bytes).
+        /// quota
         /// </summary>
         public long Quota
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.Storage
         }
 
         /// <summary>
-        /// Storage usage per type (bytes).
+        /// usageBreakdown
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Storage.UsageForType> UsageBreakdown
         {

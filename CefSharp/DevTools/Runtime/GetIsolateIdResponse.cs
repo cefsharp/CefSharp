@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// The isolate id.
+        /// id
         /// </summary>
         public string Id
         {

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Base64-encoded pdf data. Empty if |returnAsStream| is specified.
+        /// data
         /// </summary>
         public byte[] Data
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// A handle of the stream that holds resulting PDF data.
+        /// stream
         /// </summary>
         public string Stream
         {

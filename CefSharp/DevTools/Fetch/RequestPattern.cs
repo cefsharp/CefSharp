@@ -10,6 +10,8 @@ namespace CefSharp.DevTools.Fetch
     {
         /// <summary>
         /// Wildcards ('*' -> zero or more, '?' -> exactly one) are allowed. Escape character is
+        /// backslash. Omitting is equivalent to "*".
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("urlPattern"), IsRequired = (false))]
         public string UrlPattern
         {

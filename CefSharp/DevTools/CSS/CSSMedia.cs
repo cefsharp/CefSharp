@@ -20,6 +20,10 @@ namespace CefSharp.DevTools.CSS
 
         /// <summary>
         /// Source of the media query: "mediaRule" if specified by a @media rule, "importRule" if
+        /// specified by an @import rule, "linkedSheet" if specified by a "media" attribute in a linked
+        /// stylesheet's LINK tag, "inlineSheet" if specified by a "media" attribute in an inline
+        /// stylesheet's STYLE tag.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("source"), IsRequired = (true))]
         public string Source
         {
@@ -39,6 +43,8 @@ namespace CefSharp.DevTools.CSS
 
         /// <summary>
         /// The associated rule (@media or @import) header range in the enclosing stylesheet (if
+        /// available).
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("range"), IsRequired = (false))]
         public CefSharp.DevTools.CSS.SourceRange Range
         {

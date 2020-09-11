@@ -50,6 +50,8 @@ namespace CefSharp.DevTools.WebAuthn
 
         /// <summary>
         /// If set to true, tests of user presence will succeed immediately.
+        /// Otherwise, they will not be resolved. Defaults to true.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("automaticPresenceSimulation"), IsRequired = (false))]
         public bool? AutomaticPresenceSimulation
         {
@@ -59,6 +61,8 @@ namespace CefSharp.DevTools.WebAuthn
 
         /// <summary>
         /// Sets whether User Verification succeeds or fails for an authenticator.
+        /// Defaults to false.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("isUserVerified"), IsRequired = (false))]
         public bool? IsUserVerified
         {

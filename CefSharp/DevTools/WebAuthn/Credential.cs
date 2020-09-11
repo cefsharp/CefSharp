@@ -30,6 +30,8 @@ namespace CefSharp.DevTools.WebAuthn
 
         /// <summary>
         /// Relying Party ID the credential is scoped to. Must be set when adding a
+        /// credential.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("rpId"), IsRequired = (false))]
         public string RpId
         {
@@ -49,6 +51,8 @@ namespace CefSharp.DevTools.WebAuthn
 
         /// <summary>
         /// An opaque byte sequence with a maximum size of 64 bytes mapping the
+        /// credential to a specific user.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("userHandle"), IsRequired = (false))]
         public byte[] UserHandle
         {
@@ -58,6 +62,9 @@ namespace CefSharp.DevTools.WebAuthn
 
         /// <summary>
         /// Signature counter. This is incremented by one for each successful
+        /// assertion.
+        /// See https://w3c.github.io/webauthn/#signature-counter
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("signCount"), IsRequired = (true))]
         public int SignCount
         {

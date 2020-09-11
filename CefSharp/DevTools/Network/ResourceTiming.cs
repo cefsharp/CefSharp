@@ -10,6 +10,8 @@ namespace CefSharp.DevTools.Network
     {
         /// <summary>
         /// Timing's requestTime is a baseline in seconds, while the other numbers are ticks in
+        /// milliseconds relatively to this requestTime.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestTime"), IsRequired = (true))]
         public long RequestTime
         {

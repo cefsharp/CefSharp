@@ -5,10 +5,14 @@ namespace CefSharp.DevTools.Browser
 {
     /// <summary>
     /// Definition of PermissionDescriptor defined in the Permissions API:
+    /// https://w3c.github.io/permissions/#dictdef-permissiondescriptor.
+    /// </summary>
     public class PermissionDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name of permission.
+        /// See https://cs.chromium.org/chromium/src/third_party/blink/renderer/modules/permissions/permission_descriptor.idl for valid permission names.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
         {
@@ -28,6 +32,8 @@ namespace CefSharp.DevTools.Browser
 
         /// <summary>
         /// For "push" permission, may specify userVisibleOnly.
+        /// Note that userVisibleOnly = true is the only currently supported type.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("userVisibleOnly"), IsRequired = (false))]
         public bool? UserVisibleOnly
         {

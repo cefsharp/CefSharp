@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Resulting node.
+        /// backendNodeId
         /// </summary>
         public int BackendNodeId
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Frame this node belongs to.
+        /// frameId
         /// </summary>
         public string FrameId
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Id of the node at given coordinates, only when enabled and requested document.
+        /// nodeId
         /// </summary>
         public int? NodeId
         {

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Resulting node.
+        /// nodes
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> Nodes
         {

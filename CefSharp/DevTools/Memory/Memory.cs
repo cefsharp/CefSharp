@@ -10,14 +10,14 @@ namespace CefSharp.DevTools.Memory
     /// </summary>
     public partial class Memory : DevToolsDomainBase
     {
-        public Memory(CefSharp.DevTools.DevToolsClient client)
+        public Memory(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
-        /// 
+        /// GetDOMCounters
         /// </summary>
         public async System.Threading.Tasks.Task<GetDOMCountersResponse> GetDOMCountersAsync()
         {
@@ -27,7 +27,7 @@ namespace CefSharp.DevTools.Memory
         }
 
         /// <summary>
-        /// 
+        /// PrepareForLeakDetection
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> PrepareForLeakDetectionAsync()
         {
@@ -100,6 +100,8 @@ namespace CefSharp.DevTools.Memory
 
         /// <summary>
         /// Retrieve native memory allocations profile
+        /// collected since renderer process startup.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetAllTimeSamplingProfileResponse> GetAllTimeSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -109,6 +111,8 @@ namespace CefSharp.DevTools.Memory
 
         /// <summary>
         /// Retrieve native memory allocations profile
+        /// collected since browser process startup.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetBrowserSamplingProfileResponse> GetBrowserSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -118,6 +122,8 @@ namespace CefSharp.DevTools.Memory
 
         /// <summary>
         /// Retrieve native memory allocations profile collected since last
+        /// `startSampling` call.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetSamplingProfileResponse> GetSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

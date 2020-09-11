@@ -30,6 +30,8 @@ namespace CefSharp.DevTools.SystemInfo
 
         /// <summary>
         /// Specifies cumulative CPU usage in seconds across all threads of the
+        /// process since the process start.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("cpuTime"), IsRequired = (true))]
         public long CpuTime
         {

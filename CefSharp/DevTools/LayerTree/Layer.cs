@@ -130,6 +130,8 @@ namespace CefSharp.DevTools.LayerTree
 
         /// <summary>
         /// Indicates whether this layer hosts any content, rather than being used for
+        /// transform/scrolling purposes only.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("drawsContent"), IsRequired = (true))]
         public bool DrawsContent
         {

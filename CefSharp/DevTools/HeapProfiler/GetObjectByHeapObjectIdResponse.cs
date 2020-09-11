@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// Evaluation result.
+        /// result
         /// </summary>
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {

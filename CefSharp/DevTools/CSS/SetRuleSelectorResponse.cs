@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The resulting selector list after modification.
+        /// selectorList
         /// </summary>
         public CefSharp.DevTools.CSS.SelectorList SelectorList
         {

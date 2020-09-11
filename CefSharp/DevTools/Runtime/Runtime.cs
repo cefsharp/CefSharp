@@ -7,14 +7,19 @@ namespace CefSharp.DevTools.Runtime
 
     /// <summary>
     /// Runtime domain exposes JavaScript runtime by means of remote evaluation and mirror objects.
+    /// Evaluation results are returned as mirror object that expose object type, string representation
+    /// and unique identifier that can be used for further object reference. Original objects are
+    /// maintained in memory unless they are either explicitly released or are released along with the
+    /// other objects in their object group.
+    /// </summary>
     public partial class Runtime : DevToolsDomainBase
     {
-        public Runtime(CefSharp.DevTools.DevToolsClient client)
+        public Runtime(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Add handler to promise with given promise object id.
         /// </summary>
@@ -38,6 +43,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// Calls function with given declaration on the given object. Object group of the result is
+        /// inherited from the target object.
+        /// </summary>
         public async System.Threading.Tasks.Task<CallFunctionOnResponse> CallFunctionOnAsync(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -131,6 +138,9 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// Enables reporting of execution contexts creation by means of `executionContextCreated` event.
+        /// When the reporting gets enabled the event will be sent immediately for each existing execution
+        /// context.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -221,6 +231,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// Returns the JavaScript heap usage.
+        /// It is the total usage of the corresponding isolate not scoped to a particular Runtime.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetHeapUsageResponse> GetHeapUsageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -230,6 +242,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// Returns properties of a given object. Object group of the result is inherited from the target
+        /// object.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(string objectId, bool? ownProperties = null, bool? accessorPropertiesOnly = null, bool? generatePreview = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -269,7 +283,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// 
+        /// QueryObjects
         /// </summary>
         public async System.Threading.Tasks.Task<QueryObjectsResponse> QueryObjectsAsync(string prototypeObjectId, string objectGroup = null)
         {
@@ -374,7 +388,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// 
+        /// SetCustomObjectFormatterEnabled
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCustomObjectFormatterEnabledAsync(bool enabled)
         {
@@ -385,7 +399,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// 
+        /// SetMaxCallStackSizeToCapture
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetMaxCallStackSizeToCaptureAsync(int size)
         {
@@ -397,6 +411,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// Terminate current or next JavaScript execution.
+        /// Will cancel the termination when the outer-most script execution ends.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> TerminateExecutionAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -406,6 +422,14 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// If executionContextId is empty, adds binding with the given name on the
+        /// global objects of all inspected contexts, including those created later,
+        /// bindings survive reloads.
+        /// If executionContextId is specified, adds binding only on global object of
+        /// given execution context.
+        /// Binding function takes exactly one argument, this argument should be string,
+        /// in case of any other input, function throws an exception.
+        /// Each binding function call produces Runtime.bindingCalled notification.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddBindingAsync(string name, int? executionContextId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -421,6 +445,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// This method does not remove binding function from global object but
+        /// unsubscribes current runtime agent from Runtime.bindingCalled notifications.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveBindingAsync(string name)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

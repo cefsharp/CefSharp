@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Input
     /// </summary>
     public partial class Input : DevToolsDomainBase
     {
-        public Input(CefSharp.DevTools.DevToolsClient client)
+        public Input(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Dispatches a key event to the page.
         /// </summary>
@@ -94,6 +94,8 @@ namespace CefSharp.DevTools.Input
 
         /// <summary>
         /// This method emulates inserting text that doesn't come from a key press,
+        /// for example an emoji keyboard or an IME.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> InsertTextAsync(string text)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

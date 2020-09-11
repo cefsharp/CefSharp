@@ -10,6 +10,10 @@ namespace CefSharp.DevTools.Audits
     {
         /// <summary>
         /// The type of resource causing the mixed content issue (css, js, iframe,
+        /// form,...). Marked as optional because it is mapped to from
+        /// blink::mojom::RequestContextType, which will be replaced
+        /// by network::mojom::RequestDestination
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("resourceType"), IsRequired = (false))]
         public CefSharp.DevTools.Audits.MixedContentResourceType? ResourceType
         {
@@ -49,6 +53,8 @@ namespace CefSharp.DevTools.Audits
 
         /// <summary>
         /// The mixed content request.
+        /// Does not always exist (e.g. for unsafe form submission urls).
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("request"), IsRequired = (false))]
         public CefSharp.DevTools.Audits.AffectedRequest Request
         {

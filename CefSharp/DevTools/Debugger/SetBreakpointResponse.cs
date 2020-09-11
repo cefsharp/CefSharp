@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Id of the created breakpoint for further reference.
+        /// breakpointId
         /// </summary>
         public string BreakpointId
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Location this breakpoint resolved into.
+        /// actualLocation
         /// </summary>
         public CefSharp.DevTools.Debugger.Location ActualLocation
         {

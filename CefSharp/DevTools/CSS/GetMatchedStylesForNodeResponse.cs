@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Inline style for the specified DOM node.
+        /// inlineStyle
         /// </summary>
         public CefSharp.DevTools.CSS.CSSStyle InlineStyle
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Attribute-defined element style (e.g. resulting from "width=20 height=100%").
+        /// attributesStyle
         /// </summary>
         public CefSharp.DevTools.CSS.CSSStyle AttributesStyle
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// CSS rules matching this node, from all applicable stylesheets.
+        /// matchedCSSRules
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleMatch> MatchedCSSRules
         {
@@ -71,7 +71,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Pseudo style matches for this node.
+        /// pseudoElements
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.PseudoElementMatches> PseudoElements
         {
@@ -89,7 +89,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// A chain of inherited styles (from the immediate node parent up to the DOM tree root).
+        /// inherited
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.InheritedStyleEntry> Inherited
         {
@@ -107,7 +107,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// A list of CSS keyframed animations matching this node.
+        /// cssKeyframesRules
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSKeyframesRule> CssKeyframesRules
         {

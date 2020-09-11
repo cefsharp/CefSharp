@@ -30,6 +30,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// A function which serves as a getter for the private property,
+        /// or `undefined` if there is no getter (accessor descriptors only).
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("get"), IsRequired = (false))]
         public CefSharp.DevTools.Runtime.RemoteObject Get
         {
@@ -39,6 +41,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// A function which serves as a setter for the private property,
+        /// or `undefined` if there is no setter (accessor descriptors only).
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("set"), IsRequired = (false))]
         public CefSharp.DevTools.Runtime.RemoteObject Set
         {

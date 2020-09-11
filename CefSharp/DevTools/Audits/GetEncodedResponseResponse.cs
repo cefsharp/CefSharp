@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Audits
         }
 
         /// <summary>
-        /// The encoded body as a base64 string. Omitted if sizeOnly is true.
+        /// body
         /// </summary>
         public byte[] Body
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Audits
         }
 
         /// <summary>
-        /// Size before re-encoding.
+        /// originalSize
         /// </summary>
         public int OriginalSize
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.Audits
         }
 
         /// <summary>
-        /// Size after re-encoding.
+        /// encodedSize
         /// </summary>
         public int EncodedSize
         {

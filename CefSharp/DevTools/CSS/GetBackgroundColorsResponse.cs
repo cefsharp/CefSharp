@@ -17,7 +17,8 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The range of background colors behind this element, if it contains any visible text. If no
+        /// backgroundColors
+        /// </summary>
         public string[] BackgroundColors
         {
             get
@@ -34,7 +35,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The computed font size for this node, as a CSS computed value string (e.g. '12px').
+        /// computedFontSize
         /// </summary>
         public string ComputedFontSize
         {
@@ -52,7 +53,8 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The computed font weight for this node, as a CSS computed value string (e.g. 'normal' or
+        /// computedFontWeight
+        /// </summary>
         public string ComputedFontWeight
         {
             get

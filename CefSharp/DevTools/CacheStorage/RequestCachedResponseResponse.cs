@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CacheStorage
         }
 
         /// <summary>
-        /// Response read from the cache.
+        /// response
         /// </summary>
         public CefSharp.DevTools.CacheStorage.CachedResponse Response
         {

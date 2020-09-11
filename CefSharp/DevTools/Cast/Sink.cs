@@ -30,6 +30,8 @@ namespace CefSharp.DevTools.Cast
 
         /// <summary>
         /// Text describing the current session. Present only if there is an active
+        /// session on the sink.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("session"), IsRequired = (false))]
         public string Session
         {

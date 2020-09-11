@@ -7,14 +7,16 @@ namespace CefSharp.DevTools.Debugger
 
     /// <summary>
     /// Debugger domain exposes JavaScript debugging capabilities. It allows setting and removing
+    /// breakpoints, stepping through execution, exploring stack traces, etc.
+    /// </summary>
     public partial class Debugger : DevToolsDomainBase
     {
-        public Debugger(CefSharp.DevTools.DevToolsClient client)
+        public Debugger(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Continues execution until specific location is reached.
         /// </summary>
@@ -43,6 +45,8 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Enables debugger for the given page. Clients should not assume that the debugging has been
+        /// enabled until the result for this command is received.
+        /// </summary>
         public async System.Threading.Tasks.Task<EnableResponse> EnableAsync(long? maxScriptsCacheSize = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -121,6 +125,8 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Returns possible locations for breakpoint. scriptId in start and end range locations should be
+        /// the same.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetPossibleBreakpointsResponse> GetPossibleBreakpointsAsync(CefSharp.DevTools.Debugger.Location start, CefSharp.DevTools.Debugger.Location end = null, bool? restrictToFunction = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -243,6 +249,9 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Replace previous blackbox patterns with passed ones. Forces backend to skip stepping/pausing in
+        /// scripts with url matching one of the patterns. VM will try to leave blackboxed script by
+        /// performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlackboxPatternsAsync(string[] patterns)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -253,6 +262,10 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Makes backend skip steps in the script in blackboxed ranges. VM will try leave blacklisted
+        /// scripts by performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
+        /// Positions array contains positions where blackbox state is changed. First interval isn't
+        /// blackboxed. Array should be sorted.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlackboxedRangesAsync(string scriptId, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.ScriptPosition> positions)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -291,6 +304,10 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Sets JavaScript breakpoint at given location specified either by URL or URL regex. Once this
+        /// command is issued, all existing parsed scripts will have breakpoints resolved and returned in
+        /// `locations` property. Further matching script parsing will result in subsequent
+        /// `breakpointResolved` events issued. This logical breakpoint will survive page reloads.
+        /// </summary>
         public async System.Threading.Tasks.Task<SetBreakpointByUrlResponse> SetBreakpointByUrlAsync(int lineNumber, string url = null, string urlRegex = null, string scriptHash = null, int? columnNumber = null, string condition = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -326,6 +343,9 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Sets JavaScript breakpoint before each call to the given function.
+        /// If another function was created from the same source as a given one,
+        /// calling it will also trigger the breakpoint.
+        /// </summary>
         public async System.Threading.Tasks.Task<SetBreakpointOnFunctionCallResponse> SetBreakpointOnFunctionCallAsync(string objectId, string condition = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -352,6 +372,8 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or
+        /// no exceptions. Initial pause on exceptions state is `none`.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPauseOnExceptionsAsync(string state)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -401,6 +423,8 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Changes value of variable in a callframe. Object-based scopes are not supported and must be
+        /// mutated manually.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetVariableValueAsync(int scopeNumber, string variableName, CefSharp.DevTools.Runtime.CallArgument newValue, string callFrameId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

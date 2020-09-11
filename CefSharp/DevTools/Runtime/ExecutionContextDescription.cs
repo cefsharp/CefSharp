@@ -10,6 +10,8 @@ namespace CefSharp.DevTools.Runtime
     {
         /// <summary>
         /// Unique id of the execution context. It can be used to specify in which execution context
+        /// script evaluation should be performed.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
         public int Id
         {

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// List of search matches.
+        /// result
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> Result
         {

@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Fetch
     /// </summary>
     public partial class Fetch : DevToolsDomainBase
     {
-        public Fetch(CefSharp.DevTools.DevToolsClient client)
+        public Fetch(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables the fetch domain.
         /// </summary>
@@ -28,6 +28,8 @@ namespace CefSharp.DevTools.Fetch
 
         /// <summary>
         /// Enables issuing of requestPaused events. A request will be paused until client
+        /// calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(System.Collections.Generic.IList<CefSharp.DevTools.Fetch.RequestPattern> patterns = null, bool? handleAuthRequests = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -134,6 +136,12 @@ namespace CefSharp.DevTools.Fetch
 
         /// <summary>
         /// Causes the body of the response to be received from the server and
+        /// returned as a single string. May only be issued for a request that
+        /// is paused in the Response stage and is mutually exclusive with
+        /// takeResponseBodyForInterceptionAsStream. Calling other methods that
+        /// affect the request or disabling fetch domain before body is received
+        /// results in an undefined behavior.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -144,6 +152,16 @@ namespace CefSharp.DevTools.Fetch
 
         /// <summary>
         /// Returns a handle to the stream representing the response body.
+        /// The request must be paused in the HeadersReceived stage.
+        /// Note that after this command the request can't be continued
+        /// as is -- client either needs to cancel it or to provide the
+        /// response body.
+        /// The stream only supports sequential read, IO.read will fail if the position
+        /// is specified.
+        /// This method is mutually exclusive with getResponseBody.
+        /// Calling other methods that affect the request or disabling fetch
+        /// domain before body is received results in an undefined behavior.
+        /// </summary>
         public async System.Threading.Tasks.Task<TakeResponseBodyAsStreamResponse> TakeResponseBodyAsStreamAsync(string requestId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Array with objects.
+        /// objects
         /// </summary>
         public CefSharp.DevTools.Runtime.RemoteObject Objects
         {

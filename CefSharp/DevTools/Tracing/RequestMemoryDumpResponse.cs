@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Tracing
         }
 
         /// <summary>
-        /// GUID of the resulting global memory dump.
+        /// dumpGuid
         /// </summary>
         public string DumpGuid
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Tracing
         }
 
         /// <summary>
-        /// True iff the global memory dump succeeded.
+        /// success
         /// </summary>
         public bool Success
         {

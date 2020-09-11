@@ -5,6 +5,9 @@ namespace CefSharp.DevTools.Audits
 {
     /// <summary>
     /// This information is currently necessary, as the front-end has a difficult
+    /// time finding a specific cookie. With this, we can convey specific error
+    /// information without the cookie.
+    /// </summary>
     public class SameSiteCookieIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -39,6 +42,8 @@ namespace CefSharp.DevTools.Audits
 
         /// <summary>
         /// Optionally identifies the site-for-cookies and the cookie url, which
+        /// may be used by the front-end as additional context.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("operation"), IsRequired = (true))]
         public CefSharp.DevTools.Audits.SameSiteCookieOperation Operation
         {

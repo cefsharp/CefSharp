@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.LayerTree
     /// </summary>
     public partial class LayerTree : DevToolsDomainBase
     {
-        public LayerTree(CefSharp.DevTools.DevToolsClient client)
+        public LayerTree(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Provides the reasons why the given layer was composited.
         /// </summary>
@@ -70,7 +70,7 @@ namespace CefSharp.DevTools.LayerTree
         }
 
         /// <summary>
-        /// 
+        /// ProfileSnapshot
         /// </summary>
         public async System.Threading.Tasks.Task<ProfileSnapshotResponse> ProfileSnapshotAsync(string snapshotId, int? minRepeatCount = null, long? minDuration = null, CefSharp.DevTools.DOM.Rect clipRect = null)
         {

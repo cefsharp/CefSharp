@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Tracing
         }
 
         /// <summary>
-        /// A list of supported tracing categories.
+        /// categories
         /// </summary>
         public string[] Categories
         {

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// The list of targets.
+        /// targetInfos
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Target.TargetInfo> TargetInfos
         {

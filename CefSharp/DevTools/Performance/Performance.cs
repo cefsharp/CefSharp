@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Performance
     /// </summary>
     public partial class Performance : DevToolsDomainBase
     {
-        public Performance(CefSharp.DevTools.DevToolsClient client)
+        public Performance(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disable collecting and reporting metrics.
         /// </summary>

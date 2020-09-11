@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.SystemInfo
         }
 
         /// <summary>
-        /// An array of process info blocks.
+        /// processInfo
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.SystemInfo.ProcessInfo> ProcessInfo
         {

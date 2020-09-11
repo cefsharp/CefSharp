@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Used heap size in bytes.
+        /// usedSize
         /// </summary>
         public long UsedSize
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Allocated heap size in bytes.
+        /// totalSize
         /// </summary>
         public long TotalSize
         {

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         }
 
         /// <summary>
-        /// The nodes in the DOM tree. The DOMNode at index 0 corresponds to the root document.
+        /// documents
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.DOMSnapshot.DocumentSnapshot> Documents
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         }
 
         /// <summary>
-        /// Shared string table that all string properties refer to with indexes.
+        /// strings
         /// </summary>
         public string[] Strings
         {

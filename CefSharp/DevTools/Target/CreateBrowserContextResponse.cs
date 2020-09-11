@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// The id of the context created.
+        /// browserContextId
         /// </summary>
         public string BrowserContextId
         {

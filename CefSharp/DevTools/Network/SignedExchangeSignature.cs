@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.Network
 {
     /// <summary>
     /// Information about a signed exchange signature.
+    /// https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#rfc.section.3.1
+    /// </summary>
     public class SignedExchangeSignature : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

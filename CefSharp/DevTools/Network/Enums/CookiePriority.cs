@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.Network
 {
     /// <summary>
     /// Represents the cookie's 'Priority' status:
+    /// https://tools.ietf.org/html/draft-west-cookie-priority-00
+    /// </summary>
     public enum CookiePriority
     {
         /// <summary>

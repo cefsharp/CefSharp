@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.DOMSnapshot
 {
     /// <summary>
     /// Table of details of the post layout rendered text positions. The exact layout should not be regarded as
+    /// stable and may change between versions.
+    /// </summary>
     public class TextBoxSnapshot : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -29,6 +31,8 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// The starting index in characters, for this post layout textbox substring. Characters that
+        /// would be represented as a surrogate pair in UTF-16 have length 2.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("start"), IsRequired = (true))]
         public int[] Start
         {
@@ -38,6 +42,8 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// The number of characters in this post layout textbox substring. Characters that would be
+        /// represented as a surrogate pair in UTF-16 have length 2.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("length"), IsRequired = (true))]
         public int[] Length
         {

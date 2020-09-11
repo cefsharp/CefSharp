@@ -50,6 +50,8 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// The reason of being not optimized. The function may be deoptimized or marked as don't
+        /// optimize.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("deoptReason"), IsRequired = (false))]
         public string DeoptReason
         {

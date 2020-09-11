@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.ApplicationCache
     /// </summary>
     public partial class ApplicationCache : DevToolsDomainBase
     {
-        public ApplicationCache(CefSharp.DevTools.DevToolsClient client)
+        public ApplicationCache(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enables application cache domain notifications.
         /// </summary>
@@ -39,6 +39,8 @@ namespace CefSharp.DevTools.ApplicationCache
 
         /// <summary>
         /// Returns array of frame identifiers with manifest urls for each frame containing a document
+        /// associated with some application cache.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetFramesWithManifestsResponse> GetFramesWithManifestsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

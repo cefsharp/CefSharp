@@ -17,7 +17,8 @@ namespace CefSharp.DevTools.ApplicationCache
         }
 
         /// <summary>
-        /// Array of frame identifiers with manifest urls for each frame containing a document
+        /// frameIds
+        /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.ApplicationCache.FrameWithManifest> FrameIds
         {
             get

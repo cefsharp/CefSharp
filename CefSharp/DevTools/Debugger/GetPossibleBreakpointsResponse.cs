@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// List of the possible breakpoint locations.
+        /// locations
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.BreakLocation> Locations
         {

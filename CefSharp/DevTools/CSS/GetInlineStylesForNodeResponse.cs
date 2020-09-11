@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Inline style for the specified DOM node.
+        /// inlineStyle
         /// </summary>
         public CefSharp.DevTools.CSS.CSSStyle InlineStyle
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Attribute-defined element style (e.g. resulting from "width=20 height=100%").
+        /// attributesStyle
         /// </summary>
         public CefSharp.DevTools.CSS.CSSStyle AttributesStyle
         {

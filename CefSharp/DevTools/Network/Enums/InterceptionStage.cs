@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.Network
 {
     /// <summary>
     /// Stages of the interception to begin intercepting. Request will intercept before the request is
+    /// sent. Response will intercept after the response is received.
+    /// </summary>
     public enum InterceptionStage
     {
         /// <summary>

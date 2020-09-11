@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// Id assigned to the session.
+        /// sessionId
         /// </summary>
         public string SessionId
         {

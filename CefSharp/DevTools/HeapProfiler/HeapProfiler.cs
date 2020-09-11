@@ -10,14 +10,16 @@ namespace CefSharp.DevTools.HeapProfiler
     /// </summary>
     public partial class HeapProfiler : DevToolsDomainBase
     {
-        public HeapProfiler(CefSharp.DevTools.DevToolsClient client)
+        public HeapProfiler(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enables console to refer to the node with given id via $x (see Command Line API for more details
+        /// $x functions).
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddInspectedHeapObjectAsync(string heapObjectId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -27,7 +29,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// CollectGarbage
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> CollectGarbageAsync()
         {
@@ -37,7 +39,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// Disable
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
@@ -47,7 +49,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// Enable
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
@@ -57,7 +59,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// GetHeapObjectId
         /// </summary>
         public async System.Threading.Tasks.Task<GetHeapObjectIdResponse> GetHeapObjectIdAsync(string objectId)
         {
@@ -68,7 +70,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// GetObjectByHeapObjectId
         /// </summary>
         public async System.Threading.Tasks.Task<GetObjectByHeapObjectIdResponse> GetObjectByHeapObjectIdAsync(string objectId, string objectGroup = null)
         {
@@ -84,7 +86,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// GetSamplingProfile
         /// </summary>
         public async System.Threading.Tasks.Task<GetSamplingProfileResponse> GetSamplingProfileAsync()
         {
@@ -94,7 +96,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// StartSampling
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(long? samplingInterval = null)
         {
@@ -109,7 +111,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// StartTrackingHeapObjects
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartTrackingHeapObjectsAsync(bool? trackAllocations = null)
         {
@@ -124,7 +126,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// StopSampling
         /// </summary>
         public async System.Threading.Tasks.Task<StopSamplingResponse> StopSamplingAsync()
         {
@@ -134,7 +136,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// StopTrackingHeapObjects
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopTrackingHeapObjectsAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {
@@ -154,7 +156,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// 
+        /// TakeHeapSnapshot
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> TakeHeapSnapshotAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {

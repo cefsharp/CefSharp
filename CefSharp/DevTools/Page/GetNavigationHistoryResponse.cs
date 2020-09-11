@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Index of the current navigation history entry.
+        /// currentIndex
         /// </summary>
         public int CurrentIndex
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Array of navigation history entries.
+        /// entries
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Page.NavigationEntry> Entries
         {

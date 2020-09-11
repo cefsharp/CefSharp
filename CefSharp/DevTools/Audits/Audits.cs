@@ -10,14 +10,16 @@ namespace CefSharp.DevTools.Audits
     /// </summary>
     public partial class Audits : DevToolsDomainBase
     {
-        public Audits(CefSharp.DevTools.DevToolsClient client)
+        public Audits(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Returns the response body and size if it were re-encoded with the specified settings. Only
+        /// applies to images.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetEncodedResponseResponse> GetEncodedResponseAsync(string requestId, string encoding, long? quality = null, bool? sizeOnly = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -49,6 +51,8 @@ namespace CefSharp.DevTools.Audits
 
         /// <summary>
         /// Enables issues domain, sends the issues collected so far to the client by means of the
+        /// `issueAdded` event.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

@@ -17,7 +17,8 @@ namespace CefSharp.DevTools.HeadlessExperimental
         }
 
         /// <summary>
-        /// Whether the BeginFrame resulted in damage and, thus, a new frame was committed to the
+        /// hasDamage
+        /// </summary>
         public bool HasDamage
         {
             get
@@ -34,7 +35,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
         }
 
         /// <summary>
-        /// Base64-encoded image data of the screenshot, if one was requested and successfully taken.
+        /// screenshotData
         /// </summary>
         public byte[] ScreenshotData
         {

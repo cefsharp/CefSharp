@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Overlay
         }
 
         /// <summary>
-        /// Highlight data for the node.
+        /// highlight
         /// </summary>
         public object Highlight
         {

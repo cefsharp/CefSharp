@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The resulting key text after modification.
+        /// keyText
         /// </summary>
         public CefSharp.DevTools.CSS.Value KeyText
         {

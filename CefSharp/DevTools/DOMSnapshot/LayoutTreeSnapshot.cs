@@ -60,6 +60,9 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// Global paint order index, which is determined by the stacking order of the nodes. Nodes
+        /// that are painted together will have the same index. Only provided if includePaintOrder in
+        /// captureSnapshot was true.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("paintOrders"), IsRequired = (false))]
         public int[] PaintOrders
         {

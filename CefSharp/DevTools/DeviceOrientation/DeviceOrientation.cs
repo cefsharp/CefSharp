@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.DeviceOrientation
     /// </summary>
     public partial class DeviceOrientation : DevToolsDomainBase
     {
-        public DeviceOrientation(CefSharp.DevTools.DevToolsClient client)
+        public DeviceOrientation(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears the overridden Device Orientation.
         /// </summary>

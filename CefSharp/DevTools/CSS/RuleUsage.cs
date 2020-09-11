@@ -10,6 +10,8 @@ namespace CefSharp.DevTools.CSS
     {
         /// <summary>
         /// The css style sheet identifier (absent for user agent stylesheet and user-specified
+        /// stylesheet rules) this rule came from.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (true))]
         public string StyleSheetId
         {

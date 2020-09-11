@@ -5,6 +5,9 @@ namespace CefSharp.DevTools.Audits
 {
     /// <summary>
     /// This struct holds a list of optional fields with additional information
+    /// specific to the kind of issue. When adding a new issue code, please also
+    /// add a new optional field to this type.
+    /// </summary>
     public class InspectorIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

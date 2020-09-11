@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.LayerTree
         }
 
         /// <summary>
-        /// The array of canvas function calls.
+        /// commandLog
         /// </summary>
         public System.Collections.Generic.IList<object> CommandLog
         {

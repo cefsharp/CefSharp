@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Animation
     /// </summary>
     public partial class Animation : DevToolsDomainBase
     {
-        public Animation(CefSharp.DevTools.DevToolsClient client)
+        public Animation(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables animation domain notifications.
         /// </summary>

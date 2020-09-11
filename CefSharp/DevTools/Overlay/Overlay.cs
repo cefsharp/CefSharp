@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Overlay
     /// </summary>
     public partial class Overlay : DevToolsDomainBase
     {
-        public Overlay(CefSharp.DevTools.DevToolsClient client)
+        public Overlay(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables domain notifications.
         /// </summary>
@@ -95,6 +95,8 @@ namespace CefSharp.DevTools.Overlay
 
         /// <summary>
         /// Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
+        /// objectId must be specified.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightNodeAsync(CefSharp.DevTools.Overlay.HighlightConfig highlightConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null, string selector = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -170,6 +172,8 @@ namespace CefSharp.DevTools.Overlay
 
         /// <summary>
         /// Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
+        /// Backend then generates 'inspectNodeRequested' event upon element selection.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectModeAsync(CefSharp.DevTools.Overlay.InspectMode mode, CefSharp.DevTools.Overlay.HighlightConfig highlightConfig = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -195,7 +199,7 @@ namespace CefSharp.DevTools.Overlay
         }
 
         /// <summary>
-        /// 
+        /// SetPausedInDebuggerMessage
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPausedInDebuggerMessageAsync(string message = null)
         {

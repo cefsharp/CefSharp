@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Unique search session identifier.
+        /// searchId
         /// </summary>
         public string SearchId
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Number of search results.
+        /// resultCount
         /// </summary>
         public int ResultCount
         {

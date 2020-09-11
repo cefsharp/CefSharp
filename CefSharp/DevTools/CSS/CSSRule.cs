@@ -10,6 +10,8 @@ namespace CefSharp.DevTools.CSS
     {
         /// <summary>
         /// The css style sheet identifier (absent for user agent stylesheet and user-specified
+        /// stylesheet rules) this rule came from.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (false))]
         public string StyleSheetId
         {
@@ -49,6 +51,8 @@ namespace CefSharp.DevTools.CSS
 
         /// <summary>
         /// Media list array (for rules involving media queries). The array enumerates media queries
+        /// starting with the innermost one, going outwards.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("media"), IsRequired = (false))]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSMedia> Media
         {

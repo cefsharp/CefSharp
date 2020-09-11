@@ -30,6 +30,8 @@ namespace CefSharp.DevTools.HeapProfiler
 
         /// <summary>
         /// Time-ordered sample ordinal number. It is unique across all profiles retrieved
+        /// between startSampling and stopSampling.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("ordinal"), IsRequired = (true))]
         public long Ordinal
         {

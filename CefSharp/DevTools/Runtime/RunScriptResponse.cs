@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Run result.
+        /// result
         /// </summary>
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Exception details.
+        /// exceptionDetails
         /// </summary>
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {

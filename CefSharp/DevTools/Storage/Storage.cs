@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Storage
     /// </summary>
     public partial class Storage : DevToolsDomainBase
     {
-        public Storage(CefSharp.DevTools.DevToolsClient client)
+        public Storage(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears storage for origin.
         /// </summary>

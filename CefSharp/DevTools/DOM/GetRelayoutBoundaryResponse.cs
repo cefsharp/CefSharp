@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Relayout boundary node id for the given node.
+        /// nodeId
         /// </summary>
         public int NodeId
         {

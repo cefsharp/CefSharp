@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Id of the node clone.
+        /// nodeId
         /// </summary>
         public int NodeId
         {

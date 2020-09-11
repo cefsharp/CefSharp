@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// </summary>
     public partial class DOMSnapshot : DevToolsDomainBase
     {
-        public DOMSnapshot(CefSharp.DevTools.DevToolsClient client)
+        public DOMSnapshot(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables DOM snapshot agent for the given page.
         /// </summary>
@@ -38,6 +38,10 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// Returns a document snapshot, including the full DOM tree of the root node (including iframes,
+        /// template contents, and imported documents) in a flattened array, as well as layout and
+        /// white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
+        /// flattened.
+        /// </summary>
         public async System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string[] computedStyles, bool? includePaintOrder = null, bool? includeDOMRects = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

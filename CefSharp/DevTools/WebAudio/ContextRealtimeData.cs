@@ -20,6 +20,9 @@ namespace CefSharp.DevTools.WebAudio
 
         /// <summary>
         /// The time spent on rendering graph divided by render qunatum duration,
+        /// and multiplied by 100. 100 means the audio renderer reached the full
+        /// capacity and glitch may occur.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("renderCapacity"), IsRequired = (true))]
         public long RenderCapacity
         {

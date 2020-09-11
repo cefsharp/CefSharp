@@ -30,6 +30,8 @@ namespace CefSharp.DevTools.Memory
 
         /// <summary>
         /// Base address where the module is loaded into memory. Encoded as a decimal
+        /// or hexadecimal (0x prefixed) string.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("baseAddress"), IsRequired = (true))]
         public string BaseAddress
         {

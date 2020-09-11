@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.IO
         }
 
         /// <summary>
-        /// UUID of the specified Blob.
+        /// uuid
         /// </summary>
         public string Uuid
         {

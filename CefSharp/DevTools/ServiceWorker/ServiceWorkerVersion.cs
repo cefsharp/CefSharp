@@ -70,6 +70,8 @@ namespace CefSharp.DevTools.ServiceWorker
 
         /// <summary>
         /// The time at which the response headers of the main script were received from the server.
+        /// For cached script it is the last time the cache entry was validated.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptResponseTime"), IsRequired = (false))]
         public long? ScriptResponseTime
         {

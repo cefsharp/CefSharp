@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Outer HTML markup.
+        /// outerHTML
         /// </summary>
         public string OuterHTML
         {

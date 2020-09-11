@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// An interleaved array of node attribute names and values.
+        /// attributes
         /// </summary>
         public string[] Attributes
         {

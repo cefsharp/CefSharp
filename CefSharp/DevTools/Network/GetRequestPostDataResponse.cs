@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Network
         }
 
         /// <summary>
-        /// Request body string, omitting files from multipart requests
+        /// postData
         /// </summary>
         public string PostData
         {

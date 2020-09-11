@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.LayerTree
         }
 
         /// <summary>
-        /// A data: URL for resulting image.
+        /// dataURL
         /// </summary>
         public string DataURL
         {

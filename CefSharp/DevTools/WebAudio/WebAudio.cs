@@ -7,14 +7,16 @@ namespace CefSharp.DevTools.WebAudio
 
     /// <summary>
     /// This domain allows inspection of Web Audio API.
+    /// https://webaudio.github.io/web-audio-api/
+    /// </summary>
     public partial class WebAudio : DevToolsDomainBase
     {
-        public WebAudio(CefSharp.DevTools.DevToolsClient client)
+        public WebAudio(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enables the WebAudio domain and starts sending context lifetime events.
         /// </summary>

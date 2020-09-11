@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Query selector result.
+        /// nodeId
         /// </summary>
         public int NodeId
         {

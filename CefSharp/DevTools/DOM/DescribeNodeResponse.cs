@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Node description.
+        /// node
         /// </summary>
         public CefSharp.DevTools.DOM.Node Node
         {

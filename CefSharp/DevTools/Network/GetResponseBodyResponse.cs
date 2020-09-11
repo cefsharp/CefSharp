@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Network
         }
 
         /// <summary>
-        /// Response body.
+        /// body
         /// </summary>
         public string Body
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Network
         }
 
         /// <summary>
-        /// True, if content was sent as base64.
+        /// base64Encoded
         /// </summary>
         public bool Base64Encoded
         {

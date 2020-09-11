@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// JavaScript object wrapper for given node.
+        /// object
         /// </summary>
         public CefSharp.DevTools.Runtime.RemoteObject Object
         {

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// URL of source map associated with script (if any).
+        /// sourceMapURL
         /// </summary>
         public string SourceMapURL
         {

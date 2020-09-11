@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// Histograms.
+        /// histograms
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Browser.Histogram> Histograms
         {

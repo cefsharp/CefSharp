@@ -10,14 +10,14 @@ namespace CefSharp.DevTools.DOMStorage
     /// </summary>
     public partial class DOMStorage : DevToolsDomainBase
     {
-        public DOMStorage(CefSharp.DevTools.DevToolsClient client)
+        public DOMStorage(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
-        /// 
+        /// Clear
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
         {
@@ -48,7 +48,7 @@ namespace CefSharp.DevTools.DOMStorage
         }
 
         /// <summary>
-        /// 
+        /// GetDOMStorageItems
         /// </summary>
         public async System.Threading.Tasks.Task<GetDOMStorageItemsResponse> GetDOMStorageItemsAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
         {
@@ -59,7 +59,7 @@ namespace CefSharp.DevTools.DOMStorage
         }
 
         /// <summary>
-        /// 
+        /// RemoveDOMStorageItem
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key)
         {
@@ -71,7 +71,7 @@ namespace CefSharp.DevTools.DOMStorage
         }
 
         /// <summary>
-        /// 
+        /// SetDOMStorageItem
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key, string value)
         {

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CacheStorage
         }
 
         /// <summary>
-        /// Caches for the security origin.
+        /// caches
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Cache> Caches
         {

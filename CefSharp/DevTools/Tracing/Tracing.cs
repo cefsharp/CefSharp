@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Tracing
     /// </summary>
     public partial class Tracing : DevToolsDomainBase
     {
-        public Tracing(CefSharp.DevTools.DevToolsClient client)
+        public Tracing(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Stop trace events collection.
         /// </summary>

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.ApplicationCache
         }
 
         /// <summary>
-        /// Manifest URL for document in the given frame.
+        /// manifestURL
         /// </summary>
         public string ManifestURL
         {

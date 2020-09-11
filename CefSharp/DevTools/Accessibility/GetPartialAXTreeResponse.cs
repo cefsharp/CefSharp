@@ -17,7 +17,8 @@ namespace CefSharp.DevTools.Accessibility
         }
 
         /// <summary>
-        /// The `Accessibility.AXNode` for this DOM node, if it exists, plus its ancestors, siblings and
+        /// nodes
+        /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXNode> Nodes
         {
             get

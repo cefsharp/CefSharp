@@ -10,6 +10,8 @@ namespace CefSharp.DevTools.Runtime
     {
         /// <summary>
         /// String label of this stack trace. For async traces this may be a name of the function that
+        /// initiated the async call.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("description"), IsRequired = (false))]
         public string Description
         {

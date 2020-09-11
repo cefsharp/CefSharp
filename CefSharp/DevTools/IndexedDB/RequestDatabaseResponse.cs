@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.IndexedDB
         }
 
         /// <summary>
-        /// Database with an array of object stores.
+        /// databaseWithObjectStores
         /// </summary>
         public CefSharp.DevTools.IndexedDB.DatabaseWithObjectStores DatabaseWithObjectStores
         {

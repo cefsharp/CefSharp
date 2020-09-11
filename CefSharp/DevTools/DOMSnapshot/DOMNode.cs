@@ -90,6 +90,8 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// The indexes of the node's child nodes in the `domNodes` array returned by `getSnapshot`, if
+        /// any.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("childNodeIndexes"), IsRequired = (false))]
         public int[] ChildNodeIndexes
         {
@@ -109,6 +111,8 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// Indexes of pseudo elements associated with this node in the `domNodes` array returned by
+        /// `getSnapshot`, if any.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoElementIndexes"), IsRequired = (false))]
         public int[] PseudoElementIndexes
         {
@@ -118,6 +122,8 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// The index of the node's related layout tree node in the `layoutTreeNodes` array returned by
+        /// `getSnapshot`, if any.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("layoutNodeIndex"), IsRequired = (false))]
         public int? LayoutNodeIndex
         {
@@ -197,6 +203,8 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// The index of a frame owner element's content document in the `domNodes` array returned by
+        /// `getSnapshot`, if any.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentDocumentIndex"), IsRequired = (false))]
         public int? ContentDocumentIndex
         {
@@ -226,6 +234,9 @@ namespace CefSharp.DevTools.DOMSnapshot
 
         /// <summary>
         /// Whether this DOM node responds to mouse clicks. This includes nodes that have had click
+        /// event listeners attached via JavaScript as well as anchor tags that naturally navigate when
+        /// clicked.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("isClickable"), IsRequired = (false))]
         public bool? IsClickable
         {

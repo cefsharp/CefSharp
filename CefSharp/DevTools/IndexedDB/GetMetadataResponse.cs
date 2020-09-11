@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.IndexedDB
         }
 
         /// <summary>
-        /// the entries count
+        /// entriesCount
         /// </summary>
         public long EntriesCount
         {
@@ -35,7 +35,8 @@ namespace CefSharp.DevTools.IndexedDB
         }
 
         /// <summary>
-        /// the current value of key generator, to become the next inserted
+        /// keyGeneratorValue
+        /// </summary>
         public long KeyGeneratorValue
         {
             get

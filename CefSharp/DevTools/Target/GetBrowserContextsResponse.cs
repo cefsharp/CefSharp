@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// An array of browser context ids.
+        /// browserContextIds
         /// </summary>
         public string[] BrowserContextIds
         {

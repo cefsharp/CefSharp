@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Present frame / resource tree structure.
+        /// frameTree
         /// </summary>
         public CefSharp.DevTools.Page.FrameResourceTree FrameTree
         {

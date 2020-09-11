@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// Recorded profile.
+        /// profile
         /// </summary>
         public CefSharp.DevTools.Profiler.Profile Profile
         {

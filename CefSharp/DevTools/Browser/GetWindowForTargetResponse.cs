@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// Browser window id.
+        /// windowId
         /// </summary>
         public int WindowId
         {
@@ -35,7 +35,8 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// Bounds information of the window. When window state is 'minimized', the restored window
+        /// bounds
+        /// </summary>
         public CefSharp.DevTools.Browser.Bounds Bounds
         {
             get

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOMDebugger
         }
 
         /// <summary>
-        /// Array of relevant listeners.
+        /// listeners
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.DOMDebugger.EventListener> Listeners
         {

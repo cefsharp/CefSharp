@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.CacheStorage
     /// </summary>
     public partial class CacheStorage : DevToolsDomainBase
     {
-        public CacheStorage(CefSharp.DevTools.DevToolsClient client)
+        public CacheStorage(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Deletes a cache.
         /// </summary>

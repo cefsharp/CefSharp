@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Target
     /// </summary>
     public partial class Target : DevToolsDomainBase
     {
-        public Target(CefSharp.DevTools.DevToolsClient client)
+        public Target(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Activates (focuses) the target.
         /// </summary>
@@ -66,6 +66,14 @@ namespace CefSharp.DevTools.Target
 
         /// <summary>
         /// Inject object to the target's main frame that provides a communication
+        /// channel with browser target.
+        /// 
+        /// Injected object will be available as `window[bindingName]`.
+        /// 
+        /// The object has the follwing API:
+        /// - `binding.send(json)` - a method to send messages over the remote debugging protocol
+        /// - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ExposeDevToolsProtocolAsync(string targetId, string bindingName = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -81,6 +89,8 @@ namespace CefSharp.DevTools.Target
 
         /// <summary>
         /// Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
+        /// one.
+        /// </summary>
         public async System.Threading.Tasks.Task<CreateBrowserContextResponse> CreateBrowserContextAsync(bool? disposeOnDetach = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -166,6 +176,8 @@ namespace CefSharp.DevTools.Target
 
         /// <summary>
         /// Deletes a BrowserContext. All the belonging pages will be closed without calling their
+        /// beforeunload hooks.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisposeBrowserContextAsync(string browserContextId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -201,6 +213,9 @@ namespace CefSharp.DevTools.Target
 
         /// <summary>
         /// Controls whether to automatically attach to new targets which are considered to be related to
+        /// this one. When turned on, attaches to all existing related targets as well. When turned off,
+        /// automatically detaches from all currently attached targets.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAutoAttachAsync(bool autoAttach, bool waitForDebuggerOnStart, bool? flatten = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -217,6 +232,8 @@ namespace CefSharp.DevTools.Target
 
         /// <summary>
         /// Controls whether to discover available targets and notify via
+        /// `targetCreated/targetInfoChanged/targetDestroyed` events.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDiscoverTargetsAsync(bool discover)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -227,6 +244,8 @@ namespace CefSharp.DevTools.Target
 
         /// <summary>
         /// Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
+        /// `true`.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetRemoteLocationsAsync(System.Collections.Generic.IList<CefSharp.DevTools.Target.RemoteLocation> locations)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

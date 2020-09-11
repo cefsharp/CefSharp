@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Manifest location.
+        /// url
         /// </summary>
         public string Url
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Manifest content.
+        /// data
         /// </summary>
         public string Data
         {
@@ -71,7 +71,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Parsed manifest properties
+        /// parsed
         /// </summary>
         public CefSharp.DevTools.Page.AppManifestParsedProperties Parsed
         {

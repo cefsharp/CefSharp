@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.Runtime
 {
     /// <summary>
     /// Detailed information about exception (or error) that was thrown during script compilation or
+    /// execution.
+    /// </summary>
     public class ExceptionDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

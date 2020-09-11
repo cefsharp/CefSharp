@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Computed style for the specified DOM node.
+        /// computedStyle
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSComputedStyleProperty> ComputedStyle
         {

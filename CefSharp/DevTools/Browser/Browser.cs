@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Browser
     /// </summary>
     public partial class Browser : DevToolsDomainBase
     {
-        public Browser(CefSharp.DevTools.DevToolsClient client)
+        public Browser(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Set permission settings for given origin.
         /// </summary>
@@ -137,6 +137,8 @@ namespace CefSharp.DevTools.Browser
 
         /// <summary>
         /// Returns the command line switches for the browser process if, and only if
+        /// --enable-automation is on the commandline.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetBrowserCommandLineResponse> GetBrowserCommandLineAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

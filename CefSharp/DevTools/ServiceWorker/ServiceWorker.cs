@@ -10,14 +10,14 @@ namespace CefSharp.DevTools.ServiceWorker
     /// </summary>
     public partial class ServiceWorker : DevToolsDomainBase
     {
-        public ServiceWorker(CefSharp.DevTools.DevToolsClient client)
+        public ServiceWorker(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
-        /// 
+        /// DeliverPushMessage
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeliverPushMessageAsync(string origin, string registrationId, string data)
         {
@@ -30,7 +30,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// Disable
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
@@ -40,7 +40,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// DispatchSyncEvent
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchSyncEventAsync(string origin, string registrationId, string tag, bool lastChance)
         {
@@ -54,7 +54,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// DispatchPeriodicSyncEvent
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchPeriodicSyncEventAsync(string origin, string registrationId, string tag)
         {
@@ -67,7 +67,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// Enable
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
@@ -77,7 +77,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// InspectWorker
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> InspectWorkerAsync(string versionId)
         {
@@ -88,7 +88,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// SetForceUpdateOnPageLoad
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetForceUpdateOnPageLoadAsync(bool forceUpdateOnPageLoad)
         {
@@ -99,7 +99,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// SkipWaiting
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SkipWaitingAsync(string scopeURL)
         {
@@ -110,7 +110,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// StartWorker
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartWorkerAsync(string scopeURL)
         {
@@ -121,7 +121,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// StopAllWorkers
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopAllWorkersAsync()
         {
@@ -131,7 +131,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// StopWorker
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopWorkerAsync(string versionId)
         {
@@ -142,7 +142,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// Unregister
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> UnregisterAsync(string scopeURL)
         {
@@ -153,7 +153,7 @@ namespace CefSharp.DevTools.ServiceWorker
         }
 
         /// <summary>
-        /// 
+        /// UpdateRegistration
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> UpdateRegistrationAsync(string scopeURL)
         {

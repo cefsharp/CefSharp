@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.SystemInfo
 {
     /// <summary>
     /// Describes a supported image decoding profile with its associated minimum and
+    /// maximum resolutions and subsampling.
+    /// </summary>
     public class ImageDecodeAcceleratorCapability : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

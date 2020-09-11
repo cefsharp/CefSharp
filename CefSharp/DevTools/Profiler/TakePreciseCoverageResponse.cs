@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// Coverage data for the current isolate.
+        /// result
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ScriptCoverage> Result
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
+        /// timestamp
         /// </summary>
         public long Timestamp
         {

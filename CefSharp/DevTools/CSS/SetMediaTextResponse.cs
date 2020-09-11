@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The resulting CSS media rule after modification.
+        /// media
         /// </summary>
         public CefSharp.DevTools.CSS.CSSMedia Media
         {

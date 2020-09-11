@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.SystemInfo
 {
     /// <summary>
     /// Describes a supported video encoding profile with its associated maximum
+    /// resolution and maximum framerate.
+    /// </summary>
     public class VideoEncodeAcceleratorCapability : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -29,6 +31,9 @@ namespace CefSharp.DevTools.SystemInfo
 
         /// <summary>
         /// Maximum encoding framerate in frames per second supported for this
+        /// |profile|, as fraction's numerator and denominator, e.g. 24/1 fps,
+        /// 24000/1001 fps, etc.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxFramerateNumerator"), IsRequired = (true))]
         public int MaxFramerateNumerator
         {

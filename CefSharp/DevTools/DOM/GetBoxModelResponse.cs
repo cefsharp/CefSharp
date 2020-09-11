@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Box model for the node.
+        /// model
         /// </summary>
         public CefSharp.DevTools.DOM.BoxModel Model
         {

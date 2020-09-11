@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// Type profile for all scripts since startTypeProfile() was turned on.
+        /// result
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ScriptTypeProfile> Result
         {

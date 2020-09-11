@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// True if emulation is supported.
+        /// result
         /// </summary>
         public bool Result
         {

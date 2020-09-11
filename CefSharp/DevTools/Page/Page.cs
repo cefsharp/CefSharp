@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Page
     /// </summary>
     public partial class Page : DevToolsDomainBase
     {
-        public Page(CefSharp.DevTools.DevToolsClient client)
+        public Page(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Evaluates given script in every frame upon creation (before loading frame's scripts).
         /// </summary>
@@ -74,6 +74,8 @@ namespace CefSharp.DevTools.Page
 
         /// <summary>
         /// Returns a snapshot of the page as a string. For MHTML format, the serialization includes
+        /// iframes, shadow DOM, external resources, and element-inline styles.
+        /// </summary>
         public async System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string format = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -128,7 +130,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// 
+        /// GetAppManifest
         /// </summary>
         public async System.Threading.Tasks.Task<GetAppManifestResponse> GetAppManifestAsync()
         {
@@ -138,7 +140,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// 
+        /// GetInstallabilityErrors
         /// </summary>
         public async System.Threading.Tasks.Task<GetInstallabilityErrorsResponse> GetInstallabilityErrorsAsync()
         {
@@ -148,7 +150,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// 
+        /// GetManifestIcons
         /// </summary>
         public async System.Threading.Tasks.Task<GetManifestIconsResponse> GetManifestIconsAsync()
         {
@@ -566,6 +568,9 @@ namespace CefSharp.DevTools.Page
 
         /// <summary>
         /// Tries to update the web lifecycle state of the page.
+        /// It will transition the page to the given state according to:
+        /// https://github.com/WICG/web-lifecycle/
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetWebLifecycleStateAsync(string state)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -597,6 +602,8 @@ namespace CefSharp.DevTools.Page
 
         /// <summary>
         /// Seeds compilation cache for given url. Compilation cache does not survive
+        /// cross-process navigation.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddCompilationCacheAsync(string url, byte[] data)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -644,6 +651,9 @@ namespace CefSharp.DevTools.Page
 
         /// <summary>
         /// Intercept file chooser requests and transfer control to protocol clients.
+        /// When file chooser interception is enabled, native file chooser dialog is not shown.
+        /// Instead, a protocol event `Page.fileChooserOpened` is emitted.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInterceptFileChooserDialogAsync(bool enabled)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

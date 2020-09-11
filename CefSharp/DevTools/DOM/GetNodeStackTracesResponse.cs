@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Creation stack trace, if available.
+        /// creation
         /// </summary>
         public CefSharp.DevTools.Runtime.StackTrace Creation
         {

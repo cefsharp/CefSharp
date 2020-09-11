@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Base64-encoded image data.
+        /// data
         /// </summary>
         public byte[] Data
         {

@@ -10,14 +10,14 @@ namespace CefSharp.DevTools.Profiler
     /// </summary>
     public partial class Profiler : DevToolsDomainBase
     {
-        public Profiler(CefSharp.DevTools.DevToolsClient client)
+        public Profiler(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
-        /// 
+        /// Disable
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
@@ -27,7 +27,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// 
+        /// Enable
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
@@ -38,6 +38,8 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// Collect coverage data for the current isolate. The coverage data may be incomplete due to
+        /// garbage collection.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetBestEffortCoverageResponse> GetBestEffortCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -57,7 +59,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// 
+        /// Start
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync()
         {
@@ -68,6 +70,9 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code
+        /// coverage may be incomplete. Enabling prevents running optimized code and resets execution
+        /// counters.
+        /// </summary>
         public async System.Threading.Tasks.Task<StartPreciseCoverageResponse> StartPreciseCoverageAsync(bool? callCount = null, bool? detailed = null, bool? allowTriggeredUpdates = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -101,7 +106,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// 
+        /// Stop
         /// </summary>
         public async System.Threading.Tasks.Task<StopResponse> StopAsync()
         {
@@ -112,6 +117,8 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// Disable precise code coverage. Disabling releases unnecessary execution count records and allows
+        /// executing optimized code.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopPreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -131,6 +138,8 @@ namespace CefSharp.DevTools.Profiler
 
         /// <summary>
         /// Collect coverage data for the current isolate, and resets execution counters. Precise code
+        /// coverage needs to have started.
+        /// </summary>
         public async System.Threading.Tasks.Task<TakePreciseCoverageResponse> TakePreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

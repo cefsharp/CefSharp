@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Quads that describe node layout relative to viewport.
+        /// quads
         /// </summary>
         public long[] Quads
         {

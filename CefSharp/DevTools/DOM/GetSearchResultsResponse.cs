@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// Ids of the search result nodes.
+        /// nodeIds
         /// </summary>
         public int[] NodeIds
         {

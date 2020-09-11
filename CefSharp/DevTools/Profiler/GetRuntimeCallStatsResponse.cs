@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// Collected counter information.
+        /// result
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.CounterInfo> Result
         {

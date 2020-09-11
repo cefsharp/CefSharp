@@ -40,6 +40,8 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// Initiator line number, set for Parser type or for Script type (when script is importing
+        /// module) (0-based).
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (false))]
         public long? LineNumber
         {

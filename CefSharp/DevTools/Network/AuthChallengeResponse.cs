@@ -10,6 +10,9 @@ namespace CefSharp.DevTools.Network
     {
         /// <summary>
         /// The decision on what to do in response to the authorization challenge.  Default means
+        /// deferring to the default behavior of the net stack, which will likely either the Cancel
+        /// authentication or display a popup dialog box.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("response"), IsRequired = (true))]
         public string Response
         {
@@ -19,6 +22,8 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// The username to provide, possibly empty. Should only be set if response is
+        /// ProvideCredentials.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("username"), IsRequired = (false))]
         public string Username
         {
@@ -28,6 +33,8 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// The password to provide, possibly empty. Should only be set if response is
+        /// ProvideCredentials.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("password"), IsRequired = (false))]
         public string Password
         {

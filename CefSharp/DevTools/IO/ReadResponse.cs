@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.IO
         }
 
         /// <summary>
-        /// Set if the data is base64-encoded
+        /// base64Encoded
         /// </summary>
         public bool? Base64Encoded
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.IO
         }
 
         /// <summary>
-        /// Data that were read.
+        /// data
         /// </summary>
         public string Data
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.IO
         }
 
         /// <summary>
-        /// Set if the end-of-file condition occured while reading.
+        /// eof
         /// </summary>
         public bool Eof
         {

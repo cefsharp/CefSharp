@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.LayerTree
         }
 
         /// <summary>
-        /// The array of paint profiles, one per run.
+        /// timings
         /// </summary>
         public long[] Timings
         {

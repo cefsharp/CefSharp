@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// Absolute timestamp at which virtual time was first enabled (up time in milliseconds).
+        /// virtualTimeTicksBase
         /// </summary>
         public long VirtualTimeTicksBase
         {

@@ -100,6 +100,8 @@ namespace CefSharp.DevTools.CSS
 
         /// <summary>
         /// Whether this stylesheet is created for STYLE tag by parser. This flag is not set for
+        /// document.written STYLE tags.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("isInline"), IsRequired = (true))]
         public bool IsInline
         {

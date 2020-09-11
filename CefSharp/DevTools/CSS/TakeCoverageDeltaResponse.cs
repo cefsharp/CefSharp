@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Monotonically increasing time, in seconds.
+        /// timestamp
         /// </summary>
         public long Timestamp
         {

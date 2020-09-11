@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Inspector
     /// </summary>
     public partial class Inspector : DevToolsDomainBase
     {
-        public Inspector(CefSharp.DevTools.DevToolsClient client)
+        public Inspector(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables inspector domain notifications.
         /// </summary>

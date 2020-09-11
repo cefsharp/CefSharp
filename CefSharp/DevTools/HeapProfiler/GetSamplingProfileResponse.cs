@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// Return the sampling profile being collected.
+        /// profile
         /// </summary>
         public CefSharp.DevTools.HeapProfiler.SamplingHeapProfile Profile
         {

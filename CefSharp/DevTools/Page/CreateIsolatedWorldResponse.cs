@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Execution context of the isolated world.
+        /// executionContextId
         /// </summary>
         public int ExecutionContextId
         {

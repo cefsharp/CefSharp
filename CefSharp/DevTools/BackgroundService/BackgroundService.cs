@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.BackgroundService
     /// </summary>
     public partial class BackgroundService : DevToolsDomainBase
     {
-        public BackgroundService(CefSharp.DevTools.DevToolsClient client)
+        public BackgroundService(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enables event updates for the service.
         /// </summary>

@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Accessibility
     /// </summary>
     public partial class Accessibility : DevToolsDomainBase
     {
-        public Accessibility(CefSharp.DevTools.DevToolsClient client)
+        public Accessibility(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables the accessibility domain.
         /// </summary>
@@ -28,6 +28,8 @@ namespace CefSharp.DevTools.Accessibility
 
         /// <summary>
         /// Enables the accessibility domain which causes `AXNodeId`s to remain consistent between method calls.
+        /// This turns on accessibility for the page, which can impact performance until accessibility is disabled.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

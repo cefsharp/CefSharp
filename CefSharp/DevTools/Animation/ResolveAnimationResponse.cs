@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Animation
         }
 
         /// <summary>
-        /// Corresponding remote object.
+        /// remoteObject
         /// </summary>
         public CefSharp.DevTools.Runtime.RemoteObject RemoteObject
         {

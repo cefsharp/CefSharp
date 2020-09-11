@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Identifier of the created "via-inspector" stylesheet.
+        /// styleSheetId
         /// </summary>
         public string StyleSheetId
         {

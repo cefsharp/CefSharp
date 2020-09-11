@@ -7,16 +7,20 @@ namespace CefSharp.DevTools.WebAuthn
 
     /// <summary>
     /// This domain allows configuring virtual authenticators to test the WebAuthn
+    /// API.
+    /// </summary>
     public partial class WebAuthn : DevToolsDomainBase
     {
-        public WebAuthn(CefSharp.DevTools.DevToolsClient client)
+        public WebAuthn(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enable the WebAuthn domain and start intercepting credential storage and
+        /// retrieval with a virtual authenticator.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -70,6 +74,8 @@ namespace CefSharp.DevTools.WebAuthn
 
         /// <summary>
         /// Returns a single credential stored in the given virtual authenticator that
+        /// matches the credential ID.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetCredentialResponse> GetCredentialAsync(string authenticatorId, byte[] credentialId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -115,6 +121,8 @@ namespace CefSharp.DevTools.WebAuthn
 
         /// <summary>
         /// Sets whether User Verification succeeds or fails for an authenticator.
+        /// The default is true.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserVerifiedAsync(string authenticatorId, bool isUserVerified)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

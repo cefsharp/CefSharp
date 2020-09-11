@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.Tracing
 {
     /// <summary>
     /// Data format of a trace. Can be either the legacy JSON format or the
+    /// protocol buffer format. Note that the JSON format will be deprecated soon.
+    /// </summary>
     public enum StreamFormat
     {
         /// <summary>

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// New id of the moved node.
+        /// nodeId
         /// </summary>
         public int NodeId
         {

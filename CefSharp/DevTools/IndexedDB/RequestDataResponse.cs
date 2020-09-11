@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.IndexedDB
         }
 
         /// <summary>
-        /// Array of object store data entries.
+        /// objectStoreDataEntries
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.IndexedDB.DataEntry> ObjectStoreDataEntries
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.IndexedDB
         }
 
         /// <summary>
-        /// If true, there are more entries to fetch in the given range.
+        /// hasMore
         /// </summary>
         public bool HasMore
         {

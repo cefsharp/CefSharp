@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// New stack trace in case editing has happened while VM was stopped.
+        /// callFrames
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.CallFrame> CallFrames
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Whether current call stack  was modified after applying the changes.
+        /// stackChanged
         /// </summary>
         public bool? StackChanged
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Async stack trace, if any.
+        /// asyncStackTrace
         /// </summary>
         public CefSharp.DevTools.Runtime.StackTrace AsyncStackTrace
         {
@@ -71,7 +71,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Async stack trace, if any.
+        /// asyncStackTraceId
         /// </summary>
         public CefSharp.DevTools.Runtime.StackTraceId AsyncStackTraceId
         {
@@ -89,7 +89,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Exception details if any.
+        /// exceptionDetails
         /// </summary>
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {

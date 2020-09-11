@@ -17,7 +17,8 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// The array of ids of pushed nodes that correspond to the backend ids specified in
+        /// nodeIds
+        /// </summary>
         public int[] NodeIds
         {
             get

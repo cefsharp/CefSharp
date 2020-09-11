@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CacheStorage
         }
 
         /// <summary>
-        /// Array of object store data entries.
+        /// cacheDataEntries
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.DataEntry> CacheDataEntries
         {
@@ -35,7 +35,8 @@ namespace CefSharp.DevTools.CacheStorage
         }
 
         /// <summary>
-        /// Count of returned entries from this storage. If pathFilter is empty, it
+        /// returnCount
+        /// </summary>
         public long ReturnCount
         {
             get

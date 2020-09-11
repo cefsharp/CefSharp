@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Script source (empty in case of Wasm bytecode).
+        /// scriptSource
         /// </summary>
         public string ScriptSource
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Wasm bytecode.
+        /// bytecode
         /// </summary>
         public byte[] Bytecode
         {

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.HeapProfiler
         }
 
         /// <summary>
-        /// Id of the heap snapshot object corresponding to the passed remote object id.
+        /// heapSnapshotObjectId
         /// </summary>
         public string HeapSnapshotObjectId
         {

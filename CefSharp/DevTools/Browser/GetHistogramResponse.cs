@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// Histogram.
+        /// histogram
         /// </summary>
         public CefSharp.DevTools.Browser.Histogram Histogram
         {

@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Database
     /// </summary>
     public partial class Database : DevToolsDomainBase
     {
-        public Database(CefSharp.DevTools.DevToolsClient client)
+        public Database(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables database tracking, prevents database events from being sent to the client.
         /// </summary>
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Database
         }
 
         /// <summary>
-        /// 
+        /// ExecuteSQL
         /// </summary>
         public async System.Threading.Tasks.Task<ExecuteSQLResponse> ExecuteSQLAsync(string databaseId, string query)
         {
@@ -49,7 +49,7 @@ namespace CefSharp.DevTools.Database
         }
 
         /// <summary>
-        /// 
+        /// GetDatabaseTableNames
         /// </summary>
         public async System.Threading.Tasks.Task<GetDatabaseTableNamesResponse> GetDatabaseTableNamesAsync(string databaseId)
         {

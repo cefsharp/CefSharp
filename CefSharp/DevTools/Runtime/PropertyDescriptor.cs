@@ -40,6 +40,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// A function which serves as a getter for the property, or `undefined` if there is no getter
+        /// (accessor descriptors only).
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("get"), IsRequired = (false))]
         public CefSharp.DevTools.Runtime.RemoteObject Get
         {
@@ -49,6 +51,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// A function which serves as a setter for the property, or `undefined` if there is no setter
+        /// (accessor descriptors only).
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("set"), IsRequired = (false))]
         public CefSharp.DevTools.Runtime.RemoteObject Set
         {
@@ -58,6 +62,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// True if the type of this property descriptor may be changed and if the property may be
+        /// deleted from the corresponding object.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("configurable"), IsRequired = (true))]
         public bool Configurable
         {
@@ -67,6 +73,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// True if this property shows up during enumeration of the properties on the corresponding
+        /// object.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("enumerable"), IsRequired = (true))]
         public bool Enumerable
         {

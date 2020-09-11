@@ -330,6 +330,7 @@
     <Compile Include="DevTools\HeapProfiler\SamplingHeapProfileNode.cs" />
     <Compile Include="DevTools\HeapProfiler\SamplingHeapProfileSample.cs" />
     <Compile Include="DevTools\HeapProfiler\StopSamplingResponse.cs" />
+    <Compile Include="DevTools\IDevToolsClient.cs" />
     <Compile Include="DevTools\IndexedDB\DatabaseWithObjectStores.cs" />
     <Compile Include="DevTools\IndexedDB\DataEntry.cs" />
     <Compile Include="DevTools\IndexedDB\GetMetadataResponse.cs" />

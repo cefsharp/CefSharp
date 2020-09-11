@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Animation
         }
 
         /// <summary>
-        /// Playback rate for animations on page.
+        /// playbackRate
         /// </summary>
         public long PlaybackRate
         {

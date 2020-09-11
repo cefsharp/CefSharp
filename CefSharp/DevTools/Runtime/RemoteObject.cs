@@ -50,6 +50,8 @@ namespace CefSharp.DevTools.Runtime
 
         /// <summary>
         /// Primitive value which can not be JSON-stringified does not have `value`, but gets this
+        /// property.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("unserializableValue"), IsRequired = (false))]
         public string UnserializableValue
         {

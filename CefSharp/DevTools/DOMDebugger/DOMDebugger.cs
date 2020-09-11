@@ -7,14 +7,16 @@ namespace CefSharp.DevTools.DOMDebugger
 
     /// <summary>
     /// DOM debugging allows setting breakpoints on particular DOM operations and events. JavaScript
+    /// execution will stop on these operations as if there was a regular breakpoint set.
+    /// </summary>
     public partial class DOMDebugger : DevToolsDomainBase
     {
-        public DOMDebugger(CefSharp.DevTools.DevToolsClient client)
+        public DOMDebugger(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Returns event listeners of the given object.
         /// </summary>

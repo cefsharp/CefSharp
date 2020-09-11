@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.IndexedDB
     /// </summary>
     public partial class IndexedDB : DevToolsDomainBase
     {
-        public IndexedDB(CefSharp.DevTools.DevToolsClient client)
+        public IndexedDB(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears all entries from an object store.
         /// </summary>

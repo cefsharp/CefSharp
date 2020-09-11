@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Profiler
         }
 
         /// <summary>
-        /// Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
+        /// timestamp
         /// </summary>
         public long Timestamp
         {

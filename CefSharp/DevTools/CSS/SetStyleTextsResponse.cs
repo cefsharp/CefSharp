@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// The resulting styles after modification.
+        /// styles
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSStyle> Styles
         {

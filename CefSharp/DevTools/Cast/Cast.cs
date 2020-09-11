@@ -7,16 +7,23 @@ namespace CefSharp.DevTools.Cast
 
     /// <summary>
     /// A domain for interacting with Cast, Presentation API, and Remote Playback API
+    /// functionalities.
+    /// </summary>
     public partial class Cast : DevToolsDomainBase
     {
-        public Cast(CefSharp.DevTools.DevToolsClient client)
+        public Cast(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Starts observing for sinks that can be used for tab mirroring, and if set,
+        /// sinks compatible with |presentationUrl| as well. When sinks are found, a
+        /// |sinksUpdated| event is fired.
+        /// Also starts observing for issue messages. When an issue is added or removed,
+        /// an |issueUpdated| event is fired.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string presentationUrl = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -41,6 +48,8 @@ namespace CefSharp.DevTools.Cast
 
         /// <summary>
         /// Sets a sink to be used when the web page requests the browser to choose a
+        /// sink via Presentation API, Remote Playback API, or Cast SDK.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetSinkToUseAsync(string sinkName)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

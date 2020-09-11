@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Storage
         }
 
         /// <summary>
-        /// Array of cookie objects.
+        /// cookies
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> Cookies
         {

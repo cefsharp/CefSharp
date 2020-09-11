@@ -20,6 +20,9 @@ namespace CefSharp.DevTools.Debugger
 
         /// <summary>
         /// Object representing the scope. For `global` and `with` scopes it represents the actual
+        /// object; for the rest of the scopes, it is artificial transient object enumerating scope
+        /// variables as its properties.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("object"), IsRequired = (true))]
         public CefSharp.DevTools.Runtime.RemoteObject Object
         {

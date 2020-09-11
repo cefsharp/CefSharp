@@ -5,10 +5,15 @@ namespace CefSharp.DevTools.DOM
 {
     /// <summary>
     /// DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.
+    /// DOMNode is a base node mirror type.
+    /// </summary>
     public class Node : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Node identifier that is passed into the rest of the DOM messages as the `nodeId`. Backend
+        /// will only push node with given `id` once. It is aware of all requested nodes and will only
+        /// fire DOM events for nodes known to the client.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeId"), IsRequired = (true))]
         public int NodeId
         {

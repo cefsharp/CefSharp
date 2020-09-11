@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.SystemInfo
     /// </summary>
     public partial class SystemInfo : DevToolsDomainBase
     {
-        public SystemInfo(CefSharp.DevTools.DevToolsClient client)
+        public SystemInfo(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Returns information about the system.
         /// </summary>

@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.LayerTree
         }
 
         /// <summary>
-        /// A list of strings specifying reasons for the given layer to become composited.
+        /// compositingReasons
         /// </summary>
         public string[] CompositingReasons
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.LayerTree
         }
 
         /// <summary>
-        /// A list of strings specifying reason IDs for the given layer to become composited.
+        /// compositingReasonIds
         /// </summary>
         public string[] CompositingReasonIds
         {

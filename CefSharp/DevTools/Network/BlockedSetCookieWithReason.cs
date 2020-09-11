@@ -20,6 +20,8 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// The string representing this individual cookie as it would appear in the header.
+        /// This is not the entire "cookie" or "set-cookie" header which could have multiple cookies.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookieLine"), IsRequired = (true))]
         public string CookieLine
         {
@@ -29,6 +31,9 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// The cookie object which represents the cookie which was not stored. It is optional because
+        /// sometimes complete cookie information is not available, such as in the case of parsing
+        /// errors.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookie"), IsRequired = (false))]
         public CefSharp.DevTools.Network.Cookie Cookie
         {

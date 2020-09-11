@@ -20,6 +20,8 @@ namespace CefSharp.DevTools.Input
 
         /// <summary>
         /// Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to
+        /// the top of the viewport and Y increases as it proceeds towards the bottom of the viewport.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("y"), IsRequired = (true))]
         public long Y
         {

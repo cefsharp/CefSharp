@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Performance
         }
 
         /// <summary>
-        /// Current values for run-time metrics.
+        /// metrics
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Performance.Metric> Metrics
         {

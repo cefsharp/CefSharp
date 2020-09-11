@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.LayerTree
         }
 
         /// <summary>
-        /// The id of the layer snapshot.
+        /// snapshotId
         /// </summary>
         public string SnapshotId
         {

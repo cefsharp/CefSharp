@@ -30,6 +30,9 @@ namespace CefSharp.DevTools.Network
 
         /// <summary>
         /// WebSocket message payload data.
+        /// If the opcode is 1, this is a text message and payloadData is a UTF-8 string.
+        /// If the opcode isn't 1, then payloadData is a base64 encoded string representing binary data.
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("payloadData"), IsRequired = (true))]
         public string PayloadData
         {

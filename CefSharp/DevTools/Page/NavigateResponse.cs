@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Frame id that has navigated (or failed to navigate)
+        /// frameId
         /// </summary>
         public string FrameId
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Loader identifier.
+        /// loaderId
         /// </summary>
         public string LoaderId
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// User friendly error message, present if and only if navigation has failed.
+        /// errorText
         /// </summary>
         public string ErrorText
         {

@@ -10,14 +10,18 @@ namespace CefSharp.DevTools.HeadlessExperimental
     /// </summary>
     public partial class HeadlessExperimental : DevToolsDomainBase
     {
-        public HeadlessExperimental(CefSharp.DevTools.DevToolsClient client)
+        public HeadlessExperimental(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Sends a BeginFrame to the target and returns when the frame was completed. Optionally captures a
+        /// screenshot from the resulting frame. Requires that the target was created with enabled
+        /// BeginFrameControl. Designed for use with --run-all-compositor-stages-before-draw, see also
+        /// https://goo.gl/3zHXhB for more background.
+        /// </summary>
         public async System.Threading.Tasks.Task<BeginFrameResponse> BeginFrameAsync(long? frameTimeTicks = null, long? interval = null, bool? noDisplayUpdates = null, CefSharp.DevTools.HeadlessExperimental.ScreenshotParams screenshot = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

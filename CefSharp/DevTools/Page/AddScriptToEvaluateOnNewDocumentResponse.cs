@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Identifier of the added script.
+        /// identifier
         /// </summary>
         public string Identifier
         {

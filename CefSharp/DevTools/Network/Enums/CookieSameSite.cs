@@ -5,6 +5,8 @@ namespace CefSharp.DevTools.Network
 {
     /// <summary>
     /// Represents the cookie's 'SameSite' status:
+    /// https://tools.ietf.org/html/draft-west-first-party-cookies
+    /// </summary>
     public enum CookieSameSite
     {
         /// <summary>

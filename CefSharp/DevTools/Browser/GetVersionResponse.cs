@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// Protocol version.
+        /// protocolVersion
         /// </summary>
         public string ProtocolVersion
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// Product name.
+        /// product
         /// </summary>
         public string Product
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// Product revision.
+        /// revision
         /// </summary>
         public string Revision
         {
@@ -71,7 +71,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// User-Agent.
+        /// userAgent
         /// </summary>
         public string UserAgent
         {
@@ -89,7 +89,7 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
-        /// V8 version.
+        /// jsVersion
         /// </summary>
         public string JsVersion
         {

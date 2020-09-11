@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// New node's id.
+        /// nodeId
         /// </summary>
         public int NodeId
         {

@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Tethering
     /// </summary>
     public partial class Tethering : DevToolsDomainBase
     {
-        public Tethering(CefSharp.DevTools.DevToolsClient client)
+        public Tethering(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Request browser port binding.
         /// </summary>

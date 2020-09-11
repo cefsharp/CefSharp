@@ -10,12 +10,12 @@ namespace CefSharp.DevTools.Emulation
     /// </summary>
     public partial class Emulation : DevToolsDomainBase
     {
-        public Emulation(CefSharp.DevTools.DevToolsClient client)
+        public Emulation(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.DevToolsClient _client;
+        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Tells whether emulation is supported.
         /// </summary>
@@ -80,6 +80,8 @@ namespace CefSharp.DevTools.Emulation
 
         /// <summary>
         /// Sets or clears an override of the default background color of the frame. This override is used
+        /// if the content does not specify one.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDefaultBackgroundColorOverrideAsync(CefSharp.DevTools.DOM.RGBA color = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -94,6 +96,9 @@ namespace CefSharp.DevTools.Emulation
 
         /// <summary>
         /// Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
+        /// window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
+        /// query results).
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDeviceMetricsOverrideAsync(int width, int height, long deviceScaleFactor, bool mobile, long? scale = null, int? screenWidth = null, int? screenHeight = null, int? positionX = null, int? positionY = null, bool? dontSetVisibleSize = null, CefSharp.DevTools.Emulation.ScreenOrientation screenOrientation = null, CefSharp.DevTools.Page.Viewport viewport = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -146,7 +151,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// SetScrollbarsHidden
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetScrollbarsHiddenAsync(bool hidden)
         {
@@ -157,7 +162,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// SetDocumentCookieDisabled
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDocumentCookieDisabledAsync(bool disabled)
         {
@@ -168,7 +173,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// SetEmitTouchEventsForMouse
         /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmitTouchEventsForMouseAsync(bool enabled, string configuration = null)
         {
@@ -216,6 +221,8 @@ namespace CefSharp.DevTools.Emulation
 
         /// <summary>
         /// Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
+        /// unavailable.
+        /// </summary>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetGeolocationOverrideAsync(long? latitude = null, long? longitude = null, long? accuracy = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -278,6 +285,8 @@ namespace CefSharp.DevTools.Emulation
 
         /// <summary>
         /// Turns on virtual time for all frames (replacing real-time with a synthetic time source) and sets
+        /// the current virtual time policy.  Note this supersedes any previous time budget.
+        /// </summary>
         public async System.Threading.Tasks.Task<SetVirtualTimePolicyResponse> SetVirtualTimePolicyAsync(CefSharp.DevTools.Emulation.VirtualTimePolicy policy, long? budget = null, int? maxVirtualTimeTaskStarvationCount = null, bool? waitForNavigation = null, long? initialVirtualTime = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

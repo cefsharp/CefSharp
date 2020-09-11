@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// Unique identifier of the debugger.
+        /// debuggerId
         /// </summary>
         public string DebuggerId
         {

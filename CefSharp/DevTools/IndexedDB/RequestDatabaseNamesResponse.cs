@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.IndexedDB
         }
 
         /// <summary>
-        /// Database names for origin.
+        /// databaseNames
         /// </summary>
         public string[] DatabaseNames
         {

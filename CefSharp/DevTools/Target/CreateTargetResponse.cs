@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// The id of the page opened.
+        /// targetId
         /// </summary>
         public string TargetId
         {

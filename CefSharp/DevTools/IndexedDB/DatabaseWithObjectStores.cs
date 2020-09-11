@@ -20,6 +20,8 @@ namespace CefSharp.DevTools.IndexedDB
 
         /// <summary>
         /// Database version (type is not 'integer', as the standard
+        /// requires the version number to be 'unsigned long long')
+        /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("version"), IsRequired = (true))]
         public long Version
         {

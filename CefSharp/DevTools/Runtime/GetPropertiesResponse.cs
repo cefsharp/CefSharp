@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Object properties.
+        /// result
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PropertyDescriptor> Result
         {
@@ -35,7 +35,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Internal object properties (only of the element itself).
+        /// internalProperties
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.InternalPropertyDescriptor> InternalProperties
         {
@@ -53,7 +53,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Object private properties.
+        /// privateProperties
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PrivatePropertyDescriptor> PrivateProperties
         {
@@ -71,7 +71,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// Exception details.
+        /// exceptionDetails
         /// </summary>
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {

@@ -65,5 +65,28 @@ namespace CefSharp.Test.DevTools
                 }
             }
         }
+
+        [Fact]
+        public async Task CanGetDevToolsProtocolGetWindowForTarget()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                await browser.LoadPageAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var response = await devToolsClient.Browser.GetWindowForTargetAsync();
+                    var windowId = response.WindowId;
+                    var bounds = response.Bounds;
+
+                    Assert.NotEqual(0, windowId);
+                    Assert.NotNull(bounds);
+                    Assert.True(bounds.Height > 0);
+                    Assert.True(bounds.Width > 0);
+                    Assert.True(bounds.WindowState.HasValue);
+                }
+            }
+        }
+
     }
 }

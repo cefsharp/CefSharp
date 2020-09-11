@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
-        /// Usage statistics for every employed platform font.
+        /// fonts
         /// </summary>
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.PlatformFontUsage> Fonts
         {

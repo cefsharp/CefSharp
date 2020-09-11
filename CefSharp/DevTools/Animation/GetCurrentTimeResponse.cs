@@ -17,7 +17,7 @@ namespace CefSharp.DevTools.Animation
         }
 
         /// <summary>
-        /// Current time of the page.
+        /// currentTime
         /// </summary>
         public long CurrentTime
         {

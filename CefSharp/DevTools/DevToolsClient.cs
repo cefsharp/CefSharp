@@ -17,7 +17,7 @@ namespace CefSharp.DevTools
     /// <summary>
     /// DevTool Client 
     /// </summary>
-    public partial class DevToolsClient : IDevToolsMessageObserver
+    public partial class DevToolsClient : IDevToolsMessageObserver, IDevToolsClient
     {
         private readonly ConcurrentDictionary<int, TaskCompletionSource<DevToolsMethodResponse>> queuedCommandResults = new ConcurrentDictionary<int, TaskCompletionSource<DevToolsMethodResponse>>();
         private int lastMessageId;
