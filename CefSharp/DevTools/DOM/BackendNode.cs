@@ -29,7 +29,7 @@ namespace CefSharp.DevTools.DOM
         }
 
         /// <summary>
-        /// 
+        /// BackendNodeId
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (true))]
         public int BackendNodeId

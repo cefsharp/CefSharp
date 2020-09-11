@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Network
         /// Type of this resource.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        public ResourceType Type
+        public CefSharp.DevTools.Network.ResourceType Type
         {
             get;
             set;
@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.Network
         /// Cached response data.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("response"), IsRequired = (false))]
-        public Response Response
+        public CefSharp.DevTools.Network.Response Response
         {
             get;
             set;

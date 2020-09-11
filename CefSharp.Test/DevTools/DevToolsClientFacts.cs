@@ -8,7 +8,7 @@ using CefSharp.OffScreen;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace CefSharp.Test.OffScreen
+namespace CefSharp.Test.DevTools
 {
     //NOTE: All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle
     [Collection(CefSharpFixtureCollection.Key)]
@@ -32,7 +32,7 @@ namespace CefSharp.Test.OffScreen
                 Width = 1,
                 Left = 1,
                 Top = 1,
-                WindowState = WindowState.Fullscreen.ToString()
+                WindowState = WindowState.Fullscreen
             };
 
             var dict = bounds.ToDictionary();
@@ -41,7 +41,7 @@ namespace CefSharp.Test.OffScreen
             Assert.Equal(bounds.Width, (int)dict["width"]);
             Assert.Equal(bounds.Top, (int)dict["top"]);
             Assert.Equal(bounds.Left, (int)dict["left"]);
-            Assert.Equal(bounds.WindowState, (string)dict["windowState"]);
+            Assert.Equal("fullscreen", (string)dict["windowState"]);
         }
 
 

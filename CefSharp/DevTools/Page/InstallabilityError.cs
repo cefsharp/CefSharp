@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Page
         /// The list of error arguments (e.g. {name:'minimum-icon-size-in-pixels', value:'64'}).
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorArguments"), IsRequired = (true))]
-        public System.Collections.Generic.IList<InstallabilityErrorArgument> ErrorArguments
+        public System.Collections.Generic.IList<CefSharp.DevTools.Page.InstallabilityErrorArgument> ErrorArguments
         {
             get;
             set;

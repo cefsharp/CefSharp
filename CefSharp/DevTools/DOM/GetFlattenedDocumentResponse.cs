@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.DOM
     /// GetFlattenedDocumentResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetFlattenedDocumentResponse
+    public class GetFlattenedDocumentResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<Node> nodes
+        internal System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> nodes
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Resulting node.
         /// </summary>
-        public System.Collections.Generic.IList<Node> Nodes
+        public System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> Nodes
         {
             get
             {

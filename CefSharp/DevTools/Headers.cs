@@ -4,7 +4,7 @@
 
 using System.Collections.Specialized;
 
-namespace CefSharp.DevTools
+namespace CefSharp.DevTools.Network
 {
     //TODO: Properly implement this type
     public class Headers : NameValueCollection

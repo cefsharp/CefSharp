@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Network
         /// HTTP request headers.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
-        public Headers Headers
+        public CefSharp.DevTools.Network.Headers Headers
         {
             get;
             set;

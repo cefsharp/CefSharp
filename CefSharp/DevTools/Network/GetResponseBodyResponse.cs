@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Network
     /// GetResponseBodyResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetResponseBodyResponse
+    public class GetResponseBodyResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string body

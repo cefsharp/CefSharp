@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Profiler
         /// Source ranges inside the function with coverage data.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranges"), IsRequired = (true))]
-        public System.Collections.Generic.IList<CoverageRange> Ranges
+        public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.CoverageRange> Ranges
         {
             get;
             set;

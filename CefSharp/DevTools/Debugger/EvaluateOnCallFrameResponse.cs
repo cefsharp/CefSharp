@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Debugger
     /// EvaluateOnCallFrameResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class EvaluateOnCallFrameResponse
+    public class EvaluateOnCallFrameResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal Runtime.RemoteObject result
+        internal CefSharp.DevTools.Runtime.RemoteObject result
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Object wrapper for the evaluation result.
         /// </summary>
-        public Runtime.RemoteObject Result
+        public CefSharp.DevTools.Runtime.RemoteObject Result
         {
             get
             {
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal Runtime.ExceptionDetails exceptionDetails
+        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Exception details.
         /// </summary>
-        public Runtime.ExceptionDetails ExceptionDetails
+        public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
             get
             {

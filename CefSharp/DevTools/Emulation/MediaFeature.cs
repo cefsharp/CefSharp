@@ -9,7 +9,7 @@ namespace CefSharp.DevTools.Emulation
     public class MediaFeature : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
-        /// 
+        /// Name
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
         public string Name
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// Value
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
         public string Value

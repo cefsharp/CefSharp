@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Page
     /// AddScriptToEvaluateOnNewDocumentResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class AddScriptToEvaluateOnNewDocumentResponse
+    public class AddScriptToEvaluateOnNewDocumentResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string identifier

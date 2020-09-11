@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.IO
     /// ReadResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class ReadResponse
+    public class ReadResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal bool? base64Encoded

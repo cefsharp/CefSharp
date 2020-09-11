@@ -39,7 +39,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// 
+        /// Type
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (false))]
         public string Type

@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Debugger
     /// SetBreakpointByUrlResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class SetBreakpointByUrlResponse
+    public class SetBreakpointByUrlResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string breakpointId
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<Location> locations
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.Location> locations
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// List of the locations this breakpoint resolved into upon addition.
         /// </summary>
-        public System.Collections.Generic.IList<Location> Locations
+        public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.Location> Locations
         {
             get
             {

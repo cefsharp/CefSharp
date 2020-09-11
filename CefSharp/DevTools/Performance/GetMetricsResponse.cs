@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Performance
     /// GetMetricsResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetMetricsResponse
+    public class GetMetricsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<Metric> metrics
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Performance.Metric> metrics
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Performance
         /// <summary>
         /// Current values for run-time metrics.
         /// </summary>
-        public System.Collections.Generic.IList<Metric> Metrics
+        public System.Collections.Generic.IList<CefSharp.DevTools.Performance.Metric> Metrics
         {
             get
             {

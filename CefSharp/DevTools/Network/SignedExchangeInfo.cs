@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Network
         /// The outer response of signed HTTP exchange which was received from network.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("outerResponse"), IsRequired = (true))]
-        public Response OuterResponse
+        public CefSharp.DevTools.Network.Response OuterResponse
         {
             get;
             set;
@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Network
         /// Information about the signed exchange header.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("header"), IsRequired = (false))]
-        public SignedExchangeHeader Header
+        public CefSharp.DevTools.Network.SignedExchangeHeader Header
         {
             get;
             set;
@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.Network
         /// Security details for the signed exchange header.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityDetails"), IsRequired = (false))]
-        public SecurityDetails SecurityDetails
+        public CefSharp.DevTools.Network.SecurityDetails SecurityDetails
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Network
         /// Errors occurred while handling the signed exchagne.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("errors"), IsRequired = (false))]
-        public System.Collections.Generic.IList<SignedExchangeError> Errors
+        public System.Collections.Generic.IList<CefSharp.DevTools.Network.SignedExchangeError> Errors
         {
             get;
             set;

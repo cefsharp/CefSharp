@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Security
         /// The security level of the page.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public SecurityState SecurityState
+        public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get;
             set;
@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Security
         /// Security state details about the page certificate.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateSecurityState"), IsRequired = (false))]
-        public CertificateSecurityState CertificateSecurityState
+        public CefSharp.DevTools.Security.CertificateSecurityState CertificateSecurityState
         {
             get;
             set;
@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.Security
         /// The type of Safety Tip triggered on the page. Note that this field will be set even if the Safety Tip UI was not actually shown.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("safetyTipInfo"), IsRequired = (false))]
-        public SafetyTipInfo SafetyTipInfo
+        public CefSharp.DevTools.Security.SafetyTipInfo SafetyTipInfo
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Security
         /// Array of security state issues ids.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityStateIssueIds"), IsRequired = (true))]
-        public string SecurityStateIssueIds
+        public string[] SecurityStateIssueIds
         {
             get;
             set;

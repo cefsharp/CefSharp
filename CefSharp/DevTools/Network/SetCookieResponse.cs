@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Network
     /// SetCookieResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class SetCookieResponse
+    public class SetCookieResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal bool success

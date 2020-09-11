@@ -90,7 +90,7 @@ namespace CefSharp.DevTools.DOM
         /// Child nodes of this node when requested with children.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("children"), IsRequired = (false))]
-        public System.Collections.Generic.IList<Node> Children
+        public System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> Children
         {
             get;
             set;
@@ -100,7 +100,7 @@ namespace CefSharp.DevTools.DOM
         /// Attributes of the `Element` node in the form of flat array `[name1, value1, name2, value2]`.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("attributes"), IsRequired = (false))]
-        public string Attributes
+        public string[] Attributes
         {
             get;
             set;
@@ -190,7 +190,7 @@ namespace CefSharp.DevTools.DOM
         /// Pseudo element type for this node.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (false))]
-        public PseudoType PseudoType
+        public CefSharp.DevTools.DOM.PseudoType? PseudoType
         {
             get;
             set;
@@ -200,7 +200,7 @@ namespace CefSharp.DevTools.DOM
         /// Shadow root type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRootType"), IsRequired = (false))]
-        public ShadowRootType ShadowRootType
+        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
         {
             get;
             set;
@@ -220,7 +220,7 @@ namespace CefSharp.DevTools.DOM
         /// Content document for frame owner elements.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentDocument"), IsRequired = (false))]
-        public Node ContentDocument
+        public CefSharp.DevTools.DOM.Node ContentDocument
         {
             get;
             set;
@@ -230,7 +230,7 @@ namespace CefSharp.DevTools.DOM
         /// Shadow root list for given element host.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRoots"), IsRequired = (false))]
-        public System.Collections.Generic.IList<Node> ShadowRoots
+        public System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> ShadowRoots
         {
             get;
             set;
@@ -240,7 +240,7 @@ namespace CefSharp.DevTools.DOM
         /// Content document fragment for template elements.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("templateContent"), IsRequired = (false))]
-        public Node TemplateContent
+        public CefSharp.DevTools.DOM.Node TemplateContent
         {
             get;
             set;
@@ -250,7 +250,7 @@ namespace CefSharp.DevTools.DOM
         /// Pseudo elements associated with this node.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoElements"), IsRequired = (false))]
-        public System.Collections.Generic.IList<Node> PseudoElements
+        public System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> PseudoElements
         {
             get;
             set;
@@ -260,7 +260,7 @@ namespace CefSharp.DevTools.DOM
         /// Import document for the HTMLImport links.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("importedDocument"), IsRequired = (false))]
-        public Node ImportedDocument
+        public CefSharp.DevTools.DOM.Node ImportedDocument
         {
             get;
             set;
@@ -270,7 +270,7 @@ namespace CefSharp.DevTools.DOM
         /// Distributed nodes for given insertion point.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("distributedNodes"), IsRequired = (false))]
-        public System.Collections.Generic.IList<BackendNode> DistributedNodes
+        public System.Collections.Generic.IList<CefSharp.DevTools.DOM.BackendNode> DistributedNodes
         {
             get;
             set;

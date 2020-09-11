@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Network
         /// HTTP request headers.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
-        public Headers Headers
+        public CefSharp.DevTools.Network.Headers Headers
         {
             get;
             set;
@@ -69,20 +69,10 @@ namespace CefSharp.DevTools.Network
         }
 
         /// <summary>
-        /// Request body elements. This will be converted from base64 to binary
-        /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("postDataEntries"), IsRequired = (false))]
-        public System.Collections.Generic.IList<PostDataEntry> PostDataEntries
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// The mixed content type of the request.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentType"), IsRequired = (false))]
-        public Security.MixedContentType MixedContentType
+        public CefSharp.DevTools.Security.MixedContentType? MixedContentType
         {
             get;
             set;
@@ -92,7 +82,7 @@ namespace CefSharp.DevTools.Network
         /// Priority of the resource request at the time request is sent.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("initialPriority"), IsRequired = (true))]
-        public ResourcePriority InitialPriority
+        public CefSharp.DevTools.Network.ResourcePriority InitialPriority
         {
             get;
             set;

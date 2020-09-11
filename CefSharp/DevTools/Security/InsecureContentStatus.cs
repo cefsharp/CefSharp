@@ -62,7 +62,7 @@ namespace CefSharp.DevTools.Security
         /// Always set to unknown.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranInsecureContentStyle"), IsRequired = (true))]
-        public SecurityState RanInsecureContentStyle
+        public CefSharp.DevTools.Security.SecurityState RanInsecureContentStyle
         {
             get;
             set;
@@ -72,7 +72,7 @@ namespace CefSharp.DevTools.Security
         /// Always set to unknown.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("displayedInsecureContentStyle"), IsRequired = (true))]
-        public SecurityState DisplayedInsecureContentStyle
+        public CefSharp.DevTools.Security.SecurityState DisplayedInsecureContentStyle
         {
             get;
             set;

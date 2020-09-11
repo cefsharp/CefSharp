@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.DOM
         /// Shape bounds
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("bounds"), IsRequired = (true))]
-        public long Bounds
+        public long[] Bounds
         {
             get;
             set;
@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.DOM
         /// Shape coordinate details
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("shape"), IsRequired = (true))]
-        public object Shape
+        public object[] Shape
         {
             get;
             set;
@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.DOM
         /// Margin shape bounds
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("marginShape"), IsRequired = (true))]
-        public object MarginShape
+        public object[] MarginShape
         {
             get;
             set;

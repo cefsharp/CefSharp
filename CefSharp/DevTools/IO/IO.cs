@@ -19,12 +19,12 @@ namespace CefSharp.DevTools.IO
         /// <summary>
         /// Close the stream, discard any temporary backing storage.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> CloseAsync(string handle)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync(string handle)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("handle", handle);
-            var result = await _client.ExecuteDevToolsMethodAsync("IO.close", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("IO.close", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace CefSharp.DevTools.IO
                 dict.Add("size", size.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("IO.read", dict);
-            return result.DeserializeJson<ReadResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("IO.read", dict);
+            return methodResult.DeserializeJson<ReadResponse>();
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace CefSharp.DevTools.IO
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
-            var result = await _client.ExecuteDevToolsMethodAsync("IO.resolveBlob", dict);
-            return result.DeserializeJson<ResolveBlobResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("IO.resolveBlob", dict);
+            return methodResult.DeserializeJson<ResolveBlobResponse>();
         }
     }
 }

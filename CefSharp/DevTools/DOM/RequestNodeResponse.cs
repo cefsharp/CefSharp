@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.DOM
     /// RequestNodeResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class RequestNodeResponse
+    public class RequestNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal int nodeId

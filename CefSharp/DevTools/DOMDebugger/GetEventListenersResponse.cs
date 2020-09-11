@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.DOMDebugger
     /// GetEventListenersResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetEventListenersResponse
+    public class GetEventListenersResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<EventListener> listeners
+        internal System.Collections.Generic.IList<CefSharp.DevTools.DOMDebugger.EventListener> listeners
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Array of relevant listeners.
         /// </summary>
-        public System.Collections.Generic.IList<EventListener> Listeners
+        public System.Collections.Generic.IList<CefSharp.DevTools.DOMDebugger.EventListener> Listeners
         {
             get
             {

@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Network
         /// The reason(s) the cookie was blocked.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedReasons"), IsRequired = (true))]
-        public CookieBlockedReason BlockedReasons
+        public CefSharp.DevTools.Network.CookieBlockedReason[] BlockedReasons
         {
             get;
             set;
@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Network
         /// The cookie object representing the cookie which was not sent.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookie"), IsRequired = (true))]
-        public Cookie Cookie
+        public CefSharp.DevTools.Network.Cookie Cookie
         {
             get;
             set;

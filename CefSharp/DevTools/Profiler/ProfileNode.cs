@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Profiler
         /// Function location.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("callFrame"), IsRequired = (true))]
-        public Runtime.CallFrame CallFrame
+        public CefSharp.DevTools.Runtime.CallFrame CallFrame
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Profiler
         /// Child node ids.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("children"), IsRequired = (false))]
-        public int? Children
+        public int[] Children
         {
             get;
             set;
@@ -61,7 +61,7 @@ namespace CefSharp.DevTools.Profiler
         /// An array of source position ticks.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("positionTicks"), IsRequired = (false))]
-        public System.Collections.Generic.IList<PositionTickInfo> PositionTicks
+        public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.PositionTickInfo> PositionTicks
         {
             get;
             set;

@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Emulation
     /// CanEmulateResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class CanEmulateResponse
+    public class CanEmulateResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal bool result

@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Target
     /// CloseTargetResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class CloseTargetResponse
+    public class CloseTargetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal bool success

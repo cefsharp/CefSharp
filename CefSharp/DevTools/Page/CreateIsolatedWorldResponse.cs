@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Page
     /// CreateIsolatedWorldResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class CreateIsolatedWorldResponse
+    public class CreateIsolatedWorldResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal int executionContextId

@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Network
         /// HTTP response headers.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
-        public Headers Headers
+        public CefSharp.DevTools.Network.Headers Headers
         {
             get;
             set;
@@ -72,7 +72,7 @@ namespace CefSharp.DevTools.Network
         /// Refined HTTP request headers that were actually transmitted over the network.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeaders"), IsRequired = (false))]
-        public Headers RequestHeaders
+        public CefSharp.DevTools.Network.Headers RequestHeaders
         {
             get;
             set;
@@ -172,37 +172,7 @@ namespace CefSharp.DevTools.Network
         /// Timing information for the given request.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("timing"), IsRequired = (false))]
-        public ResourceTiming Timing
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Response source of response from ServiceWorker.
-        /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("serviceWorkerResponseSource"), IsRequired = (false))]
-        public ServiceWorkerResponseSource ServiceWorkerResponseSource
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// The time at which the returned response was generated.
-        /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseTime"), IsRequired = (false))]
-        public long? ResponseTime
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Cache Storage Cache Name.
-        /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cacheStorageCacheName"), IsRequired = (false))]
-        public string CacheStorageCacheName
+        public CefSharp.DevTools.Network.ResourceTiming Timing
         {
             get;
             set;
@@ -222,7 +192,7 @@ namespace CefSharp.DevTools.Network
         /// Security state of the request resource.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public Security.SecurityState SecurityState
+        public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get;
             set;
@@ -232,7 +202,7 @@ namespace CefSharp.DevTools.Network
         /// Security details for the request.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityDetails"), IsRequired = (false))]
-        public SecurityDetails SecurityDetails
+        public CefSharp.DevTools.Network.SecurityDetails SecurityDetails
         {
             get;
             set;

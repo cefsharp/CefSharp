@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Runtime
         /// The value associated with the property.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
-        public RemoteObject Value
+        public CefSharp.DevTools.Runtime.RemoteObject Value
         {
             get;
             set;

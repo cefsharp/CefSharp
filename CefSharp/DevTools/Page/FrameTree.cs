@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Page
         /// Frame information for this tree item.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("frame"), IsRequired = (true))]
-        public Frame Frame
+        public CefSharp.DevTools.Page.Frame Frame
         {
             get;
             set;
@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Page
         /// Child frames.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("childFrames"), IsRequired = (false))]
-        public System.Collections.Generic.IList<FrameTree> ChildFrames
+        public System.Collections.Generic.IList<CefSharp.DevTools.Page.FrameTree> ChildFrames
         {
             get;
             set;

@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.DOM
     /// QuerySelectorResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class QuerySelectorResponse
+    public class QuerySelectorResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal int nodeId

@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Target
     /// AttachToTargetResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class AttachToTargetResponse
+    public class AttachToTargetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string sessionId

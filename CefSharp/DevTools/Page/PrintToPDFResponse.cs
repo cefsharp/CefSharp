@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Page
     /// PrintToPDFResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class PrintToPDFResponse
+    public class PrintToPDFResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string data
@@ -19,11 +19,11 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Base64-encoded pdf data. Empty if |returnAsStream| is specified.
         /// </summary>
-        public string Data
+        public byte[] Data
         {
             get
             {
-                return data;
+                return Convert(data);
             }
         }
 

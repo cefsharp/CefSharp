@@ -91,7 +91,7 @@ namespace CefSharp.DevTools.Network
         /// The encoded certificates.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificates"), IsRequired = (false))]
-        public string Certificates
+        public string[] Certificates
         {
             get;
             set;

@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Security
         /// Security state representing the severity of the factor being explained.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public SecurityState SecurityState
+        public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get;
             set;
@@ -52,7 +52,7 @@ namespace CefSharp.DevTools.Security
         /// The type of mixed content described by the explanation.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentType"), IsRequired = (true))]
-        public MixedContentType MixedContentType
+        public CefSharp.DevTools.Security.MixedContentType MixedContentType
         {
             get;
             set;
@@ -62,7 +62,7 @@ namespace CefSharp.DevTools.Security
         /// Page certificate.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificate"), IsRequired = (true))]
-        public string Certificate
+        public string[] Certificate
         {
             get;
             set;
@@ -72,7 +72,7 @@ namespace CefSharp.DevTools.Security
         /// Recommendations to fix any issues.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("recommendations"), IsRequired = (false))]
-        public string Recommendations
+        public string[] Recommendations
         {
             get;
             set;

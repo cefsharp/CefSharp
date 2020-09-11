@@ -82,7 +82,7 @@ namespace CefSharp.DevTools.Network
         /// Subject Alternative Name (SAN) DNS names and IP addresses.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("sanList"), IsRequired = (true))]
-        public string SanList
+        public string[] SanList
         {
             get;
             set;
@@ -122,7 +122,7 @@ namespace CefSharp.DevTools.Network
         /// List of signed certificate timestamps (SCTs).
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("signedCertificateTimestampList"), IsRequired = (true))]
-        public System.Collections.Generic.IList<SignedCertificateTimestamp> SignedCertificateTimestampList
+        public System.Collections.Generic.IList<CefSharp.DevTools.Network.SignedCertificateTimestamp> SignedCertificateTimestampList
         {
             get;
             set;
@@ -132,7 +132,7 @@ namespace CefSharp.DevTools.Network
         /// Whether the request complied with Certificate Transparency policy
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateTransparencyCompliance"), IsRequired = (true))]
-        public CertificateTransparencyCompliance CertificateTransparencyCompliance
+        public CefSharp.DevTools.Network.CertificateTransparencyCompliance CertificateTransparencyCompliance
         {
             get;
             set;

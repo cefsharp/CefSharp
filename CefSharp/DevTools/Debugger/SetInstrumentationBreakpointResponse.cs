@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Debugger
     /// SetInstrumentationBreakpointResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class SetInstrumentationBreakpointResponse
+    public class SetInstrumentationBreakpointResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string breakpointId

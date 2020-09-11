@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Page
     /// GetAppManifestResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetAppManifestResponse
+    public class GetAppManifestResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string url
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Page
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<AppManifestError> errors
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Page.AppManifestError> errors
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// errors
         /// </summary>
-        public System.Collections.Generic.IList<AppManifestError> Errors
+        public System.Collections.Generic.IList<CefSharp.DevTools.Page.AppManifestError> Errors
         {
             get
             {
@@ -64,7 +64,7 @@ namespace CefSharp.DevTools.Page
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal AppManifestParsedProperties parsed
+        internal CefSharp.DevTools.Page.AppManifestParsedProperties parsed
         {
             get;
             set;
@@ -73,7 +73,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Parsed manifest properties
         /// </summary>
-        public AppManifestParsedProperties Parsed
+        public CefSharp.DevTools.Page.AppManifestParsedProperties Parsed
         {
             get
             {

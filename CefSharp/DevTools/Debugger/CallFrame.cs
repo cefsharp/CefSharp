@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.Debugger
         /// Location in the source code.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("functionLocation"), IsRequired = (false))]
-        public Location FunctionLocation
+        public CefSharp.DevTools.Debugger.Location FunctionLocation
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Debugger
         /// Location in the source code.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("location"), IsRequired = (true))]
-        public Location Location
+        public CefSharp.DevTools.Debugger.Location Location
         {
             get;
             set;
@@ -62,7 +62,7 @@ namespace CefSharp.DevTools.Debugger
         /// Scope chain for this call frame.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("scopeChain"), IsRequired = (true))]
-        public System.Collections.Generic.IList<Scope> ScopeChain
+        public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.Scope> ScopeChain
         {
             get;
             set;
@@ -72,7 +72,7 @@ namespace CefSharp.DevTools.Debugger
         /// `this` object for this call frame.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("this"), IsRequired = (true))]
-        public Runtime.RemoteObject This
+        public CefSharp.DevTools.Runtime.RemoteObject This
         {
             get;
             set;
@@ -82,7 +82,7 @@ namespace CefSharp.DevTools.Debugger
         /// The value being returned, if the function is at return point.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("returnValue"), IsRequired = (false))]
-        public Runtime.RemoteObject ReturnValue
+        public CefSharp.DevTools.Runtime.RemoteObject ReturnValue
         {
             get;
             set;

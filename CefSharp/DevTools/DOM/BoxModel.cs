@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.DOM
         /// Content box
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("content"), IsRequired = (true))]
-        public long Content
+        public long[] Content
         {
             get;
             set;
@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.DOM
         /// Padding box
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("padding"), IsRequired = (true))]
-        public long Padding
+        public long[] Padding
         {
             get;
             set;
@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.DOM
         /// Border box
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("border"), IsRequired = (true))]
-        public long Border
+        public long[] Border
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.DOM
         /// Margin box
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("margin"), IsRequired = (true))]
-        public long Margin
+        public long[] Margin
         {
             get;
             set;
@@ -72,7 +72,7 @@ namespace CefSharp.DevTools.DOM
         /// Shape outside coordinates
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("shapeOutside"), IsRequired = (false))]
-        public ShapeOutsideInfo ShapeOutside
+        public CefSharp.DevTools.DOM.ShapeOutsideInfo ShapeOutside
         {
             get;
             set;

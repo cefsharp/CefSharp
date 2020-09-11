@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Runtime
         /// The value associated with the property.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
-        public RemoteObject Value
+        public CefSharp.DevTools.Runtime.RemoteObject Value
         {
             get;
             set;
@@ -41,7 +41,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// A function which serves as a getter for the property, or `undefined` if there is no getter
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("get"), IsRequired = (false))]
-        public RemoteObject Get
+        public CefSharp.DevTools.Runtime.RemoteObject Get
         {
             get;
             set;
@@ -50,7 +50,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// A function which serves as a setter for the property, or `undefined` if there is no setter
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("set"), IsRequired = (false))]
-        public RemoteObject Set
+        public CefSharp.DevTools.Runtime.RemoteObject Set
         {
             get;
             set;
@@ -98,7 +98,7 @@ namespace CefSharp.DevTools.Runtime
         /// Property symbol object, if the property is of the `symbol` type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("symbol"), IsRequired = (false))]
-        public RemoteObject Symbol
+        public CefSharp.DevTools.Runtime.RemoteObject Symbol
         {
             get;
             set;

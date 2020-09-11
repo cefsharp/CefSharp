@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.DOM
     /// GetOuterHTMLResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetOuterHTMLResponse
+    public class GetOuterHTMLResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string outerHTML

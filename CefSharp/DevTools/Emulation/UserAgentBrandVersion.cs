@@ -9,7 +9,7 @@ namespace CefSharp.DevTools.Emulation
     public class UserAgentBrandVersion : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
-        /// 
+        /// Brand
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("brand"), IsRequired = (true))]
         public string Brand
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// Version
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("version"), IsRequired = (true))]
         public string Version

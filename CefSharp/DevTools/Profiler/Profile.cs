@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Profiler
         /// The list of profile nodes. First item is the root node.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodes"), IsRequired = (true))]
-        public System.Collections.Generic.IList<ProfileNode> Nodes
+        public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ProfileNode> Nodes
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Profiler
         /// Ids of samples top nodes.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("samples"), IsRequired = (false))]
-        public int? Samples
+        public int[] Samples
         {
             get;
             set;
@@ -51,7 +51,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Time intervals between adjacent samples in microseconds. The first delta is relative to the
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("timeDeltas"), IsRequired = (false))]
-        public int? TimeDeltas
+        public int[] TimeDeltas
         {
             get;
             set;

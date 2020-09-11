@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Target
     /// CreateTargetResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class CreateTargetResponse
+    public class CreateTargetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string targetId

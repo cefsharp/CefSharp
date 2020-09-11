@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Debugger
     /// GetPossibleBreakpointsResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetPossibleBreakpointsResponse
+    public class GetPossibleBreakpointsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<BreakLocation> locations
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.BreakLocation> locations
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// List of the possible breakpoint locations.
         /// </summary>
-        public System.Collections.Generic.IList<BreakLocation> Locations
+        public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.BreakLocation> Locations
         {
             get
             {

@@ -15,11 +15,11 @@ using CefSharp.Internals;
 namespace CefSharp.DevTools
 {
     /// <summary>
-    /// DevToolClient 
+    /// DevTool Client 
     /// </summary>
     public partial class DevToolsClient : IDevToolsMessageObserver
     {
-        private readonly ConcurrentDictionary<int, TaskCompletionSource<DevToolsMethodResult>> queuedCommandResults = new ConcurrentDictionary<int, TaskCompletionSource<DevToolsMethodResult>>();
+        private readonly ConcurrentDictionary<int, TaskCompletionSource<DevToolsMethodResponse>> queuedCommandResults = new ConcurrentDictionary<int, TaskCompletionSource<DevToolsMethodResponse>>();
         private int lastMessageId;
         private IBrowser browser;
         private IRegistration devToolsRegistration;
@@ -55,21 +55,21 @@ namespace CefSharp.DevTools
         /// <param name="parameters">are the method parameters represented as a dictionary,
         /// which may be empty.</param>
         /// <returns>return a Task that can be awaited to obtain the method result</returns>
-        public async Task<DevToolsMethodResult> ExecuteDevToolsMethodAsync(string method, IDictionary<string, object> parameters = null)
+        public async Task<DevToolsMethodResponse> ExecuteDevToolsMethodAsync(string method, IDictionary<string, object> parameters = null)
         {
             if (browser == null || browser.IsDisposed)
             {
                 //TODO: Queue up commands where possible
-                return new DevToolsMethodResult { Success = false };
+                return new DevToolsMethodResponse { Success = false };
             }
 
             var messageId = Interlocked.Increment(ref lastMessageId);
 
-            var taskCompletionSource = new TaskCompletionSource<DevToolsMethodResult>();
+            var taskCompletionSource = new TaskCompletionSource<DevToolsMethodResponse>();
 
             if (!queuedCommandResults.TryAdd(messageId, taskCompletionSource))
             {
-                return new DevToolsMethodResult { Success = false };
+                return new DevToolsMethodResponse { Success = false };
             }
 
             var browserHost = browser.GetHost();
@@ -79,7 +79,7 @@ namespace CefSharp.DevTools
                 var returnedMessageId = browserHost.ExecuteDevToolsMethod(messageId, method, parameters);
                 if (returnedMessageId == 0)
                 {
-                    return new DevToolsMethodResult { Success = false };
+                    return new DevToolsMethodResponse { Success = false };
                 }
             }
 
@@ -92,7 +92,7 @@ namespace CefSharp.DevTools
 
                 if (returnedMessageId == 0)
                 {
-                    return new DevToolsMethodResult { Success = false };
+                    return new DevToolsMethodResponse { Success = false };
                 }
             }
 
@@ -134,11 +134,11 @@ namespace CefSharp.DevTools
 
         void IDevToolsMessageObserver.OnDevToolsMethodResult(IBrowser browser, int messageId, bool success, Stream result)
         {
-            TaskCompletionSource<DevToolsMethodResult> taskCompletionSource = null;
+            TaskCompletionSource<DevToolsMethodResponse> taskCompletionSource = null;
 
             if (queuedCommandResults.TryRemove(messageId, out taskCompletionSource))
             {
-                var methodResult = new DevToolsMethodResult
+                var methodResult = new DevToolsMethodResponse
                 {
                     Success = success
                 };
@@ -148,7 +148,7 @@ namespace CefSharp.DevTools
 
                 result.CopyTo(memoryStream);
 
-                methodResult.ResultAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
+                methodResult.ResponseAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
 
                 if (success)
                 {
@@ -164,7 +164,7 @@ namespace CefSharp.DevTools
                     {
                         //TODO: Improve format error message
                         //Make sure continuation runs on Thread Pool
-                        taskCompletionSource.TrySetException(new DevToolsClientException(methodResult.ResultAsJsonString));
+                        taskCompletionSource.TrySetException(new DevToolsClientException(methodResult.ResponseAsJsonString));
                     });
                 }
 

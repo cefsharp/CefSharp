@@ -52,7 +52,7 @@ namespace CefSharp.DevTools.Browser
         /// The window state. Default to normal.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("windowState"), IsRequired = (false))]
-        public WindowState WindowState
+        public CefSharp.DevTools.Browser.WindowState? WindowState
         {
             get;
             set;

@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.Network
         /// HTTP response headers.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
-        public Headers Headers
+        public CefSharp.DevTools.Network.Headers Headers
         {
             get;
             set;
@@ -52,7 +52,7 @@ namespace CefSharp.DevTools.Network
         /// HTTP request headers.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeaders"), IsRequired = (false))]
-        public Headers RequestHeaders
+        public CefSharp.DevTools.Network.Headers RequestHeaders
         {
             get;
             set;

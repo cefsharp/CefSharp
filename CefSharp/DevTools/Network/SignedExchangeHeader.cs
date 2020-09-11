@@ -31,7 +31,7 @@ namespace CefSharp.DevTools.Network
         /// Signed exchange response headers.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseHeaders"), IsRequired = (true))]
-        public Headers ResponseHeaders
+        public CefSharp.DevTools.Network.Headers ResponseHeaders
         {
             get;
             set;
@@ -41,7 +41,7 @@ namespace CefSharp.DevTools.Network
         /// Signed exchange response signature.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("signatures"), IsRequired = (true))]
-        public System.Collections.Generic.IList<SignedExchangeSignature> Signatures
+        public System.Collections.Generic.IList<CefSharp.DevTools.Network.SignedExchangeSignature> Signatures
         {
             get;
             set;

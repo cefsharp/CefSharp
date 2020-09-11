@@ -4,7 +4,9 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+using CefSharp.DevTools.Browser;
 
 namespace CefSharp.DevTools
 {
@@ -16,6 +18,22 @@ namespace CefSharp.DevTools
             var dataMemberAttribute = (EnumMemberAttribute)Attribute.GetCustomAttribute(memInfo[0], typeof(EnumMemberAttribute), false);
 
             return dataMemberAttribute.Value;
+        }
+
+        protected IEnumerable<string> EnumToString(PermissionType[] values)
+        {
+            foreach (var val in values)
+            {
+                var memInfo = val.GetType().GetMember(val.ToString());
+                var dataMemberAttribute = (EnumMemberAttribute)Attribute.GetCustomAttribute(memInfo[0], typeof(EnumMemberAttribute), false);
+
+                yield return dataMemberAttribute.Value;
+            }
+        }
+
+        protected string ToBase64String(byte[] bytes)
+        {
+            return Convert.ToBase64String(bytes);
         }
     }
 }

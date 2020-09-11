@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Runtime
         /// Nested value preview.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("valuePreview"), IsRequired = (false))]
-        public ObjectPreview ValuePreview
+        public CefSharp.DevTools.Runtime.ObjectPreview ValuePreview
         {
             get;
             set;

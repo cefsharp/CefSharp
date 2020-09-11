@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Target
     /// GetTargetsResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetTargetsResponse
+    public class GetTargetsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<TargetInfo> targetInfos
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Target.TargetInfo> targetInfos
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// The list of targets.
         /// </summary>
-        public System.Collections.Generic.IList<TargetInfo> TargetInfos
+        public System.Collections.Generic.IList<CefSharp.DevTools.Target.TargetInfo> TargetInfos
         {
             get
             {

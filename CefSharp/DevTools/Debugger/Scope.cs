@@ -21,14 +21,14 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Object representing the scope. For `global` and `with` scopes it represents the actual
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("object"), IsRequired = (true))]
-        public Runtime.RemoteObject Object
+        public CefSharp.DevTools.Runtime.RemoteObject Object
         {
             get;
             set;
         }
 
         /// <summary>
-        /// 
+        /// Name
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (false))]
         public string Name
@@ -41,7 +41,7 @@ namespace CefSharp.DevTools.Debugger
         /// Location in the source code where scope starts
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("startLocation"), IsRequired = (false))]
-        public Location StartLocation
+        public CefSharp.DevTools.Debugger.Location StartLocation
         {
             get;
             set;
@@ -51,7 +51,7 @@ namespace CefSharp.DevTools.Debugger
         /// Location in the source code where scope ends
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("endLocation"), IsRequired = (false))]
-        public Location EndLocation
+        public CefSharp.DevTools.Debugger.Location EndLocation
         {
             get;
             set;

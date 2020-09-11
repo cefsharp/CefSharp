@@ -9,7 +9,7 @@ namespace CefSharp.DevTools.Debugger
     public class ScriptPosition : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
-        /// 
+        /// LineNumber
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
         public int LineNumber
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         /// <summary>
-        /// 
+        /// ColumnNumber
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
         public int ColumnNumber

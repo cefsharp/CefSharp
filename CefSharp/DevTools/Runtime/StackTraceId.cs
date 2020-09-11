@@ -8,7 +8,7 @@ namespace CefSharp.DevTools.Runtime
     public class StackTraceId : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
-        /// 
+        /// Id
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
         public string Id
@@ -18,7 +18,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         /// <summary>
-        /// 
+        /// DebuggerId
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("debuggerId"), IsRequired = (false))]
         public string DebuggerId

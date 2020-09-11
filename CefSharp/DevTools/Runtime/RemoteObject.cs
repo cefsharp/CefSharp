@@ -81,17 +81,17 @@ namespace CefSharp.DevTools.Runtime
         /// Preview containing abbreviated property values. Specified for `object` type values only.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("preview"), IsRequired = (false))]
-        public ObjectPreview Preview
+        public CefSharp.DevTools.Runtime.ObjectPreview Preview
         {
             get;
             set;
         }
 
         /// <summary>
-        /// 
+        /// CustomPreview
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("customPreview"), IsRequired = (false))]
-        public CustomPreview CustomPreview
+        public CefSharp.DevTools.Runtime.CustomPreview CustomPreview
         {
             get;
             set;

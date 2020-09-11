@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Network
         /// Initiator JavaScript stack trace, set for Script only.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("stack"), IsRequired = (false))]
-        public Runtime.StackTrace Stack
+        public CefSharp.DevTools.Runtime.StackTrace Stack
         {
             get;
             set;

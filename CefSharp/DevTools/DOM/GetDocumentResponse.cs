@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.DOM
     /// GetDocumentResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetDocumentResponse
+    public class GetDocumentResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal Node root
+        internal CefSharp.DevTools.DOM.Node root
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Resulting node.
         /// </summary>
-        public Node Root
+        public CefSharp.DevTools.DOM.Node Root
         {
             get
             {

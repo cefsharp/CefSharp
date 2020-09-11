@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Network
     /// GetRequestPostDataResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetRequestPostDataResponse
+    public class GetRequestPostDataResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string postData

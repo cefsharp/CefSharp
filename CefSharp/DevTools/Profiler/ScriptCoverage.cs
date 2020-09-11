@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.Profiler
         /// Functions contained in the script that has coverage data.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("functions"), IsRequired = (true))]
-        public System.Collections.Generic.IList<FunctionCoverage> Functions
+        public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.FunctionCoverage> Functions
         {
             get;
             set;

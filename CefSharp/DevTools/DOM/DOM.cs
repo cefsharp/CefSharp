@@ -16,6 +16,33 @@ namespace CefSharp.DevTools.DOM
 
         private CefSharp.DevTools.DevToolsClient _client;
         /// <summary>
+        /// Collects class names for the node with given id and all of it's child nodes.
+        /// </summary>
+        public async System.Threading.Tasks.Task<CollectClassNamesFromSubtreeResponse> CollectClassNamesFromSubtreeAsync(int nodeId)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("nodeId", nodeId);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.collectClassNamesFromSubtree", dict);
+            return methodResult.DeserializeJson<CollectClassNamesFromSubtreeResponse>();
+        }
+
+        /// <summary>
+        /// Creates a deep copy of the specified node and places it into the target container before the
+        public async System.Threading.Tasks.Task<CopyToResponse> CopyToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("nodeId", nodeId);
+            dict.Add("targetNodeId", targetNodeId);
+            if (insertBeforeNodeId.HasValue)
+            {
+                dict.Add("insertBeforeNodeId", insertBeforeNodeId.Value);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.copyTo", dict);
+            return methodResult.DeserializeJson<CopyToResponse>();
+        }
+
+        /// <summary>
         /// Describes node given its id, does not require domain to be enabled. Does not start tracking any
         public async System.Threading.Tasks.Task<DescribeNodeResponse> DescribeNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, int? depth = null, bool? pierce = null)
         {
@@ -45,34 +72,13 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("pierce", pierce.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.describeNode", dict);
-            return result.DeserializeJson<DescribeNodeResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.describeNode", dict);
+            return methodResult.DeserializeJson<DescribeNodeResponse>();
         }
 
         /// <summary>
-        /// Disables DOM agent for the given page.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.disable", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Enables DOM agent for the given page.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync()
-        {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.enable", dict);
-            return result;
-        }
-
-        /// <summary>
-        /// Focuses the given element.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> FocusAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        /// Scrolls the specified rect of the given node into view if not already visible.
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ScrollIntoViewIfNeededAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, CefSharp.DevTools.DOM.Rect rect = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
@@ -90,8 +96,68 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.focus", dict);
-            return result;
+            if ((rect) != (null))
+            {
+                dict.Add("rect", rect.ToDictionary());
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.scrollIntoViewIfNeeded", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Disables DOM agent for the given page.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.disable", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Discards search results from the session with the given id. `getSearchResults` should no longer
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DiscardSearchResultsAsync(string searchId)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("searchId", searchId);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.discardSearchResults", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Enables DOM agent for the given page.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.enable", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Focuses the given element.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> FocusAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (nodeId.HasValue)
+            {
+                dict.Add("nodeId", nodeId.Value);
+            }
+
+            if (backendNodeId.HasValue)
+            {
+                dict.Add("backendNodeId", backendNodeId.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(objectId)))
+            {
+                dict.Add("objectId", objectId);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.focus", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -101,8 +167,8 @@ namespace CefSharp.DevTools.DOM
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.getAttributes", dict);
-            return result.DeserializeJson<GetAttributesResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getAttributes", dict);
+            return methodResult.DeserializeJson<GetAttributesResponse>();
         }
 
         /// <summary>
@@ -126,8 +192,32 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.getBoxModel", dict);
-            return result.DeserializeJson<GetBoxModelResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getBoxModel", dict);
+            return methodResult.DeserializeJson<GetBoxModelResponse>();
+        }
+
+        /// <summary>
+        /// Returns quads that describe node position on the page. This method
+        public async System.Threading.Tasks.Task<GetContentQuadsResponse> GetContentQuadsAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (nodeId.HasValue)
+            {
+                dict.Add("nodeId", nodeId.Value);
+            }
+
+            if (backendNodeId.HasValue)
+            {
+                dict.Add("backendNodeId", backendNodeId.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(objectId)))
+            {
+                dict.Add("objectId", objectId);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getContentQuads", dict);
+            return methodResult.DeserializeJson<GetContentQuadsResponse>();
         }
 
         /// <summary>
@@ -146,12 +236,13 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("pierce", pierce.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.getDocument", dict);
-            return result.DeserializeJson<GetDocumentResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getDocument", dict);
+            return methodResult.DeserializeJson<GetDocumentResponse>();
         }
 
         /// <summary>
         /// Returns the root DOM node (and optionally the subtree) to the caller.
+        /// </summary>
         public async System.Threading.Tasks.Task<GetFlattenedDocumentResponse> GetFlattenedDocumentAsync(int? depth = null, bool? pierce = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -165,8 +256,8 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("pierce", pierce.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.getFlattenedDocument", dict);
-            return result.DeserializeJson<GetFlattenedDocumentResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getFlattenedDocument", dict);
+            return methodResult.DeserializeJson<GetFlattenedDocumentResponse>();
         }
 
         /// <summary>
@@ -186,8 +277,8 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("ignorePointerEventsNone", ignorePointerEventsNone.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.getNodeForLocation", dict);
-            return result.DeserializeJson<GetNodeForLocationResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getNodeForLocation", dict);
+            return methodResult.DeserializeJson<GetNodeForLocationResponse>();
         }
 
         /// <summary>
@@ -211,38 +302,71 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.getOuterHTML", dict);
-            return result.DeserializeJson<GetOuterHTMLResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getOuterHTML", dict);
+            return methodResult.DeserializeJson<GetOuterHTMLResponse>();
+        }
+
+        /// <summary>
+        /// Returns the id of the nearest ancestor that is a relayout boundary.
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetRelayoutBoundaryResponse> GetRelayoutBoundaryAsync(int nodeId)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("nodeId", nodeId);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getRelayoutBoundary", dict);
+            return methodResult.DeserializeJson<GetRelayoutBoundaryResponse>();
+        }
+
+        /// <summary>
+        /// Returns search results from given `fromIndex` to given `toIndex` from the search with the given
+        public async System.Threading.Tasks.Task<GetSearchResultsResponse> GetSearchResultsAsync(string searchId, int fromIndex, int toIndex)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("searchId", searchId);
+            dict.Add("fromIndex", fromIndex);
+            dict.Add("toIndex", toIndex);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getSearchResults", dict);
+            return methodResult.DeserializeJson<GetSearchResultsResponse>();
         }
 
         /// <summary>
         /// Hides any highlight.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> HideHighlightAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HideHighlightAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.hideHighlight", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.hideHighlight", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Highlights DOM node.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> HighlightNodeAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightNodeAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.highlightNode", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.highlightNode", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Highlights given rectangle.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> HighlightRectAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightRectAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.highlightRect", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.highlightRect", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Marks last undoable state.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> MarkUndoableStateAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.markUndoableState", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -258,8 +382,45 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("insertBeforeNodeId", insertBeforeNodeId.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.moveTo", dict);
-            return result.DeserializeJson<MoveToResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.moveTo", dict);
+            return methodResult.DeserializeJson<MoveToResponse>();
+        }
+
+        /// <summary>
+        /// Searches for a given string in the DOM tree. Use `getSearchResults` to access search results or
+        public async System.Threading.Tasks.Task<PerformSearchResponse> PerformSearchAsync(string query, bool? includeUserAgentShadowDOM = null)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("query", query);
+            if (includeUserAgentShadowDOM.HasValue)
+            {
+                dict.Add("includeUserAgentShadowDOM", includeUserAgentShadowDOM.Value);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.performSearch", dict);
+            return methodResult.DeserializeJson<PerformSearchResponse>();
+        }
+
+        /// <summary>
+        /// Requests that the node is sent to the caller given its path. // FIXME, use XPath
+        /// </summary>
+        public async System.Threading.Tasks.Task<PushNodeByPathToFrontendResponse> PushNodeByPathToFrontendAsync(string path)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("path", path);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.pushNodeByPathToFrontend", dict);
+            return methodResult.DeserializeJson<PushNodeByPathToFrontendResponse>();
+        }
+
+        /// <summary>
+        /// Requests that a batch of nodes is sent to the caller given their backend node ids.
+        /// </summary>
+        public async System.Threading.Tasks.Task<PushNodesByBackendIdsToFrontendResponse> PushNodesByBackendIdsToFrontendAsync(int[] backendNodeIds)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("backendNodeIds", backendNodeIds);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.pushNodesByBackendIdsToFrontend", dict);
+            return methodResult.DeserializeJson<PushNodesByBackendIdsToFrontendResponse>();
         }
 
         /// <summary>
@@ -270,8 +431,8 @@ namespace CefSharp.DevTools.DOM
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("selector", selector);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.querySelector", dict);
-            return result.DeserializeJson<QuerySelectorResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.querySelector", dict);
+            return methodResult.DeserializeJson<QuerySelectorResponse>();
         }
 
         /// <summary>
@@ -282,36 +443,46 @@ namespace CefSharp.DevTools.DOM
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("selector", selector);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.querySelectorAll", dict);
-            return result.DeserializeJson<QuerySelectorAllResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.querySelectorAll", dict);
+            return methodResult.DeserializeJson<QuerySelectorAllResponse>();
+        }
+
+        /// <summary>
+        /// Re-does the last undone action.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RedoAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.redo", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Removes attribute with given name from an element with given id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RemoveAttributeAsync(int nodeId, string name)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveAttributeAsync(int nodeId, string name)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.removeAttribute", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.removeAttribute", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Removes node with given id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RemoveNodeAsync(int nodeId)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveNodeAsync(int nodeId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.removeNode", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.removeNode", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Requests that children of the node with given id are returned to the caller in form of
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RequestChildNodesAsync(int nodeId, int? depth = null, bool? pierce = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RequestChildNodesAsync(int nodeId, int? depth = null, bool? pierce = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
@@ -325,8 +496,8 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("pierce", pierce.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.requestChildNodes", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.requestChildNodes", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -335,8 +506,8 @@ namespace CefSharp.DevTools.DOM
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.requestNode", dict);
-            return result.DeserializeJson<RequestNodeResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.requestNode", dict);
+            return methodResult.DeserializeJson<RequestNodeResponse>();
         }
 
         /// <summary>
@@ -365,26 +536,26 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("executionContextId", executionContextId.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.resolveNode", dict);
-            return result.DeserializeJson<ResolveNodeResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.resolveNode", dict);
+            return methodResult.DeserializeJson<ResolveNodeResponse>();
         }
 
         /// <summary>
         /// Sets attribute for an element with given id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetAttributeValueAsync(int nodeId, string name, string value)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributeValueAsync(int nodeId, string name, string value)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
             dict.Add("value", value);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.setAttributeValue", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setAttributeValue", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Sets attributes on element with given id. This method is useful when user edits some existing
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetAttributesAsTextAsync(int nodeId, string text, string name = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributesAsTextAsync(int nodeId, string text, string name = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
@@ -394,14 +565,14 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("name", name);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.setAttributesAsText", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setAttributesAsText", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Sets files for the given file input element.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetFileInputFilesAsync(string files, int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFileInputFilesAsync(string[] files, int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("files", files);
@@ -420,8 +591,50 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.setFileInputFiles", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setFileInputFiles", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Sets if stack traces should be captured for Nodes. See `Node.getNodeStackTraces`. Default is disabled.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetNodeStackTracesEnabledAsync(bool enable)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("enable", enable);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeStackTracesEnabled", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Gets stack traces associated with a Node. As of now, only provides stack trace for Node creation.
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetNodeStackTracesResponse> GetNodeStackTracesAsync(int nodeId)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("nodeId", nodeId);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getNodeStackTraces", dict);
+            return methodResult.DeserializeJson<GetNodeStackTracesResponse>();
+        }
+
+        /// <summary>
+        /// Returns file information for the given
+        public async System.Threading.Tasks.Task<GetFileInfoResponse> GetFileInfoAsync(string objectId)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("objectId", objectId);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getFileInfo", dict);
+            return methodResult.DeserializeJson<GetFileInfoResponse>();
+        }
+
+        /// <summary>
+        /// Enables console to refer to the node with given id via $x (see Command Line API for more details
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectedNodeAsync(int nodeId)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("nodeId", nodeId);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setInspectedNode", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -432,32 +645,53 @@ namespace CefSharp.DevTools.DOM
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeName", dict);
-            return result.DeserializeJson<SetNodeNameResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeName", dict);
+            return methodResult.DeserializeJson<SetNodeNameResponse>();
         }
 
         /// <summary>
         /// Sets node value for a node with given id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetNodeValueAsync(int nodeId, string value)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetNodeValueAsync(int nodeId, string value)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("value", value);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeValue", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeValue", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Sets node HTML markup, returns new node id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetOuterHTMLAsync(int nodeId, string outerHTML)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetOuterHTMLAsync(int nodeId, string outerHTML)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("outerHTML", outerHTML);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOM.setOuterHTML", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setOuterHTML", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Undoes the last performed action.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> UndoAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.undo", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Returns iframe node that owns iframe with the given domain.
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetFrameOwnerResponse> GetFrameOwnerAsync(string frameId)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("frameId", frameId);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getFrameOwner", dict);
+            return methodResult.DeserializeJson<GetFrameOwnerResponse>();
         }
     }
 }

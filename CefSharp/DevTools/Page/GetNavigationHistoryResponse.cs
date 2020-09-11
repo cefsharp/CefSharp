@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Page
     /// GetNavigationHistoryResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetNavigationHistoryResponse
+    public class GetNavigationHistoryResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal int currentIndex
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Page
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<NavigationEntry> entries
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Page.NavigationEntry> entries
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Array of navigation history entries.
         /// </summary>
-        public System.Collections.Generic.IList<NavigationEntry> Entries
+        public System.Collections.Generic.IList<CefSharp.DevTools.Page.NavigationEntry> Entries
         {
             get
             {

@@ -42,7 +42,7 @@ namespace CefSharp.DevTools.Browser
         /// Buckets.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("buckets"), IsRequired = (true))]
-        public System.Collections.Generic.IList<Bucket> Buckets
+        public System.Collections.Generic.IList<CefSharp.DevTools.Browser.Bucket> Buckets
         {
             get;
             set;

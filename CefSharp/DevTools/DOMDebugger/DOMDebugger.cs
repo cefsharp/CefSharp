@@ -32,26 +32,26 @@ namespace CefSharp.DevTools.DOMDebugger
                 dict.Add("pierce", pierce.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.getEventListeners", dict);
-            return result.DeserializeJson<GetEventListenersResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.getEventListeners", dict);
+            return methodResult.DeserializeJson<GetEventListenersResponse>();
         }
 
         /// <summary>
         /// Removes DOM breakpoint that was set using `setDOMBreakpoint`.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RemoveDOMBreakpointAsync(int nodeId, DOMBreakpointType type)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMBreakpointAsync(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("type", this.EnumToString(type));
-            var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeDOMBreakpoint", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeDOMBreakpoint", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Removes breakpoint on particular DOM event.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RemoveEventListenerBreakpointAsync(string eventName, string targetName = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveEventListenerBreakpointAsync(string eventName, string targetName = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("eventName", eventName);
@@ -60,37 +60,48 @@ namespace CefSharp.DevTools.DOMDebugger
                 dict.Add("targetName", targetName);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeEventListenerBreakpoint", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeEventListenerBreakpoint", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Removes breakpoint on particular native event.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveInstrumentationBreakpointAsync(string eventName)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("eventName", eventName);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeInstrumentationBreakpoint", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Removes breakpoint from XMLHttpRequest.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RemoveXHRBreakpointAsync(string url)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveXHRBreakpointAsync(string url)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeXHRBreakpoint", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeXHRBreakpoint", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Sets breakpoint on particular operation with DOM.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetDOMBreakpointAsync(int nodeId, DOMBreakpointType type)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMBreakpointAsync(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("type", this.EnumToString(type));
-            var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setDOMBreakpoint", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setDOMBreakpoint", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Sets breakpoint on particular DOM event.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetEventListenerBreakpointAsync(string eventName, string targetName = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEventListenerBreakpointAsync(string eventName, string targetName = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("eventName", eventName);
@@ -99,19 +110,30 @@ namespace CefSharp.DevTools.DOMDebugger
                 dict.Add("targetName", targetName);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setEventListenerBreakpoint", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setEventListenerBreakpoint", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Sets breakpoint on particular native event.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInstrumentationBreakpointAsync(string eventName)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("eventName", eventName);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setInstrumentationBreakpoint", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Sets breakpoint on XMLHttpRequest.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetXHRBreakpointAsync(string url)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetXHRBreakpointAsync(string url)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
-            var result = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setXHRBreakpoint", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setXHRBreakpoint", dict);
+            return methodResult;
         }
     }
 }

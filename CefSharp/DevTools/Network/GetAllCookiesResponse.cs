@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Network
     /// GetAllCookiesResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetAllCookiesResponse
+    public class GetAllCookiesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<Cookie> cookies
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> cookies
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Array of cookie objects.
         /// </summary>
-        public System.Collections.Generic.IList<Cookie> Cookies
+        public System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> Cookies
         {
             get
             {

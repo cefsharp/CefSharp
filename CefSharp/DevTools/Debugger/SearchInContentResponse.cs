@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Debugger
     /// SearchInContentResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class SearchInContentResponse
+    public class SearchInContentResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<SearchMatch> result
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> result
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// List of search matches.
         /// </summary>
-        public System.Collections.Generic.IList<SearchMatch> Result
+        public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> Result
         {
             get
             {

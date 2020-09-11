@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Page
     /// CaptureScreenshotResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class CaptureScreenshotResponse
+    public class CaptureScreenshotResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string data
@@ -19,11 +19,11 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Base64-encoded image data.
         /// </summary>
-        public string Data
+        public byte[] Data
         {
             get
             {
-                return data;
+                return Convert(data);
             }
         }
     }

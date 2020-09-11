@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.DOM
     /// MoveToResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class MoveToResponse
+    public class MoveToResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal int nodeId

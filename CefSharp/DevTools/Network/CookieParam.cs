@@ -81,7 +81,7 @@ namespace CefSharp.DevTools.Network
         /// Cookie SameSite type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("sameSite"), IsRequired = (false))]
-        public CookieSameSite SameSite
+        public CefSharp.DevTools.Network.CookieSameSite? SameSite
         {
             get;
             set;
@@ -101,7 +101,7 @@ namespace CefSharp.DevTools.Network
         /// Cookie Priority.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("priority"), IsRequired = (false))]
-        public CookiePriority Priority
+        public CefSharp.DevTools.Network.CookiePriority? Priority
         {
             get;
             set;

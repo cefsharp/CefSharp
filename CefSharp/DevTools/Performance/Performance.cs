@@ -19,17 +19,17 @@ namespace CefSharp.DevTools.Performance
         /// <summary>
         /// Disable collecting and reporting metrics.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Performance.disable", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Performance.disable", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Enable collecting and reporting metrics.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync(string timeDomain = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string timeDomain = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(timeDomain)))
@@ -37,8 +37,8 @@ namespace CefSharp.DevTools.Performance
                 dict.Add("timeDomain", timeDomain);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Performance.enable", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Performance.enable", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace CefSharp.DevTools.Performance
         public async System.Threading.Tasks.Task<GetMetricsResponse> GetMetricsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Performance.getMetrics", dict);
-            return result.DeserializeJson<GetMetricsResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Performance.getMetrics", dict);
+            return methodResult.DeserializeJson<GetMetricsResponse>();
         }
     }
 }

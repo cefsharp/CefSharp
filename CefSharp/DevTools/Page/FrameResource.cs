@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Page
         /// Type of this resource.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        public Network.ResourceType Type
+        public CefSharp.DevTools.Network.ResourceType Type
         {
             get;
             set;

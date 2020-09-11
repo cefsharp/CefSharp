@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.DOM
     /// GetAttributesResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetAttributesResponse
+    public class GetAttributesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal string attributes
+        internal string[] attributes
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// An interleaved array of node attribute names and values.
         /// </summary>
-        public string Attributes
+        public string[] Attributes
         {
             get
             {

@@ -52,7 +52,7 @@ namespace CefSharp.DevTools.Runtime
         /// List of the properties.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("properties"), IsRequired = (true))]
-        public System.Collections.Generic.IList<PropertyPreview> Properties
+        public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PropertyPreview> Properties
         {
             get;
             set;
@@ -62,7 +62,7 @@ namespace CefSharp.DevTools.Runtime
         /// List of the entries. Specified for `map` and `set` subtype values only.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("entries"), IsRequired = (false))]
-        public System.Collections.Generic.IList<EntryPreview> Entries
+        public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.EntryPreview> Entries
         {
             get;
             set;

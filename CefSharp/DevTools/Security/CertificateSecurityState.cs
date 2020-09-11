@@ -62,7 +62,7 @@ namespace CefSharp.DevTools.Security
         /// Page certificate.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificate"), IsRequired = (true))]
-        public string Certificate
+        public string[] Certificate
         {
             get;
             set;

@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.DOM
     /// QuerySelectorAllResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class QuerySelectorAllResponse
+    public class QuerySelectorAllResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodeIds
+        internal int[] nodeIds
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Query selector result.
         /// </summary>
-        public int NodeIds
+        public int[] NodeIds
         {
             get
             {

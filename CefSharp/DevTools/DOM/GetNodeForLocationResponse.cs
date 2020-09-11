@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.DOM
     /// GetNodeForLocationResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetNodeForLocationResponse
+    public class GetNodeForLocationResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal int backendNodeId

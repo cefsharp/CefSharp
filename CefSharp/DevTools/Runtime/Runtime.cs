@@ -32,13 +32,13 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("generatePreview", generatePreview.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.awaitPromise", dict);
-            return result.DeserializeJson<AwaitPromiseResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.awaitPromise", dict);
+            return methodResult.DeserializeJson<AwaitPromiseResponse>();
         }
 
         /// <summary>
         /// Calls function with given declaration on the given object. Object group of the result is
-        public async System.Threading.Tasks.Task<CallFunctionOnResponse> CallFunctionOnAsync(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null)
+        public async System.Threading.Tasks.Task<CallFunctionOnResponse> CallFunctionOnAsync(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("functionDeclaration", functionDeclaration);
@@ -87,8 +87,8 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("objectGroup", objectGroup);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.callFunctionOn", dict);
-            return result.DeserializeJson<CallFunctionOnResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.callFunctionOn", dict);
+            return methodResult.DeserializeJson<CallFunctionOnResponse>();
         }
 
         /// <summary>
@@ -105,43 +105,43 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("executionContextId", executionContextId.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.compileScript", dict);
-            return result.DeserializeJson<CompileScriptResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.compileScript", dict);
+            return methodResult.DeserializeJson<CompileScriptResponse>();
         }
 
         /// <summary>
         /// Disables reporting of execution contexts creation.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.disable", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.disable", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Discards collected exceptions and console API calls.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DiscardConsoleEntriesAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DiscardConsoleEntriesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.discardConsoleEntries", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.discardConsoleEntries", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Enables reporting of execution contexts creation by means of `executionContextCreated` event.
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.enable", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.enable", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Evaluates expression on global object.
         /// </summary>
-        public async System.Threading.Tasks.Task<EvaluateResponse> EvaluateAsync(string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, int? contextId = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, bool? throwOnSideEffect = null, long? timeout = null, bool? disableBreaks = null, bool? replMode = null, bool? allowUnsafeEvalBlockedByCSP = null)
+        public async System.Threading.Tasks.Task<EvaluateResponse> EvaluateAsync(string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, int? contextId = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, bool? throwOnSideEffect = null, long? timeout = null, bool? disableBreaks = null, bool? replMode = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("expression", expression);
@@ -205,13 +205,27 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("replMode", replMode.Value);
             }
 
-            if (allowUnsafeEvalBlockedByCSP.HasValue)
-            {
-                dict.Add("allowUnsafeEvalBlockedByCSP", allowUnsafeEvalBlockedByCSP.Value);
-            }
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.evaluate", dict);
+            return methodResult.DeserializeJson<EvaluateResponse>();
+        }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.evaluate", dict);
-            return result.DeserializeJson<EvaluateResponse>();
+        /// <summary>
+        /// Returns the isolate id.
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetIsolateIdResponse> GetIsolateIdAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.getIsolateId", dict);
+            return methodResult.DeserializeJson<GetIsolateIdResponse>();
+        }
+
+        /// <summary>
+        /// Returns the JavaScript heap usage.
+        public async System.Threading.Tasks.Task<GetHeapUsageResponse> GetHeapUsageAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.getHeapUsage", dict);
+            return methodResult.DeserializeJson<GetHeapUsageResponse>();
         }
 
         /// <summary>
@@ -235,8 +249,8 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("generatePreview", generatePreview.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.getProperties", dict);
-            return result.DeserializeJson<GetPropertiesResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.getProperties", dict);
+            return methodResult.DeserializeJson<GetPropertiesResponse>();
         }
 
         /// <summary>
@@ -250,8 +264,8 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("executionContextId", executionContextId.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.globalLexicalScopeNames", dict);
-            return result.DeserializeJson<GlobalLexicalScopeNamesResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.globalLexicalScopeNames", dict);
+            return methodResult.DeserializeJson<GlobalLexicalScopeNamesResponse>();
         }
 
         /// <summary>
@@ -266,40 +280,40 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("objectGroup", objectGroup);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.queryObjects", dict);
-            return result.DeserializeJson<QueryObjectsResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.queryObjects", dict);
+            return methodResult.DeserializeJson<QueryObjectsResponse>();
         }
 
         /// <summary>
         /// Releases remote object with given id.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ReleaseObjectAsync(string objectId)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseObjectAsync(string objectId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.releaseObject", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.releaseObject", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Releases all remote objects that belong to a given group.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ReleaseObjectGroupAsync(string objectGroup)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseObjectGroupAsync(string objectGroup)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectGroup", objectGroup);
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.releaseObjectGroup", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.releaseObjectGroup", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Tells inspected instance to run if it was waiting for debugger to attach.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RunIfWaitingForDebuggerAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RunIfWaitingForDebuggerAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.runIfWaitingForDebugger", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.runIfWaitingForDebugger", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -344,19 +358,75 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("awaitPromise", awaitPromise.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.runScript", dict);
-            return result.DeserializeJson<RunScriptResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.runScript", dict);
+            return methodResult.DeserializeJson<RunScriptResponse>();
         }
 
         /// <summary>
         /// Enables or disables async call stacks tracking.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetAsyncCallStackDepthAsync(int maxDepth)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("maxDepth", maxDepth);
-            var result = await _client.ExecuteDevToolsMethodAsync("Runtime.setAsyncCallStackDepth", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setAsyncCallStackDepth", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCustomObjectFormatterEnabledAsync(bool enabled)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("enabled", enabled);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setCustomObjectFormatterEnabled", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetMaxCallStackSizeToCaptureAsync(int size)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("size", size);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setMaxCallStackSizeToCapture", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Terminate current or next JavaScript execution.
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> TerminateExecutionAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.terminateExecution", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// If executionContextId is empty, adds binding with the given name on the
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddBindingAsync(string name, int? executionContextId = null)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("name", name);
+            if (executionContextId.HasValue)
+            {
+                dict.Add("executionContextId", executionContextId.Value);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.addBinding", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// This method does not remove binding function from global object but
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveBindingAsync(string name)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("name", name);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.removeBinding", dict);
+            return methodResult;
         }
     }
 }

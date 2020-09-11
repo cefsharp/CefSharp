@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.Network
         /// The field which caused the error.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorField"), IsRequired = (false))]
-        public SignedExchangeErrorField ErrorField
+        public CefSharp.DevTools.Network.SignedExchangeErrorField? ErrorField
         {
             get;
             set;

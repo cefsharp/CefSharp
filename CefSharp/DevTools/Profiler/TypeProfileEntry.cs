@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Profiler
         /// The types for this parameter or return value.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("types"), IsRequired = (true))]
-        public System.Collections.Generic.IList<TypeObject> Types
+        public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.TypeObject> Types
         {
             get;
             set;

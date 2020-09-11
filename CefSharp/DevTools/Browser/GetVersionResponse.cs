@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Browser
     /// GetVersionResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetVersionResponse
+    public class GetVersionResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string protocolVersion

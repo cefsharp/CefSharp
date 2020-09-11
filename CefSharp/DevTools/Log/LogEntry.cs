@@ -72,7 +72,7 @@ namespace CefSharp.DevTools.Log
         /// JavaScript stack trace.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("stackTrace"), IsRequired = (false))]
-        public Runtime.StackTrace StackTrace
+        public CefSharp.DevTools.Runtime.StackTrace StackTrace
         {
             get;
             set;
@@ -102,7 +102,7 @@ namespace CefSharp.DevTools.Log
         /// Call arguments.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("args"), IsRequired = (false))]
-        public System.Collections.Generic.IList<Runtime.RemoteObject> Args
+        public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.RemoteObject> Args
         {
             get;
             set;

@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Profiler
     /// StartPreciseCoverageResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class StartPreciseCoverageResponse
+    public class StartPreciseCoverageResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal long timestamp

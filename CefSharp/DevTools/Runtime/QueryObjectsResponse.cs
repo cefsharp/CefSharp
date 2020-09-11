@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Runtime
     /// QueryObjectsResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class QueryObjectsResponse
+    public class QueryObjectsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal RemoteObject objects
+        internal CefSharp.DevTools.Runtime.RemoteObject objects
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Array with objects.
         /// </summary>
-        public RemoteObject Objects
+        public CefSharp.DevTools.Runtime.RemoteObject Objects
         {
             get
             {

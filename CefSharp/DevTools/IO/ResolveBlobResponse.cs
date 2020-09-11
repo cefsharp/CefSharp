@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.IO
     /// ResolveBlobResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class ResolveBlobResponse
+    public class ResolveBlobResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string uuid

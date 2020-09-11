@@ -28,24 +28,24 @@ namespace CefSharp.DevTools.Page
                 dict.Add("worldName", worldName);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.addScriptToEvaluateOnNewDocument", dict);
-            return result.DeserializeJson<AddScriptToEvaluateOnNewDocumentResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.addScriptToEvaluateOnNewDocument", dict);
+            return methodResult.DeserializeJson<AddScriptToEvaluateOnNewDocumentResponse>();
         }
 
         /// <summary>
         /// Brings page to front (activates tab).
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> BringToFrontAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> BringToFrontAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.bringToFront", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.bringToFront", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Capture page screenshot.
         /// </summary>
-        public async System.Threading.Tasks.Task<CaptureScreenshotResponse> CaptureScreenshotAsync(string format = null, int? quality = null, Viewport clip = null, bool? fromSurface = null)
+        public async System.Threading.Tasks.Task<CaptureScreenshotResponse> CaptureScreenshotAsync(string format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(format)))
@@ -68,18 +68,22 @@ namespace CefSharp.DevTools.Page
                 dict.Add("fromSurface", fromSurface.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.captureScreenshot", dict);
-            return result.DeserializeJson<CaptureScreenshotResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.captureScreenshot", dict);
+            return methodResult.DeserializeJson<CaptureScreenshotResponse>();
         }
 
         /// <summary>
-        /// Clears the overriden Geolocation Position and Error.
-        /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ClearGeolocationOverrideAsync()
+        /// Returns a snapshot of the page as a string. For MHTML format, the serialization includes
+        public async System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string format = null)
         {
-            System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.clearGeolocationOverride", dict);
-            return result;
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (!(string.IsNullOrEmpty(format)))
+            {
+                dict.Add("format", format);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.captureSnapshot", dict);
+            return methodResult.DeserializeJson<CaptureSnapshotResponse>();
         }
 
         /// <summary>
@@ -99,28 +103,28 @@ namespace CefSharp.DevTools.Page
                 dict.Add("grantUniveralAccess", grantUniveralAccess.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.createIsolatedWorld", dict);
-            return result.DeserializeJson<CreateIsolatedWorldResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.createIsolatedWorld", dict);
+            return methodResult.DeserializeJson<CreateIsolatedWorldResponse>();
         }
 
         /// <summary>
         /// Disables page domain notifications.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.disable", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.disable", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Enables page domain notifications.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.enable", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.enable", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -129,8 +133,28 @@ namespace CefSharp.DevTools.Page
         public async System.Threading.Tasks.Task<GetAppManifestResponse> GetAppManifestAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.getAppManifest", dict);
-            return result.DeserializeJson<GetAppManifestResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getAppManifest", dict);
+            return methodResult.DeserializeJson<GetAppManifestResponse>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetInstallabilityErrorsResponse> GetInstallabilityErrorsAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getInstallabilityErrors", dict);
+            return methodResult.DeserializeJson<GetInstallabilityErrorsResponse>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetManifestIconsResponse> GetManifestIconsAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getManifestIcons", dict);
+            return methodResult.DeserializeJson<GetManifestIconsResponse>();
         }
 
         /// <summary>
@@ -139,8 +163,8 @@ namespace CefSharp.DevTools.Page
         public async System.Threading.Tasks.Task<GetFrameTreeResponse> GetFrameTreeAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.getFrameTree", dict);
-            return result.DeserializeJson<GetFrameTreeResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getFrameTree", dict);
+            return methodResult.DeserializeJson<GetFrameTreeResponse>();
         }
 
         /// <summary>
@@ -149,8 +173,8 @@ namespace CefSharp.DevTools.Page
         public async System.Threading.Tasks.Task<GetLayoutMetricsResponse> GetLayoutMetricsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.getLayoutMetrics", dict);
-            return result.DeserializeJson<GetLayoutMetricsResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getLayoutMetrics", dict);
+            return methodResult.DeserializeJson<GetLayoutMetricsResponse>();
         }
 
         /// <summary>
@@ -159,24 +183,46 @@ namespace CefSharp.DevTools.Page
         public async System.Threading.Tasks.Task<GetNavigationHistoryResponse> GetNavigationHistoryAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.getNavigationHistory", dict);
-            return result.DeserializeJson<GetNavigationHistoryResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getNavigationHistory", dict);
+            return methodResult.DeserializeJson<GetNavigationHistoryResponse>();
         }
 
         /// <summary>
         /// Resets navigation history for the current page.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ResetNavigationHistoryAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResetNavigationHistoryAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.resetNavigationHistory", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.resetNavigationHistory", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Returns content of the given resource.
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetResourceContentResponse> GetResourceContentAsync(string frameId, string url)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("frameId", frameId);
+            dict.Add("url", url);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getResourceContent", dict);
+            return methodResult.DeserializeJson<GetResourceContentResponse>();
+        }
+
+        /// <summary>
+        /// Returns present frame / resource tree structure.
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetResourceTreeResponse> GetResourceTreeAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getResourceTree", dict);
+            return methodResult.DeserializeJson<GetResourceTreeResponse>();
         }
 
         /// <summary>
         /// Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> HandleJavaScriptDialogAsync(bool accept, string promptText = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HandleJavaScriptDialogAsync(bool accept, string promptText = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("accept", accept);
@@ -185,14 +231,14 @@ namespace CefSharp.DevTools.Page
                 dict.Add("promptText", promptText);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.handleJavaScriptDialog", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.handleJavaScriptDialog", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Navigates current page to the given URL.
         /// </summary>
-        public async System.Threading.Tasks.Task<NavigateResponse> NavigateAsync(string url, string referrer = null, TransitionType? transitionType = null, string frameId = null, ReferrerPolicy? referrerPolicy = null)
+        public async System.Threading.Tasks.Task<NavigateResponse> NavigateAsync(string url, string referrer = null, CefSharp.DevTools.Page.TransitionType? transitionType = null, string frameId = null, CefSharp.DevTools.Page.ReferrerPolicy? referrerPolicy = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
@@ -216,19 +262,19 @@ namespace CefSharp.DevTools.Page
                 dict.Add("referrerPolicy", this.EnumToString(referrerPolicy));
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.navigate", dict);
-            return result.DeserializeJson<NavigateResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.navigate", dict);
+            return methodResult.DeserializeJson<NavigateResponse>();
         }
 
         /// <summary>
         /// Navigates current page to the given history entry.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> NavigateToHistoryEntryAsync(int entryId)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> NavigateToHistoryEntryAsync(int entryId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("entryId", entryId);
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.navigateToHistoryEntry", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.navigateToHistoryEntry", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -317,14 +363,14 @@ namespace CefSharp.DevTools.Page
                 dict.Add("transferMode", transferMode);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.printToPDF", dict);
-            return result.DeserializeJson<PrintToPDFResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.printToPDF", dict);
+            return methodResult.DeserializeJson<PrintToPDFResponse>();
         }
 
         /// <summary>
         /// Reloads given page optionally ignoring the cache.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> ReloadAsync(bool? ignoreCache = null, string scriptToEvaluateOnLoad = null)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReloadAsync(bool? ignoreCache = null, string scriptToEvaluateOnLoad = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (ignoreCache.HasValue)
@@ -337,65 +383,273 @@ namespace CefSharp.DevTools.Page
                 dict.Add("scriptToEvaluateOnLoad", scriptToEvaluateOnLoad);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.reload", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.reload", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Removes given script from the list.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> RemoveScriptToEvaluateOnNewDocumentAsync(string identifier)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveScriptToEvaluateOnNewDocumentAsync(string identifier)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("identifier", identifier);
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.removeScriptToEvaluateOnNewDocument", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.removeScriptToEvaluateOnNewDocument", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Acknowledges that a screencast frame has been received by the frontend.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ScreencastFrameAckAsync(int sessionId)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("sessionId", sessionId);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.screencastFrameAck", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Searches for given string in resource content.
+        /// </summary>
+        public async System.Threading.Tasks.Task<SearchInResourceResponse> SearchInResourceAsync(string frameId, string url, string query, bool? caseSensitive = null, bool? isRegex = null)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("frameId", frameId);
+            dict.Add("url", url);
+            dict.Add("query", query);
+            if (caseSensitive.HasValue)
+            {
+                dict.Add("caseSensitive", caseSensitive.Value);
+            }
+
+            if (isRegex.HasValue)
+            {
+                dict.Add("isRegex", isRegex.Value);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.searchInResource", dict);
+            return methodResult.DeserializeJson<SearchInResourceResponse>();
+        }
+
+        /// <summary>
+        /// Enable Chrome's experimental ad filter on all sites.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAdBlockingEnabledAsync(bool enabled)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("enabled", enabled);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setAdBlockingEnabled", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Enable page Content Security Policy by-passing.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBypassCSPAsync(bool enabled)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("enabled", enabled);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setBypassCSP", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Set generic font families.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFontFamiliesAsync(CefSharp.DevTools.Page.FontFamilies fontFamilies)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("fontFamilies", fontFamilies.ToDictionary());
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setFontFamilies", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Set default font sizes.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFontSizesAsync(CefSharp.DevTools.Page.FontSizes fontSizes)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("fontSizes", fontSizes.ToDictionary());
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setFontSizes", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Sets given markup as the document's HTML.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetDocumentContentAsync(string frameId, string html)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDocumentContentAsync(string frameId, string html)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             dict.Add("html", html);
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.setDocumentContent", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setDocumentContent", dict);
+            return methodResult;
         }
 
         /// <summary>
-        /// Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetGeolocationOverrideAsync(long? latitude = null, long? longitude = null, long? accuracy = null)
+        /// Controls whether page will emit lifecycle events.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetLifecycleEventsEnabledAsync(bool enabled)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            if (latitude.HasValue)
+            dict.Add("enabled", enabled);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setLifecycleEventsEnabled", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Starts sending each frame using the `screencastFrame` event.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartScreencastAsync(string format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            if (!(string.IsNullOrEmpty(format)))
             {
-                dict.Add("latitude", latitude.Value);
+                dict.Add("format", format);
             }
 
-            if (longitude.HasValue)
+            if (quality.HasValue)
             {
-                dict.Add("longitude", longitude.Value);
+                dict.Add("quality", quality.Value);
             }
 
-            if (accuracy.HasValue)
+            if (maxWidth.HasValue)
             {
-                dict.Add("accuracy", accuracy.Value);
+                dict.Add("maxWidth", maxWidth.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.setGeolocationOverride", dict);
-            return result;
+            if (maxHeight.HasValue)
+            {
+                dict.Add("maxHeight", maxHeight.Value);
+            }
+
+            if (everyNthFrame.HasValue)
+            {
+                dict.Add("everyNthFrame", everyNthFrame.Value);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.startScreencast", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// Force the page stop all navigations and pending resource fetches.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StopLoadingAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopLoadingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Page.stopLoading", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.stopLoading", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Crashes renderer on the IO thread, generates minidumps.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CrashAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.crash", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Tries to close page, running its beforeunload hooks, if any.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.close", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Tries to update the web lifecycle state of the page.
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetWebLifecycleStateAsync(string state)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("state", state);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setWebLifecycleState", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Stops sending each frame in the `screencastFrame`.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopScreencastAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.stopScreencast", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Forces compilation cache to be generated for every subresource script.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetProduceCompilationCacheAsync(bool enabled)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("enabled", enabled);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setProduceCompilationCache", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Seeds compilation cache for given url. Compilation cache does not survive
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddCompilationCacheAsync(string url, byte[] data)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("url", url);
+            dict.Add("data", ToBase64String(data));
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.addCompilationCache", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Clears seeded compilation cache.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCompilationCacheAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.clearCompilationCache", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Generates a report for testing.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> GenerateTestReportAsync(string message, string group = null)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("message", message);
+            if (!(string.IsNullOrEmpty(group)))
+            {
+                dict.Add("group", group);
+            }
+
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.generateTestReport", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Pauses page execution. Can be resumed using generic Runtime.runIfWaitingForDebugger.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> WaitForDebuggerAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.waitForDebugger", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Intercept file chooser requests and transfer control to protocol clients.
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInterceptFileChooserDialogAsync(bool enabled)
+        {
+            var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("enabled", enabled);
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setInterceptFileChooserDialog", dict);
+            return methodResult;
         }
     }
 }

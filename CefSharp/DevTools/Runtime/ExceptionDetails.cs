@@ -71,7 +71,7 @@ namespace CefSharp.DevTools.Runtime
         /// JavaScript stack trace if available.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("stackTrace"), IsRequired = (false))]
-        public StackTrace StackTrace
+        public CefSharp.DevTools.Runtime.StackTrace StackTrace
         {
             get;
             set;
@@ -81,7 +81,7 @@ namespace CefSharp.DevTools.Runtime
         /// Exception object if available.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("exception"), IsRequired = (false))]
-        public RemoteObject Exception
+        public CefSharp.DevTools.Runtime.RemoteObject Exception
         {
             get;
             set;

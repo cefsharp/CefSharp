@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Runtime
     /// RunScriptResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class RunScriptResponse
+    public class RunScriptResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal RemoteObject result
+        internal CefSharp.DevTools.Runtime.RemoteObject result
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Run result.
         /// </summary>
-        public RemoteObject Result
+        public CefSharp.DevTools.Runtime.RemoteObject Result
         {
             get
             {
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal ExceptionDetails exceptionDetails
+        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception details.
         /// </summary>
-        public ExceptionDetails ExceptionDetails
+        public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
             get
             {

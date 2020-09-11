@@ -69,15 +69,6 @@ namespace CefSharp.DevTools.Page
         }
 
         /// <summary>
-        /// Frame document's registered domain, taking the public suffixes list into account.
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("domainAndRegistry"), IsRequired = (true))]
-        public string DomainAndRegistry
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Frame document's security origin.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityOrigin"), IsRequired = (true))]
@@ -102,36 +93,6 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("unreachableUrl"), IsRequired = (false))]
         public string UnreachableUrl
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Indicates whether this frame was tagged as an ad.
-        /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("adFrameType"), IsRequired = (false))]
-        public AdFrameType AdFrameType
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Indicates whether the main document is a secure context and explains why that is the case.
-        /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("secureContextType"), IsRequired = (true))]
-        public SecureContextType SecureContextType
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Indicates whether this is a cross origin isolated context.
-        /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("crossOriginIsolatedContextType"), IsRequired = (true))]
-        public CrossOriginIsolatedContextType CrossOriginIsolatedContextType
         {
             get;
             set;

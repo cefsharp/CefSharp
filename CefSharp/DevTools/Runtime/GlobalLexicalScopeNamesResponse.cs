@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Runtime
     /// GlobalLexicalScopeNamesResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GlobalLexicalScopeNamesResponse
+    public class GlobalLexicalScopeNamesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal string names
+        internal string[] names
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// names
         /// </summary>
-        public string Names
+        public string[] Names
         {
             get
             {

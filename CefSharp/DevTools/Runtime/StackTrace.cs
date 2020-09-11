@@ -21,7 +21,7 @@ namespace CefSharp.DevTools.Runtime
         /// JavaScript function name.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("callFrames"), IsRequired = (true))]
-        public System.Collections.Generic.IList<CallFrame> CallFrames
+        public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallFrame> CallFrames
         {
             get;
             set;
@@ -31,7 +31,7 @@ namespace CefSharp.DevTools.Runtime
         /// Asynchronous JavaScript stack trace that preceded this stack, if available.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("parent"), IsRequired = (false))]
-        public StackTrace Parent
+        public CefSharp.DevTools.Runtime.StackTrace Parent
         {
             get;
             set;
@@ -41,7 +41,7 @@ namespace CefSharp.DevTools.Runtime
         /// Asynchronous JavaScript stack trace that preceded this stack, if available.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentId"), IsRequired = (false))]
-        public StackTraceId ParentId
+        public CefSharp.DevTools.Runtime.StackTraceId ParentId
         {
             get;
             set;

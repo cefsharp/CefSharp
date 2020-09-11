@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Runtime
     /// CompileScriptResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class CompileScriptResponse
+    public class CompileScriptResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string scriptId
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal ExceptionDetails exceptionDetails
+        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception details.
         /// </summary>
-        public ExceptionDetails ExceptionDetails
+        public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
             get
             {

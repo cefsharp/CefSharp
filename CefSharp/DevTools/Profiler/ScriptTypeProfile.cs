@@ -32,7 +32,7 @@ namespace CefSharp.DevTools.Profiler
         /// Type profile entries for parameters and return values of the functions in the script.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("entries"), IsRequired = (true))]
-        public System.Collections.Generic.IList<TypeProfileEntry> Entries
+        public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.TypeProfileEntry> Entries
         {
             get;
             set;

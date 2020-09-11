@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.DOM
     /// DescribeNodeResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class DescribeNodeResponse
+    public class DescribeNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal Node node
+        internal CefSharp.DevTools.DOM.Node node
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Node description.
         /// </summary>
-        public Node Node
+        public CefSharp.DevTools.DOM.Node Node
         {
             get
             {

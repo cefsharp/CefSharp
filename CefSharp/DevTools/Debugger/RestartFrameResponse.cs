@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Debugger
     /// RestartFrameResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class RestartFrameResponse
+    public class RestartFrameResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CallFrame> callFrames
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.CallFrame> callFrames
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// New stack trace.
         /// </summary>
-        public System.Collections.Generic.IList<CallFrame> CallFrames
+        public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.CallFrame> CallFrames
         {
             get
             {
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal Runtime.StackTrace asyncStackTrace
+        internal CefSharp.DevTools.Runtime.StackTrace asyncStackTrace
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Async stack trace, if any.
         /// </summary>
-        public Runtime.StackTrace AsyncStackTrace
+        public CefSharp.DevTools.Runtime.StackTrace AsyncStackTrace
         {
             get
             {
@@ -46,7 +46,7 @@ namespace CefSharp.DevTools.Debugger
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal Runtime.StackTraceId asyncStackTraceId
+        internal CefSharp.DevTools.Runtime.StackTraceId asyncStackTraceId
         {
             get;
             set;
@@ -55,7 +55,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Async stack trace, if any.
         /// </summary>
-        public Runtime.StackTraceId AsyncStackTraceId
+        public CefSharp.DevTools.Runtime.StackTraceId AsyncStackTraceId
         {
             get
             {

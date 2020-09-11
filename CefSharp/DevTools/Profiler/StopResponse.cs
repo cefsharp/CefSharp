@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Profiler
     /// StopResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class StopResponse
+    public class StopResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal Profile profile
+        internal CefSharp.DevTools.Profiler.Profile profile
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Recorded profile.
         /// </summary>
-        public Profile Profile
+        public CefSharp.DevTools.Profiler.Profile Profile
         {
             get
             {

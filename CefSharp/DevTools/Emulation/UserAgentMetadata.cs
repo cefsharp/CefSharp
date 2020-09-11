@@ -9,17 +9,17 @@ namespace CefSharp.DevTools.Emulation
     public class UserAgentMetadata : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
-        /// 
+        /// Brands
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("brands"), IsRequired = (true))]
-        public System.Collections.Generic.IList<UserAgentBrandVersion> Brands
+        public System.Collections.Generic.IList<CefSharp.DevTools.Emulation.UserAgentBrandVersion> Brands
         {
             get;
             set;
         }
 
         /// <summary>
-        /// 
+        /// FullVersion
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("fullVersion"), IsRequired = (true))]
         public string FullVersion
@@ -29,7 +29,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// Platform
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("platform"), IsRequired = (true))]
         public string Platform
@@ -39,7 +39,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// PlatformVersion
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("platformVersion"), IsRequired = (true))]
         public string PlatformVersion
@@ -49,7 +49,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// Architecture
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("architecture"), IsRequired = (true))]
         public string Architecture
@@ -59,7 +59,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// Model
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("model"), IsRequired = (true))]
         public string Model
@@ -69,7 +69,7 @@ namespace CefSharp.DevTools.Emulation
         }
 
         /// <summary>
-        /// 
+        /// Mobile
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("mobile"), IsRequired = (true))]
         public bool Mobile

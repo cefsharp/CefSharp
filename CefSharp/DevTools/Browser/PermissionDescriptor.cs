@@ -36,6 +36,16 @@ namespace CefSharp.DevTools.Browser
         }
 
         /// <summary>
+        /// For "wake-lock" permission, must specify type as either "screen" or "system".
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (false))]
+        public string Type
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// For "clipboard" permission, may specify allowWithoutSanitization.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("allowWithoutSanitization"), IsRequired = (false))]

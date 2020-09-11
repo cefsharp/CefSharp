@@ -12,7 +12,7 @@ namespace CefSharp.DevTools.Runtime
         /// Preview of the key. Specified for map-like collection entries.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("key"), IsRequired = (false))]
-        public ObjectPreview Key
+        public CefSharp.DevTools.Runtime.ObjectPreview Key
         {
             get;
             set;
@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Runtime
         /// Preview of the value.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
-        public ObjectPreview Value
+        public CefSharp.DevTools.Runtime.ObjectPreview Value
         {
             get;
             set;

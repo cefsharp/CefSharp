@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Debugger
     /// EnableResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class EnableResponse
+    public class EnableResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string debuggerId

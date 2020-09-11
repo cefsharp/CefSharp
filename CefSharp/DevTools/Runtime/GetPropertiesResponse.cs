@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Runtime
     /// GetPropertiesResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class GetPropertiesResponse
+    public class GetPropertiesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<PropertyDescriptor> result
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PropertyDescriptor> result
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object properties.
         /// </summary>
-        public System.Collections.Generic.IList<PropertyDescriptor> Result
+        public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PropertyDescriptor> Result
         {
             get
             {
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<InternalPropertyDescriptor> internalProperties
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Runtime.InternalPropertyDescriptor> internalProperties
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Internal object properties (only of the element itself).
         /// </summary>
-        public System.Collections.Generic.IList<InternalPropertyDescriptor> InternalProperties
+        public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.InternalPropertyDescriptor> InternalProperties
         {
             get
             {
@@ -46,7 +46,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<PrivatePropertyDescriptor> privateProperties
+        internal System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PrivatePropertyDescriptor> privateProperties
         {
             get;
             set;
@@ -55,7 +55,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object private properties.
         /// </summary>
-        public System.Collections.Generic.IList<PrivatePropertyDescriptor> PrivateProperties
+        public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PrivatePropertyDescriptor> PrivateProperties
         {
             get
             {
@@ -64,7 +64,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal ExceptionDetails exceptionDetails
+        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
         {
             get;
             set;
@@ -73,7 +73,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception details.
         /// </summary>
-        public ExceptionDetails ExceptionDetails
+        public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
             get
             {

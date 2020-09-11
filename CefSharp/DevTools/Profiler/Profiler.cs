@@ -19,21 +19,21 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// 
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> DisableAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.disable", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.disable", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> EnableAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.enable", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.enable", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -41,29 +41,29 @@ namespace CefSharp.DevTools.Profiler
         public async System.Threading.Tasks.Task<GetBestEffortCoverageResponse> GetBestEffortCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.getBestEffortCoverage", dict);
-            return result.DeserializeJson<GetBestEffortCoverageResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.getBestEffortCoverage", dict);
+            return methodResult.DeserializeJson<GetBestEffortCoverageResponse>();
         }
 
         /// <summary>
         /// Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> SetSamplingIntervalAsync(int interval)
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetSamplingIntervalAsync(int interval)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("interval", interval);
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.setSamplingInterval", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.setSamplingInterval", dict);
+            return methodResult;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StartAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.start", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.start", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -86,8 +86,18 @@ namespace CefSharp.DevTools.Profiler
                 dict.Add("allowTriggeredUpdates", allowTriggeredUpdates.Value);
             }
 
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.startPreciseCoverage", dict);
-            return result.DeserializeJson<StartPreciseCoverageResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.startPreciseCoverage", dict);
+            return methodResult.DeserializeJson<StartPreciseCoverageResponse>();
+        }
+
+        /// <summary>
+        /// Enable type profile.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartTypeProfileAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.startTypeProfile", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -96,17 +106,27 @@ namespace CefSharp.DevTools.Profiler
         public async System.Threading.Tasks.Task<StopResponse> StopAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.stop", dict);
-            return result.DeserializeJson<StopResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.stop", dict);
+            return methodResult.DeserializeJson<StopResponse>();
         }
 
         /// <summary>
         /// Disable precise code coverage. Disabling releases unnecessary execution count records and allows
-        public async System.Threading.Tasks.Task<DevToolsMethodResult> StopPreciseCoverageAsync()
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopPreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.stopPreciseCoverage", dict);
-            return result;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.stopPreciseCoverage", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Disable type profile. Disabling releases type profile data collected so far.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopTypeProfileAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.stopTypeProfile", dict);
+            return methodResult;
         }
 
         /// <summary>
@@ -114,8 +134,48 @@ namespace CefSharp.DevTools.Profiler
         public async System.Threading.Tasks.Task<TakePreciseCoverageResponse> TakePreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var result = await _client.ExecuteDevToolsMethodAsync("Profiler.takePreciseCoverage", dict);
-            return result.DeserializeJson<TakePreciseCoverageResponse>();
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.takePreciseCoverage", dict);
+            return methodResult.DeserializeJson<TakePreciseCoverageResponse>();
+        }
+
+        /// <summary>
+        /// Collect type profile.
+        /// </summary>
+        public async System.Threading.Tasks.Task<TakeTypeProfileResponse> TakeTypeProfileAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.takeTypeProfile", dict);
+            return methodResult.DeserializeJson<TakeTypeProfileResponse>();
+        }
+
+        /// <summary>
+        /// Enable run time call stats collection.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableRuntimeCallStatsAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.enableRuntimeCallStats", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Disable run time call stats collection.
+        /// </summary>
+        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableRuntimeCallStatsAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.disableRuntimeCallStats", dict);
+            return methodResult;
+        }
+
+        /// <summary>
+        /// Retrieve run time call stats.
+        /// </summary>
+        public async System.Threading.Tasks.Task<GetRuntimeCallStatsResponse> GetRuntimeCallStatsAsync()
+        {
+            System.Collections.Generic.Dictionary<string, object> dict = null;
+            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.getRuntimeCallStats", dict);
+            return methodResult.DeserializeJson<GetRuntimeCallStatsResponse>();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CefSharp.DevTools.Page
     /// NavigateResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class NavigateResponse
+    public class NavigateResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
         internal string frameId

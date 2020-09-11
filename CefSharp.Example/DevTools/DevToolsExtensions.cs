@@ -39,7 +39,7 @@ namespace CefSharp.Example.DevTools
 
                 var result = await devToolsClient.ExecuteDevToolsMethodAsync(methodName);
 
-                dynamic response = JsonConvert.DeserializeObject<dynamic>(result.ResultAsJsonString);
+                dynamic response = JsonConvert.DeserializeObject<dynamic>(result.ResponseAsJsonString);
 
                 //Success
                 if (result.Success)

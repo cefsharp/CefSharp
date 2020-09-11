@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace CefSharp.DevTools
@@ -44,7 +45,12 @@ namespace CefSharp.DevTools
 
                 if (propertyValueType.IsEnum)
                 {
-                    var enumMemberAttribute = (EnumMemberAttribute)Attribute.GetCustomAttribute(prop, typeof(EnumMemberAttribute), false);
+                    var enumMember = propertyValueType.GetMember(propertyValue.ToString()).FirstOrDefault();
+                    if(enumMember == null)
+                    {
+                        throw new NullReferenceException("No matching enum found");
+                    }
+                    var enumMemberAttribute = (EnumMemberAttribute)Attribute.GetCustomAttribute(enumMember, typeof(EnumMemberAttribute), false);
                     propertyValue = enumMemberAttribute.Value;
                 }
 

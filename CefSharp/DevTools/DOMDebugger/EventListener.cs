@@ -82,7 +82,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// Event handler function value.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("handler"), IsRequired = (false))]
-        public Runtime.RemoteObject Handler
+        public CefSharp.DevTools.Runtime.RemoteObject Handler
         {
             get;
             set;
@@ -92,7 +92,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// Event original handler function value.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("originalHandler"), IsRequired = (false))]
-        public Runtime.RemoteObject OriginalHandler
+        public CefSharp.DevTools.Runtime.RemoteObject OriginalHandler
         {
             get;
             set;

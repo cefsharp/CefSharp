@@ -9,7 +9,7 @@ namespace CefSharp.DevTools.Target
     public class TargetInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
-        /// 
+        /// TargetId
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("targetId"), IsRequired = (true))]
         public string TargetId
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// 
+        /// Type
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
         public string Type
@@ -29,7 +29,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// 
+        /// Title
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("title"), IsRequired = (true))]
         public string Title
@@ -39,7 +39,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// 
+        /// Url
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
         public string Url
@@ -69,17 +69,7 @@ namespace CefSharp.DevTools.Target
         }
 
         /// <summary>
-        /// Whether the opened window has access to the originating window.
-        /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("canAccessOpener"), IsRequired = (true))]
-        public bool CanAccessOpener
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// 
+        /// BrowserContextId
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("browserContextId"), IsRequired = (false))]
         public string BrowserContextId

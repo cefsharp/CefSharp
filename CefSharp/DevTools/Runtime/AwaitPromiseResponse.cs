@@ -7,10 +7,10 @@ namespace CefSharp.DevTools.Runtime
     /// AwaitPromiseResponse
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute]
-    public class AwaitPromiseResponse
+    public class AwaitPromiseResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal RemoteObject result
+        internal CefSharp.DevTools.Runtime.RemoteObject result
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Promise result. Will contain rejected value if promise was rejected.
         /// </summary>
-        public RemoteObject Result
+        public CefSharp.DevTools.Runtime.RemoteObject Result
         {
             get
             {
@@ -28,7 +28,7 @@ namespace CefSharp.DevTools.Runtime
         }
 
         [System.Runtime.Serialization.DataMemberAttribute]
-        internal ExceptionDetails exceptionDetails
+        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception details if stack strace is available.
         /// </summary>
-        public ExceptionDetails ExceptionDetails
+        public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
             get
             {
