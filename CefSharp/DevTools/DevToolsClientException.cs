@@ -12,6 +12,14 @@ namespace CefSharp.DevTools
     public class DevToolsClientException : Exception
     {
         /// <summary>
+        /// Get the Error Response
+        /// </summary>
+        public DevToolsDomainErrorResponse Response
+        {
+            get; private set;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DevToolsClientException"/> class with its message
         /// string set to a default message.
         /// </summary>
@@ -25,6 +33,16 @@ namespace CefSharp.DevTools
         /// <param name="message">message</param>
         public DevToolsClientException(string message) : base(message)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DevToolsClientException"/> class with a specified error message.
+        /// </summary>
+        /// <param name="message">message</param>
+        /// <param name="errorResponse">error response</param>
+        public DevToolsClientException(string message, DevToolsDomainErrorResponse errorResponse) : base(message)
+        {
+            Response = errorResponse;
         }
 
         /// <summary>

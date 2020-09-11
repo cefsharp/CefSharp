@@ -244,6 +244,7 @@
     <Compile Include="DevTools\DevToolsClient.Generated.cs" />
     <Compile Include="DevTools\DevToolsClientException.cs" />
     <Compile Include="DevTools\DevToolsDomainBase.cs" />
+    <Compile Include="DevTools\DevToolsDomainErrorResponse.cs" />
     <Compile Include="DevTools\DevToolsDomainResponseBase.cs" />
     <Compile Include="DevTools\DevToolsDomainEntityBase.cs" />
     <Compile Include="DevTools\DevToolsEventArgs.cs" />

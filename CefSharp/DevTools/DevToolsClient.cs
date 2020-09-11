@@ -162,9 +162,11 @@ namespace CefSharp.DevTools
                 {
                     Task.Run(() =>
                     {
-                        //TODO: Improve format error message
+                        var errorObj = methodResult.DeserializeJson<DevToolsDomainErrorResponse>();
+                        errorObj.MessageId = messageId;
+
                         //Make sure continuation runs on Thread Pool
-                        taskCompletionSource.TrySetException(new DevToolsClientException(methodResult.ResponseAsJsonString));
+                        taskCompletionSource.TrySetException(new DevToolsClientException("DevTools Client Error :" + errorObj.Message, errorObj));
                     });
                 }
 
