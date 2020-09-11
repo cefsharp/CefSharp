@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Data for a simple selector (these are delimited by commas in a selector list).
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Value : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

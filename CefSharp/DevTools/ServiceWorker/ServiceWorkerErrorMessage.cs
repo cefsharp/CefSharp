@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.ServiceWorker
     /// <summary>
     /// ServiceWorker error message.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ServiceWorkerErrorMessage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

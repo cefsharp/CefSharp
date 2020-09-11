@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Media
     /// <summary>
     /// Corresponds to kMediaPropertyChange
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PlayerProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

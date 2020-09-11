@@ -6,13 +6,27 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// A single source for a computed AX property.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AXValueSource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Accessibility.AXValueSourceType Type
+        {
+            get
+            {
+                return (CefSharp.DevTools.Accessibility.AXValueSourceType)(StringToEnum(typeof(CefSharp.DevTools.Accessibility.AXValueSourceType), type));
+            }
+
+            set
+            {
+                type = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// What type of source this is.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        public CefSharp.DevTools.Accessibility.AXValueSourceType Type
+        internal string type
         {
             get;
             set;
@@ -58,11 +72,24 @@ namespace CefSharp.DevTools.Accessibility
             set;
         }
 
+        public CefSharp.DevTools.Accessibility.AXValueNativeSourceType? NativeSource
+        {
+            get
+            {
+                return (CefSharp.DevTools.Accessibility.AXValueNativeSourceType? )(StringToEnum(typeof(CefSharp.DevTools.Accessibility.AXValueNativeSourceType? ), nativeSource));
+            }
+
+            set
+            {
+                nativeSource = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The native markup source for this value, e.g. a <label> element.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("nativeSource"), IsRequired = (false))]
-        public CefSharp.DevTools.Accessibility.AXValueNativeSourceType? NativeSource
+        internal string nativeSource
         {
             get;
             set;

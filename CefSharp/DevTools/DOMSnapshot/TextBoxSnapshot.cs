@@ -7,6 +7,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// Table of details of the post layout rendered text positions. The exact layout should not be regarded as
     /// stable and may change between versions.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class TextBoxSnapshot : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

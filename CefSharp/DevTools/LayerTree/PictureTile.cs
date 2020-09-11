@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// Serialized fragment of layer picture along with its offset within the layer.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PictureTile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object private field descriptor.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PrivatePropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

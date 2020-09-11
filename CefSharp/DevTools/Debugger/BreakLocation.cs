@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// BreakLocation
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class BreakLocation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Selector list data.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SelectorList : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

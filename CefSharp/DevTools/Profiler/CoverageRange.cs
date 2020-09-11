@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Coverage data for a source range.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CoverageRange : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

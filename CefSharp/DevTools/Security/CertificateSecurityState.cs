@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Details about the security state of the page certificate.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CertificateSecurityState : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

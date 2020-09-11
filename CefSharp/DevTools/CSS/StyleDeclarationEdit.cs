@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// A descriptor of operation to mutate style declaration text.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class StyleDeclarationEdit : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

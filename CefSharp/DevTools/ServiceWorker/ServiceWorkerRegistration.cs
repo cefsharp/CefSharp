@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.ServiceWorker
     /// <summary>
     /// ServiceWorker registration.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ServiceWorkerRegistration : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

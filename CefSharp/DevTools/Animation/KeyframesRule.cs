@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// Keyframes Rule
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class KeyframesRule : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

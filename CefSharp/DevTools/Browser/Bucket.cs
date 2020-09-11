@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Chrome histogram bucket.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Bucket : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

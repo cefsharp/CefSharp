@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// Represents process info.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ProcessInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

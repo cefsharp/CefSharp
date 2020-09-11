@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// Describes the width and height dimensions of an entity.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Size : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

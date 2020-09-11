@@ -6,13 +6,27 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// An explanation of an factor contributing to the security state.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SecurityStateExplanation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Security.SecurityState SecurityState
+        {
+            get
+            {
+                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), securityState));
+            }
+
+            set
+            {
+                securityState = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Security state representing the severity of the factor being explained.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public CefSharp.DevTools.Security.SecurityState SecurityState
+        internal string securityState
         {
             get;
             set;
@@ -48,11 +62,24 @@ namespace CefSharp.DevTools.Security
             set;
         }
 
+        public CefSharp.DevTools.Security.MixedContentType MixedContentType
+        {
+            get
+            {
+                return (CefSharp.DevTools.Security.MixedContentType)(StringToEnum(typeof(CefSharp.DevTools.Security.MixedContentType), mixedContentType));
+            }
+
+            set
+            {
+                mixedContentType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The type of mixed content described by the explanation.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentType"), IsRequired = (true))]
-        public CefSharp.DevTools.Security.MixedContentType MixedContentType
+        internal string mixedContentType
         {
             get;
             set;

@@ -7,13 +7,27 @@ namespace CefSharp.DevTools.SystemInfo
     /// Describes a supported image decoding profile with its associated minimum and
     /// maximum resolutions and subsampling.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ImageDecodeAcceleratorCapability : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.SystemInfo.ImageType ImageType
+        {
+            get
+            {
+                return (CefSharp.DevTools.SystemInfo.ImageType)(StringToEnum(typeof(CefSharp.DevTools.SystemInfo.ImageType), imageType));
+            }
+
+            set
+            {
+                imageType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Image coded, e.g. Jpeg.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("imageType"), IsRequired = (true))]
-        public CefSharp.DevTools.SystemInfo.ImageType ImageType
+        internal string imageType
         {
             get;
             set;
@@ -39,11 +53,24 @@ namespace CefSharp.DevTools.SystemInfo
             set;
         }
 
+        public CefSharp.DevTools.SystemInfo.SubsamplingFormat[] Subsamplings
+        {
+            get
+            {
+                return (CefSharp.DevTools.SystemInfo.SubsamplingFormat[])(StringToEnum(typeof(CefSharp.DevTools.SystemInfo.SubsamplingFormat[]), subsamplings));
+            }
+
+            set
+            {
+                subsamplings = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Optional array of supported subsampling formats, e.g. 4:2:0, if known.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("subsamplings"), IsRequired = (true))]
-        public CefSharp.DevTools.SystemInfo.SubsamplingFormat[] Subsamplings
+        internal string subsamplings
         {
             get;
             set;

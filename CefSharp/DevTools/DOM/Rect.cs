@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// Rectangle.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Rect : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

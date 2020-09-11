@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Scope description.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Scope : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

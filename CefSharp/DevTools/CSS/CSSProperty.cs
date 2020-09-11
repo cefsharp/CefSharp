@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS property declaration data.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

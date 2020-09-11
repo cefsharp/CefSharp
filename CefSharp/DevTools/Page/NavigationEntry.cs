@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Navigation history entry.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class NavigationEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -48,11 +49,24 @@ namespace CefSharp.DevTools.Page
             set;
         }
 
+        public CefSharp.DevTools.Page.TransitionType TransitionType
+        {
+            get
+            {
+                return (CefSharp.DevTools.Page.TransitionType)(StringToEnum(typeof(CefSharp.DevTools.Page.TransitionType), transitionType));
+            }
+
+            set
+            {
+                transitionType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Transition type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("transitionType"), IsRequired = (true))]
-        public CefSharp.DevTools.Page.TransitionType TransitionType
+        internal string transitionType
         {
             get;
             set;

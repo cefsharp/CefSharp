@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// RareBooleanData
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RareBooleanData : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

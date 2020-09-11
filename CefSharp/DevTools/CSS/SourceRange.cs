@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Text range within a resource. All numbers are zero-based.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SourceRange : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// RareIntegerData
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RareIntegerData : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -7,6 +7,7 @@ namespace CefSharp.DevTools.Network
     /// Information about a signed exchange header.
     /// https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#cbor-representation
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedExchangeHeader : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

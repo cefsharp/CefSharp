@@ -7,6 +7,7 @@ namespace CefSharp.DevTools.Media
     /// Have one type per entry in MediaLogRecord::Type
     /// Corresponds to kMessage
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PlayerMessage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

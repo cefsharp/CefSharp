@@ -6,13 +6,27 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// AXProperty
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AXProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Accessibility.AXPropertyName Name
+        {
+            get
+            {
+                return (CefSharp.DevTools.Accessibility.AXPropertyName)(StringToEnum(typeof(CefSharp.DevTools.Accessibility.AXPropertyName), name));
+            }
+
+            set
+            {
+                name = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The name of this property.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
-        public CefSharp.DevTools.Accessibility.AXPropertyName Name
+        internal string name
         {
             get;
             set;

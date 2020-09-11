@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Visual viewport position, dimensions, and scale.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class VisualViewport : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

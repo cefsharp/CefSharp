@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.ApplicationCache
     /// <summary>
     /// Frame identifier - manifest URL pair.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class FrameWithManifest : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

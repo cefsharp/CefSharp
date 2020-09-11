@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Resource on the page.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class FrameResource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -18,11 +19,24 @@ namespace CefSharp.DevTools.Page
             set;
         }
 
+        public CefSharp.DevTools.Network.ResourceType Type
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.ResourceType)(StringToEnum(typeof(CefSharp.DevTools.Network.ResourceType), type));
+            }
+
+            set
+            {
+                type = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Type of this resource.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        public CefSharp.DevTools.Network.ResourceType Type
+        internal string type
         {
             get;
             set;

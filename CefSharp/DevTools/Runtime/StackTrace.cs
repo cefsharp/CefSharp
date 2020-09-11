@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Call frames for assertions or error messages.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class StackTrace : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

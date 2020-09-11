@@ -4,6 +4,7 @@
 
 namespace CefSharp.DevTools
 {
+    [System.Runtime.Serialization.DataContractAttribute]
     public abstract class DevToolsDomainResponseBase
     {
         public byte[] Convert(string data)

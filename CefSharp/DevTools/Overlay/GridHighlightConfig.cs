@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// Configuration data for the highlighting of Grid elements.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GridHighlightConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

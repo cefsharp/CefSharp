@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// A single sample from a sampling profile.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SamplingHeapProfileSample : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

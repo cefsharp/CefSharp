@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Fetch
     /// <summary>
     /// Response HTTP header entry
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class HeaderEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

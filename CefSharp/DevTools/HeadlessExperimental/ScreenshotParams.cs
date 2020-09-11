@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
     /// <summary>
     /// Encoding options for a screenshot.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ScreenshotParams : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

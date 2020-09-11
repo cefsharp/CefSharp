@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// Sampling Heap Profile node. Holds callsite information, allocation statistics and child nodes.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SamplingHeapProfileNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

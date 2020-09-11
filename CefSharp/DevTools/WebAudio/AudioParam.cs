@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Protocol object for AudioParam
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AudioParam : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -48,11 +49,24 @@ namespace CefSharp.DevTools.WebAudio
             set;
         }
 
+        public CefSharp.DevTools.WebAudio.AutomationRate Rate
+        {
+            get
+            {
+                return (CefSharp.DevTools.WebAudio.AutomationRate)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.AutomationRate), rate));
+            }
+
+            set
+            {
+                rate = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Rate
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("rate"), IsRequired = (true))]
-        public CefSharp.DevTools.WebAudio.AutomationRate Rate
+        internal string rate
         {
             get;
             set;

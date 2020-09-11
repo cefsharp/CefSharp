@@ -7,6 +7,7 @@ namespace CefSharp.DevTools.SystemInfo
     /// Describes a supported video decoding profile with its associated minimum and
     /// maximum resolutions.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class VideoDecodeAcceleratorCapability : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

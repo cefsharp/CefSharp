@@ -7,6 +7,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// Details of post layout rendered text positions. The exact layout should not be regarded as
     /// stable and may change between versions.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class InlineTextBox : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

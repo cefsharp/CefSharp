@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Layout viewport position and dimensions.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class LayoutViewport : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

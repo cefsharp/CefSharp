@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// A name/value pair.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class NameValue : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

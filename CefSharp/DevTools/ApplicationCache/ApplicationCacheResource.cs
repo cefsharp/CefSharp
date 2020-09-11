@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.ApplicationCache
     /// <summary>
     /// Detailed application cache resource information.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ApplicationCacheResource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

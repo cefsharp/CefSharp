@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Coverage data for a JavaScript function.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class FunctionCoverage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

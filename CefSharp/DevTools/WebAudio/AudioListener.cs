@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Protocol object for AudioListner
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AudioListener : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

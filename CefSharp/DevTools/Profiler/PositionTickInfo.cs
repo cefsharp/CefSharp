@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Specifies a number of samples attributed to a certain source position.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PositionTickInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

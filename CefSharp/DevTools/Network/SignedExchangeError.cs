@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about a signed exchange response.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedExchangeError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -28,11 +29,24 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        public CefSharp.DevTools.Network.SignedExchangeErrorField? ErrorField
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.SignedExchangeErrorField? )(StringToEnum(typeof(CefSharp.DevTools.Network.SignedExchangeErrorField? ), errorField));
+            }
+
+            set
+            {
+                errorField = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The field which caused the error.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorField"), IsRequired = (false))]
-        public CefSharp.DevTools.Network.SignedExchangeErrorField? ErrorField
+        internal string errorField
         {
             get;
             set;

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Database with an array of object stores.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class DatabaseWithObjectStores : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

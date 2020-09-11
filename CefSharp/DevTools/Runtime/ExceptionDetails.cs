@@ -7,6 +7,7 @@ namespace CefSharp.DevTools.Runtime
     /// Detailed information about exception (or error) that was thrown during script compilation or
     /// execution.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ExceptionDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

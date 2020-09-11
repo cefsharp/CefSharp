@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS media rule descriptor.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSMedia : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

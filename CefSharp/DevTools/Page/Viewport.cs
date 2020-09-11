@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Viewport for capturing screenshot.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Viewport : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

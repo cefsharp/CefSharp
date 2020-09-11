@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// MediaFeature
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class MediaFeature : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

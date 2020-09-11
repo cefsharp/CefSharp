@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Data that is only present on rare nodes.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RareStringData : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

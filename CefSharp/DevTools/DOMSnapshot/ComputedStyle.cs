@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// A subset of the full ComputedStyle as defined by the request whitelist.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ComputedStyle : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// Box model.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class BoxModel : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

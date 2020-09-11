@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Data entry.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class DataEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

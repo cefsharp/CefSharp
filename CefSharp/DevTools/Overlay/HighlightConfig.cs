@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// Configuration data for the highlighting of page elements.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class HighlightConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -128,11 +129,24 @@ namespace CefSharp.DevTools.Overlay
             set;
         }
 
+        public CefSharp.DevTools.Overlay.ColorFormat? ColorFormat
+        {
+            get
+            {
+                return (CefSharp.DevTools.Overlay.ColorFormat? )(StringToEnum(typeof(CefSharp.DevTools.Overlay.ColorFormat? ), colorFormat));
+            }
+
+            set
+            {
+                colorFormat = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The color format used to format color styles (default: hex).
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("colorFormat"), IsRequired = (false))]
-        public CefSharp.DevTools.Overlay.ColorFormat? ColorFormat
+        internal string colorFormat
         {
             get;
             set;

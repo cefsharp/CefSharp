@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.BackgroundService
     /// <summary>
     /// A key-value pair for additional event information to pass along.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class EventMetadata : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

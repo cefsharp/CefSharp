@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Description of an isolated world.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ExecutionContextDescription : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

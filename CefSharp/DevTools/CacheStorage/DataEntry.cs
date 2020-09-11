@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// Data entry.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class DataEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -68,11 +69,24 @@ namespace CefSharp.DevTools.CacheStorage
             set;
         }
 
+        public CefSharp.DevTools.CacheStorage.CachedResponseType ResponseType
+        {
+            get
+            {
+                return (CefSharp.DevTools.CacheStorage.CachedResponseType)(StringToEnum(typeof(CefSharp.DevTools.CacheStorage.CachedResponseType), responseType));
+            }
+
+            set
+            {
+                responseType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// HTTP response type
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseType"), IsRequired = (true))]
-        public CefSharp.DevTools.CacheStorage.CachedResponseType ResponseType
+        internal string responseType
         {
             get;
             set;

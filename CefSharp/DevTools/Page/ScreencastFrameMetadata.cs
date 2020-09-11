@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Screencast frame metadata.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ScreencastFrameMetadata : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

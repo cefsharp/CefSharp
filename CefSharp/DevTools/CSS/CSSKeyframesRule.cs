@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS keyframes rule representation.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSKeyframesRule : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Parsed app manifest properties.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AppManifestParsedProperties : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

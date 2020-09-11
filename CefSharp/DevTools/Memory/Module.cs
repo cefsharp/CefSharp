@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Memory
     /// <summary>
     /// Executable module information
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Module : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

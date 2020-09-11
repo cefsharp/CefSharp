@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// Cache identifier.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Cache : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Timing information for the request.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ResourceTiming : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

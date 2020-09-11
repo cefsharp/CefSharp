@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Protocol object for AudioNode
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AudioNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -68,21 +69,47 @@ namespace CefSharp.DevTools.WebAudio
             set;
         }
 
+        public CefSharp.DevTools.WebAudio.ChannelCountMode ChannelCountMode
+        {
+            get
+            {
+                return (CefSharp.DevTools.WebAudio.ChannelCountMode)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.ChannelCountMode), channelCountMode));
+            }
+
+            set
+            {
+                channelCountMode = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// ChannelCountMode
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("channelCountMode"), IsRequired = (true))]
-        public CefSharp.DevTools.WebAudio.ChannelCountMode ChannelCountMode
+        internal string channelCountMode
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.WebAudio.ChannelInterpretation ChannelInterpretation
+        {
+            get
+            {
+                return (CefSharp.DevTools.WebAudio.ChannelInterpretation)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.ChannelInterpretation), channelInterpretation));
+            }
+
+            set
+            {
+                channelInterpretation = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// ChannelInterpretation
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("channelInterpretation"), IsRequired = (true))]
-        public CefSharp.DevTools.WebAudio.ChannelInterpretation ChannelInterpretation
+        internal string channelInterpretation
         {
             get;
             set;

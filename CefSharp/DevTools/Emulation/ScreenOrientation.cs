@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// Screen orientation.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ScreenOrientation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

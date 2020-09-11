@@ -6,13 +6,27 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Security state information about the page.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class VisibleSecurityState : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Security.SecurityState SecurityState
+        {
+            get
+            {
+                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), securityState));
+            }
+
+            set
+            {
+                securityState = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The security level of the page.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public CefSharp.DevTools.Security.SecurityState SecurityState
+        internal string securityState
         {
             get;
             set;

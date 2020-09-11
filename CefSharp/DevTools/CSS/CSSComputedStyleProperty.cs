@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSSComputedStyleProperty
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSComputedStyleProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Mirror object referencing original JavaScript object.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RemoteObject : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

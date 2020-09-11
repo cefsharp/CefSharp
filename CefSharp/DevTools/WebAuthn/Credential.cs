@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.WebAuthn
     /// <summary>
     /// Credential
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Credential : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

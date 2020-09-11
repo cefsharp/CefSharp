@@ -6,13 +6,27 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// An inspector issue reported from the back-end.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class InspectorIssue : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Audits.InspectorIssueCode Code
+        {
+            get
+            {
+                return (CefSharp.DevTools.Audits.InspectorIssueCode)(StringToEnum(typeof(CefSharp.DevTools.Audits.InspectorIssueCode), code));
+            }
+
+            set
+            {
+                code = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Code
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("code"), IsRequired = (true))]
-        public CefSharp.DevTools.Audits.InspectorIssueCode Code
+        internal string code
         {
             get;
             set;

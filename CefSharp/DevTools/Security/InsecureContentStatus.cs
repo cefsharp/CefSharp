@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Information about insecure content on the page.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class InsecureContentStatus : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -58,21 +59,47 @@ namespace CefSharp.DevTools.Security
             set;
         }
 
+        public CefSharp.DevTools.Security.SecurityState RanInsecureContentStyle
+        {
+            get
+            {
+                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), ranInsecureContentStyle));
+            }
+
+            set
+            {
+                ranInsecureContentStyle = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Always set to unknown.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranInsecureContentStyle"), IsRequired = (true))]
-        public CefSharp.DevTools.Security.SecurityState RanInsecureContentStyle
+        internal string ranInsecureContentStyle
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.Security.SecurityState DisplayedInsecureContentStyle
+        {
+            get
+            {
+                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), displayedInsecureContentStyle));
+            }
+
+            set
+            {
+                displayedInsecureContentStyle = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// Always set to unknown.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("displayedInsecureContentStyle"), IsRequired = (true))]
-        public CefSharp.DevTools.Security.SecurityState DisplayedInsecureContentStyle
+        internal string displayedInsecureContentStyle
         {
             get;
             set;

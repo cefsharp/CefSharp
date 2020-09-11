@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS rule representation.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSRule : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -29,11 +30,24 @@ namespace CefSharp.DevTools.CSS
             set;
         }
 
+        public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
+        {
+            get
+            {
+                return (CefSharp.DevTools.CSS.StyleSheetOrigin)(StringToEnum(typeof(CefSharp.DevTools.CSS.StyleSheetOrigin), origin));
+            }
+
+            set
+            {
+                origin = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Parent stylesheet's origin.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
-        public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
+        internal string origin
         {
             get;
             set;

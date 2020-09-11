@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about the request initiator.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Initiator : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

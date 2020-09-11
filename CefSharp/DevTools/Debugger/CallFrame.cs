@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// JavaScript call frame. Array of call frames form the call stack.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CallFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

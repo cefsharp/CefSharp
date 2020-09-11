@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// Provides information about the GPU(s) on the system.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GPUInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

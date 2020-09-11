@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Key range.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class KeyRange : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

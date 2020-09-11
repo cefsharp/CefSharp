@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about the cached resource.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CachedResource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -18,11 +19,24 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        public CefSharp.DevTools.Network.ResourceType Type
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.ResourceType)(StringToEnum(typeof(CefSharp.DevTools.Network.ResourceType), type));
+            }
+
+            set
+            {
+                type = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Type of this resource.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        public CefSharp.DevTools.Network.ResourceType Type
+        internal string type
         {
             get;
             set;

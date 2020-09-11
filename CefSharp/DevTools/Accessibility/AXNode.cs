@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// A node in the accessibility tree.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AXNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

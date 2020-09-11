@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Media
     /// <summary>
     /// Corresponds to kMediaError
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PlayerError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

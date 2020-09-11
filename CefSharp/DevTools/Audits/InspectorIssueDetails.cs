@@ -8,6 +8,7 @@ namespace CefSharp.DevTools.Audits
     /// specific to the kind of issue. When adding a new issue code, please also
     /// add a new optional field to this type.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class InspectorIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

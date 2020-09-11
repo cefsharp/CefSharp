@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Input
     /// <summary>
     /// TouchPoint
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class TouchPoint : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

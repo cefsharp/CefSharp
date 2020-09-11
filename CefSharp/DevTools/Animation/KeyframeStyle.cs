@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// Keyframe Style
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class KeyframeStyle : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

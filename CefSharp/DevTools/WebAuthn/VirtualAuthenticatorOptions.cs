@@ -6,23 +6,50 @@ namespace CefSharp.DevTools.WebAuthn
     /// <summary>
     /// VirtualAuthenticatorOptions
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class VirtualAuthenticatorOptions : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.WebAuthn.AuthenticatorProtocol Protocol
+        {
+            get
+            {
+                return (CefSharp.DevTools.WebAuthn.AuthenticatorProtocol)(StringToEnum(typeof(CefSharp.DevTools.WebAuthn.AuthenticatorProtocol), protocol));
+            }
+
+            set
+            {
+                protocol = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Protocol
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("protocol"), IsRequired = (true))]
-        public CefSharp.DevTools.WebAuthn.AuthenticatorProtocol Protocol
+        internal string protocol
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.WebAuthn.AuthenticatorTransport Transport
+        {
+            get
+            {
+                return (CefSharp.DevTools.WebAuthn.AuthenticatorTransport)(StringToEnum(typeof(CefSharp.DevTools.WebAuthn.AuthenticatorTransport), transport));
+            }
+
+            set
+            {
+                transport = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// Transport
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("transport"), IsRequired = (true))]
-        public CefSharp.DevTools.WebAuthn.AuthenticatorTransport Transport
+        internal string transport
         {
             get;
             set;

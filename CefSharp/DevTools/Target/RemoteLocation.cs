@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// RemoteLocation
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RemoteLocation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

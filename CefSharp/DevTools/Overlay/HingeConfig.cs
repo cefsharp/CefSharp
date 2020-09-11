@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// Configuration for dual screen hinge
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class HingeConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

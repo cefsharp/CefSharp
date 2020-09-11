@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// EntryPreview
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class EntryPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

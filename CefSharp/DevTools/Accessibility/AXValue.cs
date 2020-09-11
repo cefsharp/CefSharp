@@ -6,13 +6,27 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// A single computed AX property.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AXValue : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Accessibility.AXValueType Type
+        {
+            get
+            {
+                return (CefSharp.DevTools.Accessibility.AXValueType)(StringToEnum(typeof(CefSharp.DevTools.Accessibility.AXValueType), type));
+            }
+
+            set
+            {
+                type = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The type of this value.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        public CefSharp.DevTools.Accessibility.AXValueType Type
+        internal string type
         {
             get;
             set;

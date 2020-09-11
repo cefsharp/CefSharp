@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// Cached response
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CachedResponse : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

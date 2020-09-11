@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Browser window bounds information
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Bounds : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -48,11 +49,24 @@ namespace CefSharp.DevTools.Browser
             set;
         }
 
+        public CefSharp.DevTools.Browser.WindowState? WindowState
+        {
+            get
+            {
+                return (CefSharp.DevTools.Browser.WindowState? )(StringToEnum(typeof(CefSharp.DevTools.Browser.WindowState? ), windowState));
+            }
+
+            set
+            {
+                windowState = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The window state. Default to normal.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("windowState"), IsRequired = (false))]
-        public CefSharp.DevTools.Browser.WindowState? WindowState
+        internal string windowState
         {
             get;
             set;

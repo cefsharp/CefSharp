@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Log
     /// <summary>
     /// Log entry.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class LogEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

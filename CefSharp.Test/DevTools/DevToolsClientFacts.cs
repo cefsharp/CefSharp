@@ -67,7 +67,7 @@ namespace CefSharp.Test.DevTools
         }
 
         [Fact]
-        public async Task CanGetDevToolsProtocolGetWindowForTarget()
+        public async Task CanGetPageNavigationHistory()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
@@ -75,15 +75,13 @@ namespace CefSharp.Test.DevTools
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
-                    var response = await devToolsClient.Browser.GetWindowForTargetAsync();
-                    var windowId = response.WindowId;
-                    var bounds = response.Bounds;
+                    var response = await devToolsClient.Page.GetNavigationHistoryAsync();
+                    var currentIndex = response.CurrentIndex;
+                    var entries = response.Entries;
 
-                    Assert.NotEqual(0, windowId);
-                    Assert.NotNull(bounds);
-                    Assert.True(bounds.Height > 0);
-                    Assert.True(bounds.Width > 0);
-                    Assert.True(bounds.WindowState.HasValue);
+                    Assert.NotEqual(0, currentIndex);
+                    Assert.NotNull(entries);
+                    Assert.True(entries.Count > 0);
                 }
             }
         }

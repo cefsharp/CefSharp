@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// Sticky position constraints.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class StickyPositionConstraint : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

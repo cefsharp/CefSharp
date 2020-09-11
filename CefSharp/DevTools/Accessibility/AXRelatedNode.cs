@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// AXRelatedNode
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AXRelatedNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Document snapshot.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class DocumentSnapshot : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

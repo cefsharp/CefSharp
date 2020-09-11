@@ -22,7 +22,7 @@ namespace CefSharp.DevTools.Storage
         /// file_systems
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("file_systems"))]
-        File_systems,
+        FileSystems,
         /// <summary>
         /// indexeddb
         /// </summary>
@@ -32,12 +32,12 @@ namespace CefSharp.DevTools.Storage
         /// local_storage
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("local_storage"))]
-        Local_storage,
+        LocalStorage,
         /// <summary>
         /// shader_cache
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("shader_cache"))]
-        Shader_cache,
+        ShaderCache,
         /// <summary>
         /// websql
         /// </summary>
@@ -47,12 +47,12 @@ namespace CefSharp.DevTools.Storage
         /// service_workers
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("service_workers"))]
-        Service_workers,
+        ServiceWorkers,
         /// <summary>
         /// cache_storage
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cache_storage"))]
-        Cache_storage,
+        CacheStorage,
         /// <summary>
         /// all
         /// </summary>

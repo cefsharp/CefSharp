@@ -6,8 +6,22 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// MixedContentIssueDetails
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class MixedContentIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Audits.MixedContentResourceType? ResourceType
+        {
+            get
+            {
+                return (CefSharp.DevTools.Audits.MixedContentResourceType? )(StringToEnum(typeof(CefSharp.DevTools.Audits.MixedContentResourceType? ), resourceType));
+            }
+
+            set
+            {
+                resourceType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The type of resource causing the mixed content issue (css, js, iframe,
         /// form,...). Marked as optional because it is mapped to from
@@ -15,17 +29,30 @@ namespace CefSharp.DevTools.Audits
         /// by network::mojom::RequestDestination
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("resourceType"), IsRequired = (false))]
-        public CefSharp.DevTools.Audits.MixedContentResourceType? ResourceType
+        internal string resourceType
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.Audits.MixedContentResolutionStatus ResolutionStatus
+        {
+            get
+            {
+                return (CefSharp.DevTools.Audits.MixedContentResolutionStatus)(StringToEnum(typeof(CefSharp.DevTools.Audits.MixedContentResolutionStatus), resolutionStatus));
+            }
+
+            set
+            {
+                resolutionStatus = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// The way the mixed content issue is being resolved.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("resolutionStatus"), IsRequired = (true))]
-        public CefSharp.DevTools.Audits.MixedContentResolutionStatus ResolutionStatus
+        internal string resolutionStatus
         {
             get;
             set;

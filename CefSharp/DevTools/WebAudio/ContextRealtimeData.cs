@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Fields in AudioContext that change in real-time.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ContextRealtimeData : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

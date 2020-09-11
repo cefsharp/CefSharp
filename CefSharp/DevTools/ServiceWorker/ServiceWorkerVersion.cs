@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.ServiceWorker
     /// <summary>
     /// ServiceWorker version.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ServiceWorkerVersion : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -38,21 +39,47 @@ namespace CefSharp.DevTools.ServiceWorker
             set;
         }
 
+        public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus RunningStatus
+        {
+            get
+            {
+                return (CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus)(StringToEnum(typeof(CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus), runningStatus));
+            }
+
+            set
+            {
+                runningStatus = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// RunningStatus
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("runningStatus"), IsRequired = (true))]
-        public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus RunningStatus
+        internal string runningStatus
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus Status
+        {
+            get
+            {
+                return (CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus)(StringToEnum(typeof(CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus), status));
+            }
+
+            set
+            {
+                status = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// Status
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
-        public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus Status
+        internal string status
         {
             get;
             set;

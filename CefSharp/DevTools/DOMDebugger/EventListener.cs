@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMDebugger
     /// <summary>
     /// Object event listener.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class EventListener : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

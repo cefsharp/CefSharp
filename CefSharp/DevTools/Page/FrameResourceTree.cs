@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Frame hierarchy along with their cached resources.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class FrameResourceTree : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

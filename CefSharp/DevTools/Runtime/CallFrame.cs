@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Stack entry for runtime errors and assertions.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CallFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Describes a type collected during runtime.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class TypeObject : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

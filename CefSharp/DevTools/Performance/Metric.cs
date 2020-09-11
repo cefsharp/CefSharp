@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Performance
     /// <summary>
     /// Run-time execution metric.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Metric : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

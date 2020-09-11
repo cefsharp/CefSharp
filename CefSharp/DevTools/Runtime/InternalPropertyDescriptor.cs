@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object internal property descriptor. This property isn't normally visible in JavaScript code.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class InternalPropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

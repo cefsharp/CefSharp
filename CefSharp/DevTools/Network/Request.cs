@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// HTTP request data.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Request : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -68,21 +69,47 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        public CefSharp.DevTools.Security.MixedContentType? MixedContentType
+        {
+            get
+            {
+                return (CefSharp.DevTools.Security.MixedContentType? )(StringToEnum(typeof(CefSharp.DevTools.Security.MixedContentType? ), mixedContentType));
+            }
+
+            set
+            {
+                mixedContentType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The mixed content type of the request.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentType"), IsRequired = (false))]
-        public CefSharp.DevTools.Security.MixedContentType? MixedContentType
+        internal string mixedContentType
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.Network.ResourcePriority InitialPriority
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.ResourcePriority)(StringToEnum(typeof(CefSharp.DevTools.Network.ResourcePriority), initialPriority));
+            }
+
+            set
+            {
+                initialPriority = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// Priority of the resource request at the time request is sent.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("initialPriority"), IsRequired = (true))]
-        public CefSharp.DevTools.Network.ResourcePriority InitialPriority
+        internal string initialPriority
         {
             get;
             set;

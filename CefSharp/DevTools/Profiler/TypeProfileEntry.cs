@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Source offset and types for a parameter or return value.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class TypeProfileEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

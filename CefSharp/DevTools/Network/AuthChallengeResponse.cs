@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Response to an AuthChallenge.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AuthChallengeResponse : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

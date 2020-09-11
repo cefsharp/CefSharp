@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// AnimationEffect instance
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AnimationEffect : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

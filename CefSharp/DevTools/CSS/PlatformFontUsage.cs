@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Information about amount of glyphs that were rendered with given font.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PlatformFontUsage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

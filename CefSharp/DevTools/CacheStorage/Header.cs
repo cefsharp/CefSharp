@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// Header
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Header : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

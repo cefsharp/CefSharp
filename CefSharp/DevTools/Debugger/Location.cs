@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Location in the source code.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Location : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

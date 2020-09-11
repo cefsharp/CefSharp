@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Properties of a web font: https://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class FontFace : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

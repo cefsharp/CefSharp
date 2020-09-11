@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMStorage
     /// <summary>
     /// DOM Storage identifier.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class StorageId : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

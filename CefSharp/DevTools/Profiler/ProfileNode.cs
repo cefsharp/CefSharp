@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Profile node. Holds callsite information, execution statistics and child nodes.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ProfileNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

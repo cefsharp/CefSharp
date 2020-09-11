@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// WebSocket response data.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class WebSocketResponse : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

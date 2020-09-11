@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Security details about a request.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SecurityDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -128,11 +129,24 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        public CefSharp.DevTools.Network.CertificateTransparencyCompliance CertificateTransparencyCompliance
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.CertificateTransparencyCompliance)(StringToEnum(typeof(CefSharp.DevTools.Network.CertificateTransparencyCompliance), certificateTransparencyCompliance));
+            }
+
+            set
+            {
+                certificateTransparencyCompliance = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Whether the request complied with Certificate Transparency policy
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateTransparencyCompliance"), IsRequired = (true))]
-        public CefSharp.DevTools.Network.CertificateTransparencyCompliance CertificateTransparencyCompliance
+        internal string certificateTransparencyCompliance
         {
             get;
             set;

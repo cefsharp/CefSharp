@@ -7,6 +7,7 @@ namespace CefSharp.DevTools.DOM
     /// DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.
     /// DOMNode is a base node mirror type.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Node : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -191,21 +192,47 @@ namespace CefSharp.DevTools.DOM
             set;
         }
 
+        public CefSharp.DevTools.DOM.PseudoType? PseudoType
+        {
+            get
+            {
+                return (CefSharp.DevTools.DOM.PseudoType? )(StringToEnum(typeof(CefSharp.DevTools.DOM.PseudoType? ), pseudoType));
+            }
+
+            set
+            {
+                pseudoType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Pseudo element type for this node.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (false))]
-        public CefSharp.DevTools.DOM.PseudoType? PseudoType
+        internal string pseudoType
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
+        {
+            get
+            {
+                return (CefSharp.DevTools.DOM.ShadowRootType? )(StringToEnum(typeof(CefSharp.DevTools.DOM.ShadowRootType? ), shadowRootType));
+            }
+
+            set
+            {
+                shadowRootType = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// Shadow root type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRootType"), IsRequired = (false))]
-        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
+        internal string shadowRootType
         {
             get;
             set;

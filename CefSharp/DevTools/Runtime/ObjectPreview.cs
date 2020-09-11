@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object containing abbreviated remote object value.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ObjectPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

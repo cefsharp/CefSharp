@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Media
     /// <summary>
     /// Corresponds to kMediaEventTriggered
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PlayerEvent : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

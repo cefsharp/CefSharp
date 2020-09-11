@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Cookie object
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Cookie : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -98,21 +99,47 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        public CefSharp.DevTools.Network.CookieSameSite? SameSite
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.CookieSameSite? )(StringToEnum(typeof(CefSharp.DevTools.Network.CookieSameSite? ), sameSite));
+            }
+
+            set
+            {
+                sameSite = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Cookie SameSite type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("sameSite"), IsRequired = (false))]
-        public CefSharp.DevTools.Network.CookieSameSite? SameSite
+        internal string sameSite
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.Network.CookiePriority Priority
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.CookiePriority)(StringToEnum(typeof(CefSharp.DevTools.Network.CookiePriority), priority));
+            }
+
+            set
+            {
+                priority = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// Cookie Priority
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("priority"), IsRequired = (true))]
-        public CefSharp.DevTools.Network.CookiePriority Priority
+        internal string priority
         {
             get;
             set;

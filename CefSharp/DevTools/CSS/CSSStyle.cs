@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS style representation.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSStyle : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

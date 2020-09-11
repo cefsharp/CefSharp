@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Object store index.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ObjectStoreIndex : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

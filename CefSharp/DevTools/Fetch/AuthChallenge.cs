@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Fetch
     /// <summary>
     /// Authorization challenge for HTTP status code 401 or 407.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AuthChallenge : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

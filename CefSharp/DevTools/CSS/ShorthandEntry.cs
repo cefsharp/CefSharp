@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// ShorthandEntry
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ShorthandEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

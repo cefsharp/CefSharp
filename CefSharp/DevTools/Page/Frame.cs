@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Frame on the page.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Frame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

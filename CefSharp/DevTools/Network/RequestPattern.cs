@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Request pattern for interception.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestPattern : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -19,21 +20,47 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        public CefSharp.DevTools.Network.ResourceType? ResourceType
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.ResourceType? )(StringToEnum(typeof(CefSharp.DevTools.Network.ResourceType? ), resourceType));
+            }
+
+            set
+            {
+                resourceType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// If set, only requests for matching resource types will be intercepted.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("resourceType"), IsRequired = (false))]
-        public CefSharp.DevTools.Network.ResourceType? ResourceType
+        internal string resourceType
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.Network.InterceptionStage? InterceptionStage
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.InterceptionStage? )(StringToEnum(typeof(CefSharp.DevTools.Network.InterceptionStage? ), interceptionStage));
+            }
+
+            set
+            {
+                interceptionStage = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// Stage at wich to begin intercepting requests. Default is Request.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("interceptionStage"), IsRequired = (false))]
-        public CefSharp.DevTools.Network.InterceptionStage? InterceptionStage
+        internal string interceptionStage
         {
             get;
             set;

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Media query descriptor.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class MediaQuery : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

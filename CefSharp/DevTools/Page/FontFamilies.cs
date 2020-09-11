@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Generic font families collection.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class FontFamilies : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

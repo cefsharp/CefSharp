@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// Information about the frame affected by an inspector issue.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AffectedFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

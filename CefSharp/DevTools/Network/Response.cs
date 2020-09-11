@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// HTTP response data.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Response : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -188,11 +189,24 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        public CefSharp.DevTools.Security.SecurityState SecurityState
+        {
+            get
+            {
+                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), securityState));
+            }
+
+            set
+            {
+                securityState = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Security state of the request resource.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        public CefSharp.DevTools.Security.SecurityState SecurityState
+        internal string securityState
         {
             get;
             set;

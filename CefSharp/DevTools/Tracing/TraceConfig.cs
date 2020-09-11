@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Tracing
     /// <summary>
     /// TraceConfig
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class TraceConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

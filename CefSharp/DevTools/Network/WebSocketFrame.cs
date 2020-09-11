@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// WebSocket message data. This represents an entire WebSocket message, not just a fragmented frame as the name suggests.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class WebSocketFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

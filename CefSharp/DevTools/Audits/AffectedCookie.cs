@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// Information about a cookie that is affected by an inspector issue.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AffectedCookie : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Match data for a CSS rule.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RuleMatch : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Table containing nodes.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class NodeTreeSnapshot : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

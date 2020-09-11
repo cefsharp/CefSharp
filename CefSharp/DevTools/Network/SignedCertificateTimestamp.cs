@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Details of a signed certificate timestamp (SCT).
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedCertificateTimestamp : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

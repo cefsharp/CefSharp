@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// The installability error
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class InstallabilityError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

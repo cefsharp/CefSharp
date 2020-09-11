@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// Backend node with a friendly name.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class BackendNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

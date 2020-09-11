@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Key.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Key : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

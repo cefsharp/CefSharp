@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// CSS Shape Outside details.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ShapeOutsideInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

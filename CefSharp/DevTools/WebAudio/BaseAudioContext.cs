@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Protocol object for BaseAudioContext
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class BaseAudioContext : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -18,21 +19,47 @@ namespace CefSharp.DevTools.WebAudio
             set;
         }
 
+        public CefSharp.DevTools.WebAudio.ContextType ContextType
+        {
+            get
+            {
+                return (CefSharp.DevTools.WebAudio.ContextType)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.ContextType), contextType));
+            }
+
+            set
+            {
+                contextType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// ContextType
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("contextType"), IsRequired = (true))]
-        public CefSharp.DevTools.WebAudio.ContextType ContextType
+        internal string contextType
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.WebAudio.ContextState ContextState
+        {
+            get
+            {
+                return (CefSharp.DevTools.WebAudio.ContextState)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.ContextState), contextState));
+            }
+
+            set
+            {
+                contextState = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// ContextState
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("contextState"), IsRequired = (true))]
-        public CefSharp.DevTools.WebAudio.ContextState ContextState
+        internal string contextState
         {
             get;
             set;

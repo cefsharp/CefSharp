@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class UserAgentBrandVersion : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

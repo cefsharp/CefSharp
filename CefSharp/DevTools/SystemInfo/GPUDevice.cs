@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// Describes a single graphics processor (GPU).
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class GPUDevice : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Default font sizes.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class FontSizes : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.BackgroundService
     /// <summary>
     /// BackgroundServiceEvent
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class BackgroundServiceEvent : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -38,11 +39,24 @@ namespace CefSharp.DevTools.BackgroundService
             set;
         }
 
+        public CefSharp.DevTools.BackgroundService.ServiceName Service
+        {
+            get
+            {
+                return (CefSharp.DevTools.BackgroundService.ServiceName)(StringToEnum(typeof(CefSharp.DevTools.BackgroundService.ServiceName), service));
+            }
+
+            set
+            {
+                service = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The Background Service this event belongs to.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("service"), IsRequired = (true))]
-        public CefSharp.DevTools.BackgroundService.ServiceName Service
+        internal string service
         {
             get;
             set;

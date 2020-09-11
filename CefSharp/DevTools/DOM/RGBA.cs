@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// A structure holding an RGBA color.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RGBA : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

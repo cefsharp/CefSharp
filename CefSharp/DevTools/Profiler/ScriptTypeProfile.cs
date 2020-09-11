@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Type profile data collected during runtime for a JavaScript script.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ScriptTypeProfile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

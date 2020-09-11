@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// Information about a compositing layer.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Layer : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

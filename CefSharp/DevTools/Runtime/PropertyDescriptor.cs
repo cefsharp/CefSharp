@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object property descriptor.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS coverage information.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class RuleUsage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

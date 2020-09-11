@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Chrome histogram.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Histogram : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

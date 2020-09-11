@@ -6,13 +6,27 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// A cookie which was not stored from a response with the corresponding reason.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class BlockedSetCookieWithReason : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Network.SetCookieBlockedReason[] BlockedReasons
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.SetCookieBlockedReason[])(StringToEnum(typeof(CefSharp.DevTools.Network.SetCookieBlockedReason[]), blockedReasons));
+            }
+
+            set
+            {
+                blockedReasons = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// The reason(s) this cookie was blocked.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedReasons"), IsRequired = (true))]
-        public CefSharp.DevTools.Network.SetCookieBlockedReason[] BlockedReasons
+        internal string blockedReasons
         {
             get;
             set;

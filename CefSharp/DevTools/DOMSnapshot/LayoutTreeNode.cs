@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Details of an element in the DOM tree with a LayoutObject.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class LayoutTreeNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

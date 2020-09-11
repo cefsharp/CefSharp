@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about a signed exchange response.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedExchangeInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

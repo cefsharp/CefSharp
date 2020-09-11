@@ -22,22 +22,22 @@ namespace CefSharp.DevTools.Page
         /// address_bar
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("address_bar"))]
-        Address_bar,
+        AddressBar,
         /// <summary>
         /// auto_bookmark
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("auto_bookmark"))]
-        Auto_bookmark,
+        AutoBookmark,
         /// <summary>
         /// auto_subframe
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("auto_subframe"))]
-        Auto_subframe,
+        AutoSubframe,
         /// <summary>
         /// manual_subframe
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("manual_subframe"))]
-        Manual_subframe,
+        ManualSubframe,
         /// <summary>
         /// generated
         /// </summary>
@@ -47,12 +47,12 @@ namespace CefSharp.DevTools.Page
         /// auto_toplevel
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("auto_toplevel"))]
-        Auto_toplevel,
+        AutoToplevel,
         /// <summary>
         /// form_submit
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("form_submit"))]
-        Form_submit,
+        FormSubmit,
         /// <summary>
         /// reload
         /// </summary>
@@ -67,7 +67,7 @@ namespace CefSharp.DevTools.Page
         /// keyword_generated
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("keyword_generated"))]
-        Keyword_generated,
+        KeywordGenerated,
         /// <summary>
         /// other
         /// </summary>

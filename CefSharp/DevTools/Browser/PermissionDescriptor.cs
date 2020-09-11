@@ -7,6 +7,7 @@ namespace CefSharp.DevTools.Browser
     /// Definition of PermissionDescriptor defined in the Permissions API:
     /// https://w3c.github.io/permissions/#dictdef-permissiondescriptor.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class PermissionDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

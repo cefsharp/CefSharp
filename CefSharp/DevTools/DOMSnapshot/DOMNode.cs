@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// A Node in the DOM tree.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class DOMNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -212,21 +213,47 @@ namespace CefSharp.DevTools.DOMSnapshot
             set;
         }
 
+        public CefSharp.DevTools.DOM.PseudoType? PseudoType
+        {
+            get
+            {
+                return (CefSharp.DevTools.DOM.PseudoType? )(StringToEnum(typeof(CefSharp.DevTools.DOM.PseudoType? ), pseudoType));
+            }
+
+            set
+            {
+                pseudoType = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Type of a pseudo element node.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (false))]
-        public CefSharp.DevTools.DOM.PseudoType? PseudoType
+        internal string pseudoType
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
+        {
+            get
+            {
+                return (CefSharp.DevTools.DOM.ShadowRootType? )(StringToEnum(typeof(CefSharp.DevTools.DOM.ShadowRootType? ), shadowRootType));
+            }
+
+            set
+            {
+                shadowRootType = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// Shadow root type.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRootType"), IsRequired = (false))]
-        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
+        internal string shadowRootType
         {
             get;
             set;

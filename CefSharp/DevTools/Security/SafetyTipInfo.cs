@@ -6,13 +6,27 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// SafetyTipInfo
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SafetyTipInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        public CefSharp.DevTools.Security.SafetyTipStatus SafetyTipStatus
+        {
+            get
+            {
+                return (CefSharp.DevTools.Security.SafetyTipStatus)(StringToEnum(typeof(CefSharp.DevTools.Security.SafetyTipStatus), safetyTipStatus));
+            }
+
+            set
+            {
+                safetyTipStatus = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// Describes whether the page triggers any safety tips or reputation warnings. Default is unknown.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("safetyTipStatus"), IsRequired = (true))]
-        public CefSharp.DevTools.Security.SafetyTipStatus SafetyTipStatus
+        internal string safetyTipStatus
         {
             get;
             set;

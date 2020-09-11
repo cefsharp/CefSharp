@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Inherited CSS rule collection from ancestor node.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class InheritedStyleEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Debug symbols available for a wasm script.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class DebugSymbols : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

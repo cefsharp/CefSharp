@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Search match for resource.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SearchMatch : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

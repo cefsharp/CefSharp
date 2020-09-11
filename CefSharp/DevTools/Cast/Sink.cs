@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Cast
     /// <summary>
     /// Sink
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Sink : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

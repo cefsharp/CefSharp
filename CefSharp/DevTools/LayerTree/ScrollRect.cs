@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// Rectangle where scrolling happens on the main thread.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class ScrollRect : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

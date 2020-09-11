@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Database
     /// <summary>
     /// Database error.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Error : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

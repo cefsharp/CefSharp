@@ -8,6 +8,7 @@ namespace CefSharp.DevTools.Audits
     /// time finding a specific cookie. With this, we can convey specific error
     /// information without the cookie.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class SameSiteCookieIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -20,24 +21,63 @@ namespace CefSharp.DevTools.Audits
             set;
         }
 
+        public CefSharp.DevTools.Audits.SameSiteCookieWarningReason[] CookieWarningReasons
+        {
+            get
+            {
+                return (CefSharp.DevTools.Audits.SameSiteCookieWarningReason[])(StringToEnum(typeof(CefSharp.DevTools.Audits.SameSiteCookieWarningReason[]), cookieWarningReasons));
+            }
+
+            set
+            {
+                cookieWarningReasons = (EnumToString(value));
+            }
+        }
+
         /// <summary>
         /// CookieWarningReasons
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookieWarningReasons"), IsRequired = (true))]
-        public CefSharp.DevTools.Audits.SameSiteCookieWarningReason[] CookieWarningReasons
+        internal string cookieWarningReasons
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[] CookieExclusionReasons
+        {
+            get
+            {
+                return (CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[])(StringToEnum(typeof(CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[]), cookieExclusionReasons));
+            }
+
+            set
+            {
+                cookieExclusionReasons = (EnumToString(value));
+            }
         }
 
         /// <summary>
         /// CookieExclusionReasons
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookieExclusionReasons"), IsRequired = (true))]
-        public CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[] CookieExclusionReasons
+        internal string cookieExclusionReasons
         {
             get;
             set;
+        }
+
+        public CefSharp.DevTools.Audits.SameSiteCookieOperation Operation
+        {
+            get
+            {
+                return (CefSharp.DevTools.Audits.SameSiteCookieOperation)(StringToEnum(typeof(CefSharp.DevTools.Audits.SameSiteCookieOperation), operation));
+            }
+
+            set
+            {
+                operation = (EnumToString(value));
+            }
         }
 
         /// <summary>
@@ -45,7 +85,7 @@ namespace CefSharp.DevTools.Audits
         /// may be used by the front-end as additional context.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("operation"), IsRequired = (true))]
-        public CefSharp.DevTools.Audits.SameSiteCookieOperation Operation
+        internal string operation
         {
             get;
             set;

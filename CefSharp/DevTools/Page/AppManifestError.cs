@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Error while paring app manifest.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class AppManifestError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

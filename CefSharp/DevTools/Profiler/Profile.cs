@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Profile.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class Profile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

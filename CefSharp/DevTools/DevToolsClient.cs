@@ -140,13 +140,15 @@ namespace CefSharp.DevTools
             {
                 var methodResult = new DevToolsMethodResponse
                 {
-                    Success = success
+                    Success = success,
+                    MessageId = messageId
                 };
 
                 //TODO: Improve this
                 var memoryStream = new MemoryStream((int)result.Length);
 
                 result.CopyTo(memoryStream);
+
 
                 methodResult.ResponseAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
 

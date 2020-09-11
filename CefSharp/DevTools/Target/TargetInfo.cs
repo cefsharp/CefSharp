@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// TargetInfo
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class TargetInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>

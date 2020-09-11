@@ -6,6 +6,7 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Collected counter information.
     /// </summary>
+    [System.Runtime.Serialization.DataContractAttribute]
     public class CounterInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
