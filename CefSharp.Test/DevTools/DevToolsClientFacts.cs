@@ -79,9 +79,10 @@ namespace CefSharp.Test.DevTools
                     var currentIndex = response.CurrentIndex;
                     var entries = response.Entries;
 
-                    Assert.NotEqual(0, currentIndex);
+                    Assert.Equal(0, currentIndex);
                     Assert.NotNull(entries);
                     Assert.True(entries.Count > 0);
+                    Assert.Equal(CefSharp.DevTools.Page.TransitionType.Typed, entries[0].TransitionType);
                 }
             }
         }

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace CefSharp.DevTools
@@ -96,11 +97,18 @@ namespace CefSharp.DevTools
         {
             var dict = new Dictionary<string, object>();
 
-            var properties = GetType().GetProperties();
+            var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             foreach (var prop in properties)
             {
                 var dataMemberAttribute = (DataMemberAttribute)Attribute.GetCustomAttribute(prop, typeof(DataMemberAttribute), false);
+
+                //Only add members that have DataMemberAttribute
+                if (dataMemberAttribute == null)
+                {
+                    continue;
+                }
+
                 var propertyName = dataMemberAttribute.Name;
                 var propertyRequired = dataMemberAttribute.IsRequired;
                 var propertyValue = prop.GetValue(this);
@@ -121,17 +129,6 @@ namespace CefSharp.DevTools
                 if (typeof(DevToolsDomainEntityBase).IsAssignableFrom(propertyValueType))
                 {
                     propertyValue = ((DevToolsDomainEntityBase)(propertyValue)).ToDictionary();
-                }
-
-                if (propertyValueType.IsEnum)
-                {
-                    var enumMember = propertyValueType.GetMember(propertyValue.ToString()).FirstOrDefault();
-                    if (enumMember == null)
-                    {
-                        throw new NullReferenceException("No matching enum found");
-                    }
-                    var enumMemberAttribute = (EnumMemberAttribute)Attribute.GetCustomAttribute(enumMember, typeof(EnumMemberAttribute), false);
-                    propertyValue = enumMemberAttribute.Value;
                 }
 
                 dict.Add(propertyName, propertyValue);
