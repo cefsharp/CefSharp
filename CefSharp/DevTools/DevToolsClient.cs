@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Callback;
 using CefSharp.Internals;
+using CefSharp.Internals.Tasks;
 
 namespace CefSharp.DevTools
 {
@@ -19,16 +20,43 @@ namespace CefSharp.DevTools
     /// </summary>
     public partial class DevToolsClient : IDevToolsMessageObserver, IDevToolsClient
     {
-        private readonly ConcurrentDictionary<int, TaskCompletionSource<DevToolsMethodResponse>> queuedCommandResults = new ConcurrentDictionary<int, TaskCompletionSource<DevToolsMethodResponse>>();
+        private readonly ConcurrentDictionary<int, SyncContextTaskCompletionSource<DevToolsMethodResponse>> queuedCommandResults = new ConcurrentDictionary<int, SyncContextTaskCompletionSource<DevToolsMethodResponse>>();
         private int lastMessageId;
         private IBrowser browser;
         private IRegistration devToolsRegistration;
         private bool devToolsAttached;
+        private SynchronizationContext syncContext;
 
         /// <summary>
         /// DevToolsEvent
         /// </summary>
         public EventHandler<DevToolsEventArgs> DevToolsEvent;
+
+        /// <summary>
+        /// Capture the current <see cref="SynchronizationContext"/> so
+        /// continuation executes on the original calling thread. If
+        /// <see cref="SynchronizationContext.Current"/> is null for
+        /// <see cref="ExecuteDevToolsMethodAsync(string, IDictionary{string, object})"/>
+        /// then the continuation will be run on the CEF UI Thread (by default
+        /// this is not the same as the WPF/WinForms UI Thread).
+        /// </summary>
+        public bool CaptureSyncContext { get; set; }
+
+        /// <summary>
+        /// When not null provided <see cref="SynchronizationContext"/>
+        /// will be used to run the contination. Defaults to null
+        /// Setting this property will change <see cref="CaptureSyncContext"/>
+        /// to false.
+        /// </summary>
+        public SynchronizationContext SyncContext
+        {
+            get { return syncContext; }
+            set
+            {
+                CaptureSyncContext = false;
+                syncContext = value;
+            }
+        }
 
         /// <summary>
         /// DevToolsClient
@@ -39,8 +67,14 @@ namespace CefSharp.DevTools
             this.browser = browser;
 
             lastMessageId = browser.Identifier * 100000;
+            CaptureSyncContext = true;
         }
 
+        /// <summary>
+        /// Store a reference to the IRegistration that's returned when
+        /// you register an observer.
+        /// </summary>
+        /// <param name="devToolsRegistration">registration</param>
         public void SetDevToolsObserverRegistration(IRegistration devToolsRegistration)
         {
             this.devToolsRegistration = devToolsRegistration;
@@ -65,7 +99,9 @@ namespace CefSharp.DevTools
 
             var messageId = Interlocked.Increment(ref lastMessageId);
 
-            var taskCompletionSource = new TaskCompletionSource<DevToolsMethodResponse>();
+            var taskCompletionSource = new SyncContextTaskCompletionSource<DevToolsMethodResponse>();
+
+            taskCompletionSource.SyncContext = CaptureSyncContext ? SynchronizationContext.Current : syncContext;
 
             if (!queuedCommandResults.TryAdd(messageId, taskCompletionSource))
             {
@@ -74,6 +110,7 @@ namespace CefSharp.DevTools
 
             var browserHost = browser.GetHost();
 
+            //Currently on CEF UI Thread we can directly execute
             if (CefThread.CurrentlyOnUiThread)
             {
                 var returnedMessageId = browserHost.ExecuteDevToolsMethod(messageId, method, parameters);
@@ -81,9 +118,14 @@ namespace CefSharp.DevTools
                 {
                     return new DevToolsMethodResponse { Success = false };
                 }
+                else if(returnedMessageId != messageId)
+                {
+                    //For some reason our message Id's don't match
+                    throw new DevToolsClientException(string.Format("Generated MessageId {0} doesn't match returned Message Id {1}", returnedMessageId, messageId));
+                }
             }
-
-            if (CefThread.CanExecuteOnUiThread)
+            //Not on CEF UI Thread we need to use 
+            else if (CefThread.CanExecuteOnUiThread)
             {
                 var returnedMessageId = await CefThread.ExecuteOnUiThread(() =>
                 {
@@ -93,6 +135,11 @@ namespace CefSharp.DevTools
                 if (returnedMessageId == 0)
                 {
                     return new DevToolsMethodResponse { Success = false };
+                }
+                else if (returnedMessageId != messageId)
+                {
+                    //For some reason our message Id's don't match
+                    throw new DevToolsClientException(string.Format("Generated MessageId {0} doesn't match returned Message Id {1}", returnedMessageId, messageId));
                 }
             }
 
@@ -134,7 +181,8 @@ namespace CefSharp.DevTools
 
         void IDevToolsMessageObserver.OnDevToolsMethodResult(IBrowser browser, int messageId, bool success, Stream result)
         {
-            TaskCompletionSource<DevToolsMethodResponse> taskCompletionSource = null;
+            var uiThread = CefThread.CurrentlyOnUiThread;
+            SyncContextTaskCompletionSource<DevToolsMethodResponse> taskCompletionSource = null;
 
             if (queuedCommandResults.TryRemove(messageId, out taskCompletionSource))
             {
@@ -149,29 +197,41 @@ namespace CefSharp.DevTools
 
                 result.CopyTo(memoryStream);
 
-
                 methodResult.ResponseAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
+
+                Action execute = null;
 
                 if (success)
                 {
-                    Task.Run(() =>
+                    execute = () =>
                     {
-                        //Make sure continuation runs on Thread Pool
                         taskCompletionSource.TrySetResult(methodResult);
-                    });
+                    };
                 }
                 else
                 {
-                    Task.Run(() =>
+                    execute = () =>
                     {
                         var errorObj = methodResult.DeserializeJson<DevToolsDomainErrorResponse>();
                         errorObj.MessageId = messageId;
 
                         //Make sure continuation runs on Thread Pool
                         taskCompletionSource.TrySetException(new DevToolsClientException("DevTools Client Error :" + errorObj.Message, errorObj));
-                    });
+                    };
                 }
 
+                var syncContext = taskCompletionSource.SyncContext;
+                if (syncContext == null)
+                {
+                    execute();
+                }
+                else
+                {
+                    syncContext.Post(new SendOrPostCallback((o) =>
+                    {
+                        execute();
+                    }), null);
+                }
             }
         }
     }
