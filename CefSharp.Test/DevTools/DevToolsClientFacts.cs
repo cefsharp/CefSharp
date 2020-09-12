@@ -4,6 +4,8 @@
 
 using System.Threading.Tasks;
 using CefSharp.DevTools.Browser;
+using CefSharp.DevTools.Network;
+using CefSharp.Example;
 using CefSharp.OffScreen;
 using Xunit;
 using Xunit.Abstractions;
@@ -83,6 +85,23 @@ namespace CefSharp.Test.DevTools
                     Assert.NotNull(entries);
                     Assert.True(entries.Count > 0);
                     Assert.Equal(CefSharp.DevTools.Page.TransitionType.Typed, entries[0].TransitionType);
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData("CefSharpTest", "CefSharp Test Cookie", CefExample.ExampleDomain, CookieSameSite.None)]
+        [InlineData("CefSharpTest1", "CefSharp Test Cookie2", CefExample.ExampleDomain, CookieSameSite.Lax)]
+        public async Task CanSetCookieForDomain(string name, string value, string domain, CookieSameSite sameSite)
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                await browser.LoadPageAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var response = await devToolsClient.Network.SetCookieAsync(name, value, domain: domain, sameSite:sameSite);
+                    Assert.True(response.Success);
                 }
             }
         }
