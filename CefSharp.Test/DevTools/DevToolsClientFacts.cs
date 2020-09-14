@@ -69,6 +69,22 @@ namespace CefSharp.Test.DevTools
         }
 
         [Fact]
+        public async Task CanCanEmulate()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                await browser.LoadPageAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var response = await devToolsClient.Emulation.CanEmulateAsync();
+
+                    Assert.True(response.Result);
+                }
+            }
+        }
+
+        [Fact]
         public async Task CanGetPageNavigationHistory()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
