@@ -18,13 +18,15 @@ namespace CefSharp.Web
     {
         private readonly string html;
         private readonly bool base64Encode;
+        private readonly string charSet;
 
         /// <summary>
         /// Initializes a new instance of the HtmlString class.
         /// </summary>
         /// <param name="html">raw html string (not already encoded)</param>
         /// <param name="base64Encode">if true the html string will be base64 encoded using UTF8 encoding.</param>
-        public HtmlString(string html, bool base64Encode = false)
+        /// <param name="charSet">if not null then charset will specified. e.g. UTF-8</param>
+        public HtmlString(string html, bool base64Encode = false, string charSet = null)
         {
             this.base64Encode = base64Encode;
             this.html = html;
@@ -36,14 +38,21 @@ namespace CefSharp.Web
         /// <returns>data Uri string suitable for passing to <see cref="IWebBrowser.Load(string)"/></returns>
         public string ToDataUriString()
         {
+            var dataUriString = "data:text/html";
+
+            if (!string.IsNullOrEmpty(charSet))
+            {
+                dataUriString += ";charset=" + charSet;
+            }
+
             if (base64Encode)
             {
                 var base64EncodedHtml = Convert.ToBase64String(Encoding.UTF8.GetBytes(html));
-                return "data:text/html;base64," + base64EncodedHtml;
+                return dataUriString + ";base64," + base64EncodedHtml;
             }
 
             var uriEncodedHtml = Uri.EscapeDataString(html);
-            return "data:text/html," + uriEncodedHtml;
+            return dataUriString + "," + uriEncodedHtml;
         }
 
         /// <summary>
