@@ -113,84 +113,10 @@ namespace CefSharp.OffScreen
         /// <value>The request context.</value>
         public IRequestContext RequestContext { get; private set; }
         /// <summary>
-        /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
-        /// </summary>
-        /// <value>The js dialog handler.</value>
-        public IJsDialogHandler JsDialogHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
-        /// </summary>
-        /// <value>The dialog handler.</value>
-        public IDialogHandler DialogHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IDownloadHandler" /> and assign to handle events related to downloading files.
-        /// </summary>
-        /// <value>The download handler.</value>
-        public IDownloadHandler DownloadHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IKeyboardHandler" /> and assign to handle events related to key press.
-        /// </summary>
-        /// <value>The keyboard handler.</value>
-        public IKeyboardHandler KeyboardHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="ILoadHandler" /> and assign to handle events related to browser load status.
-        /// </summary>
-        /// <value>The load handler.</value>
-        public ILoadHandler LoadHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="ILifeSpanHandler" /> and assign to handle events related to popups.
-        /// </summary>
-        /// <value>The life span handler.</value>
-        public ILifeSpanHandler LifeSpanHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IDisplayHandler" /> and assign to handle events related to browser display state.
-        /// </summary>
-        /// <value>The display handler.</value>
-        public IDisplayHandler DisplayHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IContextMenuHandler" /> and assign to handle events related to the browser context menu
-        /// </summary>
-        /// <value>The menu handler.</value>
-        public IContextMenuHandler MenuHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IFocusHandler" /> and assign to handle events related to the browser component's focus
-        /// </summary>
-        /// <value>The focus handler.</value>
-        public IFocusHandler FocusHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IRequestHandler" /> and assign to handle events related to browser requests.
-        /// </summary>
-        /// <value>The request handler.</value>
-        public IRequestHandler RequestHandler { get; set; }
-        /// <summary>
         /// Implement <see cref="IRenderHandler" /> and assign to handle events related to browser rendering.
         /// </summary>
         /// <value>The render handler.</value>
         public IRenderHandler RenderHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IDragHandler" /> and assign to handle events related to dragging.
-        /// </summary>
-        /// <value>The drag handler.</value>
-        public IDragHandler DragHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IResourceRequestHandlerFactory" /> and control the loading of resources
-        /// </summary>
-        /// <value>The resource handler factory.</value>
-        public IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
-        /// <summary>
-        /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
-        /// </summary>
-        /// <value>The render process message handler.</value>
-        public IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IFindHandler" /> to handle events related to find results.
-        /// </summary>
-        /// <value>The find handler.</value>
-        public IFindHandler FindHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IAudioHandler" /> to handle audio events.
-        /// </summary>
-        public IAudioHandler AudioHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
         /// </summary>
