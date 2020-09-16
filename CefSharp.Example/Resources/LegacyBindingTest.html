@@ -272,6 +272,11 @@
 
                 bound.testCallback(callback);
             });
+			
+			QUnit.done(function (details)
+			{
+				CefSharp.PostMessage({ "Type": "QUnitExecutionComplete", "Details": details });
+			});
         })();
         </script>
     </body>
