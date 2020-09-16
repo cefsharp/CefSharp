@@ -181,6 +181,7 @@
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
     <ClInclude Include="BindObjectAsyncHandler.h" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
+    <ClInclude Include="Cef.h" />
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
     <ClInclude Include="SubProcessApp.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
