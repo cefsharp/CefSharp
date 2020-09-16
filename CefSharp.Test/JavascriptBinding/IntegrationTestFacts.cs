@@ -74,6 +74,28 @@ namespace CefSharp.Test.JavascriptBinding
                 output.WriteLine("QUnit Tests result: {0}", success);
             }
         }
+
+        [Fact]
+        public async Task LoadLegacyJavaScriptBindingQunitTestsSuccessfulCompletion()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.LegacyBindingTestUrl, automaticallyCreateBrowser: false))
+            {
+                //TODO: Extract this into some sort of helper setup method
+                var bindingOptions = BindingOptions.DefaultBinder;
+                var repo = browser.JavascriptObjectRepository;
+                repo.Settings.LegacyBindingEnabled = true;
+
+                repo.Register("bound", new BoundObject(), isAsync: false, options: bindingOptions);
+                repo.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+
+                browser.CreateBrowser();
+                var success = await browser.WaitForQUnitTestExeuctionToComplete();
+
+                Assert.True(success);
+
+                output.WriteLine("QUnit Tests result: {0}", success);
+            }
+        }
 #endif
 
         [Fact]
