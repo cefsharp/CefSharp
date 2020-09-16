@@ -105,7 +105,6 @@ namespace CefSharp
         public virtual CefSharp.Internals.CommandLineArgDictionary CefCommandLineArgs { get { throw null; } }
         public System.Collections.Generic.IEnumerable<CefSharp.CefCustomScheme> CefCustomSchemes { get { throw null; } }
         public bool CommandLineArgsDisabled { get { throw null; } set { } }
-        public virtual System.Collections.Generic.IEnumerable<CefSharp.V8Extension> Extensions { get { throw null; } }
         public bool ExternalMessagePump { get { throw null; } set { } }
         public bool IgnoreCertificateErrors { get { throw null; } set { } }
         public string JavascriptFlags { get { throw null; } set { } }
@@ -130,7 +129,6 @@ namespace CefSharp
         protected virtual void Dispose(bool A_0) { }
         public void EnablePrintPreview() { }
         ~CefSettingsBase() { }
-        public void RegisterExtension(CefSharp.V8Extension extension) { }
         public void RegisterScheme(CefSharp.CefCustomScheme cefCustomScheme) { }
         public void SetOffScreenRenderingBestPerformanceArgs() { }
     }
