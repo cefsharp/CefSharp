@@ -10,6 +10,7 @@
 #include "SubProcessApp.h"
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
+#include "Cef.h"
 
 using namespace System::Collections::Generic;
 using namespace System::Linq;

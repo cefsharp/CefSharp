@@ -693,31 +693,11 @@ namespace CefSharp
         return handled;
     };
 
-    void CefAppUnmanagedWrapper::OnRenderThreadCreated(CefRefPtr<CefListValue> extraInfo)
-    {
-        //Check to see if we have a list
-        if (extraInfo.get())
-        {
-            auto extensionList = extraInfo->GetList(0);
-            if (extensionList.get())
-            {
-                for (size_t i = 0; i < extensionList->GetSize(); i++)
-                {
-                    auto extension = extensionList->GetList(i);
-                    auto ext = gcnew V8Extension(StringUtils::ToClr(extension->GetString(0)), StringUtils::ToClr(extension->GetString(1)));
-
-                    _extensions->Add(ext);
-                }
-            }
-        }
-    }
-
     void CefAppUnmanagedWrapper::OnWebKitInitialized()
     {
-        for each(V8Extension^ extension in _extensions->AsReadOnly())
+        if (!Object::ReferenceEquals(_handler, nullptr))
         {
-            //only support extensions without handlers now
-            CefRegisterExtension(StringUtils::ToNative(extension->Name), StringUtils::ToNative(extension->JavascriptCode), NULL);
+            _handler->OnWebKitInitialized();
         }
     }
 }

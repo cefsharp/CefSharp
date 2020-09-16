@@ -172,7 +172,6 @@
     <Content Include="Resources\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.js" />
-    <Content Include="Resources\extension.js" />
     <Content Include="Resources\MultiBindingTest.html" />
     <Content Include="Resources\home.html" />
     <Content Include="Resources\FramedWebGLTest.html" />

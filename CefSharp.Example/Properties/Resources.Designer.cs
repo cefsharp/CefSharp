@@ -620,28 +620,6 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var cefsharp;
-        ///if (!cefsharp)
-        ///    cefsharp = {};
-        ///
-        ///if (!cefsharp.example)
-        ///    cefsharp.example = {};
-        ///
-        ///(function ()
-        ///{
-        ///    cefsharp.example.alert = function(text)
-        ///    {
-        ///        alert(text);
-        ///    };
-        ///})();.
-        /// </summary>
-        public static string extension {
-            get {
-                return ResourceManager.GetString("extension", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///    &lt;head&gt;

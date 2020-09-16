@@ -169,7 +169,6 @@
     <Compile Include="ResponseFilter\StreamResponseFilter.cs" />
     <Compile Include="Structs\AudioParamaters.cs" />
     <Compile Include="Structs\TouchEvent.cs" />
-    <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="JavascriptException.cs" />

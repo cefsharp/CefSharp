@@ -20,10 +20,6 @@ namespace CefSharp
     {
     private:
         /// <summary>
-        /// CEF V8 Extensions
-        /// </summary>
-        List<V8Extension^>^ _cefExtensions;
-        /// <summary>
         /// Command Line Arguments Dictionary. 
         /// </summary>
         CommandLineArgDictionary^ _cefCommandLineArgs;
@@ -48,7 +44,6 @@ namespace CefSharp
             _cefSettings->no_sandbox = true;
             BrowserSubprocessPath = Path::Combine(Path::GetDirectoryName(CefSettingsBase::typeid->Assembly->Location), "CefSharp.BrowserSubprocess.exe");
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
-            _cefExtensions = gcnew List<V8Extension^>();
             _cefCommandLineArgs = gcnew CommandLineArgDictionary();
 
             //Disable site isolation trials as this causes problems with frames
@@ -79,14 +74,6 @@ namespace CefSharp
         property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
         {
             IEnumerable<CefCustomScheme^>^ get() { return _cefCustomSchemes; }
-        }
-
-        /// <summary>
-        /// List of all V8Extensions to be registered using CefRegisterExtension in the render process.
-        /// </summary>
-        virtual property IEnumerable<V8Extension^>^ Extensions
-        {
-            IEnumerable<V8Extension^>^ get() { return _cefExtensions; }
         }
 
         /// <summary>
@@ -390,20 +377,6 @@ namespace CefSharp
             cefCustomScheme->SchemeName = cefCustomScheme->SchemeName->ToLower();
 
             _cefCustomSchemes->Add(cefCustomScheme);
-        }
-
-        /// <summary>
-        /// Register a new V8 extension with the specified JavaScript extension code.
-        /// </summary>
-        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
-        /// <param name="extension">The V8Extension that contains the extension code.</param>
-        void RegisterExtension(V8Extension^ extension)
-        {
-            if (_cefExtensions->Contains(extension))
-            {
-                throw gcnew ArgumentException("An extension with the same name is already registered.", "extension");
-            }
-            _cefExtensions->Add(extension);
         }
 
         /// <summary>
