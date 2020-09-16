@@ -2,7 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.ComponentModel;
+using CefSharp.Internals;
 
 #if OFFSCREEN
 namespace CefSharp.OffScreen
@@ -16,6 +18,18 @@ namespace CefSharp.WinForms
     //WPF, Winforms and Offscreen
     public partial class ChromiumWebBrowser
     {
+        /// <summary>
+        /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
+        /// </summary>
+        private long canExecuteJavascriptInMainFrameId;
+
+        /// <summary>
+        /// A flag that indicates if you can execute javascript in the main frame.
+        /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
+        /// and false in IRenderProcessMessageHandler.OnContextReleased
+        /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
+        public bool CanExecuteJavascriptInMainFrame { get; private set; }
         /// <summary>
         /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
         /// </summary>
@@ -110,6 +124,148 @@ namespace CefSharp.WinForms
         /// <value>The resource handler factory.</value>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
+
+        /// <summary>
+        /// Event handler that will get called when the resource load for a navigation fails or is canceled.
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
+        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
+        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
+        /// </summary>
+        public event EventHandler<LoadErrorEventArgs> LoadError;
+        /// <summary>
+        /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same
+        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
+        /// particular frame if the load request for that frame fails. For notification of overall browser load status use
+        /// OnLoadingStateChange instead.
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
+        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
+        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
+        /// </summary>
+        /// <remarks>Whilst this may seem like a logical place to execute js, it's called before the DOM has been loaded, implement
+        /// <see cref="IRenderProcessMessageHandler.OnContextCreated" /> as it's called when the underlying V8Context is created
+        /// </remarks>
+        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        /// <summary>
+        /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
+        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method will always be called
+        /// for all frames irrespective of whether the request completes successfully.
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
+        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
+        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
+        /// </summary>
+        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
+        /// <summary>
+        /// Event handler that will get called when the Loading state has changed.
+        /// This event will be fired twice. Once when loading is initiated either programmatically or
+        /// by user action, and once when loading is terminated due to completion, cancellation of failure.
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
+        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
+        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
+        /// </summary>
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
+        /// <summary>
+        /// Event handler for receiving Javascript console messages being sent from web pages.
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
+        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
+        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
+        /// (The exception to this is when your running with settings.MultiThreadedMessageLoop = false, then they'll be the same thread).
+        /// </summary>
+        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        /// <summary>
+        /// Event handler for changes to the status message.
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
+        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang.
+        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
+        /// (The exception to this is when your running with settings.MultiThreadedMessageLoop = false, then they'll be the same thread).
+        /// </summary>
+        public event EventHandler<StatusMessageEventArgs> StatusMessage;
+        /// <summary>
+        /// Event handler that will get called when the message that originates from CefSharp.PostMessage
+        /// </summary>
+        public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
+
+        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
+        {
+            //When loading pages of a different origin the frameId changes
+            //For the first loading of a new origin the messages from the render process
+            //Arrive in a different order than expected, the OnContextCreated message
+            //arrives before the OnContextReleased, then the message for OnContextReleased
+            //incorrectly overrides the value
+            //https://github.com/cefsharp/CefSharp/issues/3021
+
+            if (frameId > canExecuteJavascriptInMainFrameId && !canExecute)
+            {
+                return;
+            }
+
+            canExecuteJavascriptInMainFrameId = frameId;
+            CanExecuteJavascriptInMainFrame = canExecute;
+        }
+
+        void IWebBrowserInternal.SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args)
+        {
+            JavascriptMessageReceived?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:FrameLoadStart" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="FrameLoadStartEventArgs"/> instance containing the event data.</param>
+        void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
+        {
+            FrameLoadStart?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:FrameLoadEnd" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
+        void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
+        {
+            FrameLoadEnd?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:ConsoleMessage" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="ConsoleMessageEventArgs"/> instance containing the event data.</param>
+        void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
+        {
+            ConsoleMessage?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:StatusMessage" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="StatusMessageEventArgs"/> instance containing the event data.</param>
+        void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
+        {
+            StatusMessage?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:LoadError" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="LoadErrorEventArgs"/> instance containing the event data.</param>
+        void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
+        {
+            LoadError?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance has parent.
+        /// </summary>
+        /// <value><c>true</c> if this instance has parent; otherwise, <c>false</c>.</value>
+        bool IWebBrowserInternal.HasParent { get; set; }
+
+        /// <summary>
+        /// Gets the browser adapter.
+        /// </summary>
+        /// <value>The browser adapter.</value>
+        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
+        {
+            get { return managedCefBrowserAdapter; }
+        }
 
         private void SetHandlersToNullExceptLifeSpan()
         {
