@@ -50,6 +50,11 @@
                 <MenuItem Header="_Google Service Worker Demo" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="https://googlechrome.github.io/samples/service-worker/basic/"/>
                 <MenuItem Header="Load Example Extension" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="LoadExtension"/>
             </MenuItem>
+            <MenuItem Header="_Chrome Urls">
+                <MenuItem Header="_List Internal Urls" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.ChromeInternalUrls}}"/>
+                <MenuItem Header="_Net Internal Urls" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.ChromeNetInternalUrls}}"/>
+                <MenuItem Header="_Process Internal Urls" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.ChromeProcessInternalUrls}}"/>
+            </MenuItem>
         </Menu>
         <controls:NonReloadingTabControl x:Name="TabControl"
                                Margin="0,5,0,0"
