@@ -165,13 +165,19 @@ namespace CefSharp.DevTools
 
         void IDevToolsMessageObserver.OnDevToolsEvent(IBrowser browser, string method, Stream parameters)
         {
-            //TODO: Improve this
-            var memoryStream = new MemoryStream((int)parameters.Length);
-            parameters.CopyTo(memoryStream);
+            var evt = DevToolsEvent;
 
-            var paramsAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
+            //Only parse the data if we have an event handler
+            if (evt != null)
+            {
+                //TODO: Improve this
+                var memoryStream = new MemoryStream((int)parameters.Length);
+                parameters.CopyTo(memoryStream);
 
-            DevToolsEvent?.Invoke(this, new DevToolsEventArgs(method, paramsAsJsonString));
+                var paramsAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
+
+                evt(this, new DevToolsEventArgs(method, paramsAsJsonString));
+            }
         }
 
         bool IDevToolsMessageObserver.OnDevToolsMessage(IBrowser browser, Stream message)
