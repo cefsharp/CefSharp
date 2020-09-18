@@ -110,9 +110,6 @@ namespace CefSharp
         /// <returns>DevToolsClient</returns>
         public static DevToolsClient GetDevToolsClient(this IWebBrowser chromiumWebBrowser)
         {
-            ((IWebBrowserInternal)chromiumWebBrowser).ThrowExceptionIfDisposed();
-            ((IWebBrowserInternal)chromiumWebBrowser).ThrowExceptionIfBrowserNotInitialized();
-
             var browser = chromiumWebBrowser.GetBrowser();
 
             return browser.GetDevToolsClient();
