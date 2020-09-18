@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CefSharp.Example;
 using CefSharp.Example.JavascriptBinding;
@@ -134,6 +135,26 @@ namespace CefSharp.Test.JavascriptBinding
                 var result = await browser.EvaluateScriptAsync("customApi.isObjectCached('doesntexist') === false");
 
                 Assert.True(result.Success);
+            }
+        }
+
+        [Theory]
+        [InlineData("CefSharp.RenderProcessId")]
+        [InlineData("cefSharp.renderProcessId")]
+        public async Task JsBindingRenderProcessId(string script)
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl))
+            {
+                await browser.LoadPageAsync();
+
+                var result = await browser.EvaluateScriptAsync(script);
+
+                Assert.True(result.Success);
+
+                using (var process = Process.GetProcessById(Assert.IsType<int>(result.Result)))
+                {
+                    Assert.Equal("CefSharp.BrowserSubprocess", process.ProcessName);
+                }
             }
         }
     }
