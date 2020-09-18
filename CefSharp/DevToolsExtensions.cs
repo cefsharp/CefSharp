@@ -96,9 +96,6 @@ namespace CefSharp
         /// unsuccessfully submitted for validation, this value will be 0.</returns>
         public static Task<int> ExecuteDevToolsMethodAsync(this IWebBrowser chromiumWebBrowser, int messageId, string method, IDictionary<string, object> parameters = null)
         {
-            ((IWebBrowserInternal)chromiumWebBrowser).ThrowExceptionIfDisposed();
-            ((IWebBrowserInternal)chromiumWebBrowser).ThrowExceptionIfBrowserNotInitialized();
-
             var browser = chromiumWebBrowser.GetBrowser();
 
             return browser.ExecuteDevToolsMethodAsync(messageId, method, parameters);

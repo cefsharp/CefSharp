@@ -67,7 +67,10 @@ namespace CefSharp.OffScreen
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
-        public bool IsBrowserInitialized { get; private set; }
+        public bool IsBrowserInitialized
+        {
+            get { return InternalIsBrowserInitialized(); }
+        }
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
         /// </summary>
@@ -240,7 +243,7 @@ namespace CefSharp.OffScreen
             if (disposing)
             {
                 CanExecuteJavascriptInMainFrame = false;
-                IsBrowserInitialized = false;
+                Interlocked.Exchange(ref browserInitialized, 0);
 
                 // Don't reference event listeners any longer:
                 AddressChanged = null;
@@ -476,8 +479,8 @@ namespace CefSharp.OffScreen
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
-            this.ThrowExceptionIfDisposed();
-            this.ThrowExceptionIfBrowserNotInitialized();
+            ThrowExceptionIfDisposed();
+            ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
         }
@@ -662,7 +665,7 @@ namespace CefSharp.OffScreen
         {
             this.browser = browser;
 
-            IsBrowserInitialized = true;
+            Interlocked.Exchange(ref browserInitialized, 1);
 
             BrowserInitialized?.Invoke(this, EventArgs.Empty);
         }

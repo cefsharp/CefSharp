@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Threading;
 using CefSharp.Internals;
 
 #if OFFSCREEN
@@ -18,10 +19,20 @@ namespace CefSharp.WinForms
     //WPF, Winforms and Offscreen
     public partial class ChromiumWebBrowser
     {
+        public const string BrowserNotInitializedExceptionErrorMessage =
+            "The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
+            "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
+            "the IsBrowserInitialized property to determine when the browser has been initialized.";
+
         /// <summary>
         /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
         /// </summary>
         private long canExecuteJavascriptInMainFrameId;
+
+        /// <summary>
+        /// The browser initialized - boolean represented as 0 (false) and 1(true) as we use Interlocker to increment/reset
+        /// </summary>
+        private int browserInitialized;
 
         /// <summary>
         /// A flag that indicates if you can execute javascript in the main frame.
@@ -184,6 +195,15 @@ namespace CefSharp.WinForms
         /// </summary>
         public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
 
+        /// <summary>
+        /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
+        /// </summary>
+        /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
+        bool IWebBrowser.IsBrowserInitialized
+        {
+            get { return InternalIsBrowserInitialized(); }
+        }
+
         void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
         {
             //When loading pages of a different origin the frameId changes
@@ -283,6 +303,41 @@ namespace CefSharp.WinForms
             FocusHandler = null;
             ResourceRequestHandlerFactory = null;
             RenderProcessMessageHandler = null;
+        }
+
+        /// <summary>
+        /// Check is browser is initialized
+        /// </summary>
+        /// <returns>true if browser is initialized</returns>
+        private bool InternalIsBrowserInitialized()
+        {
+            // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
+            // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
+            return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
+        }
+
+        /// <summary>
+        /// Throw exception if browser not initialized.
+        /// </summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        private void ThrowExceptionIfBrowserNotInitialized()
+        {
+            if (!InternalIsBrowserInitialized())
+            {
+                throw new Exception(BrowserNotInitializedExceptionErrorMessage);
+            }
+        }
+
+        /// <summary>
+        /// Throw exception if disposed.
+        /// </summary>
+        /// <exception cref="ObjectDisposedException">Thrown when a supplied object has been disposed.</exception>
+        private void ThrowExceptionIfDisposed()
+        {
+            if (IsDisposed)
+            {
+                throw new ObjectDisposedException("browser", "Browser has been disposed");
+            }
         }
     }
 }

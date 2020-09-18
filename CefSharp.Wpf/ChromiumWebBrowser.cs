@@ -96,10 +96,6 @@ namespace CefSharp.Wpf
         /// </summary>
         private bool browserCreated;
         /// <summary>
-        /// The browser initialized - boolean represented as 0 (false) and 1(true) as we use Interlocker to increment/reset
-        /// </summary>
-        private int browserInitialized;
-        /// <summary>
         /// The image that represents this browser instances
         /// </summary>
         private Image image;
@@ -1212,16 +1208,6 @@ namespace CefSharp.Wpf
         #endregion IsLoading dependency property
 
         #region IsBrowserInitialized dependency property
-
-        /// <summary>
-        /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
-        /// </summary>
-        /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
-        bool IWebBrowser.IsBrowserInitialized
-        {
-            get { return InternalIsBrowserInitialized(); }
-        }
-
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
@@ -2507,28 +2493,10 @@ namespace CefSharp.Wpf
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
-            this.ThrowExceptionIfDisposed();
-
-            //We don't use the this.ThrowExceptionIfBrowserNotInitialized(); extension method here
-            // As it relies on the IWebBrowser.IsBrowserInitialized property which is a DependencyProperty
-            // in WPF and will throw an InvalidOperationException if called on a Non-UI thread.
-            if (!InternalIsBrowserInitialized())
-            {
-                throw new Exception(WebBrowserExtensions.BrowserNotInitializedExceptionErrorMessage);
-            }
+            ThrowExceptionIfDisposed();
+            ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
-        }
-
-        /// <summary>
-        /// Check is browserisinitialized
-        /// </summary>
-        /// <returns>true if browser is initialized</returns>
-        private bool InternalIsBrowserInitialized()
-        {
-            // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
-            // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
-            return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
         }
     }
 }

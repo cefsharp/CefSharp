@@ -239,7 +239,10 @@ namespace CefSharp.WinForms
         /// </summary>
         /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
-        public bool IsBrowserInitialized { get; private set; }
+        public bool IsBrowserInitialized
+        {
+            get { return InternalIsBrowserInitialized(); }
+        }
 
         /// <summary>
         /// ParentFormMessageInterceptor hooks the Form handle and forwards
@@ -399,8 +402,8 @@ namespace CefSharp.WinForms
         {
             if (disposing)
             {
+                Interlocked.Exchange(ref browserInitialized, 0);
                 CanExecuteJavascriptInMainFrame = false;
-                IsBrowserInitialized = false;
 
                 // Don't maintain a reference to event listeners anylonger:
                 AddressChanged = null;
@@ -605,7 +608,7 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
         {
             this.browser = browser;
-            IsBrowserInitialized = true;
+            Interlocked.Exchange(ref browserInitialized, 1);
 
             // By the time this callback gets called, this control
             // is most likely hooked into a browser Form of some sort. 
@@ -782,8 +785,8 @@ namespace CefSharp.WinForms
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
-            this.ThrowExceptionIfDisposed();
-            this.ThrowExceptionIfBrowserNotInitialized();
+            ThrowExceptionIfDisposed();
+            ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
         }
