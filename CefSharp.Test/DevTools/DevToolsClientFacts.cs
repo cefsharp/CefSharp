@@ -117,7 +117,7 @@ namespace CefSharp.Test.DevTools
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
                     var response = await devToolsClient.Network.SetCookieAsync(name, value, domain: domain, sameSite:sameSite);
-                    Assert.True(response.Success);
+                    Assert.True(response.Success, "SetCookieForDomain");
                 }
             }
         }

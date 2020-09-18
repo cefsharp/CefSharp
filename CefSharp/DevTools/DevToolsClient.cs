@@ -105,7 +105,7 @@ namespace CefSharp.DevTools
 
             if (!queuedCommandResults.TryAdd(messageId, taskCompletionSource))
             {
-                return new DevToolsMethodResponse { Success = false };
+                throw new DevToolsClientException(string.Format("Unable to add MessageId {0} to queuedCommandResults ConcurrentDictionary.", messageId));
             }
 
             var browserHost = browser.GetHost();
@@ -124,7 +124,7 @@ namespace CefSharp.DevTools
                     throw new DevToolsClientException(string.Format("Generated MessageId {0} doesn't match returned Message Id {1}", returnedMessageId, messageId));
                 }
             }
-            //Not on CEF UI Thread we need to use 
+            //ExecuteDevToolsMethod can only be called on the CEF UI Thread
             else if (CefThread.CanExecuteOnUiThread)
             {
                 var returnedMessageId = await CefThread.ExecuteOnUiThread(() =>
@@ -141,6 +141,10 @@ namespace CefSharp.DevTools
                     //For some reason our message Id's don't match
                     throw new DevToolsClientException(string.Format("Generated MessageId {0} doesn't match returned Message Id {1}", returnedMessageId, messageId));
                 }
+            }
+            else
+            {
+                throw new DevToolsClientException("Unable to invoke ExecuteDevToolsMethod on CEF UI Thread.");
             }
 
             return await taskCompletionSource.Task;
