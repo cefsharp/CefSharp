@@ -38,6 +38,7 @@ namespace CefSharp.DevTools.Database
             return methodResult;
         }
 
+        partial void ValidateExecuteSQL(string databaseId, string query);
         /// <summary>
         /// ExecuteSQL
         /// </summary>
@@ -46,6 +47,7 @@ namespace CefSharp.DevTools.Database
         /// <returns>returns System.Threading.Tasks.Task&lt;ExecuteSQLResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ExecuteSQLResponse> ExecuteSQLAsync(string databaseId, string query)
         {
+            ValidateExecuteSQL(databaseId, query);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("databaseId", databaseId);
             dict.Add("query", query);
@@ -53,6 +55,7 @@ namespace CefSharp.DevTools.Database
             return methodResult.DeserializeJson<ExecuteSQLResponse>();
         }
 
+        partial void ValidateGetDatabaseTableNames(string databaseId);
         /// <summary>
         /// GetDatabaseTableNames
         /// </summary>
@@ -60,6 +63,7 @@ namespace CefSharp.DevTools.Database
         /// <returns>returns System.Threading.Tasks.Task&lt;GetDatabaseTableNamesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetDatabaseTableNamesResponse> GetDatabaseTableNamesAsync(string databaseId)
         {
+            ValidateGetDatabaseTableNames(databaseId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("databaseId", databaseId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Database.getDatabaseTableNames", dict);

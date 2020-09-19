@@ -27,6 +27,7 @@ namespace CefSharp.DevTools.Fetch
             return methodResult;
         }
 
+        partial void ValidateEnable(System.Collections.Generic.IList<CefSharp.DevTools.Fetch.RequestPattern> patterns = null, bool? handleAuthRequests = null);
         /// <summary>
         /// Enables issuing of requestPaused events. A request will be paused until client
         /// calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
@@ -34,6 +35,7 @@ namespace CefSharp.DevTools.Fetch
         /// <param name = "patterns">If specified, only requests matching any of these patterns will produce
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(System.Collections.Generic.IList<CefSharp.DevTools.Fetch.RequestPattern> patterns = null, bool? handleAuthRequests = null)
         {
+            ValidateEnable(patterns, handleAuthRequests);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if ((patterns) != (null))
             {
@@ -49,6 +51,7 @@ namespace CefSharp.DevTools.Fetch
             return methodResult;
         }
 
+        partial void ValidateFailRequest(string requestId, CefSharp.DevTools.Network.ErrorReason errorReason);
         /// <summary>
         /// Causes the request to fail with specified reason.
         /// </summary>
@@ -57,6 +60,7 @@ namespace CefSharp.DevTools.Fetch
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> FailRequestAsync(string requestId, CefSharp.DevTools.Network.ErrorReason errorReason)
         {
+            ValidateFailRequest(requestId, errorReason);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             dict.Add("errorReason", this.EnumToString(errorReason));
@@ -64,6 +68,7 @@ namespace CefSharp.DevTools.Fetch
             return methodResult;
         }
 
+        partial void ValidateFulfillRequest(string requestId, int responseCode, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> responseHeaders = null, byte[] binaryResponseHeaders = null, byte[] body = null, string responsePhrase = null);
         /// <summary>
         /// Provides response to the request.
         /// </summary>
@@ -73,6 +78,7 @@ namespace CefSharp.DevTools.Fetch
         /// <param name = "binaryResponseHeaders">Alternative way of specifying response headers as a \0-separated
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> FulfillRequestAsync(string requestId, int responseCode, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> responseHeaders = null, byte[] binaryResponseHeaders = null, byte[] body = null, string responsePhrase = null)
         {
+            ValidateFulfillRequest(requestId, responseCode, responseHeaders, binaryResponseHeaders, body, responsePhrase);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             dict.Add("responseCode", responseCode);
@@ -100,6 +106,7 @@ namespace CefSharp.DevTools.Fetch
             return methodResult;
         }
 
+        partial void ValidateContinueRequest(string requestId, string url = null, string method = null, string postData = null, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> headers = null);
         /// <summary>
         /// Continues the request, optionally modifying some of its parameters.
         /// </summary>
@@ -111,6 +118,7 @@ namespace CefSharp.DevTools.Fetch
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueRequestAsync(string requestId, string url = null, string method = null, string postData = null, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> headers = null)
         {
+            ValidateContinueRequest(requestId, url, method, postData, headers);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             if (!(string.IsNullOrEmpty(url)))
@@ -137,6 +145,7 @@ namespace CefSharp.DevTools.Fetch
             return methodResult;
         }
 
+        partial void ValidateContinueWithAuth(string requestId, CefSharp.DevTools.Fetch.AuthChallengeResponse authChallengeResponse);
         /// <summary>
         /// Continues a request supplying authChallengeResponse following authRequired event.
         /// </summary>
@@ -145,6 +154,7 @@ namespace CefSharp.DevTools.Fetch
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueWithAuthAsync(string requestId, CefSharp.DevTools.Fetch.AuthChallengeResponse authChallengeResponse)
         {
+            ValidateContinueWithAuth(requestId, authChallengeResponse);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             dict.Add("authChallengeResponse", authChallengeResponse.ToDictionary());
@@ -152,6 +162,7 @@ namespace CefSharp.DevTools.Fetch
             return methodResult;
         }
 
+        partial void ValidateGetResponseBody(string requestId);
         /// <summary>
         /// Causes the body of the response to be received from the server and
         /// returned as a single string. May only be issued for a request that
@@ -164,12 +175,14 @@ namespace CefSharp.DevTools.Fetch
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
         {
+            ValidateGetResponseBody(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.getResponseBody", dict);
             return methodResult.DeserializeJson<GetResponseBodyResponse>();
         }
 
+        partial void ValidateTakeResponseBodyAsStream(string requestId);
         /// <summary>
         /// Returns a handle to the stream representing the response body.
         /// The request must be paused in the HeadersReceived stage.
@@ -186,6 +199,7 @@ namespace CefSharp.DevTools.Fetch
         /// <returns>returns System.Threading.Tasks.Task&lt;TakeResponseBodyAsStreamResponse&gt;</returns>
         public async System.Threading.Tasks.Task<TakeResponseBodyAsStreamResponse> TakeResponseBodyAsStreamAsync(string requestId)
         {
+            ValidateTakeResponseBodyAsStream(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.takeResponseBodyAsStream", dict);

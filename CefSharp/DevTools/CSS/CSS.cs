@@ -21,6 +21,7 @@ namespace CefSharp.DevTools.CSS
             _client = (client);
         }
 
+        partial void ValidateAddRule(string styleSheetId, string ruleText, CefSharp.DevTools.CSS.SourceRange location);
         /// <summary>
         /// Inserts a new rule with the given `ruleText` in a stylesheet with given `styleSheetId`, at the
         /// position specified by `location`.
@@ -31,6 +32,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;AddRuleResponse&gt;</returns>
         public async System.Threading.Tasks.Task<AddRuleResponse> AddRuleAsync(string styleSheetId, string ruleText, CefSharp.DevTools.CSS.SourceRange location)
         {
+            ValidateAddRule(styleSheetId, ruleText, location);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("ruleText", ruleText);
@@ -39,6 +41,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult.DeserializeJson<AddRuleResponse>();
         }
 
+        partial void ValidateCollectClassNames(string styleSheetId);
         /// <summary>
         /// Returns all class names from specified stylesheet.
         /// </summary>
@@ -46,12 +49,14 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;CollectClassNamesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CollectClassNamesResponse> CollectClassNamesAsync(string styleSheetId)
         {
+            ValidateCollectClassNames(styleSheetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.collectClassNames", dict);
             return methodResult.DeserializeJson<CollectClassNamesResponse>();
         }
 
+        partial void ValidateCreateStyleSheet(string frameId);
         /// <summary>
         /// Creates a new special "via-inspector" stylesheet in the frame with given `frameId`.
         /// </summary>
@@ -59,6 +64,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;CreateStyleSheetResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CreateStyleSheetResponse> CreateStyleSheetAsync(string frameId)
         {
+            ValidateCreateStyleSheet(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.createStyleSheet", dict);
@@ -88,6 +94,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult;
         }
 
+        partial void ValidateForcePseudoState(int nodeId, string[] forcedPseudoClasses);
         /// <summary>
         /// Ensures that the given node will have specified pseudo-classes whenever its style is computed by
         /// the browser.
@@ -97,6 +104,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ForcePseudoStateAsync(int nodeId, string[] forcedPseudoClasses)
         {
+            ValidateForcePseudoState(nodeId, forcedPseudoClasses);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("forcedPseudoClasses", forcedPseudoClasses);
@@ -104,6 +112,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult;
         }
 
+        partial void ValidateGetBackgroundColors(int nodeId);
         /// <summary>
         /// GetBackgroundColors
         /// </summary>
@@ -111,12 +120,14 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;GetBackgroundColorsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetBackgroundColorsResponse> GetBackgroundColorsAsync(int nodeId)
         {
+            ValidateGetBackgroundColors(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getBackgroundColors", dict);
             return methodResult.DeserializeJson<GetBackgroundColorsResponse>();
         }
 
+        partial void ValidateGetComputedStyleForNode(int nodeId);
         /// <summary>
         /// Returns the computed style for a DOM node identified by `nodeId`.
         /// </summary>
@@ -124,12 +135,14 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;GetComputedStyleForNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetComputedStyleForNodeResponse> GetComputedStyleForNodeAsync(int nodeId)
         {
+            ValidateGetComputedStyleForNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getComputedStyleForNode", dict);
             return methodResult.DeserializeJson<GetComputedStyleForNodeResponse>();
         }
 
+        partial void ValidateGetInlineStylesForNode(int nodeId);
         /// <summary>
         /// Returns the styles defined inline (explicitly in the "style" attribute and implicitly, using DOM
         /// attributes) for a DOM node identified by `nodeId`.
@@ -138,12 +151,14 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;GetInlineStylesForNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetInlineStylesForNodeResponse> GetInlineStylesForNodeAsync(int nodeId)
         {
+            ValidateGetInlineStylesForNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getInlineStylesForNode", dict);
             return methodResult.DeserializeJson<GetInlineStylesForNodeResponse>();
         }
 
+        partial void ValidateGetMatchedStylesForNode(int nodeId);
         /// <summary>
         /// Returns requested styles for a DOM node identified by `nodeId`.
         /// </summary>
@@ -151,6 +166,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;GetMatchedStylesForNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetMatchedStylesForNodeResponse> GetMatchedStylesForNodeAsync(int nodeId)
         {
+            ValidateGetMatchedStylesForNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getMatchedStylesForNode", dict);
@@ -168,6 +184,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult.DeserializeJson<GetMediaQueriesResponse>();
         }
 
+        partial void ValidateGetPlatformFontsForNode(int nodeId);
         /// <summary>
         /// Requests information about platform fonts which we used to render child TextNodes in the given
         /// node.
@@ -176,12 +193,14 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;GetPlatformFontsForNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetPlatformFontsForNodeResponse> GetPlatformFontsForNodeAsync(int nodeId)
         {
+            ValidateGetPlatformFontsForNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getPlatformFontsForNode", dict);
             return methodResult.DeserializeJson<GetPlatformFontsForNodeResponse>();
         }
 
+        partial void ValidateGetStyleSheetText(string styleSheetId);
         /// <summary>
         /// Returns the current textual content for a stylesheet.
         /// </summary>
@@ -189,12 +208,14 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;GetStyleSheetTextResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetStyleSheetTextResponse> GetStyleSheetTextAsync(string styleSheetId)
         {
+            ValidateGetStyleSheetText(styleSheetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getStyleSheetText", dict);
             return methodResult.DeserializeJson<GetStyleSheetTextResponse>();
         }
 
+        partial void ValidateSetEffectivePropertyValueForNode(int nodeId, string propertyName, string value);
         /// <summary>
         /// Find a rule with the given active property for the given node and set the new value for this
         /// property
@@ -205,6 +226,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEffectivePropertyValueForNodeAsync(int nodeId, string propertyName, string value)
         {
+            ValidateSetEffectivePropertyValueForNode(nodeId, propertyName, value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("propertyName", propertyName);
@@ -213,6 +235,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult;
         }
 
+        partial void ValidateSetKeyframeKey(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string keyText);
         /// <summary>
         /// Modifies the keyframe rule key text.
         /// </summary>
@@ -222,6 +245,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;SetKeyframeKeyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetKeyframeKeyResponse> SetKeyframeKeyAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string keyText)
         {
+            ValidateSetKeyframeKey(styleSheetId, range, keyText);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("range", range.ToDictionary());
@@ -230,6 +254,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult.DeserializeJson<SetKeyframeKeyResponse>();
         }
 
+        partial void ValidateSetMediaText(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string text);
         /// <summary>
         /// Modifies the rule selector.
         /// </summary>
@@ -239,6 +264,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;SetMediaTextResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetMediaTextResponse> SetMediaTextAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string text)
         {
+            ValidateSetMediaText(styleSheetId, range, text);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("range", range.ToDictionary());
@@ -247,6 +273,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult.DeserializeJson<SetMediaTextResponse>();
         }
 
+        partial void ValidateSetRuleSelector(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string selector);
         /// <summary>
         /// Modifies the rule selector.
         /// </summary>
@@ -256,6 +283,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;SetRuleSelectorResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetRuleSelectorResponse> SetRuleSelectorAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string selector)
         {
+            ValidateSetRuleSelector(styleSheetId, range, selector);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("range", range.ToDictionary());
@@ -264,6 +292,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult.DeserializeJson<SetRuleSelectorResponse>();
         }
 
+        partial void ValidateSetStyleSheetText(string styleSheetId, string text);
         /// <summary>
         /// Sets the new stylesheet text.
         /// </summary>
@@ -272,6 +301,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;SetStyleSheetTextResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetStyleSheetTextResponse> SetStyleSheetTextAsync(string styleSheetId, string text)
         {
+            ValidateSetStyleSheetText(styleSheetId, text);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("text", text);
@@ -279,6 +309,7 @@ namespace CefSharp.DevTools.CSS
             return methodResult.DeserializeJson<SetStyleSheetTextResponse>();
         }
 
+        partial void ValidateSetStyleTexts(System.Collections.Generic.IList<CefSharp.DevTools.CSS.StyleDeclarationEdit> edits);
         /// <summary>
         /// Applies specified style edits one after another in the given order.
         /// </summary>
@@ -286,6 +317,7 @@ namespace CefSharp.DevTools.CSS
         /// <returns>returns System.Threading.Tasks.Task&lt;SetStyleTextsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetStyleTextsResponse> SetStyleTextsAsync(System.Collections.Generic.IList<CefSharp.DevTools.CSS.StyleDeclarationEdit> edits)
         {
+            ValidateSetStyleTexts(edits);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("edits", edits.Select(x => x.ToDictionary()));
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.setStyleTexts", dict);

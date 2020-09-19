@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.HeapProfiler
             _client = (client);
         }
 
+        partial void ValidateAddInspectedHeapObject(string heapObjectId);
         /// <summary>
         /// Enables console to refer to the node with given id via $x (see Command Line API for more details
         /// $x functions).
@@ -24,6 +25,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddInspectedHeapObjectAsync(string heapObjectId)
         {
+            ValidateAddInspectedHeapObject(heapObjectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("heapObjectId", heapObjectId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.addInspectedHeapObject", dict);
@@ -63,6 +65,7 @@ namespace CefSharp.DevTools.HeapProfiler
             return methodResult;
         }
 
+        partial void ValidateGetHeapObjectId(string objectId);
         /// <summary>
         /// GetHeapObjectId
         /// </summary>
@@ -70,12 +73,14 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <returns>returns System.Threading.Tasks.Task&lt;GetHeapObjectIdResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetHeapObjectIdResponse> GetHeapObjectIdAsync(string objectId)
         {
+            ValidateGetHeapObjectId(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.getHeapObjectId", dict);
             return methodResult.DeserializeJson<GetHeapObjectIdResponse>();
         }
 
+        partial void ValidateGetObjectByHeapObjectId(string objectId, string objectGroup = null);
         /// <summary>
         /// GetObjectByHeapObjectId
         /// </summary>
@@ -84,6 +89,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <returns>returns System.Threading.Tasks.Task&lt;GetObjectByHeapObjectIdResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetObjectByHeapObjectIdResponse> GetObjectByHeapObjectIdAsync(string objectId, string objectGroup = null)
         {
+            ValidateGetObjectByHeapObjectId(objectId, objectGroup);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
             if (!(string.IsNullOrEmpty(objectGroup)))
@@ -106,12 +112,14 @@ namespace CefSharp.DevTools.HeapProfiler
             return methodResult.DeserializeJson<GetSamplingProfileResponse>();
         }
 
+        partial void ValidateStartSampling(long? samplingInterval = null);
         /// <summary>
         /// StartSampling
         /// </summary>
         /// <param name = "samplingInterval">Average sample interval in bytes. Poisson distribution is used for the intervals. The
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(long? samplingInterval = null)
         {
+            ValidateStartSampling(samplingInterval);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (samplingInterval.HasValue)
             {
@@ -122,6 +130,7 @@ namespace CefSharp.DevTools.HeapProfiler
             return methodResult;
         }
 
+        partial void ValidateStartTrackingHeapObjects(bool? trackAllocations = null);
         /// <summary>
         /// StartTrackingHeapObjects
         /// </summary>
@@ -129,6 +138,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartTrackingHeapObjectsAsync(bool? trackAllocations = null)
         {
+            ValidateStartTrackingHeapObjects(trackAllocations);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (trackAllocations.HasValue)
             {
@@ -150,12 +160,14 @@ namespace CefSharp.DevTools.HeapProfiler
             return methodResult.DeserializeJson<StopSamplingResponse>();
         }
 
+        partial void ValidateStopTrackingHeapObjects(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null);
         /// <summary>
         /// StopTrackingHeapObjects
         /// </summary>
         /// <param name = "reportProgress">If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopTrackingHeapObjectsAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {
+            ValidateStopTrackingHeapObjects(reportProgress, treatGlobalObjectsAsRoots);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (reportProgress.HasValue)
             {
@@ -171,6 +183,7 @@ namespace CefSharp.DevTools.HeapProfiler
             return methodResult;
         }
 
+        partial void ValidateTakeHeapSnapshot(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null);
         /// <summary>
         /// TakeHeapSnapshot
         /// </summary>
@@ -179,6 +192,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> TakeHeapSnapshotAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {
+            ValidateTakeHeapSnapshot(reportProgress, treatGlobalObjectsAsRoots);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (reportProgress.HasValue)
             {

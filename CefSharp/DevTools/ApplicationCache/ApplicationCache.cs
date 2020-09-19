@@ -27,6 +27,7 @@ namespace CefSharp.DevTools.ApplicationCache
             return methodResult;
         }
 
+        partial void ValidateGetApplicationCacheForFrame(string frameId);
         /// <summary>
         /// Returns relevant application cache data for the document in given frame.
         /// </summary>
@@ -34,6 +35,7 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <returns>returns System.Threading.Tasks.Task&lt;GetApplicationCacheForFrameResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetApplicationCacheForFrameResponse> GetApplicationCacheForFrameAsync(string frameId)
         {
+            ValidateGetApplicationCacheForFrame(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("ApplicationCache.getApplicationCacheForFrame", dict);
@@ -52,6 +54,7 @@ namespace CefSharp.DevTools.ApplicationCache
             return methodResult.DeserializeJson<GetFramesWithManifestsResponse>();
         }
 
+        partial void ValidateGetManifestForFrame(string frameId);
         /// <summary>
         /// Returns manifest URL for document in the given frame.
         /// </summary>
@@ -59,6 +62,7 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <returns>returns System.Threading.Tasks.Task&lt;GetManifestForFrameResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetManifestForFrameResponse> GetManifestForFrameAsync(string frameId)
         {
+            ValidateGetManifestForFrame(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("ApplicationCache.getManifestForFrame", dict);

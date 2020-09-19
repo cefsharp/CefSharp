@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.Page
             _client = (client);
         }
 
+        partial void ValidateAddScriptToEvaluateOnNewDocument(string source, string worldName = null);
         /// <summary>
         /// Evaluates given script in every frame upon creation (before loading frame's scripts).
         /// </summary>
@@ -23,6 +24,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "worldName">If specified, creates an isolated world with the given name and evaluates given script in it.
         public async System.Threading.Tasks.Task<AddScriptToEvaluateOnNewDocumentResponse> AddScriptToEvaluateOnNewDocumentAsync(string source, string worldName = null)
         {
+            ValidateAddScriptToEvaluateOnNewDocument(source, worldName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("source", source);
             if (!(string.IsNullOrEmpty(worldName)))
@@ -45,6 +47,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateCaptureScreenshot(string format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null);
         /// <summary>
         /// Capture page screenshot.
         /// </summary>
@@ -55,6 +58,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;CaptureScreenshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CaptureScreenshotResponse> CaptureScreenshotAsync(string format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null)
         {
+            ValidateCaptureScreenshot(format, quality, clip, fromSurface);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(format)))
             {
@@ -80,6 +84,7 @@ namespace CefSharp.DevTools.Page
             return methodResult.DeserializeJson<CaptureScreenshotResponse>();
         }
 
+        partial void ValidateCaptureSnapshot(string format = null);
         /// <summary>
         /// Returns a snapshot of the page as a string. For MHTML format, the serialization includes
         /// iframes, shadow DOM, external resources, and element-inline styles.
@@ -88,6 +93,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;CaptureSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string format = null)
         {
+            ValidateCaptureSnapshot(format);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(format)))
             {
@@ -98,6 +104,7 @@ namespace CefSharp.DevTools.Page
             return methodResult.DeserializeJson<CaptureSnapshotResponse>();
         }
 
+        partial void ValidateCreateIsolatedWorld(string frameId, string worldName = null, bool? grantUniveralAccess = null);
         /// <summary>
         /// Creates an isolated world for the given frame.
         /// </summary>
@@ -106,6 +113,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "grantUniveralAccess">Whether or not universal access should be granted to the isolated world. This is a powerful
         public async System.Threading.Tasks.Task<CreateIsolatedWorldResponse> CreateIsolatedWorldAsync(string frameId, string worldName = null, bool? grantUniveralAccess = null)
         {
+            ValidateCreateIsolatedWorld(frameId, worldName, grantUniveralAccess);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             if (!(string.IsNullOrEmpty(worldName)))
@@ -221,6 +229,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateGetResourceContent(string frameId, string url);
         /// <summary>
         /// Returns content of the given resource.
         /// </summary>
@@ -229,6 +238,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResourceContentResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetResourceContentResponse> GetResourceContentAsync(string frameId, string url)
         {
+            ValidateGetResourceContent(frameId, url);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             dict.Add("url", url);
@@ -247,6 +257,7 @@ namespace CefSharp.DevTools.Page
             return methodResult.DeserializeJson<GetResourceTreeResponse>();
         }
 
+        partial void ValidateHandleJavaScriptDialog(bool accept, string promptText = null);
         /// <summary>
         /// Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
         /// </summary>
@@ -254,6 +265,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "promptText">The text to enter into the dialog prompt before accepting. Used only if this is a prompt
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HandleJavaScriptDialogAsync(bool accept, string promptText = null)
         {
+            ValidateHandleJavaScriptDialog(accept, promptText);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("accept", accept);
             if (!(string.IsNullOrEmpty(promptText)))
@@ -265,6 +277,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateNavigate(string url, string referrer = null, CefSharp.DevTools.Page.TransitionType? transitionType = null, string frameId = null, CefSharp.DevTools.Page.ReferrerPolicy? referrerPolicy = null);
         /// <summary>
         /// Navigates current page to the given URL.
         /// </summary>
@@ -276,6 +289,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;NavigateResponse&gt;</returns>
         public async System.Threading.Tasks.Task<NavigateResponse> NavigateAsync(string url, string referrer = null, CefSharp.DevTools.Page.TransitionType? transitionType = null, string frameId = null, CefSharp.DevTools.Page.ReferrerPolicy? referrerPolicy = null)
         {
+            ValidateNavigate(url, referrer, transitionType, frameId, referrerPolicy);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
             if (!(string.IsNullOrEmpty(referrer)))
@@ -302,6 +316,7 @@ namespace CefSharp.DevTools.Page
             return methodResult.DeserializeJson<NavigateResponse>();
         }
 
+        partial void ValidateNavigateToHistoryEntry(int entryId);
         /// <summary>
         /// Navigates current page to the given history entry.
         /// </summary>
@@ -309,12 +324,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> NavigateToHistoryEntryAsync(int entryId)
         {
+            ValidateNavigateToHistoryEntry(entryId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("entryId", entryId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.navigateToHistoryEntry", dict);
             return methodResult;
         }
 
+        partial void ValidatePrintToPDF(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, long? scale = null, long? paperWidth = null, long? paperHeight = null, long? marginTop = null, long? marginBottom = null, long? marginLeft = null, long? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, string transferMode = null);
         /// <summary>
         /// Print page as PDF.
         /// </summary>
@@ -331,6 +348,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "pageRanges">Paper ranges to print, e.g., '1-5, 8, 11-13'. Defaults to the empty string, which means
         public async System.Threading.Tasks.Task<PrintToPDFResponse> PrintToPDFAsync(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, long? scale = null, long? paperWidth = null, long? paperHeight = null, long? marginTop = null, long? marginBottom = null, long? marginLeft = null, long? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, string transferMode = null)
         {
+            ValidatePrintToPDF(landscape, displayHeaderFooter, printBackground, scale, paperWidth, paperHeight, marginTop, marginBottom, marginLeft, marginRight, pageRanges, ignoreInvalidPageRanges, headerTemplate, footerTemplate, preferCSSPageSize, transferMode);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (landscape.HasValue)
             {
@@ -416,6 +434,7 @@ namespace CefSharp.DevTools.Page
             return methodResult.DeserializeJson<PrintToPDFResponse>();
         }
 
+        partial void ValidateReload(bool? ignoreCache = null, string scriptToEvaluateOnLoad = null);
         /// <summary>
         /// Reloads given page optionally ignoring the cache.
         /// </summary>
@@ -423,6 +442,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "scriptToEvaluateOnLoad">If set, the script will be injected into all frames of the inspected page after reload.
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReloadAsync(bool? ignoreCache = null, string scriptToEvaluateOnLoad = null)
         {
+            ValidateReload(ignoreCache, scriptToEvaluateOnLoad);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (ignoreCache.HasValue)
             {
@@ -438,6 +458,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateRemoveScriptToEvaluateOnNewDocument(string identifier);
         /// <summary>
         /// Removes given script from the list.
         /// </summary>
@@ -445,12 +466,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveScriptToEvaluateOnNewDocumentAsync(string identifier)
         {
+            ValidateRemoveScriptToEvaluateOnNewDocument(identifier);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("identifier", identifier);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.removeScriptToEvaluateOnNewDocument", dict);
             return methodResult;
         }
 
+        partial void ValidateScreencastFrameAck(int sessionId);
         /// <summary>
         /// Acknowledges that a screencast frame has been received by the frontend.
         /// </summary>
@@ -458,12 +481,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ScreencastFrameAckAsync(int sessionId)
         {
+            ValidateScreencastFrameAck(sessionId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("sessionId", sessionId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.screencastFrameAck", dict);
             return methodResult;
         }
 
+        partial void ValidateSearchInResource(string frameId, string url, string query, bool? caseSensitive = null, bool? isRegex = null);
         /// <summary>
         /// Searches for given string in resource content.
         /// </summary>
@@ -475,6 +500,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;SearchInResourceResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SearchInResourceResponse> SearchInResourceAsync(string frameId, string url, string query, bool? caseSensitive = null, bool? isRegex = null)
         {
+            ValidateSearchInResource(frameId, url, query, caseSensitive, isRegex);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             dict.Add("url", url);
@@ -493,6 +519,7 @@ namespace CefSharp.DevTools.Page
             return methodResult.DeserializeJson<SearchInResourceResponse>();
         }
 
+        partial void ValidateSetAdBlockingEnabled(bool enabled);
         /// <summary>
         /// Enable Chrome's experimental ad filter on all sites.
         /// </summary>
@@ -500,12 +527,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAdBlockingEnabledAsync(bool enabled)
         {
+            ValidateSetAdBlockingEnabled(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setAdBlockingEnabled", dict);
             return methodResult;
         }
 
+        partial void ValidateSetBypassCSP(bool enabled);
         /// <summary>
         /// Enable page Content Security Policy by-passing.
         /// </summary>
@@ -513,12 +542,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBypassCSPAsync(bool enabled)
         {
+            ValidateSetBypassCSP(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setBypassCSP", dict);
             return methodResult;
         }
 
+        partial void ValidateSetFontFamilies(CefSharp.DevTools.Page.FontFamilies fontFamilies);
         /// <summary>
         /// Set generic font families.
         /// </summary>
@@ -526,12 +557,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFontFamiliesAsync(CefSharp.DevTools.Page.FontFamilies fontFamilies)
         {
+            ValidateSetFontFamilies(fontFamilies);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("fontFamilies", fontFamilies.ToDictionary());
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setFontFamilies", dict);
             return methodResult;
         }
 
+        partial void ValidateSetFontSizes(CefSharp.DevTools.Page.FontSizes fontSizes);
         /// <summary>
         /// Set default font sizes.
         /// </summary>
@@ -539,12 +572,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFontSizesAsync(CefSharp.DevTools.Page.FontSizes fontSizes)
         {
+            ValidateSetFontSizes(fontSizes);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("fontSizes", fontSizes.ToDictionary());
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setFontSizes", dict);
             return methodResult;
         }
 
+        partial void ValidateSetDocumentContent(string frameId, string html);
         /// <summary>
         /// Sets given markup as the document's HTML.
         /// </summary>
@@ -553,6 +588,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDocumentContentAsync(string frameId, string html)
         {
+            ValidateSetDocumentContent(frameId, html);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             dict.Add("html", html);
@@ -560,6 +596,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateSetLifecycleEventsEnabled(bool enabled);
         /// <summary>
         /// Controls whether page will emit lifecycle events.
         /// </summary>
@@ -567,12 +604,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetLifecycleEventsEnabledAsync(bool enabled)
         {
+            ValidateSetLifecycleEventsEnabled(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setLifecycleEventsEnabled", dict);
             return methodResult;
         }
 
+        partial void ValidateStartScreencast(string format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null);
         /// <summary>
         /// Starts sending each frame using the `screencastFrame` event.
         /// </summary>
@@ -584,6 +623,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartScreencastAsync(string format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null)
         {
+            ValidateStartScreencast(format, quality, maxWidth, maxHeight, everyNthFrame);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(format)))
             {
@@ -647,6 +687,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateSetWebLifecycleState(string state);
         /// <summary>
         /// Tries to update the web lifecycle state of the page.
         /// It will transition the page to the given state according to:
@@ -656,6 +697,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetWebLifecycleStateAsync(string state)
         {
+            ValidateSetWebLifecycleState(state);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("state", state);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setWebLifecycleState", dict);
@@ -673,6 +715,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateSetProduceCompilationCache(bool enabled);
         /// <summary>
         /// Forces compilation cache to be generated for every subresource script.
         /// </summary>
@@ -680,12 +723,14 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetProduceCompilationCacheAsync(bool enabled)
         {
+            ValidateSetProduceCompilationCache(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setProduceCompilationCache", dict);
             return methodResult;
         }
 
+        partial void ValidateAddCompilationCache(string url, byte[] data);
         /// <summary>
         /// Seeds compilation cache for given url. Compilation cache does not survive
         /// cross-process navigation.
@@ -695,6 +740,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddCompilationCacheAsync(string url, byte[] data)
         {
+            ValidateAddCompilationCache(url, data);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
             dict.Add("data", ToBase64String(data));
@@ -713,6 +759,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateGenerateTestReport(string message, string group = null);
         /// <summary>
         /// Generates a report for testing.
         /// </summary>
@@ -721,6 +768,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> GenerateTestReportAsync(string message, string group = null)
         {
+            ValidateGenerateTestReport(message, group);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("message", message);
             if (!(string.IsNullOrEmpty(group)))
@@ -743,6 +791,7 @@ namespace CefSharp.DevTools.Page
             return methodResult;
         }
 
+        partial void ValidateSetInterceptFileChooserDialog(bool enabled);
         /// <summary>
         /// Intercept file chooser requests and transfer control to protocol clients.
         /// When file chooser interception is enabled, native file chooser dialog is not shown.
@@ -752,6 +801,7 @@ namespace CefSharp.DevTools.Page
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInterceptFileChooserDialogAsync(bool enabled)
         {
+            ValidateSetInterceptFileChooserDialog(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setInterceptFileChooserDialog", dict);

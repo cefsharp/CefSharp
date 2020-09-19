@@ -38,6 +38,7 @@ namespace CefSharp.DevTools.Animation
             return methodResult;
         }
 
+        partial void ValidateGetCurrentTime(string id);
         /// <summary>
         /// Returns the current time of the an animation.
         /// </summary>
@@ -45,6 +46,7 @@ namespace CefSharp.DevTools.Animation
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCurrentTimeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCurrentTimeResponse> GetCurrentTimeAsync(string id)
         {
+            ValidateGetCurrentTime(id);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("id", id);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.getCurrentTime", dict);
@@ -62,6 +64,7 @@ namespace CefSharp.DevTools.Animation
             return methodResult.DeserializeJson<GetPlaybackRateResponse>();
         }
 
+        partial void ValidateReleaseAnimations(string[] animations);
         /// <summary>
         /// Releases a set of animations to no longer be manipulated.
         /// </summary>
@@ -69,12 +72,14 @@ namespace CefSharp.DevTools.Animation
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseAnimationsAsync(string[] animations)
         {
+            ValidateReleaseAnimations(animations);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animations", animations);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.releaseAnimations", dict);
             return methodResult;
         }
 
+        partial void ValidateResolveAnimation(string animationId);
         /// <summary>
         /// Gets the remote object of the Animation.
         /// </summary>
@@ -82,12 +87,14 @@ namespace CefSharp.DevTools.Animation
         /// <returns>returns System.Threading.Tasks.Task&lt;ResolveAnimationResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ResolveAnimationResponse> ResolveAnimationAsync(string animationId)
         {
+            ValidateResolveAnimation(animationId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animationId", animationId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.resolveAnimation", dict);
             return methodResult.DeserializeJson<ResolveAnimationResponse>();
         }
 
+        partial void ValidateSeekAnimations(string[] animations, long currentTime);
         /// <summary>
         /// Seek a set of animations to a particular time within each animation.
         /// </summary>
@@ -96,6 +103,7 @@ namespace CefSharp.DevTools.Animation
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SeekAnimationsAsync(string[] animations, long currentTime)
         {
+            ValidateSeekAnimations(animations, currentTime);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animations", animations);
             dict.Add("currentTime", currentTime);
@@ -103,6 +111,7 @@ namespace CefSharp.DevTools.Animation
             return methodResult;
         }
 
+        partial void ValidateSetPaused(string[] animations, bool paused);
         /// <summary>
         /// Sets the paused state of a set of animations.
         /// </summary>
@@ -111,6 +120,7 @@ namespace CefSharp.DevTools.Animation
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPausedAsync(string[] animations, bool paused)
         {
+            ValidateSetPaused(animations, paused);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animations", animations);
             dict.Add("paused", paused);
@@ -118,6 +128,7 @@ namespace CefSharp.DevTools.Animation
             return methodResult;
         }
 
+        partial void ValidateSetPlaybackRate(long playbackRate);
         /// <summary>
         /// Sets the playback rate of the document timeline.
         /// </summary>
@@ -125,12 +136,14 @@ namespace CefSharp.DevTools.Animation
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPlaybackRateAsync(long playbackRate)
         {
+            ValidateSetPlaybackRate(playbackRate);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("playbackRate", playbackRate);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.setPlaybackRate", dict);
             return methodResult;
         }
 
+        partial void ValidateSetTiming(string animationId, long duration, long delay);
         /// <summary>
         /// Sets the timing of an animation node.
         /// </summary>
@@ -140,6 +153,7 @@ namespace CefSharp.DevTools.Animation
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetTimingAsync(string animationId, long duration, long delay)
         {
+            ValidateSetTiming(animationId, duration, delay);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animationId", animationId);
             dict.Add("duration", duration);

@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.LayerTree
             _client = (client);
         }
 
+        partial void ValidateCompositingReasons(string layerId);
         /// <summary>
         /// Provides the reasons why the given layer was composited.
         /// </summary>
@@ -23,6 +24,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <returns>returns System.Threading.Tasks.Task&lt;CompositingReasonsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CompositingReasonsResponse> CompositingReasonsAsync(string layerId)
         {
+            ValidateCompositingReasons(layerId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("layerId", layerId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.compositingReasons", dict);
@@ -51,6 +53,7 @@ namespace CefSharp.DevTools.LayerTree
             return methodResult;
         }
 
+        partial void ValidateLoadSnapshot(System.Collections.Generic.IList<CefSharp.DevTools.LayerTree.PictureTile> tiles);
         /// <summary>
         /// Returns the snapshot identifier.
         /// </summary>
@@ -58,12 +61,14 @@ namespace CefSharp.DevTools.LayerTree
         /// <returns>returns System.Threading.Tasks.Task&lt;LoadSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<LoadSnapshotResponse> LoadSnapshotAsync(System.Collections.Generic.IList<CefSharp.DevTools.LayerTree.PictureTile> tiles)
         {
+            ValidateLoadSnapshot(tiles);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("tiles", tiles.Select(x => x.ToDictionary()));
             var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.loadSnapshot", dict);
             return methodResult.DeserializeJson<LoadSnapshotResponse>();
         }
 
+        partial void ValidateMakeSnapshot(string layerId);
         /// <summary>
         /// Returns the layer snapshot identifier.
         /// </summary>
@@ -71,12 +76,14 @@ namespace CefSharp.DevTools.LayerTree
         /// <returns>returns System.Threading.Tasks.Task&lt;MakeSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<MakeSnapshotResponse> MakeSnapshotAsync(string layerId)
         {
+            ValidateMakeSnapshot(layerId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("layerId", layerId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.makeSnapshot", dict);
             return methodResult.DeserializeJson<MakeSnapshotResponse>();
         }
 
+        partial void ValidateProfileSnapshot(string snapshotId, int? minRepeatCount = null, long? minDuration = null, CefSharp.DevTools.DOM.Rect clipRect = null);
         /// <summary>
         /// ProfileSnapshot
         /// </summary>
@@ -87,6 +94,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <returns>returns System.Threading.Tasks.Task&lt;ProfileSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ProfileSnapshotResponse> ProfileSnapshotAsync(string snapshotId, int? minRepeatCount = null, long? minDuration = null, CefSharp.DevTools.DOM.Rect clipRect = null)
         {
+            ValidateProfileSnapshot(snapshotId, minRepeatCount, minDuration, clipRect);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("snapshotId", snapshotId);
             if (minRepeatCount.HasValue)
@@ -108,6 +116,7 @@ namespace CefSharp.DevTools.LayerTree
             return methodResult.DeserializeJson<ProfileSnapshotResponse>();
         }
 
+        partial void ValidateReleaseSnapshot(string snapshotId);
         /// <summary>
         /// Releases layer snapshot captured by the back-end.
         /// </summary>
@@ -115,12 +124,14 @@ namespace CefSharp.DevTools.LayerTree
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseSnapshotAsync(string snapshotId)
         {
+            ValidateReleaseSnapshot(snapshotId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("snapshotId", snapshotId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.releaseSnapshot", dict);
             return methodResult;
         }
 
+        partial void ValidateReplaySnapshot(string snapshotId, int? fromStep = null, int? toStep = null, long? scale = null);
         /// <summary>
         /// Replays the layer snapshot and returns the resulting bitmap.
         /// </summary>
@@ -131,6 +142,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <returns>returns System.Threading.Tasks.Task&lt;ReplaySnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ReplaySnapshotResponse> ReplaySnapshotAsync(string snapshotId, int? fromStep = null, int? toStep = null, long? scale = null)
         {
+            ValidateReplaySnapshot(snapshotId, fromStep, toStep, scale);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("snapshotId", snapshotId);
             if (fromStep.HasValue)
@@ -152,6 +164,7 @@ namespace CefSharp.DevTools.LayerTree
             return methodResult.DeserializeJson<ReplaySnapshotResponse>();
         }
 
+        partial void ValidateSnapshotCommandLog(string snapshotId);
         /// <summary>
         /// Replays the layer snapshot and returns canvas log.
         /// </summary>
@@ -159,6 +172,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <returns>returns System.Threading.Tasks.Task&lt;SnapshotCommandLogResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SnapshotCommandLogResponse> SnapshotCommandLogAsync(string snapshotId)
         {
+            ValidateSnapshotCommandLog(snapshotId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("snapshotId", snapshotId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.snapshotCommandLog", dict);

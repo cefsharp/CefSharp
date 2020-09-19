@@ -39,6 +39,7 @@ namespace CefSharp.DevTools.Accessibility
             return methodResult;
         }
 
+        partial void ValidateGetPartialAXTree(int? nodeId = null, int? backendNodeId = null, string objectId = null, bool? fetchRelatives = null);
         /// <summary>
         /// Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
         /// </summary>
@@ -49,6 +50,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <returns>returns System.Threading.Tasks.Task&lt;GetPartialAXTreeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetPartialAXTreeResponse> GetPartialAXTreeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, bool? fetchRelatives = null)
         {
+            ValidateGetPartialAXTree(nodeId, backendNodeId, objectId, fetchRelatives);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
             {

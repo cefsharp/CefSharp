@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.DOMStorage
             _client = (client);
         }
 
+        partial void ValidateClear(CefSharp.DevTools.DOMStorage.StorageId storageId);
         /// <summary>
         /// Clear
         /// </summary>
@@ -23,6 +24,7 @@ namespace CefSharp.DevTools.DOMStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
         {
+            ValidateClear(storageId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("storageId", storageId.ToDictionary());
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMStorage.clear", dict);
@@ -51,6 +53,7 @@ namespace CefSharp.DevTools.DOMStorage
             return methodResult;
         }
 
+        partial void ValidateGetDOMStorageItems(CefSharp.DevTools.DOMStorage.StorageId storageId);
         /// <summary>
         /// GetDOMStorageItems
         /// </summary>
@@ -58,12 +61,14 @@ namespace CefSharp.DevTools.DOMStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;GetDOMStorageItemsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetDOMStorageItemsResponse> GetDOMStorageItemsAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
         {
+            ValidateGetDOMStorageItems(storageId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("storageId", storageId.ToDictionary());
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMStorage.getDOMStorageItems", dict);
             return methodResult.DeserializeJson<GetDOMStorageItemsResponse>();
         }
 
+        partial void ValidateRemoveDOMStorageItem(CefSharp.DevTools.DOMStorage.StorageId storageId, string key);
         /// <summary>
         /// RemoveDOMStorageItem
         /// </summary>
@@ -72,6 +77,7 @@ namespace CefSharp.DevTools.DOMStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key)
         {
+            ValidateRemoveDOMStorageItem(storageId, key);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("storageId", storageId.ToDictionary());
             dict.Add("key", key);
@@ -79,6 +85,7 @@ namespace CefSharp.DevTools.DOMStorage
             return methodResult;
         }
 
+        partial void ValidateSetDOMStorageItem(CefSharp.DevTools.DOMStorage.StorageId storageId, string key, string value);
         /// <summary>
         /// SetDOMStorageItem
         /// </summary>
@@ -88,6 +95,7 @@ namespace CefSharp.DevTools.DOMStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key, string value)
         {
+            ValidateSetDOMStorageItem(storageId, key, value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("storageId", storageId.ToDictionary());
             dict.Add("key", key);

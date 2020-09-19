@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.Audits
             _client = (client);
         }
 
+        partial void ValidateGetEncodedResponse(string requestId, string encoding, long? quality = null, bool? sizeOnly = null);
         /// <summary>
         /// Returns the response body and size if it were re-encoded with the specified settings. Only
         /// applies to images.
@@ -27,6 +28,7 @@ namespace CefSharp.DevTools.Audits
         /// <returns>returns System.Threading.Tasks.Task&lt;GetEncodedResponseResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetEncodedResponseResponse> GetEncodedResponseAsync(string requestId, string encoding, long? quality = null, bool? sizeOnly = null)
         {
+            ValidateGetEncodedResponse(requestId, encoding, quality, sizeOnly);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             dict.Add("encoding", encoding);

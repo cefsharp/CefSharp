@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.Tethering
             _client = (client);
         }
 
+        partial void ValidateBind(int port);
         /// <summary>
         /// Request browser port binding.
         /// </summary>
@@ -23,12 +24,14 @@ namespace CefSharp.DevTools.Tethering
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> BindAsync(int port)
         {
+            ValidateBind(port);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("port", port);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Tethering.bind", dict);
             return methodResult;
         }
 
+        partial void ValidateUnbind(int port);
         /// <summary>
         /// Request browser port unbinding.
         /// </summary>
@@ -36,6 +39,7 @@ namespace CefSharp.DevTools.Tethering
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> UnbindAsync(int port)
         {
+            ValidateUnbind(port);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("port", port);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Tethering.unbind", dict);

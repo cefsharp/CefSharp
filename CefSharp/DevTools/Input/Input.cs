@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.Input
             _client = (client);
         }
 
+        partial void ValidateDispatchKeyEvent(string type, int? modifiers = null, long? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null);
         /// <summary>
         /// Dispatches a key event to the page.
         /// </summary>
@@ -23,6 +24,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "modifiers">Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchKeyEventAsync(string type, int? modifiers = null, long? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null)
         {
+            ValidateDispatchKeyEvent(type, modifiers, timestamp, text, unmodifiedText, keyIdentifier, code, key, windowsVirtualKeyCode, nativeVirtualKeyCode, autoRepeat, isKeypad, isSystemKey, location, commands);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("type", type);
             if (modifiers.HasValue)
@@ -99,6 +101,7 @@ namespace CefSharp.DevTools.Input
             return methodResult;
         }
 
+        partial void ValidateInsertText(string text);
         /// <summary>
         /// This method emulates inserting text that doesn't come from a key press,
         /// for example an emoji keyboard or an IME.
@@ -107,12 +110,14 @@ namespace CefSharp.DevTools.Input
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> InsertTextAsync(string text)
         {
+            ValidateInsertText(text);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("text", text);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.insertText", dict);
             return methodResult;
         }
 
+        partial void ValidateDispatchMouseEvent(string type, long x, long y, int? modifiers = null, long? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, long? deltaX = null, long? deltaY = null, string pointerType = null);
         /// <summary>
         /// Dispatches a mouse event to the page.
         /// </summary>
@@ -121,6 +126,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "y">Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchMouseEventAsync(string type, long x, long y, int? modifiers = null, long? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, long? deltaX = null, long? deltaY = null, string pointerType = null)
         {
+            ValidateDispatchMouseEvent(type, x, y, modifiers, timestamp, button, buttons, clickCount, deltaX, deltaY, pointerType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("type", type);
             dict.Add("x", x);
@@ -169,12 +175,14 @@ namespace CefSharp.DevTools.Input
             return methodResult;
         }
 
+        partial void ValidateDispatchTouchEvent(string type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, long? timestamp = null);
         /// <summary>
         /// Dispatches a touch event to the page.
         /// </summary>
         /// <param name = "type">Type of the touch event. TouchEnd and TouchCancel must not contain any touch points, while
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchTouchEventAsync(string type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, long? timestamp = null)
         {
+            ValidateDispatchTouchEvent(type, touchPoints, modifiers, timestamp);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("type", type);
             dict.Add("touchPoints", touchPoints.Select(x => x.ToDictionary()));
@@ -192,6 +200,7 @@ namespace CefSharp.DevTools.Input
             return methodResult;
         }
 
+        partial void ValidateEmulateTouchFromMouseEvent(string type, int x, int y, CefSharp.DevTools.Input.MouseButton button, long? timestamp = null, long? deltaX = null, long? deltaY = null, int? modifiers = null, int? clickCount = null);
         /// <summary>
         /// Emulates touch event from the mouse event parameters.
         /// </summary>
@@ -205,6 +214,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "modifiers">Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateTouchFromMouseEventAsync(string type, int x, int y, CefSharp.DevTools.Input.MouseButton button, long? timestamp = null, long? deltaX = null, long? deltaY = null, int? modifiers = null, int? clickCount = null)
         {
+            ValidateEmulateTouchFromMouseEvent(type, x, y, button, timestamp, deltaX, deltaY, modifiers, clickCount);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("type", type);
             dict.Add("x", x);
@@ -239,6 +249,7 @@ namespace CefSharp.DevTools.Input
             return methodResult;
         }
 
+        partial void ValidateSetIgnoreInputEvents(bool ignore);
         /// <summary>
         /// Ignores input events (useful while auditing page).
         /// </summary>
@@ -246,12 +257,14 @@ namespace CefSharp.DevTools.Input
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetIgnoreInputEventsAsync(bool ignore)
         {
+            ValidateSetIgnoreInputEvents(ignore);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("ignore", ignore);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.setIgnoreInputEvents", dict);
             return methodResult;
         }
 
+        partial void ValidateSynthesizePinchGesture(long x, long y, long scaleFactor, int? relativeSpeed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null);
         /// <summary>
         /// Synthesizes a pinch gesture over a time period by issuing appropriate touch events.
         /// </summary>
@@ -262,6 +275,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "gestureSourceType">Which type of input events to be generated (default: 'default', which queries the platform
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizePinchGestureAsync(long x, long y, long scaleFactor, int? relativeSpeed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null)
         {
+            ValidateSynthesizePinchGesture(x, y, scaleFactor, relativeSpeed, gestureSourceType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("x", x);
             dict.Add("y", y);
@@ -280,6 +294,7 @@ namespace CefSharp.DevTools.Input
             return methodResult;
         }
 
+        partial void ValidateSynthesizeScrollGesture(long x, long y, long? xDistance = null, long? yDistance = null, long? xOverscroll = null, long? yOverscroll = null, bool? preventFling = null, int? speed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null, int? repeatCount = null, int? repeatDelayMs = null, string interactionMarkerName = null);
         /// <summary>
         /// Synthesizes a scroll gesture over a time period by issuing appropriate touch events.
         /// </summary>
@@ -290,6 +305,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "xOverscroll">The number of additional pixels to scroll back along the X axis, in addition to the given
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizeScrollGestureAsync(long x, long y, long? xDistance = null, long? yDistance = null, long? xOverscroll = null, long? yOverscroll = null, bool? preventFling = null, int? speed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null, int? repeatCount = null, int? repeatDelayMs = null, string interactionMarkerName = null)
         {
+            ValidateSynthesizeScrollGesture(x, y, xDistance, yDistance, xOverscroll, yOverscroll, preventFling, speed, gestureSourceType, repeatCount, repeatDelayMs, interactionMarkerName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("x", x);
             dict.Add("y", y);
@@ -347,6 +363,7 @@ namespace CefSharp.DevTools.Input
             return methodResult;
         }
 
+        partial void ValidateSynthesizeTapGesture(long x, long y, int? duration = null, int? tapCount = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null);
         /// <summary>
         /// Synthesizes a tap gesture over a time period by issuing appropriate touch events.
         /// </summary>
@@ -357,6 +374,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "gestureSourceType">Which type of input events to be generated (default: 'default', which queries the platform
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizeTapGestureAsync(long x, long y, int? duration = null, int? tapCount = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null)
         {
+            ValidateSynthesizeTapGesture(x, y, duration, tapCount, gestureSourceType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("x", x);
             dict.Add("y", y);

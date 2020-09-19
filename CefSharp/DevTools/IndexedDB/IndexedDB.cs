@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.IndexedDB
             _client = (client);
         }
 
+        partial void ValidateClearObjectStore(string securityOrigin, string databaseName, string objectStoreName);
         /// <summary>
         /// Clears all entries from an object store.
         /// </summary>
@@ -25,6 +26,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearObjectStoreAsync(string securityOrigin, string databaseName, string objectStoreName)
         {
+            ValidateClearObjectStore(securityOrigin, databaseName, objectStoreName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
@@ -33,6 +35,7 @@ namespace CefSharp.DevTools.IndexedDB
             return methodResult;
         }
 
+        partial void ValidateDeleteDatabase(string securityOrigin, string databaseName);
         /// <summary>
         /// Deletes a database.
         /// </summary>
@@ -41,6 +44,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteDatabaseAsync(string securityOrigin, string databaseName)
         {
+            ValidateDeleteDatabase(securityOrigin, databaseName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
@@ -48,6 +52,7 @@ namespace CefSharp.DevTools.IndexedDB
             return methodResult;
         }
 
+        partial void ValidateDeleteObjectStoreEntries(string securityOrigin, string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange);
         /// <summary>
         /// Delete a range of entries from an object store
         /// </summary>
@@ -58,6 +63,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteObjectStoreEntriesAsync(string securityOrigin, string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange)
         {
+            ValidateDeleteObjectStoreEntries(securityOrigin, databaseName, objectStoreName, keyRange);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
@@ -89,6 +95,7 @@ namespace CefSharp.DevTools.IndexedDB
             return methodResult;
         }
 
+        partial void ValidateRequestData(string securityOrigin, string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null);
         /// <summary>
         /// Requests data from object store or index.
         /// </summary>
@@ -102,6 +109,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestDataResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestDataResponse> RequestDataAsync(string securityOrigin, string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null)
         {
+            ValidateRequestData(securityOrigin, databaseName, objectStoreName, indexName, skipCount, pageSize, keyRange);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
@@ -118,6 +126,7 @@ namespace CefSharp.DevTools.IndexedDB
             return methodResult.DeserializeJson<RequestDataResponse>();
         }
 
+        partial void ValidateGetMetadata(string securityOrigin, string databaseName, string objectStoreName);
         /// <summary>
         /// Gets metadata of an object store
         /// </summary>
@@ -127,6 +136,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <returns>returns System.Threading.Tasks.Task&lt;GetMetadataResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetMetadataResponse> GetMetadataAsync(string securityOrigin, string databaseName, string objectStoreName)
         {
+            ValidateGetMetadata(securityOrigin, databaseName, objectStoreName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
@@ -135,6 +145,7 @@ namespace CefSharp.DevTools.IndexedDB
             return methodResult.DeserializeJson<GetMetadataResponse>();
         }
 
+        partial void ValidateRequestDatabase(string securityOrigin, string databaseName);
         /// <summary>
         /// Requests database with given name in given frame.
         /// </summary>
@@ -143,6 +154,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestDatabaseResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestDatabaseResponse> RequestDatabaseAsync(string securityOrigin, string databaseName)
         {
+            ValidateRequestDatabase(securityOrigin, databaseName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
@@ -150,6 +162,7 @@ namespace CefSharp.DevTools.IndexedDB
             return methodResult.DeserializeJson<RequestDatabaseResponse>();
         }
 
+        partial void ValidateRequestDatabaseNames(string securityOrigin);
         /// <summary>
         /// Requests database names for given security origin.
         /// </summary>
@@ -157,6 +170,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestDatabaseNamesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestDatabaseNamesResponse> RequestDatabaseNamesAsync(string securityOrigin)
         {
+            ValidateRequestDatabaseNames(securityOrigin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.requestDatabaseNames", dict);

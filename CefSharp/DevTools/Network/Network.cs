@@ -39,6 +39,7 @@ namespace CefSharp.DevTools.Network
             return methodResult;
         }
 
+        partial void ValidateDeleteCookies(string name, string url = null, string domain = null, string path = null);
         /// <summary>
         /// Deletes browser cookies with matching name and url or domain/path pair.
         /// </summary>
@@ -46,6 +47,7 @@ namespace CefSharp.DevTools.Network
         /// <param name = "url">If specified, deletes all the cookies with the given name where domain and path match
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteCookiesAsync(string name, string url = null, string domain = null, string path = null)
         {
+            ValidateDeleteCookies(name, url, domain, path);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("name", name);
             if (!(string.IsNullOrEmpty(url)))
@@ -78,6 +80,7 @@ namespace CefSharp.DevTools.Network
             return methodResult;
         }
 
+        partial void ValidateEmulateNetworkConditions(bool offline, long latency, long downloadThroughput, long uploadThroughput, CefSharp.DevTools.Network.ConnectionType? connectionType = null);
         /// <summary>
         /// Activates emulation of network conditions.
         /// </summary>
@@ -89,6 +92,7 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateNetworkConditionsAsync(bool offline, long latency, long downloadThroughput, long uploadThroughput, CefSharp.DevTools.Network.ConnectionType? connectionType = null)
         {
+            ValidateEmulateNetworkConditions(offline, latency, downloadThroughput, uploadThroughput, connectionType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("offline", offline);
             dict.Add("latency", latency);
@@ -103,6 +107,7 @@ namespace CefSharp.DevTools.Network
             return methodResult;
         }
 
+        partial void ValidateEnable(int? maxTotalBufferSize = null, int? maxResourceBufferSize = null, int? maxPostDataSize = null);
         /// <summary>
         /// Enables network tracking, network events will now be delivered to the client.
         /// </summary>
@@ -112,6 +117,7 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(int? maxTotalBufferSize = null, int? maxResourceBufferSize = null, int? maxPostDataSize = null)
         {
+            ValidateEnable(maxTotalBufferSize, maxResourceBufferSize, maxPostDataSize);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (maxTotalBufferSize.HasValue)
             {
@@ -144,6 +150,7 @@ namespace CefSharp.DevTools.Network
             return methodResult.DeserializeJson<GetAllCookiesResponse>();
         }
 
+        partial void ValidateGetCertificate(string origin);
         /// <summary>
         /// Returns the DER-encoded certificate.
         /// </summary>
@@ -151,12 +158,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCertificateResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCertificateResponse> GetCertificateAsync(string origin)
         {
+            ValidateGetCertificate(origin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getCertificate", dict);
             return methodResult.DeserializeJson<GetCertificateResponse>();
         }
 
+        partial void ValidateGetCookies(string[] urls = null);
         /// <summary>
         /// Returns all browser cookies for the current URL. Depending on the backend support, will return
         /// detailed cookie information in the `cookies` field.
@@ -165,6 +174,7 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCookiesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string[] urls = null)
         {
+            ValidateGetCookies(urls);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if ((urls) != (null))
             {
@@ -175,6 +185,7 @@ namespace CefSharp.DevTools.Network
             return methodResult.DeserializeJson<GetCookiesResponse>();
         }
 
+        partial void ValidateGetResponseBody(string requestId);
         /// <summary>
         /// Returns content served for the given request.
         /// </summary>
@@ -182,12 +193,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
         {
+            ValidateGetResponseBody(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getResponseBody", dict);
             return methodResult.DeserializeJson<GetResponseBodyResponse>();
         }
 
+        partial void ValidateGetRequestPostData(string requestId);
         /// <summary>
         /// Returns post data sent with the request. Returns an error when no data was sent with the request.
         /// </summary>
@@ -195,12 +208,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;GetRequestPostDataResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetRequestPostDataResponse> GetRequestPostDataAsync(string requestId)
         {
+            ValidateGetRequestPostData(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getRequestPostData", dict);
             return methodResult.DeserializeJson<GetRequestPostDataResponse>();
         }
 
+        partial void ValidateGetResponseBodyForInterception(string interceptionId);
         /// <summary>
         /// Returns content served for the given currently intercepted request.
         /// </summary>
@@ -208,12 +223,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyForInterceptionResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetResponseBodyForInterceptionResponse> GetResponseBodyForInterceptionAsync(string interceptionId)
         {
+            ValidateGetResponseBodyForInterception(interceptionId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("interceptionId", interceptionId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getResponseBodyForInterception", dict);
             return methodResult.DeserializeJson<GetResponseBodyForInterceptionResponse>();
         }
 
+        partial void ValidateTakeResponseBodyForInterceptionAsStream(string interceptionId);
         /// <summary>
         /// Returns a handle to the stream representing the response body. Note that after this command,
         /// the intercepted request can't be continued as is -- you either need to cancel it or to provide
@@ -224,12 +241,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;TakeResponseBodyForInterceptionAsStreamResponse&gt;</returns>
         public async System.Threading.Tasks.Task<TakeResponseBodyForInterceptionAsStreamResponse> TakeResponseBodyForInterceptionAsStreamAsync(string interceptionId)
         {
+            ValidateTakeResponseBodyForInterceptionAsStream(interceptionId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("interceptionId", interceptionId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.takeResponseBodyForInterceptionAsStream", dict);
             return methodResult.DeserializeJson<TakeResponseBodyForInterceptionAsStreamResponse>();
         }
 
+        partial void ValidateReplayXHR(string requestId);
         /// <summary>
         /// This method sends a new XMLHttpRequest which is identical to the original one. The following
         /// parameters should be identical: method, url, async, request body, extra headers, withCredentials
@@ -239,12 +258,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReplayXHRAsync(string requestId)
         {
+            ValidateReplayXHR(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.replayXHR", dict);
             return methodResult;
         }
 
+        partial void ValidateSearchInResponseBody(string requestId, string query, bool? caseSensitive = null, bool? isRegex = null);
         /// <summary>
         /// Searches for given string in response content.
         /// </summary>
@@ -255,6 +276,7 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;SearchInResponseBodyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SearchInResponseBodyResponse> SearchInResponseBodyAsync(string requestId, string query, bool? caseSensitive = null, bool? isRegex = null)
         {
+            ValidateSearchInResponseBody(requestId, query, caseSensitive, isRegex);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             dict.Add("query", query);
@@ -272,6 +294,7 @@ namespace CefSharp.DevTools.Network
             return methodResult.DeserializeJson<SearchInResponseBodyResponse>();
         }
 
+        partial void ValidateSetBlockedURLs(string[] urls);
         /// <summary>
         /// Blocks URLs from loading.
         /// </summary>
@@ -279,12 +302,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlockedURLsAsync(string[] urls)
         {
+            ValidateSetBlockedURLs(urls);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("urls", urls);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setBlockedURLs", dict);
             return methodResult;
         }
 
+        partial void ValidateSetBypassServiceWorker(bool bypass);
         /// <summary>
         /// Toggles ignoring of service worker for each request.
         /// </summary>
@@ -292,12 +317,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBypassServiceWorkerAsync(bool bypass)
         {
+            ValidateSetBypassServiceWorker(bypass);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("bypass", bypass);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setBypassServiceWorker", dict);
             return methodResult;
         }
 
+        partial void ValidateSetCacheDisabled(bool cacheDisabled);
         /// <summary>
         /// Toggles ignoring cache for each request. If `true`, cache will not be used.
         /// </summary>
@@ -305,12 +332,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCacheDisabledAsync(bool cacheDisabled)
         {
+            ValidateSetCacheDisabled(cacheDisabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheDisabled", cacheDisabled);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setCacheDisabled", dict);
             return methodResult;
         }
 
+        partial void ValidateSetCookie(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, CefSharp.DevTools.Network.CookieSameSite? sameSite = null, long? expires = null, CefSharp.DevTools.Network.CookiePriority? priority = null);
         /// <summary>
         /// Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
         /// </summary>
@@ -319,6 +348,7 @@ namespace CefSharp.DevTools.Network
         /// <param name = "url">The request-URI to associate with the setting of the cookie. This value can affect the
         public async System.Threading.Tasks.Task<SetCookieResponse> SetCookieAsync(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, CefSharp.DevTools.Network.CookieSameSite? sameSite = null, long? expires = null, CefSharp.DevTools.Network.CookiePriority? priority = null)
         {
+            ValidateSetCookie(name, value, url, domain, path, secure, httpOnly, sameSite, expires, priority);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("name", name);
             dict.Add("value", value);
@@ -366,6 +396,7 @@ namespace CefSharp.DevTools.Network
             return methodResult.DeserializeJson<SetCookieResponse>();
         }
 
+        partial void ValidateSetCookies(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies);
         /// <summary>
         /// Sets given cookies.
         /// </summary>
@@ -373,12 +404,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCookiesAsync(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies)
         {
+            ValidateSetCookies(cookies);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cookies", cookies.Select(x => x.ToDictionary()));
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setCookies", dict);
             return methodResult;
         }
 
+        partial void ValidateSetDataSizeLimitsForTest(int maxTotalSize, int maxResourceSize);
         /// <summary>
         /// For testing.
         /// </summary>
@@ -387,6 +420,7 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDataSizeLimitsForTestAsync(int maxTotalSize, int maxResourceSize)
         {
+            ValidateSetDataSizeLimitsForTest(maxTotalSize, maxResourceSize);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("maxTotalSize", maxTotalSize);
             dict.Add("maxResourceSize", maxResourceSize);
@@ -394,6 +428,7 @@ namespace CefSharp.DevTools.Network
             return methodResult;
         }
 
+        partial void ValidateSetExtraHTTPHeaders(CefSharp.DevTools.Network.Headers headers);
         /// <summary>
         /// Specifies whether to always send extra HTTP headers with the requests from this page.
         /// </summary>
@@ -401,12 +436,14 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetExtraHTTPHeadersAsync(CefSharp.DevTools.Network.Headers headers)
         {
+            ValidateSetExtraHTTPHeaders(headers);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("headers", headers.ToDictionary());
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setExtraHTTPHeaders", dict);
             return methodResult;
         }
 
+        partial void ValidateSetUserAgentOverride(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null);
         /// <summary>
         /// Allows overriding user agent with the given string.
         /// </summary>
@@ -417,6 +454,7 @@ namespace CefSharp.DevTools.Network
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserAgentOverrideAsync(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null)
         {
+            ValidateSetUserAgentOverride(userAgent, acceptLanguage, platform, userAgentMetadata);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("userAgent", userAgent);
             if (!(string.IsNullOrEmpty(acceptLanguage)))

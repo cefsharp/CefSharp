@@ -50,6 +50,7 @@ namespace CefSharp.DevTools.Profiler
             return methodResult.DeserializeJson<GetBestEffortCoverageResponse>();
         }
 
+        partial void ValidateSetSamplingInterval(int interval);
         /// <summary>
         /// Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
         /// </summary>
@@ -57,6 +58,7 @@ namespace CefSharp.DevTools.Profiler
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetSamplingIntervalAsync(int interval)
         {
+            ValidateSetSamplingInterval(interval);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("interval", interval);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.setSamplingInterval", dict);
@@ -74,6 +76,7 @@ namespace CefSharp.DevTools.Profiler
             return methodResult;
         }
 
+        partial void ValidateStartPreciseCoverage(bool? callCount = null, bool? detailed = null, bool? allowTriggeredUpdates = null);
         /// <summary>
         /// Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code
         /// coverage may be incomplete. Enabling prevents running optimized code and resets execution
@@ -85,6 +88,7 @@ namespace CefSharp.DevTools.Profiler
         /// <returns>returns System.Threading.Tasks.Task&lt;StartPreciseCoverageResponse&gt;</returns>
         public async System.Threading.Tasks.Task<StartPreciseCoverageResponse> StartPreciseCoverageAsync(bool? callCount = null, bool? detailed = null, bool? allowTriggeredUpdates = null)
         {
+            ValidateStartPreciseCoverage(callCount, detailed, allowTriggeredUpdates);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (callCount.HasValue)
             {

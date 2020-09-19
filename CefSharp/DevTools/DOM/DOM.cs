@@ -22,6 +22,7 @@ namespace CefSharp.DevTools.DOM
             _client = (client);
         }
 
+        partial void ValidateCollectClassNamesFromSubtree(int nodeId);
         /// <summary>
         /// Collects class names for the node with given id and all of it's child nodes.
         /// </summary>
@@ -29,12 +30,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;CollectClassNamesFromSubtreeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CollectClassNamesFromSubtreeResponse> CollectClassNamesFromSubtreeAsync(int nodeId)
         {
+            ValidateCollectClassNamesFromSubtree(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.collectClassNamesFromSubtree", dict);
             return methodResult.DeserializeJson<CollectClassNamesFromSubtreeResponse>();
         }
 
+        partial void ValidateCopyTo(int nodeId, int targetNodeId, int? insertBeforeNodeId = null);
         /// <summary>
         /// Creates a deep copy of the specified node and places it into the target container before the
         /// given anchor.
@@ -44,6 +47,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "insertBeforeNodeId">Drop the copy before this node (if absent, the copy becomes the last child of
         public async System.Threading.Tasks.Task<CopyToResponse> CopyToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
         {
+            ValidateCopyTo(nodeId, targetNodeId, insertBeforeNodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("targetNodeId", targetNodeId);
@@ -56,6 +60,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<CopyToResponse>();
         }
 
+        partial void ValidateDescribeNode(int? nodeId = null, int? backendNodeId = null, string objectId = null, int? depth = null, bool? pierce = null);
         /// <summary>
         /// Describes node given its id, does not require domain to be enabled. Does not start tracking any
         /// objects, can be used for automation.
@@ -66,6 +71,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
         public async System.Threading.Tasks.Task<DescribeNodeResponse> DescribeNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, int? depth = null, bool? pierce = null)
         {
+            ValidateDescribeNode(nodeId, backendNodeId, objectId, depth, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
             {
@@ -96,6 +102,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<DescribeNodeResponse>();
         }
 
+        partial void ValidateScrollIntoViewIfNeeded(int? nodeId = null, int? backendNodeId = null, string objectId = null, CefSharp.DevTools.DOM.Rect rect = null);
         /// <summary>
         /// Scrolls the specified rect of the given node into view if not already visible.
         /// Note: exactly one between nodeId, backendNodeId and objectId should be passed
@@ -107,6 +114,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "rect">The rect to be scrolled into view, relative to the node's border box, in CSS pixels.
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ScrollIntoViewIfNeededAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, CefSharp.DevTools.DOM.Rect rect = null)
         {
+            ValidateScrollIntoViewIfNeeded(nodeId, backendNodeId, objectId, rect);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
             {
@@ -143,6 +151,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateDiscardSearchResults(string searchId);
         /// <summary>
         /// Discards search results from the session with the given id. `getSearchResults` should no longer
         /// be called for that search.
@@ -151,6 +160,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DiscardSearchResultsAsync(string searchId)
         {
+            ValidateDiscardSearchResults(searchId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("searchId", searchId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.discardSearchResults", dict);
@@ -168,6 +178,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateFocus(int? nodeId = null, int? backendNodeId = null, string objectId = null);
         /// <summary>
         /// Focuses the given element.
         /// </summary>
@@ -177,6 +188,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> FocusAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
+            ValidateFocus(nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
             {
@@ -197,6 +209,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateGetAttributes(int nodeId);
         /// <summary>
         /// Returns attributes for the specified node.
         /// </summary>
@@ -204,12 +217,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetAttributesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetAttributesResponse> GetAttributesAsync(int nodeId)
         {
+            ValidateGetAttributes(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getAttributes", dict);
             return methodResult.DeserializeJson<GetAttributesResponse>();
         }
 
+        partial void ValidateGetBoxModel(int? nodeId = null, int? backendNodeId = null, string objectId = null);
         /// <summary>
         /// Returns boxes for the given node.
         /// </summary>
@@ -219,6 +234,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetBoxModelResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetBoxModelResponse> GetBoxModelAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
+            ValidateGetBoxModel(nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
             {
@@ -239,6 +255,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<GetBoxModelResponse>();
         }
 
+        partial void ValidateGetContentQuads(int? nodeId = null, int? backendNodeId = null, string objectId = null);
         /// <summary>
         /// Returns quads that describe node position on the page. This method
         /// might return multiple quads for inline nodes.
@@ -249,6 +266,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetContentQuadsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetContentQuadsResponse> GetContentQuadsAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
+            ValidateGetContentQuads(nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
             {
@@ -269,12 +287,14 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<GetContentQuadsResponse>();
         }
 
+        partial void ValidateGetDocument(int? depth = null, bool? pierce = null);
         /// <summary>
         /// Returns the root DOM node (and optionally the subtree) to the caller.
         /// </summary>
         /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
         public async System.Threading.Tasks.Task<GetDocumentResponse> GetDocumentAsync(int? depth = null, bool? pierce = null)
         {
+            ValidateGetDocument(depth, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (depth.HasValue)
             {
@@ -290,12 +310,14 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<GetDocumentResponse>();
         }
 
+        partial void ValidateGetFlattenedDocument(int? depth = null, bool? pierce = null);
         /// <summary>
         /// Returns the root DOM node (and optionally the subtree) to the caller.
         /// </summary>
         /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
         public async System.Threading.Tasks.Task<GetFlattenedDocumentResponse> GetFlattenedDocumentAsync(int? depth = null, bool? pierce = null)
         {
+            ValidateGetFlattenedDocument(depth, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (depth.HasValue)
             {
@@ -311,6 +333,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<GetFlattenedDocumentResponse>();
         }
 
+        partial void ValidateGetNodeForLocation(int x, int y, bool? includeUserAgentShadowDOM = null, bool? ignorePointerEventsNone = null);
         /// <summary>
         /// Returns node id at given location. Depending on whether DOM domain is enabled, nodeId is
         /// either returned or not.
@@ -322,6 +345,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetNodeForLocationResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetNodeForLocationResponse> GetNodeForLocationAsync(int x, int y, bool? includeUserAgentShadowDOM = null, bool? ignorePointerEventsNone = null)
         {
+            ValidateGetNodeForLocation(x, y, includeUserAgentShadowDOM, ignorePointerEventsNone);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("x", x);
             dict.Add("y", y);
@@ -339,6 +363,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<GetNodeForLocationResponse>();
         }
 
+        partial void ValidateGetOuterHTML(int? nodeId = null, int? backendNodeId = null, string objectId = null);
         /// <summary>
         /// Returns node's HTML markup.
         /// </summary>
@@ -348,6 +373,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetOuterHTMLResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetOuterHTMLResponse> GetOuterHTMLAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
+            ValidateGetOuterHTML(nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
             {
@@ -368,6 +394,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<GetOuterHTMLResponse>();
         }
 
+        partial void ValidateGetRelayoutBoundary(int nodeId);
         /// <summary>
         /// Returns the id of the nearest ancestor that is a relayout boundary.
         /// </summary>
@@ -375,12 +402,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetRelayoutBoundaryResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetRelayoutBoundaryResponse> GetRelayoutBoundaryAsync(int nodeId)
         {
+            ValidateGetRelayoutBoundary(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getRelayoutBoundary", dict);
             return methodResult.DeserializeJson<GetRelayoutBoundaryResponse>();
         }
 
+        partial void ValidateGetSearchResults(string searchId, int fromIndex, int toIndex);
         /// <summary>
         /// Returns search results from given `fromIndex` to given `toIndex` from the search with the given
         /// identifier.
@@ -391,6 +420,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetSearchResultsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetSearchResultsResponse> GetSearchResultsAsync(string searchId, int fromIndex, int toIndex)
         {
+            ValidateGetSearchResults(searchId, fromIndex, toIndex);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("searchId", searchId);
             dict.Add("fromIndex", fromIndex);
@@ -443,6 +473,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateMoveTo(int nodeId, int targetNodeId, int? insertBeforeNodeId = null);
         /// <summary>
         /// Moves node into the new container, places it before the given anchor.
         /// </summary>
@@ -451,6 +482,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "insertBeforeNodeId">Drop node before this one (if absent, the moved node becomes the last child of
         public async System.Threading.Tasks.Task<MoveToResponse> MoveToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
         {
+            ValidateMoveTo(nodeId, targetNodeId, insertBeforeNodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("targetNodeId", targetNodeId);
@@ -463,6 +495,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<MoveToResponse>();
         }
 
+        partial void ValidatePerformSearch(string query, bool? includeUserAgentShadowDOM = null);
         /// <summary>
         /// Searches for a given string in the DOM tree. Use `getSearchResults` to access search results or
         /// `cancelSearch` to end this search session.
@@ -472,6 +505,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;PerformSearchResponse&gt;</returns>
         public async System.Threading.Tasks.Task<PerformSearchResponse> PerformSearchAsync(string query, bool? includeUserAgentShadowDOM = null)
         {
+            ValidatePerformSearch(query, includeUserAgentShadowDOM);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("query", query);
             if (includeUserAgentShadowDOM.HasValue)
@@ -483,6 +517,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<PerformSearchResponse>();
         }
 
+        partial void ValidatePushNodeByPathToFrontend(string path);
         /// <summary>
         /// Requests that the node is sent to the caller given its path. // FIXME, use XPath
         /// </summary>
@@ -490,12 +525,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;PushNodeByPathToFrontendResponse&gt;</returns>
         public async System.Threading.Tasks.Task<PushNodeByPathToFrontendResponse> PushNodeByPathToFrontendAsync(string path)
         {
+            ValidatePushNodeByPathToFrontend(path);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("path", path);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.pushNodeByPathToFrontend", dict);
             return methodResult.DeserializeJson<PushNodeByPathToFrontendResponse>();
         }
 
+        partial void ValidatePushNodesByBackendIdsToFrontend(int[] backendNodeIds);
         /// <summary>
         /// Requests that a batch of nodes is sent to the caller given their backend node ids.
         /// </summary>
@@ -503,12 +540,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;PushNodesByBackendIdsToFrontendResponse&gt;</returns>
         public async System.Threading.Tasks.Task<PushNodesByBackendIdsToFrontendResponse> PushNodesByBackendIdsToFrontendAsync(int[] backendNodeIds)
         {
+            ValidatePushNodesByBackendIdsToFrontend(backendNodeIds);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("backendNodeIds", backendNodeIds);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.pushNodesByBackendIdsToFrontend", dict);
             return methodResult.DeserializeJson<PushNodesByBackendIdsToFrontendResponse>();
         }
 
+        partial void ValidateQuerySelector(int nodeId, string selector);
         /// <summary>
         /// Executes `querySelector` on a given node.
         /// </summary>
@@ -517,6 +556,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;QuerySelectorResponse&gt;</returns>
         public async System.Threading.Tasks.Task<QuerySelectorResponse> QuerySelectorAsync(int nodeId, string selector)
         {
+            ValidateQuerySelector(nodeId, selector);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("selector", selector);
@@ -524,6 +564,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<QuerySelectorResponse>();
         }
 
+        partial void ValidateQuerySelectorAll(int nodeId, string selector);
         /// <summary>
         /// Executes `querySelectorAll` on a given node.
         /// </summary>
@@ -532,6 +573,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;QuerySelectorAllResponse&gt;</returns>
         public async System.Threading.Tasks.Task<QuerySelectorAllResponse> QuerySelectorAllAsync(int nodeId, string selector)
         {
+            ValidateQuerySelectorAll(nodeId, selector);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("selector", selector);
@@ -550,6 +592,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateRemoveAttribute(int nodeId, string name);
         /// <summary>
         /// Removes attribute with given name from an element with given id.
         /// </summary>
@@ -558,6 +601,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveAttributeAsync(int nodeId, string name)
         {
+            ValidateRemoveAttribute(nodeId, name);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
@@ -565,6 +609,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateRemoveNode(int nodeId);
         /// <summary>
         /// Removes node with given id.
         /// </summary>
@@ -572,12 +617,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveNodeAsync(int nodeId)
         {
+            ValidateRemoveNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.removeNode", dict);
             return methodResult;
         }
 
+        partial void ValidateRequestChildNodes(int nodeId, int? depth = null, bool? pierce = null);
         /// <summary>
         /// Requests that children of the node with given id are returned to the caller in form of
         /// `setChildNodes` events where not only immediate children are retrieved, but all children down to
@@ -587,6 +634,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RequestChildNodesAsync(int nodeId, int? depth = null, bool? pierce = null)
         {
+            ValidateRequestChildNodes(nodeId, depth, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             if (depth.HasValue)
@@ -603,6 +651,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateRequestNode(string objectId);
         /// <summary>
         /// Requests that the node is sent to the caller given the JavaScript node object reference. All
         /// nodes that form the path from the node to the root are also sent to the client as a series of
@@ -612,12 +661,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestNodeResponse> RequestNodeAsync(string objectId)
         {
+            ValidateRequestNode(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.requestNode", dict);
             return methodResult.DeserializeJson<RequestNodeResponse>();
         }
 
+        partial void ValidateResolveNode(int? nodeId = null, int? backendNodeId = null, string objectGroup = null, int? executionContextId = null);
         /// <summary>
         /// Resolves the JavaScript node object for a given NodeId or BackendNodeId.
         /// </summary>
@@ -628,6 +679,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;ResolveNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ResolveNodeResponse> ResolveNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectGroup = null, int? executionContextId = null)
         {
+            ValidateResolveNode(nodeId, backendNodeId, objectGroup, executionContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (nodeId.HasValue)
             {
@@ -653,6 +705,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<ResolveNodeResponse>();
         }
 
+        partial void ValidateSetAttributeValue(int nodeId, string name, string value);
         /// <summary>
         /// Sets attribute for an element with given id.
         /// </summary>
@@ -662,6 +715,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributeValueAsync(int nodeId, string name, string value)
         {
+            ValidateSetAttributeValue(nodeId, name, value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
@@ -670,6 +724,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateSetAttributesAsText(int nodeId, string text, string name = null);
         /// <summary>
         /// Sets attributes on element with given id. This method is useful when user edits some existing
         /// attribute value and types in several attribute name/value pairs.
@@ -679,6 +734,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "name">Attribute name to replace with new attributes derived from text in case text parsed
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributesAsTextAsync(int nodeId, string text, string name = null)
         {
+            ValidateSetAttributesAsText(nodeId, text, name);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("text", text);
@@ -691,6 +747,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateSetFileInputFiles(string[] files, int? nodeId = null, int? backendNodeId = null, string objectId = null);
         /// <summary>
         /// Sets files for the given file input element.
         /// </summary>
@@ -701,6 +758,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFileInputFilesAsync(string[] files, int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
+            ValidateSetFileInputFiles(files, nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("files", files);
             if (nodeId.HasValue)
@@ -722,6 +780,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateSetNodeStackTracesEnabled(bool enable);
         /// <summary>
         /// Sets if stack traces should be captured for Nodes. See `Node.getNodeStackTraces`. Default is disabled.
         /// </summary>
@@ -729,12 +788,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetNodeStackTracesEnabledAsync(bool enable)
         {
+            ValidateSetNodeStackTracesEnabled(enable);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enable", enable);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeStackTracesEnabled", dict);
             return methodResult;
         }
 
+        partial void ValidateGetNodeStackTraces(int nodeId);
         /// <summary>
         /// Gets stack traces associated with a Node. As of now, only provides stack trace for Node creation.
         /// </summary>
@@ -742,12 +803,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetNodeStackTracesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetNodeStackTracesResponse> GetNodeStackTracesAsync(int nodeId)
         {
+            ValidateGetNodeStackTraces(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getNodeStackTraces", dict);
             return methodResult.DeserializeJson<GetNodeStackTracesResponse>();
         }
 
+        partial void ValidateGetFileInfo(string objectId);
         /// <summary>
         /// Returns file information for the given
         /// File wrapper.
@@ -756,12 +819,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetFileInfoResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetFileInfoResponse> GetFileInfoAsync(string objectId)
         {
+            ValidateGetFileInfo(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getFileInfo", dict);
             return methodResult.DeserializeJson<GetFileInfoResponse>();
         }
 
+        partial void ValidateSetInspectedNode(int nodeId);
         /// <summary>
         /// Enables console to refer to the node with given id via $x (see Command Line API for more details
         /// $x functions).
@@ -770,12 +835,14 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectedNodeAsync(int nodeId)
         {
+            ValidateSetInspectedNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setInspectedNode", dict);
             return methodResult;
         }
 
+        partial void ValidateSetNodeName(int nodeId, string name);
         /// <summary>
         /// Sets node name for a node with given id.
         /// </summary>
@@ -784,6 +851,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;SetNodeNameResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetNodeNameResponse> SetNodeNameAsync(int nodeId, string name)
         {
+            ValidateSetNodeName(nodeId, name);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
@@ -791,6 +859,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult.DeserializeJson<SetNodeNameResponse>();
         }
 
+        partial void ValidateSetNodeValue(int nodeId, string value);
         /// <summary>
         /// Sets node value for a node with given id.
         /// </summary>
@@ -799,6 +868,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetNodeValueAsync(int nodeId, string value)
         {
+            ValidateSetNodeValue(nodeId, value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("value", value);
@@ -806,6 +876,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateSetOuterHTML(int nodeId, string outerHTML);
         /// <summary>
         /// Sets node HTML markup, returns new node id.
         /// </summary>
@@ -814,6 +885,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetOuterHTMLAsync(int nodeId, string outerHTML)
         {
+            ValidateSetOuterHTML(nodeId, outerHTML);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("outerHTML", outerHTML);
@@ -832,6 +904,7 @@ namespace CefSharp.DevTools.DOM
             return methodResult;
         }
 
+        partial void ValidateGetFrameOwner(string frameId);
         /// <summary>
         /// Returns iframe node that owns iframe with the given domain.
         /// </summary>
@@ -839,6 +912,7 @@ namespace CefSharp.DevTools.DOM
         /// <returns>returns System.Threading.Tasks.Task&lt;GetFrameOwnerResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetFrameOwnerResponse> GetFrameOwnerAsync(string frameId)
         {
+            ValidateGetFrameOwner(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getFrameOwner", dict);

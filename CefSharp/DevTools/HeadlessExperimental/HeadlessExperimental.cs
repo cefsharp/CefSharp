@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
             _client = (client);
         }
 
+        partial void ValidateBeginFrame(long? frameTimeTicks = null, long? interval = null, bool? noDisplayUpdates = null, CefSharp.DevTools.HeadlessExperimental.ScreenshotParams screenshot = null);
         /// <summary>
         /// Sends a BeginFrame to the target and returns when the frame was completed. Optionally captures a
         /// screenshot from the resulting frame. Requires that the target was created with enabled
@@ -25,6 +26,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
         /// <param name = "frameTimeTicks">Timestamp of this BeginFrame in Renderer TimeTicks (milliseconds of uptime). If not set,
         public async System.Threading.Tasks.Task<BeginFrameResponse> BeginFrameAsync(long? frameTimeTicks = null, long? interval = null, bool? noDisplayUpdates = null, CefSharp.DevTools.HeadlessExperimental.ScreenshotParams screenshot = null)
         {
+            ValidateBeginFrame(frameTimeTicks, interval, noDisplayUpdates, screenshot);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (frameTimeTicks.HasValue)
             {

@@ -49,6 +49,7 @@ namespace CefSharp.DevTools.Memory
             return methodResult;
         }
 
+        partial void ValidateSetPressureNotificationsSuppressed(bool suppressed);
         /// <summary>
         /// Enable/disable suppressing memory pressure notifications in all processes.
         /// </summary>
@@ -56,12 +57,14 @@ namespace CefSharp.DevTools.Memory
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPressureNotificationsSuppressedAsync(bool suppressed)
         {
+            ValidateSetPressureNotificationsSuppressed(suppressed);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("suppressed", suppressed);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.setPressureNotificationsSuppressed", dict);
             return methodResult;
         }
 
+        partial void ValidateSimulatePressureNotification(CefSharp.DevTools.Memory.PressureLevel level);
         /// <summary>
         /// Simulate a memory pressure notification in all processes.
         /// </summary>
@@ -69,12 +72,14 @@ namespace CefSharp.DevTools.Memory
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SimulatePressureNotificationAsync(CefSharp.DevTools.Memory.PressureLevel level)
         {
+            ValidateSimulatePressureNotification(level);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("level", this.EnumToString(level));
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.simulatePressureNotification", dict);
             return methodResult;
         }
 
+        partial void ValidateStartSampling(int? samplingInterval = null, bool? suppressRandomness = null);
         /// <summary>
         /// Start collecting native memory profile.
         /// </summary>
@@ -83,6 +88,7 @@ namespace CefSharp.DevTools.Memory
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(int? samplingInterval = null, bool? suppressRandomness = null)
         {
+            ValidateStartSampling(samplingInterval, suppressRandomness);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (samplingInterval.HasValue)
             {

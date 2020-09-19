@@ -27,6 +27,7 @@ namespace CefSharp.DevTools.DeviceOrientation
             return methodResult;
         }
 
+        partial void ValidateSetDeviceOrientationOverride(long alpha, long beta, long gamma);
         /// <summary>
         /// Overrides the Device Orientation.
         /// </summary>
@@ -36,6 +37,7 @@ namespace CefSharp.DevTools.DeviceOrientation
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDeviceOrientationOverrideAsync(long alpha, long beta, long gamma)
         {
+            ValidateSetDeviceOrientationOverride(alpha, beta, gamma);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("alpha", alpha);
             dict.Add("beta", beta);

@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.IO
             _client = (client);
         }
 
+        partial void ValidateClose(string handle);
         /// <summary>
         /// Close the stream, discard any temporary backing storage.
         /// </summary>
@@ -23,12 +24,14 @@ namespace CefSharp.DevTools.IO
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync(string handle)
         {
+            ValidateClose(handle);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("handle", handle);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("IO.close", dict);
             return methodResult;
         }
 
+        partial void ValidateRead(string handle, int? offset = null, int? size = null);
         /// <summary>
         /// Read a chunk of the stream
         /// </summary>
@@ -36,6 +39,7 @@ namespace CefSharp.DevTools.IO
         /// <param name = "offset">Seek to the specified offset before reading (if not specificed, proceed with offset
         public async System.Threading.Tasks.Task<ReadResponse> ReadAsync(string handle, int? offset = null, int? size = null)
         {
+            ValidateRead(handle, offset, size);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("handle", handle);
             if (offset.HasValue)
@@ -52,6 +56,7 @@ namespace CefSharp.DevTools.IO
             return methodResult.DeserializeJson<ReadResponse>();
         }
 
+        partial void ValidateResolveBlob(string objectId);
         /// <summary>
         /// Return UUID of Blob object specified by a remote object id.
         /// </summary>
@@ -59,6 +64,7 @@ namespace CefSharp.DevTools.IO
         /// <returns>returns System.Threading.Tasks.Task&lt;ResolveBlobResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ResolveBlobResponse> ResolveBlobAsync(string objectId)
         {
+            ValidateResolveBlob(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("IO.resolveBlob", dict);

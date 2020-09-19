@@ -20,6 +20,7 @@ namespace CefSharp.DevTools.Runtime
             _client = (client);
         }
 
+        partial void ValidateAwaitPromise(string promiseObjectId, bool? returnByValue = null, bool? generatePreview = null);
         /// <summary>
         /// Add handler to promise with given promise object id.
         /// </summary>
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;AwaitPromiseResponse&gt;</returns>
         public async System.Threading.Tasks.Task<AwaitPromiseResponse> AwaitPromiseAsync(string promiseObjectId, bool? returnByValue = null, bool? generatePreview = null)
         {
+            ValidateAwaitPromise(promiseObjectId, returnByValue, generatePreview);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("promiseObjectId", promiseObjectId);
             if (returnByValue.HasValue)
@@ -45,6 +47,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult.DeserializeJson<AwaitPromiseResponse>();
         }
 
+        partial void ValidateCallFunctionOn(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null);
         /// <summary>
         /// Calls function with given declaration on the given object. Object group of the result is
         /// inherited from the target object.
@@ -53,6 +56,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "objectId">Identifier of the object to call function on. Either objectId or executionContextId should
         public async System.Threading.Tasks.Task<CallFunctionOnResponse> CallFunctionOnAsync(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null)
         {
+            ValidateCallFunctionOn(functionDeclaration, objectId, arguments, silent, returnByValue, generatePreview, userGesture, awaitPromise, executionContextId, objectGroup);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("functionDeclaration", functionDeclaration);
             if (!(string.IsNullOrEmpty(objectId)))
@@ -104,6 +108,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult.DeserializeJson<CallFunctionOnResponse>();
         }
 
+        partial void ValidateCompileScript(string expression, string sourceURL, bool persistScript, int? executionContextId = null);
         /// <summary>
         /// Compiles expression.
         /// </summary>
@@ -113,6 +118,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "executionContextId">Specifies in which execution context to perform script run. If the parameter is omitted the
         public async System.Threading.Tasks.Task<CompileScriptResponse> CompileScriptAsync(string expression, string sourceURL, bool persistScript, int? executionContextId = null)
         {
+            ValidateCompileScript(expression, sourceURL, persistScript, executionContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("expression", expression);
             dict.Add("sourceURL", sourceURL);
@@ -161,6 +167,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult;
         }
 
+        partial void ValidateEvaluate(string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, int? contextId = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, bool? throwOnSideEffect = null, long? timeout = null, bool? disableBreaks = null, bool? replMode = null, bool? allowUnsafeEvalBlockedByCSP = null);
         /// <summary>
         /// Evaluates expression on global object.
         /// </summary>
@@ -170,6 +177,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "silent">In silent mode exceptions thrown during evaluation are not reported and do not pause
         public async System.Threading.Tasks.Task<EvaluateResponse> EvaluateAsync(string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, int? contextId = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, bool? throwOnSideEffect = null, long? timeout = null, bool? disableBreaks = null, bool? replMode = null, bool? allowUnsafeEvalBlockedByCSP = null)
         {
+            ValidateEvaluate(expression, objectGroup, includeCommandLineAPI, silent, contextId, returnByValue, generatePreview, userGesture, awaitPromise, throwOnSideEffect, timeout, disableBreaks, replMode, allowUnsafeEvalBlockedByCSP);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("expression", expression);
             if (!(string.IsNullOrEmpty(objectGroup)))
@@ -264,6 +272,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult.DeserializeJson<GetHeapUsageResponse>();
         }
 
+        partial void ValidateGetProperties(string objectId, bool? ownProperties = null, bool? accessorPropertiesOnly = null, bool? generatePreview = null);
         /// <summary>
         /// Returns properties of a given object. Object group of the result is inherited from the target
         /// object.
@@ -272,6 +281,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "ownProperties">If true, returns properties belonging only to the element itself, not to its prototype
         public async System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(string objectId, bool? ownProperties = null, bool? accessorPropertiesOnly = null, bool? generatePreview = null)
         {
+            ValidateGetProperties(objectId, ownProperties, accessorPropertiesOnly, generatePreview);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
             if (ownProperties.HasValue)
@@ -293,6 +303,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult.DeserializeJson<GetPropertiesResponse>();
         }
 
+        partial void ValidateGlobalLexicalScopeNames(int? executionContextId = null);
         /// <summary>
         /// Returns all let, const and class variables from global scope.
         /// </summary>
@@ -300,6 +311,7 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;GlobalLexicalScopeNamesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GlobalLexicalScopeNamesResponse> GlobalLexicalScopeNamesAsync(int? executionContextId = null)
         {
+            ValidateGlobalLexicalScopeNames(executionContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (executionContextId.HasValue)
             {
@@ -310,6 +322,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult.DeserializeJson<GlobalLexicalScopeNamesResponse>();
         }
 
+        partial void ValidateQueryObjects(string prototypeObjectId, string objectGroup = null);
         /// <summary>
         /// QueryObjects
         /// </summary>
@@ -318,6 +331,7 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;QueryObjectsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<QueryObjectsResponse> QueryObjectsAsync(string prototypeObjectId, string objectGroup = null)
         {
+            ValidateQueryObjects(prototypeObjectId, objectGroup);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("prototypeObjectId", prototypeObjectId);
             if (!(string.IsNullOrEmpty(objectGroup)))
@@ -329,6 +343,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult.DeserializeJson<QueryObjectsResponse>();
         }
 
+        partial void ValidateReleaseObject(string objectId);
         /// <summary>
         /// Releases remote object with given id.
         /// </summary>
@@ -336,12 +351,14 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseObjectAsync(string objectId)
         {
+            ValidateReleaseObject(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.releaseObject", dict);
             return methodResult;
         }
 
+        partial void ValidateReleaseObjectGroup(string objectGroup);
         /// <summary>
         /// Releases all remote objects that belong to a given group.
         /// </summary>
@@ -349,6 +366,7 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseObjectGroupAsync(string objectGroup)
         {
+            ValidateReleaseObjectGroup(objectGroup);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectGroup", objectGroup);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.releaseObjectGroup", dict);
@@ -366,6 +384,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult;
         }
 
+        partial void ValidateRunScript(string scriptId, int? executionContextId = null, string objectGroup = null, bool? silent = null, bool? includeCommandLineAPI = null, bool? returnByValue = null, bool? generatePreview = null, bool? awaitPromise = null);
         /// <summary>
         /// Runs script with given id in a given context.
         /// </summary>
@@ -373,6 +392,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "executionContextId">Specifies in which execution context to perform script run. If the parameter is omitted the
         public async System.Threading.Tasks.Task<RunScriptResponse> RunScriptAsync(string scriptId, int? executionContextId = null, string objectGroup = null, bool? silent = null, bool? includeCommandLineAPI = null, bool? returnByValue = null, bool? generatePreview = null, bool? awaitPromise = null)
         {
+            ValidateRunScript(scriptId, executionContextId, objectGroup, silent, includeCommandLineAPI, returnByValue, generatePreview, awaitPromise);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scriptId", scriptId);
             if (executionContextId.HasValue)
@@ -414,18 +434,21 @@ namespace CefSharp.DevTools.Runtime
             return methodResult.DeserializeJson<RunScriptResponse>();
         }
 
+        partial void ValidateSetAsyncCallStackDepth(int maxDepth);
         /// <summary>
         /// Enables or disables async call stacks tracking.
         /// </summary>
         /// <param name = "maxDepth">Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
         {
+            ValidateSetAsyncCallStackDepth(maxDepth);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("maxDepth", maxDepth);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setAsyncCallStackDepth", dict);
             return methodResult;
         }
 
+        partial void ValidateSetCustomObjectFormatterEnabled(bool enabled);
         /// <summary>
         /// SetCustomObjectFormatterEnabled
         /// </summary>
@@ -433,12 +456,14 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCustomObjectFormatterEnabledAsync(bool enabled)
         {
+            ValidateSetCustomObjectFormatterEnabled(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setCustomObjectFormatterEnabled", dict);
             return methodResult;
         }
 
+        partial void ValidateSetMaxCallStackSizeToCapture(int size);
         /// <summary>
         /// SetMaxCallStackSizeToCapture
         /// </summary>
@@ -446,6 +471,7 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetMaxCallStackSizeToCaptureAsync(int size)
         {
+            ValidateSetMaxCallStackSizeToCapture(size);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("size", size);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setMaxCallStackSizeToCapture", dict);
@@ -464,6 +490,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult;
         }
 
+        partial void ValidateAddBinding(string name, int? executionContextId = null);
         /// <summary>
         /// If executionContextId is empty, adds binding with the given name on the
         /// global objects of all inspected contexts, including those created later,
@@ -479,6 +506,7 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddBindingAsync(string name, int? executionContextId = null)
         {
+            ValidateAddBinding(name, executionContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("name", name);
             if (executionContextId.HasValue)
@@ -490,6 +518,7 @@ namespace CefSharp.DevTools.Runtime
             return methodResult;
         }
 
+        partial void ValidateRemoveBinding(string name);
         /// <summary>
         /// This method does not remove binding function from global object but
         /// unsubscribes current runtime agent from Runtime.bindingCalled notifications.
@@ -498,6 +527,7 @@ namespace CefSharp.DevTools.Runtime
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveBindingAsync(string name)
         {
+            ValidateRemoveBinding(name);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("name", name);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.removeBinding", dict);

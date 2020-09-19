@@ -38,6 +38,7 @@ namespace CefSharp.DevTools.Tracing
             return methodResult.DeserializeJson<GetCategoriesResponse>();
         }
 
+        partial void ValidateRecordClockSyncMarker(string syncId);
         /// <summary>
         /// Record a clock sync marker in the trace.
         /// </summary>
@@ -45,12 +46,14 @@ namespace CefSharp.DevTools.Tracing
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RecordClockSyncMarkerAsync(string syncId)
         {
+            ValidateRecordClockSyncMarker(syncId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("syncId", syncId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Tracing.recordClockSyncMarker", dict);
             return methodResult;
         }
 
+        partial void ValidateRequestMemoryDump(bool? deterministic = null);
         /// <summary>
         /// Request a global memory dump.
         /// </summary>
@@ -58,6 +61,7 @@ namespace CefSharp.DevTools.Tracing
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestMemoryDumpResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestMemoryDumpResponse> RequestMemoryDumpAsync(bool? deterministic = null)
         {
+            ValidateRequestMemoryDump(deterministic);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (deterministic.HasValue)
             {
@@ -68,6 +72,7 @@ namespace CefSharp.DevTools.Tracing
             return methodResult.DeserializeJson<RequestMemoryDumpResponse>();
         }
 
+        partial void ValidateStart(string categories = null, string options = null, long? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null);
         /// <summary>
         /// Start trace events collection.
         /// </summary>
@@ -77,6 +82,7 @@ namespace CefSharp.DevTools.Tracing
         /// <param name = "transferMode">Whether to report trace events as series of dataCollected events or to save trace to a
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync(string categories = null, string options = null, long? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null)
         {
+            ValidateStart(categories, options, bufferUsageReportingInterval, transferMode, streamFormat, streamCompression, traceConfig);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(categories)))
             {

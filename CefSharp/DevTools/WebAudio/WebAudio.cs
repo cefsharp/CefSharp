@@ -39,6 +39,7 @@ namespace CefSharp.DevTools.WebAudio
             return methodResult;
         }
 
+        partial void ValidateGetRealtimeData(string contextId);
         /// <summary>
         /// Fetch the realtime data from the registered contexts.
         /// </summary>
@@ -46,6 +47,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <returns>returns System.Threading.Tasks.Task&lt;GetRealtimeDataResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetRealtimeDataResponse> GetRealtimeDataAsync(string contextId)
         {
+            ValidateGetRealtimeData(contextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("contextId", contextId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAudio.getRealtimeData", dict);

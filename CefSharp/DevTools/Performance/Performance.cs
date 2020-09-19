@@ -27,6 +27,7 @@ namespace CefSharp.DevTools.Performance
             return methodResult;
         }
 
+        partial void ValidateEnable(string timeDomain = null);
         /// <summary>
         /// Enable collecting and reporting metrics.
         /// </summary>
@@ -34,6 +35,7 @@ namespace CefSharp.DevTools.Performance
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string timeDomain = null)
         {
+            ValidateEnable(timeDomain);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(timeDomain)))
             {

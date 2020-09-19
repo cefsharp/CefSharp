@@ -50,6 +50,7 @@ namespace CefSharp.DevTools.Log
             return methodResult;
         }
 
+        partial void ValidateStartViolationsReport(System.Collections.Generic.IList<CefSharp.DevTools.Log.ViolationSetting> config);
         /// <summary>
         /// start violation reporting.
         /// </summary>
@@ -57,6 +58,7 @@ namespace CefSharp.DevTools.Log
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartViolationsReportAsync(System.Collections.Generic.IList<CefSharp.DevTools.Log.ViolationSetting> config)
         {
+            ValidateStartViolationsReport(config);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("config", config.Select(x => x.ToDictionary()));
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Log.startViolationsReport", dict);

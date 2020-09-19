@@ -38,6 +38,7 @@ namespace CefSharp.DevTools.DOMSnapshot
             return methodResult;
         }
 
+        partial void ValidateCaptureSnapshot(string[] computedStyles, bool? includePaintOrder = null, bool? includeDOMRects = null);
         /// <summary>
         /// Returns a document snapshot, including the full DOM tree of the root node (including iframes,
         /// template contents, and imported documents) in a flattened array, as well as layout and
@@ -50,6 +51,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <returns>returns System.Threading.Tasks.Task&lt;CaptureSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string[] computedStyles, bool? includePaintOrder = null, bool? includeDOMRects = null)
         {
+            ValidateCaptureSnapshot(computedStyles, includePaintOrder, includeDOMRects);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("computedStyles", computedStyles);
             if (includePaintOrder.HasValue)

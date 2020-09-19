@@ -38,6 +38,7 @@ namespace CefSharp.DevTools.Overlay
             return methodResult;
         }
 
+        partial void ValidateGetHighlightObjectForTest(int nodeId, bool? includeDistance = null, bool? includeStyle = null, CefSharp.DevTools.Overlay.ColorFormat? colorFormat = null, bool? showAccessibilityInfo = null);
         /// <summary>
         /// For testing.
         /// </summary>
@@ -49,6 +50,7 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;GetHighlightObjectForTestResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetHighlightObjectForTestResponse> GetHighlightObjectForTestAsync(int nodeId, bool? includeDistance = null, bool? includeStyle = null, CefSharp.DevTools.Overlay.ColorFormat? colorFormat = null, bool? showAccessibilityInfo = null)
         {
+            ValidateGetHighlightObjectForTest(nodeId, includeDistance, includeStyle, colorFormat, showAccessibilityInfo);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             if (includeDistance.HasValue)
@@ -86,6 +88,7 @@ namespace CefSharp.DevTools.Overlay
             return methodResult;
         }
 
+        partial void ValidateHighlightFrame(string frameId, CefSharp.DevTools.DOM.RGBA contentColor = null, CefSharp.DevTools.DOM.RGBA contentOutlineColor = null);
         /// <summary>
         /// Highlights owner element of the frame with given id.
         /// </summary>
@@ -95,6 +98,7 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightFrameAsync(string frameId, CefSharp.DevTools.DOM.RGBA contentColor = null, CefSharp.DevTools.DOM.RGBA contentOutlineColor = null)
         {
+            ValidateHighlightFrame(frameId, contentColor, contentOutlineColor);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             if ((contentColor) != (null))
@@ -111,6 +115,7 @@ namespace CefSharp.DevTools.Overlay
             return methodResult;
         }
 
+        partial void ValidateHighlightNode(CefSharp.DevTools.Overlay.HighlightConfig highlightConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null, string selector = null);
         /// <summary>
         /// Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
         /// objectId must be specified.
@@ -123,6 +128,7 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightNodeAsync(CefSharp.DevTools.Overlay.HighlightConfig highlightConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null, string selector = null)
         {
+            ValidateHighlightNode(highlightConfig, nodeId, backendNodeId, objectId, selector);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("highlightConfig", highlightConfig.ToDictionary());
             if (nodeId.HasValue)
@@ -149,6 +155,7 @@ namespace CefSharp.DevTools.Overlay
             return methodResult;
         }
 
+        partial void ValidateHighlightQuad(long[] quad, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null);
         /// <summary>
         /// Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
         /// </summary>
@@ -158,6 +165,7 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightQuadAsync(long[] quad, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null)
         {
+            ValidateHighlightQuad(quad, color, outlineColor);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("quad", quad);
             if ((color) != (null))
@@ -174,6 +182,7 @@ namespace CefSharp.DevTools.Overlay
             return methodResult;
         }
 
+        partial void ValidateHighlightRect(int x, int y, int width, int height, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null);
         /// <summary>
         /// Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
         /// </summary>
@@ -186,6 +195,7 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightRectAsync(int x, int y, int width, int height, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null)
         {
+            ValidateHighlightRect(x, y, width, height, color, outlineColor);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("x", x);
             dict.Add("y", y);
@@ -205,6 +215,7 @@ namespace CefSharp.DevTools.Overlay
             return methodResult;
         }
 
+        partial void ValidateSetInspectMode(CefSharp.DevTools.Overlay.InspectMode mode, CefSharp.DevTools.Overlay.HighlightConfig highlightConfig = null);
         /// <summary>
         /// Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
         /// Backend then generates 'inspectNodeRequested' event upon element selection.
@@ -213,6 +224,7 @@ namespace CefSharp.DevTools.Overlay
         /// <param name = "highlightConfig">A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectModeAsync(CefSharp.DevTools.Overlay.InspectMode mode, CefSharp.DevTools.Overlay.HighlightConfig highlightConfig = null)
         {
+            ValidateSetInspectMode(mode, highlightConfig);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("mode", this.EnumToString(mode));
             if ((highlightConfig) != (null))
@@ -224,6 +236,7 @@ namespace CefSharp.DevTools.Overlay
             return methodResult;
         }
 
+        partial void ValidateSetShowAdHighlights(bool show);
         /// <summary>
         /// Highlights owner element of all frames detected to be ads.
         /// </summary>
@@ -231,12 +244,14 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowAdHighlightsAsync(bool show)
         {
+            ValidateSetShowAdHighlights(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowAdHighlights", dict);
             return methodResult;
         }
 
+        partial void ValidateSetPausedInDebuggerMessage(string message = null);
         /// <summary>
         /// SetPausedInDebuggerMessage
         /// </summary>
@@ -244,6 +259,7 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPausedInDebuggerMessageAsync(string message = null)
         {
+            ValidateSetPausedInDebuggerMessage(message);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(message)))
             {
@@ -254,6 +270,7 @@ namespace CefSharp.DevTools.Overlay
             return methodResult;
         }
 
+        partial void ValidateSetShowDebugBorders(bool show);
         /// <summary>
         /// Requests that backend shows debug borders on layers
         /// </summary>
@@ -261,12 +278,14 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowDebugBordersAsync(bool show)
         {
+            ValidateSetShowDebugBorders(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowDebugBorders", dict);
             return methodResult;
         }
 
+        partial void ValidateSetShowFPSCounter(bool show);
         /// <summary>
         /// Requests that backend shows the FPS counter
         /// </summary>
@@ -274,12 +293,14 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowFPSCounterAsync(bool show)
         {
+            ValidateSetShowFPSCounter(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowFPSCounter", dict);
             return methodResult;
         }
 
+        partial void ValidateSetShowPaintRects(bool result);
         /// <summary>
         /// Requests that backend shows paint rectangles
         /// </summary>
@@ -287,12 +308,14 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowPaintRectsAsync(bool result)
         {
+            ValidateSetShowPaintRects(result);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("result", result);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowPaintRects", dict);
             return methodResult;
         }
 
+        partial void ValidateSetShowLayoutShiftRegions(bool result);
         /// <summary>
         /// Requests that backend shows layout shift regions
         /// </summary>
@@ -300,12 +323,14 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowLayoutShiftRegionsAsync(bool result)
         {
+            ValidateSetShowLayoutShiftRegions(result);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("result", result);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowLayoutShiftRegions", dict);
             return methodResult;
         }
 
+        partial void ValidateSetShowScrollBottleneckRects(bool show);
         /// <summary>
         /// Requests that backend shows scroll bottleneck rects
         /// </summary>
@@ -313,12 +338,14 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowScrollBottleneckRectsAsync(bool show)
         {
+            ValidateSetShowScrollBottleneckRects(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowScrollBottleneckRects", dict);
             return methodResult;
         }
 
+        partial void ValidateSetShowHitTestBorders(bool show);
         /// <summary>
         /// Requests that backend shows hit-test borders on layers
         /// </summary>
@@ -326,12 +353,14 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowHitTestBordersAsync(bool show)
         {
+            ValidateSetShowHitTestBorders(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowHitTestBorders", dict);
             return methodResult;
         }
 
+        partial void ValidateSetShowViewportSizeOnResize(bool show);
         /// <summary>
         /// Paints viewport size upon main frame resize.
         /// </summary>
@@ -339,12 +368,14 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowViewportSizeOnResizeAsync(bool show)
         {
+            ValidateSetShowViewportSizeOnResize(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowViewportSizeOnResize", dict);
             return methodResult;
         }
 
+        partial void ValidateSetShowHinge(CefSharp.DevTools.Overlay.HingeConfig hingeConfig = null);
         /// <summary>
         /// Add a dual screen device hinge
         /// </summary>
@@ -352,6 +383,7 @@ namespace CefSharp.DevTools.Overlay
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowHingeAsync(CefSharp.DevTools.Overlay.HingeConfig hingeConfig = null)
         {
+            ValidateSetShowHinge(hingeConfig);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if ((hingeConfig) != (null))
             {

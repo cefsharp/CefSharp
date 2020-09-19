@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.CacheStorage
             _client = (client);
         }
 
+        partial void ValidateDeleteCache(string cacheId);
         /// <summary>
         /// Deletes a cache.
         /// </summary>
@@ -23,12 +24,14 @@ namespace CefSharp.DevTools.CacheStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteCacheAsync(string cacheId)
         {
+            ValidateDeleteCache(cacheId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheId", cacheId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CacheStorage.deleteCache", dict);
             return methodResult;
         }
 
+        partial void ValidateDeleteEntry(string cacheId, string request);
         /// <summary>
         /// Deletes a cache entry.
         /// </summary>
@@ -37,6 +40,7 @@ namespace CefSharp.DevTools.CacheStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteEntryAsync(string cacheId, string request)
         {
+            ValidateDeleteEntry(cacheId, request);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheId", cacheId);
             dict.Add("request", request);
@@ -44,6 +48,7 @@ namespace CefSharp.DevTools.CacheStorage
             return methodResult;
         }
 
+        partial void ValidateRequestCacheNames(string securityOrigin);
         /// <summary>
         /// Requests cache names.
         /// </summary>
@@ -51,12 +56,14 @@ namespace CefSharp.DevTools.CacheStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestCacheNamesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestCacheNamesResponse> RequestCacheNamesAsync(string securityOrigin)
         {
+            ValidateRequestCacheNames(securityOrigin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("CacheStorage.requestCacheNames", dict);
             return methodResult.DeserializeJson<RequestCacheNamesResponse>();
         }
 
+        partial void ValidateRequestCachedResponse(string cacheId, string requestURL, System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Header> requestHeaders);
         /// <summary>
         /// Fetches cache entry.
         /// </summary>
@@ -66,6 +73,7 @@ namespace CefSharp.DevTools.CacheStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestCachedResponseResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestCachedResponseResponse> RequestCachedResponseAsync(string cacheId, string requestURL, System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Header> requestHeaders)
         {
+            ValidateRequestCachedResponse(cacheId, requestURL, requestHeaders);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheId", cacheId);
             dict.Add("requestURL", requestURL);
@@ -74,6 +82,7 @@ namespace CefSharp.DevTools.CacheStorage
             return methodResult.DeserializeJson<RequestCachedResponseResponse>();
         }
 
+        partial void ValidateRequestEntries(string cacheId, int? skipCount = null, int? pageSize = null, string pathFilter = null);
         /// <summary>
         /// Requests data from cache.
         /// </summary>
@@ -84,6 +93,7 @@ namespace CefSharp.DevTools.CacheStorage
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestEntriesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestEntriesResponse> RequestEntriesAsync(string cacheId, int? skipCount = null, int? pageSize = null, string pathFilter = null)
         {
+            ValidateRequestEntries(cacheId, skipCount, pageSize, pathFilter);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheId", cacheId);
             if (skipCount.HasValue)

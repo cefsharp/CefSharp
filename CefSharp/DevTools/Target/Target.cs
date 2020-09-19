@@ -16,6 +16,7 @@ namespace CefSharp.DevTools.Target
             _client = (client);
         }
 
+        partial void ValidateActivateTarget(string targetId);
         /// <summary>
         /// Activates (focuses) the target.
         /// </summary>
@@ -23,12 +24,14 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ActivateTargetAsync(string targetId)
         {
+            ValidateActivateTarget(targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("targetId", targetId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.activateTarget", dict);
             return methodResult;
         }
 
+        partial void ValidateAttachToTarget(string targetId, bool? flatten = null);
         /// <summary>
         /// Attaches to the target with given id.
         /// </summary>
@@ -36,6 +39,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "flatten">Enables "flat" access to the session via specifying sessionId attribute in the commands.
         public async System.Threading.Tasks.Task<AttachToTargetResponse> AttachToTargetAsync(string targetId, bool? flatten = null)
         {
+            ValidateAttachToTarget(targetId, flatten);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("targetId", targetId);
             if (flatten.HasValue)
@@ -58,6 +62,7 @@ namespace CefSharp.DevTools.Target
             return methodResult.DeserializeJson<AttachToBrowserTargetResponse>();
         }
 
+        partial void ValidateCloseTarget(string targetId);
         /// <summary>
         /// Closes the target. If the target is a page that gets closed too.
         /// </summary>
@@ -65,12 +70,14 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;CloseTargetResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CloseTargetResponse> CloseTargetAsync(string targetId)
         {
+            ValidateCloseTarget(targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("targetId", targetId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.closeTarget", dict);
             return methodResult.DeserializeJson<CloseTargetResponse>();
         }
 
+        partial void ValidateExposeDevToolsProtocol(string targetId, string bindingName = null);
         /// <summary>
         /// Inject object to the target's main frame that provides a communication
         /// channel with browser target.
@@ -86,6 +93,7 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ExposeDevToolsProtocolAsync(string targetId, string bindingName = null)
         {
+            ValidateExposeDevToolsProtocol(targetId, bindingName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("targetId", targetId);
             if (!(string.IsNullOrEmpty(bindingName)))
@@ -97,6 +105,7 @@ namespace CefSharp.DevTools.Target
             return methodResult;
         }
 
+        partial void ValidateCreateBrowserContext(bool? disposeOnDetach = null, string proxyServer = null, string proxyBypassList = null);
         /// <summary>
         /// Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
         /// one.
@@ -107,6 +116,7 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;CreateBrowserContextResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CreateBrowserContextResponse> CreateBrowserContextAsync(bool? disposeOnDetach = null, string proxyServer = null, string proxyBypassList = null)
         {
+            ValidateCreateBrowserContext(disposeOnDetach, proxyServer, proxyBypassList);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (disposeOnDetach.HasValue)
             {
@@ -138,6 +148,7 @@ namespace CefSharp.DevTools.Target
             return methodResult.DeserializeJson<GetBrowserContextsResponse>();
         }
 
+        partial void ValidateCreateTarget(string url, int? width = null, int? height = null, string browserContextId = null, bool? enableBeginFrameControl = null, bool? newWindow = null, bool? background = null);
         /// <summary>
         /// Creates a new page.
         /// </summary>
@@ -148,6 +159,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "enableBeginFrameControl">Whether BeginFrames for this target will be controlled via DevTools (headless chrome only,
         public async System.Threading.Tasks.Task<CreateTargetResponse> CreateTargetAsync(string url, int? width = null, int? height = null, string browserContextId = null, bool? enableBeginFrameControl = null, bool? newWindow = null, bool? background = null)
         {
+            ValidateCreateTarget(url, width, height, browserContextId, enableBeginFrameControl, newWindow, background);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
             if (width.HasValue)
@@ -184,6 +196,7 @@ namespace CefSharp.DevTools.Target
             return methodResult.DeserializeJson<CreateTargetResponse>();
         }
 
+        partial void ValidateDetachFromTarget(string sessionId = null, string targetId = null);
         /// <summary>
         /// Detaches session with given id.
         /// </summary>
@@ -192,6 +205,7 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DetachFromTargetAsync(string sessionId = null, string targetId = null)
         {
+            ValidateDetachFromTarget(sessionId, targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(sessionId)))
             {
@@ -207,6 +221,7 @@ namespace CefSharp.DevTools.Target
             return methodResult;
         }
 
+        partial void ValidateDisposeBrowserContext(string browserContextId);
         /// <summary>
         /// Deletes a BrowserContext. All the belonging pages will be closed without calling their
         /// beforeunload hooks.
@@ -215,12 +230,14 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisposeBrowserContextAsync(string browserContextId)
         {
+            ValidateDisposeBrowserContext(browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("browserContextId", browserContextId);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.disposeBrowserContext", dict);
             return methodResult;
         }
 
+        partial void ValidateGetTargetInfo(string targetId = null);
         /// <summary>
         /// Returns information about a target.
         /// </summary>
@@ -228,6 +245,7 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;GetTargetInfoResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetTargetInfoResponse> GetTargetInfoAsync(string targetId = null)
         {
+            ValidateGetTargetInfo(targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (!(string.IsNullOrEmpty(targetId)))
             {
@@ -249,6 +267,7 @@ namespace CefSharp.DevTools.Target
             return methodResult.DeserializeJson<GetTargetsResponse>();
         }
 
+        partial void ValidateSetAutoAttach(bool autoAttach, bool waitForDebuggerOnStart, bool? flatten = null);
         /// <summary>
         /// Controls whether to automatically attach to new targets which are considered to be related to
         /// this one. When turned on, attaches to all existing related targets as well. When turned off,
@@ -258,6 +277,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "waitForDebuggerOnStart">Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAutoAttachAsync(bool autoAttach, bool waitForDebuggerOnStart, bool? flatten = null)
         {
+            ValidateSetAutoAttach(autoAttach, waitForDebuggerOnStart, flatten);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("autoAttach", autoAttach);
             dict.Add("waitForDebuggerOnStart", waitForDebuggerOnStart);
@@ -270,6 +290,7 @@ namespace CefSharp.DevTools.Target
             return methodResult;
         }
 
+        partial void ValidateSetDiscoverTargets(bool discover);
         /// <summary>
         /// Controls whether to discover available targets and notify via
         /// `targetCreated/targetInfoChanged/targetDestroyed` events.
@@ -278,12 +299,14 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDiscoverTargetsAsync(bool discover)
         {
+            ValidateSetDiscoverTargets(discover);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("discover", discover);
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.setDiscoverTargets", dict);
             return methodResult;
         }
 
+        partial void ValidateSetRemoteLocations(System.Collections.Generic.IList<CefSharp.DevTools.Target.RemoteLocation> locations);
         /// <summary>
         /// Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
         /// `true`.
@@ -292,6 +315,7 @@ namespace CefSharp.DevTools.Target
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetRemoteLocationsAsync(System.Collections.Generic.IList<CefSharp.DevTools.Target.RemoteLocation> locations)
         {
+            ValidateSetRemoteLocations(locations);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("locations", locations.Select(x => x.ToDictionary()));
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.setRemoteLocations", dict);
