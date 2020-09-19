@@ -10,15 +10,17 @@ namespace CefSharp.DevTools.LayerTree
     /// </summary>
     public partial class LayerTree : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public LayerTree(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Provides the reasons why the given layer was composited.
         /// </summary>
+        /// <param name = "layerId">The id of the layer for which we want to get the reasons it was composited.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CompositingReasonsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CompositingReasonsResponse> CompositingReasonsAsync(string layerId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -30,6 +32,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Disables compositing tree inspection.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -40,6 +43,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Enables compositing tree inspection.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -50,6 +54,8 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Returns the snapshot identifier.
         /// </summary>
+        /// <param name = "tiles">An array of tiles composing the snapshot.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;LoadSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<LoadSnapshotResponse> LoadSnapshotAsync(System.Collections.Generic.IList<CefSharp.DevTools.LayerTree.PictureTile> tiles)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -61,6 +67,8 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Returns the layer snapshot identifier.
         /// </summary>
+        /// <param name = "layerId">The id of the layer.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;MakeSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<MakeSnapshotResponse> MakeSnapshotAsync(string layerId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -72,6 +80,11 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// ProfileSnapshot
         /// </summary>
+        /// <param name = "snapshotId">The id of the layer snapshot.</param>
+        /// <param name = "minRepeatCount">The maximum number of times to replay the snapshot (1, if not specified).</param>
+        /// <param name = "minDuration">The minimum duration (in seconds) to replay the snapshot.</param>
+        /// <param name = "clipRect">The clip rectangle to apply when replaying the snapshot.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;ProfileSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ProfileSnapshotResponse> ProfileSnapshotAsync(string snapshotId, int? minRepeatCount = null, long? minDuration = null, CefSharp.DevTools.DOM.Rect clipRect = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -98,6 +111,8 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Releases layer snapshot captured by the back-end.
         /// </summary>
+        /// <param name = "snapshotId">The id of the layer snapshot.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseSnapshotAsync(string snapshotId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -109,6 +124,11 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Replays the layer snapshot and returns the resulting bitmap.
         /// </summary>
+        /// <param name = "snapshotId">The id of the layer snapshot.</param>
+        /// <param name = "fromStep">The first step to replay from (replay from the very start if not specified).</param>
+        /// <param name = "toStep">The last step to replay to (replay till the end if not specified).</param>
+        /// <param name = "scale">The scale to apply while replaying (defaults to 1).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;ReplaySnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ReplaySnapshotResponse> ReplaySnapshotAsync(string snapshotId, int? fromStep = null, int? toStep = null, long? scale = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -135,6 +155,8 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Replays the layer snapshot and returns canvas log.
         /// </summary>
+        /// <param name = "snapshotId">The id of the layer snapshot.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SnapshotCommandLogResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SnapshotCommandLogResponse> SnapshotCommandLogAsync(string snapshotId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

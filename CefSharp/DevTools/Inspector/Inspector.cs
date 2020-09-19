@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Inspector
     /// </summary>
     public partial class Inspector : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Inspector(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables inspector domain notifications.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Inspector
         /// <summary>
         /// Enables inspector domain notifications.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

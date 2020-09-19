@@ -133,6 +133,10 @@
     <Compile Include="DevTools\Audits\AffectedFrame.cs" />
     <Compile Include="DevTools\Audits\AffectedRequest.cs" />
     <Compile Include="DevTools\Audits\Audits.cs" />
+    <Compile Include="DevTools\Audits\BlockedByResponseIssueDetails.cs" />
+    <Compile Include="DevTools\Audits\Enums\BlockedByResponseReason.cs" />
+    <Compile Include="DevTools\Audits\Enums\HeavyAdReason.cs" />
+    <Compile Include="DevTools\Audits\Enums\HeavyAdResolutionStatus.cs" />
     <Compile Include="DevTools\Audits\Enums\InspectorIssueCode.cs" />
     <Compile Include="DevTools\Audits\Enums\MixedContentResolutionStatus.cs" />
     <Compile Include="DevTools\Audits\Enums\MixedContentResourceType.cs" />
@@ -140,6 +144,7 @@
     <Compile Include="DevTools\Audits\Enums\SameSiteCookieOperation.cs" />
     <Compile Include="DevTools\Audits\Enums\SameSiteCookieWarningReason.cs" />
     <Compile Include="DevTools\Audits\GetEncodedResponseResponse.cs" />
+    <Compile Include="DevTools\Audits\HeavyAdIssueDetails.cs" />
     <Compile Include="DevTools\Audits\InspectorIssue.cs" />
     <Compile Include="DevTools\Audits\InspectorIssueDetails.cs" />
     <Compile Include="DevTools\Audits\MixedContentIssueDetails.cs" />
@@ -244,9 +249,9 @@
     <Compile Include="DevTools\DevToolsClient.Generated.cs" />
     <Compile Include="DevTools\DevToolsClientException.cs" />
     <Compile Include="DevTools\DevToolsDomainBase.cs" />
+    <Compile Include="DevTools\DevToolsDomainEntityBase.cs" />
     <Compile Include="DevTools\DevToolsDomainErrorResponse.cs" />
     <Compile Include="DevTools\DevToolsDomainResponseBase.cs" />
-    <Compile Include="DevTools\DevToolsDomainEntityBase.cs" />
     <Compile Include="DevTools\DevToolsEventArgs.cs" />
     <Compile Include="DevTools\DevToolsMethodResponse.cs" />
     <Compile Include="DevTools\DOMDebugger\DOMDebugger.cs" />
@@ -398,6 +403,7 @@
     <Compile Include="DevTools\Network\Enums\InterceptionStage.cs" />
     <Compile Include="DevTools\Network\Enums\ResourcePriority.cs" />
     <Compile Include="DevTools\Network\Enums\ResourceType.cs" />
+    <Compile Include="DevTools\Network\Enums\ServiceWorkerResponseSource.cs" />
     <Compile Include="DevTools\Network\Enums\SetCookieBlockedReason.cs" />
     <Compile Include="DevTools\Network\Enums\SignedExchangeErrorField.cs" />
     <Compile Include="DevTools\Network\GetAllCookiesResponse.cs" />

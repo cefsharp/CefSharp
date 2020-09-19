@@ -11,15 +11,16 @@ namespace CefSharp.DevTools.WebAudio
     /// </summary>
     public partial class WebAudio : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public WebAudio(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enables the WebAudio domain and starts sending context lifetime events.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -30,6 +31,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// Disables the WebAudio domain.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -40,6 +42,8 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// Fetch the realtime data from the registered contexts.
         /// </summary>
+        /// <param name = "contextId">contextId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetRealtimeDataResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetRealtimeDataResponse> GetRealtimeDataAsync(string contextId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

@@ -15,16 +15,20 @@ namespace CefSharp.DevTools.CSS
     /// </summary>
     public partial class CSS : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public CSS(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Inserts a new rule with the given `ruleText` in a stylesheet with given `styleSheetId`, at the
         /// position specified by `location`.
         /// </summary>
+        /// <param name = "styleSheetId">The css style sheet identifier where a new rule should be inserted.</param>
+        /// <param name = "ruleText">The text of a new rule.</param>
+        /// <param name = "location">Text position of a new rule in the target style sheet.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;AddRuleResponse&gt;</returns>
         public async System.Threading.Tasks.Task<AddRuleResponse> AddRuleAsync(string styleSheetId, string ruleText, CefSharp.DevTools.CSS.SourceRange location)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -38,6 +42,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Returns all class names from specified stylesheet.
         /// </summary>
+        /// <param name = "styleSheetId">styleSheetId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CollectClassNamesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CollectClassNamesResponse> CollectClassNamesAsync(string styleSheetId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -49,6 +55,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Creates a new special "via-inspector" stylesheet in the frame with given `frameId`.
         /// </summary>
+        /// <param name = "frameId">Identifier of the frame where "via-inspector" stylesheet should be created.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CreateStyleSheetResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CreateStyleSheetResponse> CreateStyleSheetAsync(string frameId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -60,6 +68,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Disables the CSS agent for the given page.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -71,6 +80,7 @@ namespace CefSharp.DevTools.CSS
         /// Enables the CSS agent for the given page. Clients should not assume that the CSS agent has been
         /// enabled until the result of this command is received.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -82,6 +92,9 @@ namespace CefSharp.DevTools.CSS
         /// Ensures that the given node will have specified pseudo-classes whenever its style is computed by
         /// the browser.
         /// </summary>
+        /// <param name = "nodeId">The element id for which to force the pseudo state.</param>
+        /// <param name = "forcedPseudoClasses">Element pseudo classes to force when computing the element's style.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ForcePseudoStateAsync(int nodeId, string[] forcedPseudoClasses)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -94,6 +107,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// GetBackgroundColors
         /// </summary>
+        /// <param name = "nodeId">Id of the node to get background colors for.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetBackgroundColorsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetBackgroundColorsResponse> GetBackgroundColorsAsync(int nodeId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -105,6 +120,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Returns the computed style for a DOM node identified by `nodeId`.
         /// </summary>
+        /// <param name = "nodeId">nodeId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetComputedStyleForNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetComputedStyleForNodeResponse> GetComputedStyleForNodeAsync(int nodeId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -117,6 +134,8 @@ namespace CefSharp.DevTools.CSS
         /// Returns the styles defined inline (explicitly in the "style" attribute and implicitly, using DOM
         /// attributes) for a DOM node identified by `nodeId`.
         /// </summary>
+        /// <param name = "nodeId">nodeId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetInlineStylesForNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetInlineStylesForNodeResponse> GetInlineStylesForNodeAsync(int nodeId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -128,6 +147,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Returns requested styles for a DOM node identified by `nodeId`.
         /// </summary>
+        /// <param name = "nodeId">nodeId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetMatchedStylesForNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetMatchedStylesForNodeResponse> GetMatchedStylesForNodeAsync(int nodeId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -139,6 +160,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Returns all media queries parsed by the rendering engine.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetMediaQueriesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetMediaQueriesResponse> GetMediaQueriesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -150,6 +172,8 @@ namespace CefSharp.DevTools.CSS
         /// Requests information about platform fonts which we used to render child TextNodes in the given
         /// node.
         /// </summary>
+        /// <param name = "nodeId">nodeId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetPlatformFontsForNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetPlatformFontsForNodeResponse> GetPlatformFontsForNodeAsync(int nodeId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -161,6 +185,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Returns the current textual content for a stylesheet.
         /// </summary>
+        /// <param name = "styleSheetId">styleSheetId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetStyleSheetTextResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetStyleSheetTextResponse> GetStyleSheetTextAsync(string styleSheetId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -173,6 +199,10 @@ namespace CefSharp.DevTools.CSS
         /// Find a rule with the given active property for the given node and set the new value for this
         /// property
         /// </summary>
+        /// <param name = "nodeId">The element id for which to set property.</param>
+        /// <param name = "propertyName">propertyName</param>
+        /// <param name = "value">value</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEffectivePropertyValueForNodeAsync(int nodeId, string propertyName, string value)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -186,6 +216,10 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Modifies the keyframe rule key text.
         /// </summary>
+        /// <param name = "styleSheetId">styleSheetId</param>
+        /// <param name = "range">range</param>
+        /// <param name = "keyText">keyText</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetKeyframeKeyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetKeyframeKeyResponse> SetKeyframeKeyAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string keyText)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -199,6 +233,10 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Modifies the rule selector.
         /// </summary>
+        /// <param name = "styleSheetId">styleSheetId</param>
+        /// <param name = "range">range</param>
+        /// <param name = "text">text</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetMediaTextResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetMediaTextResponse> SetMediaTextAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string text)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -212,6 +250,10 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Modifies the rule selector.
         /// </summary>
+        /// <param name = "styleSheetId">styleSheetId</param>
+        /// <param name = "range">range</param>
+        /// <param name = "selector">selector</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetRuleSelectorResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetRuleSelectorResponse> SetRuleSelectorAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string selector)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -225,6 +267,9 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Sets the new stylesheet text.
         /// </summary>
+        /// <param name = "styleSheetId">styleSheetId</param>
+        /// <param name = "text">text</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetStyleSheetTextResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetStyleSheetTextResponse> SetStyleSheetTextAsync(string styleSheetId, string text)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -237,6 +282,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Applies specified style edits one after another in the given order.
         /// </summary>
+        /// <param name = "edits">edits</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetStyleTextsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetStyleTextsResponse> SetStyleTextsAsync(System.Collections.Generic.IList<CefSharp.DevTools.CSS.StyleDeclarationEdit> edits)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -248,6 +295,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Enables the selector recording.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartRuleUsageTrackingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -259,6 +307,7 @@ namespace CefSharp.DevTools.CSS
         /// Stop tracking rule usage and return the list of rules that were used since last call to
         /// `takeCoverageDelta` (or since start of coverage instrumentation)
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;StopRuleUsageTrackingResponse&gt;</returns>
         public async System.Threading.Tasks.Task<StopRuleUsageTrackingResponse> StopRuleUsageTrackingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -270,6 +319,7 @@ namespace CefSharp.DevTools.CSS
         /// Obtain list of rules that became used since last call to this method (or since start of coverage
         /// instrumentation)
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;TakeCoverageDeltaResponse&gt;</returns>
         public async System.Threading.Tasks.Task<TakeCoverageDeltaResponse> TakeCoverageDeltaAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

@@ -121,6 +121,26 @@ namespace CefSharp.DevTools.Network
         }
 
         /// <summary>
+        /// Started fetch event.
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerFetchStart"), IsRequired = (true))]
+        public long WorkerFetchStart
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Settled fetch event respondWith promise.
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerRespondWithSettled"), IsRequired = (true))]
+        public long WorkerRespondWithSettled
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Started sending request.
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("sendStart"), IsRequired = (true))]

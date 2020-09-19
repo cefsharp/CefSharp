@@ -11,15 +11,18 @@ namespace CefSharp.DevTools.Debugger
     /// </summary>
     public partial class Debugger : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Debugger(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Continues execution until specific location is reached.
         /// </summary>
+        /// <param name = "location">Location to continue to.</param>
+        /// <param name = "targetCallFrames">targetCallFrames</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueToLocationAsync(CefSharp.DevTools.Debugger.Location location, string targetCallFrames = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -36,6 +39,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Disables debugger for given page.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -47,6 +51,7 @@ namespace CefSharp.DevTools.Debugger
         /// Enables debugger for the given page. Clients should not assume that the debugging has been
         /// enabled until the result for this command is received.
         /// </summary>
+        /// <param name = "maxScriptsCacheSize">The maximum size in bytes of collected scripts (not referenced by other heap objects)
         public async System.Threading.Tasks.Task<EnableResponse> EnableAsync(long? maxScriptsCacheSize = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -62,6 +67,9 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Evaluates expression on a given call frame.
         /// </summary>
+        /// <param name = "callFrameId">Call frame identifier to evaluate on.</param>
+        /// <param name = "expression">Expression to evaluate.</param>
+        /// <param name = "objectGroup">String object group name to put result into (allows rapid releasing resulting object handles
         public async System.Threading.Tasks.Task<EvaluateOnCallFrameResponse> EvaluateOnCallFrameAsync(string callFrameId, string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? throwOnSideEffect = null, long? timeout = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -109,6 +117,10 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Execute a Wasm Evaluator module on a given call frame.
         /// </summary>
+        /// <param name = "callFrameId">WebAssembly call frame identifier to evaluate on.</param>
+        /// <param name = "evaluator">Code of the evaluator module.</param>
+        /// <param name = "timeout">Terminate execution after timing out (number of milliseconds).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;ExecuteWasmEvaluatorResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ExecuteWasmEvaluatorResponse> ExecuteWasmEvaluatorAsync(string callFrameId, byte[] evaluator, long? timeout = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -127,6 +139,8 @@ namespace CefSharp.DevTools.Debugger
         /// Returns possible locations for breakpoint. scriptId in start and end range locations should be
         /// the same.
         /// </summary>
+        /// <param name = "start">Start of range to search possible breakpoint locations in.</param>
+        /// <param name = "end">End of range to search possible breakpoint locations in (excluding). When not specified, end
         public async System.Threading.Tasks.Task<GetPossibleBreakpointsResponse> GetPossibleBreakpointsAsync(CefSharp.DevTools.Debugger.Location start, CefSharp.DevTools.Debugger.Location end = null, bool? restrictToFunction = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -148,6 +162,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Returns source for the script with given id.
         /// </summary>
+        /// <param name = "scriptId">Id of the script to get source for.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetScriptSourceResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetScriptSourceResponse> GetScriptSourceAsync(string scriptId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -159,6 +175,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Returns stack trace with given `stackTraceId`.
         /// </summary>
+        /// <param name = "stackTraceId">stackTraceId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetStackTraceResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetStackTraceResponse> GetStackTraceAsync(CefSharp.DevTools.Runtime.StackTraceId stackTraceId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -170,6 +188,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Stops on the next JavaScript statement.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> PauseAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -180,6 +199,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Removes JavaScript breakpoint.
         /// </summary>
+        /// <param name = "breakpointId">breakpointId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveBreakpointAsync(string breakpointId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -191,6 +212,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Restarts particular call frame from the beginning.
         /// </summary>
+        /// <param name = "callFrameId">Call frame identifier to evaluate on.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;RestartFrameResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RestartFrameResponse> RestartFrameAsync(string callFrameId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -202,6 +225,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Resumes JavaScript execution.
         /// </summary>
+        /// <param name = "terminateOnResume">Set to true to terminate execution upon resuming execution. In contrast
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResumeAsync(bool? terminateOnResume = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -217,6 +241,11 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Searches for given string in script content.
         /// </summary>
+        /// <param name = "scriptId">Id of the script to search in.</param>
+        /// <param name = "query">String to search for.</param>
+        /// <param name = "caseSensitive">If true, search is case sensitive.</param>
+        /// <param name = "isRegex">If true, treats string parameter as regex.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SearchInContentResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SearchInContentResponse> SearchInContentAsync(string scriptId, string query, bool? caseSensitive = null, bool? isRegex = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -239,6 +268,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Enables or disables async call stacks tracking.
         /// </summary>
+        /// <param name = "maxDepth">Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -252,6 +282,8 @@ namespace CefSharp.DevTools.Debugger
         /// scripts with url matching one of the patterns. VM will try to leave blackboxed script by
         /// performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
         /// </summary>
+        /// <param name = "patterns">Array of regexps that will be used to check script url for blackbox state.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlackboxPatternsAsync(string[] patterns)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -266,6 +298,9 @@ namespace CefSharp.DevTools.Debugger
         /// Positions array contains positions where blackbox state is changed. First interval isn't
         /// blackboxed. Array should be sorted.
         /// </summary>
+        /// <param name = "scriptId">Id of the script.</param>
+        /// <param name = "positions">positions</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlackboxedRangesAsync(string scriptId, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.ScriptPosition> positions)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -278,6 +313,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Sets JavaScript breakpoint at a given location.
         /// </summary>
+        /// <param name = "location">Location to set breakpoint in.</param>
+        /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger will only stop on the
         public async System.Threading.Tasks.Task<SetBreakpointResponse> SetBreakpointAsync(CefSharp.DevTools.Debugger.Location location, string condition = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -294,6 +331,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Sets instrumentation breakpoint.
         /// </summary>
+        /// <param name = "instrumentation">Instrumentation name.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetInstrumentationBreakpointResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetInstrumentationBreakpointResponse> SetInstrumentationBreakpointAsync(string instrumentation)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -308,6 +347,9 @@ namespace CefSharp.DevTools.Debugger
         /// `locations` property. Further matching script parsing will result in subsequent
         /// `breakpointResolved` events issued. This logical breakpoint will survive page reloads.
         /// </summary>
+        /// <param name = "lineNumber">Line number to set breakpoint at.</param>
+        /// <param name = "url">URL of the resources to set breakpoint on.</param>
+        /// <param name = "urlRegex">Regex pattern for the URLs of the resources to set breakpoints on. Either `url` or
         public async System.Threading.Tasks.Task<SetBreakpointByUrlResponse> SetBreakpointByUrlAsync(int lineNumber, string url = null, string urlRegex = null, string scriptHash = null, int? columnNumber = null, string condition = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -346,6 +388,8 @@ namespace CefSharp.DevTools.Debugger
         /// If another function was created from the same source as a given one,
         /// calling it will also trigger the breakpoint.
         /// </summary>
+        /// <param name = "objectId">Function object id.</param>
+        /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger will
         public async System.Threading.Tasks.Task<SetBreakpointOnFunctionCallResponse> SetBreakpointOnFunctionCallAsync(string objectId, string condition = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -362,6 +406,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Activates / deactivates all breakpoints on the page.
         /// </summary>
+        /// <param name = "active">New value for breakpoints active state.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBreakpointsActiveAsync(bool active)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -374,6 +420,8 @@ namespace CefSharp.DevTools.Debugger
         /// Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or
         /// no exceptions. Initial pause on exceptions state is `none`.
         /// </summary>
+        /// <param name = "state">Pause on exceptions mode.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPauseOnExceptionsAsync(string state)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -385,6 +433,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Changes return value in top frame. Available only at return break position.
         /// </summary>
+        /// <param name = "newValue">New return value.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetReturnValueAsync(CefSharp.DevTools.Runtime.CallArgument newValue)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -396,6 +446,9 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Edits JavaScript source live.
         /// </summary>
+        /// <param name = "scriptId">Id of the script to edit.</param>
+        /// <param name = "scriptSource">New content of the script.</param>
+        /// <param name = "dryRun">If true the change will not actually be applied. Dry run may be used to get result
         public async System.Threading.Tasks.Task<SetScriptSourceResponse> SetScriptSourceAsync(string scriptId, string scriptSource, bool? dryRun = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -413,6 +466,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Makes page not interrupt on any pauses (breakpoint, exception, dom exception etc).
         /// </summary>
+        /// <param name = "skip">New value for skip pauses state.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetSkipAllPausesAsync(bool skip)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -425,6 +480,7 @@ namespace CefSharp.DevTools.Debugger
         /// Changes value of variable in a callframe. Object-based scopes are not supported and must be
         /// mutated manually.
         /// </summary>
+        /// <param name = "scopeNumber">0-based number of scope as was listed in scope chain. Only 'local', 'closure' and 'catch'
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetVariableValueAsync(int scopeNumber, string variableName, CefSharp.DevTools.Runtime.CallArgument newValue, string callFrameId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -439,6 +495,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Steps into the function call.
         /// </summary>
+        /// <param name = "breakOnAsyncCall">Debugger will pause on the execution of the first async task which was scheduled
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StepIntoAsync(bool? breakOnAsyncCall = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -454,6 +511,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Steps out of the function call.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StepOutAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -464,6 +522,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Steps over the statement.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StepOverAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

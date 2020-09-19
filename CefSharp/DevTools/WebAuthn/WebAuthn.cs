@@ -11,16 +11,17 @@ namespace CefSharp.DevTools.WebAuthn
     /// </summary>
     public partial class WebAuthn : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public WebAuthn(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enable the WebAuthn domain and start intercepting credential storage and
         /// retrieval with a virtual authenticator.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -31,6 +32,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Disable the WebAuthn domain.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -41,6 +43,8 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Creates and adds a virtual authenticator.
         /// </summary>
+        /// <param name = "options">options</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;AddVirtualAuthenticatorResponse&gt;</returns>
         public async System.Threading.Tasks.Task<AddVirtualAuthenticatorResponse> AddVirtualAuthenticatorAsync(CefSharp.DevTools.WebAuthn.VirtualAuthenticatorOptions options)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -52,6 +56,8 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Removes the given authenticator.
         /// </summary>
+        /// <param name = "authenticatorId">authenticatorId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveVirtualAuthenticatorAsync(string authenticatorId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -63,6 +69,9 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Adds the credential to the specified authenticator.
         /// </summary>
+        /// <param name = "authenticatorId">authenticatorId</param>
+        /// <param name = "credential">credential</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddCredentialAsync(string authenticatorId, CefSharp.DevTools.WebAuthn.Credential credential)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -76,6 +85,9 @@ namespace CefSharp.DevTools.WebAuthn
         /// Returns a single credential stored in the given virtual authenticator that
         /// matches the credential ID.
         /// </summary>
+        /// <param name = "authenticatorId">authenticatorId</param>
+        /// <param name = "credentialId">credentialId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetCredentialResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCredentialResponse> GetCredentialAsync(string authenticatorId, byte[] credentialId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -88,6 +100,8 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Returns all the credentials stored in the given virtual authenticator.
         /// </summary>
+        /// <param name = "authenticatorId">authenticatorId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetCredentialsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCredentialsResponse> GetCredentialsAsync(string authenticatorId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -99,6 +113,9 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Removes a credential from the authenticator.
         /// </summary>
+        /// <param name = "authenticatorId">authenticatorId</param>
+        /// <param name = "credentialId">credentialId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveCredentialAsync(string authenticatorId, byte[] credentialId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -111,6 +128,8 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Clears all the credentials from the specified device.
         /// </summary>
+        /// <param name = "authenticatorId">authenticatorId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCredentialsAsync(string authenticatorId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -123,6 +142,9 @@ namespace CefSharp.DevTools.WebAuthn
         /// Sets whether User Verification succeeds or fails for an authenticator.
         /// The default is true.
         /// </summary>
+        /// <param name = "authenticatorId">authenticatorId</param>
+        /// <param name = "isUserVerified">isUserVerified</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserVerifiedAsync(string authenticatorId, bool isUserVerified)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

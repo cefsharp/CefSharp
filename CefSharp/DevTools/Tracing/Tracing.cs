@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Tracing
     /// </summary>
     public partial class Tracing : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Tracing(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Stop trace events collection.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EndAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Gets supported tracing categories.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetCategoriesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCategoriesResponse> GetCategoriesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -39,6 +41,8 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Record a clock sync marker in the trace.
         /// </summary>
+        /// <param name = "syncId">The ID of this clock sync marker</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RecordClockSyncMarkerAsync(string syncId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -50,6 +54,8 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Request a global memory dump.
         /// </summary>
+        /// <param name = "deterministic">Enables more deterministic results by forcing garbage collection</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;RequestMemoryDumpResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestMemoryDumpResponse> RequestMemoryDumpAsync(bool? deterministic = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -65,6 +71,10 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Start trace events collection.
         /// </summary>
+        /// <param name = "categories">Category/tag filter</param>
+        /// <param name = "options">Tracing options</param>
+        /// <param name = "bufferUsageReportingInterval">If set, the agent will issue bufferUsage events at this interval, specified in milliseconds</param>
+        /// <param name = "transferMode">Whether to report trace events as series of dataCollected events or to save trace to a
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync(string categories = null, string options = null, long? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

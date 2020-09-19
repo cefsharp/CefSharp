@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Fetch
     /// </summary>
     public partial class Fetch : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Fetch(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables the fetch domain.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -30,6 +31,7 @@ namespace CefSharp.DevTools.Fetch
         /// Enables issuing of requestPaused events. A request will be paused until client
         /// calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
         /// </summary>
+        /// <param name = "patterns">If specified, only requests matching any of these patterns will produce
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(System.Collections.Generic.IList<CefSharp.DevTools.Fetch.RequestPattern> patterns = null, bool? handleAuthRequests = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -50,6 +52,9 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// Causes the request to fail with specified reason.
         /// </summary>
+        /// <param name = "requestId">An id the client received in requestPaused event.</param>
+        /// <param name = "errorReason">Causes the request to fail with the given reason.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> FailRequestAsync(string requestId, CefSharp.DevTools.Network.ErrorReason errorReason)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -62,6 +67,10 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// Provides response to the request.
         /// </summary>
+        /// <param name = "requestId">An id the client received in requestPaused event.</param>
+        /// <param name = "responseCode">An HTTP response code.</param>
+        /// <param name = "responseHeaders">Response headers.</param>
+        /// <param name = "binaryResponseHeaders">Alternative way of specifying response headers as a \0-separated
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> FulfillRequestAsync(string requestId, int responseCode, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> responseHeaders = null, byte[] binaryResponseHeaders = null, byte[] body = null, string responsePhrase = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -94,6 +103,12 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// Continues the request, optionally modifying some of its parameters.
         /// </summary>
+        /// <param name = "requestId">An id the client received in requestPaused event.</param>
+        /// <param name = "url">If set, the request url will be modified in a way that's not observable by page.</param>
+        /// <param name = "method">If set, the request method is overridden.</param>
+        /// <param name = "postData">If set, overrides the post data in the request.</param>
+        /// <param name = "headers">If set, overrides the request headers.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueRequestAsync(string requestId, string url = null, string method = null, string postData = null, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> headers = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -125,6 +140,9 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// Continues a request supplying authChallengeResponse following authRequired event.
         /// </summary>
+        /// <param name = "requestId">An id the client received in authRequired event.</param>
+        /// <param name = "authChallengeResponse">Response to  with an authChallenge.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueWithAuthAsync(string requestId, CefSharp.DevTools.Fetch.AuthChallengeResponse authChallengeResponse)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -142,6 +160,8 @@ namespace CefSharp.DevTools.Fetch
         /// affect the request or disabling fetch domain before body is received
         /// results in an undefined behavior.
         /// </summary>
+        /// <param name = "requestId">Identifier for the intercepted request to get body for.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -162,6 +182,8 @@ namespace CefSharp.DevTools.Fetch
         /// Calling other methods that affect the request or disabling fetch
         /// domain before body is received results in an undefined behavior.
         /// </summary>
+        /// <param name = "requestId">requestId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;TakeResponseBodyAsStreamResponse&gt;</returns>
         public async System.Threading.Tasks.Task<TakeResponseBodyAsStreamResponse> TakeResponseBodyAsStreamAsync(string requestId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

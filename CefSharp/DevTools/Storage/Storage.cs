@@ -10,15 +10,18 @@ namespace CefSharp.DevTools.Storage
     /// </summary>
     public partial class Storage : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Storage(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears storage for origin.
         /// </summary>
+        /// <param name = "origin">Security origin.</param>
+        /// <param name = "storageTypes">Comma separated list of StorageType to clear.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearDataForOriginAsync(string origin, string storageTypes)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31,6 +34,8 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Returns all browser cookies.
         /// </summary>
+        /// <param name = "browserContextId">Browser context to use when called on the browser endpoint.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetCookiesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string browserContextId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -46,6 +51,9 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Sets given cookies.
         /// </summary>
+        /// <param name = "cookies">Cookies to be set.</param>
+        /// <param name = "browserContextId">Browser context to use when called on the browser endpoint.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCookiesAsync(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies, string browserContextId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -62,6 +70,8 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Clears cookies.
         /// </summary>
+        /// <param name = "browserContextId">Browser context to use when called on the browser endpoint.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCookiesAsync(string browserContextId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -77,6 +87,8 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Returns usage and quota in bytes.
         /// </summary>
+        /// <param name = "origin">Security origin.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetUsageAndQuotaResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetUsageAndQuotaResponse> GetUsageAndQuotaAsync(string origin)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -88,6 +100,8 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Registers origin to be notified when an update occurs to its cache storage list.
         /// </summary>
+        /// <param name = "origin">Security origin.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> TrackCacheStorageForOriginAsync(string origin)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -99,6 +113,8 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Registers origin to be notified when an update occurs to its IndexedDB.
         /// </summary>
+        /// <param name = "origin">Security origin.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> TrackIndexedDBForOriginAsync(string origin)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -110,6 +126,8 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Unregisters origin from receiving notifications for cache storage.
         /// </summary>
+        /// <param name = "origin">Security origin.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> UntrackCacheStorageForOriginAsync(string origin)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -121,6 +139,8 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Unregisters origin from receiving notifications for IndexedDB.
         /// </summary>
+        /// <param name = "origin">Security origin.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> UntrackIndexedDBForOriginAsync(string origin)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

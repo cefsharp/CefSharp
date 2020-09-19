@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Memory
     /// </summary>
     public partial class Memory : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Memory(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// GetDOMCounters
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetDOMCountersResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetDOMCountersResponse> GetDOMCountersAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// PrepareForLeakDetection
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> PrepareForLeakDetectionAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -39,6 +41,7 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Simulate OomIntervention by purging V8 memory.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ForciblyPurgeJavaScriptMemoryAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -49,6 +52,8 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Enable/disable suppressing memory pressure notifications in all processes.
         /// </summary>
+        /// <param name = "suppressed">If true, memory pressure notifications will be suppressed.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPressureNotificationsSuppressedAsync(bool suppressed)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -60,6 +65,8 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Simulate a memory pressure notification in all processes.
         /// </summary>
+        /// <param name = "level">Memory pressure level of the notification.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SimulatePressureNotificationAsync(CefSharp.DevTools.Memory.PressureLevel level)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -71,6 +78,9 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Start collecting native memory profile.
         /// </summary>
+        /// <param name = "samplingInterval">Average number of bytes between samples.</param>
+        /// <param name = "suppressRandomness">Do not randomize intervals between samples.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(int? samplingInterval = null, bool? suppressRandomness = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -91,6 +101,7 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Stop collecting native memory profile.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopSamplingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -102,6 +113,7 @@ namespace CefSharp.DevTools.Memory
         /// Retrieve native memory allocations profile
         /// collected since renderer process startup.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetAllTimeSamplingProfileResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetAllTimeSamplingProfileResponse> GetAllTimeSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -113,6 +125,7 @@ namespace CefSharp.DevTools.Memory
         /// Retrieve native memory allocations profile
         /// collected since browser process startup.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetBrowserSamplingProfileResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetBrowserSamplingProfileResponse> GetBrowserSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -124,6 +137,7 @@ namespace CefSharp.DevTools.Memory
         /// Retrieve native memory allocations profile collected since last
         /// `startSampling` call.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetSamplingProfileResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetSamplingProfileResponse> GetSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

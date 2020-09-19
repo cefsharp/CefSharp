@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Log
     /// </summary>
     public partial class Log : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Log(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears the log.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Disables log domain, prevents further log entries from being reported to the client.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -40,6 +42,7 @@ namespace CefSharp.DevTools.Log
         /// Enables log domain, sends the entries collected so far to the client by means of the
         /// `entryAdded` notification.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -50,6 +53,8 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// start violation reporting.
         /// </summary>
+        /// <param name = "config">Configuration for violations.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartViolationsReportAsync(System.Collections.Generic.IList<CefSharp.DevTools.Log.ViolationSetting> config)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -61,6 +66,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Stop violation reporting.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopViolationsReportAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

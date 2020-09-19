@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Profiler
     /// </summary>
     public partial class Profiler : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Profiler(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disable
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Enable
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -40,6 +42,7 @@ namespace CefSharp.DevTools.Profiler
         /// Collect coverage data for the current isolate. The coverage data may be incomplete due to
         /// garbage collection.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetBestEffortCoverageResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetBestEffortCoverageResponse> GetBestEffortCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -50,6 +53,8 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
         /// </summary>
+        /// <param name = "interval">New sampling interval in microseconds.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetSamplingIntervalAsync(int interval)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -61,6 +66,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Start
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -73,6 +79,10 @@ namespace CefSharp.DevTools.Profiler
         /// coverage may be incomplete. Enabling prevents running optimized code and resets execution
         /// counters.
         /// </summary>
+        /// <param name = "callCount">Collect accurate call counts beyond simple 'covered' or 'not covered'.</param>
+        /// <param name = "detailed">Collect block-based coverage.</param>
+        /// <param name = "allowTriggeredUpdates">Allow the backend to send updates on its own initiative</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;StartPreciseCoverageResponse&gt;</returns>
         public async System.Threading.Tasks.Task<StartPreciseCoverageResponse> StartPreciseCoverageAsync(bool? callCount = null, bool? detailed = null, bool? allowTriggeredUpdates = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -98,6 +108,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Enable type profile.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartTypeProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -108,6 +119,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Stop
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;StopResponse&gt;</returns>
         public async System.Threading.Tasks.Task<StopResponse> StopAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -119,6 +131,7 @@ namespace CefSharp.DevTools.Profiler
         /// Disable precise code coverage. Disabling releases unnecessary execution count records and allows
         /// executing optimized code.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopPreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -129,6 +142,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Disable type profile. Disabling releases type profile data collected so far.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopTypeProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -140,6 +154,7 @@ namespace CefSharp.DevTools.Profiler
         /// Collect coverage data for the current isolate, and resets execution counters. Precise code
         /// coverage needs to have started.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;TakePreciseCoverageResponse&gt;</returns>
         public async System.Threading.Tasks.Task<TakePreciseCoverageResponse> TakePreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -150,6 +165,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Collect type profile.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;TakeTypeProfileResponse&gt;</returns>
         public async System.Threading.Tasks.Task<TakeTypeProfileResponse> TakeTypeProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -160,6 +176,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Enable run time call stats collection.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableRuntimeCallStatsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -170,6 +187,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Disable run time call stats collection.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableRuntimeCallStatsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -180,6 +198,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Retrieve run time call stats.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetRuntimeCallStatsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetRuntimeCallStatsResponse> GetRuntimeCallStatsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

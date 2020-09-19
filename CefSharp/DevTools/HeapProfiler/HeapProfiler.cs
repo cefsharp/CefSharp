@@ -10,16 +10,18 @@ namespace CefSharp.DevTools.HeapProfiler
     /// </summary>
     public partial class HeapProfiler : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public HeapProfiler(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enables console to refer to the node with given id via $x (see Command Line API for more details
         /// $x functions).
         /// </summary>
+        /// <param name = "heapObjectId">Heap snapshot object id to be accessible by means of $x command line API.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddInspectedHeapObjectAsync(string heapObjectId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31,6 +33,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// CollectGarbage
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> CollectGarbageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -41,6 +44,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// Disable
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -51,6 +55,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// Enable
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -61,6 +66,8 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// GetHeapObjectId
         /// </summary>
+        /// <param name = "objectId">Identifier of the object to get heap object id for.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetHeapObjectIdResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetHeapObjectIdResponse> GetHeapObjectIdAsync(string objectId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -72,6 +79,9 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// GetObjectByHeapObjectId
         /// </summary>
+        /// <param name = "objectId">objectId</param>
+        /// <param name = "objectGroup">Symbolic group name that can be used to release multiple objects.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetObjectByHeapObjectIdResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetObjectByHeapObjectIdResponse> GetObjectByHeapObjectIdAsync(string objectId, string objectGroup = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -88,6 +98,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// GetSamplingProfile
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetSamplingProfileResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetSamplingProfileResponse> GetSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -98,6 +109,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// StartSampling
         /// </summary>
+        /// <param name = "samplingInterval">Average sample interval in bytes. Poisson distribution is used for the intervals. The
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(long? samplingInterval = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -113,6 +125,8 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// StartTrackingHeapObjects
         /// </summary>
+        /// <param name = "trackAllocations">trackAllocations</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartTrackingHeapObjectsAsync(bool? trackAllocations = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -128,6 +142,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// StopSampling
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;StopSamplingResponse&gt;</returns>
         public async System.Threading.Tasks.Task<StopSamplingResponse> StopSamplingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -138,6 +153,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// StopTrackingHeapObjects
         /// </summary>
+        /// <param name = "reportProgress">If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopTrackingHeapObjectsAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -158,6 +174,9 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// TakeHeapSnapshot
         /// </summary>
+        /// <param name = "reportProgress">If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.</param>
+        /// <param name = "treatGlobalObjectsAsRoots">If true, a raw snapshot without artifical roots will be generated</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> TakeHeapSnapshotAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

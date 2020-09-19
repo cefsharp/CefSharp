@@ -10,15 +10,19 @@ namespace CefSharp.DevTools.IndexedDB
     /// </summary>
     public partial class IndexedDB : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public IndexedDB(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears all entries from an object store.
         /// </summary>
+        /// <param name = "securityOrigin">Security origin.</param>
+        /// <param name = "databaseName">Database name.</param>
+        /// <param name = "objectStoreName">Object store name.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearObjectStoreAsync(string securityOrigin, string databaseName, string objectStoreName)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32,6 +36,9 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Deletes a database.
         /// </summary>
+        /// <param name = "securityOrigin">Security origin.</param>
+        /// <param name = "databaseName">Database name.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteDatabaseAsync(string securityOrigin, string databaseName)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -44,6 +51,11 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Delete a range of entries from an object store
         /// </summary>
+        /// <param name = "securityOrigin">securityOrigin</param>
+        /// <param name = "databaseName">databaseName</param>
+        /// <param name = "objectStoreName">objectStoreName</param>
+        /// <param name = "keyRange">Range of entry keys to delete</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteObjectStoreEntriesAsync(string securityOrigin, string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -58,6 +70,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Disables events from backend.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -68,6 +81,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Enables events from backend.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -78,6 +92,14 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Requests data from object store or index.
         /// </summary>
+        /// <param name = "securityOrigin">Security origin.</param>
+        /// <param name = "databaseName">Database name.</param>
+        /// <param name = "objectStoreName">Object store name.</param>
+        /// <param name = "indexName">Index name, empty string for object store data requests.</param>
+        /// <param name = "skipCount">Number of records to skip.</param>
+        /// <param name = "pageSize">Number of records to fetch.</param>
+        /// <param name = "keyRange">Key range.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;RequestDataResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestDataResponse> RequestDataAsync(string securityOrigin, string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -99,6 +121,10 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Gets metadata of an object store
         /// </summary>
+        /// <param name = "securityOrigin">Security origin.</param>
+        /// <param name = "databaseName">Database name.</param>
+        /// <param name = "objectStoreName">Object store name.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetMetadataResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetMetadataResponse> GetMetadataAsync(string securityOrigin, string databaseName, string objectStoreName)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -112,6 +138,9 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Requests database with given name in given frame.
         /// </summary>
+        /// <param name = "securityOrigin">Security origin.</param>
+        /// <param name = "databaseName">Database name.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;RequestDatabaseResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestDatabaseResponse> RequestDatabaseAsync(string securityOrigin, string databaseName)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -124,6 +153,8 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Requests database names for given security origin.
         /// </summary>
+        /// <param name = "securityOrigin">Security origin.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;RequestDatabaseNamesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RequestDatabaseNamesResponse> RequestDatabaseNamesAsync(string securityOrigin)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

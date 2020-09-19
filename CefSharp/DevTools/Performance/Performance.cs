@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Performance
     /// </summary>
     public partial class Performance : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Performance(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disable collecting and reporting metrics.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,8 @@ namespace CefSharp.DevTools.Performance
         /// <summary>
         /// Enable collecting and reporting metrics.
         /// </summary>
+        /// <param name = "timeDomain">Time domain to use for collecting and reporting duration metrics.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string timeDomain = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -44,6 +47,7 @@ namespace CefSharp.DevTools.Performance
         /// <summary>
         /// Retrieve current values of run-time metrics.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetMetricsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetMetricsResponse> GetMetricsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

@@ -19,6 +19,16 @@ namespace CefSharp.DevTools.Audits
         /// MixedContentIssue
         /// </summary>
         [System.Runtime.Serialization.EnumMemberAttribute(Value = ("MixedContentIssue"))]
-        MixedContentIssue
+        MixedContentIssue,
+        /// <summary>
+        /// BlockedByResponseIssue
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("BlockedByResponseIssue"))]
+        BlockedByResponseIssue,
+        /// <summary>
+        /// HeavyAdIssue
+        /// </summary>
+        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("HeavyAdIssue"))]
+        HeavyAdIssue
     }
 }

@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Overlay
     /// </summary>
     public partial class Overlay : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Overlay(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables domain notifications.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Enables domain notifications.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -39,7 +41,13 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// For testing.
         /// </summary>
-        public async System.Threading.Tasks.Task<GetHighlightObjectForTestResponse> GetHighlightObjectForTestAsync(int nodeId, bool? includeDistance = null, bool? includeStyle = null, CefSharp.DevTools.Overlay.ColorFormat? colorFormat = null)
+        /// <param name = "nodeId">Id of the node to get highlight object for.</param>
+        /// <param name = "includeDistance">Whether to include distance info.</param>
+        /// <param name = "includeStyle">Whether to include style info.</param>
+        /// <param name = "colorFormat">The color format to get config with (default: hex).</param>
+        /// <param name = "showAccessibilityInfo">Whether to show accessibility info (default: true).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetHighlightObjectForTestResponse&gt;</returns>
+        public async System.Threading.Tasks.Task<GetHighlightObjectForTestResponse> GetHighlightObjectForTestAsync(int nodeId, bool? includeDistance = null, bool? includeStyle = null, CefSharp.DevTools.Overlay.ColorFormat? colorFormat = null, bool? showAccessibilityInfo = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
@@ -58,6 +66,11 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("colorFormat", this.EnumToString(colorFormat));
             }
 
+            if (showAccessibilityInfo.HasValue)
+            {
+                dict.Add("showAccessibilityInfo", showAccessibilityInfo.Value);
+            }
+
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.getHighlightObjectForTest", dict);
             return methodResult.DeserializeJson<GetHighlightObjectForTestResponse>();
         }
@@ -65,6 +78,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Hides any highlight.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HideHighlightAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -75,6 +89,10 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Highlights owner element of the frame with given id.
         /// </summary>
+        /// <param name = "frameId">Identifier of the frame to highlight.</param>
+        /// <param name = "contentColor">The content box highlight fill color (default: transparent).</param>
+        /// <param name = "contentOutlineColor">The content box highlight outline color (default: transparent).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightFrameAsync(string frameId, CefSharp.DevTools.DOM.RGBA contentColor = null, CefSharp.DevTools.DOM.RGBA contentOutlineColor = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -97,6 +115,12 @@ namespace CefSharp.DevTools.Overlay
         /// Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
         /// objectId must be specified.
         /// </summary>
+        /// <param name = "highlightConfig">A descriptor for the highlight appearance.</param>
+        /// <param name = "nodeId">Identifier of the node to highlight.</param>
+        /// <param name = "backendNodeId">Identifier of the backend node to highlight.</param>
+        /// <param name = "objectId">JavaScript object id of the node to be highlighted.</param>
+        /// <param name = "selector">Selectors to highlight relevant nodes.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightNodeAsync(CefSharp.DevTools.Overlay.HighlightConfig highlightConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null, string selector = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -128,6 +152,10 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
         /// </summary>
+        /// <param name = "quad">Quad to highlight</param>
+        /// <param name = "color">The highlight fill color (default: transparent).</param>
+        /// <param name = "outlineColor">The highlight outline color (default: transparent).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightQuadAsync(long[] quad, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -149,6 +177,13 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
         /// </summary>
+        /// <param name = "x">X coordinate</param>
+        /// <param name = "y">Y coordinate</param>
+        /// <param name = "width">Rectangle width</param>
+        /// <param name = "height">Rectangle height</param>
+        /// <param name = "color">The highlight fill color (default: transparent).</param>
+        /// <param name = "outlineColor">The highlight outline color (default: transparent).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightRectAsync(int x, int y, int width, int height, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -174,6 +209,8 @@ namespace CefSharp.DevTools.Overlay
         /// Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
         /// Backend then generates 'inspectNodeRequested' event upon element selection.
         /// </summary>
+        /// <param name = "mode">Set an inspection mode.</param>
+        /// <param name = "highlightConfig">A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectModeAsync(CefSharp.DevTools.Overlay.InspectMode mode, CefSharp.DevTools.Overlay.HighlightConfig highlightConfig = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -190,6 +227,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Highlights owner element of all frames detected to be ads.
         /// </summary>
+        /// <param name = "show">True for showing ad highlights</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowAdHighlightsAsync(bool show)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -201,6 +240,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// SetPausedInDebuggerMessage
         /// </summary>
+        /// <param name = "message">The message to display, also triggers resume and step over controls.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPausedInDebuggerMessageAsync(string message = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -216,6 +257,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Requests that backend shows debug borders on layers
         /// </summary>
+        /// <param name = "show">True for showing debug borders</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowDebugBordersAsync(bool show)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -227,6 +270,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Requests that backend shows the FPS counter
         /// </summary>
+        /// <param name = "show">True for showing the FPS counter</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowFPSCounterAsync(bool show)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -238,6 +283,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Requests that backend shows paint rectangles
         /// </summary>
+        /// <param name = "result">True for showing paint rectangles</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowPaintRectsAsync(bool result)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -249,6 +296,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Requests that backend shows layout shift regions
         /// </summary>
+        /// <param name = "result">True for showing layout shift regions</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowLayoutShiftRegionsAsync(bool result)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -260,6 +309,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Requests that backend shows scroll bottleneck rects
         /// </summary>
+        /// <param name = "show">True for showing scroll bottleneck rects</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowScrollBottleneckRectsAsync(bool show)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -271,6 +322,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Requests that backend shows hit-test borders on layers
         /// </summary>
+        /// <param name = "show">True for showing hit-test borders</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowHitTestBordersAsync(bool show)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -282,6 +335,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Paints viewport size upon main frame resize.
         /// </summary>
+        /// <param name = "show">Whether to paint size or not.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowViewportSizeOnResizeAsync(bool show)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -293,6 +348,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Add a dual screen device hinge
         /// </summary>
+        /// <param name = "hingeConfig">hinge data, null means hideHinge</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowHingeAsync(CefSharp.DevTools.Overlay.HingeConfig hingeConfig = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

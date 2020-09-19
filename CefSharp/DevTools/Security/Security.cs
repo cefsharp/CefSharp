@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Security
     /// </summary>
     public partial class Security : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Security(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables tracking security state changes.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Enables tracking security state changes.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -39,6 +41,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Enable/disable whether all certificate errors should be ignored.
         /// </summary>
+        /// <param name = "ignore">If true, all certificate errors will be ignored.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetIgnoreCertificateErrorsAsync(bool ignore)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

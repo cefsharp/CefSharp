@@ -30,5 +30,25 @@ namespace CefSharp.DevTools.Audits
             get;
             set;
         }
+
+        /// <summary>
+        /// BlockedByResponseIssueDetails
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedByResponseIssueDetails"), IsRequired = (false))]
+        public CefSharp.DevTools.Audits.BlockedByResponseIssueDetails BlockedByResponseIssueDetails
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// HeavyAdIssueDetails
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("heavyAdIssueDetails"), IsRequired = (false))]
+        public CefSharp.DevTools.Audits.HeavyAdIssueDetails HeavyAdIssueDetails
+        {
+            get;
+            set;
+        }
     }
 }

@@ -10,15 +10,17 @@ namespace CefSharp.DevTools.Target
     /// </summary>
     public partial class Target : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Target(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Activates (focuses) the target.
         /// </summary>
+        /// <param name = "targetId">targetId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ActivateTargetAsync(string targetId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -30,6 +32,8 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Attaches to the target with given id.
         /// </summary>
+        /// <param name = "targetId">targetId</param>
+        /// <param name = "flatten">Enables "flat" access to the session via specifying sessionId attribute in the commands.
         public async System.Threading.Tasks.Task<AttachToTargetResponse> AttachToTargetAsync(string targetId, bool? flatten = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -46,6 +50,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Attaches to the browser target, only uses flat sessionId mode.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;AttachToBrowserTargetResponse&gt;</returns>
         public async System.Threading.Tasks.Task<AttachToBrowserTargetResponse> AttachToBrowserTargetAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -56,6 +61,8 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Closes the target. If the target is a page that gets closed too.
         /// </summary>
+        /// <param name = "targetId">targetId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CloseTargetResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CloseTargetResponse> CloseTargetAsync(string targetId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -74,6 +81,9 @@ namespace CefSharp.DevTools.Target
         /// - `binding.send(json)` - a method to send messages over the remote debugging protocol
         /// - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
         /// </summary>
+        /// <param name = "targetId">targetId</param>
+        /// <param name = "bindingName">Binding name, 'cdp' if not specified.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ExposeDevToolsProtocolAsync(string targetId, string bindingName = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -91,12 +101,26 @@ namespace CefSharp.DevTools.Target
         /// Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
         /// one.
         /// </summary>
-        public async System.Threading.Tasks.Task<CreateBrowserContextResponse> CreateBrowserContextAsync(bool? disposeOnDetach = null)
+        /// <param name = "disposeOnDetach">If specified, disposes this context when debugging session disconnects.</param>
+        /// <param name = "proxyServer">Proxy server, similar to the one passed to --proxy-server</param>
+        /// <param name = "proxyBypassList">Proxy bypass list, similar to the one passed to --proxy-bypass-list</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CreateBrowserContextResponse&gt;</returns>
+        public async System.Threading.Tasks.Task<CreateBrowserContextResponse> CreateBrowserContextAsync(bool? disposeOnDetach = null, string proxyServer = null, string proxyBypassList = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             if (disposeOnDetach.HasValue)
             {
                 dict.Add("disposeOnDetach", disposeOnDetach.Value);
+            }
+
+            if (!(string.IsNullOrEmpty(proxyServer)))
+            {
+                dict.Add("proxyServer", proxyServer);
+            }
+
+            if (!(string.IsNullOrEmpty(proxyBypassList)))
+            {
+                dict.Add("proxyBypassList", proxyBypassList);
             }
 
             var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.createBrowserContext", dict);
@@ -106,6 +130,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Returns all browser contexts created with `Target.createBrowserContext` method.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetBrowserContextsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetBrowserContextsResponse> GetBrowserContextsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -116,6 +141,11 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Creates a new page.
         /// </summary>
+        /// <param name = "url">The initial URL the page will be navigated to.</param>
+        /// <param name = "width">Frame width in DIP (headless chrome only).</param>
+        /// <param name = "height">Frame height in DIP (headless chrome only).</param>
+        /// <param name = "browserContextId">The browser context to create the page in.</param>
+        /// <param name = "enableBeginFrameControl">Whether BeginFrames for this target will be controlled via DevTools (headless chrome only,
         public async System.Threading.Tasks.Task<CreateTargetResponse> CreateTargetAsync(string url, int? width = null, int? height = null, string browserContextId = null, bool? enableBeginFrameControl = null, bool? newWindow = null, bool? background = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -157,6 +187,9 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Detaches session with given id.
         /// </summary>
+        /// <param name = "sessionId">Session to detach.</param>
+        /// <param name = "targetId">Deprecated.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DetachFromTargetAsync(string sessionId = null, string targetId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -178,6 +211,8 @@ namespace CefSharp.DevTools.Target
         /// Deletes a BrowserContext. All the belonging pages will be closed without calling their
         /// beforeunload hooks.
         /// </summary>
+        /// <param name = "browserContextId">browserContextId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisposeBrowserContextAsync(string browserContextId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -189,6 +224,8 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Returns information about a target.
         /// </summary>
+        /// <param name = "targetId">targetId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetTargetInfoResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetTargetInfoResponse> GetTargetInfoAsync(string targetId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -204,6 +241,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Retrieves a list of available targets.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetTargetsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetTargetsResponse> GetTargetsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -216,6 +254,8 @@ namespace CefSharp.DevTools.Target
         /// this one. When turned on, attaches to all existing related targets as well. When turned off,
         /// automatically detaches from all currently attached targets.
         /// </summary>
+        /// <param name = "autoAttach">Whether to auto-attach to related targets.</param>
+        /// <param name = "waitForDebuggerOnStart">Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAutoAttachAsync(bool autoAttach, bool waitForDebuggerOnStart, bool? flatten = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -234,6 +274,8 @@ namespace CefSharp.DevTools.Target
         /// Controls whether to discover available targets and notify via
         /// `targetCreated/targetInfoChanged/targetDestroyed` events.
         /// </summary>
+        /// <param name = "discover">Whether to discover available targets.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDiscoverTargetsAsync(bool discover)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -246,6 +288,8 @@ namespace CefSharp.DevTools.Target
         /// Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
         /// `true`.
         /// </summary>
+        /// <param name = "locations">List of remote locations.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetRemoteLocationsAsync(System.Collections.Generic.IList<CefSharp.DevTools.Target.RemoteLocation> locations)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

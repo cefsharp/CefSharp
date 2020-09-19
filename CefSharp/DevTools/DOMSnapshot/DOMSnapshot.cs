@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// </summary>
     public partial class DOMSnapshot : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public DOMSnapshot(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Disables DOM snapshot agent for the given page.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Enables DOM snapshot agent for the given page.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -42,6 +44,10 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
         /// flattened.
         /// </summary>
+        /// <param name = "computedStyles">Whitelist of computed styles to return.</param>
+        /// <param name = "includePaintOrder">Whether to include layout object paint orders into the snapshot.</param>
+        /// <param name = "includeDOMRects">Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CaptureSnapshotResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string[] computedStyles, bool? includePaintOrder = null, bool? includeDOMRects = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

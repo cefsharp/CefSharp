@@ -20,6 +20,26 @@ namespace CefSharp.DevTools.Overlay
         }
 
         /// <summary>
+        /// Show Positive line number labels (default: false).
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showPositiveLineNumbers"), IsRequired = (false))]
+        public bool? ShowPositiveLineNumbers
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Show Negative line number labels (default: false).
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showNegativeLineNumbers"), IsRequired = (false))]
+        public bool? ShowNegativeLineNumbers
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// The grid container border highlight color (default: transparent).
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("gridBorderColor"), IsRequired = (false))]

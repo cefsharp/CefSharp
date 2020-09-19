@@ -10,18 +10,19 @@ namespace CefSharp.DevTools.HeadlessExperimental
     /// </summary>
     public partial class HeadlessExperimental : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public HeadlessExperimental(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Sends a BeginFrame to the target and returns when the frame was completed. Optionally captures a
         /// screenshot from the resulting frame. Requires that the target was created with enabled
         /// BeginFrameControl. Designed for use with --run-all-compositor-stages-before-draw, see also
         /// https://goo.gl/3zHXhB for more background.
         /// </summary>
+        /// <param name = "frameTimeTicks">Timestamp of this BeginFrame in Renderer TimeTicks (milliseconds of uptime). If not set,
         public async System.Threading.Tasks.Task<BeginFrameResponse> BeginFrameAsync(long? frameTimeTicks = null, long? interval = null, bool? noDisplayUpdates = null, CefSharp.DevTools.HeadlessExperimental.ScreenshotParams screenshot = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -52,6 +53,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
         /// <summary>
         /// Disables headless events for the target.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -62,6 +64,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
         /// <summary>
         /// Enables headless events for the target.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

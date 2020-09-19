@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.SystemInfo
     /// </summary>
     public partial class SystemInfo : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public SystemInfo(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Returns information about the system.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetInfoResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetInfoResponse> GetInfoAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Returns information about all running processes.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetProcessInfoResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetProcessInfoResponse> GetProcessInfoAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;

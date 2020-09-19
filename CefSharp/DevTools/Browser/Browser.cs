@@ -10,15 +10,20 @@ namespace CefSharp.DevTools.Browser
     /// </summary>
     public partial class Browser : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Browser(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Set permission settings for given origin.
         /// </summary>
+        /// <param name = "permission">Descriptor of permission to override.</param>
+        /// <param name = "setting">Setting of the permission.</param>
+        /// <param name = "origin">Origin the permission applies to, all origins if not specified.</param>
+        /// <param name = "browserContextId">Context to override. When omitted, default browser context is used.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPermissionAsync(CefSharp.DevTools.Browser.PermissionDescriptor permission, CefSharp.DevTools.Browser.PermissionSetting setting, string origin = null, string browserContextId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -41,6 +46,10 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Grant specific permissions to the given origin and reject all others.
         /// </summary>
+        /// <param name = "permissions">permissions</param>
+        /// <param name = "origin">Origin the permission applies to, all origins if not specified.</param>
+        /// <param name = "browserContextId">BrowserContext to override permissions. When omitted, default browser context is used.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> GrantPermissionsAsync(CefSharp.DevTools.Browser.PermissionType[] permissions, string origin = null, string browserContextId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -62,6 +71,8 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Reset all permission management for all origins.
         /// </summary>
+        /// <param name = "browserContextId">BrowserContext to reset permissions. When omitted, default browser context is used.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResetPermissionsAsync(string browserContextId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -77,6 +88,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Set the behavior when downloading a file.
         /// </summary>
+        /// <param name = "behavior">Whether to allow all or deny all download requests, or use default Chrome behavior if
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDownloadBehaviorAsync(string behavior, string browserContextId = null, string downloadPath = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -98,6 +110,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Close browser gracefully.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -108,6 +121,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Crashes browser on the main thread.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> CrashAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -118,6 +132,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Crashes GPU process.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> CrashGpuProcessAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -128,6 +143,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Returns version information.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetVersionResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetVersionResponse> GetVersionAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -139,6 +155,7 @@ namespace CefSharp.DevTools.Browser
         /// Returns the command line switches for the browser process if, and only if
         /// --enable-automation is on the commandline.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetBrowserCommandLineResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetBrowserCommandLineResponse> GetBrowserCommandLineAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -149,6 +166,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Get Chrome histograms.
         /// </summary>
+        /// <param name = "query">Requested substring in name. Only histograms which have query as a
         public async System.Threading.Tasks.Task<GetHistogramsResponse> GetHistogramsAsync(string query = null, bool? delta = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -169,6 +187,9 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Get a Chrome histogram by name.
         /// </summary>
+        /// <param name = "name">Requested histogram name.</param>
+        /// <param name = "delta">If true, retrieve delta since last call.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetHistogramResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetHistogramResponse> GetHistogramAsync(string name, bool? delta = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -185,6 +206,8 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Get position and size of the browser window.
         /// </summary>
+        /// <param name = "windowId">Browser window id.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetWindowBoundsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetWindowBoundsResponse> GetWindowBoundsAsync(int windowId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -196,6 +219,8 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Get the browser window that contains the devtools target.
         /// </summary>
+        /// <param name = "targetId">Devtools agent host id. If called as a part of the session, associated targetId is used.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetWindowForTargetResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetWindowForTargetResponse> GetWindowForTargetAsync(string targetId = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -211,6 +236,8 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Set position and/or size of the browser window.
         /// </summary>
+        /// <param name = "windowId">Browser window id.</param>
+        /// <param name = "bounds">New window bounds. The 'minimized', 'maximized' and 'fullscreen' states cannot be combined
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetWindowBoundsAsync(int windowId, CefSharp.DevTools.Browser.Bounds bounds)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -223,6 +250,9 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Set dock tile details, platform-specific.
         /// </summary>
+        /// <param name = "badgeLabel">badgeLabel</param>
+        /// <param name = "image">Png encoded image.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDockTileAsync(string badgeLabel = null, byte[] image = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

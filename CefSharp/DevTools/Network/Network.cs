@@ -11,15 +11,16 @@ namespace CefSharp.DevTools.Network
     /// </summary>
     public partial class Network : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Network(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clears browser cache.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearBrowserCacheAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -30,6 +31,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Clears browser cookies.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearBrowserCookiesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -40,6 +42,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Deletes browser cookies with matching name and url or domain/path pair.
         /// </summary>
+        /// <param name = "name">Name of the cookies to remove.</param>
+        /// <param name = "url">If specified, deletes all the cookies with the given name where domain and path match
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteCookiesAsync(string name, string url = null, string domain = null, string path = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -66,6 +70,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Disables network tracking, prevents network events from being sent to the client.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -76,6 +81,12 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Activates emulation of network conditions.
         /// </summary>
+        /// <param name = "offline">True to emulate internet disconnection.</param>
+        /// <param name = "latency">Minimum latency from request sent to response headers received (ms).</param>
+        /// <param name = "downloadThroughput">Maximal aggregated download throughput (bytes/sec). -1 disables download throttling.</param>
+        /// <param name = "uploadThroughput">Maximal aggregated upload throughput (bytes/sec).  -1 disables upload throttling.</param>
+        /// <param name = "connectionType">Connection type if known.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateNetworkConditionsAsync(bool offline, long latency, long downloadThroughput, long uploadThroughput, CefSharp.DevTools.Network.ConnectionType? connectionType = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -95,6 +106,10 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Enables network tracking, network events will now be delivered to the client.
         /// </summary>
+        /// <param name = "maxTotalBufferSize">Buffer size in bytes to use when preserving network payloads (XHRs, etc).</param>
+        /// <param name = "maxResourceBufferSize">Per-resource buffer size in bytes to use when preserving network payloads (XHRs, etc).</param>
+        /// <param name = "maxPostDataSize">Longest post body size (in bytes) that would be included in requestWillBeSent notification</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(int? maxTotalBufferSize = null, int? maxResourceBufferSize = null, int? maxPostDataSize = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -121,6 +136,7 @@ namespace CefSharp.DevTools.Network
         /// Returns all browser cookies. Depending on the backend support, will return detailed cookie
         /// information in the `cookies` field.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetAllCookiesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetAllCookiesResponse> GetAllCookiesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -131,6 +147,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Returns the DER-encoded certificate.
         /// </summary>
+        /// <param name = "origin">Origin to get certificate for.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetCertificateResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCertificateResponse> GetCertificateAsync(string origin)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -143,6 +161,8 @@ namespace CefSharp.DevTools.Network
         /// Returns all browser cookies for the current URL. Depending on the backend support, will return
         /// detailed cookie information in the `cookies` field.
         /// </summary>
+        /// <param name = "urls">The list of URLs for which applicable cookies will be fetched</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetCookiesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string[] urls = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -158,6 +178,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Returns content served for the given request.
         /// </summary>
+        /// <param name = "requestId">Identifier of the network request to get content for.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -169,6 +191,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Returns post data sent with the request. Returns an error when no data was sent with the request.
         /// </summary>
+        /// <param name = "requestId">Identifier of the network request to get content for.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetRequestPostDataResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetRequestPostDataResponse> GetRequestPostDataAsync(string requestId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -180,6 +204,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Returns content served for the given currently intercepted request.
         /// </summary>
+        /// <param name = "interceptionId">Identifier for the intercepted request to get body for.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyForInterceptionResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetResponseBodyForInterceptionResponse> GetResponseBodyForInterceptionAsync(string interceptionId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -194,6 +220,8 @@ namespace CefSharp.DevTools.Network
         /// the response body. The stream only supports sequential read, IO.read will fail if the position
         /// is specified.
         /// </summary>
+        /// <param name = "interceptionId">interceptionId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;TakeResponseBodyForInterceptionAsStreamResponse&gt;</returns>
         public async System.Threading.Tasks.Task<TakeResponseBodyForInterceptionAsStreamResponse> TakeResponseBodyForInterceptionAsStreamAsync(string interceptionId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -207,6 +235,8 @@ namespace CefSharp.DevTools.Network
         /// parameters should be identical: method, url, async, request body, extra headers, withCredentials
         /// attribute, user, password.
         /// </summary>
+        /// <param name = "requestId">Identifier of XHR to replay.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReplayXHRAsync(string requestId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -218,6 +248,11 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Searches for given string in response content.
         /// </summary>
+        /// <param name = "requestId">Identifier of the network response to search.</param>
+        /// <param name = "query">String to search for.</param>
+        /// <param name = "caseSensitive">If true, search is case sensitive.</param>
+        /// <param name = "isRegex">If true, treats string parameter as regex.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SearchInResponseBodyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SearchInResponseBodyResponse> SearchInResponseBodyAsync(string requestId, string query, bool? caseSensitive = null, bool? isRegex = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -240,6 +275,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Blocks URLs from loading.
         /// </summary>
+        /// <param name = "urls">URL patterns to block. Wildcards ('*') are allowed.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlockedURLsAsync(string[] urls)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -251,6 +288,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Toggles ignoring of service worker for each request.
         /// </summary>
+        /// <param name = "bypass">Bypass service worker and load from network.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBypassServiceWorkerAsync(bool bypass)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -262,6 +301,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Toggles ignoring cache for each request. If `true`, cache will not be used.
         /// </summary>
+        /// <param name = "cacheDisabled">Cache disabled state.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCacheDisabledAsync(bool cacheDisabled)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -273,6 +314,9 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
         /// </summary>
+        /// <param name = "name">Cookie name.</param>
+        /// <param name = "value">Cookie value.</param>
+        /// <param name = "url">The request-URI to associate with the setting of the cookie. This value can affect the
         public async System.Threading.Tasks.Task<SetCookieResponse> SetCookieAsync(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, CefSharp.DevTools.Network.CookieSameSite? sameSite = null, long? expires = null, CefSharp.DevTools.Network.CookiePriority? priority = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -325,6 +369,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Sets given cookies.
         /// </summary>
+        /// <param name = "cookies">Cookies to be set.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCookiesAsync(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -336,6 +382,9 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// For testing.
         /// </summary>
+        /// <param name = "maxTotalSize">Maximum total buffer size.</param>
+        /// <param name = "maxResourceSize">Maximum per-resource size.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDataSizeLimitsForTestAsync(int maxTotalSize, int maxResourceSize)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -348,6 +397,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies whether to always send extra HTTP headers with the requests from this page.
         /// </summary>
+        /// <param name = "headers">Map with extra HTTP headers.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetExtraHTTPHeadersAsync(CefSharp.DevTools.Network.Headers headers)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -359,6 +410,11 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Allows overriding user agent with the given string.
         /// </summary>
+        /// <param name = "userAgent">User agent to use.</param>
+        /// <param name = "acceptLanguage">Browser langugage to emulate.</param>
+        /// <param name = "platform">The platform navigator.platform should return.</param>
+        /// <param name = "userAgentMetadata">To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserAgentOverrideAsync(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

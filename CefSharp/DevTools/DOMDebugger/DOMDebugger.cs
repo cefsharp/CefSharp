@@ -11,15 +11,17 @@ namespace CefSharp.DevTools.DOMDebugger
     /// </summary>
     public partial class DOMDebugger : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public DOMDebugger(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Returns event listeners of the given object.
         /// </summary>
+        /// <param name = "objectId">Identifier of the object to return listeners for.</param>
+        /// <param name = "depth">The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the
         public async System.Threading.Tasks.Task<GetEventListenersResponse> GetEventListenersAsync(string objectId, int? depth = null, bool? pierce = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -41,6 +43,9 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Removes DOM breakpoint that was set using `setDOMBreakpoint`.
         /// </summary>
+        /// <param name = "nodeId">Identifier of the node to remove breakpoint from.</param>
+        /// <param name = "type">Type of the breakpoint to remove.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMBreakpointAsync(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -53,6 +58,9 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Removes breakpoint on particular DOM event.
         /// </summary>
+        /// <param name = "eventName">Event name.</param>
+        /// <param name = "targetName">EventTarget interface name.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveEventListenerBreakpointAsync(string eventName, string targetName = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -69,6 +77,8 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Removes breakpoint on particular native event.
         /// </summary>
+        /// <param name = "eventName">Instrumentation name to stop on.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveInstrumentationBreakpointAsync(string eventName)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -80,6 +90,8 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Removes breakpoint from XMLHttpRequest.
         /// </summary>
+        /// <param name = "url">Resource URL substring.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveXHRBreakpointAsync(string url)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -91,6 +103,9 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Sets breakpoint on particular operation with DOM.
         /// </summary>
+        /// <param name = "nodeId">Identifier of the node to set breakpoint on.</param>
+        /// <param name = "type">Type of the operation to stop upon.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMBreakpointAsync(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -103,6 +118,8 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Sets breakpoint on particular DOM event.
         /// </summary>
+        /// <param name = "eventName">DOM Event name to stop on (any DOM event will do).</param>
+        /// <param name = "targetName">EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on any
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEventListenerBreakpointAsync(string eventName, string targetName = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -119,6 +136,8 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Sets breakpoint on particular native event.
         /// </summary>
+        /// <param name = "eventName">Instrumentation name to stop on.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInstrumentationBreakpointAsync(string eventName)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -130,6 +149,8 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Sets breakpoint on XMLHttpRequest.
         /// </summary>
+        /// <param name = "url">Resource URL substring. All XHRs having this substring in the URL will get stopped upon.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetXHRBreakpointAsync(string url)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

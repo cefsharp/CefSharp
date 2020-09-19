@@ -179,6 +179,49 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        public CefSharp.DevTools.Network.ServiceWorkerResponseSource? ServiceWorkerResponseSource
+        {
+            get
+            {
+                return (CefSharp.DevTools.Network.ServiceWorkerResponseSource? )(StringToEnum(typeof(CefSharp.DevTools.Network.ServiceWorkerResponseSource? ), serviceWorkerResponseSource));
+            }
+
+            set
+            {
+                serviceWorkerResponseSource = (EnumToString(value));
+            }
+        }
+
+        /// <summary>
+        /// Response source of response from ServiceWorker.
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("serviceWorkerResponseSource"), IsRequired = (false))]
+        internal string serviceWorkerResponseSource
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// The time at which the returned response was generated.
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseTime"), IsRequired = (false))]
+        public long? ResponseTime
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Cache Storage Cache Name.
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cacheStorageCacheName"), IsRequired = (false))]
+        public string CacheStorageCacheName
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Protocol used to fetch this request.
         /// </summary>

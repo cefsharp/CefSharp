@@ -124,6 +124,19 @@ namespace CefSharp.DevTools.CSS
         }
 
         /// <summary>
+        /// Whether this stylesheet is mutable. Inline stylesheets become mutable
+        /// after they have been modified via CSSOM API.
+        /// <link> element's stylesheets are never mutable. Constructed stylesheets
+        /// (new CSSStyleSheet()) are mutable immediately after creation.
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isMutable"), IsRequired = (true))]
+        public bool IsMutable
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Line offset of the stylesheet within the resource (zero based).
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("startLine"), IsRequired = (true))]

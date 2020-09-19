@@ -10,15 +10,17 @@ namespace CefSharp.DevTools.DOMStorage
     /// </summary>
     public partial class DOMStorage : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public DOMStorage(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Clear
         /// </summary>
+        /// <param name = "storageId">storageId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -30,6 +32,7 @@ namespace CefSharp.DevTools.DOMStorage
         /// <summary>
         /// Disables storage tracking, prevents storage events from being sent to the client.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -40,6 +43,7 @@ namespace CefSharp.DevTools.DOMStorage
         /// <summary>
         /// Enables storage tracking, storage events will now be delivered to the client.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -50,6 +54,8 @@ namespace CefSharp.DevTools.DOMStorage
         /// <summary>
         /// GetDOMStorageItems
         /// </summary>
+        /// <param name = "storageId">storageId</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetDOMStorageItemsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetDOMStorageItemsResponse> GetDOMStorageItemsAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -61,6 +67,9 @@ namespace CefSharp.DevTools.DOMStorage
         /// <summary>
         /// RemoveDOMStorageItem
         /// </summary>
+        /// <param name = "storageId">storageId</param>
+        /// <param name = "key">key</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -73,6 +82,10 @@ namespace CefSharp.DevTools.DOMStorage
         /// <summary>
         /// SetDOMStorageItem
         /// </summary>
+        /// <param name = "storageId">storageId</param>
+        /// <param name = "key">key</param>
+        /// <param name = "value">value</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key, string value)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

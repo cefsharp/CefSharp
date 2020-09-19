@@ -40,6 +40,16 @@ namespace CefSharp.DevTools.Overlay
         }
 
         /// <summary>
+        /// Whether the a11y info should be shown (default: true).
+        /// </summary>
+        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showAccessibilityInfo"), IsRequired = (false))]
+        public bool? ShowAccessibilityInfo
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Whether the extension lines from node to the rulers should be shown (default: false).
         /// </summary>
         [System.Runtime.Serialization.DataMemberAttribute(Name = ("showExtensionLines"), IsRequired = (false))]

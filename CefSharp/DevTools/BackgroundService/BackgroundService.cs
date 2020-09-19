@@ -10,15 +10,17 @@ namespace CefSharp.DevTools.BackgroundService
     /// </summary>
     public partial class BackgroundService : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public BackgroundService(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Enables event updates for the service.
         /// </summary>
+        /// <param name = "service">service</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartObservingAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -30,6 +32,8 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// Disables event updates for the service.
         /// </summary>
+        /// <param name = "service">service</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopObservingAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -41,6 +45,9 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// Set the recording state for the service.
         /// </summary>
+        /// <param name = "shouldRecord">shouldRecord</param>
+        /// <param name = "service">service</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetRecordingAsync(bool shouldRecord, CefSharp.DevTools.BackgroundService.ServiceName service)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -53,6 +60,8 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// Clears all stored data for the service.
         /// </summary>
+        /// <param name = "service">service</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearEventsAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();

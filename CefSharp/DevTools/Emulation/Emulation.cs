@@ -10,15 +10,16 @@ namespace CefSharp.DevTools.Emulation
     /// </summary>
     public partial class Emulation : DevToolsDomainBase
     {
+        private CefSharp.DevTools.IDevToolsClient _client;
         public Emulation(CefSharp.DevTools.IDevToolsClient client)
         {
             _client = (client);
         }
 
-        private CefSharp.DevTools.IDevToolsClient _client;
         /// <summary>
         /// Tells whether emulation is supported.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CanEmulateResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CanEmulateResponse> CanEmulateAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -29,6 +30,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Clears the overriden device metrics.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearDeviceMetricsOverrideAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -39,6 +41,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Clears the overriden Geolocation Position and Error.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearGeolocationOverrideAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -49,6 +52,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Requests that page scale factor is reset to initial values.
         /// </summary>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResetPageScaleFactorAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
@@ -59,6 +63,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Enables or disables simulating a focused and active page.
         /// </summary>
+        /// <param name = "enabled">Whether to enable to disable focus emulation.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFocusEmulationEnabledAsync(bool enabled)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -70,6 +76,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Enables CPU throttling to emulate slow CPUs.
         /// </summary>
+        /// <param name = "rate">Throttling rate as a slowdown factor (1 is no throttle, 2 is 2x slowdown, etc).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCPUThrottlingRateAsync(long rate)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -82,6 +90,7 @@ namespace CefSharp.DevTools.Emulation
         /// Sets or clears an override of the default background color of the frame. This override is used
         /// if the content does not specify one.
         /// </summary>
+        /// <param name = "color">RGBA of the default background color. If not specified, any existing override will be
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDefaultBackgroundColorOverrideAsync(CefSharp.DevTools.DOM.RGBA color = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -99,6 +108,10 @@ namespace CefSharp.DevTools.Emulation
         /// window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
         /// query results).
         /// </summary>
+        /// <param name = "width">Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.</param>
+        /// <param name = "height">Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.</param>
+        /// <param name = "deviceScaleFactor">Overriding device scale factor value. 0 disables the override.</param>
+        /// <param name = "mobile">Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDeviceMetricsOverrideAsync(int width, int height, long deviceScaleFactor, bool mobile, long? scale = null, int? screenWidth = null, int? screenHeight = null, int? positionX = null, int? positionY = null, bool? dontSetVisibleSize = null, CefSharp.DevTools.Emulation.ScreenOrientation screenOrientation = null, CefSharp.DevTools.Page.Viewport viewport = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -153,6 +166,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// SetScrollbarsHidden
         /// </summary>
+        /// <param name = "hidden">Whether scrollbars should be always hidden.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetScrollbarsHiddenAsync(bool hidden)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -164,6 +179,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// SetDocumentCookieDisabled
         /// </summary>
+        /// <param name = "disabled">Whether document.coookie API should be disabled.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDocumentCookieDisabledAsync(bool disabled)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -175,6 +192,9 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// SetEmitTouchEventsForMouse
         /// </summary>
+        /// <param name = "enabled">Whether touch emulation based on mouse input should be enabled.</param>
+        /// <param name = "configuration">Touch/gesture events configuration. Default: current platform.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmitTouchEventsForMouseAsync(bool enabled, string configuration = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -191,6 +211,9 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Emulates the given media type or media feature for CSS media queries.
         /// </summary>
+        /// <param name = "media">Media type to emulate. Empty string disables the override.</param>
+        /// <param name = "features">Media features to emulate.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmulatedMediaAsync(string media = null, System.Collections.Generic.IList<CefSharp.DevTools.Emulation.MediaFeature> features = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -211,6 +234,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Emulates the given vision deficiency.
         /// </summary>
+        /// <param name = "type">Vision deficiency to emulate.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmulatedVisionDeficiencyAsync(string type)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -223,6 +248,10 @@ namespace CefSharp.DevTools.Emulation
         /// Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
         /// unavailable.
         /// </summary>
+        /// <param name = "latitude">Mock latitude</param>
+        /// <param name = "longitude">Mock longitude</param>
+        /// <param name = "accuracy">Mock accuracy</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetGeolocationOverrideAsync(long? latitude = null, long? longitude = null, long? accuracy = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -248,6 +277,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Sets a specified page scale factor.
         /// </summary>
+        /// <param name = "pageScaleFactor">Page scale factor.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPageScaleFactorAsync(long pageScaleFactor)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -259,6 +290,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Switches script execution in the page.
         /// </summary>
+        /// <param name = "value">Whether script execution should be disabled in the page.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetScriptExecutionDisabledAsync(bool value)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -270,6 +303,9 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Enables touch on platforms which do not support them.
         /// </summary>
+        /// <param name = "enabled">Whether the touch event emulation should be enabled.</param>
+        /// <param name = "maxTouchPoints">Maximum touch points supported. Defaults to one.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetTouchEmulationEnabledAsync(bool enabled, int? maxTouchPoints = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -287,6 +323,8 @@ namespace CefSharp.DevTools.Emulation
         /// Turns on virtual time for all frames (replacing real-time with a synthetic time source) and sets
         /// the current virtual time policy.  Note this supersedes any previous time budget.
         /// </summary>
+        /// <param name = "policy">policy</param>
+        /// <param name = "budget">If set, after this many virtual milliseconds have elapsed virtual time will be paused and a
         public async System.Threading.Tasks.Task<SetVirtualTimePolicyResponse> SetVirtualTimePolicyAsync(CefSharp.DevTools.Emulation.VirtualTimePolicy policy, long? budget = null, int? maxVirtualTimeTaskStarvationCount = null, bool? waitForNavigation = null, long? initialVirtualTime = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -318,6 +356,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Overrides default host system locale with the specified one.
         /// </summary>
+        /// <param name = "locale">ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override and
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetLocaleOverrideAsync(string locale = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -333,6 +372,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Overrides default host system timezone with the specified one.
         /// </summary>
+        /// <param name = "timezoneId">The timezone identifier. If empty, disables the override and
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetTimezoneOverrideAsync(string timezoneId)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -344,6 +384,11 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Allows overriding user agent with the given string.
         /// </summary>
+        /// <param name = "userAgent">User agent to use.</param>
+        /// <param name = "acceptLanguage">Browser langugage to emulate.</param>
+        /// <param name = "platform">The platform navigator.platform should return.</param>
+        /// <param name = "userAgentMetadata">To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserAgentOverrideAsync(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null)
         {
             var dict = new System.Collections.Generic.Dictionary<string, object>();
