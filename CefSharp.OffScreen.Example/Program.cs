@@ -77,15 +77,6 @@ namespace CefSharp.OffScreen.Example
                 }
                 await LoadPageAsync(browser);
 
-                using (var devToolsClient = browser.GetDevToolsClient())
-                {
-                    var response = await devToolsClient.Browser.GetVersionAsync();
-                    var jsVersion = response.Revision;
-
-                    var historyResponse = await devToolsClient.Page.GetNavigationHistoryAsync();
-                    //var success = await devToolsClient.Network.ClearBrowserCacheAsync();
-                }
-
                 //Check preferences on the CEF UI Thread
                 await Cef.UIThreadTaskFactory.StartNew(delegate
                 {
