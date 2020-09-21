@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.DevTools;
 using CefSharp.Internals;
 using CefSharp.Web;
 
@@ -99,6 +100,39 @@ namespace CefSharp
             var browser = chromiumWebBrowser.GetBrowser();
 
             return browser.ExecuteDevToolsMethodAsync(messageId, method, parameters);
+        }
+
+        /// <summary>
+        /// Gets a new Instance of the DevTools client for the chromiumWebBrowser
+        /// instance.
+        /// </summary>
+        /// <param name="chromiumWebBrowser">the chromiumWebBrowser instance</param>
+        /// <returns>DevToolsClient</returns>
+        public static DevToolsClient GetDevToolsClient(this IWebBrowser chromiumWebBrowser)
+        {
+            var browser = chromiumWebBrowser.GetBrowser();
+
+            return browser.GetDevToolsClient();
+        }
+
+        /// <summary>
+        /// Gets a new Instance of the DevTools client 
+        /// </summary>
+        /// <param name="browser">the IBrowser instance</param>
+        /// <returns>DevToolsClient</returns>
+        public static DevToolsClient GetDevToolsClient(this IBrowser browser)
+        {
+            var browserHost = browser.GetHost();
+
+            WebBrowserExtensions.ThrowExceptionIfBrowserHostNull(browserHost);
+
+            var devToolsClient = new DevToolsClient(browser);
+
+            var observerRegistration = browserHost.AddDevToolsMessageObserver(devToolsClient);
+
+            devToolsClient.SetDevToolsObserverRegistration(observerRegistration);
+
+            return devToolsClient;
         }
     }
 }

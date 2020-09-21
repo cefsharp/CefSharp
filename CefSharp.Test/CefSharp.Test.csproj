@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingRedirectAssemblyResolver.cs" />
+    <Compile Include="DevTools\DevToolsClientFacts.cs" />
     <Compile Include="Framework\BinderFacts.cs" />
     <Compile Include="Framework\AsyncExtensionFacts.cs" />
     <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="CefSharpXunitTestFramework.cs" />
     <Compile Include="CefSharpFixture.cs" />
     <Compile Include="CefSharpFixtureCollection.cs" />
+    <Compile Include="PostMessage\IntegrationTestFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebBrowserTestExtensions.cs" />
     <Compile Include="WinForms\WinFormsBrowserBasicFacts.cs" />
