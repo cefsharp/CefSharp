@@ -2,12 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-namespace CefSharp.Wpf.Example.Handlers
+namespace CefSharp.Example.Handlers
 {
     public class RequestContextHandler : IRequestContextHandler
     {
-        private readonly ICookieManager customCookieManager;
-
         IResourceRequestHandler IRequestContextHandler.GetResourceRequestHandler(IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
         {
             return null;
