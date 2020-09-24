@@ -145,7 +145,7 @@ namespace CefSharp
         /// <summary>
         /// Initializes CefSharp with user-provided settings.
         /// It's important to note that Initialize and Shutdown <strong>MUST</strong> be called on your main
-        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// application thread (typically the UI thread). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
@@ -160,7 +160,7 @@ namespace CefSharp
         /// <summary>
         /// Initializes CefSharp with user-provided settings.
         /// It's important to note that Initialize/Shutdown <strong>MUST</strong> be called on your main
-        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// application thread (typically the UI thread). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
@@ -177,7 +177,7 @@ namespace CefSharp
         /// <summary>
         /// Initializes CefSharp with user-provided settings.
         /// It's important to note that Initialize/Shutdown <strong>MUST</strong> be called on your main
-        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// application thread (typically the UI thread). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
