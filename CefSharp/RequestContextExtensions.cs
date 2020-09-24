@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -45,6 +47,62 @@ namespace CefSharp
                     requestContext.LoadExtension(dir, null, handler);
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the proxy server for the specified <see cref="IRequestContext"/>
+        /// MUST be called on the CEF UI Thread
+        /// </summary>
+        /// <param name="requestContext">request context</param>
+        /// <param name="scheme">is the protocol of the proxy server, and is one of: 'http', 'socks', 'socks4', 'socks5'. Also note that 'socks' is equivalent to 'socks5'.</param>
+        /// <param name="host">host</param>
+        /// <param name="port">post</param>
+        /// <param name="errorMessage">error message</param>
+        /// <returns>returns true if successfull, false otherwise.</returns>
+        /// <remarks>Internally calls <seealso cref="IRequestContext.SetPreference(string, object, out string)"/> with
+        /// preference 'proxy' and mode of 'fixed_servers'</remarks>
+        public static bool SetProxy(this IRequestContext requestContext, string scheme, string host, string port, out string errorMessage)
+        {
+            if (string.IsNullOrWhiteSpace(host))
+            {
+                throw new ArgumentException("Cannot be null or empty", "host");
+            }
+
+            if (string.IsNullOrWhiteSpace(port))
+            {
+                throw new ArgumentException("Cannot be null or empty", port);
+            }
+
+            //Default to using http scheme if non provided
+            if (string.IsNullOrWhiteSpace(scheme))
+            {
+                scheme = "http";
+            }
+
+            var v = new Dictionary<string, object>
+            {
+                ["mode"] = "fixed_servers",
+                ["server"] = scheme + "://" + host + ":" + port
+            };
+
+            return requestContext.SetPreference("proxy", v, out errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the proxy server for the specified <see cref="IRequestContext"/>.
+        /// Protocol for the proxy server is http
+        /// MUST be called on the CEF UI Thread
+        /// </summary>
+        /// <param name="requestContext">request context</param>
+        /// <param name="host">host</param>
+        /// <param name="port">post</param>
+        /// <param name="errorMessage">error message</param>
+        /// <returns>returns true if successfull, false otherwise.</returns>
+        /// <remarks>Internally calls <seealso cref="IRequestContext.SetPreference(string, object, out string)"/> with
+        /// preference 'proxy' and mode of 'fixed_servers'</remarks>
+        public static bool SetProxy(this IRequestContext requestContext, string host, string port, out string errorMessage)
+        {
+            return requestContext.SetProxy(null, host, port, out errorMessage);
         }
 
         /// <summary>
