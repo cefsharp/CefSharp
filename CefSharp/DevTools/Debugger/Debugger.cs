@@ -320,7 +320,7 @@ namespace CefSharp.DevTools.Debugger
 
         partial void ValidateSetBlackboxedRanges(string scriptId, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.ScriptPosition> positions);
         /// <summary>
-        /// Makes backend skip steps in the script in blackboxed ranges. VM will try leave blacklisted
+        /// Makes backend skip steps in the script in blackboxed ranges. VM will try leave blocklisted
         /// scripts by performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
         /// Positions array contains positions where blackbox state is changed. First interval isn't
         /// blackboxed. Array should be sorted.
