@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-<<<<<<< HEAD
-    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <CefSharpWpfBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-    <CefSharpWpfBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    <!-- Not currently used, might come in handy for someone though as it contains all x86 and x64 files -->
-    <CefSharpWpfBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
-  </ItemGroup>
-
-=======
     <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' ">.</CefSharpTargetDir>
   </PropertyGroup>
 
->>>>>>> master
   <!--
     These item groups should be in the .props file, unfortunately Nuget 2.8.x doesn't gurantee the
     correct ordering .props imports, which we require as this depends on the cef.redist packages
@@ -30,20 +17,14 @@
         <None Include="@(CefSharpWpfBinaries32)">
           <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-<<<<<<< HEAD
-=======
           <PublishState>Include</PublishState>
           <Visible>false</Visible>
->>>>>>> master
         </None>
         <None Include="@(CefSharpWpfBinaries64)">
           <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-<<<<<<< HEAD
-=======
           <PublishState>Include</PublishState>
           <Visible>false</Visible>
->>>>>>> master
         </None>
       </ItemGroup>
     </When>
@@ -52,28 +33,19 @@
         <None Include="@(CefSharpWpfBinaries64)">
           <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-<<<<<<< HEAD
-        </None>
-      </ItemGroup>
-    </When>    
-=======
           <PublishState>Include</PublishState>
           <Visible>false</Visible>
         </None>
       </ItemGroup>
     </When>
->>>>>>> master
     <!-- x86, and Win32 -->
     <Otherwise>
       <ItemGroup>
         <None Include="@(CefSharpWpfBinaries32)">
           <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-<<<<<<< HEAD
-=======
           <PublishState>Include</PublishState>
           <Visible>false</Visible>
->>>>>>> master
         </None>
       </ItemGroup>
     </Otherwise>

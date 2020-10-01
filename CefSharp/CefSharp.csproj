@@ -623,9 +623,6 @@
     <Compile Include="Enums\ValueType.cs" />
     <Compile Include="Enums\ColorType.cs" />
     <Compile Include="Event\JavascriptBindingCompleteEventArgs.cs" />
-    <Compile Include="Event\JavascriptBindingEventArgs.cs" />
-    <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
-    <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\CefFileDialogFlags.cs" />
     <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Event\JavascriptBindingMultipleCompleteEventArgs.cs" />
@@ -661,7 +658,6 @@
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="JavascriptException.cs" />
-    <Compile Include="JavascriptBindingExtensions.cs" />
     <Compile Include="JavascriptBinding\JavascriptBindingExtensions.cs" />
     <Compile Include="JavascriptStackFrame.cs" />
     <Compile Include="Structs\CompositionUnderline.cs" />
