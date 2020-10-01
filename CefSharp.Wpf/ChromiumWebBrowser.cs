@@ -251,6 +251,10 @@ namespace CefSharp.Wpf
         /// <value>The reload command.</value>
         public ICommand ReloadCommand { get; private set; }
         /// <summary>
+        /// Toggles the audio mute setting on the current browser.
+        /// </summary>
+        public ICommand MuteCommand { get; private set; }
+        /// <summary>
         /// Prints the current browser contents.
         /// </summary>
         /// <value>The print command.</value>
@@ -511,6 +515,7 @@ namespace CefSharp.Wpf
             Focusable = true;
             FocusVisualStyle = null;
             IsTabStop = true;
+            IsAudioMuted = false;
 
             Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
 
@@ -536,6 +541,7 @@ namespace CefSharp.Wpf
             BackCommand = new DelegateCommand(this.Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(this.Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(this.Reload, () => !IsLoading);
+            MuteCommand = new DelegateCommand(() => IsAudioMuted = !IsAudioMuted);
             PrintCommand = new DelegateCommand(this.Print);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
@@ -1522,6 +1528,66 @@ namespace CefSharp.Wpf
             DependencyProperty.Register(nameof(WebBrowser), typeof(IWebBrowser), typeof(ChromiumWebBrowser), new UIPropertyMetadata(defaultValue: null));
 
         #endregion WebBrowser dependency property
+
+        #region IsAudioMuted dependency property
+
+        /// <summary>
+        /// Whether the browser audio is muted
+        /// </summary>
+        /// <value>The IsAudioMuted value.</value>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
+        public bool IsAudioMuted
+        {
+            get { return (bool)GetValue(IsAudioMutedProperty); }
+            set { SetValue(IsAudioMutedProperty, value); }
+        }
+
+        /// <summary>
+        /// The IsAudioMuted property
+        /// </summary>
+        public static readonly DependencyProperty IsAudioMutedProperty =
+            DependencyProperty.Register("IsAudioMuted", typeof(bool), typeof(ChromiumWebBrowser),
+                new UIPropertyMetadata(false, OnIsAudioMutedChanged, OnIsAudioMutedCoerced));
+
+        /// <summary>
+        /// Handles the <see cref="E:IsAudioMutedChanged" /> event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        private static void OnIsAudioMutedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (ChromiumWebBrowser)sender;
+            var newValue = (bool)args.NewValue;
+            owner.OnIsAudioMutedChanged(newValue);
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:IsAudioMutedCoerced" /> event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="obj">The new value of the property.</param>
+        private static object OnIsAudioMutedCoerced(DependencyObject sender, object obj)
+        {
+            var owner = (ChromiumWebBrowser)sender;
+            var newValue = (bool)obj;
+            owner.OnIsAudioMutedChanged(newValue);
+            return newValue;
+        }
+
+        /// <summary>
+        /// Called when [IsAudioMuted changed].
+        /// </summary>
+        /// <param name="newValue">The new value.</param>
+        protected virtual void OnIsAudioMutedChanged(bool newValue)
+        {
+            if (browser != null)
+            {
+                browser.GetHost().SetAudioMuted(newValue);
+            }
+        }
+
+        #endregion IsAudioMuted dependency property
 
         /// <summary>
         /// Handles the <see cref="E:Drop" /> event.
