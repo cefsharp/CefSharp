@@ -689,13 +689,6 @@ void CefBrowserHostWrapper::SendCaptureLostEvent()
     _browserHost->SendCaptureLostEvent();
 }
 
-void CefBrowserHostWrapper::SetAudioMuted(bool mute)
-{
-    ThrowIfDisposed();
-
-    _browserHost->SetAudioMuted(mute);
-}
-
 IRequestContext^ CefBrowserHostWrapper::RequestContext::get()
 {
     ThrowIfDisposed();
