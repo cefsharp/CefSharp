@@ -1,12 +1,12 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Threading.Tasks;
-using CefSharp.OffScreen;
+using System.Windows;
+using CefSharp.Wpf;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Extensions;
 
 namespace CefSharp.Test.Wpf
 {
@@ -23,7 +23,19 @@ namespace CefSharp.Test.Wpf
             this.output = output;
         }
 
-        //TODO: Add tests
-        //Investigate using https://github.com/AArnott/Xunit.StaFact for STA thread management
+        [WpfFact]
+        public async Task CanLoadGoogle()
+        {
+            using (var browser = new ChromiumWebBrowser(null, "www.google.com", new Size(1024, 786)))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
     }
 }

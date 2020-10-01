@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -17,6 +17,11 @@ namespace CefSharp
     {
         Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteAsync(cli::array<Object^>^ parameters)
         {
+            return ExecuteWithTimeoutAsync(Nullable<TimeSpan>(), parameters);
+        }
+
+        Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteWithTimeoutAsync(Nullable<TimeSpan> timeout, cli::array<Object^>^ parameters)
+        {
             DisposedGuard();
 
             auto browser = GetBrowser();
@@ -25,26 +30,39 @@ namespace CefSharp
                 throw gcnew InvalidOperationException("Browser instance is null. Check CanExecute before calling this method.");
             }
 
-            auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
+            auto browserWrapper = static_cast<CefBrowserWrapper^>(browser);
+            auto javascriptNameConverter = GetJavascriptNameConverter();
 
-            auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
+            auto doneCallback = _pendingTasks->CreatePendingTask(timeout);
 
             auto callbackMessage = CefProcessMessage::Create(kJavascriptCallbackRequest);
             auto argList = callbackMessage->GetArgumentList();
-            SetInt64(argList, 0, _callback->FrameId);
-            SetInt64(argList, 1, doneCallback.Key);
-            SetInt64(argList, 2, _callback->Id);
+            SetInt64(argList, 0, doneCallback.Key);
+            SetInt64(argList, 1, _callback->Id);
             auto paramList = CefListValue::Create();
             for (int i = 0; i < parameters->Length; i++)
             {
                 auto param = parameters[i];
-                SerializeV8Object(paramList, i, param);
+                SerializeV8Object(paramList, i, param, javascriptNameConverter);
             }
-            argList->SetList(3, paramList);
+            argList->SetList(2, paramList);
 
-            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+            auto frame = browserWrapper->Browser->GetFrame(_callback->FrameId);
 
-            return doneCallback.Value->Task;
+            if (frame.get() && frame->IsValid())
+            {
+                frame->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+
+                return doneCallback.Value->Task;
+            }
+            else
+            {
+                auto invalidFrameResponse = gcnew JavascriptResponse();
+                invalidFrameResponse->Success = false;
+                invalidFrameResponse->Message = "Frame with Id:" + _callback->FrameId + " is no longer valid.";
+
+                Task::FromResult(invalidFrameResponse);
+            }
         }
 
         CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateDestroyMessage()
@@ -52,19 +70,33 @@ namespace CefSharp
             auto result = CefProcessMessage::Create(kJavascriptCallbackDestroyRequest);
             auto argList = result->GetArgumentList();
             SetInt64(argList, 0, _callback->Id);
-            SetInt64(argList, 1, _callback->FrameId);
             return result;
         }
 
+        //TODO: Reduce code duplication
         IBrowser^ JavascriptCallbackProxy::GetBrowser()
         {
             IBrowser^ result = nullptr;
-            if (_browserAdapter->IsAlive)
+            IBrowserAdapter^ browserAdapter;
+            if (_browserAdapter->TryGetTarget(browserAdapter))
             {
-                auto browserAdapter = static_cast<IBrowserAdapter^>(_browserAdapter->Target);
                 if (!browserAdapter->IsDisposed)
                 {
                     result = browserAdapter->GetBrowser(_callback->BrowserId);
+                }
+            }
+            return result;
+        }
+
+        IJavascriptNameConverter^ JavascriptCallbackProxy::GetJavascriptNameConverter()
+        {
+            IJavascriptNameConverter^ result = nullptr;
+            IBrowserAdapter^ browserAdapter;
+            if (_browserAdapter->TryGetTarget(browserAdapter))
+            {
+                if (!browserAdapter->IsDisposed && browserAdapter->JavascriptObjectRepository != nullptr)
+                {
+                    result = browserAdapter->JavascriptObjectRepository->NameConverter;
                 }
             }
             return result;
@@ -88,10 +120,21 @@ namespace CefSharp
             {
                 return false;
             }
-            
-            auto browser = GetBrowser();
 
-            return browser != nullptr;
+            auto browser = GetBrowser();
+            if (browser == nullptr)
+            {
+                return false;
+            }
+
+            //If the frame Id is still valid then we can attemp to execute the callback
+            auto frame = browser->GetFrame(_callback->FrameId);
+            if (frame == nullptr)
+            {
+                return false;
+            }
+
+            return frame->IsValid;
         }
 
         void JavascriptCallbackProxy::DisposedGuard()

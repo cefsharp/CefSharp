@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -14,42 +14,17 @@ namespace CefSharp.ModelBinding
     /// </summary>
     public class BindingMemberInfo
     {
-        PropertyInfo propertyInfo;
-        FieldInfo fieldInfo;
-
-        /// <summary>
-        /// Gets a reference to the MemberInfo that this BindingMemberInfo represents. This can be a property or a field.
-        /// </summary>
-        public MemberInfo MemberInfo
-        {
-            get { return this.propertyInfo ?? (MemberInfo)this.fieldInfo; }
-        }
+        private readonly MemberInfo memberInfo;
 
         /// <summary>
         /// Gets the name of the property or field represented by this BindingMemberInfo.
         /// </summary>
-        public string Name
-        {
-            get { return this.MemberInfo.Name; }
-        }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets the data type of the property or field represented by this BindingMemberInfo.
         /// </summary>
-        public Type PropertyType
-        {
-            get
-            {
-                if (this.propertyInfo != null)
-                {
-                    return this.propertyInfo.PropertyType;
-                }
-                else
-                {
-                    return this.fieldInfo.FieldType;
-                }
-            }
-        }
+        public Type Type { get; private set; }
 
         /// <summary>
         /// Constructs a BindingMemberInfo instance for a property.
@@ -62,7 +37,10 @@ namespace CefSharp.ModelBinding
                 throw new ArgumentNullException("propertyInfo");
             }
 
-            this.propertyInfo = propertyInfo;
+            memberInfo = propertyInfo;
+
+            Type = propertyInfo.PropertyType;
+            Name = propertyInfo.Name;
         }
 
         /// <summary>
@@ -76,7 +54,10 @@ namespace CefSharp.ModelBinding
                 throw new ArgumentNullException("fieldInfo");
             }
 
-            this.fieldInfo = fieldInfo;
+            memberInfo = fieldInfo;
+
+            Type = fieldInfo.FieldType;
+            Name = fieldInfo.Name;
         }
 
         /// <summary>
@@ -86,63 +67,19 @@ namespace CefSharp.ModelBinding
         /// <param name="newValue">The value to assign in the specified object to this BindingMemberInfo's property or field.</param>
         public void SetValue(object destinationObject, object newValue)
         {
-            if (this.propertyInfo != null)
+            if (memberInfo is PropertyInfo)
             {
-                this.propertyInfo.SetValue(destinationObject, newValue, null);
+                ((PropertyInfo)memberInfo).SetValue(destinationObject, newValue, null);
             }
             else
             {
-                this.fieldInfo.SetValue(destinationObject, newValue);
+                ((FieldInfo)memberInfo).SetValue(destinationObject, newValue);
             }
         }
 
-        /// <inherit-doc/>
-        public override bool Equals(object obj)
+        public static implicit operator MemberInfo(BindingMemberInfo info)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            var other = obj as BindingMemberInfo;
-
-            if (other == null)
-            {
-                return false;
-            }
-
-            return this.MemberInfo.Equals(other.MemberInfo);
-        }
-
-        /// <summary>
-        /// Compares two BindingMemberInfo's with eachother on their respective values rather then their reference
-        /// </summary>
-        /// <param name="obj">the other BindingMemberInfo</param>
-        /// <returns>true when they are equal and false otherwise</returns>
-        public bool Equals(BindingMemberInfo obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            return this.MemberInfo.Equals(obj.MemberInfo);
-        }
-
-        /// <inherit-doc/>
-        public override int GetHashCode()
-        {
-            return this.MemberInfo.GetHashCode();
-        }
-
-        /// <summary>
-        /// Returns an enumerable sequence of bindable properties for the specified type.
-        /// </summary>
-        /// <typeparam name="T">The type to enumerate.</typeparam>
-        /// <returns>Bindable properties.</returns>
-        public static IEnumerable<BindingMemberInfo> Collect<T>()
-        {
-            return Collect(typeof(T));
+            return info.memberInfo;
         }
 
         /// <summary>

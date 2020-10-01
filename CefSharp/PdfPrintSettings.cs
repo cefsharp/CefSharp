@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -34,24 +34,24 @@ namespace CefSharp
         public int PageHeight { get; set; }
 
         /// <summary>
-        /// Margin in millimeters. Only used if MarginType is set to Custom.
+        /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
-        public double MarginLeft { get; set; }
+        public int MarginLeft { get; set; }
 
         /// <summary>
-        /// Margin in millimeters. Only used if MarginType is set to Custom.
+        /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
-        public double MarginTop { get; set; }
+        public int MarginTop { get; set; }
 
         /// <summary>
-        /// Margin in millimeters. Only used if MarginType is set to Custom.
+        /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
-        public double MarginRight { get; set; }
+        public int MarginRight { get; set; }
 
         /// <summary>
-        /// Margin in millimeters. Only used if MarginType is set to Custom.
+        /// Margin in points (1"/72). Only used if MarginType is set to Custom.
         /// </summary>
-        public double MarginBottom { get; set; }
+        public int MarginBottom { get; set; }
 
         /// <summary>
         /// Margin type.

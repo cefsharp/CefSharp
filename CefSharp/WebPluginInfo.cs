@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -29,6 +29,13 @@ namespace CefSharp
         /// </summary>
         public string Version { get; private set; }
 
+        /// <summary>
+        /// WebPluginInfo
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="description">description</param>
+        /// <param name="path">path</param>
+        /// <param name="version">version</param>
         public WebPluginInfo(string name, string description, string path, string version)
         {
             Name = name;

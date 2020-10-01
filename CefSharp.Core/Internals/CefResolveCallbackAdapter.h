@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -9,27 +9,31 @@
 
 namespace CefSharp
 {
-    private class CefResolveCallbackAdapter : public CefResolveCallback
+    namespace Internals
     {
-    private:
-        gcroot<IResolveCallback^> _handler;
-
-    public:
-        CefResolveCallbackAdapter(IResolveCallback^ handler)
+        private class CefResolveCallbackAdapter : public CefResolveCallback
         {
-            _handler = handler;
-        }
+        private:
+            gcroot<IResolveCallback^> _handler;
 
-        ~CefResolveCallbackAdapter()
-        {
-            _handler = nullptr;
-        }
+        public:
+            CefResolveCallbackAdapter(IResolveCallback^ handler)
+            {
+                _handler = handler;
+            }
 
-        void OnResolveCompleted(cef_errorcode_t result,	const std::vector<CefString>& resolvedIps) OVERRIDE
-        {
-            _handler->OnResolveCompleted((CefErrorCode)result, StringUtils::ToClr(resolvedIps));
-        }
+            ~CefResolveCallbackAdapter()
+            {
+                delete _handler;
+                _handler = nullptr;
+            }
 
-        IMPLEMENT_REFCOUNTING(CefResolveCallbackAdapter);
-    };
+            void OnResolveCompleted(cef_errorcode_t result, const std::vector<CefString>& resolvedIps) OVERRIDE
+            {
+                _handler->OnResolveCompleted((CefErrorCode)result, StringUtils::ToClr(resolvedIps));
+            }
+
+            IMPLEMENT_REFCOUNTING(CefResolveCallbackAdapter);
+        };
+    }
 }

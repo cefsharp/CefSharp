@@ -1,8 +1,7 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using CefSharp;
-using System;
 
 [assembly: AssemblyTitle("CefSharp")]
 [assembly: AssemblyDescription("")]
@@ -18,25 +17,18 @@ using System;
 [assembly: AssemblyFileVersion(AssemblyInfo.AssemblyFileVersion)]
 [assembly: CLSCompliant(AssemblyInfo.ClsCompliant)]
 
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpCoreProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpBrowserSubprocessProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpBrowserSubprocessCoreProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpWpfProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpWinFormsProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpOffScreenProject)]
-[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpTestProject)]
-
 namespace CefSharp
 {
+    /// <exclude />
     public static class AssemblyInfo
     {
         public const bool ClsCompliant = false;
         public const bool ComVisible = false;
         public const string AssemblyCompany = "The CefSharp Authors";
         public const string AssemblyProduct = "CefSharp";
-        public const string AssemblyVersion = "65.0.0";
-        public const string AssemblyFileVersion = "65.0.0.0";
-        public const string AssemblyCopyright = "Copyright © 2010-2018 The CefSharp Authors";
+        public const string AssemblyVersion = "84.4.0";
+        public const string AssemblyFileVersion = "84.4.0.0";
+        public const string AssemblyCopyright = "Copyright © 2020 The CefSharp Authors";
         public const string CefSharpCoreProject = "CefSharp.Core, PublicKey=" + PublicKey;
         public const string CefSharpBrowserSubprocessProject = "CefSharp.BrowserSubprocess, PublicKey=" + PublicKey;
         public const string CefSharpBrowserSubprocessCoreProject = "CefSharp.BrowserSubprocess.Core, PublicKey=" + PublicKey;

@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -8,9 +8,9 @@
 
 namespace CefSharp
 {
-    void NativeMethodWrapper::CopyMemoryUsingHandle(IntPtr dest, IntPtr src, int numberOfBytes)
+    void NativeMethodWrapper::MemoryCopy(IntPtr dest, IntPtr src, int numberOfBytes)
     {
-        CopyMemory(dest.ToPointer(), src.ToPointer(), numberOfBytes);
+        RtlCopyMemory(dest.ToPointer(), src.ToPointer(), numberOfBytes);
     }
 
     bool NativeMethodWrapper::IsFocused(IntPtr handle)
@@ -44,5 +44,18 @@ namespace CefSharp
         HWND newParentHwnd = static_cast<HWND>(newParent.ToPointer());
 
         SetParent(childHwnd, newParentHwnd);
+    }
+
+    void NativeMethodWrapper::RemoveExNoActivateStyle(IntPtr browserHwnd)
+    {
+        HWND hwnd = static_cast<HWND>(browserHwnd.ToPointer());
+
+        auto exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+
+        if (exStyle & WS_EX_NOACTIVATE)
+        {
+            //Remove WS_EX_NOACTIVATE
+            SetWindowLongPtr(hwnd, GWL_EXSTYLE, exStyle & ~WS_EX_NOACTIVATE);
+        }
     }
 }

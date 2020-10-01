@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -22,7 +22,7 @@ namespace CefSharp
             CefResponseWrapper(CefRefPtr<CefResponse> &response) :
                 _response(response)
             {
-                
+
             }
 
             !CefResponseWrapper()
@@ -38,6 +38,23 @@ namespace CefSharp
             }
 
         public:
+            virtual property String^ Charset
+            {
+                String^ get()
+                {
+                    ThrowIfDisposed();
+
+                    return StringUtils::ToClr(_response->GetCharset());
+                }
+                void set(String^ val)
+                {
+                    ThrowIfDisposed();
+                    ThrowIfReadOnly();
+
+                    _response->SetCharset(StringUtils::ToNative(val));
+                }
+            }
+
             virtual property bool IsReadOnly
             {
                 bool get()
@@ -59,6 +76,7 @@ namespace CefSharp
                 void set(CefErrorCode val)
                 {
                     ThrowIfDisposed();
+                    ThrowIfReadOnly();
 
                     _response->SetError((cef_errorcode_t)val);
                 }
@@ -75,6 +93,7 @@ namespace CefSharp
                 void set(int val)
                 {
                     ThrowIfDisposed();
+                    ThrowIfReadOnly();
 
                     _response->SetStatus(val);
                 }
@@ -91,6 +110,7 @@ namespace CefSharp
                 void set(String^ val)
                 {
                     ThrowIfDisposed();
+                    ThrowIfReadOnly();
 
                     _response->SetStatusText(StringUtils::ToNative(val));
                 }
@@ -107,12 +127,13 @@ namespace CefSharp
                 void set(String^ val)
                 {
                     ThrowIfDisposed();
+                    ThrowIfReadOnly();
 
                     _response->SetMimeType(StringUtils::ToNative(val));
                 }
             }
 
-            virtual property NameValueCollection^ ResponseHeaders
+            virtual property NameValueCollection^ Headers
             {
                 NameValueCollection^ get()
                 {
@@ -122,7 +143,7 @@ namespace CefSharp
                     CefRequest::HeaderMap hm;
                     _response->GetHeaderMap(hm);
 
-                    NameValueCollection^ headers = gcnew NameValueCollection();
+                    auto headers = gcnew HeaderNameValueCollection();
 
                     for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
                     {
@@ -131,13 +152,39 @@ namespace CefSharp
                         headers->Add(name, value);
                     }
 
+                    if (_response->IsReadOnly())
+                    {
+                        headers->SetReadOnly();
+                    }
+
                     return headers;
                 }
                 void set(NameValueCollection^ headers)
                 {
                     ThrowIfDisposed();
+                    ThrowIfReadOnly();
 
                     _response->SetHeaderMap(TypeConversion::ToNative(headers));
+                }
+            }
+
+            virtual property NameValueCollection^ ResponseHeaders
+            {
+                NameValueCollection^ get()
+                {
+                    return Headers;
+                }
+                void set(NameValueCollection^ headers)
+                {
+                    Headers = headers;
+                }
+            }
+
+            void ThrowIfReadOnly()
+            {
+                if (_response->IsReadOnly())
+                {
+                    throw gcnew NotSupportedException("IResponse is read-only and cannot be modified. Check IResponse.IsReadOnly to guard against this exception.");
                 }
             }
         };

@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -14,19 +14,32 @@ namespace CefSharp
     {
     private:
         CefWindowInfo* _windowInfo;
+        bool _ownsPointer = false;
+
+    internal:
+        WindowInfo(CefWindowInfo* windowInfo) : _windowInfo(windowInfo)
+        {
+
+        }
+
+        CefWindowInfo* GetWindowInfo()
+        {
+            return _windowInfo;
+        }
 
     public:
         WindowInfo() : _windowInfo(new CefWindowInfo())
         {
-        }
-
-        WindowInfo(CefWindowInfo* windowInfo) : _windowInfo(windowInfo)
-        {
-            
+            _ownsPointer = true;
         }
 
         !WindowInfo()
         {
+            if (_ownsPointer)
+            {
+                delete _windowInfo;
+            }
+
             _windowInfo = NULL;
         }
 
@@ -143,6 +156,39 @@ namespace CefSharp
             }
         }
 
+        virtual property bool SharedTextureEnabled
+        {
+            bool get()
+            {
+                return _windowInfo->shared_texture_enabled == 1;
+            }
+            void set(bool sharedTextureEnabled)
+            {
+                _windowInfo->shared_texture_enabled = sharedTextureEnabled;
+            }
+        }
+
+        virtual property bool ExternalBeginFrameEnabled
+        {
+            bool get()
+            {
+                return _windowInfo->external_begin_frame_enabled == 1;
+            }
+            void set(bool externalBeginFrameEnabled)
+            {
+                _windowInfo->external_begin_frame_enabled = externalBeginFrameEnabled;
+            }
+        }
+
+        virtual void SetAsChild(IntPtr parentHandle)
+        {
+            HWND hwnd = static_cast<HWND>(parentHandle.ToPointer());
+            RECT rect;
+            GetClientRect(hwnd, &rect);
+            CefWindowInfo window;
+            _windowInfo->SetAsChild(hwnd, rect);
+        }
+
         virtual void SetAsChild(IntPtr parentHandle, int left, int top, int right, int bottom)
         {
             RECT rect;
@@ -161,11 +207,6 @@ namespace CefSharp
         virtual void SetAsWindowless(IntPtr parentHandle)
         {
             _windowInfo->SetAsWindowless((HWND)parentHandle.ToPointer());
-        }
-
-        CefWindowInfo* GetWindowInfo()
-        {
-            return _windowInfo;
         }
     };
 }

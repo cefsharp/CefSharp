@@ -133,6 +133,9 @@
   <data name="TooltipTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TooltipTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="DragDropCursorsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DragDropCursorsTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="bootstrap_min_css" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bootstrap\bootstrap.min.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -162,9 +165,6 @@
   </data>
   <data name="assets_css_shCoreDefault_css" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\assets\css\shcoredefault.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="extension" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\extension.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ExceptionTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExceptionTest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -210,5 +210,26 @@
   </data>
   <data name="BindingTestSingle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BindingTestSingle.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="JavascriptCallbackTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\JavascriptCallbackTest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="BindingTestsAsyncTask" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BindingTestsAsyncTask.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="PostMessageTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PostMessageTest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="BindingApiCustomObjectNameTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BindingApiCustomObjectNameTest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="BindingTestAsync" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BindingTestAsync.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="BindingTestSync" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BindingTestSync.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="BindingTestNetCore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BindingTestNetCore.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

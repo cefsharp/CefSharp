@@ -1,15 +1,22 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
 #include <msclr/lock.h>
 
-#include "Internals\CefSharpBrowserWrapper.h"
-#include "Internals\CefRequestWrapper.h"
+#include "UrlRequest.h"
+#include "Request.h"
+#include "Internals\CefBrowserWrapper.h"
 #include "Internals\CefFrameWrapper.h"
-#include "Internals\StringVisitor.h"
+#include "Internals\CefStringVisitorAdapter.h"
 #include "Internals\ClientAdapter.h"
+#include "Internals\Serialization\Primitives.h"
+#include "Internals\Messaging\Messages.h"
+#include "Internals\CefURLRequestClientAdapter.h" 
+
+using namespace CefSharp::Internals::Messaging;
+using namespace CefSharp::Internals::Serialization;
 
 ///
 // True if this object is currently attached to a valid frame.
@@ -131,7 +138,7 @@ Task<String^>^ CefFrameWrapper::GetSourceAsync()
     ThrowIfFrameInvalid();
 
     auto taskStringVisitor = gcnew TaskStringVisitor();
-    _frame->GetSource(new StringVisitor(taskStringVisitor));
+    _frame->GetSource(new CefStringVisitorAdapter(taskStringVisitor));
     return taskStringVisitor->Task;
 }
 
@@ -145,7 +152,7 @@ void CefFrameWrapper::GetSource(IStringVisitor^ visitor)
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
 
-    _frame->GetSource(new StringVisitor(visitor));
+    _frame->GetSource(new CefStringVisitorAdapter(visitor));
 }
 
 ///
@@ -159,7 +166,7 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
     ThrowIfFrameInvalid();
 
     auto taskStringVisitor = gcnew TaskStringVisitor();
-    _frame->GetText(new StringVisitor(taskStringVisitor));
+    _frame->GetText(new CefStringVisitorAdapter(taskStringVisitor));
     return taskStringVisitor->Task;
 }
 
@@ -173,7 +180,7 @@ void CefFrameWrapper::GetText(IStringVisitor^ visitor)
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
 
-    _frame->GetText(new StringVisitor(visitor));
+    _frame->GetText(new CefStringVisitorAdapter(visitor));
 }
 
 
@@ -186,7 +193,7 @@ void CefFrameWrapper::LoadRequest(IRequest^ request)
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
 
-    auto requestWrapper = (CefRequestWrapper^)request;
+    auto requestWrapper = (Request^)request;
     _frame->LoadRequest(requestWrapper);
 }
 
@@ -200,20 +207,6 @@ void CefFrameWrapper::LoadUrl(String^ url)
     ThrowIfFrameInvalid();
 
     _frame->LoadURL(StringUtils::ToNative(url));
-}
-
-///
-// Load the contents of |html| with the specified dummy |url|. |url|
-// should have a standard scheme (for example, http scheme) or behaviors like
-// link clicks and web security restrictions may not behave as expected.
-///
-/*--cef()--*/
-void CefFrameWrapper::LoadStringForUrl(String^ html, String^ url)
-{
-    ThrowIfDisposed();
-    ThrowIfFrameInvalid();
-
-    _frame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
 }
 
 ///
@@ -240,9 +233,29 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
     auto browser = _frame->GetBrowser();
     auto host = browser->GetHost();
 
+    //If we're unable to get the underlying browser/browserhost then return null
+    if (!browser.get() || !host.get())
+    {
+        return nullptr;
+    }
+
     auto client = static_cast<ClientAdapter*>(host->GetClient().get());
 
-    return client->EvaluateScriptAsync(browser->GetIdentifier(), browser->IsPopup(), _frame->GetIdentifier(), script, scriptUrl, startLine, timeout);
+    auto pendingTaskRepository = client->GetPendingTaskRepository();
+
+    //create a new taskcompletionsource
+    auto idAndComplectionSource = pendingTaskRepository->CreatePendingTask(timeout);
+
+    auto message = CefProcessMessage::Create(kEvaluateJavascriptRequest);
+    auto argList = message->GetArgumentList();
+    SetInt64(argList, 0, idAndComplectionSource.Key);
+    argList->SetString(1, StringUtils::ToNative(script));
+    argList->SetString(2, StringUtils::ToNative(scriptUrl));
+    argList->SetInt(3, startLine);
+
+    _frame->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+
+    return idAndComplectionSource.Value->Task;
 }
 
 ///
@@ -366,7 +379,7 @@ IBrowser^ CefFrameWrapper::Browser::get()
         return _owningBrowser;
     }
 
-    _owningBrowser = gcnew CefSharpBrowserWrapper(_frame->GetBrowser());
+    _owningBrowser = gcnew CefBrowserWrapper(_frame->GetBrowser());
     return _owningBrowser;
 }
 
@@ -379,7 +392,28 @@ IRequest^ CefFrameWrapper::CreateRequest(bool initializePostData)
         request->SetPostData(CefPostData::Create());
     }
 
-    return gcnew CefRequestWrapper(request);
+    return gcnew Request(request);
+}
+
+IUrlRequest^ CefFrameWrapper::CreateUrlRequest(IRequest^ request, IUrlRequestClient^ client)
+{
+    ThrowIfDisposed();
+
+    if (request == nullptr)
+    {
+        throw gcnew ArgumentNullException("request");
+    }
+
+    if (client == nullptr)
+    {
+        throw gcnew ArgumentNullException("client");
+    }
+
+    auto urlRequest = _frame->CreateURLRequest(
+        (Request^)request,
+        new CefUrlRequestClientAdapter(client));
+
+    return gcnew UrlRequest(urlRequest);
 }
 
 void CefFrameWrapper::ThrowIfFrameInvalid()

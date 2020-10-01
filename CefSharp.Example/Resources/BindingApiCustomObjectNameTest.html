@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>QUnit Javascript Binding API Object Name</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.10.0.css">
+    <script>
+        if (!window.bindingApiObject)
+        {
+            window.bindingApiObject = cefSharp;
+        }
+    </script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.10.0.js"></script>
+    <script>
+        QUnit.test("Test if can execute a method on our object", function (assert)
+        {
+            assert.notOk(bindingApiObject.isObjectCached("fakeExample"), "We expect false");
+        });
+    </script>
+</body>
+</html>

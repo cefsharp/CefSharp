@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -55,7 +55,7 @@ namespace CefSharp
                 {
                     auto subList = list->GetList(index);
                     auto array = gcnew List<Object^>(subList->GetSize());
-                    for (auto i = 0; i < subList->GetSize(); i++)
+                    for (size_t i = 0; i < subList->GetSize(); i++)
                     {
                         array->Add(DeserializeObject(subList, i, javascriptCallbackFactory));
                     }
@@ -63,13 +63,13 @@ namespace CefSharp
                 }
                 else if (type == VTYPE_DICTIONARY)
                 {
-                    
+
                     IDictionary<String^, Object^>^ expandoObj = gcnew ExpandoObject();
                     auto subDict = list->GetDictionary(index);
                     std::vector<CefString> keys;
                     subDict->GetKeys(keys);
 
-                    for (auto i = 0; i < keys.size(); i++)
+                    for (size_t i = 0; i < keys.size(); i++)
                     {
                         auto key = StringUtils::ToClr(keys[i]);
                         auto value = DeserializeObject(subDict, keys[i], javascriptCallbackFactory);

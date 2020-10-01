@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,6 +13,11 @@ namespace CefSharp
     public interface IResponse : IDisposable
     {
         /// <summary>
+        /// Get/Set the response charset.
+        /// </summary>
+        string Charset { get; set; }
+
+        /// <summary>
         /// MimeType
         /// </summary>
         string MimeType { get; set; }
@@ -20,7 +25,7 @@ namespace CefSharp
         /// <summary>
         /// Response Headers
         /// </summary>
-        NameValueCollection ResponseHeaders { get; set; }
+        NameValueCollection Headers { get; set; }
 
         /// <summary>
         /// Returns true if this object is read-only.

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -6,8 +6,8 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public class OnQuotaRequestEventArgs : BaseRequestEventArgs
     {
-        public OnQuotaRequestEventArgs(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
-            : base(browserControl, browser)
+        public OnQuotaRequestEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
+            : base(chromiumWebBrowser, browser)
         {
             OriginUrl = originUrl;
             NewSize = newSize;

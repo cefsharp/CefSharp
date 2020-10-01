@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -39,7 +39,7 @@ namespace CefSharp.Internals
         /// </summary>
         public List<MethodParameter> Parameters { get; set; }
 
-        public bool HasParamArray { get;set; }
+        public bool HasParamArray { get; set; }
 
         /// <summary>
         /// Number of Params this function exepects

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+<<<<<<< HEAD
     <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
   </PropertyGroup>
 
@@ -11,6 +12,11 @@
     <CefSharpWinFormsBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
   </ItemGroup>
 
+=======
+    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' ">.</CefSharpTargetDir>
+  </PropertyGroup>
+
+>>>>>>> master
   <!--
     These item groups should be in the .props file, unfortunately Nuget 2.8.x doesn't gurantee the
     correct ordering .props imports, which we require as this depends on the cef.redist packages
@@ -24,10 +30,20 @@
         <None Include="@(CefSharpWinFormsBinaries32)">
           <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+<<<<<<< HEAD
+=======
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+>>>>>>> master
         </None>
         <None Include="@(CefSharpWinFormsBinaries64)">
           <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+<<<<<<< HEAD
+=======
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+>>>>>>> master
         </None>
       </ItemGroup>
     </When>
@@ -36,6 +52,11 @@
         <None Include="@(CefSharpWinFormsBinaries64)">
           <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+<<<<<<< HEAD
+=======
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+>>>>>>> master
         </None>
       </ItemGroup>
     </When>
@@ -45,6 +66,11 @@
         <None Include="@(CefSharpWinFormsBinaries32)">
           <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+<<<<<<< HEAD
+=======
+          <PublishState>Include</PublishState>
+          <Visible>false</Visible>
+>>>>>>> master
         </None>
       </ItemGroup>
     </Otherwise>

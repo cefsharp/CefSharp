@@ -1,15 +1,29 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
 
 #include "include\cef_values.h"
+#include "include\cef_parser.h"
 
 #include "V8Serialization.h"
 #include "Primitives.h"
 
 using namespace System::Collections::Generic;
+
+namespace
+{
+    String^ GetJavascriptName(System::Reflection::MemberInfo^ memberInfo, IJavascriptNameConverter^ nameConverter)
+    {
+        if (nameConverter == nullptr)
+        {
+            return memberInfo->Name;
+        }
+
+        return nameConverter->ConvertReturnedObjectPropertyAndFieldToNameJavascript(memberInfo);
+    }
+}
 
 namespace CefSharp
 {
@@ -18,22 +32,25 @@ namespace CefSharp
         namespace Serialization
         {
             template<typename TList, typename TIndex>
-            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj)
+            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, IJavascriptNameConverter^ nameConverter)
             {
-                auto seen = gcnew Stack<Object^>();
-                SerializeV8SimpleObject(list, index, obj, seen);
+                // Collection of ancestors to currently serialised object.
+                // This enables prevention of endless loops due to cycles in graphs where
+                // a child references one of its ancestors.
+                auto ancestors = gcnew HashSet<Object^>();
+                SerializeV8SimpleObject(list, index, obj, ancestors, nameConverter);
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen)
+            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, HashSet<Object^>^ ancestors, IJavascriptNameConverter^ nameConverter)
             {
                 list->SetNull(index);
 
-                if (obj == nullptr || seen->Contains(obj))
+                if (obj == nullptr || ancestors->Contains(obj))
                 {
                     return;
                 }
-                seen->Push(obj);
+                ancestors->Add(obj);
 
                 auto type = obj->GetType();
                 Type^ underlyingType = Nullable::GetUnderlyingType(type);
@@ -99,6 +116,30 @@ namespace CefSharp
                 {
                     SetCefTime(list, index, ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
                 }
+                // Serialize enum to sbyte, short, int, long, byte, ushort, uint, ulong (check type of enum)
+                else if (type->IsEnum)
+                {
+                    auto subType = System::Enum::GetUnderlyingType(type);
+                    if (subType == SByte::typeid ||
+                        subType == Int16::typeid ||
+                        subType == Int32::typeid ||
+                        subType == Byte::typeid ||
+                        subType == UInt16::typeid)
+                    {
+                        list->SetInt(index, Convert::ToInt32(obj));
+                    }
+                    else if (subType == Int64::typeid ||
+                        subType == UInt32::typeid ||
+                        subType == UInt64::typeid)
+                    {
+                        list->SetDouble(index, Convert::ToDouble(obj));
+                    }
+                    else
+                    {
+                        //Unexpected type, just convert it to a string
+                        list->SetString(index, StringUtils::ToNative(Convert::ToString(obj)));
+                    }
+                }
                 // Serialize dictionary to CefDictionary (key,value pairs)
                 else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
                 {
@@ -107,7 +148,7 @@ namespace CefSharp
                     for each (System::Collections::DictionaryEntry kvp in dict)
                     {
                         auto fieldName = StringUtils::ToNative(Convert::ToString(kvp.Key));
-                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, seen);
+                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, ancestors, nameConverter);
                     }
                     list->SetDictionary(index, subDict);
                 }
@@ -119,11 +160,30 @@ namespace CefSharp
                     int i = 0;
                     for each (Object^ arrObj in enumerable)
                     {
-                        SerializeV8SimpleObject(subList, i, arrObj, seen);
+                        SerializeV8SimpleObject(subList, i, arrObj, ancestors, nameConverter);
                         i++;
                     }
                     list->SetList(index, subList);
                 }
+                else if (CefSharp::Web::JsonString::typeid->IsAssignableFrom(type))
+                {
+                    auto jsonString = (CefSharp::Web::JsonString^) obj;
+
+                    //Tried to use CefParseJSONAndReturnError, keeps returning error when
+                    //CefParseJson works for the same string, so must be a CEF bug
+                    auto jsonValue = CefParseJSON(StringUtils::ToNative(jsonString->Json),
+                        cef_json_parser_options_t::JSON_PARSER_ALLOW_TRAILING_COMMAS);
+
+                    if (jsonValue.get())
+                    {
+                        list->SetValue(index, jsonValue);
+                    }
+                    else
+                    {
+                        list->SetString(index, CefString("V8Serialization - Unable to parse JSON"));
+                    }
+                }
+
                 // Serialize class/structs to CefDictionary (key,value pairs)
                 else if (!type->IsPrimitive && !type->IsEnum)
                 {
@@ -132,32 +192,32 @@ namespace CefSharp
 
                     for (int i = 0; i < fields->Length; i++)
                     {
-                        auto fieldName = StringUtils::ToNative(fields[i]->Name);
+                        auto fieldName = GetJavascriptName(fields[i], nameConverter);
                         auto fieldValue = fields[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, seen);
+                        SerializeV8SimpleObject(subDict, StringUtils::ToNative(fieldName), fieldValue, ancestors, nameConverter);
                     }
 
                     auto properties = type->GetProperties();
 
                     for (int i = 0; i < properties->Length; i++)
                     {
-                        auto propertyName = StringUtils::ToNative(properties[i]->Name);
+                        auto propertyName = GetJavascriptName(properties[i], nameConverter);
                         auto propertyValue = properties[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, propertyName, propertyValue, seen);
+                        SerializeV8SimpleObject(subDict, StringUtils::ToNative(propertyName), propertyValue, ancestors, nameConverter);
                     }
                     list->SetDictionary(index, subDict);
-                } 
+                }
                 else
                 {
-                    throw gcnew NotSupportedException("Unable to serialize Type");
+                    list->SetString(index, StringUtils::ToNative("Unable to serialize Type - " + obj->GetType()->ToString()));
                 }
 
-                seen->Pop();
+                ancestors->Remove(obj);
             }
 
             CefTime ConvertDateTimeToCefTime(DateTime dateTime)
             {
-                auto timeSpan = dateTime - DateTime(1970, 1, 1);
+                auto timeSpan = dateTime.ToUniversalTime() - DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind::Utc);
 
                 return CefTime(timeSpan.TotalSeconds);
             }

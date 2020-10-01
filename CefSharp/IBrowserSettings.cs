@@ -1,13 +1,15 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 
 namespace CefSharp
 {
     /// <summary>
     /// Interface representing browser initialization settings. 
     /// </summary>
-    public interface IBrowserSettings
+    public interface IBrowserSettings : IDisposable
     {
         /// <summary>
         /// StandardFontFamily
@@ -23,7 +25,7 @@ namespace CefSharp
         /// SerifFontFamily
         /// </summary>
         string SerifFontFamily { get; set; }
-        
+
         /// <summary>
         /// SansSerifFontFamily
         /// </summary>
@@ -72,8 +74,8 @@ namespace CefSharp
         CefState RemoteFonts { get; set; }
 
         /// <summary>
-        /// Controls whether JavaScript can be executed.
-        /// (Disable javascript)
+        /// Controls whether JavaScript can be executed. (Used to Enable/Disable javascript)
+        /// Also configurable using the "disable-javascript" command-line switch.
         /// </summary>
         CefState Javascript { get; set; }
 
@@ -175,7 +177,7 @@ namespace CefSharp
         /// configurable using the "disable-webgl" command-line switch.
         /// </summary>
         CefState WebGl { get; set; }
-        
+
         /// <summary>
         /// Opaque background color used for the browser before a document is loaded
         /// and when no document color is specified. By default the background color
@@ -203,5 +205,17 @@ namespace CefSharp
         /// changed dynamically via IBrowserHost.SetWindowlessFrameRate.
         /// </summary>
         int WindowlessFrameRate { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating if the browser settings has been disposed.
+        /// </summary>
+        bool IsDisposed { get; }
+
+        /// <summary>
+        /// Gets a value indicating if the browser settings instance was created internally by CefSharp.
+        /// instances created by CefSharp will be Disposed of after use. To control the lifespan yourself
+        /// create an set BrowserSettings yourself.
+        /// </summary>
+        bool FrameworkCreated { get; }
     }
 }

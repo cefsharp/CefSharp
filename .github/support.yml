@@ -1,0 +1,27 @@
+# Configuration for Support Requests - https://github.com/dessant/support-requests
+
+# Label used to mark issues as support requests
+supportLabel: support
+
+# Comment to post on issues marked as support requests, `{issue-author}` is an
+# optional placeholder. Set to `false` to disable
+supportComment: >
+  :wave: @{issue-author}, we use the issue tracker exclusively for bug reports
+  and feature requests. However, this issue appears to be a support request.
+  Please use our support channels to get help with the project.
+  <br/>
+  If you have a question, ask it on [StackOverflow](http://stackoverflow.com/questions/tagged/cefsharp) or use [ceforum](http://magpcss.org/ceforum/) (for questions specific to `CEF`).
+  <br/>
+  If you are new to `CefSharp` then we suggest you read https://github.com/cefsharp/CefSharp/wiki/General-Usage
+  <br/>
+  If you feel this was closed in error then you **must** edit your original issue and complete the [Bug Report Template](https://github.com/cefsharp/CefSharp/blob/master/.github/ISSUE_TEMPLATE/bug_report.md#bug-report)
+  then post a comment asking for a review.
+
+# Close issues marked as support requests
+close: true
+
+# Lock issues marked as support requests
+lock: false
+
+# Assign `off-topic` as the reason for locking. Set to `false` to disable
+setLockReason: false

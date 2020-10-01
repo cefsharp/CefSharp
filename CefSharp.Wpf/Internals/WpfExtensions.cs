@@ -1,13 +1,13 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
 using System;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using CefSharp.Internals;
 
 namespace CefSharp.Wpf.Internals
 {
@@ -39,6 +39,17 @@ namespace CefSharp.Wpf.Internals
                 modifiers |= CefEventFlags.RightMouseButton;
             }
 
+            modifiers |= GetModifierKeys(modifiers);
+
+            return modifiers;
+        }
+
+        /// <summary>
+        /// Gets keyboard modifiers.
+        /// </summary>
+        /// <returns>CefEventFlags.</returns>
+        public static CefEventFlags GetModifierKeys(CefEventFlags modifiers = 0)
+        {
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
@@ -81,17 +92,21 @@ namespace CefSharp.Wpf.Internals
         {
             CefEventFlags modifiers = 0;
 
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift))
+            //Only read modifiers once for performance reasons
+            //https://referencesource.microsoft.com/#PresentationCore/Core/CSharp/System/Windows/Input/KeyboardDevice.cs,227
+            var keyboardDeviceModifiers = e.KeyboardDevice.Modifiers;
+
+            if (keyboardDeviceModifiers.HasFlag(ModifierKeys.Shift))
             {
                 modifiers |= CefEventFlags.ShiftDown;
             }
 
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Alt))
+            if (keyboardDeviceModifiers.HasFlag(ModifierKeys.Alt))
             {
                 modifiers |= CefEventFlags.AltDown;
             }
 
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
+            if (keyboardDeviceModifiers.HasFlag(ModifierKeys.Control))
             {
                 modifiers |= CefEventFlags.ControlDown;
             }

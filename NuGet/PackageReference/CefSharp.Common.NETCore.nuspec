@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata minClientVersion="4.0.0">
+    <id>CefSharp.Common.NETCore</id>
+    <version>$version$</version>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <projectUrl>https://github.com/cefsharp/CefSharp</projectUrl>
+    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The CefSharp Chromium-based browser component ('Core' and common 'Element' components, needed by both WPF, WinForms and OffScreen implementations).</description>
+    <tags>chrome browser chromium-embedded</tags>
+    <copyright>Copyright © The CefSharp Authors</copyright>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,ContentFiles" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+	<file src="..\..\CefSharp\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.dll" target="ref\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core.RefAssembly\bin\Release\netcoreapp3.1\CefSharp.Core.dll" target="ref\netcoreapp3.1"/>
+	
+	<file src="..\..\CefSharp\bin.netcore\Release\netcoreapp3.1\CefSharp.dll" target="lib\netcoreapp3.1"/>
+
+	<!-- PlatformNative is either Win32 or x64 -->
+	<file src="..\..\CefSharp.Core\bin.netcore\Win32\Release\Ijwhost.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Win32\Release\CefSharp.Core.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\x64\Release\CefSharp.Core.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\x64\Release\Ijwhost.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\Win32\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.exe" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.deps.json" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.runtimeconfig.json" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.exe" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.deps.json" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.runtimeconfig.json" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+  </files>
+</package>
+

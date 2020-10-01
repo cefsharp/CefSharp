@@ -1,15 +1,15 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Example;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using CefSharp.Example;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System.Threading.Tasks;
 
 namespace CefSharp.Wpf.Example.ViewModels
 {
@@ -92,6 +92,13 @@ namespace CefSharp.Wpf.Example.ViewModels
             set { Set(ref downloadItem, value); }
         }
 
+        private bool legacyBindingEnabled;
+        public bool LegacyBindingEnabled
+        {
+            get { return legacyBindingEnabled; }
+            set { Set(ref legacyBindingEnabled, value); }
+        }
+
         public ICommand GoCommand { get; private set; }
         public ICommand HomeCommand { get; private set; }
         public ICommand ExecuteJavaScriptCommand { get; private set; }
@@ -116,11 +123,14 @@ namespace CefSharp.Wpf.Example.ViewModels
                 WebBrowser.Load(CefExample.BindingTestUrl);
                 WebBrowser.LoadingStateChanged += (e, args) =>
                 {
-                    if(args.IsLoading == false)
+                    if (args.IsLoading == false)
                     {
                         Task.Delay(10000).ContinueWith(t =>
                         {
-                            WebBrowser.Reload();
+                            if (WebBrowser != null)
+                            {
+                                WebBrowser.Reload();
+                            }
                         });
                     }
                 };
@@ -175,7 +185,6 @@ namespace CefSharp.Wpf.Example.ViewModels
                     {
                         WebBrowser.ConsoleMessage += OnWebBrowserConsoleMessage;
                         WebBrowser.StatusMessage += OnWebBrowserStatusMessage;
-                        WebBrowser.LoadError += OnWebBrowserLoadError;
 
                         // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
@@ -203,19 +212,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         private void OnWebBrowserStatusMessage(object sender, StatusMessageEventArgs e)
         {
             StatusMessage = e.Value;
-        }
-
-        private void OnWebBrowserLoadError(object sender, LoadErrorEventArgs args)
-        {
-            // Don't display an error for downloaded files where the user aborted the download.
-            if (args.ErrorCode == CefErrorCode.Aborted)
-                return;
-
-            var errorMessage = "<html><body><h2>Failed to load URL " + args.FailedUrl +
-                  " with error " + args.ErrorText + " (" + args.ErrorCode +
-                  ").</h2></body></html>";
-
-            webBrowser.LoadHtml(errorMessage, args.FailedUrl);
         }
 
         private void Go()

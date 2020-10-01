@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
+using CefSharp.JavascriptBinding;
 
 namespace CefSharp.ModelBinding
 {
@@ -18,219 +18,174 @@ namespace CefSharp.ModelBinding
     /// </summary>
     public class DefaultBinder : IBinder
     {
-        private readonly static MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
+        private static readonly MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
+        private readonly IJavascriptNameConverter javascriptNameConverter;
 
-        private readonly IFieldNameConverter fieldNameConverter;
-
-        /// <summary>
-        /// List of property names to be ignored
-        /// </summary>
-        public IEnumerable<string> BlackListedPropertyNames { get; set; }
-
-        /// <summary>
-        /// DefaultBinder constructor
-        /// </summary>
-        /// <param name="fieldNameConverter">used to convert field names to property names</param>
-        public DefaultBinder(IFieldNameConverter fieldNameConverter)
+        public DefaultBinder(IJavascriptNameConverter javascriptNameConverter = null)
         {
-            if (fieldNameConverter == null)
-            {
-                throw new ArgumentNullException("fieldNameConverter");
-            }
-
-            this.fieldNameConverter = fieldNameConverter;
-            BlackListedPropertyNames = new List<string>();
+            this.javascriptNameConverter = javascriptNameConverter;
         }
 
         /// <summary>
         /// Bind to the given model type
         /// </summary>
         /// <param name="obj">object to be converted into a model</param>
-        /// <param name="modelType">Model type to bind to</param>
+        /// <param name="targetType">the target param type</param>
         /// <returns>Bound model</returns>
-        public virtual object Bind(object obj, Type modelType)
+        public virtual object Bind(object obj, Type targetType)
         {
-            if(obj == null)
+            if (obj == null)
             {
+                if (targetType.IsValueType)
+                {
+                    //For value types (int, double, etc) we cannot return null,
+                    //we need to return the default value for that type.
+                    return Activator.CreateInstance(targetType);
+                }
                 return null;
             }
 
             var objType = obj.GetType();
 
             // If the object can be directly assigned to the modelType then return immediately. 
-            if (modelType.IsAssignableFrom(objType))
+            if (targetType.IsAssignableFrom(objType))
             {
                 return obj;
             }
 
-            if (modelType.IsEnum && modelType.IsEnumDefined(obj)) 
+            if (targetType.IsEnum && targetType.IsEnumDefined(obj))
             {
-                return Enum.ToObject(modelType, obj);
+                return Enum.ToObject(targetType, obj);
             }
 
             var typeConverter = TypeDescriptor.GetConverter(objType);
-            
+
             // If the object can be converted to the modelType (eg: double to int)
-            if (typeConverter.CanConvertTo(modelType)) 
+            if (typeConverter.CanConvertTo(targetType))
             {
-                return typeConverter.ConvertTo(obj, modelType);
+                return typeConverter.ConvertTo(obj, targetType);
+            }
+
+            if (targetType.IsCollection() || targetType.IsArray() || targetType.IsEnumerable())
+            {
+                return BindCollection(targetType, objType, obj);
+            }
+
+            return BindObject(targetType, objType, obj);
+        }
+
+        /// <summary>
+        /// Bind collection.
+        /// </summary>
+        /// <param name="targetType">the target param type.</param>
+        /// <param name="objType">Type of the object.</param>
+        /// <param name="obj">object to be converted into a model.</param>
+        /// <returns>
+        /// An object.
+        /// </returns>
+        protected virtual object BindCollection(Type targetType, Type objType, object obj)
+        {
+            var collection = obj as ICollection;
+
+            if (collection == null)
+            {
+                return null;
             }
 
             Type genericType = null;
-            if (modelType.IsCollection() || modelType.IsArray() || modelType.IsEnumerable())
+
+            // Make sure it has a generic type
+            if (targetType.GetTypeInfo().IsGenericType)
             {
-                // Make sure it has a generic type
-                if (modelType.GetTypeInfo().IsGenericType)
-                {
-                    genericType = modelType.GetGenericArguments().FirstOrDefault();
-                }
-                else
-                {
-                    var ienumerable = modelType.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType).FirstOrDefault(i => i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
-                    genericType = ienumerable == null ? null : ienumerable.GetGenericArguments().FirstOrDefault();
-                }
-
-                if (genericType == null)
-                {
-                    // If we don't have a generic type then just use object
-                    genericType = typeof(object);
-                }
-            }
-
-            var bindingContext = this.CreateBindingContext(obj, modelType, genericType);
-            var destinationType = bindingContext.DestinationType;
-
-            if (destinationType.IsCollection() || destinationType.IsArray() || destinationType.IsEnumerable())
-            {
-                var model = (IList)bindingContext.Model;
-                var collection = obj as ICollection;
-
-                if(collection == null)
-                {
-                    return null;
-                }
-
-                for (var i = 0; i < collection.Count; i++)
-                {
-                    var val = GetValue(bindingContext, i);
-
-                    //If the value is null then we'll add null to the collection,
-                    if (val == null)
-                    {
-                        //For value types like int we'll create the default value and assign that as we cannot assign null
-                        model.Add(genericType.IsValueType ? Activator.CreateInstance(genericType) : null);
-                    }
-                    else
-                    {
-                        var valueType = val.GetType();
-                        //If the collection item is a list or dictionary then we'll attempt to bind it
-                        if (typeof(IDictionary<string, object>).IsAssignableFrom(valueType) ||
-                            typeof(IList<object>).IsAssignableFrom(valueType))
-                        {
-                            var subModel = Bind(val, genericType);
-                            model.Add(subModel);
-                        }
-                        else
-                        { 
-                            model.Add(val);
-                        }
-                    }
-                }
+                genericType = targetType.GetGenericArguments().FirstOrDefault();
             }
             else
             {
-                // If the object type is a dictionary (we're using ExpandoObject instead of Dictionary now)
-                // Then attempt to bind all the members
-                if (typeof(IDictionary<string, object>).IsAssignableFrom(bindingContext.Object.GetType()))
-                { 
-                    foreach (var modelProperty in bindingContext.ValidModelBindingMembers)
-                    {
-                        var val = GetValue(modelProperty.Name, bindingContext);
+                var ienumerable = targetType.GetInterfaces().Where(i => i.GetTypeInfo().IsGenericType).FirstOrDefault(i => i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+                genericType = ienumerable == null ? null : ienumerable.GetGenericArguments().FirstOrDefault();
+            }
 
-                        if (val != null)
-                        {
-                            BindValue(modelProperty, val, bindingContext);
-                        }
+            if (genericType == null)
+            {
+                // If we don't have a generic type then just use object
+                genericType = typeof(object);
+            }
+
+            var modelType = typeof(List<>).MakeGenericType(genericType);
+            var model = (IList)Activator.CreateInstance(modelType);
+            var list = (IList<object>)obj;
+
+            for (var i = 0; i < collection.Count; i++)
+            {
+                var val = list.ElementAtOrDefault(i);
+
+                //Previously we only called bind for IDictionary<string, object>
+                // and IList<object>, we now bind for all values to allow for
+                // type conversion like int -> double where javascript gives
+                // us a mixed array of types, some int, some double (Issue #3129)
+                var result = Bind(val, genericType);
+                model.Add(result);
+            }
+
+            if (targetType.IsArray())
+            {
+                var genericToArrayMethod = ToArrayMethodInfo.MakeGenericMethod(new[] { genericType });
+                return genericToArrayMethod.Invoke(null, new[] { model });
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// Bind object.
+        /// </summary>
+        /// <param name="targetType">the target param type.</param>
+        /// <param name="objType">Type of the object.</param>
+        /// <param name="obj">object to be converted into a model.</param>
+        /// <returns>
+        /// An object.
+        /// </returns>
+        protected virtual object BindObject(Type targetType, Type objType, object obj)
+        {
+            var model = Activator.CreateInstance(targetType, true);
+
+            // If the object type is a dictionary (we're using ExpandoObject instead of Dictionary now)
+            // Then attempt to bind all the members
+            if (typeof(IDictionary<string, object>).IsAssignableFrom(objType))
+            {
+                var dictionary = (IDictionary<string, object>)obj;
+                //TODO: Add Caching
+                var members = BindingMemberInfo.Collect(targetType).ToList();
+
+                //TODO: We currently go through all the propertie/fields and
+                //atempt to find a match in the dictionary, we should probably
+                //do the reverse and go through all the keys in the dictionary
+                //and see if there is a match to a property member
+                foreach (var modelProperty in members)
+                {
+                    object val;
+
+                    var propertyName = GetPropertyName(modelProperty);
+
+                    if (dictionary.TryGetValue(propertyName, out val))
+                    {
+                        var propertyVal = Bind(val, modelProperty.Type);
+
+                        modelProperty.SetValue(model, propertyVal);
                     }
                 }
             }
 
-            if (modelType.IsArray())
-            {
-                var generictoArrayMethod = ToArrayMethodInfo.MakeGenericMethod(new[] { genericType });
-                return generictoArrayMethod.Invoke(null, new[] { bindingContext.Model });
-            }
-            return bindingContext.Model;
+            return model;
         }
 
-        protected virtual BindingContext CreateBindingContext(object obj, Type modelType, Type genericType)
+        private string GetPropertyName(BindingMemberInfo modelProperty)
         {
-            return new BindingContext
+            if (javascriptNameConverter == null)
             {
-                DestinationType = modelType,
-                Model = CreateModel(modelType, genericType),
-                ValidModelBindingMembers = GetBindingMembers(modelType, genericType).ToList(),
-                Object = obj,
-                GenericType = genericType
-            };
-        }
-
-        protected virtual void BindValue(BindingMemberInfo modelProperty, object obj, BindingContext context)
-        {
-            if(obj == null)
-            {
-                return;
+                return modelProperty.Name;
             }
-
-            if (modelProperty.PropertyType.IsAssignableFrom(obj.GetType()))
-            {
-                // Simply set the property
-                modelProperty.SetValue(context.Model, obj);
-            }
-            else
-            {
-                // Cannot directly set the property attempt to bind
-                var model = Bind(obj, modelProperty.PropertyType);
-
-                modelProperty.SetValue(context.Model, model);
-            }
-        }
-
-        protected virtual IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType)
-        {
-            var blackListHash = new HashSet<string>(BlackListedPropertyNames, StringComparer.Ordinal);
-
-            return BindingMemberInfo.Collect(genericType ?? modelType) .Where(member => !blackListHash.Contains(member.Name));
-        }
-
-        protected virtual object CreateModel(Type modelType, Type genericType)
-        {
-            if (modelType.IsCollection() || modelType.IsArray() || modelType.IsEnumerable())
-            {
-                // else just make a list
-                var listType = typeof(List<>).MakeGenericType(genericType);
-                return Activator.CreateInstance(listType);
-            }
-
-            return Activator.CreateInstance(modelType, true);
-        }
-
-        protected virtual object GetValue(string propertyName, BindingContext context)
-        {
-            var dictionary = (IDictionary<string, object>)context.Object;
-            if (dictionary.ContainsKey(propertyName))
-            {
-                return dictionary[propertyName];
-            }
-
-            return null;
-        }
-
-        protected virtual object GetValue(BindingContext context, int index)
-        {
-            var collection = context.Object as IList<object>;
-
-            return collection.ElementAtOrDefault(index);
+            return javascriptNameConverter.ConvertReturnedObjectPropertyAndFieldToNameJavascript(modelProperty);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -6,6 +6,8 @@
 
 #include "include/cef_v8.h"
 #include "JavascriptCallbackRegistry.h"
+
+using namespace CefSharp::Internals::Wcf;
 
 namespace CefSharp
 {
@@ -34,6 +36,6 @@ namespace CefSharp
 
         CefRefPtr<CefV8Value> ConvertToCefObject(Object^ obj);
 
-        IMPLEMENT_REFCOUNTING(JavascriptMethodHandler)
+        IMPLEMENT_REFCOUNTING(JavascriptMethodHandler);
     };
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -7,7 +7,7 @@ namespace CefSharp.WinForms.Example.Handlers
     public class KeyboardHandler : IKeyboardHandler
     {
         /// <inheritdoc/>>
-        public bool OnPreKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
+        public bool OnPreKeyEvent(IWebBrowser chromiumWebBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
         {
             const int WM_SYSKEYDOWN = 0x104;
             const int WM_KEYDOWN = 0x100;
@@ -33,43 +33,43 @@ namespace CefSharp.WinForms.Example.Handlers
 
             var result = false;
 
-            var control = browserControl as Control;
+            var control = chromiumWebBrowser as Control;
             var msgType = 0;
             switch (type)
             {
-            case KeyType.RawKeyDown:
-                if (isSystemKey)
-                {
-                    msgType = WM_SYSKEYDOWN;
-                }
-                else
-                {
-                    msgType = WM_KEYDOWN;
-                }
-                break;
-            case KeyType.KeyUp:
-                if (isSystemKey)
-                {
-                    msgType = WM_SYSKEYUP;
-                }
-                else
-                {
-                    msgType = WM_KEYUP;
-                }
-                break;
-            case KeyType.Char:
-                if (isSystemKey)
-                {
-                    msgType = WM_SYSCHAR;
-                }
-                else
-                {
-                    msgType = WM_CHAR;
-                }
-                break;
-            default:
-                Trace.Assert(false);
-                break;
+                case KeyType.RawKeyDown:
+                    if (isSystemKey)
+                    {
+                        msgType = WM_SYSKEYDOWN;
+                    }
+                    else
+                    {
+                        msgType = WM_KEYDOWN;
+                    }
+                    break;
+                case KeyType.KeyUp:
+                    if (isSystemKey)
+                    {
+                        msgType = WM_SYSKEYUP;
+                    }
+                    else
+                    {
+                        msgType = WM_KEYUP;
+                    }
+                    break;
+                case KeyType.Char:
+                    if (isSystemKey)
+                    {
+                        msgType = WM_SYSCHAR;
+                    }
+                    else
+                    {
+                        msgType = WM_CHAR;
+                    }
+                    break;
+                default:
+                    Trace.Assert(false);
+                    break;
             }
             // We have to adapt from CEF's UI thread message loop to our fronting WinForm control here.
             // So, we have to make some calls that Application.Run usually ends up handling for us:
@@ -121,7 +121,7 @@ namespace CefSharp.WinForms.Example.Handlers
         }
 
         /// <inheritdoc/>>
-        public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
+        public bool OnKeyEvent(IWebBrowser chromiumWebBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
         {
             var result = false;
             Debug.WriteLine("OnKeyEvent: KeyType: {0} 0x{1:X} Modifiers: {2}", type, windowsKeyCode, modifiers);

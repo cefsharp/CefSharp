@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+       to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin.netcore\</BaseOutputPath>
+  </PropertyGroup>
+    
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+    
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>CefSharp</RootNamespace>
+    <AssemblyName>CefSharp</AssemblyName>
+    <DocumentationFile>$(BaseOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+    
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+    <EmbeddedResource Remove="Internals\Wcf\**" />
+    <None Remove="bin/**/*.*" />
+    <None Remove="Internals\Wcf\**" />
+    <None Remove="obj/**/*.*" />
+    <Compile Remove="Internals\Wcf\**" />
+    <Compile Remove="obj/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Internals\Partial\ChromiumWebBrowser.Partial.cs" />
+  </ItemGroup>
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

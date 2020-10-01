@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata minClientVersion="4.0.0">
+    <id>CefSharp.Wpf.NETCore</id>
+    <version>$version$</version>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
+    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The CefSharp Chromium-based browser component (WPF control).</description>
+    <tags>wpf chrome browser chromium-embedded cefsharp</tags>
+    <copyright>Copyright © The CefSharp Authors</copyright>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="CefSharp.Common.NETCore" version="[$version$]" include="Runtime,Compile,Build,Native,ContentFiles" />
+      </group>
+    </dependencies>
+    <releaseNotes>
+    <![CDATA[
+      See https://github.com/cefsharp/CefSharp/releases/tag/v$version$ for release notes including Known Issues, Breaking Changes, Bugs Fixed, new features.
+      Important you read the release notes to see what's changed in this version.
+    ]]>
+    </releaseNotes>
+  </metadata>
+  <files>
+    <!-- pdb and xml files not copied see https://github.com/dotnet/sdk/issues/1458 -->
+	<file src="..\..\CefSharp.Wpf\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.Wpf.dll" target="ref\netcoreapp3.1"/>
+    <file src="..\..\CefSharp.Wpf\bin.netcore\Release\netcoreapp3.1\CefSharp.Wpf.dll" target="lib\netcoreapp3.1"/>
+
+    <file src="..\Readme.txt" target="" />
+  </files>
+</package>

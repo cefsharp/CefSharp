@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--
+    Used the the NetCore projects
+    The file is split from the CefSharp.Native.props file which is used by the NetFull
+    projects as it's likely a new set of packages for distributing the CEF files will
+    be used.
+  -->
+  <Target Name="CefSharpCopyBrowserSubprocess" AfterTargets="AfterBuild">
+    <ItemGroup>
+      <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
+      <SubProcessFiles Include="$(SolutionDir)CefSharp.BrowserSubprocess\bin.netcore\$(Configuration)\$(TargetFramework)\CefSharp.BrowserSubprocess.*" />
+    </ItemGroup>
+    <Message Importance="high" Text="Copying $(SolutionDir)CefSharp.BrowserSubprocess\bin.netcore\$(Configuration)\$(TargetFramework)\CefSharp.BrowserSubprocess.* to $(TargetDir)" />
+    <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
+  </Target>
+
+  <Target Name="CefSharpCopyLibs86" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x86'">
+    <Message Importance="high" Text="Copying cef.redist x86 files to $(TargetDir)" />
+    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CefSharpCopyLibs64" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x64'">
+    <Message Importance="high" Text="Copying cef.redist x64 files to $(TargetDir)" />
+    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

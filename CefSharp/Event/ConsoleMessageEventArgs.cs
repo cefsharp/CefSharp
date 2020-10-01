@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -14,17 +14,24 @@ namespace CefSharp
         /// <summary>
         /// Creates a new ConsoleMessageEventArgs event argument.
         /// </summary>
+        /// <param name="browser">browser</param>
         /// <param name="level">level</param>
         /// <param name="message">message</param>
         /// <param name="source">source</param>
         /// <param name="line">line number</param>
-        public ConsoleMessageEventArgs(LogSeverity level, string message, string source, int line)
+        public ConsoleMessageEventArgs(IBrowser browser, LogSeverity level, string message, string source, int line)
         {
+            Browser = browser;
             Level = level;
             Message = message;
             Source = source;
             Line = line;
         }
+
+        /// <summary>
+        /// Access to the underlying <see cref="IBrowser"/> object
+        /// </summary>
+        public IBrowser Browser { get; private set; }
 
         /// <summary>
         /// Log level

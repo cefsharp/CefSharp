@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -15,6 +15,8 @@
 #include "Serialization\V8Serialization.h"
 
 using namespace System::Collections::Generic;
+using namespace System::Collections::Specialized;
+using namespace System::Security::Cryptography::X509Certificates;
 using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
@@ -52,7 +54,7 @@ namespace CefSharp
                 auto item = gcnew CefSharp::DownloadItem();
                 item->IsValid = downloadItem->IsValid();
                 //NOTE: Description for IsValid says `Do not call any other methods if this function returns false.` so only load if IsValid = true
-                if(item->IsValid)
+                if (item->IsValid)
                 {
                     item->IsInProgress = downloadItem->IsInProgress();
                     item->IsComplete = downloadItem->IsComplete();
@@ -79,7 +81,7 @@ namespace CefSharp
             static Nullable<DateTime> FromNative(CefTime time)
             {
                 auto epoch = time.GetDoubleT();
-                if(epoch == 0)
+                if (epoch == 0)
                 {
                     return Nullable<DateTime>();
                 }
@@ -89,9 +91,9 @@ namespace CefSharp
             static WebPluginInfo^ FromNative(CefRefPtr<CefWebPluginInfo> webPluginInfo)
             {
                 return gcnew WebPluginInfo(StringUtils::ToClr(webPluginInfo->GetName()),
-                                           StringUtils::ToClr(webPluginInfo->GetDescription()),
-                                           StringUtils::ToClr(webPluginInfo->GetPath()),
-                                           StringUtils::ToClr(webPluginInfo->GetVersion()));
+                    StringUtils::ToClr(webPluginInfo->GetDescription()),
+                    StringUtils::ToClr(webPluginInfo->GetPath()),
+                    StringUtils::ToClr(webPluginInfo->GetVersion()));
             }
 
             static IList<DraggableRegion>^ FromNative(const std::vector<CefDraggableRegion>& regions)
@@ -107,7 +109,7 @@ namespace CefSharp
                 {
                     list->Add(DraggableRegion(region.bounds.width, region.bounds.height, region.bounds.x, region.bounds.y, region.draggable == 1));
                 }
-                
+
                 return list;
             }
 
@@ -149,32 +151,39 @@ namespace CefSharp
                 {
                     cefValue->SetDouble(Convert::ToDouble(value));
                 }
-                else if (type == List<Object^>::typeid)
+                else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
                 {
-                    auto list = safe_cast<List<Object^>^>(value);
-                    auto cefList = CefListValue::Create();
-                    for (int i = 0; i < list->Count; i++)
-                    {
-                        auto value = list[i];
-                        SerializeV8Object(cefList, i, value);
-                    }
-                    cefValue->SetList(cefList);
-                }
-                else if (type == Dictionary<String^, Object^>::typeid)
-                {
-                    auto dictionary = safe_cast<Dictionary<String^, Object^>^>(value);
+                    auto dictionary = (System::Collections::IDictionary^) value;
                     auto cefDictionary = CefDictionaryValue::Create();
 
-                    for each (KeyValuePair<String^, Object^>^ entry in dictionary)
+                    for each (System::Collections::DictionaryEntry entry in dictionary)
                     {
-                        auto key = StringUtils::ToNative(entry->Key);
-                        auto value = entry->Value;
-                        SerializeV8Object(cefDictionary, key, value);
+                        auto key = StringUtils::ToNative(Convert::ToString(entry.Key));
+                        auto entryValue = entry.Value;
+                        //We don't pass a nameConverter here as the keys should
+                        //remain unchanged
+                        SerializeV8Object(cefDictionary, key, entryValue, nullptr);
                     }
 
                     cefValue->SetDictionary(cefDictionary);
                 }
-            
+                else if (System::Collections::IEnumerable::typeid->IsAssignableFrom(type))
+                {
+                    auto enumerable = (System::Collections::IEnumerable^) value;
+                    auto cefList = CefListValue::Create();
+
+                    int i = 0;
+                    for each (Object^ arrObj in enumerable)
+                    {
+                        //We don't pass a nameConverter here as the keys should
+                        //remain unchanged
+                        SerializeV8Object(cefList, i, arrObj, nullptr);
+
+                        i++;
+                    }
+                    cefValue->SetList(cefList);
+                }
+
                 return cefValue;
             }
 
@@ -211,7 +220,12 @@ namespace CefSharp
                 {
                     return FromNative(value->GetDictionary());
                 }
-                
+
+                if (type == CefValueType::VTYPE_LIST)
+                {
+                    return FromNative(value->GetList());
+                }
+
                 return nullptr;
             }
 
@@ -227,7 +241,7 @@ namespace CefSharp
                 CefDictionaryValue::KeyList keys;
                 dictionary->GetKeys(keys);
 
-                for (auto i = 0; i < keys.size(); i++)
+                for (size_t i = 0; i < keys.size(); i++)
                 {
                     auto key = StringUtils::ToClr(keys[i]);
                     auto value = DeserializeObject(dictionary, keys[i], nullptr);
@@ -236,6 +250,99 @@ namespace CefSharp
                 }
 
                 return dict;
+            }
+
+            static List<Object^>^ FromNative(const CefRefPtr<CefListValue>& list)
+            {
+                auto result = gcnew List<Object^>(list->GetSize());
+                for (size_t i = 0; i < list->GetSize(); i++)
+                {
+                    result->Add(DeserializeObject(list, i, nullptr));
+                }
+
+                return result;
+            }
+
+            // Copied from CefSharp.BrowserSubprocess.Core\TypeUtils.h since it can't be included
+            static DateTime ConvertCefTimeToDateTime(CefTime time)
+            {
+                return DateTimeUtils::FromCefTime(time.year,
+                    time.month,
+                    time.day_of_month,
+                    time.hour,
+                    time.minute,
+                    time.second,
+                    time.millisecond);
+            }
+
+            static Cookie^ FromNative(const CefCookie& cefCookie)
+            {
+                auto cookie = gcnew Cookie();
+                auto cookieName = StringUtils::ToClr(cefCookie.name);
+
+                if (!String::IsNullOrEmpty(cookieName))
+                {
+                    cookie->Name = cookieName;
+                    cookie->Value = StringUtils::ToClr(cefCookie.value);
+                    cookie->Domain = StringUtils::ToClr(cefCookie.domain);
+                    cookie->Path = StringUtils::ToClr(cefCookie.path);
+                    cookie->Secure = cefCookie.secure == 1;
+                    cookie->HttpOnly = cefCookie.httponly == 1;
+                    cookie->Creation = ConvertCefTimeToDateTime(cefCookie.creation);
+                    cookie->LastAccess = ConvertCefTimeToDateTime(cefCookie.last_access);
+
+                    if (cefCookie.has_expires)
+                    {
+                        cookie->Expires = ConvertCefTimeToDateTime(cefCookie.expires);
+                    }
+                }
+
+                return cookie;
+            }
+
+            static NavigationEntry^ FromNative(const CefRefPtr<CefNavigationEntry> entry, bool current)
+            {
+                SslStatus^ sslStatus;
+
+                if (!entry.get())
+                {
+                    return nullptr;
+                }
+
+                if (!entry->IsValid())
+                {
+                    return gcnew NavigationEntry(current, DateTime::MinValue, nullptr, -1, nullptr, nullptr, (TransitionType)-1, nullptr, false, false, sslStatus);
+                }
+
+                auto time = entry->GetCompletionTime();
+                DateTime completionTime = CefTimeUtils::ConvertCefTimeToDateTime(time.GetDoubleT());
+                auto ssl = entry->GetSSLStatus();
+                X509Certificate2^ sslCertificate;
+
+                if (ssl.get())
+                {
+                    auto certificate = ssl->GetX509Certificate();
+                    if (certificate.get())
+                    {
+                        auto derEncodedCertificate = certificate->GetDEREncoded();
+                        auto byteCount = derEncodedCertificate->GetSize();
+                        if (byteCount > 0)
+                        {
+                            auto bytes = gcnew cli::array<Byte>(byteCount);
+                            pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
+
+                            derEncodedCertificate->GetData(static_cast<void*>(src), byteCount, 0);
+
+                            sslCertificate = gcnew X509Certificate2(bytes);
+                        }
+                    }
+
+                    sslStatus = gcnew SslStatus(ssl->IsSecureConnection(), (CertStatus)ssl->GetCertStatus(), (SslVersion)ssl->GetSSLVersion(), (SslContentStatus)ssl->GetContentStatus(), sslCertificate);
+                }
+
+                return gcnew NavigationEntry(current, completionTime, StringUtils::ToClr(entry->GetDisplayURL()), entry->GetHttpStatusCode(),
+                    StringUtils::ToClr(entry->GetOriginalURL()), StringUtils::ToClr(entry->GetTitle()), (TransitionType)entry->GetTransitionType(),
+                    StringUtils::ToClr(entry->GetURL()), entry->HasPostData(), true, sslStatus);
             }
         };
     }

@@ -1,12 +1,10 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Text;
+using CefSharp.Callback;
 
 namespace CefSharp
 {
@@ -27,25 +25,29 @@ namespace CefSharp
         /// Gets or sets the Mime Type.
         /// </summary>
         public string MimeType { get; set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ByteArrayResourceHandler"/> class.
         /// </summary>
         /// <param name="mimeType">mimeType</param>
-        /// <param name="filePath">filePath</param>
+        /// <param name="data">byte array</param>
         public ByteArrayResourceHandler(string mimeType, byte[] data)
         {
-            if(string.IsNullOrEmpty(mimeType))
+            if (string.IsNullOrEmpty(mimeType))
             {
                 throw new ArgumentNullException("mimeType", "Please provide a valid mimeType");
             }
 
-            if(data == null)
+            if (data == null)
             {
                 throw new ArgumentNullException("data", "Please provide a valid array");
             }
 
-            
+            if (data.Length == 0)
+            {
+                throw new Exception("Unable to load byte[] with length 0.");
+            }
+
             MimeType = mimeType;
             Data = data;
         }
@@ -68,19 +70,25 @@ namespace CefSharp
             throw new NotImplementedException("This method should never be called");
         }
 
-        bool IResourceHandler.CanGetCookie(Cookie cookie)
-        {
-            //Should never be called
-            throw new NotImplementedException("This method should never be called");
-        }
-
-        bool IResourceHandler.CanSetCookie(Cookie cookie)
-        {
-            //Should never be called
-            throw new NotImplementedException("This method should never be called");
-        }
-
         void IResourceHandler.Cancel()
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Open(IRequest request, out bool handleRequest, ICallback callback)
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Skip(long bytesToSkip, out long bytesSkipped, IResourceSkipCallback callback)
+        {
+            //Should never be called
+            throw new NotImplementedException("This method should never be called");
+        }
+
+        bool IResourceHandler.Read(Stream dataOut, out int bytesRead, IResourceReadCallback callback)
         {
             //Should never be called
             throw new NotImplementedException("This method should never be called");

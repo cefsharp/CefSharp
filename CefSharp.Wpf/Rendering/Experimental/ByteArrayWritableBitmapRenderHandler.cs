@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -6,7 +6,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -23,16 +22,10 @@ namespace CefSharp.Wpf.Rendering.Experimental
     /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
     public class ByteArrayWritableBitmapRenderHandler : IRenderHandler
     {
-        /// <summary>
-        /// The pixel format
-        /// </summary>
-        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
-        private static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
-
-        private double dpiX;
-        private double dpiY;
-        private bool invalidateDirtyRect;
-        private DispatcherPriority dispatcherPriority;
+        private readonly double dpiX;
+        private readonly double dpiY;
+        private readonly bool invalidateDirtyRect;
+        private readonly DispatcherPriority dispatcherPriority;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WritableBitmapRenderHandler"/> class.
@@ -49,6 +42,18 @@ namespace CefSharp.Wpf.Rendering.Experimental
             this.dispatcherPriority = dispatcherPriority;
         }
 
+        /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="isPopup">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        {
+            //NOT USED
+        }
+
         void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
         {
             if (image.Dispatcher.HasShutdownStarted)
@@ -57,8 +62,8 @@ namespace CefSharp.Wpf.Rendering.Experimental
             }
 
             int pixels = width * height;
-            int numberOfBytes = pixels * BytesPerPixel;
-            var stride = width * BytesPerPixel;
+            int numberOfBytes = pixels * AbstractRenderHandler.BytesPerPixel;
+            var stride = width * AbstractRenderHandler.BytesPerPixel;
             var tempBuffer = new byte[numberOfBytes];
 
             //Copy unmanaged memory to our buffer
@@ -76,9 +81,9 @@ namespace CefSharp.Wpf.Rendering.Experimental
                         GC.Collect(1);
                     }
 
-                    image.Source = bitmap = new WriteableBitmap(width, height, dpiX, dpiY, PixelFormat, null);
+                    image.Source = bitmap = new WriteableBitmap(width, height, dpiX, dpiY, AbstractRenderHandler.PixelFormat, null);
                 }
-                
+
                 //Get a ptr to our temp buffer
                 var tempBufferPtr = Marshal.UnsafeAddrOfPinnedArrayElement(tempBuffer, 0);
 
@@ -108,7 +113,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
 
         void IDisposable.Dispose()
         {
-            
+
         }
     }
 }

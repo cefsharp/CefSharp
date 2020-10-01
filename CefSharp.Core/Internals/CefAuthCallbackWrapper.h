@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -17,13 +17,12 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefAuthCallback> _callback;
-            IFrame^ _frame;
 
         public:
-            CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback, IFrame^ frame)
-                : _callback(callback), _frame(frame)
+            CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback)
+                : _callback(callback)
             {
-            
+
             }
 
             !CefAuthCallbackWrapper()
@@ -34,8 +33,6 @@ namespace CefSharp
             ~CefAuthCallbackWrapper()
             {
                 this->!CefAuthCallbackWrapper();
-                delete _frame;
-                _frame = nullptr;
 
                 _disposed = true;
             }

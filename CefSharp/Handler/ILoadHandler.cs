@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -18,9 +18,9 @@ namespace CefSharp
         /// This method will be called on the CEF UI thread.
         /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="loadingStateChangedArgs">args</param>
-        void OnLoadingStateChange(IWebBrowser browserControl, LoadingStateChangedEventArgs loadingStateChangedArgs);
+        void OnLoadingStateChange(IWebBrowser chromiumWebBrowser, LoadingStateChangedEventArgs loadingStateChangedArgs);
 
         /// <summary>
         /// Called when the browser begins loading a frame.
@@ -32,12 +32,12 @@ namespace CefSharp
         /// This method will be called on the CEF UI thread.
         /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="frameLoadStartArgs">args</param>
         /// <remarks>Whilst thist may seem like a logical place to execute js, it's called before the DOM has been loaded, implement
         /// <see cref="IRenderProcessMessageHandler.OnContextCreated"/> as it's called when the underlying V8Context is created
         /// (Only called for the main frame at this stage)</remarks>
-        void OnFrameLoadStart(IWebBrowser browserControl, FrameLoadStartEventArgs frameLoadStartArgs);
+        void OnFrameLoadStart(IWebBrowser chromiumWebBrowser, FrameLoadStartEventArgs frameLoadStartArgs);
 
         /// <summary>
         /// Called when the browser is done loading a frame.
@@ -48,9 +48,9 @@ namespace CefSharp
         /// This method will be called on the CEF UI thread.
         /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="frameLoadEndArgs">args</param>
-        void OnFrameLoadEnd(IWebBrowser browserControl, FrameLoadEndEventArgs frameLoadEndArgs);
+        void OnFrameLoadEnd(IWebBrowser chromiumWebBrowser, FrameLoadEndEventArgs frameLoadEndArgs);
 
         /// <summary>
         /// Called when the resource load for a navigation fails or is canceled.
@@ -60,8 +60,8 @@ namespace CefSharp
         /// This method will be called on the CEF UI thread.
         /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="loadErrorArgs">args</param>
-        void OnLoadError(IWebBrowser browserControl, LoadErrorEventArgs loadErrorArgs);
+        void OnLoadError(IWebBrowser chromiumWebBrowser, LoadErrorEventArgs loadErrorArgs);
     }
 }

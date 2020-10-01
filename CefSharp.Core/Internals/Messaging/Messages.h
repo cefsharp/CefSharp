@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -45,6 +45,9 @@ namespace CefSharp
             const CefString kOnUncaughtException = "OnUncaughtException";
             //Message containing a request/notification that JSB objects have been bound
             const CefString kJavascriptObjectsBoundInJavascript = "JavascriptObjectsBoundInJavascript";
+
+            //Message containing the CefSharp.PostMessage request
+            const CefString kJavascriptMessageReceived = "JavascriptMessageReceived";
         }
     }
 }

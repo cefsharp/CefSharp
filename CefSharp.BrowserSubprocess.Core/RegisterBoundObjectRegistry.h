@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2018 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -20,8 +20,11 @@ namespace CefSharp
     private ref class RegisterBoundObjectRegistry
     {
     private:
+        //Only access through Interlocked::Increment - used to generate unique callback Id's
+        //Is static so ids are unique to this process https://github.com/cefsharp/CefSharp/issues/2792
+        static int64 _lastCallback;
+
         initonly Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
-        int64 _lastCallback;
 
     public:
         RegisterBoundObjectRegistry()

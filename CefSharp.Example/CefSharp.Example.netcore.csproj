@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+       to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin.netcore\</BaseOutputPath>
+  </PropertyGroup>
+
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>CefSharp.Example</RootNamespace>
+    <AssemblyName>CefSharp.Example</AssemblyName>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+    <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Extensions\set_page_color\icon.png" />
+    <Content Include="Extensions\set_page_color\popup.html" />
+    <Content Include="Extensions\set_page_color\popup.js" />
+    <Content Include="Resources\assets\css\docs.css" />
+    <Content Include="Resources\assets\css\shCore.css" />
+    <Content Include="Resources\assets\css\shCoreDefault.css" />
+    <Content Include="Resources\assets\js\application.js" />
+    <Content Include="Resources\assets\js\jquery.js" />
+    <Content Include="Resources\assets\js\shBrushCSharp.js" />
+    <Content Include="Resources\assets\js\shCore.js" />
+    <Content Include="Resources\BindingTestAsync.js" />
+    <Content Include="Resources\BindingTestNetCore.html" />
+    <Content Include="Resources\BindingTestsAsyncTask.html" />
+    <Content Include="Resources\BindingApiCustomObjectNameTest.html" />
+    <Content Include="Resources\BindingTestSingle.html" />
+    <Content Include="Resources\BindingTestSync.js" />
+    <Content Include="Resources\DragDropCursorsTest.html" />
+    <Content Include="Resources\JavascriptCallbackTest.html" />
+    <Content Include="Resources\LegacyBindingTest.html" />
+    <Content Include="Resources\CdmSupportTest.html" />
+    <Content Include="Resources\CssAnimation.html" />
+    <Content Include="Resources\ExceptionTest.html" />
+    <Content Include="Resources\BindingTest.html" />
+    <Content Include="Resources\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Resources\bootstrap\bootstrap.min.css" />
+    <Content Include="Resources\bootstrap\bootstrap.min.js" />
+    <Content Include="Resources\extension.js" />
+    <Content Include="Resources\MultiBindingTest.html" />
+    <Content Include="Resources\home.html" />
+    <Content Include="Resources\FramedWebGLTest.html" />
+    <Content Include="Resources\PopupTest.html" />
+    <Content Include="Resources\DraggableRegionTest.html" />
+    <Content Include="Resources\PostMessageTest.html" />
+    <Content Include="Resources\Recaptcha.html" />
+    <Content Include="Resources\ResponseFilterTest.html" />
+    <Content Include="Resources\SchemeTest.html" />
+    <Content Include="Resources\ScriptedMethodsTest.html" />
+    <Content Include="Resources\UnicodeExampleGreaterThan32kb.html" />
+    <Content Include="Resources\UnocodeExampleEqualTo32kb.html" />
+    <Content Include="Resources\TooltipTest.html" />
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+    <None Remove="bin/**/*.*" />
+    <None Remove="obj/**/*.*" />
+    <Compile Remove="obj/**/*.*" />
+  </ItemGroup>
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+</Project>

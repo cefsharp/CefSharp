@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -27,6 +27,13 @@ namespace CefSharp.WinForms.Internals
         /// Used to determine the coordinates involved in the move
         /// </summary>
         private Rectangle movingRectangle;
+
+        /// <summary>
+        /// Store the previous window state, used to determine if the
+        /// Windows was previously <see cref="FormWindowState.Minimized"/>
+        /// and resume rendering
+        /// </summary>
+        private FormWindowState previousWindowState;
 
         /// <summary>
         /// Gets or sets the browser.
@@ -83,12 +90,17 @@ namespace CefSharp.WinForms.Internals
                 {
                     oldForm.HandleCreated -= OnHandleCreated;
                     oldForm.HandleDestroyed -= OnHandleDestroyed;
+                    oldForm.Resize -= OnResize;
                 }
                 ParentForm = newForm;
                 if (newForm != null)
                 {
                     newForm.HandleCreated += OnHandleCreated;
                     newForm.HandleDestroyed += OnHandleDestroyed;
+                    newForm.Resize += OnResize;
+
+                    previousWindowState = newForm.WindowState;
+
                     // If newForm's Handle has been created already,
                     // our event listener won't be called, so call it now.
                     if (newForm.IsHandleCreated)
@@ -97,6 +109,37 @@ namespace CefSharp.WinForms.Internals
                     }
                 }
             }
+        }
+
+        private void OnResize(object sender, EventArgs e)
+        {
+            var form = (Form)sender;
+
+            if (previousWindowState == form.WindowState)
+            {
+                return;
+            }
+
+            switch (form.WindowState)
+            {
+                case FormWindowState.Normal:
+                case FormWindowState.Maximized:
+                {
+                    if (previousWindowState == FormWindowState.Minimized)
+                    {
+                        Browser?.ShowInternal();
+                    }
+                    break;
+                }
+                case FormWindowState.Minimized:
+                {
+                    Browser?.HideInternal();
+
+                    break;
+                }
+            }
+
+            previousWindowState = form.WindowState;
         }
 
         /// <summary>
@@ -266,6 +309,7 @@ namespace CefSharp.WinForms.Internals
                 {
                     ParentForm.HandleCreated -= OnHandleCreated;
                     ParentForm.HandleDestroyed -= OnHandleDestroyed;
+                    ParentForm.Resize -= OnResize;
                     ParentForm = null;
                 }
 

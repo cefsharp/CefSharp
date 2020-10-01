@@ -9,10 +9,15 @@
     <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WinForms control).</description>
-    <tags>winforms chrome browser</tags>
-    <copyright>Copyright © 2010-2017 The CefSharp Authors</copyright>
+    <tags>winforms chrome browser chromium-embedded cefsharp</tags>
+    <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="CefSharp.Common" version="[$version$]" />
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="CefSharp.Common" version="[$version$]" />
+      </group>
+      <group targetFramework=".NETCoreApp3.0">
+        <dependency id="CefSharp.Common" version="[$version$]" />
+      </group>
     </dependencies>
     <releaseNotes>
     <![CDATA[

@@ -1,7 +1,7 @@
-﻿using CefSharp;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using CefSharp;
 
 [assembly: AssemblyTitle("CefSharp.WinForms.Example")]
 [assembly: AssemblyCompany(AssemblyInfo.AssemblyCompany)]

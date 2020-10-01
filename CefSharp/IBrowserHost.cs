@@ -1,11 +1,14 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.Callback;
 using CefSharp.Enums;
 using CefSharp.Structs;
+using Range = CefSharp.Structs.Range;
 using Size = CefSharp.Structs.Size;
 
 namespace CefSharp
@@ -19,7 +22,7 @@ namespace CefSharp
         /// <summary>
         /// Add the specified word to the spelling dictionary.
         /// </summary>
-        /// <param name="word"></param>
+        /// <param name="word">custom word to be added to dictionary</param>
         void AddWordToDictionary(string word);
 
         /// <summary>
@@ -35,6 +38,15 @@ namespace CefSharp
         void CloseBrowser(bool forceClose);
 
         /// <summary>
+        /// Helper for closing a browser. Call this method from the top-level window close handler. Internally this calls CloseBrowser(false) if the close has not yet been initiated. This method returns false while the close is pending and true after the close has completed.
+        /// See <see cref="CloseBrowser(bool)"/> and <see cref="ILifeSpanHandler.DoClose(IWebBrowser, IBrowser)"/> documentation for additional usage information. This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <returns>
+        /// This method returns false while the close is pending and true after the close has completed
+        /// </returns>
+        bool TryCloseBrowser();
+
+        /// <summary>
         /// Explicitly close the developer tools window if one exists for this browser instance.
         /// </summary>
         void CloseDevTools();
@@ -44,6 +56,86 @@ namespace CefSharp
         /// Must be called on the CEF UI thread.
         /// </summary>
         bool HasDevTools { get; }
+
+        /// <summary>
+        /// Send a method call message over the DevTools protocol. <paramref name="message"/> must be a
+        /// UTF8-encoded JSON dictionary that contains "id" (int), "method" (string)
+        /// and "params" (dictionary, optional) values. See the DevTools protocol
+        /// documentation at https://chromedevtools.github.io/devtools-protocol/ for
+        /// details of supported methods and the expected "params" dictionary contents.
+        /// <paramref name="message"/> will be copied if necessary. This method will return true if
+        /// called on the CEF UI thread and the message was successfully submitted for
+        /// validation, otherwise false. Validation will be applied asynchronously and
+        /// any messages that fail due to formatting errors or missing parameters may
+        /// be discarded without notification. Prefer ExecuteDevToolsMethod if a more
+        /// structured approach to message formatting is desired.
+        ///
+        /// Every valid method call will result in an asynchronous method result or
+        /// error message that references the sent message "id". Event messages are
+        /// received while notifications are enabled (for example, between method calls
+        /// for "Page.enable" and "Page.disable"). All received messages will be
+        /// delivered to the observer(s) registered with AddDevToolsMessageObserver.
+        /// See <see cref="IDevToolsMessageObserver.OnDevToolsMessage"/>  documentation for details
+        /// of received message contents.
+        ///
+        /// Usage of the SendDevToolsMessage, ExecuteDevToolsMethod and
+        /// AddDevToolsMessageObserver methods does not require an active DevTools
+        /// front-end or remote-debugging session. Other active DevTools sessions will
+        /// continue to function independently. However, any modification of global
+        /// browser state by one session may not be reflected in the UI of other
+        /// sessions.
+        ///
+        /// Communication with the DevTools front-end (when displayed) can be logged
+        /// for development purposes by passing the
+        /// `--devtools-protocol-log-file=<path>` command-line flag.
+        /// </summary>
+        /// <param name="messageAsJson">must be a UTF8-encoded JSON dictionary that contains "id" (int), "method" (string)
+        /// and "params" (dictionary, optional) values. See comments above for further details.</param>
+        /// <returns>returns true if called on the CEF UI thread and the message was successfully submitted for
+        /// validation, otherwise false.</returns>
+        bool SendDevToolsMessage(string messageAsJson);
+
+        /// <summary>
+        /// Execute a method call over the DevTools protocol. This is a more structured
+        /// version of SendDevToolsMessage.
+        /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
+        /// of supported methods and the expected <paramref name="paramsAsJson"/> dictionary contents.
+        /// See the SendDevToolsMessage documentation for additional usage information.
+        /// </summary>
+        /// <param name="messageId">is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned
+        /// automatically based on previous values)</param>
+        /// <param name="method">is the method name</param>
+        /// <param name="paramsAsJson">are the method parameters represented as a JSON string,
+        /// which may be empty.</param>
+        /// <returns>return the assigned message Id if called on the CEF UI thread and the message was
+        /// successfully submitted for validation, otherwise 0</returns>
+        int ExecuteDevToolsMethod(int messageId, string method, string paramsAsJson);
+
+        /// <summary>
+        /// Execute a method call over the DevTools protocol. This is a more structured
+        /// version of SendDevToolsMessage.
+        /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
+        /// of supported methods and the expected <paramref name="paramsAsJson"/> dictionary contents.
+        /// See the SendDevToolsMessage documentation for additional usage information.
+        /// </summary>
+        /// <param name="messageId">is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned
+        /// automatically based on previous values)</param>
+        /// <param name="method">is the method name</param>
+        /// <param name="parameters">are the method parameters represented as a dictionary,
+        /// which may be empty.</param>
+        /// <returns>return the assigned message Id if called on the CEF UI thread and the message was
+        /// successfully submitted for validation, otherwise 0</returns>
+        int ExecuteDevToolsMethod(int messageId, string method, IDictionary<string, object> parameters = null);
+
+        /// <summary>
+        /// Add an observer for DevTools protocol messages (method results and events).
+        /// The observer will remain registered until the returned Registration object
+        /// is destroyed. See the SendDevToolsMessage documentation for additional
+        /// usage information.
+        /// </summary>
+        /// <param name="observer">DevTools observer</param>
+        /// <returns>The observer will remain registered until the returned IRegistration object is Disposed.</returns>
+        IRegistration AddDevToolsMessageObserver(IDevToolsMessageObserver observer);
 
         /// <summary>
         /// Call this method when the user drags the mouse into the web view (before calling <see cref="DragTargetDragOver"/>/<see cref="DragTargetDragLeave"/>/<see cref="DragTargetDragDrop"/>).
@@ -64,7 +156,7 @@ namespace CefSharp
         void DragTargetDragDrop(MouseEvent mouseEvent);
 
         /// <summary>
-        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging"/> call has ended either in a drop or by being cancelled.
+        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging(IDragData, DragOperationsMask, int, int)"/> call has ended either in a drop or by being cancelled.
         /// If the web view is both the drag source and the drag target then all DragTarget* methods should be called before DragSource* methods.
         /// This method is only used when window rendering is disabled. 
         /// </summary>
@@ -78,9 +170,9 @@ namespace CefSharp
         /// This method is only used when window rendering is disabled.
         /// </summary>
         void DragTargetDragLeave();
-        
+
         /// <summary>
-        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging"/> call has completed.
+        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging(IDragData, DragOperationsMask, int, int)"/> call has completed.
         /// This method may be called immediately without first calling DragSourceEndedAt to cancel a drag operation.
         /// If the web view is both the drag source and the drag target then all DragTarget* methods should be called before DragSource* mthods.
         /// This method is only used when window rendering is disabled. 
@@ -88,15 +180,23 @@ namespace CefSharp
         void DragSourceSystemDragEnded();
 
         /// <summary>
-        /// Search for text
+        /// Search for <paramref name="searchText"/>.
         /// </summary>
-        /// <param name="identifier">can be used to have multiple searches running simultaniously</param>
+        /// <param name="identifier">must be a unique ID and these IDs
+        /// must strictly increase so that newer requests always have greater IDs than
+        /// older requests. If identifier is zero or less than the previous ID value
+        /// then it will be automatically assigned a new valid ID. </param>
         /// <param name="searchText">text to search for</param>
         /// <param name="forward">indicates whether to search forward or backward within the page</param>
         /// <param name="matchCase">indicates whether the search should be case-sensitive</param>
         /// <param name="findNext">indicates whether this is the first request or a follow-up</param>
-        /// <remarks>The IFindHandler instance, if any, will be called to report find results. </remarks>
+        /// <remarks>The <see cref="IFindHandler"/> instance, if any, will be called to report find results.</remarks>
         void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
+
+        /// <summary>
+        /// Returns the extension hosted in this browser or null if no extension is hosted. See <see cref="IRequestContext.LoadExtension"/> for details.
+        /// </summary>
+        IExtension Extension { get; }
 
         /// <summary>
         /// Retrieve the window handle of the browser that opened this browser.
@@ -111,7 +211,14 @@ namespace CefSharp
         IntPtr GetWindowHandle();
 
         /// <summary>
-        /// Get the current zoom level. The default zoom level is 0.0. This method can only be called on the CEF UI thread. 
+        /// Gets the current zoom level. The default zoom level is 0.0. This method can only be called on the CEF UI thread. 
+        /// </summary>
+        /// <returns>zoom level (default is 0.0)</returns>
+        double GetZoomLevel();
+
+        /// <summary>
+        /// Get the current zoom level. The default zoom level is 0.0. This method executes GetZoomLevel on the CEF UI thread
+        /// in an async fashion.
         /// </summary>
         /// <returns> a <see cref="Task{Double}"/> that when executed returns the zoom level as a double.</returns>
         Task<double> GetZoomLevelAsync();
@@ -122,6 +229,13 @@ namespace CefSharp
         /// </summary>
         /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
         void Invalidate(PaintElementType type);
+
+        /// <summary>
+        /// Returns true if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable.
+        /// See <see cref="IRequestContext.LoadExtension"/> for details.
+        /// </summary>
+        /// <returns>Returns true if this browser is hosting an extension background script.</returns>
+        bool IsBackgroundHost { get; }
 
         /// <summary>
         /// Begins a new composition or updates the existing composition. Blink has a
@@ -141,9 +255,10 @@ namespace CefSharp
         /// will be inserted into the composition node</param>
         /// <param name="underlines">is an optional set
         /// of ranges that will be underlined in the resulting text.</param>
+        /// <param name="replacementRange">is an optional range of the existing text that will be replaced. (MAC OSX ONLY)</param>
         /// <param name="selectionRange"> is an optional range of the resulting text that
         /// will be selected after insertion or replacement. </param>
-        void ImeSetComposition(string text, CompositionUnderline[] underlines, Range? selectionRange);
+        void ImeSetComposition(string text, CompositionUnderline[] underlines, Range? replacementRange, Range? selectionRange);
 
         /// <summary>
         /// Completes the existing composition by optionally inserting the specified
@@ -151,7 +266,9 @@ namespace CefSharp
         /// This method is only used when window rendering is disabled. (WPF and OffScreen) 
         /// </summary>
         /// <param name="text">text that will be committed</param>
-        void ImeCommitText(string text);
+        /// <param name="replacementRange">is an optional range of the existing text that will be replaced. (MAC OSX ONLY)</param>
+        /// <param name="relativeCursorPos">is where the cursor will be positioned relative to the current cursor position. (MAC OSX ONLY)</param>
+        void ImeCommitText(string text, Range? replacementRange, int relativeCursorPos);
 
         /// <summary>
         /// Completes the existing composition by applying the current composition node
@@ -176,6 +293,7 @@ namespace CefSharp
 
         /// <summary>
         /// Notify the browser that the window hosting it is about to be moved or resized.
+        /// This will dismiss any existing popups (dropdowns).
         /// </summary>
         void NotifyMoveOrResizeStarted();
 
@@ -208,9 +326,27 @@ namespace CefSharp
         void ReplaceMisspelling(string word);
 
         /// <summary>
+        /// Call to run a file chooser dialog. Only a single file chooser dialog may be pending at any given time.
+        /// The dialog will be initiated asynchronously on the CEF UI thread.
+        /// </summary>
+        /// <param name="mode">represents the type of dialog to display</param>
+        /// <param name="title">to the title to be used for the dialog and may be empty to show the default title ("Open" or "Save" depending on the mode)</param>
+        /// <param name="defaultFilePath">is the path with optional directory and/or file name component that will be initially selected in the dialog</param>
+        /// <param name="acceptFilters">are used to restrict the selectable file types and may any combination of (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"), (b) individual file extensions (e.g. ".txt" or ".png"), or (c) combined description and file extension delimited using "|" and ";" (e.g. "Image Types|.png;.gif;.jpg")</param>
+        /// <param name="selectedAcceptFilter">is the 0-based index of the filter that will be selected by default</param>
+        /// <param name="callback">will be executed after the dialog is dismissed or immediately if another dialog is already pending.</param>
+        void RunFileDialog(CefFileDialogMode mode, string title, string defaultFilePath, IList<string> acceptFilters, int selectedAcceptFilter, IRunFileDialogCallback callback);
+
+        /// <summary>
         /// Returns the request context for this browser.
         /// </summary>
         IRequestContext RequestContext { get; }
+
+        /// <summary>
+        /// Issue a BeginFrame request to Chromium.
+        /// Only valid when <see cref="IWindowInfo.ExternalBeginFrameEnabled"/> is set to true.
+        /// </summary>
+        void SendExternalBeginFrame();
 
         /// <summary>
         /// Send a capture lost event to the browser.
@@ -253,6 +389,13 @@ namespace CefSharp
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
         void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
+
+        /// <summary>
+        /// Send a touch event to the browser.
+        /// WPF and OffScreen browsers only
+        /// </summary>
+        /// <param name="evt">touch event</param>
+        void SendTouchEvent(TouchEvent evt);
 
         /// <summary>
         /// Set accessibility state for all frames.  If accessibilityState is Default then accessibility will be disabled by default
@@ -301,7 +444,7 @@ namespace CefSharp
         /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
         /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
         void ShowDevTools(IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0);
-        
+
         /// <summary>
         /// Download the file at url using IDownloadHandler. 
         /// </summary>
@@ -317,10 +460,8 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse move event to the browser, coordinates, 
         /// </summary>
-        /// <param name="x">x coordinate - relative to upper-left corner of view</param>
-        /// <param name="y">y coordinate - relative to upper-left corner of view</param>
+        /// <param name="mouseEvent">mouse information, x and y values are relative to upper-left corner of view</param>
         /// <param name="mouseLeave">mouse leave</param>
-        /// <param name="modifiers">click modifiers .e.g Ctrl</param>
         void SendMouseMoveEvent(MouseEvent mouseEvent, bool mouseLeave);
 
         /// <summary>
@@ -349,7 +490,8 @@ namespace CefSharp
 
         /// <summary>
         /// Returns the current visible navigation entry for this browser. This method
-        /// can only be called on the CEF UI thread.
+        /// can only be called on the CEF UI thread which by default is not the same
+        /// as your application UI thread.
         /// </summary>
         /// <returns>the current navigation entry</returns>
         NavigationEntry GetVisibleNavigationEntry();
@@ -370,10 +512,16 @@ namespace CefSharp
         bool WindowRenderingDisabled { get; }
 
         /// <summary>
-        /// Set audio mute setting value.
+        /// Set whether the browser's audio is muted.
         /// </summary>
-        /// <param name="mute">Whether or not the audio should be muted.</param>
+        /// <param name="mute">true or false</param>
         void SetAudioMuted(bool mute);
+
+        /// <summary>
+        /// Returns true if the browser's audio is muted.
+        /// This method can only be called on the CEF UI thread.
+        /// </summary>
+        bool IsAudioMuted { get; }
 
         /// <summary>
         /// Gets a value indicating whether the browserHost has been disposed of.

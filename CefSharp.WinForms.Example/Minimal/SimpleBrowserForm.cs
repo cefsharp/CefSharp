@@ -1,21 +1,26 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
-using CefSharp.Example;
-using CefSharp.WinForms.Internals;
+using CefSharp.Example.JavascriptBinding;
 
 namespace CefSharp.WinForms.Example.Minimal
 {
     public partial class SimpleBrowserForm : Form
     {
         private ChromiumWebBrowser browser;
+        private IFocusHandler customFocusHandler;
+        private bool multiThreadedMessageLoop;
 
-        public SimpleBrowserForm()
+        public SimpleBrowserForm(bool multiThreadedMessageLoop, IFocusHandler customFocusHandler = null)
         {
             InitializeComponent();
+
+            this.customFocusHandler = customFocusHandler;
+            this.multiThreadedMessageLoop = multiThreadedMessageLoop;
 
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
@@ -29,6 +34,19 @@ namespace CefSharp.WinForms.Example.Minimal
             ResizeEnd += (s, e) => ResumeLayout(true);
 
             Load += OnLoad;
+        }
+
+        public IContainer Components
+        {
+            get
+            {
+                if (components == null)
+                {
+                    components = new Container();
+                }
+
+                return components;
+            }
         }
 
         private void OnLoad(object sender, EventArgs e)
@@ -49,7 +67,21 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
-            browser.JavascriptObjectRepository.Register("bound", new BoundObject());
+#if !NETCOREAPP
+            browser.JavascriptObjectRepository.Register("bound", new BoundObject(), false);
+#endif
+
+            if (!multiThreadedMessageLoop)
+            {
+                browser.FocusHandler = null;
+            }
+
+            //Only override if we have a custom handler
+            if (customFocusHandler != null)
+            {
+                browser.FocusHandler = customFocusHandler;
+            }
+
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)

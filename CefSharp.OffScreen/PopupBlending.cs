@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -10,7 +10,8 @@ namespace CefSharp.OffScreen
     public enum PopupBlending
     {
         /// <summary>
-        /// The main bitmap and popup bitmap should be blended.
+        /// The main bitmap and popup bitmap will be merged together
+        /// (Popup bitmap overlayed on top of the main bitmap).
         /// </summary>
         Blend = 0,
         /// <summary>

@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -45,6 +45,15 @@ namespace CefSharp
                 this->!CefDragDataWrapper();
 
                 _disposed = true;
+            }
+
+            operator CefRefPtr<CefDragData>()
+            {
+                if (this == nullptr)
+                {
+                    return NULL;
+                }
+                return _wrappedDragData.get();
             }
 
         public:
@@ -206,18 +215,9 @@ namespace CefSharp
                 }
 
                 auto writeHandler = new CefWriteHandlerWrapper(stream);
-                
+
                 auto writer = CefStreamWriter::CreateForHandler(writeHandler);
                 return (Int64)_wrappedDragData->GetFileContents(writer);
-            }
-
-            operator CefRefPtr<CefDragData>()
-            {
-                if (this == nullptr)
-                {
-                    return NULL;
-                }
-                return _wrappedDragData.get();
             }
         };
     }

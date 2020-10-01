@@ -1,4 +1,4 @@
-// Copyright � 2010-2017 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -59,20 +59,17 @@ namespace CefSharp
                 {
                     int arrLength = obj->GetArrayLength();
                     std::vector<CefString> keys;
+                    auto array = CefListValue::Create();
                     if (arrLength > 0 && obj->GetKeys(keys))
                     {
-                        auto array = CefListValue::Create();
                         for (int i = 0; i < arrLength; i++)
                         {
                             SerializeV8Object(obj->GetValue(keys[i]), array, i, callbackRegistry, seen);
                         }
 
-                        list->SetList(index, array);
                     }
-                    else
-                    {
-                        list->SetNull(index);
-                    }
+
+                    list->SetList(index, array);
                 }
                 else if (obj->IsFunction())
                 {
@@ -86,7 +83,7 @@ namespace CefSharp
                     if (obj->GetKeys(keys) && keys.size() > 0)
                     {
                         auto result = CefDictionaryValue::Create();
-                        for (int i = 0; i < keys.size(); i++)
+                        for (size_t i = 0; i < keys.size(); i++)
                         {
                             auto p_keyStr = StringUtils::ToClr(keys[i].ToString());
                             if ((obj->HasValue(keys[i])) && (!p_keyStr->StartsWith("__")))
@@ -151,9 +148,9 @@ namespace CefSharp
                 if (type == VTYPE_LIST)
                 {
                     auto subList = list->GetList(index);
-                    auto size = subList->GetSize();
+                    size_t size = subList->GetSize();
                     auto result = CefV8Value::CreateArray(size);
-                    for (auto i = 0; i < size; i++)
+                    for (size_t i = 0; i < size; i++)
                     {
                         result->SetValue(i, DeserializeV8Object(subList, i));
                     }
@@ -168,7 +165,7 @@ namespace CefSharp
                     std::vector<CefString> keys;
                     subDict->GetKeys(keys);
                     auto result = CefV8Value::CreateObject(nullptr, nullptr);
-                    for (auto i = 0; i < size; i++)
+                    for (size_t i = 0; i < size; i++)
                     {
                         result->SetValue(keys[i], DeserializeV8Object(subDict, keys[i]), V8_PROPERTY_ATTRIBUTE_NONE);
                     }
@@ -180,8 +177,9 @@ namespace CefSharp
             }
 
             template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefListValue>& list, const int& index, JavascriptCallbackRegistry^ callbackRegistry);
+            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefListValue>& list, const size_t& index, JavascriptCallbackRegistry^ callbackRegistry);
             template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefDictionaryValue>& list, const CefString& index, JavascriptCallbackRegistry^ callbackRegistry);
-            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefListValue>& list, const int& index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &visited);
+            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefListValue>& list, const size_t& index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &visited);
             template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefDictionaryValue>& list, const CefString& index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &visited);
             template CefRefPtr<CefV8Value> DeserializeV8Object(const CefRefPtr<CefListValue>& list, const int& index);
             template CefRefPtr<CefV8Value> DeserializeV8Object(const CefRefPtr<CefDictionaryValue>& list, const CefString& index);

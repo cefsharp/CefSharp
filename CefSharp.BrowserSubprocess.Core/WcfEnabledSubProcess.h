@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -9,6 +9,7 @@
 #include "CefBrowserWrapper.h"
 
 using namespace System;
+using namespace CefSharp::RenderProcess;
 
 namespace CefSharp
 {
@@ -25,7 +26,7 @@ namespace CefSharp
             int _parentProcessId;
 
         public:
-            WcfEnabledSubProcess(int parentProcessId, IEnumerable<String^>^ args) : SubProcess(args)
+            WcfEnabledSubProcess(int parentProcessId, IRenderProcessHandler^ handler, IEnumerable<String^>^ args) : SubProcess(handler,args)
             {
                 _parentProcessId = parentProcessId;
             }

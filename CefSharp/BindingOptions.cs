@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -16,14 +16,8 @@ namespace CefSharp
         /// </summary>
         public static BindingOptions DefaultBinder
         {
-            get { return new BindingOptions { Binder = new DefaultBinder(new DefaultFieldNameConverter()) }; }
+            get { return new BindingOptions { Binder = new DefaultBinder() }; }
         }
-
-        /// <summary>
-        /// Camel case the javascript names of properties/methods, defaults to true
-        /// </summary>
-        public bool CamelCaseJavascriptNames { get; set; }
-
 
         /// <summary>
         /// Model binder used for passing complex classes as params to methods
@@ -35,10 +29,5 @@ namespace CefSharp
         /// for logging calls (from js) to .net methods.
         /// </summary>
         public IMethodInterceptor MethodInterceptor { get; set; }
-
-        public BindingOptions()
-        {
-            CamelCaseJavascriptNames = true;
-        }
     }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+       to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin.netcore\</BaseOutputPath>
+  </PropertyGroup>
+
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>CefSharp.WinForms</RootNamespace>
+    <AssemblyName>CefSharp.WinForms</AssemblyName>
+    <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	<DefineConstants>WINFORMS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+    <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <None Remove="ChromiumWebBrowser.bmp" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <EmbeddedResource Include="ChromiumWebBrowser.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+    <None Remove="bin/**/*.*" />
+    <None Remove="obj/**/*.*" />
+    <Compile Remove="obj/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs" Link="ChromiumWebBrowser.Partial.cs" />
+  </ItemGroup>
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+</Project>

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ namespace CefSharp.Example
 {
     public class FlashResourceHandler : ResourceHandler
     {
-        public override bool ProcessRequestAsync(IRequest request, ICallback callback)
+        public override CefReturnValue ProcessRequestAsync(IRequest request, ICallback callback)
         {
             Task.Run(() =>
             {
@@ -35,13 +35,13 @@ namespace CefSharp.Example
                     ResponseLength = stream.Length;
                     MimeType = mime;
                     StatusCode = (int)HttpStatusCode.OK;
-                    Stream = stream;                    
-               
+                    Stream = stream;
+
                     callback.Continue();
                 }
             });
 
-            return true;
+            return CefReturnValue.ContinueAsync;
         }
     }
 }

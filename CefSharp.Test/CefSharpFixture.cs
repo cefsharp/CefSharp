@@ -1,40 +1,77 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
+using CefSharp.Example;
+using CefSharp.OffScreen;
+using Nito.AsyncEx;
+using Xunit;
 
 namespace CefSharp.Test
 {
-	public class CefSharpFixture : IDisposable
-	{
-		public CefSharpFixture()
-		{
-			if (!Cef.IsInitialized)
-			{
-				var isDefault = AppDomain.CurrentDomain.IsDefaultAppDomain();
-				if (!isDefault)
-				{
-					throw new Exception(@"Add <add key=""xunit.appDomain"" value=""denied""/> to your app.config to disable appdomains");
-				}
+    public class CefSharpFixture : IAsyncLifetime, IDisposable
+    {
+        private readonly AsyncContextThread contextThread;
 
-				var settings = new CefSettings();
+        public CefSharpFixture()
+        {
+            contextThread = new AsyncContextThread();
+        }
 
-				//The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
-				//HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 
-				settings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\Cache");
+        private void CefInitialize()
+        {
+            if (!Cef.IsInitialized)
+            {
+                var isDefault = AppDomain.CurrentDomain.IsDefaultAppDomain();
+                if (!isDefault)
+                {
+                    throw new Exception(@"Add <add key=""xunit.appDomain"" value=""denied""/> to your app.config to disable appdomains");
+                }
 
-				Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
-			}
-		}
+                Cef.EnableWaitForBrowsersToClose();
 
-		public void Dispose()
-		{
-			if (Cef.IsInitialized)
-			{
-				Cef.Shutdown();
-			}
-		}
-	}
+                CefSharpSettings.ShutdownOnExit = false;
+                var settings = new CefSettings();
+
+                settings.RegisterScheme(new CefCustomScheme
+                {
+                    SchemeName = "https",
+                    SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
+                    DomainName = CefExample.ExampleDomain
+                });
+
+                //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
+                //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 
+                settings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\Cache");
+
+                Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
+            }
+        }
+
+        private void CefShutdown()
+        {
+            if (Cef.IsInitialized)
+            {
+                Cef.Shutdown();
+            }
+        }
+
+        public Task InitializeAsync()
+        {
+            return contextThread.Factory.StartNew(CefInitialize);
+        }
+
+        public Task DisposeAsync()
+        {
+            return contextThread.Factory.StartNew(CefShutdown);
+        }
+
+        public void Dispose()
+        {
+            contextThread.Dispose();
+        }
+    }
 }

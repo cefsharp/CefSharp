@@ -5,10 +5,15 @@
     <VisualStudioProductVersion>2013</VisualStudioProductVersion>
     <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='14.0'">2015</VisualStudioProductVersion>
     <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='15.0'">2017</VisualStudioProductVersion>
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0'">2017</VisualStudioProductVersion>
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0' AND Exists('$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS2019\libcef_dll_wrapper.lib')">2019</VisualStudioProductVersion>
 
     <PlatformToolset>v120</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v140</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='15.0'">v141</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='16.0'">v142</PlatformToolset>
+	
+	<WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0.18362.0</WindowsTargetPlatformVersion>
     
     <CefSharpBrowserSubprocessPostBuildEvent>
       <![CDATA[
@@ -21,7 +26,7 @@ if $(PlatformName) == x86 (
 )
 ]]></CefSharpBrowserSubprocessPostBuildEvent>
 
-    <CefSharpBrowserSubprocessPostBuildEvent Condition="'$(VisualStudioVersion)'=='15.0'">
+    <CefSharpBrowserSubprocessPostBuildEvent Condition="'$(VisualStudioVersion)'=='15.0' Or '$(VisualStudioVersion)'=='16.0'">
       <![CDATA[
 if $(PlatformName) == x86 (
   call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat"

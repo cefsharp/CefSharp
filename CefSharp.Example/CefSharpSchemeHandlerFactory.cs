@@ -1,9 +1,8 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2013 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using CefSharp.Example.Properties;
@@ -37,8 +36,12 @@ namespace CefSharp.Example
                 { "/bootstrap/bootstrap.min.js", Resources.bootstrap_min_js },
 
                 { "/BindingTest.html", Resources.BindingTest },
+                { "/BindingTestNetCore.html", Resources.BindingTestNetCore },
+                { "/BindingTestAsync.js", Resources.BindingTestAsync },
+                { "/BindingTestSync.js", Resources.BindingTestSync },
                 { "/BindingTestSingle.html", Resources.BindingTestSingle },
                 { "/LegacyBindingTest.html", Resources.LegacyBindingTest },
+                { "/PostMessageTest.html", Resources.PostMessageTest },
                 { "/ExceptionTest.html", Resources.ExceptionTest },
                 { "/PopupTest.html", Resources.PopupTest },
                 { "/SchemeTest.html", Resources.SchemeTest },
@@ -48,11 +51,15 @@ namespace CefSharp.Example
                 { "/ScriptedMethodsTest.html", Resources.ScriptedMethodsTest },
                 { "/ResponseFilterTest.html", Resources.ResponseFilterTest },
                 { "/DraggableRegionTest.html", Resources.DraggableRegionTest },
+                { "/DragDropCursorsTest.html", Resources.DragDropCursorsTest },
                 { "/CssAnimationTest.html", Resources.CssAnimation },
                 { "/CdmSupportTest.html", Resources.CdmSupportTest },
                 { "/Recaptcha.html", Resources.Recaptcha },
                 { "/UnicodeExampleGreaterThan32kb.html", Resources.UnicodeExampleGreaterThan32kb },
-                { "/UnocodeExampleEqualTo32kb.html", Resources.UnocodeExampleEqualTo32kb }
+                { "/UnocodeExampleEqualTo32kb.html", Resources.UnocodeExampleEqualTo32kb },
+                { "/JavascriptCallbackTest.html", Resources.JavascriptCallbackTest },
+                { "/BindingTestsAsyncTask.html", Resources.BindingTestsAsyncTask },
+                { "/BindingApiCustomObjectNameTest.html", Resources.BindingApiCustomObjectNameTest }
             };
         }
 
@@ -71,10 +78,19 @@ namespace CefSharp.Example
             if (fileName.EndsWith("CefSharp.Core.xml", StringComparison.OrdinalIgnoreCase))
             {
                 //Convenient helper method to lookup the mimeType
-                var mimeType = ResourceHandler.GetMimeType(".xml");
+                var mimeType = Cef.GetMimeType("xml");
                 //Load a resource handler for CefSharp.Core.xml
                 //mimeType is optional and will default to text/html
-                return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType);
+                return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType, autoDisposeStream: true);
+            }
+
+            if (fileName.EndsWith("Logo.png", StringComparison.OrdinalIgnoreCase))
+            {
+                //Convenient helper method to lookup the mimeType
+                var mimeType = Cef.GetMimeType("png");
+                //Load a resource handler for Logo.png
+                //mimeType is optional and will default to text/html
+                return ResourceHandler.FromFilePath("..\\..\\..\\..\\CefSharp.WinForms.Example\\Resources\\chromium-256.png", mimeType, autoDisposeStream: true);
             }
 
             if (uri.Host == "cefsharp.com" && schemeName == "https" && (string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase) ||
@@ -85,14 +101,14 @@ namespace CefSharp.Example
 
             if (string.Equals(fileName, "/EmptyResponseFilterTest.html", StringComparison.OrdinalIgnoreCase))
             {
-                return ResourceHandler.FromString("", ".html");
+                return ResourceHandler.FromString("", mimeType: ResourceHandler.DefaultMimeType);
             }
 
             string resource;
             if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
             {
                 var fileExtension = Path.GetExtension(fileName);
-                return ResourceHandler.FromString(resource, includePreamble:true, mimeType:ResourceHandler.GetMimeType(fileExtension));
+                return ResourceHandler.FromString(resource, includePreamble: true, mimeType: Cef.GetMimeType(fileExtension));
             }
 
             return null;

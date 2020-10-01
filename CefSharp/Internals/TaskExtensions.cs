@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -41,10 +41,14 @@ namespace CefSharp.Internals
         {
             switch (task.Status)
             {
-                case TaskStatus.RanToCompletion: return resultSetter.TrySetResult(task is Task<TResult> ? ((Task<TResult>)task).Result : default(TResult));
-                case TaskStatus.Faulted: return resultSetter.TrySetException(task.Exception.InnerExceptions);
-                case TaskStatus.Canceled: return resultSetter.TrySetCanceled();
-                default: throw new InvalidOperationException("The task was not completed.");
+                case TaskStatus.RanToCompletion:
+                    return resultSetter.TrySetResult(task is Task<TResult> ? ((Task<TResult>)task).Result : default(TResult));
+                case TaskStatus.Faulted:
+                    return resultSetter.TrySetException(task.Exception.InnerExceptions);
+                case TaskStatus.Canceled:
+                    return resultSetter.TrySetCanceled();
+                default:
+                    throw new InvalidOperationException("The task was not completed.");
             }
         }
         /// <summary>Attempts to transfer the result of a Task to the TaskCompletionSource.</summary>
@@ -78,7 +82,7 @@ namespace CefSharp.Internals
                 if (taskCompletionSource.Task.Status != TaskStatus.RanToCompletion)
                 {
                     taskCompletionSource.TrySetCanceled();
-                    if(cancelled != null)
+                    if (cancelled != null)
                     {
                         cancelled();
                     }
@@ -97,7 +101,8 @@ namespace CefSharp.Internals
         /// <param name="result">result</param>
         public static void TrySetResultAsync<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TResult result)
         {
-            Task.Factory.StartNew(delegate { taskCompletionSource.TrySetResult(result); }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+            Task.Factory.StartNew(delegate
+            { taskCompletionSource.TrySetResult(result); }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
         }
     }
 }

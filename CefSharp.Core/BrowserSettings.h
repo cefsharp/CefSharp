@@ -1,11 +1,12 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #pragma once
 
 #include "Stdafx.h"
-#include "RequestContext.h"
+
+#include "include\internal\cef_types_wrappers.h"
 
 namespace CefSharp
 {
@@ -17,6 +18,10 @@ namespace CefSharp
     /// </summary>
     public ref class BrowserSettings : IBrowserSettings
     {
+    private:
+        bool _isDisposed = false;
+        bool _ownsPointer = false;
+        bool _frameworkCreated = false;
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -28,19 +33,38 @@ namespace CefSharp
             _browserSettings = browserSettings;
         }
 
+        BrowserSettings(bool frameworkCreated) : _browserSettings(new CefBrowserSettings())
+        {
+            _ownsPointer = true;
+            _frameworkCreated = frameworkCreated;
+        }
+
     public:
         /// <summary>
         /// Default Constructor
         /// </summary>
         BrowserSettings() : _browserSettings(new CefBrowserSettings())
         {
+            _ownsPointer = true;
         }
 
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
         !BrowserSettings()
         {
+            if (_ownsPointer)
+            {
+                delete _browserSettings;
+            }
+
             _browserSettings = NULL;
+            _isDisposed = true;
         }
 
+        /// <summary>
+        /// Destructor.
+        /// </summary>
         ~BrowserSettings()
         {
             this->!BrowserSettings();
@@ -134,7 +158,7 @@ namespace CefSharp
         {
             int get() { return _browserSettings->minimum_logical_font_size; }
             void set(int value) { _browserSettings->minimum_logical_font_size = value; }
-        }        
+        }
 
         /// <summary>
         /// Default encoding for Web content. If empty "ISO-8859-1" will be used. Also
@@ -157,8 +181,8 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Controls whether JavaScript can be executed.
-        /// (Disable javascript)
+        /// Controls whether JavaScript can be executed. (Used to Enable/Disable javascript)
+        /// Also configurable using the "disable-javascript" command-line switch.
         /// </summary>
         virtual property CefState Javascript
         {
@@ -324,13 +348,14 @@ namespace CefSharp
             CefState get() { return (CefState)_browserSettings->webgl; }
             void set(CefState value) { _browserSettings->webgl = (cef_state_t)value; }
         }
-        
+
         /// <summary>
-        /// Opaque background color used for the browser before a document is loaded
-        /// and when no document color is specified. By default the background color
-        /// will be the same as CefSettings.BackgroundColor. Only the RGB compontents
-        /// of the specified value will be used. The alpha component must greater than
-        /// 0 to enable use of the background color but will be otherwise ignored.
+        /// Background color used for the browser before a document is loaded and when no document color
+        /// is specified. The alpha component must be either fully opaque (0xFF) or fully transparent (0x00).
+        /// If the alpha component is fully opaque then the RGB components will be used as the background
+        /// color. If the alpha component is fully transparent for a WinForms browser then the
+        /// CefSettings.BackgroundColor value will be used. If the alpha component is fully transparent
+        /// for a windowless (WPF/OffScreen) browser then transparent painting will be enabled.
         /// </summary>
         virtual property uint32 BackgroundColor
         {
@@ -363,6 +388,22 @@ namespace CefSharp
         {
             int get() { return _browserSettings->windowless_frame_rate; }
             void set(int value) { _browserSettings->windowless_frame_rate = value; }
-        }		
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the browser settings has been disposed.
+        /// </summary>
+        virtual property bool IsDisposed
+        {
+            bool get() { return _isDisposed; }
+        }
+
+        /// <summary>
+        /// True if framework created.
+        /// </summary>
+        virtual property bool FrameworkCreated
+        {
+            bool get() { return _frameworkCreated; }
+        }
     };
 }

@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -68,7 +68,7 @@ namespace CefSharp
             {
                 auto result = gcnew List<JavascriptObject^>();
                 auto subList = list->GetList(index);
-                for (auto i = 0; i < subList->GetSize(); i++)
+                for (size_t i = 0; i < subList->GetSize(); i++)
                 {
                     result->Add(DeserializeJsObject(subList, i));
                 }

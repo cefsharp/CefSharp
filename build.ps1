@@ -1,11 +1,11 @@
-param(
-    [ValidateSet("vs2015", "vs2017", "nupkg-only", "gitlink")]
+﻿param(
+    [ValidateSet("vs2015", "vs2017", "vs2019", "nupkg-only", "gitlink")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2015",
     [Parameter(Position = 1)]
-    [string] $Version = "65.0.0",
+    [string] $Version = "85.3.6",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "65.0.0"   
+    [string] $AssemblyVersion = "85.3.6"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -115,7 +115,7 @@ function TernaryReturn
 function Msvs 
 {
     param(
-        [ValidateSet('v140', 'v141')]
+        [ValidateSet('v140', 'v141', 'v142')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -135,16 +135,23 @@ function Msvs
 
     switch -Exact ($Toolchain) {
         'v140' {
+            if($env:VS140COMNTOOLS -eq $null) {
+                Die "Visual Studio 2015 is not installed on your development machine, unable to continue."
+            }
+
             $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
             $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
             $VisualStudioVersion = '14.0'
             $VXXCommonTools = Join-Path $env:VS140COMNTOOLS '..\..\vc'
         }
-        'v141' {
+        {($_ -eq 'v141') -or ($_ -eq 'v142')} {
+            $VS_VER = 15;
+            $VS_OFFICIAL_VER = 2017;
+            if ($_ -eq 'v142'){$VS_VER=16;$VS_OFFICIAL_VER=2019;}
             $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
 
             $vswherePath = Join-Path $programFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
-            #Check if we already have vswhere which is included in newer versions of VS2017
+            #Check if we already have vswhere which is included in newer versions of VS2017/VS2019
             if(-not (Test-Path $vswherePath))
             {
                 Write-Diagnostic "Downloading VSWhere as no install found at $vswherePath"
@@ -162,17 +169,18 @@ function Msvs
             
             Write-Diagnostic "VSWhere path $vswherePath"
             
-            $VS2017InstallPath = & $vswherePath -version 15 -property installationPath
+            $versionSearchStr = "[$VS_VER.0," + ($VS_VER+1) + ".0)"
+            $VS2017InstallPath = & $vswherePath -version $versionSearchStr -property installationPath
             
-            Write-Diagnostic "VS2017InstallPath: $VS2017InstallPath"
+            Write-Diagnostic "$($VS_OFFICIAL_VER)InstallPath: $VS2017InstallPath"
                 
             if(-not (Test-Path $VS2017InstallPath))
             {
-                Die "Visual Studio 2017 was not found"
+                Die "Visual Studio $VS_OFFICIAL_VER is not installed on your development machine, unable to continue."
             }
                 
             $MSBuildExe = "msbuild.exe"
-            $VisualStudioVersion = '15.0'
+            $VisualStudioVersion = "$VS_VER.0"
             $VXXCommonTools = Join-Path $VS2017InstallPath VC\Auxiliary\Build
         }
     }
@@ -238,20 +246,10 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v140', 'v141')]
+        [ValidateSet('v140', 'v141', 'v142')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
-
-    if($Toolchain -eq 'v140' -and $env:VS140COMNTOOLS -eq $null) {
-        Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
-        Return
-    }
-
-    if($Toolchain -eq 'v141' -and $env:VS141COMNTOOLS -eq $null) {
-        Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
-        Return
-    }
 
     Write-Diagnostic "Starting to build targeting toolchain $Toolchain"
 
@@ -290,11 +288,18 @@ function Nupkg
 
     Write-Diagnostic "Building nuget package"
 
-    # Build packages
+    # Build old packages
     . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
     . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
     . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
     . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    
+    # Build newer style packages
+	# Net Core isn't current built as part of this script so we cannot generate these directly
+    #. $nuget pack nuget\PackageReference\CefSharp.Common.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;"
+    #. $nuget pack nuget\PackageReference\CefSharp.OffScreen.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
+    #. $nuget pack nuget\PackageReference\CefSharp.Wpf.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
+    #. $nuget pack nuget\PackageReference\CefSharp.WinForms.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
@@ -326,6 +331,9 @@ function UpdateSymbolsWithGitLink()
         if(-not (Test-Path $gitlink))
         {
             Write-Diagnostic "Downloading GitLink"
+            #Powershell is having problems download GitLink SSL/TLS error, force TLS 1.2
+            #https://stackoverflow.com/a/55809878/4583726
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
             $client = New-Object System.Net.WebClient;
             $client.DownloadFile('https://github.com/GitTools/GitLink/releases/download/2.3.0/GitLink.exe', $gitlink);
         }
@@ -334,8 +342,8 @@ function UpdateSymbolsWithGitLink()
     Write-Diagnostic "GitLink working dir : $WorkingDir"
     
     # Run GitLink in the workingDir
-    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x64 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
-    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x86 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
+    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x64 -ignore CefSharp.Example`,CefSharp.Wpf.Example`,CefSharp.OffScreen.Example`,CefSharp.WinForms.Example
+    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x86 -ignore CefSharp.Example`,CefSharp.Wpf.Example`,CefSharp.OffScreen.Example`,CefSharp.WinForms.Example
 }
 
 function WriteAssemblyVersion
@@ -345,12 +353,17 @@ function WriteAssemblyVersion
     $Filename = Join-Path $WorkingDir CefSharp\Properties\AssemblyInfo.cs
     $Regex = 'public const string AssemblyVersion = "(.*)"';
     $Regex2 = 'public const string AssemblyFileVersion = "(.*)"'
+    $Regex3 = 'public const string AssemblyCopyright = "Copyright © .* The CefSharp Authors"'
     
-    $AssemblyInfo = Get-Content $Filename
+    $AssemblyInfo = Get-Content -Encoding UTF8 $Filename
+    $CurrentYear = Get-Date -Format yyyy
+    
     $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
     $NewString = $NewString -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
+    $NewString = $NewString -replace $Regex3, "public const string AssemblyCopyright = ""Copyright © $CurrentYear The CefSharp Authors"""
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
 function WriteVersionToManifest($manifest)
@@ -358,10 +371,11 @@ function WriteVersionToManifest($manifest)
     $Filename = Join-Path $WorkingDir $manifest
     $Regex = 'assemblyIdentity version="(.*?)"';
     
-    $ManifestData = Get-Content $Filename
+    $ManifestData = Get-Content -Encoding UTF8 $Filename
     $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion.0"""
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
 function WriteVersionToResourceFile($resourceFile)
@@ -369,12 +383,45 @@ function WriteVersionToResourceFile($resourceFile)
     $Filename = Join-Path $WorkingDir $resourceFile
     $Regex1 = 'VERSION .*';
     $Regex2 = 'Version", ".*?"';
+    $Regex3 = 'Copyright © .* The CefSharp Authors'
     
-    $ResourceData = Get-Content $Filename
-    $NewString = $ResourceData -replace $Regex1, "VERSION $AssemblyVersion"
+    $ResourceData = Get-Content -Encoding UTF8 $Filename
+    $CurrentYear = Get-Date -Format yyyy
+    #Assembly version with comma instead of dot
+    $CppAssemblyVersion = $AssemblyVersion -replace '\.', ','
+    
+    $NewString = $ResourceData -replace $Regex1, "VERSION $CppAssemblyVersion"
     $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
+    $NewString = $NewString -replace $Regex3, "Copyright © $CurrentYear The CefSharp Authors"
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
+function WriteVersionToShfbproj
+{
+    $Filename = Join-Path $WorkingDir CefSharp.shfbproj
+    $Regex1 = '<HelpFileVersion>.*<\/HelpFileVersion>';
+    $Regex2 = '<HeaderText>Version .*<\/HeaderText>';
+    
+    $ShfbprojData = Get-Content -Encoding UTF8 $Filename
+    $NewString = $ShfbprojData -replace $Regex1, "<HelpFileVersion>$AssemblyVersion</HelpFileVersion>"
+    $NewString = $NewString -replace $Regex2, "<HeaderText>Version $AssemblyVersion</HeaderText>"
+    
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
+function WriteVersionToAppveyor
+{
+    $Filename = Join-Path $WorkingDir appveyor.yml
+    $Regex1 = 'version: .*-CI{build}';
+    
+    $AppveyorData = Get-Content -Encoding UTF8 $Filename
+    $NewString = $AppveyorData -replace $Regex1, "version: $AssemblyVersion-CI{build}"
+    
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
@@ -384,6 +431,8 @@ DownloadNuget
 NugetPackageRestore
 
 WriteAssemblyVersion
+WriteVersionToShfbproj
+WriteVersionToAppveyor
 
 WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
 WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
@@ -412,6 +461,12 @@ switch -Exact ($Target)
     "vs2017"
     {
         VSX v141
+        UpdateSymbolsWithGitLink
+        Nupkg
+    }
+    "vs2019"
+    {
+        VSX v142
         UpdateSymbolsWithGitLink
         Nupkg
     }

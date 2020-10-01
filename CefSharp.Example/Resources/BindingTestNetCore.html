@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Binding Test (Net Core)</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
+
+    <!--<script type="text/javascript">
+    (async function() {
+        // <embed user provided code here>
+
+        await CefSharp.BindObjectAsync("boundAsync", "bound");
+    })();
+
+    (async () => {
+        await CefSharp.BindObjectAsync("boundAsync", "bound");
+    })();
+    </script>-->
+
+    <script src="BindingTestAsync.js"></script>
+
+    <script type="text/javascript">
+        QUnit.done(function (details)
+        {
+            CefSharp.PostMessage({ "Type": "QUnitExecutionComplete", "Details": details });
+        });
+    </script>
+
+</body>
+</html>

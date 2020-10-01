@@ -1,4 +1,4 @@
-﻿namespace CefSharp.Tests
+namespace CefSharp.Tests
 {
     using System;
     using System.Threading;

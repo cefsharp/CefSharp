@@ -26,7 +26,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;WPF</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -47,7 +47,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -56,7 +56,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;WPF</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -78,9 +78,26 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs">
+      <Link>ChromiumWebBrowser.Partial.cs</Link>
+    </Compile>
+    <Compile Include="CefSettings.cs" />
+    <Compile Include="Experimental\Accessibility\AccessibilityHandler.cs" />
+    <Compile Include="Experimental\Accessibility\AccessibilityNode.cs" />
+    <Compile Include="Experimental\Accessibility\AccessibilityTree.cs" />
+    <Compile Include="Experimental\Accessibility\BrowserAutomationPeer.cs" />
+    <Compile Include="Experimental\Accessibility\TabControlAutomationPeer.cs" />
+    <Compile Include="Experimental\ChromiumWebBrowserWithTouchSupport.cs" />
+    <Compile Include="Internals\DragOperationMaskExtensions.cs" />
+    <Compile Include="Internals\ImeHandler.cs" />
+    <Compile Include="Internals\MonitorInfo.cs" />
+    <Compile Include="Internals\MonitorInfoEx.cs" />
+    <Compile Include="Internals\ImeNative.cs" />
+    <Compile Include="Internals\RectStruct.cs" />
+    <Compile Include="Experimental\WpfImeKeyboardHandler.cs" />
+    <Compile Include="Internals\WpfKeyboardHandler.cs" />
     <Compile Include="IWpfKeyboardHandler.cs" />
     <Compile Include="Internals\VirtualKeys.cs" />
-    <Compile Include="Internals\WpfKeyboardHandler.cs" />
     <Compile Include="Internals\WpfLegacyKeyboardHandler.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="IRenderHandler.cs" />
@@ -92,10 +109,14 @@
     <AppDesigner Include="Properties\" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="PaintEventArgs.cs" />
+    <Compile Include="Rendering\AbstractRenderHandler.cs" />
+    <Compile Include="Rendering\Experimental\CompositionTargetRenderHandler.cs" />
+    <Compile Include="Rendering\DirectWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\Experimental\IncreaseBufferInteropRenderHandler.cs" />
     <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\InteropBitmapRenderHandler.cs" />
     <Compile Include="Rendering\WritableBitmapRenderHandler.cs" />
+    <Compile Include="VirtualKeyboardRequestedEventArgs.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +129,12 @@
       <Name>CefSharp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

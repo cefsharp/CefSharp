@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -9,9 +9,10 @@
 #include "include/cef_app.h"
 
 #include "..\ManagedCefBrowserAdapter.h"
-#include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\CefBrowserWrapper.h"
 
 using namespace System::Threading::Tasks;
+using namespace CefSharp::JavascriptBinding;
 
 namespace CefSharp
 {
@@ -20,16 +21,17 @@ namespace CefSharp
         private ref class JavascriptCallbackProxy : public IJavascriptCallback
         {
         private:
-            WeakReference^ _browserAdapter;
+            WeakReference<IBrowserAdapter^>^ _browserAdapter;
             JavascriptCallback^ _callback;
             PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
             bool _disposed;
 
             CefRefPtr<CefProcessMessage> CreateDestroyMessage();
             IBrowser^ GetBrowser();
+            IJavascriptNameConverter^ GetJavascriptNameConverter();
             void DisposedGuard();
         public:
-            JavascriptCallbackProxy(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserAdapter)
+            JavascriptCallbackProxy(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference<IBrowserAdapter^>^ browserAdapter)
                 :_callback(callback), _pendingTasks(pendingTasks), _disposed(false)
             {
                 _browserAdapter = browserAdapter;
@@ -45,13 +47,18 @@ namespace CefSharp
                 auto browser = GetBrowser();
                 if (browser != nullptr && !browser->IsDisposed)
                 {
-                    auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
-                    browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
+                    auto browserWrapper = static_cast<CefBrowserWrapper^>(browser)->Browser;
+                    auto frame = browserWrapper->GetFrame(_callback->FrameId);
+                    if (frame.get() && frame->IsValid())
+                    {
+                        frame->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
+                    }
                 }
                 _disposed = true;
             }
 
             virtual Task<JavascriptResponse^>^ ExecuteAsync(cli::array<Object^>^ parameters);
+            virtual Task<JavascriptResponse^>^ ExecuteWithTimeoutAsync(Nullable<TimeSpan> timeout, cli::array<Object^>^ parameters);
 
             virtual property Int64 Id
             {

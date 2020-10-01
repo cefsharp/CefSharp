@@ -1,15 +1,26 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
 using CefSharp.Enums;
 using CefSharp.Structs;
+using Range = CefSharp.Structs.Range;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// IRenderWebBrowser is an internal interface used by CefSharp for the WPF/Offscreen implementation
+    /// The ChromiumWebBrowser instances implement this interface
+    /// </summary>
     public interface IRenderWebBrowser : IWebBrowserInternal
     {
+        /// <summary>
+        /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
+        /// </summary>
+        /// <value>The accessibility handler.</value>
+        IAccessibilityHandler AccessibilityHandler { get; set; }
+
         /// <summary>
         /// Called to allow the client to return a ScreenInfo object with appropriate values.
         /// If null is returned then the rectangle from GetViewRect will be used.
@@ -23,7 +34,7 @@ namespace CefSharp.Internals
         /// </summary>
         /// <returns>Return a ViewRect strict containing the rectangle or null. If the rectangle is
         /// still empty or invalid popups may not be drawn correctly. </returns>
-        ViewRect? GetViewRect();
+        Rect GetViewRect();
 
         /// <summary>
         /// Called to retrieve the translation from view coordinates to actual screen coordinates. 
@@ -36,8 +47,17 @@ namespace CefSharp.Internals
         bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY);
 
         /// <summary>
+        /// Called when an element has been rendered to the shared texture handle.
+        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        /// </summary>
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        void OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle);
+
+        /// <summary>
         /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the
-        /// value of <see cref="ScreenInfo.ScaleFactor"/> returned from <see cref="GetScreenInfo"/>.
+        /// value of <see cref="ScreenInfo.DeviceScaleFactor"/> returned from <see cref="GetScreenInfo"/>.
         /// Called on the CEF UI Thread
         /// </summary>
         /// <param name="type">indicates whether the element is the view or the popup widget.</param>
@@ -71,7 +91,7 @@ namespace CefSharp.Internals
         bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y);
 
         /// <summary>
-        /// Called when the web view wants to update the mouse cursor during a drag & drop operation.
+        /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
         /// </summary>
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
         void UpdateDragCursor(DragOperationsMask operation);
@@ -94,5 +114,12 @@ namespace CefSharp.Internals
         /// <param name="selectedRange">is the range of characters that have been selected</param>
         /// <param name="characterBounds">is the bounds of each character in view coordinates.</param>
         void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds);
+
+        /// <summary>
+        /// Called when an on-screen keyboard should be shown or hidden for the specified browser. 
+        /// </summary>
+        /// <param name="browser">the browser</param>
+        /// <param name="inputMode">specifies what kind of keyboard should be opened. If <see cref="TextInputMode.None"/>, any existing keyboard for this browser should be hidden.</param>
+        void OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode);
     };
 }

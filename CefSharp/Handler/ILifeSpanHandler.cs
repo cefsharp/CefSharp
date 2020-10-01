@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,7 +13,7 @@ namespace CefSharp
         /// <summary>
         /// Called before a popup window is created.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this request is for.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">The browser instance that launched this popup.</param>
         /// <param name="frame">The HTML frame that launched this popup.</param>
         /// <param name="targetUrl">The URL of the popup content. (This may be empty/null)</param>
@@ -45,14 +45,14 @@ namespace CefSharp
         /// the new browser window should be scriptable and in the same process as the
         /// source browser.
         /// </remarks>
-        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser);
+        bool OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser);
 
         /// <summary>
         /// Called after a new browser is created.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control that is realted to the window is closing.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">The browser instance</param>
-        void OnAfterCreated(IWebBrowser browserControl, IBrowser browser);
+        void OnAfterCreated(IWebBrowser chromiumWebBrowser, IBrowser browser);
 
         /// <summary>
         /// Called when a browser has recieved a request to close. This may result
@@ -110,17 +110,17 @@ namespace CefSharp
         /// 11. Application exits by calling CefQuitMessageLoop() if no other browsers
         ///     exist.
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control that is realted to the window is closing.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">The browser instance - check if IsDisposed as it's possible when the browser is disposing</param>
         /// <returns>For default behaviour return false</returns>
-        bool DoClose(IWebBrowser browserControl, IBrowser browser);
+        bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser);
 
         /// <summary>
         /// Called before a CefBrowser window (either the main browser for <see cref="IWebBrowser"/>, 
         /// or one of its children)
         /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control that is realted to the window is closing.</param>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">The browser instance</param>
-        void OnBeforeClose(IWebBrowser browserControl, IBrowser browser);
+        void OnBeforeClose(IWebBrowser chromiumWebBrowser, IBrowser browser);
     }
 }

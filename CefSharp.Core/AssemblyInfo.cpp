@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -12,6 +12,7 @@ using namespace System::Security::Permissions;
 using namespace CefSharp;
 
 [assembly:AssemblyTitle("CefSharp.Core")];
+[assembly:AssemblyDescription("CefSharp Core Library (VC++)")];
 [assembly:AssemblyCompany(AssemblyInfo::AssemblyCompany)];
 [assembly:AssemblyProduct(AssemblyInfo::AssemblyProduct)];
 [assembly:AssemblyCopyright(AssemblyInfo::AssemblyCopyright)];
@@ -20,7 +21,6 @@ using namespace CefSharp;
 [assembly:ComVisible(AssemblyInfo::ComVisible)];
 [assembly:CLSCompliant(AssemblyInfo::ClsCompliant)];
 
-[assembly:AssemblyDescription("")];
 [assembly:AssemblyConfiguration("")];
 [assembly:AssemblyTrademark("")];
 [assembly:AssemblyCulture("")];
@@ -29,4 +29,5 @@ using namespace CefSharp;
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWpfProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWinFormsProject)];
+[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpOffScreenProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpTestProject)];
