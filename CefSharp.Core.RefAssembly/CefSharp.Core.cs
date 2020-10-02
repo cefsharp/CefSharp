@@ -77,6 +77,7 @@ namespace CefSharp
         public static string GetMimeType(string extension) { throw null; }
         public static System.Threading.Tasks.Task<System.Collections.Generic.List<CefSharp.WebPluginInfo>> GetPlugins() { throw null; }
         public static bool Initialize(CefSharp.CefSettingsBase cefSettings) { throw null; }
+        public static bool Initialize(CefSharp.CefSettingsBase cefSettings, bool performDependencyCheck) { throw null; }
         public static bool Initialize(CefSharp.CefSettingsBase cefSettings, bool performDependencyCheck, CefSharp.IApp cefApp) { throw null; }
         public static bool Initialize(CefSharp.CefSettingsBase cefSettings, bool performDependencyCheck, CefSharp.IBrowserProcessHandler browserProcessHandler) { throw null; }
         public static void PreShutdown() { }

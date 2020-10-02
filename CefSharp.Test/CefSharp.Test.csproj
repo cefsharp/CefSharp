@@ -133,6 +133,7 @@
     <Compile Include="Framework\LegacyCamelCaseJavascriptNameConverterFacts.cs" />
     <Compile Include="Framework\MimeTypeMappingFacts.cs" />
     <Compile Include="Framework\PathCheckFacts.cs" />
+    <Compile Include="Framework\RequestContextExtensionFacts.cs" />
     <Compile Include="Framework\TestMemberInfo.cs" />
     <Compile Include="JavascriptBinding\IntegrationTestFacts.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
