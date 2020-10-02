@@ -140,7 +140,7 @@ namespace CefSharp
         NetworkChanged = -21,
 
         /// <summary>
-        /// The request was blocked by the URL blacklist configured by the domain
+        /// The request was blocked by the URL block list configured by the domain
         /// administrator.
         /// </summary>
         BlockedByAdministrator = -22,
