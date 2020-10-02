@@ -165,6 +165,22 @@ namespace CefSharp
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
+        /// <returns>true if successful; otherwise, false.</returns>
+        static bool Initialize(CefSettingsBase^ cefSettings, bool performDependencyCheck)
+        {
+            auto cefApp = gcnew DefaultApp(nullptr, cefSettings->CefCustomSchemes);
+
+            return Initialize(cefSettings, performDependencyCheck, cefApp);
+        }
+
+        /// <summary>
+        /// Initializes CefSharp with user-provided settings.
+        /// It's important to note that Initialize/Shutdown <strong>MUST</strong> be called on your main
+        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
+        /// </summary>
+        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(CefSettingsBase^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
