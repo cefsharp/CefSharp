@@ -241,7 +241,7 @@
     <Manifest Include="Assembly.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.CefSharp.BrowserSubprocess.Core.netcore.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

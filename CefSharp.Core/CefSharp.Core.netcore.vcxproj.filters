@@ -341,6 +341,6 @@
     <Manifest Include="Assembly.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.CefSharp.Core.netcore.config" />
   </ItemGroup>
 </Project>
