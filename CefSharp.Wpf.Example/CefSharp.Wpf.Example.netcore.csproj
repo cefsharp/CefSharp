@@ -28,8 +28,8 @@
         <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
         <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
-        <PackageReference Include="cef.redist.x86" Version="85.3.6" />
-        <PackageReference Include="cef.redist.x64" Version="85.3.6" />
+        <PackageReference Include="cef.redist.x86" Version="85.3.12" />
+        <PackageReference Include="cef.redist.x64" Version="85.3.12" />
     </ItemGroup>
 
     <ItemGroup>
