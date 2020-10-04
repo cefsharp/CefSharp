@@ -70,32 +70,7 @@ namespace CefSharp
         /// preference 'proxy' and mode of 'fixed_servers'</remarks>
         public static bool SetProxy(this IRequestContext requestContext, string scheme, string host, int? port, out string errorMessage)
         {
-            //Default to using http scheme if non provided
-            if (string.IsNullOrWhiteSpace(scheme))
-            {
-                scheme = "http";
-            }
-
-            if (!ProxySchemes.Contains(scheme.ToLower()))
-            {
-                throw new ArgumentException("Invalid Scheme, see https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-header-proxy-resolution for a list of valid schemes.", "scheme");
-            }
-
-            if (string.IsNullOrWhiteSpace(host))
-            {
-                throw new ArgumentException("Cannot be null or empty", "host");
-            }
-
-            if (port.HasValue && (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort))
-            {
-                throw new ArgumentOutOfRangeException("port", port, "Invalid TCP Port");
-            }
-
-            var v = new Dictionary<string, object>
-            {
-                ["mode"] = "fixed_servers",
-                ["server"] = scheme + "://" + host + (port.HasValue ? (":" + port) : "")
-            };
+            var v = GetProxyDictionary(scheme, host, port);
 
             return requestContext.SetPreference("proxy", v, out errorMessage);
         }
@@ -131,6 +106,45 @@ namespace CefSharp
         public static bool SetProxy(this IRequestContext requestContext, string host, out string errorMessage)
         {
             return requestContext.SetProxy(null, host, null, out errorMessage);
+        }
+
+        /// <summary>
+        /// Creates a Dictionary that can be used with <see cref="IRequestContext.SetPreference(string, object, out string)"/>
+        /// </summary>
+        /// <param name="scheme">is the protocol of the proxy server, and is one of: 'http', 'socks', 'socks4', 'socks5'. Also note that 'socks' is equivalent to 'socks5'.</param>
+        /// <param name="host">proxy host</param>
+        /// <param name="port">proxy port</param>
+        /// <returns></returns>
+        public static IDictionary<string, object> GetProxyDictionary(string scheme, string host, int? port)
+        {
+            //Default to using http scheme if non provided
+            if (string.IsNullOrWhiteSpace(scheme))
+            {
+                scheme = "http";
+            }
+
+            if (!ProxySchemes.Contains(scheme.ToLower()))
+            {
+                throw new ArgumentException("Invalid Scheme, see https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-header-proxy-resolution for a list of valid schemes.", "scheme");
+            }
+
+            if (string.IsNullOrWhiteSpace(host))
+            {
+                throw new ArgumentException("Cannot be null or empty", "host");
+            }
+
+            if (port.HasValue && (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort))
+            {
+                throw new ArgumentOutOfRangeException("port", port, "Invalid TCP Port");
+            }
+
+            var dict = new Dictionary<string, object>
+            {
+                ["mode"] = "fixed_servers",
+                ["server"] = scheme + "://" + host + (port.HasValue ? (":" + port) : "")
+            };
+
+            return dict;
         }
 
         /// <summary>

@@ -4,14 +4,14 @@
 
 namespace CefSharp.Example.Handlers
 {
-    public class RequestContextHandler : IRequestContextHandler
+    public class RequestContextHandler : CefSharp.Handler.RequestContextHandler
     {
-        IResourceRequestHandler IRequestContextHandler.GetResourceRequestHandler(IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+        protected override IResourceRequestHandler GetResourceRequestHandler(IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
         {
-            return null;
+            return new ExampleResourceRequestHandler();
         }
 
-        bool IRequestContextHandler.OnBeforePluginLoad(string mimeType, string url, bool isMainFrame, string topOriginUrl, WebPluginInfo pluginInfo, ref PluginPolicy pluginPolicy)
+        protected override bool OnBeforePluginLoad(string mimeType, string url, bool isMainFrame, string topOriginUrl, WebPluginInfo pluginInfo, ref PluginPolicy pluginPolicy)
         {
             //pluginPolicy = PluginPolicy.Disable;
             //return true;
@@ -19,7 +19,7 @@ namespace CefSharp.Example.Handlers
             return false;
         }
 
-        void IRequestContextHandler.OnRequestContextInitialized(IRequestContext requestContext)
+        protected override void OnRequestContextInitialized(IRequestContext requestContext)
         {
             //You can set preferences here on your newly initialized request context.
             //Note, there is called on the CEF UI Thread, so you can directly call SetPreference

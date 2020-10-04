@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Example;
+using CefSharp.Example.Handlers;
 using CefSharp.Internals;
 using CefSharp.OffScreen;
 using Xunit;
@@ -282,6 +283,25 @@ namespace CefSharp.Test.OffScreen
                 await browser.LoadPageAsync(firstUrl);
 
                 Assert.True(browser.CanExecuteJavascriptInMainFrame);
+            }
+        }
+
+        [Fact]
+        public async Task CanLoadGoogleUsingProxy()
+        {
+            var requestContextHander = new RequestContextHandler()
+                .SetProxyOnContextInitialized("localhost", 8080);
+
+            var requestContext = new RequestContext(requestContextHander);
+            using (var browser = new ChromiumWebBrowser("www.google.com", requestContext: requestContext))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
             }
         }
     }

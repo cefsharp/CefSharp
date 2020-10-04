@@ -591,6 +591,7 @@
     <Compile Include="DevTools\WebAuthn\WebAuthn.cs" />
     <Compile Include="Enums\CompositionUnderlineStyle.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
+    <Compile Include="Handler\RequestContextHandler.cs" />
     <Compile Include="Internals\CefThread.cs" />
     <Compile Include="Internals\FreezableBase.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
