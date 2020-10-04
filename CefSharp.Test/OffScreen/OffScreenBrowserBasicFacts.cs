@@ -289,17 +289,17 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanLoadGoogleUsingProxy()
         {
-            var requestContextHander = new RequestContextHandler()
-                .SetProxyOnContextInitialized("localhost", 8080);
+            var requestContextHandler = new RequestContextHandler()
+                .SetProxyOnContextInitialized("127.0.0.1", 8080);
 
-            var requestContext = new RequestContext(requestContextHander);
-            using (var browser = new ChromiumWebBrowser("www.google.com", requestContext: requestContext))
+            var requestContext = new RequestContext(requestContextHandler);
+            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
             {
                 await browser.LoadPageAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
-                Assert.Contains("www.google", mainFrame.Url);
+                Assert.Contains("cefsharp.github.io", mainFrame.Url);
 
                 output.WriteLine("Url {0}", mainFrame.Url);
             }

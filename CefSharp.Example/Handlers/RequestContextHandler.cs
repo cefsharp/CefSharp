@@ -28,14 +28,8 @@ namespace CefSharp.Example.Handlers
             //string errorMessage;
             //var success = requestContext.SetPreference("webkit.webprefs.minimum_font_size", 24, out errorMessage);
 
-            //You can set the proxy with code similar to the code below
-            //var v = new Dictionary<string, object>
-            //{
-            //    ["mode"] = "fixed_servers",
-            //    ["server"] = "scheme://host:port"
-            //};
             //string errorMessage;
-            //bool success = requestContext.SetPreference("proxy", v, out errorMessage);
+            //bool success = requestContext.SetProxy("http://localhost:8080", out errorMessage); 
         }
     }
 }
