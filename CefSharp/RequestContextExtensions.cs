@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using CefSharp.Internals;
+using CefSharp.Preferences;
 
 namespace CefSharp
 {
@@ -54,6 +56,45 @@ namespace CefSharp
                     requestContext.LoadExtension(dir, null, handler);
                 }
             }
+        }
+
+        /// <summary>
+        /// Set the value associated with preference name. If value is null the
+        /// preference will be restored to its default value. If setting the preference
+        /// fails then error will be populated with a detailed description of the
+        /// problem. This method must be called on the CEF UI thread.
+        /// Preferences set via the command-line usually cannot be modified.
+        /// </summary>
+        /// <param name="name">preference key</param>
+        /// <param name="value">preference value</param>
+        /// <param name="error">out error</param>
+        /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
+        public static Task<SetPreferenceResponse> SetPreferenceAsync(this IRequestContext requestContext, string name, object value)
+        {
+            if (CefThread.HasShutdown)
+            {
+                return Task.FromResult(new SetPreferenceResponse(false, "Cef.Shutdown has already been called, it is no longer possible to call SetPreferenceAsync."));
+            }
+
+            Func<SetPreferenceResponse> func = () =>
+            {
+                string error;
+                var success = requestContext.SetPreference(name, value, out error);
+
+                return new SetPreferenceResponse(success, error);
+            };
+
+            if (CefThread.CurrentlyOnUiThread)
+            {
+                return Task.FromResult(func());
+            }
+
+            return CefThread.ExecuteOnUiThread(func);
         }
 
         /// <summary>
