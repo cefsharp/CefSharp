@@ -72,7 +72,12 @@ namespace CefSharp
         {
             var v = GetProxyDictionary(scheme, host, port);
 
-            return requestContext.SetPreference("proxy", v, out errorMessage);
+            if (requestContext.CanSetPreference("proxy"))
+            {
+                return requestContext.SetPreference("proxy", v, out errorMessage);
+            }
+
+            throw new Exception("Unable to set the proxy preference, it is read-only. If you specified the proxy settings with command line args it is not possible to change the proxy settings via this method.");
         }
 
         /// <summary>
