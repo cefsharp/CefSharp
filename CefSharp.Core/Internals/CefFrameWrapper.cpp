@@ -225,7 +225,7 @@ void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, in
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), StringUtils::ToNative(scriptUrl), startLine);
 }
 
-Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout)
+Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout, bool useImmediatelyInvokedFuncExpression)
 {
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
@@ -245,6 +245,11 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
 
     //create a new taskcompletionsource
     auto idAndComplectionSource = pendingTaskRepository->CreatePendingTask(timeout);
+
+    if (useImmediatelyInvokedFuncExpression)
+    {
+        script = "(function() { let cefSharpInternalCallbackId = " + idAndComplectionSource.Key + "; " + script + " })();";
+    }
 
     auto message = CefProcessMessage::Create(kEvaluateJavascriptRequest);
     auto argList = message->GetArgumentList();
