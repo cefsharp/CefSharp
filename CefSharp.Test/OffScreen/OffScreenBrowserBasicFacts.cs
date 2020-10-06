@@ -286,9 +286,11 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
-        [Fact]
-        public async Task CanLoadGoogleUsingProxy()
+        [SkipIfRunOnAppVeyorFact]
+        public async Task CanLoadHttpWebsiteUsingProxy()
         {
+            fixture.StartProxyServerIfRequired();
+
             var requestContextHandler = new RequestContextHandler()
                 .SetProxyOnContextInitialized("127.0.0.1", 8080);
 

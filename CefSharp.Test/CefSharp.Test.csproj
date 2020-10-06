@@ -170,6 +170,7 @@
     <Compile Include="CefSharpFixtureCollection.cs" />
     <Compile Include="PostMessage\IntegrationTestFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SkipIfRunOnAppVeyorFact.cs" />
     <Compile Include="WebBrowserTestExtensions.cs" />
     <Compile Include="WinForms\WinFormsBrowserBasicFacts.cs" />
     <Compile Include="Wpf\WpfBrowserBasicFacts.cs" />
