@@ -199,6 +199,34 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Theory]
+        [InlineData("return 42;", true, "42")]
+        [InlineData("return new Promise(function(resolve, reject) { resolve(42); });", true, "42")]
+        [InlineData("return new Promise(function(resolve, reject) { reject('reject test'); });", false, "reject test")]
+        public async Task CanEvaluateScriptAsPromiseAsync(string script, bool success, string expected)
+        {
+            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+
+                var javascriptResponse = await browser.EvaluateScriptAsPromiseAsync(script);
+
+                Assert.Equal(success, javascriptResponse.Success);
+
+                if (success)
+                {
+                    Assert.Equal(expected, javascriptResponse.Result.ToString());
+                }
+                else
+                {
+                    Assert.Equal(expected, javascriptResponse.Message);
+                }
+            }
+        }
+
         [Fact]
         public async Task CanMakeFrameUrlRequest()
         {

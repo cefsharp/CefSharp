@@ -165,7 +165,7 @@ void Frame::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, int startLin
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), StringUtils::ToNative(scriptUrl), startLine);
 }
 
-Task<JavascriptResponse^>^ Frame::EvaluateScriptAsync(String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout)
+Task<JavascriptResponse^>^ Frame::EvaluateScriptAsync(String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout, bool useImmediatelyInvokedFuncExpression)
 {
     throw gcnew NotImplementedException();
 }

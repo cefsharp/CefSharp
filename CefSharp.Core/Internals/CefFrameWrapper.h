@@ -165,7 +165,7 @@ namespace CefSharp
             /*--cef(optional_param=script_url)--*/
             virtual void ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, int startLine);
 
-            virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout);
+            virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout, bool useImmediatelyInvokedFuncExpression);
 
             ///
             // Returns true if this is the main (top-level) frame.
