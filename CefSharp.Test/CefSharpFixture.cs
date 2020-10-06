@@ -4,13 +4,10 @@
 
 using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using CefSharp.Example;
 using CefSharp.OffScreen;
 using Nito.AsyncEx;
-using Titanium.Web.Proxy;
-using Titanium.Web.Proxy.Models;
 using Xunit;
 
 namespace CefSharp.Test
@@ -18,7 +15,6 @@ namespace CefSharp.Test
     public class CefSharpFixture : IAsyncLifetime, IDisposable
     {
         private readonly AsyncContextThread contextThread;
-        private ProxyServer proxyServer;
 
         public CefSharpFixture()
         {
@@ -27,15 +23,6 @@ namespace CefSharp.Test
 
         private void CefInitialize()
         {
-            proxyServer = new ProxyServer(userTrustRootCertificate:false);
-
-            var explicitEndPoint = new ExplicitProxyEndPoint(IPAddress.Loopback, 8080, false);
-
-            // An explicit endpoint is where the client knows about the existence of a proxy
-            // So client sends request in a proxy friendly manner
-            proxyServer.AddEndPoint(explicitEndPoint);
-            proxyServer.Start();
-
             if (!Cef.IsInitialized)
             {
                 var isDefault = AppDomain.CurrentDomain.IsDefaultAppDomain();
@@ -66,8 +53,6 @@ namespace CefSharp.Test
 
         private void CefShutdown()
         {
-            proxyServer.Stop();
-
             if (Cef.IsInitialized)
             {
                 Cef.Shutdown();
