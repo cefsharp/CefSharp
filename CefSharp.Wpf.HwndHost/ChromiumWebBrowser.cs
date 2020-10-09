@@ -592,6 +592,7 @@ namespace CefSharp.Wpf.HwndHost
             }
         }
 
+        ///<inheritdoc/>
         protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
         {
             dpiScale = newDpi.DpiScaleX;
@@ -607,6 +608,7 @@ namespace CefSharp.Wpf.HwndHost
             ResizeBrowser((int)e.NewSize.Width, (int)e.NewSize.Height);
         }
 
+        ///<inheritdoc/>
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             if (hwndHost == IntPtr.Zero)
@@ -634,9 +636,24 @@ namespace CefSharp.Wpf.HwndHost
             return new HandleRef(null, hwndHost);
         }
 
+        ///<inheritdoc/>
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
             DestroyWindow(hwnd.Handle);
+        }
+
+        ///<inheritdoc/>
+        protected override bool TabIntoCore(TraversalRequest request)
+        {
+            if(InternalIsBrowserInitialized())
+            {
+                var host = browser.GetHost();
+                host.SetFocus(true);
+
+                return true;
+            }
+
+            return base.TabIntoCore(request);
         }
 
         /// <summary>
