@@ -557,6 +557,8 @@ namespace CefSharp.Wpf.HwndHost
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
+            FocusHandler = new FocusHandler();
+
             UseLayoutRounding = true;
         }
 
