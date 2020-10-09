@@ -658,6 +658,31 @@ namespace CefSharp.Wpf.HwndHost
             return base.TabIntoCore(request);
         }
 
+        ///<inheritdoc/>
+        protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            const int WM_SETFOCUS = 0x0007;
+            const int WM_MOUSEACTIVATE = 0x0021;
+            switch (msg)
+            {
+                case WM_SETFOCUS:
+                case WM_MOUSEACTIVATE:
+                {
+                    if(InternalIsBrowserInitialized())
+                    {
+                        var host = browser.GetHost();
+                        host.SetFocus(true);
+
+                        handled = true;
+
+                        return IntPtr.Zero;
+                    }
+                    break;
+                }
+            }
+            return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
+        }
+
         /// <summary>
         /// If not in design mode; Releases unmanaged and - optionally - managed resources for the <see cref="ChromiumWebBrowser"/>
         /// </summary>
