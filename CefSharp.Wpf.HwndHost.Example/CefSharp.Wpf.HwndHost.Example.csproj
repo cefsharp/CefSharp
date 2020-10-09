@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
@@ -11,9 +11,16 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CefSharp.Common" Version="84.4.10" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="crash_reporter.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

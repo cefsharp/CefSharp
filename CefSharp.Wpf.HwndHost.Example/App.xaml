@@ -1,9 +1,11 @@
 <Application x:Class="CefSharp.Wpf.HwndHost.Example.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CefSharp.Wpf.HwndHost.Example"
+             xmlns:converter="clr-namespace:CefSharp.Wpf.HwndHost.Example.Converter"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <converter:TitleConverter x:Key="TitleConverter"/>
+        <converter:EnvironmentConverter x:Key="EnvironmentConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Application.Resources>
 </Application>
