@@ -291,10 +291,11 @@ namespace CefSharp.Test.OffScreen
         {
             fixture.StartProxyServerIfRequired();
 
-            var requestContextHandler = new RequestContextHandler()
-                .SetProxyOnContextInitialized("127.0.0.1", 8080);
-
-            var requestContext = new RequestContext(requestContextHandler);
+            var requestContext = RequestContext
+                .Configure()
+                .WithProxyServer("127.0.0.1", 8080)
+                .Create();
+                
             using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
             {
                 await browser.LoadPageAsync();
