@@ -9,23 +9,26 @@
 
 namespace CefSharp
 {
-    /// <summary>
-    /// Global CEF methods are exposed through this class. e.g. CefRegisterExtension maps to Cef.RegisterExtension
-    /// Only methods relevant to the Render Process are included in this class.
-    /// CEF API Doc https://magpcss.org/ceforum/apidocs3/projects/(default)/(_globals).html
-    /// This class cannot be inherited.
-    /// </summary>
-    public ref class Cef sealed
+    namespace BrowserSubprocess
     {
-    public:
         /// <summary>
-        /// Register a new V8 extension with the specified JavaScript extension code.
+        /// Global CEF methods are exposed through this class. e.g. CefRegisterExtension maps to Cef.RegisterExtension
+        /// Only methods relevant to the Render Process are included in this class.
+        /// CEF API Doc https://magpcss.org/ceforum/apidocs3/projects/(default)/(_globals).html
+        /// This class cannot be inherited.
         /// </summary>
-        /// <param name="name">name</param>
-        /// <param name="javascriptCode">JavaScript code</param>
-        static void RegisterExtension(String^ name, String^ javascriptCode)
+        public ref class Cef sealed
         {
-            CefRegisterExtension(StringUtils::ToNative(name), StringUtils::ToNative(javascriptCode), nullptr);
-        }
-    };
+        public:
+            /// <summary>
+            /// Register a new V8 extension with the specified JavaScript extension code.
+            /// </summary>
+            /// <param name="name">name</param>
+            /// <param name="javascriptCode">JavaScript code</param>
+            static void RegisterExtension(String^ name, String^ javascriptCode)
+            {
+                CefRegisterExtension(StringUtils::ToNative(name), StringUtils::ToNative(javascriptCode), nullptr);
+            }
+        };
+    }
 }
