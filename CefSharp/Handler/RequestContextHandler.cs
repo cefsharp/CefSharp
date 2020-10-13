@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 
 namespace CefSharp.Handler
@@ -15,6 +16,22 @@ namespace CefSharp.Handler
     {
         private readonly IList<KeyValuePair<string, object>> preferences = new List<KeyValuePair<string, object>>();
         private bool requestContextInitialized = false;
+        private Action<IRequestContext> onContextInitialziedAction;
+
+        /// <summary>
+        /// The <see cref="Action{IRequestContext}"/> is executed when the RequestContext has been initialized, after the
+        /// preferences/proxy preferences have been set, before OnRequestContextInitialized.
+        /// </summary>
+        /// <param name="onContextInitialziedAction">action to perform on context initialize</param>
+        /// <returns>A <see cref="RequestContextHandler"/> instance allowing you to chain multiple AddPreference calls together </returns>
+        /// <remarks>Only a single action reference is maintained, multiple calls will result in the
+        /// previous action reference being overriden.</remarks>
+        public RequestContextHandler OnInitialize(Action<IRequestContext> onContextInitialziedAction)
+        {
+            this.onContextInitialziedAction = onContextInitialziedAction;
+
+            return this;
+        }
 
         /// <summary>
         /// Sets the preferences when the <see cref="IRequestContextHandler.OnRequestContextInitialized(IRequestContext)"/>
@@ -126,6 +143,8 @@ namespace CefSharp.Handler
                     //TODO: Do something if there's an error
                 }
             }
+
+            onContextInitialziedAction?.Invoke(requestContext);
 
             OnRequestContextInitialized(requestContext);
         }

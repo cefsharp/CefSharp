@@ -23,6 +23,18 @@ namespace CefSharp
         return gcnew RequestContext(_handler);
     }
 
+    RequestContextBuilder^ RequestContextBuilder::OnInitialize(Action<IRequestContext^>^ action)
+    {
+        if (_handler == nullptr)
+        {
+            _handler = gcnew RequestContextHandler();
+        }
+
+        _handler->OnInitialize(action);
+
+        return this;
+    }
+
     RequestContextBuilder^ RequestContextBuilder::WithPreference(String^ name, Object^ value)
     {
         if (_handler == nullptr)
@@ -85,7 +97,6 @@ namespace CefSharp
         return this;
     }
 
-
     RequestContextBuilder^ RequestContextBuilder::WithCachePath(String^ cachePath)
     {
         ThrowExceptionIfContextAlreadySet();
@@ -102,6 +113,11 @@ namespace CefSharp
 
     RequestContextBuilder^ RequestContextBuilder::WithSharedSettings(IRequestContext^ other)
     {
+        if (other == nullptr)
+        {
+            throw gcnew ArgumentNullException("other");
+        }
+
         ThrowExceptionIfCustomSettingSpecified();
 
         _otherContext = other;

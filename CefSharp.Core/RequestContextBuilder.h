@@ -44,6 +44,37 @@ namespace CefSharp
         IRequestContext^ Create();
 
         /// <summary>
+        /// Action is called in IRequestContextHandler.OnRequestContextInitialized
+        /// </summary>
+        /// <param name="action">called when the context has been initialized.</param>
+        /// <returns>Returns RequestContextBuilder instance</returns>
+        RequestContextBuilder^ OnInitialize(Action<IRequestContext^>^ action);
+
+        /// <summary>
+        /// Sets the Cache Path
+        /// </summary>
+        /// <param name="cachePath">
+        /// The location where cache data for this request context will be stored on
+        /// disk. If this value is non-empty then it must be an absolute path that is
+        /// either equal to or a child directory of CefSettings.RootCachePath.
+        /// If the value is empty then browsers will be created in "incognito mode"
+        /// where in-memory caches are used for storage and no data is persisted to disk.
+        /// HTML5 databases such as localStorage will only persist across sessions if a
+        /// cache path is specified. To share the global browser cache and related
+        /// configuration set this value to match the CefSettings.CachePath value.
+        /// </param>
+        /// <returns>Returns RequestContextBuilder instance</returns>
+        RequestContextBuilder^ WithCachePath(String^ cachePath);
+
+        /// <summary>
+        /// Invoke this method tp persist user preferences as a JSON file in the cache path directory.
+        /// Can be set globally using the CefSettings.PersistUserPreferences value.
+        /// This value will be ignored if CachePath is empty or if it matches the CefSettings.CachePath value.
+        /// </summary>
+        /// <returns>Returns RequestContextBuilder instance</returns>
+        RequestContextBuilder^ PersistUserPreferences();
+
+        /// <summary>
         /// Set the value associated with preference name when the RequestContext
         /// is initialzied. If value is null the preference will be restored to its
         /// default value. If setting the preference fails no error is throw, you
@@ -90,30 +121,6 @@ namespace CefSharp
         /// <param name="port">proxy port (optional)</param>
         /// <returns>Returns RequestContextBuilder instance</returns>
         RequestContextBuilder^ WithProxyServer(String^ scheme, String^ host, Nullable<int> port);
-
-        /// <summary>
-        /// Sets the Cache Path
-        /// </summary>
-        /// <param name="cachePath">
-        /// The location where cache data for this request context will be stored on
-        /// disk. If this value is non-empty then it must be an absolute path that is
-        /// either equal to or a child directory of CefSettings.RootCachePath.
-        /// If the value is empty then browsers will be created in "incognito mode"
-        /// where in-memory caches are used for storage and no data is persisted to disk.
-        /// HTML5 databases such as localStorage will only persist across sessions if a
-        /// cache path is specified. To share the global browser cache and related
-        /// configuration set this value to match the CefSettings.CachePath value.
-        /// </param>
-        /// <returns>Returns RequestContextBuilder instance</returns>
-        RequestContextBuilder^ WithCachePath(String^ cachePath);
-
-        /// <summary>
-        /// Invoke this method tp persist user preferences as a JSON file in the cache path directory.
-        /// Can be set globally using the CefSettings.PersistUserPreferences value.
-        /// This value will be ignored if CachePath is empty or if it matches the CefSettings.CachePath value.
-        /// </summary>
-        /// <returns>Returns RequestContextBuilder instance</returns>
-        RequestContextBuilder^ PersistUserPreferences();
 
         /// <summary>
         /// Shares storage with other RequestContext

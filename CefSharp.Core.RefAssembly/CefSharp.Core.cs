@@ -253,6 +253,7 @@ namespace CefSharp
         public virtual void ClearHttpAuthCredentials(CefSharp.ICompletionCallback callback) { }
         public virtual bool ClearSchemeHandlerFactories() { throw null; }
         public virtual void CloseAllConnections(CefSharp.ICompletionCallback callback) { }
+        public static CefSharp.RequestContextBuilder Configure() { throw null; }
         public static CefSharp.IRequestContext CreateContext(CefSharp.IRequestContext other, CefSharp.IRequestContextHandler requestContextHandler) { throw null; }
         public virtual bool DidLoadExtension(string extensionId) { throw null; }
         public void Dispose() { }
@@ -272,6 +273,19 @@ namespace CefSharp
         public virtual bool RegisterSchemeHandlerFactory(string schemeName, string domainName, CefSharp.ISchemeHandlerFactory factory) { throw null; }
         public virtual System.Threading.Tasks.Task<CefSharp.ResolveCallbackResult> ResolveHostAsync(System.Uri origin) { throw null; }
         public virtual bool SetPreference(string name, object value, out string error) { throw null; }
+    }
+    public partial class RequestContextBuilder
+    {
+        public RequestContextBuilder() { }
+        public CefSharp.IRequestContext Create() { throw null; }
+        public CefSharp.RequestContextBuilder OnInitialize(System.Action<CefSharp.IRequestContext> action) { throw null; }
+        public CefSharp.RequestContextBuilder PersistUserPreferences() { throw null; }
+        public CefSharp.RequestContextBuilder WithCachePath(string cachePath) { throw null; }
+        public CefSharp.RequestContextBuilder WithPreference(string name, object value) { throw null; }
+        public CefSharp.RequestContextBuilder WithProxyServer(string host) { throw null; }
+        public CefSharp.RequestContextBuilder WithProxyServer(string host, int? port) { throw null; }
+        public CefSharp.RequestContextBuilder WithProxyServer(string scheme, string host, int? port) { throw null; }
+        public CefSharp.RequestContextBuilder WithSharedSettings(CefSharp.IRequestContext other) { throw null; }
     }
     public partial class RequestContextSettings : System.IDisposable
     {
