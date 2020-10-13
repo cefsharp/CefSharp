@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Example;
+using CefSharp.Example.Handlers;
 using CefSharp.Internals;
 using CefSharp.OffScreen;
 using Xunit;
@@ -310,6 +311,28 @@ namespace CefSharp.Test.OffScreen
                 await browser.LoadPageAsync(firstUrl);
 
                 Assert.True(browser.CanExecuteJavascriptInMainFrame);
+            }
+        }
+
+        [SkipIfRunOnAppVeyorFact]
+        public async Task CanLoadHttpWebsiteUsingProxy()
+        {
+            fixture.StartProxyServerIfRequired();
+
+            var requestContext = RequestContext
+                .Configure()
+                .WithProxyServer("127.0.0.1", 8080)
+                .Create();
+                
+            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("cefsharp.github.io", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
             }
         }
     }
