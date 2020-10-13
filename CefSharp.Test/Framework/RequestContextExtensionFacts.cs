@@ -32,7 +32,9 @@ namespace CefSharp.Test.Framework
             string preferenceName = "";
             object preferenceValue = null;
             var mockRequestContext = new Mock<IRequestContext>();
-            
+
+            mockRequestContext.Setup(x => x.CanSetPreference(ProxyPreferenceKey)).Returns(true);
+
             mockRequestContext.Setup(x => x.SetPreference(ProxyPreferenceKey, It.IsAny<IDictionary<string, object>>(), out It.Ref<string>.IsAny))
                 .Callback(new SetPreferenceDelegate((string name, object value, out string errorMessage) =>
                 {
@@ -60,7 +62,7 @@ namespace CefSharp.Test.Framework
         {
             var mockRequestContext = new Mock<IRequestContext>();
 
-            mockRequestContext.Setup(x => x.SetPreference(ProxyPreferenceKey, It.IsAny<IDictionary<string, object>>(), out It.Ref<string>.IsAny)) .Returns(true);
+            mockRequestContext.Setup(x => x.SetPreference(ProxyPreferenceKey, It.IsAny<IDictionary<string, object>>(), out It.Ref<string>.IsAny)).Returns(true);
 
             Assert.Throws<ArgumentException>(() =>
             {

@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using CefSharp.Internals;
+using CefSharp.Preferences;
 
 namespace CefSharp
 {
@@ -57,6 +59,45 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Set the value associated with preference name. If value is null the
+        /// preference will be restored to its default value. If setting the preference
+        /// fails then error will be populated with a detailed description of the
+        /// problem. This method must be called on the CEF UI thread.
+        /// Preferences set via the command-line usually cannot be modified.
+        /// </summary>
+        /// <param name="name">preference key</param>
+        /// <param name="value">preference value</param>
+        /// <param name="error">out error</param>
+        /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
+        public static Task<SetPreferenceResponse> SetPreferenceAsync(this IRequestContext requestContext, string name, object value)
+        {
+            if (CefThread.HasShutdown)
+            {
+                return Task.FromResult(new SetPreferenceResponse(false, "Cef.Shutdown has already been called, it is no longer possible to call SetPreferenceAsync."));
+            }
+
+            Func<SetPreferenceResponse> func = () =>
+            {
+                string error;
+                var success = requestContext.SetPreference(name, value, out error);
+
+                return new SetPreferenceResponse(success, error);
+            };
+
+            if (CefThread.CurrentlyOnUiThread)
+            {
+                return Task.FromResult(func());
+            }
+
+            return CefThread.ExecuteOnUiThread(func);
+        }
+
+        /// <summary>
         /// Sets the proxy server for the specified <see cref="IRequestContext"/>
         /// MUST be called on the CEF UI Thread
         /// </summary>
@@ -70,34 +111,14 @@ namespace CefSharp
         /// preference 'proxy' and mode of 'fixed_servers'</remarks>
         public static bool SetProxy(this IRequestContext requestContext, string scheme, string host, int? port, out string errorMessage)
         {
-            //Default to using http scheme if non provided
-            if (string.IsNullOrWhiteSpace(scheme))
+            var v = GetProxyDictionary(scheme, host, port);
+
+            if (requestContext.CanSetPreference("proxy"))
             {
-                scheme = "http";
+                return requestContext.SetPreference("proxy", v, out errorMessage);
             }
 
-            if (!ProxySchemes.Contains(scheme.ToLower()))
-            {
-                throw new ArgumentException("Invalid Scheme, see https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-header-proxy-resolution for a list of valid schemes.", "scheme");
-            }
-
-            if (string.IsNullOrWhiteSpace(host))
-            {
-                throw new ArgumentException("Cannot be null or empty", "host");
-            }
-
-            if (port.HasValue && (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort))
-            {
-                throw new ArgumentOutOfRangeException("port", port, "Invalid TCP Port");
-            }
-
-            var v = new Dictionary<string, object>
-            {
-                ["mode"] = "fixed_servers",
-                ["server"] = scheme + "://" + host + (port.HasValue ? (":" + port) : "")
-            };
-
-            return requestContext.SetPreference("proxy", v, out errorMessage);
+            throw new Exception("Unable to set the proxy preference, it is read-only. If you specified the proxy settings with command line args it is not possible to change the proxy settings via this method.");
         }
 
         /// <summary>
@@ -131,6 +152,45 @@ namespace CefSharp
         public static bool SetProxy(this IRequestContext requestContext, string host, out string errorMessage)
         {
             return requestContext.SetProxy(null, host, null, out errorMessage);
+        }
+
+        /// <summary>
+        /// Creates a Dictionary that can be used with <see cref="IRequestContext.SetPreference(string, object, out string)"/>
+        /// </summary>
+        /// <param name="scheme">is the protocol of the proxy server, and is one of: 'http', 'socks', 'socks4', 'socks5'. Also note that 'socks' is equivalent to 'socks5'.</param>
+        /// <param name="host">proxy host</param>
+        /// <param name="port">proxy port</param>
+        /// <returns></returns>
+        public static IDictionary<string, object> GetProxyDictionary(string scheme, string host, int? port)
+        {
+            //Default to using http scheme if non provided
+            if (string.IsNullOrWhiteSpace(scheme))
+            {
+                scheme = "http";
+            }
+
+            if (!ProxySchemes.Contains(scheme.ToLower()))
+            {
+                throw new ArgumentException("Invalid Scheme, see https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-header-proxy-resolution for a list of valid schemes.", "scheme");
+            }
+
+            if (string.IsNullOrWhiteSpace(host))
+            {
+                throw new ArgumentException("Cannot be null or empty", "host");
+            }
+
+            if (port.HasValue && (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort))
+            {
+                throw new ArgumentOutOfRangeException("port", port, "Invalid TCP Port");
+            }
+
+            var dict = new Dictionary<string, object>
+            {
+                ["mode"] = "fixed_servers",
+                ["server"] = scheme + "://" + host + (port.HasValue ? (":" + port) : "")
+            };
+
+            return dict;
         }
 
         /// <summary>
