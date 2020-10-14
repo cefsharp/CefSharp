@@ -290,6 +290,8 @@ namespace CefSharp
                     cookie->HttpOnly = cefCookie.httponly == 1;
                     cookie->Creation = ConvertCefTimeToDateTime(cefCookie.creation);
                     cookie->LastAccess = ConvertCefTimeToDateTime(cefCookie.last_access);
+                    cookie->SameSite = (CefSharp::Enums::CookieSameSite)cefCookie.same_site;
+                    cookie->Priority = (CefSharp::Enums::CookiePriority)cefCookie.priority;
 
                     if (cefCookie.has_expires)
                     {

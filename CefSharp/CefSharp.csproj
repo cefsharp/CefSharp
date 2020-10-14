@@ -590,6 +590,8 @@
     <Compile Include="DevTools\WebAuthn\VirtualAuthenticatorOptions.cs" />
     <Compile Include="DevTools\WebAuthn\WebAuthn.cs" />
     <Compile Include="Enums\CompositionUnderlineStyle.cs" />
+    <Compile Include="Enums\CookiePriority.cs" />
+    <Compile Include="Enums\CookieSameSite.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
     <Compile Include="Handler\RequestContextHandler.cs" />
     <Compile Include="Internals\CefThread.cs" />
