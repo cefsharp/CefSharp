@@ -53,6 +53,8 @@ namespace CefSharp
 
         c.creation = CefTime(DateTimeUtils::ToCefTime(cookie->Creation));
         c.last_access = CefTime(DateTimeUtils::ToCefTime(cookie->LastAccess));
+        c.same_site = (cef_cookie_same_site_t)cookie->SameSite;
+        c.priority = (cef_cookie_priority_t)cookie->Priority;
 
         return _cookieManager->SetCookie(StringUtils::ToNative(url), c, wrapper);
     }
