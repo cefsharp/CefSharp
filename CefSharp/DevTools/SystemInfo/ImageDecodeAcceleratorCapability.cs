@@ -10,6 +10,9 @@ namespace CefSharp.DevTools.SystemInfo
     [System.Runtime.Serialization.DataContractAttribute]
     public class ImageDecodeAcceleratorCapability : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// Image coded, e.g. Jpeg.
+        /// </summary>
         public CefSharp.DevTools.SystemInfo.ImageType ImageType
         {
             get
@@ -53,6 +56,9 @@ namespace CefSharp.DevTools.SystemInfo
             set;
         }
 
+        /// <summary>
+        /// Optional array of supported subsampling formats, e.g. 4:2:0, if known.
+        /// </summary>
         public CefSharp.DevTools.SystemInfo.SubsamplingFormat[] Subsamplings
         {
             get

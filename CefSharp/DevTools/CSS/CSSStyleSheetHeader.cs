@@ -49,6 +49,9 @@ namespace CefSharp.DevTools.CSS
             set;
         }
 
+        /// <summary>
+        /// Stylesheet origin.
+        /// </summary>
         public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
         {
             get

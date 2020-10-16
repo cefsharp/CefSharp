@@ -95,7 +95,8 @@ namespace CefSharp.DevTools.Emulation
         /// Sets or clears an override of the default background color of the frame. This override is used
         /// if the content does not specify one.
         /// </summary>
-        /// <param name = "color">RGBA of the default background color. If not specified, any existing override will be
+        /// <param name = "color">RGBA of the default background color. If not specified, any existing override will becleared.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDefaultBackgroundColorOverrideAsync(CefSharp.DevTools.DOM.RGBA color = null)
         {
             ValidateSetDefaultBackgroundColorOverride(color);
@@ -118,7 +119,16 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "width">Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.</param>
         /// <param name = "height">Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.</param>
         /// <param name = "deviceScaleFactor">Overriding device scale factor value. 0 disables the override.</param>
-        /// <param name = "mobile">Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
+        /// <param name = "mobile">Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, textautosizing and more.</param>
+        /// <param name = "scale">Scale to apply to resulting view image.</param>
+        /// <param name = "screenWidth">Overriding screen width value in pixels (minimum 0, maximum 10000000).</param>
+        /// <param name = "screenHeight">Overriding screen height value in pixels (minimum 0, maximum 10000000).</param>
+        /// <param name = "positionX">Overriding view X position on screen in pixels (minimum 0, maximum 10000000).</param>
+        /// <param name = "positionY">Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).</param>
+        /// <param name = "dontSetVisibleSize">Do not set visible view size, rely upon explicit setVisibleSize call.</param>
+        /// <param name = "screenOrientation">Screen orientation override.</param>
+        /// <param name = "viewport">If set, the visible area of the page will be overridden to this viewport. This viewportchange is not observed by the page, e.g. viewport-relative elements do not change positions.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDeviceMetricsOverrideAsync(int width, int height, long deviceScaleFactor, bool mobile, long? scale = null, int? screenWidth = null, int? screenHeight = null, int? positionX = null, int? positionY = null, bool? dontSetVisibleSize = null, CefSharp.DevTools.Emulation.ScreenOrientation screenOrientation = null, CefSharp.DevTools.Page.Viewport viewport = null)
         {
             ValidateSetDeviceMetricsOverride(width, height, deviceScaleFactor, mobile, scale, screenWidth, screenHeight, positionX, positionY, dontSetVisibleSize, screenOrientation, viewport);
@@ -351,7 +361,11 @@ namespace CefSharp.DevTools.Emulation
         /// the current virtual time policy.  Note this supersedes any previous time budget.
         /// </summary>
         /// <param name = "policy">policy</param>
-        /// <param name = "budget">If set, after this many virtual milliseconds have elapsed virtual time will be paused and a
+        /// <param name = "budget">If set, after this many virtual milliseconds have elapsed virtual time will be paused and avirtualTimeBudgetExpired event is sent.</param>
+        /// <param name = "maxVirtualTimeTaskStarvationCount">If set this specifies the maximum number of tasks that can be run before virtual is forcedforwards to prevent deadlock.</param>
+        /// <param name = "waitForNavigation">If set the virtual time policy change should be deferred until any frame starts navigating.Note any previous deferred policy change is superseded.</param>
+        /// <param name = "initialVirtualTime">If set, base::Time::Now will be overriden to initially return this value.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetVirtualTimePolicyResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetVirtualTimePolicyResponse> SetVirtualTimePolicyAsync(CefSharp.DevTools.Emulation.VirtualTimePolicy policy, long? budget = null, int? maxVirtualTimeTaskStarvationCount = null, bool? waitForNavigation = null, long? initialVirtualTime = null)
         {
             ValidateSetVirtualTimePolicy(policy, budget, maxVirtualTimeTaskStarvationCount, waitForNavigation, initialVirtualTime);
@@ -385,7 +399,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Overrides default host system locale with the specified one.
         /// </summary>
-        /// <param name = "locale">ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override and
+        /// <param name = "locale">ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override andrestores default host system locale.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetLocaleOverrideAsync(string locale = null)
         {
             ValidateSetLocaleOverride(locale);
@@ -403,7 +418,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Overrides default host system timezone with the specified one.
         /// </summary>
-        /// <param name = "timezoneId">The timezone identifier. If empty, disables the override and
+        /// <param name = "timezoneId">The timezone identifier. If empty, disables the override andrestores default host system timezone.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetTimezoneOverrideAsync(string timezoneId)
         {
             ValidateSetTimezoneOverride(timezoneId);

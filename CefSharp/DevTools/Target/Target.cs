@@ -36,7 +36,8 @@ namespace CefSharp.DevTools.Target
         /// Attaches to the target with given id.
         /// </summary>
         /// <param name = "targetId">targetId</param>
-        /// <param name = "flatten">Enables "flat" access to the session via specifying sessionId attribute in the commands.
+        /// <param name = "flatten">Enables "flat" access to the session via specifying sessionId attribute in the commands.We plan to make this the default, deprecate non-flattened mode,and eventually retire it. See crbug.com/991325.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;AttachToTargetResponse&gt;</returns>
         public async System.Threading.Tasks.Task<AttachToTargetResponse> AttachToTargetAsync(string targetId, bool? flatten = null)
         {
             ValidateAttachToTarget(targetId, flatten);
@@ -156,7 +157,10 @@ namespace CefSharp.DevTools.Target
         /// <param name = "width">Frame width in DIP (headless chrome only).</param>
         /// <param name = "height">Frame height in DIP (headless chrome only).</param>
         /// <param name = "browserContextId">The browser context to create the page in.</param>
-        /// <param name = "enableBeginFrameControl">Whether BeginFrames for this target will be controlled via DevTools (headless chrome only,
+        /// <param name = "enableBeginFrameControl">Whether BeginFrames for this target will be controlled via DevTools (headless chrome only,not supported on MacOS yet, false by default).</param>
+        /// <param name = "newWindow">Whether to create a new Window or Tab (chrome-only, false by default).</param>
+        /// <param name = "background">Whether to create the target in background or foreground (chrome-only,false by default).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CreateTargetResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CreateTargetResponse> CreateTargetAsync(string url, int? width = null, int? height = null, string browserContextId = null, bool? enableBeginFrameControl = null, bool? newWindow = null, bool? background = null)
         {
             ValidateCreateTarget(url, width, height, browserContextId, enableBeginFrameControl, newWindow, background);
@@ -274,7 +278,9 @@ namespace CefSharp.DevTools.Target
         /// automatically detaches from all currently attached targets.
         /// </summary>
         /// <param name = "autoAttach">Whether to auto-attach to related targets.</param>
-        /// <param name = "waitForDebuggerOnStart">Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
+        /// <param name = "waitForDebuggerOnStart">Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`to run paused targets.</param>
+        /// <param name = "flatten">Enables "flat" access to the session via specifying sessionId attribute in the commands.We plan to make this the default, deprecate non-flattened mode,and eventually retire it. See crbug.com/991325.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAutoAttachAsync(bool autoAttach, bool waitForDebuggerOnStart, bool? flatten = null)
         {
             ValidateSetAutoAttach(autoAttach, waitForDebuggerOnStart, flatten);

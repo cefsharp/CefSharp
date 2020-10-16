@@ -29,6 +29,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// The field which caused the error.
+        /// </summary>
         public CefSharp.DevTools.Network.SignedExchangeErrorField? ErrorField
         {
             get

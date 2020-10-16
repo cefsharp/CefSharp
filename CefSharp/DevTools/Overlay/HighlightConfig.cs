@@ -139,6 +139,9 @@ namespace CefSharp.DevTools.Overlay
             set;
         }
 
+        /// <summary>
+        /// The color format used to format color styles (default: hex).
+        /// </summary>
         public CefSharp.DevTools.Overlay.ColorFormat? ColorFormat
         {
             get

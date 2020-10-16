@@ -21,7 +21,8 @@ namespace CefSharp.DevTools.Page
         /// Evaluates given script in every frame upon creation (before loading frame's scripts).
         /// </summary>
         /// <param name = "source">source</param>
-        /// <param name = "worldName">If specified, creates an isolated world with the given name and evaluates given script in it.
+        /// <param name = "worldName">If specified, creates an isolated world with the given name and evaluates given script in it.This world name will be used as the ExecutionContextDescription::name when the correspondingevent is emitted.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;AddScriptToEvaluateOnNewDocumentResponse&gt;</returns>
         public async System.Threading.Tasks.Task<AddScriptToEvaluateOnNewDocumentResponse> AddScriptToEvaluateOnNewDocumentAsync(string source, string worldName = null)
         {
             ValidateAddScriptToEvaluateOnNewDocument(source, worldName);
@@ -110,7 +111,8 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "frameId">Id of the frame in which the isolated world should be created.</param>
         /// <param name = "worldName">An optional name which is reported in the Execution Context.</param>
-        /// <param name = "grantUniveralAccess">Whether or not universal access should be granted to the isolated world. This is a powerful
+        /// <param name = "grantUniveralAccess">Whether or not universal access should be granted to the isolated world. This is a powerfuloption, use with caution.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CreateIsolatedWorldResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CreateIsolatedWorldResponse> CreateIsolatedWorldAsync(string frameId, string worldName = null, bool? grantUniveralAccess = null)
         {
             ValidateCreateIsolatedWorld(frameId, worldName, grantUniveralAccess);
@@ -262,7 +264,8 @@ namespace CefSharp.DevTools.Page
         /// Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
         /// </summary>
         /// <param name = "accept">Whether to accept or dismiss the dialog.</param>
-        /// <param name = "promptText">The text to enter into the dialog prompt before accepting. Used only if this is a prompt
+        /// <param name = "promptText">The text to enter into the dialog prompt before accepting. Used only if this is a promptdialog.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> HandleJavaScriptDialogAsync(bool accept, string promptText = null)
         {
             ValidateHandleJavaScriptDialog(accept, promptText);
@@ -345,7 +348,13 @@ namespace CefSharp.DevTools.Page
         /// <param name = "marginBottom">Bottom margin in inches. Defaults to 1cm (~0.4 inches).</param>
         /// <param name = "marginLeft">Left margin in inches. Defaults to 1cm (~0.4 inches).</param>
         /// <param name = "marginRight">Right margin in inches. Defaults to 1cm (~0.4 inches).</param>
-        /// <param name = "pageRanges">Paper ranges to print, e.g., '1-5, 8, 11-13'. Defaults to the empty string, which means
+        /// <param name = "pageRanges">Paper ranges to print, e.g., '1-5, 8, 11-13'. Defaults to the empty string, which meansprint all pages.</param>
+        /// <param name = "ignoreInvalidPageRanges">Whether to silently ignore invalid but successfully parsed page ranges, such as '3-2'.Defaults to false.</param>
+        /// <param name = "headerTemplate">HTML template for the print header. Should be valid HTML markup with followingclasses used to inject printing values into them:- `date`: formatted print date- `title`: document title- `url`: document location- `pageNumber`: current page number- `totalPages`: total pages in the documentFor example, `&lt;span class=title&gt; &lt;/span&gt;` would generate span containing the title.</param>
+        /// <param name = "footerTemplate">HTML template for the print footer. Should use the same format as the `headerTemplate`.</param>
+        /// <param name = "preferCSSPageSize">Whether or not to prefer page size as defined by css. Defaults to false,in which case the content will be scaled to fit the paper size.</param>
+        /// <param name = "transferMode">return as stream</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;PrintToPDFResponse&gt;</returns>
         public async System.Threading.Tasks.Task<PrintToPDFResponse> PrintToPDFAsync(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, long? scale = null, long? paperWidth = null, long? paperHeight = null, long? marginTop = null, long? marginBottom = null, long? marginLeft = null, long? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, string transferMode = null)
         {
             ValidatePrintToPDF(landscape, displayHeaderFooter, printBackground, scale, paperWidth, paperHeight, marginTop, marginBottom, marginLeft, marginRight, pageRanges, ignoreInvalidPageRanges, headerTemplate, footerTemplate, preferCSSPageSize, transferMode);
@@ -439,7 +448,8 @@ namespace CefSharp.DevTools.Page
         /// Reloads given page optionally ignoring the cache.
         /// </summary>
         /// <param name = "ignoreCache">If true, browser cache is ignored (as if the user pressed Shift+refresh).</param>
-        /// <param name = "scriptToEvaluateOnLoad">If set, the script will be injected into all frames of the inspected page after reload.
+        /// <param name = "scriptToEvaluateOnLoad">If set, the script will be injected into all frames of the inspected page after reload.Argument will be ignored if reloading dataURL origin.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReloadAsync(bool? ignoreCache = null, string scriptToEvaluateOnLoad = null)
         {
             ValidateReload(ignoreCache, scriptToEvaluateOnLoad);

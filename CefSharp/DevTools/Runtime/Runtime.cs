@@ -53,7 +53,16 @@ namespace CefSharp.DevTools.Runtime
         /// inherited from the target object.
         /// </summary>
         /// <param name = "functionDeclaration">Declaration of the function to call.</param>
-        /// <param name = "objectId">Identifier of the object to call function on. Either objectId or executionContextId should
+        /// <param name = "objectId">Identifier of the object to call function on. Either objectId or executionContextId shouldbe specified.</param>
+        /// <param name = "arguments">Call arguments. All call arguments must belong to the same JavaScript world as the targetobject.</param>
+        /// <param name = "silent">In silent mode exceptions thrown during evaluation are not reported and do not pauseexecution. Overrides `setPauseOnException` state.</param>
+        /// <param name = "returnByValue">Whether the result is expected to be a JSON object which should be sent by value.</param>
+        /// <param name = "generatePreview">Whether preview should be generated for the result.</param>
+        /// <param name = "userGesture">Whether execution should be treated as initiated by user in the UI.</param>
+        /// <param name = "awaitPromise">Whether execution should `await` for resulting value and return once awaited promise isresolved.</param>
+        /// <param name = "executionContextId">Specifies execution context which global object will be used to call function on. EitherexecutionContextId or objectId should be specified.</param>
+        /// <param name = "objectGroup">Symbolic group name that can be used to release multiple objects. If objectGroup is notspecified and objectId is, objectGroup will be inherited from object.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CallFunctionOnResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CallFunctionOnResponse> CallFunctionOnAsync(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null)
         {
             ValidateCallFunctionOn(functionDeclaration, objectId, arguments, silent, returnByValue, generatePreview, userGesture, awaitPromise, executionContextId, objectGroup);
@@ -115,7 +124,8 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "expression">Expression to compile.</param>
         /// <param name = "sourceURL">Source url to be set for the script.</param>
         /// <param name = "persistScript">Specifies whether the compiled script should be persisted.</param>
-        /// <param name = "executionContextId">Specifies in which execution context to perform script run. If the parameter is omitted the
+        /// <param name = "executionContextId">Specifies in which execution context to perform script run. If the parameter is omitted theevaluation will be performed in the context of the inspected page.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CompileScriptResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CompileScriptResponse> CompileScriptAsync(string expression, string sourceURL, bool persistScript, int? executionContextId = null)
         {
             ValidateCompileScript(expression, sourceURL, persistScript, executionContextId);
@@ -174,7 +184,18 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "expression">Expression to evaluate.</param>
         /// <param name = "objectGroup">Symbolic group name that can be used to release multiple objects.</param>
         /// <param name = "includeCommandLineAPI">Determines whether Command Line API should be available during the evaluation.</param>
-        /// <param name = "silent">In silent mode exceptions thrown during evaluation are not reported and do not pause
+        /// <param name = "silent">In silent mode exceptions thrown during evaluation are not reported and do not pauseexecution. Overrides `setPauseOnException` state.</param>
+        /// <param name = "contextId">Specifies in which execution context to perform evaluation. If the parameter is omitted theevaluation will be performed in the context of the inspected page.</param>
+        /// <param name = "returnByValue">Whether the result is expected to be a JSON object that should be sent by value.</param>
+        /// <param name = "generatePreview">Whether preview should be generated for the result.</param>
+        /// <param name = "userGesture">Whether execution should be treated as initiated by user in the UI.</param>
+        /// <param name = "awaitPromise">Whether execution should `await` for resulting value and return once awaited promise isresolved.</param>
+        /// <param name = "throwOnSideEffect">Whether to throw an exception if side effect cannot be ruled out during evaluation.This implies `disableBreaks` below.</param>
+        /// <param name = "timeout">Terminate execution after timing out (number of milliseconds).</param>
+        /// <param name = "disableBreaks">Disable breakpoints during execution.</param>
+        /// <param name = "replMode">Setting this flag to true enables `let` re-declaration and top-level `await`.Note that `let` variables can only be re-declared if they originate from`replMode` themselves.</param>
+        /// <param name = "allowUnsafeEvalBlockedByCSP">The Content Security Policy (CSP) for the target might block 'unsafe-eval'which includes eval(), Function(), setTimeout() and setInterval()when called with non-callable arguments. This flag bypasses CSP for thisevaluation and allows unsafe-eval. Defaults to true.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;EvaluateResponse&gt;</returns>
         public async System.Threading.Tasks.Task<EvaluateResponse> EvaluateAsync(string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, int? contextId = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, bool? throwOnSideEffect = null, long? timeout = null, bool? disableBreaks = null, bool? replMode = null, bool? allowUnsafeEvalBlockedByCSP = null)
         {
             ValidateEvaluate(expression, objectGroup, includeCommandLineAPI, silent, contextId, returnByValue, generatePreview, userGesture, awaitPromise, throwOnSideEffect, timeout, disableBreaks, replMode, allowUnsafeEvalBlockedByCSP);
@@ -278,7 +299,10 @@ namespace CefSharp.DevTools.Runtime
         /// object.
         /// </summary>
         /// <param name = "objectId">Identifier of the object to return properties for.</param>
-        /// <param name = "ownProperties">If true, returns properties belonging only to the element itself, not to its prototype
+        /// <param name = "ownProperties">If true, returns properties belonging only to the element itself, not to its prototypechain.</param>
+        /// <param name = "accessorPropertiesOnly">If true, returns accessor properties (with getter/setter) only; internal properties are notreturned either.</param>
+        /// <param name = "generatePreview">Whether preview should be generated for the results.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetPropertiesResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(string objectId, bool? ownProperties = null, bool? accessorPropertiesOnly = null, bool? generatePreview = null)
         {
             ValidateGetProperties(objectId, ownProperties, accessorPropertiesOnly, generatePreview);
@@ -389,7 +413,14 @@ namespace CefSharp.DevTools.Runtime
         /// Runs script with given id in a given context.
         /// </summary>
         /// <param name = "scriptId">Id of the script to run.</param>
-        /// <param name = "executionContextId">Specifies in which execution context to perform script run. If the parameter is omitted the
+        /// <param name = "executionContextId">Specifies in which execution context to perform script run. If the parameter is omitted theevaluation will be performed in the context of the inspected page.</param>
+        /// <param name = "objectGroup">Symbolic group name that can be used to release multiple objects.</param>
+        /// <param name = "silent">In silent mode exceptions thrown during evaluation are not reported and do not pauseexecution. Overrides `setPauseOnException` state.</param>
+        /// <param name = "includeCommandLineAPI">Determines whether Command Line API should be available during the evaluation.</param>
+        /// <param name = "returnByValue">Whether the result is expected to be a JSON object which should be sent by value.</param>
+        /// <param name = "generatePreview">Whether preview should be generated for the result.</param>
+        /// <param name = "awaitPromise">Whether execution should `await` for resulting value and return once awaited promise isresolved.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;RunScriptResponse&gt;</returns>
         public async System.Threading.Tasks.Task<RunScriptResponse> RunScriptAsync(string scriptId, int? executionContextId = null, string objectGroup = null, bool? silent = null, bool? includeCommandLineAPI = null, bool? returnByValue = null, bool? generatePreview = null, bool? awaitPromise = null)
         {
             ValidateRunScript(scriptId, executionContextId, objectGroup, silent, includeCommandLineAPI, returnByValue, generatePreview, awaitPromise);
@@ -438,7 +469,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Enables or disables async call stacks tracking.
         /// </summary>
-        /// <param name = "maxDepth">Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
+        /// <param name = "maxDepth">Maximum depth of async call stacks. Setting to `0` will effectively disable collecting asynccall stacks (default).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
         {
             ValidateSetAsyncCallStackDepth(maxDepth);

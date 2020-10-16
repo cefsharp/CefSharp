@@ -95,7 +95,10 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Set the behavior when downloading a file.
         /// </summary>
-        /// <param name = "behavior">Whether to allow all or deny all download requests, or use default Chrome behavior if
+        /// <param name = "behavior">Whether to allow all or deny all download requests, or use default Chrome behavior ifavailable (otherwise deny). |allowAndName| allows download and names files according totheir dowmload guids.</param>
+        /// <param name = "browserContextId">BrowserContext to set download behavior. When omitted, default browser context is used.</param>
+        /// <param name = "downloadPath">The default path to save downloaded files to. This is requred if behavior is set to 'allow'or 'allowAndName'.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDownloadBehaviorAsync(string behavior, string browserContextId = null, string downloadPath = null)
         {
             ValidateSetDownloadBehavior(behavior, browserContextId, downloadPath);
@@ -175,7 +178,9 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Get Chrome histograms.
         /// </summary>
-        /// <param name = "query">Requested substring in name. Only histograms which have query as a
+        /// <param name = "query">Requested substring in name. Only histograms which have query as asubstring in their name are extracted. An empty or absent query returnsall histograms.</param>
+        /// <param name = "delta">If true, retrieve delta since last call.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetHistogramsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetHistogramsResponse> GetHistogramsAsync(string query = null, bool? delta = null)
         {
             ValidateGetHistograms(query, delta);
@@ -254,7 +259,8 @@ namespace CefSharp.DevTools.Browser
         /// Set position and/or size of the browser window.
         /// </summary>
         /// <param name = "windowId">Browser window id.</param>
-        /// <param name = "bounds">New window bounds. The 'minimized', 'maximized' and 'fullscreen' states cannot be combined
+        /// <param name = "bounds">New window bounds. The 'minimized', 'maximized' and 'fullscreen' states cannot be combinedwith 'left', 'top', 'width' or 'height'. Leaves unspecified fields unchanged.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetWindowBoundsAsync(int windowId, CefSharp.DevTools.Browser.Bounds bounds)
         {
             ValidateSetWindowBounds(windowId, bounds);

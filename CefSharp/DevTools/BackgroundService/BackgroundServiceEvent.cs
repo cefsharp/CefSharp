@@ -39,6 +39,9 @@ namespace CefSharp.DevTools.BackgroundService
             set;
         }
 
+        /// <summary>
+        /// The Background Service this event belongs to.
+        /// </summary>
         public CefSharp.DevTools.BackgroundService.ServiceName Service
         {
             get

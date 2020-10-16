@@ -129,6 +129,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// Whether the request complied with Certificate Transparency policy
+        /// </summary>
         public CefSharp.DevTools.Network.CertificateTransparencyCompliance CertificateTransparencyCompliance
         {
             get

@@ -36,7 +36,9 @@ namespace CefSharp.DevTools.IO
         /// Read a chunk of the stream
         /// </summary>
         /// <param name = "handle">Handle of the stream to read.</param>
-        /// <param name = "offset">Seek to the specified offset before reading (if not specificed, proceed with offset
+        /// <param name = "offset">Seek to the specified offset before reading (if not specificed, proceed with offsetfollowing the last read). Some types of streams may only support sequential reads.</param>
+        /// <param name = "size">Maximum number of bytes to read (left upon the agent discretion if not specified).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;ReadResponse&gt;</returns>
         public async System.Threading.Tasks.Task<ReadResponse> ReadAsync(string handle, int? offset = null, int? size = null)
         {
             ValidateRead(handle, offset, size);

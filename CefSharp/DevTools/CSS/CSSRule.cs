@@ -30,6 +30,9 @@ namespace CefSharp.DevTools.CSS
             set;
         }
 
+        /// <summary>
+        /// Parent stylesheet's origin.
+        /// </summary>
         public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
         {
             get

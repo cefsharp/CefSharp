@@ -19,6 +19,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// Type of this resource.
+        /// </summary>
         public CefSharp.DevTools.Network.ResourceType Type
         {
             get

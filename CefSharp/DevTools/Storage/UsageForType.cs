@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Storage
     [System.Runtime.Serialization.DataContractAttribute]
     public class UsageForType : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// Name of storage type.
+        /// </summary>
         public CefSharp.DevTools.Storage.StorageType StorageType
         {
             get

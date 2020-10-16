@@ -32,7 +32,9 @@ namespace CefSharp.DevTools.Fetch
         /// Enables issuing of requestPaused events. A request will be paused until client
         /// calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
         /// </summary>
-        /// <param name = "patterns">If specified, only requests matching any of these patterns will produce
+        /// <param name = "patterns">If specified, only requests matching any of these patterns will producefetchRequested event and will be paused until clients response. If not set,all requests will be affected.</param>
+        /// <param name = "handleAuthRequests">If true, authRequired events will be issued and requests will be pausedexpecting a call to continueWithAuth.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(System.Collections.Generic.IList<CefSharp.DevTools.Fetch.RequestPattern> patterns = null, bool? handleAuthRequests = null)
         {
             ValidateEnable(patterns, handleAuthRequests);
@@ -75,7 +77,10 @@ namespace CefSharp.DevTools.Fetch
         /// <param name = "requestId">An id the client received in requestPaused event.</param>
         /// <param name = "responseCode">An HTTP response code.</param>
         /// <param name = "responseHeaders">Response headers.</param>
-        /// <param name = "binaryResponseHeaders">Alternative way of specifying response headers as a \0-separated
+        /// <param name = "binaryResponseHeaders">Alternative way of specifying response headers as a \0-separatedseries of name: value pairs. Prefer the above method unless youneed to represent some non-UTF8 values that can't be transmittedover the protocol as text.</param>
+        /// <param name = "body">A response body.</param>
+        /// <param name = "responsePhrase">A textual representation of responseCode.If absent, a standard phrase matching responseCode is used.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> FulfillRequestAsync(string requestId, int responseCode, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> responseHeaders = null, byte[] binaryResponseHeaders = null, byte[] body = null, string responsePhrase = null)
         {
             ValidateFulfillRequest(requestId, responseCode, responseHeaders, binaryResponseHeaders, body, responsePhrase);

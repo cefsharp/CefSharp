@@ -69,6 +69,9 @@ namespace CefSharp.DevTools.CacheStorage
             set;
         }
 
+        /// <summary>
+        /// HTTP response type
+        /// </summary>
         public CefSharp.DevTools.CacheStorage.CachedResponseType ResponseType
         {
             get

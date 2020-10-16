@@ -22,7 +22,9 @@ namespace CefSharp.DevTools.DOMDebugger
         /// Returns event listeners of the given object.
         /// </summary>
         /// <param name = "objectId">Identifier of the object to return listeners for.</param>
-        /// <param name = "depth">The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the
+        /// <param name = "depth">The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
+        /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the subtree(default is false). Reports listeners for all contexts if pierce is enabled.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetEventListenersResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetEventListenersResponse> GetEventListenersAsync(string objectId, int? depth = null, bool? pierce = null)
         {
             ValidateGetEventListeners(objectId, depth, pierce);
@@ -132,7 +134,8 @@ namespace CefSharp.DevTools.DOMDebugger
         /// Sets breakpoint on particular DOM event.
         /// </summary>
         /// <param name = "eventName">DOM Event name to stop on (any DOM event will do).</param>
-        /// <param name = "targetName">EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on any
+        /// <param name = "targetName">EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on anyEventTarget.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEventListenerBreakpointAsync(string eventName, string targetName = null)
         {
             ValidateSetEventListenerBreakpoint(eventName, targetName);

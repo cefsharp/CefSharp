@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Network
     [System.Runtime.Serialization.DataContractAttribute]
     public class BlockedCookieWithReason : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// The reason(s) the cookie was blocked.
+        /// </summary>
         public CefSharp.DevTools.Network.CookieBlockedReason[] BlockedReasons
         {
             get

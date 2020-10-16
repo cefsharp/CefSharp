@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Audits
     [System.Runtime.Serialization.DataContractAttribute]
     public class InspectorIssue : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// Code
+        /// </summary>
         public CefSharp.DevTools.Audits.InspectorIssueCode Code
         {
             get

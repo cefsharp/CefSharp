@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Audits
     [System.Runtime.Serialization.DataContractAttribute]
     public class HeavyAdIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// The resolution status, either blocking the content or warning.
+        /// </summary>
         public CefSharp.DevTools.Audits.HeavyAdResolutionStatus Resolution
         {
             get
@@ -32,6 +35,9 @@ namespace CefSharp.DevTools.Audits
             set;
         }
 
+        /// <summary>
+        /// The reason the ad was blocked, total network or cpu or peak cpu.
+        /// </summary>
         public CefSharp.DevTools.Audits.HeavyAdReason Reason
         {
             get

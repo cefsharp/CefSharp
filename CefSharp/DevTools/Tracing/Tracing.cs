@@ -79,7 +79,11 @@ namespace CefSharp.DevTools.Tracing
         /// <param name = "categories">Category/tag filter</param>
         /// <param name = "options">Tracing options</param>
         /// <param name = "bufferUsageReportingInterval">If set, the agent will issue bufferUsage events at this interval, specified in milliseconds</param>
-        /// <param name = "transferMode">Whether to report trace events as series of dataCollected events or to save trace to a
+        /// <param name = "transferMode">Whether to report trace events as series of dataCollected events or to save trace to astream (defaults to `ReportEvents`).</param>
+        /// <param name = "streamFormat">Trace data format to use. This only applies when using `ReturnAsStream`transfer mode (defaults to `json`).</param>
+        /// <param name = "streamCompression">Compression format to use. This only applies when using `ReturnAsStream`transfer mode (defaults to `none`)</param>
+        /// <param name = "traceConfig">traceConfig</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync(string categories = null, string options = null, long? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null)
         {
             ValidateStart(categories, options, bufferUsageReportingInterval, transferMode, streamFormat, streamCompression, traceConfig);

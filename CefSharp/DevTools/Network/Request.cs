@@ -69,6 +69,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// The mixed content type of the request.
+        /// </summary>
         public CefSharp.DevTools.Security.MixedContentType? MixedContentType
         {
             get
@@ -92,6 +95,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// Priority of the resource request at the time request is sent.
+        /// </summary>
         public CefSharp.DevTools.Network.ResourcePriority InitialPriority
         {
             get

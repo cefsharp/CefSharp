@@ -69,6 +69,9 @@ namespace CefSharp.DevTools.WebAudio
             set;
         }
 
+        /// <summary>
+        /// ChannelCountMode
+        /// </summary>
         public CefSharp.DevTools.WebAudio.ChannelCountMode ChannelCountMode
         {
             get
@@ -92,6 +95,9 @@ namespace CefSharp.DevTools.WebAudio
             set;
         }
 
+        /// <summary>
+        /// ChannelInterpretation
+        /// </summary>
         public CefSharp.DevTools.WebAudio.ChannelInterpretation ChannelInterpretation
         {
             get

@@ -20,6 +20,9 @@ namespace CefSharp.DevTools.Fetch
             set;
         }
 
+        /// <summary>
+        /// If set, only requests for matching resource types will be intercepted.
+        /// </summary>
         public CefSharp.DevTools.Network.ResourceType? ResourceType
         {
             get
@@ -43,6 +46,9 @@ namespace CefSharp.DevTools.Fetch
             set;
         }
 
+        /// <summary>
+        /// Stage at wich to begin intercepting requests. Default is Request.
+        /// </summary>
         public CefSharp.DevTools.Fetch.RequestStage? RequestStage
         {
             get

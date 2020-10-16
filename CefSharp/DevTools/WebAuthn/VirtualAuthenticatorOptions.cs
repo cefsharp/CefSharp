@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.WebAuthn
     [System.Runtime.Serialization.DataContractAttribute]
     public class VirtualAuthenticatorOptions : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// Protocol
+        /// </summary>
         public CefSharp.DevTools.WebAuthn.AuthenticatorProtocol Protocol
         {
             get
@@ -32,6 +35,9 @@ namespace CefSharp.DevTools.WebAuthn
             set;
         }
 
+        /// <summary>
+        /// Transport
+        /// </summary>
         public CefSharp.DevTools.WebAuthn.AuthenticatorTransport Transport
         {
             get

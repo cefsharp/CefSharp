@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Security
     [System.Runtime.Serialization.DataContractAttribute]
     public class VisibleSecurityState : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// The security level of the page.
+        /// </summary>
         public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get
