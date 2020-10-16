@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Threading.Tasks;
 using CefSharp.DevTools.Browser;
 using CefSharp.DevTools.Network;
@@ -116,7 +117,8 @@ namespace CefSharp.Test.DevTools
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
-                    var response = await devToolsClient.Network.SetCookieAsync(name, value, domain: domain, sameSite: sameSite);
+                    var expiry = DateTimeOffset.UtcNow.AddDays(10);
+                    var response = await devToolsClient.Network.SetCookieAsync(name, value, domain: domain, sameSite: sameSite, expires: expiry.ToUnixTimeSeconds());
                     Assert.True(response.Success, "SetCookieForDomain");
                 }
             }
