@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Accessibility
     [System.Runtime.Serialization.DataContractAttribute]
     public class AXValue : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// The type of this value.
+        /// </summary>
         public CefSharp.DevTools.Accessibility.AXValueType Type
         {
             get

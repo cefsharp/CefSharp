@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Security
     [System.Runtime.Serialization.DataContractAttribute]
     public class SecurityStateExplanation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// Security state representing the severity of the factor being explained.
+        /// </summary>
         public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get
@@ -62,6 +65,9 @@ namespace CefSharp.DevTools.Security
             set;
         }
 
+        /// <summary>
+        /// The type of mixed content described by the explanation.
+        /// </summary>
         public CefSharp.DevTools.Security.MixedContentType MixedContentType
         {
             get

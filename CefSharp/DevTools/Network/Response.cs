@@ -179,6 +179,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// Response source of response from ServiceWorker.
+        /// </summary>
         public CefSharp.DevTools.Network.ServiceWorkerResponseSource? ServiceWorkerResponseSource
         {
             get
@@ -232,6 +235,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// Security state of the request resource.
+        /// </summary>
         public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get

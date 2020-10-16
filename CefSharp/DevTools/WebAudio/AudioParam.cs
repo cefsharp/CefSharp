@@ -49,6 +49,9 @@ namespace CefSharp.DevTools.WebAudio
             set;
         }
 
+        /// <summary>
+        /// Rate
+        /// </summary>
         public CefSharp.DevTools.WebAudio.AutomationRate Rate
         {
             get

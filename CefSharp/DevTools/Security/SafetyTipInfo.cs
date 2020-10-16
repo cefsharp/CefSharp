@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Security
     [System.Runtime.Serialization.DataContractAttribute]
     public class SafetyTipInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// Describes whether the page triggers any safety tips or reputation warnings. Default is unknown.
+        /// </summary>
         public CefSharp.DevTools.Security.SafetyTipStatus SafetyTipStatus
         {
             get

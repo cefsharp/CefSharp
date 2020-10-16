@@ -44,7 +44,8 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">Id of the node to copy.</param>
         /// <param name = "targetNodeId">Id of the element to drop the copy into.</param>
-        /// <param name = "insertBeforeNodeId">Drop the copy before this node (if absent, the copy becomes the last child of
+        /// <param name = "insertBeforeNodeId">Drop the copy before this node (if absent, the copy becomes the last child of`targetNodeId`).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;CopyToResponse&gt;</returns>
         public async System.Threading.Tasks.Task<CopyToResponse> CopyToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
         {
             ValidateCopyTo(nodeId, targetNodeId, insertBeforeNodeId);
@@ -68,7 +69,9 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "nodeId">Identifier of the node.</param>
         /// <param name = "backendNodeId">Identifier of the backend node.</param>
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
-        /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
+        /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
+        /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the subtree(default is false).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DescribeNodeResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DescribeNodeResponse> DescribeNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, int? depth = null, bool? pierce = null)
         {
             ValidateDescribeNode(nodeId, backendNodeId, objectId, depth, pierce);
@@ -111,7 +114,8 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "nodeId">Identifier of the node.</param>
         /// <param name = "backendNodeId">Identifier of the backend node.</param>
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
-        /// <param name = "rect">The rect to be scrolled into view, relative to the node's border box, in CSS pixels.
+        /// <param name = "rect">The rect to be scrolled into view, relative to the node's border box, in CSS pixels.When omitted, center of the node will be used, similar to Element.scrollIntoView.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ScrollIntoViewIfNeededAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, CefSharp.DevTools.DOM.Rect rect = null)
         {
             ValidateScrollIntoViewIfNeeded(nodeId, backendNodeId, objectId, rect);
@@ -291,7 +295,9 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Returns the root DOM node (and optionally the subtree) to the caller.
         /// </summary>
-        /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
+        /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
+        /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the subtree(default is false).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetDocumentResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetDocumentResponse> GetDocumentAsync(int? depth = null, bool? pierce = null)
         {
             ValidateGetDocument(depth, pierce);
@@ -314,7 +320,9 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Returns the root DOM node (and optionally the subtree) to the caller.
         /// </summary>
-        /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
+        /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
+        /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the subtree(default is false).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetFlattenedDocumentResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetFlattenedDocumentResponse> GetFlattenedDocumentAsync(int? depth = null, bool? pierce = null)
         {
             ValidateGetFlattenedDocument(depth, pierce);
@@ -479,7 +487,8 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">Id of the node to move.</param>
         /// <param name = "targetNodeId">Id of the element to drop the moved node into.</param>
-        /// <param name = "insertBeforeNodeId">Drop node before this one (if absent, the moved node becomes the last child of
+        /// <param name = "insertBeforeNodeId">Drop node before this one (if absent, the moved node becomes the last child of`targetNodeId`).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;MoveToResponse&gt;</returns>
         public async System.Threading.Tasks.Task<MoveToResponse> MoveToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
         {
             ValidateMoveTo(nodeId, targetNodeId, insertBeforeNodeId);
@@ -631,7 +640,9 @@ namespace CefSharp.DevTools.DOM
         /// the specified depth.
         /// </summary>
         /// <param name = "nodeId">Id of the node to get children for.</param>
-        /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
+        /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
+        /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the sub-tree(default is false).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> RequestChildNodesAsync(int nodeId, int? depth = null, bool? pierce = null)
         {
             ValidateRequestChildNodes(nodeId, depth, pierce);
@@ -731,7 +742,8 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">Id of the element to set attributes for.</param>
         /// <param name = "text">Text with a number of attributes. Will parse this text using HTML parser.</param>
-        /// <param name = "name">Attribute name to replace with new attributes derived from text in case text parsed
+        /// <param name = "name">Attribute name to replace with new attributes derived from text in case text parsedsuccessfully.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributesAsTextAsync(int nodeId, string text, string name = null)
         {
             ValidateSetAttributesAsText(nodeId, text, name);

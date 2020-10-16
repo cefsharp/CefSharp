@@ -49,6 +49,9 @@ namespace CefSharp.DevTools.Page
             set;
         }
 
+        /// <summary>
+        /// Transition type.
+        /// </summary>
         public CefSharp.DevTools.Page.TransitionType TransitionType
         {
             get

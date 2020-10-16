@@ -59,6 +59,9 @@ namespace CefSharp.DevTools.Security
             set;
         }
 
+        /// <summary>
+        /// Always set to unknown.
+        /// </summary>
         public CefSharp.DevTools.Security.SecurityState RanInsecureContentStyle
         {
             get
@@ -82,6 +85,9 @@ namespace CefSharp.DevTools.Security
             set;
         }
 
+        /// <summary>
+        /// Always set to unknown.
+        /// </summary>
         public CefSharp.DevTools.Security.SecurityState DisplayedInsecureContentStyle
         {
             get

@@ -19,6 +19,9 @@ namespace CefSharp.DevTools.WebAudio
             set;
         }
 
+        /// <summary>
+        /// ContextType
+        /// </summary>
         public CefSharp.DevTools.WebAudio.ContextType ContextType
         {
             get
@@ -42,6 +45,9 @@ namespace CefSharp.DevTools.WebAudio
             set;
         }
 
+        /// <summary>
+        /// ContextState
+        /// </summary>
         public CefSharp.DevTools.WebAudio.ContextState ContextState
         {
             get

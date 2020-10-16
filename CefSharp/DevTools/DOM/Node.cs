@@ -192,6 +192,9 @@ namespace CefSharp.DevTools.DOM
             set;
         }
 
+        /// <summary>
+        /// Pseudo element type for this node.
+        /// </summary>
         public CefSharp.DevTools.DOM.PseudoType? PseudoType
         {
             get
@@ -215,6 +218,9 @@ namespace CefSharp.DevTools.DOM
             set;
         }
 
+        /// <summary>
+        /// Shadow root type.
+        /// </summary>
         public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
         {
             get

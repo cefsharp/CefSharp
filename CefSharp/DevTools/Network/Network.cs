@@ -44,7 +44,10 @@ namespace CefSharp.DevTools.Network
         /// Deletes browser cookies with matching name and url or domain/path pair.
         /// </summary>
         /// <param name = "name">Name of the cookies to remove.</param>
-        /// <param name = "url">If specified, deletes all the cookies with the given name where domain and path match
+        /// <param name = "url">If specified, deletes all the cookies with the given name where domain and path matchprovided URL.</param>
+        /// <param name = "domain">If specified, deletes only cookies with the exact domain.</param>
+        /// <param name = "path">If specified, deletes only cookies with the exact path.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteCookiesAsync(string name, string url = null, string domain = null, string path = null)
         {
             ValidateDeleteCookies(name, url, domain, path);
@@ -345,7 +348,15 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "name">Cookie name.</param>
         /// <param name = "value">Cookie value.</param>
-        /// <param name = "url">The request-URI to associate with the setting of the cookie. This value can affect the
+        /// <param name = "url">The request-URI to associate with the setting of the cookie. This value can affect thedefault domain and path values of the created cookie.</param>
+        /// <param name = "domain">Cookie domain.</param>
+        /// <param name = "path">Cookie path.</param>
+        /// <param name = "secure">True if cookie is secure.</param>
+        /// <param name = "httpOnly">True if cookie is http-only.</param>
+        /// <param name = "sameSite">Cookie SameSite type.</param>
+        /// <param name = "expires">Cookie expiration date, session cookie if not set</param>
+        /// <param name = "priority">Cookie Priority type.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetCookieResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetCookieResponse> SetCookieAsync(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, CefSharp.DevTools.Network.CookieSameSite? sameSite = null, long? expires = null, CefSharp.DevTools.Network.CookiePriority? priority = null)
         {
             ValidateSetCookie(name, value, url, domain, path, secure, httpOnly, sameSite, expires, priority);

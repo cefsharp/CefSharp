@@ -49,6 +49,9 @@ namespace CefSharp.DevTools.Browser
             set;
         }
 
+        /// <summary>
+        /// The window state. Default to normal.
+        /// </summary>
         public CefSharp.DevTools.Browser.WindowState? WindowState
         {
             get

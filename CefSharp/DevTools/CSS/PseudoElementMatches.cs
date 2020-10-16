@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.CSS
     [System.Runtime.Serialization.DataContractAttribute]
     public class PseudoElementMatches : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// Pseudo element type.
+        /// </summary>
         public CefSharp.DevTools.DOM.PseudoType PseudoType
         {
             get

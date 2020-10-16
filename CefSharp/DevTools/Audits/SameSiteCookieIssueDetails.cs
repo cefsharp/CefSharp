@@ -21,6 +21,9 @@ namespace CefSharp.DevTools.Audits
             set;
         }
 
+        /// <summary>
+        /// CookieWarningReasons
+        /// </summary>
         public CefSharp.DevTools.Audits.SameSiteCookieWarningReason[] CookieWarningReasons
         {
             get
@@ -44,6 +47,9 @@ namespace CefSharp.DevTools.Audits
             set;
         }
 
+        /// <summary>
+        /// CookieExclusionReasons
+        /// </summary>
         public CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[] CookieExclusionReasons
         {
             get
@@ -67,6 +73,10 @@ namespace CefSharp.DevTools.Audits
             set;
         }
 
+        /// <summary>
+        /// Optionally identifies the site-for-cookies and the cookie url, which
+        /// may be used by the front-end as additional context.
+        /// </summary>
         public CefSharp.DevTools.Audits.SameSiteCookieOperation Operation
         {
             get

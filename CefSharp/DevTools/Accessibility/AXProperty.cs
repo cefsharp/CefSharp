@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Accessibility
     [System.Runtime.Serialization.DataContractAttribute]
     public class AXProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// The name of this property.
+        /// </summary>
         public CefSharp.DevTools.Accessibility.AXPropertyName Name
         {
             get

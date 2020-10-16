@@ -39,6 +39,9 @@ namespace CefSharp.DevTools.ServiceWorker
             set;
         }
 
+        /// <summary>
+        /// RunningStatus
+        /// </summary>
         public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus RunningStatus
         {
             get
@@ -62,6 +65,9 @@ namespace CefSharp.DevTools.ServiceWorker
             set;
         }
 
+        /// <summary>
+        /// Status
+        /// </summary>
         public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus Status
         {
             get

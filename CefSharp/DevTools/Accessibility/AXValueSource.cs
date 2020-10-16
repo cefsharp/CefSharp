@@ -9,6 +9,9 @@ namespace CefSharp.DevTools.Accessibility
     [System.Runtime.Serialization.DataContractAttribute]
     public class AXValueSource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// What type of source this is.
+        /// </summary>
         public CefSharp.DevTools.Accessibility.AXValueSourceType Type
         {
             get
@@ -72,6 +75,9 @@ namespace CefSharp.DevTools.Accessibility
             set;
         }
 
+        /// <summary>
+        /// The native markup source for this value, e.g. a <label> element.
+        /// </summary>
         public CefSharp.DevTools.Accessibility.AXValueNativeSourceType? NativeSource
         {
             get

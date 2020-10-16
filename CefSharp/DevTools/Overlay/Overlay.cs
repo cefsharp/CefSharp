@@ -221,7 +221,8 @@ namespace CefSharp.DevTools.Overlay
         /// Backend then generates 'inspectNodeRequested' event upon element selection.
         /// </summary>
         /// <param name = "mode">Set an inspection mode.</param>
-        /// <param name = "highlightConfig">A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled
+        /// <param name = "highlightConfig">A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled== false`.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectModeAsync(CefSharp.DevTools.Overlay.InspectMode mode, CefSharp.DevTools.Overlay.HighlightConfig highlightConfig = null)
         {
             ValidateSetInspectMode(mode, highlightConfig);

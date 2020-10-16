@@ -99,6 +99,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// Cookie SameSite type.
+        /// </summary>
         public CefSharp.DevTools.Network.CookieSameSite? SameSite
         {
             get
@@ -122,6 +125,9 @@ namespace CefSharp.DevTools.Network
             set;
         }
 
+        /// <summary>
+        /// Cookie Priority
+        /// </summary>
         public CefSharp.DevTools.Network.CookiePriority Priority
         {
             get

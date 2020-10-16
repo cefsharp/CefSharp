@@ -116,7 +116,8 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// StartSampling
         /// </summary>
-        /// <param name = "samplingInterval">Average sample interval in bytes. Poisson distribution is used for the intervals. The
+        /// <param name = "samplingInterval">Average sample interval in bytes. Poisson distribution is used for the intervals. Thedefault value is 32768 bytes.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(long? samplingInterval = null)
         {
             ValidateStartSampling(samplingInterval);
@@ -164,7 +165,9 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// StopTrackingHeapObjects
         /// </summary>
-        /// <param name = "reportProgress">If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
+        /// <param name = "reportProgress">If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being takenwhen the tracking is stopped.</param>
+        /// <param name = "treatGlobalObjectsAsRoots">treatGlobalObjectsAsRoots</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopTrackingHeapObjectsAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {
             ValidateStopTrackingHeapObjects(reportProgress, treatGlobalObjectsAsRoots);

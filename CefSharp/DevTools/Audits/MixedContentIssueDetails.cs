@@ -9,6 +9,12 @@ namespace CefSharp.DevTools.Audits
     [System.Runtime.Serialization.DataContractAttribute]
     public class MixedContentIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
+        /// <summary>
+        /// The type of resource causing the mixed content issue (css, js, iframe,
+        /// form,...). Marked as optional because it is mapped to from
+        /// blink::mojom::RequestContextType, which will be replaced
+        /// by network::mojom::RequestDestination
+        /// </summary>
         public CefSharp.DevTools.Audits.MixedContentResourceType? ResourceType
         {
             get
@@ -35,6 +41,9 @@ namespace CefSharp.DevTools.Audits
             set;
         }
 
+        /// <summary>
+        /// The way the mixed content issue is being resolved.
+        /// </summary>
         public CefSharp.DevTools.Audits.MixedContentResolutionStatus ResolutionStatus
         {
             get

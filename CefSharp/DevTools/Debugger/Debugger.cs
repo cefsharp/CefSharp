@@ -54,7 +54,8 @@ namespace CefSharp.DevTools.Debugger
         /// Enables debugger for the given page. Clients should not assume that the debugging has been
         /// enabled until the result for this command is received.
         /// </summary>
-        /// <param name = "maxScriptsCacheSize">The maximum size in bytes of collected scripts (not referenced by other heap objects)
+        /// <param name = "maxScriptsCacheSize">The maximum size in bytes of collected scripts (not referenced by other heap objects)the debugger can hold. Puts no limit if paramter is omitted.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;EnableResponse&gt;</returns>
         public async System.Threading.Tasks.Task<EnableResponse> EnableAsync(long? maxScriptsCacheSize = null)
         {
             ValidateEnable(maxScriptsCacheSize);
@@ -74,7 +75,14 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "callFrameId">Call frame identifier to evaluate on.</param>
         /// <param name = "expression">Expression to evaluate.</param>
-        /// <param name = "objectGroup">String object group name to put result into (allows rapid releasing resulting object handles
+        /// <param name = "objectGroup">String object group name to put result into (allows rapid releasing resulting object handlesusing `releaseObjectGroup`).</param>
+        /// <param name = "includeCommandLineAPI">Specifies whether command line API should be available to the evaluated expression, defaultsto false.</param>
+        /// <param name = "silent">In silent mode exceptions thrown during evaluation are not reported and do not pauseexecution. Overrides `setPauseOnException` state.</param>
+        /// <param name = "returnByValue">Whether the result is expected to be a JSON object that should be sent by value.</param>
+        /// <param name = "generatePreview">Whether preview should be generated for the result.</param>
+        /// <param name = "throwOnSideEffect">Whether to throw an exception if side effect cannot be ruled out during evaluation.</param>
+        /// <param name = "timeout">Terminate execution after timing out (number of milliseconds).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;EvaluateOnCallFrameResponse&gt;</returns>
         public async System.Threading.Tasks.Task<EvaluateOnCallFrameResponse> EvaluateOnCallFrameAsync(string callFrameId, string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? throwOnSideEffect = null, long? timeout = null)
         {
             ValidateEvaluateOnCallFrame(callFrameId, expression, objectGroup, includeCommandLineAPI, silent, returnByValue, generatePreview, throwOnSideEffect, timeout);
@@ -149,7 +157,9 @@ namespace CefSharp.DevTools.Debugger
         /// the same.
         /// </summary>
         /// <param name = "start">Start of range to search possible breakpoint locations in.</param>
-        /// <param name = "end">End of range to search possible breakpoint locations in (excluding). When not specified, end
+        /// <param name = "end">End of range to search possible breakpoint locations in (excluding). When not specified, endof scripts is used as end of range.</param>
+        /// <param name = "restrictToFunction">Only consider locations which are in the same (non-nested) function as start.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;GetPossibleBreakpointsResponse&gt;</returns>
         public async System.Threading.Tasks.Task<GetPossibleBreakpointsResponse> GetPossibleBreakpointsAsync(CefSharp.DevTools.Debugger.Location start, CefSharp.DevTools.Debugger.Location end = null, bool? restrictToFunction = null)
         {
             ValidateGetPossibleBreakpoints(start, end, restrictToFunction);
@@ -244,7 +254,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Resumes JavaScript execution.
         /// </summary>
-        /// <param name = "terminateOnResume">Set to true to terminate execution upon resuming execution. In contrast
+        /// <param name = "terminateOnResume">Set to true to terminate execution upon resuming execution. In contrastto Runtime.terminateExecution, this will allows to execute furtherJavaScript (i.e. via evaluation) until execution of the paused codeis actually resumed, at which point termination is triggered.If execution is currently not paused, this parameter has no effect.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResumeAsync(bool? terminateOnResume = null)
         {
             ValidateResume(terminateOnResume);
@@ -291,7 +302,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Enables or disables async call stacks tracking.
         /// </summary>
-        /// <param name = "maxDepth">Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
+        /// <param name = "maxDepth">Maximum depth of async call stacks. Setting to `0` will effectively disable collecting asynccall stacks (default).</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
         {
             ValidateSetAsyncCallStackDepth(maxDepth);
@@ -343,7 +355,8 @@ namespace CefSharp.DevTools.Debugger
         /// Sets JavaScript breakpoint at a given location.
         /// </summary>
         /// <param name = "location">Location to set breakpoint in.</param>
-        /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger will only stop on the
+        /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger will only stop on thebreakpoint if this expression evaluates to true.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetBreakpointResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetBreakpointResponse> SetBreakpointAsync(CefSharp.DevTools.Debugger.Location location, string condition = null)
         {
             ValidateSetBreakpoint(location, condition);
@@ -382,7 +395,11 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "lineNumber">Line number to set breakpoint at.</param>
         /// <param name = "url">URL of the resources to set breakpoint on.</param>
-        /// <param name = "urlRegex">Regex pattern for the URLs of the resources to set breakpoints on. Either `url` or
+        /// <param name = "urlRegex">Regex pattern for the URLs of the resources to set breakpoints on. Either `url` or`urlRegex` must be specified.</param>
+        /// <param name = "scriptHash">Script hash of the resources to set breakpoint on.</param>
+        /// <param name = "columnNumber">Offset in the line to set breakpoint at.</param>
+        /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger will only stop on thebreakpoint if this expression evaluates to true.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetBreakpointByUrlResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetBreakpointByUrlResponse> SetBreakpointByUrlAsync(int lineNumber, string url = null, string urlRegex = null, string scriptHash = null, int? columnNumber = null, string condition = null)
         {
             ValidateSetBreakpointByUrl(lineNumber, url, urlRegex, scriptHash, columnNumber, condition);
@@ -424,7 +441,8 @@ namespace CefSharp.DevTools.Debugger
         /// calling it will also trigger the breakpoint.
         /// </summary>
         /// <param name = "objectId">Function object id.</param>
-        /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger will
+        /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger willstop on the breakpoint if this expression evaluates to true.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetBreakpointOnFunctionCallResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetBreakpointOnFunctionCallResponse> SetBreakpointOnFunctionCallAsync(string objectId, string condition = null)
         {
             ValidateSetBreakpointOnFunctionCall(objectId, condition);
@@ -491,7 +509,8 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "scriptId">Id of the script to edit.</param>
         /// <param name = "scriptSource">New content of the script.</param>
-        /// <param name = "dryRun">If true the change will not actually be applied. Dry run may be used to get result
+        /// <param name = "dryRun">If true the change will not actually be applied. Dry run may be used to get resultdescription without actually modifying the code.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;SetScriptSourceResponse&gt;</returns>
         public async System.Threading.Tasks.Task<SetScriptSourceResponse> SetScriptSourceAsync(string scriptId, string scriptSource, bool? dryRun = null)
         {
             ValidateSetScriptSource(scriptId, scriptSource, dryRun);
@@ -527,7 +546,11 @@ namespace CefSharp.DevTools.Debugger
         /// Changes value of variable in a callframe. Object-based scopes are not supported and must be
         /// mutated manually.
         /// </summary>
-        /// <param name = "scopeNumber">0-based number of scope as was listed in scope chain. Only 'local', 'closure' and 'catch'
+        /// <param name = "scopeNumber">0-based number of scope as was listed in scope chain. Only 'local', 'closure' and 'catch'scope types are allowed. Other scopes could be manipulated manually.</param>
+        /// <param name = "variableName">Variable name.</param>
+        /// <param name = "newValue">New variable value.</param>
+        /// <param name = "callFrameId">Id of callframe that holds variable.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetVariableValueAsync(int scopeNumber, string variableName, CefSharp.DevTools.Runtime.CallArgument newValue, string callFrameId)
         {
             ValidateSetVariableValue(scopeNumber, variableName, newValue, callFrameId);
@@ -544,7 +567,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Steps into the function call.
         /// </summary>
-        /// <param name = "breakOnAsyncCall">Debugger will pause on the execution of the first async task which was scheduled
+        /// <param name = "breakOnAsyncCall">Debugger will pause on the execution of the first async task which was scheduledbefore next pause.</param>
+        /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
         public async System.Threading.Tasks.Task<DevToolsMethodResponse> StepIntoAsync(bool? breakOnAsyncCall = null)
         {
             ValidateStepInto(breakOnAsyncCall);

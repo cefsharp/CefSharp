@@ -31,6 +31,9 @@ namespace CefSharp.DevTools.Audits
             set;
         }
 
+        /// <summary>
+        /// Reason
+        /// </summary>
         public CefSharp.DevTools.Audits.BlockedByResponseReason Reason
         {
             get
