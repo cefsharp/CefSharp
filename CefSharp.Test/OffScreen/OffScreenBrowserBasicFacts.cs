@@ -228,6 +228,36 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Theory]
+        [InlineData("return { a: 'CefSharp', b: 42, };", true, "CefSharp", "42")]
+        [InlineData("return new Promise(function(resolve, reject) { resolve({ a: 'CefSharp', b: 42, }); });", true, "CefSharp", "42")]
+        [InlineData("return new Promise(function(resolve, reject) { setTimeout(resolve.bind(null, { a: 'CefSharp', b: 42, }), 1000); });", true, "CefSharp", "42")]
+        public async Task CanEvaluateScriptAsPromiseAsyncReturnObject(string script, bool success, string expectedA, string expectedB)
+        {
+            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+
+                var javascriptResponse = await browser.EvaluateScriptAsPromiseAsync(script);
+
+                Assert.Equal(success, javascriptResponse.Success);
+
+                if (success)
+                {
+                    dynamic result = javascriptResponse.Result;
+                    Assert.Equal(expectedA, result.a.ToString());
+                    Assert.Equal(expectedB, result.b.ToString());
+                }
+                else
+                {
+                    throw new System.Exception("Failed");
+                }
+            }
+        }
+
         [Fact]
         public async Task CanMakeFrameUrlRequest()
         {
