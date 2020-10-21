@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -75,7 +78,7 @@
     <Compile Include="BitmapBuffer.cs" />
     <Compile Include="CefSettings.cs" />
     <Compile Include="ChromiumWebBrowser.cs" />
-	<Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs">
+    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs">
       <Link>ChromiumWebBrowser.Partial.cs</Link>
     </Compile>
     <Compile Include="DefaultRenderHandler.cs" />
@@ -93,6 +96,9 @@
       <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>
       <Name>CefSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
