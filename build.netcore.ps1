@@ -12,9 +12,9 @@ $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 $CefSln = Join-Path $WorkingDir 'CefSharp3.netcore.sln'
 $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
 
-# Extract the current CEF Redist version from the CefSharp.Core\packages.config file
+# Extract the current CEF Redist version from the CefSharp.Core\packages.CefSharp.Core.config file
 # Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\Packages.config'))
+$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\packages.CefSharp.Core.netcore.config'))
 $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
 
 function Write-Diagnostic 
@@ -169,8 +169,8 @@ function Compile
     Write-Diagnostic "Restore Nuget Packages"
 
     # Restore packages
-    . $nuget restore CefSharp.Core\packages.config -PackagesDirectory packages
-    . $nuget restore CefSharp.BrowserSubprocess.Core\packages.config  -PackagesDirectory packages
+    . $nuget restore CefSharp.Core\packages.CefSharp.Core.netcore.config -PackagesDirectory packages
+    . $nuget restore CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.netcore.config -PackagesDirectory packages
     &msbuild /t:restore CefSharp3.netcore.sln
     
     Write-Diagnostic "Compile Packages"

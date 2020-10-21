@@ -11,9 +11,9 @@
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 
-# Extract the current CEF Redist version from the CefSharp.Core\packages.config file
+# Extract the current CEF Redist version from the CefSharp.Core\packages.CefSharp.Core.config file
 # Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\Packages.config'))
+$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\packages.CefSharp.Core.config'))
 $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
 
 function Write-Diagnostic 
@@ -293,13 +293,6 @@ function Nupkg
     . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
     . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
     . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    
-    # Build newer style packages
-	# Net Core isn't current built as part of this script so we cannot generate these directly
-    #. $nuget pack nuget\PackageReference\CefSharp.Common.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference -Properties "RedistVersion=$RedistVersion;"
-    #. $nuget pack nuget\PackageReference\CefSharp.OffScreen.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
-    #. $nuget pack nuget\PackageReference\CefSharp.Wpf.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
-    #. $nuget pack nuget\PackageReference\CefSharp.WinForms.NETCore.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget\PackageReference
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
