@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
        to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
@@ -26,8 +26,8 @@
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
-        <PackageReference Include="cef.redist.x86" Version="85.3.13" />
-        <PackageReference Include="cef.redist.x64" Version="85.3.13" />
+        <PackageReference Include="cef.redist.x86" Version="86.0.17" />
+        <PackageReference Include="cef.redist.x64" Version="86.0.17" />
     </ItemGroup>
 
     <ItemGroup>
