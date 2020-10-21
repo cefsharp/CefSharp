@@ -32,6 +32,7 @@
     <Optimize>true</Optimize>
     <Prefer32Bit>false</Prefer32Bit>
     <DefineConstants>TRACE;WINFORMS</DefineConstants>
+	<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -57,6 +58,7 @@
     <DocumentationFile>bin\x86\Release\CefSharp.WinForms.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
     <DefineConstants>TRACE;WINFORMS</DefineConstants>
+	<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
