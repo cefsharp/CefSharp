@@ -33,8 +33,8 @@ Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
     - What version are you using? Nuget? CI Nuget? build from a branch? If so please link to the relevant commit.
-	- Please include the exact version number you are using e.g. 83.4.20 (no ambiguous statements like `Latest from Nuget`)
-    - Please only create an issue if you can reproduce the problem with version 83.4.20 or greater.
+	- Please include the exact version number you are using e.g. 84.4.10 (no ambiguous statements like `Latest from Nuget`)
+    - Please only create an issue if you can reproduce the problem with version 84.4.10 or greater.
 
 - **What architecture x86 or x64?**
     <x86/x64>
