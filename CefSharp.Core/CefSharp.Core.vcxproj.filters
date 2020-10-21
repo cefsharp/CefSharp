@@ -344,6 +344,6 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.CefSharp.Core.config" />
   </ItemGroup>
 </Project>
