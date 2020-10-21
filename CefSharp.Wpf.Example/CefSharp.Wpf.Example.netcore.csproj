@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
        to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
@@ -28,8 +28,8 @@
         <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
         <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
-        <PackageReference Include="cef.redist.x86" Version="85.3.12" />
-        <PackageReference Include="cef.redist.x64" Version="85.3.12" />
+        <PackageReference Include="cef.redist.x86" Version="86.0.17" />
+        <PackageReference Include="cef.redist.x64" Version="86.0.17" />
     </ItemGroup>
 
     <ItemGroup>
