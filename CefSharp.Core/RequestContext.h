@@ -267,7 +267,7 @@ namespace CefSharp
         /// <returns>Returns true if the preference with the specified name can be modified
         /// using SetPreference</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
-        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// <see cref="IBrowserProcessHandler::OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
@@ -397,7 +397,7 @@ namespace CefSharp
         /// Visit chrome://extensions-support for the list of extension APIs currently supported by CEF. - Main frame navigation to non-extension
         /// content is blocked.
         /// - Pinch-zooming is disabled.
-        /// - <see cref="IBrowserHost::GetExtension"/> returns the hosted extension.
+        /// - <see cref="IBrowserHost::Extension"/> returns the hosted extension.
         /// - CefBrowserHost::IsBackgroundHost returns true for background hosts. See https://developer.chrome.com/extensions for extension implementation and usage documentation.
         /// </summary>
         /// <param name="rootDirectory">If extension resources will be read from disk using the default load implementation then rootDirectoy
