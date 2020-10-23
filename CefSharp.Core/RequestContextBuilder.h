@@ -39,8 +39,8 @@ namespace CefSharp
     public:
         /// <summary>
         /// Create the actual RequestContext instance
-        /// <param name="other">shares storage with this RequestContext</param>
-        /// <returns>Returns RequestContextBuilder instance</returns>
+        /// </summary>
+        /// <returns>Returns a new RequestContext instance.</returns>
         IRequestContext^ Create();
 
         /// <summary>
