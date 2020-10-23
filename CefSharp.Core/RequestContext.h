@@ -352,7 +352,7 @@ namespace CefSharp
 
         /// <summary>
         /// Retrieve the list of all extensions that this context has access to (see HasExtension).
-        /// <see cref="extensionIds"/> will be populated with the list of extension ID values.
+        /// <paramref name="extensionIds"/> will be populated with the list of extension ID values.
         /// This method must be called on the CEF UI thread.
         /// </summary>
         /// <param name="extensionIds">output a list of extensions Ids</param>
