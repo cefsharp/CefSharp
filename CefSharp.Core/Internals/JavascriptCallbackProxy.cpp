@@ -55,14 +55,12 @@ namespace CefSharp
 
                 return doneCallback.Value->Task;
             }
-            else
-            {
-                auto invalidFrameResponse = gcnew JavascriptResponse();
-                invalidFrameResponse->Success = false;
-                invalidFrameResponse->Message = "Frame with Id:" + _callback->FrameId + " is no longer valid.";
 
-                Task::FromResult(invalidFrameResponse);
-            }
+            auto invalidFrameResponse = gcnew JavascriptResponse();
+            invalidFrameResponse->Success = false;
+            invalidFrameResponse->Message = "Frame with Id:" + _callback->FrameId + " is no longer valid.";
+
+            return Task::FromResult(invalidFrameResponse);
         }
 
         CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateDestroyMessage()
