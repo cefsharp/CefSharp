@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.redist.x86.85.3.12\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.85.3.12\build\cef.redist.x86.props')" />
-  <Import Project="..\packages\cef.redist.x64.85.3.12\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.85.3.12\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\cef.redist.x86.85.3.13\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.85.3.13\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.85.3.13\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.85.3.13\build\cef.redist.x64.props')" />
   <Import Project="..\packages\xunit.runner.visualstudio.2.4.1\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.4.1\build\net20\xunit.runner.visualstudio.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
