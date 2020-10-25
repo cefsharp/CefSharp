@@ -123,3 +123,4 @@ Now that I (@amaitland) am a stay at home dad your contributions are the only re
 ## Projects using CefSharp
 - [HtmlView](https://github.com/ramon-mendes/HtmlView) : Visual Studio extension bringing CefSharp for showing HTML pages inside VS.
 - [SharpBrowser](https://github.com/sharpbrowser/SharpBrowser) : The fastest web browser for C# with tabbed browsing and HTML5/CSS3.
+- [Chromely CefSharp](https://github.com/chromelyapps/CefSharp) : Build HTML Desktop Apps on .NET/.NET Core 3/.NET 5 using native GUI, HTML5/CSS.
