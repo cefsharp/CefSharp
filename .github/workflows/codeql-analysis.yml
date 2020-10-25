@@ -7,7 +7,7 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [master, cefsharp/37, cefsharp/39, cefsharp/41, cefsharp/43, cefsharp/45, cefsharp/47, cefsharp/49, cefsharp/51, cefsharp/53, cefsharp/55, cefsharp/57, cefsharp/62, cefsharp/63, cefsharp/65, cefsharp/67, cefsharp/69, cefsharp/71, cefsharp/73, cefsharp/75, cefsharp/77, cefsharp/79, cefsharp/81, cefsharp/83, cefsharp/84, cefsharp/85]
+    branches: [master]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [master]
@@ -20,11 +20,11 @@ jobs:
     runs-on: windows-latest
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         # Override automatic language detection by changing the below list
         # Supported options are ['csharp', 'cpp', 'go', 'java', 'javascript', 'python']
-        language: ['csharp', 'cpp']
+        language: ['csharp']
         # Learn more...
         # https://docs.github.com/en/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#overriding-automatic-language-detection
 
