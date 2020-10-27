@@ -152,6 +152,7 @@ namespace CefSharp.DevTools
 
         void IDisposable.Dispose()
         {
+            DevToolsEvent = null;
             devToolsRegistration?.Dispose();
             devToolsRegistration = null;
             browser = null;
