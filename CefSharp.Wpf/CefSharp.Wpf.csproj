@@ -112,7 +112,6 @@
     <Compile Include="Rendering\AbstractRenderHandler.cs" />
     <Compile Include="Rendering\Experimental\CompositionTargetRenderHandler.cs" />
     <Compile Include="Rendering\DirectWritableBitmapRenderHandler.cs" />
-    <Compile Include="Rendering\Experimental\IncreaseBufferInteropRenderHandler.cs" />
     <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\InteropBitmapRenderHandler.cs" />
     <Compile Include="Rendering\WritableBitmapRenderHandler.cs" />

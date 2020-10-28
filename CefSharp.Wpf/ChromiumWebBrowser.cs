@@ -573,7 +573,6 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             browserSettings = new BrowserSettings(frameworkCreated: true);
-            RenderHandler = new InteropBitmapRenderHandler();
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
 
@@ -2576,29 +2575,26 @@ namespace CefSharp.Wpf
                 browser.GetHost().NotifyScreenInfoChanged();
             }
 
-            //Ignore this for custom bitmap factories                   
-            if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler || RenderHandler is DirectWritableBitmapRenderHandler)
+            //If the user has specified a custom RenderHandler then we'll skip this part
+            //as to not override their implementation.
+            //TODO: Add support for RenderHandler changing the DPI rather
+            //than creating a new instance (allow users to be notified of DPI change).
+            if (RenderHandler == null || RenderHandler is WritableBitmapRenderHandler || RenderHandler is DirectWritableBitmapRenderHandler)
             {
-                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI) && !(RenderHandler is DirectWritableBitmapRenderHandler))
+                const int DefaultDpi = 96;
+                var scale = DefaultDpi * DpiScaleFactor;
+                var oldRenderHandler = RenderHandler;
+
+                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
                 {
-                    const int DefaultDpi = 96;
-                    var scale = DefaultDpi * DpiScaleFactor;
                     RenderHandler = new DirectWritableBitmapRenderHandler(scale, scale, invalidateDirtyRect: true);
                 }
                 else
                 {
-                    if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
-                    {
-                        const int DefaultDpi = 96;
-                        var scale = DefaultDpi * DpiScaleFactor;
-
-                        RenderHandler = new WritableBitmapRenderHandler(scale, scale);
-                    }
-                    else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
-                    {
-                        RenderHandler = new InteropBitmapRenderHandler();
-                    }
+                    RenderHandler = new WritableBitmapRenderHandler(scale, scale);
                 }
+
+                oldRenderHandler?.Dispose();
             }
         }
 
