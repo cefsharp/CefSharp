@@ -46,7 +46,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\x64\Release\CefSharp.Wpf.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
-	<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -68,7 +68,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\x86\Release\CefSharp.Wpf.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
-	<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -115,6 +115,7 @@
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="PaintEventArgs.cs" />
     <Compile Include="Rendering\AbstractRenderHandler.cs" />
+    <Compile Include="Rendering\AllocHGlobalWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\Experimental\CompositionTargetRenderHandler.cs" />
     <Compile Include="Rendering\DirectWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
