@@ -95,7 +95,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
 
         private void UpdateImage(PaintElement element)
         {
-            if (element.Image != null)
+            if (element.IsDirty && element.Image != null)
             {
                 var bitmap = element.Image.Source as WriteableBitmap;
                 if (bitmap == null || bitmap.PixelWidth != element.Width || bitmap.PixelHeight != element.Height)

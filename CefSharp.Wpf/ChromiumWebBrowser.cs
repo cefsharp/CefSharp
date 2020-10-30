@@ -2442,7 +2442,7 @@ namespace CefSharp.Wpf
             //as to not override their implementation.
             //TODO: Add support for RenderHandler changing the DPI rather
             //than creating a new instance (allow users to be notified of DPI change).
-            if (RenderHandler == null || RenderHandler is AllocHGlobalWritableBitmapRenderHandler || RenderHandler is DirectWritableBitmapRenderHandler)
+            if (RenderHandler == null || RenderHandler is WritableBitmapRenderHandler || RenderHandler is DirectWritableBitmapRenderHandler)
             {
                 const int DefaultDpi = 96;
                 var scale = DefaultDpi * DpiScaleFactor;
@@ -2454,7 +2454,7 @@ namespace CefSharp.Wpf
                 }
                 else
                 {
-                    RenderHandler = new AllocHGlobalWritableBitmapRenderHandler(scale, scale);
+                    RenderHandler = new WritableBitmapRenderHandler(scale, scale);
                 }
 
                 oldRenderHandler?.Dispose();

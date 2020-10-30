@@ -132,6 +132,7 @@ namespace CefSharp.Wpf.Rendering
             private int bufferSize;
             private int imageSize;
             private readonly bool invalidateDirtyRect;
+            internal bool IsDirty { get; set; }
 
             internal PaintElement(double dpiX, double dpiY, bool invalidateDirtyRect)
             {
@@ -169,6 +170,7 @@ namespace CefSharp.Wpf.Rendering
                 NativeMethodWrapper.MemoryCopy(buffer, sourceBuffer, imageSize);
 
                 this.image = image;
+                IsDirty = true;
             }
 
             internal void UpdateImage(object lockObject)
@@ -177,7 +179,9 @@ namespace CefSharp.Wpf.Rendering
                 {
                     lock (lockObject)
                     {
-                        if (image != null)
+                        //If OnPaint was called a couple of times before our BeginInvoke call
+                        //we can end up here with nothing to do.
+                        if (IsDirty && image != null)
                         {
                             var bitmap = image.Source as WriteableBitmap;
                             var createNewBitmap = bitmap == null || bitmap.PixelWidth != width || bitmap.PixelHeight != height;
@@ -216,6 +220,8 @@ namespace CefSharp.Wpf.Rendering
                                     bitmap.Unlock();
                                 }
                             }
+
+                            IsDirty = false;
                         }
                     }
                 }));
