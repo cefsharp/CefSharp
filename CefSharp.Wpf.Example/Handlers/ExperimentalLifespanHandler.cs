@@ -2,6 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -13,6 +16,21 @@ namespace CefSharp.Wpf.Example.Handlers
     /// </summary>
     public class ExperimentalLifespanHandler : ILifeSpanHandler
     {
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern int GetWindowTextLength(IntPtr hWnd);
+
+        private static string GetWindowTitle(IntPtr hWnd)
+        {
+            // Allocate correct string length first
+            int length = GetWindowTextLength(hWnd);
+            var sb = new StringBuilder(length + 1);
+            GetWindowText(hWnd, sb, sb.Capacity);
+            return sb.ToString();
+        }
+
         bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
@@ -75,8 +93,12 @@ namespace CefSharp.Wpf.Example.Handlers
         {
             if (!browser.IsDisposed && browser.IsPopup)
             {
+                var windowTitle = GetWindowTitle(browser.GetHost().GetWindowHandle());
+
+                //CEF doesn't currently provide an option to determine if the new Popup is
+                //DevTools so we use a hackyworkaround to check the Window Title.
                 //DevTools is hosted in it's own popup, we don't perform any action here
-                if (!browser.MainFrame.Url.Equals("devtools://devtools/devtools_app.html"))
+                if (windowTitle != "DevTools")
                 {
                     var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
