@@ -83,6 +83,18 @@ namespace CefSharp.Wpf.Rendering
                             return;
                         }
 
+                        var size = isPopup ? popupSize : viewSize;
+
+                        //If OnPaint is called multiple times before
+                        //our BeginInvoke call we check the size matches our most recent
+                        //update, the buffer has already been overriden (frame is dropped effectively)
+                        //so we ignore this call
+                        //https://github.com/cefsharp/CefSharp/issues/3114
+                        if (size.Width != width || size.Height != height)
+                        {
+                            return;
+                        }
+
                         if (createNewBitmap)
                         {
                             if (image.Source != null)
