@@ -13,11 +13,13 @@
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,ContentFiles" />
+        <dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native" />
       </group>
     </dependencies>
   </metadata>
   <files>
+	<file src="CefSharp.Common.NETCore.targets" target="buildTransitive\" />
+	
 	<file src="..\..\CefSharp\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.dll" target="ref\netcoreapp3.1"/>
 	<file src="..\..\CefSharp.Core.RefAssembly\bin\Release\netcoreapp3.1\CefSharp.Core.dll" target="ref\netcoreapp3.1"/>
 	
