@@ -13,7 +13,7 @@
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="CefSharp.Common.NETCore" version="[$version$]" include="Runtime,Compile,Build,Native,ContentFiles" />
+        <dependency id="CefSharp.Common.NETCore" version="[$version$]" include="Runtime,Compile,Build,Native" />
       </group>
     </dependencies>
     <releaseNotes>
