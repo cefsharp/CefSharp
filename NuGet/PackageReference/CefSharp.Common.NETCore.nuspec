@@ -13,7 +13,7 @@
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native" />
+        <dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,Build" />
       </group>
     </dependencies>
   </metadata>
