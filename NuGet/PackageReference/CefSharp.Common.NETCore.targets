@@ -3,62 +3,62 @@
   <Choose>
     <When Condition="'$(RuntimeIdentifier)' == 'win-x64'">
       <ItemGroup>
-        <None Include="@(CefRuntimeWin64Locales)">
+        <Content Include="@(CefRuntimeWin64Locales)">
 		  <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <PublishState>Include</PublishState>
+		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>
-		<None Include="@(CefRuntimeWin64SwiftShader)">
+		</Content>
+		<Content Include="@(CefRuntimeWin64SwiftShader)">
 		  <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <PublishState>Include</PublishState>
+		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>
+		</Content>
       </ItemGroup>
     </When>
 	<When Condition="'$(RuntimeIdentifier)' == 'win-x86'">
       <ItemGroup>
-        <None Include="@(CefRuntimeWin32Locales)">
+        <Content Include="@(CefRuntimeWin32Locales)">
 		  <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <PublishState>Include</PublishState>
+		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>
-		<None Include="@(CefRuntimeWin32SwiftShader)">
+		</Content>
+		<Content Include="@(CefRuntimeWin32SwiftShader)">
 		  <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <PublishState>Include</PublishState>
+		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>
+		</Content>
       </ItemGroup>
     </When>
     <Otherwise>
       <ItemGroup>
-        <None Include="@(CefRuntimeWin32Locales)">
+        <Content Include="@(CefRuntimeWin32Locales)">
 		  <Link>runtimes\win-x86\native\locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <PublishState>Include</PublishState>
+		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>
-		<None Include="@(CefRuntimeWin32SwiftShader)">
+		</Content>
+		<Content Include="@(CefRuntimeWin32SwiftShader)">
 		  <Link>runtimes\win-x86\native\swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <PublishState>Include</PublishState>
+		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>
-		<None Include="@(CefRuntimeWin64Locales)">
+		</Content>
+		<Content Include="@(CefRuntimeWin64Locales)">
 		  <Link>runtimes\win-x64\native\locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <PublishState>Include</PublishState>
+		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>
-		<None Include="@(CefRuntimeWin64SwiftShader)">
+		</Content>
+		<Content Include="@(CefRuntimeWin64SwiftShader)">
 		  <Link>runtimes\win-x64\native\swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  <PublishState>Include</PublishState>
+		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>
+		</Content>
       </ItemGroup>
     </Otherwise>
   </Choose>
