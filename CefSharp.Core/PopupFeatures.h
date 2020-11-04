@@ -38,44 +38,24 @@ namespace CefSharp
             this->!PopupFeatures();
         }
 
-        virtual property int X
+        virtual property System::Nullable<int> X
         {
-            int get() { return _popupFeatures->x; }
+            System::Nullable<int> get() { return _popupFeatures->xSet ? _popupFeatures->x : Nullable<int>(); }
         }
 
-        virtual property int XSet
+        virtual property System::Nullable<int> Y
         {
-            int get() { return _popupFeatures->xSet; }
+            System::Nullable<int> get() { return _popupFeatures->ySet ? _popupFeatures->y : Nullable<int>(); }
         }
 
-        virtual property int Y
+        virtual property System::Nullable<int> Width
         {
-            int get() { return _popupFeatures->y; }
+            System::Nullable<int> get() { return _popupFeatures->widthSet ? _popupFeatures->width : Nullable<int>(); }
         }
 
-        virtual property int YSet
+        virtual property System::Nullable<int> Height
         {
-            int get() { return _popupFeatures->ySet; }
-        }
-
-        virtual property int Width
-        {
-            int get() { return _popupFeatures->width; }
-        }
-
-        virtual property int WidthSet
-        {
-            int get() { return _popupFeatures->width; }
-        }
-
-        virtual property int Height
-        {
-            int get() { return _popupFeatures->height; }
-        }
-
-        virtual property int HeightSet
-        {
-            int get() { return _popupFeatures->heightSet; }
+            System::Nullable<int> get() { return _popupFeatures->heightSet ? _popupFeatures->height : Nullable<int>(); }
         }
 
         virtual property bool MenuBarVisible
@@ -98,10 +78,29 @@ namespace CefSharp
             bool get() { return _popupFeatures->scrollbarsVisible == 1; }
         }
 
-        /*property List<String^>^ AdditionalFeatures
+        /*virtual property bool LocationBarVisible
+        {
+            bool get() { return _popupFeatures->locationBarVisible == 1; }
+        }
+
+        virtual property bool Resizable
+        {
+            bool get() { return _popupFeatures->resizable == 1; }
+        }
+
+        virtual property bool FullScreen
+        {
+            bool get() { return _popupFeatures->fullscreen == 1; }
+        }
+
+        virtual property bool Dialog
+        {
+            bool get() { return _popupFeatures->dialog == 1; }
+        }
+
+        virtual property List<String^>^ AdditionalFeatures
         {
             List<String^>^ get() { return StringUtils::ToClr(_popupFeatures->additionalFeatures); }
-            void set(List<String^>^ value) { _popupFeatures->dialog = value; }
         }*/
     };
 }
