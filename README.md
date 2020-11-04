@@ -37,6 +37,7 @@ Please keep the `Issue Tracker` for **Bugs** only please! Before submitting a `P
 
 - [Stackoverflow](https://stackoverflow.com/questions/tagged/cefsharp) is generally where questions should be asked, please search before posting, thanks!
 - [CefSharp Questions-and-Support](https://github.com/cefsharp/Questions-and-Support/issues) is a repository here on `GitHub` where you can ask `CefSharp` specific questions.
+- [Chromium Embedded Framework(CEF) Forum](https://magpcss.org/ceforum/viewforum.php?f=18)
 - [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) is the place to ask if you need a quick pointer or two.
 
 ## Branches & Forks
