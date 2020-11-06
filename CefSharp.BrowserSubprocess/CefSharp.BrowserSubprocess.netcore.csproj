@@ -15,16 +15,16 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <RootNamespace>CefSharp.BrowserSubprocess</RootNamespace>
         <AssemblyName>CefSharp.BrowserSubprocess</AssemblyName>
-        <DocumentationFile>$(BaseOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <StartupObject>CefSharp.BrowserSubprocess.Program</StartupObject>
+        <Platforms>x86;x64</Platforms>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
       <WarningLevel>2</WarningLevel>
     </PropertyGroup>
 
