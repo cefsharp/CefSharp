@@ -77,30 +77,5 @@ namespace CefSharp
         {
             bool get() { return _popupFeatures->scrollbarsVisible == 1; }
         }
-
-        /*virtual property bool LocationBarVisible
-        {
-            bool get() { return _popupFeatures->locationBarVisible == 1; }
-        }
-
-        virtual property bool Resizable
-        {
-            bool get() { return _popupFeatures->resizable == 1; }
-        }
-
-        virtual property bool FullScreen
-        {
-            bool get() { return _popupFeatures->fullscreen == 1; }
-        }
-
-        virtual property bool Dialog
-        {
-            bool get() { return _popupFeatures->dialog == 1; }
-        }
-
-        virtual property List<String^>^ AdditionalFeatures
-        {
-            List<String^>^ get() { return StringUtils::ToClr(_popupFeatures->additionalFeatures); }
-        }*/
     };
 }
