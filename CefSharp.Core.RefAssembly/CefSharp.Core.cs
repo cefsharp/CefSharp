@@ -358,20 +358,6 @@ namespace CefSharp.Internals
         public virtual long GetFileContents(System.IO.Stream stream) { throw null; }
         public virtual void ResetFileContents() { }
     }
-    [System.CLSCompliantAttribute(false)]
-    [System.Runtime.CompilerServices.NativeCppClassAttribute]
-    [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential, Size=56)]
-    public partial struct CefResourceHandlerAdapter
-    {
-        private int _dummyPrimitive;
-    }
-    [System.CLSCompliantAttribute(false)]
-    [System.Runtime.CompilerServices.NativeCppClassAttribute]
-    [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential, Size=48)]
-    public partial struct CefUrlRequestClientAdapter
-    {
-        private int _dummyPrimitive;
-    }
     public abstract partial class CefWrapper
     {
         internal CefWrapper() { }

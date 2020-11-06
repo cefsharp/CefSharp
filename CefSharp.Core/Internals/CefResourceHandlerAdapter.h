@@ -14,7 +14,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public class CefResourceHandlerAdapter : public CefResourceHandler
+        private class CefResourceHandlerAdapter : public CefResourceHandler
         {
         private:
             gcroot<IResourceHandler^> _handler;
