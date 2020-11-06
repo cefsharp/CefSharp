@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <RootNamespace>CefSharp.Core</RootNamespace>
@@ -10,10 +10,6 @@
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <NoWarn>CS1591,CS0436</NoWarn>
     </PropertyGroup>
-
-    <!-- <PropertyGroup Condition="'$(Configuration)'=='Release'"> -->
-    <!-- <ProduceReferenceAssembly>true</ProduceReferenceAssembly> -->
-    <!-- </PropertyGroup> -->
 
     <ItemGroup>
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj">
@@ -28,9 +24,26 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.DotNet.GenAPI" Version="5.0.0-beta.20374.3" GeneratePathProperty="true" />
     </ItemGroup>
+
+    <!--
+    Ugly hack to make sure we have an assembly to use as our source dll for GenAPI
+    If the x64 version exists we'll use that, otherwise we'll use the win32
+    Haven't found a nice way to determine the Platform (resolves as AnyCPU) 
+    -->
+    <Choose>
+        <When Condition="Exists('$(SolutionDir)CefSharp.Core\bin.netcore\x64\$(Configuration)\CefSharp.Core.dll')">
+            <PropertyGroup>
+                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core\bin.netcore\x64\$(Configuration)\CefSharp.Core.dll</IntermediateTargetPath>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core\bin.netcore\win32\$(Configuration)\CefSharp.Core.dll</IntermediateTargetPath>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
     <PropertyGroup>
         <GenerateReferenceAssemblySource>false</GenerateReferenceAssemblySource>
-        <IntermediateTargetPath>$(SolutionDir)CefSharp.Core\bin.netcore\x64\$(Configuration)\CefSharp.Core.dll</IntermediateTargetPath>
         <GenAPITargetDir>$(ProjectDir)</GenAPITargetDir>
         <GenAPITargetPath>$(GenAPITargetDir)$(AssemblyName).cs</GenAPITargetPath>
     </PropertyGroup>
