@@ -17,13 +17,13 @@
         <None Include="@(CefSharpOffScreenBinaries32)">
           <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Include</PublishState>
+          <PublishState>Included</PublishState>
           <Visible>false</Visible>
         </None>
         <None Include="@(CefSharpOffScreenBinaries64)">
           <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Include</PublishState>
+          <PublishState>Included</PublishState>
           <Visible>false</Visible>
         </None>
       </ItemGroup>
@@ -33,7 +33,7 @@
         <None Include="@(CefSharpOffScreenBinaries64)">
           <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Include</PublishState>
+          <PublishState>Included</PublishState>
           <Visible>false</Visible>
         </None>
       </ItemGroup>
@@ -44,7 +44,7 @@
         <None Include="@(CefSharpOffScreenBinaries32)">
           <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Include</PublishState>
+          <PublishState>Included</PublishState>
           <Visible>false</Visible>
         </None>
       </ItemGroup>
