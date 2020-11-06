@@ -2,8 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Collections.Generic;
-
 namespace CefSharp
 {
     /// <summary>
@@ -67,25 +65,5 @@ namespace CefSharp
         /// True if scrollbars visible, false if not.
         /// </value>
         bool ScrollbarsVisible { get; }
-        ///// <summary> These were apparently removed?
-        ///// Gets a value indicating whether the location bar is visible.
-        ///// </summary>
-        ///// <value>
-        ///// True if location bar visible, false if not.
-        ///// </value>
-        //bool LocationBarVisible { get; }
-        ///// <summary>
-        ///// Gets a value indicating whether or not the window should be resizable.
-        ///// </summary>
-        ///// <value>
-        ///// True if resizable, false if not.
-        ///// </value>
-        //bool Resizable { get; }
-        //bool FullScreen { get; }
-        //bool Dialog { get; }
-        ///// <summary>
-        ///// A list of any additional requested features
-        ///// </summary>
-        //List<string> AdditionalFeatures { get; }
     }
 }

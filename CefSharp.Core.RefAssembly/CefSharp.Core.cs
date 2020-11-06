@@ -174,18 +174,14 @@ namespace CefSharp
     public partial class PopupFeatures : CefSharp.IPopupFeatures, System.IDisposable
     {
         internal PopupFeatures() { }
-        public virtual int Height { get { throw null; } }
-        public virtual int HeightSet { get { throw null; } }
+        public virtual int? Height { get { throw null; } }
         public virtual bool MenuBarVisible { get { throw null; } }
         public virtual bool ScrollbarsVisible { get { throw null; } }
         public virtual bool StatusBarVisible { get { throw null; } }
         public virtual bool ToolBarVisible { get { throw null; } }
-        public virtual int Width { get { throw null; } }
-        public virtual int WidthSet { get { throw null; } }
-        public virtual int X { get { throw null; } }
-        public virtual int XSet { get { throw null; } }
-        public virtual int Y { get { throw null; } }
-        public virtual int YSet { get { throw null; } }
+        public virtual int? Width { get { throw null; } }
+        public virtual int? X { get { throw null; } }
+        public virtual int? Y { get { throw null; } }
         public void Dispose() { }
         protected virtual void Dispose(bool A_0) { }
         ~PopupFeatures() { }
