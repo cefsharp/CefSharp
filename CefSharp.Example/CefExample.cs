@@ -164,10 +164,11 @@ namespace CefSharp.Example
 
             if (DebuggingSubProcess)
             {
-                var architecture = Environment.Is64BitProcess ? "x64" : "x86";
+
 #if NETCOREAPP
-                settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin.netcore\\" + architecture + "\\Debug\\netcoreapp3.1\\CefSharp.BrowserSubprocess.exe");
+                settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin.netcore\\Debug\\netcoreapp3.1\\CefSharp.BrowserSubprocess.exe");
 #else
+                var architecture = Environment.Is64BitProcess ? "x64" : "x86";
                 settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe");
 #endif
             }
