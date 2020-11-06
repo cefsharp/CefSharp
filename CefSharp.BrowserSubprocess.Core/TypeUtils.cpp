@@ -187,6 +187,7 @@ namespace CefSharp
                 {
                     auto array = gcnew List<Object^>();
 
+                    //TODO: This can likely be simplified to just call GetValue(i) rather than accessing the keys
                     for (int i = 0; i < arrLength; i++)
                     {
                         auto data = obj->GetValue(keys[i]);
@@ -220,12 +221,12 @@ namespace CefSharp
             std::vector<CefString> keys;
             if (obj->GetKeys(keys))
             {
-                int objLength = keys.size();
+                size_t objLength = keys.size();
                 if (objLength > 0)
                 {
                     auto result = gcnew Dictionary<String^, Object^>();
 
-                    for (int i = 0; i < objLength; i++)
+                    for (size_t i = 0; i < objLength; i++)
                     {
                         String^ p_keyStr = StringUtils::ToClr(keys[i].ToString());
 

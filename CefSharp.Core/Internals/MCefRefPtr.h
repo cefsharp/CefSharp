@@ -132,10 +132,15 @@ namespace CefSharp
                 return false;
             }
 
+//TODO: Is this used? Disable warnings for now though code can likely be removed
+#pragma warning( push )
+#pragma warning(disable:4302)
+#pragma warning(disable:4311)
             virtual int GetHashCode() override
             {
                 return (int)_ptr;
             }
+#pragma warning( pop )
         };
     }
 }
