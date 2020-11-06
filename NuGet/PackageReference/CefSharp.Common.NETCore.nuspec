@@ -48,12 +48,10 @@
 	<!-- These are not actually native, including them in lib\netcoreapp3.1 doesn't copy the json files and since it's a runtime only dependency including them in native -->
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.dll" target="runtimes\win-x86\native"/>
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.exe" target="runtimes\win-x86\native"/>
-	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.pdb" target="runtimes\win-x86\native"/>
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.runtimeconfig.json" target="runtimes\win-x86\native"/>
 	
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.dll" target="runtimes\win-x64\native"/>
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.exe" target="runtimes\win-x64\native"/>
-	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.pdb" target="runtimes\win-x64\native"/>
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.runtimeconfig.json" target="runtimes\win-x64\native"/>
   </files>
 </package>

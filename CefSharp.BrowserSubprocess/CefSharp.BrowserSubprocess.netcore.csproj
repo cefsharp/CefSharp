@@ -28,6 +28,11 @@
       <WarningLevel>2</WarningLevel>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <EmbedAllSources>True</EmbedAllSources>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+
     <ItemGroup>
         <Compile Remove="bin\**" />
         <Compile Remove="obj\**" />
