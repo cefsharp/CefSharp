@@ -17,62 +17,65 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-    bool CefResourceHandlerAdapter::Open(CefRefPtr<CefRequest> request, bool& handleRequest, CefRefPtr<CefCallback> callback)
+    namespace Internals
     {
-        auto callbackWrapper = gcnew CefCallbackWrapper(callback);
-        _request = gcnew Request(request);
+        bool CefResourceHandlerAdapter::Open(CefRefPtr<CefRequest> request, bool& handleRequest, CefRefPtr<CefCallback> callback)
+        {
+            auto callbackWrapper = gcnew CefCallbackWrapper(callback);
+            _request = gcnew Request(request);
 
-        return _handler->Open(_request, handleRequest, callbackWrapper);
-    }
+            return _handler->Open(_request, handleRequest, callbackWrapper);
+        }
 
-    void CefResourceHandlerAdapter::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
-    {
-        String^ newRedirectUrl;
+        void CefResourceHandlerAdapter::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
+        {
+            String^ newRedirectUrl;
 
-        CefResponseWrapper responseWrapper(response);
+            CefResponseWrapper responseWrapper(response);
 
-        _handler->GetResponseHeaders(%responseWrapper, response_length, newRedirectUrl);
+            _handler->GetResponseHeaders(% responseWrapper, response_length, newRedirectUrl);
 
-        redirectUrl = StringUtils::ToNative(newRedirectUrl);
-    }
+            redirectUrl = StringUtils::ToNative(newRedirectUrl);
+        }
 
-    bool CefResourceHandlerAdapter::Skip(int64 bytesToSkip, int64& bytesSkipped, CefRefPtr<CefResourceSkipCallback> callback)
-    {
-        auto callbackWrapper = gcnew CefResourceSkipCallbackWrapper(callback);
+        bool CefResourceHandlerAdapter::Skip(int64 bytesToSkip, int64& bytesSkipped, CefRefPtr<CefResourceSkipCallback> callback)
+        {
+            auto callbackWrapper = gcnew CefResourceSkipCallbackWrapper(callback);
 
-        return _handler->Skip(bytesToSkip, bytesSkipped, callbackWrapper);
-    }
+            return _handler->Skip(bytesToSkip, bytesSkipped, callbackWrapper);
+        }
 
-    bool CefResourceHandlerAdapter::Read(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefResourceReadCallback> callback)
-    {
-        auto writeStream = gcnew UnmanagedMemoryStream((Byte*)dataOut, (Int64)bytesToRead, (Int64)bytesToRead, FileAccess::Write);
-        auto callbackWrapper = gcnew CefResourceReadCallbackWrapper(callback);
+        bool CefResourceHandlerAdapter::Read(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefResourceReadCallback> callback)
+        {
+            auto writeStream = gcnew UnmanagedMemoryStream((Byte*)dataOut, (Int64)bytesToRead, (Int64)bytesToRead, FileAccess::Write);
+            auto callbackWrapper = gcnew CefResourceReadCallbackWrapper(callback);
 
-        return _handler->Read(writeStream, bytesRead, callbackWrapper);
-    }
+            return _handler->Read(writeStream, bytesRead, callbackWrapper);
+        }
 
-    void CefResourceHandlerAdapter::Cancel()
-    {
-        _handler->Cancel();
+        void CefResourceHandlerAdapter::Cancel()
+        {
+            _handler->Cancel();
 
-        delete _request;
-        _request = nullptr;
-    }
+            delete _request;
+            _request = nullptr;
+        }
 
-    //Deprecated
-    bool CefResourceHandlerAdapter::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
-    {
-        auto callbackWrapper = gcnew CefCallbackWrapper(callback);
-        _request = gcnew Request(request);
+        //Deprecated
+        bool CefResourceHandlerAdapter::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
+        {
+            auto callbackWrapper = gcnew CefCallbackWrapper(callback);
+            _request = gcnew Request(request);
 
-        return _handler->ProcessRequest(_request, callbackWrapper);
-    }
+            return _handler->ProcessRequest(_request, callbackWrapper);
+        }
 
-    bool CefResourceHandlerAdapter::ReadResponse(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefCallback> callback)
-    {
-        auto writeStream = gcnew UnmanagedMemoryStream((Byte*)dataOut, (Int64)bytesToRead, (Int64)bytesToRead, FileAccess::Write);
-        auto callbackWrapper = gcnew CefCallbackWrapper(callback);
+        bool CefResourceHandlerAdapter::ReadResponse(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefCallback> callback)
+        {
+            auto writeStream = gcnew UnmanagedMemoryStream((Byte*)dataOut, (Int64)bytesToRead, (Int64)bytesToRead, FileAccess::Write);
+            auto callbackWrapper = gcnew CefCallbackWrapper(callback);
 
-        return _handler->ReadResponse(writeStream, bytesRead, callbackWrapper);
+            return _handler->ReadResponse(writeStream, bytesRead, callbackWrapper);
+        }
     }
 }

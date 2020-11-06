@@ -19,6 +19,7 @@ namespace CefSharp
 {
     namespace Internals
     {
+        //TODO: Rename to DragData and move from internals as this is used publically
         public ref class CefDragDataWrapper : public IDragData, public CefWrapper
         {
         private:
