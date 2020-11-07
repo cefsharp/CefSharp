@@ -240,20 +240,18 @@ namespace CefSharp
 
         if (!String::IsNullOrEmpty(manifestJson))
         {
-            cef_json_parser_error_t errorCode;
             CefString errorMessage;
             auto value = CefParseJSONAndReturnError(StringUtils::ToNative(manifestJson),
                 cef_json_parser_options_t::JSON_PARSER_ALLOW_TRAILING_COMMAS,
-                errorCode,
                 errorMessage);
 
-            if (errorCode == cef_json_parser_error_t::JSON_NO_ERROR)
+            if (value.get())
             {
                 manifest = value->GetDictionary();
             }
             else
             {
-                throw gcnew Exception("Unable to parse JSON ErrorCode:" + Convert::ToString((int)errorCode) + "; ErrorMessage:" + StringUtils::ToClr(errorMessage));
+                throw gcnew Exception("Unable to parse JSON - ErrorMessage:" + StringUtils::ToClr(errorMessage));
             }
         }
 
