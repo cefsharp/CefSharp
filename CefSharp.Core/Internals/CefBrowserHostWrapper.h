@@ -136,12 +136,6 @@ namespace CefSharp
                 void set(int val);
             }
 
-            virtual property bool MouseCursorChangeDisabled
-            {
-                bool get();
-                void set(bool val);
-            }
-
             virtual property bool WindowRenderingDisabled
             {
                 bool get();

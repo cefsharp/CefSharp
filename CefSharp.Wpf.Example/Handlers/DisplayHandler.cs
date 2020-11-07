@@ -2,8 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Structs;
+using System;
 using System.Collections.Generic;
-
+using CursorType = CefSharp.Enums.CursorType;
 using Size = CefSharp.Structs.Size;
 
 namespace CefSharp.Wpf.Example.Handlers
@@ -17,6 +19,11 @@ namespace CefSharp.Wpf.Example.Handlers
         }
 
         bool IDisplayHandler.OnAutoResize(IWebBrowser chromiumWebBrowser, IBrowser browser, Size newSize)
+        {
+            return false;
+        }
+
+        bool IDisplayHandler.OnCursorChange(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
             return false;
         }

@@ -2,6 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Enums;
+using CefSharp.Structs;
+using System;
 using System.Collections.Generic;
 
 using Size = CefSharp.Structs.Size;
@@ -28,6 +31,17 @@ namespace CefSharp
         /// <param name="newSize">will be the desired size in view coordinates</param>
         /// <returns>Return true if the resize was handled or false for default handling. </returns>
         bool OnAutoResize(IWebBrowser chromiumWebBrowser, IBrowser browser, Size newSize);
+
+        /// <summary>
+        /// Called when the browser's cursor has changed. . 
+        /// </summary>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="cursor">If type is Custom then customCursorInfo will be populated with the custom cursor information</param>
+        /// <param name="type">cursor type</param>
+        /// <param name="customCursorInfo">custom cursor Information</param>
+        /// <returns>Return true if the cursor change was handled or false for default handling.</returns>
+        bool OnCursorChange(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr cursor, CursorType type, CursorInfo customCursorInfo);
 
         /// <summary>
         /// Called when the page title changes.

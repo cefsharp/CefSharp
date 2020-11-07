@@ -161,13 +161,12 @@ namespace CefSharp
                 _renderWebBrowser->OnPaint((CefSharp::PaintElementType)type, CefSharp::Structs::Rect(r.x, r.y, r.width, r.height), IntPtr((void *)buffer), width, height);
             };
 
-            virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,
-                const CefCursorInfo& custom_cursor_info) OVERRIDE
+            virtual DECL void InternalCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, cef_cursor_type_t type, const CefCursorInfo& custom_cursor_info) OVERRIDE
             {
                 CursorInfo customCursorInfo;
 
                 //Only create the struct when we actually have a custom cursor
-                if (type == CursorType::CT_CUSTOM)
+                if (type == cef_cursor_type_t::CT_CUSTOM)
                 {
                     Point hotspot = Point(custom_cursor_info.hotspot.x, custom_cursor_info.hotspot.y);
                     Size size = Size(custom_cursor_info.size.width, custom_cursor_info.size.height);
@@ -175,7 +174,7 @@ namespace CefSharp
                 }
 
                 _renderWebBrowser->OnCursorChange((IntPtr)cursor, (CefSharp::Enums::CursorType)type, customCursorInfo);
-            };
+            }
 
             virtual DECL bool StartDragging(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData,
                 CefRenderHandler::DragOperationsMask allowedOps, int x, int y) OVERRIDE

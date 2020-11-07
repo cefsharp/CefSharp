@@ -296,6 +296,47 @@ namespace CefSharp
             return handler->OnAutoResize(_browserControl, browserWrapper, CefSharp::Structs::Size(new_size.width, new_size.height));
         }
 
+        bool ClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, cef_cursor_type_t type, const CefCursorInfo& custom_cursor_info)
+        {
+            auto handler = _browserControl->DisplayHandler;
+
+            if (handler == nullptr)
+            {
+                InternalCursorChange(browser, cursor, type, custom_cursor_info);
+
+                return false;
+            }            
+
+            CursorInfo customCursorInfo;
+
+            //TODO: this is duplicated in RenderClientAdapter::InternalCursorChange
+            //Only create the struct when we actually have a custom cursor
+            if (type == cef_cursor_type_t::CT_CUSTOM)
+            {
+                Point hotspot = Point(custom_cursor_info.hotspot.x, custom_cursor_info.hotspot.y);
+                Size size = Size(custom_cursor_info.size.width, custom_cursor_info.size.height);
+                customCursorInfo = CursorInfo(IntPtr((void*)custom_cursor_info.buffer), hotspot, custom_cursor_info.image_scale_factor, size);
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            auto handled = handler->OnCursorChange(_browserControl, browserWrapper, (IntPtr)cursor, (CefSharp::Enums::CursorType)type, customCursorInfo);
+
+            if (handled)
+            {
+                return true;
+            }
+
+            InternalCursorChange(browser, cursor, type, custom_cursor_info);
+
+            return false;
+        };
+
+        void ClientAdapter::InternalCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, cef_cursor_type_t type, const CefCursorInfo& custom_cursor_info)
+        {
+
+        }
+
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());

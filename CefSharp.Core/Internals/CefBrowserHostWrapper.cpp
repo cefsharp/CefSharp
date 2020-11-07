@@ -631,20 +631,6 @@ void CefBrowserHostWrapper::WindowlessFrameRate::set(int val)
     _browserHost->SetWindowlessFrameRate(val);
 }
 
-bool CefBrowserHostWrapper::MouseCursorChangeDisabled::get()
-{
-    ThrowIfDisposed();
-
-    return _browserHost->IsMouseCursorChangeDisabled();
-}
-
-void CefBrowserHostWrapper::MouseCursorChangeDisabled::set(bool val)
-{
-    ThrowIfDisposed();
-
-    _browserHost->SetMouseCursorChangeDisabled(val);
-}
-
 bool CefBrowserHostWrapper::WindowRenderingDisabled::get()
 {
     ThrowIfDisposed();
