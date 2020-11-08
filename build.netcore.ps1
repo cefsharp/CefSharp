@@ -290,6 +290,21 @@ function WriteVersionToAppveyor
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
+function WriteVersionToNugetTargets
+{
+	$Filename = Join-Path $WorkingDir NuGet\PackageReference\CefSharp.Common.NETCore.targets
+	
+	Write-Diagnostic  "Write Version ($RedistVersion) to $Filename"
+	$Regex1  = '" Version=".*"';
+	$Replace = '" Version="' + $RedistVersion + '"';
+	
+	$RunTimeJsonData = Get-Content -Encoding UTF8 $Filename
+	$NewString = $RunTimeJsonData -replace $Regex1, $Replace
+	
+	$Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+	[System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
 
 DownloadNuget
@@ -297,6 +312,7 @@ DownloadNuget
 WriteAssemblyVersion
 WriteVersionToShfbproj
 WriteVersionToAppveyor
+WriteVersionToNugetTargets
 
 WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
 WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
