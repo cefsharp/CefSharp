@@ -7,7 +7,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Version>85.3.130</Version>
 		<Authors>The CefSharp Authors</Authors>
-		<Description>The CefSharp Chromium-based browser component. The CefSharp.Wpf.HwndHost.ChromiumWebBrowser control is a drop in replacement for the CefSharp.Wpf.ChromiumWebBrowser that's rougly equivilent to hosting the WinFroms version in WPF.</Description>
+		<Description>The CefSharp Chromium-based browser component. The CefSharp.Wpf.HwndHost.ChromiumWebBrowser control is a drop in replacement for the CefSharp.Wpf.ChromiumWebBrowser that's rougly equivilent to hosting the WinForms version in WPF.</Description>
 		<Copyright>Copyright © The CefSharp Authors</Copyright>
 		<RepositoryUrl>https://github.com/cefsharp/CefSharp.Wpf.HwndHost/</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/cefsharp/CefSharp.Wpf.HwndHost/</PackageProjectUrl>
