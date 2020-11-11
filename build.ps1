@@ -11,9 +11,9 @@
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 
-# Extract the current CEF Redist version from the CefSharp.Core\packages.CefSharp.Core.config file
+# Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file
 # Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\packages.CefSharp.Core.config'))
+$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config'))
 $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
 
 function Write-Diagnostic 
@@ -406,7 +406,7 @@ WriteVersionToManifest "CefSharp.WinForms.Example\app.manifest"
 WriteVersionToManifest "CefSharp.Wpf.Example\app.manifest"
 
 WriteVersionToResourceFile "CefSharp.BrowserSubprocess.Core\Resource.rc"
-WriteVersionToResourceFile "CefSharp.Core\Resource.rc"
+WriteVersionToResourceFile "CefSharp.Core.Runtime\Resource.rc"
 
 switch -Exact ($Target)
 {

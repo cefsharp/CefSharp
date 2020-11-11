@@ -27,8 +27,6 @@
     </releaseNotes>
   </metadata>
   <files>
-    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
-         solve this using a .props file instead. -->
     <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.dll" target="lib\net452" />
     <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.xml" target="lib\net452" />
     <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.pdb" target="lib\net452" />
