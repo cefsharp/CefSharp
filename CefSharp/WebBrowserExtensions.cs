@@ -1014,7 +1014,7 @@ namespace CefSharp
         /// When the promise either trigger then/catch this returned Task will be completed.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
-        /// <param name="chromiumWebBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="frame">The <seealso cref="IFrame"/> instance this method extends.</param>
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">(Optional) The timeout after which the Javascript code execution should be aborted.</param>
         /// <returns>
@@ -1039,11 +1039,11 @@ namespace CefSharp
 
                 if (char.IsLower(internalJsFunctionName[0]))
                 {
-                    internalJsFunctionName += "sendEvalScriptResponse";
+                    internalJsFunctionName += ".sendEvalScriptResponse";
                 }
                 else
                 {
-                    internalJsFunctionName += "SendEvalScriptResponse";
+                    internalJsFunctionName += ".SendEvalScriptResponse";
                 }
             }
             var promiseHandlerScript = "let innerImmediatelyInvokedFuncExpression = (function() { " + script + " })(); Promise.resolve(innerImmediatelyInvokedFuncExpression).then((val) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, true, val)).catch ((reason) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, false, String(reason))); return 'CefSharpDefEvalScriptRes';";

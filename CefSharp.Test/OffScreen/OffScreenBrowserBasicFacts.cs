@@ -201,6 +201,29 @@ namespace CefSharp.Test.OffScreen
         }
 
         [Theory]
+        [InlineData("lowerCustom")]
+        [InlineData("UpperCustom")]
+        public async Task CanEvaluateScriptAsPromiseAsyncJavascriptBindingApiGlobalObjectName(string rootObjName)
+        {
+            using (var browser = new ChromiumWebBrowser("http://www.google.com", automaticallyCreateBrowser:false))
+            {
+                browser.JavascriptObjectRepository.Settings.JavascriptBindingApiGlobalObjectName = rootObjName;
+                browser.CreateBrowser();
+
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+
+                var javascriptResponse = await browser.EvaluateScriptAsPromiseAsync("return new Promise(function(resolve, reject) { resolve(42); });");
+
+                Assert.True(javascriptResponse.Success);
+
+                Assert.Equal("42", javascriptResponse.Result.ToString());
+            }
+        }
+
+        [Theory]
         [InlineData("return 42;", true, "42")]
         [InlineData("return new Promise(function(resolve, reject) { resolve(42); });", true, "42")]
         [InlineData("return new Promise(function(resolve, reject) { reject('reject test'); });", false, "reject test")]
