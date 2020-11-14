@@ -18,7 +18,7 @@ namespace CefSharp
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
         /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
         /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread. 
-        /// (The exception to this is when your running with settings.MultiThreadedMessageLoop = false, then they'll be the same thread).
+        /// (The exception to this is when you're running with settings.MultiThreadedMessageLoop = false, then they'll be the same thread).
         /// </summary>
         event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
 
@@ -27,7 +27,7 @@ namespace CefSharp
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
         /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang.
         /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread. 
-        /// (The exception to this is when your running with settings.MultiThreadedMessageLoop = false, then they'll be the same thread).
+        /// (The exception to this is when you're running with settings.MultiThreadedMessageLoop = false, then they'll be the same thread).
         /// </summary>
         event EventHandler<StatusMessageEventArgs> StatusMessage;
 
