@@ -17,7 +17,14 @@
     </dependencies>
   </metadata>
   <files>
-    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
+    <file src="..\CefSharp\bin\Release\CefSharp.dll" target="lib\net452"/>
+    <file src="..\CefSharp\bin\Release\CefSharp.xml" target="lib\net452"/>
+    <file src="..\CefSharp\bin\Release\CefSharp.pdb" target="lib\net452"/>
+	<file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="lib\net452"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.xml" target="lib\net452"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.pdb" target="lib\net452"/>
+	
+	<!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
          solve this using a .props file instead. -->
 
     <!-- Common CefSharp stuff (shared between both WPF, Offscreen and WinForms) -->
@@ -28,15 +35,7 @@
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.xml" target="CefSharp\x64"/>
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.pdb" target="CefSharp\x64"/>
-  
-    <file src="..\CefSharp\bin\x86\Release\CefSharp.dll" target="CefSharp\x86"/>
-    <file src="..\CefSharp\bin\x86\Release\CefSharp.xml" target="CefSharp\x86"/>
-    <file src="..\CefSharp\bin\x86\Release\CefSharp.pdb" target="CefSharp\x86"/>
-  
-    <file src="..\CefSharp\bin\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
-    <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x64"/>
-    <file src="..\CefSharp\bin\x64\Release\CefSharp.pdb" target="CefSharp\x64"/>
-  
+    
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
@@ -51,8 +50,9 @@
     <file src="CefSharp.Common.targets" target="build" />
   
     <file src="..\CefSharp\**\*.cs" target="src\CefSharp" />
-    <file src="..\CefSharp.Core\**\*.h" target="src\CefSharp.Core" />
-    <file src="..\CefSharp.Core\**\*.cpp" target="src\CefSharp.Core" />
+	<file src="..\CefSharp.Core\**\*.cs" target="src\CefSharp.Core" />
+    <file src="..\CefSharp.Core.Runtime\**\*.h" target="src\CefSharp.Core.Runtime" />
+    <file src="..\CefSharp.Core.Runtime\**\*.cpp" target="src\CefSharp.Core.Runtime" />
     <file src="..\CefSharp.BrowserSubprocess.Core\**\*.h" target="src\CefSharp.BrowserSubprocess.Core" exclude="packages\**;obj\**" />
     <file src="..\CefSharp.BrowserSubprocess.Core\**\*.cpp" target="src\CefSharp.BrowserSubprocess.Core" exclude="packages\**;obj\**" />
     <file src="..\CefSharp.BrowserSubprocess\**\*.cs" target="src\CefSharp.BrowserSubprocess" exclude="packages\**;obj\**" />
