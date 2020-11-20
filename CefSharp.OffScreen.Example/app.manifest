@@ -7,7 +7,7 @@
   xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <assemblyIdentity version="85.3.121.0" name="CefSharp.OffScreen.Example.app" />
+  <assemblyIdentity version="86.0.240.0" name="CefSharp.OffScreen.Example.app" />
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
