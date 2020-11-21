@@ -22,7 +22,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{7B495581-2271-4F41-9476-ACB86E8C864F}</ProjectGuid>
-    <AssemblyName>CefSharp.Core</AssemblyName>
+    <AssemblyName>CefSharp.Core.Runtime</AssemblyName>
     <RootNamespace>CefSharp</RootNamespace>
     <Keyword>NetCoreCProj</Keyword>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -76,7 +76,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp.Core</TargetName>
+    <TargetName>CefSharp.Core.Runtime</TargetName>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -86,7 +86,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp.Core</TargetName>
+    <TargetName>CefSharp.Core.Runtime</TargetName>
     <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
@@ -97,7 +97,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp.Core</TargetName>
+    <TargetName>CefSharp.Core.Runtime</TargetName>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
     <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
@@ -107,7 +107,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp.Core</TargetName>
+    <TargetName>CefSharp.Core.Runtime</TargetName>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
     <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
@@ -356,7 +356,7 @@
     <Manifest Include="Assembly.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.CefSharp.Core.netcore.config" />
+    <None Include="packages.CefSharp.Core.Runtime.netcore.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
