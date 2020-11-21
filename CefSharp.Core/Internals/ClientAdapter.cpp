@@ -13,7 +13,7 @@
 #include "CefCertificateCallbackWrapper.h"
 #include "CefContextMenuParamsWrapper.h"
 #include "CefDownloadItemCallbackWrapper.h"
-#include "CefDragDataWrapper.h"
+#include "DragData.h"
 #include "CefFileDialogCallbackWrapper.h"
 #include "CefFrameWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
@@ -972,7 +972,7 @@ namespace CefSharp
                 return false;
             }
 
-            CefDragDataWrapper dragDataWrapper(dragData);
+            DragData dragDataWrapper(dragData);
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
             return handler->OnDragEnter(_browserControl, browserWrapper, %dragDataWrapper, (CefSharp::Enums::DragOperationsMask)mask);

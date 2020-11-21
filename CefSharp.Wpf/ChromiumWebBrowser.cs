@@ -1581,7 +1581,7 @@ namespace CefSharp.Wpf
 
                 //DoDragDrop will fire this handler for internally sourced Drag/Drop operations
                 //we use the existing IDragData (cloned copy)
-                var dragData = currentDragData ?? e.GetDragDataWrapper();
+                var dragData = currentDragData ?? e.GetDragData();
 
                 browser.GetHost().DragTargetDragEnter(dragData, mouseEvent, effect);
                 browser.GetHost().DragTargetDragOver(mouseEvent, effect);

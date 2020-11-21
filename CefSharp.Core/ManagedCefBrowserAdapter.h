@@ -14,7 +14,6 @@
 #include "BrowserSettings.h"
 #include "RequestContext.h"
 #include "Internals/ClientAdapter.h"
-#include "Internals/CefDragDataWrapper.h"
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/JavascriptCallbackFactory.h"
 

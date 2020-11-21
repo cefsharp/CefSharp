@@ -11,7 +11,7 @@
 #include "Cef.h"
 #include "CefExtensionWrapper.h"
 #include "CefTaskScheduler.h"
-#include "CefDragDataWrapper.h"
+#include "DragData.h"
 #include "CefRunFileDialogCallbackAdapter.h"
 #include "CefPdfPrintCallbackWrapper.h"
 #include "CefNavigationEntryVisitorAdapter.h"
@@ -24,7 +24,7 @@ void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent 
 {
     ThrowIfDisposed();
 
-    auto dragDataWrapper = static_cast<CefDragDataWrapper^>(dragData);
+    auto dragDataWrapper = static_cast<CefSharp::Core::DragData^>(dragData);
     dragDataWrapper->ResetFileContents(); // Recommended by documentation to reset before calling DragEnter
     _browserHost->DragTargetDragEnter(static_cast<CefRefPtr<CefDragData>>(dragDataWrapper), GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
 }

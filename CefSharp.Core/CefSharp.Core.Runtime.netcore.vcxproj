@@ -284,7 +284,7 @@
     <ClInclude Include="Internals\CefCallbackWrapper.h" />
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h" />
     <ClInclude Include="Internals\CefDownloadItemCallbackWrapper.h" />
-    <ClInclude Include="Internals\CefDragDataWrapper.h" />
+    <ClInclude Include="DragData.h" />
     <ClInclude Include="Internals\CefFileDialogCallbackWrapper.h" />
     <ClInclude Include="Internals\CefFrameWrapper.h" />
     <ClInclude Include="Internals\CefMenuModelWrapper.h" />

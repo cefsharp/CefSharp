@@ -124,9 +124,6 @@
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefDragDataWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\CefTaskScheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -337,6 +334,9 @@
     <ClInclude Include="RequestContextBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DragData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="BrowserSubprocess\SelfHost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -353,6 +353,6 @@
     <Manifest Include="Assembly.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.CefSharp.Core.netcore.config" />
+    <None Include="packages.CefSharp.Core.Runtime.netcore.config" />
   </ItemGroup>
 </Project>

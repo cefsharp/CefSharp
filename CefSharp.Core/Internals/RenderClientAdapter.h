@@ -7,11 +7,13 @@
 #include "Stdafx.h"
 #include <msclr/lock.h>
 
+#include "DragData.h"
 #include "ClientAdapter.h"
 #include "CefValueWrapper.h"
 
 using namespace msclr;
 using namespace CefSharp::Structs;
+using namespace CefSharp::Core;
 
 namespace CefSharp
 {
@@ -179,7 +181,7 @@ namespace CefSharp
             virtual DECL bool StartDragging(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData,
                 CefRenderHandler::DragOperationsMask allowedOps, int x, int y) OVERRIDE
             {
-                CefDragDataWrapper dragDataWrapper(dragData);
+                DragData dragDataWrapper(dragData);
                 return _renderWebBrowser->StartDragging(%dragDataWrapper, (CefSharp::Enums::DragOperationsMask)allowedOps, x, y);
             }
 

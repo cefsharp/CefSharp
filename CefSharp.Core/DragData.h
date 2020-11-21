@@ -8,25 +8,24 @@
 
 #include "include/cef_drag_data.h"
 
-#include "CefWrapper.h"
-#include "CefImageWrapper.h"
-#include "CefWriteHandlerWrapper.h"
+#include "Internals\CefWrapper.h"
+#include "Internals\CefImageWrapper.h"
+#include "Internals\CefWriteHandlerWrapper.h"
 
 using namespace std;
 using namespace System::IO;
 
 namespace CefSharp
 {
-    namespace Internals
+    namespace Core
     {
-        //TODO: Rename to DragData and move from internals as this is used publically
-        public ref class CefDragDataWrapper : public IDragData, public CefWrapper
+        public ref class DragData : public IDragData, public CefWrapper
         {
         private:
             MCefRefPtr<CefDragData> _wrappedDragData;
 
         internal:
-            CefDragDataWrapper(CefRefPtr<CefDragData> &dragData) :
+            DragData(CefRefPtr<CefDragData> &dragData) :
                 _wrappedDragData(dragData)
             {
                 IsReadOnly = dragData->IsReadOnly();
@@ -36,14 +35,14 @@ namespace CefSharp
                 IsLink = dragData->IsLink();
             }
 
-            !CefDragDataWrapper()
+            !DragData()
             {
                 _wrappedDragData = nullptr;
             }
 
-            ~CefDragDataWrapper()
+            ~DragData()
             {
-                this->!CefDragDataWrapper();
+                this->!DragData();
 
                 _disposed = true;
             }
@@ -66,17 +65,16 @@ namespace CefSharp
 
             virtual IDragData^ Clone()
             {
-                return gcnew CefDragDataWrapper(_wrappedDragData->Clone());
+                return gcnew DragData(_wrappedDragData->Clone());
             }
 
             ///
             // Create a new CefDragData object.
             ///
             /*--cef()--*/
-            static CefDragDataWrapper^ Create()
+            static IDragData^ Create()
             {
-                CefRefPtr<CefDragData> cefDragData = CefDragData::Create();
-                return gcnew CefDragDataWrapper(cefDragData);
+                return gcnew DragData(CefDragData::Create());
             }
 
             //TODO: Vector is a pointer, so can potentially be updated (items may be possibly removed)

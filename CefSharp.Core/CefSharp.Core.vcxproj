@@ -264,6 +264,7 @@
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="BrowserSubprocess\SelfHost.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="DragData.h" />
     <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
     <ClInclude Include="Internals\CefRegistrationWrapper.h" />
     <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
@@ -290,7 +291,6 @@
     <ClInclude Include="Internals\CefCallbackWrapper.h" />
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h" />
     <ClInclude Include="Internals\CefDownloadItemCallbackWrapper.h" />
-    <ClInclude Include="Internals\CefDragDataWrapper.h" />
     <ClInclude Include="Internals\CefFileDialogCallbackWrapper.h" />
     <ClInclude Include="Internals\CefFrameWrapper.h" />
     <ClInclude Include="Internals\CefMenuModelWrapper.h" />
