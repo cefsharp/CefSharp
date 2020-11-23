@@ -32,9 +32,9 @@ namespace CefSharp.Internals
 
         public void Enqueue(MethodInvocation methodInvocation)
         {
-            methodRunnerQueueTaskFactory.StartNew(() =>
+            methodRunnerQueueTaskFactory.StartNew(async () =>
             {
-                var result = ExecuteMethodInvocation(methodInvocation);
+                var result = await ExecuteMethodInvocation(methodInvocation).ConfigureAwait(false);
 
                 var handler = MethodInvocationComplete;
                 if (!cancellationTokenSource.Token.IsCancellationRequested && handler != null)
@@ -44,7 +44,7 @@ namespace CefSharp.Internals
             }, cancellationTokenSource.Token);
         }
 
-        private MethodInvocationResult ExecuteMethodInvocation(MethodInvocation methodInvocation)
+        private async Task<MethodInvocationResult> ExecuteMethodInvocation(MethodInvocation methodInvocation)
         {
             object result = null;
             string exception;
@@ -54,10 +54,13 @@ namespace CefSharp.Internals
             //make sure we don't throw exceptions in the executor task
             try
             {
-                success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
+                var value = await repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray()).ConfigureAwait(false);
+                success = value.Item1;
+                result = value.Item2;
+                exception = value.Item3;
 
                 //We don't support Tasks by default
-                if (success && result != null && (typeof(Task).IsAssignableFrom(result.GetType())))
+                if (success && result is Task)
                 {
                     //Use StringBuilder to improve the formatting/readability of the error message
                     //I'm sure there's a better way I just cannot remember of the top of my head so going

@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Threading.Tasks;
 
 namespace CefSharp.ModelBinding
 {
@@ -12,6 +13,11 @@ namespace CefSharp.ModelBinding
     /// </summary>
     public interface IMethodInterceptor
     {
+        /// <summary>
+        /// Indicates that the method interceptor needs to be ran asynchronously. 
+        /// </summary>
+        bool IsAsync { get; }
+
         /// <summary>
         /// Called before the method is invokved. You are now responsible for evaluating
         /// the function and returning the result.
@@ -29,6 +35,25 @@ namespace CefSharp.ModelBinding
         ///   return result;
         ///  }
         /// </example>
+        /// 
         object Intercept(Func<object[], object> method, object[] parameters, string methodName);
+        /// <summary>
+        /// Called before the method is invokved. You are now responsible for evaluating
+        /// the function and returning the result asynchronously.
+        /// </summary>
+        /// <param name="method">A Func that represents the method to be called</param>
+        /// <param name="parameters">paramaters to be passed to <paramref name="method"/></param>
+        /// <param name="methodName">Name of the method to be called</param>
+        /// <returns>The method result</returns>
+        /// <example>
+        /// 
+        /// Task{object} IMethodInterceptor.Intercept(Func&lt;object[], object&gt; method, object[] parameters, string methodName)
+        /// {
+        ///   object result = method(parameters);
+        ///   Debug.WriteLine("Called " + methodName);
+        ///   return result;
+        ///  }
+        /// </example>
+        Task<object> InterceptAsync(Func<object[], object> method, object[] parameters, string methodName);
     }
 }

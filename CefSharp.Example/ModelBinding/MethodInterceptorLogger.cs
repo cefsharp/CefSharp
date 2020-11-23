@@ -4,17 +4,25 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using CefSharp.ModelBinding;
 
 namespace CefSharp.Example.ModelBinding
 {
     public class MethodInterceptorLogger : IMethodInterceptor
     {
+        public bool IsAsync => false;
+
         object IMethodInterceptor.Intercept(Func<object[], object> method, object[] parameters, string methodName)
         {
-            object result = method(parameters);
+            var result = method(parameters);
             Debug.WriteLine("Called " + methodName);
             return result;
+        }
+
+        public Task<object> InterceptAsync(Func<object[], object> method, object[] parameters, string methodName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

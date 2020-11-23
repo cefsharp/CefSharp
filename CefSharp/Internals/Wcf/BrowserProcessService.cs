@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace CefSharp.Internals.Wcf
 {
@@ -22,12 +23,8 @@ namespace CefSharp.Internals.Wcf
 
         public BrowserProcessResponse CallMethod(long objectId, string name, object[] parameters)
         {
-            object result;
-            string exception;
-
-            var success = javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result, out exception);
-
-            return new BrowserProcessResponse { Success = success, Result = result, Message = exception };
+            var value = javascriptObjectRepository.TryCallMethod(objectId, name, parameters).GetResultSafely();
+            return new BrowserProcessResponse { Success = value.Item1, Result = value.Item2, Message = value.Item3 };
         }
 
         public BrowserProcessResponse GetProperty(long objectId, string name)
