@@ -7,7 +7,9 @@ assignees: ''
 
 ---
 
-Please ask your questions on https://stackoverflow.com/questions/tagged/cefsharp
+Please use one of the following to ask your questions:
+- https://stackoverflow.com/questions/tagged/cefsharp
+- https://github.com/cefsharp/Questions-and-Support/issues
 
 ---
 
