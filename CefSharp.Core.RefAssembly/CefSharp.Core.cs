@@ -334,7 +334,7 @@ namespace CefSharp.BrowserSubprocess
     public partial class SelfHost
     {
         public SelfHost() { }
-        public static int MainNetCore(string[] args) { throw null; }
+        public static int Main(string[] args) { throw null; }
     }
 }
 namespace CefSharp.Internals

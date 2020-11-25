@@ -41,7 +41,7 @@ namespace CefSharp
             /// with a value of -1. If called for a recognized secondary process it will block until the process should exit
             /// and then return the process exit code.
             /// </returns
-            static int MainNetCoreSelfHost(array<String^>^ args)
+            static int MainSelfHost(array<String^>^ args)
             {
                 auto subProcess = gcnew BrowserSubprocessExecutable();
                 return subProcess->Main(args, nullptr);

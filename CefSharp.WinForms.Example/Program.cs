@@ -17,7 +17,7 @@ namespace CefSharp.WinForms.Example
         [STAThread]
         public static int Main(string[] args)
         {
-            const bool selfHostSubProcess = true;
+            const bool selfHostSubProcess = false;
 
             Cef.EnableHighDPISupport();
 
@@ -25,7 +25,7 @@ namespace CefSharp.WinForms.Example
             //Features like JSB, EvaluateScriptAsync, custom schemes require the CefSharp.BrowserSubprocess to function
             if (selfHostSubProcess)
             {
-                var exitCode = CefSharp.BrowserSubprocess.SelfHost.MainNetCore(args);
+                var exitCode = CefSharp.BrowserSubprocess.SelfHost.Main(args);
 
                 if (exitCode >= 0)
                 {
