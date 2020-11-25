@@ -86,6 +86,9 @@
     <ClCompile Include="RequestContextBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BrowserSubprocess\SelfHost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -332,6 +335,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RequestContextBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrowserSubprocess\SelfHost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
