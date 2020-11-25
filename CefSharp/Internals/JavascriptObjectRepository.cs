@@ -255,20 +255,20 @@ namespace CefSharp.Internals
             return false;
         }
 
-        bool IJavascriptObjectRepositoryInternal.TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
+        Task<Tuple<bool, object, string>> IJavascriptObjectRepositoryInternal.TryCallMethod(long objectId, string name, object[] parameters)
         {
-            return TryCallMethod(objectId, name, parameters, out result, out exception);
+            return TryCallMethod(objectId, name, parameters);
         }
 
-        protected virtual bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
+        protected virtual async Task<Tuple<bool, object, string>> TryCallMethod(long objectId, string name, object[] parameters)
         {
-            exception = "";
-            result = null;
+            var exception = "";
+            object result = null;
             JavascriptObject obj;
 
             if (!objects.TryGetValue(objectId, out obj))
             {
-                return false;
+                return new Tuple<bool, object, string>(false, result, exception);
             }
 
             var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
@@ -351,7 +351,16 @@ namespace CefSharp.Internals
                     }
                     else
                     {
-                        result = obj.MethodInterceptor.Intercept((p) => method.Function(obj.Value, p), parameters, method.ManagedName);
+                        if (obj.MethodInterceptor.IsAsync)
+                        {
+                            result = await obj.MethodInterceptor.InterceptAsync((p) => method.Function(obj.Value, p), parameters, method.ManagedName).ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            // ReSharper disable once MethodHasAsyncOverload
+                            result = obj.MethodInterceptor.Intercept((p) => method.Function(obj.Value, p), parameters, method.ManagedName);
+                        }
+                        
                     }
                 }
                 catch (Exception e)
@@ -374,7 +383,7 @@ namespace CefSharp.Internals
                     result = jsObject;
                 }
 
-                return true;
+                return new Tuple<bool, object, string>(true, result, exception);
             }
             catch (TargetInvocationException e)
             {
@@ -385,8 +394,7 @@ namespace CefSharp.Internals
             {
                 exception = ex.ToString();
             }
-
-            return false;
+            return new Tuple<bool, object, string>(false, result, exception);
         }
 
         bool IJavascriptObjectRepositoryInternal.TryGetProperty(long objectId, string name, out object result, out string exception)

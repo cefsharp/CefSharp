@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -13,6 +14,35 @@ namespace CefSharp
     /// </summary>
     public static class AsyncExtensions
     {
+        internal static T GetResultSafely<T>(this Task<T> task)
+        {
+            if (SynchronizationContext.Current == null)
+            {
+                return task.Result;
+            }
+
+            if (task.IsCompleted)
+            {
+                return task.Result;
+            }
+
+            var tcs = new TaskCompletionSource<T>();
+            task.ContinueWith(t =>
+            {
+                var ex = t.Exception;
+                if (ex != null)
+                {
+                    tcs.SetException(ex);
+                }
+                else
+                {
+                    tcs.SetResult(t.Result);
+                }
+            }, TaskScheduler.Default);
+
+            return tcs.Task.Result;
+        }
+
         /// <summary>
         /// Deletes all cookies that matches all the provided parameters asynchronously.
         /// If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.

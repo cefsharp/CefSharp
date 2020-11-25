@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,9 +34,10 @@ namespace CefSharp.Internals
 
         public void Enqueue(MethodInvocation methodInvocation)
         {
-            var task = new Task(() =>
+          
+            var task = new Task(async () =>
             {
-                var result = ExecuteMethodInvocation(methodInvocation);
+                var result = await ExecuteMethodInvocation(methodInvocation).ConfigureAwait(false);
 
                 //If the call failed or returned null then we'll fire the event immediately
                 if (!result.Success || result.Result == null)
@@ -44,52 +46,16 @@ namespace CefSharp.Internals
                 }
                 else
                 {
-                    var resultType = result.Result.GetType();
-
-                    //If the returned type is Task then we'll ContinueWith and perform the processing then.
-                    if (typeof(Task).IsAssignableFrom(resultType))
+                    if (result.Result is Task)
                     {
-                        var resultTask = (Task)result.Result;
-
-                        if (resultType.IsGenericType)
-                        {
-                            resultTask.ContinueWith((t) =>
-                            {
-                                if (t.Status == TaskStatus.RanToCompletion)
-                                {
-                                    //We use some reflection to get the Result
-                                    //If someone has a better way of doing this then please submit a PR
-                                    result.Result = resultType.GetProperty("Result").GetValue(resultTask);
-                                }
-                                else
-                                {
-                                    result.Success = false;
-                                    result.Result = null;
-                                    var aggregateException = t.Exception;
-                                    //TODO: Add support for passing a more complex message
-                                    // to better represent the Exception
-                                    if (aggregateException.InnerExceptions.Count == 1)
-                                    {
-                                        result.Message = aggregateException.InnerExceptions[0].ToString();
-                                    }
-                                    else
-                                    {
-                                        result.Message = t.Exception.ToString();
-                                    }
-                                }
-
-                                OnMethodInvocationComplete(result, cancellationTokenSource.Token);
-                            },
-                            cancellationTokenSource.Token, TaskContinuationOptions.None, TaskScheduler.Default);
-                        }
-                        else
-                        {
-                            //If it's not a generic Task then it doesn't have a return object
-                            //So we'll just set the result to null and continue on
-                            result.Result = null;
-
-                            OnMethodInvocationComplete(result, cancellationTokenSource.Token);
-                        }
+                        
+                        var builder = new System.Text.StringBuilder();
+                        builder.AppendLine("Your method returned a Task which can cause deadlocks.");
+                        builder.AppendLine("Please attach a interceptor marked as async and properly await your results.");
+                        result.Success = false;
+                        result.Result = null;
+                        result.Message = builder.ToString();
+                        OnMethodInvocationComplete(result, cancellationTokenSource.Token);
                     }
                     else
                     {
@@ -102,7 +68,7 @@ namespace CefSharp.Internals
             task.Start(TaskScheduler.Default);
         }
 
-        private MethodInvocationResult ExecuteMethodInvocation(MethodInvocation methodInvocation)
+        private async Task<MethodInvocationResult> ExecuteMethodInvocation(MethodInvocation methodInvocation)
         {
             object result = null;
             string exception;
@@ -112,7 +78,11 @@ namespace CefSharp.Internals
             //make sure we don't throw exceptions in the executor task
             try
             {
-                success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
+                var value = await repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray()).ConfigureAwait(false);
+
+                success = value.Item1;
+                result = value.Item2;
+                exception = value.Item3;
             }
             catch (Exception e)
             {
