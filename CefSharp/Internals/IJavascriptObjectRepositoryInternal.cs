@@ -5,12 +5,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
     public interface IJavascriptObjectRepositoryInternal : IJavascriptObjectRepository
     {
-        bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception);
+        Task<Tuple<bool, object, string>> TryCallMethod(long objectId, string name, object[] parameters);
         bool TryGetProperty(long objectId, string name, out object result, out string exception);
         bool TrySetProperty(long objectId, string name, object value, out string exception);
         bool IsBrowserInitialized { get; set; }
