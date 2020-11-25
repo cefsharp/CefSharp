@@ -31,6 +31,29 @@ namespace CefSharp.Example.JavascriptBinding
             return divident / divisor;
         }
 
+        public string DivWithBlockingTaskCall(int dividend, int divisor)
+        {
+            var taskToWaitOn = ExecuteTaskBeforeDivision(dividend, divisor);
+            taskToWaitOn.Wait();
+            return taskToWaitOn.Result;
+        }
+
+        private async Task<string> ExecuteTaskBeforeDivision(int dividend, int divisor)
+        {
+            await RunAsync();
+            return (dividend / divisor).ToString();
+        }
+
+        private Task RunAsync()
+        {
+            return Task.Run(() => Run());
+        }
+
+        private void Run()
+        {
+            Debug.WriteLine("AsyncBoundObject Run execution.");
+        }
+
         public string Hello(string name)
         {
             return "Hello " + name;

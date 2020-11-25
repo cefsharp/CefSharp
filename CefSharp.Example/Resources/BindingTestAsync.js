@@ -61,6 +61,20 @@
         });
     });
 
+    QUnit.test("Async call (Div with Blocking Task 16 / 2):", function (assert)
+    {
+        var asyncCallback = assert.async();
+
+        boundAsync.divWithBlockingTaskCall(16, 2).then(function (actualResult)
+        {
+            const expectedResult = 8
+
+            assert.equal(expectedResult, actualResult, "Divide 16 / 2 resulted in " + expectedResult);
+
+            asyncCallback();
+        });
+    });
+
     QUnit.test("Async call (Divide 16 /0)", function (assert)
     {
         var asyncCallback = assert.async();
