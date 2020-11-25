@@ -229,6 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="BrowserSubprocess\SelfHost.cpp" />
     <ClCompile Include="CookieManager.cpp" />
     <ClCompile Include="Internals\CefBrowserHostWrapper.cpp" />
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
@@ -261,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
+    <ClInclude Include="BrowserSubprocess\SelfHost.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
     <ClInclude Include="Internals\CefRegistrationWrapper.h" />

@@ -152,7 +152,7 @@ namespace CefSharp
         public ManagedCefBrowserAdapter(CefSharp.Internals.IWebBrowserInternal webBrowserInternal, bool offScreenRendering) { }
         public virtual bool IsDisposed { get { throw null; } }
         public virtual CefSharp.Internals.IJavascriptCallbackFactory JavascriptCallbackFactory { get { throw null; } }
-        public virtual CefSharp.Internals.JavascriptObjectRepository JavascriptObjectRepository { get { throw null; } }
+        public virtual CefSharp.Internals.IJavascriptObjectRepositoryInternal JavascriptObjectRepository { get { throw null; } }
         public virtual CefSharp.Internals.IMethodRunnerQueue MethodRunnerQueue { get { throw null; } }
         public void CreateBrowser(CefSharp.IWindowInfo windowInfo, CefSharp.BrowserSettings browserSettings, CefSharp.RequestContext requestContext, string address) { }
         public void Dispose() { }
@@ -327,6 +327,14 @@ namespace CefSharp
         public virtual void SetAsChild(System.IntPtr parentHandle, int left, int top, int right, int bottom) { }
         public virtual void SetAsPopup(System.IntPtr parentHandle, string windowName) { }
         public virtual void SetAsWindowless(System.IntPtr parentHandle) { }
+    }
+}
+namespace CefSharp.BrowserSubprocess
+{
+    public partial class SelfHost
+    {
+        public SelfHost() { }
+        public static int Main(string[] args) { throw null; }
     }
 }
 namespace CefSharp.Internals
