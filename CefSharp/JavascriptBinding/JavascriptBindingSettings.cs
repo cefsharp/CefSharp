@@ -11,6 +11,7 @@ namespace CefSharp.JavascriptBinding
     /// </summary>
     public class JavascriptBindingSettings : FreezableBase
     {
+        private bool alwaysInterceptAsynchronously;
         private bool legacyBindingEnabled;
         private string jsBindingGlobalObjectName;
 
@@ -57,6 +58,23 @@ namespace CefSharp.JavascriptBinding
                 ThrowIfFrozen();
 
                 legacyBindingEnabled = value;
+            }
+        }
+
+        /// <summary>
+        /// When using an <see cref="CefSharp.ModelBinding.IAsyncMethodInterceptor"/>
+        /// the <see cref="CefSharp.ModelBinding.IAsyncMethodInterceptor.InterceptAsync(System.Func{object[], object}, object[], string)"/>
+        /// method is call for all methods (the default is to call InterceptAsync only for methods that return a Task).
+        /// This only applies when <see cref="BindingOptions.MethodInterceptor"/> is of type <see cref="CefSharp.ModelBinding.IAsyncMethodInterceptor"/>
+        /// </summary>
+        public bool AlwaysInterceptAsynchronously
+        {
+            get { return alwaysInterceptAsynchronously; }
+            set
+            {
+                ThrowIfFrozen();
+
+                alwaysInterceptAsynchronously = value;
             }
         }
 

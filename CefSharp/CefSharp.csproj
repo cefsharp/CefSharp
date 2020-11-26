@@ -146,10 +146,12 @@
     <Compile Include="Internals\Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
+    <Compile Include="JavascriptBinding\TryCallMethodResult.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
     <Compile Include="JavascriptBinding\CamelCaseJavascriptNameConverter.cs" />
     <Compile Include="JavascriptBinding\IJavascriptNameConverter.cs" />
     <Compile Include="JavascriptBinding\LegacyCamelCaseJavascriptNameConverter.cs" />
+    <Compile Include="ModelBinding\IAsyncMethodInterceptor.cs" />
     <Compile Include="Preferences\SetPreferenceResponse.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
@@ -361,6 +363,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Internals\Partial\Readme.md" />
+    <None Include="ModelBinding\Readme.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

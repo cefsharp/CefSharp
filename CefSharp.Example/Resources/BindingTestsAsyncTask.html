@@ -40,6 +40,34 @@
                 });
             });
 
+            QUnit.test("WaitBeforeReturnAsync:", function (assert)
+            {
+                let asyncCallback = assert.async();
+
+                boundAsync.waitBeforeReturnAsync(2000).then(function (actualResult)
+                {
+                    const expectedResult = null;
+
+                    assert.equal(expectedResult, actualResult, "Return null");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("ReturnHello:", function (assert)
+            {
+                let asyncCallback = assert.async();
+
+                const expectedResult = 'Hello CefSharp';
+
+                boundAsync.hello('CefSharp').then(function (actualResult)
+                {
+                    assert.equal(expectedResult, actualResult, "Return Hello CefSharp");
+
+                    asyncCallback();
+                });
+            });
+
             QUnit.test("VoidReturnAsync Test:", function (assert)
             {
                 let asyncCallback = assert.async();

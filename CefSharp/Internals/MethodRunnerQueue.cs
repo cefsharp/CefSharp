@@ -32,9 +32,9 @@ namespace CefSharp.Internals
 
         public void Enqueue(MethodInvocation methodInvocation)
         {
-            Task.Factory.StartNew(async () =>
+            Task.Factory.StartNew(() =>
             {
-                var result = await ExecuteMethodInvocation(methodInvocation).ConfigureAwait(false);
+                var result = ExecuteMethodInvocation(methodInvocation);
 
                 var handler = MethodInvocationComplete;
                 if (!cancellationTokenSource.Token.IsCancellationRequested && handler != null)
@@ -44,9 +44,9 @@ namespace CefSharp.Internals
             }, cancellationTokenSource.Token, TaskCreationOptions.HideScheduler, taskScheduler);
         }
 
-        private async Task<MethodInvocationResult> ExecuteMethodInvocation(MethodInvocation methodInvocation)
+        private MethodInvocationResult ExecuteMethodInvocation(MethodInvocation methodInvocation)
         {
-            object result = null;
+            object returnValue = null;
             string exception;
             var success = false;
             var nameConverter = repository.NameConverter;
@@ -54,13 +54,13 @@ namespace CefSharp.Internals
             //make sure we don't throw exceptions in the executor task
             try
             {
-                var value = await repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray()).ConfigureAwait(false);
-                success = value.Item1;
-                result = value.Item2;
-                exception = value.Item3;
+                var result = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray());
+                success = result.Success;
+                returnValue = result.ReturnValue;
+                exception = result.Exception;
 
                 //We don't support Tasks by default
-                if (success && result is Task)
+                if (success && returnValue != null && (typeof(Task).IsAssignableFrom(returnValue.GetType())))
                 {
                     //Use StringBuilder to improve the formatting/readability of the error message
                     //I'm sure there's a better way I just cannot remember of the top of my head so going
@@ -74,7 +74,6 @@ namespace CefSharp.Internals
                     result = null;
                     exception = builder.ToString();
                 }
-
             }
             catch (Exception e)
             {
@@ -87,7 +86,7 @@ namespace CefSharp.Internals
                 CallbackId = methodInvocation.CallbackId,
                 FrameId = methodInvocation.FrameId,
                 Message = exception,
-                Result = result,
+                Result = returnValue,
                 Success = success,
                 NameConverter = nameConverter
             };

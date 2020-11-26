@@ -196,6 +196,13 @@ namespace CefSharp.Example.JavascriptBinding
             Debug.WriteLine("Delayed 1 second.");
         }
 
+        public async Task WaitBeforeReturnAsync(int milliseconds)
+        {
+            await Task.Delay(milliseconds);
+
+            Debug.WriteLine("Delayed in ms:" + milliseconds);
+        }
+
         public async Task<string> AsyncWaitTwoSeconds(string str)
         {
             await Task.Delay(2000);
