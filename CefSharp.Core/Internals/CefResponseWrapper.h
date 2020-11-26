@@ -180,6 +180,21 @@ namespace CefSharp
                 }
             }
 
+            virtual String^ GetHeaderByName(String^ name)
+            {
+                ThrowIfDisposed();
+
+                return StringUtils::ToClr(_response->GetHeaderByName(StringUtils::ToNative(name)));
+            }
+
+            virtual void SetHeaderByName(String^ name, String^ value, bool overwrite)
+            {
+                ThrowIfDisposed();
+                ThrowIfReadOnly();
+
+                _response->SetHeaderByName(StringUtils::ToNative(name), StringUtils::ToNative(value), overwrite);
+            }
+
             void ThrowIfReadOnly()
             {
                 if (_response->IsReadOnly())
