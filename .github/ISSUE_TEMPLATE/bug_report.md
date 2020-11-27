@@ -66,8 +66,8 @@ Delete this line and everything above, and then fill in the details below.
 
 - **Does this problem also occur in the `CEF` Sample Application**
     - Download one of the following:
-    - For x86 download http://opensource.spotify.com/cefbuilds/cef_binary_84.4.1%2Bgfdc7504%2Bchromium-84.0.4147.105_windows32_client.tar.bz2
-    - For x64 download http://opensource.spotify.com/cefbuilds/cef_binary_84.4.1%2Bgfdc7504%2Bchromium-84.0.4147.105_windows64_client.tar.bz2
+    - For x86 download https://cef-builds.spotifycdn.com/cef_binary_86.0.24%2Bg85e79d4%2Bchromium-86.0.4240.198_windows32_client.tar.bz2
+    - For x64 download https://cef-builds.spotifycdn.com/cef_binary_86.0.24%2Bg85e79d4%2Bchromium-86.0.4240.198_windows64_client.tar.bz2
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
