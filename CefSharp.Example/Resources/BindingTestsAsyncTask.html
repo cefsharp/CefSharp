@@ -78,12 +78,18 @@
 
                 let p1 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
                 let p2 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                let p3 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                let p4 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
 
-                Promise.all([p1, p2]).then(function (values)
+                Promise.all([p1, p2, p3, p4]).then(function (values)
                 {
                     let lineNo = getRandomInt(0, values[0].length);
+                    let lineNo2 = getRandomInt(0, values[0].length);
                     assert.equal(values[0].length, values[1].length, "Line Count " + values[0].length)
                     assert.equal(values[0][lineNo], values[1][lineNo], "Return string " + values[0][lineNo]);
+
+                    assert.equal(values[2].length, values[3].length, "Line Count " + values[2].length)
+                    assert.equal(values[2][lineNo2], values[3][lineNo2], "Return string " + values[2][lineNo2]);
 
                     asyncCallback();
                 });
