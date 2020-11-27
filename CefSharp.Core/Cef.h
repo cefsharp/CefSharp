@@ -42,6 +42,7 @@ namespace CefSharp
         /// CEF API Doc https://magpcss.org/ceforum/apidocs3/projects/(default)/(_globals).html
         /// This class cannot be inherited.
         /// </summary>
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class Cef sealed
         {
         private:

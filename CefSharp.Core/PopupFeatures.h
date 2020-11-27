@@ -16,6 +16,7 @@ namespace CefSharp
         /// Class representing popup window features.
         /// </summary>
         /// <exclude />
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class PopupFeatures : IPopupFeatures
         {
         private:

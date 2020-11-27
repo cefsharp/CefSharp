@@ -20,6 +20,7 @@ namespace CefSharp
         /// WPF/WinForms/OffScreen each have their own CefSettings implementation that sets
         /// relevant settings e.g. OffScreen starts with audio muted.
         /// </summary>
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class CefSettingsBase abstract
         {
         private:

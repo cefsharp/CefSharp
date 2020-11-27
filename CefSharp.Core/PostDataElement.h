@@ -18,6 +18,7 @@ namespace CefSharp
     namespace Core
     {
 #endif
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class PostDataElement : public IPostDataElement, public CefWrapper
         {
             MCefRefPtr<CefPostDataElement> _postDataElement;

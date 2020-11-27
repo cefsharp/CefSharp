@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 namespace CefSharp.Core
 {
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class BrowserSettings : CefSharp.IBrowserSettings
     {
         public BrowserSettings() { }
@@ -50,6 +51,7 @@ namespace CefSharp.Core
         protected virtual void Dispose(bool A_0) { }
         ~BrowserSettings() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public sealed partial class Cef
     {
         public Cef() { }
@@ -96,6 +98,7 @@ namespace CefSharp.Core
         public static void VisitWebPluginInfo(CefSharp.IWebPluginInfoVisitor visitor) { }
         public static void WaitForBrowsersToClose() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public abstract partial class CefSettingsBase : System.IDisposable
     {
         public CefSettingsBase() { }
@@ -134,6 +137,7 @@ namespace CefSharp.Core
         public void RegisterScheme(CefSharp.CefCustomScheme cefCustomScheme) { }
         public void SetOffScreenRenderingBestPerformanceArgs() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class DragData : CefSharp.Internals.CefWrapper, CefSharp.IDragData
     {
         internal DragData() { }
@@ -161,6 +165,7 @@ namespace CefSharp.Core
         public virtual long GetFileContents(System.IO.Stream stream) { throw null; }
         public virtual void ResetFileContents() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class ManagedCefBrowserAdapter : CefSharp.Internals.IBrowserAdapter, System.IDisposable
     {
         public ManagedCefBrowserAdapter(CefSharp.Internals.IWebBrowserInternal webBrowserInternal, bool offScreenRendering) { }
@@ -176,6 +181,7 @@ namespace CefSharp.Core
         public virtual void OnAfterBrowserCreated(CefSharp.IBrowser browser) { }
         public virtual void Resize(int width, int height) { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public sealed partial class NativeMethodWrapper
     {
         public NativeMethodWrapper() { }
@@ -185,6 +191,7 @@ namespace CefSharp.Core
         public static void SetWindowParent(System.IntPtr child, System.IntPtr newParent) { }
         public static void SetWindowPosition(System.IntPtr handle, int x, int y, int width, int height) { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class PopupFeatures : CefSharp.IPopupFeatures, System.IDisposable
     {
         internal PopupFeatures() { }
@@ -200,6 +207,7 @@ namespace CefSharp.Core
         protected virtual void Dispose(bool A_0) { }
         ~PopupFeatures() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class PostData : CefSharp.Internals.CefWrapper, CefSharp.IPostData
     {
         public PostData() { }
@@ -214,6 +222,7 @@ namespace CefSharp.Core
         public virtual bool RemoveElement(CefSharp.IPostDataElement element) { throw null; }
         public virtual void RemoveElements() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class PostDataElement : CefSharp.Internals.CefWrapper, CefSharp.IPostDataElement
     {
         public PostDataElement() { }
@@ -226,6 +235,7 @@ namespace CefSharp.Core
         ~PostDataElement() { }
         public virtual void SetToEmpty() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class Request : CefSharp.Internals.CefWrapper, CefSharp.IRequest
     {
         public Request() { }
@@ -248,6 +258,7 @@ namespace CefSharp.Core
         public virtual void SetHeaderByName(string name, string value, bool overwrite) { }
         public virtual void SetReferrer(string referrerUrl, CefSharp.ReferrerPolicy policy) { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class RequestContext : CefSharp.Internals.CefWrapper, CefSharp.IRequestContext
     {
         public RequestContext() { }
@@ -284,6 +295,7 @@ namespace CefSharp.Core
         public virtual System.Threading.Tasks.Task<CefSharp.ResolveCallbackResult> ResolveHostAsync(System.Uri origin) { throw null; }
         public virtual bool SetPreference(string name, object value, out string error) { throw null; }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class RequestContextBuilder
     {
         public RequestContextBuilder() { }
@@ -297,6 +309,7 @@ namespace CefSharp.Core
         public CefSharp.Core.RequestContextBuilder WithProxyServer(string scheme, string host, int? port) { throw null; }
         public CefSharp.Core.RequestContextBuilder WithSharedSettings(CefSharp.IRequestContext other) { throw null; }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class RequestContextSettings : System.IDisposable
     {
         public RequestContextSettings() { }
@@ -309,6 +322,7 @@ namespace CefSharp.Core
         protected virtual void Dispose(bool A_0) { }
         ~RequestContextSettings() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class UrlRequest : CefSharp.Internals.CefWrapper, CefSharp.IUrlRequest
     {
         public UrlRequest(CefSharp.IRequest request, CefSharp.IUrlRequestClient urlRequestClient) { }
@@ -320,6 +334,7 @@ namespace CefSharp.Core
         protected virtual void Dispose(bool A_0) { }
         ~UrlRequest() { }
     }
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class WindowInfo : CefSharp.IWindowInfo
     {
         public WindowInfo() { }

@@ -20,6 +20,7 @@ namespace CefSharp
         /// tested. Many of these and other settings can also configured using command-
         /// line switches.
         /// </summary>
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class BrowserSettings : IBrowserSettings
         {
         private:

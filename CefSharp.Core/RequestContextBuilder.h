@@ -17,6 +17,7 @@ namespace CefSharp
         /// <summary>
         /// Fluent style builder for creating IRequestContext instances.
         /// </summary>
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class RequestContextBuilder
         {
         private:

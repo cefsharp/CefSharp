@@ -16,6 +16,7 @@ namespace CefSharp
         /// <summary>
         /// RequestContextSettings
         /// </summary>
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class RequestContextSettings
         {
         private:

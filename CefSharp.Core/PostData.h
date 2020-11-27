@@ -25,6 +25,7 @@ namespace CefSharp
         /// Form Post Data
         /// </summary>
         /// <seealso cref="T:IPostData"/>
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class PostData : public IPostData, public CefWrapper
         {
             MCefRefPtr<CefPostData> _postData;

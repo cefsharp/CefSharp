@@ -24,6 +24,7 @@ namespace CefSharp
         // URL requests can be created on any valid CEF thread in either the browser
         // or render process. Once created the methods of the URL request object must
         // be accessed on the same thread that created it. 
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class UrlRequest : public IUrlRequest, public CefWrapper
         {
         private:

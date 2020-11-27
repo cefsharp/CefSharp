@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+//NOTE:Classes in the CefSharp.Core namespace have been hidden from intellisnse so users don't use them directly
+
 using System;
 using System.Collections.Generic;
 using System.IO;

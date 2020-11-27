@@ -19,6 +19,7 @@ namespace CefSharp
 {
     namespace Core
     {
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class DragData : public IDragData, public CefWrapper
         {
         private:

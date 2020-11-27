@@ -37,6 +37,7 @@ namespace CefSharp
         /// This will be the first request context passed into a CefBrowserHost static factory method
         /// and all other request context objects will be ignored. 
         /// </summary>
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class RequestContext : public IRequestContext, public CefWrapper
         {
         private:

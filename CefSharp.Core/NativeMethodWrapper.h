@@ -11,6 +11,7 @@ namespace CefSharp
     namespace Core
     {
         /// <exclude />
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class NativeMethodWrapper sealed
         {
         public:

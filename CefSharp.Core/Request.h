@@ -17,6 +17,7 @@ namespace CefSharp
     namespace Core
     {
 #endif
+        [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class Request : public IRequest, public CefWrapper
         {
             MCefRefPtr<CefRequest> _request;
