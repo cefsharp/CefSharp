@@ -11,7 +11,7 @@ using namespace System::Runtime::InteropServices;
 using namespace System::Security::Permissions;
 using namespace CefSharp;
 
-[assembly:AssemblyTitle("CefSharp.Core")];
+[assembly:AssemblyTitle("CefSharp.Core.Runtime")];
 [assembly:AssemblyDescription("CefSharp Core Library (VC++)")];
 [assembly:AssemblyCompany(AssemblyInfo::AssemblyCompany)];
 [assembly:AssemblyProduct(AssemblyInfo::AssemblyProduct)];

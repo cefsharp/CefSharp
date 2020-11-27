@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using CefSharp;
 
-[assembly:AssemblyTitle("CefSharp.Core")]
+[assembly:AssemblyTitle("CefSharp.Core.Runtime")]
 [assembly:AssemblyDescription("CefSharp Core Library (VC++)")]
 [assembly:AssemblyCompany(AssemblyInfo.AssemblyCompany)]
 [assembly:AssemblyProduct(AssemblyInfo.AssemblyProduct)]
