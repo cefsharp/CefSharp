@@ -168,11 +168,11 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\MCefRefPtr.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\ReportUnhandledExceptions.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\ObjectsSerialization.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\StringUtils.h" />
     <ClInclude Include="BindObjectAsyncHandler.h" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
@@ -209,8 +209,8 @@
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.cpp" />
-    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp" />
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\Serialization\ObjectsSerialization.cpp" />
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Async\JavascriptAsyncMethodCallback.cpp" />
     <ClCompile Include="Async\JavascriptAsyncMethodHandler.cpp" />

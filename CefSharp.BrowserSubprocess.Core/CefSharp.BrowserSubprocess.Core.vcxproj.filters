@@ -32,10 +32,10 @@
     <ClInclude Include="JavascriptObjectWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h">
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\MCefRefPtr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h">
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\StringUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TypeUtils.h">
@@ -56,10 +56,10 @@
     <ClInclude Include="JavascriptCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h">
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\ReportUnhandledExceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h">
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Serialization\V8Serialization.h">
@@ -77,7 +77,7 @@
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.h">
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\ObjectsSerialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Serialization\JsObjectsSerialization.h">
@@ -154,7 +154,7 @@
     <ClCompile Include="JavascriptCallbackRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp">
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Serialization\V8Serialization.cpp">
@@ -172,7 +172,7 @@
     <ClCompile Include="Async\JavascriptAsyncMethodCallback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.cpp">
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\Serialization\ObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Serialization\JsObjectsSerialization.cpp">

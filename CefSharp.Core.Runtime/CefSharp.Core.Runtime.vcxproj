@@ -78,7 +78,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp.Core</TargetName>
+    <TargetName>CefSharp.Core.Runtime</TargetName>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -88,7 +88,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp.Core</TargetName>
+    <TargetName>CefSharp.Core.Runtime</TargetName>
     <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
@@ -99,7 +99,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp.Core</TargetName>
+    <TargetName>CefSharp.Core.Runtime</TargetName>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
@@ -109,7 +109,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp.Core</TargetName>
+    <TargetName>CefSharp.Core.Runtime</TargetName>
     <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
     <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
@@ -230,7 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="BrowserSubprocess\SelfHost.cpp" />
     <ClCompile Include="CookieManager.cpp" />
     <ClCompile Include="Internals\CefBrowserHostWrapper.cpp" />
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
@@ -263,7 +262,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
-    <ClInclude Include="BrowserSubprocess\SelfHost.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="DragData.h" />
     <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
@@ -359,7 +357,7 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.CefSharp.Core.config" />
+    <None Include="packages.CefSharp.Core.Runtime.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -86,9 +86,6 @@
     <ClCompile Include="RequestContextBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BrowserSubprocess\SelfHost.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -340,9 +337,6 @@
     <ClInclude Include="DragData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BrowserSubprocess\SelfHost.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internals\CefFrameWrapper.h">
@@ -353,6 +347,6 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.CefSharp.Core.config" />
+    <None Include="packages.CefSharp.Core.Runtime.config" />
   </ItemGroup>
 </Project>

@@ -682,11 +682,7 @@ IRequestContext^ CefBrowserHostWrapper::RequestContext::get()
 {
     ThrowIfDisposed();
 
-#ifdef NETCOREAPP
     return gcnew CefSharp::Core::RequestContext(_browserHost->GetRequestContext());
-#else
-    return gcnew CefSharp::RequestContext(_browserHost->GetRequestContext());
-#endif
 }
 
 CefMouseEvent CefBrowserHostWrapper::GetCefMouseEvent(MouseEvent mouseEvent)

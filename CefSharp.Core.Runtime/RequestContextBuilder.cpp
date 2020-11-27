@@ -8,10 +8,8 @@
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         IRequestContext^ RequestContextBuilder::Create()
         {
             if (_otherContext != nullptr)
@@ -128,7 +126,5 @@ namespace CefSharp
 
             return this;
         }
-#ifdef NETCOREAPP
     }
-#endif
 }

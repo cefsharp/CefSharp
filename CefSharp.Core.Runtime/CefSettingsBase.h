@@ -11,10 +11,8 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         /// <summary>
         /// Initialization settings. Many of these and other settings can also configured using command-line switches.
         /// WPF/WinForms/OffScreen each have their own CefSettings implementation that sets
@@ -441,7 +439,5 @@ namespace CefSharp
                 }
             }
         };
-#ifdef NETCOREAPP
     }
-#endif
 }

@@ -8,10 +8,8 @@
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         /// <summary>
         /// Class representing popup window features.
         /// </summary>
@@ -83,7 +81,5 @@ namespace CefSharp
                 bool get() { return _popupFeatures->scrollbarsVisible == 1; }
             }
         };
-#ifdef NETCOREAPP
     }
-#endif
 }

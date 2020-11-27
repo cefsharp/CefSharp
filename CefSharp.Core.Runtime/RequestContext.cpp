@@ -31,10 +31,8 @@ using namespace System::Runtime::InteropServices;
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         bool RequestContext::IsSame(IRequestContext^ context)
         {
             ThrowIfDisposed();
@@ -270,7 +268,5 @@ namespace CefSharp
                 CefPostTask(TID_UI, base::Bind(&CefRequestContext::LoadExtension, _requestContext.get(), StringUtils::ToNative(rootDirectory), manifest, extensionHandler));
             }
         }
-#ifdef NETCOREAPP
     }
-#endif
 }

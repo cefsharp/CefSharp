@@ -5,8 +5,8 @@
 #pragma once
 
 #include "include/cef_v8.h"
-#include "..\CefSharp.Core\Internals\Messaging\Messages.h"
-#include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
+#include "..\CefSharp.Core.Runtime\Internals\Messaging\Messages.h"
+#include "..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h"
 #include "Serialization\V8Serialization.h"
 
 using namespace System;

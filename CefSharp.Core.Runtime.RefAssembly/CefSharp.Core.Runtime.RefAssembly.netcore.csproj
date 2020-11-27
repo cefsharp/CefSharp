@@ -22,7 +22,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.Runtime.netcore.vcxproj">
+        <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj">
           <Private>false</Private>
         </ProjectReference>
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj">
@@ -41,14 +41,14 @@
     Haven't found a nice way to determine the Platform (resolves as AnyCPU) 
     -->
     <Choose>
-        <When Condition="Exists('$(SolutionDir)CefSharp.Core\bin.netcore\x64\$(Configuration)\CefSharp.Core.dll')">
+        <When Condition="Exists('$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.dll')">
             <PropertyGroup>
-                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core\bin.netcore\x64\$(Configuration)\CefSharp.Core.runtime.dll</IntermediateTargetPath>
+                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
             </PropertyGroup>
         </When>
         <Otherwise>
             <PropertyGroup>
-                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core\bin.netcore\win32\$(Configuration)\CefSharp.Core.runtime.dll</IntermediateTargetPath>
+                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\win32\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
             </PropertyGroup>
         </Otherwise>
     </Choose>

@@ -10,10 +10,8 @@ using namespace System::Text;
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         UrlRequestFlags Request::Flags::get()
         {
             ThrowIfDisposed();
@@ -166,11 +164,7 @@ namespace CefSharp
                 auto postData = _request->GetPostData();
                 if (postData.get())
                 {
-#ifdef NETCOREAPP
                     _postData = gcnew CefSharp::Core::PostData(postData);
-#else
-                    _postData = gcnew CefSharp::PostData(postData);
-#endif
                 }
             }
             return _postData;
@@ -182,11 +176,7 @@ namespace CefSharp
 
             ThrowIfReadOnly();
 
-#ifdef NETCOREAPP
             _request->SetPostData((CefSharp::Core::PostData^)postData);
-#else
-            _request->SetPostData((CefSharp::PostData^)postData);
-#endif
         }
 
         bool Request::IsReadOnly::get()
@@ -219,7 +209,5 @@ namespace CefSharp
 
             _request->SetHeaderByName(StringUtils::ToNative(name), StringUtils::ToNative(value), overwrite);
         }
-#ifdef NETCOREAPP
     }
-#endif
 }

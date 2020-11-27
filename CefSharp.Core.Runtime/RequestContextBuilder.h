@@ -10,10 +10,8 @@ using namespace CefSharp::Handler;
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         /// <summary>
         /// Fluent style builder for creating IRequestContext instances.
         /// </summary>
@@ -134,8 +132,6 @@ namespace CefSharp
             /// <returns>Returns RequestContextBuilder instance</returns>
             RequestContextBuilder^ WithSharedSettings(IRequestContext^ other);
         };
-#ifdef NETCOREAPP
     }
-#endif
 }
 

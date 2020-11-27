@@ -9,10 +9,8 @@
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         /// <summary>
         /// RequestContextSettings
         /// </summary>
@@ -116,7 +114,5 @@ namespace CefSharp
                 void set(bool value) { _settings->ignore_certificate_errors = value; }
             }
         };
-#ifdef NETCOREAPP
     }
-#endif
 }

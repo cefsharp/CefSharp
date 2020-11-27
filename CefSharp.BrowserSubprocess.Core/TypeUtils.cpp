@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
-#include ".\..\CefSharp.Core\Internals\StringUtils.h"
+#include ".\..\CefSharp.Core.Runtime\Internals\StringUtils.h"
 #include "TypeUtils.h"
 
 using namespace System::Collections::Generic;

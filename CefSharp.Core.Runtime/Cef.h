@@ -33,10 +33,8 @@ using namespace msclr::interop;
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         /// <summary>
         /// Global CEF methods are exposed through this class. e.g. CefInitalize maps to Cef.Initialize
         /// CEF API Doc https://magpcss.org/ceforum/apidocs3/projects/(default)/(_globals).html
@@ -904,8 +902,6 @@ namespace CefSharp
                 Thread::Sleep(50);
             }
         };
-#ifdef NETCOREAPP
     }
-#endif
 }
 #endif  // CEFSHARP_CORE_CEF_H_

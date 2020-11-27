@@ -13,10 +13,8 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class Request : public IRequest, public CefWrapper
         {
@@ -82,7 +80,5 @@ namespace CefSharp
             virtual String^ GetHeaderByName(String^ name);
             virtual void SetHeaderByName(String^ name, String^ value, bool overwrite);
         };
-#ifdef NETCOREAPP
     }
-#endif
 }

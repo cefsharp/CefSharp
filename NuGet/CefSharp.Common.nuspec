@@ -21,13 +21,13 @@
          solve this using a .props file instead. -->
 
     <!-- Common CefSharp stuff (shared between both WPF, Offscreen and WinForms) -->
-    <file src="..\CefSharp.Core\bin\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>
-    <file src="..\CefSharp.Core\bin\Win32\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
-    <file src="..\CefSharp.Core\bin\Win32\Release\CefSharp.Core.pdb" target="CefSharp\x86"/>
+    <file src="..\CefSharp.Core.Runtime\bin\Win32\Release\CefSharp.Core.Runtime.dll" target="CefSharp\x86"/>
+    <file src="..\CefSharp.Core.Runtime\bin\Win32\Release\CefSharp.Core.Runtime.xml" target="CefSharp\x86"/>
+    <file src="..\CefSharp.Core.Runtime\bin\Win32\Release\CefSharp.Core.Runtime.pdb" target="CefSharp\x86"/>
   
-    <file src="..\CefSharp.Core\bin\x64\Release\CefSharp.Core.dll" target="CefSharp\x64"/>
-    <file src="..\CefSharp.Core\bin\x64\Release\CefSharp.Core.xml" target="CefSharp\x64"/>
-    <file src="..\CefSharp.Core\bin\x64\Release\CefSharp.Core.pdb" target="CefSharp\x64"/>
+    <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.dll" target="CefSharp\x64"/>
+    <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.xml" target="CefSharp\x64"/>
+    <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.pdb" target="CefSharp\x64"/>
   
     <file src="..\CefSharp\bin\x86\Release\CefSharp.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp\bin\x86\Release\CefSharp.xml" target="CefSharp\x86"/>

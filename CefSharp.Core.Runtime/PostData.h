@@ -17,10 +17,8 @@ using namespace System::Collections::ObjectModel;
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         /// <summary>
         /// Form Post Data
         /// </summary>
@@ -236,7 +234,5 @@ namespace CefSharp
                 }
             }
         };
-#ifdef NETCOREAPP
     }
-#endif
 }

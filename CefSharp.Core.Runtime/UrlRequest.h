@@ -15,10 +15,8 @@
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         // Class used to make a URL request. URL requests are not associated with
         // a browser instance so no CefClient callbacks will be executed.
         // URL requests can be created on any valid CEF thread in either the browser
@@ -95,7 +93,5 @@ namespace CefSharp
                 UrlRequestStatus get();
             }
         };
-#ifdef NETCOREAPP
     }
-#endif
 }

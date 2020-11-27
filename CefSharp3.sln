@@ -54,7 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{A23AA466
 		NuGet\Readme.txt = NuGet\Readme.txt
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.Core", "CefSharp.Core\CefSharp.Core.vcxproj", "{7B495581-2271-4F41-9476-ACB86E8C864F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.Core.Runtime", "CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj", "{7B495581-2271-4F41-9476-ACB86E8C864F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp", "CefSharp\CefSharp.csproj", "{A55848CC-10E7-40CB-ADDB-04740B16DD43}"
 EndProject

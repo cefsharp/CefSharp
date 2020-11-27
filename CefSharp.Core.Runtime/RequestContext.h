@@ -20,10 +20,8 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         /// <summary>
         /// A request context provides request handling for a set of related browser objects.
         /// A request context is specified when creating a new browser object via the CefBrowserHost
@@ -412,8 +410,6 @@ namespace CefSharp
             /// <param name="handler">handle events related to browser extensions</param>
             virtual void LoadExtension(String^ rootDirectory, String^ manifestJson, IExtensionHandler^ handler);
         };
-#ifdef NETCOREAPP
     }
-#endif
 }
 #endif  // CEFSHARP_CORE_REQUESTCONTEXT_H_

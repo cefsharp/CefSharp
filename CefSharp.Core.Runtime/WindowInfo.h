@@ -10,10 +10,8 @@
 
 namespace CefSharp
 {
-#ifdef NETCOREAPP
     namespace Core
     {
-#endif
         [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
         public ref class WindowInfo : public IWindowInfo
         {
@@ -214,7 +212,5 @@ namespace CefSharp
                 _windowInfo->SetAsWindowless((HWND)parentHandle.ToPointer());
             }
         };
-#ifdef NETCOREAPP
     }
-#endif
 }
