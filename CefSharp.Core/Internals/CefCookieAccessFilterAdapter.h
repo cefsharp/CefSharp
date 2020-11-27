@@ -12,6 +12,8 @@
 #include "CefFrameWrapper.h"
 #include "CefBrowserWrapper.h"
 
+using namespace CefSharp::Core;
+
 namespace CefSharp
 {
     namespace Internals

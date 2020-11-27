@@ -11,6 +11,7 @@
 
 namespace CefSharp
 {
+    //TODO: No longer possible for users to create a CookieManager, can be made private now
     /// <exclude />
     public ref class CookieManager : public ICookieManager
     {

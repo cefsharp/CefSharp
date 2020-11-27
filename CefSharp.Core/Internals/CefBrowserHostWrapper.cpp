@@ -20,6 +20,8 @@
 #include "RequestContext.h"
 #include "WindowInfo.h"
 
+using namespace CefSharp::Core;
+
 void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations)
 {
     ThrowIfDisposed();
@@ -680,7 +682,11 @@ IRequestContext^ CefBrowserHostWrapper::RequestContext::get()
 {
     ThrowIfDisposed();
 
+#ifdef NETCOREAPP
+    return gcnew CefSharp::Core::RequestContext(_browserHost->GetRequestContext());
+#else
     return gcnew CefSharp::RequestContext(_browserHost->GetRequestContext());
+#endif
 }
 
 CefMouseEvent CefBrowserHostWrapper::GetCefMouseEvent(MouseEvent mouseEvent)

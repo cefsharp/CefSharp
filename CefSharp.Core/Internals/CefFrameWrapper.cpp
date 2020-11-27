@@ -15,6 +15,7 @@
 #include "Internals\Messaging\Messages.h"
 #include "Internals\CefURLRequestClientAdapter.h" 
 
+using namespace CefSharp::Core;
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
 

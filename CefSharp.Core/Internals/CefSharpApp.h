@@ -13,6 +13,8 @@
 #include "CefSchemeHandlerFactoryAdapter.h"
 #include "Internals\CefSchemeRegistrarWrapper.h"
 
+using namespace CefSharp::Core;
+
 namespace CefSharp
 {
     namespace Internals

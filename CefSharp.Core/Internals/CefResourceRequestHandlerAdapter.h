@@ -18,6 +18,8 @@
 #include "CefRequestCallbackWrapper.h"
 #include "CefCookieAccessFilterAdapter.h"
 
+using namespace CefSharp::Core;
+
 namespace CefSharp
 {
     namespace Internals

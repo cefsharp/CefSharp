@@ -14,112 +14,119 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-    public ref class PostDataElement : public IPostDataElement, public CefWrapper
+#ifdef NETCOREAPP
+    namespace Core
     {
-        MCefRefPtr<CefPostDataElement> _postDataElement;
-    internal:
-        PostDataElement(CefRefPtr<CefPostDataElement> postDataElement) :
-            _postDataElement(postDataElement)
+#endif
+        public ref class PostDataElement : public IPostDataElement, public CefWrapper
         {
-
-        }
-
-        !PostDataElement()
-        {
-            _postDataElement = nullptr;
-        }
-
-        ~PostDataElement()
-        {
-            this->!PostDataElement();
-
-            _disposed = true;
-        }
-
-        operator CefRefPtr<CefPostDataElement>()
-        {
-            if (this == nullptr)
+            MCefRefPtr<CefPostDataElement> _postDataElement;
+        internal:
+            PostDataElement(CefRefPtr<CefPostDataElement> postDataElement) :
+                _postDataElement(postDataElement)
             {
-                return NULL;
+
             }
-            return _postDataElement.get();
-        }
 
-    public:
-        PostDataElement()
-        {
-            _postDataElement = CefPostDataElement::Create();
-        }
-
-        virtual property bool IsReadOnly
-        {
-            bool get()
+            !PostDataElement()
             {
-                ThrowIfDisposed();
-
-                return _postDataElement->IsReadOnly();
+                _postDataElement = nullptr;
             }
-        }
 
-        virtual property String^ File
-        {
-            String^ get()
+            ~PostDataElement()
             {
-                ThrowIfDisposed();
+                this->!PostDataElement();
 
-                return StringUtils::ToClr(_postDataElement->GetFile());
+                _disposed = true;
             }
-            void set(String^ val)
+
+            operator CefRefPtr<CefPostDataElement>()
             {
-                ThrowIfDisposed();
-
-                _postDataElement->SetToFile(StringUtils::ToNative(val));
-            }
-        }
-
-        virtual void SetToEmpty()
-        {
-            ThrowIfDisposed();
-
-            _postDataElement->SetToEmpty();
-        }
-
-        virtual property PostDataElementType Type
-        {
-            PostDataElementType get()
-            {
-                ThrowIfDisposed();
-
-                return (PostDataElementType)_postDataElement->GetType();
-            }
-        }
-
-        virtual property cli::array<Byte>^ Bytes
-        {
-            cli::array<Byte>^ get()
-            {
-                ThrowIfDisposed();
-
-                auto byteCount = _postDataElement->GetBytesCount();
-                if (byteCount == 0)
+                if (this == nullptr)
                 {
-                    return nullptr;
+                    return NULL;
                 }
-
-                auto bytes = gcnew cli::array<Byte>(byteCount);
-                pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
-
-                _postDataElement->GetBytes(byteCount, static_cast<void*>(src));
-
-                return bytes;
+                return _postDataElement.get();
             }
-            void set(cli::array<Byte>^ val)
+
+        public:
+            PostDataElement()
+            {
+                _postDataElement = CefPostDataElement::Create();
+            }
+
+            virtual property bool IsReadOnly
+            {
+                bool get()
+                {
+                    ThrowIfDisposed();
+
+                    return _postDataElement->IsReadOnly();
+                }
+            }
+
+            virtual property String^ File
+            {
+                String^ get()
+                {
+                    ThrowIfDisposed();
+
+                    return StringUtils::ToClr(_postDataElement->GetFile());
+                }
+                void set(String^ val)
+                {
+                    ThrowIfDisposed();
+
+                    _postDataElement->SetToFile(StringUtils::ToNative(val));
+                }
+            }
+
+            virtual void SetToEmpty()
             {
                 ThrowIfDisposed();
 
-                pin_ptr<Byte> src = &val[0];
-                _postDataElement->SetToBytes(val->Length, static_cast<void*>(src));
+                _postDataElement->SetToEmpty();
             }
-        }
-    };
+
+            virtual property PostDataElementType Type
+            {
+                PostDataElementType get()
+                {
+                    ThrowIfDisposed();
+
+                    return (PostDataElementType)_postDataElement->GetType();
+                }
+            }
+
+            virtual property cli::array<Byte>^ Bytes
+            {
+                cli::array<Byte>^ get()
+                {
+                    ThrowIfDisposed();
+
+                    auto byteCount = _postDataElement->GetBytesCount();
+                    if (byteCount == 0)
+                    {
+                        return nullptr;
+                    }
+
+                    auto bytes = gcnew cli::array<Byte>(byteCount);
+                    pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
+
+                    _postDataElement->GetBytes(byteCount, static_cast<void*>(src));
+
+                    return bytes;
+                }
+                void set(cli::array<Byte>^ val)
+                {
+                    ThrowIfDisposed();
+
+                    pin_ptr<Byte> src = &val[0];
+                    _postDataElement->SetToBytes(val->Length, static_cast<void*>(src));
+                }
+            }
+        };
+#ifdef NETCOREAPP
+    }
+#endif
 }

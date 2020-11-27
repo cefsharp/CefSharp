@@ -296,7 +296,7 @@ namespace CefSharp.OffScreen
 
             if (browserSettings == null)
             {
-                browserSettings = new BrowserSettings(frameworkCreated: true);
+                browserSettings = new BrowserSettings(autoDispose: true);
             }
 
             if (windowInfo == null)
@@ -308,7 +308,7 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
 
             //Dispose of BrowserSettings if we created it, if user created then they're responsible
-            if (browserSettings.FrameworkCreated)
+            if (browserSettings.AutoDispose)
             {
                 browserSettings.Dispose();
             }

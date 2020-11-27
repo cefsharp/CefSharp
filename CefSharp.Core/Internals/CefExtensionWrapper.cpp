@@ -8,6 +8,8 @@
 #include "CefValueWrapper.h"
 #include "RequestContext.h"
 
+using namespace CefSharp::Core;
+
 namespace CefSharp
 {
     namespace Internals

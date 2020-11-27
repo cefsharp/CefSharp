@@ -9,6 +9,8 @@
 
 using namespace System::IO;
 
+using namespace CefSharp::Core;
+
 void CefUrlRequestClientAdapter::OnRequestComplete(CefRefPtr<CefURLRequest> request)
 {
     _client->OnRequestComplete(gcnew UrlRequest(request));

@@ -8,120 +8,127 @@
 
 namespace CefSharp
 {
-    IRequestContext^ RequestContextBuilder::Create()
+#ifdef NETCOREAPP
+    namespace Core
     {
-        if (_otherContext != nullptr)
+#endif
+        IRequestContext^ RequestContextBuilder::Create()
         {
-            return gcnew RequestContext(_otherContext, _handler);
+            if (_otherContext != nullptr)
+            {
+                return gcnew RequestContext(_otherContext, _handler);
+            }
+
+            if(_settings != nullptr)
+            {
+                return gcnew RequestContext(_settings, _handler);
+            }
+
+            return gcnew RequestContext(_handler);
         }
 
-        if(_settings != nullptr)
+        RequestContextBuilder^ RequestContextBuilder::OnInitialize(Action<IRequestContext^>^ action)
         {
-            return gcnew RequestContext(_settings, _handler);
+            if (_handler == nullptr)
+            {
+                _handler = gcnew RequestContextHandler();
+            }
+
+            _handler->OnInitialize(action);
+
+            return this;
         }
 
-        return gcnew RequestContext(_handler);
+        RequestContextBuilder^ RequestContextBuilder::WithPreference(String^ name, Object^ value)
+        {
+            if (_handler == nullptr)
+            {
+                _handler = gcnew RequestContextHandler();
+            }
+
+            _handler->SetPreferenceOnContextInitialized(name, value);
+
+            return this;
+        }
+
+        RequestContextBuilder^ RequestContextBuilder::WithProxyServer(String^ host)
+        {
+            if (_handler == nullptr)
+            {
+                _handler = gcnew RequestContextHandler();
+            }
+
+            _handler->SetProxyOnContextInitialized(host, Nullable<int>());
+
+            return this;
+        }
+
+        RequestContextBuilder^ RequestContextBuilder::WithProxyServer(String^ host, Nullable<int> port)
+        {
+            if (_handler == nullptr)
+            {
+                _handler = gcnew RequestContextHandler();
+            }
+
+            _handler->SetProxyOnContextInitialized(host, port);
+
+            return this;
+        }
+
+        RequestContextBuilder^ RequestContextBuilder::WithProxyServer(String^ scheme, String^ host, Nullable<int> port)
+        {
+            if (_handler == nullptr)
+            {
+                _handler = gcnew RequestContextHandler();
+            }
+
+            _handler->SetProxyOnContextInitialized(scheme, host, port);
+
+            return this;
+        }
+
+        RequestContextBuilder^ RequestContextBuilder::PersistUserPreferences()
+        {
+            ThrowExceptionIfContextAlreadySet();
+
+            if (_settings == nullptr)
+            {
+                _settings = gcnew RequestContextSettings();
+            }
+
+            _settings->PersistUserPreferences = true;
+
+            return this;
+        }
+
+        RequestContextBuilder^ RequestContextBuilder::WithCachePath(String^ cachePath)
+        {
+            ThrowExceptionIfContextAlreadySet();
+
+            if (_settings == nullptr)
+            {
+                _settings = gcnew RequestContextSettings();
+            }
+
+            _settings->CachePath = cachePath;
+
+            return this;
+        }
+
+        RequestContextBuilder^ RequestContextBuilder::WithSharedSettings(IRequestContext^ other)
+        {
+            if (other == nullptr)
+            {
+                throw gcnew ArgumentNullException("other");
+            }
+
+            ThrowExceptionIfCustomSettingSpecified();
+
+            _otherContext = other;
+
+            return this;
+        }
+#ifdef NETCOREAPP
     }
-
-    RequestContextBuilder^ RequestContextBuilder::OnInitialize(Action<IRequestContext^>^ action)
-    {
-        if (_handler == nullptr)
-        {
-            _handler = gcnew RequestContextHandler();
-        }
-
-        _handler->OnInitialize(action);
-
-        return this;
-    }
-
-    RequestContextBuilder^ RequestContextBuilder::WithPreference(String^ name, Object^ value)
-    {
-        if (_handler == nullptr)
-        {
-            _handler = gcnew RequestContextHandler();
-        }
-
-        _handler->SetPreferenceOnContextInitialized(name, value);
-
-        return this;
-    }
-
-    RequestContextBuilder^ RequestContextBuilder::WithProxyServer(String^ host)
-    {
-        if (_handler == nullptr)
-        {
-            _handler = gcnew RequestContextHandler();
-        }
-
-        _handler->SetProxyOnContextInitialized(host, Nullable<int>());
-
-        return this;
-    }
-
-    RequestContextBuilder^ RequestContextBuilder::WithProxyServer(String^ host, Nullable<int> port)
-    {
-        if (_handler == nullptr)
-        {
-            _handler = gcnew RequestContextHandler();
-        }
-
-        _handler->SetProxyOnContextInitialized(host, port);
-
-        return this;
-    }
-
-    RequestContextBuilder^ RequestContextBuilder::WithProxyServer(String^ scheme, String^ host, Nullable<int> port)
-    {
-        if (_handler == nullptr)
-        {
-            _handler = gcnew RequestContextHandler();
-        }
-
-        _handler->SetProxyOnContextInitialized(scheme, host, port);
-
-        return this;
-    }
-
-    RequestContextBuilder^ RequestContextBuilder::PersistUserPreferences()
-    {
-        ThrowExceptionIfContextAlreadySet();
-
-        if (_settings == nullptr)
-        {
-            _settings = gcnew RequestContextSettings();
-        }
-
-        _settings->PersistUserPreferences = true;
-
-        return this;
-    }
-
-    RequestContextBuilder^ RequestContextBuilder::WithCachePath(String^ cachePath)
-    {
-        ThrowExceptionIfContextAlreadySet();
-
-        if (_settings == nullptr)
-        {
-            _settings = gcnew RequestContextSettings();
-        }
-
-        _settings->CachePath = cachePath;
-
-        return this;
-    }
-
-    RequestContextBuilder^ RequestContextBuilder::WithSharedSettings(IRequestContext^ other)
-    {
-        if (other == nullptr)
-        {
-            throw gcnew ArgumentNullException("other");
-        }
-
-        ThrowExceptionIfCustomSettingSpecified();
-
-        _otherContext = other;
-
-        return this;
-    }
+#endif
 }

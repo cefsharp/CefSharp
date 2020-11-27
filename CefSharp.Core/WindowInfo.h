@@ -10,203 +10,210 @@
 
 namespace CefSharp
 {
-    public ref class WindowInfo : public IWindowInfo
+#ifdef NETCOREAPP
+    namespace Core
     {
-    private:
-        CefWindowInfo* _windowInfo;
-        bool _ownsPointer = false;
-
-    internal:
-        WindowInfo(CefWindowInfo* windowInfo) : _windowInfo(windowInfo)
+#endif
+        public ref class WindowInfo : public IWindowInfo
         {
+        private:
+            CefWindowInfo* _windowInfo;
+            bool _ownsPointer = false;
 
-        }
-
-        CefWindowInfo* GetWindowInfo()
-        {
-            return _windowInfo;
-        }
-
-    public:
-        WindowInfo() : _windowInfo(new CefWindowInfo())
-        {
-            _ownsPointer = true;
-        }
-
-        !WindowInfo()
-        {
-            if (_ownsPointer)
+        internal:
+            WindowInfo(CefWindowInfo* windowInfo) : _windowInfo(windowInfo)
             {
-                delete _windowInfo;
+
             }
 
-            _windowInfo = NULL;
-        }
+            CefWindowInfo* GetWindowInfo()
+            {
+                return _windowInfo;
+            }
 
-        ~WindowInfo()
-        {
-            this->!WindowInfo();
-        }
+        public:
+            WindowInfo() : _windowInfo(new CefWindowInfo())
+            {
+                _ownsPointer = true;
+            }
 
-        virtual property int X
-        {
-            int get()
+            !WindowInfo()
             {
-                return _windowInfo->x;
-            }
-            void set(int x)
-            {
-                _windowInfo->x = x;
-            }
-        }
+                if (_ownsPointer)
+                {
+                    delete _windowInfo;
+                }
 
-        virtual property int Y
-        {
-            int get()
-            {
-                return _windowInfo->y;
+                _windowInfo = NULL;
             }
-            void set(int y)
-            {
-                _windowInfo->y = y;
-            }
-        }
 
-        virtual property int Width
-        {
-            int get()
+            ~WindowInfo()
             {
-                return _windowInfo->width;
+                this->!WindowInfo();
             }
-            void set(int width)
-            {
-                _windowInfo->width = width;
-            }
-        }
 
-        virtual property int Height
-        {
-            int get()
+            virtual property int X
             {
-                return _windowInfo->height;
+                int get()
+                {
+                    return _windowInfo->x;
+                }
+                void set(int x)
+                {
+                    _windowInfo->x = x;
+                }
             }
-            void set(int height)
-            {
-                _windowInfo->height = height;
-            }
-        }
 
-        virtual property UINT32 Style
-        {
-            UINT32 get()
+            virtual property int Y
             {
-                return _windowInfo->style;
+                int get()
+                {
+                    return _windowInfo->y;
+                }
+                void set(int y)
+                {
+                    _windowInfo->y = y;
+                }
             }
-            void set(UINT32 style)
-            {
-                _windowInfo->style = style;
-            }
-        }
 
-        virtual property UINT32 ExStyle
-        {
-            UINT32 get()
+            virtual property int Width
             {
-                return _windowInfo->ex_style;
+                int get()
+                {
+                    return _windowInfo->width;
+                }
+                void set(int width)
+                {
+                    _windowInfo->width = width;
+                }
             }
-            void set(UINT32 ex_style)
-            {
-                _windowInfo->ex_style = ex_style;
-            }
-        }
 
-        virtual property IntPtr ParentWindowHandle
-        {
-            IntPtr get()
+            virtual property int Height
             {
-                return IntPtr(_windowInfo->parent_window);
+                int get()
+                {
+                    return _windowInfo->height;
+                }
+                void set(int height)
+                {
+                    _windowInfo->height = height;
+                }
             }
-            void set(IntPtr parentWindowHandle)
-            {
-                _windowInfo->parent_window = (HWND)parentWindowHandle.ToPointer();
-            }
-        }
 
-        virtual property IntPtr WindowHandle
-        {
-            IntPtr get()
+            virtual property UINT32 Style
             {
-                return IntPtr(_windowInfo->window);
+                UINT32 get()
+                {
+                    return _windowInfo->style;
+                }
+                void set(UINT32 style)
+                {
+                    _windowInfo->style = style;
+                }
             }
-            void set(IntPtr windowHandle)
-            {
-                _windowInfo->window = (HWND)windowHandle.ToPointer();
-            }
-        }
 
-        virtual property bool WindowlessRenderingEnabled
-        {
-            bool get()
+            virtual property UINT32 ExStyle
             {
-                return _windowInfo->windowless_rendering_enabled == 1;
+                UINT32 get()
+                {
+                    return _windowInfo->ex_style;
+                }
+                void set(UINT32 ex_style)
+                {
+                    _windowInfo->ex_style = ex_style;
+                }
             }
-            void set(bool windowlessRenderingEnabled)
+
+            virtual property IntPtr ParentWindowHandle
             {
-                _windowInfo->windowless_rendering_enabled = windowlessRenderingEnabled;
+                IntPtr get()
+                {
+                    return IntPtr(_windowInfo->parent_window);
+                }
+                void set(IntPtr parentWindowHandle)
+                {
+                    _windowInfo->parent_window = (HWND)parentWindowHandle.ToPointer();
+                }
             }
-        }
 
-        virtual property bool SharedTextureEnabled
-        {
-            bool get()
+            virtual property IntPtr WindowHandle
             {
-                return _windowInfo->shared_texture_enabled == 1;
+                IntPtr get()
+                {
+                    return IntPtr(_windowInfo->window);
+                }
+                void set(IntPtr windowHandle)
+                {
+                    _windowInfo->window = (HWND)windowHandle.ToPointer();
+                }
             }
-            void set(bool sharedTextureEnabled)
+
+            virtual property bool WindowlessRenderingEnabled
             {
-                _windowInfo->shared_texture_enabled = sharedTextureEnabled;
+                bool get()
+                {
+                    return _windowInfo->windowless_rendering_enabled == 1;
+                }
+                void set(bool windowlessRenderingEnabled)
+                {
+                    _windowInfo->windowless_rendering_enabled = windowlessRenderingEnabled;
+                }
             }
-        }
 
-        virtual property bool ExternalBeginFrameEnabled
-        {
-            bool get()
+            virtual property bool SharedTextureEnabled
             {
-                return _windowInfo->external_begin_frame_enabled == 1;
+                bool get()
+                {
+                    return _windowInfo->shared_texture_enabled == 1;
+                }
+                void set(bool sharedTextureEnabled)
+                {
+                    _windowInfo->shared_texture_enabled = sharedTextureEnabled;
+                }
             }
-            void set(bool externalBeginFrameEnabled)
+
+            virtual property bool ExternalBeginFrameEnabled
             {
-                _windowInfo->external_begin_frame_enabled = externalBeginFrameEnabled;
+                bool get()
+                {
+                    return _windowInfo->external_begin_frame_enabled == 1;
+                }
+                void set(bool externalBeginFrameEnabled)
+                {
+                    _windowInfo->external_begin_frame_enabled = externalBeginFrameEnabled;
+                }
             }
-        }
 
-        virtual void SetAsChild(IntPtr parentHandle)
-        {
-            HWND hwnd = static_cast<HWND>(parentHandle.ToPointer());
-            RECT rect;
-            GetClientRect(hwnd, &rect);
-            CefWindowInfo window;
-            _windowInfo->SetAsChild(hwnd, rect);
-        }
+            virtual void SetAsChild(IntPtr parentHandle)
+            {
+                HWND hwnd = static_cast<HWND>(parentHandle.ToPointer());
+                RECT rect;
+                GetClientRect(hwnd, &rect);
+                CefWindowInfo window;
+                _windowInfo->SetAsChild(hwnd, rect);
+            }
 
-        virtual void SetAsChild(IntPtr parentHandle, int left, int top, int right, int bottom)
-        {
-            RECT rect;
-            rect.left = left;
-            rect.top = top;
-            rect.right = right;
-            rect.bottom = bottom;
-            _windowInfo->SetAsChild((HWND)parentHandle.ToPointer(), rect);
-        }
+            virtual void SetAsChild(IntPtr parentHandle, int left, int top, int right, int bottom)
+            {
+                RECT rect;
+                rect.left = left;
+                rect.top = top;
+                rect.right = right;
+                rect.bottom = bottom;
+                _windowInfo->SetAsChild((HWND)parentHandle.ToPointer(), rect);
+            }
 
-        virtual void SetAsPopup(IntPtr parentHandle, String^ windowName)
-        {
-            _windowInfo->SetAsPopup((HWND)parentHandle.ToPointer(), StringUtils::ToNative(windowName));
-        }
+            virtual void SetAsPopup(IntPtr parentHandle, String^ windowName)
+            {
+                _windowInfo->SetAsPopup((HWND)parentHandle.ToPointer(), StringUtils::ToNative(windowName));
+            }
 
-        virtual void SetAsWindowless(IntPtr parentHandle)
-        {
-            _windowInfo->SetAsWindowless((HWND)parentHandle.ToPointer());
-        }
-    };
+            virtual void SetAsWindowless(IntPtr parentHandle)
+            {
+                _windowInfo->SetAsWindowless((HWND)parentHandle.ToPointer());
+            }
+        };
+#ifdef NETCOREAPP
+    }
+#endif
 }

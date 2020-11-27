@@ -15,6 +15,8 @@
 using namespace System::Runtime::InteropServices;
 using namespace System::IO;
 
+using namespace CefSharp::Core;
+
 namespace CefSharp
 {
     namespace Internals

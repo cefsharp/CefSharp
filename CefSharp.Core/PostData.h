@@ -17,218 +17,225 @@ using namespace System::Collections::ObjectModel;
 
 namespace CefSharp
 {
-    /// <summary>
-    /// Form Post Data
-    /// </summary>
-    /// <seealso cref="T:IPostData"/>
-    public ref class PostData : public IPostData, public CefWrapper
+#ifdef NETCOREAPP
+    namespace Core
     {
-        MCefRefPtr<CefPostData> _postData;
-        List<IPostDataElement^>^ _postDataElements;
-
-    internal:
-        PostData(CefRefPtr<CefPostData> &postData) :
-            _postData(postData)
-        {
-
-        }
-
+#endif
         /// <summary>
-        /// Finalizer.
+        /// Form Post Data
         /// </summary>
-        !PostData()
+        /// <seealso cref="T:IPostData"/>
+        public ref class PostData : public IPostData, public CefWrapper
         {
-            _postData = nullptr;
-        }
+            MCefRefPtr<CefPostData> _postData;
+            List<IPostDataElement^>^ _postDataElements;
 
-        /// <summary>
-        /// Destructor.
-        /// </summary>
-        ~PostData()
-        {
-            this->!PostData();
-
-            if (_postDataElements != nullptr)
+        internal:
+            PostData(CefRefPtr<CefPostData> &postData) :
+                _postData(postData)
             {
-                //Make sure the unmanaged resources are handled
-                for each (IPostDataElement^ element in _postDataElements)
+
+            }
+
+            /// <summary>
+            /// Finalizer.
+            /// </summary>
+            !PostData()
+            {
+                _postData = nullptr;
+            }
+
+            /// <summary>
+            /// Destructor.
+            /// </summary>
+            ~PostData()
+            {
+                this->!PostData();
+
+                if (_postDataElements != nullptr)
                 {
-                    delete element;
+                    //Make sure the unmanaged resources are handled
+                    for each (IPostDataElement^ element in _postDataElements)
+                    {
+                        delete element;
+                    }
+
+                    _postDataElements = nullptr;
                 }
 
-                _postDataElements = nullptr;
+                _disposed = true;
             }
 
-            _disposed = true;
-        }
-
-        /// <summary>
-        /// Throw exception if Readonly
-        /// </summary>
-        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
-        void ThrowIfReadOnly()
-        {
-            if (IsReadOnly)
+            /// <summary>
+            /// Throw exception if Readonly
+            /// </summary>
+            /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+            void ThrowIfReadOnly()
             {
-                throw gcnew Exception(gcnew String(L"This IPostDataWrapper is readonly and cannot be modified."));
-            }
-        }
-
-        operator CefRefPtr<CefPostData>()
-        {
-            if (this == nullptr)
-            {
-                return NULL;
-            }
-            return _postData.get();
-        }
-
-    public:
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        PostData()
-        {
-            _postData = CefPostData::Create();
-        }
-
-        /// <summary>
-        /// Returns true if this object is read-only.
-        /// </summary>
-        virtual property bool IsReadOnly
-        {
-            bool get()
-            {
-                ThrowIfDisposed();
-
-                return _postData->IsReadOnly();
-            }
-        }
-
-        /// <summary>
-        /// Retrieve the post data elements.
-        /// </summary>
-        virtual property IList<IPostDataElement^>^ Elements
-        {
-            IList<IPostDataElement^>^ get()
-            {
-                ThrowIfDisposed();
-
-                if (_postDataElements == nullptr)
+                if (IsReadOnly)
                 {
-                    _postDataElements = gcnew List<IPostDataElement^>();
+                    throw gcnew Exception(gcnew String(L"This IPostDataWrapper is readonly and cannot be modified."));
+                }
+            }
 
-                    auto elementCount = _postData.get() ? _postData->GetElementCount() : 0;
-                    if (elementCount == 0)
+            operator CefRefPtr<CefPostData>()
+            {
+                if (this == nullptr)
+                {
+                    return NULL;
+                }
+                return _postData.get();
+            }
+
+        public:
+            /// <summary>
+            /// Default constructor.
+            /// </summary>
+            PostData()
+            {
+                _postData = CefPostData::Create();
+            }
+
+            /// <summary>
+            /// Returns true if this object is read-only.
+            /// </summary>
+            virtual property bool IsReadOnly
+            {
+                bool get()
+                {
+                    ThrowIfDisposed();
+
+                    return _postData->IsReadOnly();
+                }
+            }
+
+            /// <summary>
+            /// Retrieve the post data elements.
+            /// </summary>
+            virtual property IList<IPostDataElement^>^ Elements
+            {
+                IList<IPostDataElement^>^ get()
+                {
+                    ThrowIfDisposed();
+
+                    if (_postDataElements == nullptr)
                     {
-                        return gcnew ReadOnlyCollection<IPostDataElement^>(_postDataElements);
+                        _postDataElements = gcnew List<IPostDataElement^>();
+
+                        auto elementCount = _postData.get() ? _postData->GetElementCount() : 0;
+                        if (elementCount == 0)
+                        {
+                            return gcnew ReadOnlyCollection<IPostDataElement^>(_postDataElements);
+                        }
+                        CefPostData::ElementVector ev;
+
+                        _postData->GetElements(ev);
+
+                        for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
+                        {
+                            CefPostDataElement *el = it->get();
+
+                            _postDataElements->Add(gcnew PostDataElement(el));
+                        }
                     }
-                    CefPostData::ElementVector ev;
 
-                    _postData->GetElements(ev);
+                    return gcnew ReadOnlyCollection<IPostDataElement^>(_postDataElements);
+                }
+            }
 
-                    for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
-                    {
-                        CefPostDataElement *el = it->get();
+            /// <summary>
+            /// Add the specified <see cref="IPostDataElement"/>.
+            /// </summary>
+            /// <param name="element">element to be added.</param>
+            /// <returns>Returns true if the add succeeds.</returns>
+            virtual bool AddElement(IPostDataElement^ element)
+            {
+                ThrowIfDisposed();
 
-                        _postDataElements->Add(gcnew PostDataElement(el));
-                    }
+                ThrowIfReadOnly();
+
+                //Access the Elements collection to initialize the underlying _postDataElements collection
+                auto elements = Elements;
+
+                //If the element has already been added then don't add it again
+                if (elements->Contains(element))
+                {
+                    return false;
                 }
 
-                return gcnew ReadOnlyCollection<IPostDataElement^>(_postDataElements);
-            }
-        }
+                _postDataElements->Add(element);
 
-        /// <summary>
-        /// Add the specified <see cref="IPostDataElement"/>.
-        /// </summary>
-        /// <param name="element">element to be added.</param>
-        /// <returns>Returns true if the add succeeds.</returns>
-        virtual bool AddElement(IPostDataElement^ element)
-        {
-            ThrowIfDisposed();
+                auto elementWrapper = (PostDataElement^)element;
 
-            ThrowIfReadOnly();
-
-            //Access the Elements collection to initialize the underlying _postDataElements collection
-            auto elements = Elements;
-
-            //If the element has already been added then don't add it again
-            if (elements->Contains(element))
-            {
-                return false;
+                return _postData->AddElement(elementWrapper);
             }
 
-            _postDataElements->Add(element);
-
-            auto elementWrapper = (PostDataElement^)element;
-
-            return _postData->AddElement(elementWrapper);
-        }
-
-        /// <summary>
-        /// Remove  the specified <see cref="IPostDataElement"/>.
-        /// </summary>
-        /// <param name="element">element to be removed.</param>
-        /// <returns> Returns true if the add succeeds.</returns>
-        virtual bool RemoveElement(IPostDataElement^ element)
-        {
-            ThrowIfDisposed();
-
-            ThrowIfReadOnly();
-
-            //Access the Elements collection to initialize the underlying _postDataElements collection
-            auto elements = Elements;
-
-            if (!elements->Contains(element))
-            {
-                return false;
-            }
-
-            _postDataElements->Remove(element);
-
-            auto elementWrapper = (PostDataElement^)element;
-
-            return _postData->RemoveElement(elementWrapper);
-        }
-
-        /// <summary>
-        /// Remove all existing post data elements.
-        /// </summary>
-        virtual void RemoveElements()
-        {
-            ThrowIfDisposed();
-
-            ThrowIfReadOnly();
-
-            _postData->RemoveElements();
-        }
-
-        /// <summary>
-        /// Create a new <see cref="IPostDataElement"/> instance
-        /// </summary>
-        /// <returns>PostDataElement</returns>
-        virtual IPostDataElement^ CreatePostDataElement()
-        {
-            auto element = CefPostDataElement::Create();
-
-            return gcnew PostDataElement(element);
-        }
-
-        /// <summary>
-        /// Returns true if the underlying POST data includes elements that are not
-        /// represented by this IPostData object (for example, multi-part file upload
-        /// data). Modifying IPostData objects with excluded elements may result in
-        /// the request failing.
-        /// </summary>
-        virtual property bool HasExcludedElements
-        {
-            bool get()
+            /// <summary>
+            /// Remove  the specified <see cref="IPostDataElement"/>.
+            /// </summary>
+            /// <param name="element">element to be removed.</param>
+            /// <returns> Returns true if the add succeeds.</returns>
+            virtual bool RemoveElement(IPostDataElement^ element)
             {
                 ThrowIfDisposed();
 
-                return _postData->HasExcludedElements();
+                ThrowIfReadOnly();
+
+                //Access the Elements collection to initialize the underlying _postDataElements collection
+                auto elements = Elements;
+
+                if (!elements->Contains(element))
+                {
+                    return false;
+                }
+
+                _postDataElements->Remove(element);
+
+                auto elementWrapper = (PostDataElement^)element;
+
+                return _postData->RemoveElement(elementWrapper);
             }
-        }
-    };
+
+            /// <summary>
+            /// Remove all existing post data elements.
+            /// </summary>
+            virtual void RemoveElements()
+            {
+                ThrowIfDisposed();
+
+                ThrowIfReadOnly();
+
+                _postData->RemoveElements();
+            }
+
+            /// <summary>
+            /// Create a new <see cref="IPostDataElement"/> instance
+            /// </summary>
+            /// <returns>PostDataElement</returns>
+            virtual IPostDataElement^ CreatePostDataElement()
+            {
+                auto element = CefPostDataElement::Create();
+
+                return gcnew PostDataElement(element);
+            }
+
+            /// <summary>
+            /// Returns true if the underlying POST data includes elements that are not
+            /// represented by this IPostData object (for example, multi-part file upload
+            /// data). Modifying IPostData objects with excluded elements may result in
+            /// the request failing.
+            /// </summary>
+            virtual property bool HasExcludedElements
+            {
+                bool get()
+                {
+                    ThrowIfDisposed();
+
+                    return _postData->HasExcludedElements();
+                }
+            }
+        };
+#ifdef NETCOREAPP
+    }
+#endif
 }

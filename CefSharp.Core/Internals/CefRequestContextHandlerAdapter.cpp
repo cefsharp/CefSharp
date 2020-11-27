@@ -14,6 +14,8 @@
 #include "Internals\CefFrameWrapper.h"
 #include "Internals\CefResourceRequestHandlerAdapter.h"
 
+using namespace CefSharp::Core;
+
 namespace CefSharp
 {
     namespace Internals

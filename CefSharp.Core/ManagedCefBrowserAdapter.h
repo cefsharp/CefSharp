@@ -27,125 +27,128 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    /// <exclude />
-    public ref class ManagedCefBrowserAdapter : public IBrowserAdapter
+    namespace Core
     {
-        MCefRefPtr<ClientAdapter> _clientAdapter;
+        /// <exclude />
+        public ref class ManagedCefBrowserAdapter : public IBrowserAdapter
+        {
+            MCefRefPtr<ClientAdapter> _clientAdapter;
 #ifndef NETCOREAPP
-        BrowserProcessServiceHost^ _browserProcessServiceHost;
+            BrowserProcessServiceHost^ _browserProcessServiceHost;
 #endif
-        IWebBrowserInternal^ _webBrowserInternal;
-        IJavascriptObjectRepositoryInternal^ _javaScriptObjectRepository;
-        JavascriptCallbackFactory^ _javascriptCallbackFactory;
-        IMethodRunnerQueue^ _methodRunnerQueue;
-        IBrowser^ _browserWrapper;
-        bool _isDisposed;
+            IWebBrowserInternal^ _webBrowserInternal;
+            IJavascriptObjectRepositoryInternal^ _javaScriptObjectRepository;
+            JavascriptCallbackFactory^ _javascriptCallbackFactory;
+            IMethodRunnerQueue^ _methodRunnerQueue;
+            IBrowser^ _browserWrapper;
+            bool _isDisposed;
 
-    private:
-        void MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e);
+        private:
+            void MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e);
 #ifndef NETCOREAPP
-        void InitializeBrowserProcessServiceHost(IBrowser^ browser);
-        void DisposeBrowserProcessServiceHost();
-#endif
-
-    internal:
-        MCefRefPtr<ClientAdapter> GetClientAdapter();
-
-    public:
-        ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
-            : _isDisposed(false)
-        {
-            if (offScreenRendering)
-            {
-                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this);
-            }
-            else
-            {
-                _clientAdapter = new ClientAdapter(webBrowserInternal, this);
-            }
-
-            _webBrowserInternal = webBrowserInternal;
-            _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
-            _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_clientAdapter->GetPendingTaskRepository());
-
-            if (CefSharpSettings::ConcurrentTaskExecution)
-            {
-                _methodRunnerQueue = gcnew CefSharp::Internals::ConcurrentMethodRunnerQueue(_javaScriptObjectRepository);
-            }
-            else
-            {
-                _methodRunnerQueue = gcnew CefSharp::Internals::MethodRunnerQueue(_javaScriptObjectRepository);
-            }
-
-            _methodRunnerQueue->MethodInvocationComplete += gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
-        }
-
-        !ManagedCefBrowserAdapter()
-        {
-            _clientAdapter = nullptr;
-        }
-
-        ~ManagedCefBrowserAdapter()
-        {
-            _isDisposed = true;
-
-            // Stop the method runner before releasing browser adapter and browser wrapper (#2529)
-            if (_methodRunnerQueue != nullptr)
-            {
-                _methodRunnerQueue->MethodInvocationComplete -= gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
-                delete _methodRunnerQueue;
-                _methodRunnerQueue = nullptr;
-            }
-
-            // Release the MCefRefPtr<ClientAdapter> reference
-            // before calling _browserWrapper->CloseBrowser(true)
-            this->!ManagedCefBrowserAdapter();
-
-            if (_browserWrapper != nullptr)
-            {
-                _browserWrapper->CloseBrowser(true);
-
-                delete _browserWrapper;
-                _browserWrapper = nullptr;
-            }
-
-#ifndef NETCOREAPP
-            if (CefSharpSettings::WcfEnabled)
-            {
-                DisposeBrowserProcessServiceHost();
-            }
+            void InitializeBrowserProcessServiceHost(IBrowser^ browser);
+            void DisposeBrowserProcessServiceHost();
 #endif
 
-            _webBrowserInternal = nullptr;
-            delete _javaScriptObjectRepository;
-            _javaScriptObjectRepository = nullptr;
-        }
+        internal:
+            MCefRefPtr<ClientAdapter> GetClientAdapter();
 
-        virtual property bool IsDisposed
-        {
-            bool get();
-        }
+        public:
+            ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
+                : _isDisposed(false)
+            {
+                if (offScreenRendering)
+                {
+                    _clientAdapter = new RenderClientAdapter(webBrowserInternal, this);
+                }
+                else
+                {
+                    _clientAdapter = new ClientAdapter(webBrowserInternal, this);
+                }
 
-        virtual void OnAfterBrowserCreated(IBrowser^ browser);
-        void CreateBrowser(IWindowInfo^ windowInfo, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
-        virtual void Resize(int width, int height);
+                _webBrowserInternal = webBrowserInternal;
+                _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
+                _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_clientAdapter->GetPendingTaskRepository());
 
-        virtual IBrowser^ GetBrowser(int browserId);
+                if (CefSharpSettings::ConcurrentTaskExecution)
+                {
+                    _methodRunnerQueue = gcnew CefSharp::Internals::ConcurrentMethodRunnerQueue(_javaScriptObjectRepository);
+                }
+                else
+                {
+                    _methodRunnerQueue = gcnew CefSharp::Internals::MethodRunnerQueue(_javaScriptObjectRepository);
+                }
 
-        virtual property IJavascriptCallbackFactory^ JavascriptCallbackFactory
-        {
-            CefSharp::Internals::IJavascriptCallbackFactory^ get();
-        }
+                _methodRunnerQueue->MethodInvocationComplete += gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
+            }
 
-        virtual property IJavascriptObjectRepositoryInternal^ JavascriptObjectRepository
-        {
-            CefSharp::Internals::IJavascriptObjectRepositoryInternal^ get();
-        }
+            !ManagedCefBrowserAdapter()
+            {
+                _clientAdapter = nullptr;
+            }
 
-        virtual property IMethodRunnerQueue^ MethodRunnerQueue
-        {
-            CefSharp::Internals::IMethodRunnerQueue^ get();
-        }
-    };
+            ~ManagedCefBrowserAdapter()
+            {
+                _isDisposed = true;
+
+                // Stop the method runner before releasing browser adapter and browser wrapper (#2529)
+                if (_methodRunnerQueue != nullptr)
+                {
+                    _methodRunnerQueue->MethodInvocationComplete -= gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
+                    delete _methodRunnerQueue;
+                    _methodRunnerQueue = nullptr;
+                }
+
+                // Release the MCefRefPtr<ClientAdapter> reference
+                // before calling _browserWrapper->CloseBrowser(true)
+                this->!ManagedCefBrowserAdapter();
+
+                if (_browserWrapper != nullptr)
+                {
+                    _browserWrapper->CloseBrowser(true);
+
+                    delete _browserWrapper;
+                    _browserWrapper = nullptr;
+                }
+
+#ifndef NETCOREAPP
+                if (CefSharpSettings::WcfEnabled)
+                {
+                    DisposeBrowserProcessServiceHost();
+                }
+#endif
+
+                _webBrowserInternal = nullptr;
+                delete _javaScriptObjectRepository;
+                _javaScriptObjectRepository = nullptr;
+            }
+
+            virtual property bool IsDisposed
+            {
+                bool get();
+            }
+
+            virtual void OnAfterBrowserCreated(IBrowser^ browser);
+            void CreateBrowser(IWindowInfo^ windowInfo, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
+            virtual void Resize(int width, int height);
+
+            virtual IBrowser^ GetBrowser(int browserId);
+
+            virtual property IJavascriptCallbackFactory^ JavascriptCallbackFactory
+            {
+                CefSharp::Internals::IJavascriptCallbackFactory^ get();
+            }
+
+            virtual property IJavascriptObjectRepositoryInternal^ JavascriptObjectRepository
+            {
+                CefSharp::Internals::IJavascriptObjectRepositoryInternal^ get();
+            }
+
+            virtual property IMethodRunnerQueue^ MethodRunnerQueue
+            {
+                CefSharp::Internals::IMethodRunnerQueue^ get();
+            }
+        };
+    }
 }
 #endif  // CEFSHARP_CORE_INTERNALS_CLIENTADAPTER_H_

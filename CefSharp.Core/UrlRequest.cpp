@@ -6,24 +6,30 @@
 #include "UrlRequest.h"
 #include "Internals\CefResponseWrapper.h"
 
-bool UrlRequest::ResponseWasCached::get()
+namespace CefSharp
 {
-    ThrowIfDisposed();
+    namespace Core
+    {
 
-    return _urlRequest->ResponseWasCached();
+        bool UrlRequest::ResponseWasCached::get()
+        {
+            ThrowIfDisposed();
+
+            return _urlRequest->ResponseWasCached();
+        }
+
+        IResponse^ UrlRequest::Response::get()
+        {
+            ThrowIfDisposed();
+
+            return gcnew CefResponseWrapper(_urlRequest->GetResponse());
+        }
+
+        UrlRequestStatus UrlRequest::RequestStatus::get()
+        {
+            ThrowIfDisposed();
+
+            return (UrlRequestStatus)_urlRequest->GetRequestStatus();
+        }
+    }
 }
-
-IResponse^ UrlRequest::Response::get()
-{
-    ThrowIfDisposed();
-
-    return gcnew CefResponseWrapper(_urlRequest->GetResponse());
-}
-
-UrlRequestStatus UrlRequest::RequestStatus::get()
-{
-    ThrowIfDisposed();
-
-    return (UrlRequestStatus)_urlRequest->GetRequestStatus();
-}
-

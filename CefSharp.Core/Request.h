@@ -13,68 +13,75 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-    public ref class Request : public IRequest, public CefWrapper
+#ifdef NETCOREAPP
+    namespace Core
     {
-        MCefRefPtr<CefRequest> _request;
-        IPostData^ _postData;
-    internal:
-        Request(CefRefPtr<CefRequest> &cefRequest) :
-            _request(cefRequest), _postData(nullptr)
+#endif
+        public ref class Request : public IRequest, public CefWrapper
         {
-        }
-
-        !Request()
-        {
-            _request = nullptr;
-        }
-
-        ~Request()
-        {
-            this->!Request();
-
-            delete _postData;
-
-            _disposed = true;
-        }
-
-        operator CefRefPtr<CefRequest>()
-        {
-            if (this == nullptr)
+            MCefRefPtr<CefRequest> _request;
+            IPostData^ _postData;
+        internal:
+            Request(CefRefPtr<CefRequest> &cefRequest) :
+                _request(cefRequest), _postData(nullptr)
             {
-                return NULL;
             }
-            return _request.get();
-        }
 
-        void ThrowIfReadOnly()
-        {
-            if (_request->IsReadOnly())
+            !Request()
             {
-                throw gcnew NotSupportedException("IRequest is read-only and cannot be modified. Check IRequest.IsReadOnly to guard against this exception.");
+                _request = nullptr;
             }
-        }
 
-    public:
-        Request()
-        {
-            _request = CefRequest::Create();
-        }
+            ~Request()
+            {
+                this->!Request();
 
-        virtual property UrlRequestFlags Flags { UrlRequestFlags get(); void set(UrlRequestFlags flags); }
-        virtual property String^ Url { String^ get(); void set(String^ url); }
-        virtual property String^ Method { String^ get(); void set(String^ method); }
-        virtual property UInt64 Identifier { UInt64 get(); }
-        virtual void SetReferrer(String^ referrerUrl, CefSharp::ReferrerPolicy policy);
-        virtual property String^ ReferrerUrl { String^ get(); }
-        virtual property ResourceType ResourceType { CefSharp::ResourceType get(); }
-        virtual property ReferrerPolicy ReferrerPolicy { CefSharp::ReferrerPolicy get(); }
-        virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
-        virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
-        virtual property IPostData^ PostData { IPostData^ get(); void set(IPostData^ postData);  }
-        virtual property bool IsReadOnly { bool get(); }
-        virtual void InitializePostData();
+                delete _postData;
 
-        virtual String^ GetHeaderByName(String^ name);
-        virtual void SetHeaderByName(String^ name, String^ value, bool overwrite);
-    };
+                _disposed = true;
+            }
+
+            operator CefRefPtr<CefRequest>()
+            {
+                if (this == nullptr)
+                {
+                    return NULL;
+                }
+                return _request.get();
+            }
+
+            void ThrowIfReadOnly()
+            {
+                if (_request->IsReadOnly())
+                {
+                    throw gcnew NotSupportedException("IRequest is read-only and cannot be modified. Check IRequest.IsReadOnly to guard against this exception.");
+                }
+            }
+
+        public:
+            Request()
+            {
+                _request = CefRequest::Create();
+            }
+
+            virtual property UrlRequestFlags Flags { UrlRequestFlags get(); void set(UrlRequestFlags flags); }
+            virtual property String^ Url { String^ get(); void set(String^ url); }
+            virtual property String^ Method { String^ get(); void set(String^ method); }
+            virtual property UInt64 Identifier { UInt64 get(); }
+            virtual void SetReferrer(String^ referrerUrl, CefSharp::ReferrerPolicy policy);
+            virtual property String^ ReferrerUrl { String^ get(); }
+            virtual property ResourceType ResourceType { CefSharp::ResourceType get(); }
+            virtual property ReferrerPolicy ReferrerPolicy { CefSharp::ReferrerPolicy get(); }
+            virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
+            virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
+            virtual property IPostData^ PostData { IPostData^ get(); void set(IPostData^ postData);  }
+            virtual property bool IsReadOnly { bool get(); }
+            virtual void InitializePostData();
+
+            virtual String^ GetHeaderByName(String^ name);
+            virtual void SetHeaderByName(String^ name, String^ value, bool overwrite);
+        };
+#ifdef NETCOREAPP
+    }
+#endif
 }
