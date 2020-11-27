@@ -71,6 +71,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Test.netcore", "Ce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Core.netcore", "CefSharp.Core.netcore\CefSharp.Core.netcore.csproj", "{310E5602-C920-4A4C-B0B0-178155528149}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Core.Runtime.RefAssembly.netcore", "CefSharp.Core.Runtime.RefAssembly\CefSharp.Core.Runtime.RefAssembly.netcore.csproj", "{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -183,6 +185,14 @@ Global
 		{310E5602-C920-4A4C-B0B0-178155528149}.Release|x64.Build.0 = Release|Any CPU
 		{310E5602-C920-4A4C-B0B0-178155528149}.Release|x86.ActiveCfg = Release|Any CPU
 		{310E5602-C920-4A4C-B0B0-178155528149}.Release|x86.Build.0 = Release|Any CPU
+		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Debug|x64.Build.0 = Debug|Any CPU
+		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Debug|x86.Build.0 = Debug|Any CPU
+		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x64.ActiveCfg = Release|Any CPU
+		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x64.Build.0 = Release|Any CPU
+		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x86.ActiveCfg = Release|Any CPU
+		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
