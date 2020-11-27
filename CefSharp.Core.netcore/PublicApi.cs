@@ -212,13 +212,13 @@ namespace CefSharp
         /// XMLHttpRequest requests on http://target.example.com if the
         /// http://target.example.com request returns an "Access-Control-Allow-Origin:
         /// https://source.example.com" response header.
-        //
+        ///
         /// Scripts in separate frames or iframes and hosted from the same protocol and
         /// domain suffix can execute cross-origin JavaScript if both pages set the
         /// document.domain value to the same domain suffix. For example,
         /// scheme://foo.example.com and scheme://bar.example.com can communicate using
         /// JavaScript if both domains set document.domain="example.com".
-        //
+        ///
         /// This method is used to allow access to origins that would otherwise violate
         /// the same-origin policy. Scripts hosted underneath the fully qualified
         /// <paramref name="sourceOrigin"/> URL (like http://www.example.com) will be allowed access to
@@ -229,7 +229,7 @@ namespace CefSharp
         /// true sub-domain matches will be allowed. If <paramref name="targetDomain"/> is empty and
         /// <paramref name="allowTargetSubdomains"/> if true all domains and IP addresses will be
         /// allowed.
-        //
+        ///
         /// This method cannot be used to bypass the restrictions on local or display
         /// isolated schemes. See the comments on <see cref="CefCustomScheme"/> for more
         /// information.
