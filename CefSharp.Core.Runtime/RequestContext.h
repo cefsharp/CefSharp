@@ -11,7 +11,6 @@
 #include "include\cef_request_context.h"
 
 #include "RequestContextSettings.h"
-#include "RequestContextBuilder.h"
 #include "Internals\CefRequestContextHandlerAdapter.h"
 #include "Internals\CefWrapper.h"
 
@@ -124,18 +123,6 @@ namespace CefSharp
 
                 auto newContext = CefRequestContext::CreateContext(otherRequestContext, handler);
                 return gcnew RequestContext(newContext);
-            }
-
-            /// <summary>
-            /// Creates a new RequestContextBuilder which can be used to fluently set
-            /// preferences
-            /// </summary>
-            /// <returns>Returns a new RequestContextBuilder</returns>
-            static RequestContextBuilder^ Configure()
-            {
-                auto builder = gcnew RequestContextBuilder();
-
-                return builder;
             }
 
             /// <summary>
