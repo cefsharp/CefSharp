@@ -19,7 +19,7 @@ namespace CefSharp
         /// relevant settings e.g. OffScreen starts with audio muted.
         /// </summary>
         [System::ComponentModel::EditorBrowsableAttribute(System::ComponentModel::EditorBrowsableState::Never)]
-        public ref class CefSettingsBase abstract
+        public ref class CefSettingsBase sealed
         {
         private:
             /// <summary>
@@ -380,63 +380,6 @@ namespace CefSharp
                 cefCustomScheme->SchemeName = cefCustomScheme->SchemeName->ToLower();
 
                 _cefCustomSchemes->Add(cefCustomScheme);
-            }
-
-            /// <summary>
-            /// Set command line argument to disable GPU Acceleration. WebGL will use
-            /// software rendering via Swiftshader (https://swiftshader.googlesource.com/SwiftShader#introduction)
-            /// </summary>
-            void DisableGpuAcceleration()
-            {
-                if (!_cefCommandLineArgs->ContainsKey("disable-gpu"))
-                {
-                    _cefCommandLineArgs->Add("disable-gpu");
-                }
-            }
-
-            /// <summary>
-            /// Set command line argument to enable Print Preview See
-            /// https://bitbucket.org/chromiumembedded/cef/issues/123/add-support-for-print-preview for details.
-            /// </summary>
-            void EnablePrintPreview()
-            {
-                if (!_cefCommandLineArgs->ContainsKey("enable-print-preview"))
-                {
-                    _cefCommandLineArgs->Add("enable-print-preview");
-                }
-            }
-
-            /// <summary>
-            /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance Swiftshader will be used for WebGL, look at the source
-            /// to determine which flags best suite your requirements. See https://swiftshader.googlesource.com/SwiftShader#introduction for
-            /// details on Swiftshader
-            /// </summary>
-            void SetOffScreenRenderingBestPerformanceArgs()
-            {
-                // Use software rendering and compositing (disable GPU) for increased FPS
-                // and decreased CPU usage. 
-                // See https://bitbucket.org/chromiumembedded/cef/issues/1257 for details.
-                if (!_cefCommandLineArgs->ContainsKey("disable-gpu"))
-                {
-                    _cefCommandLineArgs->Add("disable-gpu");
-                }
-
-                if (!_cefCommandLineArgs->ContainsKey("disable-gpu-compositing"))
-                {
-                    _cefCommandLineArgs->Add("disable-gpu-compositing");
-                }
-
-                // Synchronize the frame rate between all processes. This results in
-                // decreased CPU usage by avoiding the generation of extra frames that
-                // would otherwise be discarded. The frame rate can be set at browser
-                // creation time via CefBrowserSettings.windowless_frame_rate or changed
-                // dynamically using CefBrowserHost::SetWindowlessFrameRate. In cefclient
-                // it can be set via the command-line using `--off-screen-frame-rate=XX`.
-                // See https://bitbucket.org/chromiumembedded/cef/issues/1368 for details.
-                if (!_cefCommandLineArgs->ContainsKey("enable-begin-frame-scheduling"))
-                {
-                    _cefCommandLineArgs->Add("enable-begin-frame-scheduling");
-                }
             }
         };
     }

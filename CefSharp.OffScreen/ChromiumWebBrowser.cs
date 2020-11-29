@@ -26,7 +26,7 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private IBrowserAdapter managedCefBrowserAdapter;
 
         /// <summary>
         /// Size of the Chromium viewport.
@@ -200,7 +200,7 @@ namespace CefSharp.OffScreen
             Cef.AddDisposable(this);
             Address = address;
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
+            managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, true);
 
             if (automaticallyCreateBrowser)
             {

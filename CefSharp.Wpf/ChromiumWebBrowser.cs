@@ -81,7 +81,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private IBrowserAdapter managedCefBrowserAdapter;
         /// <summary>
         /// The ignore URI change
         /// </summary>
@@ -550,7 +550,7 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(this.Undo);
             RedoCommand = new DelegateCommand(this.Redo);
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
+            managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, true);
 
             browserSettings = new BrowserSettings(autoDispose: true);
 
