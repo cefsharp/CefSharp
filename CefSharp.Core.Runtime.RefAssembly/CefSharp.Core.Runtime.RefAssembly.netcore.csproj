@@ -41,7 +41,7 @@
     Haven't found a nice way to determine the Platform (resolves as AnyCPU) 
     -->
     <Choose>
-        <When Condition="Exists('$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.dll')">
+        <When Condition="Exists('$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll')">
             <PropertyGroup>
                 <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
             </PropertyGroup>

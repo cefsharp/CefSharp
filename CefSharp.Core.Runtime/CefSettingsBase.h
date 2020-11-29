@@ -84,7 +84,7 @@ namespace CefSharp
             /// CefSettings.CommandLineArgsDisabled value can be used to start with an empty command-line object. Any values specified in
             /// CefSettings that equate to command-line arguments will be set before this method is called.
             /// </summary>
-            virtual property CommandLineArgDictionary^ CefCommandLineArgs
+            property CommandLineArgDictionary^ CefCommandLineArgs
             {
                 CommandLineArgDictionary^ get() { return _cefCommandLineArgs; }
             }
@@ -354,7 +354,7 @@ namespace CefSharp
             /// default value of opaque white be used. If the alpha component is fully transparent for a windowless (WPF/OffScreen) browser
             /// then transparent painting will be enabled.
             /// </summary>
-            virtual property uint32 BackgroundColor
+            property uint32 BackgroundColor
             {
                 uint32 get() { return _cefSettings->background_color; }
                 void set(uint32 value) { _cefSettings->background_color = value; }

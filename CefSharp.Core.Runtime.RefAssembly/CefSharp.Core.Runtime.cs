@@ -99,15 +99,15 @@ namespace CefSharp.Core
         public static void WaitForBrowsersToClose() { }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
-    public abstract partial class CefSettingsBase : System.IDisposable
+    public sealed partial class CefSettingsBase : System.IDisposable
     {
         public CefSettingsBase() { }
         public string AcceptLanguageList { get { throw null; } set { } }
         public string ApplicationClientIdForFileScanning { get { throw null; } set { } }
-        public virtual uint BackgroundColor { get { throw null; } set { } }
+        public uint BackgroundColor { get { throw null; } set { } }
         public string BrowserSubprocessPath { get { throw null; } set { } }
         public string CachePath { get { throw null; } set { } }
-        public virtual CefSharp.Internals.CommandLineArgDictionary CefCommandLineArgs { get { throw null; } }
+        public CefSharp.Internals.CommandLineArgDictionary CefCommandLineArgs { get { throw null; } }
         public System.Collections.Generic.IEnumerable<CefSharp.CefCustomScheme> CefCustomSchemes { get { throw null; } }
         public bool CommandLineArgsDisabled { get { throw null; } set { } }
         public bool ExternalMessagePump { get { throw null; } set { } }
@@ -129,13 +129,10 @@ namespace CefSharp.Core
         public string UserAgent { get { throw null; } set { } }
         public string UserDataPath { get { throw null; } set { } }
         public bool WindowlessRenderingEnabled { get { throw null; } set { } }
-        public void DisableGpuAcceleration() { }
         public void Dispose() { }
-        protected virtual void Dispose(bool A_0) { }
-        public void EnablePrintPreview() { }
+        protected void Dispose(bool A_0) { }
         ~CefSettingsBase() { }
         public void RegisterScheme(CefSharp.CefCustomScheme cefCustomScheme) { }
-        public void SetOffScreenRenderingBestPerformanceArgs() { }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class DragData : CefSharp.Internals.CefWrapper, CefSharp.IDragData
@@ -166,14 +163,14 @@ namespace CefSharp.Core
         public virtual void ResetFileContents() { }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
-    public partial class ManagedCefBrowserAdapter : CefSharp.Internals.IBrowserAdapter, System.IDisposable
+    public partial class ManagedCefBrowserAdapter : CefSharp.Internals.IBrowserAdapter
     {
         public ManagedCefBrowserAdapter(CefSharp.Internals.IWebBrowserInternal webBrowserInternal, bool offScreenRendering) { }
         public virtual bool IsDisposed { get { throw null; } }
         public virtual CefSharp.Internals.IJavascriptCallbackFactory JavascriptCallbackFactory { get { throw null; } }
         public virtual CefSharp.Internals.IJavascriptObjectRepositoryInternal JavascriptObjectRepository { get { throw null; } }
         public virtual CefSharp.Internals.IMethodRunnerQueue MethodRunnerQueue { get { throw null; } }
-        public void CreateBrowser(CefSharp.IWindowInfo windowInfo, CefSharp.Core.BrowserSettings browserSettings, CefSharp.Core.RequestContext requestContext, string address) { }
+        public virtual void CreateBrowser(CefSharp.IWindowInfo windowInfo, CefSharp.IBrowserSettings browserSettings, CefSharp.IRequestContext requestContext, string address) { }
         public void Dispose() { }
         protected virtual void Dispose(bool A_0) { }
         ~ManagedCefBrowserAdapter() { }
@@ -274,7 +271,6 @@ namespace CefSharp.Core
         public virtual void ClearHttpAuthCredentials(CefSharp.ICompletionCallback callback) { }
         public virtual bool ClearSchemeHandlerFactories() { throw null; }
         public virtual void CloseAllConnections(CefSharp.ICompletionCallback callback) { }
-        public static CefSharp.Core.RequestContextBuilder Configure() { throw null; }
         public static CefSharp.IRequestContext CreateContext(CefSharp.IRequestContext other, CefSharp.IRequestContextHandler requestContextHandler) { throw null; }
         public virtual bool DidLoadExtension(string extensionId) { throw null; }
         public void Dispose() { }
@@ -294,20 +290,6 @@ namespace CefSharp.Core
         public virtual bool RegisterSchemeHandlerFactory(string schemeName, string domainName, CefSharp.ISchemeHandlerFactory factory) { throw null; }
         public virtual System.Threading.Tasks.Task<CefSharp.ResolveCallbackResult> ResolveHostAsync(System.Uri origin) { throw null; }
         public virtual bool SetPreference(string name, object value, out string error) { throw null; }
-    }
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
-    public partial class RequestContextBuilder
-    {
-        public RequestContextBuilder() { }
-        public CefSharp.IRequestContext Create() { throw null; }
-        public CefSharp.Core.RequestContextBuilder OnInitialize(System.Action<CefSharp.IRequestContext> action) { throw null; }
-        public CefSharp.Core.RequestContextBuilder PersistUserPreferences() { throw null; }
-        public CefSharp.Core.RequestContextBuilder WithCachePath(string cachePath) { throw null; }
-        public CefSharp.Core.RequestContextBuilder WithPreference(string name, object value) { throw null; }
-        public CefSharp.Core.RequestContextBuilder WithProxyServer(string host) { throw null; }
-        public CefSharp.Core.RequestContextBuilder WithProxyServer(string host, int? port) { throw null; }
-        public CefSharp.Core.RequestContextBuilder WithProxyServer(string scheme, string host, int? port) { throw null; }
-        public CefSharp.Core.RequestContextBuilder WithSharedSettings(CefSharp.IRequestContext other) { throw null; }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class RequestContextSettings : System.IDisposable

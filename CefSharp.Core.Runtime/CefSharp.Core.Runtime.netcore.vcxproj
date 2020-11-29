@@ -245,7 +245,6 @@
     <ClCompile Include="Request.cpp" />
     <ClCompile Include="RequestContext.cpp" />
     <ClCompile Include="Internals\CefResourceHandlerAdapter.cpp" />
-    <ClCompile Include="RequestContextBuilder.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -303,7 +302,6 @@
     <ClInclude Include="PostData.h" />
     <ClInclude Include="PostDataElement.h" />
     <ClInclude Include="Request.h" />
-    <ClInclude Include="RequestContextBuilder.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="UrlRequest.h" />
     <ClInclude Include="WindowInfo.h" />
