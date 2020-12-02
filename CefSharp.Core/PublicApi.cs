@@ -676,6 +676,20 @@ namespace CefSharp
     {
         internal Core.CefSettingsBase settings = new Core.CefSettingsBase();
 
+#if NETCOREAPP
+        public CefSettingsBase() : base()
+        {
+            if(!File.Exists(BrowserSubprocessPath))
+            {
+                var libCefLoadStatus = Initializer.LibCefLoadStatus;
+                if(libCefLoadStatus.Loaded)
+                {
+                    BrowserSubprocessPath = libCefLoadStatus.BrowserSubProcessPath;
+                }
+            }
+        }
+#endif
+
         public static explicit operator CefSharp.Core.CefSettingsBase(CefSettingsBase s)
         {
             return s.settings;
