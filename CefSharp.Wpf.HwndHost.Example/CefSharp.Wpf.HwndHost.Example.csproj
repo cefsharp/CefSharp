@@ -11,7 +11,7 @@
 	<ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CefSharp.Common" Version="85.3.130" />
+    <PackageReference Include="CefSharp.Common" Version="86.0.241" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
   </ItemGroup>
 
