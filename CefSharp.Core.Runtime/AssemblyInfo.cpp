@@ -12,7 +12,7 @@ using namespace System::Security::Permissions;
 using namespace CefSharp;
 
 [assembly:AssemblyTitle("CefSharp.Core.Runtime")];
-[assembly:AssemblyDescription("CefSharp Core Library (VC++)")];
+[assembly:AssemblyDescription("CefSharp Core Runtime Library (VC++)")];
 [assembly:AssemblyCompany(AssemblyInfo::AssemblyCompany)];
 [assembly:AssemblyProduct(AssemblyInfo::AssemblyProduct)];
 [assembly:AssemblyCopyright(AssemblyInfo::AssemblyCopyright)];
@@ -27,7 +27,4 @@ using namespace CefSharp;
 
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessCoreProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessProject)];
-[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWpfProject)];
-[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWinFormsProject)];
-[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpOffScreenProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpTestProject)];

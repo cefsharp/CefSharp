@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using CefSharp;
 
 [assembly:AssemblyTitle("CefSharp.Core")]
-[assembly:AssemblyDescription("CefSharp Core Library (VC++)")]
+[assembly:AssemblyDescription("CefSharp Core Library")]
 [assembly:AssemblyCompany(AssemblyInfo.AssemblyCompany)]
 [assembly:AssemblyProduct(AssemblyInfo.AssemblyProduct)]
 [assembly:AssemblyCopyright(AssemblyInfo.AssemblyCopyright)]
