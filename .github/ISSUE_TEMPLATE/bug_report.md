@@ -46,12 +46,12 @@ Delete this line and everything above, and then fill in the details below.
     <WinForms/WPF/OffScreen>
     
 - **What steps will reproduce the problem?**
-    - Please provide detailed information here, enough for someone else to reprodce your problem. 
+    - Please provide detailed information here, enough for someone else to reproduce your problem. 
     - Does the problem reproduce using the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample)?
     - If code is required to reproduce your problem then please provide one of the following
       - Fork the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample) and push your changes to `GitHub` (this is the preferred option).
       - Use a code sharing service list `Gist` or `Pastebin`
-      - Paste your **formatted code as part of this issue** (only do this for small amounts of code and make sure you **format the code so it's reabily**)
+      - Paste your **formatted code as part of this issue** (only do this for small amounts of code and make sure you **format the code so it's readable**)
       - Please no binary attachments (zip, 7z, etc), code needs to be easily reviewed in a web browser.
 
 - **What is the expected output? What do you see instead?**
