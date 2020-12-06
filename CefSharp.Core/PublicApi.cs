@@ -63,6 +63,22 @@ namespace CefSharp.BrowserSubprocess
     }
 }
 
+namespace CefSharp.Core
+{
+    public static class ObjectFactory
+    {
+        public static IBrowserSettings CreateBrowserSettings(bool autoDispose)
+        {
+            return new CefSharp.Core.BrowserSettings(autoDispose);
+        }
+
+        public static IWindowInfo CreateWindowInfo()
+        {
+            return new CefSharp.Core.WindowInfo();
+        }
+    }
+}
+
 //TODO: Split out into seperate classes
 namespace CefSharp
 {

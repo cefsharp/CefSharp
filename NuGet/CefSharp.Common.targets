@@ -13,61 +13,68 @@
     correct ordering .props imports, which we require as this depends on the cef.redist packages
     exporting an ItemGroup
    -->
-
-  <ItemGroup Condition="('$(PlatformTarget)' == 'x86') OR ('$(PlatformTarget)' == 'Win32')">
-    <None Include="@(CefRedist32)">
-      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Included</PublishState>
-      <Visible>false</Visible>
-    </None>
-    <None Include="@(CefSharpCommonBinaries32)">
-      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Included</PublishState>
-      <Visible>false</Visible>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(PlatformTarget)' == 'x64'">
-    <None Include="@(CefRedist64)">
-      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Included</PublishState>
-      <Visible>false</Visible>
-    </None>
-    <None Include="@(CefSharpCommonBinaries64)">
-      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Included</PublishState>
-      <Visible>false</Visible>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(PlatformTarget)' == 'AnyCPU'">
-    <None Include="@(CefRedist32)">
-      <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Included</PublishState>
-      <Visible>false</Visible>
-    </None>
-    <None Include="@(CefRedist64)">
-      <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Included</PublishState>
-      <Visible>false</Visible>
-    </None>
-    <None Include="@(CefSharpCommonBinaries32)">
-      <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Included</PublishState>
-      <Visible>false</Visible>
-    </None>
-    <None Include="@(CefSharpCommonBinaries64)">
-      <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PublishState>Included</PublishState>
-      <Visible>false</Visible>
-    </None>
-  </ItemGroup>
+   
+   <Choose>
+    <When Condition="'$(PlatformTarget)' == 'x64'">
+      <ItemGroup>
+		<None Include="@(CefRedist64)">
+		  <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+		<None Include="@(CefSharpCommonBinaries64)">
+		  <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+	  </ItemGroup>
+    </When>
+	<When Condition="'$(PlatformTarget)' == 'AnyCPU'">
+      <ItemGroup>
+		<None Include="@(CefRedist32)">
+		  <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+		<None Include="@(CefRedist64)">
+		  <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+		<None Include="@(CefSharpCommonBinaries32)">
+		  <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+		<None Include="@(CefSharpCommonBinaries64)">
+		  <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+	  </ItemGroup>
+    </When>
+    <!-- x86 and Win32-->
+    <Otherwise>
+      <ItemGroup>
+		<None Include="@(CefRedist32)">
+		  <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+		<None Include="@(CefSharpCommonBinaries32)">
+		  <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+	  </ItemGroup>
+    </Otherwise>
+  </Choose>
 </Project>

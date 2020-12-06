@@ -360,7 +360,7 @@ namespace CefSharp.WinForms
 
                 if (browserSettings == null)
                 {
-                    browserSettings = new BrowserSettings(autoDispose: true);
+                    browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
                 }
 
                 managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, false);
@@ -553,7 +553,7 @@ namespace CefSharp.WinForms
         /// </example>
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
         {
-            var windowInfo = new WindowInfo();
+            var windowInfo = Core.ObjectFactory.CreateWindowInfo();
             windowInfo.SetAsChild(handle);
 
             if (!ActivateBrowserOnCreation)
@@ -596,7 +596,7 @@ namespace CefSharp.WinForms
 
                     initialAddressLoaded = !string.IsNullOrEmpty(Address);
 
-                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, requestContext as RequestContext, Address);
+                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, requestContext, Address);
                 }
             }
         }
