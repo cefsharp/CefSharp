@@ -344,6 +344,19 @@ function WriteVersionToManifest($manifest)
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
+function WriteVersionToTransform($transform)
+{
+    $Filename = Join-Path $WorkingDir $transform
+    $Regex = 'codeBase version="(.*?)"';
+
+    $TransformData = Get-Content -Encoding UTF8 $Filename
+    $NewString = $TransformData -replace $Regex, "codeBase version=""$AssemblyVersion.0"""
+
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
+
 function WriteVersionToResourceFile($resourceFile)
 {
     $Filename = Join-Path $WorkingDir $resourceFile
@@ -404,6 +417,9 @@ WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
 WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
 WriteVersionToManifest "CefSharp.WinForms.Example\app.manifest"
 WriteVersionToManifest "CefSharp.Wpf.Example\app.manifest"
+
+WriteVersionToTransform "NuGet\CefSharp.Common.app.config.x64.transform"
+WriteVersionToTransform "NuGet\CefSharp.Common.app.config.x86.transform"
 
 WriteVersionToResourceFile "CefSharp.BrowserSubprocess.Core\Resource.rc"
 WriteVersionToResourceFile "CefSharp.Core.Runtime\Resource.rc"

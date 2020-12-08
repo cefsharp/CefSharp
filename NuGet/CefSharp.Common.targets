@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" TreatAsLocalProperty="CefSharpTransformXmlDllPath">
   <Target Name="FrameworkVersionCheck" BeforeTargets="ResolveAssemblyReferences" Condition="(('$(TargetFrameworkVersion)' == 'v4.5.1') OR ('$(TargetFrameworkVersion)' == 'v4.5') OR ('$(TargetFrameworkVersion)' == 'v4.0'))">
-    <Error Text="CefSharp requires .Net 4.5.2 or higher" />
+	<Error Text="CefSharp requires .Net 4.5.2 or higher" />
+  </Target>
+  
+  <Target Name="CefSharpDeleteCoreRuntimeAfterBuild" AfterTargets="AfterBuild">
+	<Delete Files="$(OutDir)CefSharp.Core.Runtime.dll" />
+	<Delete Files="$(OutDir)CefSharp.Core.Runtime.pdb" />
+	<Delete Files="$(OutDir)CefSharp.Core.Runtime.xml" />
   </Target>
 
   <PropertyGroup>
-    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' ">.</CefSharpTargetDir>
+	<CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' ">.</CefSharpTargetDir>
+	<!--
+	Used for AnyCPU transforming of app.config
+	If https://www.nuget.org/packages/MSBuild.Microsoft.VisualStudio.Web.targets/ package is installed
+	we'll attempt to use the task from there, otherwise see if it's installed as part of Visual Studio
+	If not installed then we'll fallback to the old behaviour (user has to manage AnyCPU themselves)
+	-->
+	<CefSharpTransformXmlDllPath Condition="$(VSToolsPath) == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll</CefSharpTransformXmlDllPath>
+	<CefSharpTransformXmlDllPath Condition="$(VSToolsPath) != ''" >$(VSToolsPath)\Web\Microsoft.Web.Publishing.Tasks.dll</CefSharpTransformXmlDllPath>
   </PropertyGroup>
 
   <!--
-    These item groups should be in the .props file, unfortunately Nuget 2.8.x doesn't gurantee the
-    correct ordering .props imports, which we require as this depends on the cef.redist packages
-    exporting an ItemGroup
+	These item groups should be in the .props file, unfortunately Nuget 2.8.x doesn't gurantee the
+	correct ordering .props imports, which we require as this depends on the cef.redist packages
+	exporting an ItemGroup
    -->
    
    <Choose>
-    <When Condition="'$(PlatformTarget)' == 'x64'">
-      <ItemGroup>
+	<When Condition="'$(PlatformTarget)' == 'x64'">
+	  <ItemGroup>
 		<None Include="@(CefRedist64)">
 		  <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -30,9 +44,9 @@
 		  <Visible>false</Visible>
 		</None>
 	  </ItemGroup>
-    </When>
+	</When>
 	<When Condition="'$(PlatformTarget)' == 'AnyCPU'">
-      <ItemGroup>
+	  <ItemGroup>
 		<None Include="@(CefRedist32)">
 		  <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -57,11 +71,27 @@
 		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
 		</None>
+		<!--
+		Include CefSharp.dll and CefSharp.Core.dll (we only need CefSharp.dll but it's easier to include both)
+		in the arch specific folders as required by the BrowserSubProcess.
+		-->
+		<None Include="@(CefSharpCommonManagedDlls)">
+		  <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>
+		<None Include="@(CefSharpCommonManagedDlls)">
+		  <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		</None>		
 	  </ItemGroup>
-    </When>
-    <!-- x86 and Win32-->
-    <Otherwise>
-      <ItemGroup>
+	</When>
+	<!-- x86 and Win32-->
+	<Otherwise>
+	  <ItemGroup>
 		<None Include="@(CefRedist32)">
 		  <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -75,6 +105,21 @@
 		  <Visible>false</Visible>
 		</None>
 	  </ItemGroup>
-    </Otherwise>
+	</Otherwise>
   </Choose>
+  
+  <!--
+  For AnyCPU we use a Transform to add entries to app.config if possible
+  Otherwise throw error to alert user they need to perform additional action
+  --> 
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(CefSharpTransformXmlDllPath)" Condition="Exists('$(CefSharpTransformXmlDllPath)') AND '$(PlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == ''" />
+  
+  <Target Name="CefSharpCommonAnyCPUConfigTransform" AfterTargets="_CopyAppConfigFile" Condition="Exists('$(CefSharpTransformXmlDllPath)') AND '$(PlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == ''">
+	<TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)app.config.x86.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
+	<TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)app.config.x64.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
+  </Target>
+  
+  <Target Name="CefSharpPlatformCheck" BeforeTargets="ResolveAssemblyReferences" Condition="!Exists('$(CefSharpTransformXmlDllPath)') AND '$(PlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' != 'true'">
+	<Error Text="$(MSBuildThisFileName) is unable to proceeed as your current PlatformTarget is '$(PlatformTarget)'. To target AnyCPU please read https://github.com/cefsharp/CefSharp/issues/1714. Alternatively change your PlatformTarget to x86 or x64 and the relevant files will be copied automatically." HelpKeyword="CefSharpSolutionPlatformCheck" />
+  </Target>
 </Project>
