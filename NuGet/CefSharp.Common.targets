@@ -108,6 +108,27 @@
 	</Otherwise>
   </Choose>
   
+  <!-- For Net Core 3.x we include a Reference to CefSharp.Core.Runtime so it's included in the .deps.json file -->
+	<Choose>
+	  <When Condition="'$(PlatformTarget)' == 'x64' AND $(TargetFramework.StartsWith('netcoreapp3'))">
+		<ItemGroup>
+		  <Reference Include="CefSharp.Core.Runtime">
+			<HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.Runtime.dll</HintPath>
+			<Private>True</Private>
+		  </Reference>
+		</ItemGroup>
+	  </When>
+	  <!-- x86, Win32 and AnyCPU -->
+	  <When Condition="('$(PlatformTarget)' == 'x86' OR '$(PlatformTarget)' == 'Win32') AND $(TargetFramework.StartsWith('netcoreapp3'))">
+		<ItemGroup>
+		  <Reference Include="CefSharp.Core.Runtime">
+			<HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll</HintPath>
+			<Private>True</Private>
+		  </Reference>
+		</ItemGroup>
+	  </When>
+	</Choose>
+  
   <!--
   For AnyCPU we use a Transform to add entries to app.config if possible
   Otherwise throw error to alert user they need to perform additional action
