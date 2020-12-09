@@ -20,12 +20,19 @@
     <file src="..\CefSharp\bin\Release\CefSharp.dll" target="lib\net452"/>
     <file src="..\CefSharp\bin\Release\CefSharp.xml" target="lib\net452"/>
     <file src="..\CefSharp\bin\Release\CefSharp.pdb" target="lib\net452"/>
-	<file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="lib\net452"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="lib\net452"/>
     <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.xml" target="lib\net452"/>
     <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.pdb" target="lib\net452"/>
-	
-	<!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
-         solve this using a .props file instead. -->
+    
+    <file src="..\CefSharp\bin\Release\CefSharp.dll" target="lib\netcoreapp3.0"/>
+    <file src="..\CefSharp\bin\Release\CefSharp.xml" target="lib\netcoreapp3.0"/>
+    <file src="..\CefSharp\bin\Release\CefSharp.pdb" target="lib\netcoreapp3.0"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="lib\netcoreapp3.0"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.xml" target="lib\netcoreapp3.0"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.pdb" target="lib\netcoreapp3.0"/> 
+    
+    <!-- Cannot put these inside lib\net452 etc, since there are both x86 and x64 versions which we must distinguish between. We
+         solve this using a .targets file instead to copy them based on PlatformTarget -->
 
     <!-- Common CefSharp stuff (shared between both WPF, Offscreen and WinForms) -->
     <file src="..\CefSharp.Core.Runtime\bin\Win32\Release\CefSharp.Core.Runtime.dll" target="CefSharp\x86"/>
@@ -48,11 +55,11 @@
 
     <file src="CefSharp.Common.props" target="build" />
     <file src="CefSharp.Common.targets" target="build" />
-	<file src="CefSharp.Common.app.config.x86.transform" target="build\app.config.x86.transform" />
+    <file src="CefSharp.Common.app.config.x86.transform" target="build\app.config.x86.transform" />
     <file src="CefSharp.Common.app.config.x64.transform" target="build\app.config.x64.transform" />
   
     <file src="..\CefSharp\**\*.cs" target="src\CefSharp" />
-	<file src="..\CefSharp.Core\**\*.cs" target="src\CefSharp.Core" />
+    <file src="..\CefSharp.Core\**\*.cs" target="src\CefSharp.Core" />
     <file src="..\CefSharp.Core.Runtime\**\*.h" target="src\CefSharp.Core.Runtime" />
     <file src="..\CefSharp.Core.Runtime\**\*.cpp" target="src\CefSharp.Core.Runtime" />
     <file src="..\CefSharp.BrowserSubprocess.Core\**\*.h" target="src\CefSharp.BrowserSubprocess.Core" exclude="packages\**;obj\**" />

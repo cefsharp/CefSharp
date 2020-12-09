@@ -4,7 +4,7 @@
 	<Error Text="CefSharp requires .Net 4.5.2 or higher" />
   </Target>
   
-  <Target Name="CefSharpDeleteCoreRuntimeAfterBuild" AfterTargets="AfterBuild">
+  <Target Name="CefSharpDeleteCoreRuntimeAfterBuild" AfterTargets="AfterBuild" Condition="'$(PlatformTarget)' == 'AnyCPU'">
 	<Delete Files="$(OutDir)CefSharp.Core.Runtime.dll" />
 	<Delete Files="$(OutDir)CefSharp.Core.Runtime.pdb" />
 	<Delete Files="$(OutDir)CefSharp.Core.Runtime.xml" />
@@ -86,7 +86,7 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>
-		</None>		
+		</None>     
 	  </ItemGroup>
 	</When>
 	<!-- x86 and Win32-->
