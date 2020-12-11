@@ -55,7 +55,7 @@
     <PropertyGroup>
         <GenerateReferenceAssemblySource>false</GenerateReferenceAssemblySource>
         <GenAPITargetDir>$(ProjectDir)</GenAPITargetDir>
-        <GenAPITargetPath>$(GenAPITargetDir)$(AssemblyName).cs</GenAPITargetPath>
+        <GenAPITargetPath>$(GenAPITargetDir)$(AssemblyName).netcore.cs</GenAPITargetPath>
     </PropertyGroup>
 
     <!--
