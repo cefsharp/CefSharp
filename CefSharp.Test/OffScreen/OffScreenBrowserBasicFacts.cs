@@ -227,6 +227,9 @@ namespace CefSharp.Test.OffScreen
         [InlineData("return 42;", true, "42")]
         [InlineData("return new Promise(function(resolve, reject) { resolve(42); });", true, "42")]
         [InlineData("return new Promise(function(resolve, reject) { reject('reject test'); });", false, "reject test")]
+        [InlineData("return await 42;", true, "42")]
+        [InlineData("return await (function() { throw('reject test'); })();", false, "reject test")]
+        [InlineData("var result = await fetch('./robots.txt'); return result.status;", true, "200")]
         public async Task CanEvaluateScriptAsPromiseAsync(string script, bool success, string expected)
         {
             using (var browser = new ChromiumWebBrowser("http://www.google.com"))
@@ -255,6 +258,8 @@ namespace CefSharp.Test.OffScreen
         [InlineData("return { a: 'CefSharp', b: 42, };", true, "CefSharp", "42")]
         [InlineData("return new Promise(function(resolve, reject) { resolve({ a: 'CefSharp', b: 42, }); });", true, "CefSharp", "42")]
         [InlineData("return new Promise(function(resolve, reject) { setTimeout(resolve.bind(null, { a: 'CefSharp', b: 42, }), 1000); });", true, "CefSharp", "42")]
+        [InlineData("return await { a: 'CefSharp', b: 42, };", true, "CefSharp", "42")]
+        [InlineData("return await new Promise(function(resolve, reject) { setTimeout(resolve.bind(null, { a: 'CefSharp', b: 42, }), 1000); }); ", true, "CefSharp", "42")]
         public async Task CanEvaluateScriptAsPromiseAsyncReturnObject(string script, bool success, string expectedA, string expectedB)
         {
             using (var browser = new ChromiumWebBrowser("http://www.google.com"))
