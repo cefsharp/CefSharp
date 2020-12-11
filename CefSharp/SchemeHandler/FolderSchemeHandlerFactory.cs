@@ -25,7 +25,7 @@ namespace CefSharp.SchemeHandler
         /// <summary>
         /// <see cref="ResourceHandler.GetMimeType(string)"/> is being deprecated in favour of using
         /// Chromiums native mimeType lookup which is accessible using Cef.GetMimeType, this method is however
-        /// not directly avaliable as it exists in CefSharp.Core, to get around this we set
+        /// not directly available as it exists in CefSharp.Core, to get around this we set
         /// this static delegate with a reference to Cef.GetMimeType when Cef.Initialize is called.
         /// </summary>
         public static Func<string, string> GetMimeTypeDelegate = (s) => { return ResourceHandler.GetMimeType(s); };

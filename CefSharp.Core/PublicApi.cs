@@ -175,7 +175,7 @@ namespace CefSharp
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
-        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies available, throws exception if any are missing</param>
         /// <returns>true if successful; otherwise, false.</returns>
         public static bool Initialize(CefSettingsBase cefSettings, bool performDependencyCheck)
         {
@@ -185,11 +185,11 @@ namespace CefSharp
         /// <summary>
         /// Initializes CefSharp with user-provided settings.
         /// It's important to note that Initialize/Shutdown <strong>MUST</strong> be called on your main
-        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// application thread (typically the UI thread). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
-        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies available, throws exception if any are missing</param>
         /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
         public static bool Initialize(CefSettingsBase cefSettings, bool performDependencyCheck, IBrowserProcessHandler browserProcessHandler)
@@ -204,7 +204,7 @@ namespace CefSharp
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
-        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies available, throws exception if any are missing</param>
         /// <param name="cefApp">Implement this interface to provide handler implementations. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
         public static bool Initialize(CefSettingsBase cefSettings, bool performDependencyCheck, IApp cefApp)
@@ -239,7 +239,7 @@ namespace CefSharp
         /// Perform a single iteration of CEF message loop processing.This function is
         /// provided for cases where the CEF message loop must be integrated into an
         /// existing application message loop. Use of this function is not recommended
-        /// for most users; use CefSettings.MultiThreadedMessageLoop if possible (the deault).
+        /// for most users; use CefSettings.MultiThreadedMessageLoop if possible (the default).
         /// When using this function care must be taken to balance performance
         /// against excessive CPU usage. It is recommended to enable the
         /// CefSettings.ExternalMessagePump option when using
@@ -366,7 +366,7 @@ namespace CefSharp
         /// - Access the ICookieManager instance in IBrowserProcessHandler.OnContextInitialized.
         /// - Use the ChromiumWebBrowser BrowserInitialized (OffScreen) or IsBrowserInitializedChanged (WinForms/WPF) events.
         /// </summary>
-        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF UI thread after the manager's storage has been initialized.</param>
+        /// <param name="callback">If non-NULL it will be executed asynchronously on the CEF UI thread after the manager's storage has been initialized.</param>
         /// <returns>A the global cookie manager or null if the RequestContext has not yet been initialized.</returns>
         public static ICookieManager GetGlobalCookieManager(ICompletionCallback callback = null)
         {
@@ -376,7 +376,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Called prior to calling Cef.Shutdown, this diposes of any remaning
+        /// Called prior to calling Cef.Shutdown, this disposes of any remaining
         /// ChromiumWebBrowser instances. In WPF this is used from Dispatcher.ShutdownStarted
         /// to release the unmanaged resources held by the ChromiumWebBrowser instances.
         /// Generally speaking you don't need to call this yourself.
@@ -675,8 +675,8 @@ namespace CefSharp
         /// <summary>
         /// Helper method to ensure all ChromiumWebBrowser instances have been
         /// closed/disposed, should be called before Cef.Shutdown.
-        /// Disposes all remaning ChromiumWebBrowser instances
-        /// then waits for CEF to release it's remaning CefBrowser instances.
+        /// Disposes all remaining ChromiumWebBrowser instances
+        /// then waits for CEF to release its remaining CefBrowser instances.
         /// Finally a small delay of 50ms to allow for CEF to finish it's cleanup.
         /// Should only be called when MultiThreadedMessageLoop = true;
         /// (Hasn't been tested when when CEF integrates into main message loop).
@@ -1077,7 +1077,10 @@ namespace CefSharp
         }
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Create <see cref="IBrowserAdapter"/> instance via <see cref="Create(IWebBrowserInternal, bool)"/>
+    /// This is the primary object for bridging the ChromiumWebBrowser implementation and VC++
+    /// </summary>
     public static class ManagedCefBrowserAdapter
     {
         public static IBrowserAdapter Create(IWebBrowserInternal webBrowserInternal, bool offScreenRendering)

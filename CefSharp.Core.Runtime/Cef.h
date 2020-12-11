@@ -286,7 +286,7 @@ namespace CefSharp
             /// Perform a single iteration of CEF message loop processing.This function is
             /// provided for cases where the CEF message loop must be integrated into an
             /// existing application message loop. Use of this function is not recommended
-            /// for most users; use CefSettings.MultiThreadedMessageLoop if possible (the deault).
+            /// for most users; use CefSettings.MultiThreadedMessageLoop if possible (the default).
             /// When using this function care must be taken to balance performance
             /// against excessive CPU usage. It is recommended to enable the
             /// CefSettings.ExternalMessagePump option when using

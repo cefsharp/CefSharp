@@ -8,7 +8,7 @@ namespace CefSharp
 {
     /// <summary>
     /// Interface to implement to be notified of asynchronous completion via ICookieManager.DeleteCookies().
-    /// It will be executed asnychronously on the CEF IO thread after the cookie has been deleted
+    /// It will be executed asynchronously on the CEF IO thread after the cookie has been deleted
     /// </summary>
     public interface IDeleteCookiesCallback : IDisposable
     {
