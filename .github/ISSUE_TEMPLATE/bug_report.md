@@ -9,7 +9,7 @@ assignees: ''
 
 ### Please only open an issue if you have a BUG to report, if you simply have a question or require some assistance keep reading for info. If you do have a BUG to report, please use the Bug Report template below.
 
-So you have a question to ask, where can you look for answers? Read on. Think you've found a bug? Please take the time to fill out the bug report below, provide as much information as you can, make sure you provide information for every heading. Thank you! We'd like to keep issues exclusively for **bug reports**, so please ask your questions on `Gitter`
+So you have a question to ask, where can you look for answers? Read on. Think you've found a bug? Please take the time to fill out the bug report below, provide as much information as you can, make sure you provide information for every heading. Thank you! We'd like to keep issues exclusively for **bug reports**, so please ask your questions in the `Discussions` section (https://github.com/cefsharp/CefSharp/discussions)
 
 - Start by reading the General Usage guide, it answers all the common questions https://github.com/cefsharp/CefSharp/wiki/General-Usage
 - Check out the FAQ, lots of useful information there, specially if your having trouble deploying to a different machine : https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
@@ -17,7 +17,7 @@ So you have a question to ask, where can you look for answers? Read on. Think yo
 - You can see all the `CefSharp` tagged issues on `Stackoverflow`, some useful stuff there : http://stackoverflow.com/questions/tagged/cefsharp
 - You can search the `Gitter Chat Channel` for past questions/conversations, you can search through every discussion from the beginning : https://gitter.im/cefsharp/CefSharp
 
-Still have a question? Great, ask it on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp) or [Gitter](https://gitter.im/cefsharp/CefSharp). Larger complex questions should be asked on `Stackoverflow`
+Still have a question? Great, ask it on [Discussions](https://github.com/cefsharp/CefSharp/discussions) or [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp). Larger complex questions should be asked on `Stackoverflow`
 
 **Note: CefSharp is just a wrapper around the Chromium Embedded Project, it's worth searching http://magpcss.org/ceforum/index.php if your problem involves a low level Chromium error message**
 
