@@ -20,6 +20,19 @@
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <NoWarn>CS1591,CS0436</NoWarn>
     </PropertyGroup>
+	
+    <ItemGroup>
+      <Compile Remove="bin\**" />
+      <Compile Remove="obj\**" />
+      <EmbeddedResource Remove="bin\**" />
+      <EmbeddedResource Remove="obj\**" />
+      <None Remove="bin\**" />
+      <None Remove="obj\**" />
+    </ItemGroup>
+	
+    <ItemGroup>
+      <Compile Remove="CefSharp.Core.Runtime.cs" />
+    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj">
