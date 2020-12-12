@@ -50,7 +50,7 @@ namespace CefSharp.WinForms
         /// </summary>
         private bool initialized;
         /// <summary>
-        /// Has the underlying Cef Browser been created (slightly different to initliazed in that
+        /// Has the underlying Cef Browser been created (slightly different to initialized in that
         /// the browser is initialized in an async fashion)
         /// </summary>
         private bool browserCreated;
@@ -145,7 +145,7 @@ namespace CefSharp.WinForms
         }
         /// <summary>
         /// Activates browser upon creation, the default value is false. Prior to version 73
-        /// the default behaviour was to activate browser on creation (Equivilent of setting this property to true).
+        /// the default behaviour was to activate browser on creation (Equivalent of setting this property to true).
         /// To restore this behaviour set this value to true immediately after you create the <see cref="ChromiumWebBrowser"/> instance.
         /// https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
         /// </summary>

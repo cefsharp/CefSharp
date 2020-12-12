@@ -5,7 +5,7 @@
    - e.g. I have added a new feature to the Javascript Binding implementation
 
 **Changes:** [specify the structures changed] 
-   - e.g. I have modified the Javascript Bindign Implementation
+   - e.g. I have modified the Javascript Binding Implementation
       - Added support for Async binding to return Task<T>
       - Added new QUnit Test cases
       

@@ -399,7 +399,7 @@ namespace CefSharp.OffScreen
         /// It is your responsibility to dispose the returned Bitmap.
         /// The bitmap size is determined by the Size property set earlier.
         /// </summary>
-        /// <param name="ignoreExistingScreenshot">Ignore existing bitmap (if any) and return the next avaliable bitmap</param>
+        /// <param name="ignoreExistingScreenshot">Ignore existing bitmap (if any) and return the next available bitmap</param>
         /// <param name="blend">Choose which bitmap to retrieve, choose <see cref="PopupBlending.Blend"/> for a merged bitmap.</param>
         /// <returns>Task&lt;Bitmap&gt;.</returns>
         public Task<Bitmap> ScreenshotAsync(bool ignoreExistingScreenshot = false, PopupBlending blend = PopupBlending.Main)

@@ -9,7 +9,7 @@ assignees: ''
 
 ### Please only open an issue if you have a BUG to report, if you simply have a question or require some assistance keep reading for info. If you do have a BUG to report, please use the Bug Report template below.
 
-So you have a question to ask, where can you look for answers? Read on. Think you've found a bug? Please take the time to fill out the bug report below, provide as much information as you can, make sure you provide information for every heading. Thank you! We'd like to keep issues exclusively for **bug reports**, so please ask your questions on `Gitter`
+So you have a question to ask, where can you look for answers? Read on. Think you've found a bug? Please take the time to fill out the bug report below, provide as much information as you can, make sure you provide information for every heading. Thank you! We'd like to keep issues exclusively for **bug reports**, so please ask your questions in the `Discussions` section (https://github.com/cefsharp/CefSharp/discussions)
 
 - Start by reading the General Usage guide, it answers all the common questions https://github.com/cefsharp/CefSharp/wiki/General-Usage
 - Check out the FAQ, lots of useful information there, specially if your having trouble deploying to a different machine : https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
@@ -17,7 +17,7 @@ So you have a question to ask, where can you look for answers? Read on. Think yo
 - You can see all the `CefSharp` tagged issues on `Stackoverflow`, some useful stuff there : http://stackoverflow.com/questions/tagged/cefsharp
 - You can search the `Gitter Chat Channel` for past questions/conversations, you can search through every discussion from the beginning : https://gitter.im/cefsharp/CefSharp
 
-Still have a question? Great, ask it on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp) or [Gitter](https://gitter.im/cefsharp/CefSharp). Larger complex questions should be asked on `Stackoverflow`
+Still have a question? Great, ask it on [Discussions](https://github.com/cefsharp/CefSharp/discussions) or [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp). Larger complex questions should be asked on `Stackoverflow`
 
 **Note: CefSharp is just a wrapper around the Chromium Embedded Project, it's worth searching http://magpcss.org/ceforum/index.php if your problem involves a low level Chromium error message**
 
@@ -33,8 +33,8 @@ Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
     - What version are you using? Nuget? CI Nuget? build from a branch? If so please link to the relevant commit.
-	- Please include the exact version number you are using e.g. 85.3.121 (no ambiguous statements like `Latest from Nuget`)
-    - Please only create an issue if you can reproduce the problem with version 85.3.121 or greater.
+	- Please include the exact version number you are using e.g. 86.0.241 (no ambiguous statements like `Latest from Nuget`)
+    - Please only create an issue if you can reproduce the problem with version 86.0.241 or greater.
 
 - **What architecture x86 or x64?**
     <x86/x64>
@@ -46,12 +46,12 @@ Delete this line and everything above, and then fill in the details below.
     <WinForms/WPF/OffScreen>
     
 - **What steps will reproduce the problem?**
-    - Please provide detailed information here, enough for someone else to reprodce your problem. 
+    - Please provide detailed information here, enough for someone else to reproduce your problem. 
     - Does the problem reproduce using the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample)?
     - If code is required to reproduce your problem then please provide one of the following
       - Fork the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample) and push your changes to `GitHub` (this is the preferred option).
       - Use a code sharing service list `Gist` or `Pastebin`
-      - Paste your **formatted code as part of this issue** (only do this for small amounts of code and make sure you **format the code so it's reabily**)
+      - Paste your **formatted code as part of this issue** (only do this for small amounts of code and make sure you **format the code so it's readable**)
       - Please no binary attachments (zip, 7z, etc), code needs to be easily reviewed in a web browser.
 
 - **What is the expected output? What do you see instead?**
