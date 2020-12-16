@@ -31,7 +31,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private IBrowserAdapter managedCefBrowserAdapter;
         /// <summary>
         /// The parent form message interceptor
         /// </summary>
@@ -360,10 +360,10 @@ namespace CefSharp.WinForms
 
                 if (browserSettings == null)
                 {
-                    browserSettings = new BrowserSettings(frameworkCreated: true);
+                    browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
                 }
 
-                managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
+                managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, false);
 
                 initialized = true;
             }
@@ -436,7 +436,7 @@ namespace CefSharp.WinForms
                 }
 
                 //Dispose of BrowserSettings if we created it, if user created then they're responsible
-                if (browserSettings != null && browserSettings.FrameworkCreated)
+                if (browserSettings != null && browserSettings.AutoDispose)
                 {
                     browserSettings.Dispose();
                 }
@@ -553,7 +553,7 @@ namespace CefSharp.WinForms
         /// </example>
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
         {
-            var windowInfo = new WindowInfo();
+            var windowInfo = Core.ObjectFactory.CreateWindowInfo();
             windowInfo.SetAsChild(handle);
 
             if (!ActivateBrowserOnCreation)
@@ -596,7 +596,7 @@ namespace CefSharp.WinForms
 
                     initialAddressLoaded = !string.IsNullOrEmpty(Address);
 
-                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
+                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, requestContext, Address);
                 }
             }
         }

@@ -13,6 +13,8 @@ namespace CefSharp.Internals
     /// Cef.Initialized is called we pass a reference to the TaskFactory here so we
     /// can write methods (typically extension methods) in this assembly.
     /// </summary>
+    /// TODO: This can likely be removed and code that depends on this can be moved
+    /// to CefSharp.Core and interact directly with the C++ api
     public static class CefThread
     {
         private static readonly object LockObj = new object();

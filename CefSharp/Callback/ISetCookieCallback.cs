@@ -8,7 +8,7 @@ namespace CefSharp
 {
     /// <summary>
     /// Interface to implement to be notified of asynchronous completion via ICookieManager.SetCookie().
-    /// It will be executed asnychronously on the CEF IO thread after the cookie has been set
+    /// It will be executed asynchronously on the CEF IO thread after the cookie has been set
     /// </summary>
     public interface ISetCookieCallback : IDisposable
     {

@@ -14,8 +14,8 @@
 
 #include <include/cef_base.h>
 
-#include ".\..\CefSharp.Core\Internals\MCefRefPtr.h"
-#include ".\..\CefSharp.Core\Internals\StringUtils.h"
+#include ".\..\CefSharp.Core.Runtime\Internals\MCefRefPtr.h"
+#include ".\..\CefSharp.Core.Runtime\Internals\StringUtils.h"
 #include "vcclr_local.h"
 
 using namespace System;

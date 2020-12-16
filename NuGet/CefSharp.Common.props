@@ -4,36 +4,11 @@
     <CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     <CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
     <CefSharpCommonBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
+    <CefSharpCommonManagedDlls Include="$(MSBuildThisFileDirectory)..\lib\net452\**\*.*" />
+    <CefSharpCommonTransform32 Include="$(MSBuildThisFileDirectory)app.config.x86.transform"/>
+    <CefSharpCommonTransform64 Include="$(MSBuildThisFileDirectory)app.config.x64.transform"/>
 
     <CefSharpBrowserProcessCore32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.BrowserSubprocess.Core.dll" />
     <CefSharpBrowserProcessCore64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.BrowserSubprocess.Core.dll" />
   </ItemGroup>
-  
-  <Choose>
-    <When Condition="'$(Platform)' == 'x64'">
-      <ItemGroup>
-        <Reference Include="CefSharp">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="CefSharp.Core">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <!-- x86, Win32 and AnyCPU -->
-    <Otherwise>
-      <ItemGroup>
-        <Reference Include="CefSharp">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="CefSharp.Core">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
 </Project>

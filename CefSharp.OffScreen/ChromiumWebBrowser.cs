@@ -26,7 +26,7 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private IBrowserAdapter managedCefBrowserAdapter;
 
         /// <summary>
         /// Size of the Chromium viewport.
@@ -168,7 +168,7 @@ namespace CefSharp.OffScreen
         /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
-        public ChromiumWebBrowser(HtmlString html, BrowserSettings browserSettings = null,
+        public ChromiumWebBrowser(HtmlString html, IBrowserSettings browserSettings = null,
             IRequestContext requestContext = null, bool automaticallyCreateBrowser = true) : this(html.ToDataUriString(), browserSettings, requestContext, automaticallyCreateBrowser)
         {
         }
@@ -182,7 +182,7 @@ namespace CefSharp.OffScreen
         /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
-        public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
+        public ChromiumWebBrowser(string address = "", IBrowserSettings browserSettings = null,
             IRequestContext requestContext = null, bool automaticallyCreateBrowser = true)
         {
             if (!Cef.IsInitialized)
@@ -200,7 +200,7 @@ namespace CefSharp.OffScreen
             Cef.AddDisposable(this);
             Address = address;
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
+            managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, true);
 
             if (automaticallyCreateBrowser)
             {
@@ -285,7 +285,7 @@ namespace CefSharp.OffScreen
         /// <param name="windowInfo">Window information used when creating the browser</param>
         /// <param name="browserSettings">Browser initialization settings</param>
         /// <exception cref="System.Exception">An instance of the underlying offscreen browser has already been created, this method can only be called once.</exception>
-        public void CreateBrowser(IWindowInfo windowInfo = null, BrowserSettings browserSettings = null)
+        public void CreateBrowser(IWindowInfo windowInfo = null, IBrowserSettings browserSettings = null)
         {
             if (browserCreated)
             {
@@ -296,19 +296,19 @@ namespace CefSharp.OffScreen
 
             if (browserSettings == null)
             {
-                browserSettings = new BrowserSettings(frameworkCreated: true);
+                browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
             }
 
             if (windowInfo == null)
             {
-                windowInfo = new WindowInfo();
+                windowInfo = Core.ObjectFactory.CreateWindowInfo();
                 windowInfo.SetAsWindowless(IntPtr.Zero);
             }
 
-            managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, (RequestContext)RequestContext, Address);
+            managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, RequestContext, Address);
 
             //Dispose of BrowserSettings if we created it, if user created then they're responsible
-            if (browserSettings.FrameworkCreated)
+            if (browserSettings.AutoDispose)
             {
                 browserSettings.Dispose();
             }
