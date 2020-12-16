@@ -18,7 +18,10 @@ namespace CefSharp
     {
         //TODO: Internal debugging only for now, needs improving if users are going to
         //get meaningful data from this.
-        public static (bool Loaded, string Path, string BrowserSubProcessPath, IntPtr LibraryHandle) LibCefLoadStatus;
+        internal static IntPtr? LibCefHandle { get; private set; }
+        internal static bool LibCefLoaded { get; private set; }
+        internal static string LibCefPath { get; private set; }
+        internal static string BrowserSubProcessPath { get; private set; }
 
         [ModuleInitializer]
         internal static void ModuleInitializer()
@@ -30,7 +33,8 @@ namespace CefSharp
             {
                 //We didn't load CEF, it was already next to our calling assembly, the
                 //framework should load it correctly on it's own
-                LibCefLoadStatus = (false, libCefPath, null, IntPtr.Zero);
+                LibCefPath = libCefPath;
+                LibCefLoaded = false;
             }
             else
             { 
@@ -40,37 +44,21 @@ namespace CefSharp
                 libCefPath = Path.Combine(currentFolder, archFolder, "libcef.dll");
                 if (File.Exists(libCefPath))
                 {
-                    if (NativeLibrary.TryLoad(libCefPath, out IntPtr handle))
+                    LibCefLoaded = NativeLibrary.TryLoad(libCefPath, out IntPtr handle);
+
+                    if (LibCefLoaded)
                     {
-                        var browserSubProcessPath = Path.Combine(currentFolder, archFolder, "CefSharp.BrowserSubprocess.exe");
-                        LibCefLoadStatus = (true, libCefPath, browserSubProcessPath, handle);
+                        BrowserSubProcessPath = Path.Combine(currentFolder, archFolder, "CefSharp.BrowserSubprocess.exe");
+                        LibCefPath = libCefPath;
+                        LibCefHandle = handle;
                     }
                 }
                 else
                 {
-                    LibCefLoadStatus = (false, libCefPath, null, IntPtr.Zero);
+                    LibCefPath = libCefPath;
+                    LibCefLoaded = false;
                 }
             }
-            //var assembly = LoadCefSharpCoreRuntime();
-
-            //NativeLibrary.SetDllImportResolver(typeof(CefSharp.Core.CefSettingsBase).Assembly, LibCefImportResolver);
-
-            //CefSharpCoreRuntimeLocation = assembly.Location;
         }
-
-        //private static IntPtr LibCefImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
-        //{
-        //    return IntPtr.Zero;
-        //}
-
-        //public static Assembly LoadCefSharpCoreRuntime()
-        //{
-        //    //Load into the same context as CefSharp.Core, if user was to create their own context then
-        //    //this should keep thing together.
-        //    var currentCtx = AssemblyLoadContext.GetLoadContext(typeof(Initializer).Assembly);
-
-        //    var browserSubprocessDllPath = Path.Combine(Path.GetDirectoryName(typeof(Initializer).Assembly.Location), "CefSharp.Core.Runtime.dll");
-        //    return currentCtx.LoadFromAssemblyPath(browserSubprocessDllPath);
-        //}
     }
 }

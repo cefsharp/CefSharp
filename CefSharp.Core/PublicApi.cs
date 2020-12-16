@@ -756,10 +756,9 @@ namespace CefSharp
         {
             if(!File.Exists(BrowserSubprocessPath))
             {
-                var libCefLoadStatus = Initializer.LibCefLoadStatus;
-                if(libCefLoadStatus.Loaded)
+                if(Initializer.LibCefLoaded)
                 {
-                    BrowserSubprocessPath = libCefLoadStatus.BrowserSubProcessPath;
+                    BrowserSubprocessPath = Initializer.BrowserSubProcessPath;
                 }
             }
         }
