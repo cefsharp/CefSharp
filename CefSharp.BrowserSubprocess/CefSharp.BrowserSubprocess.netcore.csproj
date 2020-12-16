@@ -22,6 +22,11 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <StartupObject>CefSharp.BrowserSubprocess.Program</StartupObject>
         <Platforms>x86;x64</Platforms>
+        <!--
+        Run on a newer version of .Net if the specified version (.Net Core 3.1) is not installed
+        https://github.com/dotnet/docs/issues/12237
+        -->
+        <RollForward>Major</RollForward>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Debug'">
