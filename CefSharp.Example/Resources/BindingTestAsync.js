@@ -1,8 +1,9 @@
-QUnit.module('BindObjectAsync', (hooks) =>
+QUnit.module('BindingTestAsync', (hooks) =>
 {
-    hooks.before(async () => {
+    hooks.before(async () =>
+    {
         await CefSharp.BindObjectAsync("boundAsync");
-    } );
+    });
 
     QUnit.test("BindObjectAsync Second call with boundAsync param", async (assert) =>
     {

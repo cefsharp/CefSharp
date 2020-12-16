@@ -18,7 +18,11 @@ namespace CefSharp.Example
         public const string ExampleDomain = "cefsharp.example";
         public const string BaseUrl = "https://" + ExampleDomain;
         public const string DefaultUrl = BaseUrl + "/home.html";
+#if NETCOREAPP
+        public const string BindingTestUrl = BaseUrl + "/BindingTestNetCore.html";
+#else
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
+#endif
         public const string BindingTestNetCoreUrl = BaseUrl + "/BindingTestNetCore.html";
         public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
         public const string BindingTestsAsyncTaskUrl = BaseUrl + "/BindingTestsAsyncTask.html";
