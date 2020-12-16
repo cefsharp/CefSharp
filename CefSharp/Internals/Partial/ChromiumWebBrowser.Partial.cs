@@ -5,6 +5,7 @@
 using System;
 using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 using CefSharp.Internals;
 
 #if OFFSCREEN
@@ -224,7 +225,8 @@ namespace CefSharp.WinForms
 
         void IWebBrowserInternal.SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args)
         {
-            JavascriptMessageReceived?.Invoke(this, args);
+            //Run the event on the ThreadPool (rather than the CEF Thread we are currently on).
+            Task.Run(() => JavascriptMessageReceived?.Invoke(this, args));
         }
 
         /// <summary>
