@@ -22,24 +22,66 @@ namespace CefSharp
         private class CefSharpApp : public CefApp,
             public CefBrowserProcessHandler
         {
-            gcroot<CefSettingsBase^> _cefSettings;
+            gcroot<IEnumerable<CefCustomScheme^>^> _customSchemes;
+            gcroot<CommandLineArgDictionary^> _commandLineArgs;
             gcroot<IApp^> _app;
+            bool _commandLineDisabled;
+            bool _hasCustomScheme;
+            gcroot<String^> _customSchemeArg;
 
         public:
-            CefSharpApp(CefSettingsBase^ cefSettings, IApp^ app) :
-                _cefSettings(cefSettings),
-                _app(app)
+            CefSharpApp(bool externalMessagePump, bool commandLineDisabled, CommandLineArgDictionary^ commandLineArgs, IEnumerable<CefCustomScheme^>^ customSchemes, IApp^ app) :
+                _commandLineDisabled(commandLineDisabled),
+                _commandLineArgs(commandLineArgs),
+                _customSchemes(customSchemes),
+                _app(app),
+                _hasCustomScheme(false)
             {
                 auto isMissingHandler = Object::ReferenceEquals(app, nullptr) || Object::ReferenceEquals(app->BrowserProcessHandler, nullptr);
-                if (cefSettings->ExternalMessagePump && isMissingHandler)
+                if (externalMessagePump && isMissingHandler)
                 {
                     throw gcnew Exception("browserProcessHandler cannot be null when using cefSettings.ExternalMessagePump");
+                }
+
+                if (System::Linq::Enumerable::Count(customSchemes) > 0)
+                {
+                    String^ argument = "=";
+                    auto registeredSchemes = gcnew List<String^>();
+
+                    for each (CefCustomScheme ^ scheme in customSchemes)
+                    {
+                        //We don't need to register http or https in the render process
+                        if (scheme->SchemeName == "http" ||
+                            scheme->SchemeName == "https")
+                        {
+                            continue;
+                        }
+
+                        //We've already registered this scheme name
+                        if (registeredSchemes->Contains(scheme->SchemeName))
+                        {
+                            continue;
+                        }
+
+                        _hasCustomScheme = true;
+
+                        registeredSchemes->Add(scheme->SchemeName);
+
+                        argument += scheme->SchemeName + "|";
+                        argument += ((int)scheme->Options).ToString() + ";";
+                    }
+
+                    if (_hasCustomScheme)
+                    {
+                        _customSchemeArg = argument->TrimEnd(';');
+                    }
                 }
             }
 
             ~CefSharpApp()
             {
-                _cefSettings = nullptr;
+                _customSchemes = nullptr;
+                _commandLineArgs = nullptr;
                 delete _app;
                 _app = nullptr;
             }
@@ -56,8 +98,10 @@ namespace CefSharp
                     _app->BrowserProcessHandler->OnContextInitialized();
                 }
 
+                auto customSchemes = (IEnumerable<CefCustomScheme^>^)_customSchemes;
+
                 //CefRegisterSchemeHandlerFactory requires access to the Global CefRequestContext
-                for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)
+                for each (CefCustomScheme^ cefCustomScheme in customSchemes)
                 {
                     if (!Object::ReferenceEquals(cefCustomScheme->SchemeHandlerFactory, nullptr))
                     {
@@ -93,41 +137,9 @@ namespace CefSharp
                 //We need to know the process Id to establish WCF communication and for monitoring of parent process exit
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::HostProcessIdArgument + "=" + Process::GetCurrentProcess()->Id));
 
-                if (_cefSettings->_cefCustomSchemes->Count > 0)
+                if (_hasCustomScheme)
                 {
-                    String^ argument = "=";
-                    bool hasCustomScheme = false;
-                    auto registeredSchemes = gcnew List<String^>();
-
-                    for each(CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
-                    {
-                        //We don't need to register http or https in the render process
-                        if (scheme->SchemeName == "http" ||
-                            scheme->SchemeName == "https")
-                        {
-                            continue;
-                        }
-
-                        //We've already registered this scheme name
-                        if (registeredSchemes->Contains(scheme->SchemeName))
-                        {
-                            continue;
-                        }
-
-                        hasCustomScheme = true;
-
-                        registeredSchemes->Add(scheme->SchemeName);
-
-                        argument += scheme->SchemeName + "|";
-                        argument += ((int)scheme->Options).ToString() + ";";
-                    }
-
-                    if (hasCustomScheme)
-                    {
-                        argument = argument->TrimEnd(';');
-
-                        commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + argument));
-                    }
+                    commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + _customSchemeArg));
                 }
 
                 if (CefSharpSettings::FocusedNodeChangedEnabled)
@@ -138,7 +150,7 @@ namespace CefSharp
 
             virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
             {
-                if (CefSharpSettings::Proxy != nullptr && !_cefSettings->CommandLineArgsDisabled)
+                if (CefSharpSettings::Proxy != nullptr && !_commandLineDisabled)
                 {
                     command_line->AppendSwitchWithValue("proxy-server", StringUtils::ToNative(CefSharpSettings::Proxy->IP + ":" + CefSharpSettings::Proxy->Port));
 
@@ -148,7 +160,7 @@ namespace CefSharp
                     }
                 }
 
-                if (_cefSettings->CefCommandLineArgs->Count > 0)
+                if (_commandLineArgs->Count > 0)
                 {
                     auto commandLine = command_line.get();
 
@@ -156,7 +168,9 @@ namespace CefSharp
                     // * already have some command line flags given (is this possible? Perhaps from globalCommandLine)
                     // * have no flags given (-> call SetProgramm() with first argument?)
 
-                    for each(KeyValuePair<String^, String^>^ kvp in _cefSettings->CefCommandLineArgs)
+                    auto args = (CommandLineArgDictionary^)_commandLineArgs;
+
+                    for each(KeyValuePair<String^, String^>^ kvp in args)
                     {
                         CefString name = StringUtils::ToNative(kvp->Key);
                         CefString value = StringUtils::ToNative(kvp->Value);

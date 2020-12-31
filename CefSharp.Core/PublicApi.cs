@@ -220,11 +220,14 @@ namespace CefSharp
         /// application thread (typically the UI thread). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
-        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="settings">CefSharp configuration settings.</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        public static bool Initialize(CefSettingsBase cefSettings)
+        public static bool Initialize(CefSettingsBase settings)
         {
-            return Core.Cef.Initialize((CefSharp.Core.CefSettingsBase)cefSettings);
+            using (settings.settings)
+            {
+                return Core.Cef.Initialize(settings.settings);
+            }
         }
 
         /// <summary>
@@ -233,12 +236,15 @@ namespace CefSharp
         /// application thread (typically the UI thread). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
-        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="settings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies available, throws exception if any are missing</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        public static bool Initialize(CefSettingsBase cefSettings, bool performDependencyCheck)
+        public static bool Initialize(CefSettingsBase settings, bool performDependencyCheck)
         {
-            return Core.Cef.Initialize((CefSharp.Core.CefSettingsBase)cefSettings, performDependencyCheck);
+            using (settings.settings)
+            {
+                return Core.Cef.Initialize(settings.settings, performDependencyCheck);
+            }
         }
 
         /// <summary>
@@ -247,13 +253,16 @@ namespace CefSharp
         /// application thread (typically the UI thread). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
-        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="settings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies available, throws exception if any are missing</param>
         /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        public static bool Initialize(CefSettingsBase cefSettings, bool performDependencyCheck, IBrowserProcessHandler browserProcessHandler)
+        public static bool Initialize(CefSettingsBase settings, bool performDependencyCheck, IBrowserProcessHandler browserProcessHandler)
         {
-            return Core.Cef.Initialize((CefSharp.Core.CefSettingsBase)cefSettings, performDependencyCheck, browserProcessHandler);
+            using (settings.settings)
+            {
+                return Core.Cef.Initialize(settings.settings, performDependencyCheck, browserProcessHandler);
+            }
         }
 
         /// <summary>
@@ -262,13 +271,16 @@ namespace CefSharp
         /// application thread (typically the UI thread). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
-        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="settings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies available, throws exception if any are missing</param>
         /// <param name="cefApp">Implement this interface to provide handler implementations. Null if you don't wish to handle these events</param>
         /// <returns>true if successful; otherwise, false.</returns>
-        public static bool Initialize(CefSettingsBase cefSettings, bool performDependencyCheck, IApp cefApp)
+        public static bool Initialize(CefSettingsBase settings, bool performDependencyCheck, IApp cefApp)
         {
-            return Core.Cef.Initialize((CefSharp.Core.CefSettingsBase)cefSettings, performDependencyCheck, cefApp);
+            using (settings.settings)
+            {
+                return Core.Cef.Initialize(settings.settings, performDependencyCheck, cefApp);
+            }
         }
 
         /// <summary>
@@ -746,7 +758,11 @@ namespace CefSharp
         }
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Initialization settings. Many of these and other settings can also configured using command-line switches.
+    /// WPF/WinForms/OffScreen each have their own CefSettings implementation that sets
+    /// relevant settings e.g. OffScreen starts with audio muted.
+    /// </summary>
     public abstract class CefSettingsBase
     {
         internal Core.CefSettingsBase settings = new Core.CefSettingsBase();
@@ -763,10 +779,15 @@ namespace CefSharp
             }
         }
 #endif
-
-        public static explicit operator CefSharp.Core.CefSettingsBase(CefSettingsBase s)
+        /// <summary>
+        /// Free the unmanaged CefSettingsBase instance.
+        /// Under normal circumstances you shouldn't need to call this
+        /// The unmanaged resource will be freed after <see cref="Cef.Initialize(CefSettingsBase)"/> (or one of the overloads) is called.
+        /// </summary>
+        public void Dispose()
         {
-            return s.settings;
+            settings?.Dispose();
+            settings = null;
         }
 
         /// <summary>

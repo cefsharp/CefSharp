@@ -246,7 +246,11 @@ namespace CefSharp
                 //To allow FolderSchemeHandlerFactory to access GetMimeType we pass in a Func
                 CefSharp::SchemeHandler::FolderSchemeHandlerFactory::GetMimeTypeDelegate = gcnew Func<String^, String^>(&GetMimeType);
 
-                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, cefApp));
+                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings->ExternalMessagePump,
+                                                           cefSettings->CommandLineArgsDisabled,
+                                                           cefSettings->CefCommandLineArgs,
+                                                           cefSettings->CefCustomSchemes,
+                                                           cefApp));
                 CefMainArgs main_args;
 
                 auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
