@@ -291,7 +291,7 @@ namespace CefSharp.Handler
         }
 
         /// <summary>
-        /// Called when the unamanged resource is freed.
+        /// Called when the unmanaged resource is freed.
         /// Unmanaged resources are ref counted and freed when
         /// the last reference is released, this works differently
         /// to .Net garbage collection.
