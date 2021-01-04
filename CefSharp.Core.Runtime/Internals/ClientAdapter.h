@@ -39,6 +39,7 @@ namespace CefSharp
             gcroot<IWebBrowserInternal^> _browserControl;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
+            bool _disposed;
 
             gcroot<IBrowser^> _browser;
             gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
@@ -55,13 +56,16 @@ namespace CefSharp
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
                 _pendingTaskRepository(gcnew PendingTaskRepository<JavascriptResponse^>()),
                 _browserAdapter(browserAdapter),
-                _browserHwnd(NULL)
+                _browserHwnd(NULL),
+                _disposed(false)
             {
 
             }
 
             ~ClientAdapter()
             {
+                _disposed = true;
+
                 CloseAllPopups(true);
 
                 //this will dispose the repository and cancel all pending tasks
