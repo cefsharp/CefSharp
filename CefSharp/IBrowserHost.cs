@@ -87,7 +87,7 @@ namespace CefSharp
         ///
         /// Communication with the DevTools front-end (when displayed) can be logged
         /// for development purposes by passing the
-        /// `--devtools-protocol-log-file=<path>` command-line flag.
+        /// `--devtools-protocol-log-file=&lt;path&gt;` command-line flag.
         /// </summary>
         /// <param name="messageAsJson">must be a UTF8-encoded JSON dictionary that contains "id" (int), "method" (string)
         /// and "params" (dictionary, optional) values. See comments above for further details.</param>
