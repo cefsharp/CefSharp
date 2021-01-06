@@ -14,87 +14,87 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// boolean
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("boolean"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("boolean")]
         Boolean,
         /// <summary>
         /// tristate
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("tristate"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("tristate")]
         Tristate,
         /// <summary>
         /// booleanOrUndefined
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("booleanOrUndefined"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("booleanOrUndefined")]
         BooleanOrUndefined,
         /// <summary>
         /// idref
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("idref"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("idref")]
         Idref,
         /// <summary>
         /// idrefList
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("idrefList"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("idrefList")]
         IdrefList,
         /// <summary>
         /// integer
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("integer"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("integer")]
         Integer,
         /// <summary>
         /// node
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("node"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("node")]
         Node,
         /// <summary>
         /// nodeList
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("nodeList"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeList")]
         NodeList,
         /// <summary>
         /// number
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("number"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("number")]
         Number,
         /// <summary>
         /// string
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("string"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("string")]
         String,
         /// <summary>
         /// computedString
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("computedString"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("computedString")]
         ComputedString,
         /// <summary>
         /// token
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("token"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("token")]
         Token,
         /// <summary>
         /// tokenList
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("tokenList"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("tokenList")]
         TokenList,
         /// <summary>
         /// domRelation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("domRelation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("domRelation")]
         DomRelation,
         /// <summary>
         /// role
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("role"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("role")]
         Role,
         /// <summary>
         /// internalRole
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("internalRole"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("internalRole")]
         InternalRole,
         /// <summary>
         /// valueUndefined
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("valueUndefined"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("valueUndefined")]
         ValueUndefined
     }
 }
@@ -109,32 +109,32 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// attribute
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("attribute"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attribute")]
         Attribute,
         /// <summary>
         /// implicit
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("implicit"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("implicit")]
         Implicit,
         /// <summary>
         /// style
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("style"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("style")]
         Style,
         /// <summary>
         /// contents
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("contents"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contents")]
         Contents,
         /// <summary>
         /// placeholder
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("placeholder"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("placeholder")]
         Placeholder,
         /// <summary>
         /// relatedElement
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("relatedElement"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("relatedElement")]
         RelatedElement
     }
 }
@@ -149,42 +149,42 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// figcaption
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("figcaption"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("figcaption")]
         Figcaption,
         /// <summary>
         /// label
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("label"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("label")]
         Label,
         /// <summary>
         /// labelfor
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("labelfor"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("labelfor")]
         Labelfor,
         /// <summary>
         /// labelwrapped
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("labelwrapped"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("labelwrapped")]
         Labelwrapped,
         /// <summary>
         /// legend
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("legend"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("legend")]
         Legend,
         /// <summary>
         /// tablecaption
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("tablecaption"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("tablecaption")]
         Tablecaption,
         /// <summary>
         /// title
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("title"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("title")]
         Title,
         /// <summary>
         /// other
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("other"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("other")]
         Other
     }
 }
@@ -194,27 +194,13 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// A single source for a computed AX property.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AXValueSource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Accessibility.AXValueSourceType Type
-        {
-            get
-            {
-                return (CefSharp.DevTools.Accessibility.AXValueSourceType)(StringToEnum(typeof(CefSharp.DevTools.Accessibility.AXValueSourceType), type));
-            }
-
-            set
-            {
-                this.type = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// What type of source this is.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        internal string type
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        public CefSharp.DevTools.Accessibility.AXValueSourceType Type
         {
             get;
             set;
@@ -223,7 +209,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The value of this property source.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public CefSharp.DevTools.Accessibility.AXValue Value
         {
             get;
@@ -233,7 +219,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The name of the relevant attribute, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("attribute"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attribute")]
         public string Attribute
         {
             get;
@@ -243,7 +229,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The value of the relevant attribute, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("attributeValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attributeValue")]
         public CefSharp.DevTools.Accessibility.AXValue AttributeValue
         {
             get;
@@ -253,31 +239,18 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// Whether this source is superseded by a higher priority source.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("superseded"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("superseded")]
         public bool? Superseded
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Accessibility.AXValueNativeSourceType? NativeSource
-        {
-            get
-            {
-                return (CefSharp.DevTools.Accessibility.AXValueNativeSourceType? )(StringToEnum(typeof(CefSharp.DevTools.Accessibility.AXValueNativeSourceType? ), nativeSource));
-            }
-
-            set
-            {
-                this.nativeSource = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The native markup source for this value, e.g. a &lt;label&gt; element.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nativeSource"), IsRequired = (false))]
-        internal string nativeSource
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nativeSource")]
+        public CefSharp.DevTools.Accessibility.AXValueNativeSourceType? NativeSource
         {
             get;
             set;
@@ -286,7 +259,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The value, such as a node or node list, of the native source.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nativeSourceValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nativeSourceValue")]
         public CefSharp.DevTools.Accessibility.AXValue NativeSourceValue
         {
             get;
@@ -296,7 +269,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// Whether the value for this property is invalid.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("invalid"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("invalid")]
         public bool? Invalid
         {
             get;
@@ -306,7 +279,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// Reason for the value being invalid, if it is.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("invalidReason"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("invalidReason")]
         public string InvalidReason
         {
             get;
@@ -320,13 +293,12 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// AXRelatedNode
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AXRelatedNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The BackendNodeId of the related DOM node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendDOMNodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendDOMNodeId")]
         public int BackendDOMNodeId
         {
             get;
@@ -336,7 +308,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The IDRef value provided, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("idref"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("idref")]
         public string Idref
         {
             get;
@@ -346,7 +318,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The text alternative of this node in the current context.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
         public string Text
         {
             get;
@@ -360,27 +332,13 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// AXProperty
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AXProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Accessibility.AXPropertyName Name
-        {
-            get
-            {
-                return (CefSharp.DevTools.Accessibility.AXPropertyName)(StringToEnum(typeof(CefSharp.DevTools.Accessibility.AXPropertyName), name));
-            }
-
-            set
-            {
-                this.name = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The name of this property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
-        internal string name
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        public CefSharp.DevTools.Accessibility.AXPropertyName Name
         {
             get;
             set;
@@ -389,7 +347,8 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The value of this property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Accessibility.AXValue Value
         {
             get;
@@ -403,27 +362,13 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// A single computed AX property.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AXValue : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Accessibility.AXValueType Type
-        {
-            get
-            {
-                return (CefSharp.DevTools.Accessibility.AXValueType)(StringToEnum(typeof(CefSharp.DevTools.Accessibility.AXValueType), type));
-            }
-
-            set
-            {
-                this.type = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The type of this value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        internal string type
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        public CefSharp.DevTools.Accessibility.AXValueType Type
         {
             get;
             set;
@@ -432,7 +377,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The computed value of this property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public object Value
         {
             get;
@@ -442,7 +387,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// One or more related nodes, if applicable.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("relatedNodes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("relatedNodes")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXRelatedNode> RelatedNodes
         {
             get;
@@ -452,7 +397,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The sources which contributed to the computation of this property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sources"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sources")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXValueSource> Sources
         {
             get;
@@ -476,197 +421,197 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// busy
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("busy"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("busy")]
         Busy,
         /// <summary>
         /// disabled
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("disabled"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("disabled")]
         Disabled,
         /// <summary>
         /// editable
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("editable"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("editable")]
         Editable,
         /// <summary>
         /// focusable
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("focusable"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("focusable")]
         Focusable,
         /// <summary>
         /// focused
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("focused"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("focused")]
         Focused,
         /// <summary>
         /// hidden
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("hidden"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hidden")]
         Hidden,
         /// <summary>
         /// hiddenRoot
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("hiddenRoot"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hiddenRoot")]
         HiddenRoot,
         /// <summary>
         /// invalid
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("invalid"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("invalid")]
         Invalid,
         /// <summary>
         /// keyshortcuts
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("keyshortcuts"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyshortcuts")]
         Keyshortcuts,
         /// <summary>
         /// settable
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("settable"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("settable")]
         Settable,
         /// <summary>
         /// roledescription
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("roledescription"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("roledescription")]
         Roledescription,
         /// <summary>
         /// live
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("live"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("live")]
         Live,
         /// <summary>
         /// atomic
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("atomic"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("atomic")]
         Atomic,
         /// <summary>
         /// relevant
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("relevant"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("relevant")]
         Relevant,
         /// <summary>
         /// root
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("root"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("root")]
         Root,
         /// <summary>
         /// autocomplete
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("autocomplete"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("autocomplete")]
         Autocomplete,
         /// <summary>
         /// hasPopup
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("hasPopup"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hasPopup")]
         HasPopup,
         /// <summary>
         /// level
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("level"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("level")]
         Level,
         /// <summary>
         /// multiselectable
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("multiselectable"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("multiselectable")]
         Multiselectable,
         /// <summary>
         /// orientation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("orientation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("orientation")]
         Orientation,
         /// <summary>
         /// multiline
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("multiline"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("multiline")]
         Multiline,
         /// <summary>
         /// readonly
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("readonly"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("readonly")]
         Readonly,
         /// <summary>
         /// required
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("required"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("required")]
         Required,
         /// <summary>
         /// valuemin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("valuemin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("valuemin")]
         Valuemin,
         /// <summary>
         /// valuemax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("valuemax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("valuemax")]
         Valuemax,
         /// <summary>
         /// valuetext
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("valuetext"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("valuetext")]
         Valuetext,
         /// <summary>
         /// checked
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("checked"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("checked")]
         Checked,
         /// <summary>
         /// expanded
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("expanded"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("expanded")]
         Expanded,
         /// <summary>
         /// modal
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("modal"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("modal")]
         Modal,
         /// <summary>
         /// pressed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("pressed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pressed")]
         Pressed,
         /// <summary>
         /// selected
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("selected"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("selected")]
         Selected,
         /// <summary>
         /// activedescendant
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("activedescendant"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("activedescendant")]
         Activedescendant,
         /// <summary>
         /// controls
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("controls"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("controls")]
         Controls,
         /// <summary>
         /// describedby
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("describedby"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("describedby")]
         Describedby,
         /// <summary>
         /// details
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("details"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("details")]
         Details,
         /// <summary>
         /// errormessage
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("errormessage"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errormessage")]
         Errormessage,
         /// <summary>
         /// flowto
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("flowto"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("flowto")]
         Flowto,
         /// <summary>
         /// labelledby
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("labelledby"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("labelledby")]
         Labelledby,
         /// <summary>
         /// owns
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("owns"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("owns")]
         Owns
     }
 }
@@ -676,13 +621,13 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// A node in the accessibility tree.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AXNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Unique identifier for this node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeId
         {
             get;
@@ -692,7 +637,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// Whether this node is ignored for accessibility
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ignored"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ignored")]
         public bool Ignored
         {
             get;
@@ -702,7 +647,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// Collection of reasons why this node is hidden.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ignoredReasons"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ignoredReasons")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXProperty> IgnoredReasons
         {
             get;
@@ -712,7 +657,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// This `Node`&apos;s role, whether explicit or implicit.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("role"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("role")]
         public CefSharp.DevTools.Accessibility.AXValue Role
         {
             get;
@@ -722,7 +667,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The accessible name for this `Node`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
         public CefSharp.DevTools.Accessibility.AXValue Name
         {
             get;
@@ -732,7 +677,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The accessible description for this `Node`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("description"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("description")]
         public CefSharp.DevTools.Accessibility.AXValue Description
         {
             get;
@@ -742,7 +687,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The value for this `Node`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public CefSharp.DevTools.Accessibility.AXValue Value
         {
             get;
@@ -752,7 +697,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// All other properties
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("properties"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("properties")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXProperty> Properties
         {
             get;
@@ -762,7 +707,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// IDs for each of this node&apos;s child nodes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("childIds"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("childIds")]
         public string[] ChildIds
         {
             get;
@@ -772,7 +717,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <summary>
         /// The backend ID for the associated DOM node, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendDOMNodeId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendDOMNodeId")]
         public int? BackendDOMNodeId
         {
             get;
@@ -786,13 +731,13 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// Animation instance.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Animation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// `Animation`&apos;s id.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Id
         {
             get;
@@ -802,7 +747,8 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `Animation`&apos;s name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -812,7 +758,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `Animation`&apos;s internal paused state.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pausedState"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pausedState")]
         public bool PausedState
         {
             get;
@@ -822,7 +768,8 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `Animation`&apos;s play state.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("playState"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("playState")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string PlayState
         {
             get;
@@ -832,7 +779,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `Animation`&apos;s playback rate.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("playbackRate"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("playbackRate")]
         public long PlaybackRate
         {
             get;
@@ -842,7 +789,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `Animation`&apos;s start time.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startTime")]
         public long StartTime
         {
             get;
@@ -852,7 +799,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `Animation`&apos;s current time.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("currentTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("currentTime")]
         public long CurrentTime
         {
             get;
@@ -862,7 +809,8 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// Animation type of `Animation`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -872,7 +820,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `Animation`&apos;s source animation node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("source"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
         public CefSharp.DevTools.Animation.AnimationEffect Source
         {
             get;
@@ -883,7 +831,7 @@ namespace CefSharp.DevTools.Animation
         /// A unique ID for `Animation` representing the sources that triggered this CSS
         /// animation/transition.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cssId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cssId")]
         public string CssId
         {
             get;
@@ -897,13 +845,12 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// AnimationEffect instance
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AnimationEffect : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// `AnimationEffect`&apos;s delay.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("delay"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("delay")]
         public long Delay
         {
             get;
@@ -913,7 +860,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s end delay.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endDelay"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endDelay")]
         public long EndDelay
         {
             get;
@@ -923,7 +870,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s iteration start.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("iterationStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("iterationStart")]
         public long IterationStart
         {
             get;
@@ -933,7 +880,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s iterations.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("iterations"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("iterations")]
         public long Iterations
         {
             get;
@@ -943,7 +890,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s iteration duration.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("duration"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("duration")]
         public long Duration
         {
             get;
@@ -953,7 +900,8 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s playback direction.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("direction"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("direction")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Direction
         {
             get;
@@ -963,7 +911,8 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s fill mode.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fill"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fill")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Fill
         {
             get;
@@ -973,7 +922,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s target node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int? BackendNodeId
         {
             get;
@@ -983,7 +932,7 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s keyframes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyframesRule"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyframesRule")]
         public CefSharp.DevTools.Animation.KeyframesRule KeyframesRule
         {
             get;
@@ -993,7 +942,8 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s timing function.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("easing"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("easing")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Easing
         {
             get;
@@ -1007,13 +957,12 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// Keyframes Rule
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class KeyframesRule : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// CSS keyframed animation&apos;s name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
         public string Name
         {
             get;
@@ -1023,7 +972,8 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// List of animation keyframes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyframes"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyframes")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Animation.KeyframeStyle> Keyframes
         {
             get;
@@ -1037,13 +987,13 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// Keyframe Style
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class KeyframeStyle : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Keyframe&apos;s time offset.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offset"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offset")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Offset
         {
             get;
@@ -1053,7 +1003,8 @@ namespace CefSharp.DevTools.Animation
         /// <summary>
         /// `AnimationEffect`&apos;s timing function.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("easing"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("easing")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Easing
         {
             get;
@@ -1067,13 +1018,13 @@ namespace CefSharp.DevTools.ApplicationCache
     /// <summary>
     /// Detailed application cache resource information.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ApplicationCacheResource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Resource url.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -1083,7 +1034,7 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <summary>
         /// Resource size.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("size"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("size")]
         public int Size
         {
             get;
@@ -1093,7 +1044,8 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <summary>
         /// Resource type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -1107,13 +1059,13 @@ namespace CefSharp.DevTools.ApplicationCache
     /// <summary>
     /// Detailed application cache information.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ApplicationCache : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Manifest URL.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("manifestURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("manifestURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ManifestURL
         {
             get;
@@ -1123,7 +1075,7 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <summary>
         /// Application cache size.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("size"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("size")]
         public long Size
         {
             get;
@@ -1133,7 +1085,7 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <summary>
         /// Application cache creation time.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("creationTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("creationTime")]
         public long CreationTime
         {
             get;
@@ -1143,7 +1095,7 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <summary>
         /// Application cache update time.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("updateTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("updateTime")]
         public long UpdateTime
         {
             get;
@@ -1153,7 +1105,8 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <summary>
         /// Application cache resources.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("resources"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resources")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.ApplicationCache.ApplicationCacheResource> Resources
         {
             get;
@@ -1167,13 +1120,13 @@ namespace CefSharp.DevTools.ApplicationCache
     /// <summary>
     /// Frame identifier - manifest URL pair.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FrameWithManifest : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Frame identifier.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frameId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FrameId
         {
             get;
@@ -1183,7 +1136,8 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <summary>
         /// Manifest URL.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("manifestURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("manifestURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ManifestURL
         {
             get;
@@ -1193,7 +1147,7 @@ namespace CefSharp.DevTools.ApplicationCache
         /// <summary>
         /// Application cache status.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("status")]
         public int Status
         {
             get;
@@ -1207,13 +1161,13 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// Information about a cookie that is affected by an inspector issue.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AffectedCookie : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The following three properties uniquely identify a cookie
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -1223,7 +1177,8 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// Path
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("path"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("path")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Path
         {
             get;
@@ -1233,7 +1188,8 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// Domain
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("domain"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("domain")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Domain
         {
             get;
@@ -1247,13 +1203,13 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// Information about a request that is affected by an inspector issue.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AffectedRequest : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The unique request id.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string RequestId
         {
             get;
@@ -1263,7 +1219,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// Url
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
         public string Url
         {
             get;
@@ -1277,13 +1233,13 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// Information about the frame affected by an inspector issue.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AffectedFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// FrameId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frameId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FrameId
         {
             get;
@@ -1302,22 +1258,22 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// ExcludeSameSiteUnspecifiedTreatedAsLax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ExcludeSameSiteUnspecifiedTreatedAsLax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ExcludeSameSiteUnspecifiedTreatedAsLax")]
         ExcludeSameSiteUnspecifiedTreatedAsLax,
         /// <summary>
         /// ExcludeSameSiteNoneInsecure
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ExcludeSameSiteNoneInsecure"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ExcludeSameSiteNoneInsecure")]
         ExcludeSameSiteNoneInsecure,
         /// <summary>
         /// ExcludeSameSiteLax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ExcludeSameSiteLax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ExcludeSameSiteLax")]
         ExcludeSameSiteLax,
         /// <summary>
         /// ExcludeSameSiteStrict
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ExcludeSameSiteStrict"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ExcludeSameSiteStrict")]
         ExcludeSameSiteStrict
     }
 }
@@ -1332,42 +1288,42 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// WarnSameSiteUnspecifiedCrossSiteContext
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WarnSameSiteUnspecifiedCrossSiteContext"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WarnSameSiteUnspecifiedCrossSiteContext")]
         WarnSameSiteUnspecifiedCrossSiteContext,
         /// <summary>
         /// WarnSameSiteNoneInsecure
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WarnSameSiteNoneInsecure"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WarnSameSiteNoneInsecure")]
         WarnSameSiteNoneInsecure,
         /// <summary>
         /// WarnSameSiteUnspecifiedLaxAllowUnsafe
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WarnSameSiteUnspecifiedLaxAllowUnsafe"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WarnSameSiteUnspecifiedLaxAllowUnsafe")]
         WarnSameSiteUnspecifiedLaxAllowUnsafe,
         /// <summary>
         /// WarnSameSiteStrictLaxDowngradeStrict
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WarnSameSiteStrictLaxDowngradeStrict"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WarnSameSiteStrictLaxDowngradeStrict")]
         WarnSameSiteStrictLaxDowngradeStrict,
         /// <summary>
         /// WarnSameSiteStrictCrossDowngradeStrict
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WarnSameSiteStrictCrossDowngradeStrict"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WarnSameSiteStrictCrossDowngradeStrict")]
         WarnSameSiteStrictCrossDowngradeStrict,
         /// <summary>
         /// WarnSameSiteStrictCrossDowngradeLax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WarnSameSiteStrictCrossDowngradeLax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WarnSameSiteStrictCrossDowngradeLax")]
         WarnSameSiteStrictCrossDowngradeLax,
         /// <summary>
         /// WarnSameSiteLaxCrossDowngradeStrict
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WarnSameSiteLaxCrossDowngradeStrict"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WarnSameSiteLaxCrossDowngradeStrict")]
         WarnSameSiteLaxCrossDowngradeStrict,
         /// <summary>
         /// WarnSameSiteLaxCrossDowngradeLax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WarnSameSiteLaxCrossDowngradeLax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WarnSameSiteLaxCrossDowngradeLax")]
         WarnSameSiteLaxCrossDowngradeLax
     }
 }
@@ -1382,12 +1338,12 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// SetCookie
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SetCookie"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SetCookie")]
         SetCookie,
         /// <summary>
         /// ReadCookie
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ReadCookie"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ReadCookie")]
         ReadCookie
     }
 }
@@ -1399,84 +1355,45 @@ namespace CefSharp.DevTools.Audits
     /// time finding a specific cookie. With this, we can convey specific error
     /// information without the cookie.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SameSiteCookieIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Cookie
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookie"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookie")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Audits.AffectedCookie Cookie
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Audits.SameSiteCookieWarningReason[] CookieWarningReasons
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.SameSiteCookieWarningReason[])(StringToEnum(typeof(CefSharp.DevTools.Audits.SameSiteCookieWarningReason[]), cookieWarningReasons));
-            }
-
-            set
-            {
-                this.cookieWarningReasons = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// CookieWarningReasons
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookieWarningReasons"), IsRequired = (true))]
-        internal string cookieWarningReasons
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookieWarningReasons")]
+        public CefSharp.DevTools.Audits.SameSiteCookieWarningReason[] CookieWarningReasons
         {
             get;
             set;
-        }
-
-        public CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[] CookieExclusionReasons
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[])(StringToEnum(typeof(CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[]), cookieExclusionReasons));
-            }
-
-            set
-            {
-                this.cookieExclusionReasons = (EnumToString(value));
-            }
         }
 
         /// <summary>
         /// CookieExclusionReasons
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookieExclusionReasons"), IsRequired = (true))]
-        internal string cookieExclusionReasons
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookieExclusionReasons")]
+        public CefSharp.DevTools.Audits.SameSiteCookieExclusionReason[] CookieExclusionReasons
         {
             get;
             set;
-        }
-
-        public CefSharp.DevTools.Audits.SameSiteCookieOperation Operation
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.SameSiteCookieOperation)(StringToEnum(typeof(CefSharp.DevTools.Audits.SameSiteCookieOperation), operation));
-            }
-
-            set
-            {
-                this.operation = (EnumToString(value));
-            }
         }
 
         /// <summary>
         /// Optionally identifies the site-for-cookies and the cookie url, which
         /// may be used by the front-end as additional context.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("operation"), IsRequired = (true))]
-        internal string operation
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("operation")]
+        public CefSharp.DevTools.Audits.SameSiteCookieOperation Operation
         {
             get;
             set;
@@ -1485,7 +1402,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// SiteForCookies
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("siteForCookies"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("siteForCookies")]
         public string SiteForCookies
         {
             get;
@@ -1495,7 +1412,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// CookieUrl
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookieUrl"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookieUrl")]
         public string CookieUrl
         {
             get;
@@ -1505,7 +1422,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// Request
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("request"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("request")]
         public CefSharp.DevTools.Audits.AffectedRequest Request
         {
             get;
@@ -1524,17 +1441,17 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// MixedContentBlocked
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("MixedContentBlocked"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("MixedContentBlocked")]
         MixedContentBlocked,
         /// <summary>
         /// MixedContentAutomaticallyUpgraded
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("MixedContentAutomaticallyUpgraded"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("MixedContentAutomaticallyUpgraded")]
         MixedContentAutomaticallyUpgraded,
         /// <summary>
         /// MixedContentWarning
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("MixedContentWarning"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("MixedContentWarning")]
         MixedContentWarning
     }
 }
@@ -1549,132 +1466,132 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// Audio
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Audio"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Audio")]
         Audio,
         /// <summary>
         /// Beacon
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Beacon"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Beacon")]
         Beacon,
         /// <summary>
         /// CSPReport
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CSPReport"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CSPReport")]
         CSPReport,
         /// <summary>
         /// Download
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Download"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Download")]
         Download,
         /// <summary>
         /// EventSource
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("EventSource"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("EventSource")]
         EventSource,
         /// <summary>
         /// Favicon
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Favicon"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Favicon")]
         Favicon,
         /// <summary>
         /// Font
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Font"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Font")]
         Font,
         /// <summary>
         /// Form
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Form"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Form")]
         Form,
         /// <summary>
         /// Frame
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Frame"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Frame")]
         Frame,
         /// <summary>
         /// Image
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Image"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Image")]
         Image,
         /// <summary>
         /// Import
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Import"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Import")]
         Import,
         /// <summary>
         /// Manifest
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Manifest"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Manifest")]
         Manifest,
         /// <summary>
         /// Ping
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Ping"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Ping")]
         Ping,
         /// <summary>
         /// PluginData
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("PluginData"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("PluginData")]
         PluginData,
         /// <summary>
         /// PluginResource
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("PluginResource"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("PluginResource")]
         PluginResource,
         /// <summary>
         /// Prefetch
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Prefetch"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Prefetch")]
         Prefetch,
         /// <summary>
         /// Resource
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Resource"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Resource")]
         Resource,
         /// <summary>
         /// Script
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Script"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Script")]
         Script,
         /// <summary>
         /// ServiceWorker
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ServiceWorker"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ServiceWorker")]
         ServiceWorker,
         /// <summary>
         /// SharedWorker
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SharedWorker"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SharedWorker")]
         SharedWorker,
         /// <summary>
         /// Stylesheet
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Stylesheet"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Stylesheet")]
         Stylesheet,
         /// <summary>
         /// Track
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Track"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Track")]
         Track,
         /// <summary>
         /// Video
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Video"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Video")]
         Video,
         /// <summary>
         /// Worker
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Worker"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Worker")]
         Worker,
         /// <summary>
         /// XMLHttpRequest
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("XMLHttpRequest"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("XMLHttpRequest")]
         XMLHttpRequest,
         /// <summary>
         /// XSLT
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("XSLT"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("XSLT")]
         XSLT
     }
 }
@@ -1684,53 +1601,26 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// MixedContentIssueDetails
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class MixedContentIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Audits.MixedContentResourceType? ResourceType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.MixedContentResourceType? )(StringToEnum(typeof(CefSharp.DevTools.Audits.MixedContentResourceType? ), resourceType));
-            }
-
-            set
-            {
-                this.resourceType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The type of resource causing the mixed content issue (css, js, iframe,
         /// form,...). Marked as optional because it is mapped to from
         /// blink::mojom::RequestContextType, which will be replaced
         /// by network::mojom::RequestDestination
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("resourceType"), IsRequired = (false))]
-        internal string resourceType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resourceType")]
+        public CefSharp.DevTools.Audits.MixedContentResourceType? ResourceType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Audits.MixedContentResolutionStatus ResolutionStatus
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.MixedContentResolutionStatus)(StringToEnum(typeof(CefSharp.DevTools.Audits.MixedContentResolutionStatus), resolutionStatus));
-            }
-
-            set
-            {
-                this.resolutionStatus = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The way the mixed content issue is being resolved.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("resolutionStatus"), IsRequired = (true))]
-        internal string resolutionStatus
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resolutionStatus")]
+        public CefSharp.DevTools.Audits.MixedContentResolutionStatus ResolutionStatus
         {
             get;
             set;
@@ -1739,7 +1629,8 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// The unsafe http url causing the mixed content issue.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("insecureURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("insecureURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string InsecureURL
         {
             get;
@@ -1749,7 +1640,8 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// The url responsible for the call to an unsafe url.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mainResourceURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mainResourceURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string MainResourceURL
         {
             get;
@@ -1760,7 +1652,7 @@ namespace CefSharp.DevTools.Audits
         /// The mixed content request.
         /// Does not always exist (e.g. for unsafe form submission urls).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("request"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("request")]
         public CefSharp.DevTools.Audits.AffectedRequest Request
         {
             get;
@@ -1770,7 +1662,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// Optional because not every mixed content issue is necessarily linked to a frame.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frame"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frame")]
         public CefSharp.DevTools.Audits.AffectedFrame Frame
         {
             get;
@@ -1790,27 +1682,27 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// CoepFrameResourceNeedsCoepHeader
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CoepFrameResourceNeedsCoepHeader"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CoepFrameResourceNeedsCoepHeader")]
         CoepFrameResourceNeedsCoepHeader,
         /// <summary>
         /// CoopSandboxedIFrameCannotNavigateToCoopPage
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CoopSandboxedIFrameCannotNavigateToCoopPage"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CoopSandboxedIFrameCannotNavigateToCoopPage")]
         CoopSandboxedIFrameCannotNavigateToCoopPage,
         /// <summary>
         /// CorpNotSameOrigin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CorpNotSameOrigin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CorpNotSameOrigin")]
         CorpNotSameOrigin,
         /// <summary>
         /// CorpNotSameOriginAfterDefaultedToSameOriginByCoep
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CorpNotSameOriginAfterDefaultedToSameOriginByCoep"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CorpNotSameOriginAfterDefaultedToSameOriginByCoep")]
         CorpNotSameOriginAfterDefaultedToSameOriginByCoep,
         /// <summary>
         /// CorpNotSameSite
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CorpNotSameSite"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CorpNotSameSite")]
         CorpNotSameSite
     }
 }
@@ -1822,13 +1714,13 @@ namespace CefSharp.DevTools.Audits
     /// code. Currently only used for COEP/COOP, but may be extended to include
     /// some CSP errors in the future.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BlockedByResponseIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Request
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("request"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("request")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Audits.AffectedRequest Request
         {
             get;
@@ -1838,7 +1730,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// ParentFrame
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentFrame"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parentFrame")]
         public CefSharp.DevTools.Audits.AffectedFrame ParentFrame
         {
             get;
@@ -1848,31 +1740,18 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// BlockedFrame
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedFrame"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blockedFrame")]
         public CefSharp.DevTools.Audits.AffectedFrame BlockedFrame
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Audits.BlockedByResponseReason Reason
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.BlockedByResponseReason)(StringToEnum(typeof(CefSharp.DevTools.Audits.BlockedByResponseReason), reason));
-            }
-
-            set
-            {
-                this.reason = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Reason
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("reason"), IsRequired = (true))]
-        internal string reason
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reason")]
+        public CefSharp.DevTools.Audits.BlockedByResponseReason Reason
         {
             get;
             set;
@@ -1890,12 +1769,12 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// HeavyAdBlocked
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("HeavyAdBlocked"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("HeavyAdBlocked")]
         HeavyAdBlocked,
         /// <summary>
         /// HeavyAdWarning
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("HeavyAdWarning"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("HeavyAdWarning")]
         HeavyAdWarning
     }
 }
@@ -1910,17 +1789,17 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// NetworkTotalLimit
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("NetworkTotalLimit"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("NetworkTotalLimit")]
         NetworkTotalLimit,
         /// <summary>
         /// CpuTotalLimit
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CpuTotalLimit"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CpuTotalLimit")]
         CpuTotalLimit,
         /// <summary>
         /// CpuPeakLimit
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CpuPeakLimit"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CpuPeakLimit")]
         CpuPeakLimit
     }
 }
@@ -1930,50 +1809,23 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// HeavyAdIssueDetails
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class HeavyAdIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Audits.HeavyAdResolutionStatus Resolution
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.HeavyAdResolutionStatus)(StringToEnum(typeof(CefSharp.DevTools.Audits.HeavyAdResolutionStatus), resolution));
-            }
-
-            set
-            {
-                this.resolution = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The resolution status, either blocking the content or warning.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("resolution"), IsRequired = (true))]
-        internal string resolution
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resolution")]
+        public CefSharp.DevTools.Audits.HeavyAdResolutionStatus Resolution
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Audits.HeavyAdReason Reason
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.HeavyAdReason)(StringToEnum(typeof(CefSharp.DevTools.Audits.HeavyAdReason), reason));
-            }
-
-            set
-            {
-                this.reason = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The reason the ad was blocked, total network or cpu or peak cpu.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("reason"), IsRequired = (true))]
-        internal string reason
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reason")]
+        public CefSharp.DevTools.Audits.HeavyAdReason Reason
         {
             get;
             set;
@@ -1982,7 +1834,8 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// The frame that was blocked.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frame"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frame")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Audits.AffectedFrame Frame
         {
             get;
@@ -2001,27 +1854,27 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// kInlineViolation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("kInlineViolation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("kInlineViolation")]
         KInlineViolation,
         /// <summary>
         /// kEvalViolation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("kEvalViolation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("kEvalViolation")]
         KEvalViolation,
         /// <summary>
         /// kURLViolation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("kURLViolation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("kURLViolation")]
         KURLViolation,
         /// <summary>
         /// kTrustedTypesSinkViolation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("kTrustedTypesSinkViolation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("kTrustedTypesSinkViolation")]
         KTrustedTypesSinkViolation,
         /// <summary>
         /// kTrustedTypesPolicyViolation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("kTrustedTypesPolicyViolation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("kTrustedTypesPolicyViolation")]
         KTrustedTypesPolicyViolation
     }
 }
@@ -2031,13 +1884,13 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// SourceCodeLocation
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SourceCodeLocation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Url
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -2047,7 +1900,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// LineNumber
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int LineNumber
         {
             get;
@@ -2057,7 +1910,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// ColumnNumber
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNumber")]
         public int ColumnNumber
         {
             get;
@@ -2071,13 +1924,12 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// ContentSecurityPolicyIssueDetails
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ContentSecurityPolicyIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The url not included in allowed sources.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blockedURL")]
         public string BlockedURL
         {
             get;
@@ -2087,31 +1939,19 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// Specific directive that is violated, causing the CSP issue.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("violatedDirective"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("violatedDirective")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ViolatedDirective
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Audits.ContentSecurityPolicyViolationType ContentSecurityPolicyViolationType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.ContentSecurityPolicyViolationType)(StringToEnum(typeof(CefSharp.DevTools.Audits.ContentSecurityPolicyViolationType), contentSecurityPolicyViolationType));
-            }
-
-            set
-            {
-                this.contentSecurityPolicyViolationType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// ContentSecurityPolicyViolationType
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentSecurityPolicyViolationType"), IsRequired = (true))]
-        internal string contentSecurityPolicyViolationType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentSecurityPolicyViolationType")]
+        public CefSharp.DevTools.Audits.ContentSecurityPolicyViolationType ContentSecurityPolicyViolationType
         {
             get;
             set;
@@ -2120,7 +1960,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// FrameAncestor
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frameAncestor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameAncestor")]
         public CefSharp.DevTools.Audits.AffectedFrame FrameAncestor
         {
             get;
@@ -2130,7 +1970,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// SourceCodeLocation
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sourceCodeLocation"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sourceCodeLocation")]
         public CefSharp.DevTools.Audits.SourceCodeLocation SourceCodeLocation
         {
             get;
@@ -2140,7 +1980,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// ViolatingNodeId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("violatingNodeId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("violatingNodeId")]
         public int? ViolatingNodeId
         {
             get;
@@ -2161,27 +2001,27 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// SameSiteCookieIssue
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteCookieIssue"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteCookieIssue")]
         SameSiteCookieIssue,
         /// <summary>
         /// MixedContentIssue
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("MixedContentIssue"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("MixedContentIssue")]
         MixedContentIssue,
         /// <summary>
         /// BlockedByResponseIssue
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("BlockedByResponseIssue"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("BlockedByResponseIssue")]
         BlockedByResponseIssue,
         /// <summary>
         /// HeavyAdIssue
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("HeavyAdIssue"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("HeavyAdIssue")]
         HeavyAdIssue,
         /// <summary>
         /// ContentSecurityPolicyIssue
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ContentSecurityPolicyIssue"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ContentSecurityPolicyIssue")]
         ContentSecurityPolicyIssue
     }
 }
@@ -2193,13 +2033,12 @@ namespace CefSharp.DevTools.Audits
     /// specific to the kind of issue. When adding a new issue code, please also
     /// add a new optional field to this type.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class InspectorIssueDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// SameSiteCookieIssueDetails
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sameSiteCookieIssueDetails"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sameSiteCookieIssueDetails")]
         public CefSharp.DevTools.Audits.SameSiteCookieIssueDetails SameSiteCookieIssueDetails
         {
             get;
@@ -2209,7 +2048,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// MixedContentIssueDetails
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentIssueDetails"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mixedContentIssueDetails")]
         public CefSharp.DevTools.Audits.MixedContentIssueDetails MixedContentIssueDetails
         {
             get;
@@ -2219,7 +2058,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// BlockedByResponseIssueDetails
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedByResponseIssueDetails"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blockedByResponseIssueDetails")]
         public CefSharp.DevTools.Audits.BlockedByResponseIssueDetails BlockedByResponseIssueDetails
         {
             get;
@@ -2229,7 +2068,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// HeavyAdIssueDetails
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("heavyAdIssueDetails"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("heavyAdIssueDetails")]
         public CefSharp.DevTools.Audits.HeavyAdIssueDetails HeavyAdIssueDetails
         {
             get;
@@ -2239,7 +2078,7 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// ContentSecurityPolicyIssueDetails
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentSecurityPolicyIssueDetails"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentSecurityPolicyIssueDetails")]
         public CefSharp.DevTools.Audits.ContentSecurityPolicyIssueDetails ContentSecurityPolicyIssueDetails
         {
             get;
@@ -2253,27 +2092,13 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// An inspector issue reported from the back-end.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class InspectorIssue : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Audits.InspectorIssueCode Code
-        {
-            get
-            {
-                return (CefSharp.DevTools.Audits.InspectorIssueCode)(StringToEnum(typeof(CefSharp.DevTools.Audits.InspectorIssueCode), code));
-            }
-
-            set
-            {
-                this.code = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Code
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("code"), IsRequired = (true))]
-        internal string code
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("code")]
+        public CefSharp.DevTools.Audits.InspectorIssueCode Code
         {
             get;
             set;
@@ -2282,7 +2107,8 @@ namespace CefSharp.DevTools.Audits
         /// <summary>
         /// Details
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("details"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("details")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Audits.InspectorIssueDetails Details
         {
             get;
@@ -2303,32 +2129,32 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// backgroundFetch
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("backgroundFetch"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backgroundFetch")]
         BackgroundFetch,
         /// <summary>
         /// backgroundSync
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("backgroundSync"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backgroundSync")]
         BackgroundSync,
         /// <summary>
         /// pushMessaging
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("pushMessaging"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pushMessaging")]
         PushMessaging,
         /// <summary>
         /// notifications
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("notifications"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("notifications")]
         Notifications,
         /// <summary>
         /// paymentHandler
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("paymentHandler"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("paymentHandler")]
         PaymentHandler,
         /// <summary>
         /// periodicBackgroundSync
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("periodicBackgroundSync"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("periodicBackgroundSync")]
         PeriodicBackgroundSync
     }
 }
@@ -2338,13 +2164,13 @@ namespace CefSharp.DevTools.BackgroundService
     /// <summary>
     /// A key-value pair for additional event information to pass along.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class EventMetadata : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Key
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("key"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("key")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Key
         {
             get;
@@ -2354,7 +2180,8 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -2368,13 +2195,12 @@ namespace CefSharp.DevTools.BackgroundService
     /// <summary>
     /// BackgroundServiceEvent
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BackgroundServiceEvent : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Timestamp of the event (in seconds).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timestamp"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timestamp")]
         public long Timestamp
         {
             get;
@@ -2384,7 +2210,8 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// The origin this event belongs to.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Origin
         {
             get;
@@ -2394,31 +2221,19 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// The Service Worker ID that initiated the event.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("serviceWorkerRegistrationId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("serviceWorkerRegistrationId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ServiceWorkerRegistrationId
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.BackgroundService.ServiceName Service
-        {
-            get
-            {
-                return (CefSharp.DevTools.BackgroundService.ServiceName)(StringToEnum(typeof(CefSharp.DevTools.BackgroundService.ServiceName), service));
-            }
-
-            set
-            {
-                this.service = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The Background Service this event belongs to.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("service"), IsRequired = (true))]
-        internal string service
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("service")]
+        public CefSharp.DevTools.BackgroundService.ServiceName Service
         {
             get;
             set;
@@ -2427,7 +2242,8 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// A description of the event.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("eventName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("eventName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string EventName
         {
             get;
@@ -2437,7 +2253,8 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// An identifier that groups related events together.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("instanceId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("instanceId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string InstanceId
         {
             get;
@@ -2447,7 +2264,8 @@ namespace CefSharp.DevTools.BackgroundService
         /// <summary>
         /// A list of event-specific information.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("eventMetadata"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("eventMetadata")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.BackgroundService.EventMetadata> EventMetadata
         {
             get;
@@ -2466,22 +2284,22 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// normal
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("normal"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("normal")]
         Normal,
         /// <summary>
         /// minimized
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("minimized"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("minimized")]
         Minimized,
         /// <summary>
         /// maximized
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("maximized"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maximized")]
         Maximized,
         /// <summary>
         /// fullscreen
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("fullscreen"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fullscreen")]
         Fullscreen
     }
 }
@@ -2491,13 +2309,12 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Browser window bounds information
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Bounds : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The offset from the left edge of the screen to the window in pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("left"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("left")]
         public int? Left
         {
             get;
@@ -2507,7 +2324,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The offset from the top edge of the screen to the window in pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("top"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("top")]
         public int? Top
         {
             get;
@@ -2517,7 +2334,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The window width in pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("width"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("width")]
         public int? Width
         {
             get;
@@ -2527,31 +2344,18 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// The window height in pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("height"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("height")]
         public int? Height
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Browser.WindowState? WindowState
-        {
-            get
-            {
-                return (CefSharp.DevTools.Browser.WindowState? )(StringToEnum(typeof(CefSharp.DevTools.Browser.WindowState? ), windowState));
-            }
-
-            set
-            {
-                this.windowState = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The window state. Default to normal.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("windowState"), IsRequired = (false))]
-        internal string windowState
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("windowState")]
+        public CefSharp.DevTools.Browser.WindowState? WindowState
         {
             get;
             set;
@@ -2569,107 +2373,107 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// accessibilityEvents
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("accessibilityEvents"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("accessibilityEvents")]
         AccessibilityEvents,
         /// <summary>
         /// audioCapture
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("audioCapture"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("audioCapture")]
         AudioCapture,
         /// <summary>
         /// backgroundSync
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("backgroundSync"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backgroundSync")]
         BackgroundSync,
         /// <summary>
         /// backgroundFetch
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("backgroundFetch"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backgroundFetch")]
         BackgroundFetch,
         /// <summary>
         /// clipboardReadWrite
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("clipboardReadWrite"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clipboardReadWrite")]
         ClipboardReadWrite,
         /// <summary>
         /// clipboardSanitizedWrite
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("clipboardSanitizedWrite"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clipboardSanitizedWrite")]
         ClipboardSanitizedWrite,
         /// <summary>
         /// durableStorage
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("durableStorage"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("durableStorage")]
         DurableStorage,
         /// <summary>
         /// flash
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("flash"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("flash")]
         Flash,
         /// <summary>
         /// geolocation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("geolocation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("geolocation")]
         Geolocation,
         /// <summary>
         /// midi
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("midi"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("midi")]
         Midi,
         /// <summary>
         /// midiSysex
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("midiSysex"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("midiSysex")]
         MidiSysex,
         /// <summary>
         /// nfc
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("nfc"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nfc")]
         Nfc,
         /// <summary>
         /// notifications
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("notifications"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("notifications")]
         Notifications,
         /// <summary>
         /// paymentHandler
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("paymentHandler"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("paymentHandler")]
         PaymentHandler,
         /// <summary>
         /// periodicBackgroundSync
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("periodicBackgroundSync"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("periodicBackgroundSync")]
         PeriodicBackgroundSync,
         /// <summary>
         /// protectedMediaIdentifier
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("protectedMediaIdentifier"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("protectedMediaIdentifier")]
         ProtectedMediaIdentifier,
         /// <summary>
         /// sensors
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("sensors"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sensors")]
         Sensors,
         /// <summary>
         /// videoCapture
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("videoCapture"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("videoCapture")]
         VideoCapture,
         /// <summary>
         /// idleDetection
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("idleDetection"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("idleDetection")]
         IdleDetection,
         /// <summary>
         /// wakeLockScreen
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("wakeLockScreen"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wakeLockScreen")]
         WakeLockScreen,
         /// <summary>
         /// wakeLockSystem
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("wakeLockSystem"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wakeLockSystem")]
         WakeLockSystem
     }
 }
@@ -2684,17 +2488,17 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// granted
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("granted"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("granted")]
         Granted,
         /// <summary>
         /// denied
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("denied"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("denied")]
         Denied,
         /// <summary>
         /// prompt
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("prompt"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("prompt")]
         Prompt
     }
 }
@@ -2705,14 +2509,14 @@ namespace CefSharp.DevTools.Browser
     /// Definition of PermissionDescriptor defined in the Permissions API:
     /// https://w3c.github.io/permissions/#dictdef-permissiondescriptor.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PermissionDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name of permission.
         /// See https://cs.chromium.org/chromium/src/third_party/blink/renderer/modules/permissions/permission_descriptor.idl for valid permission names.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -2722,7 +2526,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// For &quot;midi&quot; permission, may also specify sysex control.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sysex"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sysex")]
         public bool? Sysex
         {
             get;
@@ -2733,7 +2537,7 @@ namespace CefSharp.DevTools.Browser
         /// For &quot;push&quot; permission, may specify userVisibleOnly.
         /// Note that userVisibleOnly = true is the only currently supported type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("userVisibleOnly"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("userVisibleOnly")]
         public bool? UserVisibleOnly
         {
             get;
@@ -2743,7 +2547,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// For &quot;clipboard&quot; permission, may specify allowWithoutSanitization.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("allowWithoutSanitization"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("allowWithoutSanitization")]
         public bool? AllowWithoutSanitization
         {
             get;
@@ -2757,13 +2561,12 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Chrome histogram bucket.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Bucket : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Minimum value (inclusive).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("low"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("low")]
         public int Low
         {
             get;
@@ -2773,7 +2576,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Maximum value (exclusive).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("high"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("high")]
         public int High
         {
             get;
@@ -2783,7 +2586,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Number of samples.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("count"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("count")]
         public int Count
         {
             get;
@@ -2797,13 +2600,13 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// Chrome histogram.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Histogram : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -2813,7 +2616,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Sum of sample values.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sum"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sum")]
         public int Sum
         {
             get;
@@ -2823,7 +2626,7 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Total number of samples.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("count"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("count")]
         public int Count
         {
             get;
@@ -2833,7 +2636,8 @@ namespace CefSharp.DevTools.Browser
         /// <summary>
         /// Buckets.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("buckets"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("buckets")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Browser.Bucket> Buckets
         {
             get;
@@ -2854,22 +2658,22 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// injected
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("injected"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("injected")]
         Injected,
         /// <summary>
         /// user-agent
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("user-agent"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("user-agent")]
         UserAgent,
         /// <summary>
         /// inspector
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("inspector"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inspector")]
         Inspector,
         /// <summary>
         /// regular
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("regular"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("regular")]
         Regular
     }
 }
@@ -2879,27 +2683,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS rule collection for a single pseudo style.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PseudoElementMatches : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.DOM.PseudoType PseudoType
-        {
-            get
-            {
-                return (CefSharp.DevTools.DOM.PseudoType)(StringToEnum(typeof(CefSharp.DevTools.DOM.PseudoType), pseudoType));
-            }
-
-            set
-            {
-                this.pseudoType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Pseudo element type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (true))]
-        internal string pseudoType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pseudoType")]
+        public CefSharp.DevTools.DOM.PseudoType PseudoType
         {
             get;
             set;
@@ -2908,7 +2698,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Matches of CSS rules applicable to the pseudo style.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("matches"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("matches")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleMatch> Matches
         {
             get;
@@ -2922,13 +2713,12 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Inherited CSS rule collection from ancestor node.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class InheritedStyleEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The ancestor node&apos;s inline style, if any, in the style inheritance chain.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("inlineStyle"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inlineStyle")]
         public CefSharp.DevTools.CSS.CSSStyle InlineStyle
         {
             get;
@@ -2938,7 +2728,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Matches of CSS rules matching the ancestor node in the style inheritance chain.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("matchedCSSRules"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("matchedCSSRules")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleMatch> MatchedCSSRules
         {
             get;
@@ -2952,13 +2743,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Match data for a CSS rule.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RuleMatch : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// CSS rule in the match.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rule"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rule")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.CSS.CSSRule Rule
         {
             get;
@@ -2968,7 +2759,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Matching selector indices in the rule&apos;s selectorList selectors (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("matchingSelectors"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("matchingSelectors")]
         public int[] MatchingSelectors
         {
             get;
@@ -2982,13 +2773,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Data for a simple selector (these are delimited by commas in a selector list).
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Value : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Value text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Text
         {
             get;
@@ -2998,7 +2789,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Value range in the underlying resource (if available).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("range"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("range")]
         public CefSharp.DevTools.CSS.SourceRange Range
         {
             get;
@@ -3012,13 +2803,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Selector list data.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SelectorList : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Selectors in the list.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("selectors"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("selectors")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.Value> Selectors
         {
             get;
@@ -3028,7 +2819,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Rule selector text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Text
         {
             get;
@@ -3042,13 +2834,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS stylesheet metainformation.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSStyleSheetHeader : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The stylesheet identifier.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleSheetId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string StyleSheetId
         {
             get;
@@ -3058,7 +2850,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Owner frame identifier.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frameId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FrameId
         {
             get;
@@ -3068,7 +2861,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Stylesheet resource URL.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sourceURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sourceURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SourceURL
         {
             get;
@@ -3078,31 +2872,18 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// URL of source map associated with the stylesheet (if any).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sourceMapURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sourceMapURL")]
         public string SourceMapURL
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
-        {
-            get
-            {
-                return (CefSharp.DevTools.CSS.StyleSheetOrigin)(StringToEnum(typeof(CefSharp.DevTools.CSS.StyleSheetOrigin), origin));
-            }
-
-            set
-            {
-                this.origin = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Stylesheet origin.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
-        internal string origin
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
         {
             get;
             set;
@@ -3111,7 +2892,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Stylesheet title.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("title"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("title")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Title
         {
             get;
@@ -3121,7 +2903,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The backend id for the owner node of the stylesheet.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ownerNode"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ownerNode")]
         public int? OwnerNode
         {
             get;
@@ -3131,7 +2913,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Denotes whether the stylesheet is disabled.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("disabled"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("disabled")]
         public bool Disabled
         {
             get;
@@ -3141,7 +2923,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Whether the sourceURL field value comes from the sourceURL comment.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("hasSourceURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hasSourceURL")]
         public bool? HasSourceURL
         {
             get;
@@ -3152,7 +2934,7 @@ namespace CefSharp.DevTools.CSS
         /// Whether this stylesheet is created for STYLE tag by parser. This flag is not set for
         /// document.written STYLE tags.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isInline"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isInline")]
         public bool IsInline
         {
             get;
@@ -3165,7 +2947,7 @@ namespace CefSharp.DevTools.CSS
         /// &lt;link&gt; element&apos;s stylesheets become mutable only if DevTools modifies them.
         /// Constructed stylesheets (new CSSStyleSheet()) are mutable immediately after creation.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isMutable"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isMutable")]
         public bool IsMutable
         {
             get;
@@ -3175,7 +2957,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Whether this stylesheet is a constructed stylesheet (created using new CSSStyleSheet()).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isConstructed"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isConstructed")]
         public bool IsConstructed
         {
             get;
@@ -3185,7 +2967,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Line offset of the stylesheet within the resource (zero based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startLine"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startLine")]
         public long StartLine
         {
             get;
@@ -3195,7 +2977,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Column offset of the stylesheet within the resource (zero based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startColumn"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startColumn")]
         public long StartColumn
         {
             get;
@@ -3205,7 +2987,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Size of the content (in characters).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("length"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("length")]
         public long Length
         {
             get;
@@ -3215,7 +2997,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Line offset of the end of the stylesheet within the resource (zero based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endLine"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endLine")]
         public long EndLine
         {
             get;
@@ -3225,7 +3007,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Column offset of the end of the stylesheet within the resource (zero based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endColumn"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endColumn")]
         public long EndColumn
         {
             get;
@@ -3239,14 +3021,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS rule representation.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSRule : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The css style sheet identifier (absent for user agent stylesheet and user-specified
         /// stylesheet rules) this rule came from.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleSheetId")]
         public string StyleSheetId
         {
             get;
@@ -3256,31 +3037,19 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Rule selector data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("selectorList"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("selectorList")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.CSS.SelectorList SelectorList
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
-        {
-            get
-            {
-                return (CefSharp.DevTools.CSS.StyleSheetOrigin)(StringToEnum(typeof(CefSharp.DevTools.CSS.StyleSheetOrigin), origin));
-            }
-
-            set
-            {
-                this.origin = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Parent stylesheet&apos;s origin.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
-        internal string origin
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
         {
             get;
             set;
@@ -3289,7 +3058,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Associated style declaration.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("style"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("style")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.CSS.CSSStyle Style
         {
             get;
@@ -3300,7 +3070,7 @@ namespace CefSharp.DevTools.CSS
         /// Media list array (for rules involving media queries). The array enumerates media queries
         /// starting with the innermost one, going outwards.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("media"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("media")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSMedia> Media
         {
             get;
@@ -3314,14 +3084,14 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS coverage information.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RuleUsage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The css style sheet identifier (absent for user agent stylesheet and user-specified
         /// stylesheet rules) this rule came from.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleSheetId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string StyleSheetId
         {
             get;
@@ -3331,7 +3101,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Offset of the start of the rule (including selector) from the beginning of the stylesheet.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startOffset"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startOffset")]
         public long StartOffset
         {
             get;
@@ -3341,7 +3111,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Offset of the end of the rule body from the beginning of the stylesheet.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endOffset"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endOffset")]
         public long EndOffset
         {
             get;
@@ -3351,7 +3121,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Indicates whether the rule was actually used by some element in the page.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("used"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("used")]
         public bool Used
         {
             get;
@@ -3365,13 +3135,12 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Text range within a resource. All numbers are zero-based.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SourceRange : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Start line of range.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startLine"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startLine")]
         public int StartLine
         {
             get;
@@ -3381,7 +3150,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Start column of range (inclusive).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startColumn"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startColumn")]
         public int StartColumn
         {
             get;
@@ -3391,7 +3160,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// End line of range
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endLine"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endLine")]
         public int EndLine
         {
             get;
@@ -3401,7 +3170,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// End column of range (exclusive).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endColumn"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endColumn")]
         public int EndColumn
         {
             get;
@@ -3415,13 +3184,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// ShorthandEntry
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ShorthandEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Shorthand name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -3431,7 +3200,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Shorthand value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -3441,7 +3211,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Whether the property has &quot;!important&quot; annotation (implies `false` if absent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("important"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("important")]
         public bool? Important
         {
             get;
@@ -3455,13 +3225,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSSComputedStyleProperty
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSComputedStyleProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Computed style property name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -3471,7 +3241,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Computed style property value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -3485,14 +3256,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS style representation.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSStyle : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The css style sheet identifier (absent for user agent stylesheet and user-specified
         /// stylesheet rules) this rule came from.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleSheetId")]
         public string StyleSheetId
         {
             get;
@@ -3502,7 +3272,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// CSS properties in the style.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cssProperties"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cssProperties")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSProperty> CssProperties
         {
             get;
@@ -3512,7 +3283,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Computed values for all shorthands found in the style.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shorthandEntries"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shorthandEntries")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.ShorthandEntry> ShorthandEntries
         {
             get;
@@ -3522,7 +3294,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Style declaration text (if available).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cssText"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cssText")]
         public string CssText
         {
             get;
@@ -3532,7 +3304,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Style declaration range in the enclosing stylesheet (if available).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("range"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("range")]
         public CefSharp.DevTools.CSS.SourceRange Range
         {
             get;
@@ -3546,13 +3318,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS property declaration data.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The property name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -3562,7 +3334,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The property value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -3572,7 +3345,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Whether the property has &quot;!important&quot; annotation (implies `false` if absent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("important"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("important")]
         public bool? Important
         {
             get;
@@ -3582,7 +3355,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Whether the property is implicit (implies `false` if absent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("implicit"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("implicit")]
         public bool? Implicit
         {
             get;
@@ -3592,7 +3365,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The full property text as specified in the style.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
         public string Text
         {
             get;
@@ -3602,7 +3375,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Whether the property is understood by the browser (implies `true` if absent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parsedOk"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parsedOk")]
         public bool? ParsedOk
         {
             get;
@@ -3612,7 +3385,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Whether the property is disabled by the user (present for source-based properties only).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("disabled"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("disabled")]
         public bool? Disabled
         {
             get;
@@ -3622,7 +3395,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The entire property range in the enclosing style declaration (if available).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("range"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("range")]
         public CefSharp.DevTools.CSS.SourceRange Range
         {
             get;
@@ -3636,13 +3409,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS media rule descriptor.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSMedia : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Media query text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Text
         {
             get;
@@ -3655,7 +3428,8 @@ namespace CefSharp.DevTools.CSS
         /// stylesheet&apos;s LINK tag, &quot;inlineSheet&quot; if specified by a &quot;media&quot; attribute in an inline
         /// stylesheet&apos;s STYLE tag.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("source"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Source
         {
             get;
@@ -3665,7 +3439,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// URL of the document containing the media query description.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sourceURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sourceURL")]
         public string SourceURL
         {
             get;
@@ -3676,7 +3450,7 @@ namespace CefSharp.DevTools.CSS
         /// The associated rule (@media or @import) header range in the enclosing stylesheet (if
         /// available).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("range"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("range")]
         public CefSharp.DevTools.CSS.SourceRange Range
         {
             get;
@@ -3686,7 +3460,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Identifier of the stylesheet containing this object (if exists).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleSheetId")]
         public string StyleSheetId
         {
             get;
@@ -3696,7 +3470,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Array of media queries.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mediaList"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mediaList")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.MediaQuery> MediaList
         {
             get;
@@ -3710,13 +3484,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Media query descriptor.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class MediaQuery : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Array of media query expressions.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("expressions"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("expressions")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.MediaQueryExpression> Expressions
         {
             get;
@@ -3726,7 +3500,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Whether the media query condition is satisfied.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("active"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("active")]
         public bool Active
         {
             get;
@@ -3740,13 +3514,12 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Media query expression descriptor.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class MediaQueryExpression : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Media query expression value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public long Value
         {
             get;
@@ -3756,7 +3529,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Media query expression units.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("unit"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unit")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Unit
         {
             get;
@@ -3766,7 +3540,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Media query expression feature.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("feature"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("feature")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Feature
         {
             get;
@@ -3776,7 +3551,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The associated range of the value text in the enclosing stylesheet (if available).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("valueRange"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("valueRange")]
         public CefSharp.DevTools.CSS.SourceRange ValueRange
         {
             get;
@@ -3786,7 +3561,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Computed length of media query expression (if applicable).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("computedLength"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("computedLength")]
         public long? ComputedLength
         {
             get;
@@ -3800,13 +3575,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Information about amount of glyphs that were rendered with given font.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PlatformFontUsage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Font&apos;s family name reported by platform.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("familyName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("familyName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FamilyName
         {
             get;
@@ -3816,7 +3591,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Indicates if the font was downloaded or resolved locally.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isCustomFont"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isCustomFont")]
         public bool IsCustomFont
         {
             get;
@@ -3826,7 +3601,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Amount of glyphs that were rendered with this font.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("glyphCount"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("glyphCount")]
         public long GlyphCount
         {
             get;
@@ -3840,13 +3615,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// Information about font variation axes for variable fonts
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FontVariationAxis : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The font-variation-setting tag (a.k.a. &quot;axis tag&quot;).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("tag"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("tag")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Tag
         {
             get;
@@ -3856,7 +3631,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Human-readable variation name in the default language (normally, &quot;en&quot;).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -3866,7 +3642,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The minimum value (inclusive) the font supports for this tag.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("minValue"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("minValue")]
         public long MinValue
         {
             get;
@@ -3876,7 +3652,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The maximum value (inclusive) the font supports for this tag.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxValue"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maxValue")]
         public long MaxValue
         {
             get;
@@ -3886,7 +3662,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The default value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("defaultValue"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("defaultValue")]
         public long DefaultValue
         {
             get;
@@ -3901,13 +3677,13 @@ namespace CefSharp.DevTools.CSS
     /// Properties of a web font: https://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions
     /// and additional information such as platformFontFamily and fontVariationAxes.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FontFace : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The font-family.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fontFamily"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fontFamily")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FontFamily
         {
             get;
@@ -3917,7 +3693,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The font-style.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fontStyle"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fontStyle")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FontStyle
         {
             get;
@@ -3927,7 +3704,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The font-variant.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fontVariant"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fontVariant")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FontVariant
         {
             get;
@@ -3937,7 +3715,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The font-weight.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fontWeight"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fontWeight")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FontWeight
         {
             get;
@@ -3947,7 +3726,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The font-stretch.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fontStretch"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fontStretch")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FontStretch
         {
             get;
@@ -3957,7 +3737,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The unicode-range.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("unicodeRange"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unicodeRange")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string UnicodeRange
         {
             get;
@@ -3967,7 +3748,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The src.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("src"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("src")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Src
         {
             get;
@@ -3977,7 +3759,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The resolved platform font family
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("platformFontFamily"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("platformFontFamily")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string PlatformFontFamily
         {
             get;
@@ -3987,7 +3770,7 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Available variation settings (a.k.a. &quot;axes&quot;).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fontVariationAxes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fontVariationAxes")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.FontVariationAxis> FontVariationAxes
         {
             get;
@@ -4001,13 +3784,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS keyframes rule representation.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSKeyframesRule : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Animation name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("animationName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("animationName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.CSS.Value AnimationName
         {
             get;
@@ -4017,7 +3800,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// List of keyframes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyframes"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyframes")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSKeyframeRule> Keyframes
         {
             get;
@@ -4031,38 +3815,24 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CSS keyframe rule representation.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSKeyframeRule : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The css style sheet identifier (absent for user agent stylesheet and user-specified
         /// stylesheet rules) this rule came from.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleSheetId")]
         public string StyleSheetId
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
-        {
-            get
-            {
-                return (CefSharp.DevTools.CSS.StyleSheetOrigin)(StringToEnum(typeof(CefSharp.DevTools.CSS.StyleSheetOrigin), origin));
-            }
-
-            set
-            {
-                this.origin = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Parent stylesheet&apos;s origin.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
-        internal string origin
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        public CefSharp.DevTools.CSS.StyleSheetOrigin Origin
         {
             get;
             set;
@@ -4071,7 +3841,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Associated key text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyText"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyText")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.CSS.Value KeyText
         {
             get;
@@ -4081,7 +3852,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// Associated style declaration.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("style"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("style")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.CSS.CSSStyle Style
         {
             get;
@@ -4095,13 +3867,13 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// A descriptor of operation to mutate style declaration text.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StyleDeclarationEdit : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The css style sheet identifier.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleSheetId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleSheetId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string StyleSheetId
         {
             get;
@@ -4111,7 +3883,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// The range of the style text in the enclosing stylesheet.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("range"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("range")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.CSS.SourceRange Range
         {
             get;
@@ -4121,7 +3894,8 @@ namespace CefSharp.DevTools.CSS
         /// <summary>
         /// New style text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Text
         {
             get;
@@ -4140,32 +3914,32 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// basic
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("basic"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("basic")]
         Basic,
         /// <summary>
         /// cors
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cors"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cors")]
         Cors,
         /// <summary>
         /// default
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("default"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("default")]
         Default,
         /// <summary>
         /// error
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("error"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("error")]
         Error,
         /// <summary>
         /// opaqueResponse
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("opaqueResponse"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("opaqueResponse")]
         OpaqueResponse,
         /// <summary>
         /// opaqueRedirect
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("opaqueRedirect"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("opaqueRedirect")]
         OpaqueRedirect
     }
 }
@@ -4175,13 +3949,13 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// Data entry.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class DataEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Request URL.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string RequestURL
         {
             get;
@@ -4191,7 +3965,8 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// Request method.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestMethod"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestMethod")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string RequestMethod
         {
             get;
@@ -4201,7 +3976,8 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// Request headers
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeaders"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestHeaders")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Header> RequestHeaders
         {
             get;
@@ -4211,7 +3987,7 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// Number of seconds since epoch.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("responseTime")]
         public long ResponseTime
         {
             get;
@@ -4221,7 +3997,7 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// HTTP response status code.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseStatus"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("responseStatus")]
         public int ResponseStatus
         {
             get;
@@ -4231,31 +4007,19 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// HTTP response status text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseStatusText"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("responseStatusText")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ResponseStatusText
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.CacheStorage.CachedResponseType ResponseType
-        {
-            get
-            {
-                return (CefSharp.DevTools.CacheStorage.CachedResponseType)(StringToEnum(typeof(CefSharp.DevTools.CacheStorage.CachedResponseType), responseType));
-            }
-
-            set
-            {
-                this.responseType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// HTTP response type
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseType"), IsRequired = (true))]
-        internal string responseType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("responseType")]
+        public CefSharp.DevTools.CacheStorage.CachedResponseType ResponseType
         {
             get;
             set;
@@ -4264,7 +4028,8 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// Response headers
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseHeaders"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("responseHeaders")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Header> ResponseHeaders
         {
             get;
@@ -4278,13 +4043,13 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// Cache identifier.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Cache : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// An opaque unique id of the cache.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cacheId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cacheId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string CacheId
         {
             get;
@@ -4294,7 +4059,8 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// Security origin of the cache.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityOrigin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityOrigin")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SecurityOrigin
         {
             get;
@@ -4304,7 +4070,8 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// The name of the cache.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cacheName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cacheName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string CacheName
         {
             get;
@@ -4318,13 +4085,13 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// Header
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Header : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -4334,7 +4101,8 @@ namespace CefSharp.DevTools.CacheStorage
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -4348,13 +4116,13 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// Cached response
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CachedResponse : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Entry content, base64-encoded.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("body"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("body")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public byte[] Body
         {
             get;
@@ -4368,13 +4136,13 @@ namespace CefSharp.DevTools.Cast
     /// <summary>
     /// Sink
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Sink : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -4384,7 +4152,8 @@ namespace CefSharp.DevTools.Cast
         /// <summary>
         /// Id
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Id
         {
             get;
@@ -4395,7 +4164,7 @@ namespace CefSharp.DevTools.Cast
         /// Text describing the current session. Present only if there is an active
         /// session on the sink.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("session"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("session")]
         public string Session
         {
             get;
@@ -4409,13 +4178,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// Backend node with a friendly name.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BackendNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// `Node`&apos;s nodeType.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeType"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeType")]
         public int NodeType
         {
             get;
@@ -4425,7 +4193,8 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`&apos;s nodeName.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeName
         {
             get;
@@ -4435,7 +4204,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// BackendNodeId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int BackendNodeId
         {
             get;
@@ -4454,82 +4223,82 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// first-line
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("first-line"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("first-line")]
         FirstLine,
         /// <summary>
         /// first-letter
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("first-letter"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("first-letter")]
         FirstLetter,
         /// <summary>
         /// before
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("before"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("before")]
         Before,
         /// <summary>
         /// after
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("after"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("after")]
         After,
         /// <summary>
         /// marker
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("marker"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("marker")]
         Marker,
         /// <summary>
         /// backdrop
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("backdrop"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backdrop")]
         Backdrop,
         /// <summary>
         /// selection
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("selection"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("selection")]
         Selection,
         /// <summary>
         /// first-line-inherited
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("first-line-inherited"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("first-line-inherited")]
         FirstLineInherited,
         /// <summary>
         /// scrollbar
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("scrollbar"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollbar")]
         Scrollbar,
         /// <summary>
         /// scrollbar-thumb
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("scrollbar-thumb"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollbar-thumb")]
         ScrollbarThumb,
         /// <summary>
         /// scrollbar-button
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("scrollbar-button"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollbar-button")]
         ScrollbarButton,
         /// <summary>
         /// scrollbar-track
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("scrollbar-track"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollbar-track")]
         ScrollbarTrack,
         /// <summary>
         /// scrollbar-track-piece
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("scrollbar-track-piece"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollbar-track-piece")]
         ScrollbarTrackPiece,
         /// <summary>
         /// scrollbar-corner
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("scrollbar-corner"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollbar-corner")]
         ScrollbarCorner,
         /// <summary>
         /// resizer
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("resizer"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resizer")]
         Resizer,
         /// <summary>
         /// input-list-button
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("input-list-button"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("input-list-button")]
         InputListButton
     }
 }
@@ -4544,17 +4313,17 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// user-agent
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("user-agent"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("user-agent")]
         UserAgent,
         /// <summary>
         /// open
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("open"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("open")]
         Open,
         /// <summary>
         /// closed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("closed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("closed")]
         Closed
     }
 }
@@ -4565,7 +4334,6 @@ namespace CefSharp.DevTools.DOM
     /// DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.
     /// DOMNode is a base node mirror type.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Node : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -4573,7 +4341,7 @@ namespace CefSharp.DevTools.DOM
         /// will only push node with given `id` once. It is aware of all requested nodes and will only
         /// fire DOM events for nodes known to the client.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
             get;
@@ -4583,7 +4351,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The id of the parent node if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parentId")]
         public int? ParentId
         {
             get;
@@ -4593,7 +4361,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The BackendNodeId for this node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int BackendNodeId
         {
             get;
@@ -4603,7 +4371,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`&apos;s nodeType.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeType"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeType")]
         public int NodeType
         {
             get;
@@ -4613,7 +4381,8 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`&apos;s nodeName.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeName
         {
             get;
@@ -4623,7 +4392,8 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`&apos;s localName.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("localName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("localName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string LocalName
         {
             get;
@@ -4633,7 +4403,8 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Node`&apos;s nodeValue.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeValue"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeValue")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeValue
         {
             get;
@@ -4643,7 +4414,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Child count for `Container` nodes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("childNodeCount"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("childNodeCount")]
         public int? ChildNodeCount
         {
             get;
@@ -4653,7 +4424,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Child nodes of this node when requested with children.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("children"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("children")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> Children
         {
             get;
@@ -4663,7 +4434,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Attributes of the `Element` node in the form of flat array `[name1, value1, name2, value2]`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("attributes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attributes")]
         public string[] Attributes
         {
             get;
@@ -4673,7 +4444,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Document URL that `Document` or `FrameOwner` node points to.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("documentURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("documentURL")]
         public string DocumentURL
         {
             get;
@@ -4683,7 +4454,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Base URL that `Document` or `FrameOwner` node uses for URL completion.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("baseURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("baseURL")]
         public string BaseURL
         {
             get;
@@ -4693,7 +4464,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `DocumentType`&apos;s publicId.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("publicId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("publicId")]
         public string PublicId
         {
             get;
@@ -4703,7 +4474,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `DocumentType`&apos;s systemId.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("systemId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("systemId")]
         public string SystemId
         {
             get;
@@ -4713,7 +4484,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `DocumentType`&apos;s internalSubset.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("internalSubset"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("internalSubset")]
         public string InternalSubset
         {
             get;
@@ -4723,7 +4494,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Document`&apos;s XML version in case of XML documents.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("xmlVersion"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("xmlVersion")]
         public string XmlVersion
         {
             get;
@@ -4733,7 +4504,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Attr`&apos;s name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
         public string Name
         {
             get;
@@ -4743,54 +4514,28 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// `Attr`&apos;s value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public string Value
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.DOM.PseudoType? PseudoType
-        {
-            get
-            {
-                return (CefSharp.DevTools.DOM.PseudoType? )(StringToEnum(typeof(CefSharp.DevTools.DOM.PseudoType? ), pseudoType));
-            }
-
-            set
-            {
-                this.pseudoType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Pseudo element type for this node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (false))]
-        internal string pseudoType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pseudoType")]
+        public CefSharp.DevTools.DOM.PseudoType? PseudoType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
-        {
-            get
-            {
-                return (CefSharp.DevTools.DOM.ShadowRootType? )(StringToEnum(typeof(CefSharp.DevTools.DOM.ShadowRootType? ), shadowRootType));
-            }
-
-            set
-            {
-                this.shadowRootType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Shadow root type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRootType"), IsRequired = (false))]
-        internal string shadowRootType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shadowRootType")]
+        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
         {
             get;
             set;
@@ -4799,7 +4544,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Frame ID for frame owner elements.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frameId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameId")]
         public string FrameId
         {
             get;
@@ -4809,7 +4554,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Content document for frame owner elements.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentDocument"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentDocument")]
         public CefSharp.DevTools.DOM.Node ContentDocument
         {
             get;
@@ -4819,7 +4564,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Shadow root list for given element host.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRoots"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shadowRoots")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> ShadowRoots
         {
             get;
@@ -4829,7 +4574,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Content document fragment for template elements.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("templateContent"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("templateContent")]
         public CefSharp.DevTools.DOM.Node TemplateContent
         {
             get;
@@ -4839,7 +4584,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Pseudo elements associated with this node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoElements"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pseudoElements")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOM.Node> PseudoElements
         {
             get;
@@ -4849,7 +4594,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Import document for the HTMLImport links.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("importedDocument"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("importedDocument")]
         public CefSharp.DevTools.DOM.Node ImportedDocument
         {
             get;
@@ -4859,7 +4604,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Distributed nodes for given insertion point.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("distributedNodes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("distributedNodes")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOM.BackendNode> DistributedNodes
         {
             get;
@@ -4869,7 +4614,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Whether the node is SVG.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isSVG"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isSVG")]
         public bool? IsSVG
         {
             get;
@@ -4883,13 +4628,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// A structure holding an RGBA color.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RGBA : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The red component, in the [0-255] range.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("r"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("r")]
         public int R
         {
             get;
@@ -4899,7 +4643,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The green component, in the [0-255] range.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("g"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("g")]
         public int G
         {
             get;
@@ -4909,7 +4653,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The blue component, in the [0-255] range.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("b"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("b")]
         public int B
         {
             get;
@@ -4919,7 +4663,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// The alpha component, in the [0-1] range (default: 1).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("a"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("a")]
         public long? A
         {
             get;
@@ -4933,13 +4677,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// Box model.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BoxModel : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Content box
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("content"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("content")]
         public long[] Content
         {
             get;
@@ -4949,7 +4692,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Padding box
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("padding"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("padding")]
         public long[] Padding
         {
             get;
@@ -4959,7 +4702,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Border box
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("border"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("border")]
         public long[] Border
         {
             get;
@@ -4969,7 +4712,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Margin box
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("margin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("margin")]
         public long[] Margin
         {
             get;
@@ -4979,7 +4722,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Node width
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("width"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("width")]
         public int Width
         {
             get;
@@ -4989,7 +4732,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Node height
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("height"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("height")]
         public int Height
         {
             get;
@@ -4999,7 +4742,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Shape outside coordinates
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shapeOutside"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shapeOutside")]
         public CefSharp.DevTools.DOM.ShapeOutsideInfo ShapeOutside
         {
             get;
@@ -5013,13 +4756,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// CSS Shape Outside details.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ShapeOutsideInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Shape bounds
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bounds"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bounds")]
         public long[] Bounds
         {
             get;
@@ -5029,7 +4771,8 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Shape coordinate details
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shape"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shape")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public object[] Shape
         {
             get;
@@ -5039,7 +4782,8 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Margin shape bounds
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("marginShape"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("marginShape")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public object[] MarginShape
         {
             get;
@@ -5053,13 +4797,12 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// Rectangle.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Rect : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// X coordinate
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("x"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("x")]
         public long X
         {
             get;
@@ -5069,7 +4812,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Y coordinate
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("y"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("y")]
         public long Y
         {
             get;
@@ -5079,7 +4822,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Rectangle width
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("width"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("width")]
         public long Width
         {
             get;
@@ -5089,7 +4832,7 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Rectangle height
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("height"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("height")]
         public long Height
         {
             get;
@@ -5103,13 +4846,13 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// CSSComputedStyleProperty
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CSSComputedStyleProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Computed style property name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -5119,7 +4862,8 @@ namespace CefSharp.DevTools.DOM
         /// <summary>
         /// Computed style property value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -5138,17 +4882,17 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// subtree-modified
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("subtree-modified"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subtree-modified")]
         SubtreeModified,
         /// <summary>
         /// attribute-modified
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("attribute-modified"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attribute-modified")]
         AttributeModified,
         /// <summary>
         /// node-removed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("node-removed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("node-removed")]
         NodeRemoved
     }
 }
@@ -5158,13 +4902,13 @@ namespace CefSharp.DevTools.DOMDebugger
     /// <summary>
     /// Object event listener.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class EventListener : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// `EventListener`&apos;s type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -5174,7 +4918,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// `EventListener`&apos;s useCapture.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("useCapture"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("useCapture")]
         public bool UseCapture
         {
             get;
@@ -5184,7 +4928,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// `EventListener`&apos;s passive flag.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("passive"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("passive")]
         public bool Passive
         {
             get;
@@ -5194,7 +4938,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// `EventListener`&apos;s once flag.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("once"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("once")]
         public bool Once
         {
             get;
@@ -5204,7 +4948,8 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Script id of the handler code.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScriptId
         {
             get;
@@ -5214,7 +4959,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Line number in the script (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int LineNumber
         {
             get;
@@ -5224,7 +4969,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Column number in the script (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNumber")]
         public int ColumnNumber
         {
             get;
@@ -5234,7 +4979,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Event handler function value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("handler"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("handler")]
         public CefSharp.DevTools.Runtime.RemoteObject Handler
         {
             get;
@@ -5244,7 +4989,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Event original handler function value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("originalHandler"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("originalHandler")]
         public CefSharp.DevTools.Runtime.RemoteObject OriginalHandler
         {
             get;
@@ -5254,7 +4999,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <summary>
         /// Node the listener is added to (if any).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int? BackendNodeId
         {
             get;
@@ -5268,13 +5013,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// A Node in the DOM tree.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class DOMNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// `Node`&apos;s nodeType.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeType"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeType")]
         public int NodeType
         {
             get;
@@ -5284,7 +5028,8 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `Node`&apos;s nodeName.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeName
         {
             get;
@@ -5294,7 +5039,8 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `Node`&apos;s nodeValue.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeValue"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeValue")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeValue
         {
             get;
@@ -5304,7 +5050,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for textarea elements, contains the text value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("textValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("textValue")]
         public string TextValue
         {
             get;
@@ -5314,7 +5060,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for input elements, contains the input&apos;s associated text value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("inputValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inputValue")]
         public string InputValue
         {
             get;
@@ -5324,7 +5070,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for radio and checkbox input elements, indicates if the element has been checked
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("inputChecked"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inputChecked")]
         public bool? InputChecked
         {
             get;
@@ -5334,7 +5080,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for option elements, indicates if the element has been selected
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("optionSelected"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("optionSelected")]
         public bool? OptionSelected
         {
             get;
@@ -5344,7 +5090,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `Node`&apos;s id, corresponds to DOM.Node.backendNodeId.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int BackendNodeId
         {
             get;
@@ -5355,7 +5101,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// The indexes of the node&apos;s child nodes in the `domNodes` array returned by `getSnapshot`, if
         /// any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("childNodeIndexes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("childNodeIndexes")]
         public int[] ChildNodeIndexes
         {
             get;
@@ -5365,7 +5111,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Attributes of an `Element` node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("attributes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attributes")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOMSnapshot.NameValue> Attributes
         {
             get;
@@ -5376,7 +5122,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// Indexes of pseudo elements associated with this node in the `domNodes` array returned by
         /// `getSnapshot`, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoElementIndexes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pseudoElementIndexes")]
         public int[] PseudoElementIndexes
         {
             get;
@@ -5387,7 +5133,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// The index of the node&apos;s related layout tree node in the `layoutTreeNodes` array returned by
         /// `getSnapshot`, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("layoutNodeIndex"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("layoutNodeIndex")]
         public int? LayoutNodeIndex
         {
             get;
@@ -5397,7 +5143,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Document URL that `Document` or `FrameOwner` node points to.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("documentURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("documentURL")]
         public string DocumentURL
         {
             get;
@@ -5407,7 +5153,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Base URL that `Document` or `FrameOwner` node uses for URL completion.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("baseURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("baseURL")]
         public string BaseURL
         {
             get;
@@ -5417,7 +5163,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for documents, contains the document&apos;s content language.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentLanguage"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentLanguage")]
         public string ContentLanguage
         {
             get;
@@ -5427,7 +5173,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for documents, contains the document&apos;s character set encoding.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("documentEncoding"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("documentEncoding")]
         public string DocumentEncoding
         {
             get;
@@ -5437,7 +5183,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `DocumentType` node&apos;s publicId.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("publicId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("publicId")]
         public string PublicId
         {
             get;
@@ -5447,7 +5193,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `DocumentType` node&apos;s systemId.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("systemId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("systemId")]
         public string SystemId
         {
             get;
@@ -5457,7 +5203,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Frame ID for frame owner elements and also for the document node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frameId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameId")]
         public string FrameId
         {
             get;
@@ -5468,54 +5214,28 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// The index of a frame owner element&apos;s content document in the `domNodes` array returned by
         /// `getSnapshot`, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentDocumentIndex"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentDocumentIndex")]
         public int? ContentDocumentIndex
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.DOM.PseudoType? PseudoType
-        {
-            get
-            {
-                return (CefSharp.DevTools.DOM.PseudoType? )(StringToEnum(typeof(CefSharp.DevTools.DOM.PseudoType? ), pseudoType));
-            }
-
-            set
-            {
-                this.pseudoType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Type of a pseudo element node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (false))]
-        internal string pseudoType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pseudoType")]
+        public CefSharp.DevTools.DOM.PseudoType? PseudoType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
-        {
-            get
-            {
-                return (CefSharp.DevTools.DOM.ShadowRootType? )(StringToEnum(typeof(CefSharp.DevTools.DOM.ShadowRootType? ), shadowRootType));
-            }
-
-            set
-            {
-                this.shadowRootType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Shadow root type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shadowRootType"), IsRequired = (false))]
-        internal string shadowRootType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shadowRootType")]
+        public CefSharp.DevTools.DOM.ShadowRootType? ShadowRootType
         {
             get;
             set;
@@ -5526,7 +5246,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// event listeners attached via JavaScript as well as anchor tags that naturally navigate when
         /// clicked.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isClickable"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isClickable")]
         public bool? IsClickable
         {
             get;
@@ -5536,7 +5256,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Details of the node&apos;s event listeners, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("eventListeners"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("eventListeners")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOMDebugger.EventListener> EventListeners
         {
             get;
@@ -5546,7 +5266,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The selected url for nodes with a srcset attribute.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("currentSourceURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("currentSourceURL")]
         public string CurrentSourceURL
         {
             get;
@@ -5556,7 +5276,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The url of the script (if any) that generates this node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("originURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("originURL")]
         public string OriginURL
         {
             get;
@@ -5566,7 +5286,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Scroll offsets, set when this node is a Document.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scrollOffsetX"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollOffsetX")]
         public long? ScrollOffsetX
         {
             get;
@@ -5576,7 +5296,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// ScrollOffsetY
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scrollOffsetY"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollOffsetY")]
         public long? ScrollOffsetY
         {
             get;
@@ -5591,13 +5311,13 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// Details of post layout rendered text positions. The exact layout should not be regarded as
     /// stable and may change between versions.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class InlineTextBox : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The bounding box in document coordinates. Note that scroll offset of the document is ignored.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("boundingBox"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("boundingBox")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOM.Rect BoundingBox
         {
             get;
@@ -5608,7 +5328,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// The starting index in characters, for this post layout textbox substring. Characters that
         /// would be represented as a surrogate pair in UTF-16 have length 2.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startCharacterIndex"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startCharacterIndex")]
         public int StartCharacterIndex
         {
             get;
@@ -5619,7 +5339,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// The number of characters in this post layout textbox substring. Characters that would be
         /// represented as a surrogate pair in UTF-16 have length 2.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("numCharacters"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("numCharacters")]
         public int NumCharacters
         {
             get;
@@ -5633,13 +5353,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Details of an element in the DOM tree with a LayoutObject.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LayoutTreeNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The index of the related DOM node in the `domNodes` array returned by `getSnapshot`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("domNodeIndex"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("domNodeIndex")]
         public int DomNodeIndex
         {
             get;
@@ -5649,7 +5368,8 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The bounding box in document coordinates. Note that scroll offset of the document is ignored.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("boundingBox"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("boundingBox")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOM.Rect BoundingBox
         {
             get;
@@ -5659,7 +5379,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Contents of the LayoutText, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("layoutText"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("layoutText")]
         public string LayoutText
         {
             get;
@@ -5669,7 +5389,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The post-layout inline text nodes, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("inlineTextNodes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inlineTextNodes")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOMSnapshot.InlineTextBox> InlineTextNodes
         {
             get;
@@ -5679,7 +5399,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Index into the `computedStyles` array returned by `getSnapshot`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styleIndex"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleIndex")]
         public int? StyleIndex
         {
             get;
@@ -5691,7 +5411,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// that are painted together will have the same index. Only provided if includePaintOrder in
         /// getSnapshot was true.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("paintOrder"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("paintOrder")]
         public int? PaintOrder
         {
             get;
@@ -5701,7 +5421,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Set to true to indicate the element begins a new stacking context.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isStackingContext"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isStackingContext")]
         public bool? IsStackingContext
         {
             get;
@@ -5715,13 +5435,13 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// A subset of the full ComputedStyle as defined by the request whitelist.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ComputedStyle : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name/value pairs of computed style properties.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("properties"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("properties")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOMSnapshot.NameValue> Properties
         {
             get;
@@ -5735,13 +5455,13 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// A name/value pair.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class NameValue : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Attribute/property name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -5751,7 +5471,8 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Attribute/property value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -5765,13 +5486,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Data that is only present on rare nodes.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RareStringData : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Index
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("index"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("index")]
         public int[] Index
         {
             get;
@@ -5781,7 +5501,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public int[] Value
         {
             get;
@@ -5795,13 +5515,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// RareBooleanData
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RareBooleanData : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Index
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("index"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("index")]
         public int[] Index
         {
             get;
@@ -5815,13 +5534,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// RareIntegerData
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RareIntegerData : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Index
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("index"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("index")]
         public int[] Index
         {
             get;
@@ -5831,7 +5549,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public int[] Value
         {
             get;
@@ -5845,13 +5563,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Document snapshot.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class DocumentSnapshot : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Document URL that `Document` or `FrameOwner` node points to.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("documentURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("documentURL")]
         public int DocumentURL
         {
             get;
@@ -5861,7 +5578,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Document title.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("title"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("title")]
         public int Title
         {
             get;
@@ -5871,7 +5588,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Base URL that `Document` or `FrameOwner` node uses for URL completion.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("baseURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("baseURL")]
         public int BaseURL
         {
             get;
@@ -5881,7 +5598,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Contains the document&apos;s content language.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentLanguage"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentLanguage")]
         public int ContentLanguage
         {
             get;
@@ -5891,7 +5608,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Contains the document&apos;s character set encoding.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("encodingName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("encodingName")]
         public int EncodingName
         {
             get;
@@ -5901,7 +5618,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `DocumentType` node&apos;s publicId.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("publicId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("publicId")]
         public int PublicId
         {
             get;
@@ -5911,7 +5628,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `DocumentType` node&apos;s systemId.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("systemId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("systemId")]
         public int SystemId
         {
             get;
@@ -5921,7 +5638,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Frame ID for frame owner elements and also for the document node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frameId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameId")]
         public int FrameId
         {
             get;
@@ -5931,7 +5648,8 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// A table with dom nodes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodes"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodes")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOMSnapshot.NodeTreeSnapshot Nodes
         {
             get;
@@ -5941,7 +5659,8 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The nodes in the layout tree.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("layout"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("layout")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOMSnapshot.LayoutTreeSnapshot Layout
         {
             get;
@@ -5951,7 +5670,8 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The post-layout inline text nodes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("textBoxes"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("textBoxes")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOMSnapshot.TextBoxSnapshot TextBoxes
         {
             get;
@@ -5961,7 +5681,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Horizontal scroll offset.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scrollOffsetX"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollOffsetX")]
         public long? ScrollOffsetX
         {
             get;
@@ -5971,7 +5691,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Vertical scroll offset.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scrollOffsetY"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollOffsetY")]
         public long? ScrollOffsetY
         {
             get;
@@ -5981,7 +5701,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Document content width.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentWidth"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentWidth")]
         public long? ContentWidth
         {
             get;
@@ -5991,7 +5711,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Document content height.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentHeight"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentHeight")]
         public long? ContentHeight
         {
             get;
@@ -6005,13 +5725,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Table containing nodes.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class NodeTreeSnapshot : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Parent node index.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentIndex"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parentIndex")]
         public int[] ParentIndex
         {
             get;
@@ -6021,7 +5740,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `Node`&apos;s nodeType.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeType"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeType")]
         public int[] NodeType
         {
             get;
@@ -6031,7 +5750,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `Node`&apos;s nodeName.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeName"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeName")]
         public int[] NodeName
         {
             get;
@@ -6041,7 +5760,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `Node`&apos;s nodeValue.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeValue")]
         public int[] NodeValue
         {
             get;
@@ -6051,7 +5770,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// `Node`&apos;s id, corresponds to DOM.Node.backendNodeId.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int[] BackendNodeId
         {
             get;
@@ -6061,7 +5780,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Attributes of an `Element` node. Flatten name, value pairs.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("attributes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attributes")]
         public int[] Attributes
         {
             get;
@@ -6071,7 +5790,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for textarea elements, contains the text value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("textValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("textValue")]
         public CefSharp.DevTools.DOMSnapshot.RareStringData TextValue
         {
             get;
@@ -6081,7 +5800,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for input elements, contains the input&apos;s associated text value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("inputValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inputValue")]
         public CefSharp.DevTools.DOMSnapshot.RareStringData InputValue
         {
             get;
@@ -6091,7 +5810,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for radio and checkbox input elements, indicates if the element has been checked
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("inputChecked"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inputChecked")]
         public CefSharp.DevTools.DOMSnapshot.RareBooleanData InputChecked
         {
             get;
@@ -6101,7 +5820,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Only set for option elements, indicates if the element has been selected
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("optionSelected"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("optionSelected")]
         public CefSharp.DevTools.DOMSnapshot.RareBooleanData OptionSelected
         {
             get;
@@ -6111,7 +5830,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The index of the document in the list of the snapshot documents.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentDocumentIndex"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentDocumentIndex")]
         public CefSharp.DevTools.DOMSnapshot.RareIntegerData ContentDocumentIndex
         {
             get;
@@ -6121,7 +5840,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Type of a pseudo element node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pseudoType"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pseudoType")]
         public CefSharp.DevTools.DOMSnapshot.RareStringData PseudoType
         {
             get;
@@ -6133,7 +5852,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// event listeners attached via JavaScript as well as anchor tags that naturally navigate when
         /// clicked.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isClickable"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isClickable")]
         public CefSharp.DevTools.DOMSnapshot.RareBooleanData IsClickable
         {
             get;
@@ -6143,7 +5862,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The selected url for nodes with a srcset attribute.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("currentSourceURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("currentSourceURL")]
         public CefSharp.DevTools.DOMSnapshot.RareStringData CurrentSourceURL
         {
             get;
@@ -6153,7 +5872,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The url of the script (if any) that generates this node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("originURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("originURL")]
         public CefSharp.DevTools.DOMSnapshot.RareStringData OriginURL
         {
             get;
@@ -6167,13 +5886,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// Table of details of an element in the DOM tree with a LayoutObject.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LayoutTreeSnapshot : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Index of the corresponding node in the `NodeTreeSnapshot` array returned by `captureSnapshot`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeIndex"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeIndex")]
         public int[] NodeIndex
         {
             get;
@@ -6183,7 +5901,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Array of indexes specifying computed style strings, filtered according to the `computedStyles` parameter passed to `captureSnapshot`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("styles"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styles")]
         public int[] Styles
         {
             get;
@@ -6193,7 +5911,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The absolute position bounding box.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bounds"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bounds")]
         public long[] Bounds
         {
             get;
@@ -6203,7 +5921,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Contents of the LayoutText, if any.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
         public int[] Text
         {
             get;
@@ -6213,7 +5931,8 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// Stacking context information.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stackingContexts"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stackingContexts")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOMSnapshot.RareBooleanData StackingContexts
         {
             get;
@@ -6225,7 +5944,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// that are painted together will have the same index. Only provided if includePaintOrder in
         /// captureSnapshot was true.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("paintOrders"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("paintOrders")]
         public int[] PaintOrders
         {
             get;
@@ -6235,7 +5954,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The offset rect of nodes. Only available when includeDOMRects is set to true
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offsetRects"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offsetRects")]
         public long[] OffsetRects
         {
             get;
@@ -6245,7 +5964,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The scroll rect of nodes. Only available when includeDOMRects is set to true
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scrollRects"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollRects")]
         public long[] ScrollRects
         {
             get;
@@ -6255,7 +5974,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The client rect of nodes. Only available when includeDOMRects is set to true
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientRects"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clientRects")]
         public long[] ClientRects
         {
             get;
@@ -6270,13 +5989,12 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// Table of details of the post layout rendered text positions. The exact layout should not be regarded as
     /// stable and may change between versions.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TextBoxSnapshot : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Index of the layout tree node that owns this box collection.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("layoutIndex"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("layoutIndex")]
         public int[] LayoutIndex
         {
             get;
@@ -6286,7 +6004,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <summary>
         /// The absolute position bounding box.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bounds"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bounds")]
         public long[] Bounds
         {
             get;
@@ -6297,7 +6015,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// The starting index in characters, for this post layout textbox substring. Characters that
         /// would be represented as a surrogate pair in UTF-16 have length 2.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("start"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("start")]
         public int[] Start
         {
             get;
@@ -6308,7 +6026,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// The number of characters in this post layout textbox substring. Characters that would be
         /// represented as a surrogate pair in UTF-16 have length 2.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("length"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("length")]
         public int[] Length
         {
             get;
@@ -6322,13 +6040,13 @@ namespace CefSharp.DevTools.DOMStorage
     /// <summary>
     /// DOM Storage identifier.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StorageId : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Security origin for the storage.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityOrigin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityOrigin")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SecurityOrigin
         {
             get;
@@ -6338,7 +6056,7 @@ namespace CefSharp.DevTools.DOMStorage
         /// <summary>
         /// Whether the storage is local storage (not session storage).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isLocalStorage"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isLocalStorage")]
         public bool IsLocalStorage
         {
             get;
@@ -6352,13 +6070,13 @@ namespace CefSharp.DevTools.Database
     /// <summary>
     /// Database object.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Database : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Database ID.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Id
         {
             get;
@@ -6368,7 +6086,8 @@ namespace CefSharp.DevTools.Database
         /// <summary>
         /// Database domain.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("domain"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("domain")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Domain
         {
             get;
@@ -6378,7 +6097,8 @@ namespace CefSharp.DevTools.Database
         /// <summary>
         /// Database name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -6388,7 +6108,8 @@ namespace CefSharp.DevTools.Database
         /// <summary>
         /// Database version.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("version"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("version")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Version
         {
             get;
@@ -6402,13 +6123,13 @@ namespace CefSharp.DevTools.Database
     /// <summary>
     /// Database error.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Error : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Error message.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("message"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("message")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Message
         {
             get;
@@ -6418,7 +6139,7 @@ namespace CefSharp.DevTools.Database
         /// <summary>
         /// Error code.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("code"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("code")]
         public int Code
         {
             get;
@@ -6432,13 +6153,13 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// Screen orientation.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ScreenOrientation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Orientation type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -6448,7 +6169,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Orientation angle.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("angle"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("angle")]
         public int Angle
         {
             get;
@@ -6462,13 +6183,13 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// DisplayFeature
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class DisplayFeature : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Orientation of a display feature in relation to screen
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("orientation"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("orientation")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Orientation
         {
             get;
@@ -6479,7 +6200,7 @@ namespace CefSharp.DevTools.Emulation
         /// The offset from the screen origin in either the x (for vertical
         /// orientation) or y (for horizontal orientation) direction.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offset"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offset")]
         public int Offset
         {
             get;
@@ -6491,7 +6212,7 @@ namespace CefSharp.DevTools.Emulation
         /// displayed - this length along with the offset describes this area.
         /// A display feature that only splits content will have a 0 mask_length.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maskLength"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maskLength")]
         public int MaskLength
         {
             get;
@@ -6505,13 +6226,13 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// MediaFeature
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class MediaFeature : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -6521,7 +6242,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -6543,17 +6265,17 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// advance
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("advance"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("advance")]
         Advance,
         /// <summary>
         /// pause
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("pause"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pause")]
         Pause,
         /// <summary>
         /// pauseIfNetworkFetchesPending
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("pauseIfNetworkFetchesPending"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pauseIfNetworkFetchesPending")]
         PauseIfNetworkFetchesPending
     }
 }
@@ -6563,13 +6285,13 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class UserAgentBrandVersion : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Brand
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("brand"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("brand")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Brand
         {
             get;
@@ -6579,7 +6301,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Version
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("version"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("version")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Version
         {
             get;
@@ -6593,13 +6316,13 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class UserAgentMetadata : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Brands
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("brands"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("brands")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Emulation.UserAgentBrandVersion> Brands
         {
             get;
@@ -6609,7 +6332,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// FullVersion
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fullVersion"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fullVersion")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FullVersion
         {
             get;
@@ -6619,7 +6343,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Platform
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("platform"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("platform")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Platform
         {
             get;
@@ -6629,7 +6354,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// PlatformVersion
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("platformVersion"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("platformVersion")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string PlatformVersion
         {
             get;
@@ -6639,7 +6365,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Architecture
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("architecture"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("architecture")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Architecture
         {
             get;
@@ -6649,7 +6376,8 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Model
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("model"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("model")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Model
         {
             get;
@@ -6659,7 +6387,7 @@ namespace CefSharp.DevTools.Emulation
         /// <summary>
         /// Mobile
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mobile"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mobile")]
         public bool Mobile
         {
             get;
@@ -6673,13 +6401,12 @@ namespace CefSharp.DevTools.HeadlessExperimental
     /// <summary>
     /// Encoding options for a screenshot.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ScreenshotParams : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Image compression format (defaults to png).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("format"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("format")]
         public string Format
         {
             get;
@@ -6689,7 +6416,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
         /// <summary>
         /// Compression quality from range [0..100] (jpeg only).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("quality"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("quality")]
         public int? Quality
         {
             get;
@@ -6703,13 +6430,13 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Database with an array of object stores.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class DatabaseWithObjectStores : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Database name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -6720,7 +6447,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// Database version (type is not &apos;integer&apos;, as the standard
         /// requires the version number to be &apos;unsigned long long&apos;)
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("version"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("version")]
         public long Version
         {
             get;
@@ -6730,7 +6457,8 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Object stores in this database.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("objectStores"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("objectStores")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.IndexedDB.ObjectStore> ObjectStores
         {
             get;
@@ -6744,13 +6472,13 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Object store.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ObjectStore : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Object store name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -6760,7 +6488,8 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Object store key path.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyPath"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyPath")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.IndexedDB.KeyPath KeyPath
         {
             get;
@@ -6770,7 +6499,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// If true, object store has auto increment flag set.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("autoIncrement"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("autoIncrement")]
         public bool AutoIncrement
         {
             get;
@@ -6780,7 +6509,8 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Indexes in this object store.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("indexes"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("indexes")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.IndexedDB.ObjectStoreIndex> Indexes
         {
             get;
@@ -6794,13 +6524,13 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Object store index.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ObjectStoreIndex : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Index name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -6810,7 +6540,8 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Index key path.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyPath"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyPath")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.IndexedDB.KeyPath KeyPath
         {
             get;
@@ -6820,7 +6551,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// If true, index is unique.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("unique"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unique")]
         public bool Unique
         {
             get;
@@ -6830,7 +6561,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// If true, index allows multiple entries for a key.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("multiEntry"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("multiEntry")]
         public bool MultiEntry
         {
             get;
@@ -6844,13 +6575,13 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Key.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Key : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Key type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -6860,7 +6591,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Number value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("number"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("number")]
         public long? Number
         {
             get;
@@ -6870,7 +6601,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// String value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("string"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("string")]
         public string String
         {
             get;
@@ -6880,7 +6611,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Date value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("date"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("date")]
         public long? Date
         {
             get;
@@ -6890,7 +6621,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Array value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("array"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("array")]
         public System.Collections.Generic.IList<CefSharp.DevTools.IndexedDB.Key> Array
         {
             get;
@@ -6904,13 +6635,12 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Key range.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class KeyRange : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Lower bound.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lower"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lower")]
         public CefSharp.DevTools.IndexedDB.Key Lower
         {
             get;
@@ -6920,7 +6650,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Upper bound.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("upper"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("upper")]
         public CefSharp.DevTools.IndexedDB.Key Upper
         {
             get;
@@ -6930,7 +6660,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// If true lower bound is open.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lowerOpen"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lowerOpen")]
         public bool LowerOpen
         {
             get;
@@ -6940,7 +6670,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// If true upper bound is open.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("upperOpen"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("upperOpen")]
         public bool UpperOpen
         {
             get;
@@ -6954,13 +6684,13 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Data entry.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class DataEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Key object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("key"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("key")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Runtime.RemoteObject Key
         {
             get;
@@ -6970,7 +6700,8 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Primary key object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("primaryKey"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("primaryKey")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Runtime.RemoteObject PrimaryKey
         {
             get;
@@ -6980,7 +6711,8 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Value object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Runtime.RemoteObject Value
         {
             get;
@@ -6994,13 +6726,13 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// Key path.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class KeyPath : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Key path type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -7010,7 +6742,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// String value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("string"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("string")]
         public string String
         {
             get;
@@ -7020,7 +6752,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <summary>
         /// Array value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("array"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("array")]
         public string[] Array
         {
             get;
@@ -7034,13 +6766,12 @@ namespace CefSharp.DevTools.Input
     /// <summary>
     /// TouchPoint
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TouchPoint : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// X coordinate of the event relative to the main frame&apos;s viewport in CSS pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("x"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("x")]
         public long X
         {
             get;
@@ -7051,7 +6782,7 @@ namespace CefSharp.DevTools.Input
         /// Y coordinate of the event relative to the main frame&apos;s viewport in CSS pixels. 0 refers to
         /// the top of the viewport and Y increases as it proceeds towards the bottom of the viewport.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("y"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("y")]
         public long Y
         {
             get;
@@ -7061,7 +6792,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// X radius of the touch area (default: 1.0).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("radiusX"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("radiusX")]
         public long? RadiusX
         {
             get;
@@ -7071,7 +6802,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Y radius of the touch area (default: 1.0).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("radiusY"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("radiusY")]
         public long? RadiusY
         {
             get;
@@ -7081,7 +6812,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Rotation angle (default: 0.0).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rotationAngle"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rotationAngle")]
         public long? RotationAngle
         {
             get;
@@ -7091,7 +6822,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Force (default: 1.0).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("force"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("force")]
         public long? Force
         {
             get;
@@ -7101,7 +6832,7 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// Identifier used to track touch sources between events, must be unique within an event.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
         public long? Id
         {
             get;
@@ -7120,17 +6851,17 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// default
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("default"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("default")]
         Default,
         /// <summary>
         /// touch
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("touch"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("touch")]
         Touch,
         /// <summary>
         /// mouse
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("mouse"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mouse")]
         Mouse
     }
 }
@@ -7145,32 +6876,32 @@ namespace CefSharp.DevTools.Input
         /// <summary>
         /// none
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("none"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("none")]
         None,
         /// <summary>
         /// left
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("left"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("left")]
         Left,
         /// <summary>
         /// middle
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("middle"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("middle")]
         Middle,
         /// <summary>
         /// right
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("right"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("right")]
         Right,
         /// <summary>
         /// back
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("back"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("back")]
         Back,
         /// <summary>
         /// forward
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("forward"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("forward")]
         Forward
     }
 }
@@ -7180,13 +6911,13 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// Rectangle where scrolling happens on the main thread.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ScrollRect : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Rectangle itself.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rect"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rect")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOM.Rect Rect
         {
             get;
@@ -7196,7 +6927,8 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Reason for rectangle to force scrolling on the main thread
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -7210,13 +6942,13 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// Sticky position constraints.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StickyPositionConstraint : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Layout rectangle of the sticky element before being shifted
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stickyBoxRect"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stickyBoxRect")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOM.Rect StickyBoxRect
         {
             get;
@@ -7226,7 +6958,8 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Layout rectangle of the containing block of the sticky element
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("containingBlockRect"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("containingBlockRect")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOM.Rect ContainingBlockRect
         {
             get;
@@ -7236,7 +6969,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// The nearest sticky layer that shifts the sticky box
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nearestLayerShiftingStickyBox"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nearestLayerShiftingStickyBox")]
         public string NearestLayerShiftingStickyBox
         {
             get;
@@ -7246,7 +6979,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// The nearest sticky layer that shifts the containing block
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nearestLayerShiftingContainingBlock"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nearestLayerShiftingContainingBlock")]
         public string NearestLayerShiftingContainingBlock
         {
             get;
@@ -7260,13 +6993,12 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// Serialized fragment of layer picture along with its offset within the layer.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PictureTile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Offset from owning layer left boundary
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("x"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("x")]
         public long X
         {
             get;
@@ -7276,7 +7008,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Offset from owning layer top boundary
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("y"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("y")]
         public long Y
         {
             get;
@@ -7286,7 +7018,8 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Base64-encoded snapshot data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("picture"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("picture")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public byte[] Picture
         {
             get;
@@ -7300,13 +7033,13 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// Information about a compositing layer.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Layer : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The unique id for this layer.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("layerId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("layerId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string LayerId
         {
             get;
@@ -7316,7 +7049,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// The id of parent (not present for root).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentLayerId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parentLayerId")]
         public string ParentLayerId
         {
             get;
@@ -7326,7 +7059,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// The backend id for the node associated with this layer.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("backendNodeId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int? BackendNodeId
         {
             get;
@@ -7336,7 +7069,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Offset from parent layer, X coordinate.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offsetX"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offsetX")]
         public long OffsetX
         {
             get;
@@ -7346,7 +7079,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Offset from parent layer, Y coordinate.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offsetY"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offsetY")]
         public long OffsetY
         {
             get;
@@ -7356,7 +7089,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Layer width.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("width"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("width")]
         public long Width
         {
             get;
@@ -7366,7 +7099,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Layer height.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("height"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("height")]
         public long Height
         {
             get;
@@ -7376,7 +7109,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Transformation matrix for layer, default is identity matrix
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("transform"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("transform")]
         public long[] Transform
         {
             get;
@@ -7386,7 +7119,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Transform anchor point X, absent if no transform specified
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("anchorX"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("anchorX")]
         public long? AnchorX
         {
             get;
@@ -7396,7 +7129,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Transform anchor point Y, absent if no transform specified
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("anchorY"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("anchorY")]
         public long? AnchorY
         {
             get;
@@ -7406,7 +7139,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Transform anchor point Z, absent if no transform specified
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("anchorZ"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("anchorZ")]
         public long? AnchorZ
         {
             get;
@@ -7416,7 +7149,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Indicates how many time this layer has painted.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("paintCount"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("paintCount")]
         public int PaintCount
         {
             get;
@@ -7427,7 +7160,7 @@ namespace CefSharp.DevTools.LayerTree
         /// Indicates whether this layer hosts any content, rather than being used for
         /// transform/scrolling purposes only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("drawsContent"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("drawsContent")]
         public bool DrawsContent
         {
             get;
@@ -7437,7 +7170,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Set if layer is not visible.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("invisible"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("invisible")]
         public bool? Invisible
         {
             get;
@@ -7447,7 +7180,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Rectangles scrolling on main thread only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scrollRects"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollRects")]
         public System.Collections.Generic.IList<CefSharp.DevTools.LayerTree.ScrollRect> ScrollRects
         {
             get;
@@ -7457,7 +7190,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <summary>
         /// Sticky position constraint information
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stickyPositionConstraint"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stickyPositionConstraint")]
         public CefSharp.DevTools.LayerTree.StickyPositionConstraint StickyPositionConstraint
         {
             get;
@@ -7471,13 +7204,13 @@ namespace CefSharp.DevTools.Log
     /// <summary>
     /// Log entry.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LogEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Log entry source.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("source"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Source
         {
             get;
@@ -7487,7 +7220,8 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Log entry severity.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("level"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("level")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Level
         {
             get;
@@ -7497,7 +7231,8 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Logged text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Text
         {
             get;
@@ -7507,7 +7242,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Timestamp when this entry was added.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timestamp"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timestamp")]
         public long Timestamp
         {
             get;
@@ -7517,7 +7252,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// URL of the resource if known.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
         public string Url
         {
             get;
@@ -7527,7 +7262,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Line number in the resource.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int? LineNumber
         {
             get;
@@ -7537,7 +7272,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// JavaScript stack trace.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stackTrace"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stackTrace")]
         public CefSharp.DevTools.Runtime.StackTrace StackTrace
         {
             get;
@@ -7547,7 +7282,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Identifier of the network request associated with this entry.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("networkRequestId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("networkRequestId")]
         public string NetworkRequestId
         {
             get;
@@ -7557,7 +7292,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Identifier of the worker associated with this entry.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("workerId")]
         public string WorkerId
         {
             get;
@@ -7567,7 +7302,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Call arguments.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("args"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("args")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.RemoteObject> Args
         {
             get;
@@ -7581,13 +7316,13 @@ namespace CefSharp.DevTools.Log
     /// <summary>
     /// Violation configuration setting.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ViolationSetting : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Violation type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -7597,7 +7332,7 @@ namespace CefSharp.DevTools.Log
         /// <summary>
         /// Time threshold to trigger upon.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("threshold"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("threshold")]
         public long Threshold
         {
             get;
@@ -7616,12 +7351,12 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// moderate
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("moderate"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("moderate")]
         Moderate,
         /// <summary>
         /// critical
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("critical"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("critical")]
         Critical
     }
 }
@@ -7631,13 +7366,12 @@ namespace CefSharp.DevTools.Memory
     /// <summary>
     /// Heap profile sample.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SamplingProfileNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Size of the sampled allocation.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("size"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("size")]
         public long Size
         {
             get;
@@ -7647,7 +7381,7 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Total bytes attributed to this sample.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("total"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("total")]
         public long Total
         {
             get;
@@ -7657,7 +7391,8 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Execution stack at the point of allocation.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stack"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stack")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string[] Stack
         {
             get;
@@ -7671,13 +7406,13 @@ namespace CefSharp.DevTools.Memory
     /// <summary>
     /// Array of heap profile samples.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SamplingProfile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Samples
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("samples"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("samples")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Memory.SamplingProfileNode> Samples
         {
             get;
@@ -7687,7 +7422,8 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Modules
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("modules"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("modules")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Memory.Module> Modules
         {
             get;
@@ -7701,13 +7437,13 @@ namespace CefSharp.DevTools.Memory
     /// <summary>
     /// Executable module information
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Module : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name of the module.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -7717,7 +7453,8 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// UUID of the module.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("uuid"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("uuid")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Uuid
         {
             get;
@@ -7728,7 +7465,8 @@ namespace CefSharp.DevTools.Memory
         /// Base address where the module is loaded into memory. Encoded as a decimal
         /// or hexadecimal (0x prefixed) string.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("baseAddress"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("baseAddress")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string BaseAddress
         {
             get;
@@ -7738,7 +7476,7 @@ namespace CefSharp.DevTools.Memory
         /// <summary>
         /// Size of the module in bytes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("size"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("size")]
         public long Size
         {
             get;
@@ -7757,82 +7495,82 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Document
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Document"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Document")]
         Document,
         /// <summary>
         /// Stylesheet
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Stylesheet"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Stylesheet")]
         Stylesheet,
         /// <summary>
         /// Image
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Image"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Image")]
         Image,
         /// <summary>
         /// Media
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Media"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Media")]
         Media,
         /// <summary>
         /// Font
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Font"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Font")]
         Font,
         /// <summary>
         /// Script
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Script"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Script")]
         Script,
         /// <summary>
         /// TextTrack
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("TextTrack"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("TextTrack")]
         TextTrack,
         /// <summary>
         /// XHR
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("XHR"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("XHR")]
         XHR,
         /// <summary>
         /// Fetch
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Fetch"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Fetch")]
         Fetch,
         /// <summary>
         /// EventSource
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("EventSource"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("EventSource")]
         EventSource,
         /// <summary>
         /// WebSocket
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WebSocket"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WebSocket")]
         WebSocket,
         /// <summary>
         /// Manifest
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Manifest"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Manifest")]
         Manifest,
         /// <summary>
         /// SignedExchange
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SignedExchange"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SignedExchange")]
         SignedExchange,
         /// <summary>
         /// Ping
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Ping"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Ping")]
         Ping,
         /// <summary>
         /// CSPViolationReport
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("CSPViolationReport"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CSPViolationReport")]
         CSPViolationReport,
         /// <summary>
         /// Other
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Other"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Other")]
         Other
     }
 }
@@ -7847,72 +7585,72 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Failed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Failed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Failed")]
         Failed,
         /// <summary>
         /// Aborted
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Aborted"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Aborted")]
         Aborted,
         /// <summary>
         /// TimedOut
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("TimedOut"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("TimedOut")]
         TimedOut,
         /// <summary>
         /// AccessDenied
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("AccessDenied"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("AccessDenied")]
         AccessDenied,
         /// <summary>
         /// ConnectionClosed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ConnectionClosed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ConnectionClosed")]
         ConnectionClosed,
         /// <summary>
         /// ConnectionReset
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ConnectionReset"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ConnectionReset")]
         ConnectionReset,
         /// <summary>
         /// ConnectionRefused
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ConnectionRefused"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ConnectionRefused")]
         ConnectionRefused,
         /// <summary>
         /// ConnectionAborted
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ConnectionAborted"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ConnectionAborted")]
         ConnectionAborted,
         /// <summary>
         /// ConnectionFailed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ConnectionFailed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ConnectionFailed")]
         ConnectionFailed,
         /// <summary>
         /// NameNotResolved
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("NameNotResolved"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("NameNotResolved")]
         NameNotResolved,
         /// <summary>
         /// InternetDisconnected
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("InternetDisconnected"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("InternetDisconnected")]
         InternetDisconnected,
         /// <summary>
         /// AddressUnreachable
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("AddressUnreachable"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("AddressUnreachable")]
         AddressUnreachable,
         /// <summary>
         /// BlockedByClient
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("BlockedByClient"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("BlockedByClient")]
         BlockedByClient,
         /// <summary>
         /// BlockedByResponse
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("BlockedByResponse"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("BlockedByResponse")]
         BlockedByResponse
     }
 }
@@ -7927,47 +7665,47 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// none
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("none"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("none")]
         None,
         /// <summary>
         /// cellular2g
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cellular2g"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cellular2g")]
         Cellular2g,
         /// <summary>
         /// cellular3g
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cellular3g"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cellular3g")]
         Cellular3g,
         /// <summary>
         /// cellular4g
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cellular4g"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cellular4g")]
         Cellular4g,
         /// <summary>
         /// bluetooth
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("bluetooth"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bluetooth")]
         Bluetooth,
         /// <summary>
         /// ethernet
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ethernet"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ethernet")]
         Ethernet,
         /// <summary>
         /// wifi
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("wifi"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wifi")]
         Wifi,
         /// <summary>
         /// wimax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("wimax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wimax")]
         Wimax,
         /// <summary>
         /// other
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("other"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("other")]
         Other
     }
 }
@@ -7983,17 +7721,17 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Strict
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Strict"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Strict")]
         Strict,
         /// <summary>
         /// Lax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Lax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Lax")]
         Lax,
         /// <summary>
         /// None
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("None"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("None")]
         None
     }
 }
@@ -8009,17 +7747,17 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Low
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Low"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Low")]
         Low,
         /// <summary>
         /// Medium
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Medium"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Medium")]
         Medium,
         /// <summary>
         /// High
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("High"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("High")]
         High
     }
 }
@@ -8029,14 +7767,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Timing information for the request.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ResourceTiming : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Timing&apos;s requestTime is a baseline in seconds, while the other numbers are ticks in
         /// milliseconds relatively to this requestTime.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestTime")]
         public long RequestTime
         {
             get;
@@ -8046,7 +7783,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started resolving proxy.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("proxyStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("proxyStart")]
         public long ProxyStart
         {
             get;
@@ -8056,7 +7793,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished resolving proxy.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("proxyEnd"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("proxyEnd")]
         public long ProxyEnd
         {
             get;
@@ -8066,7 +7803,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started DNS address resolve.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("dnsStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dnsStart")]
         public long DnsStart
         {
             get;
@@ -8076,7 +7813,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished DNS address resolve.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("dnsEnd"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dnsEnd")]
         public long DnsEnd
         {
             get;
@@ -8086,7 +7823,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started connecting to the remote host.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("connectStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("connectStart")]
         public long ConnectStart
         {
             get;
@@ -8096,7 +7833,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Connected to the remote host.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("connectEnd"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("connectEnd")]
         public long ConnectEnd
         {
             get;
@@ -8106,7 +7843,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started SSL handshake.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sslStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sslStart")]
         public long SslStart
         {
             get;
@@ -8116,7 +7853,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished SSL handshake.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sslEnd"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sslEnd")]
         public long SslEnd
         {
             get;
@@ -8126,7 +7863,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started running ServiceWorker.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("workerStart")]
         public long WorkerStart
         {
             get;
@@ -8136,7 +7873,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished Starting ServiceWorker.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerReady"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("workerReady")]
         public long WorkerReady
         {
             get;
@@ -8146,7 +7883,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started fetch event.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerFetchStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("workerFetchStart")]
         public long WorkerFetchStart
         {
             get;
@@ -8156,7 +7893,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Settled fetch event respondWith promise.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("workerRespondWithSettled"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("workerRespondWithSettled")]
         public long WorkerRespondWithSettled
         {
             get;
@@ -8166,7 +7903,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Started sending request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sendStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sendStart")]
         public long SendStart
         {
             get;
@@ -8176,7 +7913,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished sending request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sendEnd"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sendEnd")]
         public long SendEnd
         {
             get;
@@ -8186,7 +7923,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Time the server started pushing request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pushStart"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pushStart")]
         public long PushStart
         {
             get;
@@ -8196,7 +7933,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Time the server finished pushing request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pushEnd"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pushEnd")]
         public long PushEnd
         {
             get;
@@ -8206,7 +7943,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Finished receiving response headers.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("receiveHeadersEnd"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("receiveHeadersEnd")]
         public long ReceiveHeadersEnd
         {
             get;
@@ -8225,27 +7962,27 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// VeryLow
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("VeryLow"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("VeryLow")]
         VeryLow,
         /// <summary>
         /// Low
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Low"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Low")]
         Low,
         /// <summary>
         /// Medium
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Medium"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Medium")]
         Medium,
         /// <summary>
         /// High
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("High"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("High")]
         High,
         /// <summary>
         /// VeryHigh
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("VeryHigh"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("VeryHigh")]
         VeryHigh
     }
 }
@@ -8255,13 +7992,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Post data entry for HTTP request
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PostDataEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Bytes
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bytes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bytes")]
         public byte[] Bytes
         {
             get;
@@ -8275,13 +8011,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// HTTP request data.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Request : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Request URL (without fragment).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -8291,7 +8027,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Fragment of the requested URL starting with hash, if present.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("urlFragment"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("urlFragment")]
         public string UrlFragment
         {
             get;
@@ -8301,7 +8037,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP request method.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("method"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("method")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Method
         {
             get;
@@ -8311,7 +8048,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP request headers.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("headers")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.Headers Headers
         {
             get;
@@ -8321,7 +8059,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP POST request data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("postData"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("postData")]
         public string PostData
         {
             get;
@@ -8331,7 +8069,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True when the request has POST data. Note that postData might still be omitted when this flag is true when the data is too long.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("hasPostData"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hasPostData")]
         public bool? HasPostData
         {
             get;
@@ -8341,54 +8079,28 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Request body elements. This will be converted from base64 to binary
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("postDataEntries"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("postDataEntries")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Network.PostDataEntry> PostDataEntries
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Security.MixedContentType? MixedContentType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Security.MixedContentType? )(StringToEnum(typeof(CefSharp.DevTools.Security.MixedContentType? ), mixedContentType));
-            }
-
-            set
-            {
-                this.mixedContentType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The mixed content type of the request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentType"), IsRequired = (false))]
-        internal string mixedContentType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mixedContentType")]
+        public CefSharp.DevTools.Security.MixedContentType? MixedContentType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.ResourcePriority InitialPriority
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.ResourcePriority)(StringToEnum(typeof(CefSharp.DevTools.Network.ResourcePriority), initialPriority));
-            }
-
-            set
-            {
-                this.initialPriority = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Priority of the resource request at the time request is sent.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("initialPriority"), IsRequired = (true))]
-        internal string initialPriority
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("initialPriority")]
+        public CefSharp.DevTools.Network.ResourcePriority InitialPriority
         {
             get;
             set;
@@ -8397,7 +8109,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The referrer policy of the request, as defined in https://www.w3.org/TR/referrer-policy/
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("referrerPolicy"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("referrerPolicy")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ReferrerPolicy
         {
             get;
@@ -8407,7 +8120,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Whether is loaded via link preload.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isLinkPreload"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isLinkPreload")]
         public bool? IsLinkPreload
         {
             get;
@@ -8421,13 +8134,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Details of a signed certificate timestamp (SCT).
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedCertificateTimestamp : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Validation status.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("status")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Status
         {
             get;
@@ -8437,7 +8150,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Origin.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Origin
         {
             get;
@@ -8447,7 +8161,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Log name / description.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("logDescription"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("logDescription")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string LogDescription
         {
             get;
@@ -8457,7 +8172,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Log ID.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("logId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("logId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string LogId
         {
             get;
@@ -8467,7 +8183,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Issuance date.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timestamp"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timestamp")]
         public long Timestamp
         {
             get;
@@ -8477,7 +8193,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Hash algorithm.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("hashAlgorithm"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hashAlgorithm")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string HashAlgorithm
         {
             get;
@@ -8487,7 +8204,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signature algorithm.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signatureAlgorithm"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureAlgorithm")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SignatureAlgorithm
         {
             get;
@@ -8497,7 +8215,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signature data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signatureData"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureData")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SignatureData
         {
             get;
@@ -8511,13 +8230,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Security details about a request.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SecurityDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Protocol name (e.g. &quot;TLS 1.2&quot; or &quot;QUIC&quot;).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("protocol"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("protocol")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Protocol
         {
             get;
@@ -8527,7 +8246,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Key Exchange used by the connection, or the empty string if not applicable.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyExchange"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyExchange")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string KeyExchange
         {
             get;
@@ -8537,7 +8257,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// (EC)DH group used by the connection, if applicable.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyExchangeGroup"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyExchangeGroup")]
         public string KeyExchangeGroup
         {
             get;
@@ -8547,7 +8267,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cipher name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cipher"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cipher")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Cipher
         {
             get;
@@ -8557,7 +8278,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// TLS MAC. Note that AEAD ciphers do not have separate MACs.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mac"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mac")]
         public string Mac
         {
             get;
@@ -8567,7 +8288,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Certificate ID value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificateId")]
         public int CertificateId
         {
             get;
@@ -8577,7 +8298,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Certificate subject name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subjectName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subjectName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SubjectName
         {
             get;
@@ -8587,7 +8309,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Subject Alternative Name (SAN) DNS names and IP addresses.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sanList"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sanList")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string[] SanList
         {
             get;
@@ -8597,7 +8320,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Name of the issuing CA.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("issuer"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("issuer")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Issuer
         {
             get;
@@ -8607,7 +8331,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Certificate valid from date.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validFrom"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("validFrom")]
         public long ValidFrom
         {
             get;
@@ -8617,7 +8341,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Certificate valid to (expiration) date
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validTo"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("validTo")]
         public long ValidTo
         {
             get;
@@ -8627,31 +8351,19 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// List of signed certificate timestamps (SCTs).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signedCertificateTimestampList"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signedCertificateTimestampList")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Network.SignedCertificateTimestamp> SignedCertificateTimestampList
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.CertificateTransparencyCompliance CertificateTransparencyCompliance
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CertificateTransparencyCompliance)(StringToEnum(typeof(CefSharp.DevTools.Network.CertificateTransparencyCompliance), certificateTransparencyCompliance));
-            }
-
-            set
-            {
-                this.certificateTransparencyCompliance = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Whether the request complied with Certificate Transparency policy
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateTransparencyCompliance"), IsRequired = (true))]
-        internal string certificateTransparencyCompliance
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificateTransparencyCompliance")]
+        public CefSharp.DevTools.Network.CertificateTransparencyCompliance CertificateTransparencyCompliance
         {
             get;
             set;
@@ -8669,17 +8381,17 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// unknown
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("unknown"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unknown")]
         Unknown,
         /// <summary>
         /// not-compliant
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("not-compliant"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("not-compliant")]
         NotCompliant,
         /// <summary>
         /// compliant
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("compliant"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("compliant")]
         Compliant
     }
 }
@@ -8694,67 +8406,67 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// other
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("other"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("other")]
         Other,
         /// <summary>
         /// csp
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("csp"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("csp")]
         Csp,
         /// <summary>
         /// mixed-content
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("mixed-content"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mixed-content")]
         MixedContent,
         /// <summary>
         /// origin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("origin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
         Origin,
         /// <summary>
         /// inspector
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("inspector"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inspector")]
         Inspector,
         /// <summary>
         /// subresource-filter
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("subresource-filter"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subresource-filter")]
         SubresourceFilter,
         /// <summary>
         /// content-type
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("content-type"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("content-type")]
         ContentType,
         /// <summary>
         /// collapsed-by-client
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("collapsed-by-client"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("collapsed-by-client")]
         CollapsedByClient,
         /// <summary>
         /// coep-frame-resource-needs-coep-header
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("coep-frame-resource-needs-coep-header"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("coep-frame-resource-needs-coep-header")]
         CoepFrameResourceNeedsCoepHeader,
         /// <summary>
         /// coop-sandboxed-iframe-cannot-navigate-to-coop-page
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("coop-sandboxed-iframe-cannot-navigate-to-coop-page"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("coop-sandboxed-iframe-cannot-navigate-to-coop-page")]
         CoopSandboxedIframeCannotNavigateToCoopPage,
         /// <summary>
         /// corp-not-same-origin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("corp-not-same-origin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("corp-not-same-origin")]
         CorpNotSameOrigin,
         /// <summary>
         /// corp-not-same-origin-after-defaulted-to-same-origin-by-coep
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("corp-not-same-origin-after-defaulted-to-same-origin-by-coep"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("corp-not-same-origin-after-defaulted-to-same-origin-by-coep")]
         CorpNotSameOriginAfterDefaultedToSameOriginByCoep,
         /// <summary>
         /// corp-not-same-site
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("corp-not-same-site"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("corp-not-same-site")]
         CorpNotSameSite
     }
 }
@@ -8769,22 +8481,22 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// cache-storage
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cache-storage"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cache-storage")]
         CacheStorage,
         /// <summary>
         /// http-cache
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("http-cache"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("http-cache")]
         HttpCache,
         /// <summary>
         /// fallback-code
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("fallback-code"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fallback-code")]
         FallbackCode,
         /// <summary>
         /// network
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("network"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("network")]
         Network
     }
 }
@@ -8794,13 +8506,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// HTTP response data.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Response : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Response URL. This URL can be different from CachedResource.url in case of redirect.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -8810,7 +8522,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response status code.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("status")]
         public int Status
         {
             get;
@@ -8820,7 +8532,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response status text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("statusText"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("statusText")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string StatusText
         {
             get;
@@ -8830,7 +8543,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response headers.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("headers")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.Headers Headers
         {
             get;
@@ -8840,7 +8554,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response headers text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headersText"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("headersText")]
         public string HeadersText
         {
             get;
@@ -8850,7 +8564,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Resource mimeType as determined by the browser.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mimeType"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mimeType")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string MimeType
         {
             get;
@@ -8860,7 +8575,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Refined HTTP request headers that were actually transmitted over the network.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeaders"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestHeaders")]
         public CefSharp.DevTools.Network.Headers RequestHeaders
         {
             get;
@@ -8870,7 +8585,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP request headers text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeadersText"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestHeadersText")]
         public string RequestHeadersText
         {
             get;
@@ -8880,7 +8595,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies whether physical connection was actually reused for this request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("connectionReused"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("connectionReused")]
         public bool ConnectionReused
         {
             get;
@@ -8890,7 +8605,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Physical connection id that was actually used for this request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("connectionId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("connectionId")]
         public long ConnectionId
         {
             get;
@@ -8900,7 +8615,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Remote IP address.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("remoteIPAddress"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("remoteIPAddress")]
         public string RemoteIPAddress
         {
             get;
@@ -8910,7 +8625,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Remote port.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("remotePort"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("remotePort")]
         public int? RemotePort
         {
             get;
@@ -8920,7 +8635,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the disk cache.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fromDiskCache"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fromDiskCache")]
         public bool? FromDiskCache
         {
             get;
@@ -8930,7 +8645,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the ServiceWorker.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fromServiceWorker"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fromServiceWorker")]
         public bool? FromServiceWorker
         {
             get;
@@ -8940,7 +8655,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Specifies that the request was served from the prefetch cache.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fromPrefetchCache"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fromPrefetchCache")]
         public bool? FromPrefetchCache
         {
             get;
@@ -8950,7 +8665,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Total number of bytes received for this request so far.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("encodedDataLength"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("encodedDataLength")]
         public long EncodedDataLength
         {
             get;
@@ -8960,31 +8675,18 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Timing information for the given request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timing"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timing")]
         public CefSharp.DevTools.Network.ResourceTiming Timing
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.ServiceWorkerResponseSource? ServiceWorkerResponseSource
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.ServiceWorkerResponseSource? )(StringToEnum(typeof(CefSharp.DevTools.Network.ServiceWorkerResponseSource? ), serviceWorkerResponseSource));
-            }
-
-            set
-            {
-                this.serviceWorkerResponseSource = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Response source of response from ServiceWorker.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("serviceWorkerResponseSource"), IsRequired = (false))]
-        internal string serviceWorkerResponseSource
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("serviceWorkerResponseSource")]
+        public CefSharp.DevTools.Network.ServiceWorkerResponseSource? ServiceWorkerResponseSource
         {
             get;
             set;
@@ -8993,7 +8695,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The time at which the returned response was generated.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseTime"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("responseTime")]
         public long? ResponseTime
         {
             get;
@@ -9003,7 +8705,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cache Storage Cache Name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cacheStorageCacheName"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cacheStorageCacheName")]
         public string CacheStorageCacheName
         {
             get;
@@ -9013,31 +8715,18 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Protocol used to fetch this request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("protocol"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("protocol")]
         public string Protocol
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Security.SecurityState SecurityState
-        {
-            get
-            {
-                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), securityState));
-            }
-
-            set
-            {
-                this.securityState = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Security state of the request resource.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        internal string securityState
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityState")]
+        public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get;
             set;
@@ -9046,7 +8735,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Security details for the request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityDetails"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityDetails")]
         public CefSharp.DevTools.Network.SecurityDetails SecurityDetails
         {
             get;
@@ -9060,13 +8749,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// WebSocket request data.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class WebSocketRequest : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// HTTP request headers.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("headers")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.Headers Headers
         {
             get;
@@ -9080,13 +8769,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// WebSocket response data.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class WebSocketResponse : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// HTTP response status code.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("status")]
         public int Status
         {
             get;
@@ -9096,7 +8784,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response status text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("statusText"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("statusText")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string StatusText
         {
             get;
@@ -9106,7 +8795,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response headers.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("headers")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.Headers Headers
         {
             get;
@@ -9116,7 +8806,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP response headers text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headersText"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("headersText")]
         public string HeadersText
         {
             get;
@@ -9126,7 +8816,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP request headers.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeaders"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestHeaders")]
         public CefSharp.DevTools.Network.Headers RequestHeaders
         {
             get;
@@ -9136,7 +8826,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HTTP request headers text.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestHeadersText"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestHeadersText")]
         public string RequestHeadersText
         {
             get;
@@ -9150,13 +8840,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// WebSocket message data. This represents an entire WebSocket message, not just a fragmented frame as the name suggests.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class WebSocketFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// WebSocket message opcode.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("opcode"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("opcode")]
         public long Opcode
         {
             get;
@@ -9166,7 +8855,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// WebSocket message mask.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mask"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mask")]
         public bool Mask
         {
             get;
@@ -9178,7 +8867,8 @@ namespace CefSharp.DevTools.Network
         /// If the opcode is 1, this is a text message and payloadData is a UTF-8 string.
         /// If the opcode isn&apos;t 1, then payloadData is a base64 encoded string representing binary data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("payloadData"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("payloadData")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string PayloadData
         {
             get;
@@ -9192,37 +8882,24 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about the cached resource.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CachedResource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Resource URL. This is the url of the original network request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.ResourceType Type
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.ResourceType)(StringToEnum(typeof(CefSharp.DevTools.Network.ResourceType), type));
-            }
-
-            set
-            {
-                this.type = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Type of this resource.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        internal string type
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        public CefSharp.DevTools.Network.ResourceType Type
         {
             get;
             set;
@@ -9231,7 +8908,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cached response data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("response"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("response")]
         public CefSharp.DevTools.Network.Response Response
         {
             get;
@@ -9241,7 +8918,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cached response body size.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bodySize"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bodySize")]
         public long BodySize
         {
             get;
@@ -9255,13 +8932,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about the request initiator.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Initiator : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Type of this initiator.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -9271,7 +8948,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Initiator JavaScript stack trace, set for Script only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stack"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stack")]
         public CefSharp.DevTools.Runtime.StackTrace Stack
         {
             get;
@@ -9281,7 +8958,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Initiator URL, set for Parser type or for Script type (when script is importing module) or for SignedExchange type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
         public string Url
         {
             get;
@@ -9292,7 +8969,7 @@ namespace CefSharp.DevTools.Network
         /// Initiator line number, set for Parser type or for Script type (when script is importing
         /// module) (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public long? LineNumber
         {
             get;
@@ -9306,13 +8983,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Cookie object
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Cookie : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Cookie name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -9322,7 +8999,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -9332,7 +9010,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie domain.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("domain"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("domain")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Domain
         {
             get;
@@ -9342,7 +9021,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie path.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("path"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("path")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Path
         {
             get;
@@ -9352,7 +9032,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie expiration date as the number of seconds since the UNIX epoch.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("expires"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("expires")]
         public long Expires
         {
             get;
@@ -9362,7 +9042,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie size.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("size"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("size")]
         public int Size
         {
             get;
@@ -9372,7 +9052,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True if cookie is http-only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("httpOnly"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("httpOnly")]
         public bool HttpOnly
         {
             get;
@@ -9382,7 +9062,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True if cookie is secure.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("secure"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("secure")]
         public bool Secure
         {
             get;
@@ -9392,54 +9072,28 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True in case of session cookie.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("session"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("session")]
         public bool Session
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.CookieSameSite? SameSite
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CookieSameSite? )(StringToEnum(typeof(CefSharp.DevTools.Network.CookieSameSite? ), sameSite));
-            }
-
-            set
-            {
-                this.sameSite = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Cookie SameSite type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sameSite"), IsRequired = (false))]
-        internal string sameSite
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sameSite")]
+        public CefSharp.DevTools.Network.CookieSameSite? SameSite
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.CookiePriority Priority
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CookiePriority)(StringToEnum(typeof(CefSharp.DevTools.Network.CookiePriority), priority));
-            }
-
-            set
-            {
-                this.priority = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Cookie Priority
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("priority"), IsRequired = (true))]
-        internal string priority
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("priority")]
+        public CefSharp.DevTools.Network.CookiePriority Priority
         {
             get;
             set;
@@ -9457,62 +9111,62 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// SecureOnly
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SecureOnly"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SecureOnly")]
         SecureOnly,
         /// <summary>
         /// SameSiteStrict
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteStrict"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteStrict")]
         SameSiteStrict,
         /// <summary>
         /// SameSiteLax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteLax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteLax")]
         SameSiteLax,
         /// <summary>
         /// SameSiteUnspecifiedTreatedAsLax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteUnspecifiedTreatedAsLax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteUnspecifiedTreatedAsLax")]
         SameSiteUnspecifiedTreatedAsLax,
         /// <summary>
         /// SameSiteNoneInsecure
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteNoneInsecure"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteNoneInsecure")]
         SameSiteNoneInsecure,
         /// <summary>
         /// UserPreferences
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("UserPreferences"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("UserPreferences")]
         UserPreferences,
         /// <summary>
         /// SyntaxError
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SyntaxError"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SyntaxError")]
         SyntaxError,
         /// <summary>
         /// SchemeNotSupported
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SchemeNotSupported"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SchemeNotSupported")]
         SchemeNotSupported,
         /// <summary>
         /// OverwriteSecure
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("OverwriteSecure"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("OverwriteSecure")]
         OverwriteSecure,
         /// <summary>
         /// InvalidDomain
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("InvalidDomain"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("InvalidDomain")]
         InvalidDomain,
         /// <summary>
         /// InvalidPrefix
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("InvalidPrefix"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("InvalidPrefix")]
         InvalidPrefix,
         /// <summary>
         /// UnknownError
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("UnknownError"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("UnknownError")]
         UnknownError
     }
 }
@@ -9527,47 +9181,47 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// SecureOnly
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SecureOnly"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SecureOnly")]
         SecureOnly,
         /// <summary>
         /// NotOnPath
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("NotOnPath"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("NotOnPath")]
         NotOnPath,
         /// <summary>
         /// DomainMismatch
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("DomainMismatch"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("DomainMismatch")]
         DomainMismatch,
         /// <summary>
         /// SameSiteStrict
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteStrict"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteStrict")]
         SameSiteStrict,
         /// <summary>
         /// SameSiteLax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteLax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteLax")]
         SameSiteLax,
         /// <summary>
         /// SameSiteUnspecifiedTreatedAsLax
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteUnspecifiedTreatedAsLax"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteUnspecifiedTreatedAsLax")]
         SameSiteUnspecifiedTreatedAsLax,
         /// <summary>
         /// SameSiteNoneInsecure
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameSiteNoneInsecure"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameSiteNoneInsecure")]
         SameSiteNoneInsecure,
         /// <summary>
         /// UserPreferences
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("UserPreferences"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("UserPreferences")]
         UserPreferences,
         /// <summary>
         /// UnknownError
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("UnknownError"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("UnknownError")]
         UnknownError
     }
 }
@@ -9577,27 +9231,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// A cookie which was not stored from a response with the corresponding reason.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BlockedSetCookieWithReason : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Network.SetCookieBlockedReason[] BlockedReasons
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.SetCookieBlockedReason[])(StringToEnum(typeof(CefSharp.DevTools.Network.SetCookieBlockedReason[]), blockedReasons));
-            }
-
-            set
-            {
-                this.blockedReasons = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The reason(s) this cookie was blocked.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedReasons"), IsRequired = (true))]
-        internal string blockedReasons
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blockedReasons")]
+        public CefSharp.DevTools.Network.SetCookieBlockedReason[] BlockedReasons
         {
             get;
             set;
@@ -9607,7 +9247,8 @@ namespace CefSharp.DevTools.Network
         /// The string representing this individual cookie as it would appear in the header.
         /// This is not the entire &quot;cookie&quot; or &quot;set-cookie&quot; header which could have multiple cookies.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookieLine"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookieLine")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string CookieLine
         {
             get;
@@ -9619,7 +9260,7 @@ namespace CefSharp.DevTools.Network
         /// sometimes complete cookie information is not available, such as in the case of parsing
         /// errors.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookie"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookie")]
         public CefSharp.DevTools.Network.Cookie Cookie
         {
             get;
@@ -9633,27 +9274,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// A cookie with was not sent with a request with the corresponding reason.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BlockedCookieWithReason : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Network.CookieBlockedReason[] BlockedReasons
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CookieBlockedReason[])(StringToEnum(typeof(CefSharp.DevTools.Network.CookieBlockedReason[]), blockedReasons));
-            }
-
-            set
-            {
-                this.blockedReasons = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The reason(s) the cookie was blocked.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("blockedReasons"), IsRequired = (true))]
-        internal string blockedReasons
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blockedReasons")]
+        public CefSharp.DevTools.Network.CookieBlockedReason[] BlockedReasons
         {
             get;
             set;
@@ -9662,7 +9289,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The cookie object representing the cookie which was not sent.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cookie"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookie")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.Cookie Cookie
         {
             get;
@@ -9676,13 +9304,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Cookie parameter object
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CookieParam : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Cookie name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -9692,7 +9320,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -9703,7 +9332,7 @@ namespace CefSharp.DevTools.Network
         /// The request-URI to associate with the setting of the cookie. This value can affect the
         /// default domain and path values of the created cookie.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
         public string Url
         {
             get;
@@ -9713,7 +9342,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie domain.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("domain"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("domain")]
         public string Domain
         {
             get;
@@ -9723,7 +9352,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie path.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("path"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("path")]
         public string Path
         {
             get;
@@ -9733,7 +9362,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True if cookie is secure.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("secure"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("secure")]
         public bool? Secure
         {
             get;
@@ -9743,31 +9372,18 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// True if cookie is http-only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("httpOnly"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("httpOnly")]
         public bool? HttpOnly
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.CookieSameSite? SameSite
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CookieSameSite? )(StringToEnum(typeof(CefSharp.DevTools.Network.CookieSameSite? ), sameSite));
-            }
-
-            set
-            {
-                this.sameSite = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Cookie SameSite type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sameSite"), IsRequired = (false))]
-        internal string sameSite
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sameSite")]
+        public CefSharp.DevTools.Network.CookieSameSite? SameSite
         {
             get;
             set;
@@ -9776,31 +9392,18 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Cookie expiration date, session cookie if not set
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("expires"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("expires")]
         public long? Expires
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.CookiePriority? Priority
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CookiePriority? )(StringToEnum(typeof(CefSharp.DevTools.Network.CookiePriority? ), priority));
-            }
-
-            set
-            {
-                this.priority = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Cookie Priority.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("priority"), IsRequired = (false))]
-        internal string priority
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("priority")]
+        public CefSharp.DevTools.Network.CookiePriority? Priority
         {
             get;
             set;
@@ -9813,13 +9416,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Authorization challenge for HTTP status code 401 or 407.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AuthChallenge : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Source of the authentication challenge.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("source"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
         public string Source
         {
             get;
@@ -9829,7 +9431,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Origin of the challenger.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Origin
         {
             get;
@@ -9839,7 +9442,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The authentication scheme used, such as basic or digest
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scheme"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scheme")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Scheme
         {
             get;
@@ -9849,7 +9453,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The realm of the challenge. May be empty.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("realm"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("realm")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Realm
         {
             get;
@@ -9863,7 +9468,6 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Response to an AuthChallenge.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AuthChallengeResponse : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -9871,7 +9475,8 @@ namespace CefSharp.DevTools.Network
         /// deferring to the default behavior of the net stack, which will likely either the Cancel
         /// authentication or display a popup dialog box.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("response"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("response")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Response
         {
             get;
@@ -9882,7 +9487,7 @@ namespace CefSharp.DevTools.Network
         /// The username to provide, possibly empty. Should only be set if response is
         /// ProvideCredentials.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("username"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("username")]
         public string Username
         {
             get;
@@ -9893,7 +9498,7 @@ namespace CefSharp.DevTools.Network
         /// The password to provide, possibly empty. Should only be set if response is
         /// ProvideCredentials.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("password"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("password")]
         public string Password
         {
             get;
@@ -9913,12 +9518,12 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Request
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Request"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Request")]
         Request,
         /// <summary>
         /// HeadersReceived
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("HeadersReceived"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("HeadersReceived")]
         HeadersReceived
     }
 }
@@ -9928,61 +9533,34 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Request pattern for interception.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestPattern : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Wildcards (&apos;*&apos; -&gt; zero or more, &apos;?&apos; -&gt; exactly one) are allowed. Escape character is
         /// backslash. Omitting is equivalent to &quot;*&quot;.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("urlPattern"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("urlPattern")]
         public string UrlPattern
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.ResourceType? ResourceType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.ResourceType? )(StringToEnum(typeof(CefSharp.DevTools.Network.ResourceType? ), resourceType));
-            }
-
-            set
-            {
-                this.resourceType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// If set, only requests for matching resource types will be intercepted.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("resourceType"), IsRequired = (false))]
-        internal string resourceType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resourceType")]
+        public CefSharp.DevTools.Network.ResourceType? ResourceType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.InterceptionStage? InterceptionStage
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.InterceptionStage? )(StringToEnum(typeof(CefSharp.DevTools.Network.InterceptionStage? ), interceptionStage));
-            }
-
-            set
-            {
-                this.interceptionStage = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Stage at wich to begin intercepting requests. Default is Request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("interceptionStage"), IsRequired = (false))]
-        internal string interceptionStage
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("interceptionStage")]
+        public CefSharp.DevTools.Network.InterceptionStage? InterceptionStage
         {
             get;
             set;
@@ -9996,13 +9574,13 @@ namespace CefSharp.DevTools.Network
     /// Information about a signed exchange signature.
     /// https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#rfc.section.3.1
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedExchangeSignature : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Signed exchange signature label.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("label"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("label")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Label
         {
             get;
@@ -10012,7 +9590,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The hex string of signed exchange signature.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signature"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signature")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Signature
         {
             get;
@@ -10022,7 +9601,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature integrity.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("integrity"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("integrity")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Integrity
         {
             get;
@@ -10032,7 +9612,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature cert Url.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certUrl"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certUrl")]
         public string CertUrl
         {
             get;
@@ -10042,7 +9622,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The hex string of signed exchange signature cert sha256.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certSha256"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certSha256")]
         public string CertSha256
         {
             get;
@@ -10052,7 +9632,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature validity Url.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validityUrl"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("validityUrl")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ValidityUrl
         {
             get;
@@ -10062,7 +9643,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature date.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("date"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("date")]
         public int Date
         {
             get;
@@ -10072,7 +9653,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange signature expires.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("expires"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("expires")]
         public int Expires
         {
             get;
@@ -10082,7 +9663,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The encoded certificates.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificates"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificates")]
         public string[] Certificates
         {
             get;
@@ -10097,13 +9678,13 @@ namespace CefSharp.DevTools.Network
     /// Information about a signed exchange header.
     /// https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#cbor-representation
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedExchangeHeader : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Signed exchange request URL.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestUrl"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestUrl")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string RequestUrl
         {
             get;
@@ -10113,7 +9694,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange response code.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseCode"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("responseCode")]
         public int ResponseCode
         {
             get;
@@ -10123,7 +9704,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange response headers.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("responseHeaders"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("responseHeaders")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.Headers ResponseHeaders
         {
             get;
@@ -10133,7 +9715,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange response signature.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signatures"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatures")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Network.SignedExchangeSignature> Signatures
         {
             get;
@@ -10143,7 +9726,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Signed exchange header integrity hash in the form of &quot;sha256-&lt;base64-hash-value&gt; &quot;.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headerIntegrity"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("headerIntegrity")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string HeaderIntegrity
         {
             get;
@@ -10162,32 +9746,32 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// signatureSig
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureSig"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureSig")]
         SignatureSig,
         /// <summary>
         /// signatureIntegrity
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureIntegrity"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureIntegrity")]
         SignatureIntegrity,
         /// <summary>
         /// signatureCertUrl
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureCertUrl"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureCertUrl")]
         SignatureCertUrl,
         /// <summary>
         /// signatureCertSha256
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureCertSha256"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureCertSha256")]
         SignatureCertSha256,
         /// <summary>
         /// signatureValidityUrl
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureValidityUrl"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureValidityUrl")]
         SignatureValidityUrl,
         /// <summary>
         /// signatureTimestamps
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("signatureTimestamps"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureTimestamps")]
         SignatureTimestamps
     }
 }
@@ -10197,13 +9781,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about a signed exchange response.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedExchangeError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Error message.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("message"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("message")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Message
         {
             get;
@@ -10213,31 +9797,18 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// The index of the signature which caused the error.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signatureIndex"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signatureIndex")]
         public int? SignatureIndex
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.SignedExchangeErrorField? ErrorField
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.SignedExchangeErrorField? )(StringToEnum(typeof(CefSharp.DevTools.Network.SignedExchangeErrorField? ), errorField));
-            }
-
-            set
-            {
-                this.errorField = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The field which caused the error.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorField"), IsRequired = (false))]
-        internal string errorField
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errorField")]
+        public CefSharp.DevTools.Network.SignedExchangeErrorField? ErrorField
         {
             get;
             set;
@@ -10250,13 +9821,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// Information about a signed exchange response.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SignedExchangeInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The outer response of signed HTTP exchange which was received from network.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("outerResponse"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("outerResponse")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.Response OuterResponse
         {
             get;
@@ -10266,7 +9837,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Information about the signed exchange header.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("header"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("header")]
         public CefSharp.DevTools.Network.SignedExchangeHeader Header
         {
             get;
@@ -10276,7 +9847,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Security details for the signed exchange header.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityDetails"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityDetails")]
         public CefSharp.DevTools.Network.SecurityDetails SecurityDetails
         {
             get;
@@ -10286,7 +9857,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Errors occurred while handling the signed exchagne.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("errors"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errors")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Network.SignedExchangeError> Errors
         {
             get;
@@ -10305,22 +9876,22 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// SameOrigin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameOrigin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameOrigin")]
         SameOrigin,
         /// <summary>
         /// SameOriginAllowPopups
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameOriginAllowPopups"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameOriginAllowPopups")]
         SameOriginAllowPopups,
         /// <summary>
         /// UnsafeNone
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("UnsafeNone"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("UnsafeNone")]
         UnsafeNone,
         /// <summary>
         /// SameOriginPlusCoep
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SameOriginPlusCoep"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SameOriginPlusCoep")]
         SameOriginPlusCoep
     }
 }
@@ -10330,50 +9901,23 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// CrossOriginOpenerPolicyStatus
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CrossOriginOpenerPolicyStatus : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Network.CrossOriginOpenerPolicyValue Value
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CrossOriginOpenerPolicyValue)(StringToEnum(typeof(CefSharp.DevTools.Network.CrossOriginOpenerPolicyValue), value));
-            }
-
-            set
-            {
-                this.value = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
-        internal string value
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        public CefSharp.DevTools.Network.CrossOriginOpenerPolicyValue Value
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.CrossOriginOpenerPolicyValue ReportOnlyValue
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CrossOriginOpenerPolicyValue)(StringToEnum(typeof(CefSharp.DevTools.Network.CrossOriginOpenerPolicyValue), reportOnlyValue));
-            }
-
-            set
-            {
-                this.reportOnlyValue = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// ReportOnlyValue
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("reportOnlyValue"), IsRequired = (true))]
-        internal string reportOnlyValue
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reportOnlyValue")]
+        public CefSharp.DevTools.Network.CrossOriginOpenerPolicyValue ReportOnlyValue
         {
             get;
             set;
@@ -10382,7 +9926,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// ReportingEndpoint
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("reportingEndpoint"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reportingEndpoint")]
         public string ReportingEndpoint
         {
             get;
@@ -10392,7 +9936,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// ReportOnlyReportingEndpoint
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("reportOnlyReportingEndpoint"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reportOnlyReportingEndpoint")]
         public string ReportOnlyReportingEndpoint
         {
             get;
@@ -10411,12 +9955,12 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// None
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("None"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("None")]
         None,
         /// <summary>
         /// RequireCorp
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("RequireCorp"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("RequireCorp")]
         RequireCorp
     }
 }
@@ -10426,50 +9970,23 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// CrossOriginEmbedderPolicyStatus
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CrossOriginEmbedderPolicyStatus : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Network.CrossOriginEmbedderPolicyValue Value
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CrossOriginEmbedderPolicyValue)(StringToEnum(typeof(CefSharp.DevTools.Network.CrossOriginEmbedderPolicyValue), value));
-            }
-
-            set
-            {
-                this.value = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
-        internal string value
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        public CefSharp.DevTools.Network.CrossOriginEmbedderPolicyValue Value
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.CrossOriginEmbedderPolicyValue ReportOnlyValue
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.CrossOriginEmbedderPolicyValue)(StringToEnum(typeof(CefSharp.DevTools.Network.CrossOriginEmbedderPolicyValue), reportOnlyValue));
-            }
-
-            set
-            {
-                this.reportOnlyValue = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// ReportOnlyValue
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("reportOnlyValue"), IsRequired = (true))]
-        internal string reportOnlyValue
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reportOnlyValue")]
+        public CefSharp.DevTools.Network.CrossOriginEmbedderPolicyValue ReportOnlyValue
         {
             get;
             set;
@@ -10478,7 +9995,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// ReportingEndpoint
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("reportingEndpoint"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reportingEndpoint")]
         public string ReportingEndpoint
         {
             get;
@@ -10488,7 +10005,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// ReportOnlyReportingEndpoint
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("reportOnlyReportingEndpoint"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reportOnlyReportingEndpoint")]
         public string ReportOnlyReportingEndpoint
         {
             get;
@@ -10502,13 +10019,13 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// SecurityIsolationStatus
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SecurityIsolationStatus : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Coop
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("coop"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("coop")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.CrossOriginOpenerPolicyStatus Coop
         {
             get;
@@ -10518,7 +10035,8 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Coep
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("coep"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("coep")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Network.CrossOriginEmbedderPolicyStatus Coep
         {
             get;
@@ -10532,13 +10050,12 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// An object providing the result of a network resource load.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LoadNetworkResourcePageResult : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Success
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("success"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("success")]
         public bool Success
         {
             get;
@@ -10548,7 +10065,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Optional values used for error reporting.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("netError"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("netError")]
         public long? NetError
         {
             get;
@@ -10558,7 +10075,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// NetErrorName
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("netErrorName"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("netErrorName")]
         public string NetErrorName
         {
             get;
@@ -10568,7 +10085,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// HttpStatusCode
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("httpStatusCode"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("httpStatusCode")]
         public long? HttpStatusCode
         {
             get;
@@ -10578,7 +10095,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// If successful, one of the following two fields holds the result.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stream"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stream")]
         public string Stream
         {
             get;
@@ -10588,7 +10105,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// Response headers.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("headers"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("headers")]
         public CefSharp.DevTools.Network.Headers Headers
         {
             get;
@@ -10603,13 +10120,12 @@ namespace CefSharp.DevTools.Network
     /// An options object that may be extended later to better support CORS,
     /// CORB and streaming.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LoadNetworkResourceOptions : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// DisableCache
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("disableCache"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("disableCache")]
         public bool DisableCache
         {
             get;
@@ -10619,7 +10135,7 @@ namespace CefSharp.DevTools.Network
         /// <summary>
         /// IncludeCredentials
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("includeCredentials"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("includeCredentials")]
         public bool IncludeCredentials
         {
             get;
@@ -10633,13 +10149,13 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// Configuration data for drawing the source order of an elements children.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SourceOrderConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// the color to outline the givent element in.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentOutlineColor"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parentOutlineColor")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOM.RGBA ParentOutlineColor
         {
             get;
@@ -10649,7 +10165,8 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// the color to outline the child elements in.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("childOutlineColor"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("childOutlineColor")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOM.RGBA ChildOutlineColor
         {
             get;
@@ -10663,13 +10180,12 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// Configuration data for the highlighting of Grid elements.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GridHighlightConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Whether the extension lines from grid cells to the rulers should be shown (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showGridExtensionLines"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showGridExtensionLines")]
         public bool? ShowGridExtensionLines
         {
             get;
@@ -10679,7 +10195,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Show Positive line number labels (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showPositiveLineNumbers"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showPositiveLineNumbers")]
         public bool? ShowPositiveLineNumbers
         {
             get;
@@ -10689,7 +10205,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Show Negative line number labels (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showNegativeLineNumbers"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showNegativeLineNumbers")]
         public bool? ShowNegativeLineNumbers
         {
             get;
@@ -10699,7 +10215,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Show area name labels (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showAreaNames"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showAreaNames")]
         public bool? ShowAreaNames
         {
             get;
@@ -10709,7 +10225,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Show line name labels (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showLineNames"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showLineNames")]
         public bool? ShowLineNames
         {
             get;
@@ -10719,7 +10235,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Show track size labels (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showTrackSizes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showTrackSizes")]
         public bool? ShowTrackSizes
         {
             get;
@@ -10729,7 +10245,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The grid container border highlight color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("gridBorderColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("gridBorderColor")]
         public CefSharp.DevTools.DOM.RGBA GridBorderColor
         {
             get;
@@ -10739,7 +10255,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The cell border color (default: transparent). Deprecated, please use rowLineColor and columnLineColor instead.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cellBorderColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cellBorderColor")]
         public CefSharp.DevTools.DOM.RGBA CellBorderColor
         {
             get;
@@ -10749,7 +10265,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The row line color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rowLineColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rowLineColor")]
         public CefSharp.DevTools.DOM.RGBA RowLineColor
         {
             get;
@@ -10759,7 +10275,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The column line color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnLineColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnLineColor")]
         public CefSharp.DevTools.DOM.RGBA ColumnLineColor
         {
             get;
@@ -10769,7 +10285,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Whether the grid border is dashed (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("gridBorderDash"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("gridBorderDash")]
         public bool? GridBorderDash
         {
             get;
@@ -10779,7 +10295,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Whether the cell border is dashed (default: false). Deprecated, please us rowLineDash and columnLineDash instead.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cellBorderDash"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cellBorderDash")]
         public bool? CellBorderDash
         {
             get;
@@ -10789,7 +10305,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Whether row lines are dashed (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rowLineDash"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rowLineDash")]
         public bool? RowLineDash
         {
             get;
@@ -10799,7 +10315,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Whether column lines are dashed (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnLineDash"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnLineDash")]
         public bool? ColumnLineDash
         {
             get;
@@ -10809,7 +10325,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The row gap highlight fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rowGapColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rowGapColor")]
         public CefSharp.DevTools.DOM.RGBA RowGapColor
         {
             get;
@@ -10819,7 +10335,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The row gap hatching fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rowHatchColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rowHatchColor")]
         public CefSharp.DevTools.DOM.RGBA RowHatchColor
         {
             get;
@@ -10829,7 +10345,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The column gap highlight fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnGapColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnGapColor")]
         public CefSharp.DevTools.DOM.RGBA ColumnGapColor
         {
             get;
@@ -10839,7 +10355,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The column gap hatching fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnHatchColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnHatchColor")]
         public CefSharp.DevTools.DOM.RGBA ColumnHatchColor
         {
             get;
@@ -10849,7 +10365,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The named grid areas border color (Default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("areaBorderColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("areaBorderColor")]
         public CefSharp.DevTools.DOM.RGBA AreaBorderColor
         {
             get;
@@ -10859,7 +10375,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The grid container background color (Default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("gridBackgroundColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("gridBackgroundColor")]
         public CefSharp.DevTools.DOM.RGBA GridBackgroundColor
         {
             get;
@@ -10873,13 +10389,12 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// Configuration data for the highlighting of page elements.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class HighlightConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Whether the node info tooltip should be shown (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showInfo"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showInfo")]
         public bool? ShowInfo
         {
             get;
@@ -10889,7 +10404,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Whether the node styles in the tooltip (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showStyles"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showStyles")]
         public bool? ShowStyles
         {
             get;
@@ -10899,7 +10414,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Whether the rulers should be shown (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showRulers"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showRulers")]
         public bool? ShowRulers
         {
             get;
@@ -10909,7 +10424,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Whether the a11y info should be shown (default: true).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showAccessibilityInfo"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showAccessibilityInfo")]
         public bool? ShowAccessibilityInfo
         {
             get;
@@ -10919,7 +10434,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Whether the extension lines from node to the rulers should be shown (default: false).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("showExtensionLines"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showExtensionLines")]
         public bool? ShowExtensionLines
         {
             get;
@@ -10929,7 +10444,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The content box highlight fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentColor")]
         public CefSharp.DevTools.DOM.RGBA ContentColor
         {
             get;
@@ -10939,7 +10454,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The padding highlight fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("paddingColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("paddingColor")]
         public CefSharp.DevTools.DOM.RGBA PaddingColor
         {
             get;
@@ -10949,7 +10464,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The border highlight fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("borderColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("borderColor")]
         public CefSharp.DevTools.DOM.RGBA BorderColor
         {
             get;
@@ -10959,7 +10474,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The margin highlight fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("marginColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("marginColor")]
         public CefSharp.DevTools.DOM.RGBA MarginColor
         {
             get;
@@ -10969,7 +10484,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The event target element highlight fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("eventTargetColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("eventTargetColor")]
         public CefSharp.DevTools.DOM.RGBA EventTargetColor
         {
             get;
@@ -10979,7 +10494,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The shape outside fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shapeColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shapeColor")]
         public CefSharp.DevTools.DOM.RGBA ShapeColor
         {
             get;
@@ -10989,7 +10504,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The shape margin fill color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("shapeMarginColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shapeMarginColor")]
         public CefSharp.DevTools.DOM.RGBA ShapeMarginColor
         {
             get;
@@ -10999,31 +10514,18 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The grid layout color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cssGridColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cssGridColor")]
         public CefSharp.DevTools.DOM.RGBA CssGridColor
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Overlay.ColorFormat? ColorFormat
-        {
-            get
-            {
-                return (CefSharp.DevTools.Overlay.ColorFormat? )(StringToEnum(typeof(CefSharp.DevTools.Overlay.ColorFormat? ), colorFormat));
-            }
-
-            set
-            {
-                this.colorFormat = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The color format used to format color styles (default: hex).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("colorFormat"), IsRequired = (false))]
-        internal string colorFormat
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("colorFormat")]
+        public CefSharp.DevTools.Overlay.ColorFormat? ColorFormat
         {
             get;
             set;
@@ -11032,7 +10534,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The grid layout highlight configuration (default: all transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("gridHighlightConfig"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("gridHighlightConfig")]
         public CefSharp.DevTools.Overlay.GridHighlightConfig GridHighlightConfig
         {
             get;
@@ -11051,17 +10553,17 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// rgb
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("rgb"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rgb")]
         Rgb,
         /// <summary>
         /// hsl
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("hsl"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hsl")]
         Hsl,
         /// <summary>
         /// hex
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("hex"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hex")]
         Hex
     }
 }
@@ -11071,13 +10573,13 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// Configurations for Persistent Grid Highlight
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GridNodeHighlightConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// A descriptor for the highlight appearance.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("gridHighlightConfig"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("gridHighlightConfig")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Overlay.GridHighlightConfig GridHighlightConfig
         {
             get;
@@ -11087,7 +10589,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// Identifier of the node to highlight.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
             get;
@@ -11101,13 +10603,13 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// Configuration for dual screen hinge
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class HingeConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// A rectangle represent hinge
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rect"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rect")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.DOM.Rect Rect
         {
             get;
@@ -11117,7 +10619,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The content box highlight fill color (default: a dark color).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentColor")]
         public CefSharp.DevTools.DOM.RGBA ContentColor
         {
             get;
@@ -11127,7 +10629,7 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// The content box highlight outline color (default: transparent).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("outlineColor"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("outlineColor")]
         public CefSharp.DevTools.DOM.RGBA OutlineColor
         {
             get;
@@ -11146,27 +10648,27 @@ namespace CefSharp.DevTools.Overlay
         /// <summary>
         /// searchForNode
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("searchForNode"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("searchForNode")]
         SearchForNode,
         /// <summary>
         /// searchForUAShadowDOM
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("searchForUAShadowDOM"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("searchForUAShadowDOM")]
         SearchForUAShadowDOM,
         /// <summary>
         /// captureAreaScreenshot
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("captureAreaScreenshot"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("captureAreaScreenshot")]
         CaptureAreaScreenshot,
         /// <summary>
         /// showDistances
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("showDistances"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("showDistances")]
         ShowDistances,
         /// <summary>
         /// none
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("none"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("none")]
         None
     }
 }
@@ -11181,17 +10683,17 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// none
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("none"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("none")]
         None,
         /// <summary>
         /// child
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("child"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("child")]
         Child,
         /// <summary>
         /// root
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("root"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("root")]
         Root
     }
 }
@@ -11206,22 +10708,22 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Secure
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Secure"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Secure")]
         Secure,
         /// <summary>
         /// SecureLocalhost
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("SecureLocalhost"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SecureLocalhost")]
         SecureLocalhost,
         /// <summary>
         /// InsecureScheme
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("InsecureScheme"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("InsecureScheme")]
         InsecureScheme,
         /// <summary>
         /// InsecureAncestor
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("InsecureAncestor"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("InsecureAncestor")]
         InsecureAncestor
     }
 }
@@ -11236,17 +10738,17 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Isolated
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Isolated"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Isolated")]
         Isolated,
         /// <summary>
         /// NotIsolated
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("NotIsolated"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("NotIsolated")]
         NotIsolated,
         /// <summary>
         /// NotIsolatedFeatureDisabled
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("NotIsolatedFeatureDisabled"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("NotIsolatedFeatureDisabled")]
         NotIsolatedFeatureDisabled
     }
 }
@@ -11256,13 +10758,13 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Frame on the page.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Frame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Frame unique identifier.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Id
         {
             get;
@@ -11272,7 +10774,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Parent frame identifier.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parentId")]
         public string ParentId
         {
             get;
@@ -11282,7 +10784,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Identifier of the loader associated with this frame.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("loaderId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("loaderId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string LoaderId
         {
             get;
@@ -11292,7 +10795,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Frame&apos;s name as specified in the tag.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
         public string Name
         {
             get;
@@ -11302,7 +10805,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Frame document&apos;s URL without fragment.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -11312,7 +10816,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Frame document&apos;s URL fragment including the &apos;#&apos;.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("urlFragment"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("urlFragment")]
         public string UrlFragment
         {
             get;
@@ -11325,7 +10829,8 @@ namespace CefSharp.DevTools.Page
         /// Example URLs: http://www.google.com/file.html -&gt; &quot;google.com&quot;
         ///               http://a.b.co.uk/file.html      -&gt; &quot;b.co.uk&quot;
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("domainAndRegistry"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("domainAndRegistry")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string DomainAndRegistry
         {
             get;
@@ -11335,7 +10840,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Frame document&apos;s security origin.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityOrigin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityOrigin")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SecurityOrigin
         {
             get;
@@ -11345,7 +10851,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Frame document&apos;s mimeType as determined by the browser.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mimeType"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mimeType")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string MimeType
         {
             get;
@@ -11355,77 +10862,38 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// If the frame failed to load, this contains the URL that could not be loaded. Note that unlike url above, this URL may contain a fragment.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("unreachableUrl"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unreachableUrl")]
         public string UnreachableUrl
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Page.AdFrameType? AdFrameType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Page.AdFrameType? )(StringToEnum(typeof(CefSharp.DevTools.Page.AdFrameType? ), adFrameType));
-            }
-
-            set
-            {
-                this.adFrameType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Indicates whether this frame was tagged as an ad.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("adFrameType"), IsRequired = (false))]
-        internal string adFrameType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("adFrameType")]
+        public CefSharp.DevTools.Page.AdFrameType? AdFrameType
         {
             get;
             set;
-        }
-
-        public CefSharp.DevTools.Page.SecureContextType SecureContextType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Page.SecureContextType)(StringToEnum(typeof(CefSharp.DevTools.Page.SecureContextType), secureContextType));
-            }
-
-            set
-            {
-                this.secureContextType = (EnumToString(value));
-            }
         }
 
         /// <summary>
         /// Indicates whether the main document is a secure context and explains why that is the case.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("secureContextType"), IsRequired = (true))]
-        internal string secureContextType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("secureContextType")]
+        public CefSharp.DevTools.Page.SecureContextType SecureContextType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Page.CrossOriginIsolatedContextType CrossOriginIsolatedContextType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Page.CrossOriginIsolatedContextType)(StringToEnum(typeof(CefSharp.DevTools.Page.CrossOriginIsolatedContextType), crossOriginIsolatedContextType));
-            }
-
-            set
-            {
-                this.crossOriginIsolatedContextType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Indicates whether this is a cross origin isolated context.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("crossOriginIsolatedContextType"), IsRequired = (true))]
-        internal string crossOriginIsolatedContextType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("crossOriginIsolatedContextType")]
+        public CefSharp.DevTools.Page.CrossOriginIsolatedContextType CrossOriginIsolatedContextType
         {
             get;
             set;
@@ -11438,37 +10906,24 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Resource on the page.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FrameResource : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Resource URL.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.ResourceType Type
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.ResourceType)(StringToEnum(typeof(CefSharp.DevTools.Network.ResourceType), type));
-            }
-
-            set
-            {
-                this.type = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Type of this resource.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
-        internal string type
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        public CefSharp.DevTools.Network.ResourceType Type
         {
             get;
             set;
@@ -11477,7 +10932,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Resource mimeType as determined by the browser.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mimeType"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mimeType")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string MimeType
         {
             get;
@@ -11487,7 +10943,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// last-modified timestamp as reported by server.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lastModified"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lastModified")]
         public long? LastModified
         {
             get;
@@ -11497,7 +10953,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Resource content size.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contentSize"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentSize")]
         public long? ContentSize
         {
             get;
@@ -11507,7 +10963,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// True if the resource failed to load.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("failed"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("failed")]
         public bool? Failed
         {
             get;
@@ -11517,7 +10973,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// True if the resource was canceled during loading.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("canceled"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("canceled")]
         public bool? Canceled
         {
             get;
@@ -11531,13 +10987,13 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Frame hierarchy along with their cached resources.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FrameResourceTree : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Frame information for this tree item.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frame"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frame")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Page.Frame Frame
         {
             get;
@@ -11547,7 +11003,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Child frames.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("childFrames"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("childFrames")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Page.FrameResourceTree> ChildFrames
         {
             get;
@@ -11557,7 +11013,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Information about frame resources.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("resources"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resources")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Page.FrameResource> Resources
         {
             get;
@@ -11571,13 +11028,13 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Information about the Frame hierarchy.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FrameTree : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Frame information for this tree item.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("frame"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frame")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Page.Frame Frame
         {
             get;
@@ -11587,7 +11044,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Child frames.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("childFrames"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("childFrames")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Page.FrameTree> ChildFrames
         {
             get;
@@ -11606,67 +11063,67 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// link
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("link"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("link")]
         Link,
         /// <summary>
         /// typed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("typed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("typed")]
         Typed,
         /// <summary>
         /// address_bar
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("address_bar"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("address_bar")]
         AddressBar,
         /// <summary>
         /// auto_bookmark
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("auto_bookmark"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("auto_bookmark")]
         AutoBookmark,
         /// <summary>
         /// auto_subframe
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("auto_subframe"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("auto_subframe")]
         AutoSubframe,
         /// <summary>
         /// manual_subframe
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("manual_subframe"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("manual_subframe")]
         ManualSubframe,
         /// <summary>
         /// generated
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("generated"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("generated")]
         Generated,
         /// <summary>
         /// auto_toplevel
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("auto_toplevel"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("auto_toplevel")]
         AutoToplevel,
         /// <summary>
         /// form_submit
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("form_submit"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("form_submit")]
         FormSubmit,
         /// <summary>
         /// reload
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("reload"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reload")]
         Reload,
         /// <summary>
         /// keyword
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("keyword"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyword")]
         Keyword,
         /// <summary>
         /// keyword_generated
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("keyword_generated"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyword_generated")]
         KeywordGenerated,
         /// <summary>
         /// other
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("other"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("other")]
         Other
     }
 }
@@ -11676,13 +11133,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Navigation history entry.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class NavigationEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Unique id of the navigation history entry.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
         public int Id
         {
             get;
@@ -11692,7 +11148,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// URL of the navigation history entry.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -11702,7 +11159,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// URL that the user typed in the url bar.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("userTypedURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("userTypedURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string UserTypedURL
         {
             get;
@@ -11712,31 +11170,19 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Title of the navigation history entry.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("title"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("title")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Title
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Page.TransitionType TransitionType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Page.TransitionType)(StringToEnum(typeof(CefSharp.DevTools.Page.TransitionType), transitionType));
-            }
-
-            set
-            {
-                this.transitionType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Transition type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("transitionType"), IsRequired = (true))]
-        internal string transitionType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("transitionType")]
+        public CefSharp.DevTools.Page.TransitionType TransitionType
         {
             get;
             set;
@@ -11749,13 +11195,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Screencast frame metadata.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ScreencastFrameMetadata : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Top offset in DIP.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offsetTop"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offsetTop")]
         public long OffsetTop
         {
             get;
@@ -11765,7 +11210,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Page scale factor.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageScaleFactor"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pageScaleFactor")]
         public long PageScaleFactor
         {
             get;
@@ -11775,7 +11220,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Device screen width in DIP.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("deviceWidth"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("deviceWidth")]
         public long DeviceWidth
         {
             get;
@@ -11785,7 +11230,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Device screen height in DIP.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("deviceHeight"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("deviceHeight")]
         public long DeviceHeight
         {
             get;
@@ -11795,7 +11240,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Position of horizontal scroll in CSS pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scrollOffsetX"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollOffsetX")]
         public long ScrollOffsetX
         {
             get;
@@ -11805,7 +11250,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Position of vertical scroll in CSS pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scrollOffsetY"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scrollOffsetY")]
         public long ScrollOffsetY
         {
             get;
@@ -11815,7 +11260,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Frame swap timestamp.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timestamp"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timestamp")]
         public long? Timestamp
         {
             get;
@@ -11834,22 +11279,22 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// alert
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("alert"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("alert")]
         Alert,
         /// <summary>
         /// confirm
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("confirm"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("confirm")]
         Confirm,
         /// <summary>
         /// prompt
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("prompt"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("prompt")]
         Prompt,
         /// <summary>
         /// beforeunload
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("beforeunload"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("beforeunload")]
         Beforeunload
     }
 }
@@ -11859,13 +11304,13 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Error while paring app manifest.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AppManifestError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Error message.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("message"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("message")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Message
         {
             get;
@@ -11875,7 +11320,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// If criticial, this is a non-recoverable parse error.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("critical"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("critical")]
         public int Critical
         {
             get;
@@ -11885,7 +11330,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Error line.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("line"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("line")]
         public int Line
         {
             get;
@@ -11895,7 +11340,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Error column.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("column"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("column")]
         public int Column
         {
             get;
@@ -11909,13 +11354,13 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Parsed app manifest properties.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AppManifestParsedProperties : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Computed scope value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scope"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scope")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Scope
         {
             get;
@@ -11929,13 +11374,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Layout viewport position and dimensions.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LayoutViewport : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Horizontal offset relative to the document (CSS pixels).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageX"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pageX")]
         public int PageX
         {
             get;
@@ -11945,7 +11389,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Vertical offset relative to the document (CSS pixels).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageY"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pageY")]
         public int PageY
         {
             get;
@@ -11955,7 +11399,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Width (CSS pixels), excludes scrollbar if present.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientWidth"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clientWidth")]
         public int ClientWidth
         {
             get;
@@ -11965,7 +11409,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Height (CSS pixels), excludes scrollbar if present.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientHeight"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clientHeight")]
         public int ClientHeight
         {
             get;
@@ -11979,13 +11423,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Visual viewport position, dimensions, and scale.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class VisualViewport : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Horizontal offset relative to the layout viewport (CSS pixels).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offsetX"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offsetX")]
         public long OffsetX
         {
             get;
@@ -11995,7 +11438,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Vertical offset relative to the layout viewport (CSS pixels).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offsetY"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offsetY")]
         public long OffsetY
         {
             get;
@@ -12005,7 +11448,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Horizontal offset relative to the document (CSS pixels).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageX"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pageX")]
         public long PageX
         {
             get;
@@ -12015,7 +11458,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Vertical offset relative to the document (CSS pixels).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pageY"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pageY")]
         public long PageY
         {
             get;
@@ -12025,7 +11468,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Width (CSS pixels), excludes scrollbar if present.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientWidth"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clientWidth")]
         public long ClientWidth
         {
             get;
@@ -12035,7 +11478,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Height (CSS pixels), excludes scrollbar if present.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("clientHeight"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clientHeight")]
         public long ClientHeight
         {
             get;
@@ -12045,7 +11488,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Scale relative to the ideal viewport (size at width=device-width).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scale"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scale")]
         public long Scale
         {
             get;
@@ -12055,7 +11498,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Page zoom factor (CSS to device independent pixels ratio).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("zoom"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("zoom")]
         public long? Zoom
         {
             get;
@@ -12069,13 +11512,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Viewport for capturing screenshot.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Viewport : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// X offset in device independent pixels (dip).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("x"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("x")]
         public long X
         {
             get;
@@ -12085,7 +11527,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Y offset in device independent pixels (dip).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("y"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("y")]
         public long Y
         {
             get;
@@ -12095,7 +11537,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Rectangle width in device independent pixels (dip).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("width"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("width")]
         public long Width
         {
             get;
@@ -12105,7 +11547,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Rectangle height in device independent pixels (dip).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("height"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("height")]
         public long Height
         {
             get;
@@ -12115,7 +11557,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Page scale factor.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scale"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scale")]
         public long Scale
         {
             get;
@@ -12129,13 +11571,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Generic font families collection.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FontFamilies : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The standard font-family.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("standard"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("standard")]
         public string Standard
         {
             get;
@@ -12145,7 +11586,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The fixed font-family.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fixed"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fixed")]
         public string Fixed
         {
             get;
@@ -12155,7 +11596,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The serif font-family.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("serif"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("serif")]
         public string Serif
         {
             get;
@@ -12165,7 +11606,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The sansSerif font-family.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sansSerif"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sansSerif")]
         public string SansSerif
         {
             get;
@@ -12175,7 +11616,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The cursive font-family.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cursive"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cursive")]
         public string Cursive
         {
             get;
@@ -12185,7 +11626,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The fantasy font-family.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fantasy"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fantasy")]
         public string Fantasy
         {
             get;
@@ -12195,7 +11636,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The pictograph font-family.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("pictograph"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pictograph")]
         public string Pictograph
         {
             get;
@@ -12209,13 +11650,12 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// Default font sizes.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FontSizes : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Default standard font size.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("standard"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("standard")]
         public int? Standard
         {
             get;
@@ -12225,7 +11665,7 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Default fixed font size.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("fixed"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fixed")]
         public int? Fixed
         {
             get;
@@ -12244,42 +11684,42 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// formSubmissionGet
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("formSubmissionGet"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("formSubmissionGet")]
         FormSubmissionGet,
         /// <summary>
         /// formSubmissionPost
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("formSubmissionPost"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("formSubmissionPost")]
         FormSubmissionPost,
         /// <summary>
         /// httpHeaderRefresh
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("httpHeaderRefresh"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("httpHeaderRefresh")]
         HttpHeaderRefresh,
         /// <summary>
         /// scriptInitiated
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("scriptInitiated"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptInitiated")]
         ScriptInitiated,
         /// <summary>
         /// metaTagRefresh
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("metaTagRefresh"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("metaTagRefresh")]
         MetaTagRefresh,
         /// <summary>
         /// pageBlockInterstitial
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("pageBlockInterstitial"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pageBlockInterstitial")]
         PageBlockInterstitial,
         /// <summary>
         /// reload
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("reload"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("reload")]
         Reload,
         /// <summary>
         /// anchorClick
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("anchorClick"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("anchorClick")]
         AnchorClick
     }
 }
@@ -12294,22 +11734,22 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// currentTab
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("currentTab"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("currentTab")]
         CurrentTab,
         /// <summary>
         /// newTab
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("newTab"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("newTab")]
         NewTab,
         /// <summary>
         /// newWindow
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("newWindow"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("newWindow")]
         NewWindow,
         /// <summary>
         /// download
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("download"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("download")]
         Download
     }
 }
@@ -12319,13 +11759,13 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// InstallabilityErrorArgument
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class InstallabilityErrorArgument : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Argument name (e.g. name:&apos;minimum-icon-size-in-pixels&apos;).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -12335,7 +11775,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// Argument value (e.g. value:&apos;64&apos;).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -12349,13 +11790,13 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// The installability error
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class InstallabilityError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The error id (e.g. &apos;manifest-missing-suitable-icon&apos;).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errorId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ErrorId
         {
             get;
@@ -12365,7 +11806,8 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// The list of error arguments (e.g. {name:&apos;minimum-icon-size-in-pixels&apos;, value:&apos;64&apos;}).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorArguments"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errorArguments")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Page.InstallabilityErrorArgument> ErrorArguments
         {
             get;
@@ -12384,42 +11826,42 @@ namespace CefSharp.DevTools.Page
         /// <summary>
         /// noReferrer
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("noReferrer"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("noReferrer")]
         NoReferrer,
         /// <summary>
         /// noReferrerWhenDowngrade
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("noReferrerWhenDowngrade"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("noReferrerWhenDowngrade")]
         NoReferrerWhenDowngrade,
         /// <summary>
         /// origin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("origin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
         Origin,
         /// <summary>
         /// originWhenCrossOrigin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("originWhenCrossOrigin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("originWhenCrossOrigin")]
         OriginWhenCrossOrigin,
         /// <summary>
         /// sameOrigin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("sameOrigin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sameOrigin")]
         SameOrigin,
         /// <summary>
         /// strictOrigin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("strictOrigin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("strictOrigin")]
         StrictOrigin,
         /// <summary>
         /// strictOriginWhenCrossOrigin
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("strictOriginWhenCrossOrigin"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("strictOriginWhenCrossOrigin")]
         StrictOriginWhenCrossOrigin,
         /// <summary>
         /// unsafeUrl
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("unsafeUrl"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unsafeUrl")]
         UnsafeUrl
     }
 }
@@ -12429,13 +11871,13 @@ namespace CefSharp.DevTools.Performance
     /// <summary>
     /// Run-time execution metric.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Metric : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Metric name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -12445,7 +11887,7 @@ namespace CefSharp.DevTools.Performance
         /// <summary>
         /// Metric value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public long Value
         {
             get;
@@ -12465,17 +11907,17 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// blockable
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("blockable"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blockable")]
         Blockable,
         /// <summary>
         /// optionally-blockable
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("optionally-blockable"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("optionally-blockable")]
         OptionallyBlockable,
         /// <summary>
         /// none
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("none"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("none")]
         None
     }
 }
@@ -12490,32 +11932,32 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// unknown
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("unknown"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unknown")]
         Unknown,
         /// <summary>
         /// neutral
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("neutral"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("neutral")]
         Neutral,
         /// <summary>
         /// insecure
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("insecure"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("insecure")]
         Insecure,
         /// <summary>
         /// secure
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("secure"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("secure")]
         Secure,
         /// <summary>
         /// info
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("info"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("info")]
         Info,
         /// <summary>
         /// insecure-broken
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("insecure-broken"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("insecure-broken")]
         InsecureBroken
     }
 }
@@ -12525,13 +11967,13 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Details about the security state of the page certificate.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CertificateSecurityState : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Protocol name (e.g. &quot;TLS 1.2&quot; or &quot;QUIC&quot;).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("protocol"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("protocol")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Protocol
         {
             get;
@@ -12541,7 +11983,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Key Exchange used by the connection, or the empty string if not applicable.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyExchange"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyExchange")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string KeyExchange
         {
             get;
@@ -12551,7 +11994,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// (EC)DH group used by the connection, if applicable.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("keyExchangeGroup"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyExchangeGroup")]
         public string KeyExchangeGroup
         {
             get;
@@ -12561,7 +12004,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Cipher name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cipher"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cipher")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Cipher
         {
             get;
@@ -12571,7 +12015,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// TLS MAC. Note that AEAD ciphers do not have separate MACs.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mac"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mac")]
         public string Mac
         {
             get;
@@ -12581,7 +12025,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Page certificate.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificate"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificate")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string[] Certificate
         {
             get;
@@ -12591,7 +12036,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Certificate subject name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subjectName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subjectName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SubjectName
         {
             get;
@@ -12601,7 +12047,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Name of the issuing CA.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("issuer"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("issuer")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Issuer
         {
             get;
@@ -12611,7 +12058,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Certificate valid from date.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validFrom"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("validFrom")]
         public long ValidFrom
         {
             get;
@@ -12621,7 +12068,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Certificate valid to (expiration) date
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("validTo"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("validTo")]
         public long ValidTo
         {
             get;
@@ -12631,7 +12078,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// The highest priority network error code, if the certificate has an error.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateNetworkError"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificateNetworkError")]
         public string CertificateNetworkError
         {
             get;
@@ -12641,7 +12088,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the certificate uses a weak signature aglorithm.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateHasWeakSignature"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificateHasWeakSignature")]
         public bool CertificateHasWeakSignature
         {
             get;
@@ -12651,7 +12098,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the certificate has a SHA1 signature in the chain.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateHasSha1Signature"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificateHasSha1Signature")]
         public bool CertificateHasSha1Signature
         {
             get;
@@ -12661,7 +12108,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if modern SSL
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("modernSSL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("modernSSL")]
         public bool ModernSSL
         {
             get;
@@ -12671,7 +12118,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the connection is using an obsolete SSL protocol.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("obsoleteSslProtocol"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("obsoleteSslProtocol")]
         public bool ObsoleteSslProtocol
         {
             get;
@@ -12681,7 +12128,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the connection is using an obsolete SSL key exchange.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("obsoleteSslKeyExchange"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("obsoleteSslKeyExchange")]
         public bool ObsoleteSslKeyExchange
         {
             get;
@@ -12691,7 +12138,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the connection is using an obsolete SSL cipher.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("obsoleteSslCipher"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("obsoleteSslCipher")]
         public bool ObsoleteSslCipher
         {
             get;
@@ -12701,7 +12148,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// True if the connection is using an obsolete SSL signature.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("obsoleteSslSignature"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("obsoleteSslSignature")]
         public bool ObsoleteSslSignature
         {
             get;
@@ -12720,12 +12167,12 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// badReputation
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("badReputation"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("badReputation")]
         BadReputation,
         /// <summary>
         /// lookalike
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("lookalike"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lookalike")]
         Lookalike
     }
 }
@@ -12735,27 +12182,13 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// SafetyTipInfo
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SafetyTipInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Security.SafetyTipStatus SafetyTipStatus
-        {
-            get
-            {
-                return (CefSharp.DevTools.Security.SafetyTipStatus)(StringToEnum(typeof(CefSharp.DevTools.Security.SafetyTipStatus), safetyTipStatus));
-            }
-
-            set
-            {
-                this.safetyTipStatus = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Describes whether the page triggers any safety tips or reputation warnings. Default is unknown.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("safetyTipStatus"), IsRequired = (true))]
-        internal string safetyTipStatus
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("safetyTipStatus")]
+        public CefSharp.DevTools.Security.SafetyTipStatus SafetyTipStatus
         {
             get;
             set;
@@ -12764,7 +12197,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// The URL the safety tip suggested (&quot;Did you mean?&quot;). Only filled in for lookalike matches.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("safeUrl"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("safeUrl")]
         public string SafeUrl
         {
             get;
@@ -12778,27 +12211,13 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Security state information about the page.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class VisibleSecurityState : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Security.SecurityState SecurityState
-        {
-            get
-            {
-                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), securityState));
-            }
-
-            set
-            {
-                this.securityState = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The security level of the page.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        internal string securityState
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityState")]
+        public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get;
             set;
@@ -12807,7 +12226,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Security state details about the page certificate.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificateSecurityState"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificateSecurityState")]
         public CefSharp.DevTools.Security.CertificateSecurityState CertificateSecurityState
         {
             get;
@@ -12817,7 +12236,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// The type of Safety Tip triggered on the page. Note that this field will be set even if the Safety Tip UI was not actually shown.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("safetyTipInfo"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("safetyTipInfo")]
         public CefSharp.DevTools.Security.SafetyTipInfo SafetyTipInfo
         {
             get;
@@ -12827,7 +12246,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Array of security state issues ids.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityStateIssueIds"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityStateIssueIds")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string[] SecurityStateIssueIds
         {
             get;
@@ -12841,27 +12261,13 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// An explanation of an factor contributing to the security state.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SecurityStateExplanation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Security.SecurityState SecurityState
-        {
-            get
-            {
-                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), securityState));
-            }
-
-            set
-            {
-                this.securityState = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Security state representing the severity of the factor being explained.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("securityState"), IsRequired = (true))]
-        internal string securityState
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("securityState")]
+        public CefSharp.DevTools.Security.SecurityState SecurityState
         {
             get;
             set;
@@ -12870,7 +12276,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Title describing the type of factor.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("title"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("title")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Title
         {
             get;
@@ -12880,7 +12287,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Short phrase describing the type of factor.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("summary"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("summary")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Summary
         {
             get;
@@ -12890,31 +12298,19 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Full text explanation of the factor.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("description"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("description")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Description
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Security.MixedContentType MixedContentType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Security.MixedContentType)(StringToEnum(typeof(CefSharp.DevTools.Security.MixedContentType), mixedContentType));
-            }
-
-            set
-            {
-                this.mixedContentType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// The type of mixed content described by the explanation.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("mixedContentType"), IsRequired = (true))]
-        internal string mixedContentType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mixedContentType")]
+        public CefSharp.DevTools.Security.MixedContentType MixedContentType
         {
             get;
             set;
@@ -12923,7 +12319,8 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Page certificate.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("certificate"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("certificate")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string[] Certificate
         {
             get;
@@ -12933,7 +12330,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Recommendations to fix any issues.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("recommendations"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("recommendations")]
         public string[] Recommendations
         {
             get;
@@ -12947,13 +12344,12 @@ namespace CefSharp.DevTools.Security
     /// <summary>
     /// Information about insecure content on the page.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class InsecureContentStatus : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Always false.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranMixedContent"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ranMixedContent")]
         public bool RanMixedContent
         {
             get;
@@ -12963,7 +12359,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always false.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("displayedMixedContent"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("displayedMixedContent")]
         public bool DisplayedMixedContent
         {
             get;
@@ -12973,7 +12369,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always false.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("containedMixedForm"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("containedMixedForm")]
         public bool ContainedMixedForm
         {
             get;
@@ -12983,7 +12379,7 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always false.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranContentWithCertErrors"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ranContentWithCertErrors")]
         public bool RanContentWithCertErrors
         {
             get;
@@ -12993,54 +12389,28 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// Always false.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("displayedContentWithCertErrors"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("displayedContentWithCertErrors")]
         public bool DisplayedContentWithCertErrors
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Security.SecurityState RanInsecureContentStyle
-        {
-            get
-            {
-                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), ranInsecureContentStyle));
-            }
-
-            set
-            {
-                this.ranInsecureContentStyle = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Always set to unknown.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranInsecureContentStyle"), IsRequired = (true))]
-        internal string ranInsecureContentStyle
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ranInsecureContentStyle")]
+        public CefSharp.DevTools.Security.SecurityState RanInsecureContentStyle
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Security.SecurityState DisplayedInsecureContentStyle
-        {
-            get
-            {
-                return (CefSharp.DevTools.Security.SecurityState)(StringToEnum(typeof(CefSharp.DevTools.Security.SecurityState), displayedInsecureContentStyle));
-            }
-
-            set
-            {
-                this.displayedInsecureContentStyle = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Always set to unknown.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("displayedInsecureContentStyle"), IsRequired = (true))]
-        internal string displayedInsecureContentStyle
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("displayedInsecureContentStyle")]
+        public CefSharp.DevTools.Security.SecurityState DisplayedInsecureContentStyle
         {
             get;
             set;
@@ -13059,12 +12429,12 @@ namespace CefSharp.DevTools.Security
         /// <summary>
         /// continue
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("continue"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("continue")]
         Continue,
         /// <summary>
         /// cancel
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cancel"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cancel")]
         Cancel
     }
 }
@@ -13074,13 +12444,13 @@ namespace CefSharp.DevTools.ServiceWorker
     /// <summary>
     /// ServiceWorker registration.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ServiceWorkerRegistration : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// RegistrationId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("registrationId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("registrationId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string RegistrationId
         {
             get;
@@ -13090,7 +12460,8 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// ScopeURL
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scopeURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scopeURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScopeURL
         {
             get;
@@ -13100,7 +12471,7 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// IsDeleted
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isDeleted"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isDeleted")]
         public bool IsDeleted
         {
             get;
@@ -13119,22 +12490,22 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// stopped
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("stopped"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stopped")]
         Stopped,
         /// <summary>
         /// starting
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("starting"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("starting")]
         Starting,
         /// <summary>
         /// running
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("running"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("running")]
         Running,
         /// <summary>
         /// stopping
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("stopping"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stopping")]
         Stopping
     }
 }
@@ -13149,32 +12520,32 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// new
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("new"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("new")]
         New,
         /// <summary>
         /// installing
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("installing"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("installing")]
         Installing,
         /// <summary>
         /// installed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("installed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("installed")]
         Installed,
         /// <summary>
         /// activating
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("activating"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("activating")]
         Activating,
         /// <summary>
         /// activated
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("activated"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("activated")]
         Activated,
         /// <summary>
         /// redundant
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("redundant"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("redundant")]
         Redundant
     }
 }
@@ -13184,13 +12555,13 @@ namespace CefSharp.DevTools.ServiceWorker
     /// <summary>
     /// ServiceWorker version.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ServiceWorkerVersion : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// VersionId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("versionId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("versionId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string VersionId
         {
             get;
@@ -13200,7 +12571,8 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// RegistrationId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("registrationId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("registrationId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string RegistrationId
         {
             get;
@@ -13210,54 +12582,29 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// ScriptURL
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScriptURL
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus RunningStatus
-        {
-            get
-            {
-                return (CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus)(StringToEnum(typeof(CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus), runningStatus));
-            }
-
-            set
-            {
-                this.runningStatus = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// RunningStatus
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("runningStatus"), IsRequired = (true))]
-        internal string runningStatus
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("runningStatus")]
+        public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionRunningStatus RunningStatus
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus Status
-        {
-            get
-            {
-                return (CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus)(StringToEnum(typeof(CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus), status));
-            }
-
-            set
-            {
-                this.status = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Status
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("status"), IsRequired = (true))]
-        internal string status
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("status")]
+        public CefSharp.DevTools.ServiceWorker.ServiceWorkerVersionStatus Status
         {
             get;
             set;
@@ -13266,7 +12613,7 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// The Last-Modified header value of the main script.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptLastModified"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptLastModified")]
         public long? ScriptLastModified
         {
             get;
@@ -13277,7 +12624,7 @@ namespace CefSharp.DevTools.ServiceWorker
         /// The time at which the response headers of the main script were received from the server.
         /// For cached script it is the last time the cache entry was validated.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptResponseTime"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptResponseTime")]
         public long? ScriptResponseTime
         {
             get;
@@ -13287,7 +12634,7 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// ControlledClients
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("controlledClients"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("controlledClients")]
         public string[] ControlledClients
         {
             get;
@@ -13297,7 +12644,7 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// TargetId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("targetId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("targetId")]
         public string TargetId
         {
             get;
@@ -13311,13 +12658,13 @@ namespace CefSharp.DevTools.ServiceWorker
     /// <summary>
     /// ServiceWorker error message.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ServiceWorkerErrorMessage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// ErrorMessage
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorMessage"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errorMessage")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ErrorMessage
         {
             get;
@@ -13327,7 +12674,8 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// RegistrationId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("registrationId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("registrationId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string RegistrationId
         {
             get;
@@ -13337,7 +12685,8 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// VersionId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("versionId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("versionId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string VersionId
         {
             get;
@@ -13347,7 +12696,8 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// SourceURL
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sourceURL"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sourceURL")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string SourceURL
         {
             get;
@@ -13357,7 +12707,7 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// LineNumber
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int LineNumber
         {
             get;
@@ -13367,7 +12717,7 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <summary>
         /// ColumnNumber
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNumber")]
         public int ColumnNumber
         {
             get;
@@ -13386,57 +12736,57 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// appcache
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("appcache"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("appcache")]
         Appcache,
         /// <summary>
         /// cookies
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cookies"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookies")]
         Cookies,
         /// <summary>
         /// file_systems
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("file_systems"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("file_systems")]
         FileSystems,
         /// <summary>
         /// indexeddb
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("indexeddb"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("indexeddb")]
         Indexeddb,
         /// <summary>
         /// local_storage
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("local_storage"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("local_storage")]
         LocalStorage,
         /// <summary>
         /// shader_cache
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("shader_cache"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("shader_cache")]
         ShaderCache,
         /// <summary>
         /// websql
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("websql"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("websql")]
         Websql,
         /// <summary>
         /// service_workers
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("service_workers"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("service_workers")]
         ServiceWorkers,
         /// <summary>
         /// cache_storage
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cache_storage"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cache_storage")]
         CacheStorage,
         /// <summary>
         /// all
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("all"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("all")]
         All,
         /// <summary>
         /// other
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("other"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("other")]
         Other
     }
 }
@@ -13446,27 +12796,13 @@ namespace CefSharp.DevTools.Storage
     /// <summary>
     /// Usage for a storage type.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class UsageForType : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.Storage.StorageType StorageType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Storage.StorageType)(StringToEnum(typeof(CefSharp.DevTools.Storage.StorageType), storageType));
-            }
-
-            set
-            {
-                this.storageType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Name of storage type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("storageType"), IsRequired = (true))]
-        internal string storageType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("storageType")]
+        public CefSharp.DevTools.Storage.StorageType StorageType
         {
             get;
             set;
@@ -13475,7 +12811,7 @@ namespace CefSharp.DevTools.Storage
         /// <summary>
         /// Storage usage (bytes).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("usage"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("usage")]
         public long Usage
         {
             get;
@@ -13489,13 +12825,12 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// Describes a single graphics processor (GPU).
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GPUDevice : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// PCI ID of the GPU vendor, if available; 0 otherwise.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("vendorId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("vendorId")]
         public long VendorId
         {
             get;
@@ -13505,7 +12840,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// PCI ID of the GPU device, if available; 0 otherwise.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("deviceId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("deviceId")]
         public long DeviceId
         {
             get;
@@ -13515,7 +12850,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Sub sys ID of the GPU, only available on Windows.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subSysId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subSysId")]
         public long? SubSysId
         {
             get;
@@ -13525,7 +12860,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Revision of the GPU, only available on Windows.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("revision"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("revision")]
         public long? Revision
         {
             get;
@@ -13535,7 +12870,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// String description of the GPU vendor, if the PCI ID is not available.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("vendorString"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("vendorString")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string VendorString
         {
             get;
@@ -13545,7 +12881,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// String description of the GPU device, if the PCI ID is not available.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("deviceString"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("deviceString")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string DeviceString
         {
             get;
@@ -13555,7 +12892,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// String description of the GPU driver vendor.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("driverVendor"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("driverVendor")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string DriverVendor
         {
             get;
@@ -13565,7 +12903,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// String description of the GPU driver version.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("driverVersion"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("driverVersion")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string DriverVersion
         {
             get;
@@ -13579,13 +12918,12 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// Describes the width and height dimensions of an entity.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Size : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Width in pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("width"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("width")]
         public int Width
         {
             get;
@@ -13595,7 +12933,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Height in pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("height"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("height")]
         public int Height
         {
             get;
@@ -13610,13 +12948,13 @@ namespace CefSharp.DevTools.SystemInfo
     /// Describes a supported video decoding profile with its associated minimum and
     /// maximum resolutions.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class VideoDecodeAcceleratorCapability : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Video codec profile that is supported, e.g. VP9 Profile 2.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("profile"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Profile
         {
             get;
@@ -13626,7 +12964,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Maximum video dimensions in pixels supported for this |profile|.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxResolution"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maxResolution")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.SystemInfo.Size MaxResolution
         {
             get;
@@ -13636,7 +12975,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Minimum video dimensions in pixels supported for this |profile|.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("minResolution"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("minResolution")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.SystemInfo.Size MinResolution
         {
             get;
@@ -13651,13 +12991,13 @@ namespace CefSharp.DevTools.SystemInfo
     /// Describes a supported video encoding profile with its associated maximum
     /// resolution and maximum framerate.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class VideoEncodeAcceleratorCapability : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Video codec profile that is supported, e.g H264 Main.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("profile"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Profile
         {
             get;
@@ -13667,7 +13007,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Maximum video dimensions in pixels supported for this |profile|.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxResolution"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maxResolution")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.SystemInfo.Size MaxResolution
         {
             get;
@@ -13679,7 +13020,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// |profile|, as fraction&apos;s numerator and denominator, e.g. 24/1 fps,
         /// 24000/1001 fps, etc.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxFramerateNumerator"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maxFramerateNumerator")]
         public int MaxFramerateNumerator
         {
             get;
@@ -13689,7 +13030,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// MaxFramerateDenominator
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxFramerateDenominator"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maxFramerateDenominator")]
         public int MaxFramerateDenominator
         {
             get;
@@ -13708,17 +13049,17 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// yuv420
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("yuv420"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("yuv420")]
         Yuv420,
         /// <summary>
         /// yuv422
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("yuv422"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("yuv422")]
         Yuv422,
         /// <summary>
         /// yuv444
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("yuv444"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("yuv444")]
         Yuv444
     }
 }
@@ -13733,17 +13074,17 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// jpeg
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("jpeg"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("jpeg")]
         Jpeg,
         /// <summary>
         /// webp
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("webp"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("webp")]
         Webp,
         /// <summary>
         /// unknown
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("unknown"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unknown")]
         Unknown
     }
 }
@@ -13754,27 +13095,13 @@ namespace CefSharp.DevTools.SystemInfo
     /// Describes a supported image decoding profile with its associated minimum and
     /// maximum resolutions and subsampling.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ImageDecodeAcceleratorCapability : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.SystemInfo.ImageType ImageType
-        {
-            get
-            {
-                return (CefSharp.DevTools.SystemInfo.ImageType)(StringToEnum(typeof(CefSharp.DevTools.SystemInfo.ImageType), imageType));
-            }
-
-            set
-            {
-                this.imageType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Image coded, e.g. Jpeg.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("imageType"), IsRequired = (true))]
-        internal string imageType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("imageType")]
+        public CefSharp.DevTools.SystemInfo.ImageType ImageType
         {
             get;
             set;
@@ -13783,7 +13110,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Maximum supported dimensions of the image in pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxDimensions"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maxDimensions")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.SystemInfo.Size MaxDimensions
         {
             get;
@@ -13793,31 +13121,19 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Minimum supported dimensions of the image in pixels.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("minDimensions"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("minDimensions")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.SystemInfo.Size MinDimensions
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.SystemInfo.SubsamplingFormat[] Subsamplings
-        {
-            get
-            {
-                return (CefSharp.DevTools.SystemInfo.SubsamplingFormat[])(StringToEnum(typeof(CefSharp.DevTools.SystemInfo.SubsamplingFormat[]), subsamplings));
-            }
-
-            set
-            {
-                this.subsamplings = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Optional array of supported subsampling formats, e.g. 4:2:0, if known.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subsamplings"), IsRequired = (true))]
-        internal string subsamplings
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subsamplings")]
+        public CefSharp.DevTools.SystemInfo.SubsamplingFormat[] Subsamplings
         {
             get;
             set;
@@ -13830,13 +13146,13 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// Provides information about the GPU(s) on the system.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GPUInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The graphics devices on the system. Element 0 is the primary GPU.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("devices"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("devices")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.SystemInfo.GPUDevice> Devices
         {
             get;
@@ -13846,7 +13162,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// An optional dictionary of additional GPU related attributes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("auxAttributes"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("auxAttributes")]
         public object AuxAttributes
         {
             get;
@@ -13856,7 +13172,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// An optional dictionary of graphics features and their status.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("featureStatus"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("featureStatus")]
         public object FeatureStatus
         {
             get;
@@ -13866,7 +13182,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// An optional array of GPU driver bug workarounds.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("driverBugWorkarounds"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("driverBugWorkarounds")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string[] DriverBugWorkarounds
         {
             get;
@@ -13876,7 +13193,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Supported accelerated video decoding capabilities.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("videoDecoding"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("videoDecoding")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.SystemInfo.VideoDecodeAcceleratorCapability> VideoDecoding
         {
             get;
@@ -13886,7 +13204,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Supported accelerated video encoding capabilities.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("videoEncoding"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("videoEncoding")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.SystemInfo.VideoEncodeAcceleratorCapability> VideoEncoding
         {
             get;
@@ -13896,7 +13215,8 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Supported accelerated image decoding capabilities.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("imageDecoding"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("imageDecoding")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.SystemInfo.ImageDecodeAcceleratorCapability> ImageDecoding
         {
             get;
@@ -13910,13 +13230,13 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// Represents process info.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ProcessInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Specifies process type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -13926,7 +13246,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// <summary>
         /// Specifies process id.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
         public int Id
         {
             get;
@@ -13937,7 +13257,7 @@ namespace CefSharp.DevTools.SystemInfo
         /// Specifies cumulative CPU usage in seconds across all threads of the
         /// process since the process start.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("cpuTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cpuTime")]
         public long CpuTime
         {
             get;
@@ -13951,13 +13271,13 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// TargetInfo
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TargetInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// TargetId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("targetId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("targetId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string TargetId
         {
             get;
@@ -13967,7 +13287,8 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Type
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -13977,7 +13298,8 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Title
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("title"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("title")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Title
         {
             get;
@@ -13987,7 +13309,8 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Url
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -13997,7 +13320,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Whether the target has an attached client.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("attached"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attached")]
         public bool Attached
         {
             get;
@@ -14007,7 +13330,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Opener target Id
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("openerId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("openerId")]
         public string OpenerId
         {
             get;
@@ -14017,7 +13340,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Whether the target has access to the originating window.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("canAccessOpener"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("canAccessOpener")]
         public bool CanAccessOpener
         {
             get;
@@ -14027,7 +13350,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Frame id of originating window (is only set if target has an opener).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("openerFrameId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("openerFrameId")]
         public string OpenerFrameId
         {
             get;
@@ -14037,7 +13360,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// BrowserContextId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("browserContextId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("browserContextId")]
         public string BrowserContextId
         {
             get;
@@ -14051,13 +13374,13 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// RemoteLocation
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RemoteLocation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Host
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("host"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("host")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Host
         {
             get;
@@ -14067,7 +13390,7 @@ namespace CefSharp.DevTools.Target
         /// <summary>
         /// Port
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("port"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("port")]
         public int Port
         {
             get;
@@ -14081,13 +13404,12 @@ namespace CefSharp.DevTools.Tracing
     /// <summary>
     /// TraceConfig
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TraceConfig : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Controls how the trace buffer stores data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("recordMode"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("recordMode")]
         public string RecordMode
         {
             get;
@@ -14097,7 +13419,7 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Turns on JavaScript stack sampling.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("enableSampling"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("enableSampling")]
         public bool? EnableSampling
         {
             get;
@@ -14107,7 +13429,7 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Turns on system tracing.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("enableSystrace"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("enableSystrace")]
         public bool? EnableSystrace
         {
             get;
@@ -14117,7 +13439,7 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Turns on argument filter.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("enableArgumentFilter"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("enableArgumentFilter")]
         public bool? EnableArgumentFilter
         {
             get;
@@ -14127,7 +13449,7 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Included category filters.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("includedCategories"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("includedCategories")]
         public string[] IncludedCategories
         {
             get;
@@ -14137,7 +13459,7 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Excluded category filters.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("excludedCategories"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("excludedCategories")]
         public string[] ExcludedCategories
         {
             get;
@@ -14147,7 +13469,7 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Configuration to synthesize the delays in tracing.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("syntheticDelays"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("syntheticDelays")]
         public string[] SyntheticDelays
         {
             get;
@@ -14157,7 +13479,7 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// Configuration for memory dump triggers. Used only when &quot;memory-infra&quot; category is enabled.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("memoryDumpConfig"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("memoryDumpConfig")]
         public CefSharp.DevTools.Tracing.MemoryDumpConfig MemoryDumpConfig
         {
             get;
@@ -14177,12 +13499,12 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// json
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("json"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("json")]
         Json,
         /// <summary>
         /// proto
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("proto"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("proto")]
         Proto
     }
 }
@@ -14197,12 +13519,12 @@ namespace CefSharp.DevTools.Tracing
         /// <summary>
         /// none
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("none"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("none")]
         None,
         /// <summary>
         /// gzip
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("gzip"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("gzip")]
         Gzip
     }
 }
@@ -14219,12 +13541,12 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// Request
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Request"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Request")]
         Request,
         /// <summary>
         /// Response
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("Response"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Response")]
         Response
     }
 }
@@ -14234,61 +13556,34 @@ namespace CefSharp.DevTools.Fetch
     /// <summary>
     /// RequestPattern
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestPattern : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Wildcards (&apos;*&apos; -&gt; zero or more, &apos;?&apos; -&gt; exactly one) are allowed. Escape character is
         /// backslash. Omitting is equivalent to &quot;*&quot;.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("urlPattern"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("urlPattern")]
         public string UrlPattern
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Network.ResourceType? ResourceType
-        {
-            get
-            {
-                return (CefSharp.DevTools.Network.ResourceType? )(StringToEnum(typeof(CefSharp.DevTools.Network.ResourceType? ), resourceType));
-            }
-
-            set
-            {
-                this.resourceType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// If set, only requests for matching resource types will be intercepted.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("resourceType"), IsRequired = (false))]
-        internal string resourceType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resourceType")]
+        public CefSharp.DevTools.Network.ResourceType? ResourceType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.Fetch.RequestStage? RequestStage
-        {
-            get
-            {
-                return (CefSharp.DevTools.Fetch.RequestStage? )(StringToEnum(typeof(CefSharp.DevTools.Fetch.RequestStage? ), requestStage));
-            }
-
-            set
-            {
-                this.requestStage = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Stage at wich to begin intercepting requests. Default is Request.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("requestStage"), IsRequired = (false))]
-        internal string requestStage
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("requestStage")]
+        public CefSharp.DevTools.Fetch.RequestStage? RequestStage
         {
             get;
             set;
@@ -14301,13 +13596,13 @@ namespace CefSharp.DevTools.Fetch
     /// <summary>
     /// Response HTTP header entry
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class HeaderEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -14317,7 +13612,8 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -14331,13 +13627,12 @@ namespace CefSharp.DevTools.Fetch
     /// <summary>
     /// Authorization challenge for HTTP status code 401 or 407.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AuthChallenge : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Source of the authentication challenge.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("source"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
         public string Source
         {
             get;
@@ -14347,7 +13642,8 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// Origin of the challenger.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Origin
         {
             get;
@@ -14357,7 +13653,8 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// The authentication scheme used, such as basic or digest
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scheme"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scheme")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Scheme
         {
             get;
@@ -14367,7 +13664,8 @@ namespace CefSharp.DevTools.Fetch
         /// <summary>
         /// The realm of the challenge. May be empty.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("realm"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("realm")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Realm
         {
             get;
@@ -14381,7 +13679,6 @@ namespace CefSharp.DevTools.Fetch
     /// <summary>
     /// Response to an AuthChallenge.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AuthChallengeResponse : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -14389,7 +13686,8 @@ namespace CefSharp.DevTools.Fetch
         /// deferring to the default behavior of the net stack, which will likely either the Cancel
         /// authentication or display a popup dialog box.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("response"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("response")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Response
         {
             get;
@@ -14400,7 +13698,7 @@ namespace CefSharp.DevTools.Fetch
         /// The username to provide, possibly empty. Should only be set if response is
         /// ProvideCredentials.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("username"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("username")]
         public string Username
         {
             get;
@@ -14411,7 +13709,7 @@ namespace CefSharp.DevTools.Fetch
         /// The password to provide, possibly empty. Should only be set if response is
         /// ProvideCredentials.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("password"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("password")]
         public string Password
         {
             get;
@@ -14430,12 +13728,12 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// realtime
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("realtime"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("realtime")]
         Realtime,
         /// <summary>
         /// offline
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("offline"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offline")]
         Offline
     }
 }
@@ -14450,17 +13748,17 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// suspended
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("suspended"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("suspended")]
         Suspended,
         /// <summary>
         /// running
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("running"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("running")]
         Running,
         /// <summary>
         /// closed
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("closed"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("closed")]
         Closed
     }
 }
@@ -14475,17 +13773,17 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// clamped-max
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("clamped-max"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clamped-max")]
         ClampedMax,
         /// <summary>
         /// explicit
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("explicit"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("explicit")]
         Explicit,
         /// <summary>
         /// max
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("max"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("max")]
         Max
     }
 }
@@ -14500,12 +13798,12 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// discrete
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("discrete"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("discrete")]
         Discrete,
         /// <summary>
         /// speakers
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("speakers"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("speakers")]
         Speakers
     }
 }
@@ -14520,12 +13818,12 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// a-rate
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("a-rate"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("a-rate")]
         ARate,
         /// <summary>
         /// k-rate
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("k-rate"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("k-rate")]
         KRate
     }
 }
@@ -14535,13 +13833,12 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Fields in AudioContext that change in real-time.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ContextRealtimeData : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The current context time in second in BaseAudioContext.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("currentTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("currentTime")]
         public long CurrentTime
         {
             get;
@@ -14553,7 +13850,7 @@ namespace CefSharp.DevTools.WebAudio
         /// and multiplied by 100. 100 means the audio renderer reached the full
         /// capacity and glitch may occur.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("renderCapacity"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("renderCapacity")]
         public long RenderCapacity
         {
             get;
@@ -14563,7 +13860,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// A running mean of callback interval.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callbackIntervalMean"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callbackIntervalMean")]
         public long CallbackIntervalMean
         {
             get;
@@ -14573,7 +13870,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// A running variance of callback interval.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callbackIntervalVariance"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callbackIntervalVariance")]
         public long CallbackIntervalVariance
         {
             get;
@@ -14587,60 +13884,34 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Protocol object for BaseAudioContext
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BaseAudioContext : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// ContextId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contextId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contextId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ContextId
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.WebAudio.ContextType ContextType
-        {
-            get
-            {
-                return (CefSharp.DevTools.WebAudio.ContextType)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.ContextType), contextType));
-            }
-
-            set
-            {
-                this.contextType = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// ContextType
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contextType"), IsRequired = (true))]
-        internal string contextType
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contextType")]
+        public CefSharp.DevTools.WebAudio.ContextType ContextType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.WebAudio.ContextState ContextState
-        {
-            get
-            {
-                return (CefSharp.DevTools.WebAudio.ContextState)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.ContextState), contextState));
-            }
-
-            set
-            {
-                this.contextState = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// ContextState
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contextState"), IsRequired = (true))]
-        internal string contextState
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contextState")]
+        public CefSharp.DevTools.WebAudio.ContextState ContextState
         {
             get;
             set;
@@ -14649,7 +13920,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// RealtimeData
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("realtimeData"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("realtimeData")]
         public CefSharp.DevTools.WebAudio.ContextRealtimeData RealtimeData
         {
             get;
@@ -14659,7 +13930,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// Platform-dependent callback buffer size.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callbackBufferSize"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callbackBufferSize")]
         public long CallbackBufferSize
         {
             get;
@@ -14669,7 +13940,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// Number of output channels supported by audio hardware in use.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxOutputChannelCount"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maxOutputChannelCount")]
         public long MaxOutputChannelCount
         {
             get;
@@ -14679,7 +13950,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// Context sample rate.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("sampleRate"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sampleRate")]
         public long SampleRate
         {
             get;
@@ -14693,13 +13964,13 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Protocol object for AudioListener
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AudioListener : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// ListenerId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("listenerId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("listenerId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ListenerId
         {
             get;
@@ -14709,7 +13980,8 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// ContextId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contextId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contextId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ContextId
         {
             get;
@@ -14723,13 +13995,13 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Protocol object for AudioNode
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AudioNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// NodeId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeId
         {
             get;
@@ -14739,7 +14011,8 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// ContextId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contextId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contextId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ContextId
         {
             get;
@@ -14749,7 +14022,8 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// NodeType
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeType"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeType")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeType
         {
             get;
@@ -14759,7 +14033,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// NumberOfInputs
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("numberOfInputs"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("numberOfInputs")]
         public long NumberOfInputs
         {
             get;
@@ -14769,7 +14043,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// NumberOfOutputs
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("numberOfOutputs"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("numberOfOutputs")]
         public long NumberOfOutputs
         {
             get;
@@ -14779,54 +14053,28 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// ChannelCount
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("channelCount"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("channelCount")]
         public long ChannelCount
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.WebAudio.ChannelCountMode ChannelCountMode
-        {
-            get
-            {
-                return (CefSharp.DevTools.WebAudio.ChannelCountMode)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.ChannelCountMode), channelCountMode));
-            }
-
-            set
-            {
-                this.channelCountMode = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// ChannelCountMode
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("channelCountMode"), IsRequired = (true))]
-        internal string channelCountMode
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("channelCountMode")]
+        public CefSharp.DevTools.WebAudio.ChannelCountMode ChannelCountMode
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.WebAudio.ChannelInterpretation ChannelInterpretation
-        {
-            get
-            {
-                return (CefSharp.DevTools.WebAudio.ChannelInterpretation)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.ChannelInterpretation), channelInterpretation));
-            }
-
-            set
-            {
-                this.channelInterpretation = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// ChannelInterpretation
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("channelInterpretation"), IsRequired = (true))]
-        internal string channelInterpretation
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("channelInterpretation")]
+        public CefSharp.DevTools.WebAudio.ChannelInterpretation ChannelInterpretation
         {
             get;
             set;
@@ -14839,13 +14087,13 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// Protocol object for AudioParam
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AudioParam : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// ParamId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("paramId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("paramId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ParamId
         {
             get;
@@ -14855,7 +14103,8 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// NodeId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string NodeId
         {
             get;
@@ -14865,7 +14114,8 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// ContextId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("contextId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contextId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ContextId
         {
             get;
@@ -14875,31 +14125,19 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// ParamType
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("paramType"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("paramType")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ParamType
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.WebAudio.AutomationRate Rate
-        {
-            get
-            {
-                return (CefSharp.DevTools.WebAudio.AutomationRate)(StringToEnum(typeof(CefSharp.DevTools.WebAudio.AutomationRate), rate));
-            }
-
-            set
-            {
-                this.rate = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Rate
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rate"), IsRequired = (true))]
-        internal string rate
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rate")]
+        public CefSharp.DevTools.WebAudio.AutomationRate Rate
         {
             get;
             set;
@@ -14908,7 +14146,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// DefaultValue
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("defaultValue"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("defaultValue")]
         public long DefaultValue
         {
             get;
@@ -14918,7 +14156,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// MinValue
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("minValue"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("minValue")]
         public long MinValue
         {
             get;
@@ -14928,7 +14166,7 @@ namespace CefSharp.DevTools.WebAudio
         /// <summary>
         /// MaxValue
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("maxValue"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("maxValue")]
         public long MaxValue
         {
             get;
@@ -14947,12 +14185,12 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// u2f
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("u2f"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("u2f")]
         U2f,
         /// <summary>
         /// ctap2
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ctap2"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ctap2")]
         Ctap2
     }
 }
@@ -14967,27 +14205,27 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// usb
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("usb"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("usb")]
         Usb,
         /// <summary>
         /// nfc
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("nfc"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nfc")]
         Nfc,
         /// <summary>
         /// ble
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("ble"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ble")]
         Ble,
         /// <summary>
         /// cable
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("cable"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cable")]
         Cable,
         /// <summary>
         /// internal
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("internal"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("internal")]
         Internal
     }
 }
@@ -14997,50 +14235,23 @@ namespace CefSharp.DevTools.WebAuthn
     /// <summary>
     /// VirtualAuthenticatorOptions
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class VirtualAuthenticatorOptions : CefSharp.DevTools.DevToolsDomainEntityBase
     {
-        public CefSharp.DevTools.WebAuthn.AuthenticatorProtocol Protocol
-        {
-            get
-            {
-                return (CefSharp.DevTools.WebAuthn.AuthenticatorProtocol)(StringToEnum(typeof(CefSharp.DevTools.WebAuthn.AuthenticatorProtocol), protocol));
-            }
-
-            set
-            {
-                this.protocol = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Protocol
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("protocol"), IsRequired = (true))]
-        internal string protocol
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("protocol")]
+        public CefSharp.DevTools.WebAuthn.AuthenticatorProtocol Protocol
         {
             get;
             set;
         }
 
-        public CefSharp.DevTools.WebAuthn.AuthenticatorTransport Transport
-        {
-            get
-            {
-                return (CefSharp.DevTools.WebAuthn.AuthenticatorTransport)(StringToEnum(typeof(CefSharp.DevTools.WebAuthn.AuthenticatorTransport), transport));
-            }
-
-            set
-            {
-                this.transport = (EnumToString(value));
-            }
-        }
-
         /// <summary>
         /// Transport
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("transport"), IsRequired = (true))]
-        internal string transport
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("transport")]
+        public CefSharp.DevTools.WebAuthn.AuthenticatorTransport Transport
         {
             get;
             set;
@@ -15049,7 +14260,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Defaults to false.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("hasResidentKey"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hasResidentKey")]
         public bool? HasResidentKey
         {
             get;
@@ -15059,7 +14270,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// Defaults to false.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("hasUserVerification"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hasUserVerification")]
         public bool? HasUserVerification
         {
             get;
@@ -15070,7 +14281,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// If set to true, tests of user presence will succeed immediately.
         /// Otherwise, they will not be resolved. Defaults to true.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("automaticPresenceSimulation"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("automaticPresenceSimulation")]
         public bool? AutomaticPresenceSimulation
         {
             get;
@@ -15081,7 +14292,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// Sets whether User Verification succeeds or fails for an authenticator.
         /// Defaults to false.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isUserVerified"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isUserVerified")]
         public bool? IsUserVerified
         {
             get;
@@ -15095,13 +14306,13 @@ namespace CefSharp.DevTools.WebAuthn
     /// <summary>
     /// Credential
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Credential : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// CredentialId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("credentialId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("credentialId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public byte[] CredentialId
         {
             get;
@@ -15111,7 +14322,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// IsResidentCredential
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isResidentCredential"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isResidentCredential")]
         public bool IsResidentCredential
         {
             get;
@@ -15122,7 +14333,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// Relying Party ID the credential is scoped to. Must be set when adding a
         /// credential.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("rpId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rpId")]
         public string RpId
         {
             get;
@@ -15132,7 +14343,8 @@ namespace CefSharp.DevTools.WebAuthn
         /// <summary>
         /// The ECDSA P-256 private key in PKCS#8 format.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("privateKey"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("privateKey")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public byte[] PrivateKey
         {
             get;
@@ -15143,7 +14355,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// An opaque byte sequence with a maximum size of 64 bytes mapping the
         /// credential to a specific user.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("userHandle"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("userHandle")]
         public byte[] UserHandle
         {
             get;
@@ -15155,7 +14367,7 @@ namespace CefSharp.DevTools.WebAuthn
         /// assertion.
         /// See https://w3c.github.io/webauthn/#signature-counter
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("signCount"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("signCount")]
         public int SignCount
         {
             get;
@@ -15170,7 +14382,6 @@ namespace CefSharp.DevTools.Media
     /// Have one type per entry in MediaLogRecord::Type
     /// Corresponds to kMessage
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PlayerMessage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
@@ -15184,7 +14395,8 @@ namespace CefSharp.DevTools.Media
         /// introducing a new error type which should hopefully let us integrate
         /// the error log level into the PlayerError type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("level"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("level")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Level
         {
             get;
@@ -15194,7 +14406,8 @@ namespace CefSharp.DevTools.Media
         /// <summary>
         /// Message
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("message"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("message")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Message
         {
             get;
@@ -15208,13 +14421,13 @@ namespace CefSharp.DevTools.Media
     /// <summary>
     /// Corresponds to kMediaPropertyChange
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PlayerProperty : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -15224,7 +14437,8 @@ namespace CefSharp.DevTools.Media
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -15238,13 +14452,12 @@ namespace CefSharp.DevTools.Media
     /// <summary>
     /// Corresponds to kMediaEventTriggered
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PlayerEvent : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Timestamp
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timestamp"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timestamp")]
         public long Timestamp
         {
             get;
@@ -15254,7 +14467,8 @@ namespace CefSharp.DevTools.Media
         /// <summary>
         /// Value
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Value
         {
             get;
@@ -15268,13 +14482,13 @@ namespace CefSharp.DevTools.Media
     /// <summary>
     /// Corresponds to kMediaError
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PlayerError : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Type
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -15288,7 +14502,8 @@ namespace CefSharp.DevTools.Media
         /// level enum - there is a todo bug to have that level removed and
         /// use this instead. (crbug.com/1068454)
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("errorCode"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errorCode")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ErrorCode
         {
             get;
@@ -15302,13 +14517,13 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Location in the source code.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Location : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Script identifier as reported in the `Debugger.scriptParsed`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScriptId
         {
             get;
@@ -15318,7 +14533,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Line number in the script (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int LineNumber
         {
             get;
@@ -15328,7 +14543,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Column number in the script (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNumber")]
         public int? ColumnNumber
         {
             get;
@@ -15342,13 +14557,12 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Location in the source code.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ScriptPosition : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// LineNumber
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int LineNumber
         {
             get;
@@ -15358,7 +14572,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// ColumnNumber
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNumber")]
         public int ColumnNumber
         {
             get;
@@ -15372,13 +14586,13 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Location range within one script.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LocationRange : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// ScriptId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScriptId
         {
             get;
@@ -15388,7 +14602,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Start
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("start"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("start")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Debugger.ScriptPosition Start
         {
             get;
@@ -15398,7 +14613,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// End
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("end"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("end")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Debugger.ScriptPosition End
         {
             get;
@@ -15412,13 +14628,13 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// JavaScript call frame. Array of call frames form the call stack.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CallFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Call frame identifier. This identifier is only valid while the virtual machine is paused.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callFrameId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callFrameId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string CallFrameId
         {
             get;
@@ -15428,7 +14644,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Name of the JavaScript function called on this call frame.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functionName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("functionName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FunctionName
         {
             get;
@@ -15438,7 +14655,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Location in the source code.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functionLocation"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("functionLocation")]
         public CefSharp.DevTools.Debugger.Location FunctionLocation
         {
             get;
@@ -15448,7 +14665,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Location in the source code.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("location"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("location")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Debugger.Location Location
         {
             get;
@@ -15458,7 +14676,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// JavaScript script name or url.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -15468,7 +14687,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Scope chain for this call frame.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scopeChain"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scopeChain")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.Scope> ScopeChain
         {
             get;
@@ -15478,7 +14698,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// `this` object for this call frame.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("this"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("this")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Runtime.RemoteObject This
         {
             get;
@@ -15488,7 +14709,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// The value being returned, if the function is at return point.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("returnValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("returnValue")]
         public CefSharp.DevTools.Runtime.RemoteObject ReturnValue
         {
             get;
@@ -15502,13 +14723,13 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Scope description.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Scope : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Scope type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -15520,7 +14741,8 @@ namespace CefSharp.DevTools.Debugger
         /// object; for the rest of the scopes, it is artificial transient object enumerating scope
         /// variables as its properties.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("object"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("object")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Runtime.RemoteObject Object
         {
             get;
@@ -15530,7 +14752,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Name
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
         public string Name
         {
             get;
@@ -15540,7 +14762,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Location in the source code where scope starts
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startLocation"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startLocation")]
         public CefSharp.DevTools.Debugger.Location StartLocation
         {
             get;
@@ -15550,7 +14772,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Location in the source code where scope ends
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endLocation"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endLocation")]
         public CefSharp.DevTools.Debugger.Location EndLocation
         {
             get;
@@ -15564,13 +14786,12 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Search match for resource.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SearchMatch : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Line number in resource content.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public long LineNumber
         {
             get;
@@ -15580,7 +14801,8 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Line with match content.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineContent"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineContent")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string LineContent
         {
             get;
@@ -15594,13 +14816,13 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// BreakLocation
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BreakLocation : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Script identifier as reported in the `Debugger.scriptParsed`.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScriptId
         {
             get;
@@ -15610,7 +14832,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Line number in the script (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int LineNumber
         {
             get;
@@ -15620,7 +14842,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Column number in the script (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNumber")]
         public int? ColumnNumber
         {
             get;
@@ -15630,7 +14852,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// Type
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
         public string Type
         {
             get;
@@ -15649,12 +14871,12 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// JavaScript
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("JavaScript"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("JavaScript")]
         JavaScript,
         /// <summary>
         /// WebAssembly
         /// </summary>
-        [System.Runtime.Serialization.EnumMemberAttribute(Value = ("WebAssembly"))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WebAssembly")]
         WebAssembly
     }
 }
@@ -15664,13 +14886,13 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// Debug symbols available for a wasm script.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class DebugSymbols : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Type of the debug symbols.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -15680,7 +14902,7 @@ namespace CefSharp.DevTools.Debugger
         /// <summary>
         /// URL of the external symbol source.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("externalURL"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("externalURL")]
         public string ExternalURL
         {
             get;
@@ -15694,13 +14916,13 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// Sampling Heap Profile node. Holds callsite information, allocation statistics and child nodes.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SamplingHeapProfileNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Function location.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callFrame"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callFrame")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Runtime.CallFrame CallFrame
         {
             get;
@@ -15710,7 +14932,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// Allocations size in bytes for the node excluding children.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("selfSize"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("selfSize")]
         public long SelfSize
         {
             get;
@@ -15720,7 +14942,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// Node id. Ids are unique across all profiles collected between startSampling and stopSampling.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
         public int Id
         {
             get;
@@ -15730,7 +14952,8 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// Child nodes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("children"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("children")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.HeapProfiler.SamplingHeapProfileNode> Children
         {
             get;
@@ -15744,13 +14967,12 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// A single sample from a sampling profile.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SamplingHeapProfileSample : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Allocation size in bytes attributed to the sample.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("size"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("size")]
         public long Size
         {
             get;
@@ -15760,7 +14982,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// Id of the corresponding profile tree node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodeId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
             get;
@@ -15771,7 +14993,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// Time-ordered sample ordinal number. It is unique across all profiles retrieved
         /// between startSampling and stopSampling.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ordinal"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ordinal")]
         public long Ordinal
         {
             get;
@@ -15785,13 +15007,13 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// Sampling profile.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SamplingHeapProfile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Head
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("head"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("head")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.HeapProfiler.SamplingHeapProfileNode Head
         {
             get;
@@ -15801,7 +15023,8 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <summary>
         /// Samples
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("samples"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("samples")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.HeapProfiler.SamplingHeapProfileSample> Samples
         {
             get;
@@ -15815,13 +15038,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Profile node. Holds callsite information, execution statistics and child nodes.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ProfileNode : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Unique id of the node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
         public int Id
         {
             get;
@@ -15831,7 +15053,8 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Function location.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callFrame"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callFrame")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Runtime.CallFrame CallFrame
         {
             get;
@@ -15841,7 +15064,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Number of samples where this node was on top of the call stack.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("hitCount"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hitCount")]
         public int? HitCount
         {
             get;
@@ -15851,7 +15074,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Child node ids.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("children"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("children")]
         public int[] Children
         {
             get;
@@ -15862,7 +15085,7 @@ namespace CefSharp.DevTools.Profiler
         /// The reason of being not optimized. The function may be deoptimized or marked as don&apos;t
         /// optimize.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("deoptReason"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("deoptReason")]
         public string DeoptReason
         {
             get;
@@ -15872,7 +15095,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// An array of source position ticks.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("positionTicks"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("positionTicks")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.PositionTickInfo> PositionTicks
         {
             get;
@@ -15886,13 +15109,13 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Profile.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class Profile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The list of profile nodes. First item is the root node.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("nodes"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodes")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ProfileNode> Nodes
         {
             get;
@@ -15902,7 +15125,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Profiling start timestamp in microseconds.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startTime")]
         public long StartTime
         {
             get;
@@ -15912,7 +15135,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Profiling end timestamp in microseconds.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endTime"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endTime")]
         public long EndTime
         {
             get;
@@ -15922,7 +15145,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Ids of samples top nodes.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("samples"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("samples")]
         public int[] Samples
         {
             get;
@@ -15933,7 +15156,7 @@ namespace CefSharp.DevTools.Profiler
         /// Time intervals between adjacent samples in microseconds. The first delta is relative to the
         /// profile startTime.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("timeDeltas"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timeDeltas")]
         public int[] TimeDeltas
         {
             get;
@@ -15947,13 +15170,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Specifies a number of samples attributed to a certain source position.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PositionTickInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Source line number (1-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("line"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("line")]
         public int Line
         {
             get;
@@ -15963,7 +15185,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Number of samples attributed to the source line.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ticks"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ticks")]
         public int Ticks
         {
             get;
@@ -15977,13 +15199,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Coverage data for a source range.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CoverageRange : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// JavaScript script source offset for the range start.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("startOffset"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startOffset")]
         public int StartOffset
         {
             get;
@@ -15993,7 +15214,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// JavaScript script source offset for the range end.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("endOffset"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endOffset")]
         public int EndOffset
         {
             get;
@@ -16003,7 +15224,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Collected execution count of the source range.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("count"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("count")]
         public int Count
         {
             get;
@@ -16017,13 +15238,13 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Coverage data for a JavaScript function.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class FunctionCoverage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// JavaScript function name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functionName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("functionName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FunctionName
         {
             get;
@@ -16033,7 +15254,8 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Source ranges inside the function with coverage data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("ranges"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ranges")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.CoverageRange> Ranges
         {
             get;
@@ -16043,7 +15265,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Whether coverage data for this function has block granularity.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isBlockCoverage"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isBlockCoverage")]
         public bool IsBlockCoverage
         {
             get;
@@ -16057,13 +15279,13 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Coverage data for a JavaScript script.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ScriptCoverage : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// JavaScript script id.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScriptId
         {
             get;
@@ -16073,7 +15295,8 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// JavaScript script name or url.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -16083,7 +15306,8 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Functions contained in the script that has coverage data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functions"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("functions")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.FunctionCoverage> Functions
         {
             get;
@@ -16097,13 +15321,13 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Describes a type collected during runtime.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TypeObject : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Name of a type collected with type profiling.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -16117,13 +15341,12 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Source offset and types for a parameter or return value.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TypeProfileEntry : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Source offset of the parameter or end of function for return values.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("offset"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("offset")]
         public int Offset
         {
             get;
@@ -16133,7 +15356,8 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// The types for this parameter or return value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("types"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("types")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.TypeObject> Types
         {
             get;
@@ -16147,13 +15371,13 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Type profile data collected during runtime for a JavaScript script.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ScriptTypeProfile : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// JavaScript script id.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScriptId
         {
             get;
@@ -16163,7 +15387,8 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// JavaScript script name or url.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -16173,7 +15398,8 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Type profile entries for parameters and return values of the functions in the script.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("entries"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("entries")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.TypeProfileEntry> Entries
         {
             get;
@@ -16187,13 +15413,13 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Collected counter information.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CounterInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Counter name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -16203,7 +15429,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Counter value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public int Value
         {
             get;
@@ -16217,13 +15443,13 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// Runtime call counter information.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RuntimeCallCounterInfo : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Counter name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -16233,7 +15459,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Counter value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public long Value
         {
             get;
@@ -16243,7 +15469,7 @@ namespace CefSharp.DevTools.Profiler
         /// <summary>
         /// Counter time in seconds.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("time"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("time")]
         public long Time
         {
             get;
@@ -16257,13 +15483,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Mirror object referencing original JavaScript object.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RemoteObject : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Object type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -16273,7 +15499,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object subtype hint. Specified for `object` or `wasm` type values only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subtype"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subtype")]
         public string Subtype
         {
             get;
@@ -16283,7 +15509,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object class (constructor) name. Specified for `object` type values only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("className"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("className")]
         public string ClassName
         {
             get;
@@ -16293,7 +15519,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Remote object value in case of primitive values or JSON values (if it was requested).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public object Value
         {
             get;
@@ -16304,7 +15530,7 @@ namespace CefSharp.DevTools.Runtime
         /// Primitive value which can not be JSON-stringified does not have `value`, but gets this
         /// property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("unserializableValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unserializableValue")]
         public string UnserializableValue
         {
             get;
@@ -16314,7 +15540,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// String representation of the object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("description"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("description")]
         public string Description
         {
             get;
@@ -16324,7 +15550,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Unique object identifier (for non-primitive values).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("objectId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("objectId")]
         public string ObjectId
         {
             get;
@@ -16334,7 +15560,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Preview containing abbreviated property values. Specified for `object` type values only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("preview"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("preview")]
         public CefSharp.DevTools.Runtime.ObjectPreview Preview
         {
             get;
@@ -16344,7 +15570,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// CustomPreview
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("customPreview"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("customPreview")]
         public CefSharp.DevTools.Runtime.CustomPreview CustomPreview
         {
             get;
@@ -16358,14 +15584,14 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// CustomPreview
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CustomPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// The JSON-stringified result of formatter.header(object, config) call.
         /// It contains json ML array that represents RemoteObject.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("header"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("header")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Header
         {
             get;
@@ -16377,7 +15603,7 @@ namespace CefSharp.DevTools.Runtime
         /// contain RemoteObjectId for the function that returns result of formatter.body(object, config) call.
         /// The result value is json ML array.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("bodyGetterId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bodyGetterId")]
         public string BodyGetterId
         {
             get;
@@ -16391,13 +15617,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object containing abbreviated remote object value.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ObjectPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Object type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -16407,7 +15633,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object subtype hint. Specified for `object` type values only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subtype"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subtype")]
         public string Subtype
         {
             get;
@@ -16417,7 +15643,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// String representation of the object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("description"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("description")]
         public string Description
         {
             get;
@@ -16427,7 +15653,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True iff some of the properties or entries of the original object did not fit.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("overflow"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("overflow")]
         public bool Overflow
         {
             get;
@@ -16437,7 +15663,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// List of the properties.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("properties"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("properties")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PropertyPreview> Properties
         {
             get;
@@ -16447,7 +15674,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// List of the entries. Specified for `map` and `set` subtype values only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("entries"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("entries")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.EntryPreview> Entries
         {
             get;
@@ -16461,13 +15688,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// PropertyPreview
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PropertyPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Property name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -16477,7 +15704,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object type. Accessor means that the property itself is an accessor property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("type"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Type
         {
             get;
@@ -16487,7 +15715,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// User-friendly property value string.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public string Value
         {
             get;
@@ -16497,7 +15725,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Nested value preview.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("valuePreview"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("valuePreview")]
         public CefSharp.DevTools.Runtime.ObjectPreview ValuePreview
         {
             get;
@@ -16507,7 +15735,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Object subtype hint. Specified for `object` type values only.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("subtype"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("subtype")]
         public string Subtype
         {
             get;
@@ -16521,13 +15749,12 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// EntryPreview
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class EntryPreview : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Preview of the key. Specified for map-like collection entries.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("key"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("key")]
         public CefSharp.DevTools.Runtime.ObjectPreview Key
         {
             get;
@@ -16537,7 +15764,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Preview of the value.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public CefSharp.DevTools.Runtime.ObjectPreview Value
         {
             get;
@@ -16551,13 +15779,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object property descriptor.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Property name or symbol description.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -16567,7 +15795,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// The value associated with the property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public CefSharp.DevTools.Runtime.RemoteObject Value
         {
             get;
@@ -16577,7 +15805,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the value associated with the property may be changed (data descriptors only).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("writable"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("writable")]
         public bool? Writable
         {
             get;
@@ -16588,7 +15816,7 @@ namespace CefSharp.DevTools.Runtime
         /// A function which serves as a getter for the property, or `undefined` if there is no getter
         /// (accessor descriptors only).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("get"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("get")]
         public CefSharp.DevTools.Runtime.RemoteObject Get
         {
             get;
@@ -16599,7 +15827,7 @@ namespace CefSharp.DevTools.Runtime
         /// A function which serves as a setter for the property, or `undefined` if there is no setter
         /// (accessor descriptors only).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("set"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("set")]
         public CefSharp.DevTools.Runtime.RemoteObject Set
         {
             get;
@@ -16610,7 +15838,7 @@ namespace CefSharp.DevTools.Runtime
         /// True if the type of this property descriptor may be changed and if the property may be
         /// deleted from the corresponding object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("configurable"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("configurable")]
         public bool Configurable
         {
             get;
@@ -16621,7 +15849,7 @@ namespace CefSharp.DevTools.Runtime
         /// True if this property shows up during enumeration of the properties on the corresponding
         /// object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("enumerable"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("enumerable")]
         public bool Enumerable
         {
             get;
@@ -16631,7 +15859,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the result was thrown during the evaluation.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("wasThrown"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wasThrown")]
         public bool? WasThrown
         {
             get;
@@ -16641,7 +15869,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// True if the property is owned for the object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("isOwn"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("isOwn")]
         public bool? IsOwn
         {
             get;
@@ -16651,7 +15879,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Property symbol object, if the property is of the `symbol` type.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("symbol"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("symbol")]
         public CefSharp.DevTools.Runtime.RemoteObject Symbol
         {
             get;
@@ -16665,13 +15893,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object internal property descriptor. This property isn&apos;t normally visible in JavaScript code.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class InternalPropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Conventional property name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -16681,7 +15909,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// The value associated with the property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public CefSharp.DevTools.Runtime.RemoteObject Value
         {
             get;
@@ -16695,13 +15923,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Object private field descriptor.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PrivatePropertyDescriptor : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Private property name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -16711,7 +15939,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// The value associated with the private property.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public CefSharp.DevTools.Runtime.RemoteObject Value
         {
             get;
@@ -16722,7 +15950,7 @@ namespace CefSharp.DevTools.Runtime
         /// A function which serves as a getter for the private property,
         /// or `undefined` if there is no getter (accessor descriptors only).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("get"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("get")]
         public CefSharp.DevTools.Runtime.RemoteObject Get
         {
             get;
@@ -16733,7 +15961,7 @@ namespace CefSharp.DevTools.Runtime
         /// A function which serves as a setter for the private property,
         /// or `undefined` if there is no setter (accessor descriptors only).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("set"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("set")]
         public CefSharp.DevTools.Runtime.RemoteObject Set
         {
             get;
@@ -16748,13 +15976,12 @@ namespace CefSharp.DevTools.Runtime
     /// Represents function call argument. Either remote object id `objectId`, primitive `value`,
     /// unserializable primitive value or neither of (for undefined) them should be specified.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CallArgument : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Primitive value or serializable javascript object.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("value"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("value")]
         public object Value
         {
             get;
@@ -16764,7 +15991,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Primitive value which can not be JSON-stringified.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("unserializableValue"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unserializableValue")]
         public string UnserializableValue
         {
             get;
@@ -16774,7 +16001,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Remote object handle.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("objectId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("objectId")]
         public string ObjectId
         {
             get;
@@ -16788,14 +16015,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Description of an isolated world.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ExecutionContextDescription : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Unique id of the execution context. It can be used to specify in which execution context
         /// script evaluation should be performed.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
         public int Id
         {
             get;
@@ -16805,7 +16031,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Execution context origin.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("origin"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Origin
         {
             get;
@@ -16815,7 +16042,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Human readable name describing given context.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("name"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Name
         {
             get;
@@ -16825,7 +16053,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Embedder-specific auxiliary data.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("auxData"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("auxData")]
         public object AuxData
         {
             get;
@@ -16840,13 +16068,12 @@ namespace CefSharp.DevTools.Runtime
     /// Detailed information about exception (or error) that was thrown during script compilation or
     /// execution.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ExceptionDetails : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Exception id.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("exceptionId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionId")]
         public int ExceptionId
         {
             get;
@@ -16856,7 +16083,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception text, which should be used together with exception object when available.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("text"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Text
         {
             get;
@@ -16866,7 +16094,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Line number of the exception location (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int LineNumber
         {
             get;
@@ -16876,7 +16104,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Column number of the exception location (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNumber")]
         public int ColumnNumber
         {
             get;
@@ -16886,7 +16114,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Script ID of the exception location.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
         public string ScriptId
         {
             get;
@@ -16896,7 +16124,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// URL of the exception location, to be used when the script was not reported.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
         public string Url
         {
             get;
@@ -16906,7 +16134,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// JavaScript stack trace if available.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("stackTrace"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stackTrace")]
         public CefSharp.DevTools.Runtime.StackTrace StackTrace
         {
             get;
@@ -16916,7 +16144,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Exception object if available.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("exception"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exception")]
         public CefSharp.DevTools.Runtime.RemoteObject Exception
         {
             get;
@@ -16926,7 +16154,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Identifier of the context where exception happened.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("executionContextId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("executionContextId")]
         public int? ExecutionContextId
         {
             get;
@@ -16940,13 +16168,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Stack entry for runtime errors and assertions.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CallFrame : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// JavaScript function name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("functionName"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("functionName")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string FunctionName
         {
             get;
@@ -16956,7 +16184,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// JavaScript script id.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("scriptId"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string ScriptId
         {
             get;
@@ -16966,7 +16195,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// JavaScript script name or url.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("url"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Url
         {
             get;
@@ -16976,7 +16206,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// JavaScript script line number (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("lineNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("lineNumber")]
         public int LineNumber
         {
             get;
@@ -16986,7 +16216,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// JavaScript script column number (0-based).
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("columnNumber"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNumber")]
         public int ColumnNumber
         {
             get;
@@ -17000,14 +16230,13 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// Call frames for assertions or error messages.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StackTrace : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// String label of this stack trace. For async traces this may be a name of the function that
         /// initiated the async call.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("description"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("description")]
         public string Description
         {
             get;
@@ -17017,7 +16246,8 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// JavaScript function name.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("callFrames"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callFrames")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallFrame> CallFrames
         {
             get;
@@ -17027,7 +16257,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Asynchronous JavaScript stack trace that preceded this stack, if available.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parent"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parent")]
         public CefSharp.DevTools.Runtime.StackTrace Parent
         {
             get;
@@ -17037,7 +16267,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// Asynchronous JavaScript stack trace that preceded this stack, if available.
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("parentId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parentId")]
         public CefSharp.DevTools.Runtime.StackTraceId ParentId
         {
             get;
@@ -17052,13 +16282,13 @@ namespace CefSharp.DevTools.Runtime
     /// If `debuggerId` is set stack trace comes from another debugger and can be resolved there. This
     /// allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.paused` for usages.
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StackTraceId : CefSharp.DevTools.DevToolsDomainEntityBase
     {
         /// <summary>
         /// Id
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("id"), IsRequired = (true))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public string Id
         {
             get;
@@ -17068,7 +16298,7 @@ namespace CefSharp.DevTools.Runtime
         /// <summary>
         /// DebuggerId
         /// </summary>
-        [System.Runtime.Serialization.DataMemberAttribute(Name = ("debuggerId"), IsRequired = (false))]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("debuggerId")]
         public string DebuggerId
         {
             get;
@@ -17082,25 +16312,17 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// GetPartialAXTreeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetPartialAXTreeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXNode> nodes
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodes
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodes")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXNode> Nodes
         {
-            get
-            {
-                return nodes;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17110,25 +16332,17 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// GetFullAXTreeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetFullAXTreeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXNode> nodes
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodes
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodes")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXNode> Nodes
         {
-            get
-            {
-                return nodes;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17138,25 +16352,17 @@ namespace CefSharp.DevTools.Accessibility
     /// <summary>
     /// QueryAXTreeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class QueryAXTreeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXNode> nodes
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodes
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodes")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Accessibility.AXNode> Nodes
         {
-            get
-            {
-                return nodes;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17301,25 +16507,17 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// GetCurrentTimeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetCurrentTimeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long currentTime
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// currentTime
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("currentTime")]
         public long CurrentTime
         {
-            get
-            {
-                return currentTime;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17329,25 +16527,17 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// GetPlaybackRateResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetPlaybackRateResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long playbackRate
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// playbackRate
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("playbackRate")]
         public long PlaybackRate
         {
-            get
-            {
-                return playbackRate;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17357,25 +16547,17 @@ namespace CefSharp.DevTools.Animation
     /// <summary>
     /// ResolveAnimationResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ResolveAnimationResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject remoteObject
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// remoteObject
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("remoteObject")]
         public CefSharp.DevTools.Runtime.RemoteObject RemoteObject
         {
-            get
-            {
-                return remoteObject;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17548,25 +16730,17 @@ namespace CefSharp.DevTools.ApplicationCache
     /// <summary>
     /// GetApplicationCacheForFrameResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetApplicationCacheForFrameResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.ApplicationCache.ApplicationCache applicationCache
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// applicationCache
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("applicationCache")]
         public CefSharp.DevTools.ApplicationCache.ApplicationCache ApplicationCache
         {
-            get
-            {
-                return applicationCache;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17576,25 +16750,17 @@ namespace CefSharp.DevTools.ApplicationCache
     /// <summary>
     /// GetFramesWithManifestsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetFramesWithManifestsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.ApplicationCache.FrameWithManifest> frameIds
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// frameIds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameIds")]
         public System.Collections.Generic.IList<CefSharp.DevTools.ApplicationCache.FrameWithManifest> FrameIds
         {
-            get
-            {
-                return frameIds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17604,25 +16770,17 @@ namespace CefSharp.DevTools.ApplicationCache
     /// <summary>
     /// GetManifestForFrameResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetManifestForFrameResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string manifestURL
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// manifestURL
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("manifestURL")]
         public string ManifestURL
         {
-            get
-            {
-                return manifestURL;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17702,61 +16860,39 @@ namespace CefSharp.DevTools.Audits
     /// <summary>
     /// GetEncodedResponseResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetEncodedResponseResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string body
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// body
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("body")]
         public byte[] Body
         {
-            get
-            {
-                return Convert(body);
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int originalSize
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// originalSize
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("originalSize")]
         public int OriginalSize
         {
-            get
-            {
-                return originalSize;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int encodedSize
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// encodedSize
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("encodedSize")]
         public int EncodedSize
         {
-            get
-            {
-                return encodedSize;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -17915,97 +17051,61 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// GetVersionResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetVersionResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string protocolVersion
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// protocolVersion
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("protocolVersion")]
         public string ProtocolVersion
         {
-            get
-            {
-                return protocolVersion;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string product
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// product
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("product")]
         public string Product
         {
-            get
-            {
-                return product;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string revision
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// revision
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("revision")]
         public string Revision
         {
-            get
-            {
-                return revision;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string userAgent
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// userAgent
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("userAgent")]
         public string UserAgent
         {
-            get
-            {
-                return userAgent;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string jsVersion
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// jsVersion
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("jsVersion")]
         public string JsVersion
         {
-            get
-            {
-                return jsVersion;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18015,25 +17115,17 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// GetBrowserCommandLineResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetBrowserCommandLineResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] arguments
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// arguments
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("arguments")]
         public string[] Arguments
         {
-            get
-            {
-                return arguments;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18043,25 +17135,17 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// GetHistogramsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetHistogramsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Browser.Histogram> histograms
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// histograms
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("histograms")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Browser.Histogram> Histograms
         {
-            get
-            {
-                return histograms;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18071,25 +17155,17 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// GetHistogramResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetHistogramResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Browser.Histogram histogram
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// histogram
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("histogram")]
         public CefSharp.DevTools.Browser.Histogram Histogram
         {
-            get
-            {
-                return histogram;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18099,25 +17175,17 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// GetWindowBoundsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetWindowBoundsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Browser.Bounds bounds
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// bounds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bounds")]
         public CefSharp.DevTools.Browser.Bounds Bounds
         {
-            get
-            {
-                return bounds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18127,43 +17195,28 @@ namespace CefSharp.DevTools.Browser
     /// <summary>
     /// GetWindowForTargetResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetWindowForTargetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int windowId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// windowId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("windowId")]
         public int WindowId
         {
-            get
-            {
-                return windowId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Browser.Bounds bounds
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// bounds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bounds")]
         public CefSharp.DevTools.Browser.Bounds Bounds
         {
-            get
-            {
-                return bounds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18464,25 +17517,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// AddRuleResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AddRuleResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CSS.CSSRule rule
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// rule
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rule")]
         public CefSharp.DevTools.CSS.CSSRule Rule
         {
-            get
-            {
-                return rule;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18492,25 +17537,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CollectClassNamesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CollectClassNamesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] classNames
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// classNames
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("classNames")]
         public string[] ClassNames
         {
-            get
-            {
-                return classNames;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18520,25 +17557,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// CreateStyleSheetResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CreateStyleSheetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string styleSheetId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// styleSheetId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styleSheetId")]
         public string StyleSheetId
         {
-            get
-            {
-                return styleSheetId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18548,61 +17577,39 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// GetBackgroundColorsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetBackgroundColorsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] backgroundColors
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// backgroundColors
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backgroundColors")]
         public string[] BackgroundColors
         {
-            get
-            {
-                return backgroundColors;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string computedFontSize
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// computedFontSize
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("computedFontSize")]
         public string ComputedFontSize
         {
-            get
-            {
-                return computedFontSize;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string computedFontWeight
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// computedFontWeight
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("computedFontWeight")]
         public string ComputedFontWeight
         {
-            get
-            {
-                return computedFontWeight;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18612,25 +17619,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// GetComputedStyleForNodeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetComputedStyleForNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSComputedStyleProperty> computedStyle
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// computedStyle
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("computedStyle")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSComputedStyleProperty> ComputedStyle
         {
-            get
-            {
-                return computedStyle;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18640,43 +17639,28 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// GetInlineStylesForNodeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetInlineStylesForNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CSS.CSSStyle inlineStyle
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// inlineStyle
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inlineStyle")]
         public CefSharp.DevTools.CSS.CSSStyle InlineStyle
         {
-            get
-            {
-                return inlineStyle;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CSS.CSSStyle attributesStyle
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// attributesStyle
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attributesStyle")]
         public CefSharp.DevTools.CSS.CSSStyle AttributesStyle
         {
-            get
-            {
-                return attributesStyle;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18686,115 +17670,72 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// GetMatchedStylesForNodeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetMatchedStylesForNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CSS.CSSStyle inlineStyle
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// inlineStyle
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inlineStyle")]
         public CefSharp.DevTools.CSS.CSSStyle InlineStyle
         {
-            get
-            {
-                return inlineStyle;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CSS.CSSStyle attributesStyle
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// attributesStyle
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attributesStyle")]
         public CefSharp.DevTools.CSS.CSSStyle AttributesStyle
         {
-            get
-            {
-                return attributesStyle;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleMatch> matchedCSSRules
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// matchedCSSRules
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("matchedCSSRules")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleMatch> MatchedCSSRules
         {
-            get
-            {
-                return matchedCSSRules;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.PseudoElementMatches> pseudoElements
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// pseudoElements
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pseudoElements")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.PseudoElementMatches> PseudoElements
         {
-            get
-            {
-                return pseudoElements;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.InheritedStyleEntry> inherited
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// inherited
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inherited")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.InheritedStyleEntry> Inherited
         {
-            get
-            {
-                return inherited;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSKeyframesRule> cssKeyframesRules
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// cssKeyframesRules
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cssKeyframesRules")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSKeyframesRule> CssKeyframesRules
         {
-            get
-            {
-                return cssKeyframesRules;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18804,25 +17745,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// GetMediaQueriesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetMediaQueriesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSMedia> medias
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// medias
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("medias")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSMedia> Medias
         {
-            get
-            {
-                return medias;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18832,25 +17765,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// GetPlatformFontsForNodeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetPlatformFontsForNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.PlatformFontUsage> fonts
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// fonts
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("fonts")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.PlatformFontUsage> Fonts
         {
-            get
-            {
-                return fonts;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18860,25 +17785,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// GetStyleSheetTextResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetStyleSheetTextResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string text
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// text
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("text")]
         public string Text
         {
-            get
-            {
-                return text;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18888,25 +17805,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// TakeComputedStyleUpdatesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TakeComputedStyleUpdatesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int[] nodeIds
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeIds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeIds")]
         public int[] NodeIds
         {
-            get
-            {
-                return nodeIds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18916,25 +17825,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// SetKeyframeKeyResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetKeyframeKeyResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CSS.Value keyText
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// keyText
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyText")]
         public CefSharp.DevTools.CSS.Value KeyText
         {
-            get
-            {
-                return keyText;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18944,25 +17845,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// SetMediaTextResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetMediaTextResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CSS.CSSMedia media
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// media
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("media")]
         public CefSharp.DevTools.CSS.CSSMedia Media
         {
-            get
-            {
-                return media;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -18972,25 +17865,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// SetRuleSelectorResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetRuleSelectorResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CSS.SelectorList selectorList
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// selectorList
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("selectorList")]
         public CefSharp.DevTools.CSS.SelectorList SelectorList
         {
-            get
-            {
-                return selectorList;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19000,25 +17885,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// SetStyleSheetTextResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetStyleSheetTextResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string sourceMapURL
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// sourceMapURL
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sourceMapURL")]
         public string SourceMapURL
         {
-            get
-            {
-                return sourceMapURL;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19028,25 +17905,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// SetStyleTextsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetStyleTextsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSStyle> styles
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// styles
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("styles")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSStyle> Styles
         {
-            get
-            {
-                return styles;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19056,25 +17925,17 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// StopRuleUsageTrackingResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StopRuleUsageTrackingResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleUsage> ruleUsage
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// ruleUsage
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ruleUsage")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleUsage> RuleUsage
         {
-            get
-            {
-                return ruleUsage;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19084,43 +17945,28 @@ namespace CefSharp.DevTools.CSS
     /// <summary>
     /// TakeCoverageDeltaResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TakeCoverageDeltaResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleUsage> coverage
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// coverage
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("coverage")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CSS.RuleUsage> Coverage
         {
-            get
-            {
-                return coverage;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long timestamp
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// timestamp
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timestamp")]
         public long Timestamp
         {
-            get
-            {
-                return timestamp;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19536,25 +18382,17 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// RequestCacheNamesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestCacheNamesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Cache> caches
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// caches
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("caches")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Cache> Caches
         {
-            get
-            {
-                return caches;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19564,25 +18402,17 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// RequestCachedResponseResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestCachedResponseResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.CacheStorage.CachedResponse response
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// response
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("response")]
         public CefSharp.DevTools.CacheStorage.CachedResponse Response
         {
-            get
-            {
-                return response;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19592,43 +18422,28 @@ namespace CefSharp.DevTools.CacheStorage
     /// <summary>
     /// RequestEntriesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestEntriesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.DataEntry> cacheDataEntries
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// cacheDataEntries
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cacheDataEntries")]
         public System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.DataEntry> CacheDataEntries
         {
-            get
-            {
-                return cacheDataEntries;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long returnCount
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// returnCount
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("returnCount")]
         public long ReturnCount
         {
-            get
-            {
-                return returnCount;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19852,25 +18667,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// CollectClassNamesFromSubtreeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CollectClassNamesFromSubtreeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] classNames
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// classNames
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("classNames")]
         public string[] ClassNames
         {
-            get
-            {
-                return classNames;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19880,25 +18687,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// CopyToResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CopyToResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19908,25 +18707,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// DescribeNodeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class DescribeNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.DOM.Node node
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// node
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("node")]
         public CefSharp.DevTools.DOM.Node Node
         {
-            get
-            {
-                return node;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19936,25 +18727,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetAttributesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetAttributesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] attributes
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// attributes
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("attributes")]
         public string[] Attributes
         {
-            get
-            {
-                return attributes;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19964,25 +18747,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetBoxModelResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetBoxModelResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.DOM.BoxModel model
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// model
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("model")]
         public CefSharp.DevTools.DOM.BoxModel Model
         {
-            get
-            {
-                return model;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -19992,25 +18767,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetContentQuadsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetContentQuadsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long[] quads
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// quads
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("quads")]
         public long[] Quads
         {
-            get
-            {
-                return quads;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20020,25 +18787,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetDocumentResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetDocumentResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.DOM.Node root
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// root
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("root")]
         public CefSharp.DevTools.DOM.Node Root
         {
-            get
-            {
-                return root;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20048,25 +18807,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetNodesForSubtreeByStyleResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetNodesForSubtreeByStyleResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int[] nodeIds
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeIds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeIds")]
         public int[] NodeIds
         {
-            get
-            {
-                return nodeIds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20076,61 +18827,39 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetNodeForLocationResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetNodeForLocationResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int backendNodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// backendNodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int BackendNodeId
         {
-            get
-            {
-                return backendNodeId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string frameId
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// frameId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameId")]
         public string FrameId
         {
-            get
-            {
-                return frameId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int? nodeId
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int? NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20140,25 +18869,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetOuterHTMLResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetOuterHTMLResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string outerHTML
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// outerHTML
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("outerHTML")]
         public string OuterHTML
         {
-            get
-            {
-                return outerHTML;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20168,25 +18889,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetRelayoutBoundaryResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetRelayoutBoundaryResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20196,25 +18909,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetSearchResultsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetSearchResultsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int[] nodeIds
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeIds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeIds")]
         public int[] NodeIds
         {
-            get
-            {
-                return nodeIds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20224,25 +18929,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// MoveToResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class MoveToResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20252,43 +18949,28 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// PerformSearchResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PerformSearchResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string searchId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// searchId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("searchId")]
         public string SearchId
         {
-            get
-            {
-                return searchId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int resultCount
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// resultCount
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resultCount")]
         public int ResultCount
         {
-            get
-            {
-                return resultCount;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20298,25 +18980,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// PushNodeByPathToFrontendResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PushNodeByPathToFrontendResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20326,25 +19000,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// PushNodesByBackendIdsToFrontendResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PushNodesByBackendIdsToFrontendResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int[] nodeIds
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeIds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeIds")]
         public int[] NodeIds
         {
-            get
-            {
-                return nodeIds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20354,25 +19020,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// QuerySelectorResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class QuerySelectorResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20382,25 +19040,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// QuerySelectorAllResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class QuerySelectorAllResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int[] nodeIds
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeIds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeIds")]
         public int[] NodeIds
         {
-            get
-            {
-                return nodeIds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20410,25 +19060,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// RequestNodeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20438,25 +19080,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// ResolveNodeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ResolveNodeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject @object
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// object
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("object")]
         public CefSharp.DevTools.Runtime.RemoteObject Object
         {
-            get
-            {
-                return @object;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20466,25 +19100,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetNodeStackTracesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetNodeStackTracesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.StackTrace creation
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// creation
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("creation")]
         public CefSharp.DevTools.Runtime.StackTrace Creation
         {
-            get
-            {
-                return creation;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20494,25 +19120,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetFileInfoResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetFileInfoResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string path
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// path
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("path")]
         public string Path
         {
-            get
-            {
-                return path;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20522,25 +19140,17 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// SetNodeNameResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetNodeNameResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -20550,43 +19160,28 @@ namespace CefSharp.DevTools.DOM
     /// <summary>
     /// GetFrameOwnerResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetFrameOwnerResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int backendNodeId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// backendNodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("backendNodeId")]
         public int BackendNodeId
         {
-            get
-            {
-                return backendNodeId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int? nodeId
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// nodeId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodeId")]
         public int? NodeId
         {
-            get
-            {
-                return nodeId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -21515,25 +20110,17 @@ namespace CefSharp.DevTools.DOMDebugger
     /// <summary>
     /// GetEventListenersResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetEventListenersResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.DOMDebugger.EventListener> listeners
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// listeners
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("listeners")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOMDebugger.EventListener> Listeners
         {
-            get
-            {
-                return listeners;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -21721,43 +20308,28 @@ namespace CefSharp.DevTools.DOMSnapshot
     /// <summary>
     /// CaptureSnapshotResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CaptureSnapshotResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.DOMSnapshot.DocumentSnapshot> documents
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// documents
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("documents")]
         public System.Collections.Generic.IList<CefSharp.DevTools.DOMSnapshot.DocumentSnapshot> Documents
         {
-            get
-            {
-                return documents;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] strings
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// strings
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("strings")]
         public string[] Strings
         {
-            get
-            {
-                return strings;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -21836,25 +20408,17 @@ namespace CefSharp.DevTools.DOMStorage
     /// <summary>
     /// GetDOMStorageItemsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetDOMStorageItemsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] entries
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// entries
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("entries")]
         public string[] Entries
         {
-            get
-            {
-                return entries;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -21969,61 +20533,39 @@ namespace CefSharp.DevTools.Database
     /// <summary>
     /// ExecuteSQLResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ExecuteSQLResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] columnNames
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// columnNames
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("columnNames")]
         public string[] ColumnNames
         {
-            get
-            {
-                return columnNames;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal object[] values
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// values
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("values")]
         public object[] Values
         {
-            get
-            {
-                return values;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Database.Error sqlError
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// sqlError
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sqlError")]
         public CefSharp.DevTools.Database.Error SqlError
         {
-            get
-            {
-                return sqlError;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -22033,25 +20575,17 @@ namespace CefSharp.DevTools.Database
     /// <summary>
     /// GetDatabaseTableNamesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetDatabaseTableNamesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] tableNames
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// tableNames
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("tableNames")]
         public string[] TableNames
         {
-            get
-            {
-                return tableNames;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -22179,25 +20713,17 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// CanEmulateResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CanEmulateResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public bool Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -22207,25 +20733,17 @@ namespace CefSharp.DevTools.Emulation
     /// <summary>
     /// SetVirtualTimePolicyResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetVirtualTimePolicyResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long virtualTimeTicksBase
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// virtualTimeTicksBase
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("virtualTimeTicksBase")]
         public long VirtualTimeTicksBase
         {
-            get
-            {
-                return virtualTimeTicksBase;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -22715,43 +21233,28 @@ namespace CefSharp.DevTools.HeadlessExperimental
     /// <summary>
     /// BeginFrameResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class BeginFrameResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool hasDamage
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// hasDamage
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hasDamage")]
         public bool HasDamage
         {
-            get
-            {
-                return hasDamage;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string screenshotData
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// screenshotData
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("screenshotData")]
         public byte[] ScreenshotData
         {
-            get
-            {
-                return Convert(screenshotData);
-            }
+            get;
+            private set;
         }
     }
 }
@@ -22836,61 +21339,39 @@ namespace CefSharp.DevTools.IO
     /// <summary>
     /// ReadResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ReadResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool? base64Encoded
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// base64Encoded
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("base64Encoded")]
         public bool? Base64Encoded
         {
-            get
-            {
-                return base64Encoded;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string data
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// data
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("data")]
         public string Data
         {
-            get
-            {
-                return data;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool eof
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// eof
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("eof")]
         public bool Eof
         {
-            get
-            {
-                return eof;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -22900,25 +21381,17 @@ namespace CefSharp.DevTools.IO
     /// <summary>
     /// ResolveBlobResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ResolveBlobResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string uuid
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// uuid
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("uuid")]
         public string Uuid
         {
-            get
-            {
-                return uuid;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23000,43 +21473,28 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// RequestDataResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestDataResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.IndexedDB.DataEntry> objectStoreDataEntries
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// objectStoreDataEntries
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("objectStoreDataEntries")]
         public System.Collections.Generic.IList<CefSharp.DevTools.IndexedDB.DataEntry> ObjectStoreDataEntries
         {
-            get
-            {
-                return objectStoreDataEntries;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool hasMore
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// hasMore
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("hasMore")]
         public bool HasMore
         {
-            get
-            {
-                return hasMore;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23046,43 +21504,28 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// GetMetadataResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetMetadataResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long entriesCount
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// entriesCount
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("entriesCount")]
         public long EntriesCount
         {
-            get
-            {
-                return entriesCount;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long keyGeneratorValue
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// keyGeneratorValue
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyGeneratorValue")]
         public long KeyGeneratorValue
         {
-            get
-            {
-                return keyGeneratorValue;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23092,25 +21535,17 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// RequestDatabaseResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestDatabaseResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.IndexedDB.DatabaseWithObjectStores databaseWithObjectStores
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// databaseWithObjectStores
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("databaseWithObjectStores")]
         public CefSharp.DevTools.IndexedDB.DatabaseWithObjectStores DatabaseWithObjectStores
         {
-            get
-            {
-                return databaseWithObjectStores;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23120,25 +21555,17 @@ namespace CefSharp.DevTools.IndexedDB
     /// <summary>
     /// RequestDatabaseNamesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestDatabaseNamesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] databaseNames
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// databaseNames
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("databaseNames")]
         public string[] DatabaseNames
         {
-            get
-            {
-                return databaseNames;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23763,43 +22190,28 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// CompositingReasonsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CompositingReasonsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] compositingReasons
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// compositingReasons
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("compositingReasons")]
         public string[] CompositingReasons
         {
-            get
-            {
-                return compositingReasons;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] compositingReasonIds
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// compositingReasonIds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("compositingReasonIds")]
         public string[] CompositingReasonIds
         {
-            get
-            {
-                return compositingReasonIds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23809,25 +22221,17 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// LoadSnapshotResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LoadSnapshotResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string snapshotId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// snapshotId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("snapshotId")]
         public string SnapshotId
         {
-            get
-            {
-                return snapshotId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23837,25 +22241,17 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// MakeSnapshotResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class MakeSnapshotResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string snapshotId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// snapshotId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("snapshotId")]
         public string SnapshotId
         {
-            get
-            {
-                return snapshotId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23865,25 +22261,17 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// ProfileSnapshotResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ProfileSnapshotResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long[] timings
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// timings
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timings")]
         public long[] Timings
         {
-            get
-            {
-                return timings;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23893,25 +22281,17 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// ReplaySnapshotResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ReplaySnapshotResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string dataURL
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// dataURL
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dataURL")]
         public string DataURL
         {
-            get
-            {
-                return dataURL;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -23921,25 +22301,17 @@ namespace CefSharp.DevTools.LayerTree
     /// <summary>
     /// SnapshotCommandLogResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SnapshotCommandLogResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<object> commandLog
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// commandLog
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("commandLog")]
         public System.Collections.Generic.IList<object> CommandLog
         {
-            get
-            {
-                return commandLog;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24206,61 +22578,39 @@ namespace CefSharp.DevTools.Memory
     /// <summary>
     /// GetDOMCountersResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetDOMCountersResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int documents
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// documents
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("documents")]
         public int Documents
         {
-            get
-            {
-                return documents;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int nodes
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// nodes
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("nodes")]
         public int Nodes
         {
-            get
-            {
-                return nodes;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int jsEventListeners
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// jsEventListeners
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("jsEventListeners")]
         public int JsEventListeners
         {
-            get
-            {
-                return jsEventListeners;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24270,25 +22620,17 @@ namespace CefSharp.DevTools.Memory
     /// <summary>
     /// GetAllTimeSamplingProfileResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetAllTimeSamplingProfileResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Memory.SamplingProfile profile
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// profile
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
         public CefSharp.DevTools.Memory.SamplingProfile Profile
         {
-            get
-            {
-                return profile;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24298,25 +22640,17 @@ namespace CefSharp.DevTools.Memory
     /// <summary>
     /// GetBrowserSamplingProfileResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetBrowserSamplingProfileResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Memory.SamplingProfile profile
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// profile
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
         public CefSharp.DevTools.Memory.SamplingProfile Profile
         {
-            get
-            {
-                return profile;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24326,25 +22660,17 @@ namespace CefSharp.DevTools.Memory
     /// <summary>
     /// GetSamplingProfileResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetSamplingProfileResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Memory.SamplingProfile profile
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// profile
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
         public CefSharp.DevTools.Memory.SamplingProfile Profile
         {
-            get
-            {
-                return profile;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24506,25 +22832,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetAllCookiesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetAllCookiesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> cookies
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// cookies
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookies")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> Cookies
         {
-            get
-            {
-                return cookies;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24534,25 +22852,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetCertificateResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetCertificateResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] tableNames
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// tableNames
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("tableNames")]
         public string[] TableNames
         {
-            get
-            {
-                return tableNames;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24562,25 +22872,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetCookiesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetCookiesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> cookies
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// cookies
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookies")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> Cookies
         {
-            get
-            {
-                return cookies;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24590,43 +22892,28 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetResponseBodyResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetResponseBodyResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string body
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// body
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("body")]
         public string Body
         {
-            get
-            {
-                return body;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool base64Encoded
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// base64Encoded
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("base64Encoded")]
         public bool Base64Encoded
         {
-            get
-            {
-                return base64Encoded;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24636,25 +22923,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetRequestPostDataResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetRequestPostDataResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string postData
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// postData
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("postData")]
         public string PostData
         {
-            get
-            {
-                return postData;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24664,43 +22943,28 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetResponseBodyForInterceptionResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetResponseBodyForInterceptionResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string body
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// body
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("body")]
         public string Body
         {
-            get
-            {
-                return body;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool base64Encoded
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// base64Encoded
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("base64Encoded")]
         public bool Base64Encoded
         {
-            get
-            {
-                return base64Encoded;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24710,25 +22974,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// TakeResponseBodyForInterceptionAsStreamResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TakeResponseBodyForInterceptionAsStreamResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string stream
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// stream
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stream")]
         public string Stream
         {
-            get
-            {
-                return stream;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24738,25 +22994,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// SearchInResponseBodyResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SearchInResponseBodyResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24766,25 +23014,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// SetCookieResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetCookieResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool success
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// success
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("success")]
         public bool Success
         {
-            get
-            {
-                return success;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24794,25 +23034,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// GetSecurityIsolationStatusResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetSecurityIsolationStatusResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Network.SecurityIsolationStatus status
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// status
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("status")]
         public CefSharp.DevTools.Network.SecurityIsolationStatus Status
         {
-            get
-            {
-                return status;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -24822,25 +23054,17 @@ namespace CefSharp.DevTools.Network
     /// <summary>
     /// LoadNetworkResourceResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class LoadNetworkResourceResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Network.LoadNetworkResourcePageResult resource
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// resource
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("resource")]
         public CefSharp.DevTools.Network.LoadNetworkResourcePageResult Resource
         {
-            get
-            {
-                return resource;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -25379,25 +23603,17 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// GetHighlightObjectForTestResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetHighlightObjectForTestResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal object highlight
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// highlight
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("highlight")]
         public object Highlight
         {
-            get
-            {
-                return highlight;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -25407,25 +23623,17 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// GetGridHighlightObjectsForTestResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetGridHighlightObjectsForTestResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal object highlights
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// highlights
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("highlights")]
         public object Highlights
         {
-            get
-            {
-                return highlights;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -25435,25 +23643,17 @@ namespace CefSharp.DevTools.Overlay
     /// <summary>
     /// GetSourceOrderHighlightObjectForTestResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetSourceOrderHighlightObjectForTestResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal object highlight
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// highlight
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("highlight")]
         public object Highlight
         {
-            get
-            {
-                return highlight;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -25937,25 +24137,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// AddScriptToEvaluateOnNewDocumentResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AddScriptToEvaluateOnNewDocumentResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string identifier
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// identifier
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("identifier")]
         public string Identifier
         {
-            get
-            {
-                return identifier;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -25965,25 +24157,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// CaptureScreenshotResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CaptureScreenshotResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string data
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// data
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("data")]
         public byte[] Data
         {
-            get
-            {
-                return Convert(data);
-            }
+            get;
+            private set;
         }
     }
 }
@@ -25993,25 +24177,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// CaptureSnapshotResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CaptureSnapshotResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string data
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// data
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("data")]
         public string Data
         {
-            get
-            {
-                return data;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26021,25 +24197,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// CreateIsolatedWorldResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CreateIsolatedWorldResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int executionContextId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// executionContextId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("executionContextId")]
         public int ExecutionContextId
         {
-            get
-            {
-                return executionContextId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26049,79 +24217,50 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetAppManifestResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetAppManifestResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string url
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// url
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("url")]
         public string Url
         {
-            get
-            {
-                return url;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Page.AppManifestError> errors
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// errors
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errors")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Page.AppManifestError> Errors
         {
-            get
-            {
-                return errors;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string data
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// data
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("data")]
         public string Data
         {
-            get
-            {
-                return data;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Page.AppManifestParsedProperties parsed
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// parsed
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parsed")]
         public CefSharp.DevTools.Page.AppManifestParsedProperties Parsed
         {
-            get
-            {
-                return parsed;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26131,25 +24270,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetInstallabilityErrorsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetInstallabilityErrorsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Page.InstallabilityError> installabilityErrors
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// installabilityErrors
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("installabilityErrors")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Page.InstallabilityError> InstallabilityErrors
         {
-            get
-            {
-                return installabilityErrors;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26159,25 +24290,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetManifestIconsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetManifestIconsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string primaryIcon
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// primaryIcon
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("primaryIcon")]
         public byte[] PrimaryIcon
         {
-            get
-            {
-                return Convert(primaryIcon);
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26187,25 +24310,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetFrameTreeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetFrameTreeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Page.FrameTree frameTree
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// frameTree
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameTree")]
         public CefSharp.DevTools.Page.FrameTree FrameTree
         {
-            get
-            {
-                return frameTree;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26215,61 +24330,39 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetLayoutMetricsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetLayoutMetricsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Page.LayoutViewport layoutViewport
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// layoutViewport
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("layoutViewport")]
         public CefSharp.DevTools.Page.LayoutViewport LayoutViewport
         {
-            get
-            {
-                return layoutViewport;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Page.VisualViewport visualViewport
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// visualViewport
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("visualViewport")]
         public CefSharp.DevTools.Page.VisualViewport VisualViewport
         {
-            get
-            {
-                return visualViewport;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.DOM.Rect contentSize
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// contentSize
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("contentSize")]
         public CefSharp.DevTools.DOM.Rect ContentSize
         {
-            get
-            {
-                return contentSize;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26279,43 +24372,28 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetNavigationHistoryResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetNavigationHistoryResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal int currentIndex
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// currentIndex
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("currentIndex")]
         public int CurrentIndex
         {
-            get
-            {
-                return currentIndex;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Page.NavigationEntry> entries
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// entries
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("entries")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Page.NavigationEntry> Entries
         {
-            get
-            {
-                return entries;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26325,43 +24403,28 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetResourceContentResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetResourceContentResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string content
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// content
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("content")]
         public string Content
         {
-            get
-            {
-                return content;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool base64Encoded
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// base64Encoded
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("base64Encoded")]
         public bool Base64Encoded
         {
-            get
-            {
-                return base64Encoded;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26371,25 +24434,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// GetResourceTreeResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetResourceTreeResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Page.FrameResourceTree frameTree
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// frameTree
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameTree")]
         public CefSharp.DevTools.Page.FrameResourceTree FrameTree
         {
-            get
-            {
-                return frameTree;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26399,61 +24454,39 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// NavigateResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class NavigateResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string frameId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// frameId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frameId")]
         public string FrameId
         {
-            get
-            {
-                return frameId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string loaderId
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// loaderId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("loaderId")]
         public string LoaderId
         {
-            get
-            {
-                return loaderId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string errorText
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// errorText
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("errorText")]
         public string ErrorText
         {
-            get
-            {
-                return errorText;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26463,43 +24496,28 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// PrintToPDFResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class PrintToPDFResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string data
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// data
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("data")]
         public byte[] Data
         {
-            get
-            {
-                return Convert(data);
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string stream
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// stream
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stream")]
         public string Stream
         {
-            get
-            {
-                return stream;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -26509,25 +24527,17 @@ namespace CefSharp.DevTools.Page
     /// <summary>
     /// SearchInResourceResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SearchInResourceResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -27346,25 +25356,17 @@ namespace CefSharp.DevTools.Performance
     /// <summary>
     /// GetMetricsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetMetricsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Performance.Metric> metrics
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// metrics
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("metrics")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Performance.Metric> Metrics
         {
-            get
-            {
-                return metrics;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -27700,25 +25702,17 @@ namespace CefSharp.DevTools.Storage
     /// <summary>
     /// GetCookiesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetCookiesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> cookies
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// cookies
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("cookies")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Network.Cookie> Cookies
         {
-            get
-            {
-                return cookies;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -27728,61 +25722,39 @@ namespace CefSharp.DevTools.Storage
     /// <summary>
     /// GetUsageAndQuotaResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetUsageAndQuotaResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long usage
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// usage
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("usage")]
         public long Usage
         {
-            get
-            {
-                return usage;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long quota
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// quota
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("quota")]
         public long Quota
         {
-            get
-            {
-                return quota;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Storage.UsageForType> usageBreakdown
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// usageBreakdown
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("usageBreakdown")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Storage.UsageForType> UsageBreakdown
         {
-            get
-            {
-                return usageBreakdown;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -27960,79 +25932,50 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// GetInfoResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetInfoResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.SystemInfo.GPUInfo gpu
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// gpu
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("gpu")]
         public CefSharp.DevTools.SystemInfo.GPUInfo Gpu
         {
-            get
-            {
-                return gpu;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string modelName
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// modelName
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("modelName")]
         public string ModelName
         {
-            get
-            {
-                return modelName;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string modelVersion
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// modelVersion
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("modelVersion")]
         public string ModelVersion
         {
-            get
-            {
-                return modelVersion;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string commandLine
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// commandLine
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("commandLine")]
         public string CommandLine
         {
-            get
-            {
-                return commandLine;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28042,25 +25985,17 @@ namespace CefSharp.DevTools.SystemInfo
     /// <summary>
     /// GetProcessInfoResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetProcessInfoResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.SystemInfo.ProcessInfo> processInfo
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// processInfo
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("processInfo")]
         public System.Collections.Generic.IList<CefSharp.DevTools.SystemInfo.ProcessInfo> ProcessInfo
         {
-            get
-            {
-                return processInfo;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28109,25 +26044,17 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// AttachToTargetResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AttachToTargetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string sessionId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// sessionId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sessionId")]
         public string SessionId
         {
-            get
-            {
-                return sessionId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28137,25 +26064,17 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// AttachToBrowserTargetResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AttachToBrowserTargetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string sessionId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// sessionId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("sessionId")]
         public string SessionId
         {
-            get
-            {
-                return sessionId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28165,25 +26084,17 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// CloseTargetResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CloseTargetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool success
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// success
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("success")]
         public bool Success
         {
-            get
-            {
-                return success;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28193,25 +26104,17 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// CreateBrowserContextResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CreateBrowserContextResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string browserContextId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// browserContextId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("browserContextId")]
         public string BrowserContextId
         {
-            get
-            {
-                return browserContextId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28221,25 +26124,17 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// GetBrowserContextsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetBrowserContextsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] browserContextIds
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// browserContextIds
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("browserContextIds")]
         public string[] BrowserContextIds
         {
-            get
-            {
-                return browserContextIds;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28249,25 +26144,17 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// CreateTargetResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CreateTargetResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string targetId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// targetId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("targetId")]
         public string TargetId
         {
-            get
-            {
-                return targetId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28277,25 +26164,17 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// GetTargetInfoResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetTargetInfoResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Target.TargetInfo targetInfo
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// targetInfo
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("targetInfo")]
         public CefSharp.DevTools.Target.TargetInfo TargetInfo
         {
-            get
-            {
-                return targetInfo;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28305,25 +26184,17 @@ namespace CefSharp.DevTools.Target
     /// <summary>
     /// GetTargetsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetTargetsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Target.TargetInfo> targetInfos
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// targetInfos
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("targetInfos")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Target.TargetInfo> TargetInfos
         {
-            get
-            {
-                return targetInfos;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28703,25 +26574,17 @@ namespace CefSharp.DevTools.Tracing
     /// <summary>
     /// GetCategoriesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetCategoriesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] categories
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// categories
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("categories")]
         public string[] Categories
         {
-            get
-            {
-                return categories;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28731,43 +26594,28 @@ namespace CefSharp.DevTools.Tracing
     /// <summary>
     /// RequestMemoryDumpResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RequestMemoryDumpResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string dumpGuid
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// dumpGuid
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dumpGuid")]
         public string DumpGuid
         {
-            get
-            {
-                return dumpGuid;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool success
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// success
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("success")]
         public bool Success
         {
-            get
-            {
-                return success;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28901,43 +26749,28 @@ namespace CefSharp.DevTools.Fetch
     /// <summary>
     /// GetResponseBodyResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetResponseBodyResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string body
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// body
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("body")]
         public string Body
         {
-            get
-            {
-                return body;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool base64Encoded
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// base64Encoded
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("base64Encoded")]
         public bool Base64Encoded
         {
-            get
-            {
-                return base64Encoded;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -28947,25 +26780,17 @@ namespace CefSharp.DevTools.Fetch
     /// <summary>
     /// TakeResponseBodyAsStreamResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TakeResponseBodyAsStreamResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string stream
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// stream
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stream")]
         public string Stream
         {
-            get
-            {
-                return stream;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29182,25 +27007,17 @@ namespace CefSharp.DevTools.WebAudio
     /// <summary>
     /// GetRealtimeDataResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetRealtimeDataResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.WebAudio.ContextRealtimeData realtimeData
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// realtimeData
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("realtimeData")]
         public CefSharp.DevTools.WebAudio.ContextRealtimeData RealtimeData
         {
-            get
-            {
-                return realtimeData;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29265,25 +27082,17 @@ namespace CefSharp.DevTools.WebAuthn
     /// <summary>
     /// AddVirtualAuthenticatorResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AddVirtualAuthenticatorResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string authenticatorId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// authenticatorId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("authenticatorId")]
         public string AuthenticatorId
         {
-            get
-            {
-                return authenticatorId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29293,25 +27102,17 @@ namespace CefSharp.DevTools.WebAuthn
     /// <summary>
     /// GetCredentialResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetCredentialResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.WebAuthn.Credential credential
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// credential
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("credential")]
         public CefSharp.DevTools.WebAuthn.Credential Credential
         {
-            get
-            {
-                return credential;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29321,25 +27122,17 @@ namespace CefSharp.DevTools.WebAuthn
     /// <summary>
     /// GetCredentialsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetCredentialsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.WebAuthn.Credential> credentials
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// credentials
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("credentials")]
         public System.Collections.Generic.IList<CefSharp.DevTools.WebAuthn.Credential> Credentials
         {
-            get
-            {
-                return credentials;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29577,25 +27370,17 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// EnableResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class EnableResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string debuggerId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// debuggerId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("debuggerId")]
         public string DebuggerId
         {
-            get
-            {
-                return debuggerId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29605,43 +27390,28 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// EvaluateOnCallFrameResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class EvaluateOnCallFrameResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
-            get
-            {
-                return result;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29651,43 +27421,28 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// ExecuteWasmEvaluatorResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class ExecuteWasmEvaluatorResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
-            get
-            {
-                return result;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29697,25 +27452,17 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// GetPossibleBreakpointsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetPossibleBreakpointsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.BreakLocation> locations
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// locations
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("locations")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.BreakLocation> Locations
         {
-            get
-            {
-                return locations;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29725,43 +27472,28 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// GetScriptSourceResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetScriptSourceResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string scriptSource
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// scriptSource
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptSource")]
         public string ScriptSource
         {
-            get
-            {
-                return scriptSource;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string bytecode
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// bytecode
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bytecode")]
         public byte[] Bytecode
         {
-            get
-            {
-                return Convert(bytecode);
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29771,25 +27503,17 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// GetStackTraceResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetStackTraceResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.StackTrace stackTrace
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// stackTrace
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stackTrace")]
         public CefSharp.DevTools.Runtime.StackTrace StackTrace
         {
-            get
-            {
-                return stackTrace;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29799,61 +27523,39 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// RestartFrameResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RestartFrameResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.CallFrame> callFrames
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// callFrames
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callFrames")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.CallFrame> CallFrames
         {
-            get
-            {
-                return callFrames;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.StackTrace asyncStackTrace
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// asyncStackTrace
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("asyncStackTrace")]
         public CefSharp.DevTools.Runtime.StackTrace AsyncStackTrace
         {
-            get
-            {
-                return asyncStackTrace;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.StackTraceId asyncStackTraceId
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// asyncStackTraceId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("asyncStackTraceId")]
         public CefSharp.DevTools.Runtime.StackTraceId AsyncStackTraceId
         {
-            get
-            {
-                return asyncStackTraceId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29863,25 +27565,17 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SearchInContentResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SearchInContentResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.SearchMatch> Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29891,43 +27585,28 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SetBreakpointResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetBreakpointResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string breakpointId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// breakpointId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("breakpointId")]
         public string BreakpointId
         {
-            get
-            {
-                return breakpointId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Debugger.Location actualLocation
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// actualLocation
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("actualLocation")]
         public CefSharp.DevTools.Debugger.Location ActualLocation
         {
-            get
-            {
-                return actualLocation;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29937,25 +27616,17 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SetInstrumentationBreakpointResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetInstrumentationBreakpointResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string breakpointId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// breakpointId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("breakpointId")]
         public string BreakpointId
         {
-            get
-            {
-                return breakpointId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -29965,43 +27636,28 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SetBreakpointByUrlResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetBreakpointByUrlResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string breakpointId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// breakpointId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("breakpointId")]
         public string BreakpointId
         {
-            get
-            {
-                return breakpointId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.Location> locations
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// locations
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("locations")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.Location> Locations
         {
-            get
-            {
-                return locations;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -30011,25 +27667,17 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SetBreakpointOnFunctionCallResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetBreakpointOnFunctionCallResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string breakpointId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// breakpointId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("breakpointId")]
         public string BreakpointId
         {
-            get
-            {
-                return breakpointId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -30039,97 +27687,61 @@ namespace CefSharp.DevTools.Debugger
     /// <summary>
     /// SetScriptSourceResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class SetScriptSourceResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Debugger.CallFrame> callFrames
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// callFrames
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("callFrames")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Debugger.CallFrame> CallFrames
         {
-            get
-            {
-                return callFrames;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal bool? stackChanged
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// stackChanged
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("stackChanged")]
         public bool? StackChanged
         {
-            get
-            {
-                return stackChanged;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.StackTrace asyncStackTrace
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// asyncStackTrace
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("asyncStackTrace")]
         public CefSharp.DevTools.Runtime.StackTrace AsyncStackTrace
         {
-            get
-            {
-                return asyncStackTrace;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.StackTraceId asyncStackTraceId
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// asyncStackTraceId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("asyncStackTraceId")]
         public CefSharp.DevTools.Runtime.StackTraceId AsyncStackTraceId
         {
-            get
-            {
-                return asyncStackTraceId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -30733,25 +28345,17 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// GetHeapObjectIdResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetHeapObjectIdResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string heapSnapshotObjectId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// heapSnapshotObjectId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("heapSnapshotObjectId")]
         public string HeapSnapshotObjectId
         {
-            get
-            {
-                return heapSnapshotObjectId;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -30761,25 +28365,17 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// GetObjectByHeapObjectIdResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetObjectByHeapObjectIdResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -30789,25 +28385,17 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// GetSamplingProfileResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetSamplingProfileResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.HeapProfiler.SamplingHeapProfile profile
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// profile
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
         public CefSharp.DevTools.HeapProfiler.SamplingHeapProfile Profile
         {
-            get
-            {
-                return profile;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -30817,25 +28405,17 @@ namespace CefSharp.DevTools.HeapProfiler
     /// <summary>
     /// StopSamplingResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StopSamplingResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.HeapProfiler.SamplingHeapProfile profile
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// profile
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
         public CefSharp.DevTools.HeapProfiler.SamplingHeapProfile Profile
         {
-            get
-            {
-                return profile;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31054,25 +28634,17 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// GetBestEffortCoverageResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetBestEffortCoverageResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ScriptCoverage> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ScriptCoverage> Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31082,25 +28654,17 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// StartPreciseCoverageResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StartPreciseCoverageResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long timestamp
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// timestamp
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timestamp")]
         public long Timestamp
         {
-            get
-            {
-                return timestamp;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31110,25 +28674,17 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// StopResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class StopResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Profiler.Profile profile
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// profile
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
         public CefSharp.DevTools.Profiler.Profile Profile
         {
-            get
-            {
-                return profile;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31138,43 +28694,28 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// TakePreciseCoverageResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TakePreciseCoverageResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ScriptCoverage> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ScriptCoverage> Result
         {
-            get
-            {
-                return result;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long timestamp
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// timestamp
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timestamp")]
         public long Timestamp
         {
-            get
-            {
-                return timestamp;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31184,25 +28725,17 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// TakeTypeProfileResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class TakeTypeProfileResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ScriptTypeProfile> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.ScriptTypeProfile> Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31212,25 +28745,17 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// GetCountersResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetCountersResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Profiler.CounterInfo> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.CounterInfo> Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31240,25 +28765,17 @@ namespace CefSharp.DevTools.Profiler
     /// <summary>
     /// GetRuntimeCallStatsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetRuntimeCallStatsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Profiler.RuntimeCallCounterInfo> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Profiler.RuntimeCallCounterInfo> Result
         {
-            get
-            {
-                return result;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31512,43 +29029,28 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// AwaitPromiseResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class AwaitPromiseResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
-            get
-            {
-                return result;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31558,43 +29060,28 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// CallFunctionOnResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CallFunctionOnResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
-            get
-            {
-                return result;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31604,43 +29091,28 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// CompileScriptResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class CompileScriptResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string scriptId
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// scriptId
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("scriptId")]
         public string ScriptId
         {
-            get
-            {
-                return scriptId;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31650,43 +29122,28 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// EvaluateResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class EvaluateResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
-            get
-            {
-                return result;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31696,25 +29153,17 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// GetIsolateIdResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetIsolateIdResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string id
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// id
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("id")]
         public string Id
         {
-            get
-            {
-                return id;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31724,43 +29173,28 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// GetHeapUsageResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetHeapUsageResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long usedSize
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// usedSize
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("usedSize")]
         public long UsedSize
         {
-            get
-            {
-                return usedSize;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal long totalSize
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// totalSize
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("totalSize")]
         public long TotalSize
         {
-            get
-            {
-                return totalSize;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31770,79 +29204,50 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// GetPropertiesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GetPropertiesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PropertyDescriptor> result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PropertyDescriptor> Result
         {
-            get
-            {
-                return result;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Runtime.InternalPropertyDescriptor> internalProperties
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// internalProperties
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("internalProperties")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.InternalPropertyDescriptor> InternalProperties
         {
-            get
-            {
-                return internalProperties;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PrivatePropertyDescriptor> privateProperties
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// privateProperties
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("privateProperties")]
         public System.Collections.Generic.IList<CefSharp.DevTools.Runtime.PrivatePropertyDescriptor> PrivateProperties
         {
-            get
-            {
-                return privateProperties;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31852,25 +29257,17 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// GlobalLexicalScopeNamesResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class GlobalLexicalScopeNamesResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal string[] names
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// names
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("names")]
         public string[] Names
         {
-            get
-            {
-                return names;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31880,25 +29277,17 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// QueryObjectsResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class QueryObjectsResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject objects
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// objects
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("objects")]
         public CefSharp.DevTools.Runtime.RemoteObject Objects
         {
-            get
-            {
-                return objects;
-            }
+            get;
+            private set;
         }
     }
 }
@@ -31908,43 +29297,28 @@ namespace CefSharp.DevTools.Runtime
     /// <summary>
     /// RunScriptResponse
     /// </summary>
-    [System.Runtime.Serialization.DataContractAttribute]
     public class RunScriptResponse : CefSharp.DevTools.DevToolsDomainResponseBase
     {
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.RemoteObject result
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// result
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("result")]
         public CefSharp.DevTools.Runtime.RemoteObject Result
         {
-            get
-            {
-                return result;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute]
-        internal CefSharp.DevTools.Runtime.ExceptionDetails exceptionDetails
-        {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
         /// exceptionDetails
         /// </summary>
+        [System.Text.Json.Serialization.JsonIncludeAttribute]
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exceptionDetails")]
         public CefSharp.DevTools.Runtime.ExceptionDetails ExceptionDetails
         {
-            get
-            {
-                return exceptionDetails;
-            }
+            get;
+            private set;
         }
     }
 }
