@@ -20,8 +20,12 @@ namespace CefSharp.DevTools
     /// </summary>
     public partial class DevToolsClient : IDevToolsMessageObserver, IDevToolsClient
     {
+        //TODO: Message Id is now global, limits the number of messages to int.MaxValue
+        //Needs to be unique and incrementing per browser with the option to have multiple
+        //DevToolsClient instances per browser.
+        private static int lastMessageId = 0;
+
         private readonly ConcurrentDictionary<int, SyncContextTaskCompletionSource<DevToolsMethodResponse>> queuedCommandResults = new ConcurrentDictionary<int, SyncContextTaskCompletionSource<DevToolsMethodResponse>>();
-        private int lastMessageId;
         private IBrowser browser;
         private IRegistration devToolsRegistration;
         private bool devToolsAttached;
@@ -66,7 +70,6 @@ namespace CefSharp.DevTools
         {
             this.browser = browser;
 
-            lastMessageId = browser.Identifier * 100000;
             CaptureSyncContext = true;
         }
 

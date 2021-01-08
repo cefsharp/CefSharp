@@ -70,7 +70,7 @@ namespace CefSharp.Test.DevTools
         }
 
         [Fact]
-        public async Task CanCanEmulate()
+        public async Task CanEmulationCanEmulate()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
@@ -124,5 +124,37 @@ namespace CefSharp.Test.DevTools
             }
         }
 
+        [Fact]
+        public async Task CanUseMultipleDevToolsClientInstancesPerBrowser()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                await browser.LoadPageAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var response = await devToolsClient.Browser.GetVersionAsync();
+                    var jsVersion = response.JsVersion;
+                    var revision = response.Revision;
+
+                    Assert.NotNull(jsVersion);
+                    Assert.NotNull(revision);
+
+                    output.WriteLine("DevTools Revision {0}", revision);
+                }
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var response = await devToolsClient.Browser.GetVersionAsync();
+                    var jsVersion = response.JsVersion;
+                    var revision = response.Revision;
+
+                    Assert.NotNull(jsVersion);
+                    Assert.NotNull(revision);
+
+                    output.WriteLine("DevTools Revision {0}", revision);
+                }
+            }
+        }
     }
 }
