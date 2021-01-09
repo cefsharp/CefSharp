@@ -21,7 +21,7 @@ function RemoveEnsureNuGetPackageBuildImports
 	}
 }
 
-$vcxprojFiles = @('CefSharp.Core\CefSharp.Core.vcxproj','CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.vcxproj')
+$vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj','CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.vcxproj')
 
 foreach($file in $vcxprojFiles)
 {
@@ -30,7 +30,7 @@ foreach($file in $vcxprojFiles)
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
 
-$vcxprojFiles = @('CefSharp.Core\CefSharp.Core.netcore.vcxproj', 'CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.netcore.vcxproj')
+$vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj', 'CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.netcore.vcxproj')
 
 foreach($file in $vcxprojFiles)
 {
@@ -48,9 +48,9 @@ foreach($file in $csprojFiles)
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
 
-#Read the newly updated version number from the packages.CefSharp.Core.config
+#Read the newly updated version number from the packages.CefSharp.Core.Runtime.config
 
-$CefSharpCorePackagesXml = [xml](Get-Content (Resolve-Path 'CefSharp.Core\packages.CefSharp.Core.config'))
+$CefSharpCorePackagesXml = [xml](Get-Content (Resolve-Path 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config'))
 $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
 
 $netcorecsprojFiles = @('CefSharp.WinForms.Example\CefSharp.WinForms.Example.netcore.csproj','CefSharp.Wpf.Example\CefSharp.Wpf.Example.netcore.csproj','CefSharp.OffScreen.Example\CefSharp.OffScreen.Example.netcore.csproj', 'CefSharp.Test\CefSharp.Test.netcore.csproj')
