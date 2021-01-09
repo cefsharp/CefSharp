@@ -14,14 +14,19 @@
     <dependencies>
       <group targetFramework=".NETCoreApp3.1">
         <dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,Build" />
+		<dependency id="System.Text.Json" version="5.0.0" />
       </group>
+	  <group targetFramework=".NETCoreApp5.0">
+		<dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,Build" />
+	  </group>
     </dependencies>
   </metadata>
   <files>
 	<file src="CefSharp.Common.NETCore.targets" target="buildTransitive\" />
 	
 	<file src="..\..\CefSharp\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.dll" target="ref\netcoreapp3.1"/>
-	<file src="..\..\CefSharp.Core.RefAssembly\bin\Release\netcoreapp3.1\CefSharp.Core.dll" target="ref\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\netcoreapp3.1\CefSharp.Core.dll" target="ref\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core.Runtime.RefAssembly\bin.netcore\Release\netcoreapp3.1\CefSharp.Core.Runtime.dll" target="ref\netcoreapp3.1"/>
 	
 	<!--
 	This is technically an AnyCPU dll now, unfortunately I cannot get it to load at runtime including
@@ -30,20 +35,22 @@
 	<!-- <file src="..\..\CefSharp\bin.netcore\Release\netcoreapp3.1\CefSharp.dll" target="lib\netcoreapp3.1"/> -->
 	<file src="..\..\CefSharp\bin.netcore\Release\netcoreapp3.1\CefSharp.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
 	<file src="..\..\CefSharp\bin.netcore\Release\netcoreapp3.1\CefSharp.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\netcoreapp3.1\CefSharp.Core.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\netcoreapp3.1\CefSharp.Core.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
 	
-	<file src="..\..\CefSharp.Core\bin.netcore\Win32\Release\Ijwhost.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Win32\Release\CefSharp.Core.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Win32\Release\CefSharp.Core.pdb" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\Ijwhost.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\CefSharp.Core.Runtime.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\CefSharp.Core.Runtime.pdb" target="runtimes\win-x86\lib\netcoreapp3.1"/>
 	
-	<file src="..\..\CefSharp.Core\bin.netcore\x64\Release\Ijwhost.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\x64\Release\CefSharp.Core.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\x64\Release\CefSharp.Core.pdb" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\Ijwhost.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\CefSharp.Core.Runtime.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\CefSharp.Core.Runtime.pdb" target="runtimes\win-x64\lib\netcoreapp3.1"/>
 		
-	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\Win32\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-x86\lib\netcoreapp3.1"/>
-	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\Win32\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-x86\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\Win32\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-x86\native"/>
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\Win32\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-x86\native"/>
 	
-	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-x64\lib\netcoreapp3.1"/>
-	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\x64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-x64\lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-x64\native"/>
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\x64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-x64\native"/>
 	
 	<!-- These are not actually native, including them in runtimes\win-x64\lib\netcoreapp3.1 doesn't copy the json files and since it's a runtime only dependency including them in native -->
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\x86\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.dll" target="runtimes\win-x86\native"/>

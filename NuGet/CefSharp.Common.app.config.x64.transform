@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1">
+    <!-- Add the runtime section if missing. -->
+    <runtime xdt:Transform="InsertIfMissing"/>
+
+    <runtime>
+        <!-- Add the assemblyBinding section if missing. -->
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1" xdt:Transform="InsertIfMissing"/>
+    </runtime>
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <!-- Add the dependentAssembly section for CefSharp.Core.Runtime if missing. -->
+            <dependentAssembly xdt:Transform="InsertIfMissing" xdt:Locator="Condition(asmv1:assemblyIdentity/@processorArchitecture='amd64' and asmv1:assemblyIdentity/@name='CefSharp.Core.Runtime')">
+                <assemblyIdentity name="CefSharp.Core.Runtime" processorArchitecture="amd64" publicKeyToken="40c4b6fc221f4138" culture="neutral"/>
+            </dependentAssembly>
+
+            <!-- Add or update the codeBase information for CefSharp.Core.Runtime -->
+            <dependentAssembly xdt:Locator="Condition(asmv1:assemblyIdentity/@processorArchitecture='amd64' and asmv1:assemblyIdentity/@name='CefSharp.Core.Runtime')">
+                <!-- Add the codebase section if missing. -->
+                <codeBase xdt:Transform="InsertIfMissing"/>
+                <!-- Ensure the codeBase version and href are set to the correct values. -->
+                <codeBase version="87.1.12.0" href="x64/CefSharp.Core.Runtime.dll" xdt:Transform="Replace"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+</configuration>

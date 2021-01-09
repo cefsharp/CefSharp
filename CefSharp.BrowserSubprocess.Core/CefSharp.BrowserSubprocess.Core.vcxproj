@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.87.1.6\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.87.1.6\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.87.1.12\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.87.1.12\build\cef.sdk.props')" />
+  <Import Project="..\packages\GitLink.3.1.0\build\GitLink.props" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -167,11 +168,11 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\MCefRefPtr.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\ReportUnhandledExceptions.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\ObjectsSerialization.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h" />
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\StringUtils.h" />
     <ClInclude Include="BindObjectAsyncHandler.h" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
@@ -208,8 +209,8 @@
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.cpp" />
-    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp" />
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\Serialization\ObjectsSerialization.cpp" />
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Async\JavascriptAsyncMethodCallback.cpp" />
     <ClCompile Include="Async\JavascriptAsyncMethodHandler.cpp" />
@@ -247,5 +248,7 @@
     <None Include="packages.CefSharp.BrowserSubprocess.Core.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\GitLink.3.1.0\build\GitLink.targets" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.targets')" />
+  </ImportGroup>
 </Project>

@@ -31,7 +31,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private IBrowserAdapter managedCefBrowserAdapter;
         /// <summary>
         /// The parent form message interceptor
         /// </summary>
@@ -50,7 +50,7 @@ namespace CefSharp.WinForms
         /// </summary>
         private bool initialized;
         /// <summary>
-        /// Has the underlying Cef Browser been created (slightly different to initliazed in that
+        /// Has the underlying Cef Browser been created (slightly different to initialized in that
         /// the browser is initialized in an async fashion)
         /// </summary>
         private bool browserCreated;
@@ -145,7 +145,7 @@ namespace CefSharp.WinForms
         }
         /// <summary>
         /// Activates browser upon creation, the default value is false. Prior to version 73
-        /// the default behaviour was to activate browser on creation (Equivilent of setting this property to true).
+        /// the default behaviour was to activate browser on creation (Equivalent of setting this property to true).
         /// To restore this behaviour set this value to true immediately after you create the <see cref="ChromiumWebBrowser"/> instance.
         /// https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
         /// </summary>
@@ -332,7 +332,7 @@ namespace CefSharp.WinForms
 
         /// <summary>
         /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// will attempt to load libcef.dll and will subsequently throw an exception.
         /// TODO: Still not happy with this method name, need something better
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -360,10 +360,10 @@ namespace CefSharp.WinForms
 
                 if (browserSettings == null)
                 {
-                    browserSettings = new BrowserSettings(frameworkCreated: true);
+                    browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
                 }
 
-                managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
+                managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, false);
 
                 initialized = true;
             }
@@ -395,7 +395,7 @@ namespace CefSharp.WinForms
         /// </summary>
         /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         /// <remarks>
-        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsequently throw an exception.
         /// </remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void InternalDispose(bool disposing)
@@ -436,7 +436,7 @@ namespace CefSharp.WinForms
                 }
 
                 //Dispose of BrowserSettings if we created it, if user created then they're responsible
-                if (browserSettings != null && browserSettings.FrameworkCreated)
+                if (browserSettings != null && browserSettings.AutoDispose)
                 {
                     browserSettings.Dispose();
                 }
@@ -553,7 +553,7 @@ namespace CefSharp.WinForms
         /// </example>
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
         {
-            var windowInfo = new WindowInfo();
+            var windowInfo = Core.ObjectFactory.CreateWindowInfo();
             windowInfo.SetAsChild(handle);
 
             if (!ActivateBrowserOnCreation)
@@ -596,7 +596,7 @@ namespace CefSharp.WinForms
 
                     initialAddressLoaded = !string.IsNullOrEmpty(Address);
 
-                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
+                    managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, requestContext, Address);
                 }
             }
         }

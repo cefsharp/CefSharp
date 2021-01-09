@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+       to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+        <BaseOutputPath>bin.netcore\</BaseOutputPath>
+    </PropertyGroup>
+
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+	
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>CefSharp.Core</RootNamespace>
+        <AssemblyName>CefSharp.Core.Runtime</AssemblyName>
+        <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <NoWarn>CS1591,CS0436</NoWarn>
+    </PropertyGroup>
+	
+    <ItemGroup>
+      <Compile Remove="bin\**" />
+      <Compile Remove="obj\**" />
+      <EmbeddedResource Remove="bin\**" />
+      <EmbeddedResource Remove="obj\**" />
+      <None Remove="bin\**" />
+      <None Remove="obj\**" />
+    </ItemGroup>
+	
+    <ItemGroup>
+      <Compile Remove="CefSharp.Core.Runtime.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj">
+          <Private>false</Private>
+        </ProjectReference>
+        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj">
+          <Private>false</Private>
+        </ProjectReference>
+    </ItemGroup>
+
+    <!-- GenApi -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.GenAPI" Version="5.0.0-beta.20374.3" GeneratePathProperty="true" />
+    </ItemGroup>
+
+    <!--
+    Ugly hack to make sure we have an assembly to use as our source dll for GenAPI
+    If the x64 version exists we'll use that, otherwise we'll use the win32
+    Haven't found a nice way to determine the Platform (resolves as AnyCPU) 
+    -->
+    <Choose>
+        <When Condition="Exists('$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll')">
+            <PropertyGroup>
+                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\win32\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+    <PropertyGroup>
+        <GenerateReferenceAssemblySource>false</GenerateReferenceAssemblySource>
+        <GenAPITargetDir>$(ProjectDir)</GenAPITargetDir>
+        <GenAPITargetPath>$(GenAPITargetDir)$(AssemblyName).netcore.cs</GenAPITargetPath>
+    </PropertyGroup>
+
+    <!--
+    Call GenApi before we compile as to generate the source which is then used
+    to by this project to generate the dll
+    -->
+    <Target Name="GenApiBeforeCompile" BeforeTargets="Compile">
+        <Message Text="BeforeCompile" Importance="high" />
+
+        <CallTarget Targets="GenerateReferenceAssemblySource" />
+        
+        <!--
+        GenApi generates our VC++ dispose/finalise methods are public sealed override void Dispose()
+        which won't compile, this just replaces that with public void Dispose
+        -->
+
+        <WriteLinesToFile File="$(GenAPITargetPath)" Lines="$([System.IO.File]::ReadAllText($(GenAPITargetPath)).Replace('public sealed override void Dispose()','public void Dispose()'))" Overwrite="true" Encoding="utf-8" />
+    </Target>
+	
+	<Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

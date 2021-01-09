@@ -27,18 +27,9 @@
     </releaseNotes>
   </metadata>
   <files>
-    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
-         solve this using a .props file instead. -->
-    <file src="..\CefSharp.OffScreen\bin\x86\Release\CefSharp.OffScreen.dll" target="CefSharp\x86" />
-    <file src="..\CefSharp.OffScreen\bin\x86\Release\CefSharp.OffScreen.xml" target="CefSharp\x86" />
-    <file src="..\CefSharp.OffScreen\bin\x86\Release\CefSharp.OffScreen.pdb" target="CefSharp\x86" />
-
-    <file src="..\CefSharp.OffScreen\bin\x64\Release\CefSharp.OffScreen.dll" target="CefSharp\x64" />
-    <file src="..\CefSharp.OffScreen\bin\x64\Release\CefSharp.OffScreen.xml" target="CefSharp\x64" />
-    <file src="..\CefSharp.OffScreen\bin\x64\Release\CefSharp.OffScreen.pdb" target="CefSharp\x64" />    
-
-    <file src="CefSharp.OffScreen.props" target="build" />
-    <file src="CefSharp.OffScreen.targets" target="build" />
+    <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.dll" target="lib\net452" />
+    <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.xml" target="lib\net452" />
+    <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.pdb" target="lib\net452" />
 
     <file src="Readme.txt" target="" />
 

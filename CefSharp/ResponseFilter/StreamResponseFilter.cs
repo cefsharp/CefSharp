@@ -52,7 +52,7 @@ namespace CefSharp.ResponseFilter
             //Write buffer to the memory stream
             responseStream.Write(readBytes, 0, readBytes.Length);
 
-            //If we read less than the total amount avaliable then we need
+            //If we read less than the total amount available then we need
             //return FilterStatus.NeedMoreData so we can then write the rest
             if (dataInRead < dataIn.Length)
             {

@@ -571,7 +571,7 @@ namespace CefSharp
         /// </summary>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        /// <param name="callback">(Optional) If not null it will be executed asnychronously on the CEF IO thread after the manager's
+        /// <param name="callback">(Optional) If not null it will be executed asynchronously on the CEF IO thread after the manager's
         /// storage has been initialized.</param>
         /// <returns>
         /// Cookie Manager.
@@ -1046,7 +1046,7 @@ namespace CefSharp
                     internalJsFunctionName += ".SendEvalScriptResponse";
                 }
             }
-            var promiseHandlerScript = "let innerImmediatelyInvokedFuncExpression = (function() { " + script + " })(); Promise.resolve(innerImmediatelyInvokedFuncExpression).then((val) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, true, val)).catch ((reason) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, false, String(reason))); return 'CefSharpDefEvalScriptRes';";
+            var promiseHandlerScript = "let innerImmediatelyInvokedFuncExpression = (async function() { " + script + " })(); Promise.resolve(innerImmediatelyInvokedFuncExpression).then((val) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, true, val)).catch ((reason) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, false, String(reason))); return 'CefSharpDefEvalScriptRes';";
 
             return promiseHandlerScript;
         }

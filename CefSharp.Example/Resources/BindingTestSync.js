@@ -1,15 +1,15 @@
-(async () =>
+QUnit.module('BindingTestSync', (hooks) =>
 {
-    await CefSharp.BindObjectAsync("bound");
-
-    QUnit.test("BindObjectAsync Second call with Bound param", function (assert)
+    hooks.before(async () =>
     {
-        let asyncCallback = assert.async();
-        CefSharp.BindObjectAsync("bound").then(function (res)
-        {
-            assert.equal(res.Success, false, "Second call to BindObjectAsync with already bound objects as params returned false.");
-            asyncCallback();
-        });
+        await CefSharp.BindObjectAsync("bound");
+    });
+
+    QUnit.test("BindObjectAsync Second call with Bound param", async (assert) =>
+    {
+        const res = await CefSharp.BindObjectAsync("bound");
+
+        assert.equal(res.Success, false, "Second call to BindObjectAsync with already bound objects as params returned false.");
     });
 
     QUnit.test("bound.repeat('hi ', 5)", function (assert)
@@ -235,4 +235,4 @@
 
         bound.testCallback(callback);
     });
-})();
+});

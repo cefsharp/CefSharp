@@ -60,7 +60,7 @@ namespace CefSharp
         /// Gets or sets ResponseLength, when you know the size of your
         /// Stream (Response) set this property. This is optional.
         /// If you use a MemoryStream and don't provide a value
-        /// here then it will be cast and it's size used
+        /// here then it will be cast and its size used
         /// </summary>
         public long? ResponseLength { get; set; }
 
@@ -88,7 +88,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="mimeType">Optional mimeType defaults to <see cref="DefaultMimeType"/></param>
         /// <param name="stream">Optional Stream - must be set at some point to provide a valid response</param>
-        /// <param name="autoDisposeStream">When true the Stream will be disposed when this instance is Diposed, you will
+        /// <param name="autoDisposeStream">When true the Stream will be disposed when this instance is Disposed, you will
         /// be unable to use this ResourceHandler after the Stream has been disposed</param>
         /// <param name="charset">response charset</param>
         public ResourceHandler(string mimeType = DefaultMimeType, Stream stream = null, bool autoDisposeStream = false, string charset = null)
@@ -230,8 +230,8 @@ namespace CefSharp
             // changes to the threading model were made and I haven't confirmed if this is still
             // the case.
             // 
-            // The documentation for Cancel is vaigue and there aren't any examples that
-            // illustrage it's intended use case so for now we'll just keep things
+            // The documentation for Cancel is vague and there aren't any examples that
+            // illustrate its intended use case so for now we'll just keep things
             // simple and free our resources in Dispose
         }
 

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.csproj" />
     <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
   </ItemGroup>
 

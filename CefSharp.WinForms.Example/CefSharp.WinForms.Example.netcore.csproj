@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
        to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
@@ -19,15 +19,20 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <Platforms>x86;x64</Platforms>
+        <!--
+        Run on a newer version of .Net if the specified version (.Net Core 3.1) is not installed
+        https://github.com/dotnet/docs/issues/12237
+        -->
+        <RollForward>Major</RollForward>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
-        <PackageReference Include="cef.redist.x86" Version="87.1.6" />
-        <PackageReference Include="cef.redist.x64" Version="87.1.6" />
+        <PackageReference Include="cef.redist.x86" Version="87.1.12" />
+        <PackageReference Include="cef.redist.x64" Version="87.1.12" />
     </ItemGroup>
 
     <ItemGroup>

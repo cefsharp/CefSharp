@@ -23,7 +23,7 @@ namespace CefSharp.Event
 
         /// <summary>
         /// Was the object already bound. The default is false for the first js call to 
-        /// CefSharp.BindObjectAsync, and subsiquently true if already bound in a given context.
+        /// CefSharp.BindObjectAsync, and subsequently true if already bound in a given context.
         /// </summary>
         public bool AlreadyBound { get; private set; }
 

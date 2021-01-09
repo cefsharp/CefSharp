@@ -4,8 +4,8 @@
 
 #include "stdafx.h"
 #include "JsObjectsSerialization.h"
-#include "../CefSharp.Core/Internals/Serialization/Primitives.h"
-#include "../CefSharp.Core/Internals/Serialization/ObjectsSerialization.h"
+#include "../CefSharp.Core.Runtime/Internals/Serialization/Primitives.h"
+#include "../CefSharp.Core.Runtime/Internals/Serialization/ObjectsSerialization.h"
 
 namespace CefSharp
 {

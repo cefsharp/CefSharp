@@ -14,6 +14,7 @@
     <dependencies>
       <group targetFramework=".NETCoreApp3.1">
         <dependency id="CefSharp.Common.NETCore" version="[$version$]" include="Runtime,Compile,Build,Native" />
+		<dependency id="System.Drawing.Common" version="4.7.0" />
       </group>
     </dependencies>
     <releaseNotes>
@@ -28,6 +29,6 @@
 	<file src="..\..\CefSharp.OffScreen\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.OffScreen.dll" target="ref\netcoreapp3.1"/>
     <file src="..\..\CefSharp.OffScreen\bin.netcore\Release\netcoreapp3.1\CefSharp.OffScreen.dll" target="lib\netcoreapp3.1"/>
 
-    <file src="..\Readme.txt" target="" />
+    <file src="Readme.txt" target="" />
   </files>
 </package>

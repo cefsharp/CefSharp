@@ -19,8 +19,8 @@
 #include "Wrapper\V8Context.h"
 #include "Wrapper\Frame.h"
 #include "Wrapper\Browser.h"
-#include "..\CefSharp.Core\Internals\Messaging\Messages.h"
-#include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
+#include "..\CefSharp.Core.Runtime\Internals\Messaging\Messages.h"
+#include "..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h"
 
 using namespace System;
 using namespace System::Diagnostics;

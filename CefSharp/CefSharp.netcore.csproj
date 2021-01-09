@@ -27,6 +27,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
     <EmbeddedResource Remove="Internals\Wcf\**" />
     <None Remove="bin/**/*.*" />
@@ -37,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DevTools\DevToolsClient.Generated.cs" />
     <Compile Remove="Internals\Partial\ChromiumWebBrowser.Partial.cs" />
   </ItemGroup>
 

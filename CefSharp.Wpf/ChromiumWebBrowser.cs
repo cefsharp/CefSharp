@@ -81,7 +81,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private IBrowserAdapter managedCefBrowserAdapter;
         /// <summary>
         /// The ignore URI change
         /// </summary>
@@ -91,7 +91,7 @@ namespace CefSharp.Wpf
         /// </summary>
         private readonly string initialAddress;
         /// <summary>
-        /// Has the underlying Cef Browser been created (slightly different to initliazed in that
+        /// Has the underlying Cef Browser been created (slightly different to initialized in that
         /// the browser is initialized in an async fashion)
         /// </summary>
         private bool browserCreated;
@@ -179,7 +179,7 @@ namespace CefSharp.Wpf
                 //New instance is created in the constructor, if you use
                 //xaml to initialize browser settings then it will also create a new
                 //instance, so we dispose of the old one
-                if (browserSettings != null && browserSettings.FrameworkCreated)
+                if (browserSettings != null && browserSettings.AutoDispose)
                 {
                     browserSettings.Dispose();
                 }
@@ -336,7 +336,7 @@ namespace CefSharp.Wpf
             if (CefSharpSettings.ShutdownOnExit)
             {
                 //Use Dispatcher.FromThread as it returns null if no dispatcher
-                //is avaliable for this thread.
+                //is available for this thread.
                 var dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
                 if (dispatcher == null)
                 {
@@ -401,7 +401,7 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// will attempt to load libcef.dll and will subsequently throw an exception.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void CefPreShutdown()
@@ -411,7 +411,7 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// will attempt to load libcef.dll and will subsequently throw an exception.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void CefShutdown()
@@ -437,10 +437,10 @@ namespace CefSharp.Wpf
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
         /// Use this constructor to load the browser before it's attached to the Visual Tree.
         /// The underlying CefBrowser will be created with the specified <paramref name="size"/>.
-        /// CEF requires posative values for <see cref="Size.Width"/> and <see cref="Size.Height"/>,
+        /// CEF requires positive values for <see cref="Size.Width"/> and <see cref="Size.Height"/>,
         /// if values less than 1 are specified then the default value of 1 will be used instead.
         /// You can subscribe to the <see cref="LoadingStateChanged"/> event and attach the browser
-        /// to it's parent control when Loading is complete (<see cref="LoadingStateChangedEventArgs.IsLoading"/> is false).
+        /// to its parent control when Loading is complete (<see cref="LoadingStateChangedEventArgs.IsLoading"/> is false).
         /// </summary>
         /// <param name="parentWindowHwndSource">HwndSource for the Window that will host the browser.</param>
         /// <param name="initialAddress">address to be loaded when the browser is created.</param>
@@ -488,7 +488,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Constructor logic has been moved into this method
         /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// will attempt to load libcef.dll and will subsequently throw an exception.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void NoInliningConstructor()
@@ -550,9 +550,9 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(this.Undo);
             RedoCommand = new DelegateCommand(this.Redo);
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
+            managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, true);
 
-            browserSettings = new BrowserSettings(frameworkCreated: true);
+            browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
 
@@ -604,7 +604,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         /// <remarks>
-        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsequently throw an exception.
         /// </remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void InternalDispose(bool disposing)
@@ -645,7 +645,7 @@ namespace CefSharp.Wpf
 
                 browser = null;
 
-                // Incase we accidentally have a reference to the CEF drag data
+                // In case we accidentally have a reference to the CEF drag data
                 currentDragData?.Dispose();
                 currentDragData = null;
 
@@ -767,7 +767,7 @@ namespace CefSharp.Wpf
             screenX = 0;
             screenY = 0;
 
-            //We manually claculate the screen point as calling PointToScreen can only be called on the UI thread
+            //We manually calculate the screen point as calling PointToScreen can only be called on the UI thread
             // in a sync fashion and it's easy for users to get themselves into a deadlock.
             if (DpiScaleFactor > 1)
             {
@@ -1321,7 +1321,7 @@ namespace CefSharp.Wpf
         /// The zoom level at which the browser control is currently displaying.
         /// Can be set to 0 to clear the zoom level (resets to default zoom level).
         /// NOTE: For browsers that share the same render process (same origin) this
-        /// property is only updated when the browser changes it's visible state.
+        /// property is only updated when the browser changes its visible state.
         /// If you have two browsers visible at the same time that share the same render
         /// process then zooming one will not update this property in the other (unless
         /// the control is hidden and then shown). You can isolate browser instances
@@ -1581,7 +1581,7 @@ namespace CefSharp.Wpf
 
                 //DoDragDrop will fire this handler for internally sourced Drag/Drop operations
                 //we use the existing IDragData (cloned copy)
-                var dragData = currentDragData ?? e.GetDragDataWrapper();
+                var dragData = currentDragData ?? e.GetDragData();
 
                 browser.GetHost().DragTargetDragEnter(dragData, mouseEvent, effect);
                 browser.GetHost().DragTargetDragOver(mouseEvent, effect);
@@ -1749,10 +1749,10 @@ namespace CefSharp.Wpf
                 var windowInfo = CreateOffscreenBrowserWindowInfo(source == null ? IntPtr.Zero : source.Handle);
                 //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: initialAddress);
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, requestContext, address: initialAddress);
 
                 //Dispose of BrowserSettings if we created it, if user created then they're responsible
-                if (browserSettings.FrameworkCreated)
+                if (browserSettings.AutoDispose)
                 {
                     browserSettings.Dispose();
                 }
@@ -1773,7 +1773,7 @@ namespace CefSharp.Wpf
         /// <returns>Window Info</returns>
         protected virtual IWindowInfo CreateOffscreenBrowserWindowInfo(IntPtr handle)
         {
-            var windowInfo = new WindowInfo();
+            var windowInfo = Core.ObjectFactory.CreateWindowInfo();
             windowInfo.SetAsWindowless(handle);
             return windowInfo;
         }
@@ -2420,7 +2420,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="newDpi">new DPI</param>
         /// <remarks>.Net 4.6.2 adds HwndSource.DpiChanged which could be used to automatically
-        /// handle DPI change, unforunately we still target .Net 4.5.2</remarks>
+        /// handle DPI change, unfortunately we still target .Net 4.5.2</remarks>
         public virtual void NotifyDpiChange(float newDpi)
         {
             //Do nothing

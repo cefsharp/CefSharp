@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\cef.sdk.87.1.12\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.87.1.12\build\cef.sdk.props')" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{7B495581-2271-4F41-9476-ACB86E8C864F}</ProjectGuid>
+    <AssemblyName>CefSharp.Core.Runtime</AssemblyName>
+    <RootNamespace>CefSharp</RootNamespace>
+    <Keyword>NetCoreCProj</Keyword>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\CefSharp.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>NetCore</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>NetCore</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>NetCore</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>NetCore</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <LinkIncremental>false</LinkIncremental>
+    <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <TargetName>CefSharp.Core.Runtime</TargetName>
+    <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <LinkIncremental>false</LinkIncremental>
+    <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <TargetName>CefSharp.Core.Runtime</TargetName>
+    <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
+    <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
+    <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <TargetName>CefSharp.Core.Runtime</TargetName>
+    <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
+    <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
+    <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <TargetName>CefSharp.Core.Runtime</TargetName>
+    <LinkKeyFile>..\CefSharp.snk</LinkKeyFile>
+    <OutDir>bin.netcore\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj.netcore\$(Platform)\$(Configuration)\</IntDir>
+    <SourcePath>$(SolutionDir)packages\$(CefSdkVer)\CEF;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF;%(AdditionalIncludeDirectories);$(ProjectDir)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS;EXPORT;OS_WIN;NETCOREAPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>Stdafx.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
+      <KeyFile>$(LinkKeyFile)</KeyFile>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>libcef.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF;%(AdditionalIncludeDirectories);$(ProjectDir)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS;EXPORT;NETCOREAPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>Stdafx.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
+      <KeyFile>$(LinkKeyFile)</KeyFile>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF;%(AdditionalIncludeDirectories);$(ProjectDir)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_NDEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS;EXPORT;OS_WIN;NETCOREAPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <BrowseInformation>true</BrowseInformation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>LinkVerbose</ShowProgress>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+      <KeyFile>$(LinkKeyFile)</KeyFile>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF;%(AdditionalIncludeDirectories);$(ProjectDir)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_NDEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS;EXPORT;NETCOREAPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <KeyFile>$(LinkKeyFile)</KeyFile>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>Assembly.manifest</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="CookieManager.cpp" />
+    <ClCompile Include="Internals\CefBrowserHostWrapper.cpp" />
+    <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
+    <ClCompile Include="Internals\CefExtensionWrapper.cpp" />
+    <ClCompile Include="Internals\CefFrameWrapper.cpp" />
+    <ClCompile Include="Internals\CefBrowserWrapper.cpp" />
+    <ClCompile Include="Internals\CefUrlRequestClientAdapter.cpp" />
+    <ClCompile Include="Internals\CefValueWrapper.cpp" />
+    <ClCompile Include="Internals\ClientAdapter.cpp" />
+    <ClCompile Include="Internals\JavascriptCallbackProxy.cpp" />
+    <ClCompile Include="Internals\JavascriptCallbackFactory.cpp" />
+    <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp" />
+    <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
+    <ClCompile Include="NativeMethodWrapper.cpp" />
+    <ClCompile Include="Internals\Serialization\V8Serialization.cpp" />
+    <ClCompile Include="Internals\Serialization\Primitives.cpp" />
+    <ClCompile Include="Internals\Serialization\JsObjectsSerialization.cpp" />
+    <ClCompile Include="Internals\CefRequestContextHandlerAdapter.cpp" />
+    <ClCompile Include="Request.cpp" />
+    <ClCompile Include="RequestContext.cpp" />
+    <ClCompile Include="Internals\CefResourceHandlerAdapter.cpp" />
+    <ClCompile Include="Stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UrlRequest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BrowserSettings.h" />
+    <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
+    <ClInclude Include="Internals\CefRegistrationWrapper.h" />
+    <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefCookieAccessFilterAdapter.h" />
+    <ClInclude Include="Internals\CefExtensionHandlerAdapter.h" />
+    <ClInclude Include="Internals\CefExtensionWrapper.h" />
+    <ClInclude Include="Internals\CefGetExtensionResourceCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefResourceRequestHandlerAdapter.h" />
+    <ClInclude Include="Internals\CefResourceSkipCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h" />
+    <ClInclude Include="Internals\CefSchemeRegistrarWrapper.h" />
+    <ClInclude Include="Internals\CefUrlRequestClientAdapter.h" />
+    <ClInclude Include="Internals\CefValueWrapper.h" />
+    <ClInclude Include="Internals\CefWriteHandlerWrapper.h" />
+    <ClInclude Include="Internals\CefImageWrapper.h" />
+    <ClInclude Include="Internals\CefDeleteCookiesCallbackAdapter.h" />
+    <ClInclude Include="Internals\CefSetCookieCallbackAdapter.h" />
+    <ClInclude Include="Internals\CefCertificateCallbackWrapper.h" />
+    <ClInclude Include="CookieManager.h" />
+    <ClInclude Include="Internals\CefNavigationEntryVisitorAdapter.h" />
+    <ClInclude Include="Internals\CefAuthCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefBrowserHostWrapper.h" />
+    <ClInclude Include="Internals\CefCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefContextMenuParamsWrapper.h" />
+    <ClInclude Include="Internals\CefDownloadItemCallbackWrapper.h" />
+    <ClInclude Include="DragData.h" />
+    <ClInclude Include="Internals\CefFileDialogCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefFrameWrapper.h" />
+    <ClInclude Include="Internals\CefMenuModelWrapper.h" />
+    <ClInclude Include="Internals\CefPdfPrintCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefRegisterCdmCallbackAdapter.h" />
+    <ClInclude Include="Internals\CefResolveCallbackAdapter.h" />
+    <ClInclude Include="Internals\CefResponseFilterAdapter.h" />
+    <ClInclude Include="Internals\CefResponseWrapper.h" />
+    <ClInclude Include="Internals\CefRunContextMenuCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefBrowserWrapper.h" />
+    <ClInclude Include="Internals\CefSslInfoWrapper.h" />
+    <ClInclude Include="Internals\CefTaskScheduler.h" />
+    <ClInclude Include="Internals\CefTaskWrapper.h" />
+    <ClInclude Include="Internals\CefWrapper.h" />
+    <ClInclude Include="PopupFeatures.h" />
+    <ClInclude Include="Internals\CefRequestContextHandlerAdapter.h" />
+    <ClInclude Include="PostData.h" />
+    <ClInclude Include="PostDataElement.h" />
+    <ClInclude Include="Request.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="UrlRequest.h" />
+    <ClInclude Include="WindowInfo.h" />
+    <ClInclude Include="Internals\CefCompletionCallbackAdapter.h" />
+    <ClInclude Include="Internals\ClientAdapter.h" />
+    <ClInclude Include="Internals\CefCookieVisitorAdapter.h" />
+    <ClInclude Include="Internals\CefSharpApp.h" />
+    <ClInclude Include="Internals\CefJSDialogCallbackWrapper.h" />
+    <ClInclude Include="Internals\JavascriptCallbackProxy.h" />
+    <ClInclude Include="Internals\JavascriptCallbackFactory.h" />
+    <ClInclude Include="Internals\MCefRefPtr.h" />
+    <ClInclude Include="Internals\Messaging\Messages.h" />
+    <ClInclude Include="Internals\CefWebPluginInfoVisitorAdapter.h" />
+    <ClInclude Include="Internals\RenderClientAdapter.h" />
+    <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
+    <ClInclude Include="Internals\CefRequestCallbackWrapper.h" />
+    <ClInclude Include="Internals\Serialization\ObjectsSerialization.h" />
+    <ClInclude Include="Internals\CefStringVisitorAdapter.h" />
+    <ClInclude Include="Internals\TypeConversion.h" />
+    <ClInclude Include="NativeMethodWrapper.h" />
+    <ClInclude Include="Internals\Serialization\V8Serialization.h" />
+    <ClInclude Include="ManagedCefBrowserAdapter.h" />
+    <ClInclude Include="CefSettingsBase.h" />
+    <ClInclude Include="Internals\Serialization\Primitives.h" />
+    <ClInclude Include="RequestContext.h" />
+    <ClInclude Include="RequestContextSettings.h" />
+    <ClInclude Include="Internals\Serialization\JsObjectsSerialization.h" />
+    <ClInclude Include="Internals\CefSchemeHandlerFactoryAdapter.h" />
+    <ClInclude Include="Internals\CefResourceHandlerAdapter.h" />
+    <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="Internals\StringUtils.h" />
+    <ClInclude Include="vcclr_local.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj">
+      <Project>{39E385AD-DC5C-451E-B061-09AF3EE038EB}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Assembly.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.CefSharp.Core.Runtime.netcore.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

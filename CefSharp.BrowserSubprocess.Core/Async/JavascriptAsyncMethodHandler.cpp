@@ -4,8 +4,8 @@
 
 #include "stdafx.h"
 #include "JavascriptAsyncMethodHandler.h"
-#include "../CefSharp.Core/Internals/Messaging/Messages.h"
-#include "../CefSharp.Core/Internals/Serialization/Primitives.h"
+#include "../CefSharp.Core.Runtime/Internals/Messaging/Messages.h"
+#include "../CefSharp.Core.Runtime/Internals/Serialization/Primitives.h"
 #include "Serialization/V8Serialization.h"
 #include "CefAppUnmanagedWrapper.h"
 

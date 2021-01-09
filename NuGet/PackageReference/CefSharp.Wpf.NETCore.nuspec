@@ -28,6 +28,6 @@
 	<file src="..\..\CefSharp.Wpf\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.Wpf.dll" target="ref\netcoreapp3.1"/>
     <file src="..\..\CefSharp.Wpf\bin.netcore\Release\netcoreapp3.1\CefSharp.Wpf.dll" target="lib\netcoreapp3.1"/>
 
-    <file src="..\Readme.txt" target="" />
+    <file src="Readme.txt" target="" />
   </files>
 </package>

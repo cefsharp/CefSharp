@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+       to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+        <BaseOutputPath>bin.netcore\</BaseOutputPath>
+    </PropertyGroup>
+
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+    
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>CefSharp.Core</RootNamespace>
+        <AssemblyName>CefSharp.Core</AssemblyName>
+        <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <NoWarn>CS1591,CS0436</NoWarn>
+        <LangVersion>9.0</LangVersion>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DefineConstants>DEBUG;TRACE;NETCOREAPP</DefineConstants>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <DefineConstants>TRACE;NETCOREAPP</DefineConstants>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Net.Compilers" Version="3.8.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj">
+          <Private>false</Private>
+        </ProjectReference>
+        <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj">
+          <Private>false</Private>
+        </ProjectReference>
+    </ItemGroup>
+
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

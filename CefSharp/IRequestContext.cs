@@ -46,7 +46,7 @@ namespace CefSharp
         /// Returns the default cookie manager for this object. This will be the global
         /// cookie manager if this object is the global request context. 
         /// </summary>
-        /// <param name="callback">If callback is non-NULL it will be executed asnychronously on the CEF IO thread
+        /// <param name="callback">If callback is non-NULL it will be executed asynchronously on the CEF IO thread
         /// after the manager's storage has been initialized.</param>
         /// <returns>Returns the default cookie manager for this object</returns>
         ICookieManager GetCookieManager(ICompletionCallback callback);

@@ -12,6 +12,20 @@ namespace CefSharp.DevTools
 {
     public abstract class DevToolsDomainBase
     {
+#if NETCOREAPP
+        protected string EnumToString(Enum val)
+        {
+            return Internals.Json.JsonEnumConverterFactory.ConvertEnumToString(val);
+        }
+
+        protected IEnumerable<string> EnumToString(PermissionType[] values)
+        {
+            foreach (var val in values)
+            {
+                yield return Internals.Json.JsonEnumConverterFactory.ConvertEnumToString(val);
+            }
+        }
+#else
         protected string EnumToString(Enum val)
         {
             var memInfo = val.GetType().GetMember(val.ToString());
@@ -30,6 +44,7 @@ namespace CefSharp.DevTools
                 yield return dataMemberAttribute.Value;
             }
         }
+#endif
 
         protected string ToBase64String(byte[] bytes)
         {

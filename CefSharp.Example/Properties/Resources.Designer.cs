@@ -313,12 +313,12 @@ namespace CefSharp.Example.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;title&gt;Binding Test&lt;/title&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.10.0.css&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
         ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
-        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
         ///
         ///    &lt;!--&lt;script type=&quot;text/javascript&quot;&gt;
         ///    (async function() {
@@ -362,12 +362,12 @@ namespace CefSharp.Example.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;title&gt;Binding Test (Net Core)&lt;/title&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.10.0.css&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
         ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
-        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
         ///
         ///    &lt;!--&lt;script type=&quot;text/javascript&quot;&gt;
         ///    (async function() {
@@ -386,7 +386,7 @@ namespace CefSharp.Example.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;title&gt;Binding Test Async Task&lt;/title&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.10.0.css&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;div&gt;
@@ -396,7 +396,7 @@ namespace CefSharp.Example.Properties {
         ///
         ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
         ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
-        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
         ///
         ///     [rest of string was truncated]&quot;;.
         /// </summary>
@@ -405,18 +405,18 @@ namespace CefSharp.Example.Properties {
                 return ResourceManager.GetString("BindingTestsAsyncTask", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;title&gt;Binding Test&lt;/title&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.10.0.css&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
         ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
-        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
         ///
         ///    &lt;script type=&quot;text/javascript&quot;&gt;
         ///        (async () =&gt;
@@ -694,12 +694,12 @@ namespace CefSharp.Example.Properties {
         ///&lt;html&gt;
         ///    &lt;head&gt;
         ///        &lt;title&gt;Legacy Binding Test&lt;/title&gt;
-        ///        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.10.0.css&quot;&gt;
         ///    &lt;/head&gt;
         ///    &lt;body&gt;
         ///        &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
         ///        &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
-        ///        &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///        &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
         ///
         ///        &lt;script type=&quot;text/javascript&quot;&gt;
         ///        (function()
@@ -760,12 +760,12 @@ namespace CefSharp.Example.Properties {
         ///&lt;head&gt;
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;title&gt;Post Message Test&lt;/title&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.10.0.css&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
         ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
-        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
         ///
         ///    &lt;script type=&quot;text/javascript&quot;&gt;
         ///        let PostMessageIntTestCallback;
