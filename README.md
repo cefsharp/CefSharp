@@ -77,6 +77,7 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 | Branch                                                               | CEF Version | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|------|-------|-----------------|
 | [master](https://github.com/cefsharp/CefSharp/)                      | 4280 | 2015 | 4.5.2 | Development     |
+| [cefsharp/87](https://github.com/cefsharp/CefSharp/tree/cefsharp/87) | 4280 | 2015 | 4.5.2 | **Pre-Release** |
 | [cefsharp/86](https://github.com/cefsharp/CefSharp/tree/cefsharp/86) | 4240 | 2015 | 4.5.2 | **Release**     |
 | [cefsharp/85](https://github.com/cefsharp/CefSharp/tree/cefsharp/85) | 4183 | 2015 | 4.5.2 | Unsupported     |
 | [cefsharp/84](https://github.com/cefsharp/CefSharp/tree/cefsharp/84) | 4147 | 2015 | 4.5.2 | Unsupported     |
