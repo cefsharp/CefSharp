@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-  <metadata minClientVersion="4.0.0">
+  <metadata minClientVersion="5.0.0">
     <id>CefSharp.OffScreen.NETCore</id>
     <version>$version$</version>
     <authors>The CefSharp Authors</authors>
     <owners>The CefSharp Authors</owners>
     <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
-    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
+    <license type="file">LICENSE</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (OffScreen control).</description>
     <tags>osr chrome browser chromium-embedded cefsharp</tags>
@@ -30,5 +30,6 @@
     <file src="..\..\CefSharp.OffScreen\bin.netcore\Release\netcoreapp3.1\CefSharp.OffScreen.dll" target="lib\netcoreapp3.1"/>
 
     <file src="Readme.txt" target="" />
+	<file src="..\..\LICENSE" target="LICENSE" />
   </files>
 </package>
