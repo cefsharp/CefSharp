@@ -46,6 +46,11 @@ namespace CefSharp.Internals
         /// </summary>
         public int ParameterCount { get; set; }
 
+        /// <summary>
+        /// The Return type of the method
+        /// </summary>
+        public Type ReturnType { get; set; }
+
         public override string ToString()
         {
             return ManagedName ?? base.ToString();

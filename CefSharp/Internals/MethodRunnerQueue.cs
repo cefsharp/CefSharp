@@ -46,7 +46,7 @@ namespace CefSharp.Internals
 
         private MethodInvocationResult ExecuteMethodInvocation(MethodInvocation methodInvocation)
         {
-            object result = null;
+            object returnValue = null;
             string exception;
             var success = false;
             var nameConverter = repository.NameConverter;
@@ -54,10 +54,13 @@ namespace CefSharp.Internals
             //make sure we don't throw exceptions in the executor task
             try
             {
-                success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
+                var result = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray());
+                success = result.Success;
+                returnValue = result.ReturnValue;
+                exception = result.Exception;
 
                 //We don't support Tasks by default
-                if (success && result != null && (typeof(Task).IsAssignableFrom(result.GetType())))
+                if (success && returnValue != null && (typeof(Task).IsAssignableFrom(returnValue.GetType())))
                 {
                     //Use StringBuilder to improve the formatting/readability of the error message
                     //I'm sure there's a better way I just cannot remember of the top of my head so going
@@ -71,7 +74,6 @@ namespace CefSharp.Internals
                     result = null;
                     exception = builder.ToString();
                 }
-
             }
             catch (Exception e)
             {
@@ -84,7 +86,7 @@ namespace CefSharp.Internals
                 CallbackId = methodInvocation.CallbackId,
                 FrameId = methodInvocation.FrameId,
                 Message = exception,
-                Result = result,
+                Result = returnValue,
                 Success = success,
                 NameConverter = nameConverter
             };

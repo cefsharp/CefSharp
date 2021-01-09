@@ -29,10 +29,24 @@
                 await CefSharp.BindObjectAsync("boundAsync");
             });
 
-            QUnit.test("ReturnTaskStringAsync:", async (assert) =>
+            QUnit.test("WaitBeforeReturnAsync:", function async (assert) =>
             {
-                let asyncCallback = assert.async();
+                const expectedResult = null;  
+                const actualResult = await boundAsync.waitBeforeReturnAsync(2000);
 
+                assert.equal(expectedResult, actualResult, "Return null");
+            });
+
+            QUnit.test("ReturnHello:", function async (assert) =>
+            {
+                const expectedResult = 'Hello CefSharp';
+                const actualResult = await boundAsync.hello('CefSharp');
+              
+                assert.equal(expectedResult, actualResult, "Return Hello CefSharp");
+            });
+
+            QUnit.test("ReturnTaskStringAsync Test:", async (assert) =>
+            {
                 const expectedResult = 'ReturnTaskStringAsync';
                 const actualResult = await boundAsync.returnTaskStringAsync();
 
@@ -43,6 +57,7 @@
             {
                 const expectedResult = null;
                 const actualResult = await boundAsync.voidReturnAsync();
+              
                 assert.equal(expectedResult, actualResult, "Return null");
             });
 
@@ -51,7 +66,7 @@
                 const url = "https://raw.githubusercontent.com/cefsharp/CefSharp/master/.editorconfig";
 
                 const expectedResult = "# editorconfig.org";
-                const actualResult = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                const actualResult = await boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
 
                 assert.equal(expectedResult, actualResult[0], "Return string " + expectedResult);
             });

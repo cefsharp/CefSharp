@@ -33,9 +33,9 @@ namespace CefSharp.Internals
 
         public void Enqueue(MethodInvocation methodInvocation)
         {
-            var task = new Task(() =>
+            var task = new Task(async () =>
             {
-                var result = ExecuteMethodInvocation(methodInvocation);
+                var result = await ExecuteMethodInvocation(methodInvocation).ConfigureAwait(false);
 
                 //If the call failed or returned null then we'll fire the event immediately
                 if (!result.Success || result.Result == null)
@@ -53,10 +53,14 @@ namespace CefSharp.Internals
 
                         if (resultType.IsGenericType)
                         {
-                            resultTask.ContinueWith((t) =>
+                            //Discard the continuation as we rely on 
+                            //OnMethodInvocationComplete to send the response
+                            //to the render process.
+                            _ = resultTask.ContinueWith((t) =>
                             {
                                 if (t.Status == TaskStatus.RanToCompletion)
                                 {
+                                    //TODO: Use resultTask.GetAwaiter().GetResult() instead
                                     //We use some reflection to get the Result
                                     //If someone has a better way of doing this then please submit a PR
                                     result.Result = resultType.GetProperty("Result").GetValue(resultTask);
@@ -102,9 +106,9 @@ namespace CefSharp.Internals
             task.Start(TaskScheduler.Default);
         }
 
-        private MethodInvocationResult ExecuteMethodInvocation(MethodInvocation methodInvocation)
+        private async Task<MethodInvocationResult> ExecuteMethodInvocation(MethodInvocation methodInvocation)
         {
-            object result = null;
+            object returnValue = null;
             string exception;
             var success = false;
             var nameConverter = repository.NameConverter;
@@ -112,7 +116,11 @@ namespace CefSharp.Internals
             //make sure we don't throw exceptions in the executor task
             try
             {
-                success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
+                var result = await repository.TryCallMethodAsync(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray()).ConfigureAwait(false);
+
+                success = result.Success;
+                returnValue = result.ReturnValue;
+                exception = result.Exception;
             }
             catch (Exception e)
             {
@@ -125,7 +133,7 @@ namespace CefSharp.Internals
                 CallbackId = methodInvocation.CallbackId,
                 FrameId = methodInvocation.FrameId,
                 Message = exception,
-                Result = result,
+                Result = returnValue,
                 Success = success,
                 NameConverter = nameConverter
             };
