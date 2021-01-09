@@ -125,7 +125,7 @@
     <Compile Include="Internals\Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
-    <Compile Include="JavascriptBinding\TryCallMethodResult.cs" />
+    <Compile Include="Internals\TryCallMethodResult.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
     <Compile Include="JavascriptBinding\CamelCaseJavascriptNameConverter.cs" />
     <Compile Include="JavascriptBinding\IJavascriptNameConverter.cs" />
