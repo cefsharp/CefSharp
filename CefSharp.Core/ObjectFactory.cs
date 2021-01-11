@@ -4,10 +4,15 @@
 
 //NOTE:Classes in the CefSharp.Core namespace have been hidden from intellisnse so users don't use them directly
 
+using System;
+
 namespace CefSharp.Core
 {
     public static class ObjectFactory
     {
+        public static Type BrowserSetingsType = typeof(CefSharp.Core.BrowserSettings);
+        public static Type RequestContextType = typeof(CefSharp.Core.RequestContext);
+
         /// <summary>
         /// Create a new instance of <see cref="IBrowserSettings"/>
         /// </summary>
