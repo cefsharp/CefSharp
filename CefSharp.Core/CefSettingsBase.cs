@@ -22,7 +22,7 @@ namespace CefSharp
 #if NETCOREAPP
         public CefSettingsBase() : base()
         {
-            if(!File.Exists(BrowserSubprocessPath))
+            if(!System.IO.File.Exists(BrowserSubprocessPath))
             {
                 if(Initializer.LibCefLoaded)
                 {
