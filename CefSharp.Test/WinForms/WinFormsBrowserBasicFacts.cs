@@ -39,5 +39,50 @@ namespace CefSharp.Test.WinForms
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
         }
+
+        [WinFormsFact]
+        public async Task CanSetBrowserSettingsDisableImageLoadingViaObjectFactory()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                var settings = Core.ObjectFactory.CreateBrowserSettings(true);
+                settings.ImageLoading = CefState.Disabled;
+                browser.BrowserSettings = settings;
+
+                browser.Size = new System.Drawing.Size(1024, 768);
+                browser.CreateControl();
+
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
+        [WinFormsFact]
+        public async Task CanSetBrowserSettingsDisableImageLoading()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                browser.BrowserSettings = new BrowserSettings(true)
+                {
+                    ImageLoading = CefState.Disabled
+                };
+
+                browser.Size = new System.Drawing.Size(1024, 768);
+                browser.CreateControl();
+
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
     }
 }
