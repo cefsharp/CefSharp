@@ -377,6 +377,18 @@ namespace CefSharp.Wpf.Experimental
                 ImeNative.SetCaretPos(x, y);
             }
 
+            if (languageCodeId == ImeNative.LANG_CHINESE)
+            {
+                // Chinese IMEs need set composition window 
+                var compositionPotision = new ImeNative.COMPOSITIONFORM
+                {
+                    dwStyle = (int)ImeNative.CFS_POINT,
+                    ptCurrentPos = new ImeNative.POINT(x, y),
+                    rcArea = new ImeNative.RECT(0, 0, 0, 0)
+                };
+                ImeNative.ImmSetCompositionWindow(hIMC, ref compositionPotision);
+            }
+
             if (languageCodeId == ImeNative.LANG_KOREAN)
             {
                 // Chinese IMEs and Japanese IMEs require the upper-left corner of
