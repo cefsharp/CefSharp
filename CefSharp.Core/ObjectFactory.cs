@@ -8,10 +8,14 @@ using System;
 
 namespace CefSharp.Core
 {
+    /// <summary>
+    /// Create instances of Public Api classes, <see cref="IBrowserSettings"/>,
+    /// <see cref="IWindowInfo"/> etc.
+    /// </summary>
     public static class ObjectFactory
     {
-        public static Type BrowserSetingsType = typeof(CefSharp.Core.BrowserSettings);
-        public static Type RequestContextType = typeof(CefSharp.Core.RequestContext);
+        public static readonly Type BrowserSetingsType = typeof(CefSharp.Core.BrowserSettings);
+        public static readonly Type RequestContextType = typeof(CefSharp.Core.RequestContext);
 
         /// <summary>
         /// Create a new instance of <see cref="IBrowserSettings"/>
@@ -80,6 +84,15 @@ namespace CefSharp.Core
         public static IUrlRequest CreateUrlRequest(IRequest request, IUrlRequestClient urlRequestClient, IRequestContext requestContext)
         {
             return new CefSharp.Core.UrlRequest(request, urlRequestClient, requestContext);
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="IDragData"/>
+        /// </summary>
+        /// <returns>returns new instance of <see cref="IDragData"/></returns>
+        public static IDragData CreateDragData()
+        {
+            return Core.DragData.Create();
         }
     }
 }
