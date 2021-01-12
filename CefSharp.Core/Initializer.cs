@@ -22,6 +22,7 @@ namespace CefSharp
         internal static bool LibCefLoaded { get; private set; }
         internal static string LibCefPath { get; private set; }
         internal static string BrowserSubProcessPath { get; private set; }
+        internal static string BrowserSubProcessCorePath { get; private set; }
 
         [ModuleInitializer]
         internal static void ModuleInitializer()
@@ -49,6 +50,8 @@ namespace CefSharp
                     if (LibCefLoaded)
                     {
                         BrowserSubProcessPath = Path.Combine(currentFolder, archFolder, "CefSharp.BrowserSubprocess.exe");
+                        BrowserSubProcessCorePath = Path.Combine(currentFolder, archFolder, "CefSharp.BrowserSubprocess.Core.dll");
+                        
                         LibCefPath = libCefPath;
                         LibCefHandle = handle;
                     }
