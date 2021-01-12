@@ -72,11 +72,18 @@ public class SelfHost
                 return -1;
             }
 
-            var browserSubprocessDllPath = Path.Combine(Path.GetDirectoryName(typeof(CefSharp.Core.BrowserSettings).Assembly.Location), "CefSharp.BrowserSubprocess.Core.dll");
+
 #if NETCOREAPP
+            var browserSubprocessDllPath = Initializer.BrowserSubProcessCorePath;
+            if (!File.Exists(browserSubprocessDllPath))
+            {
+                browserSubprocessDllPath = Path.Combine(Path.GetDirectoryName(typeof(CefSharp.Core.BrowserSettings).Assembly.Location), "CefSharp.BrowserSubprocess.Core.dll");
+            }
             var browserSubprocessDll = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(browserSubprocessDllPath);
 #else
+            var browserSubprocessDllPath = Path.Combine(Path.GetDirectoryName(typeof(CefSharp.Core.BrowserSettings).Assembly.Location), "CefSharp.BrowserSubprocess.Core.dll");
             var browserSubprocessDll = System.Reflection.Assembly.LoadFrom(browserSubprocessDllPath);
+            
 #endif
             var browserSubprocessExecutableType = browserSubprocessDll.GetType("CefSharp.BrowserSubprocess.BrowserSubprocessExecutable");
             var browserSubprocessExecutable = Activator.CreateInstance(browserSubprocessExecutableType);
