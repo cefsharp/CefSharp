@@ -6,18 +6,16 @@
 
 namespace CefSharp
 {
-    /// <summary>
-    /// Used to represent Drag Data.
-    /// </summary>
-    public static class DragData
+    /// <inheritdoc/>
+    public class PostData : CefSharp.Core.PostData
     {
         /// <summary>
-        /// Create a new instance of <see cref="IDragData"/>
+        /// Create a new instance of <see cref="IPostData"/>
         /// </summary>
-        /// <returns>DragData</returns>
-        public static IDragData Create()
+        /// <returns>PostData</returns>
+        public static IPostData Create()
         {
-            return Core.DragData.Create();
+            return new CefSharp.Core.PostData();
         }
     }
 }

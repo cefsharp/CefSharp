@@ -408,6 +408,11 @@ namespace CefSharp
             {
                 bool get() { return _autoDispose; }
             }
+
+            virtual IBrowserSettings^ UnWrap()
+            {
+                return this;
+            }
         };
     }
 }

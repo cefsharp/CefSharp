@@ -37,7 +37,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            auto requestContext = (RequestContext^)context;
+            auto requestContext = (RequestContext^)context->UnWrap();
 
             return _requestContext->IsSame(requestContext);
         }
@@ -46,7 +46,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            auto requestContext = (RequestContext^)context;
+            auto requestContext = (RequestContext^)context->UnWrap();
 
             return _requestContext->IsSharingWith(requestContext);
         }
@@ -267,6 +267,11 @@ namespace CefSharp
             {
                 CefPostTask(TID_UI, base::Bind(&CefRequestContext::LoadExtension, _requestContext.get(), StringUtils::ToNative(rootDirectory), manifest, extensionHandler));
             }
+        }
+
+        IRequestContext^ RequestContext::UnWrap()
+        {
+            return this;
         }
     }
 }

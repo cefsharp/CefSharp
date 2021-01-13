@@ -176,7 +176,8 @@ void CefBrowserHostWrapper::ShowDevTools(IWindowInfo^ windowInfo, int inspectEle
     }
     else
     {
-        auto cefWindowInfoWrapper = static_cast<WindowInfo^>(windowInfo);
+        //Get the inner instance then case that
+        auto cefWindowInfoWrapper = static_cast<WindowInfo^>(windowInfo->UnWrap());
 
         nativeWindowInfo = *cefWindowInfoWrapper->GetWindowInfo();
     }

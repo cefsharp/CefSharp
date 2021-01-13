@@ -83,11 +83,18 @@ namespace CefSharp
                 }
             }
 
-            auto requestCtx = (RequestContext^)requestContext;
-            auto bSettings =(BrowserSettings^)browserSettings;
+            CefRefPtr<CefRequestContext> requestCtx;
+
+            if (requestContext != nullptr)
+            {
+                auto managedRequestCtx = (RequestContext^)requestContext->UnWrap();
+                requestCtx = static_cast<CefRefPtr<CefRequestContext>>(managedRequestCtx);
+            }
+            
+            auto bSettings = (BrowserSettings^)browserSettings->UnWrap();
 
             if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
-                *bSettings->_browserSettings, extraInfo, static_cast<CefRefPtr<CefRequestContext>>(requestCtx)))
+                *bSettings->_browserSettings, extraInfo, requestCtx))
             {
                 throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser call failed, review the CEF log file for more details.");
             }

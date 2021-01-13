@@ -59,5 +59,13 @@ namespace CefSharp
         /// the request failing.
         /// </summary>
         bool HasExcludedElements { get; }
+
+        /// <summary>
+        /// Used internally to get the underlying <see cref="IPostData"/> instance.
+        /// Unlikely you'll use this yourself.
+        /// </summary>
+        /// <returns>the inner most instance</returns>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        IPostData UnWrap();
     }
 }

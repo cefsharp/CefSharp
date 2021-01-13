@@ -164,7 +164,7 @@ namespace CefSharp
 
                 _postDataElements->Add(element);
 
-                auto elementWrapper = (PostDataElement^)element;
+                auto elementWrapper = (PostDataElement^)element->UnWrap();
 
                 return _postData->AddElement(elementWrapper);
             }
@@ -190,7 +190,7 @@ namespace CefSharp
 
                 _postDataElements->Remove(element);
 
-                auto elementWrapper = (PostDataElement^)element;
+                auto elementWrapper = (PostDataElement^)element->UnWrap();
 
                 return _postData->RemoveElement(elementWrapper);
             }
@@ -232,6 +232,11 @@ namespace CefSharp
 
                     return _postData->HasExcludedElements();
                 }
+            }
+
+            virtual IPostData^ UnWrap()
+            {
+                return this;
             }
         };
     }

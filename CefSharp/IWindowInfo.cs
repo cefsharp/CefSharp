@@ -96,5 +96,13 @@ namespace CefSharp
         /// If not provided then the main screen monitor will be used and some functionality that requires a parent window may not function correctly.
         /// In order to create windowless browsers the CefSettings.windowless_rendering_enabled value must be set to true.</param>
         void SetAsWindowless(IntPtr parentHandle);
+
+        /// <summary>
+        /// Used internally to get the underlying <see cref="IWindowInfo"/> instance.
+        /// Unlikely you'll use this yourself.
+        /// </summary>
+        /// <returns>the inner most instance</returns>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        IWindowInfo UnWrap();
     }
 }

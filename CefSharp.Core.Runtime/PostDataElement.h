@@ -124,6 +124,11 @@ namespace CefSharp
                     _postDataElement->SetToBytes(val->Length, static_cast<void*>(src));
                 }
             }
+
+            virtual IPostDataElement^ UnWrap()
+            {
+                return this;
+            }
         };
     }
 }
