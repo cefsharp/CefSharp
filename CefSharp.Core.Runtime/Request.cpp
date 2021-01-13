@@ -176,7 +176,7 @@ namespace CefSharp
 
             ThrowIfReadOnly();
 
-            _request->SetPostData((CefSharp::Core::PostData^)postData);
+            _request->SetPostData((CefSharp::Core::PostData^)postData->UnWrap());
         }
 
         bool Request::IsReadOnly::get()

@@ -176,10 +176,6 @@
     <None Include="Resources\chromium-256.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Name>CefSharp.Core.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj">
       <Project>{b760b002-d277-4525-9f63-67ed2065034a}</Project>
       <Name>CefSharp.Core</Name>

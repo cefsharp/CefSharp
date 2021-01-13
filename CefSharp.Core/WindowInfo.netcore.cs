@@ -6,18 +6,16 @@
 
 namespace CefSharp
 {
-    /// <summary>
-    /// Used to represent Drag Data.
-    /// </summary>
-    public static class DragData
+    /// <inheritdoc/>
+    public class WindowInfo : CefSharp.Core.WindowInfo
     {
         /// <summary>
-        /// Create a new instance of <see cref="IDragData"/>
+        /// Create a new WindowInfo instance
         /// </summary>
-        /// <returns>DragData</returns>
-        public static IDragData Create()
+        /// <returns>new instance</returns>
+        public static IWindowInfo Create()
         {
-            return Core.DragData.Create();
+            return new CefSharp.Core.WindowInfo();
         }
     }
 }

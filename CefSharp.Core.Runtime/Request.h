@@ -79,6 +79,11 @@ namespace CefSharp
 
             virtual String^ GetHeaderByName(String^ name);
             virtual void SetHeaderByName(String^ name, String^ value, bool overwrite);
+
+            virtual IRequest^ UnWrap()
+            {
+                return this;
+            }
         };
     }
 }

@@ -194,7 +194,7 @@ void CefFrameWrapper::LoadRequest(IRequest^ request)
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
 
-    auto requestWrapper = (Request^)request;
+    auto requestWrapper = (Request^)request->UnWrap();
     _frame->LoadRequest(requestWrapper);
 }
 
@@ -416,7 +416,7 @@ IUrlRequest^ CefFrameWrapper::CreateUrlRequest(IRequest^ request, IUrlRequestCli
     }
 
     auto urlRequest = _frame->CreateURLRequest(
-        (Request^)request,
+        (Request^)request->UnWrap(),
         new CefUrlRequestClientAdapter(client));
 
     return gcnew UrlRequest(urlRequest);

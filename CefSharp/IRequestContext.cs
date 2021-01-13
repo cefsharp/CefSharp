@@ -274,5 +274,13 @@ namespace CefSharp
         /// then fulfilling the resource rquests made to <see cref="IExtensionHandler.GetExtensionResource(IExtension, IBrowser, string, IGetExtensionResourceCallback)"/>.
         /// </remarks>
         void LoadExtension(string rootDirectory, string manifestJson, IExtensionHandler handler);
+
+        /// <summary>
+        /// Used internally to get the underlying <see cref="IRequestContext"/> instance.
+        /// Unlikely you'll use this yourself.
+        /// </summary>
+        /// <returns>the inner most instance</returns>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        IRequestContext UnWrap();
     }
 }

@@ -211,6 +211,11 @@ namespace CefSharp
             {
                 _windowInfo->SetAsWindowless((HWND)parentHandle.ToPointer());
             }
+
+            virtual IWindowInfo^ UnWrap()
+            {
+                return this;
+            }
         };
     }
 }

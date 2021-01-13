@@ -87,12 +87,12 @@ namespace CefSharp
             ///Creates a new context object that shares storage with | other | and uses an optional | handler | .
             RequestContext(IRequestContext^ otherRequestContext)
             {
-                _requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext, NULL);
+                _requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext->UnWrap(), NULL);
             }
 
             RequestContext(IRequestContext^ otherRequestContext, IRequestContextHandler^ requestContextHandler)
             {
-                _requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext, new CefRequestContextHandlerAdapter(requestContextHandler));
+                _requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext->UnWrap(), new CefRequestContextHandlerAdapter(requestContextHandler));
             }
 
             !RequestContext()
@@ -396,6 +396,12 @@ namespace CefSharp
             /// and manifestJson should contain the contents that would otherwise be read from the manifest.json file on disk</param>
             /// <param name="handler">handle events related to browser extensions</param>
             virtual void LoadExtension(String^ rootDirectory, String^ manifestJson, IExtensionHandler^ handler);
+
+            /// <summary>
+            /// Gets the inner most instance
+            /// </summary>
+            /// <returns>current instance</returns>
+            virtual IRequestContext^ UnWrap();
         };
     }
 }

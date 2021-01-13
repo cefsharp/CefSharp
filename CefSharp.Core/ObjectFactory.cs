@@ -94,5 +94,17 @@ namespace CefSharp.Core
         {
             return Core.DragData.Create();
         }
+
+        /// <summary>
+        /// Create a new <see cref="RequestContextBuilder"/> which can be used to
+        /// create a new <see cref="IRequestContext"/> in a fluent flashion.
+        /// Call <see cref="RequestContextBuilder.Create"/> to create the actual
+        /// <see cref="IRequestContext"/> instance
+        /// </summary>
+        /// <returns>RequestContextBuilder</returns>
+        public static RequestContextBuilder ConfigureRequestContext()
+        {
+            return new RequestContextBuilder();
+        }
     }
 }
