@@ -50,6 +50,7 @@ namespace CefSharp.Core
         public void Dispose() { }
         protected virtual void Dispose(bool A_0) { }
         ~BrowserSettings() { }
+        public virtual CefSharp.IBrowserSettings UnWrap() { throw null; }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public sealed partial class Cef
@@ -218,6 +219,7 @@ namespace CefSharp.Core
         ~PostData() { }
         public virtual bool RemoveElement(CefSharp.IPostDataElement element) { throw null; }
         public virtual void RemoveElements() { }
+        public virtual CefSharp.IPostData UnWrap() { throw null; }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class PostDataElement : CefSharp.Internals.CefWrapper, CefSharp.IPostDataElement
@@ -231,6 +233,7 @@ namespace CefSharp.Core
         protected virtual void Dispose(bool A_0) { }
         ~PostDataElement() { }
         public virtual void SetToEmpty() { }
+        public virtual CefSharp.IPostDataElement UnWrap() { throw null; }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class Request : CefSharp.Internals.CefWrapper, CefSharp.IRequest
@@ -254,6 +257,7 @@ namespace CefSharp.Core
         public virtual void InitializePostData() { }
         public virtual void SetHeaderByName(string name, string value, bool overwrite) { }
         public virtual void SetReferrer(string referrerUrl, CefSharp.ReferrerPolicy policy) { }
+        public virtual CefSharp.IRequest UnWrap() { throw null; }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class RequestContext : CefSharp.Internals.CefWrapper, CefSharp.IRequestContext
@@ -290,6 +294,7 @@ namespace CefSharp.Core
         public virtual bool RegisterSchemeHandlerFactory(string schemeName, string domainName, CefSharp.ISchemeHandlerFactory factory) { throw null; }
         public virtual System.Threading.Tasks.Task<CefSharp.ResolveCallbackResult> ResolveHostAsync(System.Uri origin) { throw null; }
         public virtual bool SetPreference(string name, object value, out string error) { throw null; }
+        public virtual CefSharp.IRequestContext UnWrap() { throw null; }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public partial class RequestContextSettings : System.IDisposable
@@ -338,6 +343,7 @@ namespace CefSharp.Core
         public virtual void SetAsChild(System.IntPtr parentHandle, int left, int top, int right, int bottom) { }
         public virtual void SetAsPopup(System.IntPtr parentHandle, string windowName) { }
         public virtual void SetAsWindowless(System.IntPtr parentHandle) { }
+        public virtual CefSharp.IWindowInfo UnWrap() { throw null; }
     }
 }
 namespace CefSharp.Internals
