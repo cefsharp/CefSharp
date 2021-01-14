@@ -28,12 +28,16 @@
   <PropertyGroup>
     <!--
     Allowable options are None, Content, NoAction (anything other than None/Content
-    is the same as NoAction. None is the default (same as selecting the None Build Action in Visual Studio)
+    is the same as NoAction. None is the default (same as selecting the None Build Action in Visual Studio).
+	For SdkStyle projects (packagereference) set the default build action to Content.	
     -->
-    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == ''">None</CefSharpBuildAction>
-    <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''">.</CefSharpTargetDir>
-    <CefSharpTargetDirAnyCpu32>$(CefSharpTargetDir)\x86</CefSharpTargetDirAnyCpu32>
-    <CefSharpTargetDirAnyCpu64>$(CefSharpTargetDir)\x64</CefSharpTargetDirAnyCpu64>
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' != 'true'">None</CefSharpBuildAction>
+	<CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' == 'true'">Content</CefSharpBuildAction>
+    <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''"></CefSharpTargetDir>
+	<!-- Ideally we could use EnsureTrailingSlash, was only added on 2016 so unlikely supported in older version of VS -->
+	<CefSharpTargetDir Condition="'$(CefSharpTargetDir)' != '' AND !HasTrailingSlash('$(CefSharpTargetDir)')">$(CefSharpTargetDir)\</CefSharpTargetDir>
+    <CefSharpTargetDirAnyCpu32>$(CefSharpTargetDir)x86\</CefSharpTargetDirAnyCpu32>
+    <CefSharpTargetDirAnyCpu64>$(CefSharpTargetDir)x64\</CefSharpTargetDirAnyCpu64>
   </PropertyGroup>
   
   <Choose>
@@ -45,18 +49,18 @@
       <Choose>
         <When Condition="'$(PlatformTarget)' == 'x64'">
           <PropertyGroup>
-            <CefSharpTargetDir>runtimes\win-x64\lib\netcoreapp3.0</CefSharpTargetDir>
+            <CefSharpTargetDir>runtimes\win-x64\lib\netcoreapp3.0\</CefSharpTargetDir>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformTarget)' == 'x86'">
           <PropertyGroup>
-            <CefSharpTargetDir>runtimes\win-x86\lib\netcoreapp3.0</CefSharpTargetDir>
+            <CefSharpTargetDir>runtimes\win-x86\lib\netcoreapp3.0\</CefSharpTargetDir>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformTarget)' == 'AnyCPU'">
           <PropertyGroup>
-            <CefSharpTargetDirAnyCpu32>runtimes\win-x86\lib\netcoreapp3.0</CefSharpTargetDirAnyCpu32>
-            <CefSharpTargetDirAnyCpu64>runtimes\win-x64\lib\netcoreapp3.0</CefSharpTargetDirAnyCpu64>
+            <CefSharpTargetDirAnyCpu32>runtimes\win-x86\lib\netcoreapp3.0\</CefSharpTargetDirAnyCpu32>
+            <CefSharpTargetDirAnyCpu64>runtimes\win-x64\lib\netcoreapp3.0\</CefSharpTargetDirAnyCpu64>
           </PropertyGroup>
         </When>
       </Choose>   
@@ -72,13 +76,13 @@
         <When Condition="'$(PlatformTarget)' == 'x64'">
           <ItemGroup>
             <None Include="@(CefRedist64)">
-              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>
             <None Include="@(CefSharpCommonBinaries64)">
-              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -91,25 +95,25 @@
         <When Condition="'$(PlatformTarget)' == 'AnyCPU'">
           <ItemGroup>
             <None Include="@(CefRedist32)">
-              <Link>$(CefSharpTargetDirAnyCpu32)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>
             <None Include="@(CefRedist64)">
-              <Link>$(CefSharpTargetDirAnyCpu64)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>
             <None Include="@(CefSharpCommonBinaries32)">
-              <Link>$(CefSharpTargetDirAnyCpu32)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>
             <None Include="@(CefSharpCommonBinaries64)">
-              <Link>$(CefSharpTargetDirAnyCpu64)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -119,13 +123,13 @@
             in the arch specific folders as required by the BrowserSubProcess.
             -->
             <None Include="@(CefSharpCommonManagedDlls)">
-              <Link>$(CefSharpTargetDirAnyCpu32)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>
             <None Include="@(CefSharpCommonManagedDlls)">
-              <Link>$(CefSharpTargetDirAnyCpu64)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -139,13 +143,13 @@
         <Otherwise>
           <ItemGroup>
             <None Include="@(CefRedist32)">
-              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>
             <None Include="@(CefSharpCommonBinaries32)">
-              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -162,13 +166,13 @@
         <When Condition="'$(PlatformTarget)' == 'x64'">
           <ItemGroup>
             <Content Include="@(CefRedist64)">
-              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </Content>
             <Content Include="@(CefSharpCommonBinaries64)">
-              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -181,25 +185,25 @@
         <When Condition="'$(PlatformTarget)' == 'AnyCPU'">
           <ItemGroup>
             <Content Include="@(CefRedist32)">
-              <Link>$(CefSharpTargetDirAnyCpu32)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </Content>
             <Content Include="@(CefRedist64)">
-              <Link>$(CefSharpTargetDirAnyCpu64)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </Content>
             <Content Include="@(CefSharpCommonBinaries32)">
-              <Link>$(CefSharpTargetDirAnyCpu32)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </Content>
             <Content Include="@(CefSharpCommonBinaries64)">
-              <Link>$(CefSharpTargetDirAnyCpu64)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -209,13 +213,13 @@
             in the arch specific folders as required by the BrowserSubProcess.
             -->
             <Content Include="@(CefSharpCommonManagedDlls)">
-              <Link>$(CefSharpTargetDirAnyCpu32)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </Content>
             <Content Include="@(CefSharpCommonManagedDlls)">
-              <Link>$(CefSharpTargetDirAnyCpu64)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -229,13 +233,13 @@
         <Otherwise>
           <ItemGroup>
             <Content Include="@(CefRedist32)">
-              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </Content>
             <Content Include="@(CefSharpCommonBinaries32)">
-              <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
