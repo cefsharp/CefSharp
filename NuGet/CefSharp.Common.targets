@@ -4,6 +4,7 @@
     <Error Text="CefSharp requires .Net 4.5.2 or higher" />
   </Target>
   
+  <!-- MSBuild is finding the dll within the package and copying it which is a problem for AnyCPU -->
   <Target Name="CefSharpDeleteCoreRuntimeAfterBuild" AfterTargets="AfterBuild" Condition="'$(PlatformTarget)' == 'AnyCPU' AND $(TargetFramework.StartsWith('net4'))">
     <Delete Files="$(OutDir)CefSharp.Core.Runtime.dll" />
     <Delete Files="$(OutDir)CefSharp.Core.Runtime.pdb" />
@@ -65,9 +66,41 @@
         </When>
       </Choose>   
     </When>
-    <Otherwise>
-      
-    </Otherwise>
+	<!--
+	When CefSharpTargetDir is specified for x86/x64 platforms the files are included in a sub directory, 
+	The CefSharp.dll file required by the BrowserSubProcess isn't copied by default and won't start, so we include an extra
+	copy.
+	-->
+	<When Condition="'$(CefSharpTargetDir)' != '' AND $(TargetFramework.StartsWith('net4')) AND '$(PlatformTarget)' != 'AnyCPU'">
+      <Choose>
+		<When Condition="'$(CefSharpBuildAction)' == 'None'">
+		  <ItemGroup>
+			<None Include="@(CefSharpCommonManagedDlls)">
+			  <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
+			  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			  <PublishState>Included</PublishState>
+			  <Visible>false</Visible>
+			</None>
+		  </ItemGroup>
+		  <PropertyGroup>
+			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+		  </PropertyGroup>
+		</When>
+		<When Condition="'$(CefSharpBuildAction)' == 'Content'">
+		  <ItemGroup>
+			<Content Include="@(CefSharpCommonManagedDlls)">
+			  <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
+			  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			  <PublishState>Included</PublishState>
+			  <Visible>false</Visible>
+			</Content>
+		  </ItemGroup>
+		  <PropertyGroup>
+			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+		  </PropertyGroup>
+		</When>
+	  </Choose>
+    </When>
   </Choose>
 
   <Choose>
