@@ -12,7 +12,7 @@
   </Target>
   
   <!-- <Target Name="CefSharpAfterBuildDebug" AfterTargets="AfterBuild"> -->
-	<!-- <Message Importance="high" Text="CefSharp - ResourceFilesCopied = $(CefSharpResourceFilesCopied)" /> -->
+    <!-- <Message Importance="high" Text="CefSharp - ResourceFilesCopied = $(CefSharpResourceFilesCopied)" /> -->
   <!-- </Target> -->
   
   <PropertyGroup>
@@ -30,13 +30,13 @@
     <!--
     Allowable options are None, Content, NoAction (anything other than None/Content
     is the same as NoAction. None is the default (same as selecting the None Build Action in Visual Studio).
-	For SdkStyle projects (packagereference) set the default build action to Content.	
+    For SdkStyle projects (packagereference) set the default build action to Content.   
     -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' != 'true'">None</CefSharpBuildAction>
-	<CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' == 'true'">Content</CefSharpBuildAction>
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' == 'true'">Content</CefSharpBuildAction>
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''"></CefSharpTargetDir>
-	<!-- Ideally we could use EnsureTrailingSlash, was only added on 2016 so unlikely supported in older version of VS -->
-	<CefSharpTargetDir Condition="'$(CefSharpTargetDir)' != '' AND !HasTrailingSlash('$(CefSharpTargetDir)')">$(CefSharpTargetDir)\</CefSharpTargetDir>
+    <!-- Ideally we could use EnsureTrailingSlash, was only added on 2016 so unlikely supported in older version of VS -->
+    <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' != '' AND !HasTrailingSlash('$(CefSharpTargetDir)')">$(CefSharpTargetDir)\</CefSharpTargetDir>
     <CefSharpTargetDirAnyCpu32>$(CefSharpTargetDir)x86\</CefSharpTargetDirAnyCpu32>
     <CefSharpTargetDirAnyCpu64>$(CefSharpTargetDir)x64\</CefSharpTargetDirAnyCpu64>
   </PropertyGroup>
@@ -66,40 +66,40 @@
         </When>
       </Choose>   
     </When>
-	<!--
-	When CefSharpTargetDir is specified for x86/x64 platforms the files are included in a sub directory, 
-	The CefSharp.dll file required by the BrowserSubProcess isn't copied by default and won't start, so we include an extra
-	copy.
-	-->
-	<When Condition="'$(CefSharpTargetDir)' != '' AND $(TargetFramework.StartsWith('net4')) AND '$(PlatformTarget)' != 'AnyCPU'">
+    <!--
+    When CefSharpTargetDir is specified for x86/x64 platforms the files are included in a sub directory, 
+    The CefSharp.dll file required by the BrowserSubProcess isn't copied by default and won't start, so we include an extra
+    copy.
+    -->
+    <When Condition="'$(CefSharpTargetDir)' != '' AND $(TargetFramework.StartsWith('net4')) AND '$(PlatformTarget)' != 'AnyCPU'">
       <Choose>
-		<When Condition="'$(CefSharpBuildAction)' == 'None'">
-		  <ItemGroup>
-			<None Include="@(CefSharpCommonManagedDlls)">
-			  <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
-			  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			  <PublishState>Included</PublishState>
-			  <Visible>false</Visible>
-			</None>
-		  </ItemGroup>
-		  <PropertyGroup>
-			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
-		  </PropertyGroup>
-		</When>
-		<When Condition="'$(CefSharpBuildAction)' == 'Content'">
-		  <ItemGroup>
-			<Content Include="@(CefSharpCommonManagedDlls)">
-			  <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
-			  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			  <PublishState>Included</PublishState>
-			  <Visible>false</Visible>
-			</Content>
-		  </ItemGroup>
-		  <PropertyGroup>
-			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
-		  </PropertyGroup>
-		</When>
-	  </Choose>
+        <When Condition="'$(CefSharpBuildAction)' == 'None'">
+          <ItemGroup>
+            <None Include="@(CefSharpCommonManagedDlls)">
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+              <PublishState>Included</PublishState>
+              <Visible>false</Visible>
+            </None>
+          </ItemGroup>
+          <PropertyGroup>
+            <CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+          </PropertyGroup>
+        </When>
+        <When Condition="'$(CefSharpBuildAction)' == 'Content'">
+          <ItemGroup>
+            <Content Include="@(CefSharpCommonManagedDlls)">
+              <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+              <PublishState>Included</PublishState>
+              <Visible>false</Visible>
+            </Content>
+          </ItemGroup>
+          <PropertyGroup>
+            <CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+          </PropertyGroup>
+        </When>
+      </Choose>
     </When>
   </Choose>
 
@@ -121,8 +121,8 @@
               <Visible>false</Visible>
             </None>
           </ItemGroup>
-		  <PropertyGroup>
-			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+          <PropertyGroup>
+            <CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformTarget)' == 'AnyCPU'">
@@ -168,8 +168,8 @@
               <Visible>false</Visible>
             </None>     
           </ItemGroup>
-		  <PropertyGroup>
-			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+          <PropertyGroup>
+            <CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
           </PropertyGroup>
         </When>
         <!-- x86 and Win32-->
@@ -188,8 +188,8 @@
               <Visible>false</Visible>
             </None>
           </ItemGroup>
-		  <PropertyGroup>
-			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+          <PropertyGroup>
+            <CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
           </PropertyGroup>
         </Otherwise>
       </Choose>
@@ -211,8 +211,8 @@
               <Visible>false</Visible>
             </Content>
           </ItemGroup>
-		  <PropertyGroup>
-			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+          <PropertyGroup>
+            <CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformTarget)' == 'AnyCPU'">
@@ -258,8 +258,8 @@
               <Visible>false</Visible>
             </Content>     
           </ItemGroup>
-		  <PropertyGroup>
-			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+          <PropertyGroup>
+            <CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
           </PropertyGroup>
         </When>
         <!-- x86 and Win32-->
@@ -278,8 +278,8 @@
               <Visible>false</Visible>
             </Content>
           </ItemGroup>
-		  <PropertyGroup>
-			<CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
+          <PropertyGroup>
+            <CefSharpResourceFilesCopied>true</CefSharpResourceFilesCopied>
           </PropertyGroup>
         </Otherwise>
       </Choose>
@@ -310,25 +310,25 @@
   -->
   <!-- <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="AfterBuild" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND '$(CefSharpResourceFilesCopied)' != 'true' AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x86'"> -->
     <!-- <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore, copying (x64) $(OutDir)$(CefSharpTargetDir)" /> -->
-	<!-- <Copy SourceFiles="@(CefRedist32)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" /> -->
-	<!-- <Copy SourceFiles="@(CefSharpCommonBinaries32)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" /> -->
+    <!-- <Copy SourceFiles="@(CefRedist32)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" /> -->
+    <!-- <Copy SourceFiles="@(CefSharpCommonBinaries32)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" /> -->
   <!-- </Target> -->
   
   <!-- <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="AfterBuild" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND '$(CefSharpResourceFilesCopied)' != 'true' AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x64'"> -->
     <!-- <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore, copying (x64) $(OutDir)$(CefSharpTargetDir)" /> -->
-	<!-- <Copy SourceFiles="@(CefRedist64)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" /> -->
-	<!-- <Copy SourceFiles="@(CefSharpCommonBinaries64)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" /> -->
+    <!-- <Copy SourceFiles="@(CefRedist64)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" /> -->
+    <!-- <Copy SourceFiles="@(CefSharpCommonBinaries64)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" /> -->
   <!-- </Target> -->
   
   <!-- <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="AfterBuild" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND '$(CefSharpResourceFilesCopied)' != 'true' AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'AnyCPU'"> -->
     <!-- <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore, copying (AnyCPU) $(OutDir)$(CefSharpTargetDir)" /> -->
-	<!-- <Copy SourceFiles="@(CefRedist32)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" /> -->
-	<!-- <Copy SourceFiles="@(CefSharpCommonBinaries32)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" /> -->
-	
-	<!-- <Copy SourceFiles="@(CefRedist64)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" /> -->
-	<!-- <Copy SourceFiles="@(CefSharpCommonBinaries64)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" /> -->
-	
-	<!-- <Copy SourceFiles="@(CefSharpCommonManagedDlls)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" /> -->
-	<!-- <Copy SourceFiles="@(CefSharpCommonManagedDlls)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" /> -->
+    <!-- <Copy SourceFiles="@(CefRedist32)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" /> -->
+    <!-- <Copy SourceFiles="@(CefSharpCommonBinaries32)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" /> -->
+    
+    <!-- <Copy SourceFiles="@(CefRedist64)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" /> -->
+    <!-- <Copy SourceFiles="@(CefSharpCommonBinaries64)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" /> -->
+    
+    <!-- <Copy SourceFiles="@(CefSharpCommonManagedDlls)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" /> -->
+    <!-- <Copy SourceFiles="@(CefSharpCommonManagedDlls)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" /> -->
   <!-- </Target> -->
 </Project>
