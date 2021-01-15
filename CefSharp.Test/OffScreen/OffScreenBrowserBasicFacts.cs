@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Internals;
 using CefSharp.OffScreen;
+using CefSharp.Web;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -369,6 +371,43 @@ namespace CefSharp.Test.OffScreen
                 await browser.LoadPageAsync(firstUrl);
 
                 Assert.True(browser.CanExecuteJavascriptInMainFrame);
+            }
+        }
+
+        [Theory]
+        [InlineData("http://httpbin.org/post")]
+        public async Task CanLoadRequestWithPostData(string url)
+        {
+            const string data = "Testing123";
+            //To use LoadRequest we must first load a web page
+            using (var browser = new ChromiumWebBrowser(new HtmlString("Testing")))
+            {
+                await browser.LoadPageAsync();
+
+                var request = new Request();
+                request.Url = "http://httpbin.org/post";
+                request.Method = "POST";
+                var postData = new PostData();
+                postData.AddElement(new PostDataElement
+                {
+                    Bytes = Encoding.UTF8.GetBytes(data)
+                });
+
+                request.PostData = postData;
+
+                await browser.LoadRequestAsync(request);
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.Equal(url, mainFrame.Url);
+
+                var navEntry = await browser.GetVisibleNavigationEntryAsync();
+
+                Assert.Equal((int)HttpStatusCode.OK, navEntry.HttpStatusCode);
+                Assert.True(navEntry.HasPostData);
+
+                var source = await browser.GetTextAsync();
+
+                Assert.Contains(data, source);
             }
         }
 
