@@ -37,6 +37,37 @@ namespace CefSharp.Test
             return tcs.Task;
         }
 
+        public static Task LoadRequestAsync(this IWebBrowser browser, IRequest request)
+        {
+            if(request == null)
+            {
+                throw new ArgumentNullException("request");
+            }
+
+            //If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously
+            //and switch to tcs.TrySetResult below - no need for the custom extension method
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            EventHandler<LoadingStateChangedEventArgs> handler = null;
+            handler = (sender, args) =>
+            {
+                //Wait for while page to finish loading not just the first frame
+                if (!args.IsLoading)
+                {
+                    browser.LoadingStateChanged -= handler;
+                    //This is required when using a standard TaskCompletionSource
+                    //Extension method found in the CefSharp.Internals namespace
+                    tcs.TrySetResult(true);
+                }
+            };
+
+            browser.LoadingStateChanged += handler;
+
+            browser.GetMainFrame().LoadRequest(request);
+
+            return tcs.Task;
+        }
+
         public static Task<bool> WaitForQUnitTestExeuctionToComplete(this IWebBrowser browser)
         {
             //If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously

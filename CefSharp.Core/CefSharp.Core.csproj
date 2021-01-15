@@ -67,6 +67,7 @@
     <Compile Include="RequestContextBuilder.cs" />
     <Compile Include="RequestContextSettings.cs" />
     <Compile Include="UrlRequest.cs" />
+    <Compile Include="WebBrowserExtensionsEx.cs" />
     <Compile Include="WindowInfo.cs" />
   </ItemGroup>
   <ItemGroup>
