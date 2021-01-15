@@ -369,4 +369,3 @@ namespace CefSharp.Internals
         protected void ThrowIfExecutedOnNonCefUiThread() { }
     }
 }
-

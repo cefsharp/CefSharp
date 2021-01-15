@@ -65,7 +65,7 @@
             <PowerShellExe Condition=" '$(PowerShellExe)'=='' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellExe>
             <ScriptLocation>..\GenerateRefAssemblySource.ps1</ScriptLocation>
         </PropertyGroup>
-        <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; { &amp;&apos;$(ScriptLocation)&apos; -Target genrefassemblysource} &quot;" />
+        <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; { &amp;&apos;$(ScriptLocation)&apos; -Configuration $(Configuration) } &quot;" />
     </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
