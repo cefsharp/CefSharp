@@ -1,3 +1,9 @@
+param(
+    [ValidateSet("Debug", "Release")]
+    [Parameter(Position = 0)] 
+    [string] $Configuration = "Release"
+)
+
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 
 function Write-Diagnostic 
@@ -24,6 +30,7 @@ function GenerateRefAssemblySource
         $client = New-Object System.Net.WebClient;
         #https://www.myget.org/F/cefsharp/api/v2/package/Microsoft.DotNet.GenAPI/6.0.0-beta.20610.4
         $downloadUrl = 'https://www.myget.org/F/cefsharp/api/v2/package/Microsoft.DotNet.GenAPI/' + $genapiVersion
+		Write-Diagnostic "Attempting to download $downloadUrl"
         $client.DownloadFile($downloadUrl, $genapiNupkg);
         #Expand-Archive won't extract a nupkg file, simply rename to zip
         Rename-Item -Path $genapiNupkg -NewName $genapiZip	
@@ -31,19 +38,35 @@ function GenerateRefAssemblySource
 		Expand-Archive -LiteralPath $genapiZip -DestinationPath (Join-Path $toolsFolder microsoft.dotnet.genapi.$genapiVersion)
     }
 
-    #.\Microsoft.DotNet.GenAPI.exe C:\projects\CefSharp\CefSharp.Core.Runtime\bin\Win32\Debug\CefSharp.Core.Runtime.dll --lang-version 7.1 --lib-path C:\projects\CefSharp\CefSharp\bin\Debug --out CefSharp.Core.Runtime.cs
+    $inputDll = Join-Path $WorkingDir \CefSharp.Core.Runtime\bin\Win32\$Configuration\CefSharp.Core.Runtime.dll
+	#This is a little problematic in developmenet as Win32 version might not nessicarily be the current target build
+	#as yet I've not found a way to get the solution 
+	if(-not (Test-Path $inputDll))
+	{
+		$inputDll = Join-Path $WorkingDir \CefSharp.Core.Runtime\bin\x64\$Configuration\CefSharp.Core.Runtime.dll
+	}
+	
+	if((Test-Path $inputDll))
+	{
+		$outputFile = Join-Path $WorkingDir \CefSharp.Core.Runtime.RefAssembly\CefSharp.Core.Runtime.cs
+		$cefSharpDllPath = Join-Path $WorkingDir \CefSharp\bin\$Configuration\
+		$mscorlibDllPath = (Get-Item ([System.String].Assembly.Location)).Directory.ToString()
+		$libPath = $cefSharpDllPath + ';' + $mscorlibDllPath
 
-    $inputDll = Join-Path $WorkingDir \CefSharp.Core.Runtime\bin\Win32\Release\CefSharp.Core.Runtime.dll
-    $outputFile = Join-Path $WorkingDir \CefSharp.Core.Runtime.RefAssembly\CefSharp.Core.Runtime.cs
-    $cefSharpDllPath = Join-Path $WorkingDir \CefSharp\bin\Release\
-    $mscorlibDllPath = (Get-Item ([System.String].Assembly.Location)).Directory.ToString()
-    $libPath = $cefSharpDllPath + ';' + $mscorlibDllPath
+		. $genapi $inputDll --lang-version 7.1 --lib-path $libPath --out $outputFile
 
-    . $genapi $inputDll --lang-version 7.1 --lib-path $libPath --out $outputFile
-	Write-Diagnostic "Generated Ref Assembly Source $outputFile"
-
-    #Generates slightly incorrect C#, so just manually fix it.
-    ((Get-Content -path $outputFile -Raw) -replace 'public sealed override void Dispose','public void Dispose') | Set-Content -Path $outputFile
+		#Generates slightly incorrect C#, so just manually fix it.
+		$outputFileText = ((Get-Content -path $outputFile -Raw) -replace 'public sealed override void Dispose','public void Dispose')
+		$outputFileText = $outputFileText.Trim()
+		
+		#Set-Content puts an empty line at the end, so use WriteAllText instead
+		[System.IO.File]::WriteAllText($outputFile, $outputFileText)
+		Write-Diagnostic "Generated Ref Assembly Source $outputFile"
+	}
+	else
+	{
+		Write-Diagnostic "Unable to Generate Ref Assembly Source, file not found $inputDll"
+	}
 }
 
 GenerateRefAssemblySource
