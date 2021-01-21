@@ -27,7 +27,11 @@ namespace CefSharp.WinForms.Example
         {
             InitializeComponent();
 
+#if NETCOREAPP
+            var bitness = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
+#else
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
+#endif
             Text = "CefSharp.WinForms.Example - " + bitness;
             WindowState = FormWindowState.Maximized;
 

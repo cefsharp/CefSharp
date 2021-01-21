@@ -26,6 +26,11 @@
         https://github.com/dotnet/docs/issues/12237
         -->
         <RollForward>Major</RollForward>
+        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'arm64'">win-arm64</RuntimeIdentifier>
+        <SelfContained Condition="'$(Configuration)' == 'Debug'">false</SelfContained>
     </PropertyGroup>
 
     <ItemGroup>
@@ -33,9 +38,7 @@
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
-        <PackageReference Include="cef.redist.x86" Version="88.1.3" />
-        <PackageReference Include="cef.redist.x64" Version="88.1.3" />
-        <PackageReference Include="cef.redist.arm64" Version="88.1.3" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="88.1.3" />
     </ItemGroup>
 
     <ItemGroup>

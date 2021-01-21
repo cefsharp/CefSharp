@@ -41,7 +41,11 @@ namespace CefSharp.Wpf.Example
 
             Loaded += MainWindowLoaded;
 
+#if NETCOREAPP
+            var bitness = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
+#else
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
+#endif
             Title += " - " + bitness;
         }
 

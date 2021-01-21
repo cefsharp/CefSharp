@@ -20,6 +20,11 @@
     <Platforms>x86;x64;arm64</Platforms>
     <!-- Explicitly set the PlatformTarget for arm64, see: https://github.com/dotnet/sdk/issues/15434 -->
     <PlatformTarget Condition="'$(Platform)' == 'arm64'">arm64</PlatformTarget>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'arm64'">win-arm64</RuntimeIdentifier>
+    <SelfContained Condition="'$(Configuration)' == 'Debug'">false</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,10 +33,8 @@
     <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
     <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.netcore.csproj" />
     <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
-	<ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
-	<PackageReference Include="cef.redist.x86" Version="88.1.3" />
-    <PackageReference Include="cef.redist.x64" Version="88.1.3" />
-    <PackageReference Include="cef.redist.arm64" Version="88.1.3" />
+    <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
+    <PackageReference Include="chromiumembeddedframework.runtime" Version="88.1.3" />
   </ItemGroup>
 
   <ItemGroup>
