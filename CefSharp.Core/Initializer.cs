@@ -39,8 +39,7 @@ namespace CefSharp
             }
             else
             { 
-                //TODO: This will need changing if we support ARM64
-                var arch = Environment.Is64BitProcess ? "x64" : "x86";
+                var arch = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
                 var archFolder = $"runtimes\\win-{arch}\\native";
                 libCefPath = Path.Combine(currentFolder, archFolder, "libcef.dll");
                 if (File.Exists(libCefPath))

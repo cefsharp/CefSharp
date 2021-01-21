@@ -37,10 +37,29 @@
 		</Content>
       </ItemGroup>
     </When>
-    <Otherwise>
-      <ItemGroup>
-		<PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="87.1.13" />
-		<PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="87.1.13" />
+	<When Condition="$(RuntimeIdentifier.StartsWith('win')) and $(RuntimeIdentifier.Contains('-arm64'))">
+	  <ItemGroup>
+		<Content Include="@(CefRuntimeWinArm64Locales)">
+		  <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		  <IncludeInVsix>true</IncludeInVsix>
+		</Content>
+		<Content Include="@(CefRuntimeWinArm64SwiftShader)">
+		  <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		  <IncludeInVsix>true</IncludeInVsix>
+		</Content>
+	  </ItemGroup>
+	</When>
+	<Otherwise>
+	  <ItemGroup>
+		<PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="88.1.3" />
+		<PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="88.1.3" />
+		<PackageReference Include="chromiumembeddedframework.runtime.win-arm64" Version="88.1.3" />
         <Content Include="@(CefRuntimeWin32Locales)">
 		  <Link>runtimes\win-x86\native\locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -93,6 +112,35 @@
 		</Content>
 		<Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\lib\netcoreapp3.1\Ijwhost.dll">
 		  <Link>runtimes\win-x64\native\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		  <IncludeInVsix>true</IncludeInVsix>
+		</Content>
+		
+		<Content Include="@(CefRuntimeWinArm64Locales)">
+		  <Link>runtimes\win-arm64\native\locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		  <IncludeInVsix>true</IncludeInVsix>
+		</Content>
+		<Content Include="@(CefRuntimeWinArm64SwiftShader)">
+		  <Link>runtimes\win-arm64\native\swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		  <IncludeInVsix>true</IncludeInVsix>
+		</Content>
+		<Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-arm64\lib\netcoreapp3.1\CefSharp.dll">
+		  <Link>runtimes\win-arm64\native\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <PublishState>Included</PublishState>
+		  <Visible>false</Visible>
+		  <IncludeInVsix>true</IncludeInVsix>
+		</Content>
+		<Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-arm64\lib\netcoreapp3.1\Ijwhost.dll">
+		  <Link>runtimes\win-arm64\native\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <PublishState>Included</PublishState>
 		  <Visible>false</Visible>

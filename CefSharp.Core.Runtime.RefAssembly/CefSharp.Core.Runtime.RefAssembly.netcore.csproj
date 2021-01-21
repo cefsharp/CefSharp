@@ -50,13 +50,18 @@
 
     <!--
     Ugly hack to make sure we have an assembly to use as our source dll for GenAPI
-    If the x64 version exists we'll use that, otherwise we'll use the win32
+    If the x64 or arm64 version exists we'll use that, otherwise we'll use the win32
     Haven't found a nice way to determine the Platform (resolves as AnyCPU) 
     -->
     <Choose>
         <When Condition="Exists('$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll')">
             <PropertyGroup>
                 <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
+            </PropertyGroup>
+        </When>
+        <When Condition="Exists('$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\arm64\$(Configuration)\CefSharp.Core.Runtime.dll')">
+            <PropertyGroup>
+                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\arm64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
             </PropertyGroup>
         </When>
         <Otherwise>
