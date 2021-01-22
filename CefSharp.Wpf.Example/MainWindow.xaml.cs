@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -41,11 +42,7 @@ namespace CefSharp.Wpf.Example
 
             Loaded += MainWindowLoaded;
 
-#if NETCOREAPP
-            var bitness = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
-#else
-            var bitness = Environment.Is64BitProcess ? "x64" : "x86";
-#endif
+            var bitness = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
             Title += " - " + bitness;
         }
 
