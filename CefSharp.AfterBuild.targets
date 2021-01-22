@@ -15,14 +15,4 @@
     <Message Importance="high" Text="Copying $(SolutionDir)CefSharp.BrowserSubprocess\bin.netcore\$(Platform)\$(Configuration)\$(TargetFramework)\CefSharp.BrowserSubprocess.* to $(TargetDir)" />
     <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
   </Target>
-
-  <Target Name="CefSharpCopyLibs86" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x86'">
-    <Message Importance="high" Text="Copying cef.redist x86 files to $(TargetDir)" />
-    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-  </Target>
-
-  <Target Name="CefSharpCopyLibs64" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x64'">
-    <Message Importance="high" Text="Copying cef.redist x64 files to $(TargetDir)" />
-    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-  </Target>
 </Project>
