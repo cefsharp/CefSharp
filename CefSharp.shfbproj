@@ -31,7 +31,7 @@
       <DocumentationSource sourceFile="CefSharp\CefSharp.csproj" />
       <DocumentationSource sourceFile="CefSharp.Core\CefSharp.Core.vcxproj" />
     </DocumentationSources>
-    <HelpFileVersion>87.1.13</HelpFileVersion>
+    <HelpFileVersion>87.1.132</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
     <SyntaxFilters>C#, Managed C++</SyntaxFilters>
@@ -59,7 +59,7 @@
       <Filter entryType="Namespace" fullName="CefSharp.Wpf.Internals" isExposed="False" xmlns="" />
     </ApiFilter>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, EditorBrowsableNever, NonBrowsable</VisibleItems>
-    <HeaderText>Version 87.1.13</HeaderText>
+    <HeaderText>Version 87.1.132</HeaderText>
     <CopyrightHref>https://raw.githubusercontent.com/cefsharp/CefSharp/master/LICENSE</CopyrightHref>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="CefSharp" isDocumented="True">Interfaces, enums, structs and classes that make up the core API interface</NamespaceSummaryItem>
