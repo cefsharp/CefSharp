@@ -25,6 +25,7 @@
     <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.pdb" target="lib\net452"/>
     
     <!-- Net Core Libs -->
+	<!-- These are actually our net452 libs, we just put them in the netcoreapp3 folder for better support -->
 	<file src="..\CefSharp\bin\Release\CefSharp.dll" target="ref\netcoreapp3.0"/>
 	<file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="ref\netcoreapp3.0"/>
 	
