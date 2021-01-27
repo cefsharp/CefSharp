@@ -526,6 +526,56 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Gets the current log level.
+        /// When <see cref="CefSettingsBase.LogSeverity"/> is set to <see cref="LogSeverity.Disable"/> then
+        /// no messages will be written to the log file, but FATAL messages will still be output to stderr.
+        /// When logging is disabled this method will return <see cref="LogSeverity.Fatal"/>.
+        /// </summary>
+        /// <returns>Current Log Level</returns>
+        public static LogSeverity GetMinLogLevel()
+        {
+            var severity = Core.Cef.GetMinLogLevel();
+
+            //Manually convert the int into the enum
+            //Values don't match (this is a difference in CEF/Chromium) implementation
+            //we need to deal with it manually,
+            //https://github.com/chromiumembedded/cef/blob/2a64387259cf14412e24c3267c8a1eb3b99a54e3/include/base/cef_logging.h#L186
+            //const LogSeverity LOG_VERBOSE = -1;
+            //const LogSeverity LOG_INFO = 0;
+            //const LogSeverity LOG_WARNING = 1;
+            //const LogSeverity LOG_ERROR = 2;
+            //const LogSeverity LOG_FATAL = 3;
+
+            if (severity == -1)
+            {
+                return LogSeverity.Verbose;
+            }
+
+            if (severity == 0)
+            {
+                return LogSeverity.Info;
+            }
+
+            if (severity == 1)
+            {
+                return LogSeverity.Warning;
+            }
+
+            if (severity == 2)
+            {
+                return LogSeverity.Error;
+            }
+
+            if (severity == 3)
+            {
+                return LogSeverity.Fatal;
+            }
+
+            //No matching type, return the integer value as enum
+            return (LogSeverity)severity;
+        }
+
+        /// <summary>
         /// Register the Widevine CDM plugin.
         /// 
         /// The client application is responsible for downloading an appropriate

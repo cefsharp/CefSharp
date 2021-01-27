@@ -80,6 +80,7 @@ namespace CefSharp.Core
         public static CefSharp.ICookieManager GetGlobalCookieManager(CefSharp.ICompletionCallback callback) { throw null; }
         public static CefSharp.IRequestContext GetGlobalRequestContext() { throw null; }
         public static string GetMimeType(string extension) { throw null; }
+        public static int GetMinLogLevel() { throw null; }
         public static System.Threading.Tasks.Task<System.Collections.Generic.List<CefSharp.WebPluginInfo>> GetPlugins() { throw null; }
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings) { throw null; }
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings, bool performDependencyCheck) { throw null; }
