@@ -25,12 +25,8 @@
     <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.pdb" target="lib\net452"/>
     
     <!-- Net Core Libs -->
-	<!-- Appveyor isnt building the ref assemblies, use the full assemblies for now they're AnyCPU -->
-	<!-- <file src="..\CefSharp\bin\Release\Ref\CefSharp.dll" target="ref\netcoreapp3.0"/> -->
-	<!-- <file src="..\CefSharp.Core\bin\Release\Ref\CefSharp.Core.dll" target="ref\netcoreapp3.0"/> -->
 	<file src="..\CefSharp\bin\Release\CefSharp.dll" target="ref\netcoreapp3.0"/>
 	<file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="ref\netcoreapp3.0"/>
-	<file src="..\CefSharp.Core.Runtime.RefAssembly\bin\Release\CefSharp.Core.Runtime.dll" target="ref\netcoreapp3.0"/>
 	
 	<file src="..\CefSharp\bin\Release\CefSharp.dll" target="runtimes\win-x86\lib\netcoreapp3.0"/>
     <file src="..\CefSharp\bin\Release\CefSharp.xml" target="runtimes\win-x86\lib\netcoreapp3.0"/>
