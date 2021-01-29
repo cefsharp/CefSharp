@@ -5,8 +5,8 @@
     <CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
     <CefSharpCommonBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
     <CefSharpCommonManagedDlls Include="$(MSBuildThisFileDirectory)..\lib\net452\**\*.*" />
-    <CefSharpCommonTransform32 Include="$(MSBuildThisFileDirectory)app.config.x86.transform"/>
-    <CefSharpCommonTransform64 Include="$(MSBuildThisFileDirectory)app.config.x64.transform"/>
+    <CefSharpCommonTransform32 Include="$(MSBuildThisFileDirectory)..\build\app.config.x86.transform"/>
+    <CefSharpCommonTransform64 Include="$(MSBuildThisFileDirectory)..\build\app.config.x64.transform"/>
 
     <CefSharpBrowserProcessCore32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.BrowserSubprocess.Core.dll" />
     <CefSharpBrowserProcessCore64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.BrowserSubprocess.Core.dll" />

@@ -752,6 +752,11 @@ namespace CefSharp
                 CefSetCrashKeyValue(StringUtils::ToNative(key), StringUtils::ToNative(value));
             }
 
+            static int GetMinLogLevel()
+            {
+                return cef_get_min_log_level();
+            }
+
             /// <summary>
             /// Register the Widevine CDM plugin.
             /// 
