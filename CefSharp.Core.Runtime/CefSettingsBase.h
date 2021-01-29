@@ -53,6 +53,10 @@ namespace CefSharp
                 //being hosted in different render processes.
                 //https://github.com/cefsharp/CefSharp/issues/2967
                 _cefCommandLineArgs->Add("disable-site-isolation-trials");
+
+                //Disable Windows Spellchecker as CEF doesn't support yet
+                //https://bitbucket.org/chromiumembedded/cef/issues/3055/windows-spell-checker-not-working-add
+                _cefCommandLineArgs->Add("disable-features", "CalculateNativeWinOcclusion,WinUseBrowserSpellChecker");
             }
 
             /// <summary>
