@@ -31,8 +31,8 @@
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
-        <PackageReference Include="cef.redist.x86" Version="87.1.13" />
-        <PackageReference Include="cef.redist.x64" Version="87.1.13" />
+        <PackageReference Include="cef.redist.x86" Version="88.1.6" />
+        <PackageReference Include="cef.redist.x64" Version="88.1.6" />
     </ItemGroup>
 
     <ItemGroup>
