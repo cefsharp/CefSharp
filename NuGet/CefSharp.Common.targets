@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" TreatAsLocalProperty="CefSharpTransformXmlDllPath">
-  <Target Name="FrameworkVersionCheck" BeforeTargets="ResolveAssemblyReferences" Condition="(('$(TargetFrameworkVersion)' == 'v4.5.1') OR ('$(TargetFrameworkVersion)' == 'v4.5') OR ('$(TargetFrameworkVersion)' == 'v4.0'))">
-    <Error Text="CefSharp requires .Net 4.5.2 or higher" />
-  </Target>
   
   <!-- MSBuild is finding the dll within the package and copying it which is a problem for AnyCPU -->
   <Target Name="CefSharpDeleteCoreRuntimeAfterBuild" AfterTargets="AfterBuild" Condition="'$(PlatformTarget)' == 'AnyCPU' AND $(TargetFramework.StartsWith('net4'))">
@@ -29,6 +26,8 @@
 	<Message Importance="high" Text="libcef.dll exists AnyCPU(x86) = $(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll')" />
 	<Message Importance="high" Text="libcef.dll exists AnyCPU(x64) = $(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll')" />
 	<Message Importance="high" Text="CefSharpTransformXmlDllPath = $(CefSharpTransformXmlDllPath)" />
+	<Message Importance="high" Text="NuGetProjectStyle = $(NuGetProjectStyle)" />
+	<Message Importance="high" Text="OutDir = $(OutDir)" />
   </Target>
   
   <PropertyGroup>
@@ -285,8 +284,8 @@
   <UsingTask TaskName="TransformXml" AssemblyFile="$(CefSharpTransformXmlDllPath)" Condition="Exists('$(CefSharpTransformXmlDllPath)') AND '$(PlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == ''" />
   
   <Target Name="CefSharpCommonAnyCPUConfigTransform" AfterTargets="_CopyAppConfigFile" Condition="Exists('$(CefSharpTransformXmlDllPath)') AND '$(PlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == ''">
-    <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)app.config.x86.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
-    <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)app.config.x64.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
+    <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)..\build\app.config.x86.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
+    <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)..\build\app.config.x64.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
   </Target>
   
   <Target Name="CefSharpPlatformCheck" BeforeTargets="ResolveAssemblyReferences" Condition="!Exists('$(CefSharpTransformXmlDllPath)') AND '$(PlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' != 'true'">
@@ -296,29 +295,18 @@
   <!--
   Issue https://github.com/dotnet/project-system/issues/4158
   The None/Content entries aren't picked up as the .targets file doesn't exist before the Nuget restore (only when using packages.config)
-  So in that scenario we use a Target to copy the files. Close/reopen the project and the None/Content entries will work as above
+  So in that scenario we display a mssage to the user. Close/reopen the project and the None/Content entries will work as above.
+  I have attempted to copy the files via a Copy Task, unfortunately the .props entries aren't accessible either so that's not feasible.
   -->
-  <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="AfterBuild" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x86'">
-    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore, copying (x86) $(OutDir)$(CefSharpTargetDir)" />
-    <Copy SourceFiles="@(CefRedist32)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(CefSharpCommonBinaries32)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
+  <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="Build" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x86'">
+    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
   </Target>
   
-  <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="AfterBuild" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x64'">
-    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore, copying (x64) $(OutDir)$(CefSharpTargetDir)" />
-    <Copy SourceFiles="@(CefRedist64)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(CefSharpCommonBinaries64)" DestinationFolder="$(OutDir)$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
+  <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="Build" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x64'">
+    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
   </Target>
   
-  <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="AfterBuild" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'AnyCPU'">
-    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore, copying (AnyCPU) $(OutDir)$(CefSharpTargetDir)" />
-    <Copy SourceFiles="@(CefRedist32)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(CefSharpCommonBinaries32)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" />
-    
-    <Copy SourceFiles="@(CefRedist64)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(CefSharpCommonBinaries64)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" />
-    
-    <Copy SourceFiles="@(CefSharpCommonManagedDlls)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu32)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(CefSharpCommonManagedDlls)" DestinationFolder="$(OutDir)$(CefSharpTargetDirAnyCpu64)" SkipUnchangedFiles="true" />
+  <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="Build" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'AnyCPU'">
+    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
   </Target>
 </Project>
