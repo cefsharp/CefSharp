@@ -16,18 +16,18 @@
   -->
   <Target Name="CefSharpAfterBuildDiagnostic">
     <Message Importance="high" Text="CefSharp After Build Diagnostic" />
-	<Message Importance="high" Text="CefSharpBuildAction = $(CefSharpBuildAction)" />
-	<Message Importance="high" Text="CefSharpTargetDir = $(CefSharpTargetDir)" />
-	<Message Importance="high" Text="CefSharpTargetDirAnyCpu32 = $(CefSharpTargetDirAnyCpu32)" />
-	<Message Importance="high" Text="CefSharpTargetDirAnyCpu64 = $(CefSharpTargetDirAnyCpu64)" />
-	<Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
-	<Message Importance="high" Text="TargetFramework = $(PlatformTarget)" />
-	<Message Importance="high" Text="libcef.dll exists = $(OutDir)$(CefSharpTargetDir)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll')" />
-	<Message Importance="high" Text="libcef.dll exists AnyCPU(x86) = $(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll')" />
-	<Message Importance="high" Text="libcef.dll exists AnyCPU(x64) = $(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll')" />
-	<Message Importance="high" Text="CefSharpTransformXmlDllPath = $(CefSharpTransformXmlDllPath)" />
-	<Message Importance="high" Text="NuGetProjectStyle = $(NuGetProjectStyle)" />
-	<Message Importance="high" Text="OutDir = $(OutDir)" />
+    <Message Importance="high" Text="CefSharpBuildAction = $(CefSharpBuildAction)" />
+    <Message Importance="high" Text="CefSharpTargetDir = $(CefSharpTargetDir)" />
+    <Message Importance="high" Text="CefSharpTargetDirAnyCpu32 = $(CefSharpTargetDirAnyCpu32)" />
+    <Message Importance="high" Text="CefSharpTargetDirAnyCpu64 = $(CefSharpTargetDirAnyCpu64)" />
+    <Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
+    <Message Importance="high" Text="TargetFramework = $(PlatformTarget)" />
+    <Message Importance="high" Text="libcef.dll exists = $(OutDir)$(CefSharpTargetDir)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll')" />
+    <Message Importance="high" Text="libcef.dll exists AnyCPU(x86) = $(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll')" />
+    <Message Importance="high" Text="libcef.dll exists AnyCPU(x64) = $(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll')" />
+    <Message Importance="high" Text="CefSharpTransformXmlDllPath = $(CefSharpTransformXmlDllPath)" />
+    <Message Importance="high" Text="NuGetProjectStyle = $(NuGetProjectStyle)" />
+    <Message Importance="high" Text="OutDir = $(OutDir)" />
   </Target>
   
   <PropertyGroup>
@@ -44,8 +44,8 @@
   <PropertyGroup>
     <!--
     Allowable options are None, Content, NoAction.
-	None is the default (same as selecting the None Build Action in Visual Studio) for Non-SdkStyle (packages.config)
-	Content is the default (same as selecting the None Build Action in Visual Studio) for SdkStyle projects (PackageReference)
+    None is the default (same as selecting the None Build Action in Visual Studio) for Non-SdkStyle (packages.config)
+    Content is the default (same as selecting the None Build Action in Visual Studio) for SdkStyle projects (PackageReference)
     -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' != 'true'">None</CefSharpBuildAction>
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' == 'true'">Content</CefSharpBuildAction>
