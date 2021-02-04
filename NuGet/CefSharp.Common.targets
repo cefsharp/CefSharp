@@ -44,11 +44,13 @@
   <PropertyGroup>
     <!--
     Allowable options are None, Content, NoAction.
-    None is the default (same as selecting the None Build Action in Visual Studio) for Non-SdkStyle (packages.config)
-    Content is the default (same as selecting the None Build Action in Visual Studio) for SdkStyle projects (PackageReference)
+    None is the default (same as selecting the None Build Action in Visual Studio) for Nuget packages.config
+    Content is the default (same as selecting the None Build Action in Visual Studio) for Nuget PackageReference
+	Technically the older Non-SDK Style project can use PackageReference under VS2019 (possibly VS2017 as well),
+	so we use NuGetProjectStyle which is defined in the .nuget.g.props file for projects using PackageReference
     -->
-    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' != 'true'">None</CefSharpBuildAction>
-    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(UsingMicrosoftNETSdk)' == 'true'">Content</CefSharpBuildAction>
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' != 'PackageReference'">None</CefSharpBuildAction>
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference'">Content</CefSharpBuildAction>
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''"></CefSharpTargetDir>
     <!-- Ideally we could use EnsureTrailingSlash, was only added on 2016 so unlikely supported in older version of VS -->
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' != '' AND !HasTrailingSlash('$(CefSharpTargetDir)')">$(CefSharpTargetDir)\</CefSharpTargetDir>
@@ -298,15 +300,15 @@
   So in that scenario we display a mssage to the user. Close/reopen the project and the None/Content entries will work as above.
   I have attempted to copy the files via a Copy Task, unfortunately the .props entries aren't accessible either so that's not feasible.
   -->
-  <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="Build" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x86'">
+  <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x86'">
     <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
   </Target>
   
-  <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="Build" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x64'">
+  <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'x64'">
     <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
   </Target>
   
-  <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="Build" Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND !Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'AnyCPU'">
+  <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(PlatformTarget)' == 'AnyCPU'">
     <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
   </Target>
 </Project>
