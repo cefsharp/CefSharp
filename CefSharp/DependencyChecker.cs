@@ -72,6 +72,7 @@ namespace CefSharp
         /// </summary>
         public static string[] CefSharpDependencies =
         {
+            "CefSharp.Core.Runtime.dll",
             "CefSharp.Core.dll",
             "CefSharp.dll"
         };
@@ -82,7 +83,6 @@ namespace CefSharp
         public static string[] BrowserSubprocessDependencies =
         {
             "CefSharp.BrowserSubprocess.Core.dll",
-            "CefSharp.Core.dll",
             "CefSharp.dll",
             "icudtl.dat",
             "libcef.dll"
