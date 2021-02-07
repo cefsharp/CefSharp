@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" TreatAsLocalProperty="CefSharpTransformXmlDllPath">
   
   <!-- MSBuild is finding the dll within the package and copying it which is a problem for AnyCPU -->
-  <Target Name="CefSharpDeleteCoreRuntimeAfterBuild" AfterTargets="AfterBuild" Condition="'$(PlatformTarget)' == 'AnyCPU' AND $(TargetFramework.StartsWith('net4'))">
+  <Target Name="CefSharpDeleteCoreRuntimeAfterCopyFilesToOutputDirectory" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(PlatformTarget)' == 'AnyCPU' AND ($(TargetFramework.StartsWith('net4')) OR $(TargetFrameworkVersion.StartsWith('v4.')))">
     <Delete Files="$(OutDir)CefSharp.Core.Runtime.dll" />
     <Delete Files="$(OutDir)CefSharp.Core.Runtime.pdb" />
     <Delete Files="$(OutDir)CefSharp.Core.Runtime.xml" />
@@ -21,7 +21,9 @@
     <Message Importance="high" Text="CefSharpTargetDirAnyCpu32 = $(CefSharpTargetDirAnyCpu32)" />
     <Message Importance="high" Text="CefSharpTargetDirAnyCpu64 = $(CefSharpTargetDirAnyCpu64)" />
     <Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
-    <Message Importance="high" Text="TargetFramework = $(PlatformTarget)" />
+    <Message Importance="high" Text="PlatformTarget = $(PlatformTarget)" />
+	<Message Importance="high" Text="TargetFramework = $(TargetFramework)" />
+	<Message Importance="high" Text="TargetFrameworkVersion = $(TargetFrameworkVersion)" />
     <Message Importance="high" Text="libcef.dll exists = $(OutDir)$(CefSharpTargetDir)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll')" />
     <Message Importance="high" Text="libcef.dll exists AnyCPU(x86) = $(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll')" />
     <Message Importance="high" Text="libcef.dll exists AnyCPU(x64) = $(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll')" />
