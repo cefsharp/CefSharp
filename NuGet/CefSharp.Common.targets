@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" TreatAsLocalProperty="CefSharpTransformXmlDllPath">
+  <!-- MSBuild is finding the dll within the package and copying it which is a problem for AnyCPU -->
+  <Target Name="CefSharpDeleteCoreRuntimeAfterCopyFilesToOutputDirectory" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+    <Delete Files="$(OutDir)CefSharp.Core.Runtime.dll" />
+    <Delete Files="$(OutDir)CefSharp.Core.Runtime.pdb" />
+    <Delete Files="$(OutDir)CefSharp.Core.Runtime.xml" />
+  </Target>
+  
   <!--
   Add to project file for debuggint purposes
   <Target Name="CefSharpAfterBuildDebug" AfterTargets="AfterBuild">
