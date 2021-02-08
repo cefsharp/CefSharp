@@ -20,7 +20,7 @@ namespace CefSharp.Wpf.HwndHost
     /// ChromiumWebBrowser is the WPF web browser control
     /// </summary>
     /// <seealso cref="System.Windows.Controls.Control" />
-    /// <seealso cref="CefSharp.Wpf.IWpfWebBrowser" />
+    /// <seealso cref="CefSharp.Wpf.HwndHost.IWpfWebBrowser" />
     /// based on https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/walkthrough-hosting-a-win32-control-in-wpf
     /// and https://stackoverflow.com/questions/6500336/custom-dwm-drawn-window-frame-flickers-on-resizing-if-the-window-contains-a-hwnd/17471534#17471534
     public class ChromiumWebBrowser : System.Windows.Interop.HwndHost, IWpfWebBrowser
@@ -93,7 +93,7 @@ namespace CefSharp.Wpf.HwndHost
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private IBrowserAdapter managedCefBrowserAdapter;
         /// <summary>
         /// The ignore URI change
         /// </summary>
@@ -198,7 +198,7 @@ namespace CefSharp.Wpf.HwndHost
                 //New instance is created in the constructor, if you use
                 //xaml to initialize browser settings then it will also create a new
                 //instance, so we dispose of the old one
-                if (browserSettings != null && browserSettings.FrameworkCreated)
+                if (browserSettings != null && browserSettings.AutoDispose)
                 {
                     browserSettings.Dispose();
                 }
@@ -481,7 +481,7 @@ namespace CefSharp.Wpf.HwndHost
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> instance.
         /// </summary>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser()
@@ -494,6 +494,10 @@ namespace CefSharp.Wpf.HwndHost
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> instance.
+        /// </summary>
+        /// <param name="initialAddress">address to load initially</param>
         public ChromiumWebBrowser(string initialAddress)
         {
             this.initialAddress = initialAddress;
@@ -549,11 +553,9 @@ namespace CefSharp.Wpf.HwndHost
             UndoCommand = new DelegateCommand(this.Undo);
             RedoCommand = new DelegateCommand(this.Redo);
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
+            managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, false);
 
-            browserSettings = new BrowserSettings();
-            //TODO: frameworkCreated is internal, we can expose this as internalsvisibleto later on
-            //browserSettings.GetType().
+            browserSettings = new BrowserSettings(autoDispose:true);
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
@@ -627,7 +629,7 @@ namespace CefSharp.Wpf.HwndHost
 
             CreateBrowser();
 
-            if (browserSettings.FrameworkCreated)
+            if (browserSettings.AutoDispose)
             {
                 browserSettings.Dispose();
                 browserSettings = null;
@@ -1236,7 +1238,7 @@ namespace CefSharp.Wpf.HwndHost
         /// To re-enable Window Activation then remove WS_EX_NOACTIVATE from ExStyle
         /// <code>
         /// const uint WS_EX_NOACTIVATE = 0x08000000;
-        /// windowInfo.ExStyle &= ~WS_EX_NOACTIVATE;
+        /// windowInfo.ExStyle &amp;= ~WS_EX_NOACTIVATE;
         ///</code>
         /// </example>
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
