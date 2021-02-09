@@ -27,8 +27,6 @@ namespace CefSharp
 
         void ManagedCefBrowserAdapter::CreateBrowser(IWindowInfo^ windowInfo, IBrowserSettings^ browserSettings, IRequestContext^ requestContext, String^ address)
         {
-            auto cefWindowInfoWrapper = static_cast<WindowInfo^>(windowInfo);
-
             CefString addressNative = StringUtils::ToNative(address);
 
             if (browserSettings == nullptr)
@@ -90,10 +88,11 @@ namespace CefSharp
                 auto managedRequestCtx = (RequestContext^)requestContext->UnWrap();
                 requestCtx = static_cast<CefRefPtr<CefRequestContext>>(managedRequestCtx);
             }
-            
+
+            auto winInfo = (WindowInfo^)windowInfo->UnWrap();
             auto bSettings = (BrowserSettings^)browserSettings->UnWrap();
 
-            if (!CefBrowserHost::CreateBrowser(*cefWindowInfoWrapper->GetWindowInfo(), _clientAdapter.get(), addressNative,
+            if (!CefBrowserHost::CreateBrowser(*winInfo->GetWindowInfo(), _clientAdapter.get(), addressNative,
                 *bSettings->_browserSettings, extraInfo, requestCtx))
             {
                 throw gcnew InvalidOperationException("CefBrowserHost::CreateBrowser call failed, review the CEF log file for more details.");
