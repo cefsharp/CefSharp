@@ -118,7 +118,7 @@ namespace CefSharp
             /// <returns>Returns a new RequestContext</returns>
             static IRequestContext^ CreateContext(IRequestContext^ other, IRequestContextHandler^ requestContextHandler)
             {
-                auto otherRequestContext = static_cast<RequestContext^>(other);
+                auto otherRequestContext = static_cast<RequestContext^>(other->UnWrap());
                 CefRefPtr<CefRequestContextHandler> handler = requestContextHandler == nullptr ? NULL : new CefRequestContextHandlerAdapter(requestContextHandler);
 
                 auto newContext = CefRequestContext::CreateContext(otherRequestContext, handler);
