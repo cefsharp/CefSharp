@@ -298,12 +298,12 @@
   --> 
   <UsingTask TaskName="TransformXml" AssemblyFile="$(CefSharpTransformXmlDllPath)" Condition="Exists('$(CefSharpTransformXmlDllPath)') AND '$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == ''" />
   
-  <Target Name="CefSharpCommonAnyCPUConfigTransform" AfterTargets="_CopyAppConfigFile" Condition="'@(AppConfigWithTargetPath)' != '' AND Exists('$(CefSharpTransformXmlDllPath)') AND '$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == ''">
+  <Target Name="CefSharpCommonAnyCPUConfigTransform" AfterTargets="_CopyAppConfigFile" Condition="Exists('$(CefSharpTransformXmlDllPath)') AND '$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == ''">
     <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)..\build\app.config.x86.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
     <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)..\build\app.config.x64.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
   </Target>
   
-  <Target Name="CefSharpPlatformCheck" BeforeTargets="ResolveAssemblyReferences" Condition="('@(AppConfigWithTargetPath)' == '' OR !Exists('$(CefSharpTransformXmlDllPath)')) AND '$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' != 'true'">
+  <Target Name="CefSharpPlatformCheck" BeforeTargets="ResolveAssemblyReferences" Condition="!Exists('$(CefSharpTransformXmlDllPath)') AND '$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' != 'true'">
     <Error Text="$(MSBuildThisFileName) is unable to proceeed as your current PlatformTarget is '$(CefSharpPlatformTarget)'. To target AnyCPU please read https://github.com/cefsharp/CefSharp/issues/1714. Alternatively change your PlatformTarget to x86 or x64 and the relevant files will be copied automatically." HelpKeyword="CefSharpSolutionPlatformCheck" />
   </Target>
   
