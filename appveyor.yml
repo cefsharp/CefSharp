@@ -1,4 +1,4 @@
-version: 88.2.10-CI{build}
+version: 88.2.40-CI{build}
 
 image:
   - Visual Studio 2015
