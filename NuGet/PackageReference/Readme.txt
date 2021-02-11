@@ -7,7 +7,8 @@ Background:
 Post Installation:
   - Read the release notes for your version https://github.com/cefsharp/CefSharp/releases (Any known issues will be listed here)
   - Read the `Need to know/limitations` section of the General usage guide (https://github.com/cefsharp/CefSharp/wiki/General-Usage#need-to-knowlimitations)
-  - It is reccommended that you set a RuntimeIdentifier during development, adding the following to your project file will <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</RuntimeIdentifier>
+  - It is recommended that you set a <RuntimeIdentifier/> during development, adding the following to your project file <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</RuntimeIdentifier> will use the default for your operating system.
+    Please read https://github.com/cefsharp/CefSharp/issues/3284#issuecomment-772132523 for more information.
   - Check your output `\bin` directory to make sure the appropriate references have been copied.
   - Add an app.manifest to your exe if you don't already have one, it's required for Windows 10 compatability, HighDPI support and tooltips. The   https://github.com/cefsharp/CefSharp.MinimalExample project contains an example app.manifest file in the root of the WPF/WinForms/OffScreen examples. 
   
