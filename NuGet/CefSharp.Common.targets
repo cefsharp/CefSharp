@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" TreatAsLocalProperty="CefSharpTransformXmlDllPath">
-  <!-- MSBuild is finding the dll within the package and copying it which is a problem for AnyCPU -->
-  <Target Name="CefSharpDeleteCoreRuntimeAfterCopyFilesToOutputDirectory" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
-    <Delete Files="$(OutDir)CefSharp.Core.Runtime.dll" />
-    <Delete Files="$(OutDir)CefSharp.Core.Runtime.pdb" />
-    <Delete Files="$(OutDir)CefSharp.Core.Runtime.xml" />
+  <!--
+  MSBuild is finding CefSharp.Core.Runtime.dll from the x86 folder and copying it to the bin folder which is a problem for AnyCPU
+  We manually remove CefSharp.Core.Runtime.dll from ReferenceCopyLocalPaths
+  https://thomasfreudenberg.com/archive/2012/11/21/dont-copy-my-referenced-assemblies/
+  -->
+  <Target Name="CefSharpExcludeCoreRuntimeAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+    <ItemGroup>
+	  <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
+	  <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
+	  <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.xml" />
+    </ItemGroup>
   </Target>
+  
+  <!-- For AnyCPU ClickOnce Publish Remove CefSharp.Core.Runtime.dll for being included in the bin folder  -->
+  <Target Name="CefSharpExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+    <ItemGroup>
+      <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
+	  <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
+	  <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.xml" />
+    </ItemGroup>
+  </Target>
+
   
   <!--
   Add to project file for debuggint purposes
