@@ -513,8 +513,17 @@ namespace CefSharp
                                 //we need to do this here to be able to store the v8context
                                 if (success)
                                 {
-                                    auto responseArgList = response->GetArgumentList();
-                                    SerializeV8Object(result, responseArgList, 2, callbackRegistry);
+                                    //If the response is a string of CefSharpDefEvalScriptRes then
+                                    //we don't send the response, we'll let that happen when the promise has completed.
+                                    if (result->IsString() && result->GetStringValue() == "CefSharpDefEvalScriptRes")
+                                    {
+                                        sendResponse = false;
+                                    }
+                                    else
+                                    {
+                                        auto responseArgList = response->GetArgumentList();
+                                        SerializeV8Object(result, responseArgList, 2, callbackRegistry);
+                                    }
                                 }
                                 else
                                 {
