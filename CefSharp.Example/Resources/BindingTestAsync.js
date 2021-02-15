@@ -16,38 +16,6 @@ QUnit.module('BindingTestAsync', (hooks) =>
         assert.rejects(boundAsync.error());
     });
 
-    QUnit.test("JavascriptCallback EvalPromise:", async (assert) =>
-    {
-        //Define our function to pass as callback
-        //We immediately return CefSharpDefEvalScriptRes as we will be
-        //using a promise and will call sendEvalScriptResponse when our
-        //promise has completed
-        let f = function (msg, callbackId)
-        {
-            (async function ()
-            {
-                //Do something async/await here
-                await 42;
-
-                //We're done, let's send our response back to our .Net App
-                cefSharp.sendEvalScriptResponse(callbackId, true, msg, true);
-
-                //If the promise was rejected then call
-                //Pasing in the error message
-                //cefSharp.sendEvalScriptResponse(callbackId, false, errorMessage, true);
-            })();
-
-            //Let CefSharp know we're going to be defering our response as we have some async/await
-            //processing to happen before our callback returns it's value
-            return "CefSharpDefEvalScriptRes";
-        }
-        const expectedResult = "JavascriptCallback after promise";
-
-        const actualResult = await boundAsync.javascriptCallbackEvalPromise(expectedResult, f);
-        
-        assert.equal(expectedResult, actualResult, "Echo response after promise execution");
-    });    
-
     QUnit.test("Async call (Divide 16 / 2):", async (assert) =>
     {
         const actualResult = await boundAsync.div(16, 2);
