@@ -196,6 +196,14 @@ namespace CefSharp.Example.JavascriptBinding
             Debug.WriteLine("Delayed 1 second.");
         }
 
+        public async Task<string> JavascriptCallbackEvalPromise(string msg, IJavascriptCallback callback)
+        {
+            var response = await callback.ExecuteAsync(msg, callback.Id);
+
+            //Echo the response
+            return (string)response.Result;
+        }
+
         public async Task WaitBeforeReturnAsync(int milliseconds)
         {
             await Task.Delay(milliseconds);

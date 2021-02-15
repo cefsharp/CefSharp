@@ -1046,7 +1046,7 @@ namespace CefSharp
                     internalJsFunctionName += ".SendEvalScriptResponse";
                 }
             }
-            var promiseHandlerScript = "let innerImmediatelyInvokedFuncExpression = (async function() { " + script + " })(); Promise.resolve(innerImmediatelyInvokedFuncExpression).then((val) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, true, val)).catch ((reason) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, false, String(reason))); return 'CefSharpDefEvalScriptRes';";
+            var promiseHandlerScript = "let innerImmediatelyInvokedFuncExpression = (async function() { " + script + " })(); Promise.resolve(innerImmediatelyInvokedFuncExpression).then((val) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, true, val, false)).catch ((reason) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, false, String(reason), false)); return 'CefSharpDefEvalScriptRes';";
 
             return promiseHandlerScript;
         }

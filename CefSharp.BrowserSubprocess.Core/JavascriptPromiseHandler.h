@@ -46,8 +46,9 @@ namespace CefSharp
             }
 
             auto success = arguments[1]->GetBoolValue();
+            auto javascriptCallback = arguments.size() < 4 ? false : arguments[3]->GetBoolValue();
 
-            auto response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+            auto response = CefProcessMessage::Create(javascriptCallback ? kJavascriptCallbackResponse : kEvaluateJavascriptResponse);
 
             auto responseArgList = response->GetArgumentList();
             //Success
