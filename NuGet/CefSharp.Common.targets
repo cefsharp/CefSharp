@@ -84,6 +84,7 @@
 	-->
 	<CefSharpPlatformTarget>$(PlatformTarget)</CefSharpPlatformTarget>
 	<CefSharpPlatformTarget Condition="'$(PlatformTargetAsMSBuildArchitecture)' == 'x86' OR '$(PlatformTargetAsMSBuildArchitecture)' == 'x64'">$(PlatformTargetAsMSBuildArchitecture)</CefSharpPlatformTarget>
+	<CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
 	
   </PropertyGroup>
   
