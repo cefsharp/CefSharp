@@ -31,8 +31,8 @@ namespace CefSharp.BrowserSubprocess
     ///     }
     ///
     ///     var settings = new CefSettings();
-    ///     //TODO: Replace with the name of your application exe
-    ///     settings.BrowserSubprocessPath = System.IO.Path.GetFullPath("CefSharp.WinForms.Example.exe");
+    ///     //Absolute path to your applications executable
+    ///     settings.BrowserSubprocessPath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
     ///
     ///     Cef.Initialize(settings);
     ///
