@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.88.2.4\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.88.2.4\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.88.2.9\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.88.2.9\build\cef.sdk.props')" />
   <Import Project="..\packages\GitLink.3.1.0\build\GitLink.props" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
