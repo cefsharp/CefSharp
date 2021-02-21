@@ -25,7 +25,7 @@ $vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj','CefShar
 
 foreach($file in $vcxprojFiles)
 {
-	..\nuget update $file -Id cef.sdk	
+	..\nuget update $file -Id cef.sdk -Version 88.2.9
 	
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
@@ -34,7 +34,7 @@ $vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj',
 
 foreach($file in $vcxprojFiles)
 {
-	..\nuget update $file -Id cef.sdk	
+	..\nuget update $file -Id cef.sdk -Version 88.2.9	
 	
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
@@ -43,7 +43,8 @@ $csprojFiles = @('CefSharp.WinForms.Example\CefSharp.WinForms.Example.csproj','C
 
 foreach($file in $csprojFiles)
 {
-	..\nuget update $file -Id cef.redist.x64 -Id cef.redist.x86
+	..\nuget update $file -Id cef.redist.x64 -Version 88.2.9
+	..\nuget update $file -Id cef.redist.x86 -Version 88.2.9
 	
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
