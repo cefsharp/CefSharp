@@ -13,8 +13,23 @@
     </ItemGroup>
   </Target>
   
-  <!-- For AnyCPU ClickOnce Publish Remove CefSharp.Core.Runtime.dll for being included in the bin folder  -->
-  <Target Name="CefSharpExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+  <!--
+  For VS2017 when publishing x86/x64 there's  CefSharp.Core.Runtime.dll references in both _DeploymentManifestDependencies and _DeploymentManifestFiles
+  This causes an Error occurred writing to hard disk exception, so we remove one (we leve the dependency and just remove the file reference.
+  -->
+  <Target Name="CefSharpExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' != 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+    <ItemGroup>
+	  <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.dll" />
+	  <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.pdb" />
+	  <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.xml" />
+    </ItemGroup>
+  </Target>
+  
+  <!--
+  For AnyCPU ClickOnce Publish Remove CefSharp.Core.Runtime.dll for being included in the bin folder
+  TODO: Publish AnyCPU still not working, requires some tweaking as CefSharp.dll file isn't being copied to the x64 folder.
+  -->
+  <Target Name="CefSharpAnyCPUExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
     <ItemGroup>
       <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
 	  <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
@@ -122,7 +137,7 @@
       <Choose>
         <When Condition="'$(CefSharpBuildAction)' == 'None'">
           <ItemGroup>
-            <None Include="@(CefSharpCommonManagedDlls)">
+            <None Include="@(CefSharpCommonManagedDll)">
               <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
@@ -132,7 +147,7 @@
         </When>
         <When Condition="'$(CefSharpBuildAction)' == 'Content'">
           <ItemGroup>
-            <Content Include="@(CefSharpCommonManagedDlls)">
+            <Content Include="@(CefSharpCommonManagedDll)">
               <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
@@ -193,13 +208,13 @@
             Include CefSharp.dll and CefSharp.Core.dll (we only need CefSharp.dll but it's easier to include both)
             in the arch specific folders as required by the BrowserSubProcess.
             -->
-            <None Include="@(CefSharpCommonManagedDlls)">
+            <None Include="@(CefSharpCommonManagedDll)">
               <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>
-            <None Include="@(CefSharpCommonManagedDlls)">
+            <None Include="@(CefSharpCommonManagedDll)">
               <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
@@ -274,13 +289,13 @@
             Include CefSharp.dll and CefSharp.Core.dll (we only need CefSharp.dll but it's easier to include both)
             in the arch specific folders as required by the BrowserSubProcess.
             -->
-            <Content Include="@(CefSharpCommonManagedDlls)">
+            <Content Include="@(CefSharpCommonManagedDll)">
               <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </Content>
-            <Content Include="@(CefSharpCommonManagedDlls)">
+            <Content Include="@(CefSharpCommonManagedDll)">
               <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
