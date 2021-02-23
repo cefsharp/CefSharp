@@ -6,6 +6,8 @@
 # Update the .Net 4.5.2 csproj files using nuget.exe
 # Update the .Net Core csproj files modifying the xml file directly
 
+$CefVersion = '89.0.5'
+
 function RemoveEnsureNuGetPackageBuildImports
 {
     param([Parameter(Position = 0, ValueFromPipeline = $true)][string] $FileName)
@@ -25,7 +27,7 @@ $vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj','CefShar
 
 foreach($file in $vcxprojFiles)
 {
-	..\nuget update $file -Id cef.sdk -Version 88.2.9
+	..\nuget update $file -Id cef.sdk -Version $CefVersion
 	
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
@@ -34,7 +36,7 @@ $vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj',
 
 foreach($file in $vcxprojFiles)
 {
-	..\nuget update $file -Id cef.sdk -Version 88.2.9	
+	..\nuget update $file -Id cef.sdk -Version $CefVersion
 	
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
@@ -43,8 +45,8 @@ $csprojFiles = @('CefSharp.WinForms.Example\CefSharp.WinForms.Example.csproj','C
 
 foreach($file in $csprojFiles)
 {
-	..\nuget update $file -Id cef.redist.x64 -Version 88.2.9
-	..\nuget update $file -Id cef.redist.x86 -Version 88.2.9
+	..\nuget update $file -Id cef.redist.x64 -Version $CefVersion
+	..\nuget update $file -Id cef.redist.x86 -Version $CefVersion
 	
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
