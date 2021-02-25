@@ -19,9 +19,10 @@ namespace CefSharp
         /// Execute a method call over the DevTools protocol. This is a more structured
         /// version of SendDevToolsMessage.
         /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
-        /// of supported methods and the expected <paramref name="paramsAsJson"/> dictionary contents.
+        /// of supported methods and the expected <paramref name="parameters"/> JSON message format.
         /// See the SendDevToolsMessage documentation for additional usage information.
         /// </summary>
+        /// <param name="browserHost">browser host</param>
         /// <param name="messageId">is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned
         /// automatically based on previous values)</param>
         /// <param name="method">is the method name</param>
