@@ -25,16 +25,22 @@ Basic Troubleshooting:
   - Minimum of .Net 4.5.2
   - Minimum of `Visual C++ 2015 Redist` is installed (either `x86` or `x64` depending on your application). VC++ 2017/2019 are backwards compatible. 
   - Please ensure your binaries directory contains these required dependencies:
-    * libcef.dll (CEF code)
+    * libcef.dll (Chromium Embedded Framework Core library)
     * icudtl.dat (Unicode Support data)
-    * CefSharp.Core.dll, CefSharp.dll, 
+	* chrome_elf.dll(Crash reporting library)
+	* snapshot_blob.bin, v8_context_snapshot.bin (V8 snapshot data)
+	* locales\en-US.pak, cef.pak, cef_100_percent.pak, cef_200_percent.pak, cef_extensions.pak, devtools_resources.pak, d3dcompiler_47.dll, libEGL.dll, libGLESv2.dll, swiftshader/libEGL.dll, swiftshader/libGLESv2.dll
+	  - Whilst these are technically listed as optional, the browser is unlikely to function without these files.
+	  - See https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29 for details
+    * CefSharp.Core.dll, CefSharp.dll, CefSharp.Core.Runtime.dll
       CefSharp.BrowserSubprocess.exe, CefSharp.BrowserSubProcess.Core.dll
         - These are required CefSharp binaries that are the common core logic binaries of CefSharp.
-    * One of the following UI presentation approaches:
+    * One of the following UI presentation libraries:
         * CefSharp.WinForms.dll
         * CefSharp.Wpf.dll
         * CefSharp.OffScreen.dll
-  - Additional optional CEF files are described at: https://github.com/cefsharp/cef-binary/blob/master/README.txt#L82
+  - Additional CEF files are described at: https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29
+    Whilst technically optional the bin
     NOTE: CefSharp does not currently support CEF sandboxing.
   - By default `CEF` has it's own log file, `Debug.log` which is located in your executing folder. e.g. `bin`
 

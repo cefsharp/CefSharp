@@ -22,17 +22,22 @@ Basic Troubleshooting:
   - Minimum of .Net Core 3.1 (.Net 5.0 is supported)
   - Minimum of `Visual C++ 2019 Redist` is installed (either `x86` or `x64` depending on your application).
   - Please ensure your output directory contains these required dependencies:
-    * libcef.dll (CEF code)
+    * libcef.dll (Chromium Embedded Framework Core library)
     * icudtl.dat (Unicode Support data)
+	* chrome_elf.dll(Crash reporting library)
+	* snapshot_blob.bin, v8_context_snapshot.bin (V8 snapshot data)
+	* locales\en-US.pak, cef.pak, cef_100_percent.pak, cef_200_percent.pak, cef_extensions.pak, devtools_resources.pak, d3dcompiler_47.dll, libEGL.dll, libGLESv2.dll, swiftshader/libEGL.dll, swiftshader/libGLESv2.dll
+	  - Whilst these are technically listed as optional, the browser is unlikely to function without these files.
+	  - See https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29 for details
+	* Ijwhost.dll (To support C++/CLI libraries in .NET Core/.Net 5.0, ijwhost was created as a shim for finding and loading the runtime.)
     * CefSharp.Core.dll, CefSharp.dll, CefSharp.Core.Runtime.dll
       CefSharp.BrowserSubprocess.exe, CefSharp.BrowserSubprocess.dll, CefSharp.BrowserSubProcess.Core.dll
         - These are required CefSharp binaries that are the common core logic binaries of CefSharp.
-    * One of the following UI presentation approaches:
+    * One of the following UI presentation libraries:
         * CefSharp.WinForms.dll
         * CefSharp.Wpf.dll
         * CefSharp.OffScreen.dll
-  - Additional CEF files are described at: https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29
-    NOTE: CefSharp does not currently support CEF sandboxing.
+  - NOTE: CefSharp does not currently support CEF sandboxing.
   - By default `CEF` has it's own log file, `Debug.log` which is located in your executing folder. e.g. `bin`
 
 For further help please read the following content:
