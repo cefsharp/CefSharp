@@ -180,6 +180,16 @@ namespace CefSharp.Example.JavascriptBinding
             };
         }
 
+        public Tuple<bool, string> PassSimpleClassAsArgument(SimpleClass simpleClass)
+        {
+            if (simpleClass == null)
+            {
+                return Tuple.Create(false, "PassSimpleClassAsArgument dictionary param is null");
+            }
+
+            return Tuple.Create(true, "TestString:" + simpleClass.TestString + ";SubClasses[0].PropertyOne:" + simpleClass.SubClasses[0].PropertyOne);
+        }
+
         //The Following Test methods can only be used when
         //CefSharpSettings.ConcurrentTaskExecution = true;
         //There is a seperate set of QUnit tests for these
@@ -198,7 +208,7 @@ namespace CefSharp.Example.JavascriptBinding
 
         public async Task<string> JavascriptCallbackEvalPromise(string msg, IJavascriptCallback callback)
         {
-            var response = await callback.ExecuteAsync(msg, callback.Id);
+            var response = await callback.ExecuteAsync(callback.Id, msg);
 
             //Echo the response
             return (string)response.Result;

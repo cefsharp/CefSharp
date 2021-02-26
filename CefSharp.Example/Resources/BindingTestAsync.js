@@ -209,6 +209,21 @@ QUnit.module('BindingTestAsync', (hooks) =>
         assert.deepEqual(results[2], dict3, "Call to boundAsync.MethodReturnsDictionary3() resulted in : " + JSON.stringify(results[2]));
     });
 
+    QUnit.test("Async call (PassSimpleClassAsArgument):", async (assert) =>
+    {
+        const res = await boundAsync.passSimpleClassAsArgument({
+            TestString: "Hello",
+            SubClasses:
+                [
+                    { PropertyOne: "Test Property One", Numbers: [1, 2, 3] },
+                    { PropertyOne: "Test Property Two", Numbers: [4, 5, 6] }
+                ]
+        });
+
+        assert.equal(res.Item1, true)
+        assert.equal(res.Item2, "TestString:Hello;SubClasses[0].PropertyOne:Test Property One");
+    });
+
     QUnit.test("Bind boundAsync2 and call (Hello):", async (assert) =>
     {
         //Can use both cefSharp.bindObjectAsync and CefSharp.BindObjectAsync, both do the same
