@@ -14,6 +14,28 @@
     </ItemGroup>
   </Target>
   
+  <!--
+  Add to project file for debuggint purposes
+  <Target Name="CefSharpAfterBuildDebug" AfterTargets="AfterBuild">
+    <CallTarget Targets="CefSharpAfterBuildDiagnostic"/>
+  </Target> 
+  -->
+  <Target Name="CefSharpAfterBuildDiagnostic">
+    <Message Importance="high" Text="CefSharp After Build Diagnostic" />
+    <Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
+    <Message Importance="high" Text="Platform = $(Platform)" />
+    <Message Importance="high" Text="PlatformName = $(PlatformName)" />
+    <Message Importance="high" Text="Platforms = $(Platforms)" />
+    <Message Importance="high" Text="PlatformTarget = $(PlatformTarget)" />
+    <Message Importance="high" Text="PlatformTargetAsMSBuildArchitecture = $(PlatformTargetAsMSBuildArchitecture)" />
+    <Message Importance="high" Text="TargetFramework = $(TargetFramework)" />
+    <Message Importance="high" Text="TargetFrameworkVersion = $(TargetFrameworkVersion)" />
+    <Message Importance="high" Text="NuGetProjectStyle = $(NuGetProjectStyle)" />
+    <Message Importance="high" Text="SelfContained = $(SelfContained)" />
+    <Message Importance="high" Text="PublishSingleFile = $(PublishSingleFile)" />    
+    <Message Importance="high" Text="OutDir = $(OutDir)" />
+  </Target>
+  
   <Choose>
     <When Condition="$(RuntimeIdentifier.StartsWith('win')) and $(RuntimeIdentifier.Contains('-x64'))">
       <ItemGroup>
