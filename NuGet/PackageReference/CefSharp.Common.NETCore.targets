@@ -3,8 +3,9 @@
   <!--
   For SelfContained and PublishSingleFile we remove the CefSharp.BrowserSubprocess.runtimeconfig.json file so
   the BrowserSubprocess runs using the packages .net runtime
+  Issue https://github.com/cefsharp/CefSharp/issues/3407
   -->
-  <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="'$(RuntimeIdentifier)' != '' AND ('$(SelfContained)' == 'true' OR '$(PublishSingleFile)' == 'true')">
+  <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="'$(RuntimeIdentifier)' != '' AND '$(SelfContained)' == 'true'">
     <PropertyGroup>
 		<_CefSharpBrowserSubProcessRuntimeConfig>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.runtimeconfig.json'))</_CefSharpBrowserSubProcessRuntimeConfig>
 	</PropertyGroup>
