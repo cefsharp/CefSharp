@@ -60,14 +60,22 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk!
 
 **Pre-release**<br>
 
-- [![CefSharp.WinForms](http://img.shields.io/nuget/vpre/CefSharp.WinForms.svg?style=flat&label=WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
-- [![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat&label=Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
-- [![CefSharp.OffScreen](http://img.shields.io/nuget/vpre/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+- [![CefSharp.WinForms](http://img.shields.io/nuget/vpre/CefSharp.WinForms.svg?style=flat&label=CefSharp.WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
+- [![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat&label=CefSharp.Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
+- [![CefSharp.OffScreen](http://img.shields.io/nuget/vpre/CefSharp.OffScreen.svg?style=flat&label=CefSharp.OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+
+- [![CefSharp.WinForms.NETCore](http://img.shields.io/nuget/vpre/CefSharp.WinForms.NETCore.svg?style=flat&label=CefSharp.WinForms.NETCore)](http://www.nuget.org/packages/CefSharp.WinForms.NETCore/)
+- [![CefSharp.Wpf.NETCore](http://img.shields.io/nuget/vpre/CefSharp.Wpf.NETCore.svg?style=flat&label=CefSharp.Wpf.NETCore)](http://www.nuget.org/packages/CefSharp.Wpf.NETCore/)
+- [![CefSharp.OffScreen.NETCore](http://img.shields.io/nuget/vpre/CefSharp.OffScreen.NETCore.svg?style=flat&label=CefSharp.OffScreen.NETCore)](http://www.nuget.org/packages/CefSharp.OffScreen.NETCore/)
 
 **Stable**<br>
-- [![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat&label=WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
-- [![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
-- [![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+- [![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat&label=CefSharp.WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
+- [![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=CefSharp.Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
+- [![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=CefSharp.OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+
+- [![CefSharp.WinForms.NETCore](http://img.shields.io/nuget/v/CefSharp.WinForms.NETCore.svg?style=flat&label=CefSharp.WinForms.NETCore)](http://www.nuget.org/packages/CefSharp.WinForms.NETCore/)
+- [![CefSharp.Wpf.NETCore](http://img.shields.io/nuget/v/CefSharp.Wpf.NETCore.svg?style=flat&label=CefSharp.Wpf.NETCore)](http://www.nuget.org/packages/CefSharp.Wpf.NETCore/)
+- [![CefSharp.OffScreen.NETCore](http://img.shields.io/nuget/v/CefSharp.OffScreen.NETCore.svg?style=flat&label=CefSharp.OffScreen.NETCore)](http://www.nuget.org/packages/CefSharp.OffScreen.NETCore/)
 
 ### Release Branches
 
