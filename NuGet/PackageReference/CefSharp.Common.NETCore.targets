@@ -2,6 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_CefSharpBrowserSubProcessRuntimeConfig>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.runtimeconfig.json'))</_CefSharpBrowserSubProcessRuntimeConfig>
+	<_CefSharpBrowserSubProcessExe>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.exe'))</_CefSharpBrowserSubProcessExe>
+	<_CefSharpBrowserSubProcessDll>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.dll'))</_CefSharpBrowserSubProcessDll>
   </PropertyGroup>
   
   <!--
@@ -21,9 +23,16 @@
     </ItemGroup>
   </Target>
   
-  <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigBeforeComputeFilesToBundle" BeforeTargets="_ComputeFilesToBundle" Condition="'$(RuntimeIdentifier)' != '' AND '$(SelfContained)' == 'true'">
+  <!--
+  For SelfContained and SingleFile under .Net 5 we don't include a default BrowserSubprocess
+  SelfHosting of the BrowserSubprocess is required
+  Issue https://github.com/cefsharp/CefSharp/issues/3407
+  -->
+  <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigBeforeComputeFilesToBundle" BeforeTargets="_ComputeFilesToBundle" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '5.0' AND '$(RuntimeIdentifier)' != '' AND '$(SelfContained)' == 'true'">
     <ItemGroup>
       <ResolvedFileToPublish Remove="$(_CefSharpBrowserSubProcessRuntimeConfig)" />
+	  <ResolvedFileToPublish Remove="$(_CefSharpBrowserSubProcessExe)" />
+	  <ResolvedFileToPublish Remove="$(_CefSharpBrowserSubProcessDll)" />
     </ItemGroup>
   </Target>  
   
