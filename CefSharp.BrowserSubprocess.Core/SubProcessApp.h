@@ -11,37 +11,40 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    // CefApp implementation that's common across all subprocess types
-    public class SubProcessApp : public CefApp
+    namespace BrowserSubprocess
     {
-    private:
-        gcroot<List<CefCustomScheme^>^> _schemes;
-
-    public:
-        SubProcessApp(List<CefCustomScheme^>^ schemes)
+        // CefApp implementation that's common across all subprocess types
+        public class SubProcessApp : public CefApp
         {
-            _schemes = schemes;
-        }
+        private:
+            gcroot<List<CefCustomScheme^>^> _schemes;
 
-        ~SubProcessApp()
-        {
-            delete _schemes;
-            _schemes = nullptr;
-        }
-
-        void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE
-        {
-            for each (CefCustomScheme^ scheme in _schemes->AsReadOnly())
+        public:
+            SubProcessApp(List<CefCustomScheme^>^ schemes)
             {
-                auto schemeName = StringUtils::ToNative(scheme->SchemeName);
-                auto schemeOptions = (int)scheme->Options;
-                if (!registrar->AddCustomScheme(schemeName, schemeOptions))
+                _schemes = schemes;
+            }
+
+            ~SubProcessApp()
+            {
+                delete _schemes;
+                _schemes = nullptr;
+            }
+
+            void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE
+            {
+                for each (CefCustomScheme ^ scheme in _schemes->AsReadOnly())
                 {
-                    LOG(ERROR) << "SubProcessApp::OnRegisterCustomSchemes failed for schemeName:" << schemeName;
+                    auto schemeName = StringUtils::ToNative(scheme->SchemeName);
+                    auto schemeOptions = (int)scheme->Options;
+                    if (!registrar->AddCustomScheme(schemeName, schemeOptions))
+                    {
+                        LOG(ERROR) << "SubProcessApp::OnRegisterCustomSchemes failed for schemeName:" << schemeName;
+                    }
                 }
             }
-        }
 
-        IMPLEMENT_REFCOUNTING(SubProcessApp);
-    };
+            IMPLEMENT_REFCOUNTING(SubProcessApp);
+        };
+    }
 }

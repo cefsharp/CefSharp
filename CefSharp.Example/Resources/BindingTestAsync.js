@@ -19,14 +19,14 @@ QUnit.module('BindingTestAsync', (hooks) =>
     QUnit.test("Async call (Divide 16 / 2):", async (assert) =>
     {
         const actualResult = await boundAsync.div(16, 2);
-        const expectedResult = 8
+        const expectedResult = 8;
         assert.equal(expectedResult, actualResult, "Divide 16 / 2");
     });
 
     QUnit.test("Async call (Div with Blocking Task 16 / 2):", async (assert) =>
     {
         const actualResult = await boundAsync.divWithBlockingTaskCall(16, 2);
-        const expectedResult = 8
+        const expectedResult = 8;
         assert.equal(expectedResult, actualResult, "Divide 16 / 2");
     });
 
@@ -38,7 +38,7 @@ QUnit.module('BindingTestAsync', (hooks) =>
     QUnit.test("Async call (UIntAddModel 3 + 2):", async (assert) =>
     {
         const actualResult = await boundAsync.uIntAddModel({ ParamA: 3, ParamB: 2 });
-        const expectedResult = 5
+        const expectedResult = 5;
 
         assert.equal(expectedResult, actualResult, "Add 3 + 2 resulted in " + expectedResult);
     });
@@ -46,7 +46,7 @@ QUnit.module('BindingTestAsync', (hooks) =>
     QUnit.test("Async call (UIntAdd 3 + 2):", async (assert) =>
     {
         const actualResult = await boundAsync.uIntAdd(3, 2);
-        const expectedResult = 5
+        const expectedResult = 5;
 
         assert.equal(expectedResult, actualResult, "Add 3 + 2 resulted in " + expectedResult);
     });
@@ -207,6 +207,21 @@ QUnit.module('BindingTestAsync', (hooks) =>
         assert.deepEqual(results[0], dict1, "Call to boundAsync.MethodReturnsDictionary1() resulted in : " + JSON.stringify(results[0]));
         assert.deepEqual(results[1], dict2, "Call to boundAsync.MethodReturnsDictionary2() resulted in : " + JSON.stringify(results[1]));
         assert.deepEqual(results[2], dict3, "Call to boundAsync.MethodReturnsDictionary3() resulted in : " + JSON.stringify(results[2]));
+    });
+
+    QUnit.test("Async call (PassSimpleClassAsArgument):", async (assert) =>
+    {
+        const res = await boundAsync.passSimpleClassAsArgument({
+            TestString: "Hello",
+            SubClasses:
+                [
+                    { PropertyOne: "Test Property One", Numbers: [1, 2, 3] },
+                    { PropertyOne: "Test Property Two", Numbers: [4, 5, 6] }
+                ]
+        });
+
+        assert.equal(res.Item1, true)
+        assert.equal(res.Item2, "TestString:Hello;SubClasses[0].PropertyOne:Test Property One");
     });
 
     QUnit.test("Bind boundAsync2 and call (Hello):", async (assert) =>

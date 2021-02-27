@@ -342,7 +342,7 @@ namespace CefSharp.WinForms
             {
                 if (!Cef.IsInitialized && !Cef.Initialize(new CefSettings()))
                 {
-                    throw new InvalidOperationException("Cef::Initialize() failed");
+                    throw new InvalidOperationException(CefInitializeFailedErrorMessage);
                 }
 
                 Cef.AddDisposable(this);

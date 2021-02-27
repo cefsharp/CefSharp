@@ -95,6 +95,61 @@
             {
                 assert.rejects(boundAsync.asyncThrowException());
             });
+
+            QUnit.test("JavascriptCallback EvalPromise:", async (assert) =>
+            {
+                const expectedResult = "JavascriptCallback after promise";
+
+                let convertPromiseToCefSharpCallback = function (p)
+                {
+                    let f = function (callbackId, ...args)
+                    {
+                        //We immediately return CefSharpDefEvalScriptRes as we will be
+                        //using a promise and will call sendEvalScriptResponse when our
+                        //promise has completed
+                        (async function ()
+                        {
+                            try
+                            {
+                                //Await the promise
+                                let response = await p(...args);
+
+                                //We're done, let's send our response back to our .Net App
+                                cefSharp.sendEvalScriptResponse(callbackId, true, response, true);
+                            }
+                            catch (err)
+                            {
+                                //An error occurred let's send the response back to our .Net App
+                                cefSharp.sendEvalScriptResponse(callbackId, false, err.message, true);
+
+                            }
+                        })();
+
+                        //Let CefSharp know we're going to be defering our response as we have some async/await
+                        //processing to happen before our callback returns it's value
+                        return "CefSharpDefEvalScriptRes";
+                    }
+
+                    return f;
+                }
+
+                //The function convertPromiseToCefSharpCallback can be used in your own projects
+                //Pass in a function that wraps your promise, not your promise directly
+                let callback = convertPromiseToCefSharpCallback(function ()
+                {
+                    return new Promise((resolve, reject) =>
+                    {
+                        setTimeout(() =>
+                        {
+                            resolve(expectedResult);
+                        }, 300);
+                    });
+                });
+
+                const actualResult = await boundAsync.javascriptCallbackEvalPromise(expectedResult, callback);
+        
+                assert.equal(expectedResult, actualResult, "Echo response after promise execution");
+            });
         });
     </script>
 

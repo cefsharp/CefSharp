@@ -500,7 +500,7 @@ namespace CefSharp.Wpf
 
                 if (!Cef.Initialize(settings))
                 {
-                    throw new InvalidOperationException("Cef::Initialize() failed");
+                    throw new InvalidOperationException(CefInitializeFailedErrorMessage);
                 }
             }
 
