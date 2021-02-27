@@ -56,9 +56,6 @@
     <ClInclude Include="JavascriptCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\ReportUnhandledExceptions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -7,9 +7,11 @@
 #include "../CefSharp.Core.Runtime/Internals/Serialization/Primitives.h"
 #include "../CefSharp.Core.Runtime/Internals/Serialization/ObjectsSerialization.h"
 
+using namespace CefSharp::Internals::Serialization;
+
 namespace CefSharp
 {
-    namespace Internals
+    namespace BrowserSubprocess
     {
         namespace Serialization
         {

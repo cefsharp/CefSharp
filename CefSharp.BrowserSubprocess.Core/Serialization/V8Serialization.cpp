@@ -10,10 +10,11 @@
 #include <deque>
 
 using namespace std;
+using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
-    namespace Internals
+    namespace BrowserSubprocess
     {
         namespace Serialization
         {

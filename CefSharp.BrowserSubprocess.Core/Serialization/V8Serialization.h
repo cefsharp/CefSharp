@@ -5,13 +5,14 @@
 #pragma once
 
 #include "include/cef_v8.h"
+#include "JavascriptCallbackRegistry.h"
+
+using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    namespace Internals
+    namespace BrowserSubprocess
     {
-        ref class JavascriptCallbackRegistry;
-
         namespace Serialization
         {
             //Functions to serialize/deserialize data sent to/received from the browser process.

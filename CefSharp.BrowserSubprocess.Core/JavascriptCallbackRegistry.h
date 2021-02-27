@@ -7,10 +7,11 @@
 #include "JavascriptCallbackWrapper.h"
 
 using namespace System::Collections::Concurrent;
+using namespace CefSharp::BrowserSubprocess;
 
 namespace CefSharp
 {
-    namespace Internals
+    namespace BrowserSubprocess
     {
         private ref class JavascriptCallbackRegistry
         {

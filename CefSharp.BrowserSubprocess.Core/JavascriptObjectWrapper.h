@@ -17,45 +17,48 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    private ref class JavascriptObjectWrapper
+    namespace BrowserSubprocess
     {
-    private:
-        List<JavascriptMethodWrapper^>^ _wrappedMethods;
-        List<JavascriptPropertyWrapper^>^ _wrappedProperties;
-        IBrowserProcess^ _browserProcess;
-        MCefRefPtr<JavascriptPropertyHandler> _jsPropertyHandler;
-        int64 _objectId;
-
-    public:
-        JavascriptObjectWrapper(IBrowserProcess^ browserProcess)
+        private ref class JavascriptObjectWrapper
         {
-            _browserProcess = browserProcess;
+        private:
+            List<JavascriptMethodWrapper^>^ _wrappedMethods;
+            List<JavascriptPropertyWrapper^>^ _wrappedProperties;
+            IBrowserProcess^ _browserProcess;
+            MCefRefPtr<JavascriptPropertyHandler> _jsPropertyHandler;
+            int64 _objectId;
 
-            _wrappedMethods = gcnew List<JavascriptMethodWrapper^>();
-            _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
-        }
-
-        !JavascriptObjectWrapper()
-        {
-            _jsPropertyHandler = nullptr;
-        }
-
-        ~JavascriptObjectWrapper()
-        {
-            this->!JavascriptObjectWrapper();
-
-            for each (JavascriptMethodWrapper^ var in _wrappedMethods)
+        public:
+            JavascriptObjectWrapper(IBrowserProcess^ browserProcess)
             {
-                delete var;
-            }
-            for each (JavascriptPropertyWrapper^ var in _wrappedProperties)
-            {
-                delete var;
-            }
-        }
+                _browserProcess = browserProcess;
 
-        void Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry);
-        BrowserProcessResponse^ GetProperty(String^ memberName);
-        BrowserProcessResponse^ SetProperty(String^ memberName, Object^ value);
-    };
+                _wrappedMethods = gcnew List<JavascriptMethodWrapper^>();
+                _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
+            }
+
+            !JavascriptObjectWrapper()
+            {
+                _jsPropertyHandler = nullptr;
+            }
+
+            ~JavascriptObjectWrapper()
+            {
+                this->!JavascriptObjectWrapper();
+
+                for each (JavascriptMethodWrapper ^ var in _wrappedMethods)
+                {
+                    delete var;
+                }
+                for each (JavascriptPropertyWrapper ^ var in _wrappedProperties)
+                {
+                    delete var;
+                }
+            }
+
+            void Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry);
+            BrowserProcessResponse^ GetProperty(String^ memberName);
+            BrowserProcessResponse^ SetProperty(String^ memberName, Object^ value);
+        };
+    }
 }

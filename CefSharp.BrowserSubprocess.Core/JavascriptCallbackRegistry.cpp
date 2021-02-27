@@ -6,10 +6,11 @@
 #include "JavascriptCallbackRegistry.h"
 
 using namespace System::Threading;
+using namespace CefSharp::BrowserSubprocess;
 
 namespace CefSharp
 {
-    namespace Internals
+    namespace BrowserSubprocess
     {
         JavascriptCallback^ JavascriptCallbackRegistry::Register(const CefRefPtr<CefV8Context>& context, const CefRefPtr<CefV8Value>& value)
         {

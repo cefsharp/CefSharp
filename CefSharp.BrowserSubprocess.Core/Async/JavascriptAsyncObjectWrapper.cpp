@@ -11,7 +11,7 @@ using namespace System::Linq;
 
 namespace CefSharp
 {
-    namespace Internals
+    namespace BrowserSubprocess
     {
         namespace Async
         {

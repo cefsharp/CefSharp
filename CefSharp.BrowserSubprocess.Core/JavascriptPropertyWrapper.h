@@ -12,31 +12,34 @@ using namespace CefSharp::Internals::Wcf;
 
 namespace CefSharp
 {
-    private ref class JavascriptPropertyWrapper
+    namespace BrowserSubprocess
     {
-    private:
-        int64 _ownerId;
-        IBrowserProcess^ _browserProcess;
-        //TODO: Strongly type this variable - currently trying to include JavascriptObjectWrapper.h creates a circular reference, so won't compile
-        Object^ _javascriptObjectWrapper;
-
-    public:
-        JavascriptPropertyWrapper(int64 ownerId, IBrowserProcess^ browserProcess)
+        private ref class JavascriptPropertyWrapper
         {
-            _ownerId = ownerId;
-            _browserProcess = browserProcess;
-            _javascriptObjectWrapper = nullptr;
-        }
+        private:
+            int64 _ownerId;
+            IBrowserProcess^ _browserProcess;
+            //TODO: Strongly type this variable - currently trying to include JavascriptObjectWrapper.h creates a circular reference, so won't compile
+            Object^ _javascriptObjectWrapper;
 
-        ~JavascriptPropertyWrapper()
-        {
-            if (_javascriptObjectWrapper != nullptr)
+        public:
+            JavascriptPropertyWrapper(int64 ownerId, IBrowserProcess^ browserProcess)
             {
-                delete _javascriptObjectWrapper;
+                _ownerId = ownerId;
+                _browserProcess = browserProcess;
                 _javascriptObjectWrapper = nullptr;
             }
-        }
 
-        void Bind(JavascriptProperty^ javascriptProperty, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry);
-    };
+            ~JavascriptPropertyWrapper()
+            {
+                if (_javascriptObjectWrapper != nullptr)
+                {
+                    delete _javascriptObjectWrapper;
+                    _javascriptObjectWrapper = nullptr;
+                }
+            }
+
+            void Bind(JavascriptProperty^ javascriptProperty, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry);
+        };
+    }
 }
