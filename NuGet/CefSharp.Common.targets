@@ -96,9 +96,11 @@
 	<!--
 	For Sdk Projects the PlatformTarget is unreliable (https://github.com/dotnet/sdk/issues/1560)
 	It can incorrectly be AnyCPU when it is infact an arch specific build
+	When AnyCPU and Prefer32Bit we just set the PlatformTarget to x86 (only when CefSharpAnyCpuSupport is empty)
 	-->
 	<CefSharpPlatformTarget>$(PlatformTarget)</CefSharpPlatformTarget>
 	<CefSharpPlatformTarget Condition="'$(PlatformTargetAsMSBuildArchitecture)' == 'x86' OR '$(PlatformTargetAsMSBuildArchitecture)' == 'x64'">$(PlatformTargetAsMSBuildArchitecture)</CefSharpPlatformTarget>
+	<CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
 	<CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
 	
   </PropertyGroup>
