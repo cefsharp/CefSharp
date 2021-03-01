@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <_CefSharpBrowserSubProcessRuntimeConfig>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.runtimeconfig.json'))</_CefSharpBrowserSubProcessRuntimeConfig>
-	<_CefSharpBrowserSubProcessExe>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.exe'))</_CefSharpBrowserSubProcessExe>
-	<_CefSharpBrowserSubProcessDll>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.dll'))</_CefSharpBrowserSubProcessDll>
-  </PropertyGroup>
+  <ItemGroup>
+    <_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.runtimeconfig.json'))"/>
+	<_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.exe'))" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '5.0' AND '$(PublishSingleFile)' == 'true' AND '$(SelfContained)' == 'true'"/>
+	<_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.dll'))" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '5.0' AND '$(PublishSingleFile)' == 'true' AND '$(SelfContained)' == 'true'"/>
+  </ItemGroup>
   
   <!--
   For SelfContained and PublishSingleFile we remove the CefSharp.BrowserSubprocess.runtimeconfig.json file so
-  the BrowserSubprocess runs using the packages .net runtime
+  the BrowserSubprocess runs using the packaged .net runtime
   Issue https://github.com/cefsharp/CefSharp/issues/3407
   -->
   <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="'$(RuntimeIdentifier)' != '' AND '$(SelfContained)' == 'true'">
     <ItemGroup>
-      <ReferenceCopyLocalPaths Remove="$(_CefSharpBrowserSubProcessRuntimeConfig)" />
+      <ReferenceCopyLocalPaths Remove="@(_CefSharpBrowserSubProcessFiles)" />
     </ItemGroup>
   </Target>
   
   <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigAfterComputeFilesToPublish" AfterTargets="ComputeFilesToPublish" Condition="'$(RuntimeIdentifier)' != '' AND '$(SelfContained)' == 'true'">
     <ItemGroup>
-      <ResolvedFileToPublish Remove="$(_CefSharpBrowserSubProcessRuntimeConfig)" />
+      <ResolvedFileToPublish Remove="@(_CefSharpBrowserSubProcessFiles)" />
     </ItemGroup>
   </Target>
   
   <!--
-  For SelfContained and SingleFile under .Net 5 we don't include a default BrowserSubprocess
+  For SelfContained and SingleFile under .Net 5 we don't include a default BrowserSubprocess files
   SelfHosting of the BrowserSubprocess is required
   Issue https://github.com/cefsharp/CefSharp/issues/3407
   -->
-  <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigBeforeComputeFilesToBundle" BeforeTargets="_ComputeFilesToBundle" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '5.0' AND '$(RuntimeIdentifier)' != '' AND '$(SelfContained)' == 'true'">
+  <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigBeforeComputeFilesToBundle" BeforeTargets="_ComputeFilesToBundle" Condition="'$(RuntimeIdentifier)' != '' AND '$(SelfContained)' == 'true'">
     <ItemGroup>
-      <ResolvedFileToPublish Remove="$(_CefSharpBrowserSubProcessRuntimeConfig)" />
-	  <ResolvedFileToPublish Remove="$(_CefSharpBrowserSubProcessExe)" />
-	  <ResolvedFileToPublish Remove="$(_CefSharpBrowserSubProcessDll)" />
+      <ResolvedFileToPublish Remove="@(_CefSharpBrowserSubProcessFiles)" />
     </ItemGroup>
   </Target>  
   
@@ -41,7 +39,7 @@
  -->
  <Target Name="CefSharpExcludeBrowserSubprocessRuntimeConfigBeforeGenerateDependencyFile" BeforeTargets="GenerateBuildDependencyFile;GeneratePublishDependencyFile" Condition="'$(RuntimeIdentifier)' != '' AND '$(SelfContained)' == 'true'">
     <ItemGroup>
-      <NativeCopyLocalItems Remove="$(_CefSharpBrowserSubProcessRuntimeConfig)" />
+      <NativeCopyLocalItems Remove="@(_CefSharpBrowserSubProcessFiles)" />
     </ItemGroup>
   </Target>
   
@@ -65,6 +63,8 @@
     <Message Importance="high" Text="SelfContained = $(SelfContained)" />
     <Message Importance="high" Text="PublishSingleFile = $(PublishSingleFile)" />    
     <Message Importance="high" Text="OutDir = $(OutDir)" />
+	<Message Importance="high" Text="_CefSharpBrowserSubProcessFiles = @(_CefSharpBrowserSubProcessFiles)" />
+	<Message Importance="high" Text="_TargetFrameworkVersionWithoutV = $(_TargetFrameworkVersionWithoutV)" />
   </Target>
   
   <Choose>
