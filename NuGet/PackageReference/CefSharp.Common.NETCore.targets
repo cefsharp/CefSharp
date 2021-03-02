@@ -2,8 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.runtimeconfig.json'))"/>
-	<_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.exe'))" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '5.0' AND '$(PublishSingleFile)' == 'true' AND '$(SelfContained)' == 'true'"/>
-	<_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.dll'))" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '5.0' AND '$(PublishSingleFile)' == 'true' AND '$(SelfContained)' == 'true'"/>
+    <_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.exe'))" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '5.0' AND '$(PublishSingleFile)' == 'true' AND '$(SelfContained)' == 'true'"/>
+    <_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.dll'))" Condition="'$(_TargetFrameworkVersionWithoutV)' >= '5.0' AND '$(PublishSingleFile)' == 'true' AND '$(SelfContained)' == 'true'"/>
   </ItemGroup>
   
   <!--
@@ -63,8 +63,8 @@
     <Message Importance="high" Text="SelfContained = $(SelfContained)" />
     <Message Importance="high" Text="PublishSingleFile = $(PublishSingleFile)" />    
     <Message Importance="high" Text="OutDir = $(OutDir)" />
-	<Message Importance="high" Text="_CefSharpBrowserSubProcessFiles = @(_CefSharpBrowserSubProcessFiles)" />
-	<Message Importance="high" Text="_TargetFrameworkVersionWithoutV = $(_TargetFrameworkVersionWithoutV)" />
+    <Message Importance="high" Text="_CefSharpBrowserSubProcessFiles = @(_CefSharpBrowserSubProcessFiles)" />
+    <Message Importance="high" Text="_TargetFrameworkVersionWithoutV = $(_TargetFrameworkVersionWithoutV)" />
   </Target>
   
   <Choose>
