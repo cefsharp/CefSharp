@@ -64,7 +64,8 @@
     <Message Importance="high" Text="PublishSingleFile = $(PublishSingleFile)" />    
     <Message Importance="high" Text="OutDir = $(OutDir)" />
     <Message Importance="high" Text="_CefSharpBrowserSubProcessFiles = @(_CefSharpBrowserSubProcessFiles)" />
-    <Message Importance="high" Text="_TargetFrameworkVersionWithoutV = $(_TargetFrameworkVersionWithoutV)" />
+	<Message Importance="high" Text="IncludeAllContentForSelfExtract = $(IncludeAllContentForSelfExtract)" />
+	<Message Importance="high" Text="IncludeNativeLibrariesForSelfExtract = $(IncludeNativeLibrariesForSelfExtract)" />
   </Target>
   
   <Choose>
