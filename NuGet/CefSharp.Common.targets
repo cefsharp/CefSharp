@@ -2,26 +2,27 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" TreatAsLocalProperty="CefSharpTransformXmlDllPath">
   <!--
   MSBuild is finding CefSharp.Core.Runtime.dll from the x86 folder and copying it to the bin folder which is a problem for AnyCPU
+  and when CefSharpTargetDir is used to move the files into a sub folder.
   We manually remove CefSharp.Core.Runtime.dll from ReferenceCopyLocalPaths
   https://thomasfreudenberg.com/archive/2012/11/21/dont-copy-my-referenced-assemblies/
   -->
-  <Target Name="CefSharpExcludeCoreRuntimeAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+  <Target Name="CefSharpExcludeCoreRuntimeAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="('$(CefSharpPlatformTarget)' == 'AnyCPU' OR '$(CefSharpTargetDir)' != '') AND $(TargetFrameworkVersion.StartsWith('v4.'))">
     <ItemGroup>
-	  <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
-	  <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
-	  <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.xml" />
+      <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
+      <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
+      <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.xml" />
     </ItemGroup>
   </Target>
   
   <!--
-  For VS2017 when publishing x86/x64 there's  CefSharp.Core.Runtime.dll references in both _DeploymentManifestDependencies and _DeploymentManifestFiles
-  This causes an Error occurred writing to hard disk exception, so we remove one (we leve the dependency and just remove the file reference.
+  For VS2017 when publishing x86/x64 there's CefSharp.Core.Runtime.dll references in both _DeploymentManifestDependencies and _DeploymentManifestFiles
+  This causes an Error occurred writing to hard disk exception, so we remove one (we leave the dependency and just remove the file reference).
   -->
   <Target Name="CefSharpExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' != 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
     <ItemGroup>
-	  <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.dll" />
-	  <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.pdb" />
-	  <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.xml" />
+      <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.dll" />
+      <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.pdb" />
+      <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.xml" />
     </ItemGroup>
   </Target>
   
@@ -32,8 +33,8 @@
   <Target Name="CefSharpAnyCPUExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
     <ItemGroup>
       <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
-	  <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
-	  <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.xml" />
+      <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
+      <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.xml" />
     </ItemGroup>
   </Target>
 
@@ -52,13 +53,13 @@
     <Message Importance="high" Text="CefSharpTargetDirAnyCpu64 = $(CefSharpTargetDirAnyCpu64)" />
     <Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
     <Message Importance="high" Text="Platform = $(Platform)" />
-	<Message Importance="high" Text="PlatformName = $(PlatformName)" />
-	<Message Importance="high" Text="Platforms = $(Platforms)" />
-	<Message Importance="high" Text="PlatformTarget = $(PlatformTarget)" />
-	<Message Importance="high" Text="CefSharpPlatformTarget = $(CefSharpPlatformTarget)" />
-	<Message Importance="high" Text="PlatformTargetAsMSBuildArchitecture = $(PlatformTargetAsMSBuildArchitecture)" />
-	<Message Importance="high" Text="TargetFramework = $(TargetFramework)" />
-	<Message Importance="high" Text="TargetFrameworkVersion = $(TargetFrameworkVersion)" />
+    <Message Importance="high" Text="PlatformName = $(PlatformName)" />
+    <Message Importance="high" Text="Platforms = $(Platforms)" />
+    <Message Importance="high" Text="PlatformTarget = $(PlatformTarget)" />
+    <Message Importance="high" Text="CefSharpPlatformTarget = $(CefSharpPlatformTarget)" />
+    <Message Importance="high" Text="PlatformTargetAsMSBuildArchitecture = $(PlatformTargetAsMSBuildArchitecture)" />
+    <Message Importance="high" Text="TargetFramework = $(TargetFramework)" />
+    <Message Importance="high" Text="TargetFrameworkVersion = $(TargetFrameworkVersion)" />
     <Message Importance="high" Text="libcef.dll exists = $(OutDir)$(CefSharpTargetDir)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll')" />
     <Message Importance="high" Text="libcef.dll exists AnyCPU(x86) = $(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll')" />
     <Message Importance="high" Text="libcef.dll exists AnyCPU(x64) = $(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll')" />
@@ -83,8 +84,8 @@
     Allowable options are None, Content, NoAction.
     None is the default (same as selecting the None Build Action in Visual Studio) for Nuget packages.config
     Content is the default (same as selecting the None Build Action in Visual Studio) for Nuget PackageReference
-	Technically the older Non-SDK Style project can use PackageReference under VS2019 (possibly VS2017 as well),
-	so we use NuGetProjectStyle which is defined in the .nuget.g.props file for projects using PackageReference
+    Technically the older Non-SDK Style project can use PackageReference under VS2019 (possibly VS2017 as well),
+    so we use NuGetProjectStyle which is defined in the .nuget.g.props file for projects using PackageReference
     -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' != 'PackageReference'">None</CefSharpBuildAction>
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference'">Content</CefSharpBuildAction>
@@ -93,16 +94,16 @@
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' != '' AND !HasTrailingSlash('$(CefSharpTargetDir)')">$(CefSharpTargetDir)\</CefSharpTargetDir>
     <CefSharpTargetDirAnyCpu32>$(CefSharpTargetDir)x86\</CefSharpTargetDirAnyCpu32>
     <CefSharpTargetDirAnyCpu64>$(CefSharpTargetDir)x64\</CefSharpTargetDirAnyCpu64>
-	<!--
-	For Sdk Projects the PlatformTarget is unreliable (https://github.com/dotnet/sdk/issues/1560)
-	It can incorrectly be AnyCPU when it is infact an arch specific build
-	When AnyCPU and Prefer32Bit we just set the PlatformTarget to x86 (only when CefSharpAnyCpuSupport is empty)
-	-->
-	<CefSharpPlatformTarget>$(PlatformTarget)</CefSharpPlatformTarget>
-	<CefSharpPlatformTarget Condition="'$(PlatformTargetAsMSBuildArchitecture)' == 'x86' OR '$(PlatformTargetAsMSBuildArchitecture)' == 'x64'">$(PlatformTargetAsMSBuildArchitecture)</CefSharpPlatformTarget>
-	<CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
-	<CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
-	
+    <!--
+    For Sdk Projects the PlatformTarget is unreliable (https://github.com/dotnet/sdk/issues/1560)
+    It can incorrectly be AnyCPU when it is infact an arch specific build
+    When AnyCPU and Prefer32Bit we just set the PlatformTarget to x86 (only when CefSharpAnyCpuSupport is empty)
+    -->
+    <CefSharpPlatformTarget>$(PlatformTarget)</CefSharpPlatformTarget>
+    <CefSharpPlatformTarget Condition="'$(PlatformTargetAsMSBuildArchitecture)' == 'x86' OR '$(PlatformTargetAsMSBuildArchitecture)' == 'x64'">$(PlatformTargetAsMSBuildArchitecture)</CefSharpPlatformTarget>
+    <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
+    <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
+    
   </PropertyGroup>
   
   <Choose>
