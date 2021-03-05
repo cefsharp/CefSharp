@@ -38,6 +38,9 @@ Delete this line and everything above, and then fill in the details below.
 
 - **What architecture x86 or x64?**
     <x86/x64>
+	
+- **What version of .Net?**
+    <.Net 4.x/.Net Core 3.1/.Net 5.0>
     
 - **On what operating system?**
     <Win7/Win8.1/Win10>
