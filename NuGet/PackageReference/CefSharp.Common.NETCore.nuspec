@@ -13,11 +13,11 @@
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,Build" />
+        <dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,Build,BuildTransitive" />
 		<dependency id="System.Text.Json" version="5.0.0" />
       </group>
 	  <group targetFramework=".NETCoreApp5.0">
-		<dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,Build" />
+		<dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,Build,BuildTransitive" />
 	  </group>
     </dependencies>
   </metadata>
