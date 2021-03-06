@@ -65,7 +65,9 @@
     <Message Importance="high" Text="libcef.dll exists AnyCPU(x64) = $(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll" Condition="Exists('$(OutDir)$(CefSharpTargetDirAnyCpu64)libcef.dll')" />
     <Message Importance="high" Text="CefSharpTransformXmlDllPath = $(CefSharpTransformXmlDllPath)" />
     <Message Importance="high" Text="NuGetProjectStyle = $(NuGetProjectStyle)" />
-    <Message Importance="high" Text="OutDir = $(OutDir)" />
+    <Message Importance="high" Text="NuGetToolVersion = $(NuGetToolVersion)" />
+	<Message Importance="high" Text="OutputType = $(OutputType)" />
+	<Message Importance="high" Text="OutDir = $(OutDir)" />
   </Target>
   
   <PropertyGroup>
