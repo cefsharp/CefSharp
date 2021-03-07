@@ -40,7 +40,7 @@
 
   
   <!--
-  Add to project file for debuggint purposes
+  Add to project file for debugging purposes
   <Target Name="CefSharpAfterBuildDebug" AfterTargets="AfterBuild">
     <CallTarget Targets="CefSharpAfterBuildDiagnostic"/>
   </Target> 
@@ -89,7 +89,7 @@
     Technically the older Non-SDK Style project can use PackageReference under VS2019 (possibly VS2017 as well),
     so we use NuGetProjectStyle which is defined in the .nuget.g.props file for projects using PackageReference.
 	For Library projects with Nuget supports buildTransitive we don't include our additional files and packages, the transitive reference should flow directly to the consuming projects.
-	For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are x64 or x86 the resuiling build output
+	For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are x64 or x86 the resulting build output
 	is polluted with extra copies in sub folders.
     -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' != 'PackageReference'">None</CefSharpBuildAction>
@@ -97,7 +97,7 @@
 	<CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference' AND $(NuGetToolVersion) > '5.0' AND '$(OutputType)' == 'Library'">NoAction</CefSharpBuildAction>
 	
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''"></CefSharpTargetDir>
-    <!-- Ideally we could use EnsureTrailingSlash, was only added on 2016 so unlikely supported in older version of VS -->
+    <!-- Ideally we could use EnsureTrailingSlash, was only added on 2017 so unlikely supported in older version of VS -->
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' != '' AND !HasTrailingSlash('$(CefSharpTargetDir)')">$(CefSharpTargetDir)\</CefSharpTargetDir>
     <CefSharpTargetDirAnyCpu32>$(CefSharpTargetDir)x86\</CefSharpTargetDirAnyCpu32>
     <CefSharpTargetDirAnyCpu64>$(CefSharpTargetDir)x64\</CefSharpTargetDirAnyCpu64>
@@ -352,7 +352,7 @@
   <!--
   Issue https://github.com/dotnet/project-system/issues/4158
   The None/Content entries aren't picked up as the .targets file doesn't exist before the Nuget restore (only when using packages.config)
-  So in that scenario we display a mssage to the user. Close/reopen the project and the None/Content entries will work as above.
+  So in that scenario we display a message to the user. Close/reopen the project and the None/Content entries will work as above.
   I have attempted to copy the files via a Copy Task, unfortunately the .props entries aren't accessible either so that's not feasible.
   -->
   <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="AfterBuild" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x86'">
