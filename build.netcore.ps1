@@ -3,9 +3,9 @@
     [Parameter(Position = 0)] 
     [string] $Target = "netcore31",
     [Parameter(Position = 1)]
-    [string] $Version = "89.0.50",
+    [string] $Version = "89.0.60",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "89.0.50"
+    [string] $AssemblyVersion = "89.0.60"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
