@@ -200,7 +200,7 @@ namespace CefSharp.Test.DevTools
                         Application.DoEvents();
                     }
 
-                    output.WriteLine(Cef.ChromiumVersion);
+                    output.WriteLine(DateTime.Now + " " + Cef.ChromiumVersion);
 
                     var result = CefSharp.Example.DevTools.DevToolsExtensions.CaptureScreenShotAsPng(browser).Result;
 
@@ -224,9 +224,10 @@ namespace CefSharp.Test.DevTools
                 }
                 catch (Exception e)
                 {
-                    output.WriteLine(e.Message + "\n" + e.StackTrace);
-                    Assert.True(false, e.Message + "\n" + e.StackTrace);
-                    snapForm.Close();
+                    output.WriteLine(DateTime.Now + " " + e.Message + "\n" + e.StackTrace);
+                    browser.Dispose();
+                    snapForm.Dispose();
+                    Assert.True(false);
                     return;
                 }
             }
