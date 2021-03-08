@@ -181,15 +181,6 @@ namespace CefSharp.Test.DevTools
 
                     if (browser.IsBrowserInitialized)
                     {
-                        output.WriteLine("Browser Initialized");
-                        Cef.UIThreadTaskFactory.StartNew(() =>
-                        {
-                            string error = "";
-                            var requestContext = browser.GetBrowser().GetHost().RequestContext;
-                            requestContext.SetPreference("profile.default_content_setting_values.plugins", 1, out error);
-                        });
-
-
                         Task.Run(async () =>
                             await DevToolsExtensions.ExecuteDevToolsMethodAsync(browser.GetBrowser(), 0, "Network.setCacheDisabled", new System.Collections.Generic.Dictionary<string, object>
                             {
