@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using CefSharp.DevTools.Browser;
 using CefSharp.DevTools.Network;
 using CefSharp.Example;
@@ -153,6 +154,91 @@ namespace CefSharp.Test.DevTools
                     Assert.NotNull(revision);
 
                     output.WriteLine("DevTools Revision {0}", revision);
+                }
+            }
+        }
+
+        [Fact]
+        public async Task CanTakeMultipleScreenshotAsync()
+        {
+            Form snapForm = new Form();
+            snapForm.Size = new System.Drawing.Size(800, 600);
+            Panel p = new Panel();
+            p.AutoScroll = true;
+            p.Dock = DockStyle.Fill;
+
+            using (var browser = new CefSharp.WinForms.ChromiumWebBrowser("www.google.com"))
+            {
+                p.Controls.Add(browser);
+                snapForm.Controls.Add(p);
+                snapForm.Show();
+
+
+                browser.LoadPageAsync();
+                browser.IsBrowserInitializedChanged += (sender, e) =>
+                {
+                    System.Diagnostics.Trace.WriteLine(browser.GetDevToolsClient().ToString());
+
+                    if (browser.IsBrowserInitialized)
+                    {
+                        output.WriteLine("Browser Initialized");
+                        Cef.UIThreadTaskFactory.StartNew(() =>
+                        {
+                            string error = "";
+                            var requestContext = browser.GetBrowser().GetHost().RequestContext;
+                            requestContext.SetPreference("profile.default_content_setting_values.plugins", 1, out error);
+                        });
+
+
+                        Task.Run(async () =>
+                            await DevToolsExtensions.ExecuteDevToolsMethodAsync(browser.GetBrowser(), 0, "Network.setCacheDisabled", new System.Collections.Generic.Dictionary<string, object>
+                            {
+                                {
+                                    "cacheDisabled", true
+                                }
+                            })
+                        );
+                    }
+                };
+
+                try
+                {
+                    int start = Environment.TickCount;
+                    while (Math.Abs(Environment.TickCount - start) < 5000)
+                    {
+                        Application.DoEvents();
+                    }
+
+                    output.WriteLine(Cef.ChromiumVersion);
+
+                    var result = CefSharp.Example.DevTools.DevToolsExtensions.CaptureScreenShotAsPng(browser).Result;
+
+                    Assert.True(result.Length > 0, "Screenshot content is null!");
+                    output.WriteLine("Screenshot length: {0}", result.Length);
+                    MessageBox.Show(result.Length.ToString());
+
+
+                    start = Environment.TickCount;
+                    while (Math.Abs(Environment.TickCount - start) < 5000)
+                    {
+                        Application.DoEvents();
+                    }
+
+                    result = CefSharp.Example.DevTools.DevToolsExtensions.CaptureScreenShotAsPng(browser).Result;
+
+                    Assert.True(result.Length > 0, "Screenshot content is null!");
+                    output.WriteLine("Screenshot length: {0}", result.Length);
+                    MessageBox.Show(result.Length.ToString());
+
+                    snapForm.Close();
+                    return;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message + "\n" + e.StackTrace);
+                    Assert.True(false, e.Message + "\n" + e.StackTrace);
+                    snapForm.Close();
+                    return;
                 }
             }
         }
