@@ -167,7 +167,7 @@ namespace CefSharp.Test.DevTools
             p.AutoScroll = true;
             p.Dock = DockStyle.Fill;
 
-            using (var browser = new CefSharp.WinForms.ChromiumWebBrowser("www.google.com"))
+            using (var browser = new CefSharp.WinForms.ChromiumWebBrowser("www.google.cn"))
             {
                 p.Controls.Add(browser);
                 snapForm.Controls.Add(p);
@@ -215,7 +215,6 @@ namespace CefSharp.Test.DevTools
 
                     Assert.True(result.Length > 0, "Screenshot content is null!");
                     output.WriteLine("Screenshot length: {0}", result.Length);
-                    MessageBox.Show(result.Length.ToString());
 
 
                     start = Environment.TickCount;
@@ -228,14 +227,13 @@ namespace CefSharp.Test.DevTools
 
                     Assert.True(result.Length > 0, "Screenshot content is null!");
                     output.WriteLine("Screenshot length: {0}", result.Length);
-                    MessageBox.Show(result.Length.ToString());
 
                     snapForm.Close();
                     return;
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message + "\n" + e.StackTrace);
+                    output.WriteLine(e.Message + "\n" + e.StackTrace);
                     Assert.True(false, e.Message + "\n" + e.StackTrace);
                     snapForm.Close();
                     return;
