@@ -68,6 +68,7 @@
     <Message Importance="high" Text="NuGetToolVersion = $(NuGetToolVersion)" />
     <Message Importance="high" Text="OutputType = $(OutputType)" />
     <Message Importance="high" Text="OutDir = $(OutDir)" />
+    <Message Importance="high" Text="Prefer32Bit = $(Prefer32Bit)" />
   </Target>
   
   <PropertyGroup>
@@ -103,11 +104,13 @@
     <CefSharpTargetDirAnyCpu64>$(CefSharpTargetDir)x64\</CefSharpTargetDirAnyCpu64>
     <!--
     For Sdk Projects the PlatformTarget is unreliable (https://github.com/dotnet/sdk/issues/1560)
-    It can incorrectly be AnyCPU when it is infact an arch specific build
+    When our targets file is imported $(PlatformTarget) will be x86 when the Platform is infact AnyCPU.
+	By time the AfterBuilds target runs it's correctly set to AnyCPU as the GetDefaultPlatformTargetForNetFramework
+	Task correctly sets the build to AnyCPU, unfortunately it's too late. Previous attempt to hack around this failed,
+	relying on user to manually specify $(PlatformTarget) until the SDK issue is fixed.
     When AnyCPU and Prefer32Bit we just set the PlatformTarget to x86 (only when CefSharpAnyCpuSupport is empty)
     -->
     <CefSharpPlatformTarget>$(PlatformTarget)</CefSharpPlatformTarget>
-    <CefSharpPlatformTarget Condition="'$(PlatformTargetAsMSBuildArchitecture)' == 'x86' OR '$(PlatformTargetAsMSBuildArchitecture)' == 'x64'">$(PlatformTargetAsMSBuildArchitecture)</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
     
