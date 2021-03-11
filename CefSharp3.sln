@@ -34,6 +34,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.BrowserSubprocess"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms", "CefSharp.WinForms\CefSharp.WinForms.csproj", "{882505AD-246D-402A-8414-347EFB8E2C8D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7B495581-2271-4F41-9476-ACB86E8C864F} = {7B495581-2271-4F41-9476-ACB86E8C864F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms.Example", "CefSharp.WinForms.Example\CefSharp.WinForms.Example.csproj", "{C043FFF7-5F71-4FFC-989A-E09E18548589}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -59,9 +62,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp", "CefSharp\CefSharp.csproj", "{A55848CC-10E7-40CB-ADDB-04740B16DD43}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.BrowserSubprocess.Core", "CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.vcxproj", "{6C4BB501-2F8E-48AC-9AB5-8CFB2D74185C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{7B495581-2271-4F41-9476-ACB86E8C864F} = {7B495581-2271-4F41-9476-ACB86E8C864F}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{9AD9C469-B121-47BB-9B9F-30D1B96B52B0}"
 	ProjectSection(SolutionItems) = preProject
