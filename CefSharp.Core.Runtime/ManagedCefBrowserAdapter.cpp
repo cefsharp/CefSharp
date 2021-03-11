@@ -105,19 +105,28 @@ namespace CefSharp
         // NOTE: This was moved out of OnAfterBrowserCreated to prevent the System.ServiceModel assembly from being loaded when WCF is not enabled.
         __declspec(noinline) void ManagedCefBrowserAdapter::InitializeBrowserProcessServiceHost(IBrowser^ browser)
         {
-            _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browser->Identifier, _javascriptCallbackFactory);
-            //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
-            // an exception about the process already being closed. Two relevant issues are #862 and #804.
-            if (_browserProcessServiceHost->State == CommunicationState::Created)
+            if (browser->IsDisposed)
             {
-                try
+                return;
+            }
+
+            //As the default the browser is Disposed on a different thread to this method it's possible that
+            //we arrive here after browser has started Disposing. In that case there's likely to be an exception
+            //accessing the Browser and possibly the serviceHost.
+            //https://github.com/cefsharp/CefSharp/issues/3437
+            try
+            {
+                _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browser->Identifier, _javascriptCallbackFactory);
+                //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
+                // an exception about the process already being closed. Two relevant issues are #862 and #804.
+                if (_browserProcessServiceHost->State == CommunicationState::Created)
                 {
                     _browserProcessServiceHost->Open();
-                }
-                catch (Exception^)
-                {
-                    //Ignore exception as it's likely cause when the browser is closing
-                }
+                }   
+            }
+            catch (Exception^)
+            {
+                //Ignore exception as it's likely cause when the browser is closing/disposed
             }
         }
 

@@ -1103,6 +1103,11 @@ namespace CefSharp.Wpf
         /// <param name="browser">The browser.</param>
         void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
         {
+            if (IsDisposed || browser.IsDisposed)
+            {
+                return;
+            }
+
             Interlocked.Exchange(ref browserInitialized, 1);
             this.browser = browser;
 
