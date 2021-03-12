@@ -212,6 +212,11 @@ namespace CefSharp
 
         void ManagedCefBrowserAdapter::MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e)
         {
+            if (_isDisposed)
+            {
+                return;
+            }
+
             auto result = e->Result;
             if (result->CallbackId.HasValue)
             {
