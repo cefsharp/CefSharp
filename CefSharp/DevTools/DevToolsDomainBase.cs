@@ -33,6 +33,14 @@ namespace CefSharp.DevTools
                 yield return Internals.Json.JsonEnumConverterFactory.ConvertEnumToString(val);
             }
         }
+
+        protected IEnumerable<string> EnumToString(CefSharp.DevTools.DOMDebugger.CSPViolationType[] values)
+        {
+            foreach (var val in values)
+            {
+                yield return Internals.Json.JsonEnumConverterFactory.ConvertEnumToString(val);
+            }
+        }
 #else
         protected string EnumToString(Enum val)
         {
@@ -54,6 +62,17 @@ namespace CefSharp.DevTools
         }
 
         protected IEnumerable<string> EnumToString(CefSharp.DevTools.Emulation.DisabledImageType[] values)
+        {
+            foreach (var val in values)
+            {
+                var memInfo = val.GetType().GetMember(val.ToString());
+                var dataMemberAttribute = (EnumMemberAttribute)Attribute.GetCustomAttribute(memInfo[0], typeof(EnumMemberAttribute), false);
+
+                yield return dataMemberAttribute.Value;
+            }
+        }
+
+        protected IEnumerable<string> EnumToString(CefSharp.DevTools.DOMDebugger.CSPViolationType[] values)
         {
             foreach (var val in values)
             {
