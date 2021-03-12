@@ -81,7 +81,7 @@ namespace CefSharp
 
         /// <summary>
         /// This influences the behavior of how methods are executed for objects registered using
-        /// <see cref="IJavascriptObjectRepository.Register(string, object, bool, BindingOptions)"/>.
+        /// <see cref="IJavascriptObjectRepository.Register"/>.
         /// By default the <see cref="Internals.MethodRunnerQueue"/> queues Tasks for execution in a sequential order.
         /// A single method is exeucted at a time. Setting this property to true allows for concurrent task execution.
         /// Method calls are executed on <see cref="System.Threading.Tasks.TaskScheduler.Default"/> (ThreadPool).
