@@ -61,7 +61,8 @@
   -->
   <Target Name="CefSharpAfterBuildDiagnostic">
     <Message Importance="high" Text="CefSharp After Build Diagnostic" />
-    <Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
+    <Message Importance="high" Text="CefSharpBuildAction = $(CefSharpBuildAction)" />
+	<Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
     <Message Importance="high" Text="Platform = $(Platform)" />
     <Message Importance="high" Text="PlatformName = $(PlatformName)" />
     <Message Importance="high" Text="Platforms = $(Platforms)" />
