@@ -6,7 +6,7 @@
   We manually remove CefSharp.Core.Runtime.dll from ReferenceCopyLocalPaths
   https://thomasfreudenberg.com/archive/2012/11/21/dont-copy-my-referenced-assemblies/
   -->
-  <Target Name="CefSharpExcludeCoreRuntimeAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="('$(CefSharpPlatformTarget)' == 'AnyCPU' OR '$(CefSharpTargetDir)' != '') AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+  <Target Name="CefSharpExcludeCoreRuntimeAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="('$(CefSharpPlatformTarget)' == 'AnyCPU' OR '$(CefSharpTargetDir)' != '')">
     <ItemGroup>
       <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
       <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
@@ -18,7 +18,7 @@
   For VS2017 when publishing x86/x64 there's CefSharp.Core.Runtime.dll references in both _DeploymentManifestDependencies and _DeploymentManifestFiles
   This causes an Error occurred writing to hard disk exception, so we remove one (we leave the dependency and just remove the file reference).
   -->
-  <Target Name="CefSharpExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' != 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+  <Target Name="CefSharpExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' != 'AnyCPU'">
     <ItemGroup>
       <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.dll" />
       <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.pdb" />
@@ -30,7 +30,7 @@
   For AnyCPU ClickOnce Publish Remove CefSharp.Core.Runtime.dll for being included in the bin folder
   TODO: Publish AnyCPU still not working, requires some tweaking as CefSharp.dll file isn't being copied to the x64 folder.
   -->
-  <Target Name="CefSharpAnyCPUExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+  <Target Name="CefSharpAnyCPUExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU'">
     <ItemGroup>
       <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
       <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
@@ -118,35 +118,11 @@
   
   <Choose>
     <!--
-    For .Net Core/Net5 when there's no runtime identifier specified then our lib files will be in the runtimes folders
-    we copy our unmanaged resources into the sub folder when required
-    -->
-    <When Condition="'$(RuntimeIdentifier)' == '' AND ($(TargetFramework.StartsWith('netcoreapp3')) OR $(TargetFramework.StartsWith('net5')))">
-      <Choose>
-        <When Condition="'$(CefSharpPlatformTarget)' == 'x64'">
-          <PropertyGroup>
-            <CefSharpTargetDir>runtimes\win-x64\lib\netcoreapp3.0\</CefSharpTargetDir>
-          </PropertyGroup>
-        </When>
-        <When Condition="'$(CefSharpPlatformTarget)' == 'x86'">
-          <PropertyGroup>
-            <CefSharpTargetDir>runtimes\win-x86\lib\netcoreapp3.0\</CefSharpTargetDir>
-          </PropertyGroup>
-        </When>
-        <When Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU'">
-          <PropertyGroup>
-            <CefSharpTargetDirAnyCpu32>runtimes\win-x86\lib\netcoreapp3.0\</CefSharpTargetDirAnyCpu32>
-            <CefSharpTargetDirAnyCpu64>runtimes\win-x64\lib\netcoreapp3.0\</CefSharpTargetDirAnyCpu64>
-          </PropertyGroup>
-        </When>
-      </Choose>   
-    </When>
-    <!--
     When CefSharpTargetDir is specified for x86/x64 platforms the files are included in a sub directory, 
     The CefSharp.dll file required by the BrowserSubProcess isn't copied by default and won't start, so we include an extra
     copy.
     -->
-    <When Condition="'$(CefSharpTargetDir)' != '' AND $(TargetFrameworkVersion.StartsWith('v4.')) AND '$(CefSharpPlatformTarget)' != 'AnyCPU'">
+    <When Condition="'$(CefSharpTargetDir)' != '' AND '$(CefSharpPlatformTarget)' != 'AnyCPU'">
       <Choose>
         <When Condition="'$(CefSharpBuildAction)' == 'None'">
           <ItemGroup>
