@@ -26,7 +26,7 @@ namespace CefSharp.ModelBinding
         /// <param name="methodName">Name of the method to be called</param>
         /// <returns>A Task representing the method result</returns>
         /// <example>
-        /// Task&lt;object&gt IAsyncMethodInterceptor.InterceptAsync(Func&lt;object[], object&gt; method, object[] parameters, string methodName)
+        /// Task&lt;object&gt; IAsyncMethodInterceptor.InterceptAsync(Func&lt;object[], object&gt; method, object[] parameters, string methodName)
         /// {
         ///   object result = method(parameters);
         ///   Debug.WriteLine("Called " + methodName);
