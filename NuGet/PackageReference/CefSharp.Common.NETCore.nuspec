@@ -26,7 +26,7 @@
 	<file src="CefSharp.Common.NETCore.targets" target="buildTransitive\" />
 	
 	<file src="..\..\CefSharp\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.dll" target="ref\netcoreapp3.1"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Release\netcoreapp3.1\CefSharp.Core.dll" target="ref\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.Core.dll" target="ref\netcoreapp3.1"/>
 	<file src="..\..\CefSharp.Core.Runtime.RefAssembly\bin.netcore\Release\netcoreapp3.1\CefSharp.Core.Runtime.dll" target="ref\netcoreapp3.1"/>
 	
 	<!--

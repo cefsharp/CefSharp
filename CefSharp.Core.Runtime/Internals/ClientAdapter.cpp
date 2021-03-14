@@ -1388,28 +1388,37 @@ namespace CefSharp
         {
             auto browser = GetBrowserWrapper(result->BrowserId);
 
-            if (result->CallbackId.HasValue && browser != nullptr)
+            if (result->CallbackId.HasValue && browser != nullptr && !browser->IsDisposed)
             {
                 auto wrapper = static_cast<CefBrowserWrapper^>(browser);
-
-                auto frame = wrapper->Browser->GetFrame(result->FrameId);
-
-                if (frame.get() && frame->IsValid())
+                if (wrapper == nullptr)
                 {
-                    auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
-                    auto argList = message->GetArgumentList();
-                    SetInt64(argList, 0, result->CallbackId.Value);
-                    argList->SetBool(1, result->Success);
-                    if (result->Success)
-                    {
-                        SerializeV8Object(argList, 2, result->Result, result->NameConverter);
-                    }
-                    else
-                    {
-                        argList->SetString(2, StringUtils::ToNative(result->Message));
-                    }
+                    return;
+                }
 
-                    frame->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+                auto cefBrowser = wrapper->Browser;
+
+                if (cefBrowser.get())
+                {
+                    auto frame = cefBrowser->GetFrame(result->FrameId);
+
+                    if (frame.get() && frame->IsValid())
+                    {
+                        auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
+                        auto argList = message->GetArgumentList();
+                        SetInt64(argList, 0, result->CallbackId.Value);
+                        argList->SetBool(1, result->Success);
+                        if (result->Success)
+                        {
+                            SerializeV8Object(argList, 2, result->Result, result->NameConverter);
+                        }
+                        else
+                        {
+                            argList->SetString(2, StringUtils::ToNative(result->Message));
+                        }
+
+                        frame->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+                    }
                 }
             }
         }

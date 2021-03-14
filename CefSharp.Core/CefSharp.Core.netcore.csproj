@@ -21,6 +21,12 @@
         <NoWarn>CS1591,CS0436</NoWarn>
         <LangVersion>9.0</LangVersion>
     </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+        <EmbedAllSources>True</EmbedAllSources>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
     
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <DefineConstants>DEBUG;TRACE;NETCOREAPP</DefineConstants>
@@ -54,6 +60,10 @@
         <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj">
           <Private>false</Private>
         </ProjectReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
     </ItemGroup>
 
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />

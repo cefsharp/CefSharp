@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.redist.x86.89.0.6\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.89.0.6\build\cef.redist.x86.props')" />
-  <Import Project="..\packages\cef.redist.x64.89.0.6\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.89.0.6\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\cef.redist.x86.89.0.7\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.89.0.7\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.89.0.7\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.89.0.7\build\cef.redist.x64.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -176,6 +176,10 @@
     <None Include="Resources\chromium-256.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj">
+      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
+      <Name>CefSharp.Core.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj">
       <Project>{b760b002-d277-4525-9f63-67ed2065034a}</Project>
       <Name>CefSharp.Core</Name>

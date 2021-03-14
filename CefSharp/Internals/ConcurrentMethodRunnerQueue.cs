@@ -28,14 +28,25 @@ namespace CefSharp.Internals
 
         public void Dispose()
         {
+            MethodInvocationComplete = null;
             cancellationTokenSource.Cancel();
         }
 
         public void Enqueue(MethodInvocation methodInvocation)
         {
+            if(cancellationTokenSource.IsCancellationRequested)
+            {
+                return;
+            }
+
             var task = new Task(async () =>
             {
                 var result = await ExecuteMethodInvocation(methodInvocation).ConfigureAwait(false);
+
+                if (cancellationTokenSource.IsCancellationRequested)
+                {
+                    return;
+                }
 
                 //If the call failed or returned null then we'll fire the event immediately
                 if (!result.Success || result.Result == null)

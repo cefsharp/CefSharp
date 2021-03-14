@@ -607,6 +607,11 @@ namespace CefSharp.WinForms
         /// <param name="browser">The browser.</param>
         void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
         {
+            if(IsDisposed || browser.IsDisposed)
+            {
+                return;
+            }
+
             this.browser = browser;
             Interlocked.Exchange(ref browserInitialized, 1);
 

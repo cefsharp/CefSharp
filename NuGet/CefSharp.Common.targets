@@ -66,8 +66,9 @@
     <Message Importance="high" Text="CefSharpTransformXmlDllPath = $(CefSharpTransformXmlDllPath)" />
     <Message Importance="high" Text="NuGetProjectStyle = $(NuGetProjectStyle)" />
     <Message Importance="high" Text="NuGetToolVersion = $(NuGetToolVersion)" />
-	<Message Importance="high" Text="OutputType = $(OutputType)" />
-	<Message Importance="high" Text="OutDir = $(OutDir)" />
+    <Message Importance="high" Text="OutputType = $(OutputType)" />
+    <Message Importance="high" Text="OutDir = $(OutDir)" />
+    <Message Importance="high" Text="Prefer32Bit = $(Prefer32Bit)" />
   </Target>
   
   <PropertyGroup>
@@ -88,14 +89,14 @@
     Content is the default (same as selecting the None Build Action in Visual Studio) for Nuget PackageReference
     Technically the older Non-SDK Style project can use PackageReference under VS2019 (possibly VS2017 as well),
     so we use NuGetProjectStyle which is defined in the .nuget.g.props file for projects using PackageReference.
-	For Library projects with Nuget supports buildTransitive we don't include our additional files and packages, the transitive reference should flow directly to the consuming projects.
-	For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are x64 or x86 the resulting build output
-	is polluted with extra copies in sub folders.
+    For Library projects with Nuget supports buildTransitive we don't include our additional files and packages, the transitive reference should flow directly to the consuming projects.
+    For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are x64 or x86 the resulting build output
+    is polluted with extra copies in sub folders.
     -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' != 'PackageReference'">None</CefSharpBuildAction>
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference'">Content</CefSharpBuildAction>
-	<CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference' AND $(NuGetToolVersion) > '5.0' AND '$(OutputType)' == 'Library'">NoAction</CefSharpBuildAction>
-	
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference' AND $(NuGetToolVersion) > '5.0' AND '$(OutputType)' == 'Library'">NoAction</CefSharpBuildAction>
+    
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''"></CefSharpTargetDir>
     <!-- Ideally we could use EnsureTrailingSlash, was only added on 2017 so unlikely supported in older version of VS -->
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' != '' AND !HasTrailingSlash('$(CefSharpTargetDir)')">$(CefSharpTargetDir)\</CefSharpTargetDir>
@@ -103,11 +104,13 @@
     <CefSharpTargetDirAnyCpu64>$(CefSharpTargetDir)x64\</CefSharpTargetDirAnyCpu64>
     <!--
     For Sdk Projects the PlatformTarget is unreliable (https://github.com/dotnet/sdk/issues/1560)
-    It can incorrectly be AnyCPU when it is infact an arch specific build
+    When our targets file is imported $(PlatformTarget) will be x86 when the Platform is infact AnyCPU.
+	By time the AfterBuilds target runs it's correctly set to AnyCPU as the GetDefaultPlatformTargetForNetFramework
+	Task correctly sets the build to AnyCPU, unfortunately it's too late. Previous attempt to hack around this failed,
+	relying on user to manually specify $(PlatformTarget) until the SDK issue is fixed.
     When AnyCPU and Prefer32Bit we just set the PlatformTarget to x86 (only when CefSharpAnyCpuSupport is empty)
     -->
     <CefSharpPlatformTarget>$(PlatformTarget)</CefSharpPlatformTarget>
-    <CefSharpPlatformTarget Condition="'$(PlatformTargetAsMSBuildArchitecture)' == 'x86' OR '$(PlatformTargetAsMSBuildArchitecture)' == 'x64'">$(PlatformTargetAsMSBuildArchitecture)</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
     
