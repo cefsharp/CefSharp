@@ -1637,6 +1637,16 @@ namespace CefSharp.Wpf
             }
         }
 
+#if NETCOREAPP
+        /// <inheritdoc/>
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            NotifyDpiChange((float)newDpi.DpiScaleX);
+
+            base.OnDpiChanged(oldDpi, newDpi);
+        }
+#endif
+
         private void OnWindowStateChanged(object sender, EventArgs e)
         {
             var window = (Window)sender;
