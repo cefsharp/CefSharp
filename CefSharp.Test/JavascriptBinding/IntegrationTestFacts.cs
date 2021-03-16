@@ -125,14 +125,14 @@ namespace CefSharp.Test.JavascriptBinding
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
             {
                 var settings = browser.JavascriptObjectRepository.Settings;
-                settings.JavascriptBindingApiGlobalObjectName = "customApi";
+                settings.JavascriptBindingApiGlobalObjectName = "bindingApiObject";
 
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
                 await browser.LoadPageAsync();
 
-                var result = await browser.EvaluateScriptAsync("customApi.isObjectCached('doesntexist') === false");
+                var result = await browser.EvaluateScriptAsync("bindingApiObject.isObjectCached('doesntexist') === false");
 
                 Assert.True(result.Success);
             }
