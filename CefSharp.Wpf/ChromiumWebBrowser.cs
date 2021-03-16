@@ -1758,6 +1758,16 @@ namespace CefSharp.Wpf
             }
         }
 
+#if NETCOREAPP
+        /// <inheritdoc/>
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            NotifyDpiChange((float)newDpi.DpiScaleX);
+
+            base.OnDpiChanged(oldDpi, newDpi);
+        }
+#endif
+
         private void OnWindowLocationChanged(object sender, EventArgs e)
         {
             //We maintain a manual reference to the controls screen location
