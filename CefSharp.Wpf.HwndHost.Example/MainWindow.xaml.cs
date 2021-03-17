@@ -11,5 +11,13 @@ namespace CefSharp.Wpf.HwndHost.Example
         {
             InitializeComponent();
         }
+
+        private void ShowDevToolsClick(object sender, RoutedEventArgs e)
+        {
+            if (Browser.IsBrowserInitialized)
+            {
+                Browser.ShowDevTools();
+            }
+        }
     }
 }
