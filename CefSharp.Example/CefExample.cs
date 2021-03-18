@@ -78,7 +78,13 @@ namespace CefSharp.Example
             //
             settings.CachePath = Path.GetFullPath("cache\\global");
             //settings.UserAgent = "CefSharp Browser" + Cef.CefSharpVersion; // Example User Agent
+
+            // NOTE: Setting to "1" will freeze the DevTools when a Breakpoint is hit.
+            // "1" works fine for CefSharp 81.3.2 and earlier, later versions can freeze.
+            // A value > "1" is recommended. See discussion on Gitter:
+            // https://gitter.im/cefsharp/CefSharp?at=6052f76bef43061daa7e4ce8
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
+
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
             //settings.CefCommandLineArgs.Add("enable-media-stream"); //Enable WebRTC
             //settings.CefCommandLineArgs.Add("no-proxy-server"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
