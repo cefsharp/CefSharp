@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<!-- Current supported values are Default, and NoAction (this target doesn't copy any files.) -->
+    <!-- Current supported values are Default, and NoAction (this target doesn't copy any files.) -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == ''">Default</CefSharpBuildAction>
-	<!--
-	For Library projects with no RuntimeIdentifier we don't include our additional files and packages, the transitive reference should flow directly to the consuming projects.
-	For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are often win-x64 or win-x86 the resuiling build output
-	is polluted with extra copies in sub folders.
-	-->
-	<CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(OutputType)' == 'Library' AND '$(RuntimeIdentifier)' == ''">NoAction</CefSharpBuildAction>
+    <!--
+    For Library projects with no RuntimeIdentifier we don't include our additional files and packages, the transitive reference should flow directly to the consuming projects.
+    For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are often win-x64 or win-x86 the resuiling build output
+    is polluted with extra copies in sub folders.
+    -->
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(OutputType)' == 'Library' AND '$(RuntimeIdentifier)' == ''">NoAction</CefSharpBuildAction>
   </PropertyGroup>
   <ItemGroup>
     <_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(RuntimeIdentifier)\native\CefSharp.BrowserSubprocess.runtimeconfig.json'))"/>
@@ -62,7 +62,7 @@
   <Target Name="CefSharpAfterBuildDiagnostic">
     <Message Importance="high" Text="CefSharp After Build Diagnostic" />
     <Message Importance="high" Text="CefSharpBuildAction = $(CefSharpBuildAction)" />
-	<Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
+    <Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
     <Message Importance="high" Text="Platform = $(Platform)" />
     <Message Importance="high" Text="PlatformName = $(PlatformName)" />
     <Message Importance="high" Text="Platforms = $(Platforms)" />
@@ -75,14 +75,14 @@
     <Message Importance="high" Text="PublishSingleFile = $(PublishSingleFile)" />    
     <Message Importance="high" Text="OutDir = $(OutDir)" />
     <Message Importance="high" Text="_CefSharpBrowserSubProcessFiles = @(_CefSharpBrowserSubProcessFiles)" />
-	<Message Importance="high" Text="IncludeAllContentForSelfExtract = $(IncludeAllContentForSelfExtract)" />
-	<Message Importance="high" Text="IncludeNativeLibrariesForSelfExtract = $(IncludeNativeLibrariesForSelfExtract)" />
+    <Message Importance="high" Text="IncludeAllContentForSelfExtract = $(IncludeAllContentForSelfExtract)" />
+    <Message Importance="high" Text="IncludeNativeLibrariesForSelfExtract = $(IncludeNativeLibrariesForSelfExtract)" />
   </Target>
   
   <Choose>
-	<When Condition="'$(CefSharpBuildAction)' == 'NoAction'">
-	<!-- Do nothing -->
-	</When>
+    <When Condition="'$(CefSharpBuildAction)' == 'NoAction'">
+    <!-- Do nothing -->
+    </When>
     <When Condition="$(RuntimeIdentifier.StartsWith('win')) and $(RuntimeIdentifier.Contains('-x64'))">
       <ItemGroup>
         <Content Include="@(CefRuntimeWin64Locales)">
