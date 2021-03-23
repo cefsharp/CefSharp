@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="DependencyChecker.cs" />
     <Compile Remove="DevTools\DevToolsClient.Generated.cs" />
     <Compile Remove="Internals\Partial\ChromiumWebBrowser.Partial.cs" />
   </ItemGroup>
