@@ -21,8 +21,6 @@ namespace CefSharp.BrowserSubprocess
         {
             Debug.WriteLine("BrowserSubprocess starting up with command line: " + string.Join("\n", args));
 
-            SubProcess.EnableHighDPISupport();
-
             if(!System.IO.File.Exists("CefSharp.dll") && System.IO.File.Exists("..\\CefSharp.dll"))
             {
                 //For publshing ClickOnce AnyCPU CefSharp.dll isn't included in the x64 build
@@ -37,6 +35,8 @@ namespace CefSharp.BrowserSubprocess
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static int MainInternal(string[] args)
         {
+            SubProcess.EnableHighDPISupport();
+
             //Add your own custom implementation of IRenderProcessHandler here
             IRenderProcessHandler handler = null;
 
