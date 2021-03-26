@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\GitLink.3.1.0\build\GitLink.props" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
@@ -171,6 +171,8 @@
     <Compile Include="RenderProcess\V8Exception.cs" />
     <Compile Include="RequestContextExtensions.cs" />
     <Compile Include="ResponseFilter\StreamResponseFilter.cs" />
+    <Compile Include="SchemeHandler\OwinResourceHandler.cs" />
+    <Compile Include="SchemeHandler\OwinSchemeHandlerFactory.cs" />
     <Compile Include="Structs\AudioParamaters.cs" />
     <Compile Include="Structs\TouchEvent.cs" />
     <Compile Include="CefLibraryHandle.cs" />
