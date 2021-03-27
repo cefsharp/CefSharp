@@ -57,7 +57,6 @@ namespace CefSharp
             virtual property bool IsSpellCheckEnabled { bool get(); }
             virtual property ContextMenuEditState EditStateFlags { ContextMenuEditState get(); }
             virtual property bool IsCustomMenu { bool get(); }
-            virtual property bool IsPepperMenu { bool get(); }
         };
     }
 }
