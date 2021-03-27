@@ -145,7 +145,11 @@ namespace CefSharp
                 missingDependencies.AddRange(CheckDependencyList(nativeLibPath, CefOptionalDependencies));
             }
 
+#if NETCOREAPP
+            missingDependencies.AddRange(CheckDependencyList(managedLibPath, CefSharpArchSpecificDependencies));
+#else
             missingDependencies.AddRange(CheckDependencyList(nativeLibPath, CefSharpArchSpecificDependencies));
+#endif
             missingDependencies.AddRange(CheckDependencyList(managedLibPath, CefSharpManagedDependencies));
 
             if (!File.Exists(browserSubProcessPath))
