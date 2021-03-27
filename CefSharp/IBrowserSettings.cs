@@ -120,14 +120,6 @@ namespace CefSharp
         CefState FileAccessFromFileUrls { get; set; }
 
         /// <summary>
-        /// Controls whether web security restrictions (same-origin policy) will be
-        /// enforced. Disabling this setting is not recommend as it will allow risky
-        /// security behavior such as cross-site scripting (XSS). Also configurable
-        /// using the "disable-web-security" command-line switch.
-        /// </summary>
-        CefState WebSecurity { get; set; }
-
-        /// <summary>
         /// Controls whether image URLs will be loaded from the network. A cached image
         /// will still be rendered if requested. Also configurable using the
         /// "disable-image-loading" command-line switch.
