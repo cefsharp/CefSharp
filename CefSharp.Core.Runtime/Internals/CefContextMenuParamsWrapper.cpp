@@ -144,12 +144,5 @@ namespace CefSharp
 
             return _wrappedInfo->IsCustomMenu();
         }
-
-        bool CefContextMenuParamsWrapper::IsPepperMenu::get()
-        {
-            ThrowIfDisposed();
-
-            return _wrappedInfo->IsPepperMenu();
-        }
     }
 }

@@ -68,13 +68,22 @@ namespace CefSharp
         };
 
         /// <summary>
-        /// List of CefSharp Dependencies
+        /// List of CefSharp Managed Dependencies (Those that are AnyCPU written in c#)
         /// </summary>
-        public static string[] CefSharpDependencies =
+        public static string[] CefSharpManagedDependencies =
         {
-            "CefSharp.Core.Runtime.dll",
             "CefSharp.Core.dll",
             "CefSharp.dll"
+        };
+
+        /// <summary>
+        /// List of CefSharp Arch Specific Dependencies
+        /// Those that are arch specific,
+        /// distributed as x86, x64 and ARM64 (coming soon for .Net 5.0 only)
+        /// </summary>
+        public static string[] CefSharpArchSpecificDependencies =
+        {
+            "CefSharp.Core.Runtime.dll"
         };
 
         /// <summary>
@@ -85,7 +94,11 @@ namespace CefSharp
             "CefSharp.BrowserSubprocess.Core.dll",
             "CefSharp.dll",
             "icudtl.dat",
-            "libcef.dll"
+            "libcef.dll",
+#if NETCOREAPP
+            //C++/CLI Loader, required by CefSharp.BrowserSubprocess.Core.dll and CefSharp.Core.Runtime.dll
+            "Ijwhost.dll"
+#endif
         };
 
         /// <summary>
@@ -101,9 +114,26 @@ namespace CefSharp
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
         public static List<string> CheckDependencies(bool checkOptional, bool packLoadingDisabled, string path, string resourcesDirPath, string browserSubProcessPath, string localePackFile = LocalesPackFile)
         {
+            return CheckDependencies(checkOptional, packLoadingDisabled, path, path, resourcesDirPath, browserSubProcessPath, localePackFile);
+        }
+
+        /// <summary>
+        /// CheckDependencies iterates through the list of Cef and CefSharp dependencines
+        /// relative to the path provided and returns a list of missing ones
+        /// </summary>
+        /// <param name="checkOptional">check to see if optional dependencies are present</param>
+        /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
+        /// <param name="managedLibPath">path to check for mangaed dependencies</param>
+        /// <param name="nativeLibPath">path to check for native (unmanged) dependencies</param>
+        /// <param name="resourcesDirPath">The path to the resources directory, if empty the Executing Assembly path is used.</param>
+        /// <param name="browserSubProcessPath">The path to a separate executable that will be launched for sub-processes.</param>
+        /// <param name="localePackFile">The locale pack file e.g. <see cref="LocalesPackFile"/> </param>
+        /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
+        public static List<string> CheckDependencies(bool checkOptional, bool packLoadingDisabled, string managedLibPath, string nativeLibPath, string resourcesDirPath, string browserSubProcessPath, string localePackFile = LocalesPackFile)
+        {
             var missingDependencies = new List<string>();
 
-            missingDependencies.AddRange(CheckDependencyList(path, CefDependencies));
+            missingDependencies.AddRange(CheckDependencyList(nativeLibPath, CefDependencies));
 
             if (!packLoadingDisabled)
             {
@@ -112,10 +142,15 @@ namespace CefSharp
 
             if (checkOptional)
             {
-                missingDependencies.AddRange(CheckDependencyList(path, CefOptionalDependencies));
+                missingDependencies.AddRange(CheckDependencyList(nativeLibPath, CefOptionalDependencies));
             }
 
-            missingDependencies.AddRange(CheckDependencyList(path, CefSharpDependencies));
+#if NETCOREAPP
+            missingDependencies.AddRange(CheckDependencyList(managedLibPath, CefSharpArchSpecificDependencies));
+#else
+            missingDependencies.AddRange(CheckDependencyList(nativeLibPath, CefSharpArchSpecificDependencies));
+#endif
+            missingDependencies.AddRange(CheckDependencyList(managedLibPath, CefSharpManagedDependencies));
 
             if (!File.Exists(browserSubProcessPath))
             {
@@ -134,7 +169,7 @@ namespace CefSharp
 
             // If path is not rooted (doesn't start with a drive letter + folder)
             // then make it relative to the executing assembly.
-            var localePath = Path.IsPathRooted(localePackFile) ? localePackFile : Path.Combine(path, localePackFile);
+            var localePath = Path.IsPathRooted(localePackFile) ? localePackFile : Path.Combine(nativeLibPath, localePackFile);
 
             if (!File.Exists(localePath))
             {
@@ -168,7 +203,7 @@ namespace CefSharp
 
         /// <summary>
         /// Checks if all Cef and CefSharp dependencies were found relative to the Executing Assembly.
-        /// Shortcut method that calls <see cref="CheckDependencies"/>, throws an Exception if not files are missing.
+        /// Shortcut method that calls <see cref="CheckDependencies(bool, bool, string, string, string, string, string)"/>, throws an Exception if not files are missing.
         /// </summary>
         /// <param name="locale">The locale, if empty then en-US will be used.</param>
         /// <param name="localesDirPath">The path to the locales directory, if empty locales\ will be used.</param>
@@ -178,18 +213,19 @@ namespace CefSharp
         /// <exception cref="Exception">Throw when not all dependencies are present</exception>
         public static void AssertAllDependenciesPresent(string locale = null, string localesDirPath = null, string resourcesDirPath = null, bool packLoadingDisabled = false, string browserSubProcessPath = "CefSharp.BrowserSubProcess.exe")
         {
-            string path;
+            string nativeLibPath;
+            string managedLibPath = Path.GetDirectoryName(typeof(DependencyChecker).Assembly.Location);
 
             Uri pathUri;
             if (Uri.TryCreate(browserSubProcessPath, UriKind.Absolute, out pathUri) && pathUri.IsAbsoluteUri)
             {
-                path = Path.GetDirectoryName(browserSubProcessPath);
+                nativeLibPath = Path.GetDirectoryName(browserSubProcessPath);
             }
             else
             {
                 var executingAssembly = Assembly.GetExecutingAssembly();
 
-                path = Path.GetDirectoryName(executingAssembly.Location);
+                nativeLibPath = Path.GetDirectoryName(executingAssembly.Location);
             }
 
             if (string.IsNullOrEmpty(locale))
@@ -199,15 +235,15 @@ namespace CefSharp
 
             if (string.IsNullOrEmpty(localesDirPath))
             {
-                localesDirPath = @"locales";
+                localesDirPath = Path.Combine(nativeLibPath, "locales");
             }
 
             if (string.IsNullOrEmpty(resourcesDirPath))
             {
-                resourcesDirPath = path;
+                resourcesDirPath = nativeLibPath;
             }
 
-            var missingDependencies = CheckDependencies(true, packLoadingDisabled, path, resourcesDirPath, browserSubProcessPath, Path.Combine(localesDirPath, locale + ".pak"));
+            var missingDependencies = CheckDependencies(true, packLoadingDisabled, managedLibPath, nativeLibPath, resourcesDirPath, browserSubProcessPath, Path.Combine(localesDirPath, locale + ".pak"));
 
             if (missingDependencies.Count > 0)
             {
@@ -219,7 +255,7 @@ namespace CefSharp
                     builder.AppendLine("Missing:" + missingDependency);
                 }
 
-                builder.AppendLine("Executing Assembly Path:" + path);
+                builder.AppendLine("Executing Assembly Path:" + nativeLibPath);
 
                 throw new Exception(builder.ToString());
             }

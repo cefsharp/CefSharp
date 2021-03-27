@@ -151,13 +151,6 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
-        public CefState WebSecurity
-        {
-            get { return settings.WebSecurity; }
-            set { settings.WebSecurity = value; }
-        }
-
-        /// <inheritdoc/>
         public CefState ImageLoading
         {
             get { return settings.ImageLoading; }

@@ -95,7 +95,6 @@
     -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' != 'PackageReference'">None</CefSharpBuildAction>
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference'">Content</CefSharpBuildAction>
-    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference' AND $(NuGetToolVersion) > '5.0' AND '$(OutputType)' == 'Library'">NoAction</CefSharpBuildAction>
     
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''"></CefSharpTargetDir>
     <!-- Ideally we could use EnsureTrailingSlash, was only added on 2017 so unlikely supported in older version of VS -->
@@ -111,7 +110,9 @@
     When AnyCPU and Prefer32Bit we just set the PlatformTarget to x86 (only when CefSharpAnyCpuSupport is empty)
     -->
     <CefSharpPlatformTarget>$(PlatformTarget)</CefSharpPlatformTarget>
-    <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
+    <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == ''">$(Platform)</CefSharpPlatformTarget>
+	<CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'Win32'">x86</CefSharpPlatformTarget>
+	<CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
     
   </PropertyGroup>
@@ -358,15 +359,24 @@
   So in that scenario we display a message to the user. Close/reopen the project and the None/Content entries will work as above.
   I have attempted to copy the files via a Copy Task, unfortunately the .props entries aren't accessible either so that's not feasible.
   -->
-  <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="AfterBuild" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x86'">
+  <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x86'">
     <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
   </Target>
   
-  <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="AfterBuild" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x64'">
+  <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x64'">
     <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
   </Target>
   
-  <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="AfterBuild" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'AnyCPU'">
+  <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'AnyCPU'">
     <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
+  </Target>
+  
+  <!--
+  Sdk Style Projects don't set PlatformTarget correctly issue https://github.com/dotnet/sdk/issues/1560
+  The PlatformTarget value before build  for AnyCPU will end up as x86 and afterbuild the value will
+  be AnyCPU which means we copied only the x86 libs resulting in an invalid build.
+  -->
+  <Target Name="CefSharpPlatformTargetAfterBuildCheck" AfterTargets="Build" Condition="'$(UsingMicrosoftNETSdk)' == 'true' AND '$(CefSharpPlatformTarget)' != '$(PlatformTarget)' AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTargetOverride)' == ''">
+    <Error Text="CefSharp copied resources/libs for $(CefSharpPlatformTarget) where the resulting exe was $(PlatformTarget), this is a known issue with SDK Style projects see https://github.com/dotnet/sdk/issues/1560 please explicitly set PlatformTarget in your proj file." />
   </Target>
 </Project>

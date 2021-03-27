@@ -45,7 +45,6 @@ namespace CefSharp.Core
         public virtual CefSharp.CefState TextAreaResize { get { throw null; } set { } }
         public virtual CefSharp.CefState UniversalAccessFromFileUrls { get { throw null; } set { } }
         public virtual CefSharp.CefState WebGl { get { throw null; } set { } }
-        public virtual CefSharp.CefState WebSecurity { get { throw null; } set { } }
         public virtual int WindowlessFrameRate { get { throw null; } set { } }
         public void Dispose() { }
         protected virtual void Dispose(bool A_0) { }
@@ -79,6 +78,7 @@ namespace CefSharp.Core
         public static CefSharp.ICookieManager GetGlobalCookieManager(CefSharp.ICompletionCallback callback) { throw null; }
         public static CefSharp.IRequestContext GetGlobalRequestContext() { throw null; }
         public static string GetMimeType(string extension) { throw null; }
+        public static int GetMinLogLevel() { throw null; }
         public static System.Threading.Tasks.Task<System.Collections.Generic.List<CefSharp.WebPluginInfo>> GetPlugins() { throw null; }
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings) { throw null; }
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings, bool performDependencyCheck) { throw null; }

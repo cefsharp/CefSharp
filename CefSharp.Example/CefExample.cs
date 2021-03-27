@@ -67,8 +67,14 @@ namespace CefSharp.Example
             //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
             //CEF specific command line args
             //https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc?fileviewer=file-view-default
-            //IMPORTANT: For enabled/disabled command line arguments like disable-gpu specifying a value of "0" like
+
+            //**IMPORTANT**: For enabled/disabled command line arguments like disable-gpu specifying a value of "0" like
             //settings.CefCommandLineArgs.Add("disable-gpu", "0"); will have no effect as the second argument is ignored.
+
+            //**IMPORTANT**: When using command line arguments the behaviour may change between Chromium versions, if you are experiencing
+            //issues after upgrading to a newer version, you should remove all custom command line arguments and add test them in
+            //isolation to determine if they are causing issues.
+            //The command line arguments shown here are here as a reference only and are not tested to confirm they work with each version
 
             settings.RemoteDebuggingPort = 8088;
             //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
@@ -79,7 +85,6 @@ namespace CefSharp.Example
             //
             settings.CachePath = Path.GetFullPath("cache\\global");
             //settings.UserAgent = "CefSharp Browser" + Cef.CefSharpVersion; // Example User Agent
-            //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
             //settings.CefCommandLineArgs.Add("enable-media-stream"); //Enable WebRTC
             //settings.CefCommandLineArgs.Add("no-proxy-server"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
