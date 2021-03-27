@@ -6,7 +6,7 @@
 # Update the .Net 4.5.2 csproj files using nuget.exe
 # Update the .Net Core csproj files modifying the xml file directly
 
-$CefVersion = '90.0.6'
+$CefVersion = '90.1.0'
 
 function RemoveEnsureNuGetPackageBuildImports
 {
