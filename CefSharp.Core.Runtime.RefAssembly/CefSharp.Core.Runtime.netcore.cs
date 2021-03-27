@@ -45,7 +45,6 @@ namespace CefSharp.Core
         public virtual CefSharp.CefState TextAreaResize { get { throw null; } set { } }
         public virtual CefSharp.CefState UniversalAccessFromFileUrls { get { throw null; } set { } }
         public virtual CefSharp.CefState WebGl { get { throw null; } set { } }
-        public virtual CefSharp.CefState WebSecurity { get { throw null; } set { } }
         public virtual int WindowlessFrameRate { get { throw null; } set { } }
         public void Dispose() { }
         protected virtual void Dispose(bool A_0) { }
