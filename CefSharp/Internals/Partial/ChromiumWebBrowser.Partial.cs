@@ -38,6 +38,17 @@ namespace CefSharp.WinForms
         private int browserInitialized;
 
         /// <summary>
+        /// The value for disposal, if it's 1 (one) then this instance is either disposed
+        /// or in the process of getting disposed
+        /// </summary>
+        private int disposeSignaled;
+
+        /// <summary>
+        /// The browser
+        /// </summary>
+        private IBrowser browser;
+
+        /// <summary>
         /// A flag that indicates if you can execute javascript in the main frame.
         /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
         /// and false in IRenderProcessMessageHandler.OnContextReleased
@@ -290,6 +301,21 @@ namespace CefSharp.WinForms
         {
             get { return managedCefBrowserAdapter; }
         }
+
+        void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
+        {
+            if (IsDisposed || browser.IsDisposed)
+            {
+                return;
+            }
+
+            this.browser = browser;
+            Interlocked.Exchange(ref browserInitialized, 1);
+
+            OnAfterBrowserCreated(browser);
+        }
+
+        partial void OnAfterBrowserCreated(IBrowser browser);
 
         private void SetHandlersToNullExceptLifeSpan()
         {

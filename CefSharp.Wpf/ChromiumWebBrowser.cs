@@ -104,10 +104,6 @@ namespace CefSharp.Wpf
         /// </summary>
         private Image popupImage;
         /// <summary>
-        /// The browser
-        /// </summary>
-        private IBrowser browser;
-        /// <summary>
         /// Location of the control on the screen, relative to Top/Left
         /// Used to calculate GetScreenPoint
         /// We're unable to call PointToScreen directly due to treading restrictions
@@ -137,12 +133,6 @@ namespace CefSharp.Wpf
         /// NOTE: Needs to be static for OnApplicationExit
         /// </summary>
         private static bool DesignMode;
-
-        /// <summary>
-        /// The value for disposal, if it's 1 (one) then this instance is either disposed
-        /// or in the process of getting disposed
-        /// </summary>
-        private int disposeSignaled;
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -1065,16 +1055,8 @@ namespace CefSharp.Wpf
         /// Called when [after browser created].
         /// </summary>
         /// <param name="browser">The browser.</param>
-        void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
+        partial void OnAfterBrowserCreated(IBrowser browser)
         {
-            if (IsDisposed || browser.IsDisposed)
-            {
-                return;
-            }
-
-            Interlocked.Exchange(ref browserInitialized, 1);
-            this.browser = browser;
-
             UiThreadRunAsync(() =>
             {
                 if (!IsDisposed)

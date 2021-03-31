@@ -37,10 +37,6 @@ namespace CefSharp.WinForms
         /// </summary>
         private ParentFormMessageInterceptor parentFormMessageInterceptor;
         /// <summary>
-        /// The browser
-        /// </summary>
-        private IBrowser browser;
-        /// <summary>
         /// A flag that indicates whether or not the designer is active
         /// NOTE: DesignMode becomes false by the time we get to the destructor/dispose so it gets stored here
         /// </summary>
@@ -74,12 +70,6 @@ namespace CefSharp.WinForms
         /// user attempts to set after browser created)
         /// </summary>
         private IRequestContext requestContext;
-
-        /// <summary>
-        /// The value for disposal, if it's 1 (one) then this instance is either disposed
-        /// or in the process of getting disposed
-        /// </summary>
-        private int disposeSignaled;
 
         /// <summary>
         /// Parking control used to temporarily host the CefBrowser instance
@@ -605,16 +595,8 @@ namespace CefSharp.WinForms
         /// Called after browser created.
         /// </summary>
         /// <param name="browser">The browser.</param>
-        void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
+        partial void OnAfterBrowserCreated(IBrowser browser)
         {
-            if(IsDisposed || browser.IsDisposed)
-            {
-                return;
-            }
-
-            this.browser = browser;
-            Interlocked.Exchange(ref browserInitialized, 1);
-
             // By the time this callback gets called, this control
             // is most likely hooked into a browser Form of some sort. 
             // (Which is what ParentFormMessageInterceptor relies on.)

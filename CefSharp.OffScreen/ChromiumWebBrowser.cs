@@ -36,20 +36,9 @@ namespace CefSharp.OffScreen
         private Size size = new Size(1366, 768);
 
         /// <summary>
-        /// The browser
-        /// </summary>
-        private IBrowser browser;
-
-        /// <summary>
         /// Flag to guard the creation of the underlying offscreen browser - only one instance can be created
         /// </summary>
         private bool browserCreated;
-
-        /// <summary>
-        /// The value for disposal, if it's 1 (one) then this instance is either disposed
-        /// or in the process of getting disposed
-        /// </summary>
-        private int disposeSignaled;
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -661,17 +650,8 @@ namespace CefSharp.OffScreen
         /// Called when [after browser created].
         /// </summary>
         /// <param name="browser">The browser.</param>
-        void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
+        partial void OnAfterBrowserCreated(IBrowser browser)
         {
-            if (IsDisposed || browser.IsDisposed)
-            {
-                return;
-            }
-
-            this.browser = browser;
-
-            Interlocked.Exchange(ref browserInitialized, 1);
-
             BrowserInitialized?.Invoke(this, EventArgs.Empty);
         }
 
