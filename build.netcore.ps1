@@ -91,7 +91,7 @@ function Msvs
         [string] $Configuration, 
 
         [Parameter(Position = 1, ValueFromPipeline = $true)]
-        [ValidateSet('x86', 'x64')]
+        [ValidateSet('x86', 'x64', 'arm64')]
         [string] $Platform
     )
 
@@ -178,6 +178,7 @@ function Compile
     # Compile
     Msvs 'Release' 'x64'
     Msvs 'Release' 'x86'
+    Msvs 'Release' 'arm64'
 }
 
 function Nupkg

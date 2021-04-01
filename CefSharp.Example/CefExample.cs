@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using CefSharp.Example.Proxy;
 using CefSharp.SchemeHandler;
@@ -173,9 +174,9 @@ namespace CefSharp.Example
 
             if (DebuggingSubProcess)
             {
-                var architecture = Environment.Is64BitProcess ? "x64" : "x86";
+                var architecture = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
 #if NETCOREAPP
-                settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin.netcore\\" + architecture + "\\Debug\\netcoreapp3.1\\CefSharp.BrowserSubprocess.exe");
+                settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin.netcore\\" + architecture + "\\Debug\\netcoreapp3.1\\CefSharp.BrowserSubprocess.exe");
 #else
                 settings.BrowserSubprocessPath = Path.GetFullPath("..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe");
 #endif
@@ -215,7 +216,7 @@ namespace CefSharp.Example
 #if !NETCOREAPP
                 @"..\..\..\..\CefSharp.Example\Resources";
 #else
-                @"..\..\..\..\..\CefSharp.Example\Resources";
+                @"..\..\..\..\..\..\CefSharp.Example\Resources";
 #endif
 
             settings.RegisterScheme(new CefCustomScheme

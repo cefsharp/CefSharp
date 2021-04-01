@@ -97,7 +97,7 @@ namespace CefSharp.Example.Handlers
 #if !NETCOREAPP
                     @"..\..\..\..\CefSharp.Example\Resources";
 #else
-                    @"..\..\..\..\..\CefSharp.Example\Resources";
+                    @"..\..\..\..\..\..\CefSharp.Example\Resources";
 #endif
                 var folderSchemeHandlerExample = new FolderSchemeHandlerFactory(rootFolder: cefSharpExampleResourcesFolder,
                                                                         hostName: "cefsharp.example", //Optional param no hostname checking if null

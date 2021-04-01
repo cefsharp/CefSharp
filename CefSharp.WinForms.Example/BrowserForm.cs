@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Example;
@@ -27,7 +28,7 @@ namespace CefSharp.WinForms.Example
         {
             InitializeComponent();
 
-            var bitness = Environment.Is64BitProcess ? "x64" : "x86";
+            var bitness = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
             Text = "CefSharp.WinForms.Example - " + bitness;
             WindowState = FormWindowState.Maximized;
 
