@@ -27,7 +27,20 @@ namespace CefSharp
         [ModuleInitializer]
         internal static void ModuleInitializer()
         {
-            var currentFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string currentFolder;
+
+            var executingAssembly = Assembly.GetEntryAssembly();
+            //The GetEntryAssembly method can return null when a managed assembly has been loaded from an unmanaged application.
+            //https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getentryassembly?view=net-5.0
+            if (executingAssembly == null)
+            {
+                currentFolder = Path.GetDirectoryName(typeof(Initializer).Assembly.Location);
+            }
+            else
+            {
+                currentFolder = Path.GetDirectoryName(executingAssembly.Location);
+            }
+
             var libCefPath = Path.Combine(currentFolder, "libcef.dll");
 
             if (File.Exists(libCefPath))
