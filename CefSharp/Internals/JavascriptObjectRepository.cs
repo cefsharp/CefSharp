@@ -738,7 +738,7 @@ namespace CefSharp.Internals
                 baseType = Nullable.GetUnderlyingType(type);
             }
 
-            if (baseType == null || baseType.IsArray || baseType.Namespace.StartsWith("System"))
+            if (baseType == null || baseType.IsArray || (baseType.Namespace != null && baseType.Namespace.StartsWith("System")))
             {
                 return false;
             }
