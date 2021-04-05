@@ -163,6 +163,7 @@
     <Compile Include="Framework\RequestContextFacts.cs" />
     <Compile Include="Framework\TestMemberInfo.cs" />
     <Compile Include="JavascriptBinding\IntegrationTestFacts.cs" />
+    <Compile Include="JavascriptBinding\JavaScriptObjectRepositoryFacts.cs" />
     <Compile Include="OffScreen\OffScreenBrowserBasicFacts.cs" />
     <Compile Include="CefSharpXunitTestFramework.cs" />
     <Compile Include="CefSharpFixture.cs" />
