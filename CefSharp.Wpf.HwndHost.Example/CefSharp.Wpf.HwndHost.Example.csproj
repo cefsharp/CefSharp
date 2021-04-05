@@ -2,8 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
-    <TargetFramework>net462</TargetFramework>
-	<!--<TargetFrameworks>net462;netcoreapp3.1</TargetFrameworks>-->
+	<TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
     <RootNamespace>CefSharp.Wpf.HwndHost.Example</RootNamespace>
 	<CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
 	<StartupObject>CefSharp.Wpf.HwndHost.Example.App</StartupObject>
@@ -11,7 +10,6 @@
 	<ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-      <PackageReference Include="CefSharp.Common" Version="88.2.90" />
       <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
   </ItemGroup>
 
