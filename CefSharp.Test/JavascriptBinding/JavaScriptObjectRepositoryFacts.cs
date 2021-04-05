@@ -1,3 +1,7 @@
+// Copyright © 2021 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 using CefSharp.Internals;
 using Xunit;
 
@@ -27,7 +31,11 @@ namespace CefSharp.Test.JavascriptBinding
         {
             var javascriptObjectRepository = new JavascriptObjectRepository();
             var name = nameof(NoNamespaceClass);
-            javascriptObjectRepository.Register(name, new NoNamespaceClass(), false, new BindingOptions() { });
+#if NETCOREAPP
+            javascriptObjectRepository.Register(name, new NoNamespaceClass(), new BindingOptions());
+#else
+            javascriptObjectRepository.Register(name, new NoNamespaceClass(), false, new BindingOptions());
+#endif
             Assert.True(javascriptObjectRepository.IsBound(name));
 
             var result = ((IJavascriptObjectRepositoryInternal)javascriptObjectRepository).TryCallMethod(1, "getExampleString", new object[0]);
