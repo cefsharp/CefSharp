@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using CefSharp.Internals;
+using System.Collections.Generic;
 using Xunit;
 
 internal class NoNamespaceClass
@@ -29,7 +30,7 @@ namespace CefSharp.Test.JavascriptBinding
         [Fact]
         public void CanRegisterJavascriptObjectBindWhenNamespaceIsNull()
         {
-            var javascriptObjectRepository = new JavascriptObjectRepository();
+            IJavascriptObjectRepositoryInternal javascriptObjectRepository = new JavascriptObjectRepository();
             var name = nameof(NoNamespaceClass);
 #if NETCOREAPP
             javascriptObjectRepository.Register(name, new NoNamespaceClass(), new BindingOptions());
@@ -38,7 +39,10 @@ namespace CefSharp.Test.JavascriptBinding
 #endif
             Assert.True(javascriptObjectRepository.IsBound(name));
 
-            var result = ((IJavascriptObjectRepositoryInternal)javascriptObjectRepository).TryCallMethod(1, "getExampleString", new object[0]);
+            var boundObjects = javascriptObjectRepository.GetObjects(new List<string> { name });
+            Assert.Equal(1, boundObjects.Count);
+
+            var result = javascriptObjectRepository.TryCallMethod(boundObjects[0].Id, "getExampleString", new object[0]);
             Assert.True(result.Success);
             Assert.Equal("ok", result.ReturnValue.ToString());
         }
