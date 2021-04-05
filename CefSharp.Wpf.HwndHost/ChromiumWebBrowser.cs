@@ -751,8 +751,10 @@ namespace CefSharp.Wpf.HwndHost
                 TitleChanged = null;
                 JavascriptMessageReceived = null;
 
-                // Release reference to handlers, except LifeSpanHandler which is done after Disposing
-                // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
+                // Release reference to handlers, except LifeSpanHandler which we don't set to null
+                //so that ILifeSpanHandler.DoClose will not be invoked. Previously we set LifeSpanHandler = null
+                //after managedCefBrowserAdapter.Dispose, there's still cases where the LifeSpanHandler was null
+                //when DoClose was called Issue https://github.com/cefsharp/CefSharp.Wpf.HwndHost/issues/10
                 FindHandler = null;
                 DialogHandler = null;
                 RequestHandler = null;
@@ -771,10 +773,6 @@ namespace CefSharp.Wpf.HwndHost
 
                 managedCefBrowserAdapter?.Dispose();
                 managedCefBrowserAdapter = null;
-
-                // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
-                // is called.
-                LifeSpanHandler = null;
             }
 
             Cef.RemoveDisposable(this);
