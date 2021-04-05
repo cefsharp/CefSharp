@@ -10,6 +10,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 using CefSharp.Preferences;
+using CefSharp.SchemeHandler;
 
 namespace CefSharp
 {
@@ -207,6 +208,20 @@ namespace CefSharp
             requestContext.ClearHttpAuthCredentials(handler);
 
             return handler.Task;
+        }
+
+        /// <summary>
+        /// Extension method to register a instance of the <see cref="OwinSchemeHandlerFactory"/> with the provided <paramref name="appFunc"/>
+        /// for the <paramref name="domainName"/>
+        /// </summary>
+        /// <param name="requestContext">request context</param>
+        /// <param name="schemeName">scheme name, e.g. http(s). If registering for a custom scheme then that scheme must be already registered.
+        /// It's recommended that you use https or http with a domain name rather than using a custom scheme.</param>
+        /// <param name="domainName">Optional domain name</param>
+        /// <param name="appFunc">OWIN AppFunc as defined at owin.org</param>
+        public static void RegisterOwinSchemeHandlerFactory(this IRequestContext requestContext, string schemeName, string domainName, Func<IDictionary<string, object>, Task> appFunc)
+        {
+            requestContext.RegisterSchemeHandlerFactory(schemeName, domainName, new OwinSchemeHandlerFactory(appFunc));
         }
     }
 }
