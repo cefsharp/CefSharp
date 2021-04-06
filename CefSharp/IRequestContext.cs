@@ -22,6 +22,10 @@ namespace CefSharp
     public interface IRequestContext : IDisposable
     {
         /// <summary>
+        /// Gets a value indicating whether the RequestContext has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
+        /// <summary>
         /// Returns true if this object is pointing to the same context object.
         /// </summary>
         /// <param name="context">context to compare</param>

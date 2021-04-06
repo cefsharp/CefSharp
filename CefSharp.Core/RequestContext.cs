@@ -76,6 +76,12 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
+        public bool IsDisposed
+        {
+            get { return requestContext.IsDisposed; }
+        }
+
+        /// <inheritdoc/>
         public bool IsSame(IRequestContext context)
         {
             return requestContext.IsSame(context);
