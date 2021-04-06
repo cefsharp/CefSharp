@@ -38,6 +38,7 @@ namespace CefSharp.Example
         public const string DragDropCursorsTestUrl = BaseUrl + "/DragDropCursorsTest.html";
         public const string CssAnimationTestUrl = BaseUrl + "/CssAnimationTest.html";
         public const string CdmSupportTestUrl = BaseUrl + "/CdmSupportTest.html";
+        public const string HelloWorldUrl = BaseUrl + "/HelloWorld.html";
         public const string BindingApiCustomObjectNameTestUrl = BaseUrl + "/BindingApiCustomObjectNameTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
         public const string RenderProcessCrashedUrl = "http://processcrashed";

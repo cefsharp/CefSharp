@@ -292,7 +292,7 @@ namespace CefSharp.Example.Properties {
         ///    &lt;script&gt;
         ///        if (!window.bindingApiObject)
         ///        {
-        ///            window.bindingApiObject = cefSharp;
+        ///            window.bindingApiObject = window.cefSharp;
         ///        }
         ///    &lt;/script&gt;
         ///&lt;/head&gt;
@@ -300,7 +300,7 @@ namespace CefSharp.Example.Properties {
         ///    &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
         ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
         ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
-        ///    &lt;script&gt; [rest of string was truncated]&quot;;.
+        ///    &lt; [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingApiCustomObjectNameTest {
             get {
@@ -633,6 +633,26 @@ namespace CefSharp.Example.Properties {
         public static string FramedWebGLTest {
             get {
                 return ResourceManager.GetString("FramedWebGLTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;Hello World&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;p&gt;Hello World&lt;/p&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;
+        ///.
+        /// </summary>
+        public static string HelloWorld {
+            get {
+                return ResourceManager.GetString("HelloWorld", resourceCulture);
             }
         }
         
