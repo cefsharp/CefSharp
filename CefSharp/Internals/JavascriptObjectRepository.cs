@@ -34,13 +34,26 @@ namespace CefSharp.Internals
     /// </summary>
     public class JavascriptObjectRepository : FreezableBase, IJavascriptObjectRepositoryInternal
     {
+        /// <summary>
+        /// CefSharp.BindObjectAsync was called from Javascript without pasing in any params
+        /// the <see cref="ResolveObject"/> will be called with <see cref="JavascriptBindingEventArgs.ObjectName"/>
+        /// set to this value.
+        /// </summary>
         public const string AllObjects = "All";
+        /// <summary>
+        /// Legacy Javascript Binding is enabled, the <see cref="ResolveObject"/> event
+        /// will be called with <see cref="JavascriptBindingEventArgs.ObjectName"/>
+        /// set to this value
+        /// </summary>
         public const string LegacyObjects = "Legacy";
 
         private static long lastId;
 
+        /// <inheritdoc/>
         public event EventHandler<JavascriptBindingEventArgs> ResolveObject;
+        /// <inheritdoc/>
         public event EventHandler<JavascriptBindingCompleteEventArgs> ObjectBoundInJavascript;
+        /// <inheritdoc/>
         public event EventHandler<JavascriptBindingMultipleCompleteEventArgs> ObjectsBoundInJavascript;
 
         /// <summary>
@@ -60,6 +73,7 @@ namespace CefSharp.Internals
         /// </summary>
         public bool IsBrowserInitialized { get; set; }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             ResolveObject = null;
@@ -67,6 +81,7 @@ namespace CefSharp.Internals
             ObjectsBoundInJavascript = null;
         }
 
+        /// <inheritdoc/>
         public bool HasBoundObjects
         {
             get { return objects.Count > 0; }
@@ -93,12 +108,16 @@ namespace CefSharp.Internals
             }
         }
 
+        /// <summary>
+        /// JavascriptObjectRepository
+        /// </summary>
         public JavascriptObjectRepository()
         {
             Settings = new JavascriptBindingSettings();
             nameConverter = new LegacyCamelCaseJavascriptNameConverter();
         }
 
+        /// <inheritdoc/>
         public bool IsBound(string name)
         {
             return objects.Values.Any(x => x.Name == name);
@@ -235,11 +254,13 @@ namespace CefSharp.Internals
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false);
         }
 
+        /// <inheritdoc/>
         public void UnRegisterAll()
         {
             objects.Clear();
         }
 
+        /// <inheritdoc/>
         public bool UnRegister(string name)
         {
             foreach (var kvp in objects)
