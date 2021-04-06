@@ -6,7 +6,7 @@
 # Update the .Net 4.5.2 csproj files using nuget.exe
 # Update the .Net Core csproj files modifying the xml file directly
 
-$CefVersion = '90.1.0'
+$CefVersion = '90.2.3'
 
 function RemoveEnsureNuGetPackageBuildImports
 {
@@ -58,7 +58,7 @@ $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@
 
 $netcorecsprojFiles = @('CefSharp.WinForms.Example\CefSharp.WinForms.Example.netcore.csproj','CefSharp.Wpf.Example\CefSharp.Wpf.Example.netcore.csproj','CefSharp.OffScreen.Example\CefSharp.OffScreen.Example.netcore.csproj', 'CefSharp.Test\CefSharp.Test.netcore.csproj')
 
-#Loop through the net core projects and update the package version number
+#Loop through the net core example projects and update the package version number
 
 foreach($file in $netcorecsprojFiles)
 {
@@ -67,11 +67,9 @@ foreach($file in $netcorecsprojFiles)
 	$xml.PreserveWhitespace = $true
 	$xml.Load($file)
 	
-	$packRefx86 = $xml.Project.ItemGroup.PackageReference | Where-Object {$_."Include" -eq "cef.redist.x86"}
-	$packRefx64 = $xml.Project.ItemGroup.PackageReference | Where-Object {$_."Include" -eq "cef.redist.x64"}
+	$packRef = $xml.Project.ItemGroup.PackageReference | Where-Object {$_."Include" -eq "chromiumembeddedframework.runtime"}
 	
-	$packRefx86.Version = $RedistVersion
-	$packRefx64.Version = $RedistVersion
+	$packRef.Version = $RedistVersion
 	
 	$xml.Save( $file )
 }
