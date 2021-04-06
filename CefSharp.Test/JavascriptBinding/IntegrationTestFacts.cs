@@ -4,8 +4,10 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CefSharp.Event;
 using CefSharp.Example;
 using CefSharp.Example.JavascriptBinding;
+using CefSharp.Internals;
 using CefSharp.OffScreen;
 using Xunit;
 using Xunit.Abstractions;
@@ -155,6 +157,27 @@ namespace CefSharp.Test.JavascriptBinding
                 {
                     Assert.Equal("CefSharp.BrowserSubprocess", process.ProcessName);
                 }
+            }
+        }
+
+        [Fact]
+        //Issue https://github.com/cefsharp/CefSharp/issues/3470
+        //Verify workaround passes
+        public async Task CanCallCefSharpBindObjectAsyncWithoutParams()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl))
+            {
+                await browser.LoadPageAsync();
+
+                //TODO: See if we can avoid GetAwaiter().GetResult()
+                var evt = Assert.Raises<JavascriptBindingEventArgs>(
+                    x => browser.JavascriptObjectRepository.ResolveObject += x,
+                    y => browser.JavascriptObjectRepository.ResolveObject -= y,
+                    () => { browser.EvaluateScriptAsync("CefSharp.BindObjectAsync({ IgnoreCache: true });").GetAwaiter().GetResult(); });
+
+                Assert.NotNull(evt);
+
+                Assert.Equal(JavascriptObjectRepository.AllObjects, evt.Arguments.ObjectName);
             }
         }
     }

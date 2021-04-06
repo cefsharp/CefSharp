@@ -59,7 +59,8 @@ namespace CefSharp.Example
                 { "/UnocodeExampleEqualTo32kb.html", Resources.UnocodeExampleEqualTo32kb },
                 { "/JavascriptCallbackTest.html", Resources.JavascriptCallbackTest },
                 { "/BindingTestsAsyncTask.html", Resources.BindingTestsAsyncTask },
-                { "/BindingApiCustomObjectNameTest.html", Resources.BindingApiCustomObjectNameTest }
+                { "/BindingApiCustomObjectNameTest.html", Resources.BindingApiCustomObjectNameTest },
+                { "/HelloWorld.html", Resources.HelloWorld }
             };
         }
 
