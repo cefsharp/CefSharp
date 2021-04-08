@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -166,11 +167,20 @@ namespace CefSharp.DevTools
                 {
                     propertyValue = ((DevToolsDomainEntityBase)(propertyValue)).ToDictionary();
                 }
+                else if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(IList<>) && typeof(DevToolsDomainEntityBase).IsAssignableFrom(prop.PropertyType.GetGenericArguments()[0]))
+                {
+                    var values = new List<IDictionary<string, object>>();
+                    foreach (var value in (IEnumerable)propertyValue)
+                    {
+                        values.Add(((DevToolsDomainEntityBase)value).ToDictionary());
+                    }
+                    propertyValue = values;
+                }
                 else if (propertyValueType.IsEnum)
                 {
                     propertyValue = EnumToString((Enum)propertyValue);
                 }
-                else if(propertyValueType.IsGenericType)
+                else if (propertyValueType.IsGenericType)
                 {
                     var nullableType = Nullable.GetUnderlyingType(propertyValueType);
                     if(nullableType != null && nullableType.IsEnum)
@@ -178,7 +188,7 @@ namespace CefSharp.DevTools
                         propertyValue = EnumToString((Enum)propertyValue);
                     }
                 }
-                else if(propertyValueType.IsArray && propertyValueType.GetElementType().IsEnum)
+                else if (propertyValueType.IsArray && propertyValueType.GetElementType().IsEnum)
                 {
                     propertyValue = EnumToString((Array)propertyValue);
                 }
@@ -225,6 +235,15 @@ namespace CefSharp.DevTools
                 if (typeof(DevToolsDomainEntityBase).IsAssignableFrom(propertyValueType))
                 {
                     propertyValue = ((DevToolsDomainEntityBase)(propertyValue)).ToDictionary();
+                }
+                else if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(IList<>) && typeof(DevToolsDomainEntityBase).IsAssignableFrom(prop.PropertyType.GetGenericArguments()[0]))
+                {
+                    var values = new List<IDictionary<string, object>>();
+                    foreach (var value in (IEnumerable)propertyValue)
+                    {
+                        values.Add(((DevToolsDomainEntityBase)value).ToDictionary());
+                    }
+                    propertyValue = values;
                 }
 
                 dict.Add(propertyName, propertyValue);
