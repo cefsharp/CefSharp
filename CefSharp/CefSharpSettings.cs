@@ -38,10 +38,10 @@ namespace CefSharp
 
 #if !NETCOREAPP
         /// <summary>
-        /// WCF is used by RegisterJsObject feature for Javascript Binding
-        /// It's reccomended that anyone developing a new application use 
-        /// the RegisterAsyncJsObject version which communicates using native
-        /// Chromium IPC.
+        /// WCF is used by JavascriptObjectRepository.Register(isAsync: false) feature for
+        /// Javascript Binding. It's recomended that anyone developing a new application use
+        /// the JavascriptObjectRepository.Register(isAsync: true) version which communicates
+        /// using native Chromium IPC.
         /// </summary>
         public static bool WcfEnabled { get; set; }
 
