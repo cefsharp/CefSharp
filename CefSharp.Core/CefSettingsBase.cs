@@ -61,6 +61,18 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// **Experimental**
+        /// Set to true to enable use of the Chrome runtime in CEF. This feature is
+        /// considered experimental and is not recommended for most users at this time.
+        /// See issue https://bitbucket.org/chromiumembedded/cef/issues/2969/support-chrome-windows-with-cef-callbacks for details.
+        /// </summary>
+        public bool ChromeRuntime
+        {
+            get { return settings.ChromeRuntime; }
+            set { settings.ChromeRuntime = value; }
+        }
+
+        /// <summary>
         /// Set to true to disable configuration of browser process features using standard CEF and Chromium command-line arguments.
         /// Configuration can still be specified using CEF data structures or by adding to CefCommandLineArgs.
         /// </summary>
