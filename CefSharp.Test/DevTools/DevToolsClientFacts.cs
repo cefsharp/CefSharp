@@ -3,8 +3,10 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CefSharp.DevTools.Browser;
+using CefSharp.DevTools.Emulation;
 using CefSharp.DevTools.Network;
 using CefSharp.Example;
 using CefSharp.OffScreen;
@@ -154,6 +156,69 @@ namespace CefSharp.Test.DevTools
 
                     output.WriteLine("DevTools Revision {0}", revision);
                 }
+            }
+        }
+
+        [Fact]
+        public async Task CanSetUserAgentOverride()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                await browser.LoadPageAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var brandsList = new List<UserAgentBrandVersion>();
+                    var uab = new UserAgentBrandVersion();
+                    uab.Brand = "Google Chrome";
+                    uab.Version = "89";
+                    brandsList.Add(uab);
+
+                    var uab2 = new UserAgentBrandVersion();
+                    uab2.Brand = "Chromium";
+                    uab2.Version = "89";
+                    brandsList.Add(uab2);
+
+                    var ua = new UserAgentMetadata();
+                    ua.Brands = brandsList;
+                    ua.Architecture = "arm";
+                    ua.Model = "Nexus 7";
+                    ua.Platform = "Android";
+                    ua.PlatformVersion = "6.0.1";
+                    ua.FullVersion = "89.0.4389.114";
+                    ua.Mobile = true;
+
+                    await devToolsClient.Emulation.SetUserAgentOverrideAsync("Mozilla/5.0 (Linux; Android 6.0.1; Nexus 7 Build/MOB30X) AppleWebKit/5(KHTML,likeGeckoChrome/89.0.4389.114Safari/537.36", null, null, ua);
+                }
+
+                var userAgent = await browser.EvaluateScriptAsync("navigator.userAgent");
+                Assert.True(userAgent.Success);
+                Assert.Contains("Mozilla/5.0 (Linux; Android 6.0.1; Nexus 7 Build/MOB30X) AppleWebKit/5(KHTML,likeGeckoChrome/89.0.4389.114Safari/537.36", Assert.IsType<string>(userAgent.Result));
+
+                var brands = await browser.EvaluateScriptAsync("navigator.userAgentData.brands");
+                Assert.True(brands.Success);
+                dynamic brandsResult = brands.Result;
+                Assert.Collection((IEnumerable<dynamic>)brandsResult,
+                    (dynamic d) =>
+                    {
+                        Assert.Equal("Google Chrome", d.brand);
+                        Assert.Equal("89", d.version);
+                    },
+                    (dynamic d) =>
+                    {
+                        Assert.Equal("Chromium", d.brand);
+                        Assert.Equal("89", d.version);
+                    }
+                );
+
+                var highEntropyValues = await browser.EvaluateScriptAsPromiseAsync("return navigator.userAgentData.getHighEntropyValues(['architecture','model','platform','platformVersion','uaFullVersion'])");
+                Assert.True(highEntropyValues.Success);
+                dynamic highEntropyValuesResult = highEntropyValues.Result;
+                Assert.Equal("arm", highEntropyValuesResult.architecture);
+                Assert.Equal("Nexus 7", highEntropyValuesResult.model);
+                Assert.Equal("Android", highEntropyValuesResult.platform);
+                Assert.Equal("6.0.1", highEntropyValuesResult.platformVersion);
+                Assert.Equal("89.0.4389.114", highEntropyValuesResult.uaFullVersion);
             }
         }
     }
