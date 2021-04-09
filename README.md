@@ -60,14 +60,22 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk!
 
 **Pre-release**<br>
 
-- [![CefSharp.WinForms](http://img.shields.io/nuget/vpre/CefSharp.WinForms.svg?style=flat&label=WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
-- [![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat&label=Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
-- [![CefSharp.OffScreen](http://img.shields.io/nuget/vpre/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+- [![CefSharp.WinForms](http://img.shields.io/nuget/vpre/CefSharp.WinForms.svg?style=flat&label=CefSharp.WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
+- [![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat&label=CefSharp.Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
+- [![CefSharp.OffScreen](http://img.shields.io/nuget/vpre/CefSharp.OffScreen.svg?style=flat&label=CefSharp.OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+
+- [![CefSharp.WinForms.NETCore](http://img.shields.io/nuget/vpre/CefSharp.WinForms.NETCore.svg?style=flat&label=CefSharp.WinForms.NETCore)](http://www.nuget.org/packages/CefSharp.WinForms.NETCore/)
+- [![CefSharp.Wpf.NETCore](http://img.shields.io/nuget/vpre/CefSharp.Wpf.NETCore.svg?style=flat&label=CefSharp.Wpf.NETCore)](http://www.nuget.org/packages/CefSharp.Wpf.NETCore/)
+- [![CefSharp.OffScreen.NETCore](http://img.shields.io/nuget/vpre/CefSharp.OffScreen.NETCore.svg?style=flat&label=CefSharp.OffScreen.NETCore)](http://www.nuget.org/packages/CefSharp.OffScreen.NETCore/)
 
 **Stable**<br>
-- [![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat&label=WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
-- [![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
-- [![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+- [![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat&label=CefSharp.WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
+- [![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=CefSharp.Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
+- [![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=CefSharp.OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
+
+- [![CefSharp.WinForms.NETCore](http://img.shields.io/nuget/v/CefSharp.WinForms.NETCore.svg?style=flat&label=CefSharp.WinForms.NETCore)](http://www.nuget.org/packages/CefSharp.WinForms.NETCore/)
+- [![CefSharp.Wpf.NETCore](http://img.shields.io/nuget/v/CefSharp.Wpf.NETCore.svg?style=flat&label=CefSharp.Wpf.NETCore)](http://www.nuget.org/packages/CefSharp.Wpf.NETCore/)
+- [![CefSharp.OffScreen.NETCore](http://img.shields.io/nuget/v/CefSharp.OffScreen.NETCore.svg?style=flat&label=CefSharp.OffScreen.NETCore)](http://www.nuget.org/packages/CefSharp.OffScreen.NETCore/)
 
 ### Release Branches
 
@@ -79,9 +87,9 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 | Branch                                                               | CEF Version  | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|-------|---------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                      | 4389 | 2015* | 4.5.2** | Development     |
-| [cefsharp/89](https://github.com/cefsharp/CefSharp/tree/cefsharp/89) | 4389 | 2015* | 4.5.2** | Development     |
-| [cefsharp/88](https://github.com/cefsharp/CefSharp/tree/cefsharp/88) | 4324 | 2015* | 4.5.2** | **Release**     |
+| [master](https://github.com/cefsharp/CefSharp/)                      | 4430 | 2015* | 4.5.2** | Development     |
+| [cefsharp/89](https://github.com/cefsharp/CefSharp/tree/cefsharp/89) | 4389 | 2015* | 4.5.2** | **Release**     |
+| [cefsharp/88](https://github.com/cefsharp/CefSharp/tree/cefsharp/88) | 4324 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/87](https://github.com/cefsharp/CefSharp/tree/cefsharp/87) | 4280 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/86](https://github.com/cefsharp/CefSharp/tree/cefsharp/86) | 4240 | 2015  | 4.5.2   | Unsupported     |
 | [cefsharp/85](https://github.com/cefsharp/CefSharp/tree/cefsharp/85) | 4183 | 2015  | 4.5.2   | Unsupported     |

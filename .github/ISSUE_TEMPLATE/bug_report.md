@@ -38,6 +38,9 @@ Delete this line and everything above, and then fill in the details below.
 
 - **What architecture x86 or x64?**
     <x86/x64>
+	
+- **What version of .Net?**
+    <.Net 4.x/.Net Core 3.1/.Net 5.0>
     
 - **On what operating system?**
     <Win7/Win8.1/Win10>
@@ -66,8 +69,8 @@ Delete this line and everything above, and then fill in the details below.
 
 - **Does this problem also occur in the `CEF` Sample Application**
     - Download one of the following:
-    - For x86 download https://cef-builds.spotifycdn.com/cef_binary_86.0.24%2Bg85e79d4%2Bchromium-86.0.4240.198_windows32_client.tar.bz2
-    - For x64 download https://cef-builds.spotifycdn.com/cef_binary_86.0.24%2Bg85e79d4%2Bchromium-86.0.4240.198_windows64_client.tar.bz2
+    - For x86 download https://cef-builds.spotifycdn.com/cef_binary_89.0.17%2Bge7bbb1d%2Bchromium-89.0.4389.114_windows32_client.tar.bz2
+    - For x64 download https://cef-builds.spotifycdn.com/cef_binary_89.0.17%2Bge7bbb1d%2Bchromium-89.0.4389.114_windows64_client.tar.bz2
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
