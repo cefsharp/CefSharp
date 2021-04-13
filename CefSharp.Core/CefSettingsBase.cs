@@ -344,6 +344,39 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Comma delimited list of schemes supported by the associated
+        /// ICookieManager. If CookieableSchemesExcludeDefaults is false the
+        /// default schemes ("http", "https", "ws" and "wss") will also be supported.
+        /// Specifying a CookieableSchemesList value and setting
+        /// CookieableSchemesExcludeDefaults to true will disable all loading
+        /// and saving of cookies for this manager. Can be overridden
+        /// for individual RequestContext instances via the
+        /// RequestContextSettings.CookieableSchemesList and
+        /// RequestContextSettings.CookieableSchemesExcludeDefaults values.
+        /// </summary>
+        public string CookieableSchemesList
+        {
+            get { return settings.CookieableSchemesList; }
+            set { settings.CookieableSchemesList = value; }
+        }
+
+        /// <summary>
+        /// If CookieableSchemesExcludeDefaults is false the
+        /// default schemes ("http", "https", "ws" and "wss") will also be supported.
+        /// Specifying a CookieableSchemesList value and setting
+        /// CookieableSchemesExcludeDefaults to true will disable all loading
+        /// and saving of cookies for this manager. Can be overridden
+        /// for individual RequestContext instances via the
+        /// RequestContextSettings.CookieableSchemesList and
+        /// RequestContextSettings.CookieableSchemesExcludeDefaults values.
+        /// </summary>
+        public bool CookieableSchemesExcludeDefaults
+        {
+            get { return settings.CookieableSchemesExcludeDefaults; }
+            set { settings.CookieableSchemesExcludeDefaults = value; }
+        }
+
+        /// <summary>
         /// GUID string used for identifying the application. This is passed to the system AV function for scanning downloaded files. By
         /// default, the GUID will be an empty string and the file will be treated as an untrusted file when the GUID is empty.
         /// </summary>

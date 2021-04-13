@@ -183,6 +183,8 @@ namespace CefSharp.Example
 #endif
             }
 
+            settings.CookieableSchemesList = "custom";
+
             settings.RegisterScheme(new CefCustomScheme
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,

@@ -83,16 +83,6 @@ namespace CefSharp.Internals
             throw new InvalidOperationException(NotInitialziedExceptionMsg);
         }
 
-        void ICookieManager.SetSupportedSchemes(string[] schemes, bool includeDefaults, ICompletionCallback callback)
-        {
-            if (managerReady)
-            {
-                manager.SetSupportedSchemes(schemes, includeDefaults, callback);
-            }
-
-            throw new InvalidOperationException(NotInitialziedExceptionMsg);
-        }
-
         bool ICookieManager.VisitAllCookies(ICookieVisitor visitor)
         {
             if (managerReady)
