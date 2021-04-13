@@ -59,15 +59,6 @@ namespace CefSharp
         return _cookieManager->SetCookie(StringUtils::ToNative(url), c, wrapper);
     }
 
-    void CookieManager::SetSupportedSchemes(cli::array<String^>^ schemes, bool includeDefaults, ICompletionCallback^ callback)
-    {
-        ThrowIfDisposed();
-
-        CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
-
-        _cookieManager->SetSupportedSchemes(StringUtils::ToNative(schemes), includeDefaults, wrapper);
-    }
-
     bool CookieManager::VisitAllCookies(ICookieVisitor^ visitor)
     {
         ThrowIfDisposed();

@@ -24,7 +24,7 @@ namespace CefSharp.Example.Handlers
         {
             //The Global CookieManager has been initialized, you can now set cookies
             var cookieManager = Cef.GetGlobalCookieManager();
-            cookieManager.SetSupportedSchemes(new string[] { "custom" }, true);
+            
             if (cookieManager.SetCookie("custom://cefsharp/home.html", new Cookie
             {
                 Name = "CefSharpTestCookie",

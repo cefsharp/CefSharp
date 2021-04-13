@@ -49,7 +49,6 @@ namespace CefSharp
 
         virtual bool DeleteCookies(String^ url, String^ name, IDeleteCookiesCallback^ callback);
         virtual bool SetCookie(String^ url, Cookie^ cookie, ISetCookieCallback^ callback);
-        virtual void SetSupportedSchemes(cli::array<String^>^ schemes, bool includeDefaults, ICompletionCallback^ callback);
         virtual bool VisitAllCookies(ICookieVisitor^ visitor);
         virtual bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor);
         virtual bool FlushStore(ICompletionCallback^ callback);

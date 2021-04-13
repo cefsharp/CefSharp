@@ -113,6 +113,35 @@ namespace CefSharp
                 bool get() { return _settings->ignore_certificate_errors == 1; }
                 void set(bool value) { _settings->ignore_certificate_errors = value; }
             }
+
+            /// <summary>
+            /// Comma delimited list of schemes supported by the associated
+            /// ICookieManager. If CookieableSchemesExcludeDefaults is false the
+            /// default schemes ("http", "https", "ws" and "wss") will also be supported.
+            /// Specifying a CookieableSchemesList value and setting
+            /// CookieableSchemesExcludeDefaults to true will disable all loading
+            /// and saving of cookies for this manager. This value will be ignored if
+            /// <see cref="CachePath"/> matches the <see cref="CefSettingsBase.CachePath"/> value.
+            /// </summary>
+            property String^ CookieableSchemesList
+            {
+                String^ get() { return StringUtils::ToClr(_settings->cookieable_schemes_list); }
+                void set(String^ value) { StringUtils::AssignNativeFromClr(_settings->cookieable_schemes_list, value); }
+            }
+
+            /// <summary>
+            /// If CookieableSchemesExcludeDefaults is false the
+            /// default schemes ("http", "https", "ws" and "wss") will also be supported.
+            /// Specifying a CookieableSchemesList value and setting
+            /// CookieableSchemesExcludeDefaults to true will disable all loading
+            /// and saving of cookies for this manager. This value will be ignored if
+            /// <see cref="CachePath"/> matches the <see cref="CefSettingsBase.CachePath"/> value.
+            /// </summary>
+            property bool CookieableSchemesExcludeDefaults
+            {
+                bool get() { return _settings->cookieable_schemes_exclude_defaults == 1; }
+                void set(bool value) { _settings->cookieable_schemes_exclude_defaults = value; }
+            }
         };
     }
 }
