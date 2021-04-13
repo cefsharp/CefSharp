@@ -13,7 +13,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='15.0'">v141</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='16.0'">v142</PlatformToolset>
 	
-	<WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0.18362.0</WindowsTargetPlatformVersion>
+	<WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion>
     
     <CefSharpBrowserSubprocessPostBuildEvent>
       <![CDATA[

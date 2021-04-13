@@ -81,7 +81,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private IBrowserAdapter managedCefBrowserAdapter;
         /// <summary>
         /// The ignore URI change
         /// </summary>
@@ -91,14 +91,10 @@ namespace CefSharp.Wpf
         /// </summary>
         private readonly string initialAddress;
         /// <summary>
-        /// Has the underlying Cef Browser been created (slightly different to initliazed in that
+        /// Has the underlying Cef Browser been created (slightly different to initialized in that
         /// the browser is initialized in an async fashion)
         /// </summary>
         private bool browserCreated;
-        /// <summary>
-        /// The browser initialized - boolean represented as 0 (false) and 1(true) as we use Interlocker to increment/reset
-        /// </summary>
-        private int browserInitialized;
         /// <summary>
         /// The image that represents this browser instances
         /// </summary>
@@ -107,10 +103,6 @@ namespace CefSharp.Wpf
         /// The popup image
         /// </summary>
         private Image popupImage;
-        /// <summary>
-        /// The browser
-        /// </summary>
-        private IBrowser browser;
         /// <summary>
         /// Location of the control on the screen, relative to Top/Left
         /// Used to calculate GetScreenPoint
@@ -141,17 +133,6 @@ namespace CefSharp.Wpf
         /// NOTE: Needs to be static for OnApplicationExit
         /// </summary>
         private static bool DesignMode;
-
-        /// <summary>
-        /// The value for disposal, if it's 1 (one) then this instance is either disposed
-        /// or in the process of getting disposed
-        /// </summary>
-        private int disposeSignaled;
-
-        /// <summary>
-        /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
-        /// </summary>
-        private long canExecuteJavascriptInMainFrameId;
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -188,7 +169,7 @@ namespace CefSharp.Wpf
                 //New instance is created in the constructor, if you use
                 //xaml to initialize browser settings then it will also create a new
                 //instance, so we dispose of the old one
-                if (browserSettings != null && browserSettings.FrameworkCreated)
+                if (browserSettings != null && browserSettings.AutoDispose)
                 {
                     browserSettings.Dispose();
                 }
@@ -210,157 +191,23 @@ namespace CefSharp.Wpf
                     throw new Exception("Browser has already been created. RequestContext must be " +
                                         "set before the underlying CEF browser is created.");
                 }
-                if (value != null && value.GetType() != typeof(RequestContext))
+                if (value != null && !Core.ObjectFactory.RequestContextType.IsAssignableFrom(value.UnWrap().GetType()))
                 {
-                    throw new Exception(string.Format("RequestContext can only be of type {0} or null", typeof(RequestContext)));
+                    throw new Exception(string.Format("RequestContext can only be of type {0} or null", Core.ObjectFactory.RequestContextType));
                 }
                 requestContext = value;
             }
         }
-        /// <summary>
-        /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
-        /// </summary>
-        /// <value>The dialog handler.</value>
-        public IDialogHandler DialogHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
-        /// </summary>
-        /// <value>The js dialog handler.</value>
-        public IJsDialogHandler JsDialogHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IKeyboardHandler" /> and assign to handle events related to key press.
-        /// </summary>
-        /// <value>The keyboard handler.</value>
-        public IKeyboardHandler KeyboardHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IRequestHandler" /> and assign to handle events related to browser requests.
-        /// </summary>
-        /// <value>The request handler.</value>
-        public IRequestHandler RequestHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IDownloadHandler" /> and assign to handle events related to downloading files.
-        /// </summary>
-        /// <value>The download handler.</value>
-        public IDownloadHandler DownloadHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="ILoadHandler" /> and assign to handle events related to browser load status.
-        /// </summary>
-        /// <value>The load handler.</value>
-        public ILoadHandler LoadHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="ILifeSpanHandler" /> and assign to handle events related to popups.
-        /// </summary>
-        /// <value>The life span handler.</value>
-        public ILifeSpanHandler LifeSpanHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IDisplayHandler" /> and assign to handle events related to browser display state.
-        /// </summary>
-        /// <value>The display handler.</value>
-        public IDisplayHandler DisplayHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IContextMenuHandler" /> and assign to handle events related to the browser context menu
-        /// </summary>
-        /// <value>The menu handler.</value>
-        public IContextMenuHandler MenuHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IFocusHandler" /> and assign to handle events related to the browser component's focus
-        /// </summary>
-        /// <value>The focus handler.</value>
-        public IFocusHandler FocusHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IDragHandler" /> and assign to handle events related to dragging.
-        /// </summary>
-        /// <value>The drag handler.</value>
-        public IDragHandler DragHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IResourceRequestHandlerFactory" /> and control the loading of resources
-        /// </summary>
-        /// <value>The resource handler factory.</value>
-        public IResourceRequestHandlerFactory ResourceRequestHandlerFactory { get; set; }
         /// <summary>
         /// Implement <see cref="IRenderHandler"/> and control how the control is rendered
         /// </summary>
         /// <value>The render Handler.</value>
         public IRenderHandler RenderHandler { get; set; }
         /// <summary>
-        /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
-        /// </summary>
-        /// <value>The render process message handler.</value>
-        public IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IFindHandler" /> to handle events related to find results.
-        /// </summary>
-        /// <value>The find handler.</value>
-        public IFindHandler FindHandler { get; set; }
-        /// <summary>
-        /// Implement <see cref="IAudioHandler" /> to handle audio events.
-        /// </summary>
-        public IAudioHandler AudioHandler { get; set; }
-        /// <summary>
         /// Implement <see cref="IAccessibilityHandler" /> to handle events related to accessibility.
         /// </summary>
         /// <value>The accessibility handler.</value>
         public IAccessibilityHandler AccessibilityHandler { get; set; }
-
-        /// <summary>
-        /// Event handler for receiving Javascript console messages being sent from web pages.
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// (The exception to this is when your running with settings.MultiThreadedMessageLoop = false, then they'll be the same thread).
-        /// </summary>
-        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
-
-        /// <summary>
-        /// Event handler for changes to the status message.
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang.
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// (The exception to this is when your running with settings.MultiThreadedMessageLoop = false, then they'll be the same thread).
-        /// </summary>
-        public event EventHandler<StatusMessageEventArgs> StatusMessage;
-
-        /// <summary>
-        /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same
-        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
-        /// particular frame if the load request for that frame fails. For notification of overall browser load status use
-        /// OnLoadingStateChange instead.
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// </summary>
-        /// <remarks>Whilst this may seem like a logical place to execute js, it's called before the DOM has been loaded, implement
-        /// <see cref="IRenderProcessMessageHandler.OnContextCreated" /> as it's called when the underlying V8Context is created
-        /// </remarks>
-        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
-
-        /// <summary>
-        /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
-        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method will always be called
-        /// for all frames irrespective of whether the request completes successfully.
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// </summary>
-        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
-
-        /// <summary>
-        /// Event handler that will get called when the resource load for a navigation fails or is canceled.
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// </summary>
-        public event EventHandler<LoadErrorEventArgs> LoadError;
-
-        /// <summary>
-        /// Event handler that will get called when the Loading state has changed.
-        /// This event will be fired twice. Once when loading is initiated either programmatically or
-        /// by user action, and once when loading is terminated due to completion, cancellation of failure.
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// </summary>
-        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
         /// Raised every time <see cref="IRenderWebBrowser.OnPaint"/> is called. You can access the underlying buffer, though it's
@@ -375,11 +222,6 @@ namespace CefSharp.Wpf
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI thread
         /// </summary>
         public event EventHandler<VirtualKeyboardRequestedEventArgs> VirtualKeyboardRequested;
-
-        /// <summary>
-        /// Event handler that will get called when the message that originates from CefSharp.PostMessage
-        /// </summary>
-        public event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
 
         /// <summary>
         /// Navigates to the previous page in the browser history. Will automatically be enabled/disabled depending on the
@@ -466,13 +308,6 @@ namespace CefSharp.Wpf
         public ICommand RedoCommand { get; private set; }
 
         /// <summary>
-        /// A flag that indicates if you can execute javascript in the main frame.
-        /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
-        /// and false in IRenderProcessMessageHandler.OnContextReleased
-        /// </summary>
-        public bool CanExecuteJavascriptInMainFrame { get; private set; }
-
-        /// <summary>
         /// The dpi scale factor, if the browser has already been initialized
         /// you must manually call IBrowserHost.NotifyScreenInfoChanged for the
         /// browser to be notified of the change.
@@ -491,7 +326,7 @@ namespace CefSharp.Wpf
             if (CefSharpSettings.ShutdownOnExit)
             {
                 //Use Dispatcher.FromThread as it returns null if no dispatcher
-                //is avaliable for this thread.
+                //is available for this thread.
                 var dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
                 if (dispatcher == null)
                 {
@@ -556,7 +391,7 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// will attempt to load libcef.dll and will subsequently throw an exception.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void CefPreShutdown()
@@ -566,7 +401,7 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// will attempt to load libcef.dll and will subsequently throw an exception.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void CefShutdown()
@@ -592,10 +427,10 @@ namespace CefSharp.Wpf
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
         /// Use this constructor to load the browser before it's attached to the Visual Tree.
         /// The underlying CefBrowser will be created with the specified <paramref name="size"/>.
-        /// CEF requires posative values for <see cref="Size.Width"/> and <see cref="Size.Height"/>,
+        /// CEF requires positive values for <see cref="Size.Width"/> and <see cref="Size.Height"/>,
         /// if values less than 1 are specified then the default value of 1 will be used instead.
         /// You can subscribe to the <see cref="LoadingStateChanged"/> event and attach the browser
-        /// to it's parent control when Loading is complete (<see cref="LoadingStateChangedEventArgs.IsLoading"/> is false).
+        /// to its parent control when Loading is complete (<see cref="LoadingStateChangedEventArgs.IsLoading"/> is false).
         /// </summary>
         /// <param name="parentWindowHwndSource">HwndSource for the Window that will host the browser.</param>
         /// <param name="initialAddress">address to be loaded when the browser is created.</param>
@@ -643,7 +478,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Constructor logic has been moved into this method
         /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// will attempt to load libcef.dll and will subsequently throw an exception.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void NoInliningConstructor()
@@ -655,7 +490,7 @@ namespace CefSharp.Wpf
 
                 if (!Cef.Initialize(settings))
                 {
-                    throw new InvalidOperationException("Cef::Initialize() failed");
+                    throw new InvalidOperationException(CefInitializeFailedErrorMessage);
                 }
             }
 
@@ -705,10 +540,9 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(this.Undo);
             RedoCommand = new DelegateCommand(this.Redo);
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
+            managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, true);
 
-            browserSettings = new BrowserSettings(frameworkCreated: true);
-            RenderHandler = new InteropBitmapRenderHandler();
+            browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
 
@@ -760,7 +594,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         /// <remarks>
-        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// This method cannot be inlined as the designer will attempt to load libcef.dll and will subsequently throw an exception.
         /// </remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void InternalDispose(bool disposing)
@@ -801,7 +635,7 @@ namespace CefSharp.Wpf
 
                 browser = null;
 
-                // Incase we accidentally have a reference to the CEF drag data
+                // In case we accidentally have a reference to the CEF drag data
                 currentDragData?.Dispose();
                 currentDragData = null;
 
@@ -923,7 +757,7 @@ namespace CefSharp.Wpf
             screenX = 0;
             screenY = 0;
 
-            //We manually claculate the screen point as calling PointToScreen can only be called on the UI thread
+            //We manually calculate the screen point as calling PointToScreen can only be called on the UI thread
             // in a sync fashion and it's easy for users to get themselves into a deadlock.
             if (DpiScaleFactor > 1)
             {
@@ -1218,97 +1052,11 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Handles the <see cref="E:FrameLoadStart" /> event.
-        /// </summary>
-        /// <param name="args">The <see cref="FrameLoadStartEventArgs"/> instance containing the event data.</param>
-        void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
-        {
-            FrameLoadStart?.Invoke(this, args);
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:FrameLoadEnd" /> event.
-        /// </summary>
-        /// <param name="args">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
-        void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
-        {
-            FrameLoadEnd?.Invoke(this, args);
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:ConsoleMessage" /> event.
-        /// </summary>
-        /// <param name="args">The <see cref="ConsoleMessageEventArgs"/> instance containing the event data.</param>
-        void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
-        {
-            ConsoleMessage?.Invoke(this, args);
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:StatusMessage" /> event.
-        /// </summary>
-        /// <param name="args">The <see cref="StatusMessageEventArgs"/> instance containing the event data.</param>
-        void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
-        {
-            StatusMessage?.Invoke(this, args);
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:LoadError" /> event.
-        /// </summary>
-        /// <param name="args">The <see cref="LoadErrorEventArgs"/> instance containing the event data.</param>
-        void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
-        {
-            LoadError?.Invoke(this, args);
-        }
-
-        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
-        {
-            //When loading pages of a different origin the frameId changes
-            //For the first loading of a new origin the messages from the render process
-            //Arrive in a different order than expected, the OnContextCreated message
-            //arrives before the OnContextReleased, then the message for OnContextReleased
-            //incorrectly overrides the value
-            //https://github.com/cefsharp/CefSharp/issues/3021
-
-            if (frameId > canExecuteJavascriptInMainFrameId && !canExecute)
-            {
-                return;
-            }
-
-            canExecuteJavascriptInMainFrameId = frameId;
-            CanExecuteJavascriptInMainFrame = canExecute;
-        }
-
-        void IWebBrowserInternal.SetJavascriptMessageReceived(JavascriptMessageReceivedEventArgs args)
-        {
-            JavascriptMessageReceived?.Invoke(this, args);
-        }
-
-        /// <summary>
-        /// Gets the browser adapter.
-        /// </summary>
-        /// <value>The browser adapter.</value>
-        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
-        {
-            get { return managedCefBrowserAdapter; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance has parent.
-        /// </summary>
-        /// <value><c>true</c> if this instance has parent; otherwise, <c>false</c>.</value>
-        bool IWebBrowserInternal.HasParent { get; set; }
-
-        /// <summary>
         /// Called when [after browser created].
         /// </summary>
         /// <param name="browser">The browser.</param>
-        void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
+        partial void OnAfterBrowserCreated(IBrowser browser)
         {
-            Interlocked.Exchange(ref browserInitialized, 1);
-            this.browser = browser;
-
             UiThreadRunAsync(() =>
             {
                 if (!IsDisposed)
@@ -1446,16 +1194,6 @@ namespace CefSharp.Wpf
         #endregion IsLoading dependency property
 
         #region IsBrowserInitialized dependency property
-
-        /// <summary>
-        /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
-        /// </summary>
-        /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
-        bool IWebBrowser.IsBrowserInitialized
-        {
-            get { return InternalIsBrowserInitialized(); }
-        }
-
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
@@ -1570,7 +1308,7 @@ namespace CefSharp.Wpf
         /// The zoom level at which the browser control is currently displaying.
         /// Can be set to 0 to clear the zoom level (resets to default zoom level).
         /// NOTE: For browsers that share the same render process (same origin) this
-        /// property is only updated when the browser changes it's visible state.
+        /// property is only updated when the browser changes its visible state.
         /// If you have two browsers visible at the same time that share the same render
         /// process then zooming one will not update this property in the other (unless
         /// the control is hidden and then shown). You can isolate browser instances
@@ -1830,7 +1568,7 @@ namespace CefSharp.Wpf
 
                 //DoDragDrop will fire this handler for internally sourced Drag/Drop operations
                 //we use the existing IDragData (cloned copy)
-                var dragData = currentDragData ?? e.GetDragDataWrapper();
+                var dragData = currentDragData ?? e.GetDragData();
 
                 browser.GetHost().DragTargetDragEnter(dragData, mouseEvent, effect);
                 browser.GetHost().DragTargetDragOver(mouseEvent, effect);
@@ -1880,6 +1618,16 @@ namespace CefSharp.Wpf
                 }
             }
         }
+
+#if NETCOREAPP
+        /// <inheritdoc/>
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            NotifyDpiChange((float)newDpi.DpiScaleX);
+
+            base.OnDpiChanged(oldDpi, newDpi);
+        }
+#endif
 
         private void OnWindowStateChanged(object sender, EventArgs e)
         {
@@ -1998,10 +1746,10 @@ namespace CefSharp.Wpf
                 var windowInfo = CreateOffscreenBrowserWindowInfo(source == null ? IntPtr.Zero : source.Handle);
                 //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
                 //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, address: initialAddress);
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, requestContext, address: initialAddress);
 
                 //Dispose of BrowserSettings if we created it, if user created then they're responsible
-                if (browserSettings.FrameworkCreated)
+                if (browserSettings.AutoDispose)
                 {
                     browserSettings.Dispose();
                 }
@@ -2022,7 +1770,7 @@ namespace CefSharp.Wpf
         /// <returns>Window Info</returns>
         protected virtual IWindowInfo CreateOffscreenBrowserWindowInfo(IntPtr handle)
         {
-            var windowInfo = new WindowInfo();
+            var windowInfo = Core.ObjectFactory.CreateWindowInfo();
             windowInfo.SetAsWindowless(handle);
             return windowInfo;
         }
@@ -2669,7 +2417,7 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="newDpi">new DPI</param>
         /// <remarks>.Net 4.6.2 adds HwndSource.DpiChanged which could be used to automatically
-        /// handle DPI change, unforunately we still target .Net 4.5.2</remarks>
+        /// handle DPI change, unfortunately we still target .Net 4.5.2</remarks>
         public virtual void NotifyDpiChange(float newDpi)
         {
             //Do nothing
@@ -2687,29 +2435,26 @@ namespace CefSharp.Wpf
                 browser.GetHost().NotifyScreenInfoChanged();
             }
 
-            //Ignore this for custom bitmap factories                   
-            if (RenderHandler is WritableBitmapRenderHandler || RenderHandler is InteropBitmapRenderHandler || RenderHandler is DirectWritableBitmapRenderHandler)
+            //If the user has specified a custom RenderHandler then we'll skip this part
+            //as to not override their implementation.
+            //TODO: Add support for RenderHandler changing the DPI rather
+            //than creating a new instance (allow users to be notified of DPI change).
+            if (RenderHandler == null || RenderHandler is WritableBitmapRenderHandler || RenderHandler is DirectWritableBitmapRenderHandler)
             {
-                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI) && !(RenderHandler is DirectWritableBitmapRenderHandler))
+                const int DefaultDpi = 96;
+                var scale = DefaultDpi * DpiScaleFactor;
+                var oldRenderHandler = RenderHandler;
+
+                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
                 {
-                    const int DefaultDpi = 96;
-                    var scale = DefaultDpi * DpiScaleFactor;
                     RenderHandler = new DirectWritableBitmapRenderHandler(scale, scale, invalidateDirtyRect: true);
                 }
                 else
                 {
-                    if (DpiScaleFactor > 1.0 && !(RenderHandler is WritableBitmapRenderHandler))
-                    {
-                        const int DefaultDpi = 96;
-                        var scale = DefaultDpi * DpiScaleFactor;
-
-                        RenderHandler = new WritableBitmapRenderHandler(scale, scale);
-                    }
-                    else if (DpiScaleFactor == 1.0 && !(RenderHandler is InteropBitmapRenderHandler))
-                    {
-                        RenderHandler = new InteropBitmapRenderHandler();
-                    }
+                    RenderHandler = new WritableBitmapRenderHandler(scale, scale);
                 }
+
+                oldRenderHandler?.Dispose();
             }
         }
 
@@ -2741,28 +2486,10 @@ namespace CefSharp.Wpf
         /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
-            this.ThrowExceptionIfDisposed();
-
-            //We don't use the this.ThrowExceptionIfBrowserNotInitialized(); extension method here
-            // As it relies on the IWebBrowser.IsBrowserInitialized property which is a DependencyProperty
-            // in WPF and will throw an InvalidOperationException if called on a Non-UI thread.
-            if (!InternalIsBrowserInitialized())
-            {
-                throw new Exception(WebBrowserExtensions.BrowserNotInitializedExceptionErrorMessage);
-            }
+            ThrowExceptionIfDisposed();
+            ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
-        }
-
-        /// <summary>
-        /// Check is browserisinitialized
-        /// </summary>
-        /// <returns>true if browser is initialized</returns>
-        private bool InternalIsBrowserInitialized()
-        {
-            // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
-            // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
-            return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
         }
     }
 }

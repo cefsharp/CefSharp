@@ -1,4 +1,4 @@
-version: 84.4.10-CI{build}
+version: 90.4.20-CI{build}
 
 image:
   - Visual Studio 2015
@@ -30,7 +30,7 @@ for:
         - ps: .\build.netcore.ps1
     test_script:
         # Test our Release x64 build
-        dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\CefSharp.Test.dll
+        dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\win-x64\CefSharp.Test.dll
 
 artifacts:
   - path: NuGet\**\*.nupkg
@@ -41,7 +41,7 @@ deploy:
   provider: NuGet
   server: https://www.myget.org/F/cefsharp/api/v2/package
   api_key:
-    secure: Zf7UgKf482O82zGWbbPjL+tIK9Y6R1pEHpLgoSZCfuzl4SLfjchqL1MHdlBlb4IY
+    secure: V8du2PPvMPok3Ya701jt5v2XWQgOZf52/H5wDHXBpKvXYkIIe8sonhVUy2TmEkqt
   skip_symbols: true
   symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
   artifact: nupkgfiles

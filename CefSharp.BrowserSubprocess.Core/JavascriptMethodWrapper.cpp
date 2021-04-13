@@ -10,17 +10,20 @@
 
 namespace CefSharp
 {
-    void JavascriptMethodWrapper::Bind(JavascriptMethod^ javascriptMethod, const CefRefPtr<CefV8Value>& v8Value)
+    namespace BrowserSubprocess
     {
-        _javascriptMethodName = javascriptMethod->JavascriptName;
-        auto methodName = StringUtils::ToNative(javascriptMethod->JavascriptName);
-        auto v8Function = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
+        void JavascriptMethodWrapper::Bind(JavascriptMethod^ javascriptMethod, const CefRefPtr<CefV8Value>& v8Value)
+        {
+            _javascriptMethodName = javascriptMethod->JavascriptName;
+            auto methodName = StringUtils::ToNative(javascriptMethod->JavascriptName);
+            auto v8Function = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
 
-        v8Value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);
-    };
+            v8Value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);
+        };
 
-    BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
-    {
-        return _browserProcess->CallMethod(_ownerId, _javascriptMethodName, parameters);
+        BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
+        {
+            return _browserProcess->CallMethod(_ownerId, _javascriptMethodName, parameters);
+        }
     }
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -8,7 +6,6 @@ namespace CefSharp.Example.DevTools
 {
     public static class DevToolsExtensions
     {
-        private static int LastMessageId = 600000;
         /// <summary>
         /// Calls Page.captureScreenshot without any optional params
         /// (Results in PNG image of default viewport)
@@ -23,11 +20,11 @@ namespace CefSharp.Example.DevTools
             //    throw new System.Exception("Page hasn't loaded");
             //}
 
-            var host = chromiumWebBrowser.GetBrowserHost();
+            var browser = chromiumWebBrowser.GetBrowser();
 
-            if (host == null || host.IsDisposed)
+            if (browser == null || browser.IsDisposed)
             {
-                throw new Exception("BrowserHost is Null or Disposed");
+                throw new Exception("browser is Null or Disposed");
             }
 
             //var param = new Dictionary<string, object>
@@ -35,46 +32,17 @@ namespace CefSharp.Example.DevTools
             //    { "format", "png" },
             //}
 
-            var msgId = Interlocked.Increment(ref LastMessageId);
-
-            var observer = new TaskMethodDevToolsMessageObserver(msgId);
-
             //Make sure to dispose of our observer registration when done
-            //TODO: Create a single observer that maps tasks to Id's
-            //Or at least create one for each type, events and method
-            using (var observerRegistration = host.AddDevToolsMessageObserver(observer))
+            using (var devToolsClient = browser.GetDevToolsClient())
             {
-                //Page.captureScreenshot defaults to PNG, all params are optional
-                //for this DevTools method
-                int id = 0;
                 const string methodName = "Page.captureScreenshot";
 
-                //TODO: Simplify this, we can use an Func to reduce code duplication
-                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
-                {
-                    id = host.ExecuteDevToolsMethod(msgId, methodName);
-                }
-                else
-                {
-                    id = await Cef.UIThreadTaskFactory.StartNew(() =>
-                    {
-                        return host.ExecuteDevToolsMethod(msgId, methodName);
-                    });
-                }
+                var result = await devToolsClient.ExecuteDevToolsMethodAsync(methodName);
 
-                if (id != msgId)
-                {
-                    throw new Exception("Message Id doesn't match the provided Id");
-                }
-
-                var result = await observer.Task;
-
-                var success = result.Item1;
-
-                dynamic response = JsonConvert.DeserializeObject<dynamic>(Encoding.UTF8.GetString(result.Item2));
+                dynamic response = JsonConvert.DeserializeObject<dynamic>(result.ResponseAsJsonString);
 
                 //Success
-                if (success)
+                if (result.Success)
                 {
                     return Convert.FromBase64String((string)response.data);
                 }

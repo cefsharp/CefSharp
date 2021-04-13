@@ -12,6 +12,7 @@ namespace CefSharp.ModelBinding
     /// </summary>
     public interface IMethodInterceptor
     {
+
         /// <summary>
         /// Called before the method is invokved. You are now responsible for evaluating
         /// the function and returning the result.
@@ -29,6 +30,7 @@ namespace CefSharp.ModelBinding
         ///   return result;
         ///  }
         /// </example>
+        /// 
         object Intercept(Func<object[], object> method, object[] parameters, string methodName);
     }
 }

@@ -10,45 +10,48 @@
 
 namespace CefSharp
 {
-    void JavascriptObjectWrapper::Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry)
+    namespace BrowserSubprocess
     {
-        _objectId = object->Id;
-
-        //Create property handler for get and set of Properties of this object
-        _jsPropertyHandler = new JavascriptPropertyHandler(
-            gcnew Func<String^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::GetProperty),
-            gcnew Func<String^, Object^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::SetProperty)
-        );
-
-        //V8Value that represents this javascript object - only one per complex type
-        auto javascriptObject = CefV8Value::CreateObject(_jsPropertyHandler.get(), NULL);
-        auto objectName = StringUtils::ToNative(object->JavascriptName);
-        v8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
-
-        for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(object->Methods))
+        void JavascriptObjectWrapper::Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry)
         {
-            auto wrappedMethod = gcnew JavascriptMethodWrapper(object->Id, _browserProcess, callbackRegistry);
-            wrappedMethod->Bind(method, javascriptObject);
+            _objectId = object->Id;
 
-            _wrappedMethods->Add(wrappedMethod);
+            //Create property handler for get and set of Properties of this object
+            _jsPropertyHandler = new JavascriptPropertyHandler(
+                gcnew Func<String^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::GetProperty),
+                gcnew Func<String^, Object^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::SetProperty)
+            );
+
+            //V8Value that represents this javascript object - only one per complex type
+            auto javascriptObject = CefV8Value::CreateObject(_jsPropertyHandler.get(), NULL);
+            auto objectName = StringUtils::ToNative(object->JavascriptName);
+            v8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
+
+            for each (JavascriptMethod ^ method in Enumerable::OfType<JavascriptMethod^>(object->Methods))
+            {
+                auto wrappedMethod = gcnew JavascriptMethodWrapper(object->Id, _browserProcess, callbackRegistry);
+                wrappedMethod->Bind(method, javascriptObject);
+
+                _wrappedMethods->Add(wrappedMethod);
+            }
+
+            for each (JavascriptProperty ^ prop in Enumerable::OfType<JavascriptProperty^>(object->Properties))
+            {
+                auto wrappedproperty = gcnew JavascriptPropertyWrapper(object->Id, _browserProcess);
+                wrappedproperty->Bind(prop, javascriptObject, callbackRegistry);
+
+                _wrappedProperties->Add(wrappedproperty);
+            }
         }
 
-        for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(object->Properties))
+        BrowserProcessResponse^ JavascriptObjectWrapper::GetProperty(String^ memberName)
         {
-            auto wrappedproperty = gcnew JavascriptPropertyWrapper(object->Id, _browserProcess);
-            wrappedproperty->Bind(prop, javascriptObject, callbackRegistry);
+            return _browserProcess->GetProperty(_objectId, memberName);
+        };
 
-            _wrappedProperties->Add(wrappedproperty);
-        }
+        BrowserProcessResponse^ JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)
+        {
+            return _browserProcess->SetProperty(_objectId, memberName, value);
+        };
     }
-
-    BrowserProcessResponse^ JavascriptObjectWrapper::GetProperty(String^ memberName)
-    {
-        return _browserProcess->GetProperty(_objectId, memberName);
-    };
-
-    BrowserProcessResponse^ JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)
-    {
-        return _browserProcess->SetProperty(_objectId, memberName, value);
-    };
 }

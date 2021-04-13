@@ -37,16 +37,6 @@ namespace CefSharp
         bool SetCookie(string url, Cookie cookie, ISetCookieCallback callback = null);
 
         /// <summary>
-        /// Set the schemes supported by this manager. Calling this method with an empty <paramref name="schemes"/> value and <paramref name="includeDefaults"/>
-        /// set to false will disable all loading and saving of cookies for this manager. Must be called before any cookies are accessed.
-        /// </summary>
-        /// <param name="schemes">The list of supported schemes.</param>
-        /// <param name="includeDefaults">If true the default schemes ("http", "https", "ws" and "wss") will also be supported. Calling this method with an empty schemes value and includeDefaults
-        /// set to false will disable all loading and saving of cookies for this manager</param>
-        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF UI thread after the change has been applied.</param>
-        void SetSupportedSchemes(string[] schemes, bool includeDefaults, ICompletionCallback callback = null);
-
-        /// <summary>
         /// Visit all cookies on the UI thread. The returned cookies are ordered by longest path, then by earliest creation date.
         /// </summary>
         /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
@@ -69,7 +59,7 @@ namespace CefSharp
         /// This method will be executed on the CEF UI thread in an async fashion, to be notified upon completion implement <see cref="ICompletionCallback"/>
         /// and pass in as <paramref name="callback"/>
         /// </summary>
-        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF UI thread after the flush is complete.</param>
+        /// <param name="callback">If non-NULL it will be executed asynchronously on the CEF UI thread after the flush is complete.</param>
         /// <returns>Returns false if cookies cannot be accessed.</returns>
         bool FlushStore(ICompletionCallback callback);
 

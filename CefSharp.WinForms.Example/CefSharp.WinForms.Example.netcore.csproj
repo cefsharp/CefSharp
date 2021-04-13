@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
        to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
@@ -18,16 +18,27 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-        <Platforms>x86;x64</Platforms>
+        <Platforms>x86;x64;arm64</Platforms>
+        <!-- Explicitly set the PlatformTarget for arm64, see: https://github.com/dotnet/sdk/issues/15434 -->
+        <PlatformTarget Condition="'$(Platform)' == 'arm64'">arm64</PlatformTarget>
+        <!--
+        Run on a newer version of .Net if the specified version (.Net Core 3.1) is not installed
+        https://github.com/dotnet/docs/issues/12237
+        -->
+        <RollForward>Major</RollForward>
+        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'arm64'">win-arm64</RuntimeIdentifier>
+        <SelfContained Condition="'$(Configuration)' == 'Debug'">false</SelfContained>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
-        <PackageReference Include="cef.redist.x86" Version="84.4.1" />
-        <PackageReference Include="cef.redist.x64" Version="84.4.1" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="90.4.2" />
     </ItemGroup>
 
     <ItemGroup>

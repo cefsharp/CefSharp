@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.DevTools;
 using CefSharp.Internals;
 using CefSharp.Web;
 
@@ -18,9 +19,10 @@ namespace CefSharp
         /// Execute a method call over the DevTools protocol. This is a more structured
         /// version of SendDevToolsMessage.
         /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
-        /// of supported methods and the expected <paramref name="paramsAsJson"/> dictionary contents.
+        /// of supported methods and the expected <paramref name="parameters"/> JSON message format.
         /// See the SendDevToolsMessage documentation for additional usage information.
         /// </summary>
+        /// <param name="browserHost">browser host</param>
         /// <param name="messageId">is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned
         /// automatically based on previous values)</param>
         /// <param name="method">is the method name</param>
@@ -96,12 +98,42 @@ namespace CefSharp
         /// unsuccessfully submitted for validation, this value will be 0.</returns>
         public static Task<int> ExecuteDevToolsMethodAsync(this IWebBrowser chromiumWebBrowser, int messageId, string method, IDictionary<string, object> parameters = null)
         {
-            ((IWebBrowserInternal)chromiumWebBrowser).ThrowExceptionIfDisposed();
-            ((IWebBrowserInternal)chromiumWebBrowser).ThrowExceptionIfBrowserNotInitialized();
-
             var browser = chromiumWebBrowser.GetBrowser();
 
             return browser.ExecuteDevToolsMethodAsync(messageId, method, parameters);
+        }
+
+        /// <summary>
+        /// Gets a new Instance of the DevTools client for the chromiumWebBrowser
+        /// instance.
+        /// </summary>
+        /// <param name="chromiumWebBrowser">the chromiumWebBrowser instance</param>
+        /// <returns>DevToolsClient</returns>
+        public static DevToolsClient GetDevToolsClient(this IWebBrowser chromiumWebBrowser)
+        {
+            var browser = chromiumWebBrowser.GetBrowser();
+
+            return browser.GetDevToolsClient();
+        }
+
+        /// <summary>
+        /// Gets a new Instance of the DevTools client 
+        /// </summary>
+        /// <param name="browser">the IBrowser instance</param>
+        /// <returns>DevToolsClient</returns>
+        public static DevToolsClient GetDevToolsClient(this IBrowser browser)
+        {
+            var browserHost = browser.GetHost();
+
+            WebBrowserExtensions.ThrowExceptionIfBrowserHostNull(browserHost);
+
+            var devToolsClient = new DevToolsClient(browser);
+
+            var observerRegistration = browserHost.AddDevToolsMessageObserver(devToolsClient);
+
+            devToolsClient.SetDevToolsObserverRegistration(observerRegistration);
+
+            return devToolsClient;
         }
     }
 }

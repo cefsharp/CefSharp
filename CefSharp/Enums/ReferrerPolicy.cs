@@ -19,7 +19,7 @@ namespace CefSharp
         ClearReferrerOnTransitionFromSecureToInsecure,
 
         /// <summary>
-        /// Default which is equivilent to <see cref="ClearReferrerOnTransitionFromSecureToInsecure"/>
+        /// Default which is equivalent to <see cref="ClearReferrerOnTransitionFromSecureToInsecure"/>
         /// </summary>
         Default = ClearReferrerOnTransitionFromSecureToInsecure,
 

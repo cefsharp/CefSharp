@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Event;
 using CefSharp.JavascriptBinding;
+using CefSharp.ModelBinding;
 
 namespace CefSharp.Internals
 {
@@ -31,15 +32,28 @@ namespace CefSharp.Internals
     /// All of the registered objects are tracked via meta-data for the objects 
     /// expressed starting with the JavaScriptObject type.
     /// </summary>
-    public class JavascriptObjectRepository : FreezableBase, IJavascriptObjectRepository
+    public class JavascriptObjectRepository : FreezableBase, IJavascriptObjectRepositoryInternal
     {
+        /// <summary>
+        /// CefSharp.BindObjectAsync was called from Javascript without pasing in any params
+        /// the <see cref="ResolveObject"/> will be called with <see cref="JavascriptBindingEventArgs.ObjectName"/>
+        /// set to this value.
+        /// </summary>
         public const string AllObjects = "All";
+        /// <summary>
+        /// Legacy Javascript Binding is enabled, the <see cref="ResolveObject"/> event
+        /// will be called with <see cref="JavascriptBindingEventArgs.ObjectName"/>
+        /// set to this value
+        /// </summary>
         public const string LegacyObjects = "Legacy";
 
         private static long lastId;
 
+        /// <inheritdoc/>
         public event EventHandler<JavascriptBindingEventArgs> ResolveObject;
+        /// <inheritdoc/>
         public event EventHandler<JavascriptBindingCompleteEventArgs> ObjectBoundInJavascript;
+        /// <inheritdoc/>
         public event EventHandler<JavascriptBindingMultipleCompleteEventArgs> ObjectsBoundInJavascript;
 
         /// <summary>
@@ -47,7 +61,7 @@ namespace CefSharp.Internals
         /// this is done to speed up finding the object in O(1) time
         /// instead of traversing the JavaScriptRootObject tree.
         /// </summary>
-        private readonly ConcurrentDictionary<long, JavascriptObject> objects = new ConcurrentDictionary<long, JavascriptObject>();
+        protected readonly ConcurrentDictionary<long, JavascriptObject> objects = new ConcurrentDictionary<long, JavascriptObject>();
 
         /// <summary>
         /// Javascript Name converter
@@ -59,6 +73,7 @@ namespace CefSharp.Internals
         /// </summary>
         public bool IsBrowserInitialized { get; set; }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             ResolveObject = null;
@@ -66,6 +81,7 @@ namespace CefSharp.Internals
             ObjectsBoundInJavascript = null;
         }
 
+        /// <inheritdoc/>
         public bool HasBoundObjects
         {
             get { return objects.Count > 0; }
@@ -92,18 +108,22 @@ namespace CefSharp.Internals
             }
         }
 
+        /// <summary>
+        /// JavascriptObjectRepository
+        /// </summary>
         public JavascriptObjectRepository()
         {
             Settings = new JavascriptBindingSettings();
             nameConverter = new LegacyCamelCaseJavascriptNameConverter();
         }
 
+        /// <inheritdoc/>
         public bool IsBound(string name)
         {
             return objects.Values.Any(x => x.Name == name);
         }
 
-        public List<JavascriptObject> GetLegacyBoundObjects()
+        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetLegacyBoundObjects()
         {
             RaiseResolveObjectEvent(LegacyObjects);
 
@@ -112,7 +132,7 @@ namespace CefSharp.Internals
 
         //Ideally this would internal, unfurtunately it's used in C++
         //and it's hard to expose internals
-        public List<JavascriptObject> GetObjects(List<string> names = null)
+        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetObjects(List<string> names)
         {
             //If there are no objects names or the count is 0 then we will raise
             //the resolve event then return all objects that are registered,
@@ -140,7 +160,7 @@ namespace CefSharp.Internals
             return objectsByName;
         }
 
-        public void ObjectsBound(List<Tuple<string, bool, bool>> objs)
+        void IJavascriptObjectRepositoryInternal.ObjectsBound(List<Tuple<string, bool, bool>> objs)
         {
             var boundObjectHandler = ObjectBoundInJavascript;
             var boundObjectsHandler = ObjectsBoundInJavascript;
@@ -234,11 +254,13 @@ namespace CefSharp.Internals
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false);
         }
 
+        /// <inheritdoc/>
         public void UnRegisterAll()
         {
             objects.Clear();
         }
 
+        /// <inheritdoc/>
         public bool UnRegister(string name)
         {
             foreach (var kvp in objects)
@@ -255,15 +277,20 @@ namespace CefSharp.Internals
             return false;
         }
 
-        internal bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
+        TryCallMethodResult IJavascriptObjectRepositoryInternal.TryCallMethod(long objectId, string name, object[] parameters)
         {
-            exception = "";
-            result = null;
+            return TryCallMethod(objectId, name, parameters);
+        }
+
+        protected virtual TryCallMethodResult TryCallMethod(long objectId, string name, object[] parameters)
+        {
+            var exception = "";
+            object result = null;
             JavascriptObject obj;
 
             if (!objects.TryGetValue(objectId, out obj))
             {
-                return false;
+                return new TryCallMethodResult(false, result, "Object Not Found Matching Id:" + objectId);
             }
 
             var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
@@ -369,7 +396,7 @@ namespace CefSharp.Internals
                     result = jsObject;
                 }
 
-                return true;
+                return new TryCallMethodResult(true, result, exception); ;
             }
             catch (TargetInvocationException e)
             {
@@ -381,10 +408,166 @@ namespace CefSharp.Internals
                 exception = ex.ToString();
             }
 
-            return false;
+            return new TryCallMethodResult(false, result, exception); ;
         }
 
-        internal bool TryGetProperty(long objectId, string name, out object result, out string exception)
+        Task<TryCallMethodResult> IJavascriptObjectRepositoryInternal.TryCallMethodAsync(long objectId, string name, object[] parameters)
+        {
+            return TryCallMethodAsync(objectId, name, parameters);
+        }
+
+        protected virtual async Task<TryCallMethodResult> TryCallMethodAsync(long objectId, string name, object[] parameters)
+        {
+            var exception = "";
+            object result = null;
+            JavascriptObject obj;
+
+            if (!objects.TryGetValue(objectId, out obj))
+            {
+                return new TryCallMethodResult(false, result, exception);
+            }
+
+            var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
+            if (method == null)
+            {
+                throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
+            }
+
+            try
+            {
+                //Check if the bound object method contains a ParamArray as the last parameter on the method signature.
+                //NOTE: No additional parameters are permitted after the params keyword in a method declaration,
+                //and only one params keyword is permitted in a method declaration.
+                //https://msdn.microsoft.com/en-AU/library/w5zay9db.aspx
+                if (method.HasParamArray)
+                {
+                    var paramList = new List<object>(method.Parameters.Count);
+
+                    //Loop through all of the method parameters on the bound object.
+                    for (var i = 0; i < method.Parameters.Count; i++)
+                    {
+                        //If the method parameter is a paramArray IE: (params string[] args)
+                        //grab the parameters from the javascript function starting at the current bound object parameter index
+                        //and add create an array that will be passed in as the last bound object method parameter.
+                        if (method.Parameters[i].IsParamArray)
+                        {
+                            var convertedParams = new List<object>();
+                            for (var s = i; s < parameters.Length; s++)
+                            {
+                                convertedParams.Add(parameters[s]);
+                            }
+                            paramList.Add(convertedParams.ToArray());
+                        }
+                        else
+                        {
+                            var jsParam = parameters.ElementAtOrDefault(i);
+                            paramList.Add(jsParam);
+                        }
+                    }
+
+                    parameters = paramList.ToArray();
+                }
+
+                int missingParams = 0;
+
+                try
+                {
+                    if (obj.Binder != null)
+                    {
+                        for (var i = 0; i < parameters.Length; i++)
+                        {
+                            var paramExpectedType = method.Parameters[i].Type;
+
+                            //Previously only IDictionary<string, object> and IList<object> called Binder.Bind
+                            //Now every param is bound to allow for type conversion
+                            parameters[i] = obj.Binder.Bind(parameters[i], paramExpectedType);
+                        }
+                    }
+
+                    //Check for parameter count missmatch between the parameters on the javascript function and the
+                    //number of parameters on the bound object method. (This is relevant for methods that have default values)
+                    //NOTE it's possible to have default params and a paramArray, so check missing params last
+                    missingParams = method.ParameterCount - parameters.Length;
+
+                    if (missingParams > 0)
+                    {
+                        var paramList = new List<object>(parameters);
+
+                        for (var i = 0; i < missingParams; i++)
+                        {
+                            paramList.Add(Type.Missing);
+                        }
+
+                        parameters = paramList.ToArray();
+                    }
+
+                    if (obj.MethodInterceptor == null)
+                    {
+                        result = method.Function(obj.Value, parameters);
+                    }
+                    else
+                    {
+                        var asyncInterceptor = obj.MethodInterceptor as IAsyncMethodInterceptor;
+                        if (asyncInterceptor == null)
+                        {
+                            result = obj.MethodInterceptor.Intercept((p) => method.Function(obj.Value, p), parameters, method.ManagedName);
+                        }
+                        else
+                        {
+                            //Only call InterceptAsync for methods that return Task or AlwaysInterceptAsynchronously = true
+                            //TODO: Add support for ValueTask
+                            if (typeof(Task).IsAssignableFrom(method.ReturnType) || Settings.AlwaysInterceptAsynchronously)
+                            {
+                                result = await asyncInterceptor.InterceptAsync((p) => method.Function(obj.Value, p), parameters, method.ManagedName).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                result = obj.MethodInterceptor.Intercept((p) => method.Function(obj.Value, p), parameters, method.ManagedName);
+                            }
+                        }
+                        
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidOperationException("Could not execute method: " + name + "(" + String.Join(", ", parameters) + ") " + (missingParams > 0 ? "- Missing Parameters: " + missingParams : ""), e);
+                }
+
+                //For sync binding with methods that return a complex property we create a new JavascriptObject
+                //TODO: Fix the memory leak, every call to a method that returns an object will create a new
+                //JavascriptObject and they are never released
+                if (!obj.IsAsync && result != null && IsComplexType(result.GetType()))
+                {
+                    var jsObject = CreateJavascriptObject(rootObject: false);
+                    jsObject.Value = result;
+                    jsObject.Name = "FunctionResult(" + name + ")";
+                    jsObject.JavascriptName = jsObject.Name;
+
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, analyseProperties: true, readPropertyValue: true);
+
+                    result = jsObject;
+                }
+
+                return new TryCallMethodResult(true, result, exception);
+            }
+            catch (TargetInvocationException e)
+            {
+                var baseException = e.GetBaseException();
+                exception = baseException.ToString();
+            }
+            catch (Exception ex)
+            {
+                exception = ex.ToString();
+            }
+            return new TryCallMethodResult(false, result, exception);
+        }
+
+        bool IJavascriptObjectRepositoryInternal.TryGetProperty(long objectId, string name, out object result, out string exception)
+        {
+            return TryGetProperty(objectId, name, out result, out exception);
+        }
+
+        protected virtual bool TryGetProperty(long objectId, string name, out object result, out string exception)
         {
             exception = "";
             result = null;
@@ -414,7 +597,12 @@ namespace CefSharp.Internals
             return false;
         }
 
-        internal bool TrySetProperty(long objectId, string name, object value, out string exception)
+        bool IJavascriptObjectRepositoryInternal.TrySetProperty(long objectId, string name, object value, out string exception)
+        {
+            return TrySetProperty(objectId, name, value, out exception);
+        }
+
+        protected virtual bool TrySetProperty(long objectId, string name, object value, out string exception)
         {
             exception = "";
             JavascriptObject obj;
@@ -526,6 +714,7 @@ namespace CefSharp.Internals
             jsMethod.ManagedName = methodInfo.Name;
             jsMethod.JavascriptName = nameConverter == null ? methodInfo.Name : nameConverter.ConvertToJavascript(methodInfo);
             jsMethod.Function = methodInfo.Invoke;
+            jsMethod.ReturnType = methodInfo.ReturnType;
             jsMethod.ParameterCount = methodInfo.GetParameters().Length;
             jsMethod.Parameters = methodInfo.GetParameters()
                 .Select(t => new MethodParameter()
@@ -570,7 +759,7 @@ namespace CefSharp.Internals
                 baseType = Nullable.GetUnderlyingType(type);
             }
 
-            if (baseType == null || baseType.IsArray || baseType.Namespace.StartsWith("System"))
+            if (baseType == null || baseType.IsArray || baseType.Namespace?.StartsWith("System") == true)
             {
                 return false;
             }

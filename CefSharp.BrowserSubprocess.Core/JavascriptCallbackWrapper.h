@@ -8,7 +8,7 @@
 
 namespace CefSharp
 {
-    namespace Internals
+    namespace BrowserSubprocess
     {
         private ref class JavascriptCallbackWrapper
         {

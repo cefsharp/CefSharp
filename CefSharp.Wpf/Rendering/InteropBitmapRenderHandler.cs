@@ -42,17 +42,11 @@ namespace CefSharp.Wpf.Rendering
 
                 if (createNewBitmap)
                 {
-                    //If the MemoryMappedFile is smaller than we need then create a larger one
-                    //If it's larger then we need then rather than going through the costly expense of
-                    //allocating a new one we'll just use the old one and only access the number of bytes we require.
-                    if (viewAccessor == null || viewAccessor.Capacity < numberOfBytes)
-                    {
-                        ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
+                    ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
 
-                        mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
+                    mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
 
-                        viewAccessor = mappedFile.CreateViewAccessor();
-                    }
+                    viewAccessor = mappedFile.CreateViewAccessor();
 
                     currentSize.Height = height;
                     currentSize.Width = width;
@@ -69,6 +63,18 @@ namespace CefSharp.Wpf.Rendering
                     lock (lockObject)
                     {
                         if (backBufferHandle.IsClosed || backBufferHandle.IsInvalid)
+                        {
+                            return;
+                        }
+
+                        var size = isPopup ? popupSize : viewSize;
+
+                        //If OnPaint is called multiple times before
+                        //our BeginInvoke call we check the size matches our most recent
+                        //update, the buffer has already been overriden (frame is dropped effectively)
+                        //so we ignore this call
+                        //https://github.com/cefsharp/CefSharp/issues/3114
+                        if (size.Width != width || size.Height != height)
                         {
                             return;
                         }

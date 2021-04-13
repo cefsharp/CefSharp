@@ -140,7 +140,7 @@ namespace CefSharp
         NetworkChanged = -21,
 
         /// <summary>
-        /// The request was blocked by the URL blacklist configured by the domain
+        /// The request was blocked by the URL block list configured by the domain
         /// administrator.
         /// </summary>
         BlockedByAdministrator = -22,
@@ -583,7 +583,7 @@ namespace CefSharp
         NoBufferSpace = -176,
 
         /// <summary>
-        //// There were no common signature algorithms between our client certificate
+        /// There were no common signature algorithms between our client certificate
         /// private key and the server's preferences.
         /// </summary>
         SslClientAuthNoCommonAlgorithms = -177,
@@ -736,7 +736,7 @@ namespace CefSharp
 
         /// <summary>
         /// Certificate Transparency was required for this connection, but the server
-        // did not provide CT information that complied with the policy.
+        /// did not provide CT information that complied with the policy.
         /// </summary>
         CertificateTransparencyRequired = -214,
 

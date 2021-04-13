@@ -122,11 +122,6 @@ namespace CefSharp
         bool IsCustomMenu { get; }
 
         /// <summary>
-        /// Returns true if the context menu was invoked from a pepper plugin.
-        /// </summary>
-        bool IsPepperMenu { get; }
-
-        /// <summary>
         /// Gets a value indicating whether the object has been disposed of.
         /// </summary>
         bool IsDisposed { get; }

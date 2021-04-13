@@ -120,14 +120,6 @@ namespace CefSharp
         CefState FileAccessFromFileUrls { get; set; }
 
         /// <summary>
-        /// Controls whether web security restrictions (same-origin policy) will be
-        /// enforced. Disabling this setting is not recommend as it will allow risky
-        /// security behavior such as cross-site scripting (XSS). Also configurable
-        /// using the "disable-web-security" command-line switch.
-        /// </summary>
-        CefState WebSecurity { get; set; }
-
-        /// <summary>
         /// Controls whether image URLs will be loaded from the network. A cached image
         /// will still be rendered if requested. Also configurable using the
         /// "disable-image-loading" command-line switch.
@@ -213,9 +205,17 @@ namespace CefSharp
 
         /// <summary>
         /// Gets a value indicating if the browser settings instance was created internally by CefSharp.
-        /// instances created by CefSharp will be Disposed of after use. To control the lifespan yourself
+        /// Instances created by CefSharp will be Disposed of after use. To control the lifespan yourself
         /// create an set BrowserSettings yourself.
         /// </summary>
-        bool FrameworkCreated { get; }
+        bool AutoDispose { get; }
+
+        /// <summary>
+        /// Used internally to get the underlying <see cref="IBrowserSettings"/> instance.
+        /// Unlikely you'll use this yourself.
+        /// </summary>
+        /// <returns>the inner most instance</returns>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        IBrowserSettings UnWrap();
     }
 }

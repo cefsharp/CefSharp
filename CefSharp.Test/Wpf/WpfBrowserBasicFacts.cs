@@ -37,5 +37,42 @@ namespace CefSharp.Test.Wpf
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
         }
+
+        [WpfFact]
+        public async Task CanSetRequestContext()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                browser.RequestContext = new RequestContext();
+                browser.CreateBrowser(null, new Size(1024, 786));
+
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
+        [WpfFact]
+        public async Task CanSetRequestContextViaBuilder()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                browser.RequestContext = RequestContext.Configure().Create();
+
+                browser.CreateBrowser(null, new Size(1024, 786));
+
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
     }
 }

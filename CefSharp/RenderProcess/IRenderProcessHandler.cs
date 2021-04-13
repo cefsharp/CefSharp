@@ -27,5 +27,10 @@ namespace CefSharp.RenderProcess
         /// <param name="frame">the frame</param>
         /// <param name="context">the V8Context</param>
         void OnContextReleased(IBrowser browser, IFrame frame, IV8Context context);
+
+        /// <summary>
+        /// Called after WebKit has been initialized.
+        /// </summary>
+        void OnWebKitInitialized();
     }
 }

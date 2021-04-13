@@ -7,11 +7,12 @@ assignees: ''
 
 ---
 
-Please ask your questions on https://stackoverflow.com/questions/tagged/cefsharp
+Please ask your questions under the Discussions section here on GitHub 
+- https://github.com/cefsharp/CefSharp/discussions
 
 ---
 
-`CefSharp` is a wrapper around the [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/cef/overview) in a lot of cases a feature must be added to `CEF` first before it can be used in `CefSharp`. `CEF` has it's own `Feature Request Forum` at https://magpcss.org/ceforum/viewforum.php?f=7
+`CefSharp` is a wrapper around the [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/cef/overview) in a lot of cases a feature must be added to `CEF` first before it can be used in `CefSharp`. `CEF` has its own `Feature Request Forum` at https://magpcss.org/ceforum/viewforum.php?f=7
 
 --- 
 

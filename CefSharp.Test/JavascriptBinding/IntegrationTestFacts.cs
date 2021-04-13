@@ -2,9 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Diagnostics;
 using System.Threading.Tasks;
+using CefSharp.Event;
 using CefSharp.Example;
 using CefSharp.Example.JavascriptBinding;
+using CefSharp.Internals;
 using CefSharp.OffScreen;
 using Xunit;
 using Xunit.Abstractions;
@@ -74,6 +77,28 @@ namespace CefSharp.Test.JavascriptBinding
                 output.WriteLine("QUnit Tests result: {0}", success);
             }
         }
+
+        [Fact]
+        public async Task LoadLegacyJavaScriptBindingQunitTestsSuccessfulCompletion()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.LegacyBindingTestUrl, automaticallyCreateBrowser: false))
+            {
+                //TODO: Extract this into some sort of helper setup method
+                var bindingOptions = BindingOptions.DefaultBinder;
+                var repo = browser.JavascriptObjectRepository;
+                repo.Settings.LegacyBindingEnabled = true;
+
+                repo.Register("bound", new BoundObject(), isAsync: false, options: bindingOptions);
+                repo.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+
+                browser.CreateBrowser();
+                var success = await browser.WaitForQUnitTestExeuctionToComplete();
+
+                Assert.True(success);
+
+                output.WriteLine("QUnit Tests result: {0}", success);
+            }
+        }
 #endif
 
         [Fact]
@@ -102,16 +127,57 @@ namespace CefSharp.Test.JavascriptBinding
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
             {
                 var settings = browser.JavascriptObjectRepository.Settings;
-                settings.JavascriptBindingApiGlobalObjectName = "customApi";
+                settings.JavascriptBindingApiGlobalObjectName = "bindingApiObject";
 
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
                 await browser.LoadPageAsync();
 
-                var result = await browser.EvaluateScriptAsync("customApi.isObjectCached('doesntexist') === false");
+                var result = await browser.EvaluateScriptAsync("bindingApiObject.isObjectCached('doesntexist') === false");
 
                 Assert.True(result.Success);
+            }
+        }
+
+        [Theory]
+        [InlineData("CefSharp.RenderProcessId")]
+        [InlineData("cefSharp.renderProcessId")]
+        public async Task JsBindingRenderProcessId(string script)
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl))
+            {
+                await browser.LoadPageAsync();
+
+                var result = await browser.EvaluateScriptAsync(script);
+
+                Assert.True(result.Success);
+
+                using (var process = Process.GetProcessById(Assert.IsType<int>(result.Result)))
+                {
+                    Assert.Equal("CefSharp.BrowserSubprocess", process.ProcessName);
+                }
+            }
+        }
+
+        [Fact]
+        //Issue https://github.com/cefsharp/CefSharp/issues/3470
+        //Verify workaround passes
+        public async Task CanCallCefSharpBindObjectAsyncWithoutParams()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl))
+            {
+                await browser.LoadPageAsync();
+
+                //TODO: See if we can avoid GetAwaiter().GetResult()
+                var evt = Assert.Raises<JavascriptBindingEventArgs>(
+                    x => browser.JavascriptObjectRepository.ResolveObject += x,
+                    y => browser.JavascriptObjectRepository.ResolveObject -= y,
+                    () => { browser.EvaluateScriptAsync("CefSharp.BindObjectAsync({ IgnoreCache: true });").GetAwaiter().GetResult(); });
+
+                Assert.NotNull(evt);
+
+                Assert.Equal(JavascriptObjectRepository.AllObjects, evt.Arguments.ObjectName);
             }
         }
     }

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Binding Test Async Task</title>
-    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.10.0.css">
 </head>
 <body>
     <div>
@@ -12,7 +12,7 @@
 
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
-    <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
+    <script src="https://code.jquery.com/qunit/qunit-2.10.0.js"></script>
 
     <script type="text/javascript">
         function getRandomInt(min, max)
@@ -22,87 +22,135 @@
             return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
         }
 
-        (async () =>
+        QUnit.module('BindingTestsAsyncTask', (hooks) =>
         {
-            await CefSharp.BindObjectAsync("boundAsync");
-
-            QUnit.test("ReturnTaskStringAsync:", function (assert)
+            hooks.before(async () =>
             {
-                let asyncCallback = assert.async();
-
-                boundAsync.returnTaskStringAsync().then(function (actualResult)
-                {
-                    const expectedResult = 'ReturnTaskStringAsync';
-
-                    assert.equal(expectedResult, actualResult, "Return string " + expectedResult);
-
-                    asyncCallback();
-                });
+                await CefSharp.BindObjectAsync("boundAsync");
             });
 
-            QUnit.test("VoidReturnAsync Test:", function (assert)
+            QUnit.test("WaitBeforeReturnAsync:", async (assert) =>
             {
-                let asyncCallback = assert.async();
+                const expectedResult = null;  
+                const actualResult = await boundAsync.waitBeforeReturnAsync(2000);
 
-                boundAsync.voidReturnAsync().then(function (actualResult)
-                {
-                    const expectedResult = null;
-
-                    assert.equal(expectedResult, actualResult, "Return null");
-
-                    asyncCallback();
-                });
+                assert.equal(expectedResult, actualResult, "Return null");
             });
 
-            QUnit.test("Async Download File Test:", function (assert)
+            QUnit.test("ReturnHello:", async (assert) =>
             {
-                let asyncCallback = assert.async();
+                const expectedResult = 'Hello CefSharp';
+                const actualResult = await boundAsync.hello('CefSharp');
+              
+                assert.equal(expectedResult, actualResult, "Return Hello CefSharp");
+            });
 
+            QUnit.test("ReturnTaskStringAsync Test:", async (assert) =>
+            {
+                const expectedResult = 'ReturnTaskStringAsync';
+                const actualResult = await boundAsync.returnTaskStringAsync();
+
+                assert.equal(expectedResult, actualResult, "Return string " + expectedResult);
+            });
+
+            QUnit.test("VoidReturnAsync Test:", async (assert) =>
+            {
+                const expectedResult = null;
+                const actualResult = await boundAsync.voidReturnAsync();
+              
+                assert.equal(expectedResult, actualResult, "Return null");
+            });
+
+            QUnit.test("Async Download File Test:", async (assert) =>
+            {
                 const url = "https://raw.githubusercontent.com/cefsharp/CefSharp/master/.editorconfig";
 
                 const expectedResult = "# editorconfig.org";
+                const actualResult = await boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
 
-                boundAsync.asyncDownloadFileAndSplitOnNewLines(url).then(function (actualResult)
-                {
-                    assert.equal(expectedResult, actualResult[0], "Return string " + expectedResult);
-
-                    asyncCallback();
-                });
+                assert.equal(expectedResult, actualResult[0], "Return string " + expectedResult);
             });
 
-            QUnit.test("Multiple Async Download File Test:", function (assert)
+            QUnit.test("Multiple Async Download File Test:", async (assert) =>
             {
-                let asyncCallback = assert.async();
-
                 const url = "https://raw.githubusercontent.com/cefsharp/CefSharp/master/.editorconfig";
 
                 let p1 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
                 let p2 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                let p3 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                let p4 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
 
-                Promise.all([p1, p2]).then(function (values)
-                {
-                    let lineNo = getRandomInt(0, values[0].length);
-                    assert.equal(values[0].length, values[1].length, "Line Count " + values[0].length)
-                    assert.equal(values[0][lineNo], values[1][lineNo], "Return string " + values[0][lineNo]);
+                const values = await Promise.all([p1, p2, p3, p4]);
 
-                    asyncCallback();
-                });
+                let lineNo = getRandomInt(0, values[0].length);
+                let lineNo2 = getRandomInt(0, values[0].length);
+                assert.equal(values[0].length, values[1].length, "Line Count " + values[0].length)
+                assert.equal(values[0][lineNo], values[1][lineNo], "Return string " + values[0][lineNo]);
+
+                assert.equal(values[2].length, values[3].length, "Line Count " + values[2].length)
+                assert.equal(values[2][lineNo2], values[3][lineNo2], "Return string " + values[2][lineNo2]);
             });
 
-            QUnit.test("Async .Net Exception:", function (assert)
+            QUnit.test("Async .Net Exception:", async (assert) =>
             {
-                let asyncCallback = assert.async();
-
-                const expectedResult = "Expected Exception";
-
-                boundAsync.asyncThrowException().catch(function (ex)
-                {
-                    assert.equal(true, ex.includes(expectedResult), "Return string " + ex);
-
-                    asyncCallback();
-                });
+                assert.rejects(boundAsync.asyncThrowException());
             });
-        })();
+
+            QUnit.test("JavascriptCallback EvalPromise:", async (assert) =>
+            {
+                const expectedResult = "JavascriptCallback after promise";
+
+                let convertPromiseToCefSharpCallback = function (p)
+                {
+                    let f = function (callbackId, ...args)
+                    {
+                        //We immediately return CefSharpDefEvalScriptRes as we will be
+                        //using a promise and will call sendEvalScriptResponse when our
+                        //promise has completed
+                        (async function ()
+                        {
+                            try
+                            {
+                                //Await the promise
+                                let response = await p(...args);
+
+                                //We're done, let's send our response back to our .Net App
+                                cefSharp.sendEvalScriptResponse(callbackId, true, response, true);
+                            }
+                            catch (err)
+                            {
+                                //An error occurred let's send the response back to our .Net App
+                                cefSharp.sendEvalScriptResponse(callbackId, false, err.message, true);
+
+                            }
+                        })();
+
+                        //Let CefSharp know we're going to be defering our response as we have some async/await
+                        //processing to happen before our callback returns it's value
+                        return "CefSharpDefEvalScriptRes";
+                    }
+
+                    return f;
+                }
+
+                //The function convertPromiseToCefSharpCallback can be used in your own projects
+                //Pass in a function that wraps your promise, not your promise directly
+                let callback = convertPromiseToCefSharpCallback(function ()
+                {
+                    return new Promise((resolve, reject) =>
+                    {
+                        setTimeout(() =>
+                        {
+                            resolve(expectedResult);
+                        }, 300);
+                    });
+                });
+
+                const actualResult = await boundAsync.javascriptCallbackEvalPromise(expectedResult, callback);
+        
+                assert.equal(expectedResult, actualResult, "Echo response after promise execution");
+            });
+        });
     </script>
 
 </body>

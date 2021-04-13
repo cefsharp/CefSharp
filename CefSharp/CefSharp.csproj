@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\GitLink.3.1.0\build\GitLink.props" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,6 +15,9 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -20,46 +25,25 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\CefSharp.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\x86\Release\CefSharp.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\x64\Release\CefSharp.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\CefSharp.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -104,12 +88,28 @@
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="DevToolsExtensions.cs" />
+    <Compile Include="DevTools\DevToolsClient.cs" />
+    <Compile Include="DevTools\DevToolsClient.Generated.cs" />
+    <Compile Include="DevTools\DevToolsClientException.cs" />
+    <Compile Include="DevTools\DevToolsDomainBase.cs" />
+    <Compile Include="DevTools\DevToolsDomainEntityBase.cs" />
+    <Compile Include="DevTools\DevToolsDomainErrorResponse.cs" />
+    <Compile Include="DevTools\DevToolsDomainResponseBase.cs" />
+    <Compile Include="DevTools\DevToolsEventArgs.cs" />
+    <Compile Include="DevTools\DevToolsMethodResponse.cs" />
+    <Compile Include="DevTools\Headers.cs" />
+    <Compile Include="DevTools\IDevToolsClient.cs" />
+    <Compile Include="DevTools\MemoryDumpConfig.cs" />
     <Compile Include="Enums\CompositionUnderlineStyle.cs" />
+    <Compile Include="Enums\CookiePriority.cs" />
+    <Compile Include="Enums\CookieSameSite.cs" />
     <Compile Include="Enums\SchemeOptions.cs" />
+    <Compile Include="Handler\RequestContextHandler.cs" />
     <Compile Include="Internals\CefThread.cs" />
     <Compile Include="Internals\FreezableBase.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
     <Compile Include="Internals\MimeTypeMapping.cs" />
+    <Compile Include="Internals\Tasks\SyncContextTaskCompletionSource.cs" />
     <Compile Include="IRegistration.cs" />
     <Compile Include="JavascriptBinding\JavascriptBindingSettings.cs" />
     <Compile Include="Internals\NoOpBrowserRefCounter.cs" />
@@ -117,16 +117,20 @@
     <Compile Include="Internals\BrowserRefCounter.cs" />
     <Compile Include="Internals\CommandLineArgDictionary.cs" />
     <Compile Include="Internals\CookieManagerDecorator.cs" />
+    <Compile Include="Internals\IJavascriptObjectRepositoryInternal.cs" />
     <Compile Include="Internals\ParentProcessMonitor.cs" />
     <Compile Include="Internals\HeaderNameValueCollection.cs" />
     <Compile Include="Internals\StringCheck.cs" />
     <Compile Include="Internals\Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="IUrlRequest.cs" />
     <Compile Include="IUrlRequestClient.cs" />
+    <Compile Include="Internals\TryCallMethodResult.cs" />
     <Compile Include="Lagacy\ResourceHandler.cs" />
     <Compile Include="JavascriptBinding\CamelCaseJavascriptNameConverter.cs" />
     <Compile Include="JavascriptBinding\IJavascriptNameConverter.cs" />
     <Compile Include="JavascriptBinding\LegacyCamelCaseJavascriptNameConverter.cs" />
+    <Compile Include="ModelBinding\IAsyncMethodInterceptor.cs" />
+    <Compile Include="Preferences\SetPreferenceResponse.cs" />
     <Compile Include="ResourceRequestHandlerFactory.cs" />
     <Compile Include="ResourceRequestHandlerFactoryItem.cs" />
     <Compile Include="Enums\AlphaType.cs" />
@@ -167,9 +171,10 @@
     <Compile Include="RenderProcess\V8Exception.cs" />
     <Compile Include="RequestContextExtensions.cs" />
     <Compile Include="ResponseFilter\StreamResponseFilter.cs" />
+    <Compile Include="SchemeHandler\OwinResourceHandler.cs" />
+    <Compile Include="SchemeHandler\OwinSchemeHandlerFactory.cs" />
     <Compile Include="Structs\AudioParamaters.cs" />
     <Compile Include="Structs\TouchEvent.cs" />
-    <Compile Include="V8Extension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="JavascriptException.cs" />
@@ -338,8 +343,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Internals\Partial\Readme.md" />
+    <None Include="ModelBinding\Readme.md" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\GitLink.3.1.0\build\GitLink.targets" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

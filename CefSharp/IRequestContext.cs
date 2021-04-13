@@ -22,6 +22,10 @@ namespace CefSharp
     public interface IRequestContext : IDisposable
     {
         /// <summary>
+        /// Gets a value indicating whether the RequestContext has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
+        /// <summary>
         /// Returns true if this object is pointing to the same context object.
         /// </summary>
         /// <param name="context">context to compare</param>
@@ -46,7 +50,7 @@ namespace CefSharp
         /// Returns the default cookie manager for this object. This will be the global
         /// cookie manager if this object is the global request context. 
         /// </summary>
-        /// <param name="callback">If callback is non-NULL it will be executed asnychronously on the CEF IO thread
+        /// <param name="callback">If callback is non-NULL it will be executed asynchronously on the CEF IO thread
         /// after the manager's storage has been initialized.</param>
         /// <returns>Returns the default cookie manager for this object</returns>
         ICookieManager GetCookieManager(ICompletionCallback callback);
@@ -274,5 +278,13 @@ namespace CefSharp
         /// then fulfilling the resource rquests made to <see cref="IExtensionHandler.GetExtensionResource(IExtension, IBrowser, string, IGetExtensionResourceCallback)"/>.
         /// </remarks>
         void LoadExtension(string rootDirectory, string manifestJson, IExtensionHandler handler);
+
+        /// <summary>
+        /// Used internally to get the underlying <see cref="IRequestContext"/> instance.
+        /// Unlikely you'll use this yourself.
+        /// </summary>
+        /// <returns>the inner most instance</returns>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        IRequestContext UnWrap();
     }
 }

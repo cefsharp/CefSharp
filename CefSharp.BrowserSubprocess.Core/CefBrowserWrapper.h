@@ -11,7 +11,7 @@
 #include "Stdafx.h"
 #include "JavascriptRootObjectWrapper.h"
 
-using namespace CefSharp::Internals::Async;
+using namespace CefSharp::BrowserSubprocess::Async;
 #ifndef NETCOREAPP
 using namespace System::ServiceModel;
 #endif
@@ -20,55 +20,58 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    // "Master class" for wrapping everything that the Cef Subprocess needs 
-    // for ONE CefBrowser.
-    public ref class CefBrowserWrapper
+    namespace BrowserSubprocess
     {
-    private:
-        MCefRefPtr<CefBrowser> _cefBrowser;
-
-    internal:
-        //Frame Identifier is used as Key
-        property ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>^ JavascriptRootObjectWrappers;
-
-    public:
-        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
+        // "Master class" for wrapping everything that the Cef Subprocess needs 
+        // for ONE CefBrowser.
+        public ref class CefBrowserWrapper
         {
-            _cefBrowser = cefBrowser;
-            BrowserId = cefBrowser->GetIdentifier();
-            IsPopup = cefBrowser->IsPopup();
+        private:
+            MCefRefPtr<CefBrowser> _cefBrowser;
 
-            JavascriptRootObjectWrappers = gcnew ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>();
-        }
+        internal:
+            //Frame Identifier is used as Key
+            property ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>^ JavascriptRootObjectWrappers;
 
-        !CefBrowserWrapper()
-        {
-            _cefBrowser = nullptr;
-        }
-
-        ~CefBrowserWrapper()
-        {
-            this->!CefBrowserWrapper();
-
-            if (JavascriptRootObjectWrappers != nullptr)
+        public:
+            CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
             {
-                for each(KeyValuePair<int64, JavascriptRootObjectWrapper^> entry in JavascriptRootObjectWrappers)
-                {
-                    delete entry.Value;
-                }
+                _cefBrowser = cefBrowser;
+                BrowserId = cefBrowser->GetIdentifier();
+                IsPopup = cefBrowser->IsPopup();
 
-                JavascriptRootObjectWrappers = nullptr;
+                JavascriptRootObjectWrappers = gcnew ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>();
             }
-        }
 
-        property int BrowserId;
-        property bool IsPopup;
+            !CefBrowserWrapper()
+            {
+                _cefBrowser = nullptr;
+            }
+
+            ~CefBrowserWrapper()
+            {
+                this->!CefBrowserWrapper();
+
+                if (JavascriptRootObjectWrappers != nullptr)
+                {
+                    for each (KeyValuePair<int64, JavascriptRootObjectWrapper^> entry in JavascriptRootObjectWrappers)
+                    {
+                        delete entry.Value;
+                    }
+
+                    JavascriptRootObjectWrappers = nullptr;
+                }
+            }
+
+            property int BrowserId;
+            property bool IsPopup;
 
 #ifndef NETCOREAPP
-        // This allows us to create the WCF proxies back to our parent process.
-        property ChannelFactory<IBrowserProcess^>^ ChannelFactory;
-        // The WCF proxy to the parent process.
-        property IBrowserProcess^ BrowserProcess;
+            // This allows us to create the WCF proxies back to our parent process.
+            property ChannelFactory<IBrowserProcess^>^ ChannelFactory;
+            // The WCF proxy to the parent process.
+            property IBrowserProcess^ BrowserProcess;
 #endif
-    };
+        };
+    }
 }

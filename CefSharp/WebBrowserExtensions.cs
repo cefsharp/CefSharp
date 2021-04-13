@@ -18,11 +18,6 @@ namespace CefSharp
     /// </summary>
     public static class WebBrowserExtensions
     {
-        public const string BrowserNotInitializedExceptionErrorMessage =
-            "The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
-            "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
-            "the IsBrowserInitialized property to determine when the browser has been initialized.";
-
         #region Legacy Javascript Binding
         /// <summary>
         /// Registers a Javascript object in this specific browser instance.
@@ -576,7 +571,7 @@ namespace CefSharp
         /// </summary>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        /// <param name="callback">(Optional) If not null it will be executed asnychronously on the CEF IO thread after the manager's
+        /// <param name="callback">(Optional) If not null it will be executed asynchronously on the CEF IO thread after the manager's
         /// storage has been initialized.</param>
         /// <returns>
         /// Cookie Manager.
@@ -990,17 +985,88 @@ namespace CefSharp
 
         /// <summary>
         /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
-        /// asynchronously and the method returns a Task encapsulating the response from the Javascript This simple helper extension will
-        /// encapsulate params in single quotes (unless int, uint, etc)
+        /// asynchronously and the method returns a Task encapsulating the response from the Javascript. The result of the script execution
+        /// in javascript is Promise.resolve so even no promise values will be treated as a promise. Your javascript should return a value.
+        /// The javascript will be wrapped in an Immediately Invoked Function Expression.
+        /// When the promise either trigger then/catch this returned Task will be completed.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
-        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="chromiumWebBrowser">The ChromiumWebBrowser instance this method extends.</param>
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">(Optional) The timeout after which the Javascript code execution should be aborted.</param>
         /// <returns>
         /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
         /// </returns>
-        public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null)
+        public static Task<JavascriptResponse> EvaluateScriptAsPromiseAsync(this IWebBrowser chromiumWebBrowser, string script, TimeSpan? timeout = null)
+        {
+            var jsbSettings = chromiumWebBrowser.JavascriptObjectRepository.Settings;
+
+            var promiseHandlerScript = GetPromiseHandlerScript(script, jsbSettings.JavascriptBindingApiGlobalObjectName);
+
+            return chromiumWebBrowser.EvaluateScriptAsync(promiseHandlerScript, timeout: timeout, useImmediatelyInvokedFuncExpression: true);
+        }
+
+        /// <summary>
+        /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
+        /// asynchronously and the method returns a Task encapsulating the response from the Javascript. The result of the script execution
+        /// in javascript is Promise.resolve so even no promise values will be treated as a promise. Your javascript should return a value.
+        /// The javascript will be wrapped in an Immediately Invoked Function Expression.
+        /// When the promise either trigger then/catch this returned Task will be completed.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        /// <param name="frame">The <seealso cref="IFrame"/> instance this method extends.</param>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        /// <param name="timeout">(Optional) The timeout after which the Javascript code execution should be aborted.</param>
+        /// <returns>
+        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
+        /// </returns>
+        public static Task<JavascriptResponse> EvaluateScriptAsPromiseAsync(this IFrame frame, string script, TimeSpan? timeout = null)
+        {
+            var promiseHandlerScript = GetPromiseHandlerScript(script, null);
+
+            return frame.EvaluateScriptAsync(promiseHandlerScript, timeout: timeout, useImmediatelyInvokedFuncExpression: true);
+        }
+
+        private static string GetPromiseHandlerScript(string script, string javascriptBindingApiGlobalObjectName)
+        {
+            var internalJsFunctionName = "cefSharp.sendEvalScriptResponse";
+
+            //If the user chose to customise the name of the object CefSharp
+            //creates in Javascript then we'll workout what the name should be.
+            if (!string.IsNullOrWhiteSpace(javascriptBindingApiGlobalObjectName))
+            {
+                internalJsFunctionName = javascriptBindingApiGlobalObjectName;
+
+                if (char.IsLower(internalJsFunctionName[0]))
+                {
+                    internalJsFunctionName += ".sendEvalScriptResponse";
+                }
+                else
+                {
+                    internalJsFunctionName += ".SendEvalScriptResponse";
+                }
+            }
+            var promiseHandlerScript = "let innerImmediatelyInvokedFuncExpression = (async function() { " + script + " })(); Promise.resolve(innerImmediatelyInvokedFuncExpression).then((val) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, true, val, false)).catch ((reason) => " + internalJsFunctionName + "(cefSharpInternalCallbackId, false, String(reason), false)); return 'CefSharpDefEvalScriptRes';";
+
+            return promiseHandlerScript;
+        }
+
+        /// <summary>
+        /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
+        /// asynchronously and the method returns a Task encapsulating the response from the Javascript
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        /// <param name="timeout">(Optional) The timeout after which the Javascript code execution should be aborted.</param>
+        /// <param name="useImmediatelyInvokedFuncExpression">When true the script is wrapped in a self executing function.
+        /// Make sure to use a return statement in your javascript. e.g. (function () { return 42; })();
+        /// When false don't include a return statement e.g. 42;
+        /// </param>
+        /// <returns>
+        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
+        /// </returns>
+        public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null, bool useImmediatelyInvokedFuncExpression = false)
         {
             if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32.MaxValue)
             {
@@ -1016,7 +1082,7 @@ namespace CefSharp
             {
                 ThrowExceptionIfFrameNull(frame);
 
-                return frame.EvaluateScriptAsync(script, timeout: timeout);
+                return frame.EvaluateScriptAsync(script, timeout: timeout, useImmediatelyInvokedFuncExpression: useImmediatelyInvokedFuncExpression);
             }
         }
 
@@ -1158,36 +1224,6 @@ namespace CefSharp
             stringBuilder.Append(");");
 
             return stringBuilder.ToString();
-        }
-
-        /// <summary>
-        /// An IWebBrowser extension method that throw exception if browser not initialized.
-        /// </summary>
-        /// <remarks>
-        /// Not used in WPF as IsBrowserInitialized is a dependency property and can only be checked on the UI thread(throws
-        /// InvalidOperationException if called on another Thread).
-        /// </remarks>
-        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
-        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        public static void ThrowExceptionIfBrowserNotInitialized(this IWebBrowserInternal browser)
-        {
-            if (!browser.IsBrowserInitialized)
-            {
-                throw new Exception(BrowserNotInitializedExceptionErrorMessage);
-            }
-        }
-
-        /// <summary>
-        /// An IWebBrowser extension method that throw exception if disposed.
-        /// </summary>
-        /// <exception cref="ObjectDisposedException">Thrown when a supplied object has been disposed.</exception>
-        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        public static void ThrowExceptionIfDisposed(this IWebBrowserInternal browser)
-        {
-            if (browser.IsDisposed)
-            {
-                throw new ObjectDisposedException("browser", "Browser has been disposed");
-            }
         }
 
         /// <summary>

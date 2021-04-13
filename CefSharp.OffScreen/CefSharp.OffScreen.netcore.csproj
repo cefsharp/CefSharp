@@ -24,11 +24,17 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <EmbedAllSources>True</EmbedAllSources>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.vcxproj" />
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.csproj" />
     <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
 
   <ItemGroup>

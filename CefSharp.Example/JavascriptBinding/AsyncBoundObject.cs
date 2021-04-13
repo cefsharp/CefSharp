@@ -31,6 +31,29 @@ namespace CefSharp.Example.JavascriptBinding
             return divident / divisor;
         }
 
+        public string DivWithBlockingTaskCall(int dividend, int divisor)
+        {
+            var taskToWaitOn = ExecuteTaskBeforeDivision(dividend, divisor);
+            taskToWaitOn.Wait();
+            return taskToWaitOn.Result;
+        }
+
+        private async Task<string> ExecuteTaskBeforeDivision(int dividend, int divisor)
+        {
+            await RunAsync();
+            return (dividend / divisor).ToString();
+        }
+
+        private Task RunAsync()
+        {
+            return Task.Run(() => Run());
+        }
+
+        private void Run()
+        {
+            Debug.WriteLine("AsyncBoundObject Run execution.");
+        }
+
         public string Hello(string name)
         {
             return "Hello " + name;
@@ -157,6 +180,16 @@ namespace CefSharp.Example.JavascriptBinding
             };
         }
 
+        public Tuple<bool, string> PassSimpleClassAsArgument(SimpleClass simpleClass)
+        {
+            if (simpleClass == null)
+            {
+                return Tuple.Create(false, "PassSimpleClassAsArgument dictionary param is null");
+            }
+
+            return Tuple.Create(true, "TestString:" + simpleClass.TestString + ";SubClasses[0].PropertyOne:" + simpleClass.SubClasses[0].PropertyOne);
+        }
+
         //The Following Test methods can only be used when
         //CefSharpSettings.ConcurrentTaskExecution = true;
         //There is a seperate set of QUnit tests for these
@@ -171,6 +204,21 @@ namespace CefSharp.Example.JavascriptBinding
             await Task.Delay(1000);
 
             Debug.WriteLine("Delayed 1 second.");
+        }
+
+        public async Task<string> JavascriptCallbackEvalPromise(string msg, IJavascriptCallback callback)
+        {
+            var response = await callback.ExecuteAsync(callback.Id, msg);
+
+            //Echo the response
+            return (string)response.Result;
+        }
+
+        public async Task WaitBeforeReturnAsync(int milliseconds)
+        {
+            await Task.Delay(milliseconds);
+
+            Debug.WriteLine("Delayed in ms:" + milliseconds);
         }
 
         public async Task<string> AsyncWaitTwoSeconds(string str)

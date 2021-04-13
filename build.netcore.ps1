@@ -3,18 +3,18 @@
     [Parameter(Position = 0)] 
     [string] $Target = "netcore31",
     [Parameter(Position = 1)]
-    [string] $Version = "84.4.1",
+    [string] $Version = "90.2.30",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "84.4.1"
+    [string] $AssemblyVersion = "90.4.20"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 $CefSln = Join-Path $WorkingDir 'CefSharp3.netcore.sln'
 $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
 
-# Extract the current CEF Redist version from the CefSharp.Core\packages.config file
+# Extract the current CEF Redist version from the CefSharp.Runtime.Core\packages.CefSharp.Core.config file
 # Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\Packages.config'))
+$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.netcore.config'))
 $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
 
 function Write-Diagnostic 
@@ -91,7 +91,7 @@ function Msvs
         [string] $Configuration, 
 
         [Parameter(Position = 1, ValueFromPipeline = $true)]
-        [ValidateSet('x86', 'x64')]
+        [ValidateSet('x86', 'x64', 'arm64')]
         [string] $Platform
     )
 
@@ -169,8 +169,8 @@ function Compile
     Write-Diagnostic "Restore Nuget Packages"
 
     # Restore packages
-    . $nuget restore CefSharp.Core\packages.config -PackagesDirectory packages
-    . $nuget restore CefSharp.BrowserSubprocess.Core\packages.config  -PackagesDirectory packages
+    . $nuget restore CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.netcore.config -PackagesDirectory packages
+    . $nuget restore CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.netcore.config -PackagesDirectory packages
     &msbuild /t:restore CefSharp3.netcore.sln
     
     Write-Diagnostic "Compile Packages"
@@ -178,6 +178,7 @@ function Compile
     # Compile
     Msvs 'Release' 'x64'
     Msvs 'Release' 'x86'
+    Msvs 'Release' 'arm64'
 }
 
 function Nupkg
@@ -290,6 +291,21 @@ function WriteVersionToAppveyor
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
+function WriteVersionToNugetTargets
+{
+	$Filename = Join-Path $WorkingDir NuGet\PackageReference\CefSharp.Common.NETCore.targets
+	
+	Write-Diagnostic  "Write Version ($RedistVersion) to $Filename"
+	$Regex1  = '" Version=".*"';
+	$Replace = '" Version="' + $RedistVersion + '"';
+	
+	$RunTimeJsonData = Get-Content -Encoding UTF8 $Filename
+	$NewString = $RunTimeJsonData -replace $Regex1, $Replace
+	
+	$Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+	[System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
 
 DownloadNuget
@@ -297,6 +313,7 @@ DownloadNuget
 WriteAssemblyVersion
 WriteVersionToShfbproj
 WriteVersionToAppveyor
+WriteVersionToNugetTargets
 
 WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
 WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
@@ -304,7 +321,7 @@ WriteVersionToManifest "CefSharp.WinForms.Example\app.manifest"
 WriteVersionToManifest "CefSharp.Wpf.Example\app.manifest"
 
 WriteVersionToResourceFile "CefSharp.BrowserSubprocess.Core\Resource.rc"
-WriteVersionToResourceFile "CefSharp.Core\Resource.rc"
+WriteVersionToResourceFile "CefSharp.Core.Runtime\Resource.rc"
 
 switch -Exact ($Target)
 {

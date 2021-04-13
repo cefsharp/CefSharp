@@ -37,7 +37,6 @@ namespace CefSharp.Wpf.Internals
             {
                 int message;
                 int virtualKey = 0;
-                var modifiers = e.GetModifiers();
 
                 switch (key)
                 {
@@ -76,7 +75,7 @@ namespace CefSharp.Wpf.Internals
                     message = (int)(e.SystemKey != Key.None ? WM.SYSKEYUP : WM.KEYUP);
                 }
 
-                browser.GetHost().SendKeyEvent(message, virtualKey, (int)modifiers);
+                browser.GetHost().SendKeyEvent(message, virtualKey, 0);
             }
 
             // Hooking the Tab key like this makes the tab focusing in essence work like

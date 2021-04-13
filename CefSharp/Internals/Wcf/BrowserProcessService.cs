@@ -9,7 +9,7 @@ namespace CefSharp.Internals.Wcf
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     internal class BrowserProcessService : IBrowserProcess
     {
-        private readonly JavascriptObjectRepository javascriptObjectRepository;
+        private readonly IJavascriptObjectRepositoryInternal javascriptObjectRepository;
         private readonly BrowserProcessServiceHost host;
 
         public BrowserProcessService()
@@ -22,12 +22,9 @@ namespace CefSharp.Internals.Wcf
 
         public BrowserProcessResponse CallMethod(long objectId, string name, object[] parameters)
         {
-            object result;
-            string exception;
+            var result = javascriptObjectRepository.TryCallMethod(objectId, name, parameters);
 
-            var success = javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result, out exception);
-
-            return new BrowserProcessResponse { Success = success, Result = result, Message = exception };
+            return new BrowserProcessResponse { Success = result.Success, Result = result.ReturnValue, Message = result.Exception };
         }
 
         public BrowserProcessResponse GetProperty(long objectId, string name)

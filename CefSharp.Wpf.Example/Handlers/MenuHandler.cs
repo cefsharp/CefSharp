@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using GalaSoft.MvvmLight.Command;
 
 namespace CefSharp.Wpf.Example.Handlers
 {
@@ -199,7 +198,7 @@ namespace CefSharp.Wpf.Example.Handlers
                                     break;
                                 }
                             }
-                        }, keepTargetAlive: true)
+                        })
                     });
                 }
                 webBrowser.ContextMenu = menu;

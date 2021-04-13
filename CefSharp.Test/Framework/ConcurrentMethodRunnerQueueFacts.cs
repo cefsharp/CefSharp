@@ -26,7 +26,7 @@ namespace CefSharp.Test.Framework
         {
             var boundObject = new AsyncBoundObject();
 
-            var objectRepository = new JavascriptObjectRepository();
+            IJavascriptObjectRepositoryInternal objectRepository = new JavascriptObjectRepository();
             objectRepository.NameConverter = null;
 #if NETCOREAPP
             objectRepository.Register("testObject", boundObject, BindingOptions.DefaultBinder);
@@ -53,7 +53,7 @@ namespace CefSharp.Test.Framework
             const string expectedResult = "Echo Me!";
             var boundObject = new AsyncBoundObject();
 
-            var objectRepository = new JavascriptObjectRepository();
+            IJavascriptObjectRepositoryInternal objectRepository = new JavascriptObjectRepository();
             objectRepository.NameConverter = null;
 #if NETCOREAPP
             objectRepository.Register("testObject", boundObject, BindingOptions.DefaultBinder);

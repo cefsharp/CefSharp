@@ -25,20 +25,23 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Objects registered using RegisterJsObject and RegisterAsyncJsObject
+        /// Objects registered using <see cref="IJavascriptObjectRepository.Register"/>
         /// will be automatically bound when a V8Context is created. (Soon as the Javascript
         /// context is created for a browser). This behaviour is like that seen with Javascript
         /// Binding in version 57 and earlier.
-        /// NOTE: Set this before your first call to RegisterJsObject or RegisterAsyncJsObject
+        /// NOTE: MUST be set before creating your first ChromiumWebBrowser instance.
         /// </summary>
+        [Obsolete("Use chromiumWebBrowser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true; instead." +
+            "Must be called before creating your first ChromiumWebBrowser instance." +
+            "See https://github.com/cefsharp/CefSharp/issues/2977 for details.")]
         public static bool LegacyJavascriptBindingEnabled { get; set; }
 
 #if !NETCOREAPP
         /// <summary>
-        /// WCF is used by RegisterJsObject feature for Javascript Binding
-        /// It's reccomended that anyone developing a new application use 
-        /// the RegisterAsyncJsObject version which communicates using native
-        /// Chromium IPC.
+        /// WCF is used by JavascriptObjectRepository.Register(isAsync: false) feature for
+        /// Javascript Binding. It's recomended that anyone developing a new application use
+        /// the JavascriptObjectRepository.Register(isAsync: true) version which communicates
+        /// using native Chromium IPC.
         /// </summary>
         public static bool WcfEnabled { get; set; }
 
@@ -78,7 +81,7 @@ namespace CefSharp
 
         /// <summary>
         /// This influences the behavior of how methods are executed for objects registered using
-        /// <see cref="IJavascriptObjectRepository.Register(string, object, bool, BindingOptions)"/>.
+        /// <see cref="IJavascriptObjectRepository.Register"/>.
         /// By default the <see cref="Internals.MethodRunnerQueue"/> queues Tasks for execution in a sequential order.
         /// A single method is exeucted at a time. Setting this property to true allows for concurrent task execution.
         /// Method calls are executed on <see cref="System.Threading.Tasks.TaskScheduler.Default"/> (ThreadPool).

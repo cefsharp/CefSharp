@@ -127,5 +127,13 @@ namespace CefSharp
         /// <param name="value">new header value</param>
         /// <param name="overwrite">If overwrite is true any existing values will be replaced with the new value. If overwrite is false any existing values will not be overwritten</param>
         void SetHeaderByName(string name, string value, bool overwrite);
+
+        /// <summary>
+        /// Used internally to get the underlying <see cref="IRequest"/> instance.
+        /// Unlikely you'll use this yourself.
+        /// </summary>
+        /// <returns>the inner most instance</returns>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        IRequest UnWrap();
     }
 }

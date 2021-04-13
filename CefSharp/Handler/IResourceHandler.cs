@@ -16,7 +16,7 @@ namespace CefSharp
     /// can modify the response including headers, or even redirect to a new Url. Set your responseLength and headers
     /// Populate the dataOut stream in ReadResponse. For those looking for a sample implementation or upgrading from 
     /// a previous version <see cref="ResourceHandler"/>. For those upgrading, inherit from ResourceHandler instead of IResourceHandler
-    /// add the override keywoard to existing methods e.g. ProcessRequestAsync.
+    /// add the override keyword to existing methods e.g. ProcessRequestAsync.
     /// </summary>
     public interface IResourceHandler : IDisposable
     {
@@ -102,7 +102,7 @@ namespace CefSharp
         /// <param name="bytesRead">To indicate response completion set bytesRead to 0 and return false.</param>
         /// <param name="callback">set <paramref name="bytesRead"/> to 0, return true and execute callback when the data is available
         /// (dataOut will remain valid until the callback is executed). If you have no need
-        /// of the callback then Dispose of it immeduately.</param>
+        /// of the callback then Dispose of it immediately.</param>
         /// <returns>return true or false depending on the criteria, see summary.</returns>
         bool Read(Stream dataOut, out int bytesRead, IResourceReadCallback callback);
 

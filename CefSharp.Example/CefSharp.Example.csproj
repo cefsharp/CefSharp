@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CefSharp.Example</RootNamespace>
     <AssemblyName>CefSharp.Example</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -76,10 +76,10 @@
   <ItemGroup>
     <Compile Include="Callback\RunFileDialogCallback.cs" />
     <Compile Include="DevTools\DevToolsExtensions.cs" />
-    <Compile Include="DevTools\TaskMethodDevToolsMessageObserver.cs" />
     <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\ExampleResourceRequestHandler.cs" />
     <Compile Include="Handlers\ExtensionHandler.cs" />
+    <Compile Include="Handlers\RequestContextHandler.cs" />
     <Compile Include="JavascriptBinding\AsyncBoundObject.cs" />
     <Compile Include="JavascriptBinding\BoundObject.cs" />
     <Compile Include="JavascriptBinding\CallbackResponseStruct.cs" />
@@ -163,6 +163,7 @@
     <Content Include="Resources\BindingApiCustomObjectNameTest.html" />
     <Content Include="Resources\BindingTestSingle.html" />
     <Content Include="Resources\DragDropCursorsTest.html" />
+    <Content Include="Resources\HelloWorld.html" />
     <Content Include="Resources\JavascriptCallbackTest.html" />
     <Content Include="Resources\LegacyBindingTest.html" />
     <Content Include="Resources\CdmSupportTest.html" />
@@ -172,7 +173,6 @@
     <Content Include="Resources\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.js" />
-    <Content Include="Resources\extension.js" />
     <Content Include="Resources\MultiBindingTest.html" />
     <Content Include="Resources\home.html" />
     <Content Include="Resources\FramedWebGLTest.html" />
@@ -188,8 +188,12 @@
     <Content Include="Resources\TooltipTest.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
+    <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj">
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
+      <Name>CefSharp.Core.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj">
+      <Project>{b760b002-d277-4525-9f63-67ed2065034a}</Project>
       <Name>CefSharp.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">

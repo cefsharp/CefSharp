@@ -182,8 +182,32 @@ namespace CefSharp.Enums
         /// </summary>
         Grabbing,
         /// <summary>
+        /// An enum constant representing the MiddlePanningVertical option.
+        /// </summary>
+        MiddlePanningVertical,
+        /// <summary>
+        /// An enum constant representing the MiddlePanningHorizontal option.
+        /// </summary>
+        MiddlePanningHorizontal,
+        /// <summary>
         /// An enum constant representing the custom option.
         /// </summary>
         Custom,
+        /// <summary>
+        /// DndNone
+        /// </summary>
+        DndNone,
+        /// <summary>
+        /// DndMove
+        /// </summary>
+        DndMove,
+        /// <summary>
+        /// DndCopy
+        /// </summary>
+        DndCopy,
+        /// <summary>
+        /// DndLink
+        /// </summary>
+        DndLink
     }
 }

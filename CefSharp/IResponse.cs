@@ -47,5 +47,22 @@ namespace CefSharp
         /// Status Text
         /// </summary>
         string StatusText { get; set; }
+
+        /// <summary>
+        /// Returns the first header value for name or an empty string if not found.
+        /// Will not return the Referer value if any. Use <see cref="Headers"/> instead if name might have multiple values.
+        /// </summary>
+        /// <param name="name">header name</param>
+        /// <returns>Returns the first header value for name or an empty string if not found.</returns>
+        string GetHeaderByName(string name);
+
+        /// <summary>
+        /// Set the header name to value. The Referer value cannot be set using this method.
+        /// Use <see cref="SetReferrer(string, ReferrerPolicy)"/> instead.
+        /// </summary>
+        /// <param name="name">header name</param>
+        /// <param name="value">new header value</param>
+        /// <param name="overwrite">If overwrite is true any existing values will be replaced with the new value. If overwrite is false any existing values will not be overwritten</param>
+        void SetHeaderByName(string name, string value, bool overwrite);
     }
 }

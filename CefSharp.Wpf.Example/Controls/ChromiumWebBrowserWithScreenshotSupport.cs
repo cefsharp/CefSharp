@@ -15,7 +15,6 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using GalaSoft.MvvmLight.Command;
 using Size = System.Windows.Size;
 
 namespace CefSharp.Wpf.Example.Controls

@@ -246,11 +246,8 @@ namespace CefSharp.Wpf.Experimental
             if (ImeHandler.GetResult(hwnd, (uint)lParam, out text))
             {
                 owner.GetBrowserHost().ImeCommitText(text, new Range(int.MaxValue, int.MaxValue), 0);
-                if (languageCodeId == ImeNative.LANG_KOREAN || languageCodeId == ImeNative.LANG_CHINESE)
-                {
-                    owner.GetBrowserHost().ImeSetComposition(text, new CompositionUnderline[0], new Range(int.MaxValue, int.MaxValue), new Range(0, 0));
-                    owner.GetBrowserHost().ImeFinishComposingText(false);
-                }
+                owner.GetBrowserHost().ImeSetComposition(text, new CompositionUnderline[0], new Range(int.MaxValue, int.MaxValue), new Range(0, 0));
+                owner.GetBrowserHost().ImeFinishComposingText(false);
             }
             else
             {
@@ -375,6 +372,18 @@ namespace CefSharp.Wpf.Experimental
             if (systemCaret)
             {
                 ImeNative.SetCaretPos(x, y);
+            }
+
+            if (languageCodeId == ImeNative.LANG_CHINESE)
+            {
+                // Chinese IMEs need set composition window 
+                var compositionPotision = new ImeNative.COMPOSITIONFORM
+                {
+                    dwStyle = (int)ImeNative.CFS_POINT,
+                    ptCurrentPos = new ImeNative.POINT(x, y),
+                    rcArea = new ImeNative.RECT(0, 0, 0, 0)
+                };
+                ImeNative.ImmSetCompositionWindow(hIMC, ref compositionPotision);
             }
 
             if (languageCodeId == ImeNative.LANG_KOREAN)
