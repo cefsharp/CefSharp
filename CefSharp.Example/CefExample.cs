@@ -173,6 +173,10 @@ namespace CefSharp.Example
 
             //settings.LogSeverity = LogSeverity.Verbose;
 
+            //Experimental setting see https://bitbucket.org/chromiumembedded/cef/issues/2969/support-chrome-windows-with-cef-callbacks
+            //for details
+            //settings.ChromeRuntime = true;
+
             if (DebuggingSubProcess)
             {
                 var architecture = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
