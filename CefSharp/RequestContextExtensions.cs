@@ -66,10 +66,11 @@ namespace CefSharp
         /// problem. This method must be called on the CEF UI thread.
         /// Preferences set via the command-line usually cannot be modified.
         /// </summary>
+        /// <param name="requestContext">request context</param>
         /// <param name="name">preference key</param>
         /// <param name="value">preference value</param>
         /// <param name="error">out error</param>
-        /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
+        /// <returns>returns <see cref="SetPreferenceResponse.Success"/> true if successfull, false otherwise.</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
         /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
         /// executed on the CEF UI thread, so can be called directly.
@@ -88,6 +89,65 @@ namespace CefSharp
                 var success = requestContext.SetPreference(name, value, out error);
 
                 return new SetPreferenceResponse(success, error);
+            };
+
+            if (CefThread.CurrentlyOnUiThread)
+            {
+                return Task.FromResult(func());
+            }
+
+            return CefThread.ExecuteOnUiThread(func);
+        }
+
+        /// <summary>
+        /// Sets the proxy server for the specified <see cref="IRequestContext"/>.
+        /// Protocol for the proxy server is http
+        /// </summary>
+        /// <param name="requestContext">request context</param>
+        /// <param name="host">proxy host</param>
+        /// <param name="port">proxy port</param>
+        /// <returns>returns <see cref="SetPreferenceResponse.Success"/> true if successfull, false otherwise.</returns>
+        /// <remarks>Internally calls <seealso cref="IRequestContext.SetPreference(string, object, out string)"/> with
+        /// preference 'proxy' and mode of 'fixed_servers'</remarks>
+        public static Task<SetProxyResponse> SetProxyAsync(this IRequestContext requestContext, string host, int? port)
+        {
+            return requestContext.SetProxyAsync(null, host, port);
+        }
+
+        /// <summary>
+        /// Sets the proxy server for the specified <see cref="IRequestContext"/>
+        /// </summary>
+        /// <param name="requestContext">request context</param>
+        /// <param name="scheme">is the protocol of the proxy server, and is one of: 'http', 'socks', 'socks4', 'socks5'. Also note that 'socks' is equivalent to 'socks5'.</param>
+        /// <param name="host">proxy host</param>
+        /// <param name="port">proxy port</param>
+        /// <returns>returns <see cref="SetPreferenceResponse.Success"/> true if successfull, false otherwise.</returns>
+        /// <remarks>Internally calls <seealso cref="IRequestContext.SetPreference(string, object, out string)"/> with
+        /// preference 'proxy' and mode of 'fixed_servers'</remarks>
+        public static Task<SetProxyResponse> SetProxyAsync(this IRequestContext requestContext, string scheme, string host, int? port)
+        {
+            if (CefThread.HasShutdown)
+            {
+                return Task.FromResult(new SetProxyResponse(false, "Cef.Shutdown has already been called, it is no longer possible to call SetProxyAsync."));
+            }
+
+            Func<SetProxyResponse> func = () =>
+            {
+                string error;
+                bool success = false;
+
+                if (requestContext.CanSetPreference("proxy"))
+                {
+                    var v = GetProxyDictionary(scheme, host, port);
+
+                    success = requestContext.SetPreference("proxy", v, out error);
+                }
+                else
+                {
+                    error = "Unable to set the proxy preference, it is read-only. If you specified the proxy settings with command line args it is not possible to change the proxy settings via this method.";
+                }
+
+                return new SetProxyResponse(success, error);
             };
 
             if (CefThread.CurrentlyOnUiThread)

@@ -432,5 +432,89 @@ namespace CefSharp.Test.OffScreen
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
         }
+
+        [SkipIfRunOnAppVeyorFact]
+        public async Task CanLoadHttpWebsiteUsingSetProxyAsync()
+        {
+            fixture.StartProxyServerIfRequired();
+
+            var tcs = new TaskCompletionSource<bool>();
+
+            var requestContext = RequestContext
+                .Configure()
+                .OnInitialize((ctx) =>
+                {
+                    tcs.SetResult(true);
+                })
+                .Create();
+
+            //Wait for our RequestContext to have initialized.
+            await tcs.Task;
+
+            var setProxyResponse = await requestContext.SetProxyAsync("127.0.0.1", 8080);
+
+            Assert.True(setProxyResponse.Success);
+
+            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("cefsharp.github.io", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
+        [SkipIfRunOnAppVeyorFact]
+        public async Task CanLoadHttpWebsiteUsingSetProxyOnUiThread()
+        {
+            fixture.StartProxyServerIfRequired();
+
+            var tcs = new TaskCompletionSource<bool>();
+
+            var requestContext = RequestContext
+                .Configure()
+                .OnInitialize((ctx) =>
+                {
+                    tcs.SetResult(true);
+                })
+                .Create();
+
+            //Wait for our RequestContext to have initialized.
+            await tcs.Task;
+
+            var success = false;
+
+            //To execute on the CEF UI Thread you can use 
+            await Cef.UIThreadTaskFactory.StartNew(delegate
+            {
+                string errorMessage;
+
+                if (!requestContext.CanSetPreference("proxy"))
+                {
+                    //Unable to set proxy, if you set proxy via command line args it cannot be modified.
+                    success = false;
+
+                    return;
+                }
+
+                success = requestContext.SetProxy("127.0.0.1", 8080, out errorMessage);
+            });
+
+            Assert.True(success);
+
+            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
+            {
+                await browser.LoadPageAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("cefsharp.github.io", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
     }
 }
