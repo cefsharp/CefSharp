@@ -173,7 +173,7 @@ namespace CefSharp.Test.JavascriptBinding
                 var evt = Assert.Raises<JavascriptBindingEventArgs>(
                     x => browser.JavascriptObjectRepository.ResolveObject += x,
                     y => browser.JavascriptObjectRepository.ResolveObject -= y,
-                    () => { browser.EvaluateScriptAsync("CefSharp.BindObjectAsync({ IgnoreCache: true });").GetAwaiter().GetResult(); });
+                    () => { browser.EvaluateScriptAsync("CefSharp.BindObjectAsync();").GetAwaiter().GetResult(); });
 
                 Assert.NotNull(evt);
 
