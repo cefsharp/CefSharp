@@ -134,7 +134,10 @@ namespace CefSharp
                                 //If the number of cached objects matches the number of args
                                 //(we have a cached copy of all requested objects)
                                 //then we'll immediately bind the cached objects
-                                if (cachedObjects->Count == objectCount && ignoreCache == false)
+                                //If objectCount and cachedObject count are both 0 then we'll
+                                //send the kJavascriptRootObjectRequest message
+                                //https://github.com/cefsharp/CefSharp/issues/3470
+                                if (objectCount > 0 && cachedObjects->Count == objectCount && ignoreCache == false)
                                 {
                                     if (Object::ReferenceEquals(_browserWrapper, nullptr))
                                     {
