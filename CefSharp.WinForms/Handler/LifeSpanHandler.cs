@@ -11,7 +11,7 @@ namespace CefSharp.WinForms.Handler
 {
     public class LifeSpanHandler : CefSharp.Handler.LifeSpanHandler
     {
-        private Dictionary<int, ParentFormMessageInterceptor> popupParentFormMessageInterceptors = new Dictionary<int, ParentFormMessageInterceptor>();
+        private readonly Dictionary<int, ParentFormMessageInterceptor> popupParentFormMessageInterceptors = new Dictionary<int, ParentFormMessageInterceptor>();
         //TODO: Do we use ChromiumHostControl for this type instead of Control?
         private Action<Control, IBrowser> onPopupDestroyed;
         private Action<Control, string> onPopupCreated;
