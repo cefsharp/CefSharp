@@ -60,6 +60,10 @@
     <Compile Include="ChromiumWebBrowserDesigner.cs" />
     <Compile Include="Experimental\ChromiumRenderWidgetHandleFinder.cs" />
     <Compile Include="Experimental\ChromiumWidgetNativeWindow.cs" />
+    <Compile Include="Handler\LifeSpanHandler.cs" />
+    <Compile Include="Internals\ChromiumHostControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Internals\DefaultFocusHandler.cs" />
     <Compile Include="Internals\ControlExtensions.cs" />
     <Compile Include="Internals\ParentFormMessageInterceptor.cs" />
@@ -87,6 +91,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitLink.3.1.0\build\GitLink.targets" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -39,7 +39,7 @@ namespace CefSharp.WinForms.Internals
         /// Gets or sets the browser.
         /// </summary>
         /// <value>The browser.</value>
-        private ChromiumWebBrowser Browser { get; set; }
+        private ChromiumHostControl Browser { get; set; }
 
         /// <summary>
         /// Gets or sets the parent form.
@@ -48,10 +48,15 @@ namespace CefSharp.WinForms.Internals
         private Form ParentForm { get; set; }
 
         /// <summary>
+        /// Called when the parent form is moving
+        /// </summary>
+        public event EventHandler<EventArgs> Moving;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ParentFormMessageInterceptor"/> class.
         /// </summary>
         /// <param name="browser">The browser.</param>
-        public ParentFormMessageInterceptor(ChromiumWebBrowser browser)
+        public ParentFormMessageInterceptor(ChromiumHostControl browser)
         {
             Browser = browser;
             // Get notified if our browser window parent changes:
@@ -281,10 +286,7 @@ namespace CefSharp.WinForms.Internals
         {
             isMoving = true;
 
-            if (Browser.IsBrowserInitialized)
-            {
-                Browser.GetBrowser().GetHost().NotifyMoveOrResizeStarted();
-            }
+            Moving.Invoke(Browser, EventArgs.Empty);
 
             isMoving = false;
         }
@@ -305,6 +307,8 @@ namespace CefSharp.WinForms.Internals
         {
             if (disposing)
             {
+                Moving = null;
+
                 if (ParentForm != null)
                 {
                     ParentForm.HandleCreated -= OnHandleCreated;

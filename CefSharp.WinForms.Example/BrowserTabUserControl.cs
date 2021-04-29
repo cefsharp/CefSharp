@@ -12,7 +12,7 @@ using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.WinForms.Example.Handlers;
-using CefSharp.WinForms.Experimental;
+using CefSharp.WinForms.Handler;
 
 namespace CefSharp.WinForms.Example
 {
@@ -56,7 +56,41 @@ namespace CefSharp.WinForms.Example
             //Handling DevTools docked inside the same window requires 
             //an instance of the LifeSpanHandler all the window events,
             //e.g. creation, resize, moving, closing etc.
-            browser.LifeSpanHandler = new LifeSpanHandler(openPopupsAsTabs: false);
+            browser.LifeSpanHandler = LifeSpanHandler
+                .Create()
+                .OnPopupCreated((ctrl, targetUrl) =>
+                {
+                    //Don't try using ctrl.FindForm() here as
+                    //the control hasn't been attached to a parent yet.
+                    if (this.FindForm() is BrowserForm owner)
+                    {
+                        owner.AddTab(ctrl, targetUrl);
+                    }
+                })
+                .OnPopupDestroyed((ctrl, popupBrowser) =>
+                {
+                    //If we docked  DevTools (hosted it ourselves ratehr than the default popup)
+                    if (popupBrowser.MainFrame.Url.Equals("devtools://devtools/devtools_app.html"))
+                    {
+                        //Dispose of the parent control we used to host DevTools, this will release the DevTools window handle
+                        //and the ILifeSpanHandler.OnBeforeClose() will be call after.
+                        ctrl.Dispose();
+                    }
+                    else
+                    {
+                        //If browser is disposed or the handle has been released then we don't
+                        //need to remove the tab (likely removed from menu)
+                        if (!ctrl.IsDisposed && ctrl.IsHandleCreated)
+                        {
+                            if (ctrl.FindForm() is BrowserForm owner)
+                            {
+                                var windowHandle = popupBrowser.GetHost().GetWindowHandle();
+
+                                owner.RemoveTab(windowHandle);
+                            }
+                        }
+                    }
+                });            
 
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
@@ -480,16 +514,14 @@ namespace CefSharp.WinForms.Example
             }
 
             //Find devToolsControl in Controls collection
-            DevToolsContainerControl devToolsControl = null;
-            devToolsControl = browserSplitContainer.Panel2.Controls.Find(nameof(devToolsControl), false).FirstOrDefault() as DevToolsContainerControl;
+            Control devToolsControl = null;
+            devToolsControl = browserSplitContainer.Panel2.Controls.Find(nameof(devToolsControl), false).FirstOrDefault();
 
             if (devToolsControl == null || devToolsControl.IsDisposed)
             {
-                devToolsControl = new DevToolsContainerControl()
-                {
-                    Name = nameof(devToolsControl),
-                    Dock = DockStyle.Fill
-                };
+                devToolsControl = Browser.ShowDevToolsDocked(
+                    parentControl: browserSplitContainer.Panel2,
+                    controlName: nameof(devToolsControl));
 
                 EventHandler devToolsPanelDisposedHandler = null;
                 devToolsPanelDisposedHandler = (s, e) =>
@@ -501,27 +533,7 @@ namespace CefSharp.WinForms.Example
 
                 //Subscribe for devToolsPanel dispose event
                 devToolsControl.Disposed += devToolsPanelDisposedHandler;
-
-                //Add new devToolsPanel instance to Controls collection
-                browserSplitContainer.Panel2.Controls.Add(devToolsControl);
             }
-
-            if (!devToolsControl.IsHandleCreated)
-            {
-                //It's very important the handle for the control is created prior to calling
-                //SetAsChild, if the handle hasn't been created then manually call CreateControl();
-                //This code is not required for this example, it's left here for demo purposes.
-                devToolsControl.CreateControl();
-            }
-
-            //Devtools will be a child of the DevToolsContainerControl
-            //DevToolsContainerControl is a simple custom Control that's only required
-            //when CefSettings.MultiThreadedMessageLoop = false so arrow/tab key presses
-            //are forwarded to DevTools correctly.
-            var rect = devToolsControl.ClientRectangle;
-            var windowInfo = new WindowInfo();
-            windowInfo.SetAsChild(devToolsControl.Handle, rect.Left, rect.Top, rect.Right, rect.Bottom);
-            Browser.GetBrowserHost().ShowDevTools(windowInfo);
         }
 
         public Task<bool> CheckIfDevToolsIsOpenAsync()
