@@ -100,7 +100,7 @@ namespace CefSharp.WinForms.Handler
 
                 if (popupParentFormMessageInterceptors.TryGetValue(browser.Identifier, out interceptor))
                 {
-                    popupParentFormMessageInterceptors[browser.Identifier] = null;
+                    popupParentFormMessageInterceptors.Remove(browser.Identifier);
                     interceptor?.Dispose();
                 }
             }
