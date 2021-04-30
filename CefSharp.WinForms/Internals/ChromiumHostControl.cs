@@ -85,27 +85,35 @@ namespace CefSharp.WinForms.Internals
         {
             base.OnSizeChanged(e);
 
-            //TODO: Currently ChromiumWebBrowser has it's own resize,
-            //we should should consolidate this, for now they're seperate
-            //(Though they can be identical in reality)
-            if (GetType() != typeof(ChromiumWebBrowser))
+            ResizeBrowser(Width, Height);
+        }
+
+        /// <summary>
+        /// Resizes the browser to the specified <paramref name="width"/> and <paramref name="height"/>.
+        /// If <paramref name="width"/> and <paramref name="height"/> are both 0 then the browser
+        /// will be hidden and resource usage will be minimised.
+        /// </summary>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        protected virtual void ResizeBrowser(int width, int height)
+        {
+            if (BrowserHwnd != IntPtr.Zero)
             {
-                if (BrowserHwnd != IntPtr.Zero)
-                {
-                    ResizeBrowser(Width, Height);
-                }
+                ResizeBrowserInternal(Width, Height);
             }
         }
 
         /// <summary>
         /// Resizes the browser.
         /// </summary>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
         /// <remarks>
         /// To avoid the Designer trying to load CefSharp.Core.Runtime we explicitly
         /// ask for NoInlining.
         /// </remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private void ResizeBrowser(int width, int height)
+        private void ResizeBrowserInternal(int width, int height)
         {
             NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, width, height);
         }

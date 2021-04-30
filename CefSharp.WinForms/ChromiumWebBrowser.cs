@@ -721,26 +721,10 @@ namespace CefSharp.WinForms
             }
         }
 
-        /// <summary>
-        /// Raises the <see cref="E:System.Windows.Forms.Control.SizeChanged" /> event.
-        /// </summary>
-        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
-        protected override void OnSizeChanged(EventArgs e)
+        /// <inheritdoc/>
+        protected override void ResizeBrowser(int width, int height)
         {
-            base.OnSizeChanged(e);
-
-            if (!designMode && initialized)
-            {
-                ResizeBrowser(Width, Height);
-            }
-        }
-
-        /// <summary>
-        /// Resizes the browser.
-        /// </summary>
-        private void ResizeBrowser(int width, int height)
-        {
-            if (IsBrowserInitialized)
+            if (!designMode && IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.Resize(width, height);
             }
