@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using CefSharp.WinForms.Host;
 using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Handler
@@ -17,8 +18,8 @@ namespace CefSharp.WinForms.Handler
     {
         private readonly Dictionary<int, ParentFormMessageInterceptor> popupParentFormMessageInterceptors = new Dictionary<int, ParentFormMessageInterceptor>();
         //TODO: Do we use ChromiumHostControl for this type instead of Control?
-        private Action<Control, IBrowser> onPopupDestroyed;
-        private Action<Control, string> onPopupCreated;
+        private Action<ChromiumHostControl, IBrowser> onPopupDestroyed;
+        private Action<ChromiumHostControl, string> onPopupCreated;
         
         /// <inheritdoc/>
         protected override bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
@@ -60,7 +61,7 @@ namespace CefSharp.WinForms.Handler
         /// </summary>
         /// <param name="onPopupDestroyed">Action to be invoked when the Popup is to be destroyed.</param>
         /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
-        public LifeSpanHandler RegisterPopupDestroyed(Action<Control, IBrowser> onPopupDestroyed)
+        public LifeSpanHandler RegisterPopupDestroyed(Action<ChromiumHostControl, IBrowser> onPopupDestroyed)
         {
             this.onPopupDestroyed = onPopupDestroyed;
 
@@ -160,7 +161,7 @@ namespace CefSharp.WinForms.Handler
         /// </summary>
         /// <param name="onPopupCreated">Action to be invoked when the Popup is to be destroyed.</param>
         /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
-        public LifeSpanHandler RegisterPopupCreated(Action<Control, string> onPopupCreated)
+        public LifeSpanHandler RegisterPopupCreated(Action<ChromiumHostControl, string> onPopupCreated)
         {
             this.onPopupCreated = onPopupCreated;
 

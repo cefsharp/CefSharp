@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using CefSharp.Internals;
+using CefSharp.WinForms.Host;
 
 namespace CefSharp.WinForms.Internals
 {
@@ -16,7 +17,7 @@ namespace CefSharp.WinForms.Internals
     /// </summary>
     /// <seealso cref="System.Windows.Forms.NativeWindow" />
     /// <seealso cref="System.IDisposable" />
-    internal class ParentFormMessageInterceptor : NativeWindow, IDisposable
+    public class ParentFormMessageInterceptor : NativeWindow, IDisposable
     {
         /// <summary>
         /// Keep track of whether a move is in progress.

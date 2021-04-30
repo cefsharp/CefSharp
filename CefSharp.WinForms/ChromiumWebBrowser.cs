@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using CefSharp.Internals;
 using CefSharp.Web;
 using CefSharp.WinForms.Internals;
+using CefSharp.WinForms.Host;
 
 namespace CefSharp.WinForms
 {

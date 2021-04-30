@@ -8,11 +8,11 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
-namespace CefSharp.WinForms.Internals
+namespace CefSharp.WinForms.Host
 {
     /// <summary>
     /// Chromium Browser Host Control, provides base functionality for hosting a
-    /// CefBrowser instance (main browser and popups) in  WinForms
+    /// CefBrowser instance (main browser and popups) in WinForms.
     /// </summary>
     /// <seealso cref="System.Windows.Forms.Control" />
     [Docking(DockingBehavior.AutoDock), ToolboxBitmap(typeof(ChromiumWebBrowser)),
@@ -24,7 +24,7 @@ namespace CefSharp.WinForms.Internals
         /// Used for sending messages to the browser
         /// e.g. resize
         /// </summary>
-        public IntPtr BrowserHwnd { get; internal set; }
+        public IntPtr BrowserHwnd { get; set; }
         /// <summary>
         /// Set to true while handing an activating WM_ACTIVATE message.
         /// MUST ONLY be cleared by DefaultFocusHandler.
@@ -61,17 +61,17 @@ namespace CefSharp.WinForms.Internals
                 case Keys.Up:
                 case Keys.Down:
                 case Keys.Tab:
-                {
-                    return true;
-                }
+                    {
+                        return true;
+                    }
                 case Keys.Shift | Keys.Tab:
                 case Keys.Shift | Keys.Right:
                 case Keys.Shift | Keys.Left:
                 case Keys.Shift | Keys.Up:
                 case Keys.Shift | Keys.Down:
-                {
-                    return true;
-                }
+                    {
+                        return true;
+                    }
             }
 
             return base.IsInputKey(keyData);
@@ -124,7 +124,10 @@ namespace CefSharp.WinForms.Internals
         /// </summary>
         internal virtual void HideInternal()
         {
-            NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, 0, 0);
+            if (BrowserHwnd != IntPtr.Zero)
+            {
+                NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, 0, 0);
+            }
         }
 
         /// <summary>
@@ -132,13 +135,16 @@ namespace CefSharp.WinForms.Internals
         /// </summary>
         internal virtual void ShowInternal()
         {
-            NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, Width, Height);
+            if (BrowserHwnd != IntPtr.Zero)
+            {
+                NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, Width, Height);
+            }
         }
 
         /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 BrowserHwnd = IntPtr.Zero;
             }
