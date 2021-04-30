@@ -1003,7 +1003,7 @@ namespace CefSharp
         /// <param name="extension">The extension.</param>
         /// <returns>System.String.</returns>
         /// <exception cref="System.ArgumentNullException">extension</exception>
-        [Obsolete("This method is deprecated and will be removed use Cef.GetMimeType(extension); instead. See https://github.com/cefsharp/CefSharp/issues/3041 for details.")]
+        /// <remarks>In most cases it's preferable to use Cef.GetMimeType(extension); instead. See https://github.com/cefsharp/CefSharp/issues/3041 for details.</remarks>
         public static string GetMimeType(string extension)
         {
             if (extension == null)
