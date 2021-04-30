@@ -244,13 +244,13 @@ namespace CefSharp
 
         /// <summary>
         /// Value that will be inserted as the product portion of the default User-Agent string. If empty the Chromium product version
-        /// will be used. If UserAgent is specified this value will be ignored. Also configurable using the "product-version" command-
+        /// will be used. If UserAgent is specified this value will be ignored. Also configurable using the "user-agent-product" command-
         /// line switch.
         /// </summary>
-        public string ProductVersion
+        public string UserAgentProduct
         {
-            get { return settings.ProductVersion; }
-            set { settings.ProductVersion = value; }
+            get { return settings.UserAgentProduct; }
+            set { settings.UserAgentProduct = value; }
         }
 
         /// <summary>

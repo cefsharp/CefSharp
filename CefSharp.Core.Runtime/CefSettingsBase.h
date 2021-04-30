@@ -280,7 +280,7 @@ namespace CefSharp
             /// will be used. If UserAgent is specified this value will be ignored. Also configurable using the "user-agent-product" command-
             /// line switch.
             /// </summary>
-            property String^ ProductVersion
+            property String^ UserAgentProduct
             {
                 String^ get() { return StringUtils::ToClr(_cefSettings->user_agent_product); }
                 void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent_product, value); }
