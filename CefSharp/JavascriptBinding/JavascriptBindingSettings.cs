@@ -77,15 +77,5 @@ namespace CefSharp.JavascriptBinding
                 alwaysInterceptAsynchronously = value;
             }
         }
-
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public JavascriptBindingSettings()
-        {
-            //Default to CefSharpSettings.LegacyJavascriptBindingEnabled
-            //until it's eventually removed
-            LegacyBindingEnabled = CefSharpSettings.LegacyJavascriptBindingEnabled;
-        }
     }
 }

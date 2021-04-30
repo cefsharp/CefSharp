@@ -17,24 +17,11 @@ namespace CefSharp
         static CefSharpSettings()
         {
             ShutdownOnExit = true;
-            LegacyJavascriptBindingEnabled = false;
 #if !NETCOREAPP
             WcfTimeout = TimeSpan.FromSeconds(2);
 #endif
             SubprocessExitIfParentProcessClosed = true;
         }
-
-        /// <summary>
-        /// Objects registered using <see cref="IJavascriptObjectRepository.Register"/>
-        /// will be automatically bound when a V8Context is created. (Soon as the Javascript
-        /// context is created for a browser). This behaviour is like that seen with Javascript
-        /// Binding in version 57 and earlier.
-        /// NOTE: MUST be set before creating your first ChromiumWebBrowser instance.
-        /// </summary>
-        [Obsolete("Use chromiumWebBrowser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true; instead." +
-            "Must be called before creating your first ChromiumWebBrowser instance." +
-            "See https://github.com/cefsharp/CefSharp/issues/2977 for details.")]
-        public static bool LegacyJavascriptBindingEnabled { get; set; }
 
 #if !NETCOREAPP
         /// <summary>
