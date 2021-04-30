@@ -127,6 +127,7 @@ namespace CefSharp.WinForms.Internals
             NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, Width, Height);
         }
 
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if(disposing)

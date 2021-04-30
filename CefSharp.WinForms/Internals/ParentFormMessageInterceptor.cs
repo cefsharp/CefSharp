@@ -286,7 +286,7 @@ namespace CefSharp.WinForms.Internals
         {
             isMoving = true;
 
-            Moving.Invoke(Browser, EventArgs.Empty);
+            Moving?.Invoke(Browser, EventArgs.Empty);
 
             isMoving = false;
         }

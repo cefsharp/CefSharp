@@ -9,6 +9,10 @@ using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Handler
 {
+    /// <summary>
+    /// A WinForms Specific <see cref="ILifeSpanHandler"/> implementation that simplifies
+    /// the process of hosting a Popup as a Control/Tab.
+    /// </summary>
     public class LifeSpanHandler : CefSharp.Handler.LifeSpanHandler
     {
         private readonly Dictionary<int, ParentFormMessageInterceptor> popupParentFormMessageInterceptors = new Dictionary<int, ParentFormMessageInterceptor>();
@@ -49,7 +53,14 @@ namespace CefSharp.WinForms.Handler
             return true;
         }
 
-        public LifeSpanHandler OnPopupDestroyed(Action<Control, IBrowser> onPopupDestroyed)
+        /// <summary>
+        /// Register an Action that will be called when the Popup Host Control is to be
+        /// removed from it's parent.
+        /// When the Action is called you must remove/dispose of the Popup Host Control.
+        /// </summary>
+        /// <param name="onPopupDestroyed">Action to be invoked when the Popup is to be destroyed.</param>
+        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
+        public LifeSpanHandler RegisterPopupDestroyed(Action<Control, IBrowser> onPopupDestroyed)
         {
             this.onPopupDestroyed = onPopupDestroyed;
 
@@ -141,7 +152,15 @@ namespace CefSharp.WinForms.Handler
             return false;
         }
 
-        public LifeSpanHandler OnPopupCreated(Action<Control, string> onPopupCreated)
+        /// <summary>
+        /// Register an Action that will be called when the Popup Host Control has been
+        /// created. When the Action is called you must add the control to it's intended parent
+        /// so the <see cref="Control.ClientRectangle"/> can be calculated to set the initial
+        /// size correctly.
+        /// </summary>
+        /// <param name="onPopupCreated">Action to be invoked when the Popup is to be destroyed.</param>
+        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
+        public LifeSpanHandler RegisterPopupCreated(Action<Control, string> onPopupCreated)
         {
             this.onPopupCreated = onPopupCreated;
 

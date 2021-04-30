@@ -53,23 +53,24 @@ namespace CefSharp.WinForms.Example
                 browser.FocusHandler = null;
             }
 
-            //Handling DevTools docked inside the same window requires 
-            //an instance of the LifeSpanHandler all the window events,
-            //e.g. creation, resize, moving, closing etc.
+            //The CefSharp.WinForms.Handler.LifeSpanHandler implementation
+            //allows for Popups to be hosted in Controls/Tabs
+            //This example also demonstrates docking DevTools in a SplitPanel
             browser.LifeSpanHandler = LifeSpanHandler
                 .Create()
-                .OnPopupCreated((ctrl, targetUrl) =>
+                .RegisterPopupCreated((ctrl, targetUrl) =>
                 {
                     //Don't try using ctrl.FindForm() here as
                     //the control hasn't been attached to a parent yet.
-                    if (this.FindForm() is BrowserForm owner)
+                    if (FindForm() is BrowserForm owner)
                     {
                         owner.AddTab(ctrl, targetUrl);
                     }
                 })
-                .OnPopupDestroyed((ctrl, popupBrowser) =>
+                .RegisterPopupDestroyed((ctrl, popupBrowser) =>
                 {
-                    //If we docked  DevTools (hosted it ourselves ratehr than the default popup)
+                    //If we docked  DevTools (hosted it ourselves rather than the default popup)
+                    //Used when the BrowserTabUserControl.ShowDevToolsDocked method is called
                     if (popupBrowser.MainFrame.Url.Equals("devtools://devtools/devtools_app.html"))
                     {
                         //Dispose of the parent control we used to host DevTools, this will release the DevTools window handle
@@ -79,7 +80,8 @@ namespace CefSharp.WinForms.Example
                     else
                     {
                         //If browser is disposed or the handle has been released then we don't
-                        //need to remove the tab (likely removed from menu)
+                        //need to remove the tab in this example. The user likely used the
+                        // File -> Close Tab menu option which also calls BrowserForm.RemoveTab
                         if (!ctrl.IsDisposed && ctrl.IsHandleCreated)
                         {
                             if (ctrl.FindForm() is BrowserForm owner)
