@@ -41,7 +41,13 @@ namespace CefSharp
                 currentFolder = Path.GetDirectoryName(executingAssembly.Location);
             }
 
-            var libCefPath = Path.Combine(currentFolder, "libcef.dll");
+            //In .NET 5.0 and later versions, for bundled assemblies, Assembly.Location is an empty string.
+            //https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.location?view=net-5.0
+            //Which results in Path.GetDirectoryName returning null, in that case use use AppContext.BaseDirectory
+            //otherwise Path.Combine will throw an exception.
+            //In .NET 5.0 and later versions, for bundled assemblies, AppContext.BaseDirectory returns the containing directory of the host executable.
+            //https://docs.microsoft.com/en-us/dotnet/api/system.appcontext.basedirectory?view=net-5.0
+            var libCefPath = Path.Combine(currentFolder ?? AppContext.BaseDirectory, "libcef.dll");
 
             if (File.Exists(libCefPath))
             {
