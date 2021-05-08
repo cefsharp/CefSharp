@@ -10,6 +10,13 @@ namespace CefSharp.Wpf.HwndHost.Example
         public MainWindow()
         {
             InitializeComponent();
+
+            Loaded += OnWindowLoaded;
+        }
+
+        private void OnWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            Browser?.GetBrowserHost()?.SetFocus(true);
         }
 
         private void ShowDevToolsClick(object sender, RoutedEventArgs e)
