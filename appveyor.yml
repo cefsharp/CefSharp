@@ -1,4 +1,4 @@
-version: 90.5.70-RCI{build}
+version: 90.6.50-RCI{build}
 
 image:
   - Visual Studio 2015
