@@ -148,6 +148,12 @@ namespace CefSharp.Wpf
         private int disposeSignaled;
 
         /// <summary>
+        /// This flag is set when the browser gets focus before the underlying CEF browser
+        /// has been initialized.
+        /// </summary>
+        private bool initialFocus;
+
+        /// <summary>
         /// Hack to work around issue https://github.com/cefsharp/CefSharp/issues/2779
         /// Enabled by default
         /// </summary>
@@ -1124,6 +1130,11 @@ namespace CefSharp.Wpf
                     }
                 }
             });
+
+            if(initialFocus)
+            {
+                browser.GetHost()?.SendFocusEvent(true);
+            }
         }
 
         #region CanGoBack dependency property
@@ -2162,7 +2173,11 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="KeyboardFocusChangedEventArgs"/> instance containing the event data.</param>
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (browser != null)
+            if (browser == null)
+            {
+                initialFocus = true;
+            }
+            else
             {
                 browser.GetHost().SendFocusEvent(true);
             }
@@ -2175,7 +2190,11 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="KeyboardFocusChangedEventArgs"/> instance containing the event data.</param>
         private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (browser != null)
+            if (browser == null)
+            {
+                initialFocus = false;
+            }
+            else
             {
                 browser.GetHost().SendFocusEvent(false);
             }

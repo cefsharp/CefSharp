@@ -9,6 +9,7 @@
              mc:Ignorable="d"
              d:DesignWidth="640"
              d:DesignHeight="480"
+             FocusManager.FocusedElement="{Binding ElementName=browser}"
              d:DataContext="{d:DesignInstance local:BrowserTabViewModel}">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
