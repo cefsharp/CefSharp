@@ -76,6 +76,11 @@ namespace CefSharp.WinForms
         /// when <see cref="RecreatingHandle"/> is <c>true</c>.
         /// </summary>
         private Control parkingControl;
+        /// <summary>
+        /// This flag is set when the browser gets focus before the underlying CEF browser
+        /// has been initialized.
+        /// </summary>
+        private bool initialFocus;
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -618,6 +623,11 @@ namespace CefSharp.WinForms
                 browser.MainFrame.LoadUrl(Address);
             }
 
+            if(initialFocus)
+            {
+                browser.GetHost()?.SetFocus(true);
+            }
+
             IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -752,15 +762,16 @@ namespace CefSharp.WinForms
             ResizeBrowser(Width, Height);
         }
 
-        /// <summary>
-        /// Raises the <see cref="E:System.Windows.Forms.Control.GotFocus" /> event.
-        /// </summary>
-        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+        /// <inheritdoc/>
         protected override void OnGotFocus(EventArgs e)
         {
             if (IsBrowserInitialized)
             {
                 browser.GetHost().SetFocus(true);
+            }
+            else
+            {
+                initialFocus = true;
             }
 
             base.OnGotFocus(e);
