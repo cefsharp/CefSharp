@@ -135,6 +135,12 @@ namespace CefSharp.Wpf
         private static bool DesignMode;
 
         /// <summary>
+        /// This flag is set when the browser gets focus before the underlying CEF browser
+        /// has been initialized.
+        /// </summary>
+        private bool initialFocus;
+
+        /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
@@ -1070,6 +1076,11 @@ namespace CefSharp.Wpf
                     }
                 }
             });
+
+            if(initialFocus)
+            {
+                browser.GetHost()?.SendFocusEvent(true);
+            }
         }
 
         #region CanGoBack dependency property
@@ -2007,7 +2018,11 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="KeyboardFocusChangedEventArgs"/> instance containing the event data.</param>
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (browser != null)
+            if (browser == null)
+            {
+                initialFocus = true;
+            }
+            else
             {
                 browser.GetHost().SendFocusEvent(true);
             }
@@ -2020,7 +2035,11 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="KeyboardFocusChangedEventArgs"/> instance containing the event data.</param>
         private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (browser != null)
+            if (browser == null)
+            {
+                initialFocus = false;
+            }
+            else
             {
                 browser.GetHost().SendFocusEvent(false);
             }
