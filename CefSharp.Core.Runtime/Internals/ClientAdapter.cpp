@@ -51,8 +51,18 @@ namespace CefSharp
                     return _browser;
                 }
 
+                //IJavascriptCallbacks that are finalized after the browser has been Disposed
+                //but before the IBrowserAdapter.IsDisposed is set might end up here
+                //attempting to access _popupBrowsers which has been set to null already.
+                auto popupBrowsers = _popupBrowsers;
+
+                if (Object::ReferenceEquals(popupBrowsers, nullptr))
+                {
+                    return nullptr;
+                }
+
                 IBrowser^ popupBrowser;
-                if (_popupBrowsers->TryGetValue(browserId, popupBrowser))
+                if (popupBrowsers->TryGetValue(browserId, popupBrowser))
                 {
                     return popupBrowser;
                 }
