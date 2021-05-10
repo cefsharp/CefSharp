@@ -7,6 +7,7 @@
         xmlns:behaviours="clr-namespace:CefSharp.Wpf.HwndHost.Example.Behaviours"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:hwndhost="clr-namespace:CefSharp.Wpf.HwndHost;assembly=CefSharp.Wpf.HwndHost"
+        FocusManager.FocusedElement="{Binding ElementName=Browser}"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024">
     <Grid>

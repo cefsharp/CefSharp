@@ -161,6 +161,12 @@ namespace CefSharp.Wpf.HwndHost
         private WindowState previousWindowState;
 
         /// <summary>
+        /// This flag is set when the browser gets focus before the underlying CEF browser
+        /// has been initialized.
+        /// </summary>
+        private bool initialFocus;
+
+        /// <summary>
         /// Activates browser upon creation, the default value is false. Prior to version 73
         /// the default behaviour was to activate browser on creation (Equivilent of setting this property to true).
         /// To restore this behaviour set this value to true immediately after you create the <see cref="ChromiumWebBrowser"/> instance.
@@ -661,6 +667,45 @@ namespace CefSharp.Wpf.HwndHost
         }
 
         ///<inheritdoc/>
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            if(!e.Handled)
+            {
+                if (InternalIsBrowserInitialized())
+                {
+                    var host = browser.GetHost();
+                    host.SetFocus(true);
+                }
+                else
+                {
+                    initialFocus = true;
+                }
+            }
+
+            base.OnGotKeyboardFocus(e);
+        }
+
+        ///<inheritdoc/>
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                if (InternalIsBrowserInitialized())
+                {
+                    var host = browser.GetHost();
+                    host.SetFocus(false);
+                }
+                else
+                {
+                    initialFocus = false;
+                }
+            }
+
+            base.OnLostKeyboardFocus(e);
+        }
+
+
+        ///<inheritdoc/>
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             const int WM_SETFOCUS = 0x0007;
@@ -952,6 +997,11 @@ namespace CefSharp.Wpf.HwndHost
             });
 
             ResizeBrowser((int)ActualWidth, (int)ActualHeight);
+
+            if (initialFocus)
+            {
+                browser.GetHost()?.SetFocus(true);
+            }
         }
 
         /// <summary>
