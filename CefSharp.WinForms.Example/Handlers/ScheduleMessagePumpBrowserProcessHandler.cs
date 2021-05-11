@@ -39,8 +39,15 @@ namespace CefSharp.WinForms.Example.Handlers
             factory.StartNew(() => Cef.DoMessageLoopWork());
         }
 
-        protected override void OnScheduleMessagePumpWork(int delay)
+        protected override void OnScheduleMessagePumpWork(long delay)
         {
+            //If the delay is greater than the Maximum then use ThirtyTimesPerSecond
+            //instead - we do this to achieve a minimum number of FPS
+            if (delay > ThirtyTimesPerSecond)
+            {
+                delay = ThirtyTimesPerSecond;
+            }
+
             //when delay <= 0 queue the Task up for execution on the UI thread.
             if (delay <= 0)
             {
@@ -49,14 +56,19 @@ namespace CefSharp.WinForms.Example.Handlers
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (timer != null)
+            if(disposing)
             {
-                timer.Stop();
-                timer.Dispose();
-                timer = null;
+                if (timer != null)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                    timer = null;
+                }
             }
+
+            base.Dispose(disposing);
         }
     }
 }

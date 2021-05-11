@@ -44,8 +44,15 @@ namespace CefSharp.Wpf.Example.Handlers
             dispatcher.BeginInvoke((Action)(() => Cef.DoMessageLoopWork()), DispatcherPriority.Render);
         }
 
-        protected override void OnScheduleMessagePumpWork(int delay)
+        protected override void OnScheduleMessagePumpWork(long delay)
         {
+            //If the delay is greater than the Maximum then use ThirtyTimesPerSecond
+            //instead - we do this to achieve a minimum number of FPS
+            if (delay > ThirtyTimesPerSecond)
+            {
+                delay = ThirtyTimesPerSecond;
+            }
+
             //When delay <= 0 we'll execute Cef.DoMessageLoopWork immediately
             // if it's greater than we'll just let the Timer which fires 30 times per second
             // care of the call
@@ -55,20 +62,25 @@ namespace CefSharp.Wpf.Example.Handlers
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (dispatcher != null)
+            if(disposing)
             {
-                dispatcher.ShutdownStarted -= DispatcherShutdownStarted;
-                dispatcher = null;
+                if (dispatcher != null)
+                {
+                    dispatcher.ShutdownStarted -= DispatcherShutdownStarted;
+                    dispatcher = null;
+                }
+
+                if (timer != null)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                    timer = null;
+                }
             }
 
-            if (timer != null)
-            {
-                timer.Stop();
-                timer.Dispose();
-                timer = null;
-            }
+            base.Dispose(disposing);
         }
     }
 }

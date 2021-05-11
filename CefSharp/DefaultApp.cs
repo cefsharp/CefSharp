@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 
 namespace CefSharp
@@ -10,8 +11,10 @@ namespace CefSharp
     /// Default implementation of <see cref="IApp"/> which represents the CefApp class.
     /// </summary>
     /// <seealso cref="T:CefSharp.IApp"/>
-    public class DefaultApp : IApp
+    public class DefaultApp : IApp, IDisposable
     {
+        private bool isDisposed;
+
         /// <summary>
         /// Return the handler for functionality specific to the browser process. This method is called on multiple threads.
         /// </summary>
@@ -87,6 +90,32 @@ namespace CefSharp
                     //LOG(ERROR) << StringUtils::ToNative(msg).ToString();
                 }
             }
+        }
+
+        /// <summary>
+        /// Releases unmanaged and managed resources
+        /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!isDisposed)
+            {
+                if (disposing)
+                {
+                    BrowserProcessHandler?.Dispose();
+                    BrowserProcessHandler = null;
+                }
+
+                isDisposed = true;
+            }
+        }
+
+        /// <inheritdoc/>
+        void IDisposable.Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
