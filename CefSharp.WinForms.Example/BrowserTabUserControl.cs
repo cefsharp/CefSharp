@@ -12,6 +12,7 @@ using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.WinForms.Example.Handlers;
+using CefSharp.WinForms.Experimental;
 
 namespace CefSharp.WinForms.Example
 {
@@ -19,7 +20,7 @@ namespace CefSharp.WinForms.Example
     {
         public IWinFormsWebBrowser Browser { get; private set; }
         private IntPtr browserHandle;
-        private ChromeWidgetMessageInterceptor messageInterceptor;
+        private ChromiumWidgetNativeWindow messageInterceptor;
         private bool multiThreadedMessageLoopEnabled;
 
         public BrowserTabUserControl(Action<string, int?> openNewTab, string url, bool multiThreadedMessageLoopEnabled)
@@ -277,9 +278,11 @@ namespace CefSharp.WinForms.Example
                     while (true)
                     {
                         IntPtr chromeWidgetHostHandle;
-                        if (ChromeWidgetHandleFinder.TryFindHandle(browserHandle, out chromeWidgetHostHandle))
+                        if (ChromiumRenderWidgetHandleFinder.TryFindHandle(Browser, out chromeWidgetHostHandle))
                         {
-                            messageInterceptor = new ChromeWidgetMessageInterceptor((Control)Browser, chromeWidgetHostHandle, message =>
+                            messageInterceptor = new ChromiumWidgetNativeWindow((Control)Browser, chromeWidgetHostHandle);
+
+                            messageInterceptor.OnWndProc(message =>
                             {
                                 const int WM_MOUSEACTIVATE = 0x0021;
                                 const int WM_NCLBUTTONDOWN = 0x00A1;
@@ -289,7 +292,7 @@ namespace CefSharp.WinForms.Example
                                 if (message.Msg == WM_DESTROY)
                                 {
                                     SetupMessageInterceptor();
-                                    return;
+                                    return false;
                                 }
 
                                 if (message.Msg == WM_MOUSEACTIVATE)
@@ -324,6 +327,8 @@ namespace CefSharp.WinForms.Example
                                 //        Console.WriteLine("WM_MOUSELEAVE");
                                 //        break;
                                 //}
+
+                                return false;
                             });
 
                             break;
