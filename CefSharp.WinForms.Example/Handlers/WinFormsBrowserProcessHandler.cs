@@ -33,19 +33,24 @@ namespace CefSharp.WinForms.Example.Handlers
             Cef.DoMessageLoopWork();
         }
 
-        protected override void OnScheduleMessagePumpWork(int delay)
+        protected override void OnScheduleMessagePumpWork(long delay)
         {
             //NOOP - Only enabled when CefSettings.ExternalMessagePump
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (timer != null)
+            if(disposing)
             {
-                timer.Stop();
-                timer.Dispose();
-                timer = null;
+                if (timer != null)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                    timer = null;
+                }
             }
+
+            base.Dispose(disposing);
         }
     }
 }
