@@ -58,6 +58,8 @@
     </Compile>
     <Compile Include="CefSettings.cs" />
     <Compile Include="ChromiumWebBrowserDesigner.cs" />
+    <Compile Include="Experimental\ChromiumRenderWidgetHandleFinder.cs" />
+    <Compile Include="Experimental\ChromiumWidgetNativeWindow.cs" />
     <Compile Include="Internals\DefaultFocusHandler.cs" />
     <Compile Include="Internals\ControlExtensions.cs" />
     <Compile Include="Internals\ParentFormMessageInterceptor.cs" />
