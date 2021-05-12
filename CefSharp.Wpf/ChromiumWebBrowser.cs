@@ -964,20 +964,32 @@ namespace CefSharp.Wpf
             RenderHandler?.OnPaint(isPopup, dirtyRect, buffer, width, height, img);
         }
 
+        /// <inheritdoc />
+        void IRenderWebBrowser.OnPopupSize(Rect rect)
+        {
+            OnPopupSize(rect);
+        }
+
         /// <summary>
         /// Sets the popup size and position.
         /// </summary>
         /// <param name="rect">The popup rectangle (size and position).</param>
-        void IRenderWebBrowser.OnPopupSize(Rect rect)
+        protected virtual void OnPopupSize(Rect rect)
         {
             UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(rect));
+        }
+
+        /// <inheritdoc />
+        void IRenderWebBrowser.OnPopupShow(bool isOpen)
+        {
+            OnPopupShow(isOpen);
         }
 
         /// <summary>
         /// Sets the popup is open.
         /// </summary>
         /// <param name="isOpen">if set to <c>true</c> [is open].</param>
-        void IRenderWebBrowser.OnPopupShow(bool isOpen)
+        protected virtual void OnPopupShow(bool isOpen)
         {
             UiThreadRunAsync(() => { popupImage.Visibility = isOpen ? Visibility.Visible : Visibility.Hidden; });
         }
