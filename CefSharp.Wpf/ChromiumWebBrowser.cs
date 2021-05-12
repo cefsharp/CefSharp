@@ -758,7 +758,21 @@ namespace CefSharp.Wpf
             return viewRect;
         }
 
+        /// <inheritdoc />
         bool IRenderWebBrowser.GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY)
+        {
+            return GetScreenPoint(viewX, viewY, out screenX, out screenY);
+        }
+
+        /// <summary>
+        /// Called to retrieve the translation from view coordinates to actual screen coordinates. 
+        /// </summary>
+        /// <param name="viewX">x</param>
+        /// <param name="viewY">y</param>
+        /// <param name="screenX">screen x</param>
+        /// <param name="screenY">screen y</param>
+        /// <returns>Return true if the screen coordinates were provided.</returns>
+        protected virtual bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY)
         {
             screenX = 0;
             screenY = 0;
@@ -779,6 +793,12 @@ namespace CefSharp.Wpf
             return true;
         }
 
+        /// <inheritdoc />
+        bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask allowedOps, int x, int y)
+        {
+            return StartDragging(dragData, allowedOps, x, y);
+        }
+
         /// <summary>
         /// Called when the user starts dragging content in the web view. 
         /// OS APIs that run a system message loop may be used within the StartDragging call.
@@ -790,7 +810,7 @@ namespace CefSharp.Wpf
         /// <param name="x">is the drag start location in screen coordinates</param>
         /// <param name="y">is the drag start location in screen coordinates</param>
         /// <returns>Return true to handle the drag operation.</returns>
-        bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask allowedOps, int x, int y)
+        protected virtual bool StartDragging(IDragData dragData, DragOperationsMask allowedOps, int x, int y)
         {
             var dataObject = new DataObject();
 
@@ -833,6 +853,7 @@ namespace CefSharp.Wpf
             return true;
         }
 
+        /// <inheritdoc />
         void IRenderWebBrowser.UpdateDragCursor(DragOperationsMask operation)
         {
             UpdateDragCursor(operation);
@@ -847,13 +868,7 @@ namespace CefSharp.Wpf
             currentDragDropEffects = operation.GetDragEffects();
         }
 
-        /// <summary>
-        /// Called when an element has been rendered to the shared texture handle.
-        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
-        /// </summary>
-        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
-        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
+        /// <inheritdoc />
         void IRenderWebBrowser.OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle)
         {
             OnAcceleratedPaint(type == PaintElementType.Popup, dirtyRect, sharedHandle);
@@ -871,14 +886,7 @@ namespace CefSharp.Wpf
             RenderHandler?.OnAcceleratedPaint(isPopup, dirtyRect, sharedHandle);
         }
 
-        /// <summary>
-        /// Called when an element should be painted.
-        /// </summary>
-        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
-        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
+        /// <inheritdoc />
         void IRenderWebBrowser.OnPaint(PaintElementType type, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
             OnPaint(type == PaintElementType.Popup, dirtyRect, buffer, width, height);
@@ -918,11 +926,17 @@ namespace CefSharp.Wpf
             RenderHandler?.OnPaint(isPopup, dirtyRect, buffer, width, height, img);
         }
 
+        /// <inheritdoc />
+        void IRenderWebBrowser.OnPopupSize(Rect rect)
+        {
+            OnPopupSize(rect);
+        }
+
         /// <summary>
         /// Sets the popup size and position.
         /// </summary>
         /// <param name="rect">The popup rectangle (size and position).</param>
-        void IRenderWebBrowser.OnPopupSize(Rect rect)
+        protected virtual void OnPopupSize(Rect rect)
         {
             UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(rect));
         }
@@ -933,7 +947,22 @@ namespace CefSharp.Wpf
         /// <param name="isOpen">if set to <c>true</c> [is open].</param>
         void IRenderWebBrowser.OnPopupShow(bool isOpen)
         {
+            OnPopupShow(isOpen);
+        }
+
+        /// <summary>
+        /// Sets the popup is open.
+        /// </summary>
+        /// <param name="isOpen">if set to <c>true</c> [is open].</param>
+        protected virtual void OnPopupShow(bool isOpen)
+        {
             UiThreadRunAsync(() => { popupImage.Visibility = isOpen ? Visibility.Visible : Visibility.Hidden; });
+        }
+
+        /// <inheritdoc />
+        void IRenderWebBrowser.OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
+        {
+            OnCursorChange(handle, type, customCursorInfo);
         }
 
         /// <summary>
@@ -942,7 +971,7 @@ namespace CefSharp.Wpf
         /// <param name="handle">The handle.</param>
         /// <param name="type">The type.</param>
         /// <param name="customCursorInfo">custom cursor information</param>
-        void IRenderWebBrowser.OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
+        protected virtual void OnCursorChange(IntPtr handle, CursorType type, CursorInfo customCursorInfo)
         {
             //Custom cursors are handled differently, for now keep standard ones executing
             //in an async fashion
@@ -966,6 +995,7 @@ namespace CefSharp.Wpf
             }
         }
 
+        /// <inheritdoc />
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
             OnImeCompositionRangeChanged(selectedRange, characterBounds);
@@ -985,6 +1015,7 @@ namespace CefSharp.Wpf
             }
         }
 
+        /// <inheritdoc />
         void IRenderWebBrowser.OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
         {
             OnVirtualKeyboardRequested(browser, inputMode);
@@ -1077,7 +1108,7 @@ namespace CefSharp.Wpf
                 }
             });
 
-            if(initialFocus)
+            if (initialFocus)
             {
                 browser.GetHost()?.SendFocusEvent(true);
             }
