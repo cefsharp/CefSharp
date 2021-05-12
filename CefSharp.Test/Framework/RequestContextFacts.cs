@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.IO;
 using Xunit;
 
 namespace CefSharp.Test.Framework
@@ -23,7 +25,7 @@ namespace CefSharp.Test.Framework
         public void IsSharingWith()
         {
             var ctx1 = RequestContext.Configure()
-                .WithCachePath(@"c:\temp")
+                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache1"))
                 .Create();
             var ctx2 = new RequestContext(ctx1);
 
