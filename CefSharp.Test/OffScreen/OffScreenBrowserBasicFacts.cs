@@ -516,5 +516,23 @@ namespace CefSharp.Test.OffScreen
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
         }
+
+#if DEBUG
+        [Fact]
+        public async Task CanLoadMultipleBrowserInstancesSequentially()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                using (var browser = new ChromiumWebBrowser(new HtmlString("Testing")))
+                {
+                    await browser.LoadPageAsync();
+
+                    var source = await browser.GetSourceAsync();
+
+                    Assert.True(source.Contains("Testing"));
+                }
+            }
+        }
+#endif
     }
 }
