@@ -430,6 +430,7 @@
                                   Title="{Binding Title, Mode=OneWayToSource}"
                                   AllowDrop="True"
                                   WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}"
+                                  DataContext="{Binding}"
                                   RenderOptions.BitmapScalingMode="{Binding ElementName=scalingModeComboBox, Path=SelectedItem}">
                     <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
                          incredibly ugly... -->
