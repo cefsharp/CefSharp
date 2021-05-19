@@ -28,6 +28,7 @@ namespace CefSharp
             gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
             bool _focusedNodeChangedEnabled;
             bool _legacyBindingEnabled;
+            bool _jsBindingApiEnabled = true;
 
             // The property names used to call bound objects
             CefString _jsBindingPropertyName;
