@@ -18,6 +18,8 @@
         <EmbedAllSources>true</EmbedAllSources>
         <!-- Don't need to copy the CEF files to our output folder so set NoAction -->
         <CefSharpBuildAction>NoAction</CefSharpBuildAction>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
