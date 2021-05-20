@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -300,7 +301,7 @@ namespace CefSharp.Test.OffScreen
 
                 var taskCompletionSource = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
                 var wasCached = false;
-                var requestClient = new UrlRequestClient((IUrlRequest req, byte[] responseBody) =>
+                var requestClient = new Example.UrlRequestClient((IUrlRequest req, byte[] responseBody) =>
                 {
                     wasCached = req.ResponseWasCached;
                     taskCompletionSource.TrySetResult(Encoding.UTF8.GetString(responseBody));
@@ -323,6 +324,32 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Theory]
+        [InlineData("https://code.jquery.com/jquery-3.4.1.min.js")]
+        public async Task CanDownloadUrlForFrame(string url)
+        {            
+            using (var browser = new ChromiumWebBrowser(url))
+            {
+                await browser.LoadPageAsync();
+
+                var htmlSrc = await browser.GetSourceAsync();
+
+                Assert.NotNull(htmlSrc);
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+
+                var data = await mainFrame.DownloadUrlAsync(url);
+
+                Assert.NotNull(data);
+                Assert.True(data.Length > 0);
+
+                var stringResult = Encoding.UTF8.GetString(data).Substring(0, 100);
+
+                Assert.Contains(stringResult, htmlSrc);
+            }
+        }
+
         [Fact]
         public async Task CanMakeUrlRequest()
         {
@@ -333,7 +360,7 @@ namespace CefSharp.Test.OffScreen
             //Can be created on any valid CEF Thread, here we'll use the CEF UI Thread
             await Cef.UIThreadTaskFactory.StartNew(delegate
             {
-                var requestClient = new UrlRequestClient((IUrlRequest req, byte[] responseBody) =>
+                var requestClient = new Example.UrlRequestClient((IUrlRequest req, byte[] responseBody) =>
                 {
                     statusCode = req.Response.StatusCode;
                     taskCompletionSource.TrySetResult(Encoding.UTF8.GetString(responseBody));
