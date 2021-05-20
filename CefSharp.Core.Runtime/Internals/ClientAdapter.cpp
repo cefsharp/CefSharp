@@ -1141,6 +1141,11 @@ namespace CefSharp
                     
                 auto objectRepository = browserAdapter->JavascriptObjectRepository;
 
+                if (objectRepository == nullptr)
+                {
+                    return true;
+                }
+
                 auto callbackId = GetInt64(argList, 0);
                 auto objectNames = argList->GetList(1);
 
@@ -1172,6 +1177,11 @@ namespace CefSharp
                 }
 
                 auto objectRepository = browserAdapter->JavascriptObjectRepository;
+
+                if (objectRepository == nullptr)
+                {
+                    return true;
+                }
 
                 auto boundObjects = argList->GetList(0);
                 auto objs = gcnew List<Tuple<String^, bool, bool>^>(boundObjects->GetSize());
@@ -1346,6 +1356,15 @@ namespace CefSharp
                 }
 
                 auto callbackFactory = browserAdapter->JavascriptCallbackFactory;
+                auto methodRunnerQueue = browserAdapter->MethodRunnerQueue;
+
+                //Dispose is called on a different thread, so there's a chance
+                //dispose is called after our IsDisposed checks, make sure we have
+                //actual references.
+                if (callbackFactory == nullptr || methodRunnerQueue == nullptr)
+                {
+                    return true;
+                }
 
                 auto frameId = frame->GetIdentifier();
                 auto objectId = GetInt64(argList, 0);
@@ -1358,7 +1377,7 @@ namespace CefSharp
                     methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));
                 }
 
-                browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
+                methodRunnerQueue->Enqueue(methodInvocation);
 
                 handled = true;
             }
