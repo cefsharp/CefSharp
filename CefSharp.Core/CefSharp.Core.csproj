@@ -55,6 +55,8 @@
     <Compile Include="Cef.cs" />
     <Compile Include="CefSettingsBase.cs" />
     <Compile Include="DragData.cs" />
+    <Compile Include="Fluent\DownloadHandler.cs" />
+    <Compile Include="Fluent\DownloadHandlerBuilder.cs" />
     <Compile Include="Fluent\UrlRequestClient.cs" />
     <Compile Include="Fluent\UrlRequestClientBuilder.cs" />
     <Compile Include="ManagedCefBrowserAdapter.cs" />
