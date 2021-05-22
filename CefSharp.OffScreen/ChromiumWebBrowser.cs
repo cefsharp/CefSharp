@@ -52,6 +52,12 @@ namespace CefSharp.OffScreen
         private int disposeSignaled;
 
         /// <summary>
+        /// Action which is called immediately before the <see cref="BrowserInitialized"/> event after the
+        /// uderlying Chromium Embedded Framework (CEF) browser has been created.
+        /// </summary>
+        private Action<IBrowser> onAfterBrowserCreatedDelegate;
+
+        /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
@@ -170,9 +176,15 @@ namespace CefSharp.OffScreen
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
+        /// <param name="onAfterBrowserCreated">
+        /// Use as an alternative to the <see cref="BrowserInitialized"/> event. If the underlying Chromium Embedded Framework (CEF) browser is created successfully,
+        /// this action is guranteed to be called after the browser created where as the <see cref="BrowserInitialized"/> event may be called before
+        /// you have a chance to subscribe to the event as the CEF Browser is created async. (Issue https://github.com/cefsharp/CefSharp/issues/3552).
+        /// </param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(HtmlString html, IBrowserSettings browserSettings = null,
-            IRequestContext requestContext = null, bool automaticallyCreateBrowser = true) : this(html.ToDataUriString(), browserSettings, requestContext, automaticallyCreateBrowser)
+            IRequestContext requestContext = null, bool automaticallyCreateBrowser = true,
+            Action<IBrowser> onAfterBrowserCreated = null) : this(html.ToDataUriString(), browserSettings, requestContext, automaticallyCreateBrowser, onAfterBrowserCreated)
         {
         }
 
@@ -187,9 +199,15 @@ namespace CefSharp.OffScreen
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
+        /// <param name="onAfterBrowserCreated">
+        /// Use as an alternative to the <see cref="BrowserInitialized"/> event. If the underlying Chromium Embedded Framework (CEF) browser is created successfully,
+        /// this action is guranteed to be called after the browser created where as the <see cref="BrowserInitialized"/> event may be called before
+        /// you have a chance to subscribe to the event as the CEF Browser is created async. (Issue https://github.com/cefsharp/CefSharp/issues/3552).
+        /// </param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address = "", IBrowserSettings browserSettings = null,
-            IRequestContext requestContext = null, bool automaticallyCreateBrowser = true)
+            IRequestContext requestContext = null, bool automaticallyCreateBrowser = true,
+            Action<IBrowser> onAfterBrowserCreated = null)
         {
             if (!Cef.IsInitialized)
             {
@@ -205,6 +223,7 @@ namespace CefSharp.OffScreen
 
             Cef.AddDisposable(this);
             Address = address;
+            onAfterBrowserCreatedDelegate = onAfterBrowserCreated;
 
             managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, true);
 
@@ -678,6 +697,7 @@ namespace CefSharp.OffScreen
 
             Interlocked.Exchange(ref browserInitialized, 1);
 
+            onAfterBrowserCreatedDelegate?.Invoke(browser);
             BrowserInitialized?.Invoke(this, EventArgs.Empty);
         }
 
