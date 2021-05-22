@@ -151,6 +151,9 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Create a new OffScreen Chromium Browser. If you use <see cref="CefSharp.JavascriptBinding.JavascriptBindingSettings.LegacyBindingEnabled"/> = true then you must
         /// set <paramref name="automaticallyCreateBrowser"/> to false and call <see cref="CreateBrowser"/> after the objects are registered.
+        /// The underlying Chromium Embedded Framework(CEF) Browser is created asynchronouly, to subscribe to the <see cref="BrowserInitialized"/> event it is recommended
+        /// that you set <paramref name="automaticallyCreateBrowser"/> to false, subscribe to the event and then call <see cref="CreateBrowser(IWindowInfo, IBrowserSettings)"/>
+        /// to ensure you are subscribe to the event before it's fired (Issue https://github.com/cefsharp/CefSharp/issues/3552).
         /// </summary>
         /// <param name="html">html string to be initially loaded in the browser.</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
@@ -165,6 +168,9 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Create a new OffScreen Chromium Browser. If you use <see cref="CefSharp.JavascriptBinding.JavascriptBindingSettings.LegacyBindingEnabled"/> = true then you must
         /// set <paramref name="automaticallyCreateBrowser"/> to false and call <see cref="CreateBrowser"/> after the objects are registered.
+        /// The underlying Chromium Embedded Framework(CEF) Browser is created asynchronouly, to subscribe to the <see cref="BrowserInitialized"/> event it is recommended
+        /// that you set <paramref name="automaticallyCreateBrowser"/> to false, subscribe to the event and then call <see cref="CreateBrowser(IWindowInfo, IBrowserSettings)"/>
+        /// to ensure you are subscribe to the event before it's fired (Issue https://github.com/cefsharp/CefSharp/issues/3552).
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
