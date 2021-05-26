@@ -2,15 +2,36 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.IO;
 
 namespace CefSharp.Fluent
 {
+    /// <summary>
+    /// Called before a download begins.
+    /// </summary>
+    /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+    /// <param name="browser">The browser instance</param>
+    /// <param name="downloadItem">Represents the file being downloaded.</param>
+    /// <param name="callback">Callback interface used to asynchronously continue a download.</param>
+    public delegate void OnBeforeDownloadDelegate(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback);
+
+    /// <summary>
+    /// Called when a download's status or progress information has been updated. This may be called multiple times before and after <see cref="OnBeforeDownload"/>.
+    /// </summary>
+    /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+    /// <param name="browser">The browser instance</param>
+    /// <param name="downloadItem">Represents the file being downloaded.</param>
+    /// <param name="callback">The callback used to Cancel/Pause/Resume the process</param>
+    public delegate void OnDownloadUpdatedDelegate(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback);
+
+    /// <summary>
+    /// A <see cref="IDownloadHandler"/> implementation used by <see cref="DownloadHandlerBuilder"/>
+    /// to provide a fluent means of creating a <see cref="IDownloadHandler"/>.
+    /// </summary>
     public class DownloadHandler : Handler.DownloadHandler
     {
-        public Action<IWebBrowser, IBrowser, DownloadItem, IBeforeDownloadCallback> onBeforeDownload;
-        public Action<IWebBrowser, IBrowser, DownloadItem, IDownloadItemCallback> onDownloadUpdated;
+        private OnBeforeDownloadDelegate onBeforeDownload;
+        private OnDownloadUpdatedDelegate onDownloadUpdated;
 
         /// <summary>
         /// Create a new DownloadHandler Builder
@@ -69,12 +90,12 @@ namespace CefSharp.Fluent
 
         }
 
-        public void SetOnBeforeDownload(Action<IWebBrowser, IBrowser, DownloadItem, IBeforeDownloadCallback> action)
+        internal void SetOnBeforeDownload(OnBeforeDownloadDelegate action)
         {
             onBeforeDownload = action;
         }
 
-        public void SetOnDownloadUpdated(Action<IWebBrowser, IBrowser, DownloadItem, IDownloadItemCallback> action)
+        internal void SetOnDownloadUpdated(OnDownloadUpdatedDelegate action)
         {
             onDownloadUpdated = action;
         }

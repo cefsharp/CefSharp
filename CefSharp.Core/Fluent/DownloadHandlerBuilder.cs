@@ -2,8 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
-
 namespace CefSharp.Fluent
 {
     /// <summary>
@@ -19,10 +17,10 @@ namespace CefSharp.Fluent
         /// <param name="action">Action to be executed when <see cref="IDownloadHandler.OnBeforeDownload(IWebBrowser, IBrowser, DownloadItem, IBeforeDownloadCallback)"/>
         /// is called</param>
         /// <returns>
-        /// Fluent Builder, call <see cref="DownloadHandlerBuilder.Build"/> to create
+        /// Fluent Builder, call <see cref="Build"/> to create
         /// a new <see cref="IDownloadHandler"/> instance
         /// </returns>
-        public DownloadHandlerBuilder OnBeforeDownload(Action<IWebBrowser, IBrowser, DownloadItem, IBeforeDownloadCallback> action)
+        public DownloadHandlerBuilder OnBeforeDownload(OnBeforeDownloadDelegate action)
         {
             handler.SetOnBeforeDownload(action);
 
@@ -38,7 +36,7 @@ namespace CefSharp.Fluent
         /// Fluent Builder, call <see cref="DownloadHandlerBuilder.Build"/> to create
         /// a new <see cref="IDownloadHandler"/> instance
         /// </returns>
-        public DownloadHandlerBuilder OnDownloadUpdated(Action<IWebBrowser, IBrowser, DownloadItem, IDownloadItemCallback> action)
+        public DownloadHandlerBuilder OnDownloadUpdated(OnDownloadUpdatedDelegate action)
         {
             handler.SetOnDownloadUpdated(action);
 

@@ -51,13 +51,13 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Downloads the specified <paramref name="url"/> and calls <paramref name="complete"/>
+        /// Downloads the specified <paramref name="url"/> and calls <paramref name="completeHandler"/>
         /// when the download is complete. Makes a GET Request.
         /// </summary>
         /// <param name="frame">valid frame</param>
         /// <param name="url">url to download</param>
-        /// <param name="complete">Action to be executed when the download is complete.</param>
-        public static void DownloadUrl(this IFrame frame, string url, Action<IUrlRequest, Stream>  complete)
+        /// <param name="completeHandler">Action to be executed when the download is complete.</param>
+        public static void DownloadUrl(this IFrame frame, string url, Action<IUrlRequest, Stream>  completeHandler)
         {
             if (!frame.IsValid)
             {
@@ -84,7 +84,7 @@ namespace CefSharp
                     {
                         memoryStream.Position = 0;
 
-                        complete?.Invoke(req, memoryStream);
+                        completeHandler?.Invoke(req, memoryStream);
                     })
                     .Build();
 
