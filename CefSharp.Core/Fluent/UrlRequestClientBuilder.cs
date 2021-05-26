@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.IO;
 
 namespace CefSharp.Fluent
@@ -23,7 +22,7 @@ namespace CefSharp.Fluent
         /// Fluent Builder, call <see cref="UrlRequestClientBuilder.Build"/> to create
         /// a new <see cref="IUrlRequestClient"/> instance
         /// </returns>
-        public UrlRequestClientBuilder GetAuthCredentials(Func<bool, string, int, string, string, IAuthCallback, bool> func)
+        public UrlRequestClientBuilder GetAuthCredentials(GetAuthCredentialsDelegate func)
         {
             client.SetGetAuthCredentials(func);
 
@@ -39,7 +38,7 @@ namespace CefSharp.Fluent
         /// Fluent Builder, call <see cref="UrlRequestClientBuilder.Build"/> to create
         /// a new <see cref="IUrlRequestClient"/> instance
         /// </returns>
-        public UrlRequestClientBuilder OnDownloadData(Action<IUrlRequest, Stream> action)
+        public UrlRequestClientBuilder OnDownloadData(OnDownloadDataDelegate action)
         {
             client.SetOnDownloadData(action);
 
@@ -55,7 +54,7 @@ namespace CefSharp.Fluent
         /// Fluent Builder, call <see cref="UrlRequestClientBuilder.Build"/> to create
         /// a new <see cref="IUrlRequestClient"/> instance
         /// </returns>
-        public UrlRequestClientBuilder OnDownloadProgress(Action<IUrlRequest, long, long> action)
+        public UrlRequestClientBuilder OnDownloadProgress(OnDownloadProgressDelegate action)
         {
             client.SetOnDownloadProgress(action);
 
@@ -71,7 +70,7 @@ namespace CefSharp.Fluent
         /// Fluent Builder, call <see cref="UrlRequestClientBuilder.Build"/> to create
         /// a new <see cref="IUrlRequestClient"/> instance
         /// </returns>
-        public UrlRequestClientBuilder OnRequestComplete(Action<IUrlRequest> action)
+        public UrlRequestClientBuilder OnRequestComplete(OnRequestCompleteDelegate action)
         {
             client.SetOnRequestComplete(action);
 
@@ -87,7 +86,7 @@ namespace CefSharp.Fluent
         /// Fluent Builder, call <see cref="UrlRequestClientBuilder.Build"/> to create
         /// a new <see cref="IUrlRequestClient"/> instance
         /// </returns>
-        public UrlRequestClientBuilder OnUploadProgress(Action<IUrlRequest, long, long> action)
+        public UrlRequestClientBuilder OnUploadProgress(OnUploadProgressDelegate action)
         {
             client.SetOnUploadProgress(action);
 
