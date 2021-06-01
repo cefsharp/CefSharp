@@ -374,6 +374,8 @@ namespace CefSharp.Test.OffScreen
                             }
                         });
 
+                await chromiumWebBrowser.LoadPageAsync();
+
                 chromiumWebBrowser.StartDownload(url);
 
                 var downloadedFilePath = await tcs.Task;
