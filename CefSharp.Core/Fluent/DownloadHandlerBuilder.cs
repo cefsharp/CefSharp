@@ -9,7 +9,7 @@ namespace CefSharp.Fluent
     /// </summary>
     public class DownloadHandlerBuilder
     {
-        private DownloadHandler handler = new DownloadHandler();
+        private readonly DownloadHandler handler = new DownloadHandler();
 
         /// <summary>
         /// See <see cref="IDownloadHandler.OnBeforeDownload(IWebBrowser, IBrowser, DownloadItem, IBeforeDownloadCallback)"/> for details.

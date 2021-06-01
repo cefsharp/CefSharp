@@ -350,6 +350,50 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Theory]
+        [InlineData("https://code.jquery.com/jquery-3.4.1.min.js")]
+        public async Task CanDownloadFileToFolderWithoutAskingUser(string url)
+        {
+            var tcs = new TaskCompletionSource<string>(TaskContinuationOptions.RunContinuationsAsynchronously);
+
+            using (var chromiumWebBrowser = new ChromiumWebBrowser(url))
+            {
+                var userTempPath = System.IO.Path.GetTempPath();
+
+                chromiumWebBrowser.DownloadHandler =
+                    Fluent.DownloadHandler.UseFolder(userTempPath,
+                        (chromiumBrowser, browser, downloadItem, callback) =>
+                        {
+                            if(downloadItem.IsComplete)
+                            {
+                                tcs.SetResult(downloadItem.FullPath);
+                            }
+                            else if(downloadItem.IsCancelled)
+                            {
+                                tcs.SetResult(null);
+                            }
+                        });
+
+                chromiumWebBrowser.StartDownload(url);
+
+                var downloadedFilePath = await tcs.Task;
+
+                Assert.NotNull(downloadedFilePath);
+                Assert.Contains(userTempPath, downloadedFilePath);
+                Assert.True(System.IO.File.Exists(downloadedFilePath));
+
+                var downloadedFileContent = System.IO.File.ReadAllText(downloadedFilePath);
+                
+                Assert.NotEqual(0, downloadedFileContent.Length);
+
+                var htmlSrc = await chromiumWebBrowser.GetSourceAsync();
+
+                Assert.Contains(downloadedFileContent.Substring(0, 100), htmlSrc);
+
+                System.IO.File.Delete(downloadedFilePath);
+            }
+        }
+
         [Fact]
         public async Task CanMakeUrlRequest()
         {
