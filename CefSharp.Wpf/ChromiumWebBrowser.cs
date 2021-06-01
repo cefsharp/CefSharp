@@ -2464,6 +2464,8 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Manually notify the browser the DPI of the parent window has changed.
+        /// The tested/expected values for <paramref name="newDpi"/> are 1.0, 1.25, 1.5, 2.0 as these
+        /// correspond to 96, 120, 144, 192 DPI (referred to as 100%, 125%, 150%, 200% in the Windows GUI).
         /// </summary>
         /// <param name="newDpi">new DPI</param>
         /// <remarks>.Net 4.6.2 adds HwndSource.DpiChanged which could be used to automatically
