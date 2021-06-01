@@ -441,7 +441,7 @@ namespace CefSharp
         void ShowDevTools(IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0);
 
         /// <summary>
-        /// Download the file at url using IDownloadHandler. 
+        /// Download the file at url using <see cref="IDownloadHandler"/>. 
         /// </summary>
         /// <param name="url">url to download</param>
         void StartDownload(string url);

@@ -229,6 +229,20 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Download the file at url using <see cref="IDownloadHandler"/>. 
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="url">url to download</param>
+        public static void StartDownload(this IWebBrowser browser, string url)
+        {
+            var host = browser.GetBrowserHost();
+
+            ThrowExceptionIfBrowserHostNull(host);
+
+            host.StartDownload(url);
+        }
+
+        /// <summary>
         /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be executed
         /// asynchronously, and the method therefore returns before the script has actually been executed. This simple helper extension
         /// will encapsulate params in single quotes (unless int, uint, etc)
