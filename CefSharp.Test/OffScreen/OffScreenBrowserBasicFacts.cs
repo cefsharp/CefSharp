@@ -47,15 +47,50 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadPageAsync();
+                var httpStatusCode = await browser.LoadUrlAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
                 Assert.Contains("www.google", mainFrame.Url);
+                Assert.Equal(200, httpStatusCode);
 
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
         }
+
+        [Fact]
+        public async Task CanLoadInvalidDomain()
+        {
+            using (var browser = new ChromiumWebBrowser("notfound.cefsharp.test"))
+            {
+                var responseCode = await browser.LoadUrlAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("notfound.cefsharp.test", mainFrame.Url);
+                Assert.Equal(CefErrorCode.NameNotResolved, (CefErrorCode)responseCode);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
+        [Fact]
+        public async Task CanLoadExpiredBadSsl()
+        {
+            using (var browser = new ChromiumWebBrowser("https://expired.badssl.com/"))
+            {
+                var responseCode = await browser.LoadUrlAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("", mainFrame.Url);
+                Assert.Equal(CefErrorCode.Aborted, (CefErrorCode)responseCode);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
+        
 
         [Fact]
         public void BrowserRefCountDecrementedOnDispose()

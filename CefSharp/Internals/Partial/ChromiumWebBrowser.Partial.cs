@@ -315,6 +315,93 @@ namespace CefSharp.WinForms
             OnAfterBrowserCreated(browser);
         }
 
+        /// <summary>
+        /// Load the <paramref name="url"/>
+        /// </summary>
+        /// <param name="url">url to load</param>
+        /// <param name="ctx">SynchronizationContext to execute the continuation on, if null then the ThreadPool will be used.</param>
+        /// <returns>
+        /// A <see cref="Task{int}"/> that can be awaited to load the <paramref name="url"/> and return the HttpStatusCode or a nagative
+        /// value indicates an error occured which can be retrieved by converting to int to <see cref="CefErrorCode"/>
+        /// if an enexpected error occurred. If -1 is returned then an unknown error occured, check the log file for details.
+        /// </returns>
+        public Task<int> LoadUrlAsync(string url = null, SynchronizationContext ctx = null)
+        {
+            var tcs = new TaskCompletionSource<int>();
+
+            EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
+            EventHandler<LoadingStateChangedEventArgs> loadingStateChangeHandler = null;
+
+            loadErrorHandler = (sender, args) =>
+            {
+                //If LoadError was called then we'll remove both our handlers
+                //as we won't need to capture LoadingStateChanged, we know there
+                //was an error
+                LoadError -= loadErrorHandler;
+                LoadingStateChanged -= loadingStateChangeHandler;
+
+                if (ctx == null)
+                {
+                    //Ensure our continuation is executed on the ThreadPool
+                    //For the .Net Core implementation we could use
+                    //TaskCreationOptions.RunContinuationsAsynchronously
+                    tcs.TrySetResultAsync((int)args.ErrorCode);
+                }
+                else
+                {
+                    ctx.Post(new SendOrPostCallback((o) =>
+                    {
+                        tcs.TrySetResult((int)args.ErrorCode);
+                    }), null);
+                }
+            };
+
+            loadingStateChangeHandler = (sender, args) =>
+            {
+                //Wait for IsLoading = false
+                if (!args.IsLoading)
+                {
+                    //If LoadingStateChanged was called then we'll remove both our handlers
+                    //as LoadError won't be called, our site has loaded with a valid HttpStatusCode
+                    //HttpStatusCodes can still be for example 404, this is considered a successful request,
+                    //the server responded, it just didn't have the page you were after.
+                    LoadError -= loadErrorHandler;
+                    LoadingStateChanged -= loadingStateChangeHandler;
+
+                    var host = args.Browser.GetHost();
+
+                    var navEntry = host?.GetVisibleNavigationEntry();
+
+                    int statusCode = navEntry?.HttpStatusCode ?? -1;
+
+                    if (ctx == null)
+                    {
+                        //Ensure our continuation is executed on the ThreadPool
+                        //For the .Net Core implementation we could use
+                        //TaskCreationOptions.RunContinuationsAsynchronously
+                        tcs.TrySetResultAsync(statusCode);
+                    }
+                    else
+                    {
+                        ctx.Post(new SendOrPostCallback((o) =>
+                        {
+                            tcs.TrySetResult(statusCode);
+                        }), null);
+                    }
+                }
+            };
+
+            LoadError += loadErrorHandler;
+            LoadingStateChanged += loadingStateChangeHandler;
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                Load(url);
+            }
+
+            return tcs.Task;
+        }
+
         partial void OnAfterBrowserCreated(IBrowser browser);
 
         private void SetHandlersToNullExceptLifeSpan()
