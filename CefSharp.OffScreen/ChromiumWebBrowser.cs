@@ -341,6 +341,58 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
+        /// Create the underlying CEF browser. The address and request context passed into the constructor
+        /// will be used. If a <see cref="Action{IBrowser}"/> delegate was passed
+        /// into the constructor it will not be called as this method overrides that value internally.
+        /// </summary>
+        /// <param name="windowInfo">Window information used when creating the browser</param>
+        /// <param name="browserSettings">Browser initialization settings</param>
+        /// <exception cref="System.Exception">An instance of the underlying offscreen browser has already been created, this method can only be called once.</exception>
+        /// <returns>
+        /// A <see cref="Task{IBrowser}"/> that represents the creation of the underlying CEF browser (<see cref="IBrowser"/> instance.
+        /// When the task completes then the CEF Browser will have been created and you can start performing basic tasks.
+        /// Note that the control's <see cref="BrowserInitialized"/> event will be invoked after this task completes.
+        /// </returns>
+        public Task<IBrowser> CreateBrowserAsync(IWindowInfo windowInfo = null, IBrowserSettings browserSettings = null)
+        {
+            if (browserCreated)
+            {
+                throw new Exception("An instance of the underlying offscreen browser has already been created, this method can only be called once.");
+            }
+
+            browserCreated = true;
+
+            if (browserSettings == null)
+            {
+                browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
+            }
+
+            if (windowInfo == null)
+            {
+                windowInfo = Core.ObjectFactory.CreateWindowInfo();
+                windowInfo.SetAsWindowless(IntPtr.Zero);
+            }
+
+            var tcs = new TaskCompletionSource<IBrowser>();
+
+            onAfterBrowserCreatedDelegate = new Action<IBrowser>(b =>
+            {
+                tcs.TrySetResultAsync(b);
+            });
+
+            managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, RequestContext, Address);
+
+            //Dispose of BrowserSettings if we created it, if user created then they're responsible
+            if (browserSettings.AutoDispose)
+            {
+                browserSettings.Dispose();
+            }
+            browserSettings = null;
+
+            return tcs.Task;
+        }
+
+        /// <summary>
         /// Get/set the size of the Chromium viewport, in pixels.
         /// This also changes the size of the next rendered bitmap.
         /// </summary>

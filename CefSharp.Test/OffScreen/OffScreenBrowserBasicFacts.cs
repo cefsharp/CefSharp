@@ -86,6 +86,20 @@ namespace CefSharp.Test.OffScreen
         }
 
         [Fact]
+        public async Task CanCreateBrowserAsync()
+        {
+            using (var chromiumWebBrowser = new ChromiumWebBrowser("http://www.google.com", automaticallyCreateBrowser: false))
+            {
+                var browser = await chromiumWebBrowser.CreateBrowserAsync();
+
+                Assert.NotNull(browser);
+                Assert.False(browser.HasDocument);
+                Assert.NotEqual(0, browser.Identifier);
+                Assert.False(browser.IsDisposed);
+            }
+        }
+
+        [Fact]
         public async Task CanLoadGoogleAndEvaluateScript()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
