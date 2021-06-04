@@ -326,8 +326,13 @@ namespace CefSharp.WinForms
 
         partial void OnAfterBrowserCreated(IBrowser browser);
 
-        private void SetHandlersToNullExceptLifeSpan()
+        /// <summary>
+        /// Sets the handler references to null.
+        /// Where required also calls Dispose().
+        /// </summary>
+        private void FreeHandlersExceptLifeSpan()
         {
+            AudioHandler?.Dispose();
             AudioHandler = null;
             DialogHandler = null;
             FindHandler = null;

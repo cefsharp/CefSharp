@@ -11,7 +11,7 @@ namespace CefSharp
     /// Implement this interface to handle audio events
     /// All methods will be called on the CEF UI thread
     /// </summary>
-    public interface IAudioHandler
+    public interface IAudioHandler : IDisposable
     {
         /// <summary>
         /// Called on the CEF UI thread to allow configuration of audio stream parameters.
