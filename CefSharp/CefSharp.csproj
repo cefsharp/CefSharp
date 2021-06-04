@@ -86,6 +86,7 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="CefRuntime.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="DevToolsExtensions.cs" />
     <Compile Include="DevTools\DevToolsClient.cs" />
