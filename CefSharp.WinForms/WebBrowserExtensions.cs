@@ -64,6 +64,8 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Open DevTools using <paramref name="parentControl"/> as the parent control. If inspectElementAtX and/or inspectElementAtY are specified then
         /// the element at the specified (x,y) location will be inspected.
+        /// For resize/moving to work correctly you will need to use the <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/> implementation.
+        /// (Set <see cref="ChromiumWebBrowser.LifeSpanHandler"/> to an instance of <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/>)
         /// </summary>
         /// <param name="chromiumWebBrowser"><see cref="ChromiumWebBrowser"/> instance</param>
         /// <param name="parentControl">Control used as the parent for DevTools (a custom control will be added to the <see cref="Control.Controls"/> collection)</param>
@@ -83,6 +85,8 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Open DevTools using your own Control as the parent. If inspectElementAtX and/or inspectElementAtY are specified then
         /// the element at the specified (x,y) location will be inspected.
+        /// For resize/moving to work correctly you will need to use the <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/> implementation.
+        /// (Set <see cref="ChromiumWebBrowser.LifeSpanHandler"/> to an instance of <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/>)
         /// </summary>
         /// <param name="chromiumWebBrowser"><see cref="ChromiumWebBrowser"/> instance</param>
         /// <param name="addParentControl">
