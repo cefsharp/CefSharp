@@ -58,7 +58,7 @@ namespace CefSharp.WinForms.Example
             //This example also demonstrates docking DevTools in a SplitPanel
             browser.LifeSpanHandler = LifeSpanHandler
                 .Create()
-                .RegisterPopupCreated((ctrl, targetUrl) =>
+                .OnPopupCreated((ctrl, targetUrl) =>
                 {
                     //Don't try using ctrl.FindForm() here as
                     //the control hasn't been attached to a parent yet.
@@ -67,7 +67,7 @@ namespace CefSharp.WinForms.Example
                         owner.AddTab(ctrl, targetUrl);
                     }
                 })
-                .RegisterPopupDestroyed((ctrl, popupBrowser) =>
+                .OnPopupDestroyed((ctrl, popupBrowser) =>
                 {
                     //If we docked  DevTools (hosted it ourselves rather than the default popup)
                     //Used when the BrowserTabUserControl.ShowDevToolsDocked method is called
@@ -90,9 +90,12 @@ namespace CefSharp.WinForms.Example
 
                                 owner.RemoveTab(windowHandle);
                             }
+
+                            ctrl.Dispose();
                         }
                     }
-                });            
+                })
+                .Build();            
 
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;

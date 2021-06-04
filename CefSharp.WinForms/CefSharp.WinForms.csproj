@@ -61,6 +61,7 @@
     <Compile Include="Experimental\ChromiumRenderWidgetHandleFinder.cs" />
     <Compile Include="Experimental\ChromiumWidgetNativeWindow.cs" />
     <Compile Include="Handler\LifeSpanHandler.cs" />
+    <Compile Include="Handler\LifeSpanHandlerBuilder.cs" />
     <Compile Include="Host\ChromiumHostControl.cs">
       <SubType>Component</SubType>
     </Compile>

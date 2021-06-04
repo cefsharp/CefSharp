@@ -11,15 +11,34 @@ using CefSharp.WinForms.Internals;
 namespace CefSharp.WinForms.Handler
 {
     /// <summary>
+    /// Called when the <see cref="ChromiumHostControl"/> has been created.
+    /// When called you must add the control to it's intended parent
+    /// so the <see cref="Control.ClientRectangle"/> can be calculated to set the initial
+    /// size correctly.
+    /// </summary>
+    /// <param name="control">popup host control</param>
+    /// <param name="url">url</param>
+    public delegate void OnPopupCreatedDelegate(ChromiumHostControl control, string url);
+
+    /// <summary>
+    /// Called when the <see cref="ChromiumHostControl"/> is to be removed from it's parent.
+    /// When called you must remove/dispose of the <see cref="ChromiumHostControl"/>.
+    /// </summary>
+    /// <param name="control">popup host control</param>
+    /// <param name="browser">browser</param>
+    public delegate void OnPopupDestroyedDelegate(ChromiumHostControl control, IBrowser browser);
+
+    /// <summary>
     /// A WinForms Specific <see cref="ILifeSpanHandler"/> implementation that simplifies
     /// the process of hosting a Popup as a Control/Tab.
+    /// This <see cref="ILifeSpanHandler"/> implementation returns true in <see cref="ILifeSpanHandler.DoClose(IWebBrowser, IBrowser)"/>
+    /// so no WM_CLOSE message is sent, this differs from the default CEF behaviour.
     /// </summary>
     public class LifeSpanHandler : CefSharp.Handler.LifeSpanHandler
     {
         private readonly Dictionary<int, ParentFormMessageInterceptor> popupParentFormMessageInterceptors = new Dictionary<int, ParentFormMessageInterceptor>();
-        //TODO: Do we use ChromiumHostControl for this type instead of Control?
-        private Action<ChromiumHostControl, IBrowser> onPopupDestroyed;
-        private Action<ChromiumHostControl, string> onPopupCreated;
+        private OnPopupDestroyedDelegate onPopupDestroyed;
+        private OnPopupCreatedDelegate onPopupCreated;
         
         /// <inheritdoc/>
         protected override bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
@@ -54,20 +73,6 @@ namespace CefSharp.WinForms.Handler
             return true;
         }
 
-        /// <summary>
-        /// Register an Action that will be called when the Popup Host Control is to be
-        /// removed from it's parent.
-        /// When the Action is called you must remove/dispose of the Popup Host Control.
-        /// </summary>
-        /// <param name="onPopupDestroyed">Action to be invoked when the Popup is to be destroyed.</param>
-        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
-        public LifeSpanHandler RegisterPopupDestroyed(Action<ChromiumHostControl, IBrowser> onPopupDestroyed)
-        {
-            this.onPopupDestroyed = onPopupDestroyed;
-
-            return this;
-        }
-
         /// <inheritdoc/>
         protected override void OnAfterCreated(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
@@ -81,7 +86,8 @@ namespace CefSharp.WinForms.Handler
                 // we're going with this assumption as it fits the use case currently)
                 var control = Control.FromChildHandle(windowHandle) as ChromiumHostControl;
 
-                //On WinForms parent control so we'll treat this as a native popup and do nothing
+                //If control is null then we'll treat as a native popup (do nothing)
+                //If control is disposed there's nothing for us to do either.
                 if (control != null && !control.IsDisposed)
                 {
                     control.BrowserHwnd = windowHandle;
@@ -119,6 +125,9 @@ namespace CefSharp.WinForms.Handler
         }
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// NOTE: DevTools popups DO NOT trigger OnBeforePopup.
+        /// </remarks>
         protected override bool OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
             newBrowser = null;
@@ -129,9 +138,6 @@ namespace CefSharp.WinForms.Handler
                 return false;
             }
 
-            //NOTE: DevTools popups DO NOT trigger OnBeforePopup.
-            //Use IWindowInfo.SetAsChild to specify the parent handle
-            //NOTE: use ParentFormMessageInterceptor to handle Form move and Control resize etc.
             var webBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
 
             //We need to execute sync here so IWindowInfo.SetAsChild is called before we return false;
@@ -154,14 +160,14 @@ namespace CefSharp.WinForms.Handler
         }
 
         /// <summary>
-        /// Register an Action that will be called when the Popup Host Control has been
-        /// created. When the Action is called you must add the control to it's intended parent
+        /// The <see cref="OnPopupCreatedDelegate"/> will be called when the<see cref="ChromiumHostControl"/> has been
+        /// created. When the <see cref="OnPopupCreatedDelegate"/> is called you must add the control to it's intended parent
         /// so the <see cref="Control.ClientRectangle"/> can be calculated to set the initial
         /// size correctly.
         /// </summary>
         /// <param name="onPopupCreated">Action to be invoked when the Popup is to be destroyed.</param>
         /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
-        public LifeSpanHandler RegisterPopupCreated(Action<ChromiumHostControl, string> onPopupCreated)
+        public LifeSpanHandler OnPopupCreated(OnPopupCreatedDelegate onPopupCreated)
         {
             this.onPopupCreated = onPopupCreated;
 
@@ -169,12 +175,28 @@ namespace CefSharp.WinForms.Handler
         }
 
         /// <summary>
-        /// Create a new instance of the  WinForms specific lifespan handler
+        /// The <see cref="OnPopupDestroyedDelegate"/> will be called when the <see cref="ChromiumHostControl"/> is to be
+        /// removed from it's parent.
+        /// When the <see cref="OnPopupDestroyedDelegate"/> is called you must remove/dispose of the <see cref="ChromiumHostControl"/>.
         /// </summary>
-        /// <returns>LifeSpanHandler</returns>
-        public static LifeSpanHandler Create()
+        /// <param name="onPopupDestroyed">Action to be invoked when the Popup is to be destroyed.</param>
+        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
+        public LifeSpanHandler OnPopupDestroyed(OnPopupDestroyedDelegate onPopupDestroyed)
         {
-            return new LifeSpanHandler();
+            this.onPopupDestroyed = onPopupDestroyed;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Create a new instance of the <see cref="LifeSpanHandlerBuilder"/>
+        /// which can be used to create a WinForms specific <see cref="ILifeSpanHandler"/>
+        /// implementation that simplifies the process of hosting a Popup as a Control/Tab.
+        /// </summary>
+        /// <returns>LifeSpanHandlerBuilder</returns>
+        public static LifeSpanHandlerBuilder Create()
+        {
+            return new LifeSpanHandlerBuilder();
         }
     }
 }
