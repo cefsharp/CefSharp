@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 using CefSharp.Web;
@@ -240,6 +241,110 @@ namespace CefSharp
             ThrowExceptionIfBrowserHostNull(host);
 
             host.StartDownload(url);
+        }
+
+        /// <summary>
+        /// See <see cref="IWebBrowser.LoadUrlAsync(string, SynchronizationContext)"/> for details
+        /// </summary>
+        /// <param name="chromiumWebBrowser">ChromiumWebBrowser instance (cannot be null)</param>
+        /// <summary>
+        /// Load the <paramref name="url"/> in the main frame of the browser
+        /// </summary>
+        /// <param name="url">url to load</param>
+        /// <param name="ctx">SynchronizationContext to execute the continuation on, if null then the ThreadPool will be used.</param>
+        /// <returns>See <see cref="IWebBrowser.LoadUrlAsync(string, SynchronizationContext)"/> for details</returns>
+        public static Task<LoadUrlAsyncResponse> LoadUrlAsync(IWebBrowser chromiumWebBrowser, string url = null, SynchronizationContext ctx = null)
+        {
+            var tcs = new TaskCompletionSource<LoadUrlAsyncResponse>();
+
+            EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
+            EventHandler<LoadingStateChangedEventArgs> loadingStateChangeHandler = null;
+
+            loadErrorHandler = (sender, args) =>
+            {
+                //Ignore Aborted
+                //Currently invalid SSL certificates which aren't explicitly allowed
+                //end up with CefErrorCode.Aborted, I've created the following PR
+                //in the hopes of getting this fixed.
+                //https://bitbucket.org/chromiumembedded/cef/pull-requests/373
+                if (args.ErrorCode == CefErrorCode.Aborted)
+                {
+                    return;
+                }
+
+                //If LoadError was called then we'll remove both our handlers
+                //as we won't need to capture LoadingStateChanged, we know there
+                //was an error
+                chromiumWebBrowser.LoadError -= loadErrorHandler;
+                chromiumWebBrowser.LoadingStateChanged -= loadingStateChangeHandler;
+
+                if (ctx == null)
+                {
+                    //Ensure our continuation is executed on the ThreadPool
+                    //For the .Net Core implementation we could use
+                    //TaskCreationOptions.RunContinuationsAsynchronously
+                    tcs.TrySetResultAsync(new LoadUrlAsyncResponse(args.ErrorCode, -1));
+                }
+                else
+                {
+                    ctx.Post(new SendOrPostCallback((o) =>
+                    {
+                        tcs.TrySetResult(new LoadUrlAsyncResponse(args.ErrorCode, -1));
+                    }), null);
+                }
+            };
+
+            loadingStateChangeHandler = (sender, args) =>
+            {
+                //Wait for IsLoading = false
+                if (!args.IsLoading)
+                {
+                    //If LoadingStateChanged was called then we'll remove both our handlers
+                    //as LoadError won't be called, our site has loaded with a valid HttpStatusCode
+                    //HttpStatusCodes can still be for example 404, this is considered a successful request,
+                    //the server responded, it just didn't have the page you were after.
+                    chromiumWebBrowser.LoadError -= loadErrorHandler;
+                    chromiumWebBrowser.LoadingStateChanged -= loadingStateChangeHandler;
+
+                    var host = args.Browser.GetHost();
+
+                    var navEntry = host?.GetVisibleNavigationEntry();
+
+                    int statusCode = navEntry?.HttpStatusCode ?? -1;
+
+                    //By default 0 is some sort of error, we map that to -1
+                    //so that it's clearer that something failed.
+                    if (statusCode == 0)
+                    {
+                        statusCode = -1;
+                    }
+
+                    if (ctx == null)
+                    {
+                        //Ensure our continuation is executed on the ThreadPool
+                        //For the .Net Core implementation we could use
+                        //TaskCreationOptions.RunContinuationsAsynchronously
+                        tcs.TrySetResultAsync(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
+                    }
+                    else
+                    {
+                        ctx.Post(new SendOrPostCallback((o) =>
+                        {
+                            tcs.TrySetResult(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
+                        }), null);
+                    }
+                }
+            };
+
+            chromiumWebBrowser.LoadError += loadErrorHandler;
+            chromiumWebBrowser.LoadingStateChanged += loadingStateChangeHandler;
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                chromiumWebBrowser.Load(url);
+            }
+
+            return tcs.Task;
         }
 
         /// <summary>
