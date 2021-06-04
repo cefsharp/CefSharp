@@ -41,14 +41,15 @@ namespace CefSharp
             }
 
             auto objectRepository = _javaScriptObjectRepository;
+            auto objectRepositorySettings = objectRepository->Settings;
 
             //It's no longer possible to change these settings
-            objectRepository->Settings->Freeze();
+            objectRepositorySettings->Freeze();
 
             CefRefPtr<CefDictionaryValue> extraInfo = CefDictionaryValue::Create();
             auto legacyBindingEnabled = false;
 
-            if (objectRepository->Settings->LegacyBindingEnabled)
+            if (objectRepositorySettings->LegacyBindingEnabled)
             {
                 auto legacyBoundObjects = objectRepository->GetLegacyBoundObjects();
 
@@ -67,9 +68,9 @@ namespace CefSharp
 
             extraInfo->SetBool("LegacyBindingEnabled", legacyBindingEnabled);
 
-            if (!String::IsNullOrEmpty(objectRepository->Settings->JavascriptBindingApiGlobalObjectName))
+            if (!String::IsNullOrEmpty(objectRepositorySettings->JavascriptBindingApiGlobalObjectName))
             {
-                auto globalObjName = objectRepository->Settings->JavascriptBindingApiGlobalObjectName;
+                auto globalObjName = objectRepositorySettings->JavascriptBindingApiGlobalObjectName;
 
                 if (StringCheck::IsFirstCharacterLowercase(globalObjName))
                 {
@@ -80,6 +81,8 @@ namespace CefSharp
                     extraInfo->SetString("JsBindingPropertyName", StringUtils::ToNative(globalObjName));
                 }
             }
+
+            extraInfo->SetBool("JavascriptBindingApiEnabled", objectRepositorySettings->JavascriptBindingApiEnabled);
 
             CefRefPtr<CefRequestContext> requestCtx;
 

@@ -14,6 +14,24 @@ namespace CefSharp.JavascriptBinding
         private bool alwaysInterceptAsynchronously;
         private bool legacyBindingEnabled;
         private string jsBindingGlobalObjectName;
+        private bool jsBindingApiEnabled = true;
+
+        /// <summary>
+        /// The Javascript methods that CefSharp provides in relation to JavaScript Binding are
+        /// created using a Global (window) Object. Settings this property allows you to disable
+        /// the creation of this object. Features like EvaluateScriptAsPromiseAsync that rely on
+        /// the creation of this object will no longer function.
+        /// </summary>
+        public bool JavascriptBindingApiEnabled
+        {
+            get { return jsBindingApiEnabled; }
+            set
+            {
+                ThrowIfFrozen();
+
+                jsBindingApiEnabled = value;
+            }
+        }
 
         /// <summary>
         /// The Javascript methods that CefSharp provides in relation to JavaScript Binding are
