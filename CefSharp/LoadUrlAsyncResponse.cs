@@ -7,7 +7,7 @@ namespace CefSharp
     /// <summary>
     /// Response returned from <see cref="IWebBrowser.LoadUrlAsync(string, System.Threading.SynchronizationContext)"/>
     /// </summary>
-    public struct LoadUrlAsyncResponse
+    public class LoadUrlAsyncResponse
     {
         /// <summary>
         /// Error Code. If the network request was made successfully this value will be <see cref="CefErrorCode.None"/>
