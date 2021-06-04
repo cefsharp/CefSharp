@@ -318,95 +318,10 @@ namespace CefSharp.WinForms
         /// <inheritdoc/>
         public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null)
         {
-            var tcs = new TaskCompletionSource<LoadUrlAsyncResponse>();
-
-            EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
-            EventHandler<LoadingStateChangedEventArgs> loadingStateChangeHandler = null;
-
-            loadErrorHandler = (sender, args) =>
-            {
-                //Ignore Aborted
-                //Currently invalid SSL certificates which aren't explicitly allowed
-                //end up with aborted, issue should be raised upstream to
-                //get that fixed, the proper SSL error should be displayed.
-                if(args.ErrorCode == CefErrorCode.Aborted)
-                {
-                    return;
-                }
-
-                //If LoadError was called then we'll remove both our handlers
-                //as we won't need to capture LoadingStateChanged, we know there
-                //was an error
-                LoadError -= loadErrorHandler;
-                LoadingStateChanged -= loadingStateChangeHandler;
-
-                if (ctx == null)
-                {
-                    //Ensure our continuation is executed on the ThreadPool
-                    //For the .Net Core implementation we could use
-                    //TaskCreationOptions.RunContinuationsAsynchronously
-                    tcs.TrySetResultAsync(new LoadUrlAsyncResponse(args.ErrorCode, -1));
-                }
-                else
-                {
-                    ctx.Post(new SendOrPostCallback((o) =>
-                    {
-                        tcs.TrySetResult(new LoadUrlAsyncResponse(args.ErrorCode, -1));
-                    }), null);
-                }
-            };
-
-            loadingStateChangeHandler = (sender, args) =>
-            {
-                //Wait for IsLoading = false
-                if (!args.IsLoading)
-                {
-                    //If LoadingStateChanged was called then we'll remove both our handlers
-                    //as LoadError won't be called, our site has loaded with a valid HttpStatusCode
-                    //HttpStatusCodes can still be for example 404, this is considered a successful request,
-                    //the server responded, it just didn't have the page you were after.
-                    LoadError -= loadErrorHandler;
-                    LoadingStateChanged -= loadingStateChangeHandler;
-
-                    var host = args.Browser.GetHost();
-
-                    var navEntry = host?.GetVisibleNavigationEntry();
-
-                    int statusCode = navEntry?.HttpStatusCode ?? -1;
-
-                    //By default 0 is some sort of error, we map that to -1
-                    //so that it's clearer that something failed.
-                    if(statusCode == 0)
-                    {
-                        statusCode = -1;
-                    }
-
-                    if (ctx == null)
-                    {
-                        //Ensure our continuation is executed on the ThreadPool
-                        //For the .Net Core implementation we could use
-                        //TaskCreationOptions.RunContinuationsAsynchronously
-                        tcs.TrySetResultAsync(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
-                    }
-                    else
-                    {
-                        ctx.Post(new SendOrPostCallback((o) =>
-                        {
-                            tcs.TrySetResult(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
-                        }), null);
-                    }
-                }
-            };
-
-            LoadError += loadErrorHandler;
-            LoadingStateChanged += loadingStateChangeHandler;
-
-            if (!string.IsNullOrEmpty(url))
-            {
-                Load(url);
-            }
-
-            return tcs.Task;
+            //LoadUrlAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
+            //It's not actually an extension method so we can have it included as part of the
+            //IWebBrowser interface
+            return CefSharp.WebBrowserExtensions.LoadUrlAsync(this, url, ctx);
         }
 
         partial void OnAfterBrowserCreated(IBrowser browser);
