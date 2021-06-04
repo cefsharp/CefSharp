@@ -315,25 +315,25 @@ namespace CefSharp.WinForms
             OnAfterBrowserCreated(browser);
         }
 
-        /// <summary>
-        /// Load the <paramref name="url"/>
-        /// </summary>
-        /// <param name="url">url to load</param>
-        /// <param name="ctx">SynchronizationContext to execute the continuation on, if null then the ThreadPool will be used.</param>
-        /// <returns>
-        /// A <see cref="Task{int}"/> that can be awaited to load the <paramref name="url"/> and return the HttpStatusCode or a nagative
-        /// value indicates an error occured which can be retrieved by converting to int to <see cref="CefErrorCode"/>
-        /// if an enexpected error occurred. If -1 is returned then an unknown error occured, check the log file for details.
-        /// </returns>
-        public Task<int> LoadUrlAsync(string url = null, SynchronizationContext ctx = null)
+        /// <inheritdoc/>
+        public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null)
         {
-            var tcs = new TaskCompletionSource<int>();
+            var tcs = new TaskCompletionSource<LoadUrlAsyncResponse>();
 
             EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
             EventHandler<LoadingStateChangedEventArgs> loadingStateChangeHandler = null;
 
             loadErrorHandler = (sender, args) =>
             {
+                //Ignore Aborted
+                //Currently invalid SSL certificates which aren't explicitly allowed
+                //end up with aborted, issue should be raised upstream to
+                //get that fixed, the proper SSL error should be displayed.
+                if(args.ErrorCode == CefErrorCode.Aborted)
+                {
+                    return;
+                }
+
                 //If LoadError was called then we'll remove both our handlers
                 //as we won't need to capture LoadingStateChanged, we know there
                 //was an error
@@ -345,13 +345,13 @@ namespace CefSharp.WinForms
                     //Ensure our continuation is executed on the ThreadPool
                     //For the .Net Core implementation we could use
                     //TaskCreationOptions.RunContinuationsAsynchronously
-                    tcs.TrySetResultAsync((int)args.ErrorCode);
+                    tcs.TrySetResultAsync(new LoadUrlAsyncResponse(args.ErrorCode, -1));
                 }
                 else
                 {
                     ctx.Post(new SendOrPostCallback((o) =>
                     {
-                        tcs.TrySetResult((int)args.ErrorCode);
+                        tcs.TrySetResult(new LoadUrlAsyncResponse(args.ErrorCode, -1));
                     }), null);
                 }
             };
@@ -374,18 +374,25 @@ namespace CefSharp.WinForms
 
                     int statusCode = navEntry?.HttpStatusCode ?? -1;
 
+                    //By default 0 is some sort of error, we map that to -1
+                    //so that it's clearer that something failed.
+                    if(statusCode == 0)
+                    {
+                        statusCode = -1;
+                    }
+
                     if (ctx == null)
                     {
                         //Ensure our continuation is executed on the ThreadPool
                         //For the .Net Core implementation we could use
                         //TaskCreationOptions.RunContinuationsAsynchronously
-                        tcs.TrySetResultAsync(statusCode);
+                        tcs.TrySetResultAsync(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
                     }
                     else
                     {
                         ctx.Post(new SendOrPostCallback((o) =>
                         {
-                            tcs.TrySetResult(statusCode);
+                            tcs.TrySetResult(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
                         }), null);
                     }
                 }

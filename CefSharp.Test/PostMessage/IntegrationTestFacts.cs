@@ -51,7 +51,7 @@ namespace CefSharp.Test.PostMessage
             //Page.AddScriptToEvaluateOnNewDocument (via DevTools)
             using (var browser = new ChromiumWebBrowser(new HtmlString("Initial Load")))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {

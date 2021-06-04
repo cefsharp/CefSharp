@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -79,10 +81,21 @@ namespace CefSharp
         event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
 
         /// <summary>
-        /// Loads the specified URL.
+        /// Loads the specified <paramref name="url"/> in the Main Frame
         /// </summary>
         /// <param name="url">The URL to be loaded.</param>
         void Load(string url);
+
+        /// <summary>
+        /// Load the <paramref name="url"/> in the main frame of the browser
+        /// </summary>
+        /// <param name="url">url to load</param>
+        /// <param name="ctx">SynchronizationContext to execute the continuation on, if null then the ThreadPool will be used.</param>
+        /// <returns>
+        /// A <see cref="Task{int}"/> that can be awaited to load the <paramref name="url"/> and return the HttpStatusCode and <see cref="CefErrorCode"/>.
+        /// A HttpStatusCode equal to 200 and <see cref="CefErrorCode.None"/> is considered a success.
+        /// </returns>
+        Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null);
 
         /// <summary>
         /// The javascript object repository, one repository per ChromiumWebBrowser instance.
