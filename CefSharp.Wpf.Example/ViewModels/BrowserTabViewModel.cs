@@ -207,7 +207,7 @@ namespace CefSharp.Wpf.Example.ViewModels
         {
             Address = AddressEditable;
 
-            Keyboard.Focus((IInputElement)WebBrowser);
+            Keyboard.Focus(WebBrowser);
         }
 
         public void LoadCustomRequestExample()
