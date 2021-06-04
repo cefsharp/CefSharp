@@ -300,8 +300,13 @@ namespace CefSharp.WinForms
             return CefSharp.WebBrowserExtensions.LoadUrlAsync(this, url, ctx);
         }
 
-        private void SetHandlersToNullExceptLifeSpan()
+        /// <summary>
+        /// Sets the handler references to null.
+        /// Where required also calls Dispose().
+        /// </summary>
+        private void FreeHandlersExceptLifeSpan()
         {
+            AudioHandler?.Dispose();
             AudioHandler = null;
             DialogHandler = null;
             FindHandler = null;

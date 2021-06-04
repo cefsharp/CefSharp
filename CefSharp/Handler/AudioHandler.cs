@@ -13,6 +13,17 @@ namespace CefSharp.Handler
     /// </summary>
     public class AudioHandler : IAudioHandler
     {
+        private bool isDisposed;
+
+        /// <summary>
+        /// Gets a value indicating this <see cref="AudioHandler"/> instance
+        /// has been disposed.
+        /// </summary>
+        public bool IsDisposed
+        {
+            get { return isDisposed; }
+        }
+
         /// <inheritdoc/>
         bool IAudioHandler.GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref AudioParameters parameters)
         {
@@ -116,6 +127,22 @@ namespace CefSharp.Handler
         protected virtual void OnAudioStreamError(IWebBrowser chromiumWebBrowser, IBrowser browser, string errorMessage)
         {
 
+        }
+
+        /// <summary>
+        /// Releases unmanaged and managed resources
+        /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            isDisposed = true;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

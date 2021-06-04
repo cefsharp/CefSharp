@@ -417,7 +417,7 @@ namespace CefSharp.WinForms
 
                 // Release reference to handlers, except LifeSpanHandler which is done after Disposing
                 // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
-                this.SetHandlersToNullExceptLifeSpan();
+                FreeHandlersExceptLifeSpan();
 
                 browser = null;
 
