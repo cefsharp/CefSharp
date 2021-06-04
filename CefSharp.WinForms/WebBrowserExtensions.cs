@@ -3,6 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Windows.Forms;
+using CefSharp.WinForms.Host;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms
 {
@@ -56,6 +59,74 @@ namespace CefSharp.WinForms
 
 
             return DestroyWindow(handle);
+        }
+
+        /// <summary>
+        /// Open DevTools using <paramref name="parentControl"/> as the parent control. If inspectElementAtX and/or inspectElementAtY are specified then
+        /// the element at the specified (x,y) location will be inspected.
+        /// For resize/moving to work correctly you will need to use the <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/> implementation.
+        /// (Set <see cref="ChromiumWebBrowser.LifeSpanHandler"/> to an instance of <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/>)
+        /// </summary>
+        /// <param name="chromiumWebBrowser"><see cref="ChromiumWebBrowser"/> instance</param>
+        /// <param name="parentControl">Control used as the parent for DevTools (a custom control will be added to the <see cref="Control.Controls"/> collection)</param>
+        /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
+        /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
+        /// <returns>Returns the <see cref="Control"/> that hosts the DevTools instance if successful, otherwise returns null on error.</returns>
+        public static Control ShowDevToolsDocked(this IWebBrowser chromiumWebBrowser, Control parentControl, string controlName = nameof(ChromiumHostControl) + "DevTools", DockStyle dockStyle = DockStyle.Fill, int inspectElementAtX = 0, int inspectElementAtY = 0)
+        {
+            if (chromiumWebBrowser.IsDisposed || parentControl == null || parentControl.IsDisposed)
+            {
+                return null;
+            }
+
+            return chromiumWebBrowser.ShowDevToolsDocked((ctrl) => { parentControl.Controls.Add(ctrl); }, controlName, dockStyle, inspectElementAtX, inspectElementAtY);
+        }
+
+        /// <summary>
+        /// Open DevTools using your own Control as the parent. If inspectElementAtX and/or inspectElementAtY are specified then
+        /// the element at the specified (x,y) location will be inspected.
+        /// For resize/moving to work correctly you will need to use the <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/> implementation.
+        /// (Set <see cref="ChromiumWebBrowser.LifeSpanHandler"/> to an instance of <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/>)
+        /// </summary>
+        /// <param name="chromiumWebBrowser"><see cref="ChromiumWebBrowser"/> instance</param>
+        /// <param name="addParentControl">
+        /// Action that is Invoked when the DevTools Host Control has been created and needs to be added to it's parent.
+        /// It's important the control is added to it's intended parent at this point so the <see cref="Control.ClientRectangle"/>
+        /// can be calculated to set the initial display size.</param>
+        /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
+        /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
+        /// <returns>Returns the <see cref="Control"/> that hosts the DevTools instance if successful, otherwise returns null on error.</returns>
+        public static Control ShowDevToolsDocked(this IWebBrowser chromiumWebBrowser, Action<ChromiumHostControl> addParentControl, string controlName = nameof(ChromiumHostControl) + "DevTools", DockStyle dockStyle = DockStyle.Fill, int inspectElementAtX = 0, int inspectElementAtY = 0)
+        {
+            if (chromiumWebBrowser.IsDisposed || addParentControl == null)
+            {
+                return null;
+            }
+
+            var host = chromiumWebBrowser.GetBrowserHost();
+            if (host == null)
+            {
+                return null;
+            }
+
+            var control = new ChromiumHostControl()
+            {
+                Name = controlName,
+                Dock = dockStyle
+            };
+
+            control.CreateControl();
+
+            //It's now time for the user to add the control to it's parent
+            addParentControl(control);
+
+            //Devtools will be a child of the ChromiumHostControl
+            var rect = control.ClientRectangle;
+            var windowInfo = new WindowInfo();
+            windowInfo.SetAsChild(control.Handle, rect.Left, rect.Top, rect.Right, rect.Bottom);
+            host.ShowDevTools(windowInfo, inspectElementAtX, inspectElementAtY);
+
+            return control;
         }
     }
 }

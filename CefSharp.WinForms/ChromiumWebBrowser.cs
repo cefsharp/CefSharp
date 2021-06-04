@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using CefSharp.Internals;
 using CefSharp.Web;
 using CefSharp.WinForms.Internals;
+using CefSharp.WinForms.Host;
 
 namespace CefSharp.WinForms
 {
@@ -22,7 +23,7 @@ namespace CefSharp.WinForms
     [Docking(DockingBehavior.AutoDock), DefaultEvent("LoadingStateChanged"), ToolboxBitmap(typeof(ChromiumWebBrowser)),
     Description("CefSharp ChromiumWebBrowser - Chromium Embedded Framework .Net wrapper. https://github.com/cefsharp/CefSharp"),
     Designer(typeof(ChromiumWebBrowserDesigner))]
-    public partial class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
+    public partial class ChromiumWebBrowser : ChromiumHostControl, IWebBrowserInternal, IWinFormsWebBrowser
     {
         //TODO: If we start adding more consts then extract them into a common class
         //Possibly in the CefSharp assembly and move the WPF ones into there as well.
@@ -104,14 +105,6 @@ namespace CefSharp.WinForms
                 return Interlocked.CompareExchange(ref disposeSignaled, 1, 1) == 1;
             }
         }
-
-        /// <summary>
-        /// Set to true while handing an activating WM_ACTIVATE message.
-        /// MUST ONLY be cleared by DefaultFocusHandler.
-        /// </summary>
-        /// <value><c>true</c> if this instance is activating; otherwise, <c>false</c>.</value>
-        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
-        public bool IsActivating { get; set; }
 
         /// <summary>
         /// Gets or sets the browser settings.
@@ -620,6 +613,8 @@ namespace CefSharp.WinForms
             this.browser = browser;
             Interlocked.Exchange(ref browserInitialized, 1);
 
+            BrowserHwnd = browser.GetHost().GetWindowHandle();
+
             // By the time this callback gets called, this control
             // is most likely hooked into a browser Form of some sort. 
             // (Which is what ParentFormMessageInterceptor relies on.)
@@ -629,6 +624,13 @@ namespace CefSharp.WinForms
                 this.InvokeOnUiThreadIfRequired(() =>
                 {
                     parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
+                    parentFormMessageInterceptor.Moving += (sender, args) =>
+                    {
+                        if (IsBrowserInitialized && !IsDisposed)
+                        {
+                            browser?.GetHost()?.NotifyMoveOrResizeStarted();
+                        }
+                    };
                 });
             }
 
@@ -738,26 +740,10 @@ namespace CefSharp.WinForms
             }
         }
 
-        /// <summary>
-        /// Raises the <see cref="E:System.Windows.Forms.Control.SizeChanged" /> event.
-        /// </summary>
-        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
-        protected override void OnSizeChanged(EventArgs e)
+        /// <inheritdoc/>
+        protected override void ResizeBrowser(int width, int height)
         {
-            base.OnSizeChanged(e);
-
-            if (!designMode && initialized)
-            {
-                ResizeBrowser(Width, Height);
-            }
-        }
-
-        /// <summary>
-        /// Resizes the browser.
-        /// </summary>
-        private void ResizeBrowser(int width, int height)
-        {
-            if (IsBrowserInitialized)
+            if (!designMode && IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.Resize(width, height);
             }
@@ -767,7 +753,7 @@ namespace CefSharp.WinForms
         /// When minimized set the browser window size to 0x0 to reduce resource usage.
         /// https://github.com/chromiumembedded/cef/blob/c7701b8a6168f105f2c2d6b239ce3958da3e3f13/tests/cefclient/browser/browser_window_std_win.cc#L87
         /// </summary>
-        internal void HideInternal()
+        internal override void HideInternal()
         {
             ResizeBrowser(0, 0);
         }
@@ -775,7 +761,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Show the browser (called after previous minimised)
         /// </summary>
-        internal void ShowInternal()
+        internal override void ShowInternal()
         {
             ResizeBrowser(Width, Height);
         }
@@ -805,50 +791,6 @@ namespace CefSharp.WinForms
             ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
-        }
-
-        /// <summary>
-        /// Gets the default size of the control.
-        /// </summary>
-        /// <value>
-        /// The default <see cref="T:System.Drawing.Size" /> of the control.
-        /// </value>
-        protected override Size DefaultSize
-        {
-            get { return new Size(200, 100); }
-        }
-
-        /// <summary>
-        /// Makes certain keys as Input keys when CefSettings.MultiThreadedMessageLoop = false
-        /// </summary>
-        /// <param name="keyData">key data</param>
-        /// <returns>true for a select list of keys otherwise defers to base.IsInputKey</returns>
-        protected override bool IsInputKey(Keys keyData)
-        {
-            //This code block is only called/required when CEF is running in the
-            //same message loop as the WinForms UI (CefSettings.MultiThreadedMessageLoop = false)
-            //Without this code, arrows and tab won't be processed
-            switch (keyData)
-            {
-                case Keys.Right:
-                case Keys.Left:
-                case Keys.Up:
-                case Keys.Down:
-                case Keys.Tab:
-                {
-                    return true;
-                }
-                case Keys.Shift | Keys.Tab:
-                case Keys.Shift | Keys.Right:
-                case Keys.Shift | Keys.Left:
-                case Keys.Shift | Keys.Up:
-                case Keys.Shift | Keys.Down:
-                {
-                    return true;
-                }
-            }
-
-            return base.IsInputKey(keyData);
         }
     }
 }

@@ -46,6 +46,30 @@ namespace CefSharp.WinForms.Internals
         }
 
         /// <summary>
+        /// Executes the Action sync on the UI thread, blocks execution on the calling thread.
+        /// No action will be performed if the control doesn't have a valid handle or the control is Disposed/Disposing.
+        /// </summary>
+        /// <param name="control">the control for which the update is required</param>
+        /// <param name="action">action to be performed on the control</param>
+        internal static void InvokeSyncOnUiThreadIfRequired(this Control control, Action action)
+        {
+            //No action
+            if (control.Disposing || control.IsDisposed || !control.IsHandleCreated)
+            {
+                return;
+            }
+
+            if (control.InvokeRequired)
+            {
+                control.Invoke(action);
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        /// <summary>
         /// Activates the specified control.
         /// </summary>
         /// <param name="control">The control.</param>
