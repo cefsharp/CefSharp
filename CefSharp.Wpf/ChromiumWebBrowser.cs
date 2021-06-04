@@ -168,12 +168,6 @@ namespace CefSharp.Wpf
         public int ResizeHackForIssue2279DelayInMs { get; set; }
 
         /// <summary>
-        /// This flag is set when the browser gets focus before the underlying CEF browser
-        /// has been initialized.
-        /// </summary>
-        private bool initialFocus;
-
-        /// <summary>
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><see langword="true" /> if this instance is disposed; otherwise, <see langword="false" />.</value>
@@ -995,15 +989,6 @@ namespace CefSharp.Wpf
 
         /// <inheritdoc />
         void IRenderWebBrowser.OnPopupShow(bool isOpen)
-        {
-            OnPopupShow(isOpen);
-        }
-
-        /// <summary>
-        /// Sets the popup is open.
-        /// </summary>
-        /// <param name="isOpen">if set to <c>true</c> [is open].</param>
-        protected virtual void OnPopupShow(bool isOpen)
         {
             OnPopupShow(isOpen);
         }
