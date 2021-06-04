@@ -84,19 +84,14 @@
     <Compile Include="BrowserTabUserControl.Designer.cs">
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChromiumContainerControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ControlExtensions.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
-    <Compile Include="Handlers\LifeSpanHandler.cs" />
     <Compile Include="Handlers\MenuHandler.cs" />
     <Compile Include="Handlers\MultiFormFocusHandler.cs" />
     <Compile Include="Handlers\ScheduleMessagePumpBrowserProcessHandler.cs" />
     <Compile Include="Handlers\WinFormsBrowserProcessHandler.cs" />
     <Compile Include="Handlers\WinFormsRequestHandler.cs" />
-    <Compile Include="Helper\PopupAsChildHelper.cs" />
     <Compile Include="InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
