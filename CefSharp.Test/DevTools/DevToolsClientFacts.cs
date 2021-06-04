@@ -55,7 +55,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -76,7 +76,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -92,7 +92,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -115,7 +115,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -131,7 +131,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -164,7 +164,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {

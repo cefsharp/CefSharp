@@ -127,6 +127,7 @@
     <Compile Include="Internals\MimeTypeMapping.cs" />
     <Compile Include="Internals\Tasks\SyncContextTaskCompletionSource.cs" />
     <Compile Include="IRegistration.cs" />
+    <Compile Include="LoadUrlAsyncResponse.cs" />
     <Compile Include="UrlRequestClient.cs" />
     <Compile Include="JavascriptBinding\JavascriptBindingSettings.cs" />
     <Compile Include="Internals\NoOpBrowserRefCounter.cs" />

@@ -106,7 +106,7 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 //We'll execute twice using the different cased (camelcase naming and standard)
                 var response = await browser.EvaluateScriptAsync("CefSharp.IsObjectCached('doesntexist')");
@@ -132,7 +132,7 @@ namespace CefSharp.Test.JavascriptBinding
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 var result = await browser.EvaluateScriptAsync("bindingApiObject.isObjectCached('doesntexist') === false");
 
@@ -195,7 +195,7 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 var result = await browser.EvaluateScriptAsync(script);
 
@@ -215,7 +215,7 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl))
             {
-                await browser.LoadPageAsync();
+                await browser.LoadUrlAsync();
 
                 //TODO: See if we can avoid GetAwaiter().GetResult()
                 var evt = Assert.Raises<JavascriptBindingEventArgs>(
