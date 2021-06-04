@@ -264,8 +264,9 @@ namespace CefSharp
             {
                 //Ignore Aborted
                 //Currently invalid SSL certificates which aren't explicitly allowed
-                //end up with aborted, issue should be raised upstream to
-                //get that fixed, the proper SSL error should be displayed.
+                //end up with CefErrorCode.Aborted, I've created the following PR
+                //in the hopes of getting this fixed.
+                //https://bitbucket.org/chromiumembedded/cef/pull-requests/373
                 if (args.ErrorCode == CefErrorCode.Aborted)
                 {
                     return;
