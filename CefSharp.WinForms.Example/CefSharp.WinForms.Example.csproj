@@ -84,10 +84,6 @@
     <Compile Include="BrowserTabUserControl.Designer.cs">
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChromiumContainerControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ChromeWidgetMessageInterceptor.cs" />
     <Compile Include="ControlExtensions.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />

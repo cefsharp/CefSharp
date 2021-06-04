@@ -12,6 +12,7 @@ using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.WinForms.Example.Handlers;
+using CefSharp.WinForms.Experimental;
 using CefSharp.WinForms.Handler;
 
 namespace CefSharp.WinForms.Example
