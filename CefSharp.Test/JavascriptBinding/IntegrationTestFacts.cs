@@ -140,6 +140,54 @@ namespace CefSharp.Test.JavascriptBinding
             }
         }
 
+        [Fact]
+        public async Task JsBindingGlobalApiDisabled()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
+            {
+                var settings = browser.JavascriptObjectRepository.Settings;
+                settings.JavascriptBindingApiEnabled = false;
+
+                //To modify the settings we need to defer browser creation slightly
+                browser.CreateBrowser();
+
+                await browser.LoadPageAsync();
+
+                var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+                var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+
+                Assert.True(response1.Success);
+                Assert.True((bool)response1.Result);
+
+                Assert.True(response2.Success);
+                Assert.True((bool)response2.Result);
+            }
+        }
+
+        [Fact]
+        public async Task JsBindingGlobalApiEnabled()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
+            {
+                var settings = browser.JavascriptObjectRepository.Settings;
+                settings.JavascriptBindingApiEnabled = true;
+
+                //To modify the settings we need to defer browser creation slightly
+                browser.CreateBrowser();
+
+                await browser.LoadPageAsync();
+
+                var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+                var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+
+                Assert.True(response1.Success);
+                Assert.False((bool)response1.Result);
+
+                Assert.True(response2.Success);
+                Assert.False((bool)response2.Result);
+            }
+        }
+
         [Theory]
         [InlineData("CefSharp.RenderProcessId")]
         [InlineData("cefSharp.renderProcessId")]
