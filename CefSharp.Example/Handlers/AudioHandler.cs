@@ -8,40 +8,45 @@ using CefSharp.Structs;
 
 namespace CefSharp.Example.Handlers
 {
-    public class AudioHandler : IAudioHandler
+    public class AudioHandler : Handler.AudioHandler
     {
         private ChannelLayout channelLayout;
         private int channelCount;
         private int sampleRate;
 
-        bool IAudioHandler.GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref AudioParameters parameters)
+        protected override bool GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref AudioParameters parameters)
         {
             //Cancel Capture
             return false;
         }
-
-        void IAudioHandler.OnAudioStreamError(IWebBrowser chromiumWebBrowser, IBrowser browser, string errorMessage)
+        protected override void OnAudioStreamError(IWebBrowser chromiumWebBrowser, IBrowser browser, string errorMessage)
         {
-
+            base.OnAudioStreamError(chromiumWebBrowser, browser, errorMessage);
         }
 
-        void IAudioHandler.OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr data, int noOfFrames, long pts)
-        {
-            //NOTE: data is an array representing the raw PCM data as a floating point type, i.e. 4-byte value(s)
-            //Based on and the channelLayout value passed to IAudioHandler.OnAudioStreamStarted
-            //you can calculate the size of the data array in bytes.
-        }
-
-        void IAudioHandler.OnAudioStreamStarted(IWebBrowser chromiumWebBrowser, IBrowser browser, AudioParameters parameters, int channels)
+        protected override void OnAudioStreamStarted(IWebBrowser chromiumWebBrowser, IBrowser browser, AudioParameters parameters, int channels)
         {
             this.channelLayout = parameters.ChannelLayout;
             this.sampleRate = parameters.SampleRate;
             this.channelCount = channels;
         }
 
-        void IAudioHandler.OnAudioStreamStopped(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        protected override void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr data, int noOfFrames, long pts)
         {
+            //NOTE: data is an array representing the raw PCM data as a floating point type, i.e. 4-byte value(s)
+            //Based on and the channelLayout value passed to IAudioHandler.OnAudioStreamStarted
+            //you can calculate the size of the data array in bytes.
+            //See https://github.com/cefsharp/CefSharp/issues/2806 for discussion on implementing an example.
+        }
 
+        protected override void OnAudioStreamStopped(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
+            base.OnAudioStreamStopped(chromiumWebBrowser, browser);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
         }
     }
 }
