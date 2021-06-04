@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CefSharp.Enums;
@@ -15,7 +16,7 @@ namespace CefSharp.Wpf
     /// and properties the <see cref="ChromiumWebBrowser" /> exposes.
     /// </summary>
     /// <seealso cref="CefSharp.IWebBrowser" />
-    public interface IWpfWebBrowser : IWebBrowser
+    public interface IWpfWebBrowser : IWebBrowser, IInputElement
     {
         /// <summary>
         /// Navigates to the previous page in the browser history. Will automatically be enabled/disabled depending on the
