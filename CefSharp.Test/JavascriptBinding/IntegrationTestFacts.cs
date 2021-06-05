@@ -151,7 +151,9 @@ namespace CefSharp.Test.JavascriptBinding
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
-                await browser.LoadUrlAsync();
+                var loadResponse = await browser.LoadUrlAsync();
+
+                Assert.True(loadResponse.Success);
 
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
