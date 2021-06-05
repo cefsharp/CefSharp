@@ -64,6 +64,7 @@ namespace CefSharp
         //will override the _legacyBindingEnabled field
         if (!browser->IsPopup())
         {
+            _jsBindingApiEnabled = extraInfo->GetBool("JavascriptBindingApiEnabled");
             _legacyBindingEnabled = extraInfo->GetBool("LegacyBindingEnabled");
 
             if (_legacyBindingEnabled)
@@ -88,8 +89,6 @@ namespace CefSharp
                         _javascriptObjects->Add(obj->JavascriptName, obj);
                     }
                 }
-
-                _jsBindingApiEnabled = extraInfo->GetBool("JavascriptBindingApiEnabled");
             }
         }
 
