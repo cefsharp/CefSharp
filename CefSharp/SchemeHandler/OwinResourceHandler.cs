@@ -104,7 +104,8 @@ namespace CefSharp.SchemeHandler
                 {"owin.RequestPath", uri.AbsolutePath},
                 {"owin.RequestPathBase", "/"},
                 {"owin.RequestProtocol", "HTTP/1.1"},
-                {"owin.RequestQueryString", uri.Query},
+                //To conform to the OWIN spec we need to remove the leading '?'
+                {"owin.RequestQueryString", string.IsNullOrEmpty(uri.Query) ? string.Empty : uri.Query.Substring(1)},
                 {"owin.RequestScheme", uri.Scheme},
                 //Response http://owin.org/html/owin.html#3-2-2-response-data
                 {"owin.ResponseHeaders", new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)},
