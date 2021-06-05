@@ -83,9 +83,24 @@ namespace CefSharp.WinForms.Host
         /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnSizeChanged(EventArgs e)
         {
-            base.OnSizeChanged(e);
-
             ResizeBrowser(Width, Height);
+
+            base.OnSizeChanged(e);
+        }
+
+        /// <inheritdoc />
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            if (Visible)
+            {
+                ShowInternal();
+            }
+            else
+            {
+                HideInternal();
+            }
+
+            base.OnVisibleChanged(e);
         }
 
         /// <summary>
