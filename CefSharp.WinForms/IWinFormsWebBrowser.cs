@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace CefSharp.WinForms
 {
@@ -11,7 +13,7 @@ namespace CefSharp.WinForms
     /// <see cref="ChromiumWebBrowser" /> implementation exposes.
     /// </summary>
     /// <seealso cref="CefSharp.IWebBrowser" />
-    public interface IWinFormsWebBrowser : IWebBrowser
+    public interface IWinFormsWebBrowser : IWebBrowser, IWin32Window, IComponent, ISynchronizeInvoke
     {
         /// <summary>
         /// Occurs when the browser title changed.
