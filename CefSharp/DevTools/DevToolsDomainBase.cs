@@ -19,6 +19,14 @@ namespace CefSharp.DevTools
             return Internals.Json.JsonEnumConverterFactory.ConvertEnumToString(val);
         }
 
+        protected IEnumerable<string> EnumToString(CefSharp.DevTools.Network.ContentEncoding[] values)
+        {
+            foreach (var val in values)
+            {
+                yield return Internals.Json.JsonEnumConverterFactory.ConvertEnumToString(val);
+            }
+        }
+
         protected IEnumerable<string> EnumToString(CefSharp.DevTools.Emulation.DisabledImageType[] values)
         {
             foreach (var val in values)
