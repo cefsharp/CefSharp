@@ -1424,6 +1424,15 @@ namespace CefSharp.Wpf.HwndHost
             }
         }
 
+        /// <inheritdoc/>
+        public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null)
+        {
+            //LoadUrlAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
+            //It's not actually an extension method so we can have it included as part of the
+            //IWebBrowser interface
+            return CefSharp.WebBrowserExtensions.LoadUrlAsync(this, url, ctx);
+        }
+
         /// <summary>
         /// Zooms the browser in.
         /// </summary>
