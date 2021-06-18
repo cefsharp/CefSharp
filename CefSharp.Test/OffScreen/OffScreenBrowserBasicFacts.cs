@@ -87,6 +87,7 @@ namespace CefSharp.Test.OffScreen
                 Assert.True(mainFrame.IsValid);
                 Assert.Contains("", mainFrame.Url);
                 Assert.Equal(-1, response.HttpStatusCode);
+                Assert.Equal(CefErrorCode.CertDateInvalid, response.ErrorCode);
 
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
