@@ -238,7 +238,7 @@ namespace CefSharp
 
                 UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
                 IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
-                FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
+                FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE_BACKGROUND));
 
                 //Allows us to execute Tasks on the CEF UI thread in CefSharp.dll
                 CefThread::Initialize(UIThreadTaskFactory, gcnew Func<bool>(&CurrentOnUiThread));
