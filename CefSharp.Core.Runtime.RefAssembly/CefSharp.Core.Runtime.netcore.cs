@@ -112,6 +112,8 @@ namespace CefSharp.Core
         public System.Collections.Generic.IEnumerable<CefSharp.CefCustomScheme> CefCustomSchemes { get { throw null; } }
         public bool ChromeRuntime { get { throw null; } set { } }
         public bool CommandLineArgsDisabled { get { throw null; } set { } }
+        public bool CookieableSchemesExcludeDefaults { get { throw null; } set { } }
+        public string CookieableSchemesList { get { throw null; } set { } }
         public bool ExternalMessagePump { get { throw null; } set { } }
         public bool IgnoreCertificateErrors { get { throw null; } set { } }
         public string JavascriptFlags { get { throw null; } set { } }
@@ -123,12 +125,12 @@ namespace CefSharp.Core
         public bool PackLoadingDisabled { get { throw null; } set { } }
         public bool PersistSessionCookies { get { throw null; } set { } }
         public bool PersistUserPreferences { get { throw null; } set { } }
-        public string ProductVersion { get { throw null; } set { } }
         public int RemoteDebuggingPort { get { throw null; } set { } }
         public string ResourcesDirPath { get { throw null; } set { } }
         public string RootCachePath { get { throw null; } set { } }
         public int UncaughtExceptionStackSize { get { throw null; } set { } }
         public string UserAgent { get { throw null; } set { } }
+        public string UserAgentProduct { get { throw null; } set { } }
         public string UserDataPath { get { throw null; } set { } }
         public bool WindowlessRenderingEnabled { get { throw null; } set { } }
         public void Dispose() { }
@@ -303,6 +305,8 @@ namespace CefSharp.Core
         public RequestContextSettings() { }
         public string AcceptLanguageList { get { throw null; } set { } }
         public string CachePath { get { throw null; } set { } }
+        public bool CookieableSchemesExcludeDefaults { get { throw null; } set { } }
+        public string CookieableSchemesList { get { throw null; } set { } }
         public bool IgnoreCertificateErrors { get { throw null; } set { } }
         public bool PersistSessionCookies { get { throw null; } set { } }
         public bool PersistUserPreferences { get { throw null; } set { } }
