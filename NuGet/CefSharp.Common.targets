@@ -126,6 +126,15 @@
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
     
+	<!--
+	For PackageReference library projects where buildTransitive is supported we'll default to setting CefSharpAnyCpuSupport to true
+	This should only require WinExe and Exe projects to specify CefSharpAnyCpuSupport rather than every project in a solution.
+	Only for PackageReference projects where NuGetToolVersion > 5.0 and OutputType is library.
+	Defaulting CefSharpAnyCpuSupport to true is simpler than modifying the already complex Condition for the CefSharpPlatformCheck
+	target below.
+	https://github.com/cefsharp/CefSharp/issues/3622
+	-->
+	<CefSharpAnyCpuSupport Condition="'$(CefSharpAnyCpuSupport)' != 'true' AND '$(NuGetProjectStyle)' == 'PackageReference' AND $(NuGetToolVersion) > '5.0' AND '$(OutputType)' == 'Library'">true</CefSharpAnyCpuSupport>
   </PropertyGroup>
   
   <Choose>
