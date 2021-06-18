@@ -369,16 +369,30 @@
   So in that scenario we display a message to the user. Close/reopen the project and the None/Content entries will work as above.
   I have attempted to copy the files via a Copy Task, unfortunately the .props entries aren't accessible either so that's not feasible.
   -->
-  <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x86'">
-    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
+  <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(TargetDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x86'">
+    <PropertyGroup>
+      <CefRedist32TargetDir Condition="'$(CefRedist32TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedist32TargetDir>
+    </PropertyGroup>
+	<Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to $(CefRedist32TargetDir) as workaround. Please close and re-open $(MSBuildProjectFile)." />
+	<CallTarget Targets="CefRedist32CopyResources"/>
   </Target>
   
-  <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x64'">
-    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
+  <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(TargetDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x64'">
+    <PropertyGroup>
+      <CefRedist64TargetDir Condition="'$(CefRedist64TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedist64TargetDir>
+    </PropertyGroup>
+	<Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to $(CefRedist64TargetDir) as workaround. Please close and re-open $(MSBuildProjectFile)." />
+	<CallTarget Targets="CefRedist64CopyResources"/>
   </Target>
   
-  <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(OutDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'AnyCPU'">
-    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Please close and re-open $(MSBuildProjectFile)." />
+  <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(TargetDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'AnyCPU'">
+    <PropertyGroup>
+      <CefRedist32TargetDir Condition="'$(CefRedist32TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDirAnyCpu32)</CefRedist32TargetDir>
+	  <CefRedist64TargetDir Condition="'$(CefRedist64TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDirAnyCpu64)</CefRedist64TargetDir>
+    </PropertyGroup>
+	<Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to output folder as workaround. Please close and re-open $(MSBuildProjectFile)." />
+	<CallTarget Targets="CefRedist32CopyResources"/>
+	<CallTarget Targets="CefRedist64CopyResources"/>
   </Target>
   
   <!--
