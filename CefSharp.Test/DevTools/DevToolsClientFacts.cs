@@ -4,6 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Threading.Tasks;
 using CefSharp.DevTools.Browser;
 using CefSharp.DevTools.Emulation;
@@ -29,6 +32,31 @@ namespace CefSharp.Test.DevTools
         }
 
         [Fact]
+        public async Task CanCaptureScreenshot()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                await browser.LoadUrlAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var response = await devToolsClient.Page.CaptureScreenshotAsync();
+
+                    Assert.NotNull(response.Data);
+                    Assert.NotEqual(0, response.Data.Length);
+
+                    var image = Image.FromStream(new MemoryStream(response.Data));
+                    var size = browser.Size;
+
+                    Assert.NotNull(image);
+                    Assert.Equal(ImageFormat.Png, image.RawFormat);
+                    Assert.Equal(size.Width, image.Width);
+                    Assert.Equal(size.Height, image.Height);
+                }
+            }
+        }
+
+        [Fact]
         public void CanConvertDevToolsObjectToDictionary()
         {
             var bounds = new Bounds
@@ -48,7 +76,6 @@ namespace CefSharp.Test.DevTools
             Assert.Equal(bounds.Left, (int)dict["left"]);
             Assert.Equal("fullscreen", (string)dict["windowState"]);
         }
-
 
         [Fact]
         public async Task CanGetDevToolsProtocolVersion()
