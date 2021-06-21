@@ -10,11 +10,11 @@
   
   <Target Name="CefSharpCopyLibs86" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x86'">
     <Message Importance="high" Text="Copying cef.redist x86 files" />
-    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+	<CallTarget Targets="CefRedist32CopyResources"/>
   </Target>
   
   <Target Name="CefSharpCopyLibs64" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x64'">
     <Message Importance="high" Text="Copying cef.redist x64 files" />
-    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+	<CallTarget Targets="CefRedist64CopyResources"/>
   </Target>  
 </Project>
