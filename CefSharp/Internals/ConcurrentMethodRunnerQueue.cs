@@ -34,13 +34,19 @@ namespace CefSharp.Internals
 
         public void Enqueue(MethodInvocation methodInvocation)
         {
-            if(cancellationTokenSource.IsCancellationRequested)
+            if (cancellationTokenSource.IsCancellationRequested)
             {
                 return;
             }
 
-            var task = new Task(async () =>
+            //Enqueue on ThreadPool
+            Task.Run(async () =>
             {
+                if (cancellationTokenSource.IsCancellationRequested)
+                {
+                    return;
+                }
+
                 var result = await ExecuteMethodInvocation(methodInvocation).ConfigureAwait(false);
 
                 if (cancellationTokenSource.IsCancellationRequested)
@@ -113,8 +119,6 @@ namespace CefSharp.Internals
                 }
 
             }, cancellationTokenSource.Token);
-
-            task.Start(TaskScheduler.Default);
         }
 
         private async Task<MethodInvocationResult> ExecuteMethodInvocation(MethodInvocation methodInvocation)
