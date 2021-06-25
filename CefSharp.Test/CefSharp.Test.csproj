@@ -156,6 +156,7 @@
     <Compile Include="Framework\ConcurrentMethodRunnerQueueFacts.cs" />
     <Compile Include="Framework\CamelCaseNamingConverterFacts.cs" />
     <Compile Include="Framework\LegacyCamelCaseJavascriptNameConverterFacts.cs" />
+    <Compile Include="Framework\MethodRunnerQueueFacts.cs" />
     <Compile Include="Framework\MimeTypeMappingFacts.cs" />
     <Compile Include="Framework\PathCheckFacts.cs" />
     <Compile Include="Framework\RequestContextBuilderFacts.cs" />
