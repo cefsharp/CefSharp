@@ -25,8 +25,9 @@
   <!--
   For VS2017 when publishing x86/x64 there's CefSharp.Core.Runtime.dll references in both _DeploymentManifestDependencies and _DeploymentManifestFiles
   This causes an Error occurred writing to hard disk exception, so we remove one (we leave the dependency and just remove the file reference).
+  For VS2019 when using PackageReference this target removes CefSharp.Core.Runtime.* from the publish target, $(NuGetProjectStyle) check added. 
   -->
-  <Target Name="CefSharpExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' != 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
+  <Target Name="CefSharpExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' != 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.')) AND '$(NuGetProjectStyle)' != 'PackageReference'">
     <ItemGroup>
       <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.dll" />
       <_DeploymentManifestFiles Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(PlatformTarget)\CefSharp.Core.Runtime.pdb" />
