@@ -32,8 +32,18 @@ namespace CefSharp.Internals
 
         public void Enqueue(MethodInvocation methodInvocation)
         {
+            if(cancellationTokenSource.IsCancellationRequested)
+            {
+                return;
+            }
+
             Task.Factory.StartNew(() =>
             {
+                if (cancellationTokenSource.IsCancellationRequested)
+                {
+                    return;
+                }
+
                 var result = ExecuteMethodInvocation(methodInvocation);
 
                 var handler = MethodInvocationComplete;
