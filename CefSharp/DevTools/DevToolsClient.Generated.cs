@@ -24287,11 +24287,10 @@ namespace CefSharp.DevTools.Accessibility
         /// Disables the accessibility domain.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Accessibility.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Accessibility.disable", dict);
         }
 
         /// <summary>
@@ -24299,11 +24298,10 @@ namespace CefSharp.DevTools.Accessibility
         /// This turns on accessibility for the page, which can impact performance until accessibility is disabled.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Accessibility.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Accessibility.enable", dict);
         }
 
         partial void ValidateGetPartialAXTree(int? nodeId = null, int? backendNodeId = null, string objectId = null, bool? fetchRelatives = null);
@@ -24315,7 +24313,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <param name = "objectId">JavaScript object id of the node wrapper to get the partial accessibility tree for.</param>
         /// <param name = "fetchRelatives">Whether to fetch this nodes ancestors, siblings and children. Defaults to true.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetPartialAXTreeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetPartialAXTreeResponse> GetPartialAXTreeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, bool? fetchRelatives = null)
+        public System.Threading.Tasks.Task<GetPartialAXTreeResponse> GetPartialAXTreeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, bool? fetchRelatives = null)
         {
             ValidateGetPartialAXTree(nodeId, backendNodeId, objectId, fetchRelatives);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -24339,8 +24337,7 @@ namespace CefSharp.DevTools.Accessibility
                 dict.Add("fetchRelatives", fetchRelatives.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Accessibility.getPartialAXTree", dict);
-            return methodResult.DeserializeJson<GetPartialAXTreeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetPartialAXTreeResponse>("Accessibility.getPartialAXTree", dict);
         }
 
         partial void ValidateGetFullAXTree(int? max_depth = null);
@@ -24349,7 +24346,7 @@ namespace CefSharp.DevTools.Accessibility
         /// </summary>
         /// <param name = "max_depth">The maximum depth at which descendants of the root node should be retrieved.If omitted, the full tree is returned.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetFullAXTreeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetFullAXTreeResponse> GetFullAXTreeAsync(int? max_depth = null)
+        public System.Threading.Tasks.Task<GetFullAXTreeResponse> GetFullAXTreeAsync(int? max_depth = null)
         {
             ValidateGetFullAXTree(max_depth);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -24358,8 +24355,7 @@ namespace CefSharp.DevTools.Accessibility
                 dict.Add("max_depth", max_depth.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Accessibility.getFullAXTree", dict);
-            return methodResult.DeserializeJson<GetFullAXTreeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetFullAXTreeResponse>("Accessibility.getFullAXTree", dict);
         }
 
         partial void ValidateGetChildAXNodes(string id);
@@ -24369,13 +24365,12 @@ namespace CefSharp.DevTools.Accessibility
         /// </summary>
         /// <param name = "id">id</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetChildAXNodesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetChildAXNodesResponse> GetChildAXNodesAsync(string id)
+        public System.Threading.Tasks.Task<GetChildAXNodesResponse> GetChildAXNodesAsync(string id)
         {
             ValidateGetChildAXNodes(id);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("id", id);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Accessibility.getChildAXNodes", dict);
-            return methodResult.DeserializeJson<GetChildAXNodesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetChildAXNodesResponse>("Accessibility.getChildAXNodes", dict);
         }
 
         partial void ValidateQueryAXTree(int? nodeId = null, int? backendNodeId = null, string objectId = null, string accessibleName = null, string role = null);
@@ -24392,7 +24387,7 @@ namespace CefSharp.DevTools.Accessibility
         /// <param name = "accessibleName">Find nodes with this computed name.</param>
         /// <param name = "role">Find nodes with this computed role.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;QueryAXTreeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<QueryAXTreeResponse> QueryAXTreeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, string accessibleName = null, string role = null)
+        public System.Threading.Tasks.Task<QueryAXTreeResponse> QueryAXTreeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, string accessibleName = null, string role = null)
         {
             ValidateQueryAXTree(nodeId, backendNodeId, objectId, accessibleName, role);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -24421,8 +24416,7 @@ namespace CefSharp.DevTools.Accessibility
                 dict.Add("role", role);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Accessibility.queryAXTree", dict);
-            return methodResult.DeserializeJson<QueryAXTreeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<QueryAXTreeResponse>("Accessibility.queryAXTree", dict);
         }
     }
 }
@@ -24636,22 +24630,20 @@ namespace CefSharp.DevTools.Animation
         /// Disables animation domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Animation.disable", dict);
         }
 
         /// <summary>
         /// Enables animation domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Animation.enable", dict);
         }
 
         partial void ValidateGetCurrentTime(string id);
@@ -24660,24 +24652,22 @@ namespace CefSharp.DevTools.Animation
         /// </summary>
         /// <param name = "id">Id of animation.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCurrentTimeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetCurrentTimeResponse> GetCurrentTimeAsync(string id)
+        public System.Threading.Tasks.Task<GetCurrentTimeResponse> GetCurrentTimeAsync(string id)
         {
             ValidateGetCurrentTime(id);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("id", id);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.getCurrentTime", dict);
-            return methodResult.DeserializeJson<GetCurrentTimeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetCurrentTimeResponse>("Animation.getCurrentTime", dict);
         }
 
         /// <summary>
         /// Gets the playback rate of the document timeline.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetPlaybackRateResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetPlaybackRateResponse> GetPlaybackRateAsync()
+        public System.Threading.Tasks.Task<GetPlaybackRateResponse> GetPlaybackRateAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.getPlaybackRate", dict);
-            return methodResult.DeserializeJson<GetPlaybackRateResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetPlaybackRateResponse>("Animation.getPlaybackRate", dict);
         }
 
         partial void ValidateReleaseAnimations(string[] animations);
@@ -24686,13 +24676,12 @@ namespace CefSharp.DevTools.Animation
         /// </summary>
         /// <param name = "animations">List of animation ids to seek.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseAnimationsAsync(string[] animations)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseAnimationsAsync(string[] animations)
         {
             ValidateReleaseAnimations(animations);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animations", animations);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.releaseAnimations", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Animation.releaseAnimations", dict);
         }
 
         partial void ValidateResolveAnimation(string animationId);
@@ -24701,13 +24690,12 @@ namespace CefSharp.DevTools.Animation
         /// </summary>
         /// <param name = "animationId">Animation id.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;ResolveAnimationResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<ResolveAnimationResponse> ResolveAnimationAsync(string animationId)
+        public System.Threading.Tasks.Task<ResolveAnimationResponse> ResolveAnimationAsync(string animationId)
         {
             ValidateResolveAnimation(animationId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animationId", animationId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.resolveAnimation", dict);
-            return methodResult.DeserializeJson<ResolveAnimationResponse>();
+            return _client.ExecuteDevToolsMethodAsync<ResolveAnimationResponse>("Animation.resolveAnimation", dict);
         }
 
         partial void ValidateSeekAnimations(string[] animations, double currentTime);
@@ -24717,14 +24705,13 @@ namespace CefSharp.DevTools.Animation
         /// <param name = "animations">List of animation ids to seek.</param>
         /// <param name = "currentTime">Set the current time of each animation.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SeekAnimationsAsync(string[] animations, double currentTime)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SeekAnimationsAsync(string[] animations, double currentTime)
         {
             ValidateSeekAnimations(animations, currentTime);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animations", animations);
             dict.Add("currentTime", currentTime);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.seekAnimations", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Animation.seekAnimations", dict);
         }
 
         partial void ValidateSetPaused(string[] animations, bool paused);
@@ -24734,14 +24721,13 @@ namespace CefSharp.DevTools.Animation
         /// <param name = "animations">Animations to set the pause state of.</param>
         /// <param name = "paused">Paused state to set to.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPausedAsync(string[] animations, bool paused)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPausedAsync(string[] animations, bool paused)
         {
             ValidateSetPaused(animations, paused);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animations", animations);
             dict.Add("paused", paused);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.setPaused", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Animation.setPaused", dict);
         }
 
         partial void ValidateSetPlaybackRate(double playbackRate);
@@ -24750,13 +24736,12 @@ namespace CefSharp.DevTools.Animation
         /// </summary>
         /// <param name = "playbackRate">Playback rate for animations on page</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPlaybackRateAsync(double playbackRate)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPlaybackRateAsync(double playbackRate)
         {
             ValidateSetPlaybackRate(playbackRate);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("playbackRate", playbackRate);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.setPlaybackRate", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Animation.setPlaybackRate", dict);
         }
 
         partial void ValidateSetTiming(string animationId, double duration, double delay);
@@ -24767,15 +24752,14 @@ namespace CefSharp.DevTools.Animation
         /// <param name = "duration">Duration of the animation.</param>
         /// <param name = "delay">Delay of the animation.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetTimingAsync(string animationId, double duration, double delay)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetTimingAsync(string animationId, double duration, double delay)
         {
             ValidateSetTiming(animationId, duration, delay);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("animationId", animationId);
             dict.Add("duration", duration);
             dict.Add("delay", delay);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Animation.setTiming", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Animation.setTiming", dict);
         }
     }
 }
@@ -24955,11 +24939,10 @@ namespace CefSharp.DevTools.ApplicationCache
         /// Enables application cache domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ApplicationCache.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ApplicationCache.enable", dict);
         }
 
         partial void ValidateGetApplicationCacheForFrame(string frameId);
@@ -24968,13 +24951,12 @@ namespace CefSharp.DevTools.ApplicationCache
         /// </summary>
         /// <param name = "frameId">Identifier of the frame containing document whose application cache is retrieved.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetApplicationCacheForFrameResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetApplicationCacheForFrameResponse> GetApplicationCacheForFrameAsync(string frameId)
+        public System.Threading.Tasks.Task<GetApplicationCacheForFrameResponse> GetApplicationCacheForFrameAsync(string frameId)
         {
             ValidateGetApplicationCacheForFrame(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ApplicationCache.getApplicationCacheForFrame", dict);
-            return methodResult.DeserializeJson<GetApplicationCacheForFrameResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetApplicationCacheForFrameResponse>("ApplicationCache.getApplicationCacheForFrame", dict);
         }
 
         /// <summary>
@@ -24982,11 +24964,10 @@ namespace CefSharp.DevTools.ApplicationCache
         /// associated with some application cache.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetFramesWithManifestsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetFramesWithManifestsResponse> GetFramesWithManifestsAsync()
+        public System.Threading.Tasks.Task<GetFramesWithManifestsResponse> GetFramesWithManifestsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ApplicationCache.getFramesWithManifests", dict);
-            return methodResult.DeserializeJson<GetFramesWithManifestsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetFramesWithManifestsResponse>("ApplicationCache.getFramesWithManifests", dict);
         }
 
         partial void ValidateGetManifestForFrame(string frameId);
@@ -24995,13 +24976,12 @@ namespace CefSharp.DevTools.ApplicationCache
         /// </summary>
         /// <param name = "frameId">Identifier of the frame containing document whose manifest is retrieved.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetManifestForFrameResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetManifestForFrameResponse> GetManifestForFrameAsync(string frameId)
+        public System.Threading.Tasks.Task<GetManifestForFrameResponse> GetManifestForFrameAsync(string frameId)
         {
             ValidateGetManifestForFrame(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ApplicationCache.getManifestForFrame", dict);
-            return methodResult.DeserializeJson<GetManifestForFrameResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetManifestForFrameResponse>("ApplicationCache.getManifestForFrame", dict);
         }
     }
 }
@@ -25133,7 +25113,7 @@ namespace CefSharp.DevTools.Audits
         /// <param name = "quality">The quality of the encoding (0-1). (defaults to 1)</param>
         /// <param name = "sizeOnly">Whether to only return the size information (defaults to false).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetEncodedResponseResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetEncodedResponseResponse> GetEncodedResponseAsync(string requestId, string encoding, double? quality = null, bool? sizeOnly = null)
+        public System.Threading.Tasks.Task<GetEncodedResponseResponse> GetEncodedResponseAsync(string requestId, string encoding, double? quality = null, bool? sizeOnly = null)
         {
             ValidateGetEncodedResponse(requestId, encoding, quality, sizeOnly);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25149,19 +25129,17 @@ namespace CefSharp.DevTools.Audits
                 dict.Add("sizeOnly", sizeOnly.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Audits.getEncodedResponse", dict);
-            return methodResult.DeserializeJson<GetEncodedResponseResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetEncodedResponseResponse>("Audits.getEncodedResponse", dict);
         }
 
         /// <summary>
         /// Disables issues domain, prevents further issues from being reported to the client.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Audits.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Audits.disable", dict);
         }
 
         /// <summary>
@@ -25169,11 +25147,10 @@ namespace CefSharp.DevTools.Audits
         /// `issueAdded` event.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Audits.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Audits.enable", dict);
         }
 
         partial void ValidateCheckContrast(bool? reportAAA = null);
@@ -25183,7 +25160,7 @@ namespace CefSharp.DevTools.Audits
         /// </summary>
         /// <param name = "reportAAA">Whether to report WCAG AAA level issues. Default is false.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CheckContrastAsync(bool? reportAAA = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CheckContrastAsync(bool? reportAAA = null)
         {
             ValidateCheckContrast(reportAAA);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25192,8 +25169,7 @@ namespace CefSharp.DevTools.Audits
                 dict.Add("reportAAA", reportAAA.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Audits.checkContrast", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Audits.checkContrast", dict);
         }
     }
 }
@@ -25292,13 +25268,12 @@ namespace CefSharp.DevTools.BackgroundService
         /// </summary>
         /// <param name = "service">service</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartObservingAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartObservingAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
         {
             ValidateStartObserving(service);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("service", this.EnumToString(service));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("BackgroundService.startObserving", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("BackgroundService.startObserving", dict);
         }
 
         partial void ValidateStopObserving(CefSharp.DevTools.BackgroundService.ServiceName service);
@@ -25307,13 +25282,12 @@ namespace CefSharp.DevTools.BackgroundService
         /// </summary>
         /// <param name = "service">service</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopObservingAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopObservingAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
         {
             ValidateStopObserving(service);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("service", this.EnumToString(service));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("BackgroundService.stopObserving", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("BackgroundService.stopObserving", dict);
         }
 
         partial void ValidateSetRecording(bool shouldRecord, CefSharp.DevTools.BackgroundService.ServiceName service);
@@ -25323,14 +25297,13 @@ namespace CefSharp.DevTools.BackgroundService
         /// <param name = "shouldRecord">shouldRecord</param>
         /// <param name = "service">service</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetRecordingAsync(bool shouldRecord, CefSharp.DevTools.BackgroundService.ServiceName service)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetRecordingAsync(bool shouldRecord, CefSharp.DevTools.BackgroundService.ServiceName service)
         {
             ValidateSetRecording(shouldRecord, service);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("shouldRecord", shouldRecord);
             dict.Add("service", this.EnumToString(service));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("BackgroundService.setRecording", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("BackgroundService.setRecording", dict);
         }
 
         partial void ValidateClearEvents(CefSharp.DevTools.BackgroundService.ServiceName service);
@@ -25339,13 +25312,12 @@ namespace CefSharp.DevTools.BackgroundService
         /// </summary>
         /// <param name = "service">service</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearEventsAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearEventsAsync(CefSharp.DevTools.BackgroundService.ServiceName service)
         {
             ValidateClearEvents(service);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("service", this.EnumToString(service));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("BackgroundService.clearEvents", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("BackgroundService.clearEvents", dict);
         }
     }
 }
@@ -25704,7 +25676,7 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "origin">Origin the permission applies to, all origins if not specified.</param>
         /// <param name = "browserContextId">Context to override. When omitted, default browser context is used.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPermissionAsync(CefSharp.DevTools.Browser.PermissionDescriptor permission, CefSharp.DevTools.Browser.PermissionSetting setting, string origin = null, string browserContextId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPermissionAsync(CefSharp.DevTools.Browser.PermissionDescriptor permission, CefSharp.DevTools.Browser.PermissionSetting setting, string origin = null, string browserContextId = null)
         {
             ValidateSetPermission(permission, setting, origin, browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25720,8 +25692,7 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("browserContextId", browserContextId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.setPermission", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.setPermission", dict);
         }
 
         partial void ValidateGrantPermissions(CefSharp.DevTools.Browser.PermissionType[] permissions, string origin = null, string browserContextId = null);
@@ -25732,7 +25703,7 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "origin">Origin the permission applies to, all origins if not specified.</param>
         /// <param name = "browserContextId">BrowserContext to override permissions. When omitted, default browser context is used.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> GrantPermissionsAsync(CefSharp.DevTools.Browser.PermissionType[] permissions, string origin = null, string browserContextId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> GrantPermissionsAsync(CefSharp.DevTools.Browser.PermissionType[] permissions, string origin = null, string browserContextId = null)
         {
             ValidateGrantPermissions(permissions, origin, browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25747,8 +25718,7 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("browserContextId", browserContextId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.grantPermissions", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.grantPermissions", dict);
         }
 
         partial void ValidateResetPermissions(string browserContextId = null);
@@ -25757,7 +25727,7 @@ namespace CefSharp.DevTools.Browser
         /// </summary>
         /// <param name = "browserContextId">BrowserContext to reset permissions. When omitted, default browser context is used.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResetPermissionsAsync(string browserContextId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ResetPermissionsAsync(string browserContextId = null)
         {
             ValidateResetPermissions(browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25766,8 +25736,7 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("browserContextId", browserContextId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.resetPermissions", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.resetPermissions", dict);
         }
 
         partial void ValidateSetDownloadBehavior(string behavior, string browserContextId = null, string downloadPath = null, bool? eventsEnabled = null);
@@ -25779,7 +25748,7 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "downloadPath">The default path to save downloaded files to. This is requred if behavior is set to 'allow'or 'allowAndName'.</param>
         /// <param name = "eventsEnabled">Whether to emit download events (defaults to false).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDownloadBehaviorAsync(string behavior, string browserContextId = null, string downloadPath = null, bool? eventsEnabled = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDownloadBehaviorAsync(string behavior, string browserContextId = null, string downloadPath = null, bool? eventsEnabled = null)
         {
             ValidateSetDownloadBehavior(behavior, browserContextId, downloadPath, eventsEnabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25799,8 +25768,7 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("eventsEnabled", eventsEnabled.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.setDownloadBehavior", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.setDownloadBehavior", dict);
         }
 
         partial void ValidateCancelDownload(string guid, string browserContextId = null);
@@ -25810,7 +25778,7 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "guid">Global unique identifier of the download.</param>
         /// <param name = "browserContextId">BrowserContext to perform the action in. When omitted, default browser context is used.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CancelDownloadAsync(string guid, string browserContextId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CancelDownloadAsync(string guid, string browserContextId = null)
         {
             ValidateCancelDownload(guid, browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25820,52 +25788,47 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("browserContextId", browserContextId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.cancelDownload", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.cancelDownload", dict);
         }
 
         /// <summary>
         /// Close browser gracefully.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.close", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.close", dict);
         }
 
         /// <summary>
         /// Crashes browser on the main thread.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CrashAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CrashAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.crash", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.crash", dict);
         }
 
         /// <summary>
         /// Crashes GPU process.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CrashGpuProcessAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CrashGpuProcessAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.crashGpuProcess", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.crashGpuProcess", dict);
         }
 
         /// <summary>
         /// Returns version information.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetVersionResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetVersionResponse> GetVersionAsync()
+        public System.Threading.Tasks.Task<GetVersionResponse> GetVersionAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.getVersion", dict);
-            return methodResult.DeserializeJson<GetVersionResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetVersionResponse>("Browser.getVersion", dict);
         }
 
         /// <summary>
@@ -25873,11 +25836,10 @@ namespace CefSharp.DevTools.Browser
         /// --enable-automation is on the commandline.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetBrowserCommandLineResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetBrowserCommandLineResponse> GetBrowserCommandLineAsync()
+        public System.Threading.Tasks.Task<GetBrowserCommandLineResponse> GetBrowserCommandLineAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.getBrowserCommandLine", dict);
-            return methodResult.DeserializeJson<GetBrowserCommandLineResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetBrowserCommandLineResponse>("Browser.getBrowserCommandLine", dict);
         }
 
         partial void ValidateGetHistograms(string query = null, bool? delta = null);
@@ -25887,7 +25849,7 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "query">Requested substring in name. Only histograms which have query as asubstring in their name are extracted. An empty or absent query returnsall histograms.</param>
         /// <param name = "delta">If true, retrieve delta since last call.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetHistogramsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetHistogramsResponse> GetHistogramsAsync(string query = null, bool? delta = null)
+        public System.Threading.Tasks.Task<GetHistogramsResponse> GetHistogramsAsync(string query = null, bool? delta = null)
         {
             ValidateGetHistograms(query, delta);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25901,8 +25863,7 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("delta", delta.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.getHistograms", dict);
-            return methodResult.DeserializeJson<GetHistogramsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetHistogramsResponse>("Browser.getHistograms", dict);
         }
 
         partial void ValidateGetHistogram(string name, bool? delta = null);
@@ -25912,7 +25873,7 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "name">Requested histogram name.</param>
         /// <param name = "delta">If true, retrieve delta since last call.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetHistogramResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetHistogramResponse> GetHistogramAsync(string name, bool? delta = null)
+        public System.Threading.Tasks.Task<GetHistogramResponse> GetHistogramAsync(string name, bool? delta = null)
         {
             ValidateGetHistogram(name, delta);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25922,8 +25883,7 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("delta", delta.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.getHistogram", dict);
-            return methodResult.DeserializeJson<GetHistogramResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetHistogramResponse>("Browser.getHistogram", dict);
         }
 
         partial void ValidateGetWindowBounds(int windowId);
@@ -25932,13 +25892,12 @@ namespace CefSharp.DevTools.Browser
         /// </summary>
         /// <param name = "windowId">Browser window id.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetWindowBoundsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetWindowBoundsResponse> GetWindowBoundsAsync(int windowId)
+        public System.Threading.Tasks.Task<GetWindowBoundsResponse> GetWindowBoundsAsync(int windowId)
         {
             ValidateGetWindowBounds(windowId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("windowId", windowId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.getWindowBounds", dict);
-            return methodResult.DeserializeJson<GetWindowBoundsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetWindowBoundsResponse>("Browser.getWindowBounds", dict);
         }
 
         partial void ValidateGetWindowForTarget(string targetId = null);
@@ -25947,7 +25906,7 @@ namespace CefSharp.DevTools.Browser
         /// </summary>
         /// <param name = "targetId">Devtools agent host id. If called as a part of the session, associated targetId is used.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetWindowForTargetResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetWindowForTargetResponse> GetWindowForTargetAsync(string targetId = null)
+        public System.Threading.Tasks.Task<GetWindowForTargetResponse> GetWindowForTargetAsync(string targetId = null)
         {
             ValidateGetWindowForTarget(targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25956,8 +25915,7 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("targetId", targetId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.getWindowForTarget", dict);
-            return methodResult.DeserializeJson<GetWindowForTargetResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetWindowForTargetResponse>("Browser.getWindowForTarget", dict);
         }
 
         partial void ValidateSetWindowBounds(int windowId, CefSharp.DevTools.Browser.Bounds bounds);
@@ -25967,14 +25925,13 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "windowId">Browser window id.</param>
         /// <param name = "bounds">New window bounds. The 'minimized', 'maximized' and 'fullscreen' states cannot be combinedwith 'left', 'top', 'width' or 'height'. Leaves unspecified fields unchanged.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetWindowBoundsAsync(int windowId, CefSharp.DevTools.Browser.Bounds bounds)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetWindowBoundsAsync(int windowId, CefSharp.DevTools.Browser.Bounds bounds)
         {
             ValidateSetWindowBounds(windowId, bounds);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("windowId", windowId);
             dict.Add("bounds", bounds.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.setWindowBounds", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.setWindowBounds", dict);
         }
 
         partial void ValidateSetDockTile(string badgeLabel = null, byte[] image = null);
@@ -25984,7 +25941,7 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "badgeLabel">badgeLabel</param>
         /// <param name = "image">Png encoded image.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDockTileAsync(string badgeLabel = null, byte[] image = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDockTileAsync(string badgeLabel = null, byte[] image = null)
         {
             ValidateSetDockTile(badgeLabel, image);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -25998,8 +25955,7 @@ namespace CefSharp.DevTools.Browser
                 dict.Add("image", ToBase64String(image));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.setDockTile", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.setDockTile", dict);
         }
 
         partial void ValidateExecuteBrowserCommand(CefSharp.DevTools.Browser.BrowserCommandId commandId);
@@ -26008,13 +25964,12 @@ namespace CefSharp.DevTools.Browser
         /// </summary>
         /// <param name = "commandId">commandId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ExecuteBrowserCommandAsync(CefSharp.DevTools.Browser.BrowserCommandId commandId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ExecuteBrowserCommandAsync(CefSharp.DevTools.Browser.BrowserCommandId commandId)
         {
             ValidateExecuteBrowserCommand(commandId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("commandId", this.EnumToString(commandId));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Browser.executeBrowserCommand", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.executeBrowserCommand", dict);
         }
     }
 }
@@ -26890,15 +26845,14 @@ namespace CefSharp.DevTools.CSS
         /// <param name = "ruleText">The text of a new rule.</param>
         /// <param name = "location">Text position of a new rule in the target style sheet.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;AddRuleResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<AddRuleResponse> AddRuleAsync(string styleSheetId, string ruleText, CefSharp.DevTools.CSS.SourceRange location)
+        public System.Threading.Tasks.Task<AddRuleResponse> AddRuleAsync(string styleSheetId, string ruleText, CefSharp.DevTools.CSS.SourceRange location)
         {
             ValidateAddRule(styleSheetId, ruleText, location);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("ruleText", ruleText);
             dict.Add("location", location.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.addRule", dict);
-            return methodResult.DeserializeJson<AddRuleResponse>();
+            return _client.ExecuteDevToolsMethodAsync<AddRuleResponse>("CSS.addRule", dict);
         }
 
         partial void ValidateCollectClassNames(string styleSheetId);
@@ -26907,13 +26861,12 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "styleSheetId">styleSheetId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CollectClassNamesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CollectClassNamesResponse> CollectClassNamesAsync(string styleSheetId)
+        public System.Threading.Tasks.Task<CollectClassNamesResponse> CollectClassNamesAsync(string styleSheetId)
         {
             ValidateCollectClassNames(styleSheetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.collectClassNames", dict);
-            return methodResult.DeserializeJson<CollectClassNamesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CollectClassNamesResponse>("CSS.collectClassNames", dict);
         }
 
         partial void ValidateCreateStyleSheet(string frameId);
@@ -26922,24 +26875,22 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "frameId">Identifier of the frame where "via-inspector" stylesheet should be created.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CreateStyleSheetResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CreateStyleSheetResponse> CreateStyleSheetAsync(string frameId)
+        public System.Threading.Tasks.Task<CreateStyleSheetResponse> CreateStyleSheetAsync(string frameId)
         {
             ValidateCreateStyleSheet(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.createStyleSheet", dict);
-            return methodResult.DeserializeJson<CreateStyleSheetResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CreateStyleSheetResponse>("CSS.createStyleSheet", dict);
         }
 
         /// <summary>
         /// Disables the CSS agent for the given page.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CSS.disable", dict);
         }
 
         /// <summary>
@@ -26947,11 +26898,10 @@ namespace CefSharp.DevTools.CSS
         /// enabled until the result of this command is received.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CSS.enable", dict);
         }
 
         partial void ValidateForcePseudoState(int nodeId, string[] forcedPseudoClasses);
@@ -26962,14 +26912,13 @@ namespace CefSharp.DevTools.CSS
         /// <param name = "nodeId">The element id for which to force the pseudo state.</param>
         /// <param name = "forcedPseudoClasses">Element pseudo classes to force when computing the element's style.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ForcePseudoStateAsync(int nodeId, string[] forcedPseudoClasses)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ForcePseudoStateAsync(int nodeId, string[] forcedPseudoClasses)
         {
             ValidateForcePseudoState(nodeId, forcedPseudoClasses);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("forcedPseudoClasses", forcedPseudoClasses);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.forcePseudoState", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CSS.forcePseudoState", dict);
         }
 
         partial void ValidateGetBackgroundColors(int nodeId);
@@ -26978,13 +26927,12 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "nodeId">Id of the node to get background colors for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetBackgroundColorsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetBackgroundColorsResponse> GetBackgroundColorsAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetBackgroundColorsResponse> GetBackgroundColorsAsync(int nodeId)
         {
             ValidateGetBackgroundColors(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getBackgroundColors", dict);
-            return methodResult.DeserializeJson<GetBackgroundColorsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetBackgroundColorsResponse>("CSS.getBackgroundColors", dict);
         }
 
         partial void ValidateGetComputedStyleForNode(int nodeId);
@@ -26993,13 +26941,12 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "nodeId">nodeId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetComputedStyleForNodeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetComputedStyleForNodeResponse> GetComputedStyleForNodeAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetComputedStyleForNodeResponse> GetComputedStyleForNodeAsync(int nodeId)
         {
             ValidateGetComputedStyleForNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getComputedStyleForNode", dict);
-            return methodResult.DeserializeJson<GetComputedStyleForNodeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetComputedStyleForNodeResponse>("CSS.getComputedStyleForNode", dict);
         }
 
         partial void ValidateGetInlineStylesForNode(int nodeId);
@@ -27009,13 +26956,12 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "nodeId">nodeId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetInlineStylesForNodeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetInlineStylesForNodeResponse> GetInlineStylesForNodeAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetInlineStylesForNodeResponse> GetInlineStylesForNodeAsync(int nodeId)
         {
             ValidateGetInlineStylesForNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getInlineStylesForNode", dict);
-            return methodResult.DeserializeJson<GetInlineStylesForNodeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetInlineStylesForNodeResponse>("CSS.getInlineStylesForNode", dict);
         }
 
         partial void ValidateGetMatchedStylesForNode(int nodeId);
@@ -27024,24 +26970,22 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "nodeId">nodeId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetMatchedStylesForNodeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetMatchedStylesForNodeResponse> GetMatchedStylesForNodeAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetMatchedStylesForNodeResponse> GetMatchedStylesForNodeAsync(int nodeId)
         {
             ValidateGetMatchedStylesForNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getMatchedStylesForNode", dict);
-            return methodResult.DeserializeJson<GetMatchedStylesForNodeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetMatchedStylesForNodeResponse>("CSS.getMatchedStylesForNode", dict);
         }
 
         /// <summary>
         /// Returns all media queries parsed by the rendering engine.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetMediaQueriesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetMediaQueriesResponse> GetMediaQueriesAsync()
+        public System.Threading.Tasks.Task<GetMediaQueriesResponse> GetMediaQueriesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getMediaQueries", dict);
-            return methodResult.DeserializeJson<GetMediaQueriesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetMediaQueriesResponse>("CSS.getMediaQueries", dict);
         }
 
         partial void ValidateGetPlatformFontsForNode(int nodeId);
@@ -27051,13 +26995,12 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "nodeId">nodeId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetPlatformFontsForNodeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetPlatformFontsForNodeResponse> GetPlatformFontsForNodeAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetPlatformFontsForNodeResponse> GetPlatformFontsForNodeAsync(int nodeId)
         {
             ValidateGetPlatformFontsForNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getPlatformFontsForNode", dict);
-            return methodResult.DeserializeJson<GetPlatformFontsForNodeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetPlatformFontsForNodeResponse>("CSS.getPlatformFontsForNode", dict);
         }
 
         partial void ValidateGetStyleSheetText(string styleSheetId);
@@ -27066,13 +27009,12 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "styleSheetId">styleSheetId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetStyleSheetTextResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetStyleSheetTextResponse> GetStyleSheetTextAsync(string styleSheetId)
+        public System.Threading.Tasks.Task<GetStyleSheetTextResponse> GetStyleSheetTextAsync(string styleSheetId)
         {
             ValidateGetStyleSheetText(styleSheetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.getStyleSheetText", dict);
-            return methodResult.DeserializeJson<GetStyleSheetTextResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetStyleSheetTextResponse>("CSS.getStyleSheetText", dict);
         }
 
         partial void ValidateTrackComputedStyleUpdates(System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSComputedStyleProperty> propertiesToTrack);
@@ -27086,24 +27028,22 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "propertiesToTrack">propertiesToTrack</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> TrackComputedStyleUpdatesAsync(System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSComputedStyleProperty> propertiesToTrack)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> TrackComputedStyleUpdatesAsync(System.Collections.Generic.IList<CefSharp.DevTools.CSS.CSSComputedStyleProperty> propertiesToTrack)
         {
             ValidateTrackComputedStyleUpdates(propertiesToTrack);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("propertiesToTrack", propertiesToTrack.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.trackComputedStyleUpdates", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CSS.trackComputedStyleUpdates", dict);
         }
 
         /// <summary>
         /// Polls the next batch of computed style updates.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;TakeComputedStyleUpdatesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<TakeComputedStyleUpdatesResponse> TakeComputedStyleUpdatesAsync()
+        public System.Threading.Tasks.Task<TakeComputedStyleUpdatesResponse> TakeComputedStyleUpdatesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.takeComputedStyleUpdates", dict);
-            return methodResult.DeserializeJson<TakeComputedStyleUpdatesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<TakeComputedStyleUpdatesResponse>("CSS.takeComputedStyleUpdates", dict);
         }
 
         partial void ValidateSetEffectivePropertyValueForNode(int nodeId, string propertyName, string value);
@@ -27115,15 +27055,14 @@ namespace CefSharp.DevTools.CSS
         /// <param name = "propertyName">propertyName</param>
         /// <param name = "value">value</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEffectivePropertyValueForNodeAsync(int nodeId, string propertyName, string value)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEffectivePropertyValueForNodeAsync(int nodeId, string propertyName, string value)
         {
             ValidateSetEffectivePropertyValueForNode(nodeId, propertyName, value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("propertyName", propertyName);
             dict.Add("value", value);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.setEffectivePropertyValueForNode", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CSS.setEffectivePropertyValueForNode", dict);
         }
 
         partial void ValidateSetKeyframeKey(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string keyText);
@@ -27134,15 +27073,14 @@ namespace CefSharp.DevTools.CSS
         /// <param name = "range">range</param>
         /// <param name = "keyText">keyText</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetKeyframeKeyResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetKeyframeKeyResponse> SetKeyframeKeyAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string keyText)
+        public System.Threading.Tasks.Task<SetKeyframeKeyResponse> SetKeyframeKeyAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string keyText)
         {
             ValidateSetKeyframeKey(styleSheetId, range, keyText);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("range", range.ToDictionary());
             dict.Add("keyText", keyText);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.setKeyframeKey", dict);
-            return methodResult.DeserializeJson<SetKeyframeKeyResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetKeyframeKeyResponse>("CSS.setKeyframeKey", dict);
         }
 
         partial void ValidateSetMediaText(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string text);
@@ -27153,15 +27091,14 @@ namespace CefSharp.DevTools.CSS
         /// <param name = "range">range</param>
         /// <param name = "text">text</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetMediaTextResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetMediaTextResponse> SetMediaTextAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string text)
+        public System.Threading.Tasks.Task<SetMediaTextResponse> SetMediaTextAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string text)
         {
             ValidateSetMediaText(styleSheetId, range, text);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("range", range.ToDictionary());
             dict.Add("text", text);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.setMediaText", dict);
-            return methodResult.DeserializeJson<SetMediaTextResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetMediaTextResponse>("CSS.setMediaText", dict);
         }
 
         partial void ValidateSetRuleSelector(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string selector);
@@ -27172,15 +27109,14 @@ namespace CefSharp.DevTools.CSS
         /// <param name = "range">range</param>
         /// <param name = "selector">selector</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetRuleSelectorResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetRuleSelectorResponse> SetRuleSelectorAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string selector)
+        public System.Threading.Tasks.Task<SetRuleSelectorResponse> SetRuleSelectorAsync(string styleSheetId, CefSharp.DevTools.CSS.SourceRange range, string selector)
         {
             ValidateSetRuleSelector(styleSheetId, range, selector);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("range", range.ToDictionary());
             dict.Add("selector", selector);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.setRuleSelector", dict);
-            return methodResult.DeserializeJson<SetRuleSelectorResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetRuleSelectorResponse>("CSS.setRuleSelector", dict);
         }
 
         partial void ValidateSetStyleSheetText(string styleSheetId, string text);
@@ -27190,14 +27126,13 @@ namespace CefSharp.DevTools.CSS
         /// <param name = "styleSheetId">styleSheetId</param>
         /// <param name = "text">text</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetStyleSheetTextResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetStyleSheetTextResponse> SetStyleSheetTextAsync(string styleSheetId, string text)
+        public System.Threading.Tasks.Task<SetStyleSheetTextResponse> SetStyleSheetTextAsync(string styleSheetId, string text)
         {
             ValidateSetStyleSheetText(styleSheetId, text);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("styleSheetId", styleSheetId);
             dict.Add("text", text);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.setStyleSheetText", dict);
-            return methodResult.DeserializeJson<SetStyleSheetTextResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetStyleSheetTextResponse>("CSS.setStyleSheetText", dict);
         }
 
         partial void ValidateSetStyleTexts(System.Collections.Generic.IList<CefSharp.DevTools.CSS.StyleDeclarationEdit> edits);
@@ -27206,24 +27141,22 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "edits">edits</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetStyleTextsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetStyleTextsResponse> SetStyleTextsAsync(System.Collections.Generic.IList<CefSharp.DevTools.CSS.StyleDeclarationEdit> edits)
+        public System.Threading.Tasks.Task<SetStyleTextsResponse> SetStyleTextsAsync(System.Collections.Generic.IList<CefSharp.DevTools.CSS.StyleDeclarationEdit> edits)
         {
             ValidateSetStyleTexts(edits);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("edits", edits.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.setStyleTexts", dict);
-            return methodResult.DeserializeJson<SetStyleTextsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetStyleTextsResponse>("CSS.setStyleTexts", dict);
         }
 
         /// <summary>
         /// Enables the selector recording.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartRuleUsageTrackingAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartRuleUsageTrackingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.startRuleUsageTracking", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CSS.startRuleUsageTracking", dict);
         }
 
         /// <summary>
@@ -27231,11 +27164,10 @@ namespace CefSharp.DevTools.CSS
         /// `takeCoverageDelta` (or since start of coverage instrumentation)
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;StopRuleUsageTrackingResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<StopRuleUsageTrackingResponse> StopRuleUsageTrackingAsync()
+        public System.Threading.Tasks.Task<StopRuleUsageTrackingResponse> StopRuleUsageTrackingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.stopRuleUsageTracking", dict);
-            return methodResult.DeserializeJson<StopRuleUsageTrackingResponse>();
+            return _client.ExecuteDevToolsMethodAsync<StopRuleUsageTrackingResponse>("CSS.stopRuleUsageTracking", dict);
         }
 
         /// <summary>
@@ -27243,11 +27175,10 @@ namespace CefSharp.DevTools.CSS
         /// instrumentation)
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;TakeCoverageDeltaResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<TakeCoverageDeltaResponse> TakeCoverageDeltaAsync()
+        public System.Threading.Tasks.Task<TakeCoverageDeltaResponse> TakeCoverageDeltaAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.takeCoverageDelta", dict);
-            return methodResult.DeserializeJson<TakeCoverageDeltaResponse>();
+            return _client.ExecuteDevToolsMethodAsync<TakeCoverageDeltaResponse>("CSS.takeCoverageDelta", dict);
         }
 
         partial void ValidateSetLocalFontsEnabled(bool enabled);
@@ -27256,13 +27187,12 @@ namespace CefSharp.DevTools.CSS
         /// </summary>
         /// <param name = "enabled">Whether rendering of local fonts is enabled.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetLocalFontsEnabledAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetLocalFontsEnabledAsync(bool enabled)
         {
             ValidateSetLocalFontsEnabled(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CSS.setLocalFontsEnabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CSS.setLocalFontsEnabled", dict);
         }
     }
 }
@@ -27394,13 +27324,12 @@ namespace CefSharp.DevTools.CacheStorage
         /// </summary>
         /// <param name = "cacheId">Id of cache for deletion.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteCacheAsync(string cacheId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteCacheAsync(string cacheId)
         {
             ValidateDeleteCache(cacheId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheId", cacheId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CacheStorage.deleteCache", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CacheStorage.deleteCache", dict);
         }
 
         partial void ValidateDeleteEntry(string cacheId, string request);
@@ -27410,14 +27339,13 @@ namespace CefSharp.DevTools.CacheStorage
         /// <param name = "cacheId">Id of cache where the entry will be deleted.</param>
         /// <param name = "request">URL spec of the request.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteEntryAsync(string cacheId, string request)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteEntryAsync(string cacheId, string request)
         {
             ValidateDeleteEntry(cacheId, request);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheId", cacheId);
             dict.Add("request", request);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CacheStorage.deleteEntry", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("CacheStorage.deleteEntry", dict);
         }
 
         partial void ValidateRequestCacheNames(string securityOrigin);
@@ -27426,13 +27354,12 @@ namespace CefSharp.DevTools.CacheStorage
         /// </summary>
         /// <param name = "securityOrigin">Security origin.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestCacheNamesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RequestCacheNamesResponse> RequestCacheNamesAsync(string securityOrigin)
+        public System.Threading.Tasks.Task<RequestCacheNamesResponse> RequestCacheNamesAsync(string securityOrigin)
         {
             ValidateRequestCacheNames(securityOrigin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CacheStorage.requestCacheNames", dict);
-            return methodResult.DeserializeJson<RequestCacheNamesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RequestCacheNamesResponse>("CacheStorage.requestCacheNames", dict);
         }
 
         partial void ValidateRequestCachedResponse(string cacheId, string requestURL, System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Header> requestHeaders);
@@ -27443,15 +27370,14 @@ namespace CefSharp.DevTools.CacheStorage
         /// <param name = "requestURL">URL spec of the request.</param>
         /// <param name = "requestHeaders">headers of the request.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestCachedResponseResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RequestCachedResponseResponse> RequestCachedResponseAsync(string cacheId, string requestURL, System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Header> requestHeaders)
+        public System.Threading.Tasks.Task<RequestCachedResponseResponse> RequestCachedResponseAsync(string cacheId, string requestURL, System.Collections.Generic.IList<CefSharp.DevTools.CacheStorage.Header> requestHeaders)
         {
             ValidateRequestCachedResponse(cacheId, requestURL, requestHeaders);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheId", cacheId);
             dict.Add("requestURL", requestURL);
             dict.Add("requestHeaders", requestHeaders.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CacheStorage.requestCachedResponse", dict);
-            return methodResult.DeserializeJson<RequestCachedResponseResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RequestCachedResponseResponse>("CacheStorage.requestCachedResponse", dict);
         }
 
         partial void ValidateRequestEntries(string cacheId, int? skipCount = null, int? pageSize = null, string pathFilter = null);
@@ -27463,7 +27389,7 @@ namespace CefSharp.DevTools.CacheStorage
         /// <param name = "pageSize">Number of records to fetch.</param>
         /// <param name = "pathFilter">If present, only return the entries containing this substring in the path</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestEntriesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RequestEntriesResponse> RequestEntriesAsync(string cacheId, int? skipCount = null, int? pageSize = null, string pathFilter = null)
+        public System.Threading.Tasks.Task<RequestEntriesResponse> RequestEntriesAsync(string cacheId, int? skipCount = null, int? pageSize = null, string pathFilter = null)
         {
             ValidateRequestEntries(cacheId, skipCount, pageSize, pathFilter);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -27483,8 +27409,7 @@ namespace CefSharp.DevTools.CacheStorage
                 dict.Add("pathFilter", pathFilter);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("CacheStorage.requestEntries", dict);
-            return methodResult.DeserializeJson<RequestEntriesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RequestEntriesResponse>("CacheStorage.requestEntries", dict);
         }
     }
 }
@@ -27589,7 +27514,7 @@ namespace CefSharp.DevTools.Cast
         /// </summary>
         /// <param name = "presentationUrl">presentationUrl</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string presentationUrl = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string presentationUrl = null)
         {
             ValidateEnable(presentationUrl);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -27598,19 +27523,17 @@ namespace CefSharp.DevTools.Cast
                 dict.Add("presentationUrl", presentationUrl);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Cast.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Cast.enable", dict);
         }
 
         /// <summary>
         /// Stops observing for sinks and issues.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Cast.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Cast.disable", dict);
         }
 
         partial void ValidateSetSinkToUse(string sinkName);
@@ -27620,13 +27543,12 @@ namespace CefSharp.DevTools.Cast
         /// </summary>
         /// <param name = "sinkName">sinkName</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetSinkToUseAsync(string sinkName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetSinkToUseAsync(string sinkName)
         {
             ValidateSetSinkToUse(sinkName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("sinkName", sinkName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Cast.setSinkToUse", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Cast.setSinkToUse", dict);
         }
 
         partial void ValidateStartTabMirroring(string sinkName);
@@ -27635,13 +27557,12 @@ namespace CefSharp.DevTools.Cast
         /// </summary>
         /// <param name = "sinkName">sinkName</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartTabMirroringAsync(string sinkName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartTabMirroringAsync(string sinkName)
         {
             ValidateStartTabMirroring(sinkName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("sinkName", sinkName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Cast.startTabMirroring", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Cast.startTabMirroring", dict);
         }
 
         partial void ValidateStopCasting(string sinkName);
@@ -27650,13 +27571,12 @@ namespace CefSharp.DevTools.Cast
         /// </summary>
         /// <param name = "sinkName">sinkName</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopCastingAsync(string sinkName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopCastingAsync(string sinkName)
         {
             ValidateStopCasting(sinkName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("sinkName", sinkName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Cast.stopCasting", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Cast.stopCasting", dict);
         }
     }
 }
@@ -28913,13 +28833,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">Id of the node to collect class names.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CollectClassNamesFromSubtreeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CollectClassNamesFromSubtreeResponse> CollectClassNamesFromSubtreeAsync(int nodeId)
+        public System.Threading.Tasks.Task<CollectClassNamesFromSubtreeResponse> CollectClassNamesFromSubtreeAsync(int nodeId)
         {
             ValidateCollectClassNamesFromSubtree(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.collectClassNamesFromSubtree", dict);
-            return methodResult.DeserializeJson<CollectClassNamesFromSubtreeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CollectClassNamesFromSubtreeResponse>("DOM.collectClassNamesFromSubtree", dict);
         }
 
         partial void ValidateCopyTo(int nodeId, int targetNodeId, int? insertBeforeNodeId = null);
@@ -28931,7 +28850,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "targetNodeId">Id of the element to drop the copy into.</param>
         /// <param name = "insertBeforeNodeId">Drop the copy before this node (if absent, the copy becomes the last child of`targetNodeId`).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CopyToResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CopyToResponse> CopyToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
+        public System.Threading.Tasks.Task<CopyToResponse> CopyToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
         {
             ValidateCopyTo(nodeId, targetNodeId, insertBeforeNodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -28942,8 +28861,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("insertBeforeNodeId", insertBeforeNodeId.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.copyTo", dict);
-            return methodResult.DeserializeJson<CopyToResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CopyToResponse>("DOM.copyTo", dict);
         }
 
         partial void ValidateDescribeNode(int? nodeId = null, int? backendNodeId = null, string objectId = null, int? depth = null, bool? pierce = null);
@@ -28957,7 +28875,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
         /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the subtree(default is false).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DescribeNodeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DescribeNodeResponse> DescribeNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, int? depth = null, bool? pierce = null)
+        public System.Threading.Tasks.Task<DescribeNodeResponse> DescribeNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, int? depth = null, bool? pierce = null)
         {
             ValidateDescribeNode(nodeId, backendNodeId, objectId, depth, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -28986,8 +28904,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("pierce", pierce.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.describeNode", dict);
-            return methodResult.DeserializeJson<DescribeNodeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<DescribeNodeResponse>("DOM.describeNode", dict);
         }
 
         partial void ValidateScrollIntoViewIfNeeded(int? nodeId = null, int? backendNodeId = null, string objectId = null, CefSharp.DevTools.DOM.Rect rect = null);
@@ -29001,7 +28918,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
         /// <param name = "rect">The rect to be scrolled into view, relative to the node's border box, in CSS pixels.When omitted, center of the node will be used, similar to Element.scrollIntoView.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ScrollIntoViewIfNeededAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, CefSharp.DevTools.DOM.Rect rect = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ScrollIntoViewIfNeededAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null, CefSharp.DevTools.DOM.Rect rect = null)
         {
             ValidateScrollIntoViewIfNeeded(nodeId, backendNodeId, objectId, rect);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29025,19 +28942,17 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("rect", rect.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.scrollIntoViewIfNeeded", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.scrollIntoViewIfNeeded", dict);
         }
 
         /// <summary>
         /// Disables DOM agent for the given page.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.disable", dict);
         }
 
         partial void ValidateDiscardSearchResults(string searchId);
@@ -29047,24 +28962,22 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "searchId">Unique search session identifier.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DiscardSearchResultsAsync(string searchId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DiscardSearchResultsAsync(string searchId)
         {
             ValidateDiscardSearchResults(searchId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("searchId", searchId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.discardSearchResults", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.discardSearchResults", dict);
         }
 
         /// <summary>
         /// Enables DOM agent for the given page.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.enable", dict);
         }
 
         partial void ValidateFocus(int? nodeId = null, int? backendNodeId = null, string objectId = null);
@@ -29075,7 +28988,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "backendNodeId">Identifier of the backend node.</param>
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> FocusAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> FocusAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
             ValidateFocus(nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29094,8 +29007,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.focus", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.focus", dict);
         }
 
         partial void ValidateGetAttributes(int nodeId);
@@ -29104,13 +29016,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">Id of the node to retrieve attibutes for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetAttributesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetAttributesResponse> GetAttributesAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetAttributesResponse> GetAttributesAsync(int nodeId)
         {
             ValidateGetAttributes(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getAttributes", dict);
-            return methodResult.DeserializeJson<GetAttributesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetAttributesResponse>("DOM.getAttributes", dict);
         }
 
         partial void ValidateGetBoxModel(int? nodeId = null, int? backendNodeId = null, string objectId = null);
@@ -29121,7 +29032,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "backendNodeId">Identifier of the backend node.</param>
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetBoxModelResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetBoxModelResponse> GetBoxModelAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        public System.Threading.Tasks.Task<GetBoxModelResponse> GetBoxModelAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
             ValidateGetBoxModel(nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29140,8 +29051,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getBoxModel", dict);
-            return methodResult.DeserializeJson<GetBoxModelResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetBoxModelResponse>("DOM.getBoxModel", dict);
         }
 
         partial void ValidateGetContentQuads(int? nodeId = null, int? backendNodeId = null, string objectId = null);
@@ -29153,7 +29063,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "backendNodeId">Identifier of the backend node.</param>
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetContentQuadsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetContentQuadsResponse> GetContentQuadsAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        public System.Threading.Tasks.Task<GetContentQuadsResponse> GetContentQuadsAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
             ValidateGetContentQuads(nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29172,8 +29082,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getContentQuads", dict);
-            return methodResult.DeserializeJson<GetContentQuadsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetContentQuadsResponse>("DOM.getContentQuads", dict);
         }
 
         partial void ValidateGetDocument(int? depth = null, bool? pierce = null);
@@ -29183,7 +29092,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
         /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the subtree(default is false).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetDocumentResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetDocumentResponse> GetDocumentAsync(int? depth = null, bool? pierce = null)
+        public System.Threading.Tasks.Task<GetDocumentResponse> GetDocumentAsync(int? depth = null, bool? pierce = null)
         {
             ValidateGetDocument(depth, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29197,8 +29106,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("pierce", pierce.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getDocument", dict);
-            return methodResult.DeserializeJson<GetDocumentResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetDocumentResponse>("DOM.getDocument", dict);
         }
 
         partial void ValidateGetNodesForSubtreeByStyle(int nodeId, System.Collections.Generic.IList<CefSharp.DevTools.DOM.CSSComputedStyleProperty> computedStyles, bool? pierce = null);
@@ -29209,7 +29117,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "computedStyles">The style to filter nodes by (includes nodes if any of properties matches).</param>
         /// <param name = "pierce">Whether or not iframes and shadow roots in the same target should be traversed when returning theresults (default is false).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetNodesForSubtreeByStyleResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetNodesForSubtreeByStyleResponse> GetNodesForSubtreeByStyleAsync(int nodeId, System.Collections.Generic.IList<CefSharp.DevTools.DOM.CSSComputedStyleProperty> computedStyles, bool? pierce = null)
+        public System.Threading.Tasks.Task<GetNodesForSubtreeByStyleResponse> GetNodesForSubtreeByStyleAsync(int nodeId, System.Collections.Generic.IList<CefSharp.DevTools.DOM.CSSComputedStyleProperty> computedStyles, bool? pierce = null)
         {
             ValidateGetNodesForSubtreeByStyle(nodeId, computedStyles, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29220,8 +29128,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("pierce", pierce.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getNodesForSubtreeByStyle", dict);
-            return methodResult.DeserializeJson<GetNodesForSubtreeByStyleResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetNodesForSubtreeByStyleResponse>("DOM.getNodesForSubtreeByStyle", dict);
         }
 
         partial void ValidateGetNodeForLocation(int x, int y, bool? includeUserAgentShadowDOM = null, bool? ignorePointerEventsNone = null);
@@ -29234,7 +29141,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "includeUserAgentShadowDOM">False to skip to the nearest non-UA shadow root ancestor (default: false).</param>
         /// <param name = "ignorePointerEventsNone">Whether to ignore pointer-events: none on elements and hit test them.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetNodeForLocationResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetNodeForLocationResponse> GetNodeForLocationAsync(int x, int y, bool? includeUserAgentShadowDOM = null, bool? ignorePointerEventsNone = null)
+        public System.Threading.Tasks.Task<GetNodeForLocationResponse> GetNodeForLocationAsync(int x, int y, bool? includeUserAgentShadowDOM = null, bool? ignorePointerEventsNone = null)
         {
             ValidateGetNodeForLocation(x, y, includeUserAgentShadowDOM, ignorePointerEventsNone);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29250,8 +29157,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("ignorePointerEventsNone", ignorePointerEventsNone.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getNodeForLocation", dict);
-            return methodResult.DeserializeJson<GetNodeForLocationResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetNodeForLocationResponse>("DOM.getNodeForLocation", dict);
         }
 
         partial void ValidateGetOuterHTML(int? nodeId = null, int? backendNodeId = null, string objectId = null);
@@ -29262,7 +29168,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "backendNodeId">Identifier of the backend node.</param>
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetOuterHTMLResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetOuterHTMLResponse> GetOuterHTMLAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        public System.Threading.Tasks.Task<GetOuterHTMLResponse> GetOuterHTMLAsync(int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
             ValidateGetOuterHTML(nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29281,8 +29187,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getOuterHTML", dict);
-            return methodResult.DeserializeJson<GetOuterHTMLResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetOuterHTMLResponse>("DOM.getOuterHTML", dict);
         }
 
         partial void ValidateGetRelayoutBoundary(int nodeId);
@@ -29291,13 +29196,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">Id of the node.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetRelayoutBoundaryResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetRelayoutBoundaryResponse> GetRelayoutBoundaryAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetRelayoutBoundaryResponse> GetRelayoutBoundaryAsync(int nodeId)
         {
             ValidateGetRelayoutBoundary(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getRelayoutBoundary", dict);
-            return methodResult.DeserializeJson<GetRelayoutBoundaryResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetRelayoutBoundaryResponse>("DOM.getRelayoutBoundary", dict);
         }
 
         partial void ValidateGetSearchResults(string searchId, int fromIndex, int toIndex);
@@ -29309,59 +29213,54 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "fromIndex">Start index of the search result to be returned.</param>
         /// <param name = "toIndex">End index of the search result to be returned.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetSearchResultsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetSearchResultsResponse> GetSearchResultsAsync(string searchId, int fromIndex, int toIndex)
+        public System.Threading.Tasks.Task<GetSearchResultsResponse> GetSearchResultsAsync(string searchId, int fromIndex, int toIndex)
         {
             ValidateGetSearchResults(searchId, fromIndex, toIndex);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("searchId", searchId);
             dict.Add("fromIndex", fromIndex);
             dict.Add("toIndex", toIndex);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getSearchResults", dict);
-            return methodResult.DeserializeJson<GetSearchResultsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetSearchResultsResponse>("DOM.getSearchResults", dict);
         }
 
         /// <summary>
         /// Hides any highlight.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HideHighlightAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HideHighlightAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.hideHighlight", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.hideHighlight", dict);
         }
 
         /// <summary>
         /// Highlights DOM node.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightNodeAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightNodeAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.highlightNode", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.highlightNode", dict);
         }
 
         /// <summary>
         /// Highlights given rectangle.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightRectAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightRectAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.highlightRect", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.highlightRect", dict);
         }
 
         /// <summary>
         /// Marks last undoable state.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> MarkUndoableStateAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> MarkUndoableStateAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.markUndoableState", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.markUndoableState", dict);
         }
 
         partial void ValidateMoveTo(int nodeId, int targetNodeId, int? insertBeforeNodeId = null);
@@ -29372,7 +29271,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "targetNodeId">Id of the element to drop the moved node into.</param>
         /// <param name = "insertBeforeNodeId">Drop node before this one (if absent, the moved node becomes the last child of`targetNodeId`).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;MoveToResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<MoveToResponse> MoveToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
+        public System.Threading.Tasks.Task<MoveToResponse> MoveToAsync(int nodeId, int targetNodeId, int? insertBeforeNodeId = null)
         {
             ValidateMoveTo(nodeId, targetNodeId, insertBeforeNodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29383,8 +29282,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("insertBeforeNodeId", insertBeforeNodeId.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.moveTo", dict);
-            return methodResult.DeserializeJson<MoveToResponse>();
+            return _client.ExecuteDevToolsMethodAsync<MoveToResponse>("DOM.moveTo", dict);
         }
 
         partial void ValidatePerformSearch(string query, bool? includeUserAgentShadowDOM = null);
@@ -29395,7 +29293,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "query">Plain text or query selector or XPath search query.</param>
         /// <param name = "includeUserAgentShadowDOM">True to search in user agent shadow DOM.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;PerformSearchResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<PerformSearchResponse> PerformSearchAsync(string query, bool? includeUserAgentShadowDOM = null)
+        public System.Threading.Tasks.Task<PerformSearchResponse> PerformSearchAsync(string query, bool? includeUserAgentShadowDOM = null)
         {
             ValidatePerformSearch(query, includeUserAgentShadowDOM);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29405,8 +29303,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("includeUserAgentShadowDOM", includeUserAgentShadowDOM.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.performSearch", dict);
-            return methodResult.DeserializeJson<PerformSearchResponse>();
+            return _client.ExecuteDevToolsMethodAsync<PerformSearchResponse>("DOM.performSearch", dict);
         }
 
         partial void ValidatePushNodeByPathToFrontend(string path);
@@ -29415,13 +29312,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "path">Path to node in the proprietary format.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;PushNodeByPathToFrontendResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<PushNodeByPathToFrontendResponse> PushNodeByPathToFrontendAsync(string path)
+        public System.Threading.Tasks.Task<PushNodeByPathToFrontendResponse> PushNodeByPathToFrontendAsync(string path)
         {
             ValidatePushNodeByPathToFrontend(path);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("path", path);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.pushNodeByPathToFrontend", dict);
-            return methodResult.DeserializeJson<PushNodeByPathToFrontendResponse>();
+            return _client.ExecuteDevToolsMethodAsync<PushNodeByPathToFrontendResponse>("DOM.pushNodeByPathToFrontend", dict);
         }
 
         partial void ValidatePushNodesByBackendIdsToFrontend(int[] backendNodeIds);
@@ -29430,13 +29326,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "backendNodeIds">The array of backend node ids.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;PushNodesByBackendIdsToFrontendResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<PushNodesByBackendIdsToFrontendResponse> PushNodesByBackendIdsToFrontendAsync(int[] backendNodeIds)
+        public System.Threading.Tasks.Task<PushNodesByBackendIdsToFrontendResponse> PushNodesByBackendIdsToFrontendAsync(int[] backendNodeIds)
         {
             ValidatePushNodesByBackendIdsToFrontend(backendNodeIds);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("backendNodeIds", backendNodeIds);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.pushNodesByBackendIdsToFrontend", dict);
-            return methodResult.DeserializeJson<PushNodesByBackendIdsToFrontendResponse>();
+            return _client.ExecuteDevToolsMethodAsync<PushNodesByBackendIdsToFrontendResponse>("DOM.pushNodesByBackendIdsToFrontend", dict);
         }
 
         partial void ValidateQuerySelector(int nodeId, string selector);
@@ -29446,14 +29341,13 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "nodeId">Id of the node to query upon.</param>
         /// <param name = "selector">Selector string.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;QuerySelectorResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<QuerySelectorResponse> QuerySelectorAsync(int nodeId, string selector)
+        public System.Threading.Tasks.Task<QuerySelectorResponse> QuerySelectorAsync(int nodeId, string selector)
         {
             ValidateQuerySelector(nodeId, selector);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("selector", selector);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.querySelector", dict);
-            return methodResult.DeserializeJson<QuerySelectorResponse>();
+            return _client.ExecuteDevToolsMethodAsync<QuerySelectorResponse>("DOM.querySelector", dict);
         }
 
         partial void ValidateQuerySelectorAll(int nodeId, string selector);
@@ -29463,25 +29357,23 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "nodeId">Id of the node to query upon.</param>
         /// <param name = "selector">Selector string.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;QuerySelectorAllResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<QuerySelectorAllResponse> QuerySelectorAllAsync(int nodeId, string selector)
+        public System.Threading.Tasks.Task<QuerySelectorAllResponse> QuerySelectorAllAsync(int nodeId, string selector)
         {
             ValidateQuerySelectorAll(nodeId, selector);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("selector", selector);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.querySelectorAll", dict);
-            return methodResult.DeserializeJson<QuerySelectorAllResponse>();
+            return _client.ExecuteDevToolsMethodAsync<QuerySelectorAllResponse>("DOM.querySelectorAll", dict);
         }
 
         /// <summary>
         /// Re-does the last undone action.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RedoAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RedoAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.redo", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.redo", dict);
         }
 
         partial void ValidateRemoveAttribute(int nodeId, string name);
@@ -29491,14 +29383,13 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "nodeId">Id of the element to remove attribute from.</param>
         /// <param name = "name">Name of the attribute to remove.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveAttributeAsync(int nodeId, string name)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveAttributeAsync(int nodeId, string name)
         {
             ValidateRemoveAttribute(nodeId, name);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.removeAttribute", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.removeAttribute", dict);
         }
 
         partial void ValidateRemoveNode(int nodeId);
@@ -29507,13 +29398,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">Id of the node to remove.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveNodeAsync(int nodeId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveNodeAsync(int nodeId)
         {
             ValidateRemoveNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.removeNode", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.removeNode", dict);
         }
 
         partial void ValidateRequestChildNodes(int nodeId, int? depth = null, bool? pierce = null);
@@ -29526,7 +29416,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "depth">The maximum depth at which children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
         /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the sub-tree(default is false).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RequestChildNodesAsync(int nodeId, int? depth = null, bool? pierce = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RequestChildNodesAsync(int nodeId, int? depth = null, bool? pierce = null)
         {
             ValidateRequestChildNodes(nodeId, depth, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29541,8 +29431,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("pierce", pierce.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.requestChildNodes", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.requestChildNodes", dict);
         }
 
         partial void ValidateRequestNode(string objectId);
@@ -29553,13 +29442,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "objectId">JavaScript object id to convert into node.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestNodeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RequestNodeResponse> RequestNodeAsync(string objectId)
+        public System.Threading.Tasks.Task<RequestNodeResponse> RequestNodeAsync(string objectId)
         {
             ValidateRequestNode(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.requestNode", dict);
-            return methodResult.DeserializeJson<RequestNodeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RequestNodeResponse>("DOM.requestNode", dict);
         }
 
         partial void ValidateResolveNode(int? nodeId = null, int? backendNodeId = null, string objectGroup = null, int? executionContextId = null);
@@ -29571,7 +29459,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "objectGroup">Symbolic group name that can be used to release multiple objects.</param>
         /// <param name = "executionContextId">Execution context in which to resolve the node.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;ResolveNodeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<ResolveNodeResponse> ResolveNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectGroup = null, int? executionContextId = null)
+        public System.Threading.Tasks.Task<ResolveNodeResponse> ResolveNodeAsync(int? nodeId = null, int? backendNodeId = null, string objectGroup = null, int? executionContextId = null)
         {
             ValidateResolveNode(nodeId, backendNodeId, objectGroup, executionContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29595,8 +29483,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("executionContextId", executionContextId.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.resolveNode", dict);
-            return methodResult.DeserializeJson<ResolveNodeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<ResolveNodeResponse>("DOM.resolveNode", dict);
         }
 
         partial void ValidateSetAttributeValue(int nodeId, string name, string value);
@@ -29607,15 +29494,14 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "name">Attribute name.</param>
         /// <param name = "value">Attribute value.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributeValueAsync(int nodeId, string name, string value)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributeValueAsync(int nodeId, string name, string value)
         {
             ValidateSetAttributeValue(nodeId, name, value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
             dict.Add("value", value);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setAttributeValue", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.setAttributeValue", dict);
         }
 
         partial void ValidateSetAttributesAsText(int nodeId, string text, string name = null);
@@ -29627,7 +29513,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "text">Text with a number of attributes. Will parse this text using HTML parser.</param>
         /// <param name = "name">Attribute name to replace with new attributes derived from text in case text parsedsuccessfully.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributesAsTextAsync(int nodeId, string text, string name = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttributesAsTextAsync(int nodeId, string text, string name = null)
         {
             ValidateSetAttributesAsText(nodeId, text, name);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29638,8 +29524,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("name", name);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setAttributesAsText", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.setAttributesAsText", dict);
         }
 
         partial void ValidateSetFileInputFiles(string[] files, int? nodeId = null, int? backendNodeId = null, string objectId = null);
@@ -29651,7 +29536,7 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "backendNodeId">Identifier of the backend node.</param>
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFileInputFilesAsync(string[] files, int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetFileInputFilesAsync(string[] files, int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
             ValidateSetFileInputFiles(files, nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29671,8 +29556,7 @@ namespace CefSharp.DevTools.DOM
                 dict.Add("objectId", objectId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setFileInputFiles", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.setFileInputFiles", dict);
         }
 
         partial void ValidateSetNodeStackTracesEnabled(bool enable);
@@ -29681,13 +29565,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "enable">Enable or disable.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetNodeStackTracesEnabledAsync(bool enable)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetNodeStackTracesEnabledAsync(bool enable)
         {
             ValidateSetNodeStackTracesEnabled(enable);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enable", enable);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeStackTracesEnabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.setNodeStackTracesEnabled", dict);
         }
 
         partial void ValidateGetNodeStackTraces(int nodeId);
@@ -29696,13 +29579,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">Id of the node to get stack traces for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetNodeStackTracesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetNodeStackTracesResponse> GetNodeStackTracesAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetNodeStackTracesResponse> GetNodeStackTracesAsync(int nodeId)
         {
             ValidateGetNodeStackTraces(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getNodeStackTraces", dict);
-            return methodResult.DeserializeJson<GetNodeStackTracesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetNodeStackTracesResponse>("DOM.getNodeStackTraces", dict);
         }
 
         partial void ValidateGetFileInfo(string objectId);
@@ -29712,13 +29594,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "objectId">JavaScript object id of the node wrapper.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetFileInfoResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetFileInfoResponse> GetFileInfoAsync(string objectId)
+        public System.Threading.Tasks.Task<GetFileInfoResponse> GetFileInfoAsync(string objectId)
         {
             ValidateGetFileInfo(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getFileInfo", dict);
-            return methodResult.DeserializeJson<GetFileInfoResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetFileInfoResponse>("DOM.getFileInfo", dict);
         }
 
         partial void ValidateSetInspectedNode(int nodeId);
@@ -29728,13 +29609,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "nodeId">DOM node id to be accessible by means of $x command line API.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectedNodeAsync(int nodeId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectedNodeAsync(int nodeId)
         {
             ValidateSetInspectedNode(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setInspectedNode", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.setInspectedNode", dict);
         }
 
         partial void ValidateSetNodeName(int nodeId, string name);
@@ -29744,14 +29624,13 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "nodeId">Id of the node to set name for.</param>
         /// <param name = "name">New node's name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetNodeNameResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetNodeNameResponse> SetNodeNameAsync(int nodeId, string name)
+        public System.Threading.Tasks.Task<SetNodeNameResponse> SetNodeNameAsync(int nodeId, string name)
         {
             ValidateSetNodeName(nodeId, name);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("name", name);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeName", dict);
-            return methodResult.DeserializeJson<SetNodeNameResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetNodeNameResponse>("DOM.setNodeName", dict);
         }
 
         partial void ValidateSetNodeValue(int nodeId, string value);
@@ -29761,14 +29640,13 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "nodeId">Id of the node to set value for.</param>
         /// <param name = "value">New node's value.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetNodeValueAsync(int nodeId, string value)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetNodeValueAsync(int nodeId, string value)
         {
             ValidateSetNodeValue(nodeId, value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("value", value);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setNodeValue", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.setNodeValue", dict);
         }
 
         partial void ValidateSetOuterHTML(int nodeId, string outerHTML);
@@ -29778,25 +29656,23 @@ namespace CefSharp.DevTools.DOM
         /// <param name = "nodeId">Id of the node to set markup for.</param>
         /// <param name = "outerHTML">Outer HTML markup to set.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetOuterHTMLAsync(int nodeId, string outerHTML)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetOuterHTMLAsync(int nodeId, string outerHTML)
         {
             ValidateSetOuterHTML(nodeId, outerHTML);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("outerHTML", outerHTML);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.setOuterHTML", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.setOuterHTML", dict);
         }
 
         /// <summary>
         /// Undoes the last performed action.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> UndoAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> UndoAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.undo", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOM.undo", dict);
         }
 
         partial void ValidateGetFrameOwner(string frameId);
@@ -29805,13 +29681,12 @@ namespace CefSharp.DevTools.DOM
         /// </summary>
         /// <param name = "frameId">frameId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetFrameOwnerResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetFrameOwnerResponse> GetFrameOwnerAsync(string frameId)
+        public System.Threading.Tasks.Task<GetFrameOwnerResponse> GetFrameOwnerAsync(string frameId)
         {
             ValidateGetFrameOwner(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOM.getFrameOwner", dict);
-            return methodResult.DeserializeJson<GetFrameOwnerResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetFrameOwnerResponse>("DOM.getFrameOwner", dict);
         }
     }
 }
@@ -29872,7 +29747,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <param name = "depth">The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for theentire subtree or provide an integer larger than 0.</param>
         /// <param name = "pierce">Whether or not iframes and shadow roots should be traversed when returning the subtree(default is false). Reports listeners for all contexts if pierce is enabled.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetEventListenersResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetEventListenersResponse> GetEventListenersAsync(string objectId, int? depth = null, bool? pierce = null)
+        public System.Threading.Tasks.Task<GetEventListenersResponse> GetEventListenersAsync(string objectId, int? depth = null, bool? pierce = null)
         {
             ValidateGetEventListeners(objectId, depth, pierce);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29887,8 +29762,7 @@ namespace CefSharp.DevTools.DOMDebugger
                 dict.Add("pierce", pierce.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.getEventListeners", dict);
-            return methodResult.DeserializeJson<GetEventListenersResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetEventListenersResponse>("DOMDebugger.getEventListeners", dict);
         }
 
         partial void ValidateRemoveDOMBreakpoint(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type);
@@ -29898,14 +29772,13 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <param name = "nodeId">Identifier of the node to remove breakpoint from.</param>
         /// <param name = "type">Type of the breakpoint to remove.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMBreakpointAsync(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMBreakpointAsync(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type)
         {
             ValidateRemoveDOMBreakpoint(nodeId, type);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("type", this.EnumToString(type));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeDOMBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.removeDOMBreakpoint", dict);
         }
 
         partial void ValidateRemoveEventListenerBreakpoint(string eventName, string targetName = null);
@@ -29915,7 +29788,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <param name = "eventName">Event name.</param>
         /// <param name = "targetName">EventTarget interface name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveEventListenerBreakpointAsync(string eventName, string targetName = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveEventListenerBreakpointAsync(string eventName, string targetName = null)
         {
             ValidateRemoveEventListenerBreakpoint(eventName, targetName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -29925,8 +29798,7 @@ namespace CefSharp.DevTools.DOMDebugger
                 dict.Add("targetName", targetName);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeEventListenerBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.removeEventListenerBreakpoint", dict);
         }
 
         partial void ValidateRemoveInstrumentationBreakpoint(string eventName);
@@ -29935,13 +29807,12 @@ namespace CefSharp.DevTools.DOMDebugger
         /// </summary>
         /// <param name = "eventName">Instrumentation name to stop on.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveInstrumentationBreakpointAsync(string eventName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveInstrumentationBreakpointAsync(string eventName)
         {
             ValidateRemoveInstrumentationBreakpoint(eventName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("eventName", eventName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeInstrumentationBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.removeInstrumentationBreakpoint", dict);
         }
 
         partial void ValidateRemoveXHRBreakpoint(string url);
@@ -29950,13 +29821,12 @@ namespace CefSharp.DevTools.DOMDebugger
         /// </summary>
         /// <param name = "url">Resource URL substring.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveXHRBreakpointAsync(string url)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveXHRBreakpointAsync(string url)
         {
             ValidateRemoveXHRBreakpoint(url);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.removeXHRBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.removeXHRBreakpoint", dict);
         }
 
         partial void ValidateSetBreakOnCSPViolation(CefSharp.DevTools.DOMDebugger.CSPViolationType[] violationTypes);
@@ -29965,13 +29835,12 @@ namespace CefSharp.DevTools.DOMDebugger
         /// </summary>
         /// <param name = "violationTypes">CSP Violations to stop upon.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBreakOnCSPViolationAsync(CefSharp.DevTools.DOMDebugger.CSPViolationType[] violationTypes)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetBreakOnCSPViolationAsync(CefSharp.DevTools.DOMDebugger.CSPViolationType[] violationTypes)
         {
             ValidateSetBreakOnCSPViolation(violationTypes);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("violationTypes", this.EnumToString(violationTypes));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setBreakOnCSPViolation", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.setBreakOnCSPViolation", dict);
         }
 
         partial void ValidateSetDOMBreakpoint(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type);
@@ -29981,14 +29850,13 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <param name = "nodeId">Identifier of the node to set breakpoint on.</param>
         /// <param name = "type">Type of the operation to stop upon.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMBreakpointAsync(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMBreakpointAsync(int nodeId, CefSharp.DevTools.DOMDebugger.DOMBreakpointType type)
         {
             ValidateSetDOMBreakpoint(nodeId, type);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
             dict.Add("type", this.EnumToString(type));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setDOMBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.setDOMBreakpoint", dict);
         }
 
         partial void ValidateSetEventListenerBreakpoint(string eventName, string targetName = null);
@@ -29998,7 +29866,7 @@ namespace CefSharp.DevTools.DOMDebugger
         /// <param name = "eventName">DOM Event name to stop on (any DOM event will do).</param>
         /// <param name = "targetName">EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on anyEventTarget.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEventListenerBreakpointAsync(string eventName, string targetName = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEventListenerBreakpointAsync(string eventName, string targetName = null)
         {
             ValidateSetEventListenerBreakpoint(eventName, targetName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -30008,8 +29876,7 @@ namespace CefSharp.DevTools.DOMDebugger
                 dict.Add("targetName", targetName);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setEventListenerBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.setEventListenerBreakpoint", dict);
         }
 
         partial void ValidateSetInstrumentationBreakpoint(string eventName);
@@ -30018,13 +29885,12 @@ namespace CefSharp.DevTools.DOMDebugger
         /// </summary>
         /// <param name = "eventName">Instrumentation name to stop on.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInstrumentationBreakpointAsync(string eventName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetInstrumentationBreakpointAsync(string eventName)
         {
             ValidateSetInstrumentationBreakpoint(eventName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("eventName", eventName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setInstrumentationBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.setInstrumentationBreakpoint", dict);
         }
 
         partial void ValidateSetXHRBreakpoint(string url);
@@ -30033,13 +29899,12 @@ namespace CefSharp.DevTools.DOMDebugger
         /// </summary>
         /// <param name = "url">Resource URL substring. All XHRs having this substring in the URL will get stopped upon.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetXHRBreakpointAsync(string url)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetXHRBreakpointAsync(string url)
         {
             ValidateSetXHRBreakpoint(url);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMDebugger.setXHRBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.setXHRBreakpoint", dict);
         }
     }
 }
@@ -30113,22 +29978,20 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// Disables DOM snapshot agent for the given page.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMSnapshot.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMSnapshot.disable", dict);
         }
 
         /// <summary>
         /// Enables DOM snapshot agent for the given page.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMSnapshot.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMSnapshot.enable", dict);
         }
 
         partial void ValidateCaptureSnapshot(string[] computedStyles, bool? includePaintOrder = null, bool? includeDOMRects = null);
@@ -30142,7 +30005,7 @@ namespace CefSharp.DevTools.DOMSnapshot
         /// <param name = "includePaintOrder">Whether to include layout object paint orders into the snapshot.</param>
         /// <param name = "includeDOMRects">Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CaptureSnapshotResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string[] computedStyles, bool? includePaintOrder = null, bool? includeDOMRects = null)
+        public System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string[] computedStyles, bool? includePaintOrder = null, bool? includeDOMRects = null)
         {
             ValidateCaptureSnapshot(computedStyles, includePaintOrder, includeDOMRects);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -30157,8 +30020,7 @@ namespace CefSharp.DevTools.DOMSnapshot
                 dict.Add("includeDOMRects", includeDOMRects.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMSnapshot.captureSnapshot", dict);
-            return methodResult.DeserializeJson<CaptureSnapshotResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CaptureSnapshotResponse>("DOMSnapshot.captureSnapshot", dict);
         }
     }
 }
@@ -30352,35 +30214,32 @@ namespace CefSharp.DevTools.DOMStorage
         /// </summary>
         /// <param name = "storageId">storageId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
         {
             ValidateClear(storageId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("storageId", storageId.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMStorage.clear", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMStorage.clear", dict);
         }
 
         /// <summary>
         /// Disables storage tracking, prevents storage events from being sent to the client.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMStorage.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMStorage.disable", dict);
         }
 
         /// <summary>
         /// Enables storage tracking, storage events will now be delivered to the client.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMStorage.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMStorage.enable", dict);
         }
 
         partial void ValidateGetDOMStorageItems(CefSharp.DevTools.DOMStorage.StorageId storageId);
@@ -30389,13 +30248,12 @@ namespace CefSharp.DevTools.DOMStorage
         /// </summary>
         /// <param name = "storageId">storageId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetDOMStorageItemsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetDOMStorageItemsResponse> GetDOMStorageItemsAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
+        public System.Threading.Tasks.Task<GetDOMStorageItemsResponse> GetDOMStorageItemsAsync(CefSharp.DevTools.DOMStorage.StorageId storageId)
         {
             ValidateGetDOMStorageItems(storageId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("storageId", storageId.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMStorage.getDOMStorageItems", dict);
-            return methodResult.DeserializeJson<GetDOMStorageItemsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetDOMStorageItemsResponse>("DOMStorage.getDOMStorageItems", dict);
         }
 
         partial void ValidateRemoveDOMStorageItem(CefSharp.DevTools.DOMStorage.StorageId storageId, string key);
@@ -30405,14 +30263,13 @@ namespace CefSharp.DevTools.DOMStorage
         /// <param name = "storageId">storageId</param>
         /// <param name = "key">key</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key)
         {
             ValidateRemoveDOMStorageItem(storageId, key);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("storageId", storageId.ToDictionary());
             dict.Add("key", key);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMStorage.removeDOMStorageItem", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMStorage.removeDOMStorageItem", dict);
         }
 
         partial void ValidateSetDOMStorageItem(CefSharp.DevTools.DOMStorage.StorageId storageId, string key, string value);
@@ -30423,15 +30280,14 @@ namespace CefSharp.DevTools.DOMStorage
         /// <param name = "key">key</param>
         /// <param name = "value">value</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key, string value)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDOMStorageItemAsync(CefSharp.DevTools.DOMStorage.StorageId storageId, string key, string value)
         {
             ValidateSetDOMStorageItem(storageId, key, value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("storageId", storageId.ToDictionary());
             dict.Add("key", key);
             dict.Add("value", value);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DOMStorage.setDOMStorageItem", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMStorage.setDOMStorageItem", dict);
         }
     }
 }
@@ -30585,22 +30441,20 @@ namespace CefSharp.DevTools.Database
         /// Disables database tracking, prevents database events from being sent to the client.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Database.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Database.disable", dict);
         }
 
         /// <summary>
         /// Enables database tracking, database events will now be delivered to the client.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Database.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Database.enable", dict);
         }
 
         partial void ValidateExecuteSQL(string databaseId, string query);
@@ -30610,14 +30464,13 @@ namespace CefSharp.DevTools.Database
         /// <param name = "databaseId">databaseId</param>
         /// <param name = "query">query</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;ExecuteSQLResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<ExecuteSQLResponse> ExecuteSQLAsync(string databaseId, string query)
+        public System.Threading.Tasks.Task<ExecuteSQLResponse> ExecuteSQLAsync(string databaseId, string query)
         {
             ValidateExecuteSQL(databaseId, query);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("databaseId", databaseId);
             dict.Add("query", query);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Database.executeSQL", dict);
-            return methodResult.DeserializeJson<ExecuteSQLResponse>();
+            return _client.ExecuteDevToolsMethodAsync<ExecuteSQLResponse>("Database.executeSQL", dict);
         }
 
         partial void ValidateGetDatabaseTableNames(string databaseId);
@@ -30626,13 +30479,12 @@ namespace CefSharp.DevTools.Database
         /// </summary>
         /// <param name = "databaseId">databaseId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetDatabaseTableNamesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetDatabaseTableNamesResponse> GetDatabaseTableNamesAsync(string databaseId)
+        public System.Threading.Tasks.Task<GetDatabaseTableNamesResponse> GetDatabaseTableNamesAsync(string databaseId)
         {
             ValidateGetDatabaseTableNames(databaseId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("databaseId", databaseId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Database.getDatabaseTableNames", dict);
-            return methodResult.DeserializeJson<GetDatabaseTableNamesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetDatabaseTableNamesResponse>("Database.getDatabaseTableNames", dict);
         }
     }
 }
@@ -30660,11 +30512,10 @@ namespace CefSharp.DevTools.DeviceOrientation
         /// Clears the overridden Device Orientation.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearDeviceOrientationOverrideAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearDeviceOrientationOverrideAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DeviceOrientation.clearDeviceOrientationOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DeviceOrientation.clearDeviceOrientationOverride", dict);
         }
 
         partial void ValidateSetDeviceOrientationOverride(double alpha, double beta, double gamma);
@@ -30675,15 +30526,14 @@ namespace CefSharp.DevTools.DeviceOrientation
         /// <param name = "beta">Mock beta</param>
         /// <param name = "gamma">Mock gamma</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDeviceOrientationOverrideAsync(double alpha, double beta, double gamma)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDeviceOrientationOverrideAsync(double alpha, double beta, double gamma)
         {
             ValidateSetDeviceOrientationOverride(alpha, beta, gamma);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("alpha", alpha);
             dict.Add("beta", beta);
             dict.Add("gamma", gamma);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("DeviceOrientation.setDeviceOrientationOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DeviceOrientation.setDeviceOrientationOverride", dict);
         }
     }
 }
@@ -30801,44 +30651,40 @@ namespace CefSharp.DevTools.Emulation
         /// Tells whether emulation is supported.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;CanEmulateResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CanEmulateResponse> CanEmulateAsync()
+        public System.Threading.Tasks.Task<CanEmulateResponse> CanEmulateAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.canEmulate", dict);
-            return methodResult.DeserializeJson<CanEmulateResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CanEmulateResponse>("Emulation.canEmulate", dict);
         }
 
         /// <summary>
         /// Clears the overriden device metrics.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearDeviceMetricsOverrideAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearDeviceMetricsOverrideAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.clearDeviceMetricsOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.clearDeviceMetricsOverride", dict);
         }
 
         /// <summary>
         /// Clears the overriden Geolocation Position and Error.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearGeolocationOverrideAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearGeolocationOverrideAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.clearGeolocationOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.clearGeolocationOverride", dict);
         }
 
         /// <summary>
         /// Requests that page scale factor is reset to initial values.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResetPageScaleFactorAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ResetPageScaleFactorAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.resetPageScaleFactor", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.resetPageScaleFactor", dict);
         }
 
         partial void ValidateSetFocusEmulationEnabled(bool enabled);
@@ -30847,13 +30693,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "enabled">Whether to enable to disable focus emulation.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFocusEmulationEnabledAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetFocusEmulationEnabledAsync(bool enabled)
         {
             ValidateSetFocusEmulationEnabled(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setFocusEmulationEnabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setFocusEmulationEnabled", dict);
         }
 
         partial void ValidateSetCPUThrottlingRate(double rate);
@@ -30862,13 +30707,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "rate">Throttling rate as a slowdown factor (1 is no throttle, 2 is 2x slowdown, etc).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCPUThrottlingRateAsync(double rate)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetCPUThrottlingRateAsync(double rate)
         {
             ValidateSetCPUThrottlingRate(rate);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("rate", rate);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setCPUThrottlingRate", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setCPUThrottlingRate", dict);
         }
 
         partial void ValidateSetDefaultBackgroundColorOverride(CefSharp.DevTools.DOM.RGBA color = null);
@@ -30878,7 +30722,7 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "color">RGBA of the default background color. If not specified, any existing override will becleared.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDefaultBackgroundColorOverrideAsync(CefSharp.DevTools.DOM.RGBA color = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDefaultBackgroundColorOverrideAsync(CefSharp.DevTools.DOM.RGBA color = null)
         {
             ValidateSetDefaultBackgroundColorOverride(color);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -30887,8 +30731,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("color", color.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setDefaultBackgroundColorOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setDefaultBackgroundColorOverride", dict);
         }
 
         partial void ValidateSetDeviceMetricsOverride(int width, int height, double deviceScaleFactor, bool mobile, double? scale = null, int? screenWidth = null, int? screenHeight = null, int? positionX = null, int? positionY = null, bool? dontSetVisibleSize = null, CefSharp.DevTools.Emulation.ScreenOrientation screenOrientation = null, CefSharp.DevTools.Page.Viewport viewport = null, CefSharp.DevTools.Emulation.DisplayFeature displayFeature = null);
@@ -30911,7 +30754,7 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "viewport">If set, the visible area of the page will be overridden to this viewport. This viewportchange is not observed by the page, e.g. viewport-relative elements do not change positions.</param>
         /// <param name = "displayFeature">If set, the display feature of a multi-segment screen. If not set, multi-segment supportis turned-off.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDeviceMetricsOverrideAsync(int width, int height, double deviceScaleFactor, bool mobile, double? scale = null, int? screenWidth = null, int? screenHeight = null, int? positionX = null, int? positionY = null, bool? dontSetVisibleSize = null, CefSharp.DevTools.Emulation.ScreenOrientation screenOrientation = null, CefSharp.DevTools.Page.Viewport viewport = null, CefSharp.DevTools.Emulation.DisplayFeature displayFeature = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDeviceMetricsOverrideAsync(int width, int height, double deviceScaleFactor, bool mobile, double? scale = null, int? screenWidth = null, int? screenHeight = null, int? positionX = null, int? positionY = null, bool? dontSetVisibleSize = null, CefSharp.DevTools.Emulation.ScreenOrientation screenOrientation = null, CefSharp.DevTools.Page.Viewport viewport = null, CefSharp.DevTools.Emulation.DisplayFeature displayFeature = null)
         {
             ValidateSetDeviceMetricsOverride(width, height, deviceScaleFactor, mobile, scale, screenWidth, screenHeight, positionX, positionY, dontSetVisibleSize, screenOrientation, viewport, displayFeature);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -30964,8 +30807,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("displayFeature", displayFeature.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setDeviceMetricsOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setDeviceMetricsOverride", dict);
         }
 
         partial void ValidateSetScrollbarsHidden(bool hidden);
@@ -30974,13 +30816,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "hidden">Whether scrollbars should be always hidden.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetScrollbarsHiddenAsync(bool hidden)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetScrollbarsHiddenAsync(bool hidden)
         {
             ValidateSetScrollbarsHidden(hidden);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("hidden", hidden);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setScrollbarsHidden", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setScrollbarsHidden", dict);
         }
 
         partial void ValidateSetDocumentCookieDisabled(bool disabled);
@@ -30989,13 +30830,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "disabled">Whether document.coookie API should be disabled.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDocumentCookieDisabledAsync(bool disabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDocumentCookieDisabledAsync(bool disabled)
         {
             ValidateSetDocumentCookieDisabled(disabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("disabled", disabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setDocumentCookieDisabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setDocumentCookieDisabled", dict);
         }
 
         partial void ValidateSetEmitTouchEventsForMouse(bool enabled, string configuration = null);
@@ -31005,7 +30845,7 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "enabled">Whether touch emulation based on mouse input should be enabled.</param>
         /// <param name = "configuration">Touch/gesture events configuration. Default: current platform.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmitTouchEventsForMouseAsync(bool enabled, string configuration = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmitTouchEventsForMouseAsync(bool enabled, string configuration = null)
         {
             ValidateSetEmitTouchEventsForMouse(enabled, configuration);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31015,8 +30855,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("configuration", configuration);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setEmitTouchEventsForMouse", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setEmitTouchEventsForMouse", dict);
         }
 
         partial void ValidateSetEmulatedMedia(string media = null, System.Collections.Generic.IList<CefSharp.DevTools.Emulation.MediaFeature> features = null);
@@ -31026,7 +30865,7 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "media">Media type to emulate. Empty string disables the override.</param>
         /// <param name = "features">Media features to emulate.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmulatedMediaAsync(string media = null, System.Collections.Generic.IList<CefSharp.DevTools.Emulation.MediaFeature> features = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmulatedMediaAsync(string media = null, System.Collections.Generic.IList<CefSharp.DevTools.Emulation.MediaFeature> features = null)
         {
             ValidateSetEmulatedMedia(media, features);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31040,8 +30879,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("features", features.Select(x => x.ToDictionary()));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setEmulatedMedia", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setEmulatedMedia", dict);
         }
 
         partial void ValidateSetEmulatedVisionDeficiency(string type);
@@ -31050,13 +30888,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "type">Vision deficiency to emulate.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmulatedVisionDeficiencyAsync(string type)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmulatedVisionDeficiencyAsync(string type)
         {
             ValidateSetEmulatedVisionDeficiency(type);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("type", type);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setEmulatedVisionDeficiency", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setEmulatedVisionDeficiency", dict);
         }
 
         partial void ValidateSetGeolocationOverride(double? latitude = null, double? longitude = null, double? accuracy = null);
@@ -31068,7 +30905,7 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "longitude">Mock longitude</param>
         /// <param name = "accuracy">Mock accuracy</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetGeolocationOverrideAsync(double? latitude = null, double? longitude = null, double? accuracy = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetGeolocationOverrideAsync(double? latitude = null, double? longitude = null, double? accuracy = null)
         {
             ValidateSetGeolocationOverride(latitude, longitude, accuracy);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31087,8 +30924,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("accuracy", accuracy.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setGeolocationOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setGeolocationOverride", dict);
         }
 
         partial void ValidateSetIdleOverride(bool isUserActive, bool isScreenUnlocked);
@@ -31098,25 +30934,23 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "isUserActive">Mock isUserActive</param>
         /// <param name = "isScreenUnlocked">Mock isScreenUnlocked</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetIdleOverrideAsync(bool isUserActive, bool isScreenUnlocked)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetIdleOverrideAsync(bool isUserActive, bool isScreenUnlocked)
         {
             ValidateSetIdleOverride(isUserActive, isScreenUnlocked);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("isUserActive", isUserActive);
             dict.Add("isScreenUnlocked", isScreenUnlocked);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setIdleOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setIdleOverride", dict);
         }
 
         /// <summary>
         /// Clears Idle state overrides.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearIdleOverrideAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearIdleOverrideAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.clearIdleOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.clearIdleOverride", dict);
         }
 
         partial void ValidateSetPageScaleFactor(double pageScaleFactor);
@@ -31125,13 +30959,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "pageScaleFactor">Page scale factor.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPageScaleFactorAsync(double pageScaleFactor)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPageScaleFactorAsync(double pageScaleFactor)
         {
             ValidateSetPageScaleFactor(pageScaleFactor);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("pageScaleFactor", pageScaleFactor);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setPageScaleFactor", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setPageScaleFactor", dict);
         }
 
         partial void ValidateSetScriptExecutionDisabled(bool value);
@@ -31140,13 +30973,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "value">Whether script execution should be disabled in the page.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetScriptExecutionDisabledAsync(bool value)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetScriptExecutionDisabledAsync(bool value)
         {
             ValidateSetScriptExecutionDisabled(value);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("value", value);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setScriptExecutionDisabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setScriptExecutionDisabled", dict);
         }
 
         partial void ValidateSetTouchEmulationEnabled(bool enabled, int? maxTouchPoints = null);
@@ -31156,7 +30988,7 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "enabled">Whether the touch event emulation should be enabled.</param>
         /// <param name = "maxTouchPoints">Maximum touch points supported. Defaults to one.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetTouchEmulationEnabledAsync(bool enabled, int? maxTouchPoints = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetTouchEmulationEnabledAsync(bool enabled, int? maxTouchPoints = null)
         {
             ValidateSetTouchEmulationEnabled(enabled, maxTouchPoints);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31166,8 +30998,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("maxTouchPoints", maxTouchPoints.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setTouchEmulationEnabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setTouchEmulationEnabled", dict);
         }
 
         partial void ValidateSetVirtualTimePolicy(CefSharp.DevTools.Emulation.VirtualTimePolicy policy, double? budget = null, int? maxVirtualTimeTaskStarvationCount = null, bool? waitForNavigation = null, double? initialVirtualTime = null);
@@ -31181,7 +31012,7 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "waitForNavigation">If set the virtual time policy change should be deferred until any frame starts navigating.Note any previous deferred policy change is superseded.</param>
         /// <param name = "initialVirtualTime">If set, base::Time::Now will be overriden to initially return this value.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetVirtualTimePolicyResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetVirtualTimePolicyResponse> SetVirtualTimePolicyAsync(CefSharp.DevTools.Emulation.VirtualTimePolicy policy, double? budget = null, int? maxVirtualTimeTaskStarvationCount = null, bool? waitForNavigation = null, double? initialVirtualTime = null)
+        public System.Threading.Tasks.Task<SetVirtualTimePolicyResponse> SetVirtualTimePolicyAsync(CefSharp.DevTools.Emulation.VirtualTimePolicy policy, double? budget = null, int? maxVirtualTimeTaskStarvationCount = null, bool? waitForNavigation = null, double? initialVirtualTime = null)
         {
             ValidateSetVirtualTimePolicy(policy, budget, maxVirtualTimeTaskStarvationCount, waitForNavigation, initialVirtualTime);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31206,8 +31037,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("initialVirtualTime", initialVirtualTime.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setVirtualTimePolicy", dict);
-            return methodResult.DeserializeJson<SetVirtualTimePolicyResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetVirtualTimePolicyResponse>("Emulation.setVirtualTimePolicy", dict);
         }
 
         partial void ValidateSetLocaleOverride(string locale = null);
@@ -31216,7 +31046,7 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "locale">ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override andrestores default host system locale.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetLocaleOverrideAsync(string locale = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetLocaleOverrideAsync(string locale = null)
         {
             ValidateSetLocaleOverride(locale);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31225,8 +31055,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("locale", locale);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setLocaleOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setLocaleOverride", dict);
         }
 
         partial void ValidateSetTimezoneOverride(string timezoneId);
@@ -31235,13 +31064,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "timezoneId">The timezone identifier. If empty, disables the override andrestores default host system timezone.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetTimezoneOverrideAsync(string timezoneId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetTimezoneOverrideAsync(string timezoneId)
         {
             ValidateSetTimezoneOverride(timezoneId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("timezoneId", timezoneId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setTimezoneOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setTimezoneOverride", dict);
         }
 
         partial void ValidateSetDisabledImageTypes(CefSharp.DevTools.Emulation.DisabledImageType[] imageTypes);
@@ -31250,13 +31078,12 @@ namespace CefSharp.DevTools.Emulation
         /// </summary>
         /// <param name = "imageTypes">Image types to disable.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDisabledImageTypesAsync(CefSharp.DevTools.Emulation.DisabledImageType[] imageTypes)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDisabledImageTypesAsync(CefSharp.DevTools.Emulation.DisabledImageType[] imageTypes)
         {
             ValidateSetDisabledImageTypes(imageTypes);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("imageTypes", this.EnumToString(imageTypes));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setDisabledImageTypes", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setDisabledImageTypes", dict);
         }
 
         partial void ValidateSetUserAgentOverride(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null);
@@ -31268,7 +31095,7 @@ namespace CefSharp.DevTools.Emulation
         /// <param name = "platform">The platform navigator.platform should return.</param>
         /// <param name = "userAgentMetadata">To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserAgentOverrideAsync(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserAgentOverrideAsync(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null)
         {
             ValidateSetUserAgentOverride(userAgent, acceptLanguage, platform, userAgentMetadata);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31288,8 +31115,7 @@ namespace CefSharp.DevTools.Emulation
                 dict.Add("userAgentMetadata", userAgentMetadata.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Emulation.setUserAgentOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setUserAgentOverride", dict);
         }
     }
 }
@@ -31371,7 +31197,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
         /// <param name = "noDisplayUpdates">Whether updates should not be committed and drawn onto the display. False by default. Iftrue, only side effects of the BeginFrame will be run, such as layout and animations, butany visual updates may not be visible on the display or in screenshots.</param>
         /// <param name = "screenshot">If set, a screenshot of the frame will be captured and returned in the response. Otherwise,no screenshot will be captured. Note that capturing a screenshot can fail, for example,during renderer initialization. In such a case, no screenshot data will be returned.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;BeginFrameResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<BeginFrameResponse> BeginFrameAsync(double? frameTimeTicks = null, double? interval = null, bool? noDisplayUpdates = null, CefSharp.DevTools.HeadlessExperimental.ScreenshotParams screenshot = null)
+        public System.Threading.Tasks.Task<BeginFrameResponse> BeginFrameAsync(double? frameTimeTicks = null, double? interval = null, bool? noDisplayUpdates = null, CefSharp.DevTools.HeadlessExperimental.ScreenshotParams screenshot = null)
         {
             ValidateBeginFrame(frameTimeTicks, interval, noDisplayUpdates, screenshot);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31395,30 +31221,27 @@ namespace CefSharp.DevTools.HeadlessExperimental
                 dict.Add("screenshot", screenshot.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeadlessExperimental.beginFrame", dict);
-            return methodResult.DeserializeJson<BeginFrameResponse>();
+            return _client.ExecuteDevToolsMethodAsync<BeginFrameResponse>("HeadlessExperimental.beginFrame", dict);
         }
 
         /// <summary>
         /// Disables headless events for the target.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeadlessExperimental.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeadlessExperimental.disable", dict);
         }
 
         /// <summary>
         /// Enables headless events for the target.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeadlessExperimental.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeadlessExperimental.enable", dict);
         }
     }
 }
@@ -31540,13 +31363,12 @@ namespace CefSharp.DevTools.IO
         /// </summary>
         /// <param name = "handle">Handle of the stream to close.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync(string handle)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync(string handle)
         {
             ValidateClose(handle);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("handle", handle);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IO.close", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IO.close", dict);
         }
 
         partial void ValidateRead(string handle, int? offset = null, int? size = null);
@@ -31557,7 +31379,7 @@ namespace CefSharp.DevTools.IO
         /// <param name = "offset">Seek to the specified offset before reading (if not specificed, proceed with offsetfollowing the last read). Some types of streams may only support sequential reads.</param>
         /// <param name = "size">Maximum number of bytes to read (left upon the agent discretion if not specified).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;ReadResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<ReadResponse> ReadAsync(string handle, int? offset = null, int? size = null)
+        public System.Threading.Tasks.Task<ReadResponse> ReadAsync(string handle, int? offset = null, int? size = null)
         {
             ValidateRead(handle, offset, size);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31572,8 +31394,7 @@ namespace CefSharp.DevTools.IO
                 dict.Add("size", size.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IO.read", dict);
-            return methodResult.DeserializeJson<ReadResponse>();
+            return _client.ExecuteDevToolsMethodAsync<ReadResponse>("IO.read", dict);
         }
 
         partial void ValidateResolveBlob(string objectId);
@@ -31582,13 +31403,12 @@ namespace CefSharp.DevTools.IO
         /// </summary>
         /// <param name = "objectId">Object id of a Blob object wrapper.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;ResolveBlobResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<ResolveBlobResponse> ResolveBlobAsync(string objectId)
+        public System.Threading.Tasks.Task<ResolveBlobResponse> ResolveBlobAsync(string objectId)
         {
             ValidateResolveBlob(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IO.resolveBlob", dict);
-            return methodResult.DeserializeJson<ResolveBlobResponse>();
+            return _client.ExecuteDevToolsMethodAsync<ResolveBlobResponse>("IO.resolveBlob", dict);
         }
     }
 }
@@ -31768,15 +31588,14 @@ namespace CefSharp.DevTools.IndexedDB
         /// <param name = "databaseName">Database name.</param>
         /// <param name = "objectStoreName">Object store name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearObjectStoreAsync(string securityOrigin, string databaseName, string objectStoreName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearObjectStoreAsync(string securityOrigin, string databaseName, string objectStoreName)
         {
             ValidateClearObjectStore(securityOrigin, databaseName, objectStoreName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
             dict.Add("objectStoreName", objectStoreName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.clearObjectStore", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.clearObjectStore", dict);
         }
 
         partial void ValidateDeleteDatabase(string securityOrigin, string databaseName);
@@ -31786,14 +31605,13 @@ namespace CefSharp.DevTools.IndexedDB
         /// <param name = "securityOrigin">Security origin.</param>
         /// <param name = "databaseName">Database name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteDatabaseAsync(string securityOrigin, string databaseName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteDatabaseAsync(string securityOrigin, string databaseName)
         {
             ValidateDeleteDatabase(securityOrigin, databaseName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.deleteDatabase", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.deleteDatabase", dict);
         }
 
         partial void ValidateDeleteObjectStoreEntries(string securityOrigin, string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange);
@@ -31805,7 +31623,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <param name = "objectStoreName">objectStoreName</param>
         /// <param name = "keyRange">Range of entry keys to delete</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteObjectStoreEntriesAsync(string securityOrigin, string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteObjectStoreEntriesAsync(string securityOrigin, string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange)
         {
             ValidateDeleteObjectStoreEntries(securityOrigin, databaseName, objectStoreName, keyRange);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31813,30 +31631,27 @@ namespace CefSharp.DevTools.IndexedDB
             dict.Add("databaseName", databaseName);
             dict.Add("objectStoreName", objectStoreName);
             dict.Add("keyRange", keyRange.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.deleteObjectStoreEntries", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.deleteObjectStoreEntries", dict);
         }
 
         /// <summary>
         /// Disables events from backend.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.disable", dict);
         }
 
         /// <summary>
         /// Enables events from backend.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.enable", dict);
         }
 
         partial void ValidateRequestData(string securityOrigin, string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null);
@@ -31851,7 +31666,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// <param name = "pageSize">Number of records to fetch.</param>
         /// <param name = "keyRange">Key range.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestDataResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RequestDataResponse> RequestDataAsync(string securityOrigin, string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null)
+        public System.Threading.Tasks.Task<RequestDataResponse> RequestDataAsync(string securityOrigin, string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null)
         {
             ValidateRequestData(securityOrigin, databaseName, objectStoreName, indexName, skipCount, pageSize, keyRange);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -31866,8 +31681,7 @@ namespace CefSharp.DevTools.IndexedDB
                 dict.Add("keyRange", keyRange.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.requestData", dict);
-            return methodResult.DeserializeJson<RequestDataResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RequestDataResponse>("IndexedDB.requestData", dict);
         }
 
         partial void ValidateGetMetadata(string securityOrigin, string databaseName, string objectStoreName);
@@ -31878,15 +31692,14 @@ namespace CefSharp.DevTools.IndexedDB
         /// <param name = "databaseName">Database name.</param>
         /// <param name = "objectStoreName">Object store name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetMetadataResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetMetadataResponse> GetMetadataAsync(string securityOrigin, string databaseName, string objectStoreName)
+        public System.Threading.Tasks.Task<GetMetadataResponse> GetMetadataAsync(string securityOrigin, string databaseName, string objectStoreName)
         {
             ValidateGetMetadata(securityOrigin, databaseName, objectStoreName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
             dict.Add("objectStoreName", objectStoreName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.getMetadata", dict);
-            return methodResult.DeserializeJson<GetMetadataResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetMetadataResponse>("IndexedDB.getMetadata", dict);
         }
 
         partial void ValidateRequestDatabase(string securityOrigin, string databaseName);
@@ -31896,14 +31709,13 @@ namespace CefSharp.DevTools.IndexedDB
         /// <param name = "securityOrigin">Security origin.</param>
         /// <param name = "databaseName">Database name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestDatabaseResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RequestDatabaseResponse> RequestDatabaseAsync(string securityOrigin, string databaseName)
+        public System.Threading.Tasks.Task<RequestDatabaseResponse> RequestDatabaseAsync(string securityOrigin, string databaseName)
         {
             ValidateRequestDatabase(securityOrigin, databaseName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
             dict.Add("databaseName", databaseName);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.requestDatabase", dict);
-            return methodResult.DeserializeJson<RequestDatabaseResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RequestDatabaseResponse>("IndexedDB.requestDatabase", dict);
         }
 
         partial void ValidateRequestDatabaseNames(string securityOrigin);
@@ -31912,13 +31724,12 @@ namespace CefSharp.DevTools.IndexedDB
         /// </summary>
         /// <param name = "securityOrigin">Security origin.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestDatabaseNamesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RequestDatabaseNamesResponse> RequestDatabaseNamesAsync(string securityOrigin)
+        public System.Threading.Tasks.Task<RequestDatabaseNamesResponse> RequestDatabaseNamesAsync(string securityOrigin)
         {
             ValidateRequestDatabaseNames(securityOrigin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("securityOrigin", securityOrigin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("IndexedDB.requestDatabaseNames", dict);
-            return methodResult.DeserializeJson<RequestDatabaseNamesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RequestDatabaseNamesResponse>("IndexedDB.requestDatabaseNames", dict);
         }
     }
 }
@@ -31987,7 +31798,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "data">data</param>
         /// <param name = "modifiers">Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8(default: 0).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchDragEventAsync(string type, double x, double y, CefSharp.DevTools.Input.DragData data, int? modifiers = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchDragEventAsync(string type, double x, double y, CefSharp.DevTools.Input.DragData data, int? modifiers = null)
         {
             ValidateDispatchDragEvent(type, x, y, data, modifiers);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32000,8 +31811,7 @@ namespace CefSharp.DevTools.Input
                 dict.Add("modifiers", modifiers.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.dispatchDragEvent", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.dispatchDragEvent", dict);
         }
 
         partial void ValidateDispatchKeyEvent(string type, int? modifiers = null, double? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null);
@@ -32024,7 +31834,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "location">Whether the event was from the left or right side of the keyboard. 1=Left, 2=Right (default:0).</param>
         /// <param name = "commands">Editing commands to send with the key event (e.g., 'selectAll') (default: []).These are related to but not equal the command names used in `document.execCommand` and NSStandardKeyBindingResponding.See https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/editing/commands/editor_command_names.h for valid command names.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchKeyEventAsync(string type, int? modifiers = null, double? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchKeyEventAsync(string type, int? modifiers = null, double? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null)
         {
             ValidateDispatchKeyEvent(type, modifiers, timestamp, text, unmodifiedText, keyIdentifier, code, key, windowsVirtualKeyCode, nativeVirtualKeyCode, autoRepeat, isKeypad, isSystemKey, location, commands);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32099,8 +31909,7 @@ namespace CefSharp.DevTools.Input
                 dict.Add("commands", commands);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.dispatchKeyEvent", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.dispatchKeyEvent", dict);
         }
 
         partial void ValidateInsertText(string text);
@@ -32110,13 +31919,12 @@ namespace CefSharp.DevTools.Input
         /// </summary>
         /// <param name = "text">The text to insert.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> InsertTextAsync(string text)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> InsertTextAsync(string text)
         {
             ValidateInsertText(text);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("text", text);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.insertText", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.insertText", dict);
         }
 
         partial void ValidateDispatchMouseEvent(string type, double x, double y, int? modifiers = null, double? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, double? force = null, double? tangentialPressure = null, int? tiltX = null, int? tiltY = null, int? twist = null, double? deltaX = null, double? deltaY = null, string pointerType = null);
@@ -32140,7 +31948,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "deltaY">Y delta in CSS pixels for mouse wheel event (default: 0).</param>
         /// <param name = "pointerType">Pointer type (default: "mouse").</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchMouseEventAsync(string type, double x, double y, int? modifiers = null, double? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, double? force = null, double? tangentialPressure = null, int? tiltX = null, int? tiltY = null, int? twist = null, double? deltaX = null, double? deltaY = null, string pointerType = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchMouseEventAsync(string type, double x, double y, int? modifiers = null, double? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, double? force = null, double? tangentialPressure = null, int? tiltX = null, int? tiltY = null, int? twist = null, double? deltaX = null, double? deltaY = null, string pointerType = null)
         {
             ValidateDispatchMouseEvent(type, x, y, modifiers, timestamp, button, buttons, clickCount, force, tangentialPressure, tiltX, tiltY, twist, deltaX, deltaY, pointerType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32212,8 +32020,7 @@ namespace CefSharp.DevTools.Input
                 dict.Add("pointerType", pointerType);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.dispatchMouseEvent", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.dispatchMouseEvent", dict);
         }
 
         partial void ValidateDispatchTouchEvent(string type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, double? timestamp = null);
@@ -32225,7 +32032,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "modifiers">Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8(default: 0).</param>
         /// <param name = "timestamp">Time at which the event occurred.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchTouchEventAsync(string type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, double? timestamp = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchTouchEventAsync(string type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, double? timestamp = null)
         {
             ValidateDispatchTouchEvent(type, touchPoints, modifiers, timestamp);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32241,8 +32048,7 @@ namespace CefSharp.DevTools.Input
                 dict.Add("timestamp", timestamp.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.dispatchTouchEvent", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.dispatchTouchEvent", dict);
         }
 
         partial void ValidateEmulateTouchFromMouseEvent(string type, int x, int y, CefSharp.DevTools.Input.MouseButton button, double? timestamp = null, double? deltaX = null, double? deltaY = null, int? modifiers = null, int? clickCount = null);
@@ -32259,7 +32065,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "modifiers">Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8(default: 0).</param>
         /// <param name = "clickCount">Number of times the mouse button was clicked (default: 0).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateTouchFromMouseEventAsync(string type, int x, int y, CefSharp.DevTools.Input.MouseButton button, double? timestamp = null, double? deltaX = null, double? deltaY = null, int? modifiers = null, int? clickCount = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateTouchFromMouseEventAsync(string type, int x, int y, CefSharp.DevTools.Input.MouseButton button, double? timestamp = null, double? deltaX = null, double? deltaY = null, int? modifiers = null, int? clickCount = null)
         {
             ValidateEmulateTouchFromMouseEvent(type, x, y, button, timestamp, deltaX, deltaY, modifiers, clickCount);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32292,8 +32098,7 @@ namespace CefSharp.DevTools.Input
                 dict.Add("clickCount", clickCount.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.emulateTouchFromMouseEvent", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.emulateTouchFromMouseEvent", dict);
         }
 
         partial void ValidateSetIgnoreInputEvents(bool ignore);
@@ -32302,13 +32107,12 @@ namespace CefSharp.DevTools.Input
         /// </summary>
         /// <param name = "ignore">Ignores input events processing when set to true.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetIgnoreInputEventsAsync(bool ignore)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetIgnoreInputEventsAsync(bool ignore)
         {
             ValidateSetIgnoreInputEvents(ignore);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("ignore", ignore);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.setIgnoreInputEvents", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.setIgnoreInputEvents", dict);
         }
 
         partial void ValidateSetInterceptDrags(bool enabled);
@@ -32318,13 +32122,12 @@ namespace CefSharp.DevTools.Input
         /// </summary>
         /// <param name = "enabled">enabled</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInterceptDragsAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetInterceptDragsAsync(bool enabled)
         {
             ValidateSetInterceptDrags(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.setInterceptDrags", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.setInterceptDrags", dict);
         }
 
         partial void ValidateSynthesizePinchGesture(double x, double y, double scaleFactor, int? relativeSpeed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null);
@@ -32337,7 +32140,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "relativeSpeed">Relative pointer speed in pixels per second (default: 800).</param>
         /// <param name = "gestureSourceType">Which type of input events to be generated (default: 'default', which queries the platformfor the preferred input type).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizePinchGestureAsync(double x, double y, double scaleFactor, int? relativeSpeed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizePinchGestureAsync(double x, double y, double scaleFactor, int? relativeSpeed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null)
         {
             ValidateSynthesizePinchGesture(x, y, scaleFactor, relativeSpeed, gestureSourceType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32354,8 +32157,7 @@ namespace CefSharp.DevTools.Input
                 dict.Add("gestureSourceType", this.EnumToString(gestureSourceType));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.synthesizePinchGesture", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.synthesizePinchGesture", dict);
         }
 
         partial void ValidateSynthesizeScrollGesture(double x, double y, double? xDistance = null, double? yDistance = null, double? xOverscroll = null, double? yOverscroll = null, bool? preventFling = null, int? speed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null, int? repeatCount = null, int? repeatDelayMs = null, string interactionMarkerName = null);
@@ -32375,7 +32177,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "repeatDelayMs">The number of milliseconds delay between each repeat. (default: 250).</param>
         /// <param name = "interactionMarkerName">The name of the interaction markers to generate, if not empty (default: "").</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizeScrollGestureAsync(double x, double y, double? xDistance = null, double? yDistance = null, double? xOverscroll = null, double? yOverscroll = null, bool? preventFling = null, int? speed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null, int? repeatCount = null, int? repeatDelayMs = null, string interactionMarkerName = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizeScrollGestureAsync(double x, double y, double? xDistance = null, double? yDistance = null, double? xOverscroll = null, double? yOverscroll = null, bool? preventFling = null, int? speed = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null, int? repeatCount = null, int? repeatDelayMs = null, string interactionMarkerName = null)
         {
             ValidateSynthesizeScrollGesture(x, y, xDistance, yDistance, xOverscroll, yOverscroll, preventFling, speed, gestureSourceType, repeatCount, repeatDelayMs, interactionMarkerName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32431,8 +32233,7 @@ namespace CefSharp.DevTools.Input
                 dict.Add("interactionMarkerName", interactionMarkerName);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.synthesizeScrollGesture", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.synthesizeScrollGesture", dict);
         }
 
         partial void ValidateSynthesizeTapGesture(double x, double y, int? duration = null, int? tapCount = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null);
@@ -32445,7 +32246,7 @@ namespace CefSharp.DevTools.Input
         /// <param name = "tapCount">Number of times to perform the tap (e.g. 2 for double tap, default: 1).</param>
         /// <param name = "gestureSourceType">Which type of input events to be generated (default: 'default', which queries the platformfor the preferred input type).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizeTapGestureAsync(double x, double y, int? duration = null, int? tapCount = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SynthesizeTapGestureAsync(double x, double y, int? duration = null, int? tapCount = null, CefSharp.DevTools.Input.GestureSourceType? gestureSourceType = null)
         {
             ValidateSynthesizeTapGesture(x, y, duration, tapCount, gestureSourceType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32466,8 +32267,7 @@ namespace CefSharp.DevTools.Input
                 dict.Add("gestureSourceType", this.EnumToString(gestureSourceType));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Input.synthesizeTapGesture", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.synthesizeTapGesture", dict);
         }
     }
 }
@@ -32597,22 +32397,20 @@ namespace CefSharp.DevTools.Inspector
         /// Disables inspector domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Inspector.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Inspector.disable", dict);
         }
 
         /// <summary>
         /// Enables inspector domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Inspector.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Inspector.enable", dict);
         }
     }
 }
@@ -32896,35 +32694,32 @@ namespace CefSharp.DevTools.LayerTree
         /// </summary>
         /// <param name = "layerId">The id of the layer for which we want to get the reasons it was composited.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CompositingReasonsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CompositingReasonsResponse> CompositingReasonsAsync(string layerId)
+        public System.Threading.Tasks.Task<CompositingReasonsResponse> CompositingReasonsAsync(string layerId)
         {
             ValidateCompositingReasons(layerId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("layerId", layerId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.compositingReasons", dict);
-            return methodResult.DeserializeJson<CompositingReasonsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CompositingReasonsResponse>("LayerTree.compositingReasons", dict);
         }
 
         /// <summary>
         /// Disables compositing tree inspection.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("LayerTree.disable", dict);
         }
 
         /// <summary>
         /// Enables compositing tree inspection.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("LayerTree.enable", dict);
         }
 
         partial void ValidateLoadSnapshot(System.Collections.Generic.IList<CefSharp.DevTools.LayerTree.PictureTile> tiles);
@@ -32933,13 +32728,12 @@ namespace CefSharp.DevTools.LayerTree
         /// </summary>
         /// <param name = "tiles">An array of tiles composing the snapshot.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;LoadSnapshotResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<LoadSnapshotResponse> LoadSnapshotAsync(System.Collections.Generic.IList<CefSharp.DevTools.LayerTree.PictureTile> tiles)
+        public System.Threading.Tasks.Task<LoadSnapshotResponse> LoadSnapshotAsync(System.Collections.Generic.IList<CefSharp.DevTools.LayerTree.PictureTile> tiles)
         {
             ValidateLoadSnapshot(tiles);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("tiles", tiles.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.loadSnapshot", dict);
-            return methodResult.DeserializeJson<LoadSnapshotResponse>();
+            return _client.ExecuteDevToolsMethodAsync<LoadSnapshotResponse>("LayerTree.loadSnapshot", dict);
         }
 
         partial void ValidateMakeSnapshot(string layerId);
@@ -32948,13 +32742,12 @@ namespace CefSharp.DevTools.LayerTree
         /// </summary>
         /// <param name = "layerId">The id of the layer.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;MakeSnapshotResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<MakeSnapshotResponse> MakeSnapshotAsync(string layerId)
+        public System.Threading.Tasks.Task<MakeSnapshotResponse> MakeSnapshotAsync(string layerId)
         {
             ValidateMakeSnapshot(layerId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("layerId", layerId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.makeSnapshot", dict);
-            return methodResult.DeserializeJson<MakeSnapshotResponse>();
+            return _client.ExecuteDevToolsMethodAsync<MakeSnapshotResponse>("LayerTree.makeSnapshot", dict);
         }
 
         partial void ValidateProfileSnapshot(string snapshotId, int? minRepeatCount = null, double? minDuration = null, CefSharp.DevTools.DOM.Rect clipRect = null);
@@ -32966,7 +32759,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <param name = "minDuration">The minimum duration (in seconds) to replay the snapshot.</param>
         /// <param name = "clipRect">The clip rectangle to apply when replaying the snapshot.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;ProfileSnapshotResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<ProfileSnapshotResponse> ProfileSnapshotAsync(string snapshotId, int? minRepeatCount = null, double? minDuration = null, CefSharp.DevTools.DOM.Rect clipRect = null)
+        public System.Threading.Tasks.Task<ProfileSnapshotResponse> ProfileSnapshotAsync(string snapshotId, int? minRepeatCount = null, double? minDuration = null, CefSharp.DevTools.DOM.Rect clipRect = null)
         {
             ValidateProfileSnapshot(snapshotId, minRepeatCount, minDuration, clipRect);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -32986,8 +32779,7 @@ namespace CefSharp.DevTools.LayerTree
                 dict.Add("clipRect", clipRect.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.profileSnapshot", dict);
-            return methodResult.DeserializeJson<ProfileSnapshotResponse>();
+            return _client.ExecuteDevToolsMethodAsync<ProfileSnapshotResponse>("LayerTree.profileSnapshot", dict);
         }
 
         partial void ValidateReleaseSnapshot(string snapshotId);
@@ -32996,13 +32788,12 @@ namespace CefSharp.DevTools.LayerTree
         /// </summary>
         /// <param name = "snapshotId">The id of the layer snapshot.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseSnapshotAsync(string snapshotId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseSnapshotAsync(string snapshotId)
         {
             ValidateReleaseSnapshot(snapshotId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("snapshotId", snapshotId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.releaseSnapshot", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("LayerTree.releaseSnapshot", dict);
         }
 
         partial void ValidateReplaySnapshot(string snapshotId, int? fromStep = null, int? toStep = null, double? scale = null);
@@ -33014,7 +32805,7 @@ namespace CefSharp.DevTools.LayerTree
         /// <param name = "toStep">The last step to replay to (replay till the end if not specified).</param>
         /// <param name = "scale">The scale to apply while replaying (defaults to 1).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;ReplaySnapshotResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<ReplaySnapshotResponse> ReplaySnapshotAsync(string snapshotId, int? fromStep = null, int? toStep = null, double? scale = null)
+        public System.Threading.Tasks.Task<ReplaySnapshotResponse> ReplaySnapshotAsync(string snapshotId, int? fromStep = null, int? toStep = null, double? scale = null)
         {
             ValidateReplaySnapshot(snapshotId, fromStep, toStep, scale);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -33034,8 +32825,7 @@ namespace CefSharp.DevTools.LayerTree
                 dict.Add("scale", scale.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.replaySnapshot", dict);
-            return methodResult.DeserializeJson<ReplaySnapshotResponse>();
+            return _client.ExecuteDevToolsMethodAsync<ReplaySnapshotResponse>("LayerTree.replaySnapshot", dict);
         }
 
         partial void ValidateSnapshotCommandLog(string snapshotId);
@@ -33044,13 +32834,12 @@ namespace CefSharp.DevTools.LayerTree
         /// </summary>
         /// <param name = "snapshotId">The id of the layer snapshot.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SnapshotCommandLogResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SnapshotCommandLogResponse> SnapshotCommandLogAsync(string snapshotId)
+        public System.Threading.Tasks.Task<SnapshotCommandLogResponse> SnapshotCommandLogAsync(string snapshotId)
         {
             ValidateSnapshotCommandLog(snapshotId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("snapshotId", snapshotId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("LayerTree.snapshotCommandLog", dict);
-            return methodResult.DeserializeJson<SnapshotCommandLogResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SnapshotCommandLogResponse>("LayerTree.snapshotCommandLog", dict);
         }
     }
 }
@@ -33112,22 +32901,20 @@ namespace CefSharp.DevTools.Log
         /// Clears the log.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Log.clear", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Log.clear", dict);
         }
 
         /// <summary>
         /// Disables log domain, prevents further log entries from being reported to the client.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Log.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Log.disable", dict);
         }
 
         /// <summary>
@@ -33135,11 +32922,10 @@ namespace CefSharp.DevTools.Log
         /// `entryAdded` notification.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Log.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Log.enable", dict);
         }
 
         partial void ValidateStartViolationsReport(System.Collections.Generic.IList<CefSharp.DevTools.Log.ViolationSetting> config);
@@ -33148,24 +32934,22 @@ namespace CefSharp.DevTools.Log
         /// </summary>
         /// <param name = "config">Configuration for violations.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartViolationsReportAsync(System.Collections.Generic.IList<CefSharp.DevTools.Log.ViolationSetting> config)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartViolationsReportAsync(System.Collections.Generic.IList<CefSharp.DevTools.Log.ViolationSetting> config)
         {
             ValidateStartViolationsReport(config);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("config", config.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Log.startViolationsReport", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Log.startViolationsReport", dict);
         }
 
         /// <summary>
         /// Stop violation reporting.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopViolationsReportAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopViolationsReportAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Log.stopViolationsReport", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Log.stopViolationsReport", dict);
         }
     }
 }
@@ -33341,33 +33125,30 @@ namespace CefSharp.DevTools.Memory
         /// GetDOMCounters
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetDOMCountersResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetDOMCountersResponse> GetDOMCountersAsync()
+        public System.Threading.Tasks.Task<GetDOMCountersResponse> GetDOMCountersAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.getDOMCounters", dict);
-            return methodResult.DeserializeJson<GetDOMCountersResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetDOMCountersResponse>("Memory.getDOMCounters", dict);
         }
 
         /// <summary>
         /// PrepareForLeakDetection
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> PrepareForLeakDetectionAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> PrepareForLeakDetectionAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.prepareForLeakDetection", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Memory.prepareForLeakDetection", dict);
         }
 
         /// <summary>
         /// Simulate OomIntervention by purging V8 memory.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ForciblyPurgeJavaScriptMemoryAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ForciblyPurgeJavaScriptMemoryAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.forciblyPurgeJavaScriptMemory", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Memory.forciblyPurgeJavaScriptMemory", dict);
         }
 
         partial void ValidateSetPressureNotificationsSuppressed(bool suppressed);
@@ -33376,13 +33157,12 @@ namespace CefSharp.DevTools.Memory
         /// </summary>
         /// <param name = "suppressed">If true, memory pressure notifications will be suppressed.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPressureNotificationsSuppressedAsync(bool suppressed)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPressureNotificationsSuppressedAsync(bool suppressed)
         {
             ValidateSetPressureNotificationsSuppressed(suppressed);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("suppressed", suppressed);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.setPressureNotificationsSuppressed", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Memory.setPressureNotificationsSuppressed", dict);
         }
 
         partial void ValidateSimulatePressureNotification(CefSharp.DevTools.Memory.PressureLevel level);
@@ -33391,13 +33171,12 @@ namespace CefSharp.DevTools.Memory
         /// </summary>
         /// <param name = "level">Memory pressure level of the notification.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SimulatePressureNotificationAsync(CefSharp.DevTools.Memory.PressureLevel level)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SimulatePressureNotificationAsync(CefSharp.DevTools.Memory.PressureLevel level)
         {
             ValidateSimulatePressureNotification(level);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("level", this.EnumToString(level));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.simulatePressureNotification", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Memory.simulatePressureNotification", dict);
         }
 
         partial void ValidateStartSampling(int? samplingInterval = null, bool? suppressRandomness = null);
@@ -33407,7 +33186,7 @@ namespace CefSharp.DevTools.Memory
         /// <param name = "samplingInterval">Average number of bytes between samples.</param>
         /// <param name = "suppressRandomness">Do not randomize intervals between samples.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(int? samplingInterval = null, bool? suppressRandomness = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(int? samplingInterval = null, bool? suppressRandomness = null)
         {
             ValidateStartSampling(samplingInterval, suppressRandomness);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -33421,19 +33200,17 @@ namespace CefSharp.DevTools.Memory
                 dict.Add("suppressRandomness", suppressRandomness.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.startSampling", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Memory.startSampling", dict);
         }
 
         /// <summary>
         /// Stop collecting native memory profile.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopSamplingAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopSamplingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.stopSampling", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Memory.stopSampling", dict);
         }
 
         /// <summary>
@@ -33441,11 +33218,10 @@ namespace CefSharp.DevTools.Memory
         /// collected since renderer process startup.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetAllTimeSamplingProfileResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetAllTimeSamplingProfileResponse> GetAllTimeSamplingProfileAsync()
+        public System.Threading.Tasks.Task<GetAllTimeSamplingProfileResponse> GetAllTimeSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.getAllTimeSamplingProfile", dict);
-            return methodResult.DeserializeJson<GetAllTimeSamplingProfileResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetAllTimeSamplingProfileResponse>("Memory.getAllTimeSamplingProfile", dict);
         }
 
         /// <summary>
@@ -33453,11 +33229,10 @@ namespace CefSharp.DevTools.Memory
         /// collected since browser process startup.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetBrowserSamplingProfileResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetBrowserSamplingProfileResponse> GetBrowserSamplingProfileAsync()
+        public System.Threading.Tasks.Task<GetBrowserSamplingProfileResponse> GetBrowserSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.getBrowserSamplingProfile", dict);
-            return methodResult.DeserializeJson<GetBrowserSamplingProfileResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetBrowserSamplingProfileResponse>("Memory.getBrowserSamplingProfile", dict);
         }
 
         /// <summary>
@@ -33465,11 +33240,10 @@ namespace CefSharp.DevTools.Memory
         /// `startSampling` call.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetSamplingProfileResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetSamplingProfileResponse> GetSamplingProfileAsync()
+        public System.Threading.Tasks.Task<GetSamplingProfileResponse> GetSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Memory.getSamplingProfile", dict);
-            return methodResult.DeserializeJson<GetSamplingProfileResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetSamplingProfileResponse>("Memory.getSamplingProfile", dict);
         }
     }
 }
@@ -34600,46 +34374,42 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "encodings">List of accepted content encodings.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAcceptedEncodingsAsync(CefSharp.DevTools.Network.ContentEncoding[] encodings)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAcceptedEncodingsAsync(CefSharp.DevTools.Network.ContentEncoding[] encodings)
         {
             ValidateSetAcceptedEncodings(encodings);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("encodings", this.EnumToString(encodings));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setAcceptedEncodings", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setAcceptedEncodings", dict);
         }
 
         /// <summary>
         /// Clears accepted encodings set by setAcceptedEncodings
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAcceptedEncodingsOverrideAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearAcceptedEncodingsOverrideAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.clearAcceptedEncodingsOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.clearAcceptedEncodingsOverride", dict);
         }
 
         /// <summary>
         /// Clears browser cache.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearBrowserCacheAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearBrowserCacheAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.clearBrowserCache", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.clearBrowserCache", dict);
         }
 
         /// <summary>
         /// Clears browser cookies.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearBrowserCookiesAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearBrowserCookiesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.clearBrowserCookies", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.clearBrowserCookies", dict);
         }
 
         partial void ValidateDeleteCookies(string name, string url = null, string domain = null, string path = null);
@@ -34651,7 +34421,7 @@ namespace CefSharp.DevTools.Network
         /// <param name = "domain">If specified, deletes only cookies with the exact domain.</param>
         /// <param name = "path">If specified, deletes only cookies with the exact path.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteCookiesAsync(string name, string url = null, string domain = null, string path = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteCookiesAsync(string name, string url = null, string domain = null, string path = null)
         {
             ValidateDeleteCookies(name, url, domain, path);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -34671,19 +34441,17 @@ namespace CefSharp.DevTools.Network
                 dict.Add("path", path);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.deleteCookies", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.deleteCookies", dict);
         }
 
         /// <summary>
         /// Disables network tracking, prevents network events from being sent to the client.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.disable", dict);
         }
 
         partial void ValidateEmulateNetworkConditions(bool offline, double latency, double downloadThroughput, double uploadThroughput, CefSharp.DevTools.Network.ConnectionType? connectionType = null);
@@ -34696,7 +34464,7 @@ namespace CefSharp.DevTools.Network
         /// <param name = "uploadThroughput">Maximal aggregated upload throughput (bytes/sec).  -1 disables upload throttling.</param>
         /// <param name = "connectionType">Connection type if known.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateNetworkConditionsAsync(bool offline, double latency, double downloadThroughput, double uploadThroughput, CefSharp.DevTools.Network.ConnectionType? connectionType = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateNetworkConditionsAsync(bool offline, double latency, double downloadThroughput, double uploadThroughput, CefSharp.DevTools.Network.ConnectionType? connectionType = null)
         {
             ValidateEmulateNetworkConditions(offline, latency, downloadThroughput, uploadThroughput, connectionType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -34709,8 +34477,7 @@ namespace CefSharp.DevTools.Network
                 dict.Add("connectionType", this.EnumToString(connectionType));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.emulateNetworkConditions", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.emulateNetworkConditions", dict);
         }
 
         partial void ValidateEnable(int? maxTotalBufferSize = null, int? maxResourceBufferSize = null, int? maxPostDataSize = null);
@@ -34721,7 +34488,7 @@ namespace CefSharp.DevTools.Network
         /// <param name = "maxResourceBufferSize">Per-resource buffer size in bytes to use when preserving network payloads (XHRs, etc).</param>
         /// <param name = "maxPostDataSize">Longest post body size (in bytes) that would be included in requestWillBeSent notification</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(int? maxTotalBufferSize = null, int? maxResourceBufferSize = null, int? maxPostDataSize = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(int? maxTotalBufferSize = null, int? maxResourceBufferSize = null, int? maxPostDataSize = null)
         {
             ValidateEnable(maxTotalBufferSize, maxResourceBufferSize, maxPostDataSize);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -34740,8 +34507,7 @@ namespace CefSharp.DevTools.Network
                 dict.Add("maxPostDataSize", maxPostDataSize.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.enable", dict);
         }
 
         /// <summary>
@@ -34749,11 +34515,10 @@ namespace CefSharp.DevTools.Network
         /// information in the `cookies` field.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetAllCookiesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetAllCookiesResponse> GetAllCookiesAsync()
+        public System.Threading.Tasks.Task<GetAllCookiesResponse> GetAllCookiesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getAllCookies", dict);
-            return methodResult.DeserializeJson<GetAllCookiesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetAllCookiesResponse>("Network.getAllCookies", dict);
         }
 
         partial void ValidateGetCertificate(string origin);
@@ -34762,13 +34527,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "origin">Origin to get certificate for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCertificateResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetCertificateResponse> GetCertificateAsync(string origin)
+        public System.Threading.Tasks.Task<GetCertificateResponse> GetCertificateAsync(string origin)
         {
             ValidateGetCertificate(origin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getCertificate", dict);
-            return methodResult.DeserializeJson<GetCertificateResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetCertificateResponse>("Network.getCertificate", dict);
         }
 
         partial void ValidateGetCookies(string[] urls = null);
@@ -34778,7 +34542,7 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "urls">The list of URLs for which applicable cookies will be fetched.If not specified, it's assumed to be set to the list containingthe URLs of the page and all of its subframes.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCookiesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string[] urls = null)
+        public System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string[] urls = null)
         {
             ValidateGetCookies(urls);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -34787,8 +34551,7 @@ namespace CefSharp.DevTools.Network
                 dict.Add("urls", urls);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getCookies", dict);
-            return methodResult.DeserializeJson<GetCookiesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetCookiesResponse>("Network.getCookies", dict);
         }
 
         partial void ValidateGetResponseBody(string requestId);
@@ -34797,13 +34560,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "requestId">Identifier of the network request to get content for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
+        public System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
         {
             ValidateGetResponseBody(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getResponseBody", dict);
-            return methodResult.DeserializeJson<GetResponseBodyResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetResponseBodyResponse>("Network.getResponseBody", dict);
         }
 
         partial void ValidateGetRequestPostData(string requestId);
@@ -34812,13 +34574,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "requestId">Identifier of the network request to get content for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetRequestPostDataResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetRequestPostDataResponse> GetRequestPostDataAsync(string requestId)
+        public System.Threading.Tasks.Task<GetRequestPostDataResponse> GetRequestPostDataAsync(string requestId)
         {
             ValidateGetRequestPostData(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getRequestPostData", dict);
-            return methodResult.DeserializeJson<GetRequestPostDataResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetRequestPostDataResponse>("Network.getRequestPostData", dict);
         }
 
         partial void ValidateGetResponseBodyForInterception(string interceptionId);
@@ -34827,13 +34588,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "interceptionId">Identifier for the intercepted request to get body for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyForInterceptionResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetResponseBodyForInterceptionResponse> GetResponseBodyForInterceptionAsync(string interceptionId)
+        public System.Threading.Tasks.Task<GetResponseBodyForInterceptionResponse> GetResponseBodyForInterceptionAsync(string interceptionId)
         {
             ValidateGetResponseBodyForInterception(interceptionId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("interceptionId", interceptionId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getResponseBodyForInterception", dict);
-            return methodResult.DeserializeJson<GetResponseBodyForInterceptionResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetResponseBodyForInterceptionResponse>("Network.getResponseBodyForInterception", dict);
         }
 
         partial void ValidateTakeResponseBodyForInterceptionAsStream(string interceptionId);
@@ -34845,13 +34605,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "interceptionId">interceptionId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;TakeResponseBodyForInterceptionAsStreamResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<TakeResponseBodyForInterceptionAsStreamResponse> TakeResponseBodyForInterceptionAsStreamAsync(string interceptionId)
+        public System.Threading.Tasks.Task<TakeResponseBodyForInterceptionAsStreamResponse> TakeResponseBodyForInterceptionAsStreamAsync(string interceptionId)
         {
             ValidateTakeResponseBodyForInterceptionAsStream(interceptionId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("interceptionId", interceptionId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.takeResponseBodyForInterceptionAsStream", dict);
-            return methodResult.DeserializeJson<TakeResponseBodyForInterceptionAsStreamResponse>();
+            return _client.ExecuteDevToolsMethodAsync<TakeResponseBodyForInterceptionAsStreamResponse>("Network.takeResponseBodyForInterceptionAsStream", dict);
         }
 
         partial void ValidateReplayXHR(string requestId);
@@ -34862,13 +34621,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "requestId">Identifier of XHR to replay.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReplayXHRAsync(string requestId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ReplayXHRAsync(string requestId)
         {
             ValidateReplayXHR(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.replayXHR", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.replayXHR", dict);
         }
 
         partial void ValidateSearchInResponseBody(string requestId, string query, bool? caseSensitive = null, bool? isRegex = null);
@@ -34880,7 +34638,7 @@ namespace CefSharp.DevTools.Network
         /// <param name = "caseSensitive">If true, search is case sensitive.</param>
         /// <param name = "isRegex">If true, treats string parameter as regex.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SearchInResponseBodyResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SearchInResponseBodyResponse> SearchInResponseBodyAsync(string requestId, string query, bool? caseSensitive = null, bool? isRegex = null)
+        public System.Threading.Tasks.Task<SearchInResponseBodyResponse> SearchInResponseBodyAsync(string requestId, string query, bool? caseSensitive = null, bool? isRegex = null)
         {
             ValidateSearchInResponseBody(requestId, query, caseSensitive, isRegex);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -34896,8 +34654,7 @@ namespace CefSharp.DevTools.Network
                 dict.Add("isRegex", isRegex.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.searchInResponseBody", dict);
-            return methodResult.DeserializeJson<SearchInResponseBodyResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SearchInResponseBodyResponse>("Network.searchInResponseBody", dict);
         }
 
         partial void ValidateSetBlockedURLs(string[] urls);
@@ -34906,13 +34663,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "urls">URL patterns to block. Wildcards ('*') are allowed.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlockedURLsAsync(string[] urls)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlockedURLsAsync(string[] urls)
         {
             ValidateSetBlockedURLs(urls);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("urls", urls);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setBlockedURLs", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setBlockedURLs", dict);
         }
 
         partial void ValidateSetBypassServiceWorker(bool bypass);
@@ -34921,13 +34677,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "bypass">Bypass service worker and load from network.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBypassServiceWorkerAsync(bool bypass)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetBypassServiceWorkerAsync(bool bypass)
         {
             ValidateSetBypassServiceWorker(bypass);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("bypass", bypass);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setBypassServiceWorker", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setBypassServiceWorker", dict);
         }
 
         partial void ValidateSetCacheDisabled(bool cacheDisabled);
@@ -34936,13 +34691,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "cacheDisabled">Cache disabled state.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCacheDisabledAsync(bool cacheDisabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetCacheDisabledAsync(bool cacheDisabled)
         {
             ValidateSetCacheDisabled(cacheDisabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cacheDisabled", cacheDisabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setCacheDisabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setCacheDisabled", dict);
         }
 
         partial void ValidateSetCookie(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, CefSharp.DevTools.Network.CookieSameSite? sameSite = null, double? expires = null, CefSharp.DevTools.Network.CookiePriority? priority = null, bool? sameParty = null, CefSharp.DevTools.Network.CookieSourceScheme? sourceScheme = null, int? sourcePort = null);
@@ -34963,7 +34717,7 @@ namespace CefSharp.DevTools.Network
         /// <param name = "sourceScheme">Cookie source scheme type.</param>
         /// <param name = "sourcePort">Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.An unspecified port value allows protocol clients to emulate legacy cookie scope for the port.This is a temporary ability and it will be removed in the future.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetCookieResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetCookieResponse> SetCookieAsync(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, CefSharp.DevTools.Network.CookieSameSite? sameSite = null, double? expires = null, CefSharp.DevTools.Network.CookiePriority? priority = null, bool? sameParty = null, CefSharp.DevTools.Network.CookieSourceScheme? sourceScheme = null, int? sourcePort = null)
+        public System.Threading.Tasks.Task<SetCookieResponse> SetCookieAsync(string name, string value, string url = null, string domain = null, string path = null, bool? secure = null, bool? httpOnly = null, CefSharp.DevTools.Network.CookieSameSite? sameSite = null, double? expires = null, CefSharp.DevTools.Network.CookiePriority? priority = null, bool? sameParty = null, CefSharp.DevTools.Network.CookieSourceScheme? sourceScheme = null, int? sourcePort = null)
         {
             ValidateSetCookie(name, value, url, domain, path, secure, httpOnly, sameSite, expires, priority, sameParty, sourceScheme, sourcePort);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35024,8 +34778,7 @@ namespace CefSharp.DevTools.Network
                 dict.Add("sourcePort", sourcePort.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setCookie", dict);
-            return methodResult.DeserializeJson<SetCookieResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetCookieResponse>("Network.setCookie", dict);
         }
 
         partial void ValidateSetCookies(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies);
@@ -35034,13 +34787,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "cookies">Cookies to be set.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCookiesAsync(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetCookiesAsync(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies)
         {
             ValidateSetCookies(cookies);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("cookies", cookies.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setCookies", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setCookies", dict);
         }
 
         partial void ValidateSetDataSizeLimitsForTest(int maxTotalSize, int maxResourceSize);
@@ -35050,14 +34802,13 @@ namespace CefSharp.DevTools.Network
         /// <param name = "maxTotalSize">Maximum total buffer size.</param>
         /// <param name = "maxResourceSize">Maximum per-resource size.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDataSizeLimitsForTestAsync(int maxTotalSize, int maxResourceSize)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDataSizeLimitsForTestAsync(int maxTotalSize, int maxResourceSize)
         {
             ValidateSetDataSizeLimitsForTest(maxTotalSize, maxResourceSize);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("maxTotalSize", maxTotalSize);
             dict.Add("maxResourceSize", maxResourceSize);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setDataSizeLimitsForTest", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setDataSizeLimitsForTest", dict);
         }
 
         partial void ValidateSetExtraHTTPHeaders(CefSharp.DevTools.Network.Headers headers);
@@ -35066,13 +34817,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "headers">Map with extra HTTP headers.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetExtraHTTPHeadersAsync(CefSharp.DevTools.Network.Headers headers)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetExtraHTTPHeadersAsync(CefSharp.DevTools.Network.Headers headers)
         {
             ValidateSetExtraHTTPHeaders(headers);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("headers", headers.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setExtraHTTPHeaders", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setExtraHTTPHeaders", dict);
         }
 
         partial void ValidateSetAttachDebugStack(bool enabled);
@@ -35081,13 +34831,12 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "enabled">Whether to attach a page script stack for debugging purpose.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttachDebugStackAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAttachDebugStackAsync(bool enabled)
         {
             ValidateSetAttachDebugStack(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setAttachDebugStack", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setAttachDebugStack", dict);
         }
 
         partial void ValidateSetUserAgentOverride(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null);
@@ -35099,7 +34848,7 @@ namespace CefSharp.DevTools.Network
         /// <param name = "platform">The platform navigator.platform should return.</param>
         /// <param name = "userAgentMetadata">To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserAgentOverrideAsync(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserAgentOverrideAsync(string userAgent, string acceptLanguage = null, string platform = null, CefSharp.DevTools.Emulation.UserAgentMetadata userAgentMetadata = null)
         {
             ValidateSetUserAgentOverride(userAgent, acceptLanguage, platform, userAgentMetadata);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35119,8 +34868,7 @@ namespace CefSharp.DevTools.Network
                 dict.Add("userAgentMetadata", userAgentMetadata.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.setUserAgentOverride", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setUserAgentOverride", dict);
         }
 
         partial void ValidateGetSecurityIsolationStatus(string frameId = null);
@@ -35129,7 +34877,7 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         /// <param name = "frameId">If no frameId is provided, the status of the target is provided.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetSecurityIsolationStatusResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetSecurityIsolationStatusResponse> GetSecurityIsolationStatusAsync(string frameId = null)
+        public System.Threading.Tasks.Task<GetSecurityIsolationStatusResponse> GetSecurityIsolationStatusAsync(string frameId = null)
         {
             ValidateGetSecurityIsolationStatus(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35138,8 +34886,7 @@ namespace CefSharp.DevTools.Network
                 dict.Add("frameId", frameId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.getSecurityIsolationStatus", dict);
-            return methodResult.DeserializeJson<GetSecurityIsolationStatusResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetSecurityIsolationStatusResponse>("Network.getSecurityIsolationStatus", dict);
         }
 
         partial void ValidateLoadNetworkResource(string frameId, string url, CefSharp.DevTools.Network.LoadNetworkResourceOptions options);
@@ -35150,15 +34897,14 @@ namespace CefSharp.DevTools.Network
         /// <param name = "url">URL of the resource to get content for.</param>
         /// <param name = "options">Options for the request.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;LoadNetworkResourceResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<LoadNetworkResourceResponse> LoadNetworkResourceAsync(string frameId, string url, CefSharp.DevTools.Network.LoadNetworkResourceOptions options)
+        public System.Threading.Tasks.Task<LoadNetworkResourceResponse> LoadNetworkResourceAsync(string frameId, string url, CefSharp.DevTools.Network.LoadNetworkResourceOptions options)
         {
             ValidateLoadNetworkResource(frameId, url, options);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             dict.Add("url", url);
             dict.Add("options", options.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Network.loadNetworkResource", dict);
-            return methodResult.DeserializeJson<LoadNetworkResourceResponse>();
+            return _client.ExecuteDevToolsMethodAsync<LoadNetworkResourceResponse>("Network.loadNetworkResource", dict);
         }
     }
 }
@@ -35407,22 +35153,20 @@ namespace CefSharp.DevTools.Overlay
         /// Disables domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.disable", dict);
         }
 
         /// <summary>
         /// Enables domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.enable", dict);
         }
 
         partial void ValidateGetHighlightObjectForTest(int nodeId, bool? includeDistance = null, bool? includeStyle = null, CefSharp.DevTools.Overlay.ColorFormat? colorFormat = null, bool? showAccessibilityInfo = null);
@@ -35435,7 +35179,7 @@ namespace CefSharp.DevTools.Overlay
         /// <param name = "colorFormat">The color format to get config with (default: hex).</param>
         /// <param name = "showAccessibilityInfo">Whether to show accessibility info (default: true).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetHighlightObjectForTestResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetHighlightObjectForTestResponse> GetHighlightObjectForTestAsync(int nodeId, bool? includeDistance = null, bool? includeStyle = null, CefSharp.DevTools.Overlay.ColorFormat? colorFormat = null, bool? showAccessibilityInfo = null)
+        public System.Threading.Tasks.Task<GetHighlightObjectForTestResponse> GetHighlightObjectForTestAsync(int nodeId, bool? includeDistance = null, bool? includeStyle = null, CefSharp.DevTools.Overlay.ColorFormat? colorFormat = null, bool? showAccessibilityInfo = null)
         {
             ValidateGetHighlightObjectForTest(nodeId, includeDistance, includeStyle, colorFormat, showAccessibilityInfo);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35460,8 +35204,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("showAccessibilityInfo", showAccessibilityInfo.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.getHighlightObjectForTest", dict);
-            return methodResult.DeserializeJson<GetHighlightObjectForTestResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetHighlightObjectForTestResponse>("Overlay.getHighlightObjectForTest", dict);
         }
 
         partial void ValidateGetGridHighlightObjectsForTest(int[] nodeIds);
@@ -35470,13 +35213,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "nodeIds">Ids of the node to get highlight object for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetGridHighlightObjectsForTestResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetGridHighlightObjectsForTestResponse> GetGridHighlightObjectsForTestAsync(int[] nodeIds)
+        public System.Threading.Tasks.Task<GetGridHighlightObjectsForTestResponse> GetGridHighlightObjectsForTestAsync(int[] nodeIds)
         {
             ValidateGetGridHighlightObjectsForTest(nodeIds);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeIds", nodeIds);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.getGridHighlightObjectsForTest", dict);
-            return methodResult.DeserializeJson<GetGridHighlightObjectsForTestResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetGridHighlightObjectsForTestResponse>("Overlay.getGridHighlightObjectsForTest", dict);
         }
 
         partial void ValidateGetSourceOrderHighlightObjectForTest(int nodeId);
@@ -35485,24 +35227,22 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "nodeId">Id of the node to highlight.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetSourceOrderHighlightObjectForTestResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetSourceOrderHighlightObjectForTestResponse> GetSourceOrderHighlightObjectForTestAsync(int nodeId)
+        public System.Threading.Tasks.Task<GetSourceOrderHighlightObjectForTestResponse> GetSourceOrderHighlightObjectForTestAsync(int nodeId)
         {
             ValidateGetSourceOrderHighlightObjectForTest(nodeId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.getSourceOrderHighlightObjectForTest", dict);
-            return methodResult.DeserializeJson<GetSourceOrderHighlightObjectForTestResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetSourceOrderHighlightObjectForTestResponse>("Overlay.getSourceOrderHighlightObjectForTest", dict);
         }
 
         /// <summary>
         /// Hides any highlight.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HideHighlightAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HideHighlightAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.hideHighlight", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.hideHighlight", dict);
         }
 
         partial void ValidateHighlightFrame(string frameId, CefSharp.DevTools.DOM.RGBA contentColor = null, CefSharp.DevTools.DOM.RGBA contentOutlineColor = null);
@@ -35513,7 +35253,7 @@ namespace CefSharp.DevTools.Overlay
         /// <param name = "contentColor">The content box highlight fill color (default: transparent).</param>
         /// <param name = "contentOutlineColor">The content box highlight outline color (default: transparent).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightFrameAsync(string frameId, CefSharp.DevTools.DOM.RGBA contentColor = null, CefSharp.DevTools.DOM.RGBA contentOutlineColor = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightFrameAsync(string frameId, CefSharp.DevTools.DOM.RGBA contentColor = null, CefSharp.DevTools.DOM.RGBA contentOutlineColor = null)
         {
             ValidateHighlightFrame(frameId, contentColor, contentOutlineColor);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35528,8 +35268,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("contentOutlineColor", contentOutlineColor.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.highlightFrame", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.highlightFrame", dict);
         }
 
         partial void ValidateHighlightNode(CefSharp.DevTools.Overlay.HighlightConfig highlightConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null, string selector = null);
@@ -35543,7 +35282,7 @@ namespace CefSharp.DevTools.Overlay
         /// <param name = "objectId">JavaScript object id of the node to be highlighted.</param>
         /// <param name = "selector">Selectors to highlight relevant nodes.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightNodeAsync(CefSharp.DevTools.Overlay.HighlightConfig highlightConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null, string selector = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightNodeAsync(CefSharp.DevTools.Overlay.HighlightConfig highlightConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null, string selector = null)
         {
             ValidateHighlightNode(highlightConfig, nodeId, backendNodeId, objectId, selector);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35568,8 +35307,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("selector", selector);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.highlightNode", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.highlightNode", dict);
         }
 
         partial void ValidateHighlightQuad(double[] quad, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null);
@@ -35580,7 +35318,7 @@ namespace CefSharp.DevTools.Overlay
         /// <param name = "color">The highlight fill color (default: transparent).</param>
         /// <param name = "outlineColor">The highlight outline color (default: transparent).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightQuadAsync(double[] quad, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightQuadAsync(double[] quad, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null)
         {
             ValidateHighlightQuad(quad, color, outlineColor);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35595,8 +35333,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("outlineColor", outlineColor.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.highlightQuad", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.highlightQuad", dict);
         }
 
         partial void ValidateHighlightRect(int x, int y, int width, int height, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null);
@@ -35610,7 +35347,7 @@ namespace CefSharp.DevTools.Overlay
         /// <param name = "color">The highlight fill color (default: transparent).</param>
         /// <param name = "outlineColor">The highlight outline color (default: transparent).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightRectAsync(int x, int y, int width, int height, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightRectAsync(int x, int y, int width, int height, CefSharp.DevTools.DOM.RGBA color = null, CefSharp.DevTools.DOM.RGBA outlineColor = null)
         {
             ValidateHighlightRect(x, y, width, height, color, outlineColor);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35628,8 +35365,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("outlineColor", outlineColor.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.highlightRect", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.highlightRect", dict);
         }
 
         partial void ValidateHighlightSourceOrder(CefSharp.DevTools.Overlay.SourceOrderConfig sourceOrderConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null);
@@ -35642,7 +35378,7 @@ namespace CefSharp.DevTools.Overlay
         /// <param name = "backendNodeId">Identifier of the backend node to highlight.</param>
         /// <param name = "objectId">JavaScript object id of the node to be highlighted.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightSourceOrderAsync(CefSharp.DevTools.Overlay.SourceOrderConfig sourceOrderConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HighlightSourceOrderAsync(CefSharp.DevTools.Overlay.SourceOrderConfig sourceOrderConfig, int? nodeId = null, int? backendNodeId = null, string objectId = null)
         {
             ValidateHighlightSourceOrder(sourceOrderConfig, nodeId, backendNodeId, objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35662,8 +35398,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("objectId", objectId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.highlightSourceOrder", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.highlightSourceOrder", dict);
         }
 
         partial void ValidateSetInspectMode(CefSharp.DevTools.Overlay.InspectMode mode, CefSharp.DevTools.Overlay.HighlightConfig highlightConfig = null);
@@ -35674,7 +35409,7 @@ namespace CefSharp.DevTools.Overlay
         /// <param name = "mode">Set an inspection mode.</param>
         /// <param name = "highlightConfig">A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled== false`.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectModeAsync(CefSharp.DevTools.Overlay.InspectMode mode, CefSharp.DevTools.Overlay.HighlightConfig highlightConfig = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetInspectModeAsync(CefSharp.DevTools.Overlay.InspectMode mode, CefSharp.DevTools.Overlay.HighlightConfig highlightConfig = null)
         {
             ValidateSetInspectMode(mode, highlightConfig);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35684,8 +35419,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("highlightConfig", highlightConfig.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setInspectMode", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setInspectMode", dict);
         }
 
         partial void ValidateSetShowAdHighlights(bool show);
@@ -35694,13 +35428,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "show">True for showing ad highlights</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowAdHighlightsAsync(bool show)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowAdHighlightsAsync(bool show)
         {
             ValidateSetShowAdHighlights(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowAdHighlights", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowAdHighlights", dict);
         }
 
         partial void ValidateSetPausedInDebuggerMessage(string message = null);
@@ -35709,7 +35442,7 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "message">The message to display, also triggers resume and step over controls.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPausedInDebuggerMessageAsync(string message = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPausedInDebuggerMessageAsync(string message = null)
         {
             ValidateSetPausedInDebuggerMessage(message);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35718,8 +35451,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("message", message);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setPausedInDebuggerMessage", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setPausedInDebuggerMessage", dict);
         }
 
         partial void ValidateSetShowDebugBorders(bool show);
@@ -35728,13 +35460,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "show">True for showing debug borders</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowDebugBordersAsync(bool show)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowDebugBordersAsync(bool show)
         {
             ValidateSetShowDebugBorders(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowDebugBorders", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowDebugBorders", dict);
         }
 
         partial void ValidateSetShowFPSCounter(bool show);
@@ -35743,13 +35474,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "show">True for showing the FPS counter</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowFPSCounterAsync(bool show)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowFPSCounterAsync(bool show)
         {
             ValidateSetShowFPSCounter(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowFPSCounter", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowFPSCounter", dict);
         }
 
         partial void ValidateSetShowGridOverlays(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.GridNodeHighlightConfig> gridNodeHighlightConfigs);
@@ -35758,13 +35488,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "gridNodeHighlightConfigs">An array of node identifiers and descriptors for the highlight appearance.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowGridOverlaysAsync(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.GridNodeHighlightConfig> gridNodeHighlightConfigs)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowGridOverlaysAsync(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.GridNodeHighlightConfig> gridNodeHighlightConfigs)
         {
             ValidateSetShowGridOverlays(gridNodeHighlightConfigs);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("gridNodeHighlightConfigs", gridNodeHighlightConfigs.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowGridOverlays", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowGridOverlays", dict);
         }
 
         partial void ValidateSetShowFlexOverlays(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.FlexNodeHighlightConfig> flexNodeHighlightConfigs);
@@ -35773,13 +35502,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "flexNodeHighlightConfigs">An array of node identifiers and descriptors for the highlight appearance.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowFlexOverlaysAsync(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.FlexNodeHighlightConfig> flexNodeHighlightConfigs)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowFlexOverlaysAsync(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.FlexNodeHighlightConfig> flexNodeHighlightConfigs)
         {
             ValidateSetShowFlexOverlays(flexNodeHighlightConfigs);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("flexNodeHighlightConfigs", flexNodeHighlightConfigs.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowFlexOverlays", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowFlexOverlays", dict);
         }
 
         partial void ValidateSetShowScrollSnapOverlays(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.ScrollSnapHighlightConfig> scrollSnapHighlightConfigs);
@@ -35788,13 +35516,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "scrollSnapHighlightConfigs">An array of node identifiers and descriptors for the highlight appearance.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowScrollSnapOverlaysAsync(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.ScrollSnapHighlightConfig> scrollSnapHighlightConfigs)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowScrollSnapOverlaysAsync(System.Collections.Generic.IList<CefSharp.DevTools.Overlay.ScrollSnapHighlightConfig> scrollSnapHighlightConfigs)
         {
             ValidateSetShowScrollSnapOverlays(scrollSnapHighlightConfigs);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scrollSnapHighlightConfigs", scrollSnapHighlightConfigs.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowScrollSnapOverlays", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowScrollSnapOverlays", dict);
         }
 
         partial void ValidateSetShowPaintRects(bool result);
@@ -35803,13 +35530,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "result">True for showing paint rectangles</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowPaintRectsAsync(bool result)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowPaintRectsAsync(bool result)
         {
             ValidateSetShowPaintRects(result);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("result", result);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowPaintRects", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowPaintRects", dict);
         }
 
         partial void ValidateSetShowLayoutShiftRegions(bool result);
@@ -35818,13 +35544,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "result">True for showing layout shift regions</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowLayoutShiftRegionsAsync(bool result)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowLayoutShiftRegionsAsync(bool result)
         {
             ValidateSetShowLayoutShiftRegions(result);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("result", result);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowLayoutShiftRegions", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowLayoutShiftRegions", dict);
         }
 
         partial void ValidateSetShowScrollBottleneckRects(bool show);
@@ -35833,13 +35558,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "show">True for showing scroll bottleneck rects</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowScrollBottleneckRectsAsync(bool show)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowScrollBottleneckRectsAsync(bool show)
         {
             ValidateSetShowScrollBottleneckRects(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowScrollBottleneckRects", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowScrollBottleneckRects", dict);
         }
 
         partial void ValidateSetShowHitTestBorders(bool show);
@@ -35848,13 +35572,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "show">True for showing hit-test borders</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowHitTestBordersAsync(bool show)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowHitTestBordersAsync(bool show)
         {
             ValidateSetShowHitTestBorders(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowHitTestBorders", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowHitTestBorders", dict);
         }
 
         partial void ValidateSetShowWebVitals(bool show);
@@ -35863,13 +35586,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "show">show</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowWebVitalsAsync(bool show)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowWebVitalsAsync(bool show)
         {
             ValidateSetShowWebVitals(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowWebVitals", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowWebVitals", dict);
         }
 
         partial void ValidateSetShowViewportSizeOnResize(bool show);
@@ -35878,13 +35600,12 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "show">Whether to paint size or not.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowViewportSizeOnResizeAsync(bool show)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowViewportSizeOnResizeAsync(bool show)
         {
             ValidateSetShowViewportSizeOnResize(show);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("show", show);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowViewportSizeOnResize", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowViewportSizeOnResize", dict);
         }
 
         partial void ValidateSetShowHinge(CefSharp.DevTools.Overlay.HingeConfig hingeConfig = null);
@@ -35893,7 +35614,7 @@ namespace CefSharp.DevTools.Overlay
         /// </summary>
         /// <param name = "hingeConfig">hinge data, null means hideHinge</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowHingeAsync(CefSharp.DevTools.Overlay.HingeConfig hingeConfig = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetShowHingeAsync(CefSharp.DevTools.Overlay.HingeConfig hingeConfig = null)
         {
             ValidateSetShowHinge(hingeConfig);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35902,8 +35623,7 @@ namespace CefSharp.DevTools.Overlay
                 dict.Add("hingeConfig", hingeConfig.ToDictionary());
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Overlay.setShowHinge", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Overlay.setShowHinge", dict);
         }
     }
 }
@@ -37335,7 +37055,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "source">source</param>
         /// <param name = "worldName">If specified, creates an isolated world with the given name and evaluates given script in it.This world name will be used as the ExecutionContextDescription::name when the correspondingevent is emitted.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;AddScriptToEvaluateOnNewDocumentResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<AddScriptToEvaluateOnNewDocumentResponse> AddScriptToEvaluateOnNewDocumentAsync(string source, string worldName = null)
+        public System.Threading.Tasks.Task<AddScriptToEvaluateOnNewDocumentResponse> AddScriptToEvaluateOnNewDocumentAsync(string source, string worldName = null)
         {
             ValidateAddScriptToEvaluateOnNewDocument(source, worldName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37345,19 +37065,17 @@ namespace CefSharp.DevTools.Page
                 dict.Add("worldName", worldName);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.addScriptToEvaluateOnNewDocument", dict);
-            return methodResult.DeserializeJson<AddScriptToEvaluateOnNewDocumentResponse>();
+            return _client.ExecuteDevToolsMethodAsync<AddScriptToEvaluateOnNewDocumentResponse>("Page.addScriptToEvaluateOnNewDocument", dict);
         }
 
         /// <summary>
         /// Brings page to front (activates tab).
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> BringToFrontAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> BringToFrontAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.bringToFront", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.bringToFront", dict);
         }
 
         partial void ValidateCaptureScreenshot(string format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null, bool? captureBeyondViewport = null);
@@ -37370,7 +37088,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "fromSurface">Capture the screenshot from the surface, rather than the view. Defaults to true.</param>
         /// <param name = "captureBeyondViewport">Capture the screenshot beyond the viewport. Defaults to false.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CaptureScreenshotResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CaptureScreenshotResponse> CaptureScreenshotAsync(string format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null, bool? captureBeyondViewport = null)
+        public System.Threading.Tasks.Task<CaptureScreenshotResponse> CaptureScreenshotAsync(string format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null, bool? captureBeyondViewport = null)
         {
             ValidateCaptureScreenshot(format, quality, clip, fromSurface, captureBeyondViewport);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37399,8 +37117,7 @@ namespace CefSharp.DevTools.Page
                 dict.Add("captureBeyondViewport", captureBeyondViewport.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.captureScreenshot", dict);
-            return methodResult.DeserializeJson<CaptureScreenshotResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CaptureScreenshotResponse>("Page.captureScreenshot", dict);
         }
 
         partial void ValidateCaptureSnapshot(string format = null);
@@ -37410,7 +37127,7 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "format">Format (defaults to mhtml).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CaptureSnapshotResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string format = null)
+        public System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string format = null)
         {
             ValidateCaptureSnapshot(format);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37419,8 +37136,7 @@ namespace CefSharp.DevTools.Page
                 dict.Add("format", format);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.captureSnapshot", dict);
-            return methodResult.DeserializeJson<CaptureSnapshotResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CaptureSnapshotResponse>("Page.captureSnapshot", dict);
         }
 
         partial void ValidateCreateIsolatedWorld(string frameId, string worldName = null, bool? grantUniveralAccess = null);
@@ -37431,7 +37147,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "worldName">An optional name which is reported in the Execution Context.</param>
         /// <param name = "grantUniveralAccess">Whether or not universal access should be granted to the isolated world. This is a powerfuloption, use with caution.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CreateIsolatedWorldResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CreateIsolatedWorldResponse> CreateIsolatedWorldAsync(string frameId, string worldName = null, bool? grantUniveralAccess = null)
+        public System.Threading.Tasks.Task<CreateIsolatedWorldResponse> CreateIsolatedWorldAsync(string frameId, string worldName = null, bool? grantUniveralAccess = null)
         {
             ValidateCreateIsolatedWorld(frameId, worldName, grantUniveralAccess);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37446,107 +37162,97 @@ namespace CefSharp.DevTools.Page
                 dict.Add("grantUniveralAccess", grantUniveralAccess.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.createIsolatedWorld", dict);
-            return methodResult.DeserializeJson<CreateIsolatedWorldResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CreateIsolatedWorldResponse>("Page.createIsolatedWorld", dict);
         }
 
         /// <summary>
         /// Disables page domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.disable", dict);
         }
 
         /// <summary>
         /// Enables page domain notifications.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.enable", dict);
         }
 
         /// <summary>
         /// GetAppManifest
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetAppManifestResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetAppManifestResponse> GetAppManifestAsync()
+        public System.Threading.Tasks.Task<GetAppManifestResponse> GetAppManifestAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getAppManifest", dict);
-            return methodResult.DeserializeJson<GetAppManifestResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetAppManifestResponse>("Page.getAppManifest", dict);
         }
 
         /// <summary>
         /// GetInstallabilityErrors
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetInstallabilityErrorsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetInstallabilityErrorsResponse> GetInstallabilityErrorsAsync()
+        public System.Threading.Tasks.Task<GetInstallabilityErrorsResponse> GetInstallabilityErrorsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getInstallabilityErrors", dict);
-            return methodResult.DeserializeJson<GetInstallabilityErrorsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetInstallabilityErrorsResponse>("Page.getInstallabilityErrors", dict);
         }
 
         /// <summary>
         /// GetManifestIcons
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetManifestIconsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetManifestIconsResponse> GetManifestIconsAsync()
+        public System.Threading.Tasks.Task<GetManifestIconsResponse> GetManifestIconsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getManifestIcons", dict);
-            return methodResult.DeserializeJson<GetManifestIconsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetManifestIconsResponse>("Page.getManifestIcons", dict);
         }
 
         /// <summary>
         /// Returns present frame tree structure.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetFrameTreeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetFrameTreeResponse> GetFrameTreeAsync()
+        public System.Threading.Tasks.Task<GetFrameTreeResponse> GetFrameTreeAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getFrameTree", dict);
-            return methodResult.DeserializeJson<GetFrameTreeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetFrameTreeResponse>("Page.getFrameTree", dict);
         }
 
         /// <summary>
         /// Returns metrics relating to the layouting of the page, such as viewport bounds/scale.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetLayoutMetricsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetLayoutMetricsResponse> GetLayoutMetricsAsync()
+        public System.Threading.Tasks.Task<GetLayoutMetricsResponse> GetLayoutMetricsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getLayoutMetrics", dict);
-            return methodResult.DeserializeJson<GetLayoutMetricsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetLayoutMetricsResponse>("Page.getLayoutMetrics", dict);
         }
 
         /// <summary>
         /// Returns navigation history for the current page.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetNavigationHistoryResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetNavigationHistoryResponse> GetNavigationHistoryAsync()
+        public System.Threading.Tasks.Task<GetNavigationHistoryResponse> GetNavigationHistoryAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getNavigationHistory", dict);
-            return methodResult.DeserializeJson<GetNavigationHistoryResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetNavigationHistoryResponse>("Page.getNavigationHistory", dict);
         }
 
         /// <summary>
         /// Resets navigation history for the current page.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResetNavigationHistoryAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ResetNavigationHistoryAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.resetNavigationHistory", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.resetNavigationHistory", dict);
         }
 
         partial void ValidateGetResourceContent(string frameId, string url);
@@ -37556,25 +37262,23 @@ namespace CefSharp.DevTools.Page
         /// <param name = "frameId">Frame id to get resource for.</param>
         /// <param name = "url">URL of the resource to get content for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResourceContentResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetResourceContentResponse> GetResourceContentAsync(string frameId, string url)
+        public System.Threading.Tasks.Task<GetResourceContentResponse> GetResourceContentAsync(string frameId, string url)
         {
             ValidateGetResourceContent(frameId, url);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             dict.Add("url", url);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getResourceContent", dict);
-            return methodResult.DeserializeJson<GetResourceContentResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetResourceContentResponse>("Page.getResourceContent", dict);
         }
 
         /// <summary>
         /// Returns present frame / resource tree structure.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResourceTreeResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetResourceTreeResponse> GetResourceTreeAsync()
+        public System.Threading.Tasks.Task<GetResourceTreeResponse> GetResourceTreeAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getResourceTree", dict);
-            return methodResult.DeserializeJson<GetResourceTreeResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetResourceTreeResponse>("Page.getResourceTree", dict);
         }
 
         partial void ValidateHandleJavaScriptDialog(bool accept, string promptText = null);
@@ -37584,7 +37288,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "accept">Whether to accept or dismiss the dialog.</param>
         /// <param name = "promptText">The text to enter into the dialog prompt before accepting. Used only if this is a promptdialog.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> HandleJavaScriptDialogAsync(bool accept, string promptText = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> HandleJavaScriptDialogAsync(bool accept, string promptText = null)
         {
             ValidateHandleJavaScriptDialog(accept, promptText);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37594,8 +37298,7 @@ namespace CefSharp.DevTools.Page
                 dict.Add("promptText", promptText);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.handleJavaScriptDialog", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.handleJavaScriptDialog", dict);
         }
 
         partial void ValidateNavigate(string url, string referrer = null, CefSharp.DevTools.Page.TransitionType? transitionType = null, string frameId = null, CefSharp.DevTools.Page.ReferrerPolicy? referrerPolicy = null);
@@ -37608,7 +37311,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "frameId">Frame id to navigate, if not specified navigates the top frame.</param>
         /// <param name = "referrerPolicy">Referrer-policy used for the navigation.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;NavigateResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<NavigateResponse> NavigateAsync(string url, string referrer = null, CefSharp.DevTools.Page.TransitionType? transitionType = null, string frameId = null, CefSharp.DevTools.Page.ReferrerPolicy? referrerPolicy = null)
+        public System.Threading.Tasks.Task<NavigateResponse> NavigateAsync(string url, string referrer = null, CefSharp.DevTools.Page.TransitionType? transitionType = null, string frameId = null, CefSharp.DevTools.Page.ReferrerPolicy? referrerPolicy = null)
         {
             ValidateNavigate(url, referrer, transitionType, frameId, referrerPolicy);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37633,8 +37336,7 @@ namespace CefSharp.DevTools.Page
                 dict.Add("referrerPolicy", this.EnumToString(referrerPolicy));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.navigate", dict);
-            return methodResult.DeserializeJson<NavigateResponse>();
+            return _client.ExecuteDevToolsMethodAsync<NavigateResponse>("Page.navigate", dict);
         }
 
         partial void ValidateNavigateToHistoryEntry(int entryId);
@@ -37643,13 +37345,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "entryId">Unique id of the entry to navigate to.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> NavigateToHistoryEntryAsync(int entryId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> NavigateToHistoryEntryAsync(int entryId)
         {
             ValidateNavigateToHistoryEntry(entryId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("entryId", entryId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.navigateToHistoryEntry", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.navigateToHistoryEntry", dict);
         }
 
         partial void ValidatePrintToPDF(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, double? scale = null, double? paperWidth = null, double? paperHeight = null, double? marginTop = null, double? marginBottom = null, double? marginLeft = null, double? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, string transferMode = null);
@@ -37673,7 +37374,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "preferCSSPageSize">Whether or not to prefer page size as defined by css. Defaults to false,in which case the content will be scaled to fit the paper size.</param>
         /// <param name = "transferMode">return as stream</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;PrintToPDFResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<PrintToPDFResponse> PrintToPDFAsync(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, double? scale = null, double? paperWidth = null, double? paperHeight = null, double? marginTop = null, double? marginBottom = null, double? marginLeft = null, double? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, string transferMode = null)
+        public System.Threading.Tasks.Task<PrintToPDFResponse> PrintToPDFAsync(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, double? scale = null, double? paperWidth = null, double? paperHeight = null, double? marginTop = null, double? marginBottom = null, double? marginLeft = null, double? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, string transferMode = null)
         {
             ValidatePrintToPDF(landscape, displayHeaderFooter, printBackground, scale, paperWidth, paperHeight, marginTop, marginBottom, marginLeft, marginRight, pageRanges, ignoreInvalidPageRanges, headerTemplate, footerTemplate, preferCSSPageSize, transferMode);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37757,8 +37458,7 @@ namespace CefSharp.DevTools.Page
                 dict.Add("transferMode", transferMode);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.printToPDF", dict);
-            return methodResult.DeserializeJson<PrintToPDFResponse>();
+            return _client.ExecuteDevToolsMethodAsync<PrintToPDFResponse>("Page.printToPDF", dict);
         }
 
         partial void ValidateReload(bool? ignoreCache = null, string scriptToEvaluateOnLoad = null);
@@ -37768,7 +37468,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "ignoreCache">If true, browser cache is ignored (as if the user pressed Shift+refresh).</param>
         /// <param name = "scriptToEvaluateOnLoad">If set, the script will be injected into all frames of the inspected page after reload.Argument will be ignored if reloading dataURL origin.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReloadAsync(bool? ignoreCache = null, string scriptToEvaluateOnLoad = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ReloadAsync(bool? ignoreCache = null, string scriptToEvaluateOnLoad = null)
         {
             ValidateReload(ignoreCache, scriptToEvaluateOnLoad);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37782,8 +37482,7 @@ namespace CefSharp.DevTools.Page
                 dict.Add("scriptToEvaluateOnLoad", scriptToEvaluateOnLoad);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.reload", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.reload", dict);
         }
 
         partial void ValidateRemoveScriptToEvaluateOnNewDocument(string identifier);
@@ -37792,13 +37491,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "identifier">identifier</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveScriptToEvaluateOnNewDocumentAsync(string identifier)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveScriptToEvaluateOnNewDocumentAsync(string identifier)
         {
             ValidateRemoveScriptToEvaluateOnNewDocument(identifier);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("identifier", identifier);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.removeScriptToEvaluateOnNewDocument", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.removeScriptToEvaluateOnNewDocument", dict);
         }
 
         partial void ValidateScreencastFrameAck(int sessionId);
@@ -37807,13 +37505,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "sessionId">Frame number.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ScreencastFrameAckAsync(int sessionId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ScreencastFrameAckAsync(int sessionId)
         {
             ValidateScreencastFrameAck(sessionId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("sessionId", sessionId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.screencastFrameAck", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.screencastFrameAck", dict);
         }
 
         partial void ValidateSearchInResource(string frameId, string url, string query, bool? caseSensitive = null, bool? isRegex = null);
@@ -37826,7 +37523,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "caseSensitive">If true, search is case sensitive.</param>
         /// <param name = "isRegex">If true, treats string parameter as regex.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SearchInResourceResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SearchInResourceResponse> SearchInResourceAsync(string frameId, string url, string query, bool? caseSensitive = null, bool? isRegex = null)
+        public System.Threading.Tasks.Task<SearchInResourceResponse> SearchInResourceAsync(string frameId, string url, string query, bool? caseSensitive = null, bool? isRegex = null)
         {
             ValidateSearchInResource(frameId, url, query, caseSensitive, isRegex);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37843,8 +37540,7 @@ namespace CefSharp.DevTools.Page
                 dict.Add("isRegex", isRegex.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.searchInResource", dict);
-            return methodResult.DeserializeJson<SearchInResourceResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SearchInResourceResponse>("Page.searchInResource", dict);
         }
 
         partial void ValidateSetAdBlockingEnabled(bool enabled);
@@ -37853,13 +37549,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "enabled">Whether to block ads.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAdBlockingEnabledAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAdBlockingEnabledAsync(bool enabled)
         {
             ValidateSetAdBlockingEnabled(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setAdBlockingEnabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setAdBlockingEnabled", dict);
         }
 
         partial void ValidateSetBypassCSP(bool enabled);
@@ -37868,13 +37563,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "enabled">Whether to bypass page CSP.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBypassCSPAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetBypassCSPAsync(bool enabled)
         {
             ValidateSetBypassCSP(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setBypassCSP", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setBypassCSP", dict);
         }
 
         partial void ValidateGetPermissionsPolicyState(string frameId);
@@ -37883,13 +37577,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "frameId">frameId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetPermissionsPolicyStateResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetPermissionsPolicyStateResponse> GetPermissionsPolicyStateAsync(string frameId)
+        public System.Threading.Tasks.Task<GetPermissionsPolicyStateResponse> GetPermissionsPolicyStateAsync(string frameId)
         {
             ValidateGetPermissionsPolicyState(frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.getPermissionsPolicyState", dict);
-            return methodResult.DeserializeJson<GetPermissionsPolicyStateResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetPermissionsPolicyStateResponse>("Page.getPermissionsPolicyState", dict);
         }
 
         partial void ValidateSetFontFamilies(CefSharp.DevTools.Page.FontFamilies fontFamilies);
@@ -37898,13 +37591,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "fontFamilies">Specifies font families to set. If a font family is not specified, it won't be changed.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFontFamiliesAsync(CefSharp.DevTools.Page.FontFamilies fontFamilies)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetFontFamiliesAsync(CefSharp.DevTools.Page.FontFamilies fontFamilies)
         {
             ValidateSetFontFamilies(fontFamilies);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("fontFamilies", fontFamilies.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setFontFamilies", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setFontFamilies", dict);
         }
 
         partial void ValidateSetFontSizes(CefSharp.DevTools.Page.FontSizes fontSizes);
@@ -37913,13 +37605,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "fontSizes">Specifies font sizes to set. If a font size is not specified, it won't be changed.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetFontSizesAsync(CefSharp.DevTools.Page.FontSizes fontSizes)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetFontSizesAsync(CefSharp.DevTools.Page.FontSizes fontSizes)
         {
             ValidateSetFontSizes(fontSizes);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("fontSizes", fontSizes.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setFontSizes", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setFontSizes", dict);
         }
 
         partial void ValidateSetDocumentContent(string frameId, string html);
@@ -37929,14 +37620,13 @@ namespace CefSharp.DevTools.Page
         /// <param name = "frameId">Frame id to set HTML for.</param>
         /// <param name = "html">HTML content to set.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDocumentContentAsync(string frameId, string html)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDocumentContentAsync(string frameId, string html)
         {
             ValidateSetDocumentContent(frameId, html);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("frameId", frameId);
             dict.Add("html", html);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setDocumentContent", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setDocumentContent", dict);
         }
 
         partial void ValidateSetLifecycleEventsEnabled(bool enabled);
@@ -37945,13 +37635,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "enabled">If true, starts emitting lifecycle events.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetLifecycleEventsEnabledAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetLifecycleEventsEnabledAsync(bool enabled)
         {
             ValidateSetLifecycleEventsEnabled(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setLifecycleEventsEnabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setLifecycleEventsEnabled", dict);
         }
 
         partial void ValidateStartScreencast(string format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null);
@@ -37964,7 +37653,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "maxHeight">Maximum screenshot height.</param>
         /// <param name = "everyNthFrame">Send every n-th frame.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartScreencastAsync(string format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartScreencastAsync(string format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null)
         {
             ValidateStartScreencast(format, quality, maxWidth, maxHeight, everyNthFrame);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37993,41 +37682,37 @@ namespace CefSharp.DevTools.Page
                 dict.Add("everyNthFrame", everyNthFrame.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.startScreencast", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.startScreencast", dict);
         }
 
         /// <summary>
         /// Force the page stop all navigations and pending resource fetches.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopLoadingAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopLoadingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.stopLoading", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.stopLoading", dict);
         }
 
         /// <summary>
         /// Crashes renderer on the IO thread, generates minidumps.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CrashAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CrashAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.crash", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.crash", dict);
         }
 
         /// <summary>
         /// Tries to close page, running its beforeunload hooks, if any.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CloseAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.close", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.close", dict);
         }
 
         partial void ValidateSetWebLifecycleState(string state);
@@ -38038,24 +37723,22 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "state">Target lifecycle state</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetWebLifecycleStateAsync(string state)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetWebLifecycleStateAsync(string state)
         {
             ValidateSetWebLifecycleState(state);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("state", state);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setWebLifecycleState", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setWebLifecycleState", dict);
         }
 
         /// <summary>
         /// Stops sending each frame in the `screencastFrame`.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopScreencastAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopScreencastAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.stopScreencast", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.stopScreencast", dict);
         }
 
         partial void ValidateSetProduceCompilationCache(bool enabled);
@@ -38065,13 +37748,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "enabled">enabled</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetProduceCompilationCacheAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetProduceCompilationCacheAsync(bool enabled)
         {
             ValidateSetProduceCompilationCache(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setProduceCompilationCache", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setProduceCompilationCache", dict);
         }
 
         partial void ValidateProduceCompilationCache(System.Collections.Generic.IList<CefSharp.DevTools.Page.CompilationCacheParams> scripts);
@@ -38088,13 +37770,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "scripts">scripts</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ProduceCompilationCacheAsync(System.Collections.Generic.IList<CefSharp.DevTools.Page.CompilationCacheParams> scripts)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ProduceCompilationCacheAsync(System.Collections.Generic.IList<CefSharp.DevTools.Page.CompilationCacheParams> scripts)
         {
             ValidateProduceCompilationCache(scripts);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scripts", scripts.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.produceCompilationCache", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.produceCompilationCache", dict);
         }
 
         partial void ValidateAddCompilationCache(string url, byte[] data);
@@ -38105,25 +37786,23 @@ namespace CefSharp.DevTools.Page
         /// <param name = "url">url</param>
         /// <param name = "data">Base64-encoded data</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddCompilationCacheAsync(string url, byte[] data)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> AddCompilationCacheAsync(string url, byte[] data)
         {
             ValidateAddCompilationCache(url, data);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("url", url);
             dict.Add("data", ToBase64String(data));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.addCompilationCache", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.addCompilationCache", dict);
         }
 
         /// <summary>
         /// Clears seeded compilation cache.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCompilationCacheAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCompilationCacheAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.clearCompilationCache", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.clearCompilationCache", dict);
         }
 
         partial void ValidateGenerateTestReport(string message, string group = null);
@@ -38133,7 +37812,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "message">Message to be displayed in the report.</param>
         /// <param name = "group">Specifies the endpoint group to deliver the report to.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> GenerateTestReportAsync(string message, string group = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> GenerateTestReportAsync(string message, string group = null)
         {
             ValidateGenerateTestReport(message, group);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -38143,19 +37822,17 @@ namespace CefSharp.DevTools.Page
                 dict.Add("group", group);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.generateTestReport", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.generateTestReport", dict);
         }
 
         /// <summary>
         /// Pauses page execution. Can be resumed using generic Runtime.runIfWaitingForDebugger.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> WaitForDebuggerAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> WaitForDebuggerAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.waitForDebugger", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.waitForDebugger", dict);
         }
 
         partial void ValidateSetInterceptFileChooserDialog(bool enabled);
@@ -38166,13 +37843,12 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "enabled">enabled</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetInterceptFileChooserDialogAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetInterceptFileChooserDialogAsync(bool enabled)
         {
             ValidateSetInterceptFileChooserDialog(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Page.setInterceptFileChooserDialog", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setInterceptFileChooserDialog", dict);
         }
     }
 }
@@ -38262,11 +37938,10 @@ namespace CefSharp.DevTools.Performance
         /// Disable collecting and reporting metrics.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Performance.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Performance.disable", dict);
         }
 
         partial void ValidateEnable(string timeDomain = null);
@@ -38275,7 +37950,7 @@ namespace CefSharp.DevTools.Performance
         /// </summary>
         /// <param name = "timeDomain">Time domain to use for collecting and reporting duration metrics.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string timeDomain = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string timeDomain = null)
         {
             ValidateEnable(timeDomain);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -38284,19 +37959,17 @@ namespace CefSharp.DevTools.Performance
                 dict.Add("timeDomain", timeDomain);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Performance.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Performance.enable", dict);
         }
 
         /// <summary>
         /// Retrieve current values of run-time metrics.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetMetricsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetMetricsResponse> GetMetricsAsync()
+        public System.Threading.Tasks.Task<GetMetricsResponse> GetMetricsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Performance.getMetrics", dict);
-            return methodResult.DeserializeJson<GetMetricsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetMetricsResponse>("Performance.getMetrics", dict);
         }
     }
 }
@@ -38362,13 +38035,12 @@ namespace CefSharp.DevTools.PerformanceTimeline
         /// </summary>
         /// <param name = "eventTypes">The types of event to report, as specified inhttps://w3c.github.io/performance-timeline/#dom-performanceentry-entrytypeThe specified filter overrides any previous filters, passing emptyfilter disables recording.Note that not all types exposed to the web platform are currently supported.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string[] eventTypes)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string[] eventTypes)
         {
             ValidateEnable(eventTypes);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("eventTypes", eventTypes);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("PerformanceTimeline.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("PerformanceTimeline.enable", dict);
         }
     }
 }
@@ -38464,22 +38136,20 @@ namespace CefSharp.DevTools.Security
         /// Disables tracking security state changes.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Security.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Security.disable", dict);
         }
 
         /// <summary>
         /// Enables tracking security state changes.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Security.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Security.enable", dict);
         }
 
         partial void ValidateSetIgnoreCertificateErrors(bool ignore);
@@ -38488,13 +38158,12 @@ namespace CefSharp.DevTools.Security
         /// </summary>
         /// <param name = "ignore">If true, all certificate errors will be ignored.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetIgnoreCertificateErrorsAsync(bool ignore)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetIgnoreCertificateErrorsAsync(bool ignore)
         {
             ValidateSetIgnoreCertificateErrors(ignore);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("ignore", ignore);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Security.setIgnoreCertificateErrors", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Security.setIgnoreCertificateErrors", dict);
         }
     }
 }
@@ -38628,26 +38297,24 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <param name = "registrationId">registrationId</param>
         /// <param name = "data">data</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DeliverPushMessageAsync(string origin, string registrationId, string data)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeliverPushMessageAsync(string origin, string registrationId, string data)
         {
             ValidateDeliverPushMessage(origin, registrationId, data);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
             dict.Add("registrationId", registrationId);
             dict.Add("data", data);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.deliverPushMessage", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.deliverPushMessage", dict);
         }
 
         /// <summary>
         /// Disable
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.disable", dict);
         }
 
         partial void ValidateDispatchSyncEvent(string origin, string registrationId, string tag, bool lastChance);
@@ -38659,7 +38326,7 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <param name = "tag">tag</param>
         /// <param name = "lastChance">lastChance</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchSyncEventAsync(string origin, string registrationId, string tag, bool lastChance)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchSyncEventAsync(string origin, string registrationId, string tag, bool lastChance)
         {
             ValidateDispatchSyncEvent(origin, registrationId, tag, lastChance);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -38667,8 +38334,7 @@ namespace CefSharp.DevTools.ServiceWorker
             dict.Add("registrationId", registrationId);
             dict.Add("tag", tag);
             dict.Add("lastChance", lastChance);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.dispatchSyncEvent", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.dispatchSyncEvent", dict);
         }
 
         partial void ValidateDispatchPeriodicSyncEvent(string origin, string registrationId, string tag);
@@ -38679,26 +38345,24 @@ namespace CefSharp.DevTools.ServiceWorker
         /// <param name = "registrationId">registrationId</param>
         /// <param name = "tag">tag</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchPeriodicSyncEventAsync(string origin, string registrationId, string tag)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchPeriodicSyncEventAsync(string origin, string registrationId, string tag)
         {
             ValidateDispatchPeriodicSyncEvent(origin, registrationId, tag);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
             dict.Add("registrationId", registrationId);
             dict.Add("tag", tag);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.dispatchPeriodicSyncEvent", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.dispatchPeriodicSyncEvent", dict);
         }
 
         /// <summary>
         /// Enable
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.enable", dict);
         }
 
         partial void ValidateInspectWorker(string versionId);
@@ -38707,13 +38371,12 @@ namespace CefSharp.DevTools.ServiceWorker
         /// </summary>
         /// <param name = "versionId">versionId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> InspectWorkerAsync(string versionId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> InspectWorkerAsync(string versionId)
         {
             ValidateInspectWorker(versionId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("versionId", versionId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.inspectWorker", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.inspectWorker", dict);
         }
 
         partial void ValidateSetForceUpdateOnPageLoad(bool forceUpdateOnPageLoad);
@@ -38722,13 +38385,12 @@ namespace CefSharp.DevTools.ServiceWorker
         /// </summary>
         /// <param name = "forceUpdateOnPageLoad">forceUpdateOnPageLoad</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetForceUpdateOnPageLoadAsync(bool forceUpdateOnPageLoad)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetForceUpdateOnPageLoadAsync(bool forceUpdateOnPageLoad)
         {
             ValidateSetForceUpdateOnPageLoad(forceUpdateOnPageLoad);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("forceUpdateOnPageLoad", forceUpdateOnPageLoad);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.setForceUpdateOnPageLoad", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.setForceUpdateOnPageLoad", dict);
         }
 
         partial void ValidateSkipWaiting(string scopeURL);
@@ -38737,13 +38399,12 @@ namespace CefSharp.DevTools.ServiceWorker
         /// </summary>
         /// <param name = "scopeURL">scopeURL</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SkipWaitingAsync(string scopeURL)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SkipWaitingAsync(string scopeURL)
         {
             ValidateSkipWaiting(scopeURL);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scopeURL", scopeURL);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.skipWaiting", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.skipWaiting", dict);
         }
 
         partial void ValidateStartWorker(string scopeURL);
@@ -38752,24 +38413,22 @@ namespace CefSharp.DevTools.ServiceWorker
         /// </summary>
         /// <param name = "scopeURL">scopeURL</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartWorkerAsync(string scopeURL)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartWorkerAsync(string scopeURL)
         {
             ValidateStartWorker(scopeURL);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scopeURL", scopeURL);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.startWorker", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.startWorker", dict);
         }
 
         /// <summary>
         /// StopAllWorkers
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopAllWorkersAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopAllWorkersAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.stopAllWorkers", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.stopAllWorkers", dict);
         }
 
         partial void ValidateStopWorker(string versionId);
@@ -38778,13 +38437,12 @@ namespace CefSharp.DevTools.ServiceWorker
         /// </summary>
         /// <param name = "versionId">versionId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopWorkerAsync(string versionId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopWorkerAsync(string versionId)
         {
             ValidateStopWorker(versionId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("versionId", versionId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.stopWorker", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.stopWorker", dict);
         }
 
         partial void ValidateUnregister(string scopeURL);
@@ -38793,13 +38451,12 @@ namespace CefSharp.DevTools.ServiceWorker
         /// </summary>
         /// <param name = "scopeURL">scopeURL</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> UnregisterAsync(string scopeURL)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> UnregisterAsync(string scopeURL)
         {
             ValidateUnregister(scopeURL);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scopeURL", scopeURL);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.unregister", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.unregister", dict);
         }
 
         partial void ValidateUpdateRegistration(string scopeURL);
@@ -38808,13 +38465,12 @@ namespace CefSharp.DevTools.ServiceWorker
         /// </summary>
         /// <param name = "scopeURL">scopeURL</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> UpdateRegistrationAsync(string scopeURL)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> UpdateRegistrationAsync(string scopeURL)
         {
             ValidateUpdateRegistration(scopeURL);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scopeURL", scopeURL);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("ServiceWorker.updateRegistration", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("ServiceWorker.updateRegistration", dict);
         }
     }
 }
@@ -39147,14 +38803,13 @@ namespace CefSharp.DevTools.Storage
         /// <param name = "origin">Security origin.</param>
         /// <param name = "storageTypes">Comma separated list of StorageType to clear.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearDataForOriginAsync(string origin, string storageTypes)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearDataForOriginAsync(string origin, string storageTypes)
         {
             ValidateClearDataForOrigin(origin, storageTypes);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
             dict.Add("storageTypes", storageTypes);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.clearDataForOrigin", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Storage.clearDataForOrigin", dict);
         }
 
         partial void ValidateGetCookies(string browserContextId = null);
@@ -39163,7 +38818,7 @@ namespace CefSharp.DevTools.Storage
         /// </summary>
         /// <param name = "browserContextId">Browser context to use when called on the browser endpoint.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCookiesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string browserContextId = null)
+        public System.Threading.Tasks.Task<GetCookiesResponse> GetCookiesAsync(string browserContextId = null)
         {
             ValidateGetCookies(browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -39172,8 +38827,7 @@ namespace CefSharp.DevTools.Storage
                 dict.Add("browserContextId", browserContextId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.getCookies", dict);
-            return methodResult.DeserializeJson<GetCookiesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetCookiesResponse>("Storage.getCookies", dict);
         }
 
         partial void ValidateSetCookies(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies, string browserContextId = null);
@@ -39183,7 +38837,7 @@ namespace CefSharp.DevTools.Storage
         /// <param name = "cookies">Cookies to be set.</param>
         /// <param name = "browserContextId">Browser context to use when called on the browser endpoint.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCookiesAsync(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies, string browserContextId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetCookiesAsync(System.Collections.Generic.IList<CefSharp.DevTools.Network.CookieParam> cookies, string browserContextId = null)
         {
             ValidateSetCookies(cookies, browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -39193,8 +38847,7 @@ namespace CefSharp.DevTools.Storage
                 dict.Add("browserContextId", browserContextId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.setCookies", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Storage.setCookies", dict);
         }
 
         partial void ValidateClearCookies(string browserContextId = null);
@@ -39203,7 +38856,7 @@ namespace CefSharp.DevTools.Storage
         /// </summary>
         /// <param name = "browserContextId">Browser context to use when called on the browser endpoint.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCookiesAsync(string browserContextId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCookiesAsync(string browserContextId = null)
         {
             ValidateClearCookies(browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -39212,8 +38865,7 @@ namespace CefSharp.DevTools.Storage
                 dict.Add("browserContextId", browserContextId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.clearCookies", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Storage.clearCookies", dict);
         }
 
         partial void ValidateGetUsageAndQuota(string origin);
@@ -39222,13 +38874,12 @@ namespace CefSharp.DevTools.Storage
         /// </summary>
         /// <param name = "origin">Security origin.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetUsageAndQuotaResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetUsageAndQuotaResponse> GetUsageAndQuotaAsync(string origin)
+        public System.Threading.Tasks.Task<GetUsageAndQuotaResponse> GetUsageAndQuotaAsync(string origin)
         {
             ValidateGetUsageAndQuota(origin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.getUsageAndQuota", dict);
-            return methodResult.DeserializeJson<GetUsageAndQuotaResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetUsageAndQuotaResponse>("Storage.getUsageAndQuota", dict);
         }
 
         partial void ValidateOverrideQuotaForOrigin(string origin, double? quotaSize = null);
@@ -39238,7 +38889,7 @@ namespace CefSharp.DevTools.Storage
         /// <param name = "origin">Security origin.</param>
         /// <param name = "quotaSize">The quota size (in bytes) to override the original quota with.If this is called multiple times, the overriden quota will be equal tothe quotaSize provided in the final call. If this is called withoutspecifying a quotaSize, the quota will be reset to the default value forthe specified origin. If this is called multiple times with differentorigins, the override will be maintained for each origin until it isdisabled (called without a quotaSize).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> OverrideQuotaForOriginAsync(string origin, double? quotaSize = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> OverrideQuotaForOriginAsync(string origin, double? quotaSize = null)
         {
             ValidateOverrideQuotaForOrigin(origin, quotaSize);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -39248,8 +38899,7 @@ namespace CefSharp.DevTools.Storage
                 dict.Add("quotaSize", quotaSize.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.overrideQuotaForOrigin", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Storage.overrideQuotaForOrigin", dict);
         }
 
         partial void ValidateTrackCacheStorageForOrigin(string origin);
@@ -39258,13 +38908,12 @@ namespace CefSharp.DevTools.Storage
         /// </summary>
         /// <param name = "origin">Security origin.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> TrackCacheStorageForOriginAsync(string origin)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> TrackCacheStorageForOriginAsync(string origin)
         {
             ValidateTrackCacheStorageForOrigin(origin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.trackCacheStorageForOrigin", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Storage.trackCacheStorageForOrigin", dict);
         }
 
         partial void ValidateTrackIndexedDBForOrigin(string origin);
@@ -39273,13 +38922,12 @@ namespace CefSharp.DevTools.Storage
         /// </summary>
         /// <param name = "origin">Security origin.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> TrackIndexedDBForOriginAsync(string origin)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> TrackIndexedDBForOriginAsync(string origin)
         {
             ValidateTrackIndexedDBForOrigin(origin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.trackIndexedDBForOrigin", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Storage.trackIndexedDBForOrigin", dict);
         }
 
         partial void ValidateUntrackCacheStorageForOrigin(string origin);
@@ -39288,13 +38936,12 @@ namespace CefSharp.DevTools.Storage
         /// </summary>
         /// <param name = "origin">Security origin.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> UntrackCacheStorageForOriginAsync(string origin)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> UntrackCacheStorageForOriginAsync(string origin)
         {
             ValidateUntrackCacheStorageForOrigin(origin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.untrackCacheStorageForOrigin", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Storage.untrackCacheStorageForOrigin", dict);
         }
 
         partial void ValidateUntrackIndexedDBForOrigin(string origin);
@@ -39303,13 +38950,12 @@ namespace CefSharp.DevTools.Storage
         /// </summary>
         /// <param name = "origin">Security origin.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> UntrackIndexedDBForOriginAsync(string origin)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> UntrackIndexedDBForOriginAsync(string origin)
         {
             ValidateUntrackIndexedDBForOrigin(origin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("origin", origin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.untrackIndexedDBForOrigin", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Storage.untrackIndexedDBForOrigin", dict);
         }
 
         /// <summary>
@@ -39317,11 +38963,10 @@ namespace CefSharp.DevTools.Storage
         /// current browsing context.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetTrustTokensResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetTrustTokensResponse> GetTrustTokensAsync()
+        public System.Threading.Tasks.Task<GetTrustTokensResponse> GetTrustTokensAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.getTrustTokens", dict);
-            return methodResult.DeserializeJson<GetTrustTokensResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetTrustTokensResponse>("Storage.getTrustTokens", dict);
         }
 
         partial void ValidateClearTrustTokens(string issuerOrigin);
@@ -39331,13 +38976,12 @@ namespace CefSharp.DevTools.Storage
         /// </summary>
         /// <param name = "issuerOrigin">issuerOrigin</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;ClearTrustTokensResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<ClearTrustTokensResponse> ClearTrustTokensAsync(string issuerOrigin)
+        public System.Threading.Tasks.Task<ClearTrustTokensResponse> ClearTrustTokensAsync(string issuerOrigin)
         {
             ValidateClearTrustTokens(issuerOrigin);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("issuerOrigin", issuerOrigin);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Storage.clearTrustTokens", dict);
-            return methodResult.DeserializeJson<ClearTrustTokensResponse>();
+            return _client.ExecuteDevToolsMethodAsync<ClearTrustTokensResponse>("Storage.clearTrustTokens", dict);
         }
     }
 }
@@ -39475,22 +39119,20 @@ namespace CefSharp.DevTools.SystemInfo
         /// Returns information about the system.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetInfoResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetInfoResponse> GetInfoAsync()
+        public System.Threading.Tasks.Task<GetInfoResponse> GetInfoAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("SystemInfo.getInfo", dict);
-            return methodResult.DeserializeJson<GetInfoResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetInfoResponse>("SystemInfo.getInfo", dict);
         }
 
         /// <summary>
         /// Returns information about all running processes.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetProcessInfoResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetProcessInfoResponse> GetProcessInfoAsync()
+        public System.Threading.Tasks.Task<GetProcessInfoResponse> GetProcessInfoAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("SystemInfo.getProcessInfo", dict);
-            return methodResult.DeserializeJson<GetProcessInfoResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetProcessInfoResponse>("SystemInfo.getProcessInfo", dict);
         }
     }
 }
@@ -39985,13 +39627,12 @@ namespace CefSharp.DevTools.Target
         /// </summary>
         /// <param name = "targetId">targetId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ActivateTargetAsync(string targetId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ActivateTargetAsync(string targetId)
         {
             ValidateActivateTarget(targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("targetId", targetId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.activateTarget", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Target.activateTarget", dict);
         }
 
         partial void ValidateAttachToTarget(string targetId, bool? flatten = null);
@@ -40001,7 +39642,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "targetId">targetId</param>
         /// <param name = "flatten">Enables "flat" access to the session via specifying sessionId attribute in the commands.We plan to make this the default, deprecate non-flattened mode,and eventually retire it. See crbug.com/991325.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;AttachToTargetResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<AttachToTargetResponse> AttachToTargetAsync(string targetId, bool? flatten = null)
+        public System.Threading.Tasks.Task<AttachToTargetResponse> AttachToTargetAsync(string targetId, bool? flatten = null)
         {
             ValidateAttachToTarget(targetId, flatten);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40011,19 +39652,17 @@ namespace CefSharp.DevTools.Target
                 dict.Add("flatten", flatten.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.attachToTarget", dict);
-            return methodResult.DeserializeJson<AttachToTargetResponse>();
+            return _client.ExecuteDevToolsMethodAsync<AttachToTargetResponse>("Target.attachToTarget", dict);
         }
 
         /// <summary>
         /// Attaches to the browser target, only uses flat sessionId mode.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;AttachToBrowserTargetResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<AttachToBrowserTargetResponse> AttachToBrowserTargetAsync()
+        public System.Threading.Tasks.Task<AttachToBrowserTargetResponse> AttachToBrowserTargetAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.attachToBrowserTarget", dict);
-            return methodResult.DeserializeJson<AttachToBrowserTargetResponse>();
+            return _client.ExecuteDevToolsMethodAsync<AttachToBrowserTargetResponse>("Target.attachToBrowserTarget", dict);
         }
 
         partial void ValidateCloseTarget(string targetId);
@@ -40032,13 +39671,12 @@ namespace CefSharp.DevTools.Target
         /// </summary>
         /// <param name = "targetId">targetId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CloseTargetResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CloseTargetResponse> CloseTargetAsync(string targetId)
+        public System.Threading.Tasks.Task<CloseTargetResponse> CloseTargetAsync(string targetId)
         {
             ValidateCloseTarget(targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("targetId", targetId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.closeTarget", dict);
-            return methodResult.DeserializeJson<CloseTargetResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CloseTargetResponse>("Target.closeTarget", dict);
         }
 
         partial void ValidateExposeDevToolsProtocol(string targetId, string bindingName = null);
@@ -40055,7 +39693,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "targetId">targetId</param>
         /// <param name = "bindingName">Binding name, 'cdp' if not specified.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ExposeDevToolsProtocolAsync(string targetId, string bindingName = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ExposeDevToolsProtocolAsync(string targetId, string bindingName = null)
         {
             ValidateExposeDevToolsProtocol(targetId, bindingName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40065,8 +39703,7 @@ namespace CefSharp.DevTools.Target
                 dict.Add("bindingName", bindingName);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.exposeDevToolsProtocol", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Target.exposeDevToolsProtocol", dict);
         }
 
         partial void ValidateCreateBrowserContext(bool? disposeOnDetach = null, string proxyServer = null, string proxyBypassList = null);
@@ -40078,7 +39715,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "proxyServer">Proxy server, similar to the one passed to --proxy-server</param>
         /// <param name = "proxyBypassList">Proxy bypass list, similar to the one passed to --proxy-bypass-list</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CreateBrowserContextResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CreateBrowserContextResponse> CreateBrowserContextAsync(bool? disposeOnDetach = null, string proxyServer = null, string proxyBypassList = null)
+        public System.Threading.Tasks.Task<CreateBrowserContextResponse> CreateBrowserContextAsync(bool? disposeOnDetach = null, string proxyServer = null, string proxyBypassList = null)
         {
             ValidateCreateBrowserContext(disposeOnDetach, proxyServer, proxyBypassList);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40097,19 +39734,17 @@ namespace CefSharp.DevTools.Target
                 dict.Add("proxyBypassList", proxyBypassList);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.createBrowserContext", dict);
-            return methodResult.DeserializeJson<CreateBrowserContextResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CreateBrowserContextResponse>("Target.createBrowserContext", dict);
         }
 
         /// <summary>
         /// Returns all browser contexts created with `Target.createBrowserContext` method.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetBrowserContextsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetBrowserContextsResponse> GetBrowserContextsAsync()
+        public System.Threading.Tasks.Task<GetBrowserContextsResponse> GetBrowserContextsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.getBrowserContexts", dict);
-            return methodResult.DeserializeJson<GetBrowserContextsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetBrowserContextsResponse>("Target.getBrowserContexts", dict);
         }
 
         partial void ValidateCreateTarget(string url, int? width = null, int? height = null, string browserContextId = null, bool? enableBeginFrameControl = null, bool? newWindow = null, bool? background = null);
@@ -40124,7 +39759,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "newWindow">Whether to create a new Window or Tab (chrome-only, false by default).</param>
         /// <param name = "background">Whether to create the target in background or foreground (chrome-only,false by default).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CreateTargetResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CreateTargetResponse> CreateTargetAsync(string url, int? width = null, int? height = null, string browserContextId = null, bool? enableBeginFrameControl = null, bool? newWindow = null, bool? background = null)
+        public System.Threading.Tasks.Task<CreateTargetResponse> CreateTargetAsync(string url, int? width = null, int? height = null, string browserContextId = null, bool? enableBeginFrameControl = null, bool? newWindow = null, bool? background = null)
         {
             ValidateCreateTarget(url, width, height, browserContextId, enableBeginFrameControl, newWindow, background);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40159,8 +39794,7 @@ namespace CefSharp.DevTools.Target
                 dict.Add("background", background.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.createTarget", dict);
-            return methodResult.DeserializeJson<CreateTargetResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CreateTargetResponse>("Target.createTarget", dict);
         }
 
         partial void ValidateDetachFromTarget(string sessionId = null, string targetId = null);
@@ -40170,7 +39804,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "sessionId">Session to detach.</param>
         /// <param name = "targetId">Deprecated.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DetachFromTargetAsync(string sessionId = null, string targetId = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DetachFromTargetAsync(string sessionId = null, string targetId = null)
         {
             ValidateDetachFromTarget(sessionId, targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40184,8 +39818,7 @@ namespace CefSharp.DevTools.Target
                 dict.Add("targetId", targetId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.detachFromTarget", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Target.detachFromTarget", dict);
         }
 
         partial void ValidateDisposeBrowserContext(string browserContextId);
@@ -40195,13 +39828,12 @@ namespace CefSharp.DevTools.Target
         /// </summary>
         /// <param name = "browserContextId">browserContextId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisposeBrowserContextAsync(string browserContextId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisposeBrowserContextAsync(string browserContextId)
         {
             ValidateDisposeBrowserContext(browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("browserContextId", browserContextId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.disposeBrowserContext", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Target.disposeBrowserContext", dict);
         }
 
         partial void ValidateGetTargetInfo(string targetId = null);
@@ -40210,7 +39842,7 @@ namespace CefSharp.DevTools.Target
         /// </summary>
         /// <param name = "targetId">targetId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetTargetInfoResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetTargetInfoResponse> GetTargetInfoAsync(string targetId = null)
+        public System.Threading.Tasks.Task<GetTargetInfoResponse> GetTargetInfoAsync(string targetId = null)
         {
             ValidateGetTargetInfo(targetId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40219,19 +39851,17 @@ namespace CefSharp.DevTools.Target
                 dict.Add("targetId", targetId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.getTargetInfo", dict);
-            return methodResult.DeserializeJson<GetTargetInfoResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetTargetInfoResponse>("Target.getTargetInfo", dict);
         }
 
         /// <summary>
         /// Retrieves a list of available targets.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetTargetsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetTargetsResponse> GetTargetsAsync()
+        public System.Threading.Tasks.Task<GetTargetsResponse> GetTargetsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.getTargets", dict);
-            return methodResult.DeserializeJson<GetTargetsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetTargetsResponse>("Target.getTargets", dict);
         }
 
         partial void ValidateSetAutoAttach(bool autoAttach, bool waitForDebuggerOnStart, bool? flatten = null);
@@ -40244,7 +39874,7 @@ namespace CefSharp.DevTools.Target
         /// <param name = "waitForDebuggerOnStart">Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`to run paused targets.</param>
         /// <param name = "flatten">Enables "flat" access to the session via specifying sessionId attribute in the commands.We plan to make this the default, deprecate non-flattened mode,and eventually retire it. See crbug.com/991325.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAutoAttachAsync(bool autoAttach, bool waitForDebuggerOnStart, bool? flatten = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAutoAttachAsync(bool autoAttach, bool waitForDebuggerOnStart, bool? flatten = null)
         {
             ValidateSetAutoAttach(autoAttach, waitForDebuggerOnStart, flatten);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40255,8 +39885,7 @@ namespace CefSharp.DevTools.Target
                 dict.Add("flatten", flatten.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.setAutoAttach", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Target.setAutoAttach", dict);
         }
 
         partial void ValidateSetDiscoverTargets(bool discover);
@@ -40266,13 +39895,12 @@ namespace CefSharp.DevTools.Target
         /// </summary>
         /// <param name = "discover">Whether to discover available targets.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetDiscoverTargetsAsync(bool discover)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDiscoverTargetsAsync(bool discover)
         {
             ValidateSetDiscoverTargets(discover);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("discover", discover);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.setDiscoverTargets", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Target.setDiscoverTargets", dict);
         }
 
         partial void ValidateSetRemoteLocations(System.Collections.Generic.IList<CefSharp.DevTools.Target.RemoteLocation> locations);
@@ -40282,13 +39910,12 @@ namespace CefSharp.DevTools.Target
         /// </summary>
         /// <param name = "locations">List of remote locations.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetRemoteLocationsAsync(System.Collections.Generic.IList<CefSharp.DevTools.Target.RemoteLocation> locations)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetRemoteLocationsAsync(System.Collections.Generic.IList<CefSharp.DevTools.Target.RemoteLocation> locations)
         {
             ValidateSetRemoteLocations(locations);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("locations", locations.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Target.setRemoteLocations", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Target.setRemoteLocations", dict);
         }
     }
 }
@@ -40352,13 +39979,12 @@ namespace CefSharp.DevTools.Tethering
         /// </summary>
         /// <param name = "port">Port number to bind.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> BindAsync(int port)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> BindAsync(int port)
         {
             ValidateBind(port);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("port", port);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Tethering.bind", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Tethering.bind", dict);
         }
 
         partial void ValidateUnbind(int port);
@@ -40367,13 +39993,12 @@ namespace CefSharp.DevTools.Tethering
         /// </summary>
         /// <param name = "port">Port number to unbind.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> UnbindAsync(int port)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> UnbindAsync(int port)
         {
             ValidateUnbind(port);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("port", port);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Tethering.unbind", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Tethering.unbind", dict);
         }
     }
 }
@@ -40579,22 +40204,20 @@ namespace CefSharp.DevTools.Tracing
         /// Stop trace events collection.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EndAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EndAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Tracing.end", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Tracing.end", dict);
         }
 
         /// <summary>
         /// Gets supported tracing categories.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCategoriesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetCategoriesResponse> GetCategoriesAsync()
+        public System.Threading.Tasks.Task<GetCategoriesResponse> GetCategoriesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Tracing.getCategories", dict);
-            return methodResult.DeserializeJson<GetCategoriesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetCategoriesResponse>("Tracing.getCategories", dict);
         }
 
         partial void ValidateRecordClockSyncMarker(string syncId);
@@ -40603,13 +40226,12 @@ namespace CefSharp.DevTools.Tracing
         /// </summary>
         /// <param name = "syncId">The ID of this clock sync marker</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RecordClockSyncMarkerAsync(string syncId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RecordClockSyncMarkerAsync(string syncId)
         {
             ValidateRecordClockSyncMarker(syncId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("syncId", syncId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Tracing.recordClockSyncMarker", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Tracing.recordClockSyncMarker", dict);
         }
 
         partial void ValidateRequestMemoryDump(bool? deterministic = null, CefSharp.DevTools.Tracing.MemoryDumpLevelOfDetail? levelOfDetail = null);
@@ -40619,7 +40241,7 @@ namespace CefSharp.DevTools.Tracing
         /// <param name = "deterministic">Enables more deterministic results by forcing garbage collection</param>
         /// <param name = "levelOfDetail">Specifies level of details in memory dump. Defaults to "detailed".</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestMemoryDumpResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RequestMemoryDumpResponse> RequestMemoryDumpAsync(bool? deterministic = null, CefSharp.DevTools.Tracing.MemoryDumpLevelOfDetail? levelOfDetail = null)
+        public System.Threading.Tasks.Task<RequestMemoryDumpResponse> RequestMemoryDumpAsync(bool? deterministic = null, CefSharp.DevTools.Tracing.MemoryDumpLevelOfDetail? levelOfDetail = null)
         {
             ValidateRequestMemoryDump(deterministic, levelOfDetail);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40633,8 +40255,7 @@ namespace CefSharp.DevTools.Tracing
                 dict.Add("levelOfDetail", this.EnumToString(levelOfDetail));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Tracing.requestMemoryDump", dict);
-            return methodResult.DeserializeJson<RequestMemoryDumpResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RequestMemoryDumpResponse>("Tracing.requestMemoryDump", dict);
         }
 
         partial void ValidateStart(string categories = null, string options = null, double? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null, byte[] perfettoConfig = null, CefSharp.DevTools.Tracing.TracingBackend? tracingBackend = null);
@@ -40651,7 +40272,7 @@ namespace CefSharp.DevTools.Tracing
         /// <param name = "perfettoConfig">Base64-encoded serialized perfetto.protos.TraceConfig protobuf messageWhen specified, the parameters `categories`, `options`, `traceConfig`are ignored.</param>
         /// <param name = "tracingBackend">Backend type (defaults to `auto`)</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync(string categories = null, string options = null, double? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null, byte[] perfettoConfig = null, CefSharp.DevTools.Tracing.TracingBackend? tracingBackend = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync(string categories = null, string options = null, double? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null, byte[] perfettoConfig = null, CefSharp.DevTools.Tracing.TracingBackend? tracingBackend = null)
         {
             ValidateStart(categories, options, bufferUsageReportingInterval, transferMode, streamFormat, streamCompression, traceConfig, perfettoConfig, tracingBackend);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40700,8 +40321,7 @@ namespace CefSharp.DevTools.Tracing
                 dict.Add("tracingBackend", this.EnumToString(tracingBackend));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Tracing.start", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Tracing.start", dict);
         }
     }
 }
@@ -40877,11 +40497,10 @@ namespace CefSharp.DevTools.Fetch
         /// Disables the fetch domain.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Fetch.disable", dict);
         }
 
         partial void ValidateEnable(System.Collections.Generic.IList<CefSharp.DevTools.Fetch.RequestPattern> patterns = null, bool? handleAuthRequests = null);
@@ -40892,7 +40511,7 @@ namespace CefSharp.DevTools.Fetch
         /// <param name = "patterns">If specified, only requests matching any of these patterns will producefetchRequested event and will be paused until clients response. If not set,all requests will be affected.</param>
         /// <param name = "handleAuthRequests">If true, authRequired events will be issued and requests will be pausedexpecting a call to continueWithAuth.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(System.Collections.Generic.IList<CefSharp.DevTools.Fetch.RequestPattern> patterns = null, bool? handleAuthRequests = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(System.Collections.Generic.IList<CefSharp.DevTools.Fetch.RequestPattern> patterns = null, bool? handleAuthRequests = null)
         {
             ValidateEnable(patterns, handleAuthRequests);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40906,8 +40525,7 @@ namespace CefSharp.DevTools.Fetch
                 dict.Add("handleAuthRequests", handleAuthRequests.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Fetch.enable", dict);
         }
 
         partial void ValidateFailRequest(string requestId, CefSharp.DevTools.Network.ErrorReason errorReason);
@@ -40917,14 +40535,13 @@ namespace CefSharp.DevTools.Fetch
         /// <param name = "requestId">An id the client received in requestPaused event.</param>
         /// <param name = "errorReason">Causes the request to fail with the given reason.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> FailRequestAsync(string requestId, CefSharp.DevTools.Network.ErrorReason errorReason)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> FailRequestAsync(string requestId, CefSharp.DevTools.Network.ErrorReason errorReason)
         {
             ValidateFailRequest(requestId, errorReason);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             dict.Add("errorReason", this.EnumToString(errorReason));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.failRequest", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Fetch.failRequest", dict);
         }
 
         partial void ValidateFulfillRequest(string requestId, int responseCode, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> responseHeaders = null, byte[] binaryResponseHeaders = null, byte[] body = null, string responsePhrase = null);
@@ -40938,7 +40555,7 @@ namespace CefSharp.DevTools.Fetch
         /// <param name = "body">A response body.</param>
         /// <param name = "responsePhrase">A textual representation of responseCode.If absent, a standard phrase matching responseCode is used.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> FulfillRequestAsync(string requestId, int responseCode, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> responseHeaders = null, byte[] binaryResponseHeaders = null, byte[] body = null, string responsePhrase = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> FulfillRequestAsync(string requestId, int responseCode, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> responseHeaders = null, byte[] binaryResponseHeaders = null, byte[] body = null, string responsePhrase = null)
         {
             ValidateFulfillRequest(requestId, responseCode, responseHeaders, binaryResponseHeaders, body, responsePhrase);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -40964,8 +40581,7 @@ namespace CefSharp.DevTools.Fetch
                 dict.Add("responsePhrase", responsePhrase);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.fulfillRequest", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Fetch.fulfillRequest", dict);
         }
 
         partial void ValidateContinueRequest(string requestId, string url = null, string method = null, byte[] postData = null, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> headers = null);
@@ -40978,7 +40594,7 @@ namespace CefSharp.DevTools.Fetch
         /// <param name = "postData">If set, overrides the post data in the request.</param>
         /// <param name = "headers">If set, overrides the request headers.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueRequestAsync(string requestId, string url = null, string method = null, byte[] postData = null, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> headers = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueRequestAsync(string requestId, string url = null, string method = null, byte[] postData = null, System.Collections.Generic.IList<CefSharp.DevTools.Fetch.HeaderEntry> headers = null)
         {
             ValidateContinueRequest(requestId, url, method, postData, headers);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -41003,8 +40619,7 @@ namespace CefSharp.DevTools.Fetch
                 dict.Add("headers", headers.Select(x => x.ToDictionary()));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.continueRequest", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Fetch.continueRequest", dict);
         }
 
         partial void ValidateContinueWithAuth(string requestId, CefSharp.DevTools.Fetch.AuthChallengeResponse authChallengeResponse);
@@ -41014,14 +40629,13 @@ namespace CefSharp.DevTools.Fetch
         /// <param name = "requestId">An id the client received in authRequired event.</param>
         /// <param name = "authChallengeResponse">Response to  with an authChallenge.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueWithAuthAsync(string requestId, CefSharp.DevTools.Fetch.AuthChallengeResponse authChallengeResponse)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueWithAuthAsync(string requestId, CefSharp.DevTools.Fetch.AuthChallengeResponse authChallengeResponse)
         {
             ValidateContinueWithAuth(requestId, authChallengeResponse);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
             dict.Add("authChallengeResponse", authChallengeResponse.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.continueWithAuth", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Fetch.continueWithAuth", dict);
         }
 
         partial void ValidateGetResponseBody(string requestId);
@@ -41035,13 +40649,12 @@ namespace CefSharp.DevTools.Fetch
         /// </summary>
         /// <param name = "requestId">Identifier for the intercepted request to get body for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetResponseBodyResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
+        public System.Threading.Tasks.Task<GetResponseBodyResponse> GetResponseBodyAsync(string requestId)
         {
             ValidateGetResponseBody(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.getResponseBody", dict);
-            return methodResult.DeserializeJson<GetResponseBodyResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetResponseBodyResponse>("Fetch.getResponseBody", dict);
         }
 
         partial void ValidateTakeResponseBodyAsStream(string requestId);
@@ -41059,13 +40672,12 @@ namespace CefSharp.DevTools.Fetch
         /// </summary>
         /// <param name = "requestId">requestId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;TakeResponseBodyAsStreamResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<TakeResponseBodyAsStreamResponse> TakeResponseBodyAsStreamAsync(string requestId)
+        public System.Threading.Tasks.Task<TakeResponseBodyAsStreamResponse> TakeResponseBodyAsStreamAsync(string requestId)
         {
             ValidateTakeResponseBodyAsStream(requestId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Fetch.takeResponseBodyAsStream", dict);
-            return methodResult.DeserializeJson<TakeResponseBodyAsStreamResponse>();
+            return _client.ExecuteDevToolsMethodAsync<TakeResponseBodyAsStreamResponse>("Fetch.takeResponseBodyAsStream", dict);
         }
     }
 }
@@ -41564,22 +41176,20 @@ namespace CefSharp.DevTools.WebAudio
         /// Enables the WebAudio domain and starts sending context lifetime events.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAudio.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAudio.enable", dict);
         }
 
         /// <summary>
         /// Disables the WebAudio domain.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAudio.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAudio.disable", dict);
         }
 
         partial void ValidateGetRealtimeData(string contextId);
@@ -41588,13 +41198,12 @@ namespace CefSharp.DevTools.WebAudio
         /// </summary>
         /// <param name = "contextId">contextId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetRealtimeDataResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetRealtimeDataResponse> GetRealtimeDataAsync(string contextId)
+        public System.Threading.Tasks.Task<GetRealtimeDataResponse> GetRealtimeDataAsync(string contextId)
         {
             ValidateGetRealtimeData(contextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("contextId", contextId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAudio.getRealtimeData", dict);
-            return methodResult.DeserializeJson<GetRealtimeDataResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetRealtimeDataResponse>("WebAudio.getRealtimeData", dict);
         }
     }
 }
@@ -41708,22 +41317,20 @@ namespace CefSharp.DevTools.WebAuthn
         /// retrieval with a virtual authenticator.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAuthn.enable", dict);
         }
 
         /// <summary>
         /// Disable the WebAuthn domain.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAuthn.disable", dict);
         }
 
         partial void ValidateAddVirtualAuthenticator(CefSharp.DevTools.WebAuthn.VirtualAuthenticatorOptions options);
@@ -41732,13 +41339,12 @@ namespace CefSharp.DevTools.WebAuthn
         /// </summary>
         /// <param name = "options">options</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;AddVirtualAuthenticatorResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<AddVirtualAuthenticatorResponse> AddVirtualAuthenticatorAsync(CefSharp.DevTools.WebAuthn.VirtualAuthenticatorOptions options)
+        public System.Threading.Tasks.Task<AddVirtualAuthenticatorResponse> AddVirtualAuthenticatorAsync(CefSharp.DevTools.WebAuthn.VirtualAuthenticatorOptions options)
         {
             ValidateAddVirtualAuthenticator(options);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("options", options.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.addVirtualAuthenticator", dict);
-            return methodResult.DeserializeJson<AddVirtualAuthenticatorResponse>();
+            return _client.ExecuteDevToolsMethodAsync<AddVirtualAuthenticatorResponse>("WebAuthn.addVirtualAuthenticator", dict);
         }
 
         partial void ValidateRemoveVirtualAuthenticator(string authenticatorId);
@@ -41747,13 +41353,12 @@ namespace CefSharp.DevTools.WebAuthn
         /// </summary>
         /// <param name = "authenticatorId">authenticatorId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveVirtualAuthenticatorAsync(string authenticatorId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveVirtualAuthenticatorAsync(string authenticatorId)
         {
             ValidateRemoveVirtualAuthenticator(authenticatorId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("authenticatorId", authenticatorId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.removeVirtualAuthenticator", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAuthn.removeVirtualAuthenticator", dict);
         }
 
         partial void ValidateAddCredential(string authenticatorId, CefSharp.DevTools.WebAuthn.Credential credential);
@@ -41763,14 +41368,13 @@ namespace CefSharp.DevTools.WebAuthn
         /// <param name = "authenticatorId">authenticatorId</param>
         /// <param name = "credential">credential</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddCredentialAsync(string authenticatorId, CefSharp.DevTools.WebAuthn.Credential credential)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> AddCredentialAsync(string authenticatorId, CefSharp.DevTools.WebAuthn.Credential credential)
         {
             ValidateAddCredential(authenticatorId, credential);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("authenticatorId", authenticatorId);
             dict.Add("credential", credential.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.addCredential", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAuthn.addCredential", dict);
         }
 
         partial void ValidateGetCredential(string authenticatorId, byte[] credentialId);
@@ -41781,14 +41385,13 @@ namespace CefSharp.DevTools.WebAuthn
         /// <param name = "authenticatorId">authenticatorId</param>
         /// <param name = "credentialId">credentialId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCredentialResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetCredentialResponse> GetCredentialAsync(string authenticatorId, byte[] credentialId)
+        public System.Threading.Tasks.Task<GetCredentialResponse> GetCredentialAsync(string authenticatorId, byte[] credentialId)
         {
             ValidateGetCredential(authenticatorId, credentialId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("authenticatorId", authenticatorId);
             dict.Add("credentialId", ToBase64String(credentialId));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.getCredential", dict);
-            return methodResult.DeserializeJson<GetCredentialResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetCredentialResponse>("WebAuthn.getCredential", dict);
         }
 
         partial void ValidateGetCredentials(string authenticatorId);
@@ -41797,13 +41400,12 @@ namespace CefSharp.DevTools.WebAuthn
         /// </summary>
         /// <param name = "authenticatorId">authenticatorId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCredentialsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetCredentialsResponse> GetCredentialsAsync(string authenticatorId)
+        public System.Threading.Tasks.Task<GetCredentialsResponse> GetCredentialsAsync(string authenticatorId)
         {
             ValidateGetCredentials(authenticatorId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("authenticatorId", authenticatorId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.getCredentials", dict);
-            return methodResult.DeserializeJson<GetCredentialsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetCredentialsResponse>("WebAuthn.getCredentials", dict);
         }
 
         partial void ValidateRemoveCredential(string authenticatorId, byte[] credentialId);
@@ -41813,14 +41415,13 @@ namespace CefSharp.DevTools.WebAuthn
         /// <param name = "authenticatorId">authenticatorId</param>
         /// <param name = "credentialId">credentialId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveCredentialAsync(string authenticatorId, byte[] credentialId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveCredentialAsync(string authenticatorId, byte[] credentialId)
         {
             ValidateRemoveCredential(authenticatorId, credentialId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("authenticatorId", authenticatorId);
             dict.Add("credentialId", ToBase64String(credentialId));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.removeCredential", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAuthn.removeCredential", dict);
         }
 
         partial void ValidateClearCredentials(string authenticatorId);
@@ -41829,13 +41430,12 @@ namespace CefSharp.DevTools.WebAuthn
         /// </summary>
         /// <param name = "authenticatorId">authenticatorId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCredentialsAsync(string authenticatorId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearCredentialsAsync(string authenticatorId)
         {
             ValidateClearCredentials(authenticatorId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("authenticatorId", authenticatorId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.clearCredentials", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAuthn.clearCredentials", dict);
         }
 
         partial void ValidateSetUserVerified(string authenticatorId, bool isUserVerified);
@@ -41846,14 +41446,13 @@ namespace CefSharp.DevTools.WebAuthn
         /// <param name = "authenticatorId">authenticatorId</param>
         /// <param name = "isUserVerified">isUserVerified</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserVerifiedAsync(string authenticatorId, bool isUserVerified)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetUserVerifiedAsync(string authenticatorId, bool isUserVerified)
         {
             ValidateSetUserVerified(authenticatorId, isUserVerified);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("authenticatorId", authenticatorId);
             dict.Add("isUserVerified", isUserVerified);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.setUserVerified", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAuthn.setUserVerified", dict);
         }
 
         partial void ValidateSetAutomaticPresenceSimulation(string authenticatorId, bool enabled);
@@ -41864,14 +41463,13 @@ namespace CefSharp.DevTools.WebAuthn
         /// <param name = "authenticatorId">authenticatorId</param>
         /// <param name = "enabled">enabled</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAutomaticPresenceSimulationAsync(string authenticatorId, bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAutomaticPresenceSimulationAsync(string authenticatorId, bool enabled)
         {
             ValidateSetAutomaticPresenceSimulation(authenticatorId, enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("authenticatorId", authenticatorId);
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("WebAuthn.setAutomaticPresenceSimulation", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("WebAuthn.setAutomaticPresenceSimulation", dict);
         }
     }
 }
@@ -42073,22 +41671,20 @@ namespace CefSharp.DevTools.Media
         /// Enables the Media domain
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Media.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Media.enable", dict);
         }
 
         /// <summary>
         /// Disables the Media domain.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Media.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Media.disable", dict);
         }
     }
 }
@@ -42807,7 +42403,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "location">Location to continue to.</param>
         /// <param name = "targetCallFrames">targetCallFrames</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueToLocationAsync(CefSharp.DevTools.Debugger.Location location, string targetCallFrames = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueToLocationAsync(CefSharp.DevTools.Debugger.Location location, string targetCallFrames = null)
         {
             ValidateContinueToLocation(location, targetCallFrames);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -42817,19 +42413,17 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("targetCallFrames", targetCallFrames);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.continueToLocation", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.continueToLocation", dict);
         }
 
         /// <summary>
         /// Disables debugger for given page.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.disable", dict);
         }
 
         partial void ValidateEnable(double? maxScriptsCacheSize = null);
@@ -42839,7 +42433,7 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "maxScriptsCacheSize">The maximum size in bytes of collected scripts (not referenced by other heap objects)the debugger can hold. Puts no limit if paramter is omitted.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;EnableResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<EnableResponse> EnableAsync(double? maxScriptsCacheSize = null)
+        public System.Threading.Tasks.Task<EnableResponse> EnableAsync(double? maxScriptsCacheSize = null)
         {
             ValidateEnable(maxScriptsCacheSize);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -42848,8 +42442,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("maxScriptsCacheSize", maxScriptsCacheSize.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.enable", dict);
-            return methodResult.DeserializeJson<EnableResponse>();
+            return _client.ExecuteDevToolsMethodAsync<EnableResponse>("Debugger.enable", dict);
         }
 
         partial void ValidateEvaluateOnCallFrame(string callFrameId, string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? throwOnSideEffect = null, double? timeout = null);
@@ -42866,7 +42459,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "throwOnSideEffect">Whether to throw an exception if side effect cannot be ruled out during evaluation.</param>
         /// <param name = "timeout">Terminate execution after timing out (number of milliseconds).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;EvaluateOnCallFrameResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<EvaluateOnCallFrameResponse> EvaluateOnCallFrameAsync(string callFrameId, string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? throwOnSideEffect = null, double? timeout = null)
+        public System.Threading.Tasks.Task<EvaluateOnCallFrameResponse> EvaluateOnCallFrameAsync(string callFrameId, string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? throwOnSideEffect = null, double? timeout = null)
         {
             ValidateEvaluateOnCallFrame(callFrameId, expression, objectGroup, includeCommandLineAPI, silent, returnByValue, generatePreview, throwOnSideEffect, timeout);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -42907,8 +42500,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("timeout", timeout.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.evaluateOnCallFrame", dict);
-            return methodResult.DeserializeJson<EvaluateOnCallFrameResponse>();
+            return _client.ExecuteDevToolsMethodAsync<EvaluateOnCallFrameResponse>("Debugger.evaluateOnCallFrame", dict);
         }
 
         partial void ValidateGetPossibleBreakpoints(CefSharp.DevTools.Debugger.Location start, CefSharp.DevTools.Debugger.Location end = null, bool? restrictToFunction = null);
@@ -42920,7 +42512,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "end">End of range to search possible breakpoint locations in (excluding). When not specified, endof scripts is used as end of range.</param>
         /// <param name = "restrictToFunction">Only consider locations which are in the same (non-nested) function as start.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetPossibleBreakpointsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetPossibleBreakpointsResponse> GetPossibleBreakpointsAsync(CefSharp.DevTools.Debugger.Location start, CefSharp.DevTools.Debugger.Location end = null, bool? restrictToFunction = null)
+        public System.Threading.Tasks.Task<GetPossibleBreakpointsResponse> GetPossibleBreakpointsAsync(CefSharp.DevTools.Debugger.Location start, CefSharp.DevTools.Debugger.Location end = null, bool? restrictToFunction = null)
         {
             ValidateGetPossibleBreakpoints(start, end, restrictToFunction);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -42935,8 +42527,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("restrictToFunction", restrictToFunction.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.getPossibleBreakpoints", dict);
-            return methodResult.DeserializeJson<GetPossibleBreakpointsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetPossibleBreakpointsResponse>("Debugger.getPossibleBreakpoints", dict);
         }
 
         partial void ValidateGetScriptSource(string scriptId);
@@ -42945,13 +42536,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "scriptId">Id of the script to get source for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetScriptSourceResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetScriptSourceResponse> GetScriptSourceAsync(string scriptId)
+        public System.Threading.Tasks.Task<GetScriptSourceResponse> GetScriptSourceAsync(string scriptId)
         {
             ValidateGetScriptSource(scriptId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scriptId", scriptId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.getScriptSource", dict);
-            return methodResult.DeserializeJson<GetScriptSourceResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetScriptSourceResponse>("Debugger.getScriptSource", dict);
         }
 
         partial void ValidateGetStackTrace(CefSharp.DevTools.Runtime.StackTraceId stackTraceId);
@@ -42960,24 +42550,22 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "stackTraceId">stackTraceId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetStackTraceResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetStackTraceResponse> GetStackTraceAsync(CefSharp.DevTools.Runtime.StackTraceId stackTraceId)
+        public System.Threading.Tasks.Task<GetStackTraceResponse> GetStackTraceAsync(CefSharp.DevTools.Runtime.StackTraceId stackTraceId)
         {
             ValidateGetStackTrace(stackTraceId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("stackTraceId", stackTraceId.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.getStackTrace", dict);
-            return methodResult.DeserializeJson<GetStackTraceResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetStackTraceResponse>("Debugger.getStackTrace", dict);
         }
 
         /// <summary>
         /// Stops on the next JavaScript statement.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> PauseAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> PauseAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.pause", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.pause", dict);
         }
 
         partial void ValidateRemoveBreakpoint(string breakpointId);
@@ -42986,13 +42574,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "breakpointId">breakpointId</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveBreakpointAsync(string breakpointId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveBreakpointAsync(string breakpointId)
         {
             ValidateRemoveBreakpoint(breakpointId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("breakpointId", breakpointId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.removeBreakpoint", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.removeBreakpoint", dict);
         }
 
         partial void ValidateRestartFrame(string callFrameId);
@@ -43001,13 +42588,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "callFrameId">Call frame identifier to evaluate on.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RestartFrameResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RestartFrameResponse> RestartFrameAsync(string callFrameId)
+        public System.Threading.Tasks.Task<RestartFrameResponse> RestartFrameAsync(string callFrameId)
         {
             ValidateRestartFrame(callFrameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("callFrameId", callFrameId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.restartFrame", dict);
-            return methodResult.DeserializeJson<RestartFrameResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RestartFrameResponse>("Debugger.restartFrame", dict);
         }
 
         partial void ValidateResume(bool? terminateOnResume = null);
@@ -43016,7 +42602,7 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "terminateOnResume">Set to true to terminate execution upon resuming execution. In contrastto Runtime.terminateExecution, this will allows to execute furtherJavaScript (i.e. via evaluation) until execution of the paused codeis actually resumed, at which point termination is triggered.If execution is currently not paused, this parameter has no effect.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ResumeAsync(bool? terminateOnResume = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ResumeAsync(bool? terminateOnResume = null)
         {
             ValidateResume(terminateOnResume);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43025,8 +42611,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("terminateOnResume", terminateOnResume.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.resume", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.resume", dict);
         }
 
         partial void ValidateSearchInContent(string scriptId, string query, bool? caseSensitive = null, bool? isRegex = null);
@@ -43038,7 +42623,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "caseSensitive">If true, search is case sensitive.</param>
         /// <param name = "isRegex">If true, treats string parameter as regex.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SearchInContentResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SearchInContentResponse> SearchInContentAsync(string scriptId, string query, bool? caseSensitive = null, bool? isRegex = null)
+        public System.Threading.Tasks.Task<SearchInContentResponse> SearchInContentAsync(string scriptId, string query, bool? caseSensitive = null, bool? isRegex = null)
         {
             ValidateSearchInContent(scriptId, query, caseSensitive, isRegex);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43054,8 +42639,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("isRegex", isRegex.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.searchInContent", dict);
-            return methodResult.DeserializeJson<SearchInContentResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SearchInContentResponse>("Debugger.searchInContent", dict);
         }
 
         partial void ValidateSetAsyncCallStackDepth(int maxDepth);
@@ -43064,13 +42648,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "maxDepth">Maximum depth of async call stacks. Setting to `0` will effectively disable collecting asynccall stacks (default).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
         {
             ValidateSetAsyncCallStackDepth(maxDepth);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("maxDepth", maxDepth);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setAsyncCallStackDepth", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setAsyncCallStackDepth", dict);
         }
 
         partial void ValidateSetBlackboxPatterns(string[] patterns);
@@ -43081,13 +42664,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "patterns">Array of regexps that will be used to check script url for blackbox state.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlackboxPatternsAsync(string[] patterns)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlackboxPatternsAsync(string[] patterns)
         {
             ValidateSetBlackboxPatterns(patterns);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("patterns", patterns);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setBlackboxPatterns", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setBlackboxPatterns", dict);
         }
 
         partial void ValidateSetBlackboxedRanges(string scriptId, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.ScriptPosition> positions);
@@ -43100,14 +42682,13 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "scriptId">Id of the script.</param>
         /// <param name = "positions">positions</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlackboxedRangesAsync(string scriptId, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.ScriptPosition> positions)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetBlackboxedRangesAsync(string scriptId, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.ScriptPosition> positions)
         {
             ValidateSetBlackboxedRanges(scriptId, positions);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("scriptId", scriptId);
             dict.Add("positions", positions.Select(x => x.ToDictionary()));
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setBlackboxedRanges", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setBlackboxedRanges", dict);
         }
 
         partial void ValidateSetBreakpoint(CefSharp.DevTools.Debugger.Location location, string condition = null);
@@ -43117,7 +42698,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "location">Location to set breakpoint in.</param>
         /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger will only stop on thebreakpoint if this expression evaluates to true.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetBreakpointResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetBreakpointResponse> SetBreakpointAsync(CefSharp.DevTools.Debugger.Location location, string condition = null)
+        public System.Threading.Tasks.Task<SetBreakpointResponse> SetBreakpointAsync(CefSharp.DevTools.Debugger.Location location, string condition = null)
         {
             ValidateSetBreakpoint(location, condition);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43127,8 +42708,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("condition", condition);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setBreakpoint", dict);
-            return methodResult.DeserializeJson<SetBreakpointResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetBreakpointResponse>("Debugger.setBreakpoint", dict);
         }
 
         partial void ValidateSetInstrumentationBreakpoint(string instrumentation);
@@ -43137,13 +42717,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "instrumentation">Instrumentation name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetInstrumentationBreakpointResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetInstrumentationBreakpointResponse> SetInstrumentationBreakpointAsync(string instrumentation)
+        public System.Threading.Tasks.Task<SetInstrumentationBreakpointResponse> SetInstrumentationBreakpointAsync(string instrumentation)
         {
             ValidateSetInstrumentationBreakpoint(instrumentation);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("instrumentation", instrumentation);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setInstrumentationBreakpoint", dict);
-            return methodResult.DeserializeJson<SetInstrumentationBreakpointResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetInstrumentationBreakpointResponse>("Debugger.setInstrumentationBreakpoint", dict);
         }
 
         partial void ValidateSetBreakpointByUrl(int lineNumber, string url = null, string urlRegex = null, string scriptHash = null, int? columnNumber = null, string condition = null);
@@ -43160,7 +42739,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "columnNumber">Offset in the line to set breakpoint at.</param>
         /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger will only stop on thebreakpoint if this expression evaluates to true.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetBreakpointByUrlResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetBreakpointByUrlResponse> SetBreakpointByUrlAsync(int lineNumber, string url = null, string urlRegex = null, string scriptHash = null, int? columnNumber = null, string condition = null)
+        public System.Threading.Tasks.Task<SetBreakpointByUrlResponse> SetBreakpointByUrlAsync(int lineNumber, string url = null, string urlRegex = null, string scriptHash = null, int? columnNumber = null, string condition = null)
         {
             ValidateSetBreakpointByUrl(lineNumber, url, urlRegex, scriptHash, columnNumber, condition);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43190,8 +42769,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("condition", condition);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setBreakpointByUrl", dict);
-            return methodResult.DeserializeJson<SetBreakpointByUrlResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetBreakpointByUrlResponse>("Debugger.setBreakpointByUrl", dict);
         }
 
         partial void ValidateSetBreakpointOnFunctionCall(string objectId, string condition = null);
@@ -43203,7 +42781,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "objectId">Function object id.</param>
         /// <param name = "condition">Expression to use as a breakpoint condition. When specified, debugger willstop on the breakpoint if this expression evaluates to true.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetBreakpointOnFunctionCallResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetBreakpointOnFunctionCallResponse> SetBreakpointOnFunctionCallAsync(string objectId, string condition = null)
+        public System.Threading.Tasks.Task<SetBreakpointOnFunctionCallResponse> SetBreakpointOnFunctionCallAsync(string objectId, string condition = null)
         {
             ValidateSetBreakpointOnFunctionCall(objectId, condition);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43213,8 +42791,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("condition", condition);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setBreakpointOnFunctionCall", dict);
-            return methodResult.DeserializeJson<SetBreakpointOnFunctionCallResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetBreakpointOnFunctionCallResponse>("Debugger.setBreakpointOnFunctionCall", dict);
         }
 
         partial void ValidateSetBreakpointsActive(bool active);
@@ -43223,13 +42800,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "active">New value for breakpoints active state.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetBreakpointsActiveAsync(bool active)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetBreakpointsActiveAsync(bool active)
         {
             ValidateSetBreakpointsActive(active);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("active", active);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setBreakpointsActive", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setBreakpointsActive", dict);
         }
 
         partial void ValidateSetPauseOnExceptions(string state);
@@ -43239,13 +42815,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "state">Pause on exceptions mode.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetPauseOnExceptionsAsync(string state)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPauseOnExceptionsAsync(string state)
         {
             ValidateSetPauseOnExceptions(state);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("state", state);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setPauseOnExceptions", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setPauseOnExceptions", dict);
         }
 
         partial void ValidateSetReturnValue(CefSharp.DevTools.Runtime.CallArgument newValue);
@@ -43254,13 +42829,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "newValue">New return value.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetReturnValueAsync(CefSharp.DevTools.Runtime.CallArgument newValue)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetReturnValueAsync(CefSharp.DevTools.Runtime.CallArgument newValue)
         {
             ValidateSetReturnValue(newValue);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("newValue", newValue.ToDictionary());
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setReturnValue", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setReturnValue", dict);
         }
 
         partial void ValidateSetScriptSource(string scriptId, string scriptSource, bool? dryRun = null);
@@ -43271,7 +42845,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "scriptSource">New content of the script.</param>
         /// <param name = "dryRun">If true the change will not actually be applied. Dry run may be used to get resultdescription without actually modifying the code.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetScriptSourceResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<SetScriptSourceResponse> SetScriptSourceAsync(string scriptId, string scriptSource, bool? dryRun = null)
+        public System.Threading.Tasks.Task<SetScriptSourceResponse> SetScriptSourceAsync(string scriptId, string scriptSource, bool? dryRun = null)
         {
             ValidateSetScriptSource(scriptId, scriptSource, dryRun);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43282,8 +42856,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("dryRun", dryRun.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setScriptSource", dict);
-            return methodResult.DeserializeJson<SetScriptSourceResponse>();
+            return _client.ExecuteDevToolsMethodAsync<SetScriptSourceResponse>("Debugger.setScriptSource", dict);
         }
 
         partial void ValidateSetSkipAllPauses(bool skip);
@@ -43292,13 +42865,12 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "skip">New value for skip pauses state.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetSkipAllPausesAsync(bool skip)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetSkipAllPausesAsync(bool skip)
         {
             ValidateSetSkipAllPauses(skip);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("skip", skip);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setSkipAllPauses", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setSkipAllPauses", dict);
         }
 
         partial void ValidateSetVariableValue(int scopeNumber, string variableName, CefSharp.DevTools.Runtime.CallArgument newValue, string callFrameId);
@@ -43311,7 +42883,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "newValue">New variable value.</param>
         /// <param name = "callFrameId">Id of callframe that holds variable.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetVariableValueAsync(int scopeNumber, string variableName, CefSharp.DevTools.Runtime.CallArgument newValue, string callFrameId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetVariableValueAsync(int scopeNumber, string variableName, CefSharp.DevTools.Runtime.CallArgument newValue, string callFrameId)
         {
             ValidateSetVariableValue(scopeNumber, variableName, newValue, callFrameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43319,8 +42891,7 @@ namespace CefSharp.DevTools.Debugger
             dict.Add("variableName", variableName);
             dict.Add("newValue", newValue.ToDictionary());
             dict.Add("callFrameId", callFrameId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.setVariableValue", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setVariableValue", dict);
         }
 
         partial void ValidateStepInto(bool? breakOnAsyncCall = null, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.LocationRange> skipList = null);
@@ -43330,7 +42901,7 @@ namespace CefSharp.DevTools.Debugger
         /// <param name = "breakOnAsyncCall">Debugger will pause on the execution of the first async task which was scheduledbefore next pause.</param>
         /// <param name = "skipList">The skipList specifies location ranges that should be skipped on step into.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StepIntoAsync(bool? breakOnAsyncCall = null, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.LocationRange> skipList = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StepIntoAsync(bool? breakOnAsyncCall = null, System.Collections.Generic.IList<CefSharp.DevTools.Debugger.LocationRange> skipList = null)
         {
             ValidateStepInto(breakOnAsyncCall, skipList);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43344,19 +42915,17 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("skipList", skipList.Select(x => x.ToDictionary()));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.stepInto", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.stepInto", dict);
         }
 
         /// <summary>
         /// Steps out of the function call.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StepOutAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StepOutAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.stepOut", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.stepOut", dict);
         }
 
         partial void ValidateStepOver(System.Collections.Generic.IList<CefSharp.DevTools.Debugger.LocationRange> skipList = null);
@@ -43365,7 +42934,7 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         /// <param name = "skipList">The skipList specifies location ranges that should be skipped on step over.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StepOverAsync(System.Collections.Generic.IList<CefSharp.DevTools.Debugger.LocationRange> skipList = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StepOverAsync(System.Collections.Generic.IList<CefSharp.DevTools.Debugger.LocationRange> skipList = null)
         {
             ValidateStepOver(skipList);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43374,8 +42943,7 @@ namespace CefSharp.DevTools.Debugger
                 dict.Add("skipList", skipList.Select(x => x.ToDictionary()));
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Debugger.stepOver", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.stepOver", dict);
         }
     }
 }
@@ -43690,46 +43258,42 @@ namespace CefSharp.DevTools.HeapProfiler
         /// </summary>
         /// <param name = "heapObjectId">Heap snapshot object id to be accessible by means of $x command line API.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddInspectedHeapObjectAsync(string heapObjectId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> AddInspectedHeapObjectAsync(string heapObjectId)
         {
             ValidateAddInspectedHeapObject(heapObjectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("heapObjectId", heapObjectId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.addInspectedHeapObject", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeapProfiler.addInspectedHeapObject", dict);
         }
 
         /// <summary>
         /// CollectGarbage
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> CollectGarbageAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> CollectGarbageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.collectGarbage", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeapProfiler.collectGarbage", dict);
         }
 
         /// <summary>
         /// Disable
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeapProfiler.disable", dict);
         }
 
         /// <summary>
         /// Enable
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeapProfiler.enable", dict);
         }
 
         partial void ValidateGetHeapObjectId(string objectId);
@@ -43738,13 +43302,12 @@ namespace CefSharp.DevTools.HeapProfiler
         /// </summary>
         /// <param name = "objectId">Identifier of the object to get heap object id for.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetHeapObjectIdResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetHeapObjectIdResponse> GetHeapObjectIdAsync(string objectId)
+        public System.Threading.Tasks.Task<GetHeapObjectIdResponse> GetHeapObjectIdAsync(string objectId)
         {
             ValidateGetHeapObjectId(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.getHeapObjectId", dict);
-            return methodResult.DeserializeJson<GetHeapObjectIdResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetHeapObjectIdResponse>("HeapProfiler.getHeapObjectId", dict);
         }
 
         partial void ValidateGetObjectByHeapObjectId(string objectId, string objectGroup = null);
@@ -43754,7 +43317,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <param name = "objectId">objectId</param>
         /// <param name = "objectGroup">Symbolic group name that can be used to release multiple objects.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetObjectByHeapObjectIdResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetObjectByHeapObjectIdResponse> GetObjectByHeapObjectIdAsync(string objectId, string objectGroup = null)
+        public System.Threading.Tasks.Task<GetObjectByHeapObjectIdResponse> GetObjectByHeapObjectIdAsync(string objectId, string objectGroup = null)
         {
             ValidateGetObjectByHeapObjectId(objectId, objectGroup);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43764,19 +43327,17 @@ namespace CefSharp.DevTools.HeapProfiler
                 dict.Add("objectGroup", objectGroup);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.getObjectByHeapObjectId", dict);
-            return methodResult.DeserializeJson<GetObjectByHeapObjectIdResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetObjectByHeapObjectIdResponse>("HeapProfiler.getObjectByHeapObjectId", dict);
         }
 
         /// <summary>
         /// GetSamplingProfile
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetSamplingProfileResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetSamplingProfileResponse> GetSamplingProfileAsync()
+        public System.Threading.Tasks.Task<GetSamplingProfileResponse> GetSamplingProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.getSamplingProfile", dict);
-            return methodResult.DeserializeJson<GetSamplingProfileResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetSamplingProfileResponse>("HeapProfiler.getSamplingProfile", dict);
         }
 
         partial void ValidateStartSampling(double? samplingInterval = null);
@@ -43785,7 +43346,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// </summary>
         /// <param name = "samplingInterval">Average sample interval in bytes. Poisson distribution is used for the intervals. Thedefault value is 32768 bytes.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(double? samplingInterval = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartSamplingAsync(double? samplingInterval = null)
         {
             ValidateStartSampling(samplingInterval);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43794,8 +43355,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 dict.Add("samplingInterval", samplingInterval.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.startSampling", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeapProfiler.startSampling", dict);
         }
 
         partial void ValidateStartTrackingHeapObjects(bool? trackAllocations = null);
@@ -43804,7 +43364,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// </summary>
         /// <param name = "trackAllocations">trackAllocations</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartTrackingHeapObjectsAsync(bool? trackAllocations = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartTrackingHeapObjectsAsync(bool? trackAllocations = null)
         {
             ValidateStartTrackingHeapObjects(trackAllocations);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43813,19 +43373,17 @@ namespace CefSharp.DevTools.HeapProfiler
                 dict.Add("trackAllocations", trackAllocations.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.startTrackingHeapObjects", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeapProfiler.startTrackingHeapObjects", dict);
         }
 
         /// <summary>
         /// StopSampling
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;StopSamplingResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<StopSamplingResponse> StopSamplingAsync()
+        public System.Threading.Tasks.Task<StopSamplingResponse> StopSamplingAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.stopSampling", dict);
-            return methodResult.DeserializeJson<StopSamplingResponse>();
+            return _client.ExecuteDevToolsMethodAsync<StopSamplingResponse>("HeapProfiler.stopSampling", dict);
         }
 
         partial void ValidateStopTrackingHeapObjects(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null);
@@ -43835,7 +43393,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <param name = "reportProgress">If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being takenwhen the tracking is stopped.</param>
         /// <param name = "treatGlobalObjectsAsRoots">treatGlobalObjectsAsRoots</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopTrackingHeapObjectsAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopTrackingHeapObjectsAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {
             ValidateStopTrackingHeapObjects(reportProgress, treatGlobalObjectsAsRoots);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43849,8 +43407,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 dict.Add("treatGlobalObjectsAsRoots", treatGlobalObjectsAsRoots.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.stopTrackingHeapObjects", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeapProfiler.stopTrackingHeapObjects", dict);
         }
 
         partial void ValidateTakeHeapSnapshot(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null);
@@ -43860,7 +43417,7 @@ namespace CefSharp.DevTools.HeapProfiler
         /// <param name = "reportProgress">If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.</param>
         /// <param name = "treatGlobalObjectsAsRoots">If true, a raw snapshot without artifical roots will be generated</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> TakeHeapSnapshotAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> TakeHeapSnapshotAsync(bool? reportProgress = null, bool? treatGlobalObjectsAsRoots = null)
         {
             ValidateTakeHeapSnapshot(reportProgress, treatGlobalObjectsAsRoots);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -43874,8 +43431,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 dict.Add("treatGlobalObjectsAsRoots", treatGlobalObjectsAsRoots.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("HeapProfiler.takeHeapSnapshot", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("HeapProfiler.takeHeapSnapshot", dict);
         }
     }
 }
@@ -44222,22 +43778,20 @@ namespace CefSharp.DevTools.Profiler
         /// Disable
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.disable", dict);
         }
 
         /// <summary>
         /// Enable
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.enable", dict);
         }
 
         /// <summary>
@@ -44245,11 +43799,10 @@ namespace CefSharp.DevTools.Profiler
         /// garbage collection.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetBestEffortCoverageResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetBestEffortCoverageResponse> GetBestEffortCoverageAsync()
+        public System.Threading.Tasks.Task<GetBestEffortCoverageResponse> GetBestEffortCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.getBestEffortCoverage", dict);
-            return methodResult.DeserializeJson<GetBestEffortCoverageResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetBestEffortCoverageResponse>("Profiler.getBestEffortCoverage", dict);
         }
 
         partial void ValidateSetSamplingInterval(int interval);
@@ -44258,24 +43811,22 @@ namespace CefSharp.DevTools.Profiler
         /// </summary>
         /// <param name = "interval">New sampling interval in microseconds.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetSamplingIntervalAsync(int interval)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetSamplingIntervalAsync(int interval)
         {
             ValidateSetSamplingInterval(interval);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("interval", interval);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.setSamplingInterval", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.setSamplingInterval", dict);
         }
 
         /// <summary>
         /// Start
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.start", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.start", dict);
         }
 
         partial void ValidateStartPreciseCoverage(bool? callCount = null, bool? detailed = null, bool? allowTriggeredUpdates = null);
@@ -44288,7 +43839,7 @@ namespace CefSharp.DevTools.Profiler
         /// <param name = "detailed">Collect block-based coverage.</param>
         /// <param name = "allowTriggeredUpdates">Allow the backend to send updates on its own initiative</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;StartPreciseCoverageResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<StartPreciseCoverageResponse> StartPreciseCoverageAsync(bool? callCount = null, bool? detailed = null, bool? allowTriggeredUpdates = null)
+        public System.Threading.Tasks.Task<StartPreciseCoverageResponse> StartPreciseCoverageAsync(bool? callCount = null, bool? detailed = null, bool? allowTriggeredUpdates = null)
         {
             ValidateStartPreciseCoverage(callCount, detailed, allowTriggeredUpdates);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -44307,30 +43858,27 @@ namespace CefSharp.DevTools.Profiler
                 dict.Add("allowTriggeredUpdates", allowTriggeredUpdates.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.startPreciseCoverage", dict);
-            return methodResult.DeserializeJson<StartPreciseCoverageResponse>();
+            return _client.ExecuteDevToolsMethodAsync<StartPreciseCoverageResponse>("Profiler.startPreciseCoverage", dict);
         }
 
         /// <summary>
         /// Enable type profile.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StartTypeProfileAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartTypeProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.startTypeProfile", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.startTypeProfile", dict);
         }
 
         /// <summary>
         /// Stop
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;StopResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<StopResponse> StopAsync()
+        public System.Threading.Tasks.Task<StopResponse> StopAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.stop", dict);
-            return methodResult.DeserializeJson<StopResponse>();
+            return _client.ExecuteDevToolsMethodAsync<StopResponse>("Profiler.stop", dict);
         }
 
         /// <summary>
@@ -44338,22 +43886,20 @@ namespace CefSharp.DevTools.Profiler
         /// executing optimized code.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopPreciseCoverageAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopPreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.stopPreciseCoverage", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.stopPreciseCoverage", dict);
         }
 
         /// <summary>
         /// Disable type profile. Disabling releases type profile data collected so far.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> StopTypeProfileAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StopTypeProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.stopTypeProfile", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.stopTypeProfile", dict);
         }
 
         /// <summary>
@@ -44361,88 +43907,80 @@ namespace CefSharp.DevTools.Profiler
         /// coverage needs to have started.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;TakePreciseCoverageResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<TakePreciseCoverageResponse> TakePreciseCoverageAsync()
+        public System.Threading.Tasks.Task<TakePreciseCoverageResponse> TakePreciseCoverageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.takePreciseCoverage", dict);
-            return methodResult.DeserializeJson<TakePreciseCoverageResponse>();
+            return _client.ExecuteDevToolsMethodAsync<TakePreciseCoverageResponse>("Profiler.takePreciseCoverage", dict);
         }
 
         /// <summary>
         /// Collect type profile.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;TakeTypeProfileResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<TakeTypeProfileResponse> TakeTypeProfileAsync()
+        public System.Threading.Tasks.Task<TakeTypeProfileResponse> TakeTypeProfileAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.takeTypeProfile", dict);
-            return methodResult.DeserializeJson<TakeTypeProfileResponse>();
+            return _client.ExecuteDevToolsMethodAsync<TakeTypeProfileResponse>("Profiler.takeTypeProfile", dict);
         }
 
         /// <summary>
         /// Enable counters collection.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableCountersAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableCountersAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.enableCounters", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.enableCounters", dict);
         }
 
         /// <summary>
         /// Disable counters collection.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableCountersAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableCountersAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.disableCounters", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.disableCounters", dict);
         }
 
         /// <summary>
         /// Retrieve counters.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetCountersResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetCountersResponse> GetCountersAsync()
+        public System.Threading.Tasks.Task<GetCountersResponse> GetCountersAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.getCounters", dict);
-            return methodResult.DeserializeJson<GetCountersResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetCountersResponse>("Profiler.getCounters", dict);
         }
 
         /// <summary>
         /// Enable run time call stats collection.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableRuntimeCallStatsAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableRuntimeCallStatsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.enableRuntimeCallStats", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.enableRuntimeCallStats", dict);
         }
 
         /// <summary>
         /// Disable run time call stats collection.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableRuntimeCallStatsAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableRuntimeCallStatsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.disableRuntimeCallStats", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Profiler.disableRuntimeCallStats", dict);
         }
 
         /// <summary>
         /// Retrieve run time call stats.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetRuntimeCallStatsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetRuntimeCallStatsResponse> GetRuntimeCallStatsAsync()
+        public System.Threading.Tasks.Task<GetRuntimeCallStatsResponse> GetRuntimeCallStatsAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Profiler.getRuntimeCallStats", dict);
-            return methodResult.DeserializeJson<GetRuntimeCallStatsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetRuntimeCallStatsResponse>("Profiler.getRuntimeCallStats", dict);
         }
     }
 }
@@ -45193,7 +44731,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "returnByValue">Whether the result is expected to be a JSON object that should be sent by value.</param>
         /// <param name = "generatePreview">Whether preview should be generated for the result.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;AwaitPromiseResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<AwaitPromiseResponse> AwaitPromiseAsync(string promiseObjectId, bool? returnByValue = null, bool? generatePreview = null)
+        public System.Threading.Tasks.Task<AwaitPromiseResponse> AwaitPromiseAsync(string promiseObjectId, bool? returnByValue = null, bool? generatePreview = null)
         {
             ValidateAwaitPromise(promiseObjectId, returnByValue, generatePreview);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45208,8 +44746,7 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("generatePreview", generatePreview.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.awaitPromise", dict);
-            return methodResult.DeserializeJson<AwaitPromiseResponse>();
+            return _client.ExecuteDevToolsMethodAsync<AwaitPromiseResponse>("Runtime.awaitPromise", dict);
         }
 
         partial void ValidateCallFunctionOn(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null);
@@ -45228,7 +44765,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "executionContextId">Specifies execution context which global object will be used to call function on. EitherexecutionContextId or objectId should be specified.</param>
         /// <param name = "objectGroup">Symbolic group name that can be used to release multiple objects. If objectGroup is notspecified and objectId is, objectGroup will be inherited from object.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CallFunctionOnResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CallFunctionOnResponse> CallFunctionOnAsync(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null)
+        public System.Threading.Tasks.Task<CallFunctionOnResponse> CallFunctionOnAsync(string functionDeclaration, string objectId = null, System.Collections.Generic.IList<CefSharp.DevTools.Runtime.CallArgument> arguments = null, bool? silent = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, int? executionContextId = null, string objectGroup = null)
         {
             ValidateCallFunctionOn(functionDeclaration, objectId, arguments, silent, returnByValue, generatePreview, userGesture, awaitPromise, executionContextId, objectGroup);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45278,8 +44815,7 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("objectGroup", objectGroup);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.callFunctionOn", dict);
-            return methodResult.DeserializeJson<CallFunctionOnResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CallFunctionOnResponse>("Runtime.callFunctionOn", dict);
         }
 
         partial void ValidateCompileScript(string expression, string sourceURL, bool persistScript, int? executionContextId = null);
@@ -45291,7 +44827,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "persistScript">Specifies whether the compiled script should be persisted.</param>
         /// <param name = "executionContextId">Specifies in which execution context to perform script run. If the parameter is omitted theevaluation will be performed in the context of the inspected page.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CompileScriptResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<CompileScriptResponse> CompileScriptAsync(string expression, string sourceURL, bool persistScript, int? executionContextId = null)
+        public System.Threading.Tasks.Task<CompileScriptResponse> CompileScriptAsync(string expression, string sourceURL, bool persistScript, int? executionContextId = null)
         {
             ValidateCompileScript(expression, sourceURL, persistScript, executionContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45303,30 +44839,27 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("executionContextId", executionContextId.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.compileScript", dict);
-            return methodResult.DeserializeJson<CompileScriptResponse>();
+            return _client.ExecuteDevToolsMethodAsync<CompileScriptResponse>("Runtime.compileScript", dict);
         }
 
         /// <summary>
         /// Disables reporting of execution contexts creation.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DisableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.disable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.disable", dict);
         }
 
         /// <summary>
         /// Discards collected exceptions and console API calls.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> DiscardConsoleEntriesAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DiscardConsoleEntriesAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.discardConsoleEntries", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.discardConsoleEntries", dict);
         }
 
         /// <summary>
@@ -45335,11 +44868,10 @@ namespace CefSharp.DevTools.Runtime
         /// context.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.enable", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.enable", dict);
         }
 
         partial void ValidateEvaluate(string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, int? contextId = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, bool? throwOnSideEffect = null, double? timeout = null, bool? disableBreaks = null, bool? replMode = null, bool? allowUnsafeEvalBlockedByCSP = null, string uniqueContextId = null);
@@ -45362,7 +44894,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "allowUnsafeEvalBlockedByCSP">The Content Security Policy (CSP) for the target might block 'unsafe-eval'which includes eval(), Function(), setTimeout() and setInterval()when called with non-callable arguments. This flag bypasses CSP for thisevaluation and allows unsafe-eval. Defaults to true.</param>
         /// <param name = "uniqueContextId">An alternative way to specify the execution context to evaluate in.Compared to contextId that may be reused accross processes, this is guaranteed to besystem-unique, so it can be used to prevent accidental evaluation of the expressionin context different than intended (e.g. as a result of navigation accross processboundaries).This is mutually exclusive with `contextId`.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;EvaluateResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<EvaluateResponse> EvaluateAsync(string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, int? contextId = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, bool? throwOnSideEffect = null, double? timeout = null, bool? disableBreaks = null, bool? replMode = null, bool? allowUnsafeEvalBlockedByCSP = null, string uniqueContextId = null)
+        public System.Threading.Tasks.Task<EvaluateResponse> EvaluateAsync(string expression, string objectGroup = null, bool? includeCommandLineAPI = null, bool? silent = null, int? contextId = null, bool? returnByValue = null, bool? generatePreview = null, bool? userGesture = null, bool? awaitPromise = null, bool? throwOnSideEffect = null, double? timeout = null, bool? disableBreaks = null, bool? replMode = null, bool? allowUnsafeEvalBlockedByCSP = null, string uniqueContextId = null)
         {
             ValidateEvaluate(expression, objectGroup, includeCommandLineAPI, silent, contextId, returnByValue, generatePreview, userGesture, awaitPromise, throwOnSideEffect, timeout, disableBreaks, replMode, allowUnsafeEvalBlockedByCSP, uniqueContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45437,19 +44969,17 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("uniqueContextId", uniqueContextId);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.evaluate", dict);
-            return methodResult.DeserializeJson<EvaluateResponse>();
+            return _client.ExecuteDevToolsMethodAsync<EvaluateResponse>("Runtime.evaluate", dict);
         }
 
         /// <summary>
         /// Returns the isolate id.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetIsolateIdResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetIsolateIdResponse> GetIsolateIdAsync()
+        public System.Threading.Tasks.Task<GetIsolateIdResponse> GetIsolateIdAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.getIsolateId", dict);
-            return methodResult.DeserializeJson<GetIsolateIdResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetIsolateIdResponse>("Runtime.getIsolateId", dict);
         }
 
         /// <summary>
@@ -45457,11 +44987,10 @@ namespace CefSharp.DevTools.Runtime
         /// It is the total usage of the corresponding isolate not scoped to a particular Runtime.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetHeapUsageResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetHeapUsageResponse> GetHeapUsageAsync()
+        public System.Threading.Tasks.Task<GetHeapUsageResponse> GetHeapUsageAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.getHeapUsage", dict);
-            return methodResult.DeserializeJson<GetHeapUsageResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetHeapUsageResponse>("Runtime.getHeapUsage", dict);
         }
 
         partial void ValidateGetProperties(string objectId, bool? ownProperties = null, bool? accessorPropertiesOnly = null, bool? generatePreview = null);
@@ -45474,7 +45003,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "accessorPropertiesOnly">If true, returns accessor properties (with getter/setter) only; internal properties are notreturned either.</param>
         /// <param name = "generatePreview">Whether preview should be generated for the results.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetPropertiesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(string objectId, bool? ownProperties = null, bool? accessorPropertiesOnly = null, bool? generatePreview = null)
+        public System.Threading.Tasks.Task<GetPropertiesResponse> GetPropertiesAsync(string objectId, bool? ownProperties = null, bool? accessorPropertiesOnly = null, bool? generatePreview = null)
         {
             ValidateGetProperties(objectId, ownProperties, accessorPropertiesOnly, generatePreview);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45494,8 +45023,7 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("generatePreview", generatePreview.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.getProperties", dict);
-            return methodResult.DeserializeJson<GetPropertiesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GetPropertiesResponse>("Runtime.getProperties", dict);
         }
 
         partial void ValidateGlobalLexicalScopeNames(int? executionContextId = null);
@@ -45504,7 +45032,7 @@ namespace CefSharp.DevTools.Runtime
         /// </summary>
         /// <param name = "executionContextId">Specifies in which execution context to lookup global scope variables.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GlobalLexicalScopeNamesResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<GlobalLexicalScopeNamesResponse> GlobalLexicalScopeNamesAsync(int? executionContextId = null)
+        public System.Threading.Tasks.Task<GlobalLexicalScopeNamesResponse> GlobalLexicalScopeNamesAsync(int? executionContextId = null)
         {
             ValidateGlobalLexicalScopeNames(executionContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45513,8 +45041,7 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("executionContextId", executionContextId.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.globalLexicalScopeNames", dict);
-            return methodResult.DeserializeJson<GlobalLexicalScopeNamesResponse>();
+            return _client.ExecuteDevToolsMethodAsync<GlobalLexicalScopeNamesResponse>("Runtime.globalLexicalScopeNames", dict);
         }
 
         partial void ValidateQueryObjects(string prototypeObjectId, string objectGroup = null);
@@ -45524,7 +45051,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "prototypeObjectId">Identifier of the prototype to return objects for.</param>
         /// <param name = "objectGroup">Symbolic group name that can be used to release the results.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;QueryObjectsResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<QueryObjectsResponse> QueryObjectsAsync(string prototypeObjectId, string objectGroup = null)
+        public System.Threading.Tasks.Task<QueryObjectsResponse> QueryObjectsAsync(string prototypeObjectId, string objectGroup = null)
         {
             ValidateQueryObjects(prototypeObjectId, objectGroup);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45534,8 +45061,7 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("objectGroup", objectGroup);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.queryObjects", dict);
-            return methodResult.DeserializeJson<QueryObjectsResponse>();
+            return _client.ExecuteDevToolsMethodAsync<QueryObjectsResponse>("Runtime.queryObjects", dict);
         }
 
         partial void ValidateReleaseObject(string objectId);
@@ -45544,13 +45070,12 @@ namespace CefSharp.DevTools.Runtime
         /// </summary>
         /// <param name = "objectId">Identifier of the object to release.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseObjectAsync(string objectId)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseObjectAsync(string objectId)
         {
             ValidateReleaseObject(objectId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectId", objectId);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.releaseObject", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.releaseObject", dict);
         }
 
         partial void ValidateReleaseObjectGroup(string objectGroup);
@@ -45559,24 +45084,22 @@ namespace CefSharp.DevTools.Runtime
         /// </summary>
         /// <param name = "objectGroup">Symbolic object group name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseObjectGroupAsync(string objectGroup)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ReleaseObjectGroupAsync(string objectGroup)
         {
             ValidateReleaseObjectGroup(objectGroup);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("objectGroup", objectGroup);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.releaseObjectGroup", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.releaseObjectGroup", dict);
         }
 
         /// <summary>
         /// Tells inspected instance to run if it was waiting for debugger to attach.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RunIfWaitingForDebuggerAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RunIfWaitingForDebuggerAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.runIfWaitingForDebugger", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.runIfWaitingForDebugger", dict);
         }
 
         partial void ValidateRunScript(string scriptId, int? executionContextId = null, string objectGroup = null, bool? silent = null, bool? includeCommandLineAPI = null, bool? returnByValue = null, bool? generatePreview = null, bool? awaitPromise = null);
@@ -45592,7 +45115,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "generatePreview">Whether preview should be generated for the result.</param>
         /// <param name = "awaitPromise">Whether execution should `await` for resulting value and return once awaited promise isresolved.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RunScriptResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<RunScriptResponse> RunScriptAsync(string scriptId, int? executionContextId = null, string objectGroup = null, bool? silent = null, bool? includeCommandLineAPI = null, bool? returnByValue = null, bool? generatePreview = null, bool? awaitPromise = null)
+        public System.Threading.Tasks.Task<RunScriptResponse> RunScriptAsync(string scriptId, int? executionContextId = null, string objectGroup = null, bool? silent = null, bool? includeCommandLineAPI = null, bool? returnByValue = null, bool? generatePreview = null, bool? awaitPromise = null)
         {
             ValidateRunScript(scriptId, executionContextId, objectGroup, silent, includeCommandLineAPI, returnByValue, generatePreview, awaitPromise);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45632,8 +45155,7 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("awaitPromise", awaitPromise.Value);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.runScript", dict);
-            return methodResult.DeserializeJson<RunScriptResponse>();
+            return _client.ExecuteDevToolsMethodAsync<RunScriptResponse>("Runtime.runScript", dict);
         }
 
         partial void ValidateSetAsyncCallStackDepth(int maxDepth);
@@ -45642,13 +45164,12 @@ namespace CefSharp.DevTools.Runtime
         /// </summary>
         /// <param name = "maxDepth">Maximum depth of async call stacks. Setting to `0` will effectively disable collecting asynccall stacks (default).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetAsyncCallStackDepthAsync(int maxDepth)
         {
             ValidateSetAsyncCallStackDepth(maxDepth);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("maxDepth", maxDepth);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setAsyncCallStackDepth", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.setAsyncCallStackDepth", dict);
         }
 
         partial void ValidateSetCustomObjectFormatterEnabled(bool enabled);
@@ -45657,13 +45178,12 @@ namespace CefSharp.DevTools.Runtime
         /// </summary>
         /// <param name = "enabled">enabled</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetCustomObjectFormatterEnabledAsync(bool enabled)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetCustomObjectFormatterEnabledAsync(bool enabled)
         {
             ValidateSetCustomObjectFormatterEnabled(enabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setCustomObjectFormatterEnabled", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.setCustomObjectFormatterEnabled", dict);
         }
 
         partial void ValidateSetMaxCallStackSizeToCapture(int size);
@@ -45672,13 +45192,12 @@ namespace CefSharp.DevTools.Runtime
         /// </summary>
         /// <param name = "size">size</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> SetMaxCallStackSizeToCaptureAsync(int size)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetMaxCallStackSizeToCaptureAsync(int size)
         {
             ValidateSetMaxCallStackSizeToCapture(size);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("size", size);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.setMaxCallStackSizeToCapture", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.setMaxCallStackSizeToCapture", dict);
         }
 
         /// <summary>
@@ -45686,11 +45205,10 @@ namespace CefSharp.DevTools.Runtime
         /// Will cancel the termination when the outer-most script execution ends.
         /// </summary>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> TerminateExecutionAsync()
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> TerminateExecutionAsync()
         {
             System.Collections.Generic.Dictionary<string, object> dict = null;
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.terminateExecution", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.terminateExecution", dict);
         }
 
         partial void ValidateAddBinding(string name, int? executionContextId = null, string executionContextName = null);
@@ -45706,7 +45224,7 @@ namespace CefSharp.DevTools.Runtime
         /// <param name = "executionContextId">If specified, the binding would only be exposed to the specifiedexecution context. If omitted and `executionContextName` is not set,the binding is exposed to all execution contexts of the target.This parameter is mutually exclusive with `executionContextName`.</param>
         /// <param name = "executionContextName">If specified, the binding is exposed to the executionContext withmatching name, even for contexts created after the binding is added.See also `ExecutionContext.name` and `worldName` parameter to`Page.addScriptToEvaluateOnNewDocument`.This parameter is mutually exclusive with `executionContextId`.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> AddBindingAsync(string name, int? executionContextId = null, string executionContextName = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> AddBindingAsync(string name, int? executionContextId = null, string executionContextName = null)
         {
             ValidateAddBinding(name, executionContextId, executionContextName);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -45721,8 +45239,7 @@ namespace CefSharp.DevTools.Runtime
                 dict.Add("executionContextName", executionContextName);
             }
 
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.addBinding", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.addBinding", dict);
         }
 
         partial void ValidateRemoveBinding(string name);
@@ -45732,13 +45249,12 @@ namespace CefSharp.DevTools.Runtime
         /// </summary>
         /// <param name = "name">name</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public async System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveBindingAsync(string name)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> RemoveBindingAsync(string name)
         {
             ValidateRemoveBinding(name);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("name", name);
-            var methodResult = await _client.ExecuteDevToolsMethodAsync("Runtime.removeBinding", dict);
-            return methodResult;
+            return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Runtime.removeBinding", dict);
         }
     }
 }

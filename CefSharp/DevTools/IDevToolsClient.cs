@@ -25,10 +25,11 @@ namespace CefSharp.DevTools
         /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
         /// of supported methods and the expected <paramref name="parameters"/> dictionary contents.
         /// </summary>
+        /// <typeparam name="T">The type into which the result will be deserialzed.</typeparam>
         /// <param name="method">is the method name</param>
         /// <param name="parameters">are the method parameters represented as a dictionary,
         /// which may be empty.</param>
         /// <returns>return a Task that can be awaited to obtain the method result</returns>
-        Task<DevToolsMethodResponse> ExecuteDevToolsMethodAsync(string method, IDictionary<string, object> parameters = null);
+        Task<T> ExecuteDevToolsMethodAsync<T>(string method, IDictionary<string, object> parameters = null) where T : DevToolsDomainResponseBase;
     }
 }
