@@ -10,6 +10,7 @@ namespace CefSharp.DevTools
     /// Error Message parsed from JSON
     /// e.g. {"code":-32601,"message":"'Browser.getWindowForTarget' wasn't found"}
     /// </summary>
+    [DataContract]
     public class DevToolsDomainErrorResponse
     {
         /// <summary>

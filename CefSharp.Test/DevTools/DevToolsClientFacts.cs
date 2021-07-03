@@ -248,5 +248,71 @@ namespace CefSharp.Test.DevTools
                 Assert.Equal("89.0.4389.114", highEntropyValuesResult.uaFullVersion);
             }
         }
+
+        [Fact]
+        public async Task CanSetExtraHTTPHeaders()
+        {
+            using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false))
+            {
+                await browser.CreateBrowserAsync();
+
+                RequestWillBeSentEventArgs requestWillBeSentEventArgs = null;
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var extraHeaders = new Headers();
+                    extraHeaders.SetCommaSeparatedValues("TEST", "0");
+                    extraHeaders.AppendCommaSeparatedValues("test", " 1 ", "\" 2 \"");
+                    extraHeaders.AppendCommaSeparatedValues("Test", " 2,5 ");
+
+                    await devToolsClient.Network.SetExtraHTTPHeadersAsync(extraHeaders);
+
+                    devToolsClient.Network.RequestWillBeSent += (sender, args) =>
+                    {
+                        if (requestWillBeSentEventArgs == null)
+                        {
+                            requestWillBeSentEventArgs = args;
+                        }
+                    };
+
+                    // enable events
+                    await devToolsClient.Network.EnableAsync();
+
+                    await browser.LoadUrlAsync("www.google.com");
+                }
+
+                Assert.NotNull(requestWillBeSentEventArgs);
+                Assert.NotEmpty(requestWillBeSentEventArgs.RequestId);
+                Assert.NotEqual(0, requestWillBeSentEventArgs.Timestamp);
+                Assert.NotEqual(0, requestWillBeSentEventArgs.WallTime);
+                Assert.NotNull(requestWillBeSentEventArgs.Request);
+                Assert.True(requestWillBeSentEventArgs.Request.Headers.TryGetValues("TeSt", out var values));
+                Assert.Collection(values,
+                    v => Assert.Equal("0", v),
+                    v => Assert.Equal("1", v),
+                    v => Assert.Equal(" 2 ", v),
+                    v => Assert.Equal(" 2,5 ", v)
+                );
+            }
+        }
+
+        [Fact]
+        public async Task ExecuteDevToolsMethodThrowsExceptionWithInvalidMethod()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            {
+                await browser.LoadUrlAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var ex = await Assert.ThrowsAsync<CefSharp.DevTools.DevToolsClientException>(
+                        () => devToolsClient.ExecuteDevToolsMethodAsync("methoddoesnotexist"));
+
+                    Assert.NotNull(ex.Response);
+                    Assert.NotEqual(0, ex.Response.MessageId);
+                    Assert.NotEqual(0, ex.Response.Code);
+                    Assert.NotNull(ex.Response.Message);
+                }
+            }
+        }
     }
 }

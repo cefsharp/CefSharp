@@ -34,7 +34,7 @@ namespace CefSharp.DevTools
         /// <summary>
         /// DevToolsEvent
         /// </summary>
-        public EventHandler<DevToolsEventArgs> DevToolsEvent;
+        public event EventHandler<DevToolsEventArgs> DevToolsEvent;
 
         /// <summary>
         /// Capture the current <see cref="SynchronizationContext"/> so
@@ -226,7 +226,7 @@ namespace CefSharp.DevTools
                 {
                     execute = () =>
                     {
-                        var errorObj = methodResult.DeserializeJson<DevToolsDomainErrorResponse>();
+                        var errorObj = methodResult.DeserializeJson<DevToolsDomainErrorResponse>(ignoreSuccess: true);
                         errorObj.MessageId = messageId;
 
                         //Make sure continuation runs on Thread Pool
