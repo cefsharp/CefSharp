@@ -40,7 +40,7 @@ namespace CefSharp.Test.JavascriptBinding
             Assert.True(javascriptObjectRepository.IsBound(name));
 
             var boundObjects = javascriptObjectRepository.GetObjects(new List<string> { name });
-            Assert.Equal(1, boundObjects.Count);
+            Assert.Single(boundObjects);
 
             var result = javascriptObjectRepository.TryCallMethod(boundObjects[0].Id, "getExampleString", new object[0]);
             Assert.True(result.Success);
