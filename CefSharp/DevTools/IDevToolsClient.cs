@@ -20,6 +20,8 @@ namespace CefSharp.DevTools
         /// </summary>
         event EventHandler<DevToolsEventArgs> DevToolsEvent;
 
+        IDisposable RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase;
+
         /// <summary>
         /// Execute a method call over the DevTools protocol. This method can be called on any thread.
         /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details

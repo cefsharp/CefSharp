@@ -25,6 +25,7 @@ namespace CefSharp.DevTools
         private static int lastMessageId = 0;
 
         private readonly ConcurrentDictionary<int, MethodResultContext> queuedCommandResults = new ConcurrentDictionary<int, MethodResultContext>();
+        private readonly ConcurrentDictionary<string, EventHandler<Stream>> eventHandlers = new ConcurrentDictionary<string, EventHandler<Stream>>();
         private IBrowser browser;
         private IRegistration devToolsRegistration;
         private bool devToolsAttached;
@@ -78,6 +79,53 @@ namespace CefSharp.DevTools
         public void SetDevToolsObserverRegistration(IRegistration devToolsRegistration)
         {
             this.devToolsRegistration = devToolsRegistration;
+        }
+
+        public IDisposable RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase
+        {
+            EventHandler<Stream> handler = (sender, stream) =>
+            {
+                stream.Position = 0;
+                if (typeof(T) == typeof(DevToolsEventArgs) || typeof(T) == typeof(DevToolsDomainEventArgsBase))
+                {
+                    var paramsAsJsonString = new StreamReader(stream).ReadToEnd();
+                    var args = new DevToolsEventArgs(eventName, paramsAsJsonString);
+
+                    eventHandler(sender, (T)(object)args);
+                }
+                else
+                {
+                    eventHandler(sender, (T)DeserializeJson(typeof(T), stream));
+                }
+            };
+
+            eventHandlers.AddOrUpdate(eventName, _ => handler, (_, existingHandler) => existingHandler += handler);
+
+            return new Disposeable(() =>
+            {
+                EventHandler<Stream> eventRegistration;
+                if (eventHandlers.TryGetValue(eventName, out eventRegistration))
+                {
+                    eventRegistration -= handler;
+                    if (eventRegistration == null)
+                    {
+                        eventHandlers.TryRemove(eventName, out _);
+                    }
+                }
+            });
+        }
+
+        private class Disposeable : IDisposable
+        {
+            private readonly Action _dispose;
+            public Disposeable(Action dispose)
+            {
+                _dispose = dispose;
+            }
+            public void Dispose()
+            {
+                _dispose();
+            }
         }
 
         /// <summary>
@@ -204,13 +252,15 @@ namespace CefSharp.DevTools
             //Only parse the data if we have an event handler
             if (evt != null)
             {
-                //TODO: Improve this
-                var memoryStream = new MemoryStream((int)parameters.Length);
-                parameters.CopyTo(memoryStream);
-
-                var paramsAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
+                var paramsAsJsonString = new StreamReader(parameters).ReadToEnd();
 
                 evt(this, new DevToolsEventArgs(method, paramsAsJsonString));
+            }
+
+            EventHandler<Stream> eventHandler;
+            if (eventHandlers.TryGetValue(method, out eventHandler))
+            {
+                eventHandler(this, parameters);
             }
         }
 
@@ -224,21 +274,17 @@ namespace CefSharp.DevTools
         void IDevToolsMessageObserver.OnDevToolsMethodResult(IBrowser browser, int messageId, bool success, Stream result)
         {
             MethodResultContext context;
-
             if (queuedCommandResults.TryRemove(messageId, out context))
             {
                 if (success)
                 {
                     if (context.Type == typeof(DevToolsMethodResponse) || context.Type == typeof(DevToolsDomainResponseBase))
                     {
-                        var memoryStream = new MemoryStream((int)result.Length);
-                        result.CopyTo(memoryStream);
-
                         context.SetResult(new DevToolsMethodResponse
                         {
                             Success = success,
                             MessageId = messageId,
-                            ResponseAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray()),
+                            ResponseAsJsonString = new StreamReader(result).ReadToEnd(),
                         });
                     }
                     else
@@ -290,7 +336,7 @@ namespace CefSharp.DevTools
 
             private void InvokeOnSyncContext<T>(Func<T, bool> fn, T value)
             {
-                if (syncContext == null)
+                if (syncContext == null || syncContext == SynchronizationContext.Current)
                 {
                     fn(value);
                 }
@@ -314,7 +360,7 @@ namespace CefSharp.DevTools
                 IgnoreNullValues = true,
             };
 
-            options.Converters.Add(new Internals.Json.JsonEnumConverterFactory());
+            options.Converters.Add(new CefSharp.Internals.Json.JsonEnumConverterFactory());
 
             // TODO: use synchronus Deserialize<T>(Stream) when System.Text.Json gets updated
             var memoryStream = new MemoryStream((int)stream.Length);
@@ -327,39 +373,6 @@ namespace CefSharp.DevTools
 
             var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(type, settings);
             return dcs.ReadObject(stream);
-#endif
-        }
-
-        /// <summary>
-        /// Deserialize the JSON string into a .Net object.
-        /// For .Net Core/.Net 5.0 uses System.Text.Json
-        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
-        /// </summary>
-        /// <typeparam name="T">Object type</typeparam>
-        /// <param name="json">JSON</param>
-        /// <returns>object of type <typeparamref name="T"/></returns>
-        public static T DeserializeJson<T>(string json)
-        {
-#if NETCOREAPP
-            var options = new System.Text.Json.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                IgnoreNullValues = true,
-            };
-
-            options.Converters.Add(new CefSharp.Internals.Json.JsonEnumConverterFactory());
-
-            return System.Text.Json.JsonSerializer.Deserialize<T>(json, options);
-#else
-            var bytes = Encoding.UTF8.GetBytes(json);
-            using (var ms = new MemoryStream(bytes))
-            {
-                var settings = new System.Runtime.Serialization.Json.DataContractJsonSerializerSettings();
-                settings.UseSimpleDictionaryFormat = true;
-
-                var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T), settings);
-                return (T)dcs.ReadObject(ms);
-            }
 #endif
         }
     }
