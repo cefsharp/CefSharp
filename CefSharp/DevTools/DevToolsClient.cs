@@ -31,9 +31,7 @@ namespace CefSharp.DevTools
         private bool devToolsAttached;
         private SynchronizationContext syncContext;
 
-        /// <summary>
-        /// DevToolsEvent
-        /// </summary>
+        /// <inheritdoc/>
         public event EventHandler<DevToolsEventArgs> DevToolsEvent;
 
         /// <summary>
@@ -153,6 +151,7 @@ namespace CefSharp.DevTools
             return await taskCompletionSource.Task;
         }
 
+        /// <inheritdoc/>
         void IDisposable.Dispose()
         {
             DevToolsEvent = null;
@@ -161,16 +160,19 @@ namespace CefSharp.DevTools
             browser = null;
         }
 
+        /// <inheritdoc/>
         void IDevToolsMessageObserver.OnDevToolsAgentAttached(IBrowser browser)
         {
             devToolsAttached = true;
         }
 
+        /// <inheritdoc/>
         void IDevToolsMessageObserver.OnDevToolsAgentDetached(IBrowser browser)
         {
             devToolsAttached = false;
         }
 
+        /// <inheritdoc/>
         void IDevToolsMessageObserver.OnDevToolsEvent(IBrowser browser, string method, Stream parameters)
         {
             var evt = DevToolsEvent;
@@ -188,11 +190,13 @@ namespace CefSharp.DevTools
             }
         }
 
+        /// <inheritdoc/>
         bool IDevToolsMessageObserver.OnDevToolsMessage(IBrowser browser, Stream message)
         {
             return false;
         }
 
+        /// <inheritdoc/>
         void IDevToolsMessageObserver.OnDevToolsMethodResult(IBrowser browser, int messageId, bool success, Stream result)
         {
             var uiThread = CefThread.CurrentlyOnUiThread;
@@ -247,6 +251,39 @@ namespace CefSharp.DevTools
                     }), null);
                 }
             }
+        }
+
+        /// <summary>
+        /// Deserialize the JSON string into a .Net object.
+        /// For .Net Core/.Net 5.0 uses System.Text.Json
+        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="json">JSON</param>
+        /// <returns>object of type <typeparamref name="T"/></returns>
+        public static T DeserializeJson<T>(string json)
+        {
+#if NETCOREAPP
+            var options = new System.Text.Json.JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                IgnoreNullValues = true,
+            };
+
+            options.Converters.Add(new CefSharp.Internals.Json.JsonEnumConverterFactory());
+
+            return System.Text.Json.JsonSerializer.Deserialize<T>(json, options);
+#else
+            var bytes = Encoding.UTF8.GetBytes(json);
+            using (var ms = new MemoryStream(bytes))
+            {
+                var settings = new System.Runtime.Serialization.Json.DataContractJsonSerializerSettings();
+                settings.UseSimpleDictionaryFormat = true;
+
+                var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T), settings);
+                return (T)dcs.ReadObject(ms);
+            }
+#endif
         }
     }
 }
