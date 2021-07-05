@@ -4,6 +4,7 @@
 
 namespace CefSharp.Handler
 {
+    /// <summary>
     /// Inherit from this class to handle context menu events. 
     /// </summary>
     public class ContextMenuHandler : IContextMenuHandler

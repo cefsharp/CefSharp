@@ -10,8 +10,8 @@ using CefSharp.Internals;
 namespace CefSharp
 {
     /// <summary>
-    /// A <see cref="INavigationEntryVisitor"/> that uses a TaskCompletionSource
-    /// to simplify things
+    /// A <see cref="INavigationEntryVisitor"/> implementation that uses a <see cref="TaskCompletionSource{TResult}"/>
+    /// that allows you to call await/ContinueWith to get the list of NavigationEntries
     /// </summary>
     public class TaskNavigationEntryVisitor : INavigationEntryVisitor
     {
@@ -19,7 +19,7 @@ namespace CefSharp
         private List<NavigationEntry> list;
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the TaskNavigationEntryVisitor class.
         /// </summary>
         public TaskNavigationEntryVisitor()
         {
@@ -27,6 +27,7 @@ namespace CefSharp
             list = new List<NavigationEntry>();
         }
 
+        /// <inheritdoc/>
         bool INavigationEntryVisitor.Visit(NavigationEntry entry, bool current, int index, int total)
         {
             list.Add(entry);
@@ -34,6 +35,7 @@ namespace CefSharp
             return true;
         }
 
+        /// <inheritdoc/>
         void IDisposable.Dispose()
         {
             if (list != null)

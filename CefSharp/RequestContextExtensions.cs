@@ -69,7 +69,6 @@ namespace CefSharp
         /// <param name="requestContext">request context</param>
         /// <param name="name">preference key</param>
         /// <param name="value">preference value</param>
-        /// <param name="error">out error</param>
         /// <returns>returns <see cref="SetPreferenceResponse.Success"/> true if successfull, false otherwise.</returns>
         /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
         /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both

@@ -7,6 +7,9 @@ namespace CefSharp.RenderProcess
     /// <summary>
     /// Class representing a V8 exception.
     /// </summary>
+    /// <remarks>
+    /// V8 is Google’s open source high-performance JavaScript and WebAssembly engine.
+    /// </remarks>
     public class V8Exception
     {
         /// <summary>
@@ -57,6 +60,17 @@ namespace CefSharp.RenderProcess
         /// <returns>Returns the index within the script of the first character where the error occurred.</returns>
         public int StartPosition { get; private set; }
 
+        /// <summary>
+        /// V8 Exception
+        /// </summary>
+        /// <param name="endColumn">index within the line of the last character where the error occurred.</param>
+        /// <param name="endPosition">index within the script of the last character where the error occurred.</param>
+        /// <param name="lineNumber">1-based number of the line where the error occurred or 0 if the line number is unknown.</param>
+        /// <param name="message">exception message.</param>
+        /// <param name="scriptResourceName">resource name for the script from where the function causing the error originates.</param>
+        /// <param name="sourceLine">line of source code that the exception occurred within.</param>
+        /// <param name="startColumn">index within the line of the first character where the error occurred.</param>
+        /// <param name="startPosition">index within the script of the first character where the error occurred.</param>
         public V8Exception(int endColumn,
             int endPosition,
             int lineNumber,

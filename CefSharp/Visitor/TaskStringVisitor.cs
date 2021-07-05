@@ -9,15 +9,15 @@ using CefSharp.Internals;
 namespace CefSharp
 {
     /// <summary>
-    /// A <see cref="IStringVisitor"/> that uses a TaskCompletionSource
-    /// to simplify things
+    /// A <see cref="IStringVisitor"/> that uses a <see cref="TaskCompletionSource{TResult}"/>
+    /// that allows you to call await/ContinueWith to get the result string.
     /// </summary>
     public class TaskStringVisitor : IStringVisitor
     {
         private readonly TaskCompletionSource<string> taskCompletionSource;
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the TaskStringVisitor class.
         /// </summary>
         public TaskStringVisitor()
         {

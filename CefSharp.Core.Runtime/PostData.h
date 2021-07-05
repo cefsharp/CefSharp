@@ -88,7 +88,7 @@ namespace CefSharp
 
         public:
             /// <summary>
-            /// Default constructor.
+            /// Initializes a new instance of the PostData class.
             /// </summary>
             PostData()
             {

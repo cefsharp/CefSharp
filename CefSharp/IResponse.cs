@@ -57,8 +57,7 @@ namespace CefSharp
         string GetHeaderByName(string name);
 
         /// <summary>
-        /// Set the header name to value. The Referer value cannot be set using this method.
-        /// Use <see cref="SetReferrer(string, ReferrerPolicy)"/> instead.
+        /// Set the header name to value.
         /// </summary>
         /// <param name="name">header name</param>
         /// <param name="value">new header value</param>

@@ -111,7 +111,7 @@ namespace CefSharp.Internals
         /// </summary>
         /// <typeparam name="TResult">Generic param</typeparam>
         /// <param name="taskCompletionSource">tcs</param>
-        /// <param name="result">result</param>
+        /// <param name="ex">exception</param>
         public static void TrySetExceptionAsync<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, Exception ex)
         {
             Task.Factory.StartNew(delegate

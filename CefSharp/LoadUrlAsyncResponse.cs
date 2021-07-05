@@ -32,7 +32,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the LoadUrlAsyncResponse class.
         /// </summary>
         /// <param name="errorCode">CEF Error Code</param>
         /// <param name="httpStatusCode">Http Status Code</param>

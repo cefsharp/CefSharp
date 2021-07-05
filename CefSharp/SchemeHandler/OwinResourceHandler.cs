@@ -34,6 +34,10 @@ namespace CefSharp.SchemeHandler
 
         private readonly AppFunc appFunc;
 
+        /// <summary>
+        /// OwinResourceHandler
+        /// </summary>
+        /// <param name="appFunc">Owin pipeline func</param>
         public OwinResourceHandler(AppFunc appFunc)
         {
             this.appFunc = appFunc;

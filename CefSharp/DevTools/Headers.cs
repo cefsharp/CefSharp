@@ -19,6 +19,9 @@ namespace CefSharp.DevTools.Network
     /// Helper methods for dealing with comma separated header values based on https://github.com/dotnet/aspnetcore/blob/52eff90fbcfca39b7eb58baad597df6a99a542b0/src/Http/Http.Abstractions/src/Extensions/HeaderDictionaryExtensions.cs
     public class Headers : Dictionary<string, string>
     {
+        /// <summary>
+        /// Initializes a new instance of the Headers class.
+        /// </summary>
         public Headers() : base(StringComparer.OrdinalIgnoreCase)
         {
         }

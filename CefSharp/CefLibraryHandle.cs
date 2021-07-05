@@ -33,7 +33,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the CefLibraryHandle class.
         /// </summary>
         /// <param name="path">libcef.dll full path.</param>
         public CefLibraryHandle(string path) : base(IntPtr.Zero, true)

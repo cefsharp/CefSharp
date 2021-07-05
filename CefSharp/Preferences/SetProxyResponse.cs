@@ -5,13 +5,13 @@
 namespace CefSharp.Preferences
 {
     /// <summary>
-    /// Response when <see cref="RequestContextExtensions.SetProxyAsync(IRequestContext, string, string, int?, out string)"/>
-    /// is called.
+    /// Response when either <see cref="RequestContextExtensions.SetProxyAsync(IRequestContext, string, int?)"/>
+    /// or <see cref="RequestContextExtensions.SetProxyAsync(IRequestContext, string, string, int?)"/> are called.
     /// </summary>
     public class SetProxyResponse : SetPreferenceResponse
     {
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the SetProxyResponse class.
         /// </summary>
         /// <param name="success">success</param>
         /// <param name="errorMessage">error message</param>

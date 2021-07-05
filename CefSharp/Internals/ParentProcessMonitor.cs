@@ -18,7 +18,7 @@ namespace CefSharp.Internals
     {
         /// <summary>
         /// Starts a long running task (spawns new thread) used to monitor the parent process
-        /// and calls <see cref="Process.Kill"/> if the parent exits unexpectedly (usually result of a crash).
+        /// and calls <see cref="Process.Kill()"/> if the parent exits unexpectedly (usually result of a crash).
         /// </summary>
         /// <param name="parentProcessId">process Id of the parent application</param>
         public static void StartMonitorTask(int parentProcessId)
