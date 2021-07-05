@@ -95,6 +95,7 @@
     <Compile Include="DevTools\DevToolsDomainBase.cs" />
     <Compile Include="DevTools\DevToolsDomainEntityBase.cs" />
     <Compile Include="DevTools\DevToolsDomainErrorResponse.cs" />
+    <Compile Include="DevTools\DevToolsDomainEventArgsBase.cs" />
     <Compile Include="DevTools\DevToolsDomainResponseBase.cs" />
     <Compile Include="DevTools\DevToolsEventArgs.cs" />
     <Compile Include="DevTools\DevToolsMethodResponse.cs" />

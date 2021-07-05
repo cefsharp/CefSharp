@@ -28,9 +28,9 @@ namespace CefSharp.DevTools
         /// </summary>
         public string ResponseAsJsonString { get; set; }
 
-        internal T DeserializeJson<T>()
+        internal T DeserializeJson<T>(bool ignoreSuccess = false)
         {
-            if (Success)
+            if (Success || ignoreSuccess)
             {
 #if NETCOREAPP
                 var options = new System.Text.Json.JsonSerializerOptions
@@ -48,7 +48,10 @@ namespace CefSharp.DevTools
                 var bytes = Encoding.UTF8.GetBytes(ResponseAsJsonString);
                 using (var ms = new MemoryStream(bytes))
                 {
-                    var dcs = new DataContractJsonSerializer(typeof(T));
+                    var settings = new DataContractJsonSerializerSettings();
+                    settings.UseSimpleDictionaryFormat = true;
+
+                    var dcs = new DataContractJsonSerializer(typeof(T), settings);
                     return (T)dcs.ReadObject(ms);
                 }
 #endif
