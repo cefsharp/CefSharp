@@ -478,9 +478,11 @@ namespace CefSharp.Test.OffScreen
                     taskCompletionSource.TrySetResult(Encoding.UTF8.GetString(responseBody));
                 });
 
-                var request = new Request();
-                request.Method = "GET";
-                request.Url = "https://code.jquery.com/jquery-3.4.1.min.js";
+                var request = new Request
+                {
+                    Method = "GET",
+                    Url = "https://code.jquery.com/jquery-3.4.1.min.js"
+                };
 
                 //Global RequestContext will be used
                 urlRequest = new UrlRequest(request, requestClient);
@@ -527,9 +529,11 @@ namespace CefSharp.Test.OffScreen
 
                 Assert.True(response.Success);
 
-                var request = new Request();
-                request.Url = "http://httpbin.org/post";
-                request.Method = "POST";
+                var request = new Request
+                {
+                    Url = "http://httpbin.org/post",
+                    Method = "POST"
+                };
                 var postData = new PostData();
                 postData.AddElement(new PostDataElement
                 {
@@ -680,7 +684,7 @@ namespace CefSharp.Test.OffScreen
 
                     var source = await browser.GetSourceAsync();
 
-                    Assert.True(source.Contains("Testing"));
+                    Assert.Contains("Testing", source);
                 }
             }
         }
