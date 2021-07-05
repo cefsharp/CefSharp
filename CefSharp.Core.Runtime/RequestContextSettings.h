@@ -28,7 +28,7 @@ namespace CefSharp
 
         public:
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the RequestContextSettings class.
             /// </summary>
             RequestContextSettings() : _settings(new CefRequestContextSettings())
             {

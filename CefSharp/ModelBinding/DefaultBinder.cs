@@ -21,6 +21,10 @@ namespace CefSharp.ModelBinding
         private static readonly MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
         private readonly IJavascriptNameConverter javascriptNameConverter;
 
+        /// <summary>
+        /// Javascript Binder 
+        /// </summary>
+        /// <param name="javascriptNameConverter">name converter</param>
         public DefaultBinder(IJavascriptNameConverter javascriptNameConverter = null)
         {
             this.javascriptNameConverter = javascriptNameConverter;

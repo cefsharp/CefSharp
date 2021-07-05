@@ -25,7 +25,7 @@ namespace CefSharp.JavascriptBinding
         /// only the bound methods/fields/properties were converted. Objects returned
         /// from a method call were not translated. To preserve this functionality
         /// for upgrading users we split this into two methods. Typically thie method
-        /// would return the same result as <see cref="ConvertToJavascript(string)"/>
+        /// would return the same result as <see cref="ConvertToJavascript(MemberInfo)"/>
         /// Issue #2442
         /// </summary>
         /// <param name="memberInfo">property/field/method</param>

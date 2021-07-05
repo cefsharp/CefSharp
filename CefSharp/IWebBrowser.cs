@@ -92,7 +92,7 @@ namespace CefSharp
         /// <param name="url">url to load</param>
         /// <param name="ctx">SynchronizationContext to execute the continuation on, if null then the ThreadPool will be used.</param>
         /// <returns>
-        /// A <see cref="Task{int}"/> that can be awaited to load the <paramref name="url"/> and return the HttpStatusCode and <see cref="CefErrorCode"/>.
+        /// A <see cref="Task{LoadUrlAsyncResponse}"/> that can be awaited to load the <paramref name="url"/> and return the HttpStatusCode and <see cref="CefErrorCode"/>.
         /// A HttpStatusCode equal to 200 and <see cref="CefErrorCode.None"/> is considered a success.
         /// </returns>
         Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null);

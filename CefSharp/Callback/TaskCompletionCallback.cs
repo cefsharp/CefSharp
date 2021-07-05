@@ -18,7 +18,7 @@ namespace CefSharp
         private bool onComplete; //Only ever accessed on the same CEF thread, so no need for thread safety
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the TaskCompletionCallback class.
         /// </summary>
         public TaskCompletionCallback()
         {

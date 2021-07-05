@@ -21,7 +21,7 @@ namespace CefSharp.Preferences
         public string ErrorMessage { get; private set; }
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the SetPreferenceResponse class.
         /// </summary>
         /// <param name="success">success</param>
         /// <param name="errorMessage">error message</param>

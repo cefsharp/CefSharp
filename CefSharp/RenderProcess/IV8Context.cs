@@ -4,6 +4,15 @@
 
 namespace CefSharp.RenderProcess
 {
+    /// <summary>
+    /// V8 context handle.
+    /// V8 handles can only be accessed from the thread on which they are created.
+    /// Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads.
+    /// A task runner for posting tasks on the associated thread can be retrieved via the CefV8Context::GetTaskRunner() method.
+    /// </summary>
+    /// <remarks>
+    /// V8 is Google’s open source high-performance JavaScript and WebAssembly engine.
+    /// </remarks>
     public interface IV8Context
     {
         /// <summary>

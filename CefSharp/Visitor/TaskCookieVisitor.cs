@@ -19,7 +19,7 @@ namespace CefSharp
         private List<Cookie> list;
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the TaskCookieVisitor class.
         /// </summary>
         public TaskCookieVisitor()
         {
@@ -27,6 +27,7 @@ namespace CefSharp
             list = new List<Cookie>();
         }
 
+        /// <inheritdoc/>
         bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
         {
             list.Add(cookie);
@@ -40,6 +41,7 @@ namespace CefSharp
             return true;
         }
 
+        /// <inheritdoc/>
         void IDisposable.Dispose()
         {
             if (list != null && list.Count == 0)

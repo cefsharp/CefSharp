@@ -19,11 +19,16 @@ namespace CefSharp.SchemeHandler
     {
         private readonly AppFunc appFunc;
 
+        /// <summary>
+        /// OwinSchemeHandlerFactory
+        /// </summary>
+        /// <param name="appFunc">Owin pipeline func</param>
         public OwinSchemeHandlerFactory(AppFunc appFunc)
         {
             this.appFunc = appFunc;
         }
 
+        /// <inheritdoc/>
         public IResourceHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
         {
             return new OwinResourceHandler(appFunc);
