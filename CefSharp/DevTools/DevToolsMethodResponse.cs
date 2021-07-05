@@ -32,33 +32,10 @@ namespace CefSharp.DevTools
         {
             if (Success || ignoreSuccess)
             {
-#if NETCOREAPP
-                var options = new System.Text.Json.JsonSerializerOptions
-                {
-                    //AllowTrailingCommas = true,
-                    PropertyNameCaseInsensitive = true,
-                    IgnoreNullValues = true,
-                    //PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
-                };
-
-                options.Converters.Add(new Internals.Json.JsonEnumConverterFactory());
-
-                return System.Text.Json.JsonSerializer.Deserialize<T>(ResponseAsJsonString, options);
-#else
-                var bytes = Encoding.UTF8.GetBytes(ResponseAsJsonString);
-                using (var ms = new MemoryStream(bytes))
-                {
-                    var settings = new DataContractJsonSerializerSettings();
-                    settings.UseSimpleDictionaryFormat = true;
-
-                    var dcs = new DataContractJsonSerializer(typeof(T), settings);
-                    return (T)dcs.ReadObject(ms);
-                }
-#endif
+                return DevToolsClient.DeserializeJson<T>(ResponseAsJsonString);
             }
 
             throw new DevToolsClientException(ResponseAsJsonString);
         }
-
     }
 }

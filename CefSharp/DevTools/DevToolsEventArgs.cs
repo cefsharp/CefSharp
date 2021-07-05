@@ -4,11 +4,6 @@
 
 
 using System;
-#if !NETCOREAPP
-using System.IO;
-using System.Runtime.Serialization.Json;
-using System.Text;
-#endif
 
 namespace CefSharp.DevTools
 {
@@ -35,27 +30,7 @@ namespace CefSharp.DevTools
 
         internal T DeserializeJson<T>()
         {
-#if NETCOREAPP
-            var options = new System.Text.Json.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                IgnoreNullValues = true,
-            };
-
-            options.Converters.Add(new Internals.Json.JsonEnumConverterFactory());
-
-            return System.Text.Json.JsonSerializer.Deserialize<T>(ParametersAsJsonString, options);
-#else
-            var bytes = Encoding.UTF8.GetBytes(ParametersAsJsonString);
-            using (var ms = new MemoryStream(bytes))
-            {
-                var settings = new DataContractJsonSerializerSettings();
-                settings.UseSimpleDictionaryFormat = true;
-
-                var dcs = new DataContractJsonSerializer(typeof(T), settings);
-                return (T)dcs.ReadObject(ms);
-            }
-#endif
+            return DevToolsClient.DeserializeJson<T>(ParametersAsJsonString);
         }
     }
 }
