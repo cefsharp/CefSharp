@@ -93,18 +93,13 @@ namespace CefSharp
                 }
 
                 _jsBindingApiEnabled = extraInfo->GetBool("JavascriptBindingApiEnabled");
-            }
 
-            if (extraInfo->HasKey("JsBindingPropertyName") || extraInfo->HasKey("JsBindingPropertyNameCamelCase"))
-            {
-                //TODO: Create constant for these and legacy binding strings above
-                _jsBindingPropertyName = extraInfo->GetString("JsBindingPropertyName");
-                _jsBindingPropertyNameCamelCase = extraInfo->GetString("JsBindingPropertyNameCamelCase");
-            }
-            else
-            {
-                _jsBindingPropertyName = "CefSharp";
-                _jsBindingPropertyNameCamelCase = "cefSharp";
+                if (extraInfo->HasKey("JsBindingPropertyName") || extraInfo->HasKey("JsBindingPropertyNameCamelCase"))
+                {
+                    //TODO: Create constant for these and legacy binding strings above
+                    _jsBindingPropertyName = extraInfo->GetString("JsBindingPropertyName");
+                    _jsBindingPropertyNameCamelCase = extraInfo->GetString("JsBindingPropertyNameCamelCase");
+                }
             }
         }
 
