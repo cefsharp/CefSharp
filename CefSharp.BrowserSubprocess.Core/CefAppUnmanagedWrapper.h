@@ -50,6 +50,8 @@ namespace CefSharp
             _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();
             _registerBoundObjectRegistry = gcnew RegisterBoundObjectRegistry();
             _legacyBindingEnabled = false;
+            _jsBindingPropertyName = "CefSharp";
+            _jsBindingPropertyNameCamelCase = "cefSharp";
         }
 
         ~CefAppUnmanagedWrapper()
