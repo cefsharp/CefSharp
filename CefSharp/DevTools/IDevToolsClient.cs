@@ -20,7 +20,16 @@ namespace CefSharp.DevTools
         /// </summary>
         event EventHandler<DevToolsEventArgs> DevToolsEvent;
 
-        IDisposable RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase;
+        /// <summary>
+        /// Registers an event handler for a DevTools protocol event. Events by default are disabled and need to be
+        /// enabled on a per domain basis, e.g. Sending Network.enable (or calling <see cref="Network.NetworkClient.EnableAsync(int?, int?, int?)"/>)
+        /// to enable network related events.
+        /// </summary>
+        /// <typeparam name="T">The event args type to which the event will be deserialized to.</typeparam>
+        /// <param name="eventName">is the event name to listen to</param>
+        /// <param name="eventHandler">event handler to call when the event occurs</param>
+        /// <returns>return an IRegistration that can be used to unregister the event handler.</returns>
+        IRegistration RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase;
 
         /// <summary>
         /// Execute a method call over the DevTools protocol. This method can be called on any thread.

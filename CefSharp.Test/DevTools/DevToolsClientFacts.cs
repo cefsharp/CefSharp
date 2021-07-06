@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
+using CefSharp.DevTools;
 using CefSharp.DevTools.Browser;
 using CefSharp.DevTools.Emulation;
 using CefSharp.DevTools.Network;
@@ -310,13 +311,78 @@ namespace CefSharp.Test.DevTools
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
-                    var ex = await Assert.ThrowsAsync<CefSharp.DevTools.DevToolsClientException>(
+                    var ex = await Assert.ThrowsAsync<DevToolsClientException>(
                         () => devToolsClient.ExecuteDevToolsMethodAsync("methoddoesnotexist"));
 
                     Assert.NotNull(ex.Response);
                     Assert.NotEqual(0, ex.Response.MessageId);
                     Assert.NotEqual(0, ex.Response.Code);
                     Assert.NotNull(ex.Response.Message);
+                }
+            }
+        }
+
+        [Fact]
+        public async Task CanRegisterMultipleEventHandlers()
+        {
+            using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false))
+            {
+                await browser.CreateBrowserAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    DevToolsEventArgs devToolsEventArgs = null;
+                    EventHandler<DevToolsEventArgs> devToolsEventHandler = (sender, args) =>
+                    {
+                        if (devToolsEventArgs == null)
+                        {
+                            devToolsEventArgs = args;
+                        }
+                    };
+                    devToolsClient.DevToolsEvent += devToolsEventHandler;
+
+                    RequestWillBeSentEventArgs requestWillBeSentEventArgs1 = null;
+                    EventHandler<RequestWillBeSentEventArgs> requestWillBeSentEventHandler1 = (sender, args) =>
+                    {
+                        if (requestWillBeSentEventArgs1 == null)
+                        {
+                            requestWillBeSentEventArgs1 = args;
+                        }
+                    };
+                    devToolsClient.Network.RequestWillBeSent += requestWillBeSentEventHandler1;
+
+                    RequestWillBeSentEventArgs requestWillBeSentEventArgs2 = null;
+                    EventHandler<RequestWillBeSentEventArgs> requestWillBeSentEventHandler2 = (sender, args) =>
+                    {
+                        if (requestWillBeSentEventArgs2 == null)
+                        {
+                            requestWillBeSentEventArgs2 = args;
+                        }
+                    };
+                    devToolsClient.Network.RequestWillBeSent += requestWillBeSentEventHandler2;
+
+                    // enable events
+                    await devToolsClient.Network.EnableAsync();
+
+                    await browser.LoadUrlAsync("www.google.com");
+
+                    Assert.NotNull(devToolsEventArgs);
+                    Assert.NotNull(requestWillBeSentEventArgs1);
+                    Assert.NotNull(requestWillBeSentEventArgs2);
+
+                    Assert.Equal(requestWillBeSentEventArgs1.RequestId, requestWillBeSentEventArgs2.RequestId);
+
+                    // remove second event handler
+                    devToolsClient.Network.RequestWillBeSent -= requestWillBeSentEventHandler2;
+                    devToolsEventArgs = null;
+                    requestWillBeSentEventArgs1 = null;
+                    requestWillBeSentEventArgs2 = null;
+
+                    await browser.LoadUrlAsync("www.google.com");
+
+                    Assert.NotNull(devToolsEventArgs);
+                    Assert.NotNull(requestWillBeSentEventArgs1);
+                    Assert.Null(requestWillBeSentEventArgs2);
                 }
             }
         }

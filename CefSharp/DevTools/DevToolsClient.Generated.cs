@@ -24524,7 +24524,7 @@ namespace CefSharp.DevTools.Animation
             _client = (client);
         }
 
-        private System.IDisposable _AnimationCanceledDisposable;
+        private CefSharp.IRegistration _AnimationCanceledEventRegistration;
         private System.EventHandler<AnimationCanceledEventArgs> _AnimationCanceled;
         /// <summary>
         /// Event for when an animation has been cancelled.
@@ -24535,7 +24535,7 @@ namespace CefSharp.DevTools.Animation
             {
                 if ((_AnimationCanceled) == (null))
                 {
-                    _AnimationCanceledDisposable = (_client.RegisterEventHandler<AnimationCanceledEventArgs>("Animation.animationCanceled", OnAnimationCanceled));
+                    _AnimationCanceledEventRegistration = (_client.RegisterEventHandler<AnimationCanceledEventArgs>("Animation.animationCanceled", OnAnimationCanceled));
                 }
 
                 _AnimationCanceled += (value);
@@ -24546,7 +24546,7 @@ namespace CefSharp.DevTools.Animation
                 _AnimationCanceled -= (value);
                 if ((_AnimationCanceled) == (null))
                 {
-                    _AnimationCanceledDisposable.Dispose();
+                    _AnimationCanceledEventRegistration.Dispose();
                 }
             }
         }
@@ -24556,7 +24556,7 @@ namespace CefSharp.DevTools.Animation
             _AnimationCanceled?.Invoke(this, args);
         }
 
-        private System.IDisposable _AnimationCreatedDisposable;
+        private CefSharp.IRegistration _AnimationCreatedEventRegistration;
         private System.EventHandler<AnimationCreatedEventArgs> _AnimationCreated;
         /// <summary>
         /// Event for each animation that has been created.
@@ -24567,7 +24567,7 @@ namespace CefSharp.DevTools.Animation
             {
                 if ((_AnimationCreated) == (null))
                 {
-                    _AnimationCreatedDisposable = (_client.RegisterEventHandler<AnimationCreatedEventArgs>("Animation.animationCreated", OnAnimationCreated));
+                    _AnimationCreatedEventRegistration = (_client.RegisterEventHandler<AnimationCreatedEventArgs>("Animation.animationCreated", OnAnimationCreated));
                 }
 
                 _AnimationCreated += (value);
@@ -24578,7 +24578,7 @@ namespace CefSharp.DevTools.Animation
                 _AnimationCreated -= (value);
                 if ((_AnimationCreated) == (null))
                 {
-                    _AnimationCreatedDisposable.Dispose();
+                    _AnimationCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -24588,7 +24588,7 @@ namespace CefSharp.DevTools.Animation
             _AnimationCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _AnimationStartedDisposable;
+        private CefSharp.IRegistration _AnimationStartedEventRegistration;
         private System.EventHandler<AnimationStartedEventArgs> _AnimationStarted;
         /// <summary>
         /// Event for animation that has been started.
@@ -24599,7 +24599,7 @@ namespace CefSharp.DevTools.Animation
             {
                 if ((_AnimationStarted) == (null))
                 {
-                    _AnimationStartedDisposable = (_client.RegisterEventHandler<AnimationStartedEventArgs>("Animation.animationStarted", OnAnimationStarted));
+                    _AnimationStartedEventRegistration = (_client.RegisterEventHandler<AnimationStartedEventArgs>("Animation.animationStarted", OnAnimationStarted));
                 }
 
                 _AnimationStarted += (value);
@@ -24610,7 +24610,7 @@ namespace CefSharp.DevTools.Animation
                 _AnimationStarted -= (value);
                 if ((_AnimationStarted) == (null))
                 {
-                    _AnimationStartedDisposable.Dispose();
+                    _AnimationStartedEventRegistration.Dispose();
                 }
             }
         }
@@ -24861,7 +24861,7 @@ namespace CefSharp.DevTools.ApplicationCache
             _client = (client);
         }
 
-        private System.IDisposable _ApplicationCacheStatusUpdatedDisposable;
+        private CefSharp.IRegistration _ApplicationCacheStatusUpdatedEventRegistration;
         private System.EventHandler<ApplicationCacheStatusUpdatedEventArgs> _ApplicationCacheStatusUpdated;
         /// <summary>
         /// ApplicationCacheStatusUpdated
@@ -24872,7 +24872,7 @@ namespace CefSharp.DevTools.ApplicationCache
             {
                 if ((_ApplicationCacheStatusUpdated) == (null))
                 {
-                    _ApplicationCacheStatusUpdatedDisposable = (_client.RegisterEventHandler<ApplicationCacheStatusUpdatedEventArgs>("ApplicationCache.applicationCacheStatusUpdated", OnApplicationCacheStatusUpdated));
+                    _ApplicationCacheStatusUpdatedEventRegistration = (_client.RegisterEventHandler<ApplicationCacheStatusUpdatedEventArgs>("ApplicationCache.applicationCacheStatusUpdated", OnApplicationCacheStatusUpdated));
                 }
 
                 _ApplicationCacheStatusUpdated += (value);
@@ -24883,7 +24883,7 @@ namespace CefSharp.DevTools.ApplicationCache
                 _ApplicationCacheStatusUpdated -= (value);
                 if ((_ApplicationCacheStatusUpdated) == (null))
                 {
-                    _ApplicationCacheStatusUpdatedDisposable.Dispose();
+                    _ApplicationCacheStatusUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -24893,7 +24893,7 @@ namespace CefSharp.DevTools.ApplicationCache
             _ApplicationCacheStatusUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _NetworkStateUpdatedDisposable;
+        private CefSharp.IRegistration _NetworkStateUpdatedEventRegistration;
         private System.EventHandler<NetworkStateUpdatedEventArgs> _NetworkStateUpdated;
         /// <summary>
         /// NetworkStateUpdated
@@ -24904,7 +24904,7 @@ namespace CefSharp.DevTools.ApplicationCache
             {
                 if ((_NetworkStateUpdated) == (null))
                 {
-                    _NetworkStateUpdatedDisposable = (_client.RegisterEventHandler<NetworkStateUpdatedEventArgs>("ApplicationCache.networkStateUpdated", OnNetworkStateUpdated));
+                    _NetworkStateUpdatedEventRegistration = (_client.RegisterEventHandler<NetworkStateUpdatedEventArgs>("ApplicationCache.networkStateUpdated", OnNetworkStateUpdated));
                 }
 
                 _NetworkStateUpdated += (value);
@@ -24915,7 +24915,7 @@ namespace CefSharp.DevTools.ApplicationCache
                 _NetworkStateUpdated -= (value);
                 if ((_NetworkStateUpdated) == (null))
                 {
-                    _NetworkStateUpdatedDisposable.Dispose();
+                    _NetworkStateUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -25059,7 +25059,7 @@ namespace CefSharp.DevTools.Audits
             _client = (client);
         }
 
-        private System.IDisposable _IssueAddedDisposable;
+        private CefSharp.IRegistration _IssueAddedEventRegistration;
         private System.EventHandler<IssueAddedEventArgs> _IssueAdded;
         /// <summary>
         /// IssueAdded
@@ -25070,7 +25070,7 @@ namespace CefSharp.DevTools.Audits
             {
                 if ((_IssueAdded) == (null))
                 {
-                    _IssueAddedDisposable = (_client.RegisterEventHandler<IssueAddedEventArgs>("Audits.issueAdded", OnIssueAdded));
+                    _IssueAddedEventRegistration = (_client.RegisterEventHandler<IssueAddedEventArgs>("Audits.issueAdded", OnIssueAdded));
                 }
 
                 _IssueAdded += (value);
@@ -25081,7 +25081,7 @@ namespace CefSharp.DevTools.Audits
                 _IssueAdded -= (value);
                 if ((_IssueAdded) == (null))
                 {
-                    _IssueAddedDisposable.Dispose();
+                    _IssueAddedEventRegistration.Dispose();
                 }
             }
         }
@@ -25181,7 +25181,7 @@ namespace CefSharp.DevTools.BackgroundService
             _client = (client);
         }
 
-        private System.IDisposable _RecordingStateChangedDisposable;
+        private CefSharp.IRegistration _RecordingStateChangedEventRegistration;
         private System.EventHandler<RecordingStateChangedEventArgs> _RecordingStateChanged;
         /// <summary>
         /// Called when the recording state for the service has been updated.
@@ -25192,7 +25192,7 @@ namespace CefSharp.DevTools.BackgroundService
             {
                 if ((_RecordingStateChanged) == (null))
                 {
-                    _RecordingStateChangedDisposable = (_client.RegisterEventHandler<RecordingStateChangedEventArgs>("BackgroundService.recordingStateChanged", OnRecordingStateChanged));
+                    _RecordingStateChangedEventRegistration = (_client.RegisterEventHandler<RecordingStateChangedEventArgs>("BackgroundService.recordingStateChanged", OnRecordingStateChanged));
                 }
 
                 _RecordingStateChanged += (value);
@@ -25203,7 +25203,7 @@ namespace CefSharp.DevTools.BackgroundService
                 _RecordingStateChanged -= (value);
                 if ((_RecordingStateChanged) == (null))
                 {
-                    _RecordingStateChangedDisposable.Dispose();
+                    _RecordingStateChangedEventRegistration.Dispose();
                 }
             }
         }
@@ -25213,7 +25213,7 @@ namespace CefSharp.DevTools.BackgroundService
             _RecordingStateChanged?.Invoke(this, args);
         }
 
-        private System.IDisposable _BackgroundServiceEventReceivedDisposable;
+        private CefSharp.IRegistration _BackgroundServiceEventReceivedEventRegistration;
         private System.EventHandler<BackgroundServiceEventReceivedEventArgs> _BackgroundServiceEventReceived;
         /// <summary>
         /// Called with all existing backgroundServiceEvents when enabled, and all new
@@ -25225,7 +25225,7 @@ namespace CefSharp.DevTools.BackgroundService
             {
                 if ((_BackgroundServiceEventReceived) == (null))
                 {
-                    _BackgroundServiceEventReceivedDisposable = (_client.RegisterEventHandler<BackgroundServiceEventReceivedEventArgs>("BackgroundService.backgroundServiceEventReceived", OnBackgroundServiceEventReceived));
+                    _BackgroundServiceEventReceivedEventRegistration = (_client.RegisterEventHandler<BackgroundServiceEventReceivedEventArgs>("BackgroundService.backgroundServiceEventReceived", OnBackgroundServiceEventReceived));
                 }
 
                 _BackgroundServiceEventReceived += (value);
@@ -25236,7 +25236,7 @@ namespace CefSharp.DevTools.BackgroundService
                 _BackgroundServiceEventReceived -= (value);
                 if ((_BackgroundServiceEventReceived) == (null))
                 {
-                    _BackgroundServiceEventReceivedDisposable.Dispose();
+                    _BackgroundServiceEventReceivedEventRegistration.Dispose();
                 }
             }
         }
@@ -25583,7 +25583,7 @@ namespace CefSharp.DevTools.Browser
             _client = (client);
         }
 
-        private System.IDisposable _DownloadWillBeginDisposable;
+        private CefSharp.IRegistration _DownloadWillBeginEventRegistration;
         private System.EventHandler<DownloadWillBeginEventArgs> _DownloadWillBegin;
         /// <summary>
         /// Fired when page is about to start a download.
@@ -25594,7 +25594,7 @@ namespace CefSharp.DevTools.Browser
             {
                 if ((_DownloadWillBegin) == (null))
                 {
-                    _DownloadWillBeginDisposable = (_client.RegisterEventHandler<DownloadWillBeginEventArgs>("Browser.downloadWillBegin", OnDownloadWillBegin));
+                    _DownloadWillBeginEventRegistration = (_client.RegisterEventHandler<DownloadWillBeginEventArgs>("Browser.downloadWillBegin", OnDownloadWillBegin));
                 }
 
                 _DownloadWillBegin += (value);
@@ -25605,7 +25605,7 @@ namespace CefSharp.DevTools.Browser
                 _DownloadWillBegin -= (value);
                 if ((_DownloadWillBegin) == (null))
                 {
-                    _DownloadWillBeginDisposable.Dispose();
+                    _DownloadWillBeginEventRegistration.Dispose();
                 }
             }
         }
@@ -25615,7 +25615,7 @@ namespace CefSharp.DevTools.Browser
             _DownloadWillBegin?.Invoke(this, args);
         }
 
-        private System.IDisposable _DownloadProgressDisposable;
+        private CefSharp.IRegistration _DownloadProgressEventRegistration;
         private System.EventHandler<DownloadProgressEventArgs> _DownloadProgress;
         /// <summary>
         /// Fired when download makes progress. Last call has |done| == true.
@@ -25626,7 +25626,7 @@ namespace CefSharp.DevTools.Browser
             {
                 if ((_DownloadProgress) == (null))
                 {
-                    _DownloadProgressDisposable = (_client.RegisterEventHandler<DownloadProgressEventArgs>("Browser.downloadProgress", OnDownloadProgress));
+                    _DownloadProgressEventRegistration = (_client.RegisterEventHandler<DownloadProgressEventArgs>("Browser.downloadProgress", OnDownloadProgress));
                 }
 
                 _DownloadProgress += (value);
@@ -25637,7 +25637,7 @@ namespace CefSharp.DevTools.Browser
                 _DownloadProgress -= (value);
                 if ((_DownloadProgress) == (null))
                 {
-                    _DownloadProgressDisposable.Dispose();
+                    _DownloadProgressEventRegistration.Dispose();
                 }
             }
         }
@@ -26644,7 +26644,7 @@ namespace CefSharp.DevTools.CSS
             _client = (client);
         }
 
-        private System.IDisposable _FontsUpdatedDisposable;
+        private CefSharp.IRegistration _FontsUpdatedEventRegistration;
         private System.EventHandler<FontsUpdatedEventArgs> _FontsUpdated;
         /// <summary>
         /// Fires whenever a web font is updated.  A non-empty font parameter indicates a successfully loaded
@@ -26656,7 +26656,7 @@ namespace CefSharp.DevTools.CSS
             {
                 if ((_FontsUpdated) == (null))
                 {
-                    _FontsUpdatedDisposable = (_client.RegisterEventHandler<FontsUpdatedEventArgs>("CSS.fontsUpdated", OnFontsUpdated));
+                    _FontsUpdatedEventRegistration = (_client.RegisterEventHandler<FontsUpdatedEventArgs>("CSS.fontsUpdated", OnFontsUpdated));
                 }
 
                 _FontsUpdated += (value);
@@ -26667,7 +26667,7 @@ namespace CefSharp.DevTools.CSS
                 _FontsUpdated -= (value);
                 if ((_FontsUpdated) == (null))
                 {
-                    _FontsUpdatedDisposable.Dispose();
+                    _FontsUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -26677,7 +26677,7 @@ namespace CefSharp.DevTools.CSS
             _FontsUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _MediaQueryResultChangedDisposable;
+        private CefSharp.IRegistration _MediaQueryResultChangedEventRegistration;
         private System.EventHandler _MediaQueryResultChanged;
         /// <summary>
         /// Fires whenever a MediaQuery result changes (for example, after a browser window has been
@@ -26689,7 +26689,7 @@ namespace CefSharp.DevTools.CSS
             {
                 if ((_MediaQueryResultChanged) == (null))
                 {
-                    _MediaQueryResultChangedDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("CSS.mediaQueryResultChanged", OnMediaQueryResultChanged));
+                    _MediaQueryResultChangedEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("CSS.mediaQueryResultChanged", OnMediaQueryResultChanged));
                 }
 
                 _MediaQueryResultChanged += (value);
@@ -26700,17 +26700,17 @@ namespace CefSharp.DevTools.CSS
                 _MediaQueryResultChanged -= (value);
                 if ((_MediaQueryResultChanged) == (null))
                 {
-                    _MediaQueryResultChangedDisposable.Dispose();
+                    _MediaQueryResultChangedEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnMediaQueryResultChanged(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnMediaQueryResultChanged(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _MediaQueryResultChanged?.Invoke(this, args);
         }
 
-        private System.IDisposable _StyleSheetAddedDisposable;
+        private CefSharp.IRegistration _StyleSheetAddedEventRegistration;
         private System.EventHandler<StyleSheetAddedEventArgs> _StyleSheetAdded;
         /// <summary>
         /// Fired whenever an active document stylesheet is added.
@@ -26721,7 +26721,7 @@ namespace CefSharp.DevTools.CSS
             {
                 if ((_StyleSheetAdded) == (null))
                 {
-                    _StyleSheetAddedDisposable = (_client.RegisterEventHandler<StyleSheetAddedEventArgs>("CSS.styleSheetAdded", OnStyleSheetAdded));
+                    _StyleSheetAddedEventRegistration = (_client.RegisterEventHandler<StyleSheetAddedEventArgs>("CSS.styleSheetAdded", OnStyleSheetAdded));
                 }
 
                 _StyleSheetAdded += (value);
@@ -26732,7 +26732,7 @@ namespace CefSharp.DevTools.CSS
                 _StyleSheetAdded -= (value);
                 if ((_StyleSheetAdded) == (null))
                 {
-                    _StyleSheetAddedDisposable.Dispose();
+                    _StyleSheetAddedEventRegistration.Dispose();
                 }
             }
         }
@@ -26742,7 +26742,7 @@ namespace CefSharp.DevTools.CSS
             _StyleSheetAdded?.Invoke(this, args);
         }
 
-        private System.IDisposable _StyleSheetChangedDisposable;
+        private CefSharp.IRegistration _StyleSheetChangedEventRegistration;
         private System.EventHandler<StyleSheetChangedEventArgs> _StyleSheetChanged;
         /// <summary>
         /// Fired whenever a stylesheet is changed as a result of the client operation.
@@ -26753,7 +26753,7 @@ namespace CefSharp.DevTools.CSS
             {
                 if ((_StyleSheetChanged) == (null))
                 {
-                    _StyleSheetChangedDisposable = (_client.RegisterEventHandler<StyleSheetChangedEventArgs>("CSS.styleSheetChanged", OnStyleSheetChanged));
+                    _StyleSheetChangedEventRegistration = (_client.RegisterEventHandler<StyleSheetChangedEventArgs>("CSS.styleSheetChanged", OnStyleSheetChanged));
                 }
 
                 _StyleSheetChanged += (value);
@@ -26764,7 +26764,7 @@ namespace CefSharp.DevTools.CSS
                 _StyleSheetChanged -= (value);
                 if ((_StyleSheetChanged) == (null))
                 {
-                    _StyleSheetChangedDisposable.Dispose();
+                    _StyleSheetChangedEventRegistration.Dispose();
                 }
             }
         }
@@ -26774,7 +26774,7 @@ namespace CefSharp.DevTools.CSS
             _StyleSheetChanged?.Invoke(this, args);
         }
 
-        private System.IDisposable _StyleSheetRemovedDisposable;
+        private CefSharp.IRegistration _StyleSheetRemovedEventRegistration;
         private System.EventHandler<StyleSheetRemovedEventArgs> _StyleSheetRemoved;
         /// <summary>
         /// Fired whenever an active document stylesheet is removed.
@@ -26785,7 +26785,7 @@ namespace CefSharp.DevTools.CSS
             {
                 if ((_StyleSheetRemoved) == (null))
                 {
-                    _StyleSheetRemovedDisposable = (_client.RegisterEventHandler<StyleSheetRemovedEventArgs>("CSS.styleSheetRemoved", OnStyleSheetRemoved));
+                    _StyleSheetRemovedEventRegistration = (_client.RegisterEventHandler<StyleSheetRemovedEventArgs>("CSS.styleSheetRemoved", OnStyleSheetRemoved));
                 }
 
                 _StyleSheetRemoved += (value);
@@ -26796,7 +26796,7 @@ namespace CefSharp.DevTools.CSS
                 _StyleSheetRemoved -= (value);
                 if ((_StyleSheetRemoved) == (null))
                 {
-                    _StyleSheetRemovedDisposable.Dispose();
+                    _StyleSheetRemovedEventRegistration.Dispose();
                 }
             }
         }
@@ -27404,7 +27404,7 @@ namespace CefSharp.DevTools.Cast
             _client = (client);
         }
 
-        private System.IDisposable _SinksUpdatedDisposable;
+        private CefSharp.IRegistration _SinksUpdatedEventRegistration;
         private System.EventHandler<SinksUpdatedEventArgs> _SinksUpdated;
         /// <summary>
         /// This is fired whenever the list of available sinks changes. A sink is a
@@ -27416,7 +27416,7 @@ namespace CefSharp.DevTools.Cast
             {
                 if ((_SinksUpdated) == (null))
                 {
-                    _SinksUpdatedDisposable = (_client.RegisterEventHandler<SinksUpdatedEventArgs>("Cast.sinksUpdated", OnSinksUpdated));
+                    _SinksUpdatedEventRegistration = (_client.RegisterEventHandler<SinksUpdatedEventArgs>("Cast.sinksUpdated", OnSinksUpdated));
                 }
 
                 _SinksUpdated += (value);
@@ -27427,7 +27427,7 @@ namespace CefSharp.DevTools.Cast
                 _SinksUpdated -= (value);
                 if ((_SinksUpdated) == (null))
                 {
-                    _SinksUpdatedDisposable.Dispose();
+                    _SinksUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -27437,7 +27437,7 @@ namespace CefSharp.DevTools.Cast
             _SinksUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _IssueUpdatedDisposable;
+        private CefSharp.IRegistration _IssueUpdatedEventRegistration;
         private System.EventHandler<IssueUpdatedEventArgs> _IssueUpdated;
         /// <summary>
         /// This is fired whenever the outstanding issue/error message changes.
@@ -27449,7 +27449,7 @@ namespace CefSharp.DevTools.Cast
             {
                 if ((_IssueUpdated) == (null))
                 {
-                    _IssueUpdatedDisposable = (_client.RegisterEventHandler<IssueUpdatedEventArgs>("Cast.issueUpdated", OnIssueUpdated));
+                    _IssueUpdatedEventRegistration = (_client.RegisterEventHandler<IssueUpdatedEventArgs>("Cast.issueUpdated", OnIssueUpdated));
                 }
 
                 _IssueUpdated += (value);
@@ -27460,7 +27460,7 @@ namespace CefSharp.DevTools.Cast
                 _IssueUpdated -= (value);
                 if ((_IssueUpdated) == (null))
                 {
-                    _IssueUpdatedDisposable.Dispose();
+                    _IssueUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -28316,7 +28316,7 @@ namespace CefSharp.DevTools.DOM
             _client = (client);
         }
 
-        private System.IDisposable _AttributeModifiedDisposable;
+        private CefSharp.IRegistration _AttributeModifiedEventRegistration;
         private System.EventHandler<AttributeModifiedEventArgs> _AttributeModified;
         /// <summary>
         /// Fired when `Element`&apos;s attribute is modified.
@@ -28327,7 +28327,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_AttributeModified) == (null))
                 {
-                    _AttributeModifiedDisposable = (_client.RegisterEventHandler<AttributeModifiedEventArgs>("DOM.attributeModified", OnAttributeModified));
+                    _AttributeModifiedEventRegistration = (_client.RegisterEventHandler<AttributeModifiedEventArgs>("DOM.attributeModified", OnAttributeModified));
                 }
 
                 _AttributeModified += (value);
@@ -28338,7 +28338,7 @@ namespace CefSharp.DevTools.DOM
                 _AttributeModified -= (value);
                 if ((_AttributeModified) == (null))
                 {
-                    _AttributeModifiedDisposable.Dispose();
+                    _AttributeModifiedEventRegistration.Dispose();
                 }
             }
         }
@@ -28348,7 +28348,7 @@ namespace CefSharp.DevTools.DOM
             _AttributeModified?.Invoke(this, args);
         }
 
-        private System.IDisposable _AttributeRemovedDisposable;
+        private CefSharp.IRegistration _AttributeRemovedEventRegistration;
         private System.EventHandler<AttributeRemovedEventArgs> _AttributeRemoved;
         /// <summary>
         /// Fired when `Element`&apos;s attribute is removed.
@@ -28359,7 +28359,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_AttributeRemoved) == (null))
                 {
-                    _AttributeRemovedDisposable = (_client.RegisterEventHandler<AttributeRemovedEventArgs>("DOM.attributeRemoved", OnAttributeRemoved));
+                    _AttributeRemovedEventRegistration = (_client.RegisterEventHandler<AttributeRemovedEventArgs>("DOM.attributeRemoved", OnAttributeRemoved));
                 }
 
                 _AttributeRemoved += (value);
@@ -28370,7 +28370,7 @@ namespace CefSharp.DevTools.DOM
                 _AttributeRemoved -= (value);
                 if ((_AttributeRemoved) == (null))
                 {
-                    _AttributeRemovedDisposable.Dispose();
+                    _AttributeRemovedEventRegistration.Dispose();
                 }
             }
         }
@@ -28380,7 +28380,7 @@ namespace CefSharp.DevTools.DOM
             _AttributeRemoved?.Invoke(this, args);
         }
 
-        private System.IDisposable _CharacterDataModifiedDisposable;
+        private CefSharp.IRegistration _CharacterDataModifiedEventRegistration;
         private System.EventHandler<CharacterDataModifiedEventArgs> _CharacterDataModified;
         /// <summary>
         /// Mirrors `DOMCharacterDataModified` event.
@@ -28391,7 +28391,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_CharacterDataModified) == (null))
                 {
-                    _CharacterDataModifiedDisposable = (_client.RegisterEventHandler<CharacterDataModifiedEventArgs>("DOM.characterDataModified", OnCharacterDataModified));
+                    _CharacterDataModifiedEventRegistration = (_client.RegisterEventHandler<CharacterDataModifiedEventArgs>("DOM.characterDataModified", OnCharacterDataModified));
                 }
 
                 _CharacterDataModified += (value);
@@ -28402,7 +28402,7 @@ namespace CefSharp.DevTools.DOM
                 _CharacterDataModified -= (value);
                 if ((_CharacterDataModified) == (null))
                 {
-                    _CharacterDataModifiedDisposable.Dispose();
+                    _CharacterDataModifiedEventRegistration.Dispose();
                 }
             }
         }
@@ -28412,7 +28412,7 @@ namespace CefSharp.DevTools.DOM
             _CharacterDataModified?.Invoke(this, args);
         }
 
-        private System.IDisposable _ChildNodeCountUpdatedDisposable;
+        private CefSharp.IRegistration _ChildNodeCountUpdatedEventRegistration;
         private System.EventHandler<ChildNodeCountUpdatedEventArgs> _ChildNodeCountUpdated;
         /// <summary>
         /// Fired when `Container`&apos;s child node count has changed.
@@ -28423,7 +28423,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_ChildNodeCountUpdated) == (null))
                 {
-                    _ChildNodeCountUpdatedDisposable = (_client.RegisterEventHandler<ChildNodeCountUpdatedEventArgs>("DOM.childNodeCountUpdated", OnChildNodeCountUpdated));
+                    _ChildNodeCountUpdatedEventRegistration = (_client.RegisterEventHandler<ChildNodeCountUpdatedEventArgs>("DOM.childNodeCountUpdated", OnChildNodeCountUpdated));
                 }
 
                 _ChildNodeCountUpdated += (value);
@@ -28434,7 +28434,7 @@ namespace CefSharp.DevTools.DOM
                 _ChildNodeCountUpdated -= (value);
                 if ((_ChildNodeCountUpdated) == (null))
                 {
-                    _ChildNodeCountUpdatedDisposable.Dispose();
+                    _ChildNodeCountUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -28444,7 +28444,7 @@ namespace CefSharp.DevTools.DOM
             _ChildNodeCountUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _ChildNodeInsertedDisposable;
+        private CefSharp.IRegistration _ChildNodeInsertedEventRegistration;
         private System.EventHandler<ChildNodeInsertedEventArgs> _ChildNodeInserted;
         /// <summary>
         /// Mirrors `DOMNodeInserted` event.
@@ -28455,7 +28455,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_ChildNodeInserted) == (null))
                 {
-                    _ChildNodeInsertedDisposable = (_client.RegisterEventHandler<ChildNodeInsertedEventArgs>("DOM.childNodeInserted", OnChildNodeInserted));
+                    _ChildNodeInsertedEventRegistration = (_client.RegisterEventHandler<ChildNodeInsertedEventArgs>("DOM.childNodeInserted", OnChildNodeInserted));
                 }
 
                 _ChildNodeInserted += (value);
@@ -28466,7 +28466,7 @@ namespace CefSharp.DevTools.DOM
                 _ChildNodeInserted -= (value);
                 if ((_ChildNodeInserted) == (null))
                 {
-                    _ChildNodeInsertedDisposable.Dispose();
+                    _ChildNodeInsertedEventRegistration.Dispose();
                 }
             }
         }
@@ -28476,7 +28476,7 @@ namespace CefSharp.DevTools.DOM
             _ChildNodeInserted?.Invoke(this, args);
         }
 
-        private System.IDisposable _ChildNodeRemovedDisposable;
+        private CefSharp.IRegistration _ChildNodeRemovedEventRegistration;
         private System.EventHandler<ChildNodeRemovedEventArgs> _ChildNodeRemoved;
         /// <summary>
         /// Mirrors `DOMNodeRemoved` event.
@@ -28487,7 +28487,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_ChildNodeRemoved) == (null))
                 {
-                    _ChildNodeRemovedDisposable = (_client.RegisterEventHandler<ChildNodeRemovedEventArgs>("DOM.childNodeRemoved", OnChildNodeRemoved));
+                    _ChildNodeRemovedEventRegistration = (_client.RegisterEventHandler<ChildNodeRemovedEventArgs>("DOM.childNodeRemoved", OnChildNodeRemoved));
                 }
 
                 _ChildNodeRemoved += (value);
@@ -28498,7 +28498,7 @@ namespace CefSharp.DevTools.DOM
                 _ChildNodeRemoved -= (value);
                 if ((_ChildNodeRemoved) == (null))
                 {
-                    _ChildNodeRemovedDisposable.Dispose();
+                    _ChildNodeRemovedEventRegistration.Dispose();
                 }
             }
         }
@@ -28508,7 +28508,7 @@ namespace CefSharp.DevTools.DOM
             _ChildNodeRemoved?.Invoke(this, args);
         }
 
-        private System.IDisposable _DistributedNodesUpdatedDisposable;
+        private CefSharp.IRegistration _DistributedNodesUpdatedEventRegistration;
         private System.EventHandler<DistributedNodesUpdatedEventArgs> _DistributedNodesUpdated;
         /// <summary>
         /// Called when distrubution is changed.
@@ -28519,7 +28519,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_DistributedNodesUpdated) == (null))
                 {
-                    _DistributedNodesUpdatedDisposable = (_client.RegisterEventHandler<DistributedNodesUpdatedEventArgs>("DOM.distributedNodesUpdated", OnDistributedNodesUpdated));
+                    _DistributedNodesUpdatedEventRegistration = (_client.RegisterEventHandler<DistributedNodesUpdatedEventArgs>("DOM.distributedNodesUpdated", OnDistributedNodesUpdated));
                 }
 
                 _DistributedNodesUpdated += (value);
@@ -28530,7 +28530,7 @@ namespace CefSharp.DevTools.DOM
                 _DistributedNodesUpdated -= (value);
                 if ((_DistributedNodesUpdated) == (null))
                 {
-                    _DistributedNodesUpdatedDisposable.Dispose();
+                    _DistributedNodesUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -28540,7 +28540,7 @@ namespace CefSharp.DevTools.DOM
             _DistributedNodesUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _DocumentUpdatedDisposable;
+        private CefSharp.IRegistration _DocumentUpdatedEventRegistration;
         private System.EventHandler _DocumentUpdated;
         /// <summary>
         /// Fired when `Document` has been totally updated. Node ids are no longer valid.
@@ -28551,7 +28551,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_DocumentUpdated) == (null))
                 {
-                    _DocumentUpdatedDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("DOM.documentUpdated", OnDocumentUpdated));
+                    _DocumentUpdatedEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("DOM.documentUpdated", OnDocumentUpdated));
                 }
 
                 _DocumentUpdated += (value);
@@ -28562,17 +28562,17 @@ namespace CefSharp.DevTools.DOM
                 _DocumentUpdated -= (value);
                 if ((_DocumentUpdated) == (null))
                 {
-                    _DocumentUpdatedDisposable.Dispose();
+                    _DocumentUpdatedEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnDocumentUpdated(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnDocumentUpdated(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _DocumentUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _InlineStyleInvalidatedDisposable;
+        private CefSharp.IRegistration _InlineStyleInvalidatedEventRegistration;
         private System.EventHandler<InlineStyleInvalidatedEventArgs> _InlineStyleInvalidated;
         /// <summary>
         /// Fired when `Element`&apos;s inline style is modified via a CSS property modification.
@@ -28583,7 +28583,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_InlineStyleInvalidated) == (null))
                 {
-                    _InlineStyleInvalidatedDisposable = (_client.RegisterEventHandler<InlineStyleInvalidatedEventArgs>("DOM.inlineStyleInvalidated", OnInlineStyleInvalidated));
+                    _InlineStyleInvalidatedEventRegistration = (_client.RegisterEventHandler<InlineStyleInvalidatedEventArgs>("DOM.inlineStyleInvalidated", OnInlineStyleInvalidated));
                 }
 
                 _InlineStyleInvalidated += (value);
@@ -28594,7 +28594,7 @@ namespace CefSharp.DevTools.DOM
                 _InlineStyleInvalidated -= (value);
                 if ((_InlineStyleInvalidated) == (null))
                 {
-                    _InlineStyleInvalidatedDisposable.Dispose();
+                    _InlineStyleInvalidatedEventRegistration.Dispose();
                 }
             }
         }
@@ -28604,7 +28604,7 @@ namespace CefSharp.DevTools.DOM
             _InlineStyleInvalidated?.Invoke(this, args);
         }
 
-        private System.IDisposable _PseudoElementAddedDisposable;
+        private CefSharp.IRegistration _PseudoElementAddedEventRegistration;
         private System.EventHandler<PseudoElementAddedEventArgs> _PseudoElementAdded;
         /// <summary>
         /// Called when a pseudo element is added to an element.
@@ -28615,7 +28615,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_PseudoElementAdded) == (null))
                 {
-                    _PseudoElementAddedDisposable = (_client.RegisterEventHandler<PseudoElementAddedEventArgs>("DOM.pseudoElementAdded", OnPseudoElementAdded));
+                    _PseudoElementAddedEventRegistration = (_client.RegisterEventHandler<PseudoElementAddedEventArgs>("DOM.pseudoElementAdded", OnPseudoElementAdded));
                 }
 
                 _PseudoElementAdded += (value);
@@ -28626,7 +28626,7 @@ namespace CefSharp.DevTools.DOM
                 _PseudoElementAdded -= (value);
                 if ((_PseudoElementAdded) == (null))
                 {
-                    _PseudoElementAddedDisposable.Dispose();
+                    _PseudoElementAddedEventRegistration.Dispose();
                 }
             }
         }
@@ -28636,7 +28636,7 @@ namespace CefSharp.DevTools.DOM
             _PseudoElementAdded?.Invoke(this, args);
         }
 
-        private System.IDisposable _PseudoElementRemovedDisposable;
+        private CefSharp.IRegistration _PseudoElementRemovedEventRegistration;
         private System.EventHandler<PseudoElementRemovedEventArgs> _PseudoElementRemoved;
         /// <summary>
         /// Called when a pseudo element is removed from an element.
@@ -28647,7 +28647,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_PseudoElementRemoved) == (null))
                 {
-                    _PseudoElementRemovedDisposable = (_client.RegisterEventHandler<PseudoElementRemovedEventArgs>("DOM.pseudoElementRemoved", OnPseudoElementRemoved));
+                    _PseudoElementRemovedEventRegistration = (_client.RegisterEventHandler<PseudoElementRemovedEventArgs>("DOM.pseudoElementRemoved", OnPseudoElementRemoved));
                 }
 
                 _PseudoElementRemoved += (value);
@@ -28658,7 +28658,7 @@ namespace CefSharp.DevTools.DOM
                 _PseudoElementRemoved -= (value);
                 if ((_PseudoElementRemoved) == (null))
                 {
-                    _PseudoElementRemovedDisposable.Dispose();
+                    _PseudoElementRemovedEventRegistration.Dispose();
                 }
             }
         }
@@ -28668,7 +28668,7 @@ namespace CefSharp.DevTools.DOM
             _PseudoElementRemoved?.Invoke(this, args);
         }
 
-        private System.IDisposable _SetChildNodesDisposable;
+        private CefSharp.IRegistration _SetChildNodesEventRegistration;
         private System.EventHandler<SetChildNodesEventArgs> _SetChildNodes;
         /// <summary>
         /// Fired when backend wants to provide client with the missing DOM structure. This happens upon
@@ -28680,7 +28680,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_SetChildNodes) == (null))
                 {
-                    _SetChildNodesDisposable = (_client.RegisterEventHandler<SetChildNodesEventArgs>("DOM.setChildNodes", OnSetChildNodes));
+                    _SetChildNodesEventRegistration = (_client.RegisterEventHandler<SetChildNodesEventArgs>("DOM.setChildNodes", OnSetChildNodes));
                 }
 
                 _SetChildNodes += (value);
@@ -28691,7 +28691,7 @@ namespace CefSharp.DevTools.DOM
                 _SetChildNodes -= (value);
                 if ((_SetChildNodes) == (null))
                 {
-                    _SetChildNodesDisposable.Dispose();
+                    _SetChildNodesEventRegistration.Dispose();
                 }
             }
         }
@@ -28701,7 +28701,7 @@ namespace CefSharp.DevTools.DOM
             _SetChildNodes?.Invoke(this, args);
         }
 
-        private System.IDisposable _ShadowRootPoppedDisposable;
+        private CefSharp.IRegistration _ShadowRootPoppedEventRegistration;
         private System.EventHandler<ShadowRootPoppedEventArgs> _ShadowRootPopped;
         /// <summary>
         /// Called when shadow root is popped from the element.
@@ -28712,7 +28712,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_ShadowRootPopped) == (null))
                 {
-                    _ShadowRootPoppedDisposable = (_client.RegisterEventHandler<ShadowRootPoppedEventArgs>("DOM.shadowRootPopped", OnShadowRootPopped));
+                    _ShadowRootPoppedEventRegistration = (_client.RegisterEventHandler<ShadowRootPoppedEventArgs>("DOM.shadowRootPopped", OnShadowRootPopped));
                 }
 
                 _ShadowRootPopped += (value);
@@ -28723,7 +28723,7 @@ namespace CefSharp.DevTools.DOM
                 _ShadowRootPopped -= (value);
                 if ((_ShadowRootPopped) == (null))
                 {
-                    _ShadowRootPoppedDisposable.Dispose();
+                    _ShadowRootPoppedEventRegistration.Dispose();
                 }
             }
         }
@@ -28733,7 +28733,7 @@ namespace CefSharp.DevTools.DOM
             _ShadowRootPopped?.Invoke(this, args);
         }
 
-        private System.IDisposable _ShadowRootPushedDisposable;
+        private CefSharp.IRegistration _ShadowRootPushedEventRegistration;
         private System.EventHandler<ShadowRootPushedEventArgs> _ShadowRootPushed;
         /// <summary>
         /// Called when shadow root is pushed into the element.
@@ -28744,7 +28744,7 @@ namespace CefSharp.DevTools.DOM
             {
                 if ((_ShadowRootPushed) == (null))
                 {
-                    _ShadowRootPushedDisposable = (_client.RegisterEventHandler<ShadowRootPushedEventArgs>("DOM.shadowRootPushed", OnShadowRootPushed));
+                    _ShadowRootPushedEventRegistration = (_client.RegisterEventHandler<ShadowRootPushedEventArgs>("DOM.shadowRootPushed", OnShadowRootPushed));
                 }
 
                 _ShadowRootPushed += (value);
@@ -28755,7 +28755,7 @@ namespace CefSharp.DevTools.DOM
                 _ShadowRootPushed -= (value);
                 if ((_ShadowRootPushed) == (null))
                 {
-                    _ShadowRootPushedDisposable.Dispose();
+                    _ShadowRootPushedEventRegistration.Dispose();
                 }
             }
         }
@@ -30010,7 +30010,7 @@ namespace CefSharp.DevTools.DOMStorage
             _client = (client);
         }
 
-        private System.IDisposable _DomStorageItemAddedDisposable;
+        private CefSharp.IRegistration _DomStorageItemAddedEventRegistration;
         private System.EventHandler<DomStorageItemAddedEventArgs> _DomStorageItemAdded;
         /// <summary>
         /// DomStorageItemAdded
@@ -30021,7 +30021,7 @@ namespace CefSharp.DevTools.DOMStorage
             {
                 if ((_DomStorageItemAdded) == (null))
                 {
-                    _DomStorageItemAddedDisposable = (_client.RegisterEventHandler<DomStorageItemAddedEventArgs>("DOMStorage.domStorageItemAdded", OnDomStorageItemAdded));
+                    _DomStorageItemAddedEventRegistration = (_client.RegisterEventHandler<DomStorageItemAddedEventArgs>("DOMStorage.domStorageItemAdded", OnDomStorageItemAdded));
                 }
 
                 _DomStorageItemAdded += (value);
@@ -30032,7 +30032,7 @@ namespace CefSharp.DevTools.DOMStorage
                 _DomStorageItemAdded -= (value);
                 if ((_DomStorageItemAdded) == (null))
                 {
-                    _DomStorageItemAddedDisposable.Dispose();
+                    _DomStorageItemAddedEventRegistration.Dispose();
                 }
             }
         }
@@ -30042,7 +30042,7 @@ namespace CefSharp.DevTools.DOMStorage
             _DomStorageItemAdded?.Invoke(this, args);
         }
 
-        private System.IDisposable _DomStorageItemRemovedDisposable;
+        private CefSharp.IRegistration _DomStorageItemRemovedEventRegistration;
         private System.EventHandler<DomStorageItemRemovedEventArgs> _DomStorageItemRemoved;
         /// <summary>
         /// DomStorageItemRemoved
@@ -30053,7 +30053,7 @@ namespace CefSharp.DevTools.DOMStorage
             {
                 if ((_DomStorageItemRemoved) == (null))
                 {
-                    _DomStorageItemRemovedDisposable = (_client.RegisterEventHandler<DomStorageItemRemovedEventArgs>("DOMStorage.domStorageItemRemoved", OnDomStorageItemRemoved));
+                    _DomStorageItemRemovedEventRegistration = (_client.RegisterEventHandler<DomStorageItemRemovedEventArgs>("DOMStorage.domStorageItemRemoved", OnDomStorageItemRemoved));
                 }
 
                 _DomStorageItemRemoved += (value);
@@ -30064,7 +30064,7 @@ namespace CefSharp.DevTools.DOMStorage
                 _DomStorageItemRemoved -= (value);
                 if ((_DomStorageItemRemoved) == (null))
                 {
-                    _DomStorageItemRemovedDisposable.Dispose();
+                    _DomStorageItemRemovedEventRegistration.Dispose();
                 }
             }
         }
@@ -30074,7 +30074,7 @@ namespace CefSharp.DevTools.DOMStorage
             _DomStorageItemRemoved?.Invoke(this, args);
         }
 
-        private System.IDisposable _DomStorageItemUpdatedDisposable;
+        private CefSharp.IRegistration _DomStorageItemUpdatedEventRegistration;
         private System.EventHandler<DomStorageItemUpdatedEventArgs> _DomStorageItemUpdated;
         /// <summary>
         /// DomStorageItemUpdated
@@ -30085,7 +30085,7 @@ namespace CefSharp.DevTools.DOMStorage
             {
                 if ((_DomStorageItemUpdated) == (null))
                 {
-                    _DomStorageItemUpdatedDisposable = (_client.RegisterEventHandler<DomStorageItemUpdatedEventArgs>("DOMStorage.domStorageItemUpdated", OnDomStorageItemUpdated));
+                    _DomStorageItemUpdatedEventRegistration = (_client.RegisterEventHandler<DomStorageItemUpdatedEventArgs>("DOMStorage.domStorageItemUpdated", OnDomStorageItemUpdated));
                 }
 
                 _DomStorageItemUpdated += (value);
@@ -30096,7 +30096,7 @@ namespace CefSharp.DevTools.DOMStorage
                 _DomStorageItemUpdated -= (value);
                 if ((_DomStorageItemUpdated) == (null))
                 {
-                    _DomStorageItemUpdatedDisposable.Dispose();
+                    _DomStorageItemUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -30106,7 +30106,7 @@ namespace CefSharp.DevTools.DOMStorage
             _DomStorageItemUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _DomStorageItemsClearedDisposable;
+        private CefSharp.IRegistration _DomStorageItemsClearedEventRegistration;
         private System.EventHandler<DomStorageItemsClearedEventArgs> _DomStorageItemsCleared;
         /// <summary>
         /// DomStorageItemsCleared
@@ -30117,7 +30117,7 @@ namespace CefSharp.DevTools.DOMStorage
             {
                 if ((_DomStorageItemsCleared) == (null))
                 {
-                    _DomStorageItemsClearedDisposable = (_client.RegisterEventHandler<DomStorageItemsClearedEventArgs>("DOMStorage.domStorageItemsCleared", OnDomStorageItemsCleared));
+                    _DomStorageItemsClearedEventRegistration = (_client.RegisterEventHandler<DomStorageItemsClearedEventArgs>("DOMStorage.domStorageItemsCleared", OnDomStorageItemsCleared));
                 }
 
                 _DomStorageItemsCleared += (value);
@@ -30128,7 +30128,7 @@ namespace CefSharp.DevTools.DOMStorage
                 _DomStorageItemsCleared -= (value);
                 if ((_DomStorageItemsCleared) == (null))
                 {
-                    _DomStorageItemsClearedDisposable.Dispose();
+                    _DomStorageItemsClearedEventRegistration.Dispose();
                 }
             }
         }
@@ -30333,7 +30333,7 @@ namespace CefSharp.DevTools.Database
             _client = (client);
         }
 
-        private System.IDisposable _AddDatabaseDisposable;
+        private CefSharp.IRegistration _AddDatabaseEventRegistration;
         private System.EventHandler<AddDatabaseEventArgs> _AddDatabase;
         /// <summary>
         /// AddDatabase
@@ -30344,7 +30344,7 @@ namespace CefSharp.DevTools.Database
             {
                 if ((_AddDatabase) == (null))
                 {
-                    _AddDatabaseDisposable = (_client.RegisterEventHandler<AddDatabaseEventArgs>("Database.addDatabase", OnAddDatabase));
+                    _AddDatabaseEventRegistration = (_client.RegisterEventHandler<AddDatabaseEventArgs>("Database.addDatabase", OnAddDatabase));
                 }
 
                 _AddDatabase += (value);
@@ -30355,7 +30355,7 @@ namespace CefSharp.DevTools.Database
                 _AddDatabase -= (value);
                 if ((_AddDatabase) == (null))
                 {
-                    _AddDatabaseDisposable.Dispose();
+                    _AddDatabaseEventRegistration.Dispose();
                 }
             }
         }
@@ -30541,7 +30541,7 @@ namespace CefSharp.DevTools.Emulation
             _client = (client);
         }
 
-        private System.IDisposable _VirtualTimeBudgetExpiredDisposable;
+        private CefSharp.IRegistration _VirtualTimeBudgetExpiredEventRegistration;
         private System.EventHandler _VirtualTimeBudgetExpired;
         /// <summary>
         /// Notification sent after the virtual time budget for the current VirtualTimePolicy has run out.
@@ -30552,7 +30552,7 @@ namespace CefSharp.DevTools.Emulation
             {
                 if ((_VirtualTimeBudgetExpired) == (null))
                 {
-                    _VirtualTimeBudgetExpiredDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Emulation.virtualTimeBudgetExpired", OnVirtualTimeBudgetExpired));
+                    _VirtualTimeBudgetExpiredEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Emulation.virtualTimeBudgetExpired", OnVirtualTimeBudgetExpired));
                 }
 
                 _VirtualTimeBudgetExpired += (value);
@@ -30563,12 +30563,12 @@ namespace CefSharp.DevTools.Emulation
                 _VirtualTimeBudgetExpired -= (value);
                 if ((_VirtualTimeBudgetExpired) == (null))
                 {
-                    _VirtualTimeBudgetExpiredDisposable.Dispose();
+                    _VirtualTimeBudgetExpiredEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnVirtualTimeBudgetExpired(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnVirtualTimeBudgetExpired(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _VirtualTimeBudgetExpired?.Invoke(this, args);
         }
@@ -31679,7 +31679,7 @@ namespace CefSharp.DevTools.Input
             _client = (client);
         }
 
-        private System.IDisposable _DragInterceptedDisposable;
+        private CefSharp.IRegistration _DragInterceptedEventRegistration;
         private System.EventHandler<DragInterceptedEventArgs> _DragIntercepted;
         /// <summary>
         /// Emitted only when `Input.setInterceptDrags` is enabled. Use this data with `Input.dispatchDragEvent` to
@@ -31691,7 +31691,7 @@ namespace CefSharp.DevTools.Input
             {
                 if ((_DragIntercepted) == (null))
                 {
-                    _DragInterceptedDisposable = (_client.RegisterEventHandler<DragInterceptedEventArgs>("Input.dragIntercepted", OnDragIntercepted));
+                    _DragInterceptedEventRegistration = (_client.RegisterEventHandler<DragInterceptedEventArgs>("Input.dragIntercepted", OnDragIntercepted));
                 }
 
                 _DragIntercepted += (value);
@@ -31702,7 +31702,7 @@ namespace CefSharp.DevTools.Input
                 _DragIntercepted -= (value);
                 if ((_DragIntercepted) == (null))
                 {
-                    _DragInterceptedDisposable.Dispose();
+                    _DragInterceptedEventRegistration.Dispose();
                 }
             }
         }
@@ -32215,7 +32215,7 @@ namespace CefSharp.DevTools.Inspector
             _client = (client);
         }
 
-        private System.IDisposable _DetachedDisposable;
+        private CefSharp.IRegistration _DetachedEventRegistration;
         private System.EventHandler<DetachedEventArgs> _Detached;
         /// <summary>
         /// Fired when remote debugging connection is about to be terminated. Contains detach reason.
@@ -32226,7 +32226,7 @@ namespace CefSharp.DevTools.Inspector
             {
                 if ((_Detached) == (null))
                 {
-                    _DetachedDisposable = (_client.RegisterEventHandler<DetachedEventArgs>("Inspector.detached", OnDetached));
+                    _DetachedEventRegistration = (_client.RegisterEventHandler<DetachedEventArgs>("Inspector.detached", OnDetached));
                 }
 
                 _Detached += (value);
@@ -32237,7 +32237,7 @@ namespace CefSharp.DevTools.Inspector
                 _Detached -= (value);
                 if ((_Detached) == (null))
                 {
-                    _DetachedDisposable.Dispose();
+                    _DetachedEventRegistration.Dispose();
                 }
             }
         }
@@ -32247,7 +32247,7 @@ namespace CefSharp.DevTools.Inspector
             _Detached?.Invoke(this, args);
         }
 
-        private System.IDisposable _TargetCrashedDisposable;
+        private CefSharp.IRegistration _TargetCrashedEventRegistration;
         private System.EventHandler _TargetCrashed;
         /// <summary>
         /// Fired when debugging target has crashed
@@ -32258,7 +32258,7 @@ namespace CefSharp.DevTools.Inspector
             {
                 if ((_TargetCrashed) == (null))
                 {
-                    _TargetCrashedDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Inspector.targetCrashed", OnTargetCrashed));
+                    _TargetCrashedEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Inspector.targetCrashed", OnTargetCrashed));
                 }
 
                 _TargetCrashed += (value);
@@ -32269,17 +32269,17 @@ namespace CefSharp.DevTools.Inspector
                 _TargetCrashed -= (value);
                 if ((_TargetCrashed) == (null))
                 {
-                    _TargetCrashedDisposable.Dispose();
+                    _TargetCrashedEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnTargetCrashed(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnTargetCrashed(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _TargetCrashed?.Invoke(this, args);
         }
 
-        private System.IDisposable _TargetReloadedAfterCrashDisposable;
+        private CefSharp.IRegistration _TargetReloadedAfterCrashEventRegistration;
         private System.EventHandler _TargetReloadedAfterCrash;
         /// <summary>
         /// Fired when debugging target has reloaded after crash
@@ -32290,7 +32290,7 @@ namespace CefSharp.DevTools.Inspector
             {
                 if ((_TargetReloadedAfterCrash) == (null))
                 {
-                    _TargetReloadedAfterCrashDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Inspector.targetReloadedAfterCrash", OnTargetReloadedAfterCrash));
+                    _TargetReloadedAfterCrashEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Inspector.targetReloadedAfterCrash", OnTargetReloadedAfterCrash));
                 }
 
                 _TargetReloadedAfterCrash += (value);
@@ -32301,12 +32301,12 @@ namespace CefSharp.DevTools.Inspector
                 _TargetReloadedAfterCrash -= (value);
                 if ((_TargetReloadedAfterCrash) == (null))
                 {
-                    _TargetReloadedAfterCrashDisposable.Dispose();
+                    _TargetReloadedAfterCrashEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnTargetReloadedAfterCrash(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnTargetReloadedAfterCrash(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _TargetReloadedAfterCrash?.Invoke(this, args);
         }
@@ -32538,7 +32538,7 @@ namespace CefSharp.DevTools.LayerTree
             _client = (client);
         }
 
-        private System.IDisposable _LayerPaintedDisposable;
+        private CefSharp.IRegistration _LayerPaintedEventRegistration;
         private System.EventHandler<LayerPaintedEventArgs> _LayerPainted;
         /// <summary>
         /// LayerPainted
@@ -32549,7 +32549,7 @@ namespace CefSharp.DevTools.LayerTree
             {
                 if ((_LayerPainted) == (null))
                 {
-                    _LayerPaintedDisposable = (_client.RegisterEventHandler<LayerPaintedEventArgs>("LayerTree.layerPainted", OnLayerPainted));
+                    _LayerPaintedEventRegistration = (_client.RegisterEventHandler<LayerPaintedEventArgs>("LayerTree.layerPainted", OnLayerPainted));
                 }
 
                 _LayerPainted += (value);
@@ -32560,7 +32560,7 @@ namespace CefSharp.DevTools.LayerTree
                 _LayerPainted -= (value);
                 if ((_LayerPainted) == (null))
                 {
-                    _LayerPaintedDisposable.Dispose();
+                    _LayerPaintedEventRegistration.Dispose();
                 }
             }
         }
@@ -32570,7 +32570,7 @@ namespace CefSharp.DevTools.LayerTree
             _LayerPainted?.Invoke(this, args);
         }
 
-        private System.IDisposable _LayerTreeDidChangeDisposable;
+        private CefSharp.IRegistration _LayerTreeDidChangeEventRegistration;
         private System.EventHandler<LayerTreeDidChangeEventArgs> _LayerTreeDidChange;
         /// <summary>
         /// LayerTreeDidChange
@@ -32581,7 +32581,7 @@ namespace CefSharp.DevTools.LayerTree
             {
                 if ((_LayerTreeDidChange) == (null))
                 {
-                    _LayerTreeDidChangeDisposable = (_client.RegisterEventHandler<LayerTreeDidChangeEventArgs>("LayerTree.layerTreeDidChange", OnLayerTreeDidChange));
+                    _LayerTreeDidChangeEventRegistration = (_client.RegisterEventHandler<LayerTreeDidChangeEventArgs>("LayerTree.layerTreeDidChange", OnLayerTreeDidChange));
                 }
 
                 _LayerTreeDidChange += (value);
@@ -32592,7 +32592,7 @@ namespace CefSharp.DevTools.LayerTree
                 _LayerTreeDidChange -= (value);
                 if ((_LayerTreeDidChange) == (null))
                 {
-                    _LayerTreeDidChangeDisposable.Dispose();
+                    _LayerTreeDidChangeEventRegistration.Dispose();
                 }
             }
         }
@@ -32777,7 +32777,7 @@ namespace CefSharp.DevTools.Log
             _client = (client);
         }
 
-        private System.IDisposable _EntryAddedDisposable;
+        private CefSharp.IRegistration _EntryAddedEventRegistration;
         private System.EventHandler<EntryAddedEventArgs> _EntryAdded;
         /// <summary>
         /// Issued when new message was logged.
@@ -32788,7 +32788,7 @@ namespace CefSharp.DevTools.Log
             {
                 if ((_EntryAdded) == (null))
                 {
-                    _EntryAddedDisposable = (_client.RegisterEventHandler<EntryAddedEventArgs>("Log.entryAdded", OnEntryAdded));
+                    _EntryAddedEventRegistration = (_client.RegisterEventHandler<EntryAddedEventArgs>("Log.entryAdded", OnEntryAdded));
                 }
 
                 _EntryAdded += (value);
@@ -32799,7 +32799,7 @@ namespace CefSharp.DevTools.Log
                 _EntryAdded -= (value);
                 if ((_EntryAdded) == (null))
                 {
-                    _EntryAddedDisposable.Dispose();
+                    _EntryAddedEventRegistration.Dispose();
                 }
             }
         }
@@ -33524,7 +33524,7 @@ namespace CefSharp.DevTools.Network
             _client = (client);
         }
 
-        private System.IDisposable _DataReceivedDisposable;
+        private CefSharp.IRegistration _DataReceivedEventRegistration;
         private System.EventHandler<DataReceivedEventArgs> _DataReceived;
         /// <summary>
         /// Fired when data chunk was received over the network.
@@ -33535,7 +33535,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_DataReceived) == (null))
                 {
-                    _DataReceivedDisposable = (_client.RegisterEventHandler<DataReceivedEventArgs>("Network.dataReceived", OnDataReceived));
+                    _DataReceivedEventRegistration = (_client.RegisterEventHandler<DataReceivedEventArgs>("Network.dataReceived", OnDataReceived));
                 }
 
                 _DataReceived += (value);
@@ -33546,7 +33546,7 @@ namespace CefSharp.DevTools.Network
                 _DataReceived -= (value);
                 if ((_DataReceived) == (null))
                 {
-                    _DataReceivedDisposable.Dispose();
+                    _DataReceivedEventRegistration.Dispose();
                 }
             }
         }
@@ -33556,7 +33556,7 @@ namespace CefSharp.DevTools.Network
             _DataReceived?.Invoke(this, args);
         }
 
-        private System.IDisposable _EventSourceMessageReceivedDisposable;
+        private CefSharp.IRegistration _EventSourceMessageReceivedEventRegistration;
         private System.EventHandler<EventSourceMessageReceivedEventArgs> _EventSourceMessageReceived;
         /// <summary>
         /// Fired when EventSource message is received.
@@ -33567,7 +33567,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_EventSourceMessageReceived) == (null))
                 {
-                    _EventSourceMessageReceivedDisposable = (_client.RegisterEventHandler<EventSourceMessageReceivedEventArgs>("Network.eventSourceMessageReceived", OnEventSourceMessageReceived));
+                    _EventSourceMessageReceivedEventRegistration = (_client.RegisterEventHandler<EventSourceMessageReceivedEventArgs>("Network.eventSourceMessageReceived", OnEventSourceMessageReceived));
                 }
 
                 _EventSourceMessageReceived += (value);
@@ -33578,7 +33578,7 @@ namespace CefSharp.DevTools.Network
                 _EventSourceMessageReceived -= (value);
                 if ((_EventSourceMessageReceived) == (null))
                 {
-                    _EventSourceMessageReceivedDisposable.Dispose();
+                    _EventSourceMessageReceivedEventRegistration.Dispose();
                 }
             }
         }
@@ -33588,7 +33588,7 @@ namespace CefSharp.DevTools.Network
             _EventSourceMessageReceived?.Invoke(this, args);
         }
 
-        private System.IDisposable _LoadingFailedDisposable;
+        private CefSharp.IRegistration _LoadingFailedEventRegistration;
         private System.EventHandler<LoadingFailedEventArgs> _LoadingFailed;
         /// <summary>
         /// Fired when HTTP request has failed to load.
@@ -33599,7 +33599,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_LoadingFailed) == (null))
                 {
-                    _LoadingFailedDisposable = (_client.RegisterEventHandler<LoadingFailedEventArgs>("Network.loadingFailed", OnLoadingFailed));
+                    _LoadingFailedEventRegistration = (_client.RegisterEventHandler<LoadingFailedEventArgs>("Network.loadingFailed", OnLoadingFailed));
                 }
 
                 _LoadingFailed += (value);
@@ -33610,7 +33610,7 @@ namespace CefSharp.DevTools.Network
                 _LoadingFailed -= (value);
                 if ((_LoadingFailed) == (null))
                 {
-                    _LoadingFailedDisposable.Dispose();
+                    _LoadingFailedEventRegistration.Dispose();
                 }
             }
         }
@@ -33620,7 +33620,7 @@ namespace CefSharp.DevTools.Network
             _LoadingFailed?.Invoke(this, args);
         }
 
-        private System.IDisposable _LoadingFinishedDisposable;
+        private CefSharp.IRegistration _LoadingFinishedEventRegistration;
         private System.EventHandler<LoadingFinishedEventArgs> _LoadingFinished;
         /// <summary>
         /// Fired when HTTP request has finished loading.
@@ -33631,7 +33631,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_LoadingFinished) == (null))
                 {
-                    _LoadingFinishedDisposable = (_client.RegisterEventHandler<LoadingFinishedEventArgs>("Network.loadingFinished", OnLoadingFinished));
+                    _LoadingFinishedEventRegistration = (_client.RegisterEventHandler<LoadingFinishedEventArgs>("Network.loadingFinished", OnLoadingFinished));
                 }
 
                 _LoadingFinished += (value);
@@ -33642,7 +33642,7 @@ namespace CefSharp.DevTools.Network
                 _LoadingFinished -= (value);
                 if ((_LoadingFinished) == (null))
                 {
-                    _LoadingFinishedDisposable.Dispose();
+                    _LoadingFinishedEventRegistration.Dispose();
                 }
             }
         }
@@ -33652,7 +33652,7 @@ namespace CefSharp.DevTools.Network
             _LoadingFinished?.Invoke(this, args);
         }
 
-        private System.IDisposable _RequestServedFromCacheDisposable;
+        private CefSharp.IRegistration _RequestServedFromCacheEventRegistration;
         private System.EventHandler<RequestServedFromCacheEventArgs> _RequestServedFromCache;
         /// <summary>
         /// Fired if request ended up loading from cache.
@@ -33663,7 +33663,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_RequestServedFromCache) == (null))
                 {
-                    _RequestServedFromCacheDisposable = (_client.RegisterEventHandler<RequestServedFromCacheEventArgs>("Network.requestServedFromCache", OnRequestServedFromCache));
+                    _RequestServedFromCacheEventRegistration = (_client.RegisterEventHandler<RequestServedFromCacheEventArgs>("Network.requestServedFromCache", OnRequestServedFromCache));
                 }
 
                 _RequestServedFromCache += (value);
@@ -33674,7 +33674,7 @@ namespace CefSharp.DevTools.Network
                 _RequestServedFromCache -= (value);
                 if ((_RequestServedFromCache) == (null))
                 {
-                    _RequestServedFromCacheDisposable.Dispose();
+                    _RequestServedFromCacheEventRegistration.Dispose();
                 }
             }
         }
@@ -33684,7 +33684,7 @@ namespace CefSharp.DevTools.Network
             _RequestServedFromCache?.Invoke(this, args);
         }
 
-        private System.IDisposable _RequestWillBeSentDisposable;
+        private CefSharp.IRegistration _RequestWillBeSentEventRegistration;
         private System.EventHandler<RequestWillBeSentEventArgs> _RequestWillBeSent;
         /// <summary>
         /// Fired when page is about to send HTTP request.
@@ -33695,7 +33695,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_RequestWillBeSent) == (null))
                 {
-                    _RequestWillBeSentDisposable = (_client.RegisterEventHandler<RequestWillBeSentEventArgs>("Network.requestWillBeSent", OnRequestWillBeSent));
+                    _RequestWillBeSentEventRegistration = (_client.RegisterEventHandler<RequestWillBeSentEventArgs>("Network.requestWillBeSent", OnRequestWillBeSent));
                 }
 
                 _RequestWillBeSent += (value);
@@ -33706,7 +33706,7 @@ namespace CefSharp.DevTools.Network
                 _RequestWillBeSent -= (value);
                 if ((_RequestWillBeSent) == (null))
                 {
-                    _RequestWillBeSentDisposable.Dispose();
+                    _RequestWillBeSentEventRegistration.Dispose();
                 }
             }
         }
@@ -33716,7 +33716,7 @@ namespace CefSharp.DevTools.Network
             _RequestWillBeSent?.Invoke(this, args);
         }
 
-        private System.IDisposable _ResourceChangedPriorityDisposable;
+        private CefSharp.IRegistration _ResourceChangedPriorityEventRegistration;
         private System.EventHandler<ResourceChangedPriorityEventArgs> _ResourceChangedPriority;
         /// <summary>
         /// Fired when resource loading priority is changed
@@ -33727,7 +33727,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_ResourceChangedPriority) == (null))
                 {
-                    _ResourceChangedPriorityDisposable = (_client.RegisterEventHandler<ResourceChangedPriorityEventArgs>("Network.resourceChangedPriority", OnResourceChangedPriority));
+                    _ResourceChangedPriorityEventRegistration = (_client.RegisterEventHandler<ResourceChangedPriorityEventArgs>("Network.resourceChangedPriority", OnResourceChangedPriority));
                 }
 
                 _ResourceChangedPriority += (value);
@@ -33738,7 +33738,7 @@ namespace CefSharp.DevTools.Network
                 _ResourceChangedPriority -= (value);
                 if ((_ResourceChangedPriority) == (null))
                 {
-                    _ResourceChangedPriorityDisposable.Dispose();
+                    _ResourceChangedPriorityEventRegistration.Dispose();
                 }
             }
         }
@@ -33748,7 +33748,7 @@ namespace CefSharp.DevTools.Network
             _ResourceChangedPriority?.Invoke(this, args);
         }
 
-        private System.IDisposable _SignedExchangeReceivedDisposable;
+        private CefSharp.IRegistration _SignedExchangeReceivedEventRegistration;
         private System.EventHandler<SignedExchangeReceivedEventArgs> _SignedExchangeReceived;
         /// <summary>
         /// Fired when a signed exchange was received over the network
@@ -33759,7 +33759,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_SignedExchangeReceived) == (null))
                 {
-                    _SignedExchangeReceivedDisposable = (_client.RegisterEventHandler<SignedExchangeReceivedEventArgs>("Network.signedExchangeReceived", OnSignedExchangeReceived));
+                    _SignedExchangeReceivedEventRegistration = (_client.RegisterEventHandler<SignedExchangeReceivedEventArgs>("Network.signedExchangeReceived", OnSignedExchangeReceived));
                 }
 
                 _SignedExchangeReceived += (value);
@@ -33770,7 +33770,7 @@ namespace CefSharp.DevTools.Network
                 _SignedExchangeReceived -= (value);
                 if ((_SignedExchangeReceived) == (null))
                 {
-                    _SignedExchangeReceivedDisposable.Dispose();
+                    _SignedExchangeReceivedEventRegistration.Dispose();
                 }
             }
         }
@@ -33780,7 +33780,7 @@ namespace CefSharp.DevTools.Network
             _SignedExchangeReceived?.Invoke(this, args);
         }
 
-        private System.IDisposable _ResponseReceivedDisposable;
+        private CefSharp.IRegistration _ResponseReceivedEventRegistration;
         private System.EventHandler<ResponseReceivedEventArgs> _ResponseReceived;
         /// <summary>
         /// Fired when HTTP response is available.
@@ -33791,7 +33791,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_ResponseReceived) == (null))
                 {
-                    _ResponseReceivedDisposable = (_client.RegisterEventHandler<ResponseReceivedEventArgs>("Network.responseReceived", OnResponseReceived));
+                    _ResponseReceivedEventRegistration = (_client.RegisterEventHandler<ResponseReceivedEventArgs>("Network.responseReceived", OnResponseReceived));
                 }
 
                 _ResponseReceived += (value);
@@ -33802,7 +33802,7 @@ namespace CefSharp.DevTools.Network
                 _ResponseReceived -= (value);
                 if ((_ResponseReceived) == (null))
                 {
-                    _ResponseReceivedDisposable.Dispose();
+                    _ResponseReceivedEventRegistration.Dispose();
                 }
             }
         }
@@ -33812,7 +33812,7 @@ namespace CefSharp.DevTools.Network
             _ResponseReceived?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebSocketClosedDisposable;
+        private CefSharp.IRegistration _WebSocketClosedEventRegistration;
         private System.EventHandler<WebSocketClosedEventArgs> _WebSocketClosed;
         /// <summary>
         /// Fired when WebSocket is closed.
@@ -33823,7 +33823,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebSocketClosed) == (null))
                 {
-                    _WebSocketClosedDisposable = (_client.RegisterEventHandler<WebSocketClosedEventArgs>("Network.webSocketClosed", OnWebSocketClosed));
+                    _WebSocketClosedEventRegistration = (_client.RegisterEventHandler<WebSocketClosedEventArgs>("Network.webSocketClosed", OnWebSocketClosed));
                 }
 
                 _WebSocketClosed += (value);
@@ -33834,7 +33834,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketClosed -= (value);
                 if ((_WebSocketClosed) == (null))
                 {
-                    _WebSocketClosedDisposable.Dispose();
+                    _WebSocketClosedEventRegistration.Dispose();
                 }
             }
         }
@@ -33844,7 +33844,7 @@ namespace CefSharp.DevTools.Network
             _WebSocketClosed?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebSocketCreatedDisposable;
+        private CefSharp.IRegistration _WebSocketCreatedEventRegistration;
         private System.EventHandler<WebSocketCreatedEventArgs> _WebSocketCreated;
         /// <summary>
         /// Fired upon WebSocket creation.
@@ -33855,7 +33855,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebSocketCreated) == (null))
                 {
-                    _WebSocketCreatedDisposable = (_client.RegisterEventHandler<WebSocketCreatedEventArgs>("Network.webSocketCreated", OnWebSocketCreated));
+                    _WebSocketCreatedEventRegistration = (_client.RegisterEventHandler<WebSocketCreatedEventArgs>("Network.webSocketCreated", OnWebSocketCreated));
                 }
 
                 _WebSocketCreated += (value);
@@ -33866,7 +33866,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketCreated -= (value);
                 if ((_WebSocketCreated) == (null))
                 {
-                    _WebSocketCreatedDisposable.Dispose();
+                    _WebSocketCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -33876,7 +33876,7 @@ namespace CefSharp.DevTools.Network
             _WebSocketCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebSocketFrameErrorDisposable;
+        private CefSharp.IRegistration _WebSocketFrameErrorEventRegistration;
         private System.EventHandler<WebSocketFrameErrorEventArgs> _WebSocketFrameError;
         /// <summary>
         /// Fired when WebSocket message error occurs.
@@ -33887,7 +33887,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebSocketFrameError) == (null))
                 {
-                    _WebSocketFrameErrorDisposable = (_client.RegisterEventHandler<WebSocketFrameErrorEventArgs>("Network.webSocketFrameError", OnWebSocketFrameError));
+                    _WebSocketFrameErrorEventRegistration = (_client.RegisterEventHandler<WebSocketFrameErrorEventArgs>("Network.webSocketFrameError", OnWebSocketFrameError));
                 }
 
                 _WebSocketFrameError += (value);
@@ -33898,7 +33898,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketFrameError -= (value);
                 if ((_WebSocketFrameError) == (null))
                 {
-                    _WebSocketFrameErrorDisposable.Dispose();
+                    _WebSocketFrameErrorEventRegistration.Dispose();
                 }
             }
         }
@@ -33908,7 +33908,7 @@ namespace CefSharp.DevTools.Network
             _WebSocketFrameError?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebSocketFrameReceivedDisposable;
+        private CefSharp.IRegistration _WebSocketFrameReceivedEventRegistration;
         private System.EventHandler<WebSocketFrameReceivedEventArgs> _WebSocketFrameReceived;
         /// <summary>
         /// Fired when WebSocket message is received.
@@ -33919,7 +33919,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebSocketFrameReceived) == (null))
                 {
-                    _WebSocketFrameReceivedDisposable = (_client.RegisterEventHandler<WebSocketFrameReceivedEventArgs>("Network.webSocketFrameReceived", OnWebSocketFrameReceived));
+                    _WebSocketFrameReceivedEventRegistration = (_client.RegisterEventHandler<WebSocketFrameReceivedEventArgs>("Network.webSocketFrameReceived", OnWebSocketFrameReceived));
                 }
 
                 _WebSocketFrameReceived += (value);
@@ -33930,7 +33930,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketFrameReceived -= (value);
                 if ((_WebSocketFrameReceived) == (null))
                 {
-                    _WebSocketFrameReceivedDisposable.Dispose();
+                    _WebSocketFrameReceivedEventRegistration.Dispose();
                 }
             }
         }
@@ -33940,7 +33940,7 @@ namespace CefSharp.DevTools.Network
             _WebSocketFrameReceived?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebSocketFrameSentDisposable;
+        private CefSharp.IRegistration _WebSocketFrameSentEventRegistration;
         private System.EventHandler<WebSocketFrameSentEventArgs> _WebSocketFrameSent;
         /// <summary>
         /// Fired when WebSocket message is sent.
@@ -33951,7 +33951,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebSocketFrameSent) == (null))
                 {
-                    _WebSocketFrameSentDisposable = (_client.RegisterEventHandler<WebSocketFrameSentEventArgs>("Network.webSocketFrameSent", OnWebSocketFrameSent));
+                    _WebSocketFrameSentEventRegistration = (_client.RegisterEventHandler<WebSocketFrameSentEventArgs>("Network.webSocketFrameSent", OnWebSocketFrameSent));
                 }
 
                 _WebSocketFrameSent += (value);
@@ -33962,7 +33962,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketFrameSent -= (value);
                 if ((_WebSocketFrameSent) == (null))
                 {
-                    _WebSocketFrameSentDisposable.Dispose();
+                    _WebSocketFrameSentEventRegistration.Dispose();
                 }
             }
         }
@@ -33972,7 +33972,7 @@ namespace CefSharp.DevTools.Network
             _WebSocketFrameSent?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebSocketHandshakeResponseReceivedDisposable;
+        private CefSharp.IRegistration _WebSocketHandshakeResponseReceivedEventRegistration;
         private System.EventHandler<WebSocketHandshakeResponseReceivedEventArgs> _WebSocketHandshakeResponseReceived;
         /// <summary>
         /// Fired when WebSocket handshake response becomes available.
@@ -33983,7 +33983,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebSocketHandshakeResponseReceived) == (null))
                 {
-                    _WebSocketHandshakeResponseReceivedDisposable = (_client.RegisterEventHandler<WebSocketHandshakeResponseReceivedEventArgs>("Network.webSocketHandshakeResponseReceived", OnWebSocketHandshakeResponseReceived));
+                    _WebSocketHandshakeResponseReceivedEventRegistration = (_client.RegisterEventHandler<WebSocketHandshakeResponseReceivedEventArgs>("Network.webSocketHandshakeResponseReceived", OnWebSocketHandshakeResponseReceived));
                 }
 
                 _WebSocketHandshakeResponseReceived += (value);
@@ -33994,7 +33994,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketHandshakeResponseReceived -= (value);
                 if ((_WebSocketHandshakeResponseReceived) == (null))
                 {
-                    _WebSocketHandshakeResponseReceivedDisposable.Dispose();
+                    _WebSocketHandshakeResponseReceivedEventRegistration.Dispose();
                 }
             }
         }
@@ -34004,7 +34004,7 @@ namespace CefSharp.DevTools.Network
             _WebSocketHandshakeResponseReceived?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebSocketWillSendHandshakeRequestDisposable;
+        private CefSharp.IRegistration _WebSocketWillSendHandshakeRequestEventRegistration;
         private System.EventHandler<WebSocketWillSendHandshakeRequestEventArgs> _WebSocketWillSendHandshakeRequest;
         /// <summary>
         /// Fired when WebSocket is about to initiate handshake.
@@ -34015,7 +34015,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebSocketWillSendHandshakeRequest) == (null))
                 {
-                    _WebSocketWillSendHandshakeRequestDisposable = (_client.RegisterEventHandler<WebSocketWillSendHandshakeRequestEventArgs>("Network.webSocketWillSendHandshakeRequest", OnWebSocketWillSendHandshakeRequest));
+                    _WebSocketWillSendHandshakeRequestEventRegistration = (_client.RegisterEventHandler<WebSocketWillSendHandshakeRequestEventArgs>("Network.webSocketWillSendHandshakeRequest", OnWebSocketWillSendHandshakeRequest));
                 }
 
                 _WebSocketWillSendHandshakeRequest += (value);
@@ -34026,7 +34026,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketWillSendHandshakeRequest -= (value);
                 if ((_WebSocketWillSendHandshakeRequest) == (null))
                 {
-                    _WebSocketWillSendHandshakeRequestDisposable.Dispose();
+                    _WebSocketWillSendHandshakeRequestEventRegistration.Dispose();
                 }
             }
         }
@@ -34036,7 +34036,7 @@ namespace CefSharp.DevTools.Network
             _WebSocketWillSendHandshakeRequest?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebTransportCreatedDisposable;
+        private CefSharp.IRegistration _WebTransportCreatedEventRegistration;
         private System.EventHandler<WebTransportCreatedEventArgs> _WebTransportCreated;
         /// <summary>
         /// Fired upon WebTransport creation.
@@ -34047,7 +34047,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebTransportCreated) == (null))
                 {
-                    _WebTransportCreatedDisposable = (_client.RegisterEventHandler<WebTransportCreatedEventArgs>("Network.webTransportCreated", OnWebTransportCreated));
+                    _WebTransportCreatedEventRegistration = (_client.RegisterEventHandler<WebTransportCreatedEventArgs>("Network.webTransportCreated", OnWebTransportCreated));
                 }
 
                 _WebTransportCreated += (value);
@@ -34058,7 +34058,7 @@ namespace CefSharp.DevTools.Network
                 _WebTransportCreated -= (value);
                 if ((_WebTransportCreated) == (null))
                 {
-                    _WebTransportCreatedDisposable.Dispose();
+                    _WebTransportCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -34068,7 +34068,7 @@ namespace CefSharp.DevTools.Network
             _WebTransportCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebTransportConnectionEstablishedDisposable;
+        private CefSharp.IRegistration _WebTransportConnectionEstablishedEventRegistration;
         private System.EventHandler<WebTransportConnectionEstablishedEventArgs> _WebTransportConnectionEstablished;
         /// <summary>
         /// Fired when WebTransport handshake is finished.
@@ -34079,7 +34079,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebTransportConnectionEstablished) == (null))
                 {
-                    _WebTransportConnectionEstablishedDisposable = (_client.RegisterEventHandler<WebTransportConnectionEstablishedEventArgs>("Network.webTransportConnectionEstablished", OnWebTransportConnectionEstablished));
+                    _WebTransportConnectionEstablishedEventRegistration = (_client.RegisterEventHandler<WebTransportConnectionEstablishedEventArgs>("Network.webTransportConnectionEstablished", OnWebTransportConnectionEstablished));
                 }
 
                 _WebTransportConnectionEstablished += (value);
@@ -34090,7 +34090,7 @@ namespace CefSharp.DevTools.Network
                 _WebTransportConnectionEstablished -= (value);
                 if ((_WebTransportConnectionEstablished) == (null))
                 {
-                    _WebTransportConnectionEstablishedDisposable.Dispose();
+                    _WebTransportConnectionEstablishedEventRegistration.Dispose();
                 }
             }
         }
@@ -34100,7 +34100,7 @@ namespace CefSharp.DevTools.Network
             _WebTransportConnectionEstablished?.Invoke(this, args);
         }
 
-        private System.IDisposable _WebTransportClosedDisposable;
+        private CefSharp.IRegistration _WebTransportClosedEventRegistration;
         private System.EventHandler<WebTransportClosedEventArgs> _WebTransportClosed;
         /// <summary>
         /// Fired when WebTransport is disposed.
@@ -34111,7 +34111,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_WebTransportClosed) == (null))
                 {
-                    _WebTransportClosedDisposable = (_client.RegisterEventHandler<WebTransportClosedEventArgs>("Network.webTransportClosed", OnWebTransportClosed));
+                    _WebTransportClosedEventRegistration = (_client.RegisterEventHandler<WebTransportClosedEventArgs>("Network.webTransportClosed", OnWebTransportClosed));
                 }
 
                 _WebTransportClosed += (value);
@@ -34122,7 +34122,7 @@ namespace CefSharp.DevTools.Network
                 _WebTransportClosed -= (value);
                 if ((_WebTransportClosed) == (null))
                 {
-                    _WebTransportClosedDisposable.Dispose();
+                    _WebTransportClosedEventRegistration.Dispose();
                 }
             }
         }
@@ -34132,7 +34132,7 @@ namespace CefSharp.DevTools.Network
             _WebTransportClosed?.Invoke(this, args);
         }
 
-        private System.IDisposable _RequestWillBeSentExtraInfoDisposable;
+        private CefSharp.IRegistration _RequestWillBeSentExtraInfoEventRegistration;
         private System.EventHandler<RequestWillBeSentExtraInfoEventArgs> _RequestWillBeSentExtraInfo;
         /// <summary>
         /// Fired when additional information about a requestWillBeSent event is available from the
@@ -34146,7 +34146,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_RequestWillBeSentExtraInfo) == (null))
                 {
-                    _RequestWillBeSentExtraInfoDisposable = (_client.RegisterEventHandler<RequestWillBeSentExtraInfoEventArgs>("Network.requestWillBeSentExtraInfo", OnRequestWillBeSentExtraInfo));
+                    _RequestWillBeSentExtraInfoEventRegistration = (_client.RegisterEventHandler<RequestWillBeSentExtraInfoEventArgs>("Network.requestWillBeSentExtraInfo", OnRequestWillBeSentExtraInfo));
                 }
 
                 _RequestWillBeSentExtraInfo += (value);
@@ -34157,7 +34157,7 @@ namespace CefSharp.DevTools.Network
                 _RequestWillBeSentExtraInfo -= (value);
                 if ((_RequestWillBeSentExtraInfo) == (null))
                 {
-                    _RequestWillBeSentExtraInfoDisposable.Dispose();
+                    _RequestWillBeSentExtraInfoEventRegistration.Dispose();
                 }
             }
         }
@@ -34167,7 +34167,7 @@ namespace CefSharp.DevTools.Network
             _RequestWillBeSentExtraInfo?.Invoke(this, args);
         }
 
-        private System.IDisposable _ResponseReceivedExtraInfoDisposable;
+        private CefSharp.IRegistration _ResponseReceivedExtraInfoEventRegistration;
         private System.EventHandler<ResponseReceivedExtraInfoEventArgs> _ResponseReceivedExtraInfo;
         /// <summary>
         /// Fired when additional information about a responseReceived event is available from the network
@@ -34180,7 +34180,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_ResponseReceivedExtraInfo) == (null))
                 {
-                    _ResponseReceivedExtraInfoDisposable = (_client.RegisterEventHandler<ResponseReceivedExtraInfoEventArgs>("Network.responseReceivedExtraInfo", OnResponseReceivedExtraInfo));
+                    _ResponseReceivedExtraInfoEventRegistration = (_client.RegisterEventHandler<ResponseReceivedExtraInfoEventArgs>("Network.responseReceivedExtraInfo", OnResponseReceivedExtraInfo));
                 }
 
                 _ResponseReceivedExtraInfo += (value);
@@ -34191,7 +34191,7 @@ namespace CefSharp.DevTools.Network
                 _ResponseReceivedExtraInfo -= (value);
                 if ((_ResponseReceivedExtraInfo) == (null))
                 {
-                    _ResponseReceivedExtraInfoDisposable.Dispose();
+                    _ResponseReceivedExtraInfoEventRegistration.Dispose();
                 }
             }
         }
@@ -34201,7 +34201,7 @@ namespace CefSharp.DevTools.Network
             _ResponseReceivedExtraInfo?.Invoke(this, args);
         }
 
-        private System.IDisposable _TrustTokenOperationDoneDisposable;
+        private CefSharp.IRegistration _TrustTokenOperationDoneEventRegistration;
         private System.EventHandler<TrustTokenOperationDoneEventArgs> _TrustTokenOperationDone;
         /// <summary>
         /// Fired exactly once for each Trust Token operation. Depending on
@@ -34215,7 +34215,7 @@ namespace CefSharp.DevTools.Network
             {
                 if ((_TrustTokenOperationDone) == (null))
                 {
-                    _TrustTokenOperationDoneDisposable = (_client.RegisterEventHandler<TrustTokenOperationDoneEventArgs>("Network.trustTokenOperationDone", OnTrustTokenOperationDone));
+                    _TrustTokenOperationDoneEventRegistration = (_client.RegisterEventHandler<TrustTokenOperationDoneEventArgs>("Network.trustTokenOperationDone", OnTrustTokenOperationDone));
                 }
 
                 _TrustTokenOperationDone += (value);
@@ -34226,7 +34226,7 @@ namespace CefSharp.DevTools.Network
                 _TrustTokenOperationDone -= (value);
                 if ((_TrustTokenOperationDone) == (null))
                 {
-                    _TrustTokenOperationDoneDisposable.Dispose();
+                    _TrustTokenOperationDoneEventRegistration.Dispose();
                 }
             }
         }
@@ -34880,7 +34880,7 @@ namespace CefSharp.DevTools.Overlay
             _client = (client);
         }
 
-        private System.IDisposable _InspectNodeRequestedDisposable;
+        private CefSharp.IRegistration _InspectNodeRequestedEventRegistration;
         private System.EventHandler<InspectNodeRequestedEventArgs> _InspectNodeRequested;
         /// <summary>
         /// Fired when the node should be inspected. This happens after call to `setInspectMode` or when
@@ -34892,7 +34892,7 @@ namespace CefSharp.DevTools.Overlay
             {
                 if ((_InspectNodeRequested) == (null))
                 {
-                    _InspectNodeRequestedDisposable = (_client.RegisterEventHandler<InspectNodeRequestedEventArgs>("Overlay.inspectNodeRequested", OnInspectNodeRequested));
+                    _InspectNodeRequestedEventRegistration = (_client.RegisterEventHandler<InspectNodeRequestedEventArgs>("Overlay.inspectNodeRequested", OnInspectNodeRequested));
                 }
 
                 _InspectNodeRequested += (value);
@@ -34903,7 +34903,7 @@ namespace CefSharp.DevTools.Overlay
                 _InspectNodeRequested -= (value);
                 if ((_InspectNodeRequested) == (null))
                 {
-                    _InspectNodeRequestedDisposable.Dispose();
+                    _InspectNodeRequestedEventRegistration.Dispose();
                 }
             }
         }
@@ -34913,7 +34913,7 @@ namespace CefSharp.DevTools.Overlay
             _InspectNodeRequested?.Invoke(this, args);
         }
 
-        private System.IDisposable _NodeHighlightRequestedDisposable;
+        private CefSharp.IRegistration _NodeHighlightRequestedEventRegistration;
         private System.EventHandler<NodeHighlightRequestedEventArgs> _NodeHighlightRequested;
         /// <summary>
         /// Fired when the node should be highlighted. This happens after call to `setInspectMode`.
@@ -34924,7 +34924,7 @@ namespace CefSharp.DevTools.Overlay
             {
                 if ((_NodeHighlightRequested) == (null))
                 {
-                    _NodeHighlightRequestedDisposable = (_client.RegisterEventHandler<NodeHighlightRequestedEventArgs>("Overlay.nodeHighlightRequested", OnNodeHighlightRequested));
+                    _NodeHighlightRequestedEventRegistration = (_client.RegisterEventHandler<NodeHighlightRequestedEventArgs>("Overlay.nodeHighlightRequested", OnNodeHighlightRequested));
                 }
 
                 _NodeHighlightRequested += (value);
@@ -34935,7 +34935,7 @@ namespace CefSharp.DevTools.Overlay
                 _NodeHighlightRequested -= (value);
                 if ((_NodeHighlightRequested) == (null))
                 {
-                    _NodeHighlightRequestedDisposable.Dispose();
+                    _NodeHighlightRequestedEventRegistration.Dispose();
                 }
             }
         }
@@ -34945,7 +34945,7 @@ namespace CefSharp.DevTools.Overlay
             _NodeHighlightRequested?.Invoke(this, args);
         }
 
-        private System.IDisposable _ScreenshotRequestedDisposable;
+        private CefSharp.IRegistration _ScreenshotRequestedEventRegistration;
         private System.EventHandler<ScreenshotRequestedEventArgs> _ScreenshotRequested;
         /// <summary>
         /// Fired when user asks to capture screenshot of some area on the page.
@@ -34956,7 +34956,7 @@ namespace CefSharp.DevTools.Overlay
             {
                 if ((_ScreenshotRequested) == (null))
                 {
-                    _ScreenshotRequestedDisposable = (_client.RegisterEventHandler<ScreenshotRequestedEventArgs>("Overlay.screenshotRequested", OnScreenshotRequested));
+                    _ScreenshotRequestedEventRegistration = (_client.RegisterEventHandler<ScreenshotRequestedEventArgs>("Overlay.screenshotRequested", OnScreenshotRequested));
                 }
 
                 _ScreenshotRequested += (value);
@@ -34967,7 +34967,7 @@ namespace CefSharp.DevTools.Overlay
                 _ScreenshotRequested -= (value);
                 if ((_ScreenshotRequested) == (null))
                 {
-                    _ScreenshotRequestedDisposable.Dispose();
+                    _ScreenshotRequestedEventRegistration.Dispose();
                 }
             }
         }
@@ -34977,7 +34977,7 @@ namespace CefSharp.DevTools.Overlay
             _ScreenshotRequested?.Invoke(this, args);
         }
 
-        private System.IDisposable _InspectModeCanceledDisposable;
+        private CefSharp.IRegistration _InspectModeCanceledEventRegistration;
         private System.EventHandler _InspectModeCanceled;
         /// <summary>
         /// Fired when user cancels the inspect mode.
@@ -34988,7 +34988,7 @@ namespace CefSharp.DevTools.Overlay
             {
                 if ((_InspectModeCanceled) == (null))
                 {
-                    _InspectModeCanceledDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Overlay.inspectModeCanceled", OnInspectModeCanceled));
+                    _InspectModeCanceledEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Overlay.inspectModeCanceled", OnInspectModeCanceled));
                 }
 
                 _InspectModeCanceled += (value);
@@ -34999,12 +34999,12 @@ namespace CefSharp.DevTools.Overlay
                 _InspectModeCanceled -= (value);
                 if ((_InspectModeCanceled) == (null))
                 {
-                    _InspectModeCanceledDisposable.Dispose();
+                    _InspectModeCanceledEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnInspectModeCanceled(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnInspectModeCanceled(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _InspectModeCanceled?.Invoke(this, args);
         }
@@ -36189,7 +36189,7 @@ namespace CefSharp.DevTools.Page
             _client = (client);
         }
 
-        private System.IDisposable _DomContentEventFiredDisposable;
+        private CefSharp.IRegistration _DomContentEventFiredEventRegistration;
         private System.EventHandler<DomContentEventFiredEventArgs> _DomContentEventFired;
         /// <summary>
         /// DomContentEventFired
@@ -36200,7 +36200,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_DomContentEventFired) == (null))
                 {
-                    _DomContentEventFiredDisposable = (_client.RegisterEventHandler<DomContentEventFiredEventArgs>("Page.domContentEventFired", OnDomContentEventFired));
+                    _DomContentEventFiredEventRegistration = (_client.RegisterEventHandler<DomContentEventFiredEventArgs>("Page.domContentEventFired", OnDomContentEventFired));
                 }
 
                 _DomContentEventFired += (value);
@@ -36211,7 +36211,7 @@ namespace CefSharp.DevTools.Page
                 _DomContentEventFired -= (value);
                 if ((_DomContentEventFired) == (null))
                 {
-                    _DomContentEventFiredDisposable.Dispose();
+                    _DomContentEventFiredEventRegistration.Dispose();
                 }
             }
         }
@@ -36221,7 +36221,7 @@ namespace CefSharp.DevTools.Page
             _DomContentEventFired?.Invoke(this, args);
         }
 
-        private System.IDisposable _FileChooserOpenedDisposable;
+        private CefSharp.IRegistration _FileChooserOpenedEventRegistration;
         private System.EventHandler<FileChooserOpenedEventArgs> _FileChooserOpened;
         /// <summary>
         /// Emitted only when `page.interceptFileChooser` is enabled.
@@ -36232,7 +36232,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_FileChooserOpened) == (null))
                 {
-                    _FileChooserOpenedDisposable = (_client.RegisterEventHandler<FileChooserOpenedEventArgs>("Page.fileChooserOpened", OnFileChooserOpened));
+                    _FileChooserOpenedEventRegistration = (_client.RegisterEventHandler<FileChooserOpenedEventArgs>("Page.fileChooserOpened", OnFileChooserOpened));
                 }
 
                 _FileChooserOpened += (value);
@@ -36243,7 +36243,7 @@ namespace CefSharp.DevTools.Page
                 _FileChooserOpened -= (value);
                 if ((_FileChooserOpened) == (null))
                 {
-                    _FileChooserOpenedDisposable.Dispose();
+                    _FileChooserOpenedEventRegistration.Dispose();
                 }
             }
         }
@@ -36253,7 +36253,7 @@ namespace CefSharp.DevTools.Page
             _FileChooserOpened?.Invoke(this, args);
         }
 
-        private System.IDisposable _FrameAttachedDisposable;
+        private CefSharp.IRegistration _FrameAttachedEventRegistration;
         private System.EventHandler<FrameAttachedEventArgs> _FrameAttached;
         /// <summary>
         /// Fired when frame has been attached to its parent.
@@ -36264,7 +36264,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_FrameAttached) == (null))
                 {
-                    _FrameAttachedDisposable = (_client.RegisterEventHandler<FrameAttachedEventArgs>("Page.frameAttached", OnFrameAttached));
+                    _FrameAttachedEventRegistration = (_client.RegisterEventHandler<FrameAttachedEventArgs>("Page.frameAttached", OnFrameAttached));
                 }
 
                 _FrameAttached += (value);
@@ -36275,7 +36275,7 @@ namespace CefSharp.DevTools.Page
                 _FrameAttached -= (value);
                 if ((_FrameAttached) == (null))
                 {
-                    _FrameAttachedDisposable.Dispose();
+                    _FrameAttachedEventRegistration.Dispose();
                 }
             }
         }
@@ -36285,7 +36285,7 @@ namespace CefSharp.DevTools.Page
             _FrameAttached?.Invoke(this, args);
         }
 
-        private System.IDisposable _FrameDetachedDisposable;
+        private CefSharp.IRegistration _FrameDetachedEventRegistration;
         private System.EventHandler<FrameDetachedEventArgs> _FrameDetached;
         /// <summary>
         /// Fired when frame has been detached from its parent.
@@ -36296,7 +36296,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_FrameDetached) == (null))
                 {
-                    _FrameDetachedDisposable = (_client.RegisterEventHandler<FrameDetachedEventArgs>("Page.frameDetached", OnFrameDetached));
+                    _FrameDetachedEventRegistration = (_client.RegisterEventHandler<FrameDetachedEventArgs>("Page.frameDetached", OnFrameDetached));
                 }
 
                 _FrameDetached += (value);
@@ -36307,7 +36307,7 @@ namespace CefSharp.DevTools.Page
                 _FrameDetached -= (value);
                 if ((_FrameDetached) == (null))
                 {
-                    _FrameDetachedDisposable.Dispose();
+                    _FrameDetachedEventRegistration.Dispose();
                 }
             }
         }
@@ -36317,7 +36317,7 @@ namespace CefSharp.DevTools.Page
             _FrameDetached?.Invoke(this, args);
         }
 
-        private System.IDisposable _FrameNavigatedDisposable;
+        private CefSharp.IRegistration _FrameNavigatedEventRegistration;
         private System.EventHandler<FrameNavigatedEventArgs> _FrameNavigated;
         /// <summary>
         /// Fired once navigation of the frame has completed. Frame is now associated with the new loader.
@@ -36328,7 +36328,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_FrameNavigated) == (null))
                 {
-                    _FrameNavigatedDisposable = (_client.RegisterEventHandler<FrameNavigatedEventArgs>("Page.frameNavigated", OnFrameNavigated));
+                    _FrameNavigatedEventRegistration = (_client.RegisterEventHandler<FrameNavigatedEventArgs>("Page.frameNavigated", OnFrameNavigated));
                 }
 
                 _FrameNavigated += (value);
@@ -36339,7 +36339,7 @@ namespace CefSharp.DevTools.Page
                 _FrameNavigated -= (value);
                 if ((_FrameNavigated) == (null))
                 {
-                    _FrameNavigatedDisposable.Dispose();
+                    _FrameNavigatedEventRegistration.Dispose();
                 }
             }
         }
@@ -36349,7 +36349,7 @@ namespace CefSharp.DevTools.Page
             _FrameNavigated?.Invoke(this, args);
         }
 
-        private System.IDisposable _DocumentOpenedDisposable;
+        private CefSharp.IRegistration _DocumentOpenedEventRegistration;
         private System.EventHandler<DocumentOpenedEventArgs> _DocumentOpened;
         /// <summary>
         /// Fired when opening document to write to.
@@ -36360,7 +36360,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_DocumentOpened) == (null))
                 {
-                    _DocumentOpenedDisposable = (_client.RegisterEventHandler<DocumentOpenedEventArgs>("Page.documentOpened", OnDocumentOpened));
+                    _DocumentOpenedEventRegistration = (_client.RegisterEventHandler<DocumentOpenedEventArgs>("Page.documentOpened", OnDocumentOpened));
                 }
 
                 _DocumentOpened += (value);
@@ -36371,7 +36371,7 @@ namespace CefSharp.DevTools.Page
                 _DocumentOpened -= (value);
                 if ((_DocumentOpened) == (null))
                 {
-                    _DocumentOpenedDisposable.Dispose();
+                    _DocumentOpenedEventRegistration.Dispose();
                 }
             }
         }
@@ -36381,7 +36381,7 @@ namespace CefSharp.DevTools.Page
             _DocumentOpened?.Invoke(this, args);
         }
 
-        private System.IDisposable _FrameResizedDisposable;
+        private CefSharp.IRegistration _FrameResizedEventRegistration;
         private System.EventHandler _FrameResized;
         /// <summary>
         /// FrameResized
@@ -36392,7 +36392,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_FrameResized) == (null))
                 {
-                    _FrameResizedDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Page.frameResized", OnFrameResized));
+                    _FrameResizedEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Page.frameResized", OnFrameResized));
                 }
 
                 _FrameResized += (value);
@@ -36403,17 +36403,17 @@ namespace CefSharp.DevTools.Page
                 _FrameResized -= (value);
                 if ((_FrameResized) == (null))
                 {
-                    _FrameResizedDisposable.Dispose();
+                    _FrameResizedEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnFrameResized(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnFrameResized(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _FrameResized?.Invoke(this, args);
         }
 
-        private System.IDisposable _FrameRequestedNavigationDisposable;
+        private CefSharp.IRegistration _FrameRequestedNavigationEventRegistration;
         private System.EventHandler<FrameRequestedNavigationEventArgs> _FrameRequestedNavigation;
         /// <summary>
         /// Fired when a renderer-initiated navigation is requested.
@@ -36425,7 +36425,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_FrameRequestedNavigation) == (null))
                 {
-                    _FrameRequestedNavigationDisposable = (_client.RegisterEventHandler<FrameRequestedNavigationEventArgs>("Page.frameRequestedNavigation", OnFrameRequestedNavigation));
+                    _FrameRequestedNavigationEventRegistration = (_client.RegisterEventHandler<FrameRequestedNavigationEventArgs>("Page.frameRequestedNavigation", OnFrameRequestedNavigation));
                 }
 
                 _FrameRequestedNavigation += (value);
@@ -36436,7 +36436,7 @@ namespace CefSharp.DevTools.Page
                 _FrameRequestedNavigation -= (value);
                 if ((_FrameRequestedNavigation) == (null))
                 {
-                    _FrameRequestedNavigationDisposable.Dispose();
+                    _FrameRequestedNavigationEventRegistration.Dispose();
                 }
             }
         }
@@ -36446,7 +36446,7 @@ namespace CefSharp.DevTools.Page
             _FrameRequestedNavigation?.Invoke(this, args);
         }
 
-        private System.IDisposable _FrameStartedLoadingDisposable;
+        private CefSharp.IRegistration _FrameStartedLoadingEventRegistration;
         private System.EventHandler<FrameStartedLoadingEventArgs> _FrameStartedLoading;
         /// <summary>
         /// Fired when frame has started loading.
@@ -36457,7 +36457,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_FrameStartedLoading) == (null))
                 {
-                    _FrameStartedLoadingDisposable = (_client.RegisterEventHandler<FrameStartedLoadingEventArgs>("Page.frameStartedLoading", OnFrameStartedLoading));
+                    _FrameStartedLoadingEventRegistration = (_client.RegisterEventHandler<FrameStartedLoadingEventArgs>("Page.frameStartedLoading", OnFrameStartedLoading));
                 }
 
                 _FrameStartedLoading += (value);
@@ -36468,7 +36468,7 @@ namespace CefSharp.DevTools.Page
                 _FrameStartedLoading -= (value);
                 if ((_FrameStartedLoading) == (null))
                 {
-                    _FrameStartedLoadingDisposable.Dispose();
+                    _FrameStartedLoadingEventRegistration.Dispose();
                 }
             }
         }
@@ -36478,7 +36478,7 @@ namespace CefSharp.DevTools.Page
             _FrameStartedLoading?.Invoke(this, args);
         }
 
-        private System.IDisposable _FrameStoppedLoadingDisposable;
+        private CefSharp.IRegistration _FrameStoppedLoadingEventRegistration;
         private System.EventHandler<FrameStoppedLoadingEventArgs> _FrameStoppedLoading;
         /// <summary>
         /// Fired when frame has stopped loading.
@@ -36489,7 +36489,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_FrameStoppedLoading) == (null))
                 {
-                    _FrameStoppedLoadingDisposable = (_client.RegisterEventHandler<FrameStoppedLoadingEventArgs>("Page.frameStoppedLoading", OnFrameStoppedLoading));
+                    _FrameStoppedLoadingEventRegistration = (_client.RegisterEventHandler<FrameStoppedLoadingEventArgs>("Page.frameStoppedLoading", OnFrameStoppedLoading));
                 }
 
                 _FrameStoppedLoading += (value);
@@ -36500,7 +36500,7 @@ namespace CefSharp.DevTools.Page
                 _FrameStoppedLoading -= (value);
                 if ((_FrameStoppedLoading) == (null))
                 {
-                    _FrameStoppedLoadingDisposable.Dispose();
+                    _FrameStoppedLoadingEventRegistration.Dispose();
                 }
             }
         }
@@ -36510,7 +36510,7 @@ namespace CefSharp.DevTools.Page
             _FrameStoppedLoading?.Invoke(this, args);
         }
 
-        private System.IDisposable _InterstitialHiddenDisposable;
+        private CefSharp.IRegistration _InterstitialHiddenEventRegistration;
         private System.EventHandler _InterstitialHidden;
         /// <summary>
         /// Fired when interstitial page was hidden
@@ -36521,7 +36521,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_InterstitialHidden) == (null))
                 {
-                    _InterstitialHiddenDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Page.interstitialHidden", OnInterstitialHidden));
+                    _InterstitialHiddenEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Page.interstitialHidden", OnInterstitialHidden));
                 }
 
                 _InterstitialHidden += (value);
@@ -36532,17 +36532,17 @@ namespace CefSharp.DevTools.Page
                 _InterstitialHidden -= (value);
                 if ((_InterstitialHidden) == (null))
                 {
-                    _InterstitialHiddenDisposable.Dispose();
+                    _InterstitialHiddenEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnInterstitialHidden(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnInterstitialHidden(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _InterstitialHidden?.Invoke(this, args);
         }
 
-        private System.IDisposable _InterstitialShownDisposable;
+        private CefSharp.IRegistration _InterstitialShownEventRegistration;
         private System.EventHandler _InterstitialShown;
         /// <summary>
         /// Fired when interstitial page was shown
@@ -36553,7 +36553,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_InterstitialShown) == (null))
                 {
-                    _InterstitialShownDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Page.interstitialShown", OnInterstitialShown));
+                    _InterstitialShownEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Page.interstitialShown", OnInterstitialShown));
                 }
 
                 _InterstitialShown += (value);
@@ -36564,17 +36564,17 @@ namespace CefSharp.DevTools.Page
                 _InterstitialShown -= (value);
                 if ((_InterstitialShown) == (null))
                 {
-                    _InterstitialShownDisposable.Dispose();
+                    _InterstitialShownEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnInterstitialShown(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnInterstitialShown(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _InterstitialShown?.Invoke(this, args);
         }
 
-        private System.IDisposable _JavascriptDialogClosedDisposable;
+        private CefSharp.IRegistration _JavascriptDialogClosedEventRegistration;
         private System.EventHandler<JavascriptDialogClosedEventArgs> _JavascriptDialogClosed;
         /// <summary>
         /// Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) has been
@@ -36586,7 +36586,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_JavascriptDialogClosed) == (null))
                 {
-                    _JavascriptDialogClosedDisposable = (_client.RegisterEventHandler<JavascriptDialogClosedEventArgs>("Page.javascriptDialogClosed", OnJavascriptDialogClosed));
+                    _JavascriptDialogClosedEventRegistration = (_client.RegisterEventHandler<JavascriptDialogClosedEventArgs>("Page.javascriptDialogClosed", OnJavascriptDialogClosed));
                 }
 
                 _JavascriptDialogClosed += (value);
@@ -36597,7 +36597,7 @@ namespace CefSharp.DevTools.Page
                 _JavascriptDialogClosed -= (value);
                 if ((_JavascriptDialogClosed) == (null))
                 {
-                    _JavascriptDialogClosedDisposable.Dispose();
+                    _JavascriptDialogClosedEventRegistration.Dispose();
                 }
             }
         }
@@ -36607,7 +36607,7 @@ namespace CefSharp.DevTools.Page
             _JavascriptDialogClosed?.Invoke(this, args);
         }
 
-        private System.IDisposable _JavascriptDialogOpeningDisposable;
+        private CefSharp.IRegistration _JavascriptDialogOpeningEventRegistration;
         private System.EventHandler<JavascriptDialogOpeningEventArgs> _JavascriptDialogOpening;
         /// <summary>
         /// Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) is about to
@@ -36619,7 +36619,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_JavascriptDialogOpening) == (null))
                 {
-                    _JavascriptDialogOpeningDisposable = (_client.RegisterEventHandler<JavascriptDialogOpeningEventArgs>("Page.javascriptDialogOpening", OnJavascriptDialogOpening));
+                    _JavascriptDialogOpeningEventRegistration = (_client.RegisterEventHandler<JavascriptDialogOpeningEventArgs>("Page.javascriptDialogOpening", OnJavascriptDialogOpening));
                 }
 
                 _JavascriptDialogOpening += (value);
@@ -36630,7 +36630,7 @@ namespace CefSharp.DevTools.Page
                 _JavascriptDialogOpening -= (value);
                 if ((_JavascriptDialogOpening) == (null))
                 {
-                    _JavascriptDialogOpeningDisposable.Dispose();
+                    _JavascriptDialogOpeningEventRegistration.Dispose();
                 }
             }
         }
@@ -36640,7 +36640,7 @@ namespace CefSharp.DevTools.Page
             _JavascriptDialogOpening?.Invoke(this, args);
         }
 
-        private System.IDisposable _LifecycleEventDisposable;
+        private CefSharp.IRegistration _LifecycleEventEventRegistration;
         private System.EventHandler<LifecycleEventEventArgs> _LifecycleEvent;
         /// <summary>
         /// Fired for top level page lifecycle events such as navigation, load, paint, etc.
@@ -36651,7 +36651,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_LifecycleEvent) == (null))
                 {
-                    _LifecycleEventDisposable = (_client.RegisterEventHandler<LifecycleEventEventArgs>("Page.lifecycleEvent", OnLifecycleEvent));
+                    _LifecycleEventEventRegistration = (_client.RegisterEventHandler<LifecycleEventEventArgs>("Page.lifecycleEvent", OnLifecycleEvent));
                 }
 
                 _LifecycleEvent += (value);
@@ -36662,7 +36662,7 @@ namespace CefSharp.DevTools.Page
                 _LifecycleEvent -= (value);
                 if ((_LifecycleEvent) == (null))
                 {
-                    _LifecycleEventDisposable.Dispose();
+                    _LifecycleEventEventRegistration.Dispose();
                 }
             }
         }
@@ -36672,7 +36672,7 @@ namespace CefSharp.DevTools.Page
             _LifecycleEvent?.Invoke(this, args);
         }
 
-        private System.IDisposable _LoadEventFiredDisposable;
+        private CefSharp.IRegistration _LoadEventFiredEventRegistration;
         private System.EventHandler<LoadEventFiredEventArgs> _LoadEventFired;
         /// <summary>
         /// LoadEventFired
@@ -36683,7 +36683,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_LoadEventFired) == (null))
                 {
-                    _LoadEventFiredDisposable = (_client.RegisterEventHandler<LoadEventFiredEventArgs>("Page.loadEventFired", OnLoadEventFired));
+                    _LoadEventFiredEventRegistration = (_client.RegisterEventHandler<LoadEventFiredEventArgs>("Page.loadEventFired", OnLoadEventFired));
                 }
 
                 _LoadEventFired += (value);
@@ -36694,7 +36694,7 @@ namespace CefSharp.DevTools.Page
                 _LoadEventFired -= (value);
                 if ((_LoadEventFired) == (null))
                 {
-                    _LoadEventFiredDisposable.Dispose();
+                    _LoadEventFiredEventRegistration.Dispose();
                 }
             }
         }
@@ -36704,7 +36704,7 @@ namespace CefSharp.DevTools.Page
             _LoadEventFired?.Invoke(this, args);
         }
 
-        private System.IDisposable _NavigatedWithinDocumentDisposable;
+        private CefSharp.IRegistration _NavigatedWithinDocumentEventRegistration;
         private System.EventHandler<NavigatedWithinDocumentEventArgs> _NavigatedWithinDocument;
         /// <summary>
         /// Fired when same-document navigation happens, e.g. due to history API usage or anchor navigation.
@@ -36715,7 +36715,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_NavigatedWithinDocument) == (null))
                 {
-                    _NavigatedWithinDocumentDisposable = (_client.RegisterEventHandler<NavigatedWithinDocumentEventArgs>("Page.navigatedWithinDocument", OnNavigatedWithinDocument));
+                    _NavigatedWithinDocumentEventRegistration = (_client.RegisterEventHandler<NavigatedWithinDocumentEventArgs>("Page.navigatedWithinDocument", OnNavigatedWithinDocument));
                 }
 
                 _NavigatedWithinDocument += (value);
@@ -36726,7 +36726,7 @@ namespace CefSharp.DevTools.Page
                 _NavigatedWithinDocument -= (value);
                 if ((_NavigatedWithinDocument) == (null))
                 {
-                    _NavigatedWithinDocumentDisposable.Dispose();
+                    _NavigatedWithinDocumentEventRegistration.Dispose();
                 }
             }
         }
@@ -36736,7 +36736,7 @@ namespace CefSharp.DevTools.Page
             _NavigatedWithinDocument?.Invoke(this, args);
         }
 
-        private System.IDisposable _ScreencastFrameDisposable;
+        private CefSharp.IRegistration _ScreencastFrameEventRegistration;
         private System.EventHandler<ScreencastFrameEventArgs> _ScreencastFrame;
         /// <summary>
         /// Compressed image data requested by the `startScreencast`.
@@ -36747,7 +36747,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_ScreencastFrame) == (null))
                 {
-                    _ScreencastFrameDisposable = (_client.RegisterEventHandler<ScreencastFrameEventArgs>("Page.screencastFrame", OnScreencastFrame));
+                    _ScreencastFrameEventRegistration = (_client.RegisterEventHandler<ScreencastFrameEventArgs>("Page.screencastFrame", OnScreencastFrame));
                 }
 
                 _ScreencastFrame += (value);
@@ -36758,7 +36758,7 @@ namespace CefSharp.DevTools.Page
                 _ScreencastFrame -= (value);
                 if ((_ScreencastFrame) == (null))
                 {
-                    _ScreencastFrameDisposable.Dispose();
+                    _ScreencastFrameEventRegistration.Dispose();
                 }
             }
         }
@@ -36768,7 +36768,7 @@ namespace CefSharp.DevTools.Page
             _ScreencastFrame?.Invoke(this, args);
         }
 
-        private System.IDisposable _ScreencastVisibilityChangedDisposable;
+        private CefSharp.IRegistration _ScreencastVisibilityChangedEventRegistration;
         private System.EventHandler<ScreencastVisibilityChangedEventArgs> _ScreencastVisibilityChanged;
         /// <summary>
         /// Fired when the page with currently enabled screencast was shown or hidden `.
@@ -36779,7 +36779,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_ScreencastVisibilityChanged) == (null))
                 {
-                    _ScreencastVisibilityChangedDisposable = (_client.RegisterEventHandler<ScreencastVisibilityChangedEventArgs>("Page.screencastVisibilityChanged", OnScreencastVisibilityChanged));
+                    _ScreencastVisibilityChangedEventRegistration = (_client.RegisterEventHandler<ScreencastVisibilityChangedEventArgs>("Page.screencastVisibilityChanged", OnScreencastVisibilityChanged));
                 }
 
                 _ScreencastVisibilityChanged += (value);
@@ -36790,7 +36790,7 @@ namespace CefSharp.DevTools.Page
                 _ScreencastVisibilityChanged -= (value);
                 if ((_ScreencastVisibilityChanged) == (null))
                 {
-                    _ScreencastVisibilityChangedDisposable.Dispose();
+                    _ScreencastVisibilityChangedEventRegistration.Dispose();
                 }
             }
         }
@@ -36800,7 +36800,7 @@ namespace CefSharp.DevTools.Page
             _ScreencastVisibilityChanged?.Invoke(this, args);
         }
 
-        private System.IDisposable _WindowOpenDisposable;
+        private CefSharp.IRegistration _WindowOpenEventRegistration;
         private System.EventHandler<WindowOpenEventArgs> _WindowOpen;
         /// <summary>
         /// Fired when a new window is going to be opened, via window.open(), link click, form submission,
@@ -36812,7 +36812,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_WindowOpen) == (null))
                 {
-                    _WindowOpenDisposable = (_client.RegisterEventHandler<WindowOpenEventArgs>("Page.windowOpen", OnWindowOpen));
+                    _WindowOpenEventRegistration = (_client.RegisterEventHandler<WindowOpenEventArgs>("Page.windowOpen", OnWindowOpen));
                 }
 
                 _WindowOpen += (value);
@@ -36823,7 +36823,7 @@ namespace CefSharp.DevTools.Page
                 _WindowOpen -= (value);
                 if ((_WindowOpen) == (null))
                 {
-                    _WindowOpenDisposable.Dispose();
+                    _WindowOpenEventRegistration.Dispose();
                 }
             }
         }
@@ -36833,7 +36833,7 @@ namespace CefSharp.DevTools.Page
             _WindowOpen?.Invoke(this, args);
         }
 
-        private System.IDisposable _CompilationCacheProducedDisposable;
+        private CefSharp.IRegistration _CompilationCacheProducedEventRegistration;
         private System.EventHandler<CompilationCacheProducedEventArgs> _CompilationCacheProduced;
         /// <summary>
         /// Issued for every compilation cache generated. Is only available
@@ -36845,7 +36845,7 @@ namespace CefSharp.DevTools.Page
             {
                 if ((_CompilationCacheProduced) == (null))
                 {
-                    _CompilationCacheProducedDisposable = (_client.RegisterEventHandler<CompilationCacheProducedEventArgs>("Page.compilationCacheProduced", OnCompilationCacheProduced));
+                    _CompilationCacheProducedEventRegistration = (_client.RegisterEventHandler<CompilationCacheProducedEventArgs>("Page.compilationCacheProduced", OnCompilationCacheProduced));
                 }
 
                 _CompilationCacheProduced += (value);
@@ -36856,7 +36856,7 @@ namespace CefSharp.DevTools.Page
                 _CompilationCacheProduced -= (value);
                 if ((_CompilationCacheProduced) == (null))
                 {
-                    _CompilationCacheProducedDisposable.Dispose();
+                    _CompilationCacheProducedEventRegistration.Dispose();
                 }
             }
         }
@@ -37718,7 +37718,7 @@ namespace CefSharp.DevTools.Performance
             _client = (client);
         }
 
-        private System.IDisposable _MetricsDisposable;
+        private CefSharp.IRegistration _MetricsEventRegistration;
         private System.EventHandler<MetricsEventArgs> _Metrics;
         /// <summary>
         /// Current values of the metrics.
@@ -37729,7 +37729,7 @@ namespace CefSharp.DevTools.Performance
             {
                 if ((_Metrics) == (null))
                 {
-                    _MetricsDisposable = (_client.RegisterEventHandler<MetricsEventArgs>("Performance.metrics", OnMetrics));
+                    _MetricsEventRegistration = (_client.RegisterEventHandler<MetricsEventArgs>("Performance.metrics", OnMetrics));
                 }
 
                 _Metrics += (value);
@@ -37740,7 +37740,7 @@ namespace CefSharp.DevTools.Performance
                 _Metrics -= (value);
                 if ((_Metrics) == (null))
                 {
-                    _MetricsDisposable.Dispose();
+                    _MetricsEventRegistration.Dispose();
                 }
             }
         }
@@ -37810,7 +37810,7 @@ namespace CefSharp.DevTools.PerformanceTimeline
             _client = (client);
         }
 
-        private System.IDisposable _TimelineEventAddedDisposable;
+        private CefSharp.IRegistration _TimelineEventAddedEventRegistration;
         private System.EventHandler<TimelineEventAddedEventArgs> _TimelineEventAdded;
         /// <summary>
         /// Sent when a performance timeline event is added. See reportPerformanceTimeline method.
@@ -37821,7 +37821,7 @@ namespace CefSharp.DevTools.PerformanceTimeline
             {
                 if ((_TimelineEventAdded) == (null))
                 {
-                    _TimelineEventAddedDisposable = (_client.RegisterEventHandler<TimelineEventAddedEventArgs>("PerformanceTimeline.timelineEventAdded", OnTimelineEventAdded));
+                    _TimelineEventAddedEventRegistration = (_client.RegisterEventHandler<TimelineEventAddedEventArgs>("PerformanceTimeline.timelineEventAdded", OnTimelineEventAdded));
                 }
 
                 _TimelineEventAdded += (value);
@@ -37832,7 +37832,7 @@ namespace CefSharp.DevTools.PerformanceTimeline
                 _TimelineEventAdded -= (value);
                 if ((_TimelineEventAdded) == (null))
                 {
-                    _TimelineEventAddedDisposable.Dispose();
+                    _TimelineEventAddedEventRegistration.Dispose();
                 }
             }
         }
@@ -37878,7 +37878,7 @@ namespace CefSharp.DevTools.Security
             _client = (client);
         }
 
-        private System.IDisposable _VisibleSecurityStateChangedDisposable;
+        private CefSharp.IRegistration _VisibleSecurityStateChangedEventRegistration;
         private System.EventHandler<VisibleSecurityStateChangedEventArgs> _VisibleSecurityStateChanged;
         /// <summary>
         /// The security state of the page changed.
@@ -37889,7 +37889,7 @@ namespace CefSharp.DevTools.Security
             {
                 if ((_VisibleSecurityStateChanged) == (null))
                 {
-                    _VisibleSecurityStateChangedDisposable = (_client.RegisterEventHandler<VisibleSecurityStateChangedEventArgs>("Security.visibleSecurityStateChanged", OnVisibleSecurityStateChanged));
+                    _VisibleSecurityStateChangedEventRegistration = (_client.RegisterEventHandler<VisibleSecurityStateChangedEventArgs>("Security.visibleSecurityStateChanged", OnVisibleSecurityStateChanged));
                 }
 
                 _VisibleSecurityStateChanged += (value);
@@ -37900,7 +37900,7 @@ namespace CefSharp.DevTools.Security
                 _VisibleSecurityStateChanged -= (value);
                 if ((_VisibleSecurityStateChanged) == (null))
                 {
-                    _VisibleSecurityStateChangedDisposable.Dispose();
+                    _VisibleSecurityStateChangedEventRegistration.Dispose();
                 }
             }
         }
@@ -37910,7 +37910,7 @@ namespace CefSharp.DevTools.Security
             _VisibleSecurityStateChanged?.Invoke(this, args);
         }
 
-        private System.IDisposable _SecurityStateChangedDisposable;
+        private CefSharp.IRegistration _SecurityStateChangedEventRegistration;
         private System.EventHandler<SecurityStateChangedEventArgs> _SecurityStateChanged;
         /// <summary>
         /// The security state of the page changed.
@@ -37921,7 +37921,7 @@ namespace CefSharp.DevTools.Security
             {
                 if ((_SecurityStateChanged) == (null))
                 {
-                    _SecurityStateChangedDisposable = (_client.RegisterEventHandler<SecurityStateChangedEventArgs>("Security.securityStateChanged", OnSecurityStateChanged));
+                    _SecurityStateChangedEventRegistration = (_client.RegisterEventHandler<SecurityStateChangedEventArgs>("Security.securityStateChanged", OnSecurityStateChanged));
                 }
 
                 _SecurityStateChanged += (value);
@@ -37932,7 +37932,7 @@ namespace CefSharp.DevTools.Security
                 _SecurityStateChanged -= (value);
                 if ((_SecurityStateChanged) == (null))
                 {
-                    _SecurityStateChangedDisposable.Dispose();
+                    _SecurityStateChangedEventRegistration.Dispose();
                 }
             }
         }
@@ -37997,7 +37997,7 @@ namespace CefSharp.DevTools.ServiceWorker
             _client = (client);
         }
 
-        private System.IDisposable _WorkerErrorReportedDisposable;
+        private CefSharp.IRegistration _WorkerErrorReportedEventRegistration;
         private System.EventHandler<WorkerErrorReportedEventArgs> _WorkerErrorReported;
         /// <summary>
         /// WorkerErrorReported
@@ -38008,7 +38008,7 @@ namespace CefSharp.DevTools.ServiceWorker
             {
                 if ((_WorkerErrorReported) == (null))
                 {
-                    _WorkerErrorReportedDisposable = (_client.RegisterEventHandler<WorkerErrorReportedEventArgs>("ServiceWorker.workerErrorReported", OnWorkerErrorReported));
+                    _WorkerErrorReportedEventRegistration = (_client.RegisterEventHandler<WorkerErrorReportedEventArgs>("ServiceWorker.workerErrorReported", OnWorkerErrorReported));
                 }
 
                 _WorkerErrorReported += (value);
@@ -38019,7 +38019,7 @@ namespace CefSharp.DevTools.ServiceWorker
                 _WorkerErrorReported -= (value);
                 if ((_WorkerErrorReported) == (null))
                 {
-                    _WorkerErrorReportedDisposable.Dispose();
+                    _WorkerErrorReportedEventRegistration.Dispose();
                 }
             }
         }
@@ -38029,7 +38029,7 @@ namespace CefSharp.DevTools.ServiceWorker
             _WorkerErrorReported?.Invoke(this, args);
         }
 
-        private System.IDisposable _WorkerRegistrationUpdatedDisposable;
+        private CefSharp.IRegistration _WorkerRegistrationUpdatedEventRegistration;
         private System.EventHandler<WorkerRegistrationUpdatedEventArgs> _WorkerRegistrationUpdated;
         /// <summary>
         /// WorkerRegistrationUpdated
@@ -38040,7 +38040,7 @@ namespace CefSharp.DevTools.ServiceWorker
             {
                 if ((_WorkerRegistrationUpdated) == (null))
                 {
-                    _WorkerRegistrationUpdatedDisposable = (_client.RegisterEventHandler<WorkerRegistrationUpdatedEventArgs>("ServiceWorker.workerRegistrationUpdated", OnWorkerRegistrationUpdated));
+                    _WorkerRegistrationUpdatedEventRegistration = (_client.RegisterEventHandler<WorkerRegistrationUpdatedEventArgs>("ServiceWorker.workerRegistrationUpdated", OnWorkerRegistrationUpdated));
                 }
 
                 _WorkerRegistrationUpdated += (value);
@@ -38051,7 +38051,7 @@ namespace CefSharp.DevTools.ServiceWorker
                 _WorkerRegistrationUpdated -= (value);
                 if ((_WorkerRegistrationUpdated) == (null))
                 {
-                    _WorkerRegistrationUpdatedDisposable.Dispose();
+                    _WorkerRegistrationUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -38061,7 +38061,7 @@ namespace CefSharp.DevTools.ServiceWorker
             _WorkerRegistrationUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _WorkerVersionUpdatedDisposable;
+        private CefSharp.IRegistration _WorkerVersionUpdatedEventRegistration;
         private System.EventHandler<WorkerVersionUpdatedEventArgs> _WorkerVersionUpdated;
         /// <summary>
         /// WorkerVersionUpdated
@@ -38072,7 +38072,7 @@ namespace CefSharp.DevTools.ServiceWorker
             {
                 if ((_WorkerVersionUpdated) == (null))
                 {
-                    _WorkerVersionUpdatedDisposable = (_client.RegisterEventHandler<WorkerVersionUpdatedEventArgs>("ServiceWorker.workerVersionUpdated", OnWorkerVersionUpdated));
+                    _WorkerVersionUpdatedEventRegistration = (_client.RegisterEventHandler<WorkerVersionUpdatedEventArgs>("ServiceWorker.workerVersionUpdated", OnWorkerVersionUpdated));
                 }
 
                 _WorkerVersionUpdated += (value);
@@ -38083,7 +38083,7 @@ namespace CefSharp.DevTools.ServiceWorker
                 _WorkerVersionUpdated -= (value);
                 if ((_WorkerVersionUpdated) == (null))
                 {
-                    _WorkerVersionUpdatedDisposable.Dispose();
+                    _WorkerVersionUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -38464,7 +38464,7 @@ namespace CefSharp.DevTools.Storage
             _client = (client);
         }
 
-        private System.IDisposable _CacheStorageContentUpdatedDisposable;
+        private CefSharp.IRegistration _CacheStorageContentUpdatedEventRegistration;
         private System.EventHandler<CacheStorageContentUpdatedEventArgs> _CacheStorageContentUpdated;
         /// <summary>
         /// A cache&apos;s contents have been modified.
@@ -38475,7 +38475,7 @@ namespace CefSharp.DevTools.Storage
             {
                 if ((_CacheStorageContentUpdated) == (null))
                 {
-                    _CacheStorageContentUpdatedDisposable = (_client.RegisterEventHandler<CacheStorageContentUpdatedEventArgs>("Storage.cacheStorageContentUpdated", OnCacheStorageContentUpdated));
+                    _CacheStorageContentUpdatedEventRegistration = (_client.RegisterEventHandler<CacheStorageContentUpdatedEventArgs>("Storage.cacheStorageContentUpdated", OnCacheStorageContentUpdated));
                 }
 
                 _CacheStorageContentUpdated += (value);
@@ -38486,7 +38486,7 @@ namespace CefSharp.DevTools.Storage
                 _CacheStorageContentUpdated -= (value);
                 if ((_CacheStorageContentUpdated) == (null))
                 {
-                    _CacheStorageContentUpdatedDisposable.Dispose();
+                    _CacheStorageContentUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -38496,7 +38496,7 @@ namespace CefSharp.DevTools.Storage
             _CacheStorageContentUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _CacheStorageListUpdatedDisposable;
+        private CefSharp.IRegistration _CacheStorageListUpdatedEventRegistration;
         private System.EventHandler<CacheStorageListUpdatedEventArgs> _CacheStorageListUpdated;
         /// <summary>
         /// A cache has been added/deleted.
@@ -38507,7 +38507,7 @@ namespace CefSharp.DevTools.Storage
             {
                 if ((_CacheStorageListUpdated) == (null))
                 {
-                    _CacheStorageListUpdatedDisposable = (_client.RegisterEventHandler<CacheStorageListUpdatedEventArgs>("Storage.cacheStorageListUpdated", OnCacheStorageListUpdated));
+                    _CacheStorageListUpdatedEventRegistration = (_client.RegisterEventHandler<CacheStorageListUpdatedEventArgs>("Storage.cacheStorageListUpdated", OnCacheStorageListUpdated));
                 }
 
                 _CacheStorageListUpdated += (value);
@@ -38518,7 +38518,7 @@ namespace CefSharp.DevTools.Storage
                 _CacheStorageListUpdated -= (value);
                 if ((_CacheStorageListUpdated) == (null))
                 {
-                    _CacheStorageListUpdatedDisposable.Dispose();
+                    _CacheStorageListUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -38528,7 +38528,7 @@ namespace CefSharp.DevTools.Storage
             _CacheStorageListUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _IndexedDBContentUpdatedDisposable;
+        private CefSharp.IRegistration _IndexedDBContentUpdatedEventRegistration;
         private System.EventHandler<IndexedDBContentUpdatedEventArgs> _IndexedDBContentUpdated;
         /// <summary>
         /// The origin&apos;s IndexedDB object store has been modified.
@@ -38539,7 +38539,7 @@ namespace CefSharp.DevTools.Storage
             {
                 if ((_IndexedDBContentUpdated) == (null))
                 {
-                    _IndexedDBContentUpdatedDisposable = (_client.RegisterEventHandler<IndexedDBContentUpdatedEventArgs>("Storage.indexedDBContentUpdated", OnIndexedDBContentUpdated));
+                    _IndexedDBContentUpdatedEventRegistration = (_client.RegisterEventHandler<IndexedDBContentUpdatedEventArgs>("Storage.indexedDBContentUpdated", OnIndexedDBContentUpdated));
                 }
 
                 _IndexedDBContentUpdated += (value);
@@ -38550,7 +38550,7 @@ namespace CefSharp.DevTools.Storage
                 _IndexedDBContentUpdated -= (value);
                 if ((_IndexedDBContentUpdated) == (null))
                 {
-                    _IndexedDBContentUpdatedDisposable.Dispose();
+                    _IndexedDBContentUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -38560,7 +38560,7 @@ namespace CefSharp.DevTools.Storage
             _IndexedDBContentUpdated?.Invoke(this, args);
         }
 
-        private System.IDisposable _IndexedDBListUpdatedDisposable;
+        private CefSharp.IRegistration _IndexedDBListUpdatedEventRegistration;
         private System.EventHandler<IndexedDBListUpdatedEventArgs> _IndexedDBListUpdated;
         /// <summary>
         /// The origin&apos;s IndexedDB database list has been modified.
@@ -38571,7 +38571,7 @@ namespace CefSharp.DevTools.Storage
             {
                 if ((_IndexedDBListUpdated) == (null))
                 {
-                    _IndexedDBListUpdatedDisposable = (_client.RegisterEventHandler<IndexedDBListUpdatedEventArgs>("Storage.indexedDBListUpdated", OnIndexedDBListUpdated));
+                    _IndexedDBListUpdatedEventRegistration = (_client.RegisterEventHandler<IndexedDBListUpdatedEventArgs>("Storage.indexedDBListUpdated", OnIndexedDBListUpdated));
                 }
 
                 _IndexedDBListUpdated += (value);
@@ -38582,7 +38582,7 @@ namespace CefSharp.DevTools.Storage
                 _IndexedDBListUpdated -= (value);
                 if ((_IndexedDBListUpdated) == (null))
                 {
-                    _IndexedDBListUpdatedDisposable.Dispose();
+                    _IndexedDBListUpdatedEventRegistration.Dispose();
                 }
             }
         }
@@ -39176,7 +39176,7 @@ namespace CefSharp.DevTools.Target
             _client = (client);
         }
 
-        private System.IDisposable _AttachedToTargetDisposable;
+        private CefSharp.IRegistration _AttachedToTargetEventRegistration;
         private System.EventHandler<AttachedToTargetEventArgs> _AttachedToTarget;
         /// <summary>
         /// Issued when attached to target because of auto-attach or `attachToTarget` command.
@@ -39187,7 +39187,7 @@ namespace CefSharp.DevTools.Target
             {
                 if ((_AttachedToTarget) == (null))
                 {
-                    _AttachedToTargetDisposable = (_client.RegisterEventHandler<AttachedToTargetEventArgs>("Target.attachedToTarget", OnAttachedToTarget));
+                    _AttachedToTargetEventRegistration = (_client.RegisterEventHandler<AttachedToTargetEventArgs>("Target.attachedToTarget", OnAttachedToTarget));
                 }
 
                 _AttachedToTarget += (value);
@@ -39198,7 +39198,7 @@ namespace CefSharp.DevTools.Target
                 _AttachedToTarget -= (value);
                 if ((_AttachedToTarget) == (null))
                 {
-                    _AttachedToTargetDisposable.Dispose();
+                    _AttachedToTargetEventRegistration.Dispose();
                 }
             }
         }
@@ -39208,7 +39208,7 @@ namespace CefSharp.DevTools.Target
             _AttachedToTarget?.Invoke(this, args);
         }
 
-        private System.IDisposable _DetachedFromTargetDisposable;
+        private CefSharp.IRegistration _DetachedFromTargetEventRegistration;
         private System.EventHandler<DetachedFromTargetEventArgs> _DetachedFromTarget;
         /// <summary>
         /// Issued when detached from target for any reason (including `detachFromTarget` command). Can be
@@ -39220,7 +39220,7 @@ namespace CefSharp.DevTools.Target
             {
                 if ((_DetachedFromTarget) == (null))
                 {
-                    _DetachedFromTargetDisposable = (_client.RegisterEventHandler<DetachedFromTargetEventArgs>("Target.detachedFromTarget", OnDetachedFromTarget));
+                    _DetachedFromTargetEventRegistration = (_client.RegisterEventHandler<DetachedFromTargetEventArgs>("Target.detachedFromTarget", OnDetachedFromTarget));
                 }
 
                 _DetachedFromTarget += (value);
@@ -39231,7 +39231,7 @@ namespace CefSharp.DevTools.Target
                 _DetachedFromTarget -= (value);
                 if ((_DetachedFromTarget) == (null))
                 {
-                    _DetachedFromTargetDisposable.Dispose();
+                    _DetachedFromTargetEventRegistration.Dispose();
                 }
             }
         }
@@ -39241,7 +39241,7 @@ namespace CefSharp.DevTools.Target
             _DetachedFromTarget?.Invoke(this, args);
         }
 
-        private System.IDisposable _ReceivedMessageFromTargetDisposable;
+        private CefSharp.IRegistration _ReceivedMessageFromTargetEventRegistration;
         private System.EventHandler<ReceivedMessageFromTargetEventArgs> _ReceivedMessageFromTarget;
         /// <summary>
         /// Notifies about a new protocol message received from the session (as reported in
@@ -39253,7 +39253,7 @@ namespace CefSharp.DevTools.Target
             {
                 if ((_ReceivedMessageFromTarget) == (null))
                 {
-                    _ReceivedMessageFromTargetDisposable = (_client.RegisterEventHandler<ReceivedMessageFromTargetEventArgs>("Target.receivedMessageFromTarget", OnReceivedMessageFromTarget));
+                    _ReceivedMessageFromTargetEventRegistration = (_client.RegisterEventHandler<ReceivedMessageFromTargetEventArgs>("Target.receivedMessageFromTarget", OnReceivedMessageFromTarget));
                 }
 
                 _ReceivedMessageFromTarget += (value);
@@ -39264,7 +39264,7 @@ namespace CefSharp.DevTools.Target
                 _ReceivedMessageFromTarget -= (value);
                 if ((_ReceivedMessageFromTarget) == (null))
                 {
-                    _ReceivedMessageFromTargetDisposable.Dispose();
+                    _ReceivedMessageFromTargetEventRegistration.Dispose();
                 }
             }
         }
@@ -39274,7 +39274,7 @@ namespace CefSharp.DevTools.Target
             _ReceivedMessageFromTarget?.Invoke(this, args);
         }
 
-        private System.IDisposable _TargetCreatedDisposable;
+        private CefSharp.IRegistration _TargetCreatedEventRegistration;
         private System.EventHandler<TargetCreatedEventArgs> _TargetCreated;
         /// <summary>
         /// Issued when a possible inspection target is created.
@@ -39285,7 +39285,7 @@ namespace CefSharp.DevTools.Target
             {
                 if ((_TargetCreated) == (null))
                 {
-                    _TargetCreatedDisposable = (_client.RegisterEventHandler<TargetCreatedEventArgs>("Target.targetCreated", OnTargetCreated));
+                    _TargetCreatedEventRegistration = (_client.RegisterEventHandler<TargetCreatedEventArgs>("Target.targetCreated", OnTargetCreated));
                 }
 
                 _TargetCreated += (value);
@@ -39296,7 +39296,7 @@ namespace CefSharp.DevTools.Target
                 _TargetCreated -= (value);
                 if ((_TargetCreated) == (null))
                 {
-                    _TargetCreatedDisposable.Dispose();
+                    _TargetCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -39306,7 +39306,7 @@ namespace CefSharp.DevTools.Target
             _TargetCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _TargetDestroyedDisposable;
+        private CefSharp.IRegistration _TargetDestroyedEventRegistration;
         private System.EventHandler<TargetDestroyedEventArgs> _TargetDestroyed;
         /// <summary>
         /// Issued when a target is destroyed.
@@ -39317,7 +39317,7 @@ namespace CefSharp.DevTools.Target
             {
                 if ((_TargetDestroyed) == (null))
                 {
-                    _TargetDestroyedDisposable = (_client.RegisterEventHandler<TargetDestroyedEventArgs>("Target.targetDestroyed", OnTargetDestroyed));
+                    _TargetDestroyedEventRegistration = (_client.RegisterEventHandler<TargetDestroyedEventArgs>("Target.targetDestroyed", OnTargetDestroyed));
                 }
 
                 _TargetDestroyed += (value);
@@ -39328,7 +39328,7 @@ namespace CefSharp.DevTools.Target
                 _TargetDestroyed -= (value);
                 if ((_TargetDestroyed) == (null))
                 {
-                    _TargetDestroyedDisposable.Dispose();
+                    _TargetDestroyedEventRegistration.Dispose();
                 }
             }
         }
@@ -39338,7 +39338,7 @@ namespace CefSharp.DevTools.Target
             _TargetDestroyed?.Invoke(this, args);
         }
 
-        private System.IDisposable _TargetCrashedDisposable;
+        private CefSharp.IRegistration _TargetCrashedEventRegistration;
         private System.EventHandler<TargetCrashedEventArgs> _TargetCrashed;
         /// <summary>
         /// Issued when a target has crashed.
@@ -39349,7 +39349,7 @@ namespace CefSharp.DevTools.Target
             {
                 if ((_TargetCrashed) == (null))
                 {
-                    _TargetCrashedDisposable = (_client.RegisterEventHandler<TargetCrashedEventArgs>("Target.targetCrashed", OnTargetCrashed));
+                    _TargetCrashedEventRegistration = (_client.RegisterEventHandler<TargetCrashedEventArgs>("Target.targetCrashed", OnTargetCrashed));
                 }
 
                 _TargetCrashed += (value);
@@ -39360,7 +39360,7 @@ namespace CefSharp.DevTools.Target
                 _TargetCrashed -= (value);
                 if ((_TargetCrashed) == (null))
                 {
-                    _TargetCrashedDisposable.Dispose();
+                    _TargetCrashedEventRegistration.Dispose();
                 }
             }
         }
@@ -39370,7 +39370,7 @@ namespace CefSharp.DevTools.Target
             _TargetCrashed?.Invoke(this, args);
         }
 
-        private System.IDisposable _TargetInfoChangedDisposable;
+        private CefSharp.IRegistration _TargetInfoChangedEventRegistration;
         private System.EventHandler<TargetInfoChangedEventArgs> _TargetInfoChanged;
         /// <summary>
         /// Issued when some information about a target has changed. This only happens between
@@ -39382,7 +39382,7 @@ namespace CefSharp.DevTools.Target
             {
                 if ((_TargetInfoChanged) == (null))
                 {
-                    _TargetInfoChangedDisposable = (_client.RegisterEventHandler<TargetInfoChangedEventArgs>("Target.targetInfoChanged", OnTargetInfoChanged));
+                    _TargetInfoChangedEventRegistration = (_client.RegisterEventHandler<TargetInfoChangedEventArgs>("Target.targetInfoChanged", OnTargetInfoChanged));
                 }
 
                 _TargetInfoChanged += (value);
@@ -39393,7 +39393,7 @@ namespace CefSharp.DevTools.Target
                 _TargetInfoChanged -= (value);
                 if ((_TargetInfoChanged) == (null))
                 {
-                    _TargetInfoChangedDisposable.Dispose();
+                    _TargetInfoChangedEventRegistration.Dispose();
                 }
             }
         }
@@ -39721,7 +39721,7 @@ namespace CefSharp.DevTools.Tethering
             _client = (client);
         }
 
-        private System.IDisposable _AcceptedDisposable;
+        private CefSharp.IRegistration _AcceptedEventRegistration;
         private System.EventHandler<AcceptedEventArgs> _Accepted;
         /// <summary>
         /// Informs that port was successfully bound and got a specified connection id.
@@ -39732,7 +39732,7 @@ namespace CefSharp.DevTools.Tethering
             {
                 if ((_Accepted) == (null))
                 {
-                    _AcceptedDisposable = (_client.RegisterEventHandler<AcceptedEventArgs>("Tethering.accepted", OnAccepted));
+                    _AcceptedEventRegistration = (_client.RegisterEventHandler<AcceptedEventArgs>("Tethering.accepted", OnAccepted));
                 }
 
                 _Accepted += (value);
@@ -39743,7 +39743,7 @@ namespace CefSharp.DevTools.Tethering
                 _Accepted -= (value);
                 if ((_Accepted) == (null))
                 {
-                    _AcceptedDisposable.Dispose();
+                    _AcceptedEventRegistration.Dispose();
                 }
             }
         }
@@ -39876,7 +39876,7 @@ namespace CefSharp.DevTools.Tracing
             _client = (client);
         }
 
-        private System.IDisposable _BufferUsageDisposable;
+        private CefSharp.IRegistration _BufferUsageEventRegistration;
         private System.EventHandler<BufferUsageEventArgs> _BufferUsage;
         /// <summary>
         /// BufferUsage
@@ -39887,7 +39887,7 @@ namespace CefSharp.DevTools.Tracing
             {
                 if ((_BufferUsage) == (null))
                 {
-                    _BufferUsageDisposable = (_client.RegisterEventHandler<BufferUsageEventArgs>("Tracing.bufferUsage", OnBufferUsage));
+                    _BufferUsageEventRegistration = (_client.RegisterEventHandler<BufferUsageEventArgs>("Tracing.bufferUsage", OnBufferUsage));
                 }
 
                 _BufferUsage += (value);
@@ -39898,7 +39898,7 @@ namespace CefSharp.DevTools.Tracing
                 _BufferUsage -= (value);
                 if ((_BufferUsage) == (null))
                 {
-                    _BufferUsageDisposable.Dispose();
+                    _BufferUsageEventRegistration.Dispose();
                 }
             }
         }
@@ -39908,7 +39908,7 @@ namespace CefSharp.DevTools.Tracing
             _BufferUsage?.Invoke(this, args);
         }
 
-        private System.IDisposable _DataCollectedDisposable;
+        private CefSharp.IRegistration _DataCollectedEventRegistration;
         private System.EventHandler<DataCollectedEventArgs> _DataCollected;
         /// <summary>
         /// Contains an bucket of collected trace events. When tracing is stopped collected events will be
@@ -39920,7 +39920,7 @@ namespace CefSharp.DevTools.Tracing
             {
                 if ((_DataCollected) == (null))
                 {
-                    _DataCollectedDisposable = (_client.RegisterEventHandler<DataCollectedEventArgs>("Tracing.dataCollected", OnDataCollected));
+                    _DataCollectedEventRegistration = (_client.RegisterEventHandler<DataCollectedEventArgs>("Tracing.dataCollected", OnDataCollected));
                 }
 
                 _DataCollected += (value);
@@ -39931,7 +39931,7 @@ namespace CefSharp.DevTools.Tracing
                 _DataCollected -= (value);
                 if ((_DataCollected) == (null))
                 {
-                    _DataCollectedDisposable.Dispose();
+                    _DataCollectedEventRegistration.Dispose();
                 }
             }
         }
@@ -39941,7 +39941,7 @@ namespace CefSharp.DevTools.Tracing
             _DataCollected?.Invoke(this, args);
         }
 
-        private System.IDisposable _TracingCompleteDisposable;
+        private CefSharp.IRegistration _TracingCompleteEventRegistration;
         private System.EventHandler<TracingCompleteEventArgs> _TracingComplete;
         /// <summary>
         /// Signals that tracing is stopped and there is no trace buffers pending flush, all data were
@@ -39953,7 +39953,7 @@ namespace CefSharp.DevTools.Tracing
             {
                 if ((_TracingComplete) == (null))
                 {
-                    _TracingCompleteDisposable = (_client.RegisterEventHandler<TracingCompleteEventArgs>("Tracing.tracingComplete", OnTracingComplete));
+                    _TracingCompleteEventRegistration = (_client.RegisterEventHandler<TracingCompleteEventArgs>("Tracing.tracingComplete", OnTracingComplete));
                 }
 
                 _TracingComplete += (value);
@@ -39964,7 +39964,7 @@ namespace CefSharp.DevTools.Tracing
                 _TracingComplete -= (value);
                 if ((_TracingComplete) == (null))
                 {
-                    _TracingCompleteDisposable.Dispose();
+                    _TracingCompleteEventRegistration.Dispose();
                 }
             }
         }
@@ -40193,7 +40193,7 @@ namespace CefSharp.DevTools.Fetch
             _client = (client);
         }
 
-        private System.IDisposable _RequestPausedDisposable;
+        private CefSharp.IRegistration _RequestPausedEventRegistration;
         private System.EventHandler<RequestPausedEventArgs> _RequestPaused;
         /// <summary>
         /// Issued when the domain is enabled and the request URL matches the
@@ -40209,7 +40209,7 @@ namespace CefSharp.DevTools.Fetch
             {
                 if ((_RequestPaused) == (null))
                 {
-                    _RequestPausedDisposable = (_client.RegisterEventHandler<RequestPausedEventArgs>("Fetch.requestPaused", OnRequestPaused));
+                    _RequestPausedEventRegistration = (_client.RegisterEventHandler<RequestPausedEventArgs>("Fetch.requestPaused", OnRequestPaused));
                 }
 
                 _RequestPaused += (value);
@@ -40220,7 +40220,7 @@ namespace CefSharp.DevTools.Fetch
                 _RequestPaused -= (value);
                 if ((_RequestPaused) == (null))
                 {
-                    _RequestPausedDisposable.Dispose();
+                    _RequestPausedEventRegistration.Dispose();
                 }
             }
         }
@@ -40230,7 +40230,7 @@ namespace CefSharp.DevTools.Fetch
             _RequestPaused?.Invoke(this, args);
         }
 
-        private System.IDisposable _AuthRequiredDisposable;
+        private CefSharp.IRegistration _AuthRequiredEventRegistration;
         private System.EventHandler<AuthRequiredEventArgs> _AuthRequired;
         /// <summary>
         /// Issued when the domain is enabled with handleAuthRequests set to true.
@@ -40242,7 +40242,7 @@ namespace CefSharp.DevTools.Fetch
             {
                 if ((_AuthRequired) == (null))
                 {
-                    _AuthRequiredDisposable = (_client.RegisterEventHandler<AuthRequiredEventArgs>("Fetch.authRequired", OnAuthRequired));
+                    _AuthRequiredEventRegistration = (_client.RegisterEventHandler<AuthRequiredEventArgs>("Fetch.authRequired", OnAuthRequired));
                 }
 
                 _AuthRequired += (value);
@@ -40253,7 +40253,7 @@ namespace CefSharp.DevTools.Fetch
                 _AuthRequired -= (value);
                 if ((_AuthRequired) == (null))
                 {
-                    _AuthRequiredDisposable.Dispose();
+                    _AuthRequiredEventRegistration.Dispose();
                 }
             }
         }
@@ -40500,7 +40500,7 @@ namespace CefSharp.DevTools.WebAudio
             _client = (client);
         }
 
-        private System.IDisposable _ContextCreatedDisposable;
+        private CefSharp.IRegistration _ContextCreatedEventRegistration;
         private System.EventHandler<ContextCreatedEventArgs> _ContextCreated;
         /// <summary>
         /// Notifies that a new BaseAudioContext has been created.
@@ -40511,7 +40511,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_ContextCreated) == (null))
                 {
-                    _ContextCreatedDisposable = (_client.RegisterEventHandler<ContextCreatedEventArgs>("WebAudio.contextCreated", OnContextCreated));
+                    _ContextCreatedEventRegistration = (_client.RegisterEventHandler<ContextCreatedEventArgs>("WebAudio.contextCreated", OnContextCreated));
                 }
 
                 _ContextCreated += (value);
@@ -40522,7 +40522,7 @@ namespace CefSharp.DevTools.WebAudio
                 _ContextCreated -= (value);
                 if ((_ContextCreated) == (null))
                 {
-                    _ContextCreatedDisposable.Dispose();
+                    _ContextCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -40532,7 +40532,7 @@ namespace CefSharp.DevTools.WebAudio
             _ContextCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _ContextWillBeDestroyedDisposable;
+        private CefSharp.IRegistration _ContextWillBeDestroyedEventRegistration;
         private System.EventHandler<ContextWillBeDestroyedEventArgs> _ContextWillBeDestroyed;
         /// <summary>
         /// Notifies that an existing BaseAudioContext will be destroyed.
@@ -40543,7 +40543,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_ContextWillBeDestroyed) == (null))
                 {
-                    _ContextWillBeDestroyedDisposable = (_client.RegisterEventHandler<ContextWillBeDestroyedEventArgs>("WebAudio.contextWillBeDestroyed", OnContextWillBeDestroyed));
+                    _ContextWillBeDestroyedEventRegistration = (_client.RegisterEventHandler<ContextWillBeDestroyedEventArgs>("WebAudio.contextWillBeDestroyed", OnContextWillBeDestroyed));
                 }
 
                 _ContextWillBeDestroyed += (value);
@@ -40554,7 +40554,7 @@ namespace CefSharp.DevTools.WebAudio
                 _ContextWillBeDestroyed -= (value);
                 if ((_ContextWillBeDestroyed) == (null))
                 {
-                    _ContextWillBeDestroyedDisposable.Dispose();
+                    _ContextWillBeDestroyedEventRegistration.Dispose();
                 }
             }
         }
@@ -40564,7 +40564,7 @@ namespace CefSharp.DevTools.WebAudio
             _ContextWillBeDestroyed?.Invoke(this, args);
         }
 
-        private System.IDisposable _ContextChangedDisposable;
+        private CefSharp.IRegistration _ContextChangedEventRegistration;
         private System.EventHandler<ContextChangedEventArgs> _ContextChanged;
         /// <summary>
         /// Notifies that existing BaseAudioContext has changed some properties (id stays the same)..
@@ -40575,7 +40575,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_ContextChanged) == (null))
                 {
-                    _ContextChangedDisposable = (_client.RegisterEventHandler<ContextChangedEventArgs>("WebAudio.contextChanged", OnContextChanged));
+                    _ContextChangedEventRegistration = (_client.RegisterEventHandler<ContextChangedEventArgs>("WebAudio.contextChanged", OnContextChanged));
                 }
 
                 _ContextChanged += (value);
@@ -40586,7 +40586,7 @@ namespace CefSharp.DevTools.WebAudio
                 _ContextChanged -= (value);
                 if ((_ContextChanged) == (null))
                 {
-                    _ContextChangedDisposable.Dispose();
+                    _ContextChangedEventRegistration.Dispose();
                 }
             }
         }
@@ -40596,7 +40596,7 @@ namespace CefSharp.DevTools.WebAudio
             _ContextChanged?.Invoke(this, args);
         }
 
-        private System.IDisposable _AudioListenerCreatedDisposable;
+        private CefSharp.IRegistration _AudioListenerCreatedEventRegistration;
         private System.EventHandler<AudioListenerCreatedEventArgs> _AudioListenerCreated;
         /// <summary>
         /// Notifies that the construction of an AudioListener has finished.
@@ -40607,7 +40607,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_AudioListenerCreated) == (null))
                 {
-                    _AudioListenerCreatedDisposable = (_client.RegisterEventHandler<AudioListenerCreatedEventArgs>("WebAudio.audioListenerCreated", OnAudioListenerCreated));
+                    _AudioListenerCreatedEventRegistration = (_client.RegisterEventHandler<AudioListenerCreatedEventArgs>("WebAudio.audioListenerCreated", OnAudioListenerCreated));
                 }
 
                 _AudioListenerCreated += (value);
@@ -40618,7 +40618,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioListenerCreated -= (value);
                 if ((_AudioListenerCreated) == (null))
                 {
-                    _AudioListenerCreatedDisposable.Dispose();
+                    _AudioListenerCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -40628,7 +40628,7 @@ namespace CefSharp.DevTools.WebAudio
             _AudioListenerCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _AudioListenerWillBeDestroyedDisposable;
+        private CefSharp.IRegistration _AudioListenerWillBeDestroyedEventRegistration;
         private System.EventHandler<AudioListenerWillBeDestroyedEventArgs> _AudioListenerWillBeDestroyed;
         /// <summary>
         /// Notifies that a new AudioListener has been created.
@@ -40639,7 +40639,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_AudioListenerWillBeDestroyed) == (null))
                 {
-                    _AudioListenerWillBeDestroyedDisposable = (_client.RegisterEventHandler<AudioListenerWillBeDestroyedEventArgs>("WebAudio.audioListenerWillBeDestroyed", OnAudioListenerWillBeDestroyed));
+                    _AudioListenerWillBeDestroyedEventRegistration = (_client.RegisterEventHandler<AudioListenerWillBeDestroyedEventArgs>("WebAudio.audioListenerWillBeDestroyed", OnAudioListenerWillBeDestroyed));
                 }
 
                 _AudioListenerWillBeDestroyed += (value);
@@ -40650,7 +40650,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioListenerWillBeDestroyed -= (value);
                 if ((_AudioListenerWillBeDestroyed) == (null))
                 {
-                    _AudioListenerWillBeDestroyedDisposable.Dispose();
+                    _AudioListenerWillBeDestroyedEventRegistration.Dispose();
                 }
             }
         }
@@ -40660,7 +40660,7 @@ namespace CefSharp.DevTools.WebAudio
             _AudioListenerWillBeDestroyed?.Invoke(this, args);
         }
 
-        private System.IDisposable _AudioNodeCreatedDisposable;
+        private CefSharp.IRegistration _AudioNodeCreatedEventRegistration;
         private System.EventHandler<AudioNodeCreatedEventArgs> _AudioNodeCreated;
         /// <summary>
         /// Notifies that a new AudioNode has been created.
@@ -40671,7 +40671,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_AudioNodeCreated) == (null))
                 {
-                    _AudioNodeCreatedDisposable = (_client.RegisterEventHandler<AudioNodeCreatedEventArgs>("WebAudio.audioNodeCreated", OnAudioNodeCreated));
+                    _AudioNodeCreatedEventRegistration = (_client.RegisterEventHandler<AudioNodeCreatedEventArgs>("WebAudio.audioNodeCreated", OnAudioNodeCreated));
                 }
 
                 _AudioNodeCreated += (value);
@@ -40682,7 +40682,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioNodeCreated -= (value);
                 if ((_AudioNodeCreated) == (null))
                 {
-                    _AudioNodeCreatedDisposable.Dispose();
+                    _AudioNodeCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -40692,7 +40692,7 @@ namespace CefSharp.DevTools.WebAudio
             _AudioNodeCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _AudioNodeWillBeDestroyedDisposable;
+        private CefSharp.IRegistration _AudioNodeWillBeDestroyedEventRegistration;
         private System.EventHandler<AudioNodeWillBeDestroyedEventArgs> _AudioNodeWillBeDestroyed;
         /// <summary>
         /// Notifies that an existing AudioNode has been destroyed.
@@ -40703,7 +40703,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_AudioNodeWillBeDestroyed) == (null))
                 {
-                    _AudioNodeWillBeDestroyedDisposable = (_client.RegisterEventHandler<AudioNodeWillBeDestroyedEventArgs>("WebAudio.audioNodeWillBeDestroyed", OnAudioNodeWillBeDestroyed));
+                    _AudioNodeWillBeDestroyedEventRegistration = (_client.RegisterEventHandler<AudioNodeWillBeDestroyedEventArgs>("WebAudio.audioNodeWillBeDestroyed", OnAudioNodeWillBeDestroyed));
                 }
 
                 _AudioNodeWillBeDestroyed += (value);
@@ -40714,7 +40714,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioNodeWillBeDestroyed -= (value);
                 if ((_AudioNodeWillBeDestroyed) == (null))
                 {
-                    _AudioNodeWillBeDestroyedDisposable.Dispose();
+                    _AudioNodeWillBeDestroyedEventRegistration.Dispose();
                 }
             }
         }
@@ -40724,7 +40724,7 @@ namespace CefSharp.DevTools.WebAudio
             _AudioNodeWillBeDestroyed?.Invoke(this, args);
         }
 
-        private System.IDisposable _AudioParamCreatedDisposable;
+        private CefSharp.IRegistration _AudioParamCreatedEventRegistration;
         private System.EventHandler<AudioParamCreatedEventArgs> _AudioParamCreated;
         /// <summary>
         /// Notifies that a new AudioParam has been created.
@@ -40735,7 +40735,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_AudioParamCreated) == (null))
                 {
-                    _AudioParamCreatedDisposable = (_client.RegisterEventHandler<AudioParamCreatedEventArgs>("WebAudio.audioParamCreated", OnAudioParamCreated));
+                    _AudioParamCreatedEventRegistration = (_client.RegisterEventHandler<AudioParamCreatedEventArgs>("WebAudio.audioParamCreated", OnAudioParamCreated));
                 }
 
                 _AudioParamCreated += (value);
@@ -40746,7 +40746,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioParamCreated -= (value);
                 if ((_AudioParamCreated) == (null))
                 {
-                    _AudioParamCreatedDisposable.Dispose();
+                    _AudioParamCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -40756,7 +40756,7 @@ namespace CefSharp.DevTools.WebAudio
             _AudioParamCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _AudioParamWillBeDestroyedDisposable;
+        private CefSharp.IRegistration _AudioParamWillBeDestroyedEventRegistration;
         private System.EventHandler<AudioParamWillBeDestroyedEventArgs> _AudioParamWillBeDestroyed;
         /// <summary>
         /// Notifies that an existing AudioParam has been destroyed.
@@ -40767,7 +40767,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_AudioParamWillBeDestroyed) == (null))
                 {
-                    _AudioParamWillBeDestroyedDisposable = (_client.RegisterEventHandler<AudioParamWillBeDestroyedEventArgs>("WebAudio.audioParamWillBeDestroyed", OnAudioParamWillBeDestroyed));
+                    _AudioParamWillBeDestroyedEventRegistration = (_client.RegisterEventHandler<AudioParamWillBeDestroyedEventArgs>("WebAudio.audioParamWillBeDestroyed", OnAudioParamWillBeDestroyed));
                 }
 
                 _AudioParamWillBeDestroyed += (value);
@@ -40778,7 +40778,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioParamWillBeDestroyed -= (value);
                 if ((_AudioParamWillBeDestroyed) == (null))
                 {
-                    _AudioParamWillBeDestroyedDisposable.Dispose();
+                    _AudioParamWillBeDestroyedEventRegistration.Dispose();
                 }
             }
         }
@@ -40788,7 +40788,7 @@ namespace CefSharp.DevTools.WebAudio
             _AudioParamWillBeDestroyed?.Invoke(this, args);
         }
 
-        private System.IDisposable _NodesConnectedDisposable;
+        private CefSharp.IRegistration _NodesConnectedEventRegistration;
         private System.EventHandler<NodesConnectedEventArgs> _NodesConnected;
         /// <summary>
         /// Notifies that two AudioNodes are connected.
@@ -40799,7 +40799,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_NodesConnected) == (null))
                 {
-                    _NodesConnectedDisposable = (_client.RegisterEventHandler<NodesConnectedEventArgs>("WebAudio.nodesConnected", OnNodesConnected));
+                    _NodesConnectedEventRegistration = (_client.RegisterEventHandler<NodesConnectedEventArgs>("WebAudio.nodesConnected", OnNodesConnected));
                 }
 
                 _NodesConnected += (value);
@@ -40810,7 +40810,7 @@ namespace CefSharp.DevTools.WebAudio
                 _NodesConnected -= (value);
                 if ((_NodesConnected) == (null))
                 {
-                    _NodesConnectedDisposable.Dispose();
+                    _NodesConnectedEventRegistration.Dispose();
                 }
             }
         }
@@ -40820,7 +40820,7 @@ namespace CefSharp.DevTools.WebAudio
             _NodesConnected?.Invoke(this, args);
         }
 
-        private System.IDisposable _NodesDisconnectedDisposable;
+        private CefSharp.IRegistration _NodesDisconnectedEventRegistration;
         private System.EventHandler<NodesDisconnectedEventArgs> _NodesDisconnected;
         /// <summary>
         /// Notifies that AudioNodes are disconnected. The destination can be null, and it means all the outgoing connections from the source are disconnected.
@@ -40831,7 +40831,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_NodesDisconnected) == (null))
                 {
-                    _NodesDisconnectedDisposable = (_client.RegisterEventHandler<NodesDisconnectedEventArgs>("WebAudio.nodesDisconnected", OnNodesDisconnected));
+                    _NodesDisconnectedEventRegistration = (_client.RegisterEventHandler<NodesDisconnectedEventArgs>("WebAudio.nodesDisconnected", OnNodesDisconnected));
                 }
 
                 _NodesDisconnected += (value);
@@ -40842,7 +40842,7 @@ namespace CefSharp.DevTools.WebAudio
                 _NodesDisconnected -= (value);
                 if ((_NodesDisconnected) == (null))
                 {
-                    _NodesDisconnectedDisposable.Dispose();
+                    _NodesDisconnectedEventRegistration.Dispose();
                 }
             }
         }
@@ -40852,7 +40852,7 @@ namespace CefSharp.DevTools.WebAudio
             _NodesDisconnected?.Invoke(this, args);
         }
 
-        private System.IDisposable _NodeParamConnectedDisposable;
+        private CefSharp.IRegistration _NodeParamConnectedEventRegistration;
         private System.EventHandler<NodeParamConnectedEventArgs> _NodeParamConnected;
         /// <summary>
         /// Notifies that an AudioNode is connected to an AudioParam.
@@ -40863,7 +40863,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_NodeParamConnected) == (null))
                 {
-                    _NodeParamConnectedDisposable = (_client.RegisterEventHandler<NodeParamConnectedEventArgs>("WebAudio.nodeParamConnected", OnNodeParamConnected));
+                    _NodeParamConnectedEventRegistration = (_client.RegisterEventHandler<NodeParamConnectedEventArgs>("WebAudio.nodeParamConnected", OnNodeParamConnected));
                 }
 
                 _NodeParamConnected += (value);
@@ -40874,7 +40874,7 @@ namespace CefSharp.DevTools.WebAudio
                 _NodeParamConnected -= (value);
                 if ((_NodeParamConnected) == (null))
                 {
-                    _NodeParamConnectedDisposable.Dispose();
+                    _NodeParamConnectedEventRegistration.Dispose();
                 }
             }
         }
@@ -40884,7 +40884,7 @@ namespace CefSharp.DevTools.WebAudio
             _NodeParamConnected?.Invoke(this, args);
         }
 
-        private System.IDisposable _NodeParamDisconnectedDisposable;
+        private CefSharp.IRegistration _NodeParamDisconnectedEventRegistration;
         private System.EventHandler<NodeParamDisconnectedEventArgs> _NodeParamDisconnected;
         /// <summary>
         /// Notifies that an AudioNode is disconnected to an AudioParam.
@@ -40895,7 +40895,7 @@ namespace CefSharp.DevTools.WebAudio
             {
                 if ((_NodeParamDisconnected) == (null))
                 {
-                    _NodeParamDisconnectedDisposable = (_client.RegisterEventHandler<NodeParamDisconnectedEventArgs>("WebAudio.nodeParamDisconnected", OnNodeParamDisconnected));
+                    _NodeParamDisconnectedEventRegistration = (_client.RegisterEventHandler<NodeParamDisconnectedEventArgs>("WebAudio.nodeParamDisconnected", OnNodeParamDisconnected));
                 }
 
                 _NodeParamDisconnected += (value);
@@ -40906,7 +40906,7 @@ namespace CefSharp.DevTools.WebAudio
                 _NodeParamDisconnected -= (value);
                 if ((_NodeParamDisconnected) == (null))
                 {
-                    _NodeParamDisconnectedDisposable.Dispose();
+                    _NodeParamDisconnectedEventRegistration.Dispose();
                 }
             }
         }
@@ -41237,7 +41237,7 @@ namespace CefSharp.DevTools.Media
             _client = (client);
         }
 
-        private System.IDisposable _PlayerPropertiesChangedDisposable;
+        private CefSharp.IRegistration _PlayerPropertiesChangedEventRegistration;
         private System.EventHandler<PlayerPropertiesChangedEventArgs> _PlayerPropertiesChanged;
         /// <summary>
         /// This can be called multiple times, and can be used to set / override /
@@ -41249,7 +41249,7 @@ namespace CefSharp.DevTools.Media
             {
                 if ((_PlayerPropertiesChanged) == (null))
                 {
-                    _PlayerPropertiesChangedDisposable = (_client.RegisterEventHandler<PlayerPropertiesChangedEventArgs>("Media.playerPropertiesChanged", OnPlayerPropertiesChanged));
+                    _PlayerPropertiesChangedEventRegistration = (_client.RegisterEventHandler<PlayerPropertiesChangedEventArgs>("Media.playerPropertiesChanged", OnPlayerPropertiesChanged));
                 }
 
                 _PlayerPropertiesChanged += (value);
@@ -41260,7 +41260,7 @@ namespace CefSharp.DevTools.Media
                 _PlayerPropertiesChanged -= (value);
                 if ((_PlayerPropertiesChanged) == (null))
                 {
-                    _PlayerPropertiesChangedDisposable.Dispose();
+                    _PlayerPropertiesChangedEventRegistration.Dispose();
                 }
             }
         }
@@ -41270,7 +41270,7 @@ namespace CefSharp.DevTools.Media
             _PlayerPropertiesChanged?.Invoke(this, args);
         }
 
-        private System.IDisposable _PlayerEventsAddedDisposable;
+        private CefSharp.IRegistration _PlayerEventsAddedEventRegistration;
         private System.EventHandler<PlayerEventsAddedEventArgs> _PlayerEventsAdded;
         /// <summary>
         /// Send events as a list, allowing them to be batched on the browser for less
@@ -41282,7 +41282,7 @@ namespace CefSharp.DevTools.Media
             {
                 if ((_PlayerEventsAdded) == (null))
                 {
-                    _PlayerEventsAddedDisposable = (_client.RegisterEventHandler<PlayerEventsAddedEventArgs>("Media.playerEventsAdded", OnPlayerEventsAdded));
+                    _PlayerEventsAddedEventRegistration = (_client.RegisterEventHandler<PlayerEventsAddedEventArgs>("Media.playerEventsAdded", OnPlayerEventsAdded));
                 }
 
                 _PlayerEventsAdded += (value);
@@ -41293,7 +41293,7 @@ namespace CefSharp.DevTools.Media
                 _PlayerEventsAdded -= (value);
                 if ((_PlayerEventsAdded) == (null))
                 {
-                    _PlayerEventsAddedDisposable.Dispose();
+                    _PlayerEventsAddedEventRegistration.Dispose();
                 }
             }
         }
@@ -41303,7 +41303,7 @@ namespace CefSharp.DevTools.Media
             _PlayerEventsAdded?.Invoke(this, args);
         }
 
-        private System.IDisposable _PlayerMessagesLoggedDisposable;
+        private CefSharp.IRegistration _PlayerMessagesLoggedEventRegistration;
         private System.EventHandler<PlayerMessagesLoggedEventArgs> _PlayerMessagesLogged;
         /// <summary>
         /// Send a list of any messages that need to be delivered.
@@ -41314,7 +41314,7 @@ namespace CefSharp.DevTools.Media
             {
                 if ((_PlayerMessagesLogged) == (null))
                 {
-                    _PlayerMessagesLoggedDisposable = (_client.RegisterEventHandler<PlayerMessagesLoggedEventArgs>("Media.playerMessagesLogged", OnPlayerMessagesLogged));
+                    _PlayerMessagesLoggedEventRegistration = (_client.RegisterEventHandler<PlayerMessagesLoggedEventArgs>("Media.playerMessagesLogged", OnPlayerMessagesLogged));
                 }
 
                 _PlayerMessagesLogged += (value);
@@ -41325,7 +41325,7 @@ namespace CefSharp.DevTools.Media
                 _PlayerMessagesLogged -= (value);
                 if ((_PlayerMessagesLogged) == (null))
                 {
-                    _PlayerMessagesLoggedDisposable.Dispose();
+                    _PlayerMessagesLoggedEventRegistration.Dispose();
                 }
             }
         }
@@ -41335,7 +41335,7 @@ namespace CefSharp.DevTools.Media
             _PlayerMessagesLogged?.Invoke(this, args);
         }
 
-        private System.IDisposable _PlayerErrorsRaisedDisposable;
+        private CefSharp.IRegistration _PlayerErrorsRaisedEventRegistration;
         private System.EventHandler<PlayerErrorsRaisedEventArgs> _PlayerErrorsRaised;
         /// <summary>
         /// Send a list of any errors that need to be delivered.
@@ -41346,7 +41346,7 @@ namespace CefSharp.DevTools.Media
             {
                 if ((_PlayerErrorsRaised) == (null))
                 {
-                    _PlayerErrorsRaisedDisposable = (_client.RegisterEventHandler<PlayerErrorsRaisedEventArgs>("Media.playerErrorsRaised", OnPlayerErrorsRaised));
+                    _PlayerErrorsRaisedEventRegistration = (_client.RegisterEventHandler<PlayerErrorsRaisedEventArgs>("Media.playerErrorsRaised", OnPlayerErrorsRaised));
                 }
 
                 _PlayerErrorsRaised += (value);
@@ -41357,7 +41357,7 @@ namespace CefSharp.DevTools.Media
                 _PlayerErrorsRaised -= (value);
                 if ((_PlayerErrorsRaised) == (null))
                 {
-                    _PlayerErrorsRaisedDisposable.Dispose();
+                    _PlayerErrorsRaisedEventRegistration.Dispose();
                 }
             }
         }
@@ -41367,7 +41367,7 @@ namespace CefSharp.DevTools.Media
             _PlayerErrorsRaised?.Invoke(this, args);
         }
 
-        private System.IDisposable _PlayersCreatedDisposable;
+        private CefSharp.IRegistration _PlayersCreatedEventRegistration;
         private System.EventHandler<PlayersCreatedEventArgs> _PlayersCreated;
         /// <summary>
         /// Called whenever a player is created, or when a new agent joins and recieves
@@ -41380,7 +41380,7 @@ namespace CefSharp.DevTools.Media
             {
                 if ((_PlayersCreated) == (null))
                 {
-                    _PlayersCreatedDisposable = (_client.RegisterEventHandler<PlayersCreatedEventArgs>("Media.playersCreated", OnPlayersCreated));
+                    _PlayersCreatedEventRegistration = (_client.RegisterEventHandler<PlayersCreatedEventArgs>("Media.playersCreated", OnPlayersCreated));
                 }
 
                 _PlayersCreated += (value);
@@ -41391,7 +41391,7 @@ namespace CefSharp.DevTools.Media
                 _PlayersCreated -= (value);
                 if ((_PlayersCreated) == (null))
                 {
-                    _PlayersCreatedDisposable.Dispose();
+                    _PlayersCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -41959,7 +41959,7 @@ namespace CefSharp.DevTools.Debugger
             _client = (client);
         }
 
-        private System.IDisposable _BreakpointResolvedDisposable;
+        private CefSharp.IRegistration _BreakpointResolvedEventRegistration;
         private System.EventHandler<BreakpointResolvedEventArgs> _BreakpointResolved;
         /// <summary>
         /// Fired when breakpoint is resolved to an actual script and location.
@@ -41970,7 +41970,7 @@ namespace CefSharp.DevTools.Debugger
             {
                 if ((_BreakpointResolved) == (null))
                 {
-                    _BreakpointResolvedDisposable = (_client.RegisterEventHandler<BreakpointResolvedEventArgs>("Debugger.breakpointResolved", OnBreakpointResolved));
+                    _BreakpointResolvedEventRegistration = (_client.RegisterEventHandler<BreakpointResolvedEventArgs>("Debugger.breakpointResolved", OnBreakpointResolved));
                 }
 
                 _BreakpointResolved += (value);
@@ -41981,7 +41981,7 @@ namespace CefSharp.DevTools.Debugger
                 _BreakpointResolved -= (value);
                 if ((_BreakpointResolved) == (null))
                 {
-                    _BreakpointResolvedDisposable.Dispose();
+                    _BreakpointResolvedEventRegistration.Dispose();
                 }
             }
         }
@@ -41991,7 +41991,7 @@ namespace CefSharp.DevTools.Debugger
             _BreakpointResolved?.Invoke(this, args);
         }
 
-        private System.IDisposable _PausedDisposable;
+        private CefSharp.IRegistration _PausedEventRegistration;
         private System.EventHandler<PausedEventArgs> _Paused;
         /// <summary>
         /// Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria.
@@ -42002,7 +42002,7 @@ namespace CefSharp.DevTools.Debugger
             {
                 if ((_Paused) == (null))
                 {
-                    _PausedDisposable = (_client.RegisterEventHandler<PausedEventArgs>("Debugger.paused", OnPaused));
+                    _PausedEventRegistration = (_client.RegisterEventHandler<PausedEventArgs>("Debugger.paused", OnPaused));
                 }
 
                 _Paused += (value);
@@ -42013,7 +42013,7 @@ namespace CefSharp.DevTools.Debugger
                 _Paused -= (value);
                 if ((_Paused) == (null))
                 {
-                    _PausedDisposable.Dispose();
+                    _PausedEventRegistration.Dispose();
                 }
             }
         }
@@ -42023,7 +42023,7 @@ namespace CefSharp.DevTools.Debugger
             _Paused?.Invoke(this, args);
         }
 
-        private System.IDisposable _ResumedDisposable;
+        private CefSharp.IRegistration _ResumedEventRegistration;
         private System.EventHandler _Resumed;
         /// <summary>
         /// Fired when the virtual machine resumed execution.
@@ -42034,7 +42034,7 @@ namespace CefSharp.DevTools.Debugger
             {
                 if ((_Resumed) == (null))
                 {
-                    _ResumedDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Debugger.resumed", OnResumed));
+                    _ResumedEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Debugger.resumed", OnResumed));
                 }
 
                 _Resumed += (value);
@@ -42045,17 +42045,17 @@ namespace CefSharp.DevTools.Debugger
                 _Resumed -= (value);
                 if ((_Resumed) == (null))
                 {
-                    _ResumedDisposable.Dispose();
+                    _ResumedEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnResumed(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnResumed(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _Resumed?.Invoke(this, args);
         }
 
-        private System.IDisposable _ScriptFailedToParseDisposable;
+        private CefSharp.IRegistration _ScriptFailedToParseEventRegistration;
         private System.EventHandler<ScriptFailedToParseEventArgs> _ScriptFailedToParse;
         /// <summary>
         /// Fired when virtual machine fails to parse the script.
@@ -42066,7 +42066,7 @@ namespace CefSharp.DevTools.Debugger
             {
                 if ((_ScriptFailedToParse) == (null))
                 {
-                    _ScriptFailedToParseDisposable = (_client.RegisterEventHandler<ScriptFailedToParseEventArgs>("Debugger.scriptFailedToParse", OnScriptFailedToParse));
+                    _ScriptFailedToParseEventRegistration = (_client.RegisterEventHandler<ScriptFailedToParseEventArgs>("Debugger.scriptFailedToParse", OnScriptFailedToParse));
                 }
 
                 _ScriptFailedToParse += (value);
@@ -42077,7 +42077,7 @@ namespace CefSharp.DevTools.Debugger
                 _ScriptFailedToParse -= (value);
                 if ((_ScriptFailedToParse) == (null))
                 {
-                    _ScriptFailedToParseDisposable.Dispose();
+                    _ScriptFailedToParseEventRegistration.Dispose();
                 }
             }
         }
@@ -42087,7 +42087,7 @@ namespace CefSharp.DevTools.Debugger
             _ScriptFailedToParse?.Invoke(this, args);
         }
 
-        private System.IDisposable _ScriptParsedDisposable;
+        private CefSharp.IRegistration _ScriptParsedEventRegistration;
         private System.EventHandler<ScriptParsedEventArgs> _ScriptParsed;
         /// <summary>
         /// Fired when virtual machine parses script. This event is also fired for all known and uncollected
@@ -42099,7 +42099,7 @@ namespace CefSharp.DevTools.Debugger
             {
                 if ((_ScriptParsed) == (null))
                 {
-                    _ScriptParsedDisposable = (_client.RegisterEventHandler<ScriptParsedEventArgs>("Debugger.scriptParsed", OnScriptParsed));
+                    _ScriptParsedEventRegistration = (_client.RegisterEventHandler<ScriptParsedEventArgs>("Debugger.scriptParsed", OnScriptParsed));
                 }
 
                 _ScriptParsed += (value);
@@ -42110,7 +42110,7 @@ namespace CefSharp.DevTools.Debugger
                 _ScriptParsed -= (value);
                 if ((_ScriptParsed) == (null))
                 {
-                    _ScriptParsedDisposable.Dispose();
+                    _ScriptParsedEventRegistration.Dispose();
                 }
             }
         }
@@ -42803,7 +42803,7 @@ namespace CefSharp.DevTools.HeapProfiler
             _client = (client);
         }
 
-        private System.IDisposable _AddHeapSnapshotChunkDisposable;
+        private CefSharp.IRegistration _AddHeapSnapshotChunkEventRegistration;
         private System.EventHandler<AddHeapSnapshotChunkEventArgs> _AddHeapSnapshotChunk;
         /// <summary>
         /// AddHeapSnapshotChunk
@@ -42814,7 +42814,7 @@ namespace CefSharp.DevTools.HeapProfiler
             {
                 if ((_AddHeapSnapshotChunk) == (null))
                 {
-                    _AddHeapSnapshotChunkDisposable = (_client.RegisterEventHandler<AddHeapSnapshotChunkEventArgs>("HeapProfiler.addHeapSnapshotChunk", OnAddHeapSnapshotChunk));
+                    _AddHeapSnapshotChunkEventRegistration = (_client.RegisterEventHandler<AddHeapSnapshotChunkEventArgs>("HeapProfiler.addHeapSnapshotChunk", OnAddHeapSnapshotChunk));
                 }
 
                 _AddHeapSnapshotChunk += (value);
@@ -42825,7 +42825,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _AddHeapSnapshotChunk -= (value);
                 if ((_AddHeapSnapshotChunk) == (null))
                 {
-                    _AddHeapSnapshotChunkDisposable.Dispose();
+                    _AddHeapSnapshotChunkEventRegistration.Dispose();
                 }
             }
         }
@@ -42835,7 +42835,7 @@ namespace CefSharp.DevTools.HeapProfiler
             _AddHeapSnapshotChunk?.Invoke(this, args);
         }
 
-        private System.IDisposable _HeapStatsUpdateDisposable;
+        private CefSharp.IRegistration _HeapStatsUpdateEventRegistration;
         private System.EventHandler<HeapStatsUpdateEventArgs> _HeapStatsUpdate;
         /// <summary>
         /// If heap objects tracking has been started then backend may send update for one or more fragments
@@ -42846,7 +42846,7 @@ namespace CefSharp.DevTools.HeapProfiler
             {
                 if ((_HeapStatsUpdate) == (null))
                 {
-                    _HeapStatsUpdateDisposable = (_client.RegisterEventHandler<HeapStatsUpdateEventArgs>("HeapProfiler.heapStatsUpdate", OnHeapStatsUpdate));
+                    _HeapStatsUpdateEventRegistration = (_client.RegisterEventHandler<HeapStatsUpdateEventArgs>("HeapProfiler.heapStatsUpdate", OnHeapStatsUpdate));
                 }
 
                 _HeapStatsUpdate += (value);
@@ -42857,7 +42857,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _HeapStatsUpdate -= (value);
                 if ((_HeapStatsUpdate) == (null))
                 {
-                    _HeapStatsUpdateDisposable.Dispose();
+                    _HeapStatsUpdateEventRegistration.Dispose();
                 }
             }
         }
@@ -42867,7 +42867,7 @@ namespace CefSharp.DevTools.HeapProfiler
             _HeapStatsUpdate?.Invoke(this, args);
         }
 
-        private System.IDisposable _LastSeenObjectIdDisposable;
+        private CefSharp.IRegistration _LastSeenObjectIdEventRegistration;
         private System.EventHandler<LastSeenObjectIdEventArgs> _LastSeenObjectId;
         /// <summary>
         /// If heap objects tracking has been started then backend regularly sends a current value for last
@@ -42880,7 +42880,7 @@ namespace CefSharp.DevTools.HeapProfiler
             {
                 if ((_LastSeenObjectId) == (null))
                 {
-                    _LastSeenObjectIdDisposable = (_client.RegisterEventHandler<LastSeenObjectIdEventArgs>("HeapProfiler.lastSeenObjectId", OnLastSeenObjectId));
+                    _LastSeenObjectIdEventRegistration = (_client.RegisterEventHandler<LastSeenObjectIdEventArgs>("HeapProfiler.lastSeenObjectId", OnLastSeenObjectId));
                 }
 
                 _LastSeenObjectId += (value);
@@ -42891,7 +42891,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _LastSeenObjectId -= (value);
                 if ((_LastSeenObjectId) == (null))
                 {
-                    _LastSeenObjectIdDisposable.Dispose();
+                    _LastSeenObjectIdEventRegistration.Dispose();
                 }
             }
         }
@@ -42901,7 +42901,7 @@ namespace CefSharp.DevTools.HeapProfiler
             _LastSeenObjectId?.Invoke(this, args);
         }
 
-        private System.IDisposable _ReportHeapSnapshotProgressDisposable;
+        private CefSharp.IRegistration _ReportHeapSnapshotProgressEventRegistration;
         private System.EventHandler<ReportHeapSnapshotProgressEventArgs> _ReportHeapSnapshotProgress;
         /// <summary>
         /// ReportHeapSnapshotProgress
@@ -42912,7 +42912,7 @@ namespace CefSharp.DevTools.HeapProfiler
             {
                 if ((_ReportHeapSnapshotProgress) == (null))
                 {
-                    _ReportHeapSnapshotProgressDisposable = (_client.RegisterEventHandler<ReportHeapSnapshotProgressEventArgs>("HeapProfiler.reportHeapSnapshotProgress", OnReportHeapSnapshotProgress));
+                    _ReportHeapSnapshotProgressEventRegistration = (_client.RegisterEventHandler<ReportHeapSnapshotProgressEventArgs>("HeapProfiler.reportHeapSnapshotProgress", OnReportHeapSnapshotProgress));
                 }
 
                 _ReportHeapSnapshotProgress += (value);
@@ -42923,7 +42923,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _ReportHeapSnapshotProgress -= (value);
                 if ((_ReportHeapSnapshotProgress) == (null))
                 {
-                    _ReportHeapSnapshotProgressDisposable.Dispose();
+                    _ReportHeapSnapshotProgressEventRegistration.Dispose();
                 }
             }
         }
@@ -42933,7 +42933,7 @@ namespace CefSharp.DevTools.HeapProfiler
             _ReportHeapSnapshotProgress?.Invoke(this, args);
         }
 
-        private System.IDisposable _ResetProfilesDisposable;
+        private CefSharp.IRegistration _ResetProfilesEventRegistration;
         private System.EventHandler _ResetProfiles;
         /// <summary>
         /// ResetProfiles
@@ -42944,7 +42944,7 @@ namespace CefSharp.DevTools.HeapProfiler
             {
                 if ((_ResetProfiles) == (null))
                 {
-                    _ResetProfilesDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("HeapProfiler.resetProfiles", OnResetProfiles));
+                    _ResetProfilesEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("HeapProfiler.resetProfiles", OnResetProfiles));
                 }
 
                 _ResetProfiles += (value);
@@ -42955,12 +42955,12 @@ namespace CefSharp.DevTools.HeapProfiler
                 _ResetProfiles -= (value);
                 if ((_ResetProfiles) == (null))
                 {
-                    _ResetProfilesDisposable.Dispose();
+                    _ResetProfilesEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnResetProfiles(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnResetProfiles(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _ResetProfiles?.Invoke(this, args);
         }
@@ -43383,7 +43383,7 @@ namespace CefSharp.DevTools.Profiler
             _client = (client);
         }
 
-        private System.IDisposable _ConsoleProfileFinishedDisposable;
+        private CefSharp.IRegistration _ConsoleProfileFinishedEventRegistration;
         private System.EventHandler<ConsoleProfileFinishedEventArgs> _ConsoleProfileFinished;
         /// <summary>
         /// ConsoleProfileFinished
@@ -43394,7 +43394,7 @@ namespace CefSharp.DevTools.Profiler
             {
                 if ((_ConsoleProfileFinished) == (null))
                 {
-                    _ConsoleProfileFinishedDisposable = (_client.RegisterEventHandler<ConsoleProfileFinishedEventArgs>("Profiler.consoleProfileFinished", OnConsoleProfileFinished));
+                    _ConsoleProfileFinishedEventRegistration = (_client.RegisterEventHandler<ConsoleProfileFinishedEventArgs>("Profiler.consoleProfileFinished", OnConsoleProfileFinished));
                 }
 
                 _ConsoleProfileFinished += (value);
@@ -43405,7 +43405,7 @@ namespace CefSharp.DevTools.Profiler
                 _ConsoleProfileFinished -= (value);
                 if ((_ConsoleProfileFinished) == (null))
                 {
-                    _ConsoleProfileFinishedDisposable.Dispose();
+                    _ConsoleProfileFinishedEventRegistration.Dispose();
                 }
             }
         }
@@ -43415,7 +43415,7 @@ namespace CefSharp.DevTools.Profiler
             _ConsoleProfileFinished?.Invoke(this, args);
         }
 
-        private System.IDisposable _ConsoleProfileStartedDisposable;
+        private CefSharp.IRegistration _ConsoleProfileStartedEventRegistration;
         private System.EventHandler<ConsoleProfileStartedEventArgs> _ConsoleProfileStarted;
         /// <summary>
         /// Sent when new profile recording is started using console.profile() call.
@@ -43426,7 +43426,7 @@ namespace CefSharp.DevTools.Profiler
             {
                 if ((_ConsoleProfileStarted) == (null))
                 {
-                    _ConsoleProfileStartedDisposable = (_client.RegisterEventHandler<ConsoleProfileStartedEventArgs>("Profiler.consoleProfileStarted", OnConsoleProfileStarted));
+                    _ConsoleProfileStartedEventRegistration = (_client.RegisterEventHandler<ConsoleProfileStartedEventArgs>("Profiler.consoleProfileStarted", OnConsoleProfileStarted));
                 }
 
                 _ConsoleProfileStarted += (value);
@@ -43437,7 +43437,7 @@ namespace CefSharp.DevTools.Profiler
                 _ConsoleProfileStarted -= (value);
                 if ((_ConsoleProfileStarted) == (null))
                 {
-                    _ConsoleProfileStartedDisposable.Dispose();
+                    _ConsoleProfileStartedEventRegistration.Dispose();
                 }
             }
         }
@@ -43447,7 +43447,7 @@ namespace CefSharp.DevTools.Profiler
             _ConsoleProfileStarted?.Invoke(this, args);
         }
 
-        private System.IDisposable _PreciseCoverageDeltaUpdateDisposable;
+        private CefSharp.IRegistration _PreciseCoverageDeltaUpdateEventRegistration;
         private System.EventHandler<PreciseCoverageDeltaUpdateEventArgs> _PreciseCoverageDeltaUpdate;
         /// <summary>
         /// Reports coverage delta since the last poll (either from an event like this, or from
@@ -43461,7 +43461,7 @@ namespace CefSharp.DevTools.Profiler
             {
                 if ((_PreciseCoverageDeltaUpdate) == (null))
                 {
-                    _PreciseCoverageDeltaUpdateDisposable = (_client.RegisterEventHandler<PreciseCoverageDeltaUpdateEventArgs>("Profiler.preciseCoverageDeltaUpdate", OnPreciseCoverageDeltaUpdate));
+                    _PreciseCoverageDeltaUpdateEventRegistration = (_client.RegisterEventHandler<PreciseCoverageDeltaUpdateEventArgs>("Profiler.preciseCoverageDeltaUpdate", OnPreciseCoverageDeltaUpdate));
                 }
 
                 _PreciseCoverageDeltaUpdate += (value);
@@ -43472,7 +43472,7 @@ namespace CefSharp.DevTools.Profiler
                 _PreciseCoverageDeltaUpdate -= (value);
                 if ((_PreciseCoverageDeltaUpdate) == (null))
                 {
-                    _PreciseCoverageDeltaUpdateDisposable.Dispose();
+                    _PreciseCoverageDeltaUpdateEventRegistration.Dispose();
                 }
             }
         }
@@ -44158,7 +44158,7 @@ namespace CefSharp.DevTools.Runtime
             _client = (client);
         }
 
-        private System.IDisposable _BindingCalledDisposable;
+        private CefSharp.IRegistration _BindingCalledEventRegistration;
         private System.EventHandler<BindingCalledEventArgs> _BindingCalled;
         /// <summary>
         /// Notification is issued every time when binding is called.
@@ -44169,7 +44169,7 @@ namespace CefSharp.DevTools.Runtime
             {
                 if ((_BindingCalled) == (null))
                 {
-                    _BindingCalledDisposable = (_client.RegisterEventHandler<BindingCalledEventArgs>("Runtime.bindingCalled", OnBindingCalled));
+                    _BindingCalledEventRegistration = (_client.RegisterEventHandler<BindingCalledEventArgs>("Runtime.bindingCalled", OnBindingCalled));
                 }
 
                 _BindingCalled += (value);
@@ -44180,7 +44180,7 @@ namespace CefSharp.DevTools.Runtime
                 _BindingCalled -= (value);
                 if ((_BindingCalled) == (null))
                 {
-                    _BindingCalledDisposable.Dispose();
+                    _BindingCalledEventRegistration.Dispose();
                 }
             }
         }
@@ -44190,7 +44190,7 @@ namespace CefSharp.DevTools.Runtime
             _BindingCalled?.Invoke(this, args);
         }
 
-        private System.IDisposable _ConsoleAPICalledDisposable;
+        private CefSharp.IRegistration _ConsoleAPICalledEventRegistration;
         private System.EventHandler<ConsoleAPICalledEventArgs> _ConsoleAPICalled;
         /// <summary>
         /// Issued when console API was called.
@@ -44201,7 +44201,7 @@ namespace CefSharp.DevTools.Runtime
             {
                 if ((_ConsoleAPICalled) == (null))
                 {
-                    _ConsoleAPICalledDisposable = (_client.RegisterEventHandler<ConsoleAPICalledEventArgs>("Runtime.consoleAPICalled", OnConsoleAPICalled));
+                    _ConsoleAPICalledEventRegistration = (_client.RegisterEventHandler<ConsoleAPICalledEventArgs>("Runtime.consoleAPICalled", OnConsoleAPICalled));
                 }
 
                 _ConsoleAPICalled += (value);
@@ -44212,7 +44212,7 @@ namespace CefSharp.DevTools.Runtime
                 _ConsoleAPICalled -= (value);
                 if ((_ConsoleAPICalled) == (null))
                 {
-                    _ConsoleAPICalledDisposable.Dispose();
+                    _ConsoleAPICalledEventRegistration.Dispose();
                 }
             }
         }
@@ -44222,7 +44222,7 @@ namespace CefSharp.DevTools.Runtime
             _ConsoleAPICalled?.Invoke(this, args);
         }
 
-        private System.IDisposable _ExceptionRevokedDisposable;
+        private CefSharp.IRegistration _ExceptionRevokedEventRegistration;
         private System.EventHandler<ExceptionRevokedEventArgs> _ExceptionRevoked;
         /// <summary>
         /// Issued when unhandled exception was revoked.
@@ -44233,7 +44233,7 @@ namespace CefSharp.DevTools.Runtime
             {
                 if ((_ExceptionRevoked) == (null))
                 {
-                    _ExceptionRevokedDisposable = (_client.RegisterEventHandler<ExceptionRevokedEventArgs>("Runtime.exceptionRevoked", OnExceptionRevoked));
+                    _ExceptionRevokedEventRegistration = (_client.RegisterEventHandler<ExceptionRevokedEventArgs>("Runtime.exceptionRevoked", OnExceptionRevoked));
                 }
 
                 _ExceptionRevoked += (value);
@@ -44244,7 +44244,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExceptionRevoked -= (value);
                 if ((_ExceptionRevoked) == (null))
                 {
-                    _ExceptionRevokedDisposable.Dispose();
+                    _ExceptionRevokedEventRegistration.Dispose();
                 }
             }
         }
@@ -44254,7 +44254,7 @@ namespace CefSharp.DevTools.Runtime
             _ExceptionRevoked?.Invoke(this, args);
         }
 
-        private System.IDisposable _ExceptionThrownDisposable;
+        private CefSharp.IRegistration _ExceptionThrownEventRegistration;
         private System.EventHandler<ExceptionThrownEventArgs> _ExceptionThrown;
         /// <summary>
         /// Issued when exception was thrown and unhandled.
@@ -44265,7 +44265,7 @@ namespace CefSharp.DevTools.Runtime
             {
                 if ((_ExceptionThrown) == (null))
                 {
-                    _ExceptionThrownDisposable = (_client.RegisterEventHandler<ExceptionThrownEventArgs>("Runtime.exceptionThrown", OnExceptionThrown));
+                    _ExceptionThrownEventRegistration = (_client.RegisterEventHandler<ExceptionThrownEventArgs>("Runtime.exceptionThrown", OnExceptionThrown));
                 }
 
                 _ExceptionThrown += (value);
@@ -44276,7 +44276,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExceptionThrown -= (value);
                 if ((_ExceptionThrown) == (null))
                 {
-                    _ExceptionThrownDisposable.Dispose();
+                    _ExceptionThrownEventRegistration.Dispose();
                 }
             }
         }
@@ -44286,7 +44286,7 @@ namespace CefSharp.DevTools.Runtime
             _ExceptionThrown?.Invoke(this, args);
         }
 
-        private System.IDisposable _ExecutionContextCreatedDisposable;
+        private CefSharp.IRegistration _ExecutionContextCreatedEventRegistration;
         private System.EventHandler<ExecutionContextCreatedEventArgs> _ExecutionContextCreated;
         /// <summary>
         /// Issued when new execution context is created.
@@ -44297,7 +44297,7 @@ namespace CefSharp.DevTools.Runtime
             {
                 if ((_ExecutionContextCreated) == (null))
                 {
-                    _ExecutionContextCreatedDisposable = (_client.RegisterEventHandler<ExecutionContextCreatedEventArgs>("Runtime.executionContextCreated", OnExecutionContextCreated));
+                    _ExecutionContextCreatedEventRegistration = (_client.RegisterEventHandler<ExecutionContextCreatedEventArgs>("Runtime.executionContextCreated", OnExecutionContextCreated));
                 }
 
                 _ExecutionContextCreated += (value);
@@ -44308,7 +44308,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExecutionContextCreated -= (value);
                 if ((_ExecutionContextCreated) == (null))
                 {
-                    _ExecutionContextCreatedDisposable.Dispose();
+                    _ExecutionContextCreatedEventRegistration.Dispose();
                 }
             }
         }
@@ -44318,7 +44318,7 @@ namespace CefSharp.DevTools.Runtime
             _ExecutionContextCreated?.Invoke(this, args);
         }
 
-        private System.IDisposable _ExecutionContextDestroyedDisposable;
+        private CefSharp.IRegistration _ExecutionContextDestroyedEventRegistration;
         private System.EventHandler<ExecutionContextDestroyedEventArgs> _ExecutionContextDestroyed;
         /// <summary>
         /// Issued when execution context is destroyed.
@@ -44329,7 +44329,7 @@ namespace CefSharp.DevTools.Runtime
             {
                 if ((_ExecutionContextDestroyed) == (null))
                 {
-                    _ExecutionContextDestroyedDisposable = (_client.RegisterEventHandler<ExecutionContextDestroyedEventArgs>("Runtime.executionContextDestroyed", OnExecutionContextDestroyed));
+                    _ExecutionContextDestroyedEventRegistration = (_client.RegisterEventHandler<ExecutionContextDestroyedEventArgs>("Runtime.executionContextDestroyed", OnExecutionContextDestroyed));
                 }
 
                 _ExecutionContextDestroyed += (value);
@@ -44340,7 +44340,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExecutionContextDestroyed -= (value);
                 if ((_ExecutionContextDestroyed) == (null))
                 {
-                    _ExecutionContextDestroyedDisposable.Dispose();
+                    _ExecutionContextDestroyedEventRegistration.Dispose();
                 }
             }
         }
@@ -44350,7 +44350,7 @@ namespace CefSharp.DevTools.Runtime
             _ExecutionContextDestroyed?.Invoke(this, args);
         }
 
-        private System.IDisposable _ExecutionContextsClearedDisposable;
+        private CefSharp.IRegistration _ExecutionContextsClearedEventRegistration;
         private System.EventHandler _ExecutionContextsCleared;
         /// <summary>
         /// Issued when all executionContexts were cleared in browser
@@ -44361,7 +44361,7 @@ namespace CefSharp.DevTools.Runtime
             {
                 if ((_ExecutionContextsCleared) == (null))
                 {
-                    _ExecutionContextsClearedDisposable = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsDomainEventArgsBase>("Runtime.executionContextsCleared", OnExecutionContextsCleared));
+                    _ExecutionContextsClearedEventRegistration = (_client.RegisterEventHandler<CefSharp.DevTools.DevToolsEventArgs>("Runtime.executionContextsCleared", OnExecutionContextsCleared));
                 }
 
                 _ExecutionContextsCleared += (value);
@@ -44372,17 +44372,17 @@ namespace CefSharp.DevTools.Runtime
                 _ExecutionContextsCleared -= (value);
                 if ((_ExecutionContextsCleared) == (null))
                 {
-                    _ExecutionContextsClearedDisposable.Dispose();
+                    _ExecutionContextsClearedEventRegistration.Dispose();
                 }
             }
         }
 
-        private void OnExecutionContextsCleared(object sender, CefSharp.DevTools.DevToolsDomainEventArgsBase args)
+        private void OnExecutionContextsCleared(object sender, CefSharp.DevTools.DevToolsEventArgs args)
         {
             _ExecutionContextsCleared?.Invoke(this, args);
         }
 
-        private System.IDisposable _InspectRequestedDisposable;
+        private CefSharp.IRegistration _InspectRequestedEventRegistration;
         private System.EventHandler<InspectRequestedEventArgs> _InspectRequested;
         /// <summary>
         /// Issued when object should be inspected (for example, as a result of inspect() command line API
@@ -44394,7 +44394,7 @@ namespace CefSharp.DevTools.Runtime
             {
                 if ((_InspectRequested) == (null))
                 {
-                    _InspectRequestedDisposable = (_client.RegisterEventHandler<InspectRequestedEventArgs>("Runtime.inspectRequested", OnInspectRequested));
+                    _InspectRequestedEventRegistration = (_client.RegisterEventHandler<InspectRequestedEventArgs>("Runtime.inspectRequested", OnInspectRequested));
                 }
 
                 _InspectRequested += (value);
@@ -44405,7 +44405,7 @@ namespace CefSharp.DevTools.Runtime
                 _InspectRequested -= (value);
                 if ((_InspectRequested) == (null))
                 {
-                    _InspectRequestedDisposable.Dispose();
+                    _InspectRequestedEventRegistration.Dispose();
                 }
             }
         }

@@ -24,7 +24,7 @@ namespace CefSharp.DevTools
         //DevToolsClient instances per browser.
         private static int lastMessageId = 0;
 
-        private readonly ConcurrentDictionary<int, MethodResultContext> queuedCommandResults = new ConcurrentDictionary<int, MethodResultContext>();
+        private readonly ConcurrentDictionary<int, DevToolsMethodResponseContext> queuedCommandResults = new ConcurrentDictionary<int, DevToolsMethodResponseContext>();
         private readonly ConcurrentDictionary<string, EventHandler<Stream>> eventHandlers = new ConcurrentDictionary<string, EventHandler<Stream>>();
         private IBrowser browser;
         private IRegistration devToolsRegistration;
@@ -81,51 +81,28 @@ namespace CefSharp.DevTools
             this.devToolsRegistration = devToolsRegistration;
         }
 
-        public IDisposable RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase
+        /// <inheritdoc/>
+        public IRegistration RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase
         {
             EventHandler<Stream> handler = (sender, stream) =>
             {
                 stream.Position = 0;
                 if (typeof(T) == typeof(DevToolsEventArgs) || typeof(T) == typeof(DevToolsDomainEventArgsBase))
                 {
-                    var paramsAsJsonString = new StreamReader(stream).ReadToEnd();
+                    var paramsAsJsonString = StreamToString(stream, leaveOpen: true);
                     var args = new DevToolsEventArgs(eventName, paramsAsJsonString);
 
                     eventHandler(sender, (T)(object)args);
                 }
                 else
                 {
-                    eventHandler(sender, (T)DeserializeJson(typeof(T), stream));
+                    eventHandler(sender, DeserializeJson<T>(stream));
                 }
             };
 
             eventHandlers.AddOrUpdate(eventName, _ => handler, (_, existingHandler) => existingHandler += handler);
 
-            return new Disposeable(() =>
-            {
-                EventHandler<Stream> eventRegistration;
-                if (eventHandlers.TryGetValue(eventName, out eventRegistration))
-                {
-                    eventRegistration -= handler;
-                    if (eventRegistration == null)
-                    {
-                        eventHandlers.TryRemove(eventName, out _);
-                    }
-                }
-            });
-        }
-
-        private class Disposeable : IDisposable
-        {
-            private readonly Action _dispose;
-            public Disposeable(Action dispose)
-            {
-                _dispose = dispose;
-            }
-            public void Dispose()
-            {
-                _dispose();
-            }
+            return new DevToolsEventHandlerRegistration(eventName, handler, eventHandlers);
         }
 
         /// <summary>
@@ -157,14 +134,14 @@ namespace CefSharp.DevTools
             if (browser == null || browser.IsDisposed)
             {
                 //TODO: Queue up commands where possible
-                throw new ObjectDisposedException(nameof(DevToolsClient));
+                throw new ObjectDisposedException(nameof(IBrowser));
             }
 
             var messageId = Interlocked.Increment(ref lastMessageId);
 
             var taskCompletionSource = new TaskCompletionSource<T>();
 
-            var methodResultContext = new MethodResultContext(
+            var methodResultContext = new DevToolsMethodResponseContext(
                 type: typeof(T),
                 setResult: o => taskCompletionSource.TrySetResult((T)o),
                 setException: taskCompletionSource.TrySetException,
@@ -201,7 +178,7 @@ namespace CefSharp.DevTools
             return taskCompletionSource.Task;
         }
 
-        private void ExecuteDevToolsMethod(IBrowserHost browserHost, int messageId, string method, IDictionary<string, object> parameters, MethodResultContext methodResultContext)
+        private void ExecuteDevToolsMethod(IBrowserHost browserHost, int messageId, string method, IDictionary<string, object> parameters, DevToolsMethodResponseContext methodResultContext)
         {
             try
             {
@@ -252,7 +229,7 @@ namespace CefSharp.DevTools
             //Only parse the data if we have an event handler
             if (evt != null)
             {
-                var paramsAsJsonString = new StreamReader(parameters).ReadToEnd();
+                var paramsAsJsonString = StreamToString(parameters, leaveOpen: true);
 
                 evt(this, new DevToolsEventArgs(method, paramsAsJsonString));
             }
@@ -273,7 +250,7 @@ namespace CefSharp.DevTools
         /// <inheritdoc/>
         void IDevToolsMessageObserver.OnDevToolsMethodResult(IBrowser browser, int messageId, bool success, Stream result)
         {
-            MethodResultContext context;
+            DevToolsMethodResponseContext context;
             if (queuedCommandResults.TryRemove(messageId, out context))
             {
                 if (success)
@@ -284,7 +261,7 @@ namespace CefSharp.DevTools
                         {
                             Success = success,
                             MessageId = messageId,
-                            ResponseAsJsonString = new StreamReader(result).ReadToEnd(),
+                            ResponseAsJsonString = StreamToString(result),
                         });
                     }
                     else
@@ -301,7 +278,7 @@ namespace CefSharp.DevTools
                 }
                 else
                 {
-                    var errorObj = (DevToolsDomainErrorResponse)DeserializeJson(typeof(DevToolsDomainErrorResponse), result);
+                    var errorObj = DeserializeJson<DevToolsDomainErrorResponse>(result);
                     errorObj.MessageId = messageId;
 
                     context.SetException(new DevToolsClientException("DevTools Client Error :" + errorObj.Message, errorObj));
@@ -309,48 +286,28 @@ namespace CefSharp.DevTools
             }
         }
 
-        private struct MethodResultContext
+
+        /// <summary>
+        /// Deserialize the JSON stream into a .Net object.
+        /// For .Net Core/.Net 5.0 uses System.Text.Json
+        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="stream">JSON stream</param>
+        /// <returns>object of type <typeparamref name="T"/></returns>
+        private static T DeserializeJson<T>(Stream stream)
         {
-            public readonly Type Type;
-            private readonly Func<object, bool> setResult;
-            private readonly Func<Exception, bool> setException;
-            private readonly SynchronizationContext syncContext;
-
-            public MethodResultContext(Type type, Func<object, bool> setResult, Func<Exception, bool> setException, SynchronizationContext syncContext)
-            {
-                Type = type;
-                this.setResult = setResult;
-                this.setException = setException;
-                this.syncContext = syncContext;
-            }
-
-            public void SetResult(object result)
-            {
-                InvokeOnSyncContext(setResult, result);
-            }
-
-            public void SetException(Exception ex)
-            {
-                InvokeOnSyncContext(setException, ex);
-            }
-
-            private void InvokeOnSyncContext<T>(Func<T, bool> fn, T value)
-            {
-                if (syncContext == null || syncContext == SynchronizationContext.Current)
-                {
-                    fn(value);
-                }
-                else
-                {
-                    syncContext.Post(new SendOrPostCallback(s =>
-                    {
-                        var kv = (KeyValuePair<Func<T, bool>, T>)s;
-                        kv.Key(kv.Value);
-                    }), new KeyValuePair<Func<T, bool>, T>(fn, value));
-                }
-            }
+            return (T)DeserializeJson(typeof(T), stream);
         }
 
+        /// <summary>
+        /// Deserialize the JSON stream into a .Net object.
+        /// For .Net Core/.Net 5.0 uses System.Text.Json
+        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
+        /// </summary>
+        /// <param name="type">Object type</param>
+        /// <param name="stream">JSON stream</param>
+        /// <returns>object of type <typeparamref name="type"/></returns>
         private static object DeserializeJson(Type type, Stream stream)
         {
 #if NETCOREAPP
@@ -374,6 +331,14 @@ namespace CefSharp.DevTools
             var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(type, settings);
             return dcs.ReadObject(stream);
 #endif
+        }
+
+        private static string StreamToString(Stream stream, bool leaveOpen = false)
+        {
+            using (var streamReader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: leaveOpen))
+            {
+                return streamReader.ReadToEnd();
+            }
         }
     }
 }
