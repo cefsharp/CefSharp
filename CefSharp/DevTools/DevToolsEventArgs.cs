@@ -2,15 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-
-using System;
-
 namespace CefSharp.DevTools
 {
     /// <summary>
     /// DevTools Event EventAargs
     /// </summary>
-    public class DevToolsEventArgs : EventArgs
+    public class DevToolsEventArgs : DevToolsDomainEventArgsBase
     {
         /// <summary>
         /// Event Name
@@ -26,11 +23,6 @@ namespace CefSharp.DevTools
         {
             EventName = eventName;
             ParametersAsJsonString = paramsAsJsonString;
-        }
-
-        internal T DeserializeJson<T>()
-        {
-            return DevToolsClient.DeserializeJson<T>(ParametersAsJsonString);
         }
     }
 }

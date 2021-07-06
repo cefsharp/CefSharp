@@ -2,16 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.IO;
-using System.Runtime.Serialization.Json;
-using System.Text;
-
 namespace CefSharp.DevTools
 {
     /// <summary>
     /// DevTools Method Response
     /// </summary>
-    public class DevToolsMethodResponse
+    public class DevToolsMethodResponse : DevToolsDomainResponseBase
     {
         /// <summary>
         /// MessageId
@@ -27,15 +23,5 @@ namespace CefSharp.DevTools
         /// Method Response as Json string
         /// </summary>
         public string ResponseAsJsonString { get; set; }
-
-        internal T DeserializeJson<T>(bool ignoreSuccess = false)
-        {
-            if (Success || ignoreSuccess)
-            {
-                return DevToolsClient.DeserializeJson<T>(ResponseAsJsonString);
-            }
-
-            throw new DevToolsClientException(ResponseAsJsonString);
-        }
     }
 }
