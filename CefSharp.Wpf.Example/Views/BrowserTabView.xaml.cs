@@ -33,7 +33,7 @@ namespace CefSharp.Wpf.Example.Views
             //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
 
             //Please remove the comments below to use the Experimental WpfImeKeyboardHandler.
-            //browser.WpfKeyboardHandler = new WpfImeKeyboardHandler(browser);
+            //browser.WpfKeyboardHandler = new CefSharp.Wpf.Experimental.WpfImeKeyboardHandler(browser);
 
             //Please remove the comments below to specify the color of the CompositionUnderline.
             //var transparent = Colors.Transparent;
