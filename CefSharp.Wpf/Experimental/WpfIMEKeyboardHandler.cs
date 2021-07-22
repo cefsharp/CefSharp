@@ -190,7 +190,14 @@ namespace CefSharp.Wpf.Experimental
         {
             handled = false;
 
-            if (!isActive || !isSetup || owner == null || owner.IsDisposed || !owner.IsBrowserInitialized || owner.GetBrowserHost() == null)
+            if (!isActive || !isSetup || owner == null || owner.IsDisposed || !owner.IsBrowserInitialized)
+            {
+                return IntPtr.Zero;
+            }
+
+            var browserHost = owner.GetBrowserHost();
+
+            if(browserHost == null)
             {
                 return IntPtr.Zero;
             }
@@ -212,13 +219,13 @@ namespace CefSharp.Wpf.Experimental
                 }
                 case WM.IME_COMPOSITION:
                 {
-                    OnImeComposition(hwnd, lParam.ToInt32());
+                    OnImeComposition(browserHost, hwnd, lParam.ToInt32());
                     handled = true;
                     break;
                 }
                 case WM.IME_ENDCOMPOSITION:
                 {
-                    OnImeEndComposition(hwnd);
+                    OnImeEndComposition(browserHost, hwnd);
                     hasImeComposition = false;
                     handled = true;
                     break;
@@ -239,15 +246,15 @@ namespace CefSharp.Wpf.Experimental
             }
         }
 
-        private void OnImeComposition(IntPtr hwnd, int lParam)
+        private void OnImeComposition(IBrowserHost browserHost, IntPtr hwnd, int lParam)
         {
             string text = string.Empty;
 
             if (ImeHandler.GetResult(hwnd, (uint)lParam, out text))
             {
-                owner.GetBrowserHost().ImeCommitText(text, new Range(int.MaxValue, int.MaxValue), 0);
-                owner.GetBrowserHost().ImeSetComposition(text, new CompositionUnderline[0], new Range(int.MaxValue, int.MaxValue), new Range(0, 0));
-                owner.GetBrowserHost().ImeFinishComposingText(false);
+                browserHost.ImeCommitText(text, new Range(int.MaxValue, int.MaxValue), 0);
+                browserHost.ImeSetComposition(text, new CompositionUnderline[0], new Range(int.MaxValue, int.MaxValue), new Range(0, 0));
+                browserHost.ImeFinishComposingText(false);
             }
             else
             {
@@ -256,14 +263,14 @@ namespace CefSharp.Wpf.Experimental
 
                 if (ImeHandler.GetComposition(hwnd, (uint)lParam, underlines, ref compositionStart, out text))
                 {
-                    owner.GetBrowserHost().ImeSetComposition(text, underlines.ToArray(),
+                    browserHost.ImeSetComposition(text, underlines.ToArray(),
                         new Range(int.MaxValue, int.MaxValue), new Range(compositionStart, compositionStart));
 
                     UpdateCaretPosition(compositionStart - 1);
                 }
                 else
                 {
-                    CancelComposition(hwnd);
+                    CancelComposition(browserHost, hwnd);
                 }
             }
         }
@@ -272,19 +279,19 @@ namespace CefSharp.Wpf.Experimental
         /// Cancel composition.
         /// </summary>
         /// <param name="hwnd">The hwnd.</param>
-        public void CancelComposition(IntPtr hwnd)
+        private void CancelComposition(IBrowserHost browserHost, IntPtr hwnd)
         {
-            owner.GetBrowserHost().ImeCancelComposition();
+            browserHost.ImeCancelComposition();
             DestroyImeWindow(hwnd);
         }
 
-        private void OnImeEndComposition(IntPtr hwnd)
+        private void OnImeEndComposition(IBrowserHost browserHost, IntPtr hwnd)
         {
             // Korean IMEs somehow ignore function calls to ::ImeFinishComposingText()
             // The same letter is commited in ::OnImeComposition()
             if (languageCodeId != ImeNative.LANG_KOREAN)
             {
-                owner.GetBrowserHost().ImeFinishComposingText(false);
+                browserHost.ImeFinishComposingText(false);
             }
             DestroyImeWindow(hwnd);
         }
