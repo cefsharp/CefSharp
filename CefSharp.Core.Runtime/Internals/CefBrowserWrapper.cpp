@@ -8,6 +8,12 @@
 #include "Internals\CefBrowserWrapper.h"
 #include "Internals\CefBrowserHostWrapper.h"
 
+bool CefBrowserWrapper::IsValid::get()
+{
+    ThrowIfDisposed();
+    return _browser->IsValid();
+}
+
 ///
 // Returns the browser host object. This method can only be called in the
 // browser process.

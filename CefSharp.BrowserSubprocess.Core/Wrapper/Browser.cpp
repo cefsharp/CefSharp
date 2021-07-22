@@ -9,6 +9,11 @@
 
 using namespace CefSharp::BrowserSubprocess;
 
+bool Browser::IsValid::get()
+{
+    return _browser->IsValid();
+}
+
 ///
 // Returns the browser host object. This method can only be called in the
 // browser process.
