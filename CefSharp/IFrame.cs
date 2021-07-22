@@ -90,10 +90,7 @@ namespace CefSharp
         void GetText(IStringVisitor visitor);
 
         /// <summary>
-        /// Load the custom request. LoadRequest can only be used if a renderer process already exists.
-        /// In newer versions initially loading about:blank no longer creates a renderer process. You
-        /// can load a Data Uri initially then call this method.
-        /// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+        /// Load the custom request. 
         /// WARNING: This method will fail with "bad IPC message" reason
         /// INVALID_INITIATOR_ORIGIN (213) unless you first navigate to the
         /// request origin using some other mechanism (LoadURL, link click, etc).

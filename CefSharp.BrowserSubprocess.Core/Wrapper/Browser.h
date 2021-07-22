@@ -37,6 +37,11 @@ namespace CefSharp
             }
 
         public:
+            virtual property bool IsValid
+            {
+                bool get();
+            }
+
             ///
             // Returns the browser host object. This method can only be called in the
             // browser process.

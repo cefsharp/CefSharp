@@ -13,6 +13,12 @@ namespace CefSharp
     public interface IBrowser : IDisposable
     {
         /// <summary>
+        /// Returns True if this object is currently valid. This will return false after
+        /// <see cref="ILifeSpanHandler.OnBeforeClose(IWebBrowser, IBrowser)"/> is called.
+        /// </summary>
+        bool IsValid { get; }
+
+        /// <summary>
         /// Returns the browser host object. This method can only be called in the browser process.
         /// </summary>
         /// <returns>the browser host object</returns>
