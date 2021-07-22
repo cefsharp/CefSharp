@@ -190,7 +190,7 @@ namespace CefSharp.Wpf.Experimental
         {
             handled = false;
 
-            if (!isActive || !isSetup || owner == null || owner.IsDisposed || owner.GetBrowserHost() == null)
+            if (!isActive || !isSetup || owner == null || owner.IsDisposed || !owner.IsBrowserInitialized || owner.GetBrowserHost() == null)
             {
                 return IntPtr.Zero;
             }
