@@ -126,15 +126,15 @@
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
     
-	<!--
-	For PackageReference library projects where buildTransitive is supported we'll default to setting CefSharpAnyCpuSupport to true
-	This should only require WinExe and Exe projects to specify CefSharpAnyCpuSupport rather than every project in a solution.
-	Only for PackageReference projects where NuGetToolVersion > 5.0 and OutputType is library.
-	Defaulting CefSharpAnyCpuSupport to true is simpler than modifying the already complex Condition for the CefSharpPlatformCheck
-	target below.
-	https://github.com/cefsharp/CefSharp/issues/3622
-	-->
-	<CefSharpAnyCpuSupport Condition="'$(CefSharpAnyCpuSupport)' != 'true' AND '$(NuGetProjectStyle)' == 'PackageReference' AND $(NuGetToolVersion) > '5.0' AND '$(OutputType)' == 'Library'">true</CefSharpAnyCpuSupport>
+    <!--
+    For PackageReference library projects where buildTransitive is supported we'll default to setting CefSharpAnyCpuSupport to true
+    This should only require WinExe and Exe projects to specify CefSharpAnyCpuSupport rather than every project in a solution.
+    Only for PackageReference projects where NuGetToolVersion > 5.0 and OutputType is library.
+    Defaulting CefSharpAnyCpuSupport to true is simpler than modifying the already complex Condition for the CefSharpPlatformCheck
+    target below.
+    https://github.com/cefsharp/CefSharp/issues/3622
+    -->
+    <CefSharpAnyCpuSupport Condition="'$(CefSharpAnyCpuSupport)' != 'true' AND '$(NuGetProjectStyle)' == 'PackageReference' AND $(NuGetToolVersion) > '5.0' AND '$(OutputType)' == 'Library'">true</CefSharpAnyCpuSupport>
   </PropertyGroup>
   
   <Choose>
@@ -376,33 +376,72 @@
   <!--
   Issue https://github.com/dotnet/project-system/issues/4158
   The None/Content entries aren't picked up as the .targets file doesn't exist before the Nuget restore (only when using packages.config)
-  So in that scenario we display a message to the user. Close/reopen the project and the None/Content entries will work as above.
-  I have attempted to copy the files via a Copy Task, unfortunately the .props entries aren't accessible either so that's not feasible.
+  As a workaround we manually copy the files using a series of Targets and private itemgroup/propertygroups. 
+  Accessing the ItemGroups that exist in the .props files isn't possible, the Targets are handled differently by msbuild/VS2017/VS2019 (worked previous in VS2015)
+  so we duplicate the entries private to these tasks. Must be kept in sync with the .props files
   -->
   <Target Name="CefSharpCopyFilesAfterNugetRestore32" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(TargetDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x86'">
     <PropertyGroup>
       <CefRedist32TargetDir Condition="'$(CefRedist32TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedist32TargetDir>
     </PropertyGroup>
-	<Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to $(CefRedist32TargetDir) as workaround. Please close and re-open $(MSBuildProjectFile)." />
-	<CallTarget Targets="CefRedist32CopyResources"/>
+    <ItemGroup>
+      <_CefSharpCommonManagedDll Include="$(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll" />
+      <_CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
+    </ItemGroup>
+    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to $(CefRedist32TargetDir) as workaround. Please close and re-open $(MSBuildProjectFile)." />
+    <CallTarget Targets="CefRedist32CopyResources"/>
+    
+    <Message Importance="high" Text="Copying CefSharp Common x86 files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefRedist32TargetDir)" />
+    <Copy SourceFiles="@(_CefSharpCommonBinaries32)" DestinationFiles="@(_CefSharpCommonBinaries32->'$(CefRedist32TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    
+    <Message Importance="high" Text="Copying CefSharp.dll from $(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll to $(CefRedist32TargetDir)" />
+    <Copy SourceFiles="@(_CefSharpCommonManagedDll)" DestinationFiles="@(_CefSharpCommonManagedDll->'$(CefRedist32TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
   
   <Target Name="CefSharpCopyFilesAfterNugetRestore64" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(TargetDir)$(CefSharpTargetDir)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'x64'">
     <PropertyGroup>
       <CefRedist64TargetDir Condition="'$(CefRedist64TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedist64TargetDir>
     </PropertyGroup>
-	<Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to $(CefRedist64TargetDir) as workaround. Please close and re-open $(MSBuildProjectFile)." />
-	<CallTarget Targets="CefRedist64CopyResources"/>
+    <ItemGroup>
+      <_CefSharpCommonManagedDll Include="$(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll" />
+      <_CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
+    </ItemGroup>
+    
+    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to $(CefRedist64TargetDir) as workaround. Please close and re-open $(MSBuildProjectFile)." />
+    <CallTarget Targets="CefRedist64CopyResources"/>
+    
+    <Message Importance="high" Text="Copying CefSharp Common x64 files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(CefRedist64TargetDir)" />
+    <Copy SourceFiles="@(_CefSharpCommonBinaries64)" DestinationFiles="@(_CefSharpCommonBinaries64->'$(CefRedist64TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    
+    <Message Importance="high" Text="Copying CefSharp.dll from $(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll to $(CefRedist64TargetDir)" />
+    <Copy SourceFiles="@(_CefSharpCommonManagedDll)" DestinationFiles="@(_CefSharpCommonManagedDll->'$(CefRedist64TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
   
   <Target Name="CefSharpCopyFilesAfterNugetRestoreAnyCPU" AfterTargets="Build" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND !Exists('$(TargetDir)$(CefSharpTargetDirAnyCpu32)libcef.dll') AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPlatformTarget)' == 'AnyCPU'">
     <PropertyGroup>
       <CefRedist32TargetDir Condition="'$(CefRedist32TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDirAnyCpu32)</CefRedist32TargetDir>
-	  <CefRedist64TargetDir Condition="'$(CefRedist64TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDirAnyCpu64)</CefRedist64TargetDir>
+      <CefRedist64TargetDir Condition="'$(CefRedist64TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDirAnyCpu64)</CefRedist64TargetDir>
     </PropertyGroup>
-	<Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to output folder as workaround. Please close and re-open $(MSBuildProjectFile)." />
-	<CallTarget Targets="CefRedist32CopyResources"/>
-	<CallTarget Targets="CefRedist64CopyResources"/>
+    <ItemGroup>
+      <_CefSharpCommonManagedDll Include="$(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll" />
+      <_CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
+      <_CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
+    </ItemGroup>
+    <Message Importance="high" Text="CefSharp - Files were not copied by MSBuild after Nuget install/restore! Manually copying files to output folder as workaround. Please close and re-open $(MSBuildProjectFile)." />
+    <CallTarget Targets="CefRedist32CopyResources"/>
+    <CallTarget Targets="CefRedist64CopyResources"/>
+    
+    <Message Importance="high" Text="Copying CefSharp Common x86 files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefRedist32TargetDir)" />
+    <Copy SourceFiles="@(_CefSharpCommonBinaries32)" DestinationFiles="@(_CefSharpCommonBinaries32->'$(CefRedist32TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    
+    <Message Importance="high" Text="Copying CefSharp Common x64 files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(CefRedist64TargetDir)" />
+    <Copy SourceFiles="@(_CefSharpCommonBinaries64)" DestinationFiles="@(_CefSharpCommonBinaries64->'$(CefRedist64TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    
+    <Message Importance="high" Text="Copying CefSharp.dll from $(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll to $(CefRedist32TargetDir)" />
+    <Copy SourceFiles="@(_CefSharpCommonManagedDll)" DestinationFiles="@(_CefSharpCommonManagedDll->'$(CefRedist32TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    
+    <Message Importance="high" Text="Copying CefSharp.dll from $(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll to $(CefRedist64TargetDir)" />
+    <Copy SourceFiles="@(_CefSharpCommonManagedDll)" DestinationFiles="@(_CefSharpCommonManagedDll->'$(CefRedist64TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
   
   <!--
