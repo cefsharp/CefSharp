@@ -710,6 +710,28 @@ namespace CefSharp.DevTools.Accessibility
 namespace CefSharp.DevTools.Animation
 {
     /// <summary>
+    /// Animation type of `Animation`.
+    /// </summary>
+    public enum AnimationType
+    {
+        /// <summary>
+        /// CSSTransition
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CSSTransition")]
+        CSSTransition,
+        /// <summary>
+        /// CSSAnimation
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CSSAnimation")]
+        CSSAnimation,
+        /// <summary>
+        /// WebAnimation
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WebAnimation")]
+        WebAnimation
+    }
+
+    /// <summary>
     /// Animation instance.
     /// </summary>
     public class Animation : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -791,8 +813,7 @@ namespace CefSharp.DevTools.Animation
         /// Animation type of `Animation`.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Animation.AnimationType Type
         {
             get;
             set;
@@ -3160,6 +3181,28 @@ namespace CefSharp.DevTools.Browser
     }
 
     /// <summary>
+    /// Download status.
+    /// </summary>
+    public enum DownloadProgressState
+    {
+        /// <summary>
+        /// inProgress
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inProgress")]
+        InProgress,
+        /// <summary>
+        /// completed
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("completed")]
+        Completed,
+        /// <summary>
+        /// canceled
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("canceled")]
+        Canceled
+    }
+
+    /// <summary>
     /// Fired when download makes progress. Last call has |done| == true.
     /// </summary>
     public class DownloadProgressEventArgs : CefSharp.DevTools.DevToolsDomainEventArgsBase
@@ -3203,8 +3246,7 @@ namespace CefSharp.DevTools.Browser
         /// </summary>
         [System.Text.Json.Serialization.JsonIncludeAttribute]
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("state")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string State
+        public CefSharp.DevTools.Browser.DownloadProgressState State
         {
             get;
             private set;
@@ -3931,6 +3973,36 @@ namespace CefSharp.DevTools.CSS
     }
 
     /// <summary>
+    /// Source of the media query: &quot;mediaRule&quot; if specified by a @media rule, &quot;importRule&quot; if
+    /// specified by an @import rule, &quot;linkedSheet&quot; if specified by a &quot;media&quot; attribute in a linked
+    /// stylesheet&apos;s LINK tag, &quot;inlineSheet&quot; if specified by a &quot;media&quot; attribute in an inline
+    /// stylesheet&apos;s STYLE tag.
+    /// </summary>
+    public enum CSSMediaSource
+    {
+        /// <summary>
+        /// mediaRule
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mediaRule")]
+        MediaRule,
+        /// <summary>
+        /// importRule
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("importRule")]
+        ImportRule,
+        /// <summary>
+        /// linkedSheet
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("linkedSheet")]
+        LinkedSheet,
+        /// <summary>
+        /// inlineSheet
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inlineSheet")]
+        InlineSheet
+    }
+
+    /// <summary>
     /// CSS media rule descriptor.
     /// </summary>
     public class CSSMedia : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -3953,8 +4025,7 @@ namespace CefSharp.DevTools.CSS
         /// stylesheet&apos;s STYLE tag.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Source
+        public CefSharp.DevTools.CSS.CSSMediaSource Source
         {
             get;
             set;
@@ -7265,6 +7336,33 @@ namespace CefSharp.DevTools.Database
 namespace CefSharp.DevTools.Emulation
 {
     /// <summary>
+    /// Orientation type.
+    /// </summary>
+    public enum ScreenOrientationType
+    {
+        /// <summary>
+        /// portraitPrimary
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("portraitPrimary")]
+        PortraitPrimary,
+        /// <summary>
+        /// portraitSecondary
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("portraitSecondary")]
+        PortraitSecondary,
+        /// <summary>
+        /// landscapePrimary
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("landscapePrimary")]
+        LandscapePrimary,
+        /// <summary>
+        /// landscapeSecondary
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("landscapeSecondary")]
+        LandscapeSecondary
+    }
+
+    /// <summary>
     /// Screen orientation.
     /// </summary>
     public class ScreenOrientation : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -7273,8 +7371,7 @@ namespace CefSharp.DevTools.Emulation
         /// Orientation type.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Emulation.ScreenOrientationType Type
         {
             get;
             set;
@@ -7292,6 +7389,23 @@ namespace CefSharp.DevTools.Emulation
     }
 
     /// <summary>
+    /// Orientation of a display feature in relation to screen
+    /// </summary>
+    public enum DisplayFeatureOrientation
+    {
+        /// <summary>
+        /// vertical
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("vertical")]
+        Vertical,
+        /// <summary>
+        /// horizontal
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("horizontal")]
+        Horizontal
+    }
+
+    /// <summary>
     /// DisplayFeature
     /// </summary>
     public class DisplayFeature : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -7300,8 +7414,7 @@ namespace CefSharp.DevTools.Emulation
         /// Orientation of a display feature in relation to screen
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("orientation")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Orientation
+        public CefSharp.DevTools.Emulation.DisplayFeatureOrientation Orientation
         {
             get;
             set;
@@ -7514,6 +7627,23 @@ namespace CefSharp.DevTools.Emulation
 namespace CefSharp.DevTools.HeadlessExperimental
 {
     /// <summary>
+    /// Image compression format (defaults to png).
+    /// </summary>
+    public enum ScreenshotParamsFormat
+    {
+        /// <summary>
+        /// jpeg
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("jpeg")]
+        Jpeg,
+        /// <summary>
+        /// png
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("png")]
+        Png
+    }
+
+    /// <summary>
     /// Encoding options for a screenshot.
     /// </summary>
     public class ScreenshotParams : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -7522,7 +7652,7 @@ namespace CefSharp.DevTools.HeadlessExperimental
         /// Image compression format (defaults to png).
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("format")]
-        public string Format
+        public CefSharp.DevTools.HeadlessExperimental.ScreenshotParamsFormat? Format
         {
             get;
             set;
@@ -7698,6 +7828,33 @@ namespace CefSharp.DevTools.IndexedDB
     }
 
     /// <summary>
+    /// Key type.
+    /// </summary>
+    public enum KeyType
+    {
+        /// <summary>
+        /// number
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("number")]
+        Number,
+        /// <summary>
+        /// string
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("string")]
+        String,
+        /// <summary>
+        /// date
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("date")]
+        Date,
+        /// <summary>
+        /// array
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("array")]
+        Array
+    }
+
+    /// <summary>
     /// Key.
     /// </summary>
     public class Key : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -7706,8 +7863,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// Key type.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.IndexedDB.KeyType Type
         {
             get;
             set;
@@ -7840,6 +7996,28 @@ namespace CefSharp.DevTools.IndexedDB
     }
 
     /// <summary>
+    /// Key path type.
+    /// </summary>
+    public enum KeyPathType
+    {
+        /// <summary>
+        /// null
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("null")]
+        Null,
+        /// <summary>
+        /// string
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("string")]
+        String,
+        /// <summary>
+        /// array
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("array")]
+        Array
+    }
+
+    /// <summary>
     /// Key path.
     /// </summary>
     public class KeyPath : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -7848,8 +8026,7 @@ namespace CefSharp.DevTools.IndexedDB
         /// Key path type.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.IndexedDB.KeyPathType Type
         {
             get;
             set;
@@ -8176,6 +8353,28 @@ namespace CefSharp.DevTools.Inspector
 namespace CefSharp.DevTools.LayerTree
 {
     /// <summary>
+    /// Reason for rectangle to force scrolling on the main thread
+    /// </summary>
+    public enum ScrollRectType
+    {
+        /// <summary>
+        /// RepaintsOnScroll
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("RepaintsOnScroll")]
+        RepaintsOnScroll,
+        /// <summary>
+        /// TouchEventHandler
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("TouchEventHandler")]
+        TouchEventHandler,
+        /// <summary>
+        /// WheelEventHandler
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("WheelEventHandler")]
+        WheelEventHandler
+    }
+
+    /// <summary>
     /// Rectangle where scrolling happens on the main thread.
     /// </summary>
     public class ScrollRect : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -8195,8 +8394,7 @@ namespace CefSharp.DevTools.LayerTree
         /// Reason for rectangle to force scrolling on the main thread
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.LayerTree.ScrollRectType Type
         {
             get;
             set;
@@ -8507,6 +8705,105 @@ namespace CefSharp.DevTools.LayerTree
 namespace CefSharp.DevTools.Log
 {
     /// <summary>
+    /// Log entry source.
+    /// </summary>
+    public enum LogEntrySource
+    {
+        /// <summary>
+        /// xml
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("xml")]
+        Xml,
+        /// <summary>
+        /// javascript
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("javascript")]
+        Javascript,
+        /// <summary>
+        /// network
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("network")]
+        Network,
+        /// <summary>
+        /// storage
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("storage")]
+        Storage,
+        /// <summary>
+        /// appcache
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("appcache")]
+        Appcache,
+        /// <summary>
+        /// rendering
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rendering")]
+        Rendering,
+        /// <summary>
+        /// security
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("security")]
+        Security,
+        /// <summary>
+        /// deprecation
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("deprecation")]
+        Deprecation,
+        /// <summary>
+        /// worker
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("worker")]
+        Worker,
+        /// <summary>
+        /// violation
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("violation")]
+        Violation,
+        /// <summary>
+        /// intervention
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("intervention")]
+        Intervention,
+        /// <summary>
+        /// recommendation
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("recommendation")]
+        Recommendation,
+        /// <summary>
+        /// other
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("other")]
+        Other
+    }
+
+    /// <summary>
+    /// Log entry severity.
+    /// </summary>
+    public enum LogEntryLevel
+    {
+        /// <summary>
+        /// verbose
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("verbose")]
+        Verbose,
+        /// <summary>
+        /// info
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("info")]
+        Info,
+        /// <summary>
+        /// warning
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("warning")]
+        Warning,
+        /// <summary>
+        /// error
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("error")]
+        Error
+    }
+
+    /// <summary>
     /// Log entry.
     /// </summary>
     public class LogEntry : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -8515,8 +8812,7 @@ namespace CefSharp.DevTools.Log
         /// Log entry source.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Source
+        public CefSharp.DevTools.Log.LogEntrySource Source
         {
             get;
             set;
@@ -8526,8 +8822,7 @@ namespace CefSharp.DevTools.Log
         /// Log entry severity.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("level")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Level
+        public CefSharp.DevTools.Log.LogEntryLevel Level
         {
             get;
             set;
@@ -8616,6 +8911,48 @@ namespace CefSharp.DevTools.Log
     }
 
     /// <summary>
+    /// Violation type.
+    /// </summary>
+    public enum ViolationSettingName
+    {
+        /// <summary>
+        /// longTask
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("longTask")]
+        LongTask,
+        /// <summary>
+        /// longLayout
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("longLayout")]
+        LongLayout,
+        /// <summary>
+        /// blockedEvent
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blockedEvent")]
+        BlockedEvent,
+        /// <summary>
+        /// blockedParser
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blockedParser")]
+        BlockedParser,
+        /// <summary>
+        /// discouragedAPIUse
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("discouragedAPIUse")]
+        DiscouragedAPIUse,
+        /// <summary>
+        /// handler
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("handler")]
+        Handler,
+        /// <summary>
+        /// recurringHandler
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("recurringHandler")]
+        RecurringHandler
+    }
+
+    /// <summary>
     /// Violation configuration setting.
     /// </summary>
     public class ViolationSetting : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -8624,8 +8961,7 @@ namespace CefSharp.DevTools.Log
         /// Violation type.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("name")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Name
+        public CefSharp.DevTools.Log.ViolationSettingName Name
         {
             get;
             set;
@@ -9325,6 +9661,53 @@ namespace CefSharp.DevTools.Network
     }
 
     /// <summary>
+    /// The referrer policy of the request, as defined in https://www.w3.org/TR/referrer-policy/
+    /// </summary>
+    public enum RequestReferrerPolicy
+    {
+        /// <summary>
+        /// unsafe-url
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("unsafe-url")]
+        UnsafeUrl,
+        /// <summary>
+        /// no-referrer-when-downgrade
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("no-referrer-when-downgrade")]
+        NoReferrerWhenDowngrade,
+        /// <summary>
+        /// no-referrer
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("no-referrer")]
+        NoReferrer,
+        /// <summary>
+        /// origin
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin")]
+        Origin,
+        /// <summary>
+        /// origin-when-cross-origin
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("origin-when-cross-origin")]
+        OriginWhenCrossOrigin,
+        /// <summary>
+        /// same-origin
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("same-origin")]
+        SameOrigin,
+        /// <summary>
+        /// strict-origin
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("strict-origin")]
+        StrictOrigin,
+        /// <summary>
+        /// strict-origin-when-cross-origin
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("strict-origin-when-cross-origin")]
+        StrictOriginWhenCrossOrigin
+    }
+
+    /// <summary>
     /// HTTP request data.
     /// </summary>
     public class Request : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -9426,8 +9809,7 @@ namespace CefSharp.DevTools.Network
         /// The referrer policy of the request, as defined in https://www.w3.org/TR/referrer-policy/
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("referrerPolicy")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string ReferrerPolicy
+        public CefSharp.DevTools.Network.RequestReferrerPolicy ReferrerPolicy
         {
             get;
             set;
@@ -9967,6 +10349,24 @@ namespace CefSharp.DevTools.Network
     }
 
     /// <summary>
+    /// Only set for &quot;token-redemption&quot; type and determine whether
+    /// to request a fresh SRR or use a still valid cached SRR.
+    /// </summary>
+    public enum TrustTokenParamsRefreshPolicy
+    {
+        /// <summary>
+        /// UseCached
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("UseCached")]
+        UseCached,
+        /// <summary>
+        /// Refresh
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Refresh")]
+        Refresh
+    }
+
+    /// <summary>
     /// Determines what type of Trust Token operation is executed and
     /// depending on the type, some additional parameters. The values
     /// are specified in third_party/blink/renderer/core/fetch/trust_token.idl.
@@ -9988,8 +10388,7 @@ namespace CefSharp.DevTools.Network
         /// to request a fresh SRR or use a still valid cached SRR.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("refreshPolicy")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string RefreshPolicy
+        public CefSharp.DevTools.Network.TrustTokenParamsRefreshPolicy RefreshPolicy
         {
             get;
             set;
@@ -10441,6 +10840,43 @@ namespace CefSharp.DevTools.Network
     }
 
     /// <summary>
+    /// Type of this initiator.
+    /// </summary>
+    public enum InitiatorType
+    {
+        /// <summary>
+        /// parser
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("parser")]
+        Parser,
+        /// <summary>
+        /// script
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("script")]
+        Script,
+        /// <summary>
+        /// preload
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("preload")]
+        Preload,
+        /// <summary>
+        /// SignedExchange
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SignedExchange")]
+        SignedExchange,
+        /// <summary>
+        /// preflight
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("preflight")]
+        Preflight,
+        /// <summary>
+        /// other
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("other")]
+        Other
+    }
+
+    /// <summary>
     /// Information about the request initiator.
     /// </summary>
     public class Initiator : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -10449,8 +10885,7 @@ namespace CefSharp.DevTools.Network
         /// Type of this initiator.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Network.InitiatorType Type
         {
             get;
             set;
@@ -11034,6 +11469,23 @@ namespace CefSharp.DevTools.Network
     }
 
     /// <summary>
+    /// Source of the authentication challenge.
+    /// </summary>
+    public enum AuthChallengeSource
+    {
+        /// <summary>
+        /// Server
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Server")]
+        Server,
+        /// <summary>
+        /// Proxy
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Proxy")]
+        Proxy
+    }
+
+    /// <summary>
     /// Authorization challenge for HTTP status code 401 or 407.
     /// </summary>
     public class AuthChallenge : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -11042,7 +11494,7 @@ namespace CefSharp.DevTools.Network
         /// Source of the authentication challenge.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
-        public string Source
+        public CefSharp.DevTools.Network.AuthChallengeSource? Source
         {
             get;
             set;
@@ -11083,6 +11535,30 @@ namespace CefSharp.DevTools.Network
     }
 
     /// <summary>
+    /// The decision on what to do in response to the authorization challenge.  Default means
+    /// deferring to the default behavior of the net stack, which will likely either the Cancel
+    /// authentication or display a popup dialog box.
+    /// </summary>
+    public enum AuthChallengeResponseResponse
+    {
+        /// <summary>
+        /// Default
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Default")]
+        Default,
+        /// <summary>
+        /// CancelAuth
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CancelAuth")]
+        CancelAuth,
+        /// <summary>
+        /// ProvideCredentials
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ProvideCredentials")]
+        ProvideCredentials
+    }
+
+    /// <summary>
     /// Response to an AuthChallenge.
     /// </summary>
     public class AuthChallengeResponse : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -11093,8 +11569,7 @@ namespace CefSharp.DevTools.Network
         /// authentication or display a popup dialog box.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("response")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Response
+        public CefSharp.DevTools.Network.AuthChallengeResponseResponse Response
         {
             get;
             set;
@@ -13051,6 +13526,66 @@ namespace CefSharp.DevTools.Network
     }
 
     /// <summary>
+    /// Detailed success or error status of the operation.
+    /// &apos;AlreadyExists&apos; also signifies a successful operation, as the result
+    /// of the operation already exists und thus, the operation was abort
+    /// preemptively (e.g. a cache hit).
+    /// </summary>
+    public enum TrustTokenOperationDoneStatus
+    {
+        /// <summary>
+        /// Ok
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Ok")]
+        Ok,
+        /// <summary>
+        /// InvalidArgument
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("InvalidArgument")]
+        InvalidArgument,
+        /// <summary>
+        /// FailedPrecondition
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("FailedPrecondition")]
+        FailedPrecondition,
+        /// <summary>
+        /// ResourceExhausted
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ResourceExhausted")]
+        ResourceExhausted,
+        /// <summary>
+        /// AlreadyExists
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("AlreadyExists")]
+        AlreadyExists,
+        /// <summary>
+        /// Unavailable
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Unavailable")]
+        Unavailable,
+        /// <summary>
+        /// BadResponse
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("BadResponse")]
+        BadResponse,
+        /// <summary>
+        /// InternalError
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("InternalError")]
+        InternalError,
+        /// <summary>
+        /// UnknownError
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("UnknownError")]
+        UnknownError,
+        /// <summary>
+        /// FulfilledLocally
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("FulfilledLocally")]
+        FulfilledLocally
+    }
+
+    /// <summary>
     /// Fired exactly once for each Trust Token operation. Depending on
     /// the type of the operation and whether the operation succeeded or
     /// failed, the event is fired before the corresponding request was sent
@@ -13066,8 +13601,7 @@ namespace CefSharp.DevTools.Network
         /// </summary>
         [System.Text.Json.Serialization.JsonIncludeAttribute]
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("status")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Status
+        public CefSharp.DevTools.Network.TrustTokenOperationDoneStatus Status
         {
             get;
             private set;
@@ -13490,6 +14024,23 @@ namespace CefSharp.DevTools.Overlay
     }
 
     /// <summary>
+    /// The line pattern (default: solid)
+    /// </summary>
+    public enum LineStylePattern
+    {
+        /// <summary>
+        /// dashed
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dashed")]
+        Dashed,
+        /// <summary>
+        /// dotted
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dotted")]
+        Dotted
+    }
+
+    /// <summary>
     /// Style information for drawing a line.
     /// </summary>
     public class LineStyle : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -13508,7 +14059,7 @@ namespace CefSharp.DevTools.Overlay
         /// The line pattern (default: solid)
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("pattern")]
-        public string Pattern
+        public CefSharp.DevTools.Overlay.LineStylePattern? Pattern
         {
             get;
             set;
@@ -15583,6 +16134,23 @@ namespace CefSharp.DevTools.Page
     }
 
     /// <summary>
+    /// Input mode.
+    /// </summary>
+    public enum FileChooserOpenedMode
+    {
+        /// <summary>
+        /// selectSingle
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("selectSingle")]
+        SelectSingle,
+        /// <summary>
+        /// selectMultiple
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("selectMultiple")]
+        SelectMultiple
+    }
+
+    /// <summary>
     /// Emitted only when `page.interceptFileChooser` is enabled.
     /// </summary>
     public class FileChooserOpenedEventArgs : CefSharp.DevTools.DevToolsDomainEventArgsBase
@@ -15615,8 +16183,7 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         [System.Text.Json.Serialization.JsonIncludeAttribute]
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("mode")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Mode
+        public CefSharp.DevTools.Page.FileChooserOpenedMode Mode
         {
             get;
             private set;
@@ -15683,6 +16250,23 @@ namespace CefSharp.DevTools.Page
     }
 
     /// <summary>
+    /// FrameDetachedReason
+    /// </summary>
+    public enum FrameDetachedReason
+    {
+        /// <summary>
+        /// remove
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("remove")]
+        Remove,
+        /// <summary>
+        /// swap
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("swap")]
+        Swap
+    }
+
+    /// <summary>
     /// Fired when frame has been detached from its parent.
     /// </summary>
     public class FrameDetachedEventArgs : CefSharp.DevTools.DevToolsDomainEventArgsBase
@@ -15704,8 +16288,7 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         [System.Text.Json.Serialization.JsonIncludeAttribute]
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("reason")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Reason
+        public CefSharp.DevTools.Page.FrameDetachedReason Reason
         {
             get;
             private set;
@@ -15946,6 +16529,28 @@ namespace CefSharp.DevTools.Page
     }
 
     /// <summary>
+    /// Download status.
+    /// </summary>
+    public enum DownloadProgressState
+    {
+        /// <summary>
+        /// inProgress
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("inProgress")]
+        InProgress,
+        /// <summary>
+        /// completed
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("completed")]
+        Completed,
+        /// <summary>
+        /// canceled
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("canceled")]
+        Canceled
+    }
+
+    /// <summary>
     /// Fired when download makes progress. Last call has |done| == true.
     /// Deprecated. Use Browser.downloadProgress instead.
     /// </summary>
@@ -15990,8 +16595,7 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         [System.Text.Json.Serialization.JsonIncludeAttribute]
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("state")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string State
+        public CefSharp.DevTools.Page.DownloadProgressState State
         {
             get;
             private set;
@@ -18647,6 +19251,33 @@ namespace CefSharp.DevTools.Tethering
 namespace CefSharp.DevTools.Tracing
 {
     /// <summary>
+    /// Controls how the trace buffer stores data.
+    /// </summary>
+    public enum TraceConfigRecordMode
+    {
+        /// <summary>
+        /// recordUntilFull
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("recordUntilFull")]
+        RecordUntilFull,
+        /// <summary>
+        /// recordContinuously
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("recordContinuously")]
+        RecordContinuously,
+        /// <summary>
+        /// recordAsMuchAsPossible
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("recordAsMuchAsPossible")]
+        RecordAsMuchAsPossible,
+        /// <summary>
+        /// echoToConsole
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("echoToConsole")]
+        EchoToConsole
+    }
+
+    /// <summary>
     /// TraceConfig
     /// </summary>
     public class TraceConfig : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -18655,7 +19286,7 @@ namespace CefSharp.DevTools.Tracing
         /// Controls how the trace buffer stores data.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("recordMode")]
-        public string RecordMode
+        public CefSharp.DevTools.Tracing.TraceConfigRecordMode? RecordMode
         {
             get;
             set;
@@ -19017,6 +19648,23 @@ namespace CefSharp.DevTools.Fetch
     }
 
     /// <summary>
+    /// Source of the authentication challenge.
+    /// </summary>
+    public enum AuthChallengeSource
+    {
+        /// <summary>
+        /// Server
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Server")]
+        Server,
+        /// <summary>
+        /// Proxy
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Proxy")]
+        Proxy
+    }
+
+    /// <summary>
     /// Authorization challenge for HTTP status code 401 or 407.
     /// </summary>
     public class AuthChallenge : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -19025,7 +19673,7 @@ namespace CefSharp.DevTools.Fetch
         /// Source of the authentication challenge.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("source")]
-        public string Source
+        public CefSharp.DevTools.Fetch.AuthChallengeSource? Source
         {
             get;
             set;
@@ -19066,6 +19714,30 @@ namespace CefSharp.DevTools.Fetch
     }
 
     /// <summary>
+    /// The decision on what to do in response to the authorization challenge.  Default means
+    /// deferring to the default behavior of the net stack, which will likely either the Cancel
+    /// authentication or display a popup dialog box.
+    /// </summary>
+    public enum AuthChallengeResponseResponse
+    {
+        /// <summary>
+        /// Default
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("Default")]
+        Default,
+        /// <summary>
+        /// CancelAuth
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CancelAuth")]
+        CancelAuth,
+        /// <summary>
+        /// ProvideCredentials
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ProvideCredentials")]
+        ProvideCredentials
+    }
+
+    /// <summary>
     /// Response to an AuthChallenge.
     /// </summary>
     public class AuthChallengeResponse : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -19076,8 +19748,7 @@ namespace CefSharp.DevTools.Fetch
         /// authentication or display a popup dialog box.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("response")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Response
+        public CefSharp.DevTools.Fetch.AuthChallengeResponseResponse Response
         {
             get;
             set;
@@ -20397,6 +21068,41 @@ namespace CefSharp.DevTools.WebAuthn
 namespace CefSharp.DevTools.Media
 {
     /// <summary>
+    /// Keep in sync with MediaLogMessageLevel
+    /// We are currently keeping the message level &apos;error&apos; separate from the
+    /// PlayerError type because right now they represent different things,
+    /// this one being a DVLOG(ERROR) style log message that gets printed
+    /// based on what log level is selected in the UI, and the other is a
+    /// representation of a media::PipelineStatus object. Soon however we&apos;re
+    /// going to be moving away from using PipelineStatus for errors and
+    /// introducing a new error type which should hopefully let us integrate
+    /// the error log level into the PlayerError type.
+    /// </summary>
+    public enum PlayerMessageLevel
+    {
+        /// <summary>
+        /// error
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("error")]
+        Error,
+        /// <summary>
+        /// warning
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("warning")]
+        Warning,
+        /// <summary>
+        /// info
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("info")]
+        Info,
+        /// <summary>
+        /// debug
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("debug")]
+        Debug
+    }
+
+    /// <summary>
     /// Have one type per entry in MediaLogRecord::Type
     /// Corresponds to kMessage
     /// </summary>
@@ -20414,8 +21120,7 @@ namespace CefSharp.DevTools.Media
         /// the error log level into the PlayerError type.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("level")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Level
+        public CefSharp.DevTools.Media.PlayerMessageLevel Level
         {
             get;
             set;
@@ -20489,6 +21194,23 @@ namespace CefSharp.DevTools.Media
     }
 
     /// <summary>
+    /// PlayerErrorType
+    /// </summary>
+    public enum PlayerErrorType
+    {
+        /// <summary>
+        /// pipeline_error
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pipeline_error")]
+        PipelineError,
+        /// <summary>
+        /// media_error
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("media_error")]
+        MediaError
+    }
+
+    /// <summary>
     /// Corresponds to kMediaError
     /// </summary>
     public class PlayerError : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -20497,8 +21219,7 @@ namespace CefSharp.DevTools.Media
         /// Type
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Media.PlayerErrorType Type
         {
             get;
             set;
@@ -20860,6 +21581,63 @@ namespace CefSharp.DevTools.Debugger
     }
 
     /// <summary>
+    /// Scope type.
+    /// </summary>
+    public enum ScopeType
+    {
+        /// <summary>
+        /// global
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("global")]
+        Global,
+        /// <summary>
+        /// local
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("local")]
+        Local,
+        /// <summary>
+        /// with
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("with")]
+        With,
+        /// <summary>
+        /// closure
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("closure")]
+        Closure,
+        /// <summary>
+        /// catch
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("catch")]
+        Catch,
+        /// <summary>
+        /// block
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("block")]
+        Block,
+        /// <summary>
+        /// script
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("script")]
+        Script,
+        /// <summary>
+        /// eval
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("eval")]
+        Eval,
+        /// <summary>
+        /// module
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("module")]
+        Module,
+        /// <summary>
+        /// wasm-expression-stack
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wasm-expression-stack")]
+        WasmExpressionStack
+    }
+
+    /// <summary>
     /// Scope description.
     /// </summary>
     public class Scope : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -20868,8 +21646,7 @@ namespace CefSharp.DevTools.Debugger
         /// Scope type.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Debugger.ScopeType Type
         {
             get;
             set;
@@ -20947,6 +21724,28 @@ namespace CefSharp.DevTools.Debugger
     }
 
     /// <summary>
+    /// BreakLocationType
+    /// </summary>
+    public enum BreakLocationType
+    {
+        /// <summary>
+        /// debuggerStatement
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("debuggerStatement")]
+        DebuggerStatement,
+        /// <summary>
+        /// call
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("call")]
+        Call,
+        /// <summary>
+        /// return
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("return")]
+        Return
+    }
+
+    /// <summary>
     /// BreakLocation
     /// </summary>
     public class BreakLocation : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -20986,7 +21785,7 @@ namespace CefSharp.DevTools.Debugger
         /// Type
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        public string Type
+        public CefSharp.DevTools.Debugger.BreakLocationType? Type
         {
             get;
             set;
@@ -21011,6 +21810,33 @@ namespace CefSharp.DevTools.Debugger
     }
 
     /// <summary>
+    /// Type of the debug symbols.
+    /// </summary>
+    public enum DebugSymbolsType
+    {
+        /// <summary>
+        /// None
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("None")]
+        None,
+        /// <summary>
+        /// SourceMap
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("SourceMap")]
+        SourceMap,
+        /// <summary>
+        /// EmbeddedDWARF
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("EmbeddedDWARF")]
+        EmbeddedDWARF,
+        /// <summary>
+        /// ExternalDWARF
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ExternalDWARF")]
+        ExternalDWARF
+    }
+
+    /// <summary>
     /// Debug symbols available for a wasm script.
     /// </summary>
     public class DebugSymbols : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -21019,8 +21845,7 @@ namespace CefSharp.DevTools.Debugger
         /// Type of the debug symbols.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Debugger.DebugSymbolsType Type
         {
             get;
             set;
@@ -21068,6 +21893,73 @@ namespace CefSharp.DevTools.Debugger
     }
 
     /// <summary>
+    /// Pause reason.
+    /// </summary>
+    public enum PausedReason
+    {
+        /// <summary>
+        /// ambiguous
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ambiguous")]
+        Ambiguous,
+        /// <summary>
+        /// assert
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("assert")]
+        Assert,
+        /// <summary>
+        /// CSPViolation
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("CSPViolation")]
+        CSPViolation,
+        /// <summary>
+        /// debugCommand
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("debugCommand")]
+        DebugCommand,
+        /// <summary>
+        /// DOM
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("DOM")]
+        DOM,
+        /// <summary>
+        /// EventListener
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("EventListener")]
+        EventListener,
+        /// <summary>
+        /// exception
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("exception")]
+        Exception,
+        /// <summary>
+        /// instrumentation
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("instrumentation")]
+        Instrumentation,
+        /// <summary>
+        /// OOM
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("OOM")]
+        OOM,
+        /// <summary>
+        /// other
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("other")]
+        Other,
+        /// <summary>
+        /// promiseRejection
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("promiseRejection")]
+        PromiseRejection,
+        /// <summary>
+        /// XHR
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("XHR")]
+        XHR
+    }
+
+    /// <summary>
     /// Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria.
     /// </summary>
     public class PausedEventArgs : CefSharp.DevTools.DevToolsDomainEventArgsBase
@@ -21089,8 +21981,7 @@ namespace CefSharp.DevTools.Debugger
         /// </summary>
         [System.Text.Json.Serialization.JsonIncludeAttribute]
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("reason")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Reason
+        public CefSharp.DevTools.Debugger.PausedReason Reason
         {
             get;
             private set;
@@ -22346,6 +23237,157 @@ namespace CefSharp.DevTools.Profiler
 namespace CefSharp.DevTools.Runtime
 {
     /// <summary>
+    /// Object type.
+    /// </summary>
+    public enum RemoteObjectType
+    {
+        /// <summary>
+        /// object
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("object")]
+        Object,
+        /// <summary>
+        /// function
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("function")]
+        Function,
+        /// <summary>
+        /// undefined
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("undefined")]
+        Undefined,
+        /// <summary>
+        /// string
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("string")]
+        String,
+        /// <summary>
+        /// number
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("number")]
+        Number,
+        /// <summary>
+        /// boolean
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("boolean")]
+        Boolean,
+        /// <summary>
+        /// symbol
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("symbol")]
+        Symbol,
+        /// <summary>
+        /// bigint
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bigint")]
+        Bigint
+    }
+
+    /// <summary>
+    /// Object subtype hint. Specified for `object` type values only.
+    /// NOTE: If you change anything here, make sure to also update
+    /// `subtype` in `ObjectPreview` and `PropertyPreview` below.
+    /// </summary>
+    public enum RemoteObjectSubtype
+    {
+        /// <summary>
+        /// array
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("array")]
+        Array,
+        /// <summary>
+        /// null
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("null")]
+        Null,
+        /// <summary>
+        /// node
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("node")]
+        Node,
+        /// <summary>
+        /// regexp
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("regexp")]
+        Regexp,
+        /// <summary>
+        /// date
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("date")]
+        Date,
+        /// <summary>
+        /// map
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("map")]
+        Map,
+        /// <summary>
+        /// set
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("set")]
+        Set,
+        /// <summary>
+        /// weakmap
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("weakmap")]
+        Weakmap,
+        /// <summary>
+        /// weakset
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("weakset")]
+        Weakset,
+        /// <summary>
+        /// iterator
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("iterator")]
+        Iterator,
+        /// <summary>
+        /// generator
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("generator")]
+        Generator,
+        /// <summary>
+        /// error
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("error")]
+        Error,
+        /// <summary>
+        /// proxy
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("proxy")]
+        Proxy,
+        /// <summary>
+        /// promise
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("promise")]
+        Promise,
+        /// <summary>
+        /// typedarray
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("typedarray")]
+        Typedarray,
+        /// <summary>
+        /// arraybuffer
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("arraybuffer")]
+        Arraybuffer,
+        /// <summary>
+        /// dataview
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dataview")]
+        Dataview,
+        /// <summary>
+        /// webassemblymemory
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("webassemblymemory")]
+        Webassemblymemory,
+        /// <summary>
+        /// wasmvalue
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wasmvalue")]
+        Wasmvalue
+    }
+
+    /// <summary>
     /// Mirror object referencing original JavaScript object.
     /// </summary>
     public class RemoteObject : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -22354,8 +23396,7 @@ namespace CefSharp.DevTools.Runtime
         /// Object type.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Runtime.RemoteObjectType Type
         {
             get;
             set;
@@ -22367,7 +23408,7 @@ namespace CefSharp.DevTools.Runtime
         /// `subtype` in `ObjectPreview` and `PropertyPreview` below.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("subtype")]
-        public string Subtype
+        public CefSharp.DevTools.Runtime.RemoteObjectSubtype? Subtype
         {
             get;
             set;
@@ -22476,6 +23517,155 @@ namespace CefSharp.DevTools.Runtime
     }
 
     /// <summary>
+    /// Object type.
+    /// </summary>
+    public enum ObjectPreviewType
+    {
+        /// <summary>
+        /// object
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("object")]
+        Object,
+        /// <summary>
+        /// function
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("function")]
+        Function,
+        /// <summary>
+        /// undefined
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("undefined")]
+        Undefined,
+        /// <summary>
+        /// string
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("string")]
+        String,
+        /// <summary>
+        /// number
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("number")]
+        Number,
+        /// <summary>
+        /// boolean
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("boolean")]
+        Boolean,
+        /// <summary>
+        /// symbol
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("symbol")]
+        Symbol,
+        /// <summary>
+        /// bigint
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bigint")]
+        Bigint
+    }
+
+    /// <summary>
+    /// Object subtype hint. Specified for `object` type values only.
+    /// </summary>
+    public enum ObjectPreviewSubtype
+    {
+        /// <summary>
+        /// array
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("array")]
+        Array,
+        /// <summary>
+        /// null
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("null")]
+        Null,
+        /// <summary>
+        /// node
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("node")]
+        Node,
+        /// <summary>
+        /// regexp
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("regexp")]
+        Regexp,
+        /// <summary>
+        /// date
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("date")]
+        Date,
+        /// <summary>
+        /// map
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("map")]
+        Map,
+        /// <summary>
+        /// set
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("set")]
+        Set,
+        /// <summary>
+        /// weakmap
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("weakmap")]
+        Weakmap,
+        /// <summary>
+        /// weakset
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("weakset")]
+        Weakset,
+        /// <summary>
+        /// iterator
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("iterator")]
+        Iterator,
+        /// <summary>
+        /// generator
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("generator")]
+        Generator,
+        /// <summary>
+        /// error
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("error")]
+        Error,
+        /// <summary>
+        /// proxy
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("proxy")]
+        Proxy,
+        /// <summary>
+        /// promise
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("promise")]
+        Promise,
+        /// <summary>
+        /// typedarray
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("typedarray")]
+        Typedarray,
+        /// <summary>
+        /// arraybuffer
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("arraybuffer")]
+        Arraybuffer,
+        /// <summary>
+        /// dataview
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dataview")]
+        Dataview,
+        /// <summary>
+        /// webassemblymemory
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("webassemblymemory")]
+        Webassemblymemory,
+        /// <summary>
+        /// wasmvalue
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wasmvalue")]
+        Wasmvalue
+    }
+
+    /// <summary>
     /// Object containing abbreviated remote object value.
     /// </summary>
     public class ObjectPreview : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -22484,8 +23674,7 @@ namespace CefSharp.DevTools.Runtime
         /// Object type.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Runtime.ObjectPreviewType Type
         {
             get;
             set;
@@ -22495,7 +23684,7 @@ namespace CefSharp.DevTools.Runtime
         /// Object subtype hint. Specified for `object` type values only.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("subtype")]
-        public string Subtype
+        public CefSharp.DevTools.Runtime.ObjectPreviewSubtype? Subtype
         {
             get;
             set;
@@ -22544,6 +23733,160 @@ namespace CefSharp.DevTools.Runtime
     }
 
     /// <summary>
+    /// Object type. Accessor means that the property itself is an accessor property.
+    /// </summary>
+    public enum PropertyPreviewType
+    {
+        /// <summary>
+        /// object
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("object")]
+        Object,
+        /// <summary>
+        /// function
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("function")]
+        Function,
+        /// <summary>
+        /// undefined
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("undefined")]
+        Undefined,
+        /// <summary>
+        /// string
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("string")]
+        String,
+        /// <summary>
+        /// number
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("number")]
+        Number,
+        /// <summary>
+        /// boolean
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("boolean")]
+        Boolean,
+        /// <summary>
+        /// symbol
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("symbol")]
+        Symbol,
+        /// <summary>
+        /// accessor
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("accessor")]
+        Accessor,
+        /// <summary>
+        /// bigint
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("bigint")]
+        Bigint
+    }
+
+    /// <summary>
+    /// Object subtype hint. Specified for `object` type values only.
+    /// </summary>
+    public enum PropertyPreviewSubtype
+    {
+        /// <summary>
+        /// array
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("array")]
+        Array,
+        /// <summary>
+        /// null
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("null")]
+        Null,
+        /// <summary>
+        /// node
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("node")]
+        Node,
+        /// <summary>
+        /// regexp
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("regexp")]
+        Regexp,
+        /// <summary>
+        /// date
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("date")]
+        Date,
+        /// <summary>
+        /// map
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("map")]
+        Map,
+        /// <summary>
+        /// set
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("set")]
+        Set,
+        /// <summary>
+        /// weakmap
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("weakmap")]
+        Weakmap,
+        /// <summary>
+        /// weakset
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("weakset")]
+        Weakset,
+        /// <summary>
+        /// iterator
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("iterator")]
+        Iterator,
+        /// <summary>
+        /// generator
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("generator")]
+        Generator,
+        /// <summary>
+        /// error
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("error")]
+        Error,
+        /// <summary>
+        /// proxy
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("proxy")]
+        Proxy,
+        /// <summary>
+        /// promise
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("promise")]
+        Promise,
+        /// <summary>
+        /// typedarray
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("typedarray")]
+        Typedarray,
+        /// <summary>
+        /// arraybuffer
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("arraybuffer")]
+        Arraybuffer,
+        /// <summary>
+        /// dataview
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dataview")]
+        Dataview,
+        /// <summary>
+        /// webassemblymemory
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("webassemblymemory")]
+        Webassemblymemory,
+        /// <summary>
+        /// wasmvalue
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("wasmvalue")]
+        Wasmvalue
+    }
+
+    /// <summary>
     /// PropertyPreview
     /// </summary>
     public class PropertyPreview : CefSharp.DevTools.DevToolsDomainEntityBase
@@ -22563,8 +23906,7 @@ namespace CefSharp.DevTools.Runtime
         /// Object type. Accessor means that the property itself is an accessor property.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Runtime.PropertyPreviewType Type
         {
             get;
             set;
@@ -22594,7 +23936,7 @@ namespace CefSharp.DevTools.Runtime
         /// Object subtype hint. Specified for `object` type values only.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("subtype")]
-        public string Subtype
+        public CefSharp.DevTools.Runtime.PropertyPreviewSubtype? Subtype
         {
             get;
             set;
@@ -23189,6 +24531,103 @@ namespace CefSharp.DevTools.Runtime
     }
 
     /// <summary>
+    /// Type of the call.
+    /// </summary>
+    public enum ConsoleAPICalledType
+    {
+        /// <summary>
+        /// log
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("log")]
+        Log,
+        /// <summary>
+        /// debug
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("debug")]
+        Debug,
+        /// <summary>
+        /// info
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("info")]
+        Info,
+        /// <summary>
+        /// error
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("error")]
+        Error,
+        /// <summary>
+        /// warning
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("warning")]
+        Warning,
+        /// <summary>
+        /// dir
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dir")]
+        Dir,
+        /// <summary>
+        /// dirxml
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dirxml")]
+        Dirxml,
+        /// <summary>
+        /// table
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("table")]
+        Table,
+        /// <summary>
+        /// trace
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("trace")]
+        Trace,
+        /// <summary>
+        /// clear
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("clear")]
+        Clear,
+        /// <summary>
+        /// startGroup
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startGroup")]
+        StartGroup,
+        /// <summary>
+        /// startGroupCollapsed
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("startGroupCollapsed")]
+        StartGroupCollapsed,
+        /// <summary>
+        /// endGroup
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("endGroup")]
+        EndGroup,
+        /// <summary>
+        /// assert
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("assert")]
+        Assert,
+        /// <summary>
+        /// profile
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profile")]
+        Profile,
+        /// <summary>
+        /// profileEnd
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("profileEnd")]
+        ProfileEnd,
+        /// <summary>
+        /// count
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("count")]
+        Count,
+        /// <summary>
+        /// timeEnd
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timeEnd")]
+        TimeEnd
+    }
+
+    /// <summary>
     /// Issued when console API was called.
     /// </summary>
     public class ConsoleAPICalledEventArgs : CefSharp.DevTools.DevToolsDomainEventArgsBase
@@ -23198,8 +24637,7 @@ namespace CefSharp.DevTools.Runtime
         /// </summary>
         [System.Text.Json.Serialization.JsonIncludeAttribute]
         [System.Text.Json.Serialization.JsonPropertyNameAttribute("type")]
-        [System.Diagnostics.CodeAnalysis.DisallowNull]
-        public string Type
+        public CefSharp.DevTools.Runtime.ConsoleAPICalledType Type
         {
             get;
             private set;
@@ -24182,6 +25620,28 @@ namespace CefSharp.DevTools.Audits
     using System.Linq;
 
     /// <summary>
+    /// The encoding to use.
+    /// </summary>
+    public enum GetEncodedResponseEncoding
+    {
+        /// <summary>
+        /// webp
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("webp")]
+        Webp,
+        /// <summary>
+        /// jpeg
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("jpeg")]
+        Jpeg,
+        /// <summary>
+        /// png
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("png")]
+        Png
+    }
+
+    /// <summary>
     /// Audits domain allows investigation of page violations and possible improvements.
     /// </summary>
     public partial class AuditsClient : DevToolsDomainBase
@@ -24228,7 +25688,7 @@ namespace CefSharp.DevTools.Audits
             _IssueAdded?.Invoke(this, args);
         }
 
-        partial void ValidateGetEncodedResponse(string requestId, string encoding, double? quality = null, bool? sizeOnly = null);
+        partial void ValidateGetEncodedResponse(string requestId, CefSharp.DevTools.Audits.GetEncodedResponseEncoding encoding, double? quality = null, bool? sizeOnly = null);
         /// <summary>
         /// Returns the response body and size if it were re-encoded with the specified settings. Only
         /// applies to images.
@@ -24238,12 +25698,12 @@ namespace CefSharp.DevTools.Audits
         /// <param name = "quality">The quality of the encoding (0-1). (defaults to 1)</param>
         /// <param name = "sizeOnly">Whether to only return the size information (defaults to false).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetEncodedResponseResponse&gt;</returns>
-        public System.Threading.Tasks.Task<GetEncodedResponseResponse> GetEncodedResponseAsync(string requestId, string encoding, double? quality = null, bool? sizeOnly = null)
+        public System.Threading.Tasks.Task<GetEncodedResponseResponse> GetEncodedResponseAsync(string requestId, CefSharp.DevTools.Audits.GetEncodedResponseEncoding encoding, double? quality = null, bool? sizeOnly = null)
         {
             ValidateGetEncodedResponse(requestId, encoding, quality, sizeOnly);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
-            dict.Add("encoding", encoding);
+            dict.Add("encoding", EnumToString(encoding));
             if (quality.HasValue)
             {
                 dict.Add("quality", quality.Value);
@@ -24393,7 +25853,7 @@ namespace CefSharp.DevTools.BackgroundService
         {
             ValidateStartObserving(service);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("service", this.EnumToString(service));
+            dict.Add("service", EnumToString(service));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("BackgroundService.startObserving", dict);
         }
 
@@ -24407,7 +25867,7 @@ namespace CefSharp.DevTools.BackgroundService
         {
             ValidateStopObserving(service);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("service", this.EnumToString(service));
+            dict.Add("service", EnumToString(service));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("BackgroundService.stopObserving", dict);
         }
 
@@ -24423,7 +25883,7 @@ namespace CefSharp.DevTools.BackgroundService
             ValidateSetRecording(shouldRecord, service);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("shouldRecord", shouldRecord);
-            dict.Add("service", this.EnumToString(service));
+            dict.Add("service", EnumToString(service));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("BackgroundService.setRecording", dict);
         }
 
@@ -24437,7 +25897,7 @@ namespace CefSharp.DevTools.BackgroundService
         {
             ValidateClearEvents(service);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("service", this.EnumToString(service));
+            dict.Add("service", EnumToString(service));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("BackgroundService.clearEvents", dict);
         }
     }
@@ -24623,6 +26083,35 @@ namespace CefSharp.DevTools.Browser
     using System.Linq;
 
     /// <summary>
+    /// Whether to allow all or deny all download requests, or use default Chrome behavior if
+    /// available (otherwise deny). |allowAndName| allows download and names files according to
+    /// their dowmload guids.
+    /// </summary>
+    public enum SetDownloadBehaviorBehavior
+    {
+        /// <summary>
+        /// deny
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("deny")]
+        Deny,
+        /// <summary>
+        /// allow
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("allow")]
+        Allow,
+        /// <summary>
+        /// allowAndName
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("allowAndName")]
+        AllowAndName,
+        /// <summary>
+        /// default
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("default")]
+        Default
+    }
+
+    /// <summary>
     /// The Browser domain defines methods and events for browser managing.
     /// </summary>
     public partial class BrowserClient : DevToolsDomainBase
@@ -24715,7 +26204,7 @@ namespace CefSharp.DevTools.Browser
             ValidateSetPermission(permission, setting, origin, browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("permission", permission.ToDictionary());
-            dict.Add("setting", this.EnumToString(setting));
+            dict.Add("setting", EnumToString(setting));
             if (!(string.IsNullOrEmpty(origin)))
             {
                 dict.Add("origin", origin);
@@ -24741,7 +26230,7 @@ namespace CefSharp.DevTools.Browser
         {
             ValidateGrantPermissions(permissions, origin, browserContextId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("permissions", this.EnumToString(permissions));
+            dict.Add("permissions", EnumToString(permissions));
             if (!(string.IsNullOrEmpty(origin)))
             {
                 dict.Add("origin", origin);
@@ -24773,7 +26262,7 @@ namespace CefSharp.DevTools.Browser
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.resetPermissions", dict);
         }
 
-        partial void ValidateSetDownloadBehavior(string behavior, string browserContextId = null, string downloadPath = null, bool? eventsEnabled = null);
+        partial void ValidateSetDownloadBehavior(CefSharp.DevTools.Browser.SetDownloadBehaviorBehavior behavior, string browserContextId = null, string downloadPath = null, bool? eventsEnabled = null);
         /// <summary>
         /// Set the behavior when downloading a file.
         /// </summary>
@@ -24782,11 +26271,11 @@ namespace CefSharp.DevTools.Browser
         /// <param name = "downloadPath">The default path to save downloaded files to. This is requred if behavior is set to 'allow'or 'allowAndName'.</param>
         /// <param name = "eventsEnabled">Whether to emit download events (defaults to false).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDownloadBehaviorAsync(string behavior, string browserContextId = null, string downloadPath = null, bool? eventsEnabled = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetDownloadBehaviorAsync(CefSharp.DevTools.Browser.SetDownloadBehaviorBehavior behavior, string browserContextId = null, string downloadPath = null, bool? eventsEnabled = null)
         {
             ValidateSetDownloadBehavior(behavior, browserContextId, downloadPath, eventsEnabled);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("behavior", behavior);
+            dict.Add("behavior", EnumToString(behavior));
             if (!(string.IsNullOrEmpty(browserContextId)))
             {
                 dict.Add("browserContextId", browserContextId);
@@ -25002,7 +26491,7 @@ namespace CefSharp.DevTools.Browser
         {
             ValidateExecuteBrowserCommand(commandId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("commandId", this.EnumToString(commandId));
+            dict.Add("commandId", EnumToString(commandId));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Browser.executeBrowserCommand", dict);
         }
     }
@@ -28303,7 +29792,7 @@ namespace CefSharp.DevTools.DOMDebugger
             ValidateRemoveDOMBreakpoint(nodeId, type);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            dict.Add("type", this.EnumToString(type));
+            dict.Add("type", EnumToString(type));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.removeDOMBreakpoint", dict);
         }
 
@@ -28365,7 +29854,7 @@ namespace CefSharp.DevTools.DOMDebugger
         {
             ValidateSetBreakOnCSPViolation(violationTypes);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("violationTypes", this.EnumToString(violationTypes));
+            dict.Add("violationTypes", EnumToString(violationTypes));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.setBreakOnCSPViolation", dict);
         }
 
@@ -28381,7 +29870,7 @@ namespace CefSharp.DevTools.DOMDebugger
             ValidateSetDOMBreakpoint(nodeId, type);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("nodeId", nodeId);
-            dict.Add("type", this.EnumToString(type));
+            dict.Add("type", EnumToString(type));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("DOMDebugger.setDOMBreakpoint", dict);
         }
 
@@ -29046,6 +30535,60 @@ namespace CefSharp.DevTools.Emulation
     using System.Linq;
 
     /// <summary>
+    /// Touch/gesture events configuration. Default: current platform.
+    /// </summary>
+    public enum SetEmitTouchEventsForMouseConfiguration
+    {
+        /// <summary>
+        /// mobile
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mobile")]
+        Mobile,
+        /// <summary>
+        /// desktop
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("desktop")]
+        Desktop
+    }
+
+    /// <summary>
+    /// Vision deficiency to emulate.
+    /// </summary>
+    public enum SetEmulatedVisionDeficiencyType
+    {
+        /// <summary>
+        /// none
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("none")]
+        None,
+        /// <summary>
+        /// achromatopsia
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("achromatopsia")]
+        Achromatopsia,
+        /// <summary>
+        /// blurredVision
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("blurredVision")]
+        BlurredVision,
+        /// <summary>
+        /// deuteranopia
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("deuteranopia")]
+        Deuteranopia,
+        /// <summary>
+        /// protanopia
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("protanopia")]
+        Protanopia,
+        /// <summary>
+        /// tritanopia
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("tritanopia")]
+        Tritanopia
+    }
+
+    /// <summary>
     /// This domain emulates different environments for the page.
     /// </summary>
     public partial class EmulationClient : DevToolsDomainBase
@@ -29283,21 +30826,21 @@ namespace CefSharp.DevTools.Emulation
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setDocumentCookieDisabled", dict);
         }
 
-        partial void ValidateSetEmitTouchEventsForMouse(bool enabled, string configuration = null);
+        partial void ValidateSetEmitTouchEventsForMouse(bool enabled, CefSharp.DevTools.Emulation.SetEmitTouchEventsForMouseConfiguration? configuration = null);
         /// <summary>
         /// SetEmitTouchEventsForMouse
         /// </summary>
         /// <param name = "enabled">Whether touch emulation based on mouse input should be enabled.</param>
         /// <param name = "configuration">Touch/gesture events configuration. Default: current platform.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmitTouchEventsForMouseAsync(bool enabled, string configuration = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmitTouchEventsForMouseAsync(bool enabled, CefSharp.DevTools.Emulation.SetEmitTouchEventsForMouseConfiguration? configuration = null)
         {
             ValidateSetEmitTouchEventsForMouse(enabled, configuration);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("enabled", enabled);
-            if (!(string.IsNullOrEmpty(configuration)))
+            if (configuration.HasValue)
             {
-                dict.Add("configuration", configuration);
+                dict.Add("configuration", EnumToString(configuration));
             }
 
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setEmitTouchEventsForMouse", dict);
@@ -29327,17 +30870,17 @@ namespace CefSharp.DevTools.Emulation
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setEmulatedMedia", dict);
         }
 
-        partial void ValidateSetEmulatedVisionDeficiency(string type);
+        partial void ValidateSetEmulatedVisionDeficiency(CefSharp.DevTools.Emulation.SetEmulatedVisionDeficiencyType type);
         /// <summary>
         /// Emulates the given vision deficiency.
         /// </summary>
         /// <param name = "type">Vision deficiency to emulate.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmulatedVisionDeficiencyAsync(string type)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetEmulatedVisionDeficiencyAsync(CefSharp.DevTools.Emulation.SetEmulatedVisionDeficiencyType type)
         {
             ValidateSetEmulatedVisionDeficiency(type);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("type", type);
+            dict.Add("type", EnumToString(type));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setEmulatedVisionDeficiency", dict);
         }
 
@@ -29461,7 +31004,7 @@ namespace CefSharp.DevTools.Emulation
         {
             ValidateSetVirtualTimePolicy(policy, budget, maxVirtualTimeTaskStarvationCount, waitForNavigation, initialVirtualTime);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("policy", this.EnumToString(policy));
+            dict.Add("policy", EnumToString(policy));
             if (budget.HasValue)
             {
                 dict.Add("budget", budget.Value);
@@ -29527,7 +31070,7 @@ namespace CefSharp.DevTools.Emulation
         {
             ValidateSetDisabledImageTypes(imageTypes);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("imageTypes", this.EnumToString(imageTypes));
+            dict.Add("imageTypes", EnumToString(imageTypes));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Emulation.setDisabledImageTypes", dict);
         }
 
@@ -30093,6 +31636,159 @@ namespace CefSharp.DevTools.Input
     using System.Linq;
 
     /// <summary>
+    /// Type of the drag event.
+    /// </summary>
+    public enum DispatchDragEventType
+    {
+        /// <summary>
+        /// dragEnter
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dragEnter")]
+        DragEnter,
+        /// <summary>
+        /// dragOver
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dragOver")]
+        DragOver,
+        /// <summary>
+        /// drop
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("drop")]
+        Drop,
+        /// <summary>
+        /// dragCancel
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("dragCancel")]
+        DragCancel
+    }
+
+    /// <summary>
+    /// Type of the key event.
+    /// </summary>
+    public enum DispatchKeyEventType
+    {
+        /// <summary>
+        /// keyDown
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyDown")]
+        KeyDown,
+        /// <summary>
+        /// keyUp
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("keyUp")]
+        KeyUp,
+        /// <summary>
+        /// rawKeyDown
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("rawKeyDown")]
+        RawKeyDown,
+        /// <summary>
+        /// char
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("char")]
+        Char
+    }
+
+    /// <summary>
+    /// Type of the mouse event.
+    /// </summary>
+    public enum DispatchMouseEventType
+    {
+        /// <summary>
+        /// mousePressed
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mousePressed")]
+        MousePressed,
+        /// <summary>
+        /// mouseReleased
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mouseReleased")]
+        MouseReleased,
+        /// <summary>
+        /// mouseMoved
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mouseMoved")]
+        MouseMoved,
+        /// <summary>
+        /// mouseWheel
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mouseWheel")]
+        MouseWheel
+    }
+
+    /// <summary>
+    /// Pointer type (default: &quot;mouse&quot;).
+    /// </summary>
+    public enum DispatchMouseEventPointerType
+    {
+        /// <summary>
+        /// mouse
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mouse")]
+        Mouse,
+        /// <summary>
+        /// pen
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("pen")]
+        Pen
+    }
+
+    /// <summary>
+    /// Type of the touch event. TouchEnd and TouchCancel must not contain any touch points, while
+    /// TouchStart and TouchMove must contains at least one.
+    /// </summary>
+    public enum DispatchTouchEventType
+    {
+        /// <summary>
+        /// touchStart
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("touchStart")]
+        TouchStart,
+        /// <summary>
+        /// touchEnd
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("touchEnd")]
+        TouchEnd,
+        /// <summary>
+        /// touchMove
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("touchMove")]
+        TouchMove,
+        /// <summary>
+        /// touchCancel
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("touchCancel")]
+        TouchCancel
+    }
+
+    /// <summary>
+    /// Type of the mouse event.
+    /// </summary>
+    public enum EmulateTouchFromMouseEventType
+    {
+        /// <summary>
+        /// mousePressed
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mousePressed")]
+        MousePressed,
+        /// <summary>
+        /// mouseReleased
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mouseReleased")]
+        MouseReleased,
+        /// <summary>
+        /// mouseMoved
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mouseMoved")]
+        MouseMoved,
+        /// <summary>
+        /// mouseWheel
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mouseWheel")]
+        MouseWheel
+    }
+
+    /// <summary>
     /// Input
     /// </summary>
     public partial class InputClient : DevToolsDomainBase
@@ -30140,7 +31836,7 @@ namespace CefSharp.DevTools.Input
             _DragIntercepted?.Invoke(this, args);
         }
 
-        partial void ValidateDispatchDragEvent(string type, double x, double y, CefSharp.DevTools.Input.DragData data, int? modifiers = null);
+        partial void ValidateDispatchDragEvent(CefSharp.DevTools.Input.DispatchDragEventType type, double x, double y, CefSharp.DevTools.Input.DragData data, int? modifiers = null);
         /// <summary>
         /// Dispatches a drag event into the page.
         /// </summary>
@@ -30150,11 +31846,11 @@ namespace CefSharp.DevTools.Input
         /// <param name = "data">data</param>
         /// <param name = "modifiers">Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8(default: 0).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchDragEventAsync(string type, double x, double y, CefSharp.DevTools.Input.DragData data, int? modifiers = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchDragEventAsync(CefSharp.DevTools.Input.DispatchDragEventType type, double x, double y, CefSharp.DevTools.Input.DragData data, int? modifiers = null)
         {
             ValidateDispatchDragEvent(type, x, y, data, modifiers);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("type", type);
+            dict.Add("type", EnumToString(type));
             dict.Add("x", x);
             dict.Add("y", y);
             dict.Add("data", data.ToDictionary());
@@ -30166,7 +31862,7 @@ namespace CefSharp.DevTools.Input
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.dispatchDragEvent", dict);
         }
 
-        partial void ValidateDispatchKeyEvent(string type, int? modifiers = null, double? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null);
+        partial void ValidateDispatchKeyEvent(CefSharp.DevTools.Input.DispatchKeyEventType type, int? modifiers = null, double? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null);
         /// <summary>
         /// Dispatches a key event to the page.
         /// </summary>
@@ -30186,11 +31882,11 @@ namespace CefSharp.DevTools.Input
         /// <param name = "location">Whether the event was from the left or right side of the keyboard. 1=Left, 2=Right (default:0).</param>
         /// <param name = "commands">Editing commands to send with the key event (e.g., 'selectAll') (default: []).These are related to but not equal the command names used in `document.execCommand` and NSStandardKeyBindingResponding.See https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/editing/commands/editor_command_names.h for valid command names.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchKeyEventAsync(string type, int? modifiers = null, double? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchKeyEventAsync(CefSharp.DevTools.Input.DispatchKeyEventType type, int? modifiers = null, double? timestamp = null, string text = null, string unmodifiedText = null, string keyIdentifier = null, string code = null, string key = null, int? windowsVirtualKeyCode = null, int? nativeVirtualKeyCode = null, bool? autoRepeat = null, bool? isKeypad = null, bool? isSystemKey = null, int? location = null, string[] commands = null)
         {
             ValidateDispatchKeyEvent(type, modifiers, timestamp, text, unmodifiedText, keyIdentifier, code, key, windowsVirtualKeyCode, nativeVirtualKeyCode, autoRepeat, isKeypad, isSystemKey, location, commands);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("type", type);
+            dict.Add("type", EnumToString(type));
             if (modifiers.HasValue)
             {
                 dict.Add("modifiers", modifiers.Value);
@@ -30279,7 +31975,7 @@ namespace CefSharp.DevTools.Input
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.insertText", dict);
         }
 
-        partial void ValidateDispatchMouseEvent(string type, double x, double y, int? modifiers = null, double? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, double? force = null, double? tangentialPressure = null, int? tiltX = null, int? tiltY = null, int? twist = null, double? deltaX = null, double? deltaY = null, string pointerType = null);
+        partial void ValidateDispatchMouseEvent(CefSharp.DevTools.Input.DispatchMouseEventType type, double x, double y, int? modifiers = null, double? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, double? force = null, double? tangentialPressure = null, int? tiltX = null, int? tiltY = null, int? twist = null, double? deltaX = null, double? deltaY = null, CefSharp.DevTools.Input.DispatchMouseEventPointerType? pointerType = null);
         /// <summary>
         /// Dispatches a mouse event to the page.
         /// </summary>
@@ -30300,11 +31996,11 @@ namespace CefSharp.DevTools.Input
         /// <param name = "deltaY">Y delta in CSS pixels for mouse wheel event (default: 0).</param>
         /// <param name = "pointerType">Pointer type (default: "mouse").</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchMouseEventAsync(string type, double x, double y, int? modifiers = null, double? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, double? force = null, double? tangentialPressure = null, int? tiltX = null, int? tiltY = null, int? twist = null, double? deltaX = null, double? deltaY = null, string pointerType = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchMouseEventAsync(CefSharp.DevTools.Input.DispatchMouseEventType type, double x, double y, int? modifiers = null, double? timestamp = null, CefSharp.DevTools.Input.MouseButton? button = null, int? buttons = null, int? clickCount = null, double? force = null, double? tangentialPressure = null, int? tiltX = null, int? tiltY = null, int? twist = null, double? deltaX = null, double? deltaY = null, CefSharp.DevTools.Input.DispatchMouseEventPointerType? pointerType = null)
         {
             ValidateDispatchMouseEvent(type, x, y, modifiers, timestamp, button, buttons, clickCount, force, tangentialPressure, tiltX, tiltY, twist, deltaX, deltaY, pointerType);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("type", type);
+            dict.Add("type", EnumToString(type));
             dict.Add("x", x);
             dict.Add("y", y);
             if (modifiers.HasValue)
@@ -30319,7 +32015,7 @@ namespace CefSharp.DevTools.Input
 
             if (button.HasValue)
             {
-                dict.Add("button", this.EnumToString(button));
+                dict.Add("button", EnumToString(button));
             }
 
             if (buttons.HasValue)
@@ -30367,15 +32063,15 @@ namespace CefSharp.DevTools.Input
                 dict.Add("deltaY", deltaY.Value);
             }
 
-            if (!(string.IsNullOrEmpty(pointerType)))
+            if (pointerType.HasValue)
             {
-                dict.Add("pointerType", pointerType);
+                dict.Add("pointerType", EnumToString(pointerType));
             }
 
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.dispatchMouseEvent", dict);
         }
 
-        partial void ValidateDispatchTouchEvent(string type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, double? timestamp = null);
+        partial void ValidateDispatchTouchEvent(CefSharp.DevTools.Input.DispatchTouchEventType type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, double? timestamp = null);
         /// <summary>
         /// Dispatches a touch event to the page.
         /// </summary>
@@ -30384,11 +32080,11 @@ namespace CefSharp.DevTools.Input
         /// <param name = "modifiers">Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8(default: 0).</param>
         /// <param name = "timestamp">Time at which the event occurred.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchTouchEventAsync(string type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, double? timestamp = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DispatchTouchEventAsync(CefSharp.DevTools.Input.DispatchTouchEventType type, System.Collections.Generic.IList<CefSharp.DevTools.Input.TouchPoint> touchPoints, int? modifiers = null, double? timestamp = null)
         {
             ValidateDispatchTouchEvent(type, touchPoints, modifiers, timestamp);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("type", type);
+            dict.Add("type", EnumToString(type));
             dict.Add("touchPoints", touchPoints.Select(x => x.ToDictionary()));
             if (modifiers.HasValue)
             {
@@ -30403,7 +32099,7 @@ namespace CefSharp.DevTools.Input
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.dispatchTouchEvent", dict);
         }
 
-        partial void ValidateEmulateTouchFromMouseEvent(string type, int x, int y, CefSharp.DevTools.Input.MouseButton button, double? timestamp = null, double? deltaX = null, double? deltaY = null, int? modifiers = null, int? clickCount = null);
+        partial void ValidateEmulateTouchFromMouseEvent(CefSharp.DevTools.Input.EmulateTouchFromMouseEventType type, int x, int y, CefSharp.DevTools.Input.MouseButton button, double? timestamp = null, double? deltaX = null, double? deltaY = null, int? modifiers = null, int? clickCount = null);
         /// <summary>
         /// Emulates touch event from the mouse event parameters.
         /// </summary>
@@ -30417,14 +32113,14 @@ namespace CefSharp.DevTools.Input
         /// <param name = "modifiers">Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8(default: 0).</param>
         /// <param name = "clickCount">Number of times the mouse button was clicked (default: 0).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateTouchFromMouseEventAsync(string type, int x, int y, CefSharp.DevTools.Input.MouseButton button, double? timestamp = null, double? deltaX = null, double? deltaY = null, int? modifiers = null, int? clickCount = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EmulateTouchFromMouseEventAsync(CefSharp.DevTools.Input.EmulateTouchFromMouseEventType type, int x, int y, CefSharp.DevTools.Input.MouseButton button, double? timestamp = null, double? deltaX = null, double? deltaY = null, int? modifiers = null, int? clickCount = null)
         {
             ValidateEmulateTouchFromMouseEvent(type, x, y, button, timestamp, deltaX, deltaY, modifiers, clickCount);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("type", type);
+            dict.Add("type", EnumToString(type));
             dict.Add("x", x);
             dict.Add("y", y);
-            dict.Add("button", this.EnumToString(button));
+            dict.Add("button", EnumToString(button));
             if (timestamp.HasValue)
             {
                 dict.Add("timestamp", timestamp.Value);
@@ -30506,7 +32202,7 @@ namespace CefSharp.DevTools.Input
 
             if (gestureSourceType.HasValue)
             {
-                dict.Add("gestureSourceType", this.EnumToString(gestureSourceType));
+                dict.Add("gestureSourceType", EnumToString(gestureSourceType));
             }
 
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.synthesizePinchGesture", dict);
@@ -30567,7 +32263,7 @@ namespace CefSharp.DevTools.Input
 
             if (gestureSourceType.HasValue)
             {
-                dict.Add("gestureSourceType", this.EnumToString(gestureSourceType));
+                dict.Add("gestureSourceType", EnumToString(gestureSourceType));
             }
 
             if (repeatCount.HasValue)
@@ -30616,7 +32312,7 @@ namespace CefSharp.DevTools.Input
 
             if (gestureSourceType.HasValue)
             {
-                dict.Add("gestureSourceType", this.EnumToString(gestureSourceType));
+                dict.Add("gestureSourceType", EnumToString(gestureSourceType));
             }
 
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Input.synthesizeTapGesture", dict);
@@ -31414,7 +33110,7 @@ namespace CefSharp.DevTools.Memory
         {
             ValidateSimulatePressureNotification(level);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("level", this.EnumToString(level));
+            dict.Add("level", EnumToString(level));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Memory.simulatePressureNotification", dict);
         }
 
@@ -32471,7 +34167,7 @@ namespace CefSharp.DevTools.Network
         {
             ValidateSetAcceptedEncodings(encodings);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("encodings", this.EnumToString(encodings));
+            dict.Add("encodings", EnumToString(encodings));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.setAcceptedEncodings", dict);
         }
 
@@ -32567,7 +34263,7 @@ namespace CefSharp.DevTools.Network
             dict.Add("uploadThroughput", uploadThroughput);
             if (connectionType.HasValue)
             {
-                dict.Add("connectionType", this.EnumToString(connectionType));
+                dict.Add("connectionType", EnumToString(connectionType));
             }
 
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.emulateNetworkConditions", dict);
@@ -32843,7 +34539,7 @@ namespace CefSharp.DevTools.Network
 
             if (sameSite.HasValue)
             {
-                dict.Add("sameSite", this.EnumToString(sameSite));
+                dict.Add("sameSite", EnumToString(sameSite));
             }
 
             if (expires.HasValue)
@@ -32853,7 +34549,7 @@ namespace CefSharp.DevTools.Network
 
             if (priority.HasValue)
             {
-                dict.Add("priority", this.EnumToString(priority));
+                dict.Add("priority", EnumToString(priority));
             }
 
             if (sameParty.HasValue)
@@ -32863,7 +34559,7 @@ namespace CefSharp.DevTools.Network
 
             if (sourceScheme.HasValue)
             {
-                dict.Add("sourceScheme", this.EnumToString(sourceScheme));
+                dict.Add("sourceScheme", EnumToString(sourceScheme));
             }
 
             if (sourcePort.HasValue)
@@ -33257,7 +34953,7 @@ namespace CefSharp.DevTools.Overlay
 
             if (colorFormat.HasValue)
             {
-                dict.Add("colorFormat", this.EnumToString(colorFormat));
+                dict.Add("colorFormat", EnumToString(colorFormat));
             }
 
             if (showAccessibilityInfo.HasValue)
@@ -33474,7 +35170,7 @@ namespace CefSharp.DevTools.Overlay
         {
             ValidateSetInspectMode(mode, highlightConfig);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("mode", this.EnumToString(mode));
+            dict.Add("mode", EnumToString(mode));
             if ((highlightConfig) != (null))
             {
                 dict.Add("highlightConfig", highlightConfig.ToDictionary());
@@ -34155,6 +35851,86 @@ namespace CefSharp.DevTools.Page
 namespace CefSharp.DevTools.Page
 {
     using System.Linq;
+
+    /// <summary>
+    /// Image compression format (defaults to png).
+    /// </summary>
+    public enum CaptureScreenshotFormat
+    {
+        /// <summary>
+        /// jpeg
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("jpeg")]
+        Jpeg,
+        /// <summary>
+        /// png
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("png")]
+        Png
+    }
+
+    /// <summary>
+    /// Format (defaults to mhtml).
+    /// </summary>
+    public enum CaptureSnapshotFormat
+    {
+        /// <summary>
+        /// mhtml
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("mhtml")]
+        Mhtml
+    }
+
+    /// <summary>
+    /// return as stream
+    /// </summary>
+    public enum PrintToPDFTransferMode
+    {
+        /// <summary>
+        /// ReturnAsBase64
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ReturnAsBase64")]
+        ReturnAsBase64,
+        /// <summary>
+        /// ReturnAsStream
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ReturnAsStream")]
+        ReturnAsStream
+    }
+
+    /// <summary>
+    /// Image compression format.
+    /// </summary>
+    public enum StartScreencastFormat
+    {
+        /// <summary>
+        /// jpeg
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("jpeg")]
+        Jpeg,
+        /// <summary>
+        /// png
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("png")]
+        Png
+    }
+
+    /// <summary>
+    /// Target lifecycle state
+    /// </summary>
+    public enum SetWebLifecycleStateState
+    {
+        /// <summary>
+        /// frozen
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("frozen")]
+        Frozen,
+        /// <summary>
+        /// active
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("active")]
+        Active
+    }
 
     /// <summary>
     /// Actions and events related to the inspected page belong to the page domain.
@@ -34878,7 +36654,7 @@ namespace CefSharp.DevTools.Page
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.bringToFront", dict);
         }
 
-        partial void ValidateCaptureScreenshot(string format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null, bool? captureBeyondViewport = null);
+        partial void ValidateCaptureScreenshot(CefSharp.DevTools.Page.CaptureScreenshotFormat? format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null, bool? captureBeyondViewport = null);
         /// <summary>
         /// Capture page screenshot.
         /// </summary>
@@ -34888,13 +36664,13 @@ namespace CefSharp.DevTools.Page
         /// <param name = "fromSurface">Capture the screenshot from the surface, rather than the view. Defaults to true.</param>
         /// <param name = "captureBeyondViewport">Capture the screenshot beyond the viewport. Defaults to false.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CaptureScreenshotResponse&gt;</returns>
-        public System.Threading.Tasks.Task<CaptureScreenshotResponse> CaptureScreenshotAsync(string format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null, bool? captureBeyondViewport = null)
+        public System.Threading.Tasks.Task<CaptureScreenshotResponse> CaptureScreenshotAsync(CefSharp.DevTools.Page.CaptureScreenshotFormat? format = null, int? quality = null, CefSharp.DevTools.Page.Viewport clip = null, bool? fromSurface = null, bool? captureBeyondViewport = null)
         {
             ValidateCaptureScreenshot(format, quality, clip, fromSurface, captureBeyondViewport);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            if (!(string.IsNullOrEmpty(format)))
+            if (format.HasValue)
             {
-                dict.Add("format", format);
+                dict.Add("format", EnumToString(format));
             }
 
             if (quality.HasValue)
@@ -34920,20 +36696,20 @@ namespace CefSharp.DevTools.Page
             return _client.ExecuteDevToolsMethodAsync<CaptureScreenshotResponse>("Page.captureScreenshot", dict);
         }
 
-        partial void ValidateCaptureSnapshot(string format = null);
+        partial void ValidateCaptureSnapshot(CefSharp.DevTools.Page.CaptureSnapshotFormat? format = null);
         /// <summary>
         /// Returns a snapshot of the page as a string. For MHTML format, the serialization includes
         /// iframes, shadow DOM, external resources, and element-inline styles.
         /// </summary>
         /// <param name = "format">Format (defaults to mhtml).</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;CaptureSnapshotResponse&gt;</returns>
-        public System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(string format = null)
+        public System.Threading.Tasks.Task<CaptureSnapshotResponse> CaptureSnapshotAsync(CefSharp.DevTools.Page.CaptureSnapshotFormat? format = null)
         {
             ValidateCaptureSnapshot(format);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            if (!(string.IsNullOrEmpty(format)))
+            if (format.HasValue)
             {
-                dict.Add("format", format);
+                dict.Add("format", EnumToString(format));
             }
 
             return _client.ExecuteDevToolsMethodAsync<CaptureSnapshotResponse>("Page.captureSnapshot", dict);
@@ -35123,7 +36899,7 @@ namespace CefSharp.DevTools.Page
 
             if (transitionType.HasValue)
             {
-                dict.Add("transitionType", this.EnumToString(transitionType));
+                dict.Add("transitionType", EnumToString(transitionType));
             }
 
             if (!(string.IsNullOrEmpty(frameId)))
@@ -35133,7 +36909,7 @@ namespace CefSharp.DevTools.Page
 
             if (referrerPolicy.HasValue)
             {
-                dict.Add("referrerPolicy", this.EnumToString(referrerPolicy));
+                dict.Add("referrerPolicy", EnumToString(referrerPolicy));
             }
 
             return _client.ExecuteDevToolsMethodAsync<NavigateResponse>("Page.navigate", dict);
@@ -35153,7 +36929,7 @@ namespace CefSharp.DevTools.Page
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.navigateToHistoryEntry", dict);
         }
 
-        partial void ValidatePrintToPDF(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, double? scale = null, double? paperWidth = null, double? paperHeight = null, double? marginTop = null, double? marginBottom = null, double? marginLeft = null, double? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, string transferMode = null);
+        partial void ValidatePrintToPDF(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, double? scale = null, double? paperWidth = null, double? paperHeight = null, double? marginTop = null, double? marginBottom = null, double? marginLeft = null, double? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, CefSharp.DevTools.Page.PrintToPDFTransferMode? transferMode = null);
         /// <summary>
         /// Print page as PDF.
         /// </summary>
@@ -35174,7 +36950,7 @@ namespace CefSharp.DevTools.Page
         /// <param name = "preferCSSPageSize">Whether or not to prefer page size as defined by css. Defaults to false,in which case the content will be scaled to fit the paper size.</param>
         /// <param name = "transferMode">return as stream</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;PrintToPDFResponse&gt;</returns>
-        public System.Threading.Tasks.Task<PrintToPDFResponse> PrintToPDFAsync(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, double? scale = null, double? paperWidth = null, double? paperHeight = null, double? marginTop = null, double? marginBottom = null, double? marginLeft = null, double? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, string transferMode = null)
+        public System.Threading.Tasks.Task<PrintToPDFResponse> PrintToPDFAsync(bool? landscape = null, bool? displayHeaderFooter = null, bool? printBackground = null, double? scale = null, double? paperWidth = null, double? paperHeight = null, double? marginTop = null, double? marginBottom = null, double? marginLeft = null, double? marginRight = null, string pageRanges = null, bool? ignoreInvalidPageRanges = null, string headerTemplate = null, string footerTemplate = null, bool? preferCSSPageSize = null, CefSharp.DevTools.Page.PrintToPDFTransferMode? transferMode = null)
         {
             ValidatePrintToPDF(landscape, displayHeaderFooter, printBackground, scale, paperWidth, paperHeight, marginTop, marginBottom, marginLeft, marginRight, pageRanges, ignoreInvalidPageRanges, headerTemplate, footerTemplate, preferCSSPageSize, transferMode);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -35253,9 +37029,9 @@ namespace CefSharp.DevTools.Page
                 dict.Add("preferCSSPageSize", preferCSSPageSize.Value);
             }
 
-            if (!(string.IsNullOrEmpty(transferMode)))
+            if (transferMode.HasValue)
             {
-                dict.Add("transferMode", transferMode);
+                dict.Add("transferMode", EnumToString(transferMode));
             }
 
             return _client.ExecuteDevToolsMethodAsync<PrintToPDFResponse>("Page.printToPDF", dict);
@@ -35443,7 +37219,7 @@ namespace CefSharp.DevTools.Page
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setLifecycleEventsEnabled", dict);
         }
 
-        partial void ValidateStartScreencast(string format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null);
+        partial void ValidateStartScreencast(CefSharp.DevTools.Page.StartScreencastFormat? format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null);
         /// <summary>
         /// Starts sending each frame using the `screencastFrame` event.
         /// </summary>
@@ -35453,13 +37229,13 @@ namespace CefSharp.DevTools.Page
         /// <param name = "maxHeight">Maximum screenshot height.</param>
         /// <param name = "everyNthFrame">Send every n-th frame.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartScreencastAsync(string format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartScreencastAsync(CefSharp.DevTools.Page.StartScreencastFormat? format = null, int? quality = null, int? maxWidth = null, int? maxHeight = null, int? everyNthFrame = null)
         {
             ValidateStartScreencast(format, quality, maxWidth, maxHeight, everyNthFrame);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            if (!(string.IsNullOrEmpty(format)))
+            if (format.HasValue)
             {
-                dict.Add("format", format);
+                dict.Add("format", EnumToString(format));
             }
 
             if (quality.HasValue)
@@ -35515,7 +37291,7 @@ namespace CefSharp.DevTools.Page
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.close", dict);
         }
 
-        partial void ValidateSetWebLifecycleState(string state);
+        partial void ValidateSetWebLifecycleState(CefSharp.DevTools.Page.SetWebLifecycleStateState state);
         /// <summary>
         /// Tries to update the web lifecycle state of the page.
         /// It will transition the page to the given state according to:
@@ -35523,11 +37299,11 @@ namespace CefSharp.DevTools.Page
         /// </summary>
         /// <param name = "state">Target lifecycle state</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetWebLifecycleStateAsync(string state)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetWebLifecycleStateAsync(CefSharp.DevTools.Page.SetWebLifecycleStateState state)
         {
             ValidateSetWebLifecycleState(state);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("state", state);
+            dict.Add("state", EnumToString(state));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Page.setWebLifecycleState", dict);
         }
 
@@ -35678,6 +37454,23 @@ namespace CefSharp.DevTools.Performance
     using System.Linq;
 
     /// <summary>
+    /// Time domain to use for collecting and reporting duration metrics.
+    /// </summary>
+    public enum EnableTimeDomain
+    {
+        /// <summary>
+        /// timeTicks
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("timeTicks")]
+        TimeTicks,
+        /// <summary>
+        /// threadTicks
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("threadTicks")]
+        ThreadTicks
+    }
+
+    /// <summary>
     /// Performance
     /// </summary>
     public partial class PerformanceClient : DevToolsDomainBase
@@ -35734,19 +37527,19 @@ namespace CefSharp.DevTools.Performance
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Performance.disable", dict);
         }
 
-        partial void ValidateEnable(string timeDomain = null);
+        partial void ValidateEnable(CefSharp.DevTools.Performance.EnableTimeDomain? timeDomain = null);
         /// <summary>
         /// Enable collecting and reporting metrics.
         /// </summary>
         /// <param name = "timeDomain">Time domain to use for collecting and reporting duration metrics.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(string timeDomain = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> EnableAsync(CefSharp.DevTools.Performance.EnableTimeDomain? timeDomain = null)
         {
             ValidateEnable(timeDomain);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            if (!(string.IsNullOrEmpty(timeDomain)))
+            if (timeDomain.HasValue)
             {
-                dict.Add("timeDomain", timeDomain);
+                dict.Add("timeDomain", EnumToString(timeDomain));
             }
 
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Performance.enable", dict);
@@ -37659,6 +39452,24 @@ namespace CefSharp.DevTools.Tracing
     using System.Linq;
 
     /// <summary>
+    /// Whether to report trace events as series of dataCollected events or to save trace to a
+    /// stream (defaults to `ReportEvents`).
+    /// </summary>
+    public enum StartTransferMode
+    {
+        /// <summary>
+        /// ReportEvents
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ReportEvents")]
+        ReportEvents,
+        /// <summary>
+        /// ReturnAsStream
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("ReturnAsStream")]
+        ReturnAsStream
+    }
+
+    /// <summary>
     /// Tracing
     /// </summary>
     public partial class TracingClient : DevToolsDomainBase
@@ -37823,13 +39634,13 @@ namespace CefSharp.DevTools.Tracing
 
             if (levelOfDetail.HasValue)
             {
-                dict.Add("levelOfDetail", this.EnumToString(levelOfDetail));
+                dict.Add("levelOfDetail", EnumToString(levelOfDetail));
             }
 
             return _client.ExecuteDevToolsMethodAsync<RequestMemoryDumpResponse>("Tracing.requestMemoryDump", dict);
         }
 
-        partial void ValidateStart(string categories = null, string options = null, double? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null, byte[] perfettoConfig = null, CefSharp.DevTools.Tracing.TracingBackend? tracingBackend = null);
+        partial void ValidateStart(string categories = null, string options = null, double? bufferUsageReportingInterval = null, CefSharp.DevTools.Tracing.StartTransferMode? transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null, byte[] perfettoConfig = null, CefSharp.DevTools.Tracing.TracingBackend? tracingBackend = null);
         /// <summary>
         /// Start trace events collection.
         /// </summary>
@@ -37843,7 +39654,7 @@ namespace CefSharp.DevTools.Tracing
         /// <param name = "perfettoConfig">Base64-encoded serialized perfetto.protos.TraceConfig protobuf messageWhen specified, the parameters `categories`, `options`, `traceConfig`are ignored.</param>
         /// <param name = "tracingBackend">Backend type (defaults to `auto`)</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync(string categories = null, string options = null, double? bufferUsageReportingInterval = null, string transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null, byte[] perfettoConfig = null, CefSharp.DevTools.Tracing.TracingBackend? tracingBackend = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> StartAsync(string categories = null, string options = null, double? bufferUsageReportingInterval = null, CefSharp.DevTools.Tracing.StartTransferMode? transferMode = null, CefSharp.DevTools.Tracing.StreamFormat? streamFormat = null, CefSharp.DevTools.Tracing.StreamCompression? streamCompression = null, CefSharp.DevTools.Tracing.TraceConfig traceConfig = null, byte[] perfettoConfig = null, CefSharp.DevTools.Tracing.TracingBackend? tracingBackend = null)
         {
             ValidateStart(categories, options, bufferUsageReportingInterval, transferMode, streamFormat, streamCompression, traceConfig, perfettoConfig, tracingBackend);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
@@ -37862,19 +39673,19 @@ namespace CefSharp.DevTools.Tracing
                 dict.Add("bufferUsageReportingInterval", bufferUsageReportingInterval.Value);
             }
 
-            if (!(string.IsNullOrEmpty(transferMode)))
+            if (transferMode.HasValue)
             {
-                dict.Add("transferMode", transferMode);
+                dict.Add("transferMode", EnumToString(transferMode));
             }
 
             if (streamFormat.HasValue)
             {
-                dict.Add("streamFormat", this.EnumToString(streamFormat));
+                dict.Add("streamFormat", EnumToString(streamFormat));
             }
 
             if (streamCompression.HasValue)
             {
-                dict.Add("streamCompression", this.EnumToString(streamCompression));
+                dict.Add("streamCompression", EnumToString(streamCompression));
             }
 
             if ((traceConfig) != (null))
@@ -37889,7 +39700,7 @@ namespace CefSharp.DevTools.Tracing
 
             if (tracingBackend.HasValue)
             {
-                dict.Add("tracingBackend", this.EnumToString(tracingBackend));
+                dict.Add("tracingBackend", EnumToString(tracingBackend));
             }
 
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Tracing.start", dict);
@@ -38084,7 +39895,7 @@ namespace CefSharp.DevTools.Fetch
             ValidateFailRequest(requestId, errorReason);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("requestId", requestId);
-            dict.Add("errorReason", this.EnumToString(errorReason));
+            dict.Add("errorReason", EnumToString(errorReason));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Fetch.failRequest", dict);
         }
 
@@ -39520,6 +41331,62 @@ namespace CefSharp.DevTools.Debugger
     using System.Linq;
 
     /// <summary>
+    /// ContinueToLocationTargetCallFrames
+    /// </summary>
+    public enum ContinueToLocationTargetCallFrames
+    {
+        /// <summary>
+        /// any
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("any")]
+        Any,
+        /// <summary>
+        /// current
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("current")]
+        Current
+    }
+
+    /// <summary>
+    /// Instrumentation name.
+    /// </summary>
+    public enum SetInstrumentationBreakpointInstrumentation
+    {
+        /// <summary>
+        /// beforeScriptExecution
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("beforeScriptExecution")]
+        BeforeScriptExecution,
+        /// <summary>
+        /// beforeScriptWithSourceMapExecution
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("beforeScriptWithSourceMapExecution")]
+        BeforeScriptWithSourceMapExecution
+    }
+
+    /// <summary>
+    /// Pause on exceptions mode.
+    /// </summary>
+    public enum SetPauseOnExceptionsState
+    {
+        /// <summary>
+        /// none
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("none")]
+        None,
+        /// <summary>
+        /// uncaught
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("uncaught")]
+        Uncaught,
+        /// <summary>
+        /// all
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyNameAttribute("all")]
+        All
+    }
+
+    /// <summary>
     /// Debugger domain exposes JavaScript debugging capabilities. It allows setting and removing
     /// breakpoints, stepping through execution, exploring stack traces, etc.
     /// </summary>
@@ -39696,21 +41563,21 @@ namespace CefSharp.DevTools.Debugger
             _ScriptParsed?.Invoke(this, args);
         }
 
-        partial void ValidateContinueToLocation(CefSharp.DevTools.Debugger.Location location, string targetCallFrames = null);
+        partial void ValidateContinueToLocation(CefSharp.DevTools.Debugger.Location location, CefSharp.DevTools.Debugger.ContinueToLocationTargetCallFrames? targetCallFrames = null);
         /// <summary>
         /// Continues execution until specific location is reached.
         /// </summary>
         /// <param name = "location">Location to continue to.</param>
         /// <param name = "targetCallFrames">targetCallFrames</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueToLocationAsync(CefSharp.DevTools.Debugger.Location location, string targetCallFrames = null)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ContinueToLocationAsync(CefSharp.DevTools.Debugger.Location location, CefSharp.DevTools.Debugger.ContinueToLocationTargetCallFrames? targetCallFrames = null)
         {
             ValidateContinueToLocation(location, targetCallFrames);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
             dict.Add("location", location.ToDictionary());
-            if (!(string.IsNullOrEmpty(targetCallFrames)))
+            if (targetCallFrames.HasValue)
             {
-                dict.Add("targetCallFrames", targetCallFrames);
+                dict.Add("targetCallFrames", EnumToString(targetCallFrames));
             }
 
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.continueToLocation", dict);
@@ -40011,17 +41878,17 @@ namespace CefSharp.DevTools.Debugger
             return _client.ExecuteDevToolsMethodAsync<SetBreakpointResponse>("Debugger.setBreakpoint", dict);
         }
 
-        partial void ValidateSetInstrumentationBreakpoint(string instrumentation);
+        partial void ValidateSetInstrumentationBreakpoint(CefSharp.DevTools.Debugger.SetInstrumentationBreakpointInstrumentation instrumentation);
         /// <summary>
         /// Sets instrumentation breakpoint.
         /// </summary>
         /// <param name = "instrumentation">Instrumentation name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;SetInstrumentationBreakpointResponse&gt;</returns>
-        public System.Threading.Tasks.Task<SetInstrumentationBreakpointResponse> SetInstrumentationBreakpointAsync(string instrumentation)
+        public System.Threading.Tasks.Task<SetInstrumentationBreakpointResponse> SetInstrumentationBreakpointAsync(CefSharp.DevTools.Debugger.SetInstrumentationBreakpointInstrumentation instrumentation)
         {
             ValidateSetInstrumentationBreakpoint(instrumentation);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("instrumentation", instrumentation);
+            dict.Add("instrumentation", EnumToString(instrumentation));
             return _client.ExecuteDevToolsMethodAsync<SetInstrumentationBreakpointResponse>("Debugger.setInstrumentationBreakpoint", dict);
         }
 
@@ -40108,18 +41975,18 @@ namespace CefSharp.DevTools.Debugger
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setBreakpointsActive", dict);
         }
 
-        partial void ValidateSetPauseOnExceptions(string state);
+        partial void ValidateSetPauseOnExceptions(CefSharp.DevTools.Debugger.SetPauseOnExceptionsState state);
         /// <summary>
         /// Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or
         /// no exceptions. Initial pause on exceptions state is `none`.
         /// </summary>
         /// <param name = "state">Pause on exceptions mode.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPauseOnExceptionsAsync(string state)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> SetPauseOnExceptionsAsync(CefSharp.DevTools.Debugger.SetPauseOnExceptionsState state)
         {
             ValidateSetPauseOnExceptions(state);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("state", state);
+            dict.Add("state", EnumToString(state));
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Debugger.setPauseOnExceptions", dict);
         }
 
