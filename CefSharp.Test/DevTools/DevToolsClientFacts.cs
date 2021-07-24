@@ -386,5 +386,19 @@ namespace CefSharp.Test.DevTools
                 }
             }
         }
+
+        [Fact]
+        public async Task CanRemoveEventListenerBeforeAddingOne()
+        {
+            using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false))
+            {
+                await browser.CreateBrowserAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    devToolsClient.Network.RequestWillBeSent -= (sender, args) => { };
+                }
+            }
+        }
     }
 }

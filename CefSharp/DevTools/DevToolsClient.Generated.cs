@@ -26507,7 +26507,7 @@ namespace CefSharp.DevTools.Animation
                 _AnimationCanceled -= (value);
                 if ((_AnimationCanceled) == (null))
                 {
-                    _AnimationCanceledEventRegistration.Dispose();
+                    _AnimationCanceledEventRegistration?.Dispose();
                 }
             }
         }
@@ -26539,7 +26539,7 @@ namespace CefSharp.DevTools.Animation
                 _AnimationCreated -= (value);
                 if ((_AnimationCreated) == (null))
                 {
-                    _AnimationCreatedEventRegistration.Dispose();
+                    _AnimationCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -26571,7 +26571,7 @@ namespace CefSharp.DevTools.Animation
                 _AnimationStarted -= (value);
                 if ((_AnimationStarted) == (null))
                 {
-                    _AnimationStartedEventRegistration.Dispose();
+                    _AnimationStartedEventRegistration?.Dispose();
                 }
             }
         }
@@ -26844,7 +26844,7 @@ namespace CefSharp.DevTools.ApplicationCache
                 _ApplicationCacheStatusUpdated -= (value);
                 if ((_ApplicationCacheStatusUpdated) == (null))
                 {
-                    _ApplicationCacheStatusUpdatedEventRegistration.Dispose();
+                    _ApplicationCacheStatusUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -26876,7 +26876,7 @@ namespace CefSharp.DevTools.ApplicationCache
                 _NetworkStateUpdated -= (value);
                 if ((_NetworkStateUpdated) == (null))
                 {
-                    _NetworkStateUpdatedEventRegistration.Dispose();
+                    _NetworkStateUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -27064,7 +27064,7 @@ namespace CefSharp.DevTools.Audits
                 _IssueAdded -= (value);
                 if ((_IssueAdded) == (null))
                 {
-                    _IssueAddedEventRegistration.Dispose();
+                    _IssueAddedEventRegistration?.Dispose();
                 }
             }
         }
@@ -27186,7 +27186,7 @@ namespace CefSharp.DevTools.BackgroundService
                 _RecordingStateChanged -= (value);
                 if ((_RecordingStateChanged) == (null))
                 {
-                    _RecordingStateChangedEventRegistration.Dispose();
+                    _RecordingStateChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -27219,7 +27219,7 @@ namespace CefSharp.DevTools.BackgroundService
                 _BackgroundServiceEventReceived -= (value);
                 if ((_BackgroundServiceEventReceived) == (null))
                 {
-                    _BackgroundServiceEventReceivedEventRegistration.Dispose();
+                    _BackgroundServiceEventReceivedEventRegistration?.Dispose();
                 }
             }
         }
@@ -27617,7 +27617,7 @@ namespace CefSharp.DevTools.Browser
                 _DownloadWillBegin -= (value);
                 if ((_DownloadWillBegin) == (null))
                 {
-                    _DownloadWillBeginEventRegistration.Dispose();
+                    _DownloadWillBeginEventRegistration?.Dispose();
                 }
             }
         }
@@ -27649,7 +27649,7 @@ namespace CefSharp.DevTools.Browser
                 _DownloadProgress -= (value);
                 if ((_DownloadProgress) == (null))
                 {
-                    _DownloadProgressEventRegistration.Dispose();
+                    _DownloadProgressEventRegistration?.Dispose();
                 }
             }
         }
@@ -28679,7 +28679,7 @@ namespace CefSharp.DevTools.CSS
                 _FontsUpdated -= (value);
                 if ((_FontsUpdated) == (null))
                 {
-                    _FontsUpdatedEventRegistration.Dispose();
+                    _FontsUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -28712,7 +28712,7 @@ namespace CefSharp.DevTools.CSS
                 _MediaQueryResultChanged -= (value);
                 if ((_MediaQueryResultChanged) == (null))
                 {
-                    _MediaQueryResultChangedEventRegistration.Dispose();
+                    _MediaQueryResultChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -28744,7 +28744,7 @@ namespace CefSharp.DevTools.CSS
                 _StyleSheetAdded -= (value);
                 if ((_StyleSheetAdded) == (null))
                 {
-                    _StyleSheetAddedEventRegistration.Dispose();
+                    _StyleSheetAddedEventRegistration?.Dispose();
                 }
             }
         }
@@ -28776,7 +28776,7 @@ namespace CefSharp.DevTools.CSS
                 _StyleSheetChanged -= (value);
                 if ((_StyleSheetChanged) == (null))
                 {
-                    _StyleSheetChangedEventRegistration.Dispose();
+                    _StyleSheetChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -28808,7 +28808,7 @@ namespace CefSharp.DevTools.CSS
                 _StyleSheetRemoved -= (value);
                 if ((_StyleSheetRemoved) == (null))
                 {
-                    _StyleSheetRemovedEventRegistration.Dispose();
+                    _StyleSheetRemovedEventRegistration?.Dispose();
                 }
             }
         }
@@ -29439,7 +29439,7 @@ namespace CefSharp.DevTools.Cast
                 _SinksUpdated -= (value);
                 if ((_SinksUpdated) == (null))
                 {
-                    _SinksUpdatedEventRegistration.Dispose();
+                    _SinksUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -29472,7 +29472,7 @@ namespace CefSharp.DevTools.Cast
                 _IssueUpdated -= (value);
                 if ((_IssueUpdated) == (null))
                 {
-                    _IssueUpdatedEventRegistration.Dispose();
+                    _IssueUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30350,7 +30350,7 @@ namespace CefSharp.DevTools.DOM
                 _AttributeModified -= (value);
                 if ((_AttributeModified) == (null))
                 {
-                    _AttributeModifiedEventRegistration.Dispose();
+                    _AttributeModifiedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30382,7 +30382,7 @@ namespace CefSharp.DevTools.DOM
                 _AttributeRemoved -= (value);
                 if ((_AttributeRemoved) == (null))
                 {
-                    _AttributeRemovedEventRegistration.Dispose();
+                    _AttributeRemovedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30414,7 +30414,7 @@ namespace CefSharp.DevTools.DOM
                 _CharacterDataModified -= (value);
                 if ((_CharacterDataModified) == (null))
                 {
-                    _CharacterDataModifiedEventRegistration.Dispose();
+                    _CharacterDataModifiedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30446,7 +30446,7 @@ namespace CefSharp.DevTools.DOM
                 _ChildNodeCountUpdated -= (value);
                 if ((_ChildNodeCountUpdated) == (null))
                 {
-                    _ChildNodeCountUpdatedEventRegistration.Dispose();
+                    _ChildNodeCountUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30478,7 +30478,7 @@ namespace CefSharp.DevTools.DOM
                 _ChildNodeInserted -= (value);
                 if ((_ChildNodeInserted) == (null))
                 {
-                    _ChildNodeInsertedEventRegistration.Dispose();
+                    _ChildNodeInsertedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30510,7 +30510,7 @@ namespace CefSharp.DevTools.DOM
                 _ChildNodeRemoved -= (value);
                 if ((_ChildNodeRemoved) == (null))
                 {
-                    _ChildNodeRemovedEventRegistration.Dispose();
+                    _ChildNodeRemovedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30542,7 +30542,7 @@ namespace CefSharp.DevTools.DOM
                 _DistributedNodesUpdated -= (value);
                 if ((_DistributedNodesUpdated) == (null))
                 {
-                    _DistributedNodesUpdatedEventRegistration.Dispose();
+                    _DistributedNodesUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30574,7 +30574,7 @@ namespace CefSharp.DevTools.DOM
                 _DocumentUpdated -= (value);
                 if ((_DocumentUpdated) == (null))
                 {
-                    _DocumentUpdatedEventRegistration.Dispose();
+                    _DocumentUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30606,7 +30606,7 @@ namespace CefSharp.DevTools.DOM
                 _InlineStyleInvalidated -= (value);
                 if ((_InlineStyleInvalidated) == (null))
                 {
-                    _InlineStyleInvalidatedEventRegistration.Dispose();
+                    _InlineStyleInvalidatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30638,7 +30638,7 @@ namespace CefSharp.DevTools.DOM
                 _PseudoElementAdded -= (value);
                 if ((_PseudoElementAdded) == (null))
                 {
-                    _PseudoElementAddedEventRegistration.Dispose();
+                    _PseudoElementAddedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30670,7 +30670,7 @@ namespace CefSharp.DevTools.DOM
                 _PseudoElementRemoved -= (value);
                 if ((_PseudoElementRemoved) == (null))
                 {
-                    _PseudoElementRemovedEventRegistration.Dispose();
+                    _PseudoElementRemovedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30703,7 +30703,7 @@ namespace CefSharp.DevTools.DOM
                 _SetChildNodes -= (value);
                 if ((_SetChildNodes) == (null))
                 {
-                    _SetChildNodesEventRegistration.Dispose();
+                    _SetChildNodesEventRegistration?.Dispose();
                 }
             }
         }
@@ -30735,7 +30735,7 @@ namespace CefSharp.DevTools.DOM
                 _ShadowRootPopped -= (value);
                 if ((_ShadowRootPopped) == (null))
                 {
-                    _ShadowRootPoppedEventRegistration.Dispose();
+                    _ShadowRootPoppedEventRegistration?.Dispose();
                 }
             }
         }
@@ -30767,7 +30767,7 @@ namespace CefSharp.DevTools.DOM
                 _ShadowRootPushed -= (value);
                 if ((_ShadowRootPushed) == (null))
                 {
-                    _ShadowRootPushedEventRegistration.Dispose();
+                    _ShadowRootPushedEventRegistration?.Dispose();
                 }
             }
         }
@@ -32044,7 +32044,7 @@ namespace CefSharp.DevTools.DOMStorage
                 _DomStorageItemAdded -= (value);
                 if ((_DomStorageItemAdded) == (null))
                 {
-                    _DomStorageItemAddedEventRegistration.Dispose();
+                    _DomStorageItemAddedEventRegistration?.Dispose();
                 }
             }
         }
@@ -32076,7 +32076,7 @@ namespace CefSharp.DevTools.DOMStorage
                 _DomStorageItemRemoved -= (value);
                 if ((_DomStorageItemRemoved) == (null))
                 {
-                    _DomStorageItemRemovedEventRegistration.Dispose();
+                    _DomStorageItemRemovedEventRegistration?.Dispose();
                 }
             }
         }
@@ -32108,7 +32108,7 @@ namespace CefSharp.DevTools.DOMStorage
                 _DomStorageItemUpdated -= (value);
                 if ((_DomStorageItemUpdated) == (null))
                 {
-                    _DomStorageItemUpdatedEventRegistration.Dispose();
+                    _DomStorageItemUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -32140,7 +32140,7 @@ namespace CefSharp.DevTools.DOMStorage
                 _DomStorageItemsCleared -= (value);
                 if ((_DomStorageItemsCleared) == (null))
                 {
-                    _DomStorageItemsClearedEventRegistration.Dispose();
+                    _DomStorageItemsClearedEventRegistration?.Dispose();
                 }
             }
         }
@@ -32367,7 +32367,7 @@ namespace CefSharp.DevTools.Database
                 _AddDatabase -= (value);
                 if ((_AddDatabase) == (null))
                 {
-                    _AddDatabaseEventRegistration.Dispose();
+                    _AddDatabaseEventRegistration?.Dispose();
                 }
             }
         }
@@ -32629,7 +32629,7 @@ namespace CefSharp.DevTools.Emulation
                 _VirtualTimeBudgetExpired -= (value);
                 if ((_VirtualTimeBudgetExpired) == (null))
                 {
-                    _VirtualTimeBudgetExpiredEventRegistration.Dispose();
+                    _VirtualTimeBudgetExpiredEventRegistration?.Dispose();
                 }
             }
         }
@@ -33921,7 +33921,7 @@ namespace CefSharp.DevTools.Input
                 _DragIntercepted -= (value);
                 if ((_DragIntercepted) == (null))
                 {
-                    _DragInterceptedEventRegistration.Dispose();
+                    _DragInterceptedEventRegistration?.Dispose();
                 }
             }
         }
@@ -34456,7 +34456,7 @@ namespace CefSharp.DevTools.Inspector
                 _Detached -= (value);
                 if ((_Detached) == (null))
                 {
-                    _DetachedEventRegistration.Dispose();
+                    _DetachedEventRegistration?.Dispose();
                 }
             }
         }
@@ -34488,7 +34488,7 @@ namespace CefSharp.DevTools.Inspector
                 _TargetCrashed -= (value);
                 if ((_TargetCrashed) == (null))
                 {
-                    _TargetCrashedEventRegistration.Dispose();
+                    _TargetCrashedEventRegistration?.Dispose();
                 }
             }
         }
@@ -34520,7 +34520,7 @@ namespace CefSharp.DevTools.Inspector
                 _TargetReloadedAfterCrash -= (value);
                 if ((_TargetReloadedAfterCrash) == (null))
                 {
-                    _TargetReloadedAfterCrashEventRegistration.Dispose();
+                    _TargetReloadedAfterCrashEventRegistration?.Dispose();
                 }
             }
         }
@@ -34779,7 +34779,7 @@ namespace CefSharp.DevTools.LayerTree
                 _LayerPainted -= (value);
                 if ((_LayerPainted) == (null))
                 {
-                    _LayerPaintedEventRegistration.Dispose();
+                    _LayerPaintedEventRegistration?.Dispose();
                 }
             }
         }
@@ -34811,7 +34811,7 @@ namespace CefSharp.DevTools.LayerTree
                 _LayerTreeDidChange -= (value);
                 if ((_LayerTreeDidChange) == (null))
                 {
-                    _LayerTreeDidChangeEventRegistration.Dispose();
+                    _LayerTreeDidChangeEventRegistration?.Dispose();
                 }
             }
         }
@@ -35018,7 +35018,7 @@ namespace CefSharp.DevTools.Log
                 _EntryAdded -= (value);
                 if ((_EntryAdded) == (null))
                 {
-                    _EntryAddedEventRegistration.Dispose();
+                    _EntryAddedEventRegistration?.Dispose();
                 }
             }
         }
@@ -35765,7 +35765,7 @@ namespace CefSharp.DevTools.Network
                 _DataReceived -= (value);
                 if ((_DataReceived) == (null))
                 {
-                    _DataReceivedEventRegistration.Dispose();
+                    _DataReceivedEventRegistration?.Dispose();
                 }
             }
         }
@@ -35797,7 +35797,7 @@ namespace CefSharp.DevTools.Network
                 _EventSourceMessageReceived -= (value);
                 if ((_EventSourceMessageReceived) == (null))
                 {
-                    _EventSourceMessageReceivedEventRegistration.Dispose();
+                    _EventSourceMessageReceivedEventRegistration?.Dispose();
                 }
             }
         }
@@ -35829,7 +35829,7 @@ namespace CefSharp.DevTools.Network
                 _LoadingFailed -= (value);
                 if ((_LoadingFailed) == (null))
                 {
-                    _LoadingFailedEventRegistration.Dispose();
+                    _LoadingFailedEventRegistration?.Dispose();
                 }
             }
         }
@@ -35861,7 +35861,7 @@ namespace CefSharp.DevTools.Network
                 _LoadingFinished -= (value);
                 if ((_LoadingFinished) == (null))
                 {
-                    _LoadingFinishedEventRegistration.Dispose();
+                    _LoadingFinishedEventRegistration?.Dispose();
                 }
             }
         }
@@ -35893,7 +35893,7 @@ namespace CefSharp.DevTools.Network
                 _RequestServedFromCache -= (value);
                 if ((_RequestServedFromCache) == (null))
                 {
-                    _RequestServedFromCacheEventRegistration.Dispose();
+                    _RequestServedFromCacheEventRegistration?.Dispose();
                 }
             }
         }
@@ -35925,7 +35925,7 @@ namespace CefSharp.DevTools.Network
                 _RequestWillBeSent -= (value);
                 if ((_RequestWillBeSent) == (null))
                 {
-                    _RequestWillBeSentEventRegistration.Dispose();
+                    _RequestWillBeSentEventRegistration?.Dispose();
                 }
             }
         }
@@ -35957,7 +35957,7 @@ namespace CefSharp.DevTools.Network
                 _ResourceChangedPriority -= (value);
                 if ((_ResourceChangedPriority) == (null))
                 {
-                    _ResourceChangedPriorityEventRegistration.Dispose();
+                    _ResourceChangedPriorityEventRegistration?.Dispose();
                 }
             }
         }
@@ -35989,7 +35989,7 @@ namespace CefSharp.DevTools.Network
                 _SignedExchangeReceived -= (value);
                 if ((_SignedExchangeReceived) == (null))
                 {
-                    _SignedExchangeReceivedEventRegistration.Dispose();
+                    _SignedExchangeReceivedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36021,7 +36021,7 @@ namespace CefSharp.DevTools.Network
                 _ResponseReceived -= (value);
                 if ((_ResponseReceived) == (null))
                 {
-                    _ResponseReceivedEventRegistration.Dispose();
+                    _ResponseReceivedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36053,7 +36053,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketClosed -= (value);
                 if ((_WebSocketClosed) == (null))
                 {
-                    _WebSocketClosedEventRegistration.Dispose();
+                    _WebSocketClosedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36085,7 +36085,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketCreated -= (value);
                 if ((_WebSocketCreated) == (null))
                 {
-                    _WebSocketCreatedEventRegistration.Dispose();
+                    _WebSocketCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36117,7 +36117,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketFrameError -= (value);
                 if ((_WebSocketFrameError) == (null))
                 {
-                    _WebSocketFrameErrorEventRegistration.Dispose();
+                    _WebSocketFrameErrorEventRegistration?.Dispose();
                 }
             }
         }
@@ -36149,7 +36149,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketFrameReceived -= (value);
                 if ((_WebSocketFrameReceived) == (null))
                 {
-                    _WebSocketFrameReceivedEventRegistration.Dispose();
+                    _WebSocketFrameReceivedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36181,7 +36181,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketFrameSent -= (value);
                 if ((_WebSocketFrameSent) == (null))
                 {
-                    _WebSocketFrameSentEventRegistration.Dispose();
+                    _WebSocketFrameSentEventRegistration?.Dispose();
                 }
             }
         }
@@ -36213,7 +36213,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketHandshakeResponseReceived -= (value);
                 if ((_WebSocketHandshakeResponseReceived) == (null))
                 {
-                    _WebSocketHandshakeResponseReceivedEventRegistration.Dispose();
+                    _WebSocketHandshakeResponseReceivedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36245,7 +36245,7 @@ namespace CefSharp.DevTools.Network
                 _WebSocketWillSendHandshakeRequest -= (value);
                 if ((_WebSocketWillSendHandshakeRequest) == (null))
                 {
-                    _WebSocketWillSendHandshakeRequestEventRegistration.Dispose();
+                    _WebSocketWillSendHandshakeRequestEventRegistration?.Dispose();
                 }
             }
         }
@@ -36277,7 +36277,7 @@ namespace CefSharp.DevTools.Network
                 _WebTransportCreated -= (value);
                 if ((_WebTransportCreated) == (null))
                 {
-                    _WebTransportCreatedEventRegistration.Dispose();
+                    _WebTransportCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36309,7 +36309,7 @@ namespace CefSharp.DevTools.Network
                 _WebTransportConnectionEstablished -= (value);
                 if ((_WebTransportConnectionEstablished) == (null))
                 {
-                    _WebTransportConnectionEstablishedEventRegistration.Dispose();
+                    _WebTransportConnectionEstablishedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36341,7 +36341,7 @@ namespace CefSharp.DevTools.Network
                 _WebTransportClosed -= (value);
                 if ((_WebTransportClosed) == (null))
                 {
-                    _WebTransportClosedEventRegistration.Dispose();
+                    _WebTransportClosedEventRegistration?.Dispose();
                 }
             }
         }
@@ -36376,7 +36376,7 @@ namespace CefSharp.DevTools.Network
                 _RequestWillBeSentExtraInfo -= (value);
                 if ((_RequestWillBeSentExtraInfo) == (null))
                 {
-                    _RequestWillBeSentExtraInfoEventRegistration.Dispose();
+                    _RequestWillBeSentExtraInfoEventRegistration?.Dispose();
                 }
             }
         }
@@ -36410,7 +36410,7 @@ namespace CefSharp.DevTools.Network
                 _ResponseReceivedExtraInfo -= (value);
                 if ((_ResponseReceivedExtraInfo) == (null))
                 {
-                    _ResponseReceivedExtraInfoEventRegistration.Dispose();
+                    _ResponseReceivedExtraInfoEventRegistration?.Dispose();
                 }
             }
         }
@@ -36445,7 +36445,7 @@ namespace CefSharp.DevTools.Network
                 _TrustTokenOperationDone -= (value);
                 if ((_TrustTokenOperationDone) == (null))
                 {
-                    _TrustTokenOperationDoneEventRegistration.Dispose();
+                    _TrustTokenOperationDoneEventRegistration?.Dispose();
                 }
             }
         }
@@ -37122,7 +37122,7 @@ namespace CefSharp.DevTools.Overlay
                 _InspectNodeRequested -= (value);
                 if ((_InspectNodeRequested) == (null))
                 {
-                    _InspectNodeRequestedEventRegistration.Dispose();
+                    _InspectNodeRequestedEventRegistration?.Dispose();
                 }
             }
         }
@@ -37154,7 +37154,7 @@ namespace CefSharp.DevTools.Overlay
                 _NodeHighlightRequested -= (value);
                 if ((_NodeHighlightRequested) == (null))
                 {
-                    _NodeHighlightRequestedEventRegistration.Dispose();
+                    _NodeHighlightRequestedEventRegistration?.Dispose();
                 }
             }
         }
@@ -37186,7 +37186,7 @@ namespace CefSharp.DevTools.Overlay
                 _ScreenshotRequested -= (value);
                 if ((_ScreenshotRequested) == (null))
                 {
-                    _ScreenshotRequestedEventRegistration.Dispose();
+                    _ScreenshotRequestedEventRegistration?.Dispose();
                 }
             }
         }
@@ -37218,7 +37218,7 @@ namespace CefSharp.DevTools.Overlay
                 _InspectModeCanceled -= (value);
                 if ((_InspectModeCanceled) == (null))
                 {
-                    _InspectModeCanceledEventRegistration.Dispose();
+                    _InspectModeCanceledEventRegistration?.Dispose();
                 }
             }
         }
@@ -38510,7 +38510,7 @@ namespace CefSharp.DevTools.Page
                 _DomContentEventFired -= (value);
                 if ((_DomContentEventFired) == (null))
                 {
-                    _DomContentEventFiredEventRegistration.Dispose();
+                    _DomContentEventFiredEventRegistration?.Dispose();
                 }
             }
         }
@@ -38542,7 +38542,7 @@ namespace CefSharp.DevTools.Page
                 _FileChooserOpened -= (value);
                 if ((_FileChooserOpened) == (null))
                 {
-                    _FileChooserOpenedEventRegistration.Dispose();
+                    _FileChooserOpenedEventRegistration?.Dispose();
                 }
             }
         }
@@ -38574,7 +38574,7 @@ namespace CefSharp.DevTools.Page
                 _FrameAttached -= (value);
                 if ((_FrameAttached) == (null))
                 {
-                    _FrameAttachedEventRegistration.Dispose();
+                    _FrameAttachedEventRegistration?.Dispose();
                 }
             }
         }
@@ -38606,7 +38606,7 @@ namespace CefSharp.DevTools.Page
                 _FrameDetached -= (value);
                 if ((_FrameDetached) == (null))
                 {
-                    _FrameDetachedEventRegistration.Dispose();
+                    _FrameDetachedEventRegistration?.Dispose();
                 }
             }
         }
@@ -38638,7 +38638,7 @@ namespace CefSharp.DevTools.Page
                 _FrameNavigated -= (value);
                 if ((_FrameNavigated) == (null))
                 {
-                    _FrameNavigatedEventRegistration.Dispose();
+                    _FrameNavigatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -38670,7 +38670,7 @@ namespace CefSharp.DevTools.Page
                 _DocumentOpened -= (value);
                 if ((_DocumentOpened) == (null))
                 {
-                    _DocumentOpenedEventRegistration.Dispose();
+                    _DocumentOpenedEventRegistration?.Dispose();
                 }
             }
         }
@@ -38702,7 +38702,7 @@ namespace CefSharp.DevTools.Page
                 _FrameResized -= (value);
                 if ((_FrameResized) == (null))
                 {
-                    _FrameResizedEventRegistration.Dispose();
+                    _FrameResizedEventRegistration?.Dispose();
                 }
             }
         }
@@ -38735,7 +38735,7 @@ namespace CefSharp.DevTools.Page
                 _FrameRequestedNavigation -= (value);
                 if ((_FrameRequestedNavigation) == (null))
                 {
-                    _FrameRequestedNavigationEventRegistration.Dispose();
+                    _FrameRequestedNavigationEventRegistration?.Dispose();
                 }
             }
         }
@@ -38767,7 +38767,7 @@ namespace CefSharp.DevTools.Page
                 _FrameStartedLoading -= (value);
                 if ((_FrameStartedLoading) == (null))
                 {
-                    _FrameStartedLoadingEventRegistration.Dispose();
+                    _FrameStartedLoadingEventRegistration?.Dispose();
                 }
             }
         }
@@ -38799,7 +38799,7 @@ namespace CefSharp.DevTools.Page
                 _FrameStoppedLoading -= (value);
                 if ((_FrameStoppedLoading) == (null))
                 {
-                    _FrameStoppedLoadingEventRegistration.Dispose();
+                    _FrameStoppedLoadingEventRegistration?.Dispose();
                 }
             }
         }
@@ -38831,7 +38831,7 @@ namespace CefSharp.DevTools.Page
                 _InterstitialHidden -= (value);
                 if ((_InterstitialHidden) == (null))
                 {
-                    _InterstitialHiddenEventRegistration.Dispose();
+                    _InterstitialHiddenEventRegistration?.Dispose();
                 }
             }
         }
@@ -38863,7 +38863,7 @@ namespace CefSharp.DevTools.Page
                 _InterstitialShown -= (value);
                 if ((_InterstitialShown) == (null))
                 {
-                    _InterstitialShownEventRegistration.Dispose();
+                    _InterstitialShownEventRegistration?.Dispose();
                 }
             }
         }
@@ -38896,7 +38896,7 @@ namespace CefSharp.DevTools.Page
                 _JavascriptDialogClosed -= (value);
                 if ((_JavascriptDialogClosed) == (null))
                 {
-                    _JavascriptDialogClosedEventRegistration.Dispose();
+                    _JavascriptDialogClosedEventRegistration?.Dispose();
                 }
             }
         }
@@ -38929,7 +38929,7 @@ namespace CefSharp.DevTools.Page
                 _JavascriptDialogOpening -= (value);
                 if ((_JavascriptDialogOpening) == (null))
                 {
-                    _JavascriptDialogOpeningEventRegistration.Dispose();
+                    _JavascriptDialogOpeningEventRegistration?.Dispose();
                 }
             }
         }
@@ -38961,7 +38961,7 @@ namespace CefSharp.DevTools.Page
                 _LifecycleEvent -= (value);
                 if ((_LifecycleEvent) == (null))
                 {
-                    _LifecycleEventEventRegistration.Dispose();
+                    _LifecycleEventEventRegistration?.Dispose();
                 }
             }
         }
@@ -38993,7 +38993,7 @@ namespace CefSharp.DevTools.Page
                 _LoadEventFired -= (value);
                 if ((_LoadEventFired) == (null))
                 {
-                    _LoadEventFiredEventRegistration.Dispose();
+                    _LoadEventFiredEventRegistration?.Dispose();
                 }
             }
         }
@@ -39025,7 +39025,7 @@ namespace CefSharp.DevTools.Page
                 _NavigatedWithinDocument -= (value);
                 if ((_NavigatedWithinDocument) == (null))
                 {
-                    _NavigatedWithinDocumentEventRegistration.Dispose();
+                    _NavigatedWithinDocumentEventRegistration?.Dispose();
                 }
             }
         }
@@ -39057,7 +39057,7 @@ namespace CefSharp.DevTools.Page
                 _ScreencastFrame -= (value);
                 if ((_ScreencastFrame) == (null))
                 {
-                    _ScreencastFrameEventRegistration.Dispose();
+                    _ScreencastFrameEventRegistration?.Dispose();
                 }
             }
         }
@@ -39089,7 +39089,7 @@ namespace CefSharp.DevTools.Page
                 _ScreencastVisibilityChanged -= (value);
                 if ((_ScreencastVisibilityChanged) == (null))
                 {
-                    _ScreencastVisibilityChangedEventRegistration.Dispose();
+                    _ScreencastVisibilityChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -39122,7 +39122,7 @@ namespace CefSharp.DevTools.Page
                 _WindowOpen -= (value);
                 if ((_WindowOpen) == (null))
                 {
-                    _WindowOpenEventRegistration.Dispose();
+                    _WindowOpenEventRegistration?.Dispose();
                 }
             }
         }
@@ -39155,7 +39155,7 @@ namespace CefSharp.DevTools.Page
                 _CompilationCacheProduced -= (value);
                 if ((_CompilationCacheProduced) == (null))
                 {
-                    _CompilationCacheProducedEventRegistration.Dispose();
+                    _CompilationCacheProducedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40056,7 +40056,7 @@ namespace CefSharp.DevTools.Performance
                 _Metrics -= (value);
                 if ((_Metrics) == (null))
                 {
-                    _MetricsEventRegistration.Dispose();
+                    _MetricsEventRegistration?.Dispose();
                 }
             }
         }
@@ -40148,7 +40148,7 @@ namespace CefSharp.DevTools.PerformanceTimeline
                 _TimelineEventAdded -= (value);
                 if ((_TimelineEventAdded) == (null))
                 {
-                    _TimelineEventAddedEventRegistration.Dispose();
+                    _TimelineEventAddedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40216,7 +40216,7 @@ namespace CefSharp.DevTools.Security
                 _VisibleSecurityStateChanged -= (value);
                 if ((_VisibleSecurityStateChanged) == (null))
                 {
-                    _VisibleSecurityStateChangedEventRegistration.Dispose();
+                    _VisibleSecurityStateChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40248,7 +40248,7 @@ namespace CefSharp.DevTools.Security
                 _SecurityStateChanged -= (value);
                 if ((_SecurityStateChanged) == (null))
                 {
-                    _SecurityStateChangedEventRegistration.Dispose();
+                    _SecurityStateChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40335,7 +40335,7 @@ namespace CefSharp.DevTools.ServiceWorker
                 _WorkerErrorReported -= (value);
                 if ((_WorkerErrorReported) == (null))
                 {
-                    _WorkerErrorReportedEventRegistration.Dispose();
+                    _WorkerErrorReportedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40367,7 +40367,7 @@ namespace CefSharp.DevTools.ServiceWorker
                 _WorkerRegistrationUpdated -= (value);
                 if ((_WorkerRegistrationUpdated) == (null))
                 {
-                    _WorkerRegistrationUpdatedEventRegistration.Dispose();
+                    _WorkerRegistrationUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40399,7 +40399,7 @@ namespace CefSharp.DevTools.ServiceWorker
                 _WorkerVersionUpdated -= (value);
                 if ((_WorkerVersionUpdated) == (null))
                 {
-                    _WorkerVersionUpdatedEventRegistration.Dispose();
+                    _WorkerVersionUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40802,7 +40802,7 @@ namespace CefSharp.DevTools.Storage
                 _CacheStorageContentUpdated -= (value);
                 if ((_CacheStorageContentUpdated) == (null))
                 {
-                    _CacheStorageContentUpdatedEventRegistration.Dispose();
+                    _CacheStorageContentUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40834,7 +40834,7 @@ namespace CefSharp.DevTools.Storage
                 _CacheStorageListUpdated -= (value);
                 if ((_CacheStorageListUpdated) == (null))
                 {
-                    _CacheStorageListUpdatedEventRegistration.Dispose();
+                    _CacheStorageListUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40866,7 +40866,7 @@ namespace CefSharp.DevTools.Storage
                 _IndexedDBContentUpdated -= (value);
                 if ((_IndexedDBContentUpdated) == (null))
                 {
-                    _IndexedDBContentUpdatedEventRegistration.Dispose();
+                    _IndexedDBContentUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -40898,7 +40898,7 @@ namespace CefSharp.DevTools.Storage
                 _IndexedDBListUpdated -= (value);
                 if ((_IndexedDBListUpdated) == (null))
                 {
-                    _IndexedDBListUpdatedEventRegistration.Dispose();
+                    _IndexedDBListUpdatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -41514,7 +41514,7 @@ namespace CefSharp.DevTools.Target
                 _AttachedToTarget -= (value);
                 if ((_AttachedToTarget) == (null))
                 {
-                    _AttachedToTargetEventRegistration.Dispose();
+                    _AttachedToTargetEventRegistration?.Dispose();
                 }
             }
         }
@@ -41547,7 +41547,7 @@ namespace CefSharp.DevTools.Target
                 _DetachedFromTarget -= (value);
                 if ((_DetachedFromTarget) == (null))
                 {
-                    _DetachedFromTargetEventRegistration.Dispose();
+                    _DetachedFromTargetEventRegistration?.Dispose();
                 }
             }
         }
@@ -41580,7 +41580,7 @@ namespace CefSharp.DevTools.Target
                 _ReceivedMessageFromTarget -= (value);
                 if ((_ReceivedMessageFromTarget) == (null))
                 {
-                    _ReceivedMessageFromTargetEventRegistration.Dispose();
+                    _ReceivedMessageFromTargetEventRegistration?.Dispose();
                 }
             }
         }
@@ -41612,7 +41612,7 @@ namespace CefSharp.DevTools.Target
                 _TargetCreated -= (value);
                 if ((_TargetCreated) == (null))
                 {
-                    _TargetCreatedEventRegistration.Dispose();
+                    _TargetCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -41644,7 +41644,7 @@ namespace CefSharp.DevTools.Target
                 _TargetDestroyed -= (value);
                 if ((_TargetDestroyed) == (null))
                 {
-                    _TargetDestroyedEventRegistration.Dispose();
+                    _TargetDestroyedEventRegistration?.Dispose();
                 }
             }
         }
@@ -41676,7 +41676,7 @@ namespace CefSharp.DevTools.Target
                 _TargetCrashed -= (value);
                 if ((_TargetCrashed) == (null))
                 {
-                    _TargetCrashedEventRegistration.Dispose();
+                    _TargetCrashedEventRegistration?.Dispose();
                 }
             }
         }
@@ -41709,7 +41709,7 @@ namespace CefSharp.DevTools.Target
                 _TargetInfoChanged -= (value);
                 if ((_TargetInfoChanged) == (null))
                 {
-                    _TargetInfoChangedEventRegistration.Dispose();
+                    _TargetInfoChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -42059,7 +42059,7 @@ namespace CefSharp.DevTools.Tethering
                 _Accepted -= (value);
                 if ((_Accepted) == (null))
                 {
-                    _AcceptedEventRegistration.Dispose();
+                    _AcceptedEventRegistration?.Dispose();
                 }
             }
         }
@@ -42232,7 +42232,7 @@ namespace CefSharp.DevTools.Tracing
                 _BufferUsage -= (value);
                 if ((_BufferUsage) == (null))
                 {
-                    _BufferUsageEventRegistration.Dispose();
+                    _BufferUsageEventRegistration?.Dispose();
                 }
             }
         }
@@ -42265,7 +42265,7 @@ namespace CefSharp.DevTools.Tracing
                 _DataCollected -= (value);
                 if ((_DataCollected) == (null))
                 {
-                    _DataCollectedEventRegistration.Dispose();
+                    _DataCollectedEventRegistration?.Dispose();
                 }
             }
         }
@@ -42298,7 +42298,7 @@ namespace CefSharp.DevTools.Tracing
                 _TracingComplete -= (value);
                 if ((_TracingComplete) == (null))
                 {
-                    _TracingCompleteEventRegistration.Dispose();
+                    _TracingCompleteEventRegistration?.Dispose();
                 }
             }
         }
@@ -42554,7 +42554,7 @@ namespace CefSharp.DevTools.Fetch
                 _RequestPaused -= (value);
                 if ((_RequestPaused) == (null))
                 {
-                    _RequestPausedEventRegistration.Dispose();
+                    _RequestPausedEventRegistration?.Dispose();
                 }
             }
         }
@@ -42587,7 +42587,7 @@ namespace CefSharp.DevTools.Fetch
                 _AuthRequired -= (value);
                 if ((_AuthRequired) == (null))
                 {
-                    _AuthRequiredEventRegistration.Dispose();
+                    _AuthRequiredEventRegistration?.Dispose();
                 }
             }
         }
@@ -42856,7 +42856,7 @@ namespace CefSharp.DevTools.WebAudio
                 _ContextCreated -= (value);
                 if ((_ContextCreated) == (null))
                 {
-                    _ContextCreatedEventRegistration.Dispose();
+                    _ContextCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -42888,7 +42888,7 @@ namespace CefSharp.DevTools.WebAudio
                 _ContextWillBeDestroyed -= (value);
                 if ((_ContextWillBeDestroyed) == (null))
                 {
-                    _ContextWillBeDestroyedEventRegistration.Dispose();
+                    _ContextWillBeDestroyedEventRegistration?.Dispose();
                 }
             }
         }
@@ -42920,7 +42920,7 @@ namespace CefSharp.DevTools.WebAudio
                 _ContextChanged -= (value);
                 if ((_ContextChanged) == (null))
                 {
-                    _ContextChangedEventRegistration.Dispose();
+                    _ContextChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -42952,7 +42952,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioListenerCreated -= (value);
                 if ((_AudioListenerCreated) == (null))
                 {
-                    _AudioListenerCreatedEventRegistration.Dispose();
+                    _AudioListenerCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -42984,7 +42984,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioListenerWillBeDestroyed -= (value);
                 if ((_AudioListenerWillBeDestroyed) == (null))
                 {
-                    _AudioListenerWillBeDestroyedEventRegistration.Dispose();
+                    _AudioListenerWillBeDestroyedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43016,7 +43016,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioNodeCreated -= (value);
                 if ((_AudioNodeCreated) == (null))
                 {
-                    _AudioNodeCreatedEventRegistration.Dispose();
+                    _AudioNodeCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43048,7 +43048,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioNodeWillBeDestroyed -= (value);
                 if ((_AudioNodeWillBeDestroyed) == (null))
                 {
-                    _AudioNodeWillBeDestroyedEventRegistration.Dispose();
+                    _AudioNodeWillBeDestroyedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43080,7 +43080,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioParamCreated -= (value);
                 if ((_AudioParamCreated) == (null))
                 {
-                    _AudioParamCreatedEventRegistration.Dispose();
+                    _AudioParamCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43112,7 +43112,7 @@ namespace CefSharp.DevTools.WebAudio
                 _AudioParamWillBeDestroyed -= (value);
                 if ((_AudioParamWillBeDestroyed) == (null))
                 {
-                    _AudioParamWillBeDestroyedEventRegistration.Dispose();
+                    _AudioParamWillBeDestroyedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43144,7 +43144,7 @@ namespace CefSharp.DevTools.WebAudio
                 _NodesConnected -= (value);
                 if ((_NodesConnected) == (null))
                 {
-                    _NodesConnectedEventRegistration.Dispose();
+                    _NodesConnectedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43176,7 +43176,7 @@ namespace CefSharp.DevTools.WebAudio
                 _NodesDisconnected -= (value);
                 if ((_NodesDisconnected) == (null))
                 {
-                    _NodesDisconnectedEventRegistration.Dispose();
+                    _NodesDisconnectedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43208,7 +43208,7 @@ namespace CefSharp.DevTools.WebAudio
                 _NodeParamConnected -= (value);
                 if ((_NodeParamConnected) == (null))
                 {
-                    _NodeParamConnectedEventRegistration.Dispose();
+                    _NodeParamConnectedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43240,7 +43240,7 @@ namespace CefSharp.DevTools.WebAudio
                 _NodeParamDisconnected -= (value);
                 if ((_NodeParamDisconnected) == (null))
                 {
-                    _NodeParamDisconnectedEventRegistration.Dispose();
+                    _NodeParamDisconnectedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43594,7 +43594,7 @@ namespace CefSharp.DevTools.Media
                 _PlayerPropertiesChanged -= (value);
                 if ((_PlayerPropertiesChanged) == (null))
                 {
-                    _PlayerPropertiesChangedEventRegistration.Dispose();
+                    _PlayerPropertiesChangedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43627,7 +43627,7 @@ namespace CefSharp.DevTools.Media
                 _PlayerEventsAdded -= (value);
                 if ((_PlayerEventsAdded) == (null))
                 {
-                    _PlayerEventsAddedEventRegistration.Dispose();
+                    _PlayerEventsAddedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43659,7 +43659,7 @@ namespace CefSharp.DevTools.Media
                 _PlayerMessagesLogged -= (value);
                 if ((_PlayerMessagesLogged) == (null))
                 {
-                    _PlayerMessagesLoggedEventRegistration.Dispose();
+                    _PlayerMessagesLoggedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43691,7 +43691,7 @@ namespace CefSharp.DevTools.Media
                 _PlayerErrorsRaised -= (value);
                 if ((_PlayerErrorsRaised) == (null))
                 {
-                    _PlayerErrorsRaisedEventRegistration.Dispose();
+                    _PlayerErrorsRaisedEventRegistration?.Dispose();
                 }
             }
         }
@@ -43725,7 +43725,7 @@ namespace CefSharp.DevTools.Media
                 _PlayersCreated -= (value);
                 if ((_PlayersCreated) == (null))
                 {
-                    _PlayersCreatedEventRegistration.Dispose();
+                    _PlayersCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -44371,7 +44371,7 @@ namespace CefSharp.DevTools.Debugger
                 _BreakpointResolved -= (value);
                 if ((_BreakpointResolved) == (null))
                 {
-                    _BreakpointResolvedEventRegistration.Dispose();
+                    _BreakpointResolvedEventRegistration?.Dispose();
                 }
             }
         }
@@ -44403,7 +44403,7 @@ namespace CefSharp.DevTools.Debugger
                 _Paused -= (value);
                 if ((_Paused) == (null))
                 {
-                    _PausedEventRegistration.Dispose();
+                    _PausedEventRegistration?.Dispose();
                 }
             }
         }
@@ -44435,7 +44435,7 @@ namespace CefSharp.DevTools.Debugger
                 _Resumed -= (value);
                 if ((_Resumed) == (null))
                 {
-                    _ResumedEventRegistration.Dispose();
+                    _ResumedEventRegistration?.Dispose();
                 }
             }
         }
@@ -44467,7 +44467,7 @@ namespace CefSharp.DevTools.Debugger
                 _ScriptFailedToParse -= (value);
                 if ((_ScriptFailedToParse) == (null))
                 {
-                    _ScriptFailedToParseEventRegistration.Dispose();
+                    _ScriptFailedToParseEventRegistration?.Dispose();
                 }
             }
         }
@@ -44500,7 +44500,7 @@ namespace CefSharp.DevTools.Debugger
                 _ScriptParsed -= (value);
                 if ((_ScriptParsed) == (null))
                 {
-                    _ScriptParsedEventRegistration.Dispose();
+                    _ScriptParsedEventRegistration?.Dispose();
                 }
             }
         }
@@ -45215,7 +45215,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _AddHeapSnapshotChunk -= (value);
                 if ((_AddHeapSnapshotChunk) == (null))
                 {
-                    _AddHeapSnapshotChunkEventRegistration.Dispose();
+                    _AddHeapSnapshotChunkEventRegistration?.Dispose();
                 }
             }
         }
@@ -45247,7 +45247,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _HeapStatsUpdate -= (value);
                 if ((_HeapStatsUpdate) == (null))
                 {
-                    _HeapStatsUpdateEventRegistration.Dispose();
+                    _HeapStatsUpdateEventRegistration?.Dispose();
                 }
             }
         }
@@ -45281,7 +45281,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _LastSeenObjectId -= (value);
                 if ((_LastSeenObjectId) == (null))
                 {
-                    _LastSeenObjectIdEventRegistration.Dispose();
+                    _LastSeenObjectIdEventRegistration?.Dispose();
                 }
             }
         }
@@ -45313,7 +45313,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _ReportHeapSnapshotProgress -= (value);
                 if ((_ReportHeapSnapshotProgress) == (null))
                 {
-                    _ReportHeapSnapshotProgressEventRegistration.Dispose();
+                    _ReportHeapSnapshotProgressEventRegistration?.Dispose();
                 }
             }
         }
@@ -45345,7 +45345,7 @@ namespace CefSharp.DevTools.HeapProfiler
                 _ResetProfiles -= (value);
                 if ((_ResetProfiles) == (null))
                 {
-                    _ResetProfilesEventRegistration.Dispose();
+                    _ResetProfilesEventRegistration?.Dispose();
                 }
             }
         }
@@ -45795,7 +45795,7 @@ namespace CefSharp.DevTools.Profiler
                 _ConsoleProfileFinished -= (value);
                 if ((_ConsoleProfileFinished) == (null))
                 {
-                    _ConsoleProfileFinishedEventRegistration.Dispose();
+                    _ConsoleProfileFinishedEventRegistration?.Dispose();
                 }
             }
         }
@@ -45827,7 +45827,7 @@ namespace CefSharp.DevTools.Profiler
                 _ConsoleProfileStarted -= (value);
                 if ((_ConsoleProfileStarted) == (null))
                 {
-                    _ConsoleProfileStartedEventRegistration.Dispose();
+                    _ConsoleProfileStartedEventRegistration?.Dispose();
                 }
             }
         }
@@ -45862,7 +45862,7 @@ namespace CefSharp.DevTools.Profiler
                 _PreciseCoverageDeltaUpdate -= (value);
                 if ((_PreciseCoverageDeltaUpdate) == (null))
                 {
-                    _PreciseCoverageDeltaUpdateEventRegistration.Dispose();
+                    _PreciseCoverageDeltaUpdateEventRegistration?.Dispose();
                 }
             }
         }
@@ -46570,7 +46570,7 @@ namespace CefSharp.DevTools.Runtime
                 _BindingCalled -= (value);
                 if ((_BindingCalled) == (null))
                 {
-                    _BindingCalledEventRegistration.Dispose();
+                    _BindingCalledEventRegistration?.Dispose();
                 }
             }
         }
@@ -46602,7 +46602,7 @@ namespace CefSharp.DevTools.Runtime
                 _ConsoleAPICalled -= (value);
                 if ((_ConsoleAPICalled) == (null))
                 {
-                    _ConsoleAPICalledEventRegistration.Dispose();
+                    _ConsoleAPICalledEventRegistration?.Dispose();
                 }
             }
         }
@@ -46634,7 +46634,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExceptionRevoked -= (value);
                 if ((_ExceptionRevoked) == (null))
                 {
-                    _ExceptionRevokedEventRegistration.Dispose();
+                    _ExceptionRevokedEventRegistration?.Dispose();
                 }
             }
         }
@@ -46666,7 +46666,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExceptionThrown -= (value);
                 if ((_ExceptionThrown) == (null))
                 {
-                    _ExceptionThrownEventRegistration.Dispose();
+                    _ExceptionThrownEventRegistration?.Dispose();
                 }
             }
         }
@@ -46698,7 +46698,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExecutionContextCreated -= (value);
                 if ((_ExecutionContextCreated) == (null))
                 {
-                    _ExecutionContextCreatedEventRegistration.Dispose();
+                    _ExecutionContextCreatedEventRegistration?.Dispose();
                 }
             }
         }
@@ -46730,7 +46730,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExecutionContextDestroyed -= (value);
                 if ((_ExecutionContextDestroyed) == (null))
                 {
-                    _ExecutionContextDestroyedEventRegistration.Dispose();
+                    _ExecutionContextDestroyedEventRegistration?.Dispose();
                 }
             }
         }
@@ -46762,7 +46762,7 @@ namespace CefSharp.DevTools.Runtime
                 _ExecutionContextsCleared -= (value);
                 if ((_ExecutionContextsCleared) == (null))
                 {
-                    _ExecutionContextsClearedEventRegistration.Dispose();
+                    _ExecutionContextsClearedEventRegistration?.Dispose();
                 }
             }
         }
@@ -46795,7 +46795,7 @@ namespace CefSharp.DevTools.Runtime
                 _InspectRequested -= (value);
                 if ((_InspectRequested) == (null))
                 {
-                    _InspectRequestedEventRegistration.Dispose();
+                    _InspectRequestedEventRegistration?.Dispose();
                 }
             }
         }
