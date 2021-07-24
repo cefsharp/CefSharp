@@ -393,8 +393,7 @@ void CefBrowserHostWrapper::SendKeyEvent(int message, int wParam, int lParam)
             // 4 Either ALT key is pressed.
             SHORT scan_res = ::VkKeyScanExW(wParam, current_layout);
             constexpr auto ctrlAlt = (2 | 4);
-            constexpr auto shiftCtrlAlt = (1 | 2 | 4);
-            if (((scan_res >> 8) & 0xFF) == ctrlAlt || ((scan_res >> 8) & 0xFF) == shiftCtrlAlt)
+            if (((scan_res >> 8) & ctrlAlt) == ctrlAlt) // ctrl-alt pressed
             {
                 keyEvent.modifiers &= ~(EVENTFLAG_CONTROL_DOWN | EVENTFLAG_ALT_DOWN);
                 keyEvent.modifiers |= EVENTFLAG_ALTGR_DOWN;
