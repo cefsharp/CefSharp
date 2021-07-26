@@ -11,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Callback;
 using CefSharp.Internals;
-using CefSharp.Internals.Tasks;
 
 namespace CefSharp.DevTools
 {
@@ -25,7 +24,8 @@ namespace CefSharp.DevTools
         //DevToolsClient instances per browser.
         private static int lastMessageId = 0;
 
-        private readonly ConcurrentDictionary<int, SyncContextTaskCompletionSource<DevToolsMethodResponse>> queuedCommandResults = new ConcurrentDictionary<int, SyncContextTaskCompletionSource<DevToolsMethodResponse>>();
+        private readonly ConcurrentDictionary<int, DevToolsMethodResponseContext> queuedCommandResults = new ConcurrentDictionary<int, DevToolsMethodResponseContext>();
+        private readonly ConcurrentDictionary<string, EventHandler<Stream>> eventHandlers = new ConcurrentDictionary<string, EventHandler<Stream>>();
         private IBrowser browser;
         private IRegistration devToolsRegistration;
         private bool devToolsAttached;
@@ -81,6 +81,30 @@ namespace CefSharp.DevTools
             this.devToolsRegistration = devToolsRegistration;
         }
 
+        /// <inheritdoc/>
+        public IRegistration RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase
+        {
+            EventHandler<Stream> handler = (sender, stream) =>
+            {
+                stream.Position = 0;
+                if (typeof(T) == typeof(DevToolsEventArgs) || typeof(T) == typeof(DevToolsDomainEventArgsBase))
+                {
+                    var paramsAsJsonString = StreamToString(stream, leaveOpen: true);
+                    var args = new DevToolsEventArgs(eventName, paramsAsJsonString);
+
+                    eventHandler(sender, (T)(object)args);
+                }
+                else
+                {
+                    eventHandler(sender, DeserializeJson<T>(stream));
+                }
+            };
+
+            eventHandlers.AddOrUpdate(eventName, _ => handler, (_, existingHandler) => existingHandler += handler);
+
+            return new DevToolsEventHandlerRegistration(eventName, handler, eventHandlers);
+        }
+
         /// <summary>
         /// Execute a method call over the DevTools protocol. This method can be called on any thread.
         /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
@@ -90,21 +114,41 @@ namespace CefSharp.DevTools
         /// <param name="parameters">are the method parameters represented as a dictionary,
         /// which may be empty.</param>
         /// <returns>return a Task that can be awaited to obtain the method result</returns>
-        public async Task<DevToolsMethodResponse> ExecuteDevToolsMethodAsync(string method, IDictionary<string, object> parameters = null)
+        public Task<DevToolsMethodResponse> ExecuteDevToolsMethodAsync(string method, IDictionary<string, object> parameters = null)
+        {
+            return ExecuteDevToolsMethodAsync<DevToolsMethodResponse>(method, parameters);
+        }
+
+        /// <summary>
+        /// Execute a method call over the DevTools protocol. This method can be called on any thread.
+        /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
+        /// of supported methods and the expected <paramref name="parameters"/> dictionary contents.
+        /// </summary>
+        /// <typeparam name="T">The type into which the result will be deserialzed.</typeparam>
+        /// <param name="method">is the method name</param>
+        /// <param name="parameters">are the method parameters represented as a dictionary,
+        /// which may be empty.</param>
+        /// <returns>return a Task that can be awaited to obtain the method result</returns>
+        public Task<T> ExecuteDevToolsMethodAsync<T>(string method, IDictionary<string, object> parameters = null) where T : DevToolsDomainResponseBase
         {
             if (browser == null || browser.IsDisposed)
             {
                 //TODO: Queue up commands where possible
-                return new DevToolsMethodResponse { Success = false };
+                throw new ObjectDisposedException(nameof(IBrowser));
             }
 
             var messageId = Interlocked.Increment(ref lastMessageId);
 
-            var taskCompletionSource = new SyncContextTaskCompletionSource<DevToolsMethodResponse>();
+            var taskCompletionSource = new TaskCompletionSource<T>();
 
-            taskCompletionSource.SyncContext = CaptureSyncContext ? SynchronizationContext.Current : syncContext;
+            var methodResultContext = new DevToolsMethodResponseContext(
+                type: typeof(T),
+                setResult: o => taskCompletionSource.TrySetResult((T)o),
+                setException: taskCompletionSource.TrySetException,
+                syncContext: CaptureSyncContext ? SynchronizationContext.Current : SyncContext
+            );
 
-            if (!queuedCommandResults.TryAdd(messageId, taskCompletionSource))
+            if (!queuedCommandResults.TryAdd(messageId, methodResultContext))
             {
                 throw new DevToolsClientException(string.Format("Unable to add MessageId {0} to queuedCommandResults ConcurrentDictionary.", messageId));
             }
@@ -114,28 +158,34 @@ namespace CefSharp.DevTools
             //Currently on CEF UI Thread we can directly execute
             if (CefThread.CurrentlyOnUiThread)
             {
-                var returnedMessageId = browserHost.ExecuteDevToolsMethod(messageId, method, parameters);
-                if (returnedMessageId == 0)
-                {
-                    return new DevToolsMethodResponse { Success = false };
-                }
-                else if(returnedMessageId != messageId)
-                {
-                    //For some reason our message Id's don't match
-                    throw new DevToolsClientException(string.Format("Generated MessageId {0} doesn't match returned Message Id {1}", returnedMessageId, messageId));
-                }
+                ExecuteDevToolsMethod(browserHost, messageId, method, parameters, methodResultContext);
             }
             //ExecuteDevToolsMethod can only be called on the CEF UI Thread
             else if (CefThread.CanExecuteOnUiThread)
             {
-                var returnedMessageId = await CefThread.ExecuteOnUiThread(() =>
+                CefThread.ExecuteOnUiThread(() =>
                 {
-                    return browserHost.ExecuteDevToolsMethod(messageId, method, parameters);
-                }).ConfigureAwait(false);
+                    ExecuteDevToolsMethod(browserHost, messageId, method, parameters, methodResultContext);
+                    return (object)null;
+                });
+            }
+            else
+            {
+                queuedCommandResults.TryRemove(messageId, out methodResultContext);
+                throw new DevToolsClientException("Unable to invoke ExecuteDevToolsMethod on CEF UI Thread.");
+            }
 
+            return taskCompletionSource.Task;
+        }
+
+        private void ExecuteDevToolsMethod(IBrowserHost browserHost, int messageId, string method, IDictionary<string, object> parameters, DevToolsMethodResponseContext methodResultContext)
+        {
+            try
+            {
+                var returnedMessageId = browserHost.ExecuteDevToolsMethod(messageId, method, parameters);
                 if (returnedMessageId == 0)
                 {
-                    return new DevToolsMethodResponse { Success = false };
+                    throw new DevToolsClientException(string.Format("Failed to execute dev tools method {0}.", method));
                 }
                 else if (returnedMessageId != messageId)
                 {
@@ -143,12 +193,11 @@ namespace CefSharp.DevTools
                     throw new DevToolsClientException(string.Format("Generated MessageId {0} doesn't match returned Message Id {1}", returnedMessageId, messageId));
                 }
             }
-            else
+            catch (Exception ex)
             {
-                throw new DevToolsClientException("Unable to invoke ExecuteDevToolsMethod on CEF UI Thread.");
+                queuedCommandResults.TryRemove(messageId, out _);
+                methodResultContext.SetException(ex);
             }
-
-            return await taskCompletionSource.Task;
         }
 
         /// <inheritdoc/>
@@ -180,13 +229,15 @@ namespace CefSharp.DevTools
             //Only parse the data if we have an event handler
             if (evt != null)
             {
-                //TODO: Improve this
-                var memoryStream = new MemoryStream((int)parameters.Length);
-                parameters.CopyTo(memoryStream);
-
-                var paramsAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
+                var paramsAsJsonString = StreamToString(parameters, leaveOpen: true);
 
                 evt(this, new DevToolsEventArgs(method, paramsAsJsonString));
+            }
+
+            EventHandler<Stream> eventHandler;
+            if (eventHandlers.TryGetValue(method, out eventHandler))
+            {
+                eventHandler(this, parameters);
             }
         }
 
@@ -199,69 +250,65 @@ namespace CefSharp.DevTools
         /// <inheritdoc/>
         void IDevToolsMessageObserver.OnDevToolsMethodResult(IBrowser browser, int messageId, bool success, Stream result)
         {
-            var uiThread = CefThread.CurrentlyOnUiThread;
-            SyncContextTaskCompletionSource<DevToolsMethodResponse> taskCompletionSource = null;
-
-            if (queuedCommandResults.TryRemove(messageId, out taskCompletionSource))
+            DevToolsMethodResponseContext context;
+            if (queuedCommandResults.TryRemove(messageId, out context))
             {
-                var methodResult = new DevToolsMethodResponse
-                {
-                    Success = success,
-                    MessageId = messageId
-                };
-
-                //TODO: Improve this
-                var memoryStream = new MemoryStream((int)result.Length);
-
-                result.CopyTo(memoryStream);
-
-                methodResult.ResponseAsJsonString = Encoding.UTF8.GetString(memoryStream.ToArray());
-
-                Action execute = null;
-
                 if (success)
                 {
-                    execute = () =>
+                    if (context.Type == typeof(DevToolsMethodResponse) || context.Type == typeof(DevToolsDomainResponseBase))
                     {
-                        taskCompletionSource.TrySetResult(methodResult);
-                    };
+                        context.SetResult(new DevToolsMethodResponse
+                        {
+                            Success = success,
+                            MessageId = messageId,
+                            ResponseAsJsonString = StreamToString(result),
+                        });
+                    }
+                    else
+                    {
+                        try
+                        {
+                            context.SetResult(DeserializeJson(context.Type, result));
+                        }
+                        catch (Exception ex)
+                        {
+                            context.SetException(ex);
+                        }
+                    }
                 }
                 else
                 {
-                    execute = () =>
-                    {
-                        var errorObj = methodResult.DeserializeJson<DevToolsDomainErrorResponse>(ignoreSuccess: true);
-                        errorObj.MessageId = messageId;
+                    var errorObj = DeserializeJson<DevToolsDomainErrorResponse>(result);
+                    errorObj.MessageId = messageId;
 
-                        //Make sure continuation runs on Thread Pool
-                        taskCompletionSource.TrySetException(new DevToolsClientException("DevTools Client Error :" + errorObj.Message, errorObj));
-                    };
-                }
-
-                var syncContext = taskCompletionSource.SyncContext;
-                if (syncContext == null)
-                {
-                    execute();
-                }
-                else
-                {
-                    syncContext.Post(new SendOrPostCallback((o) =>
-                    {
-                        execute();
-                    }), null);
+                    context.SetException(new DevToolsClientException("DevTools Client Error :" + errorObj.Message, errorObj));
                 }
             }
         }
 
+
         /// <summary>
-        /// Deserialize the JSON string into a .Net object.
+        /// Deserialize the JSON stream into a .Net object.
         /// For .Net Core/.Net 5.0 uses System.Text.Json
         /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
-        /// <param name="json">JSON</param>
+        /// <param name="stream">JSON stream</param>
         /// <returns>object of type <typeparamref name="T"/></returns>
-        public static T DeserializeJson<T>(string json)
+        private static T DeserializeJson<T>(Stream stream)
+        {
+            return (T)DeserializeJson(typeof(T), stream);
+        }
+
+        /// <summary>
+        /// Deserialize the JSON stream into a .Net object.
+        /// For .Net Core/.Net 5.0 uses System.Text.Json
+        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
+        /// </summary>
+        /// <param name="type">Object type</param>
+        /// <param name="stream">JSON stream</param>
+        /// <returns>object of type <typeparamref name="type"/></returns>
+        private static object DeserializeJson(Type type, Stream stream)
         {
 #if NETCOREAPP
             var options = new System.Text.Json.JsonSerializerOptions
@@ -272,18 +319,26 @@ namespace CefSharp.DevTools
 
             options.Converters.Add(new CefSharp.Internals.Json.JsonEnumConverterFactory());
 
-            return System.Text.Json.JsonSerializer.Deserialize<T>(json, options);
-#else
-            var bytes = Encoding.UTF8.GetBytes(json);
-            using (var ms = new MemoryStream(bytes))
-            {
-                var settings = new System.Runtime.Serialization.Json.DataContractJsonSerializerSettings();
-                settings.UseSimpleDictionaryFormat = true;
+            // TODO: use synchronus Deserialize<T>(Stream) when System.Text.Json gets updated
+            var memoryStream = new MemoryStream((int)stream.Length);
+            stream.CopyTo(memoryStream);
 
-                var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T), settings);
-                return (T)dcs.ReadObject(ms);
-            }
+            return System.Text.Json.JsonSerializer.Deserialize(memoryStream.ToArray(), type, options);
+#else
+            var settings = new System.Runtime.Serialization.Json.DataContractJsonSerializerSettings();
+            settings.UseSimpleDictionaryFormat = true;
+
+            var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(type, settings);
+            return dcs.ReadObject(stream);
 #endif
+        }
+
+        private static string StreamToString(Stream stream, bool leaveOpen = false)
+        {
+            using (var streamReader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: leaveOpen))
+            {
+                return streamReader.ReadToEnd();
+            }
         }
     }
 }
