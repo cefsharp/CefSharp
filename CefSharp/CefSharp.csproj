@@ -127,6 +127,7 @@
     <Compile Include="Internals\FreezableBase.cs" />
     <Compile Include="Internals\IBrowserRefCounter.cs" />
     <Compile Include="Internals\MimeTypeMapping.cs" />
+    <Compile Include="Internals\NoFocusHandler.cs" />
     <Compile Include="Internals\Tasks\SyncContextTaskCompletionSource.cs" />
     <Compile Include="IRegistration.cs" />
     <Compile Include="LoadUrlAsyncResponse.cs" />

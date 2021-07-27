@@ -304,7 +304,7 @@ namespace CefSharp.WinForms
         /// Sets the handler references to null.
         /// Where required also calls Dispose().
         /// </summary>
-        private void FreeHandlersExceptLifeSpan()
+        private void FreeHandlersExceptLifeSpanAndFocus()
         {
             AudioHandler?.Dispose();
             AudioHandler = null;
@@ -318,7 +318,6 @@ namespace CefSharp.WinForms
             DragHandler = null;
             DownloadHandler = null;
             MenuHandler = null;
-            FocusHandler = null;
             ResourceRequestHandlerFactory = null;
             RenderProcessMessageHandler = null;
         }

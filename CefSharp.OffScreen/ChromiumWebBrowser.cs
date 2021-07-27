@@ -286,7 +286,11 @@ namespace CefSharp.OffScreen
 
                 // Release reference to handlers, except LifeSpanHandler which is done after Disposing
                 // ManagedCefBrowserAdapter otherwise the ILifeSpanHandler.DoClose will not be invoked.
-                FreeHandlersExceptLifeSpan();
+                // We also leave FocusHandler and override with a NoFocusHandler implementation as
+                // it so we can block taking Focus (we're dispoing afterall). Issue #3715
+                FreeHandlersExceptLifeSpanAndFocus();
+
+                FocusHandler = new NoFocusHandler();
 
                 browser = null;
 
