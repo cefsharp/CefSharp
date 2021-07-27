@@ -47,12 +47,6 @@ namespace CefSharp.WinForms.Example
             {
                 browser.KeyboardHandler = new KeyboardHandler();
             }
-            else
-            {
-                //When MultiThreadedMessageLoop is disabled we don't need the
-                //CefSharp focus handler implementation.
-                browser.FocusHandler = null;
-            }
 
             //The CefSharp.WinForms.Handler.LifeSpanHandler implementation
             //allows for Popups to be hosted in Controls/Tabs

@@ -72,11 +72,6 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.JavascriptObjectRepository.Register("bound", new BoundObject(), false);
 #endif
 
-            if (!multiThreadedMessageLoop)
-            {
-                browser.FocusHandler = null;
-            }
-
             //Only override if we have a custom handler
             if (customFocusHandler != null)
             {
