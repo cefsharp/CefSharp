@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Windows.Forms;
-using CefSharp.WinForms.Example.Handlers;
 
 namespace CefSharp.WinForms.Example.Minimal
 {
@@ -12,15 +11,17 @@ namespace CefSharp.WinForms.Example.Minimal
         private SimpleBrowserForm form1;
         private SimpleBrowserForm form2;
 
-        public MultiFormAppContext(bool multiThreadedMessageLoop)
+        public MultiFormAppContext()
         {
-            form1 = new SimpleBrowserForm(multiThreadedMessageLoop, new MultiFormFocusHandler());
+            form1 = new SimpleBrowserForm();
             form1.WindowState = FormWindowState.Normal;
-            form2 = new SimpleBrowserForm(multiThreadedMessageLoop, new MultiFormFocusHandler());
+            form2 = new SimpleBrowserForm();
             form2.WindowState = FormWindowState.Normal;
 
             form1.FormClosed += OnFormClosed;
             form2.FormClosed += OnFormClosed;
+
+            MainForm = form1;
 
             form1.Show();
             form2.Show();

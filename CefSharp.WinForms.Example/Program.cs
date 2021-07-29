@@ -45,7 +45,7 @@ namespace CefSharp.WinForms.Example
 
                 Cef.Initialize(settings);
 
-                var browser = new SimpleBrowserForm(true);
+                var browser = new SimpleBrowserForm();
                 Application.Run(browser);
             }
             else
@@ -95,7 +95,7 @@ namespace CefSharp.WinForms.Example
 
                 CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
 
-                //Application.Run(new MultiFormAppContext(multiThreadedMessageLoop));
+                //Application.Run(new MultiFormAppContext());
                 Application.Run(browser);
             }
 
