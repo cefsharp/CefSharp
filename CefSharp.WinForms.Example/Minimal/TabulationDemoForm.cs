@@ -11,13 +11,19 @@ namespace CefSharp.WinForms.Example.Minimal
 {
     public partial class TabulationDemoForm : Form
     {
-        private readonly ChromiumWebBrowser chromiumWebBrowser;
+        private ChromiumWebBrowser chromiumWebBrowser;
         private readonly Color focusColor = Color.Yellow;
         private readonly Color nonFocusColor = Color.White;
 
         public TabulationDemoForm()
         {
             InitializeComponent();
+
+            Load += FormLoad;
+        }
+
+        private void FormLoad(object sender, EventArgs e)
+        {
             chromiumWebBrowser = new ChromiumWebBrowser(txtURL.Text) { Dock = DockStyle.Fill };
             var userControl = new UserControl { Dock = DockStyle.Fill };
             userControl.Enter += UserControlEnter;
