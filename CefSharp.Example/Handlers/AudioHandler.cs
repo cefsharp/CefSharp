@@ -2,15 +2,14 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp;
 using CefSharp.Enums;
-using CefSharp.Handler;
+using CefSharp.Structs;
 using System;
 using System.IO;
 
 namespace CefSharp.Example.Handlers
 {
-    public class AudioHandlerExample : AudioHandler
+    public class AudioHandler : Handler.AudioHandler
     {
         private readonly string pathToSaveAudioData;
         private ChannelLayout channelLayout;
@@ -18,20 +17,20 @@ namespace CefSharp.Example.Handlers
         private int sampleRate;
         private readonly FileStream rawAudioFile;
 
-        public AudioHandlerExample(string path) : base()
+        public AudioHandler(string path) : base()
         {
             // The output file with raw audio data (PCM, 32-bit, float) will be saved in this path
             this.pathToSaveAudioData = path;
             this.rawAudioFile = new FileStream(this.pathToSaveAudioData, FileMode.Create, FileAccess.Write);
         }
 
-        protected override bool GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref CefSharp.Structs.AudioParameters parameters)
+        protected override bool GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref AudioParameters parameters)
         {
             // return true to activate audio stream capture
             return true;
         }
 
-        protected override void OnAudioStreamStarted(IWebBrowser chromiumWebBrowser, IBrowser browser, CefSharp.Structs.AudioParameters parameters, int channels)
+        protected override void OnAudioStreamStarted(IWebBrowser chromiumWebBrowser, IBrowser browser, AudioParameters parameters, int channels)
         {
             this.channelLayout = parameters.ChannelLayout;
             this.sampleRate = parameters.SampleRate;
