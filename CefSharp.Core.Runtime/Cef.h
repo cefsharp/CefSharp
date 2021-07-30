@@ -47,6 +47,7 @@ namespace CefSharp
             static Object^ _sync;
 
             static bool _initialized = false;
+            static bool _hasShutdown = false;
             static HashSet<IDisposable^>^ _disposables;
             static int _initializedThreadId;
             static bool _multiThreadedMessageLoop = true;
@@ -90,12 +91,6 @@ namespace CefSharp
                 bool get()
                 {
                     return _initialized;
-                }
-
-            private:
-                void set(bool value)
-                {
-                    _initialized = value;
                 }
             }
 
@@ -205,7 +200,7 @@ namespace CefSharp
             /// <returns>true if successful; otherwise, false.</returns>
             static bool Initialize(CefSettingsBase^ cefSettings, bool performDependencyCheck, IApp^ cefApp)
             {
-                if (IsInitialized)
+                if (_initialized)
                 {
                     // NOTE: Can only initialize Cef once, to make this explicitly clear throw exception on subsiquent attempts
                     throw gcnew Exception("CEF can only be initialized once per process. This is a limitation of the underlying " +
@@ -213,6 +208,15 @@ namespace CefSharp
                         "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#request-context-browser-isolation " +
                         "Use Cef.IsInitialized to guard against this exception. If you are seeing this unexpectedly then you are likely " +
                         "calling Cef.Initialize after you've created an instance of ChromiumWebBrowser, it must be before the first instance is created.");
+                }
+
+                if (_hasShutdown)
+                {
+                    // NOTE: CefShutdown has already been called.
+                    throw gcnew Exception("Cef.Shutdown has already been called. CEF can only be initialized once per process. " +
+                        "This is a limitation of the underlying CEF/Chromium framework. Calling Cef.Initialize after Cef.Shutdown is not supported. "
+                        "You can change many (not all) settings at runtime through RequestContext.SetPreference." +
+                        "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#request-context-browser-isolation");
                 }
 
                 //Empty string is acceptable, the main application executable will be used
@@ -486,11 +490,11 @@ namespace CefSharp
             /// </summary>
             static void Shutdown()
             {
-                if (IsInitialized)
+                if (_initialized)
                 {
                     msclr::lock l(_sync);
 
-                    if (IsInitialized)
+                    if (_initialized)
                     {
                         if (_initializedThreadId != Thread::CurrentThread->ManagedThreadId)
                         {
@@ -529,7 +533,8 @@ namespace CefSharp
                         }
 
                         CefShutdown();
-                        IsInitialized = false;
+                        _initialized = false;
+                        _hasShutdown = true;
                     }
                 }
             }
@@ -545,14 +550,15 @@ namespace CefSharp
             /// </summary>
             static void ShutdownWithoutChecks()
             {
-                if (IsInitialized)
+                if (_initialized)
                 {
                     msclr::lock l(_sync);
 
-                    if (IsInitialized)
+                    if (_initialized)
                     {
                         CefShutdown();
-                        IsInitialized = false;
+                        _initialized = false;
+                        _hasShutdown = true;
                     }
                 }
             }
@@ -869,7 +875,7 @@ namespace CefSharp
                     return;
                 }
 
-                if (IsInitialized)
+                if (_initialized)
                 {
                     throw gcnew Exception("Must be enabled before Cef.Initialize is called. ");
                 }
