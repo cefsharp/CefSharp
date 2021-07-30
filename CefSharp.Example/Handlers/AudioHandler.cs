@@ -11,7 +11,6 @@ namespace CefSharp.Example.Handlers
 {
     public class AudioHandler : Handler.AudioHandler
     {
-        private readonly string pathToSaveAudioData;
         private ChannelLayout channelLayout;
         private int channelCount;
         private int sampleRate;
@@ -20,8 +19,7 @@ namespace CefSharp.Example.Handlers
         public AudioHandler(string path) : base()
         {
             // The output file with raw audio data (PCM, 32-bit, float) will be saved in this path
-            this.pathToSaveAudioData = path;
-            this.rawAudioFile = new FileStream(this.pathToSaveAudioData, FileMode.Create, FileAccess.Write);
+            this.rawAudioFile = new FileStream(path, FileMode.Create, FileAccess.Write);
         }
 
         protected override bool GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref AudioParameters parameters)
@@ -63,11 +61,8 @@ namespace CefSharp.Example.Handlers
                             *pDest++ = channelData[c][i];
                         }
                     }
-
-                    var ustream = new UnmanagedMemoryStream(pDestByte, size);
-                    ustream.CopyTo(rawAudioFile);
-                    ustream.Close();
                 }
+                rawAudioFile.Write(samples, 0, size);
             }
         }
 
