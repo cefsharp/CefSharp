@@ -111,6 +111,16 @@ namespace CefSharp.Wpf.Rendering
 
                         var bitmap = (WriteableBitmap)image.Source;
 
+                        //When agressively resizing the ChromiumWebBrowser sometimes
+                        //we can end up with our buffer size not matching our bitmap size
+                        //Just ignore these frames as the rendering should eventually catch up
+                        //(CEF can generate multiple frames before WPF has performed a render cycle)
+                        //https://github.com/cefsharp/CefSharp/issues/3474
+                        if (width > bitmap.PixelWidth || height > bitmap.PixelHeight)
+                        {
+                            return;
+                        }
+
                         //By default we'll only update the dirty rect, for those that run into a MILERR_WIN32ERROR Exception (#2035)
                         //it's desirably to either upgrade to a newer .Net version (only client runtime needs to be installed, not compiled
                         //against a newer version. Or invalidate the whole bitmap
