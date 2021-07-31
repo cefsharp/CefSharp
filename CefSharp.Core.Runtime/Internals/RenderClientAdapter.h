@@ -39,13 +39,13 @@ namespace CefSharp
             }
 
             // CefClient
-            virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; };
+            virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() override { return this; };
 
             // CefRenderHandler
-            virtual DECL CefRefPtr<CefAccessibilityHandler> GetAccessibilityHandler() OVERRIDE { return this; }
+            virtual DECL CefRefPtr<CefAccessibilityHandler> GetAccessibilityHandler() override { return this; }
 
             // CefRenderHandler
-            virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
+            virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) override
             {
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
@@ -93,7 +93,7 @@ namespace CefSharp
             }
 
             // CefRenderHandler
-            virtual DECL void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
+            virtual DECL void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) override
             {
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
@@ -125,7 +125,7 @@ namespace CefSharp
             // coordinates. Return true if the screen coordinates were provided.
             ///
             /*--cef()--*/
-            virtual DECL bool GetScreenPoint(CefRefPtr<CefBrowser> browser, int viewX, int viewY, int& screenX, int& screenY) OVERRIDE
+            virtual DECL bool GetScreenPoint(CefRefPtr<CefBrowser> browser, int viewX, int viewY, int& screenX, int& screenY) override
             {
                 return _renderWebBrowser->GetScreenPoint(viewX, viewY, screenX, screenY);
             }
@@ -135,7 +135,7 @@ namespace CefSharp
             // should be shown if |show| is true and hidden if |show| is false.
             ///
             /*--cef()--*/
-            virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE
+            virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) override
             {
                 _renderWebBrowser->OnPopupShow(show);
             };
@@ -145,25 +145,25 @@ namespace CefSharp
             // contains the new location and size.
             ///
             /*--cef()--*/
-            virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
+            virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) override
             {
                 _renderWebBrowser->OnPopupSize(Rect(rect.x, rect.y, rect.width, rect.height));
             };
 
-            virtual DECL void OnAcceleratedPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, void* shared_handle) OVERRIDE
+            virtual DECL void OnAcceleratedPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, void* shared_handle) override
             {
                 CefRect r = dirtyRects.front();
                 _renderWebBrowser->OnAcceleratedPaint((CefSharp::PaintElementType)type, CefSharp::Structs::Rect(r.x, r.y, r.width, r.height), IntPtr((void *)shared_handle));
             }
 
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
-                const void* buffer, int width, int height) OVERRIDE
+                const void* buffer, int width, int height) override
             {
                 CefRect r = dirtyRects.front();
                 _renderWebBrowser->OnPaint((CefSharp::PaintElementType)type, CefSharp::Structs::Rect(r.x, r.y, r.width, r.height), IntPtr((void *)buffer), width, height);
             };
 
-            virtual DECL void InternalCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, cef_cursor_type_t type, const CefCursorInfo& custom_cursor_info) OVERRIDE
+            virtual DECL void InternalCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, cef_cursor_type_t type, const CefCursorInfo& custom_cursor_info) override
             {
                 CursorInfo customCursorInfo;
 
@@ -179,7 +179,7 @@ namespace CefSharp
             }
 
             virtual DECL bool StartDragging(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData,
-                CefRenderHandler::DragOperationsMask allowedOps, int x, int y) OVERRIDE
+                CefRenderHandler::DragOperationsMask allowedOps, int x, int y) override
             {
                 DragData dragDataWrapper(dragData);
                 return _renderWebBrowser->StartDragging(%dragDataWrapper, (CefSharp::Enums::DragOperationsMask)allowedOps, x, y);
@@ -191,7 +191,7 @@ namespace CefSharp
             // (none, move, copy, link).
             ///
             /*--cef()--*/
-            virtual DECL void UpdateDragCursor(CefRefPtr<CefBrowser> browser, CefRenderHandler::DragOperation operation) OVERRIDE
+            virtual DECL void UpdateDragCursor(CefRefPtr<CefBrowser> browser, CefRenderHandler::DragOperation operation) override
             {
                 return _renderWebBrowser->UpdateDragCursor((CefSharp::Enums::DragOperationsMask)operation);
             }
@@ -202,7 +202,7 @@ namespace CefSharp
             // bounds of each character in view coordinates.
             ///
             /*--cef()--*/
-            virtual DECL void OnImeCompositionRangeChanged(CefRefPtr<CefBrowser> browser, const CefRange& selectedRange, const RectList& characterBounds) OVERRIDE
+            virtual DECL void OnImeCompositionRangeChanged(CefRefPtr<CefBrowser> browser, const CefRange& selectedRange, const RectList& characterBounds) override
             {
                 auto charBounds = gcnew cli::array<Rect>((int)characterBounds.size());
 
@@ -216,7 +216,7 @@ namespace CefSharp
             }
 
             //CefAccessibilityHandler
-            virtual DECL void OnAccessibilityLocationChange(CefRefPtr<CefValue> value) OVERRIDE
+            virtual DECL void OnAccessibilityLocationChange(CefRefPtr<CefValue> value) override
             {
                 auto handler = _renderWebBrowser->AccessibilityHandler;
 
@@ -228,7 +228,7 @@ namespace CefSharp
                 }
             }
 
-            virtual DECL void OnAccessibilityTreeChange(CefRefPtr<CefValue> value) OVERRIDE
+            virtual DECL void OnAccessibilityTreeChange(CefRefPtr<CefValue> value) override
             {
                 auto handler = _renderWebBrowser->AccessibilityHandler;
 
@@ -240,7 +240,7 @@ namespace CefSharp
                 }
             }
 
-            virtual DECL void OnVirtualKeyboardRequested(CefRefPtr<CefBrowser> browser, cef_text_input_mode_t input_mode) OVERRIDE
+            virtual DECL void OnVirtualKeyboardRequested(CefRefPtr<CefBrowser> browser, cef_text_input_mode_t input_mode) override
             {
                 _renderWebBrowser->OnVirtualKeyboardRequested(GetBrowserWrapper(browser->GetIdentifier()), (CefSharp::Enums::TextInputMode)input_mode);
             }

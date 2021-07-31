@@ -28,7 +28,7 @@ namespace CefSharp
                 _visitor = nullptr;
             }
 
-            virtual void Visit(const CefString& string) OVERRIDE
+            virtual void Visit(const CefString& string) override
             {
                 _visitor->Visit(StringUtils::ToClr(string));
             }

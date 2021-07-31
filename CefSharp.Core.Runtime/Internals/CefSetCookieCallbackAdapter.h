@@ -28,7 +28,7 @@ namespace CefSharp
                 _handler = nullptr;
             }
 
-            void OnComplete(bool success) OVERRIDE
+            void OnComplete(bool success) override
             {
                 _handler->OnComplete(success);
             }

@@ -30,7 +30,7 @@ namespace CefSharp
                 _visitor = nullptr;
             }
 
-            virtual bool Visit(const CefCookie& cefCookie, int count, int total, bool& deleteCookie) OVERRIDE
+            virtual bool Visit(const CefCookie& cefCookie, int count, int total, bool& deleteCookie) override
             {
                 auto cookie = TypeConversion::FromNative(cefCookie);
 

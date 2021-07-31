@@ -28,7 +28,7 @@ namespace CefSharp
                 _handler = nullptr;
             }
 
-            void OnResolveCompleted(cef_errorcode_t result, const std::vector<CefString>& resolvedIps) OVERRIDE
+            void OnResolveCompleted(cef_errorcode_t result, const std::vector<CefString>& resolvedIps) override
             {
                 _handler->OnResolveCompleted((CefErrorCode)result, StringUtils::ToClr(resolvedIps));
             }

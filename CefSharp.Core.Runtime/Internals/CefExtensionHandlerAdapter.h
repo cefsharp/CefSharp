@@ -41,7 +41,7 @@ namespace CefSharp
             // be the error code.
             ///
             /*--cef()--*/
-            void OnExtensionLoadFailed(cef_errorcode_t result) OVERRIDE
+            void OnExtensionLoadFailed(cef_errorcode_t result) override
             {
                 _handler->OnExtensionLoadFailed((CefErrorCode)result);
             }
@@ -51,7 +51,7 @@ namespace CefSharp
             // |extension| is the loaded extension.
             ///
             /*--cef()--*/
-            void OnExtensionLoaded(CefRefPtr<CefExtension> extension) OVERRIDE
+            void OnExtensionLoaded(CefRefPtr<CefExtension> extension) override
             {
                 //TODO: Should this be auto disposed?
                 _handler->OnExtensionLoaded(gcnew CefExtensionWrapper(extension));
@@ -61,7 +61,7 @@ namespace CefSharp
             // Called after the CefExtension::Unload request has completed.
             ///
             /*--cef()--*/
-            void OnExtensionUnloaded(CefRefPtr<CefExtension> extension) OVERRIDE
+            void OnExtensionUnloaded(CefRefPtr<CefExtension> extension) override
             {
                 //TODO: Add comment to interface saying extension is only valid within the scope
                 //of this method as it's auto disposed
@@ -88,7 +88,7 @@ namespace CefSharp
             bool OnBeforeBackgroundBrowser(CefRefPtr<CefExtension> extension,
                 const CefString& url,
                 CefRefPtr<CefClient>& client,
-                CefBrowserSettings& settings) OVERRIDE
+                CefBrowserSettings& settings) override
             {
                 BrowserSettings browserSettingsWrapper(&settings);
 
@@ -120,7 +120,7 @@ namespace CefSharp
                 bool active,
                 CefWindowInfo& windowInfo,
                 CefRefPtr<CefClient>& client,
-                CefBrowserSettings& settings) OVERRIDE
+                CefBrowserSettings& settings) override
             {
                 BrowserSettings browserSettingsWrapper(&settings);
 
@@ -147,7 +147,7 @@ namespace CefSharp
             CefRefPtr<CefBrowser> GetActiveBrowser(
                 CefRefPtr<CefExtension> extension,
                 CefRefPtr<CefBrowser> browser,
-                bool includeIncognito) OVERRIDE
+                bool includeIncognito) override
             {
                 //TODO: Should extension be auto disposed?
                 auto activeBrowser = _handler->GetActiveBrowser(gcnew CefExtensionWrapper(extension),
@@ -177,7 +177,7 @@ namespace CefSharp
             bool CanAccessBrowser(CefRefPtr<CefExtension> extension,
                 CefRefPtr<CefBrowser> browser,
                 bool includeIncognito,
-                CefRefPtr<CefBrowser> target_browser) OVERRIDE
+                CefRefPtr<CefBrowser> target_browser) override
             {
                 return _handler->CanAccessBrowser(gcnew CefExtensionWrapper(extension),
                     gcnew CefBrowserWrapper(browser),
@@ -200,7 +200,7 @@ namespace CefSharp
                 CefRefPtr<CefExtension> extension,
                 CefRefPtr<CefBrowser> browser,
                 const CefString& file,
-                CefRefPtr<CefGetExtensionResourceCallback> callback) OVERRIDE
+                CefRefPtr<CefGetExtensionResourceCallback> callback) override
             {
                 return _handler->GetExtensionResource(gcnew CefExtensionWrapper(extension),
                     gcnew CefBrowserWrapper(browser),

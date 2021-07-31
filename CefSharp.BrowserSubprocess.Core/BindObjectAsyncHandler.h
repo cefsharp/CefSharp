@@ -43,7 +43,7 @@ namespace CefSharp
                 _browserWrapper = nullptr;
             }
 
-            bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
+            bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) override
             {
                 auto context = CefV8Context::GetCurrentContext();
 

@@ -37,7 +37,7 @@ namespace CefSharp
                 _factory = nullptr;
             }
 
-            virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& schemeName, CefRefPtr<CefRequest> request) OVERRIDE
+            virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& schemeName, CefRefPtr<CefRequest> request) override
             {
                 CefBrowserWrapper browserWrapper(browser);
                 CefFrameWrapper frameWrapper(frame);

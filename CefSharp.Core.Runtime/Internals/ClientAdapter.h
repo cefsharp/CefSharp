@@ -87,20 +87,20 @@ namespace CefSharp
             IBrowser^ GetBrowserWrapper(int browserId);
 
             // CefClient
-            virtual DECL CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefFindHandler> GetFindHandler() OVERRIDE { return this; }
-            virtual DECL CefRefPtr<CefAudioHandler> GetAudioHandler() OVERRIDE { return this; }
-            virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
+            virtual DECL CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override { return this; }
+            virtual DECL CefRefPtr<CefLoadHandler> GetLoadHandler() override { return this; }
+            virtual DECL CefRefPtr<CefRequestHandler> GetRequestHandler() override { return this; }
+            virtual DECL CefRefPtr<CefDisplayHandler> GetDisplayHandler() override { return this; }
+            virtual DECL CefRefPtr<CefDownloadHandler> GetDownloadHandler() override { return this; }
+            virtual DECL CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override { return this; }
+            virtual DECL CefRefPtr<CefFocusHandler> GetFocusHandler() override { return this; }
+            virtual DECL CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() override { return this; }
+            virtual DECL CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() override { return this; }
+            virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() override { return this; }
+            virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() override { return this; }
+            virtual DECL CefRefPtr<CefFindHandler> GetFindHandler() override { return this; }
+            virtual DECL CefRefPtr<CefAudioHandler> GetAudioHandler() override { return this; }
+            virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) override;
 
 
             // CefLifeSpanHandler
@@ -108,98 +108,98 @@ namespace CefSharp
                 const CefString& target_url, const CefString& target_frame_name,
                 CefLifeSpanHandler::WindowOpenDisposition target_disposition, bool user_gesture,
                 const CefPopupFeatures& popupFeatures,
-                CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, CefRefPtr<CefDictionaryValue>& extraInfo, bool* no_javascript_access) OVERRIDE;
-            virtual DECL void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
-            virtual DECL bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
-            virtual DECL void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+                CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, CefRefPtr<CefDictionaryValue>& extraInfo, bool* no_javascript_access) override;
+            virtual DECL void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
+            virtual DECL bool DoClose(CefRefPtr<CefBrowser> browser) override;
+            virtual DECL void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
 
             // CefLoadHandler
-            virtual DECL void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, TransitionType transitionType) OVERRIDE;
-            virtual DECL void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
-            virtual DECL void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) OVERRIDE;
+            virtual DECL void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, TransitionType transitionType) override;
+            virtual DECL void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) override;
+            virtual DECL void OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl) override;
 
             // CefRequestHandler
-            virtual DECL bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool userGesture, bool isRedirect) OVERRIDE;
+            virtual DECL bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool userGesture, bool isRedirect) override;
             virtual DECL bool OnOpenURLFromTab(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& targetUrl,
-                CefRequestHandler::WindowOpenDisposition targetDisposition, bool userGesture) OVERRIDE;
+                CefRequestHandler::WindowOpenDisposition targetDisposition, bool userGesture) override;
             virtual DECL CefRefPtr<CefResourceRequestHandler> GetResourceRequestHandler(CefRefPtr<CefBrowser> browser,
-                CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isNavigation, bool isDownload, const CefString& requestInitiator, bool& disableDefaultHandling) OVERRIDE;
+                CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isNavigation, bool isDownload, const CefString& requestInitiator, bool& disableDefaultHandling) override;
             virtual DECL bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, const CefString& originUrl, bool isProxy,
-                const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
-            virtual DECL bool OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback) OVERRIDE;
-            virtual DECL bool OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback) OVERRIDE;
+                const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) override;
+            virtual DECL bool OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback) override;
+            virtual DECL bool OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback) override;
             virtual DECL bool OnSelectClientCertificate(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port,
-                const CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) OVERRIDE;
-            virtual DECL void OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path) OVERRIDE;
-            virtual DECL void OnRenderViewReady(CefRefPtr<CefBrowser> browser) OVERRIDE;
-            virtual DECL void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) OVERRIDE;
-            virtual DECL void OnDocumentAvailableInMainFrame(CefRefPtr<CefBrowser> browser) OVERRIDE;
+                const CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) override;
+            virtual DECL void OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path) override;
+            virtual DECL void OnRenderViewReady(CefRefPtr<CefBrowser> browser) override;
+            virtual DECL void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) override;
+            virtual DECL void OnDocumentAvailableInMainFrame(CefRefPtr<CefBrowser> browser) override;
 
             // CefDisplayHandler
-            virtual DECL void OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward) OVERRIDE;
-            virtual DECL void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) OVERRIDE;
-            virtual DECL bool OnAutoResize(CefRefPtr< CefBrowser > browser, const CefSize& new_size) OVERRIDE;
-            virtual DECL bool OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, cef_cursor_type_t type, const CefCursorInfo & custom_cursor_info) OVERRIDE;
-            virtual DECL void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) OVERRIDE;
-            virtual DECL void OnFaviconURLChange(CefRefPtr<CefBrowser> browser, const std::vector<CefString>& iconUrls) OVERRIDE;
-            virtual DECL void OnFullscreenModeChange(CefRefPtr<CefBrowser> browser, bool fullscreen) OVERRIDE;
-            virtual DECL void OnLoadingProgressChange(CefRefPtr<CefBrowser> browser, double progress) OVERRIDE;
-            virtual DECL bool OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) OVERRIDE;
-            virtual DECL bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, cef_log_severity_t level, const CefString& message, const CefString& source, int line) OVERRIDE;
-            virtual DECL void OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& message) OVERRIDE;
+            virtual DECL void OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward) override;
+            virtual DECL void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) override;
+            virtual DECL bool OnAutoResize(CefRefPtr< CefBrowser > browser, const CefSize& new_size) override;
+            virtual DECL bool OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, cef_cursor_type_t type, const CefCursorInfo & custom_cursor_info) override;
+            virtual DECL void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) override;
+            virtual DECL void OnFaviconURLChange(CefRefPtr<CefBrowser> browser, const std::vector<CefString>& iconUrls) override;
+            virtual DECL void OnFullscreenModeChange(CefRefPtr<CefBrowser> browser, bool fullscreen) override;
+            virtual DECL void OnLoadingProgressChange(CefRefPtr<CefBrowser> browser, double progress) override;
+            virtual DECL bool OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) override;
+            virtual DECL bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, cef_log_severity_t level, const CefString& message, const CefString& source, int line) override;
+            virtual DECL void OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& message) override;
 
             virtual DECL void InternalCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, cef_cursor_type_t type, const CefCursorInfo& custom_cursor_info);
 
             // CefContextMenuHandler
             virtual DECL void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-                CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) OVERRIDE;
+                CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) override;
             virtual DECL bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-                CefRefPtr<CefContextMenuParams> params, int commandId, EventFlags eventFlags) OVERRIDE;
-            virtual DECL void OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
-            virtual DECL bool RunContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model, CefRefPtr<CefRunContextMenuCallback> callback) OVERRIDE;
+                CefRefPtr<CefContextMenuParams> params, int commandId, EventFlags eventFlags) override;
+            virtual DECL void OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) override;
+            virtual DECL bool RunContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model, CefRefPtr<CefRunContextMenuCallback> callback) override;
 
             // CefFocusHandler
-            virtual DECL void OnGotFocus(CefRefPtr<CefBrowser> browser) OVERRIDE;
-            virtual DECL bool OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source) OVERRIDE;
-            virtual DECL void OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next) OVERRIDE;
+            virtual DECL void OnGotFocus(CefRefPtr<CefBrowser> browser) override;
+            virtual DECL bool OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source) override;
+            virtual DECL void OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next) override;
 
             // CefKeyboardHandler
-            virtual DECL bool OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event) OVERRIDE;
-            virtual DECL bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut) OVERRIDE;
+            virtual DECL bool OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event) override;
+            virtual DECL bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut) override;
 
             // CefJSDialogHandler
             virtual DECL bool OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url,
                 JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text,
-                CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message) OVERRIDE;
+                CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message) override;
             virtual DECL bool OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload,
-                CefRefPtr<CefJSDialogCallback> callback) OVERRIDE;
-            virtual DECL void OnResetDialogState(CefRefPtr<CefBrowser> browser) OVERRIDE;
-            virtual DECL void OnDialogClosed(CefRefPtr<CefBrowser> browser) OVERRIDE;
+                CefRefPtr<CefJSDialogCallback> callback) override;
+            virtual DECL void OnResetDialogState(CefRefPtr<CefBrowser> browser) override;
+            virtual DECL void OnDialogClosed(CefRefPtr<CefBrowser> browser) override;
 
             // CefDialogHandler
             virtual DECL bool OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
                 const CefString& default_file_path, const std::vector<CefString>& accept_filters, int selected_accept_filter,
-                CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
+                CefRefPtr<CefFileDialogCallback> callback) override;
 
             //CefDragHandler
-            virtual DECL bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask) OVERRIDE;
-            virtual DECL void OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const std::vector<CefDraggableRegion>& regions) OVERRIDE;
+            virtual DECL bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask) override;
+            virtual DECL void OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const std::vector<CefDraggableRegion>& regions) override;
 
             //CefDownloadHandler
             virtual DECL void OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
-                const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE;
+                const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) override;
             virtual DECL void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
-                CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
+                CefRefPtr<CefDownloadItemCallback> callback) override;
 
             //CefFindHandler
-            virtual DECL void OnFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate) OVERRIDE;
+            virtual DECL void OnFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate) override;
 
             //CefAudioHandler
-            virtual DECL bool GetAudioParameters(CefRefPtr<CefBrowser> browser, CefAudioParameters & params) OVERRIDE;
-            virtual DECL void OnAudioStreamStarted(CefRefPtr<CefBrowser> browser, const CefAudioParameters& params, int channels) OVERRIDE;
-            virtual DECL void OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, const float** data, int frames, int64 pts) OVERRIDE;
-            virtual DECL void OnAudioStreamStopped(CefRefPtr<CefBrowser> browser) OVERRIDE;
-            virtual DECL void OnAudioStreamError(CefRefPtr<CefBrowser> browser, const CefString& message) OVERRIDE;
+            virtual DECL bool GetAudioParameters(CefRefPtr<CefBrowser> browser, CefAudioParameters & params) override;
+            virtual DECL void OnAudioStreamStarted(CefRefPtr<CefBrowser> browser, const CefAudioParameters& params, int channels) override;
+            virtual DECL void OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, const float** data, int frames, int64 pts) override;
+            virtual DECL void OnAudioStreamStopped(CefRefPtr<CefBrowser> browser) override;
+            virtual DECL void OnAudioStreamError(CefRefPtr<CefBrowser> browser, const CefString& message) override;
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };

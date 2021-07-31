@@ -31,7 +31,7 @@ namespace CefSharp
                 _schemes = nullptr;
             }
 
-            void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE
+            void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) override
             {
                 for each (CefCustomScheme ^ scheme in _schemes->AsReadOnly())
                 {

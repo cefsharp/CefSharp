@@ -39,7 +39,7 @@ namespace CefSharp
             }
 
 
-            bool CanSendCookie(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, const CefCookie& cookie) OVERRIDE
+            bool CanSendCookie(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, const CefCookie& cookie) override
             {
                 Request requestWrapper(request);
                 auto managedCookie = TypeConversion::FromNative(cookie);
@@ -57,7 +57,7 @@ namespace CefSharp
                 return _handler->CanSendCookie(_browserControl, nullptr, nullptr, %requestWrapper, managedCookie);
             }
 
-            bool CanSaveCookie(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, const CefCookie& cookie) OVERRIDE
+            bool CanSaveCookie(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, const CefCookie& cookie) override
             {
                 Request requestWrapper(request);
                 CefResponseWrapper responseWrapper(response);

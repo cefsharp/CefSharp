@@ -28,7 +28,7 @@ namespace CefSharp
             {
             };
 
-            virtual void Execute() OVERRIDE
+            virtual void Execute() override
             {
                 try
                 {

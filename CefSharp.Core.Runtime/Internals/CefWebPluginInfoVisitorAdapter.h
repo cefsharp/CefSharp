@@ -28,7 +28,7 @@ namespace CefSharp
                 _visitor = nullptr;
             }
 
-            virtual bool Visit(CefRefPtr<CefWebPluginInfo> info, int count, int total) OVERRIDE
+            virtual bool Visit(CefRefPtr<CefWebPluginInfo> info, int count, int total) override
             {
                 auto plugin = gcnew WebPluginInfo(StringUtils::ToClr(info->GetName()),
                     StringUtils::ToClr(info->GetDescription()),

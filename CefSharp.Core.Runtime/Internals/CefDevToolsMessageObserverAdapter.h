@@ -46,7 +46,7 @@ namespace CefSharp
                 int message_id,
                 bool success,
                 const void* result,
-                size_t result_size) OVERRIDE
+                size_t result_size) override
             {
                 CefBrowserWrapper browserWrapper(browser);
                 UnmanagedMemoryStream resultStream((Byte*)result, (Int64)result_size, (Int64)result_size, FileAccess::Read);
@@ -54,7 +54,7 @@ namespace CefSharp
                 _handler->OnDevToolsMethodResult(%browserWrapper, message_id, success, %resultStream);
             }
 
-            virtual void OnDevToolsEvent(CefRefPtr<CefBrowser> browser, const CefString& method, const void* params, size_t params_size) OVERRIDE
+            virtual void OnDevToolsEvent(CefRefPtr<CefBrowser> browser, const CefString& method, const void* params, size_t params_size) override
             {
                 CefBrowserWrapper browserWrapper(browser);
                 UnmanagedMemoryStream paramsStream((Byte*)params, (Int64)params_size, (Int64)params_size, FileAccess::Read);
@@ -62,14 +62,14 @@ namespace CefSharp
                 _handler->OnDevToolsEvent(%browserWrapper, StringUtils::ToClr(method), %paramsStream);
             }
 
-            void OnDevToolsAgentAttached(CefRefPtr<CefBrowser> browser)  OVERRIDE
+            void OnDevToolsAgentAttached(CefRefPtr<CefBrowser> browser)  override
             {
                 CefBrowserWrapper browserWrapper(browser);
 
                 _handler->OnDevToolsAgentAttached(%browserWrapper);
             }
 
-            void OnDevToolsAgentDetached(CefRefPtr<CefBrowser> browser) OVERRIDE
+            void OnDevToolsAgentDetached(CefRefPtr<CefBrowser> browser) override
             {
                 CefBrowserWrapper browserWrapper(browser);
 

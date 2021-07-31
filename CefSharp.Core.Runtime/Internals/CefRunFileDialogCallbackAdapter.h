@@ -30,7 +30,7 @@ namespace CefSharp
                 _callback = nullptr;
             }
 
-            virtual void OnFileDialogDismissed(int selectedAcceptFilter, const std::vector<CefString>& filePaths) OVERRIDE
+            virtual void OnFileDialogDismissed(int selectedAcceptFilter, const std::vector<CefString>& filePaths) override
             {
                 if (static_cast<IRunFileDialogCallback^>(_callback) != nullptr)
                 {

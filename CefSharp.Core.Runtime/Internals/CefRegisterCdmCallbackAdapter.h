@@ -35,7 +35,7 @@ namespace CefSharp
             /// additional information about why registration failed.
             /// </summary>
             virtual void OnCdmRegistrationComplete(cef_cdm_registration_error_t result,
-                const CefString& error_message) OVERRIDE
+                const CefString& error_message) override
             {
                 auto r = gcnew CdmRegistration((CdmRegistrationErrorCode)result, StringUtils::ToClr(error_message));
 

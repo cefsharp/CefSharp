@@ -86,12 +86,12 @@ namespace CefSharp
                 _app = nullptr;
             }
 
-            virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() OVERRIDE
+            virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override
             {
                 return this;
             }
 
-            virtual void OnContextInitialized() OVERRIDE
+            virtual void OnContextInitialized() override
             {
                 if (!Object::ReferenceEquals(_app, nullptr) && !Object::ReferenceEquals(_app->BrowserProcessHandler, nullptr))
                 {
@@ -113,13 +113,13 @@ namespace CefSharp
                 }
             }
 
-            virtual void OnScheduleMessagePumpWork(int64 delay_ms)  OVERRIDE
+            virtual void OnScheduleMessagePumpWork(int64 delay_ms)  override
             {
                 //We rely on previous checks to make sure _app and _app->BrowserProcessHandler aren't null
                 _app->BrowserProcessHandler->OnScheduleMessagePumpWork(delay_ms);
             }
 
-            virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> commandLine) OVERRIDE
+            virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> commandLine) override
             {
 #ifndef NETCOREAPP
                 if (CefSharpSettings::WcfEnabled)
@@ -148,7 +148,7 @@ namespace CefSharp
                 }
             }
 
-            virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
+            virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) override
             {
                 if (CefSharpSettings::Proxy != nullptr && !_commandLineDisabled)
                 {
@@ -198,7 +198,7 @@ namespace CefSharp
                 }
             }
 
-            virtual void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE
+            virtual void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) override
             {
                 if (!Object::ReferenceEquals(_app, nullptr))
                 {

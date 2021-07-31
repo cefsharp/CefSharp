@@ -32,7 +32,7 @@ namespace CefSharp
                 _stream = nullptr;
             }
 
-            virtual size_t Write(const void* ptr, size_t size, size_t n) OVERRIDE
+            virtual size_t Write(const void* ptr, size_t size, size_t n) override
             {
                 try
                 {
@@ -49,7 +49,7 @@ namespace CefSharp
                 }
             }
 
-            virtual int Seek(int64 offset, int whence) OVERRIDE
+            virtual int Seek(int64 offset, int whence) override
             {
                 System::IO::SeekOrigin seekOrigin;
 
@@ -93,18 +93,18 @@ namespace CefSharp
                 return 0;
             }
 
-            virtual int64 Tell() OVERRIDE
+            virtual int64 Tell() override
             {
                 return static_cast<int64>(_stream->Position);
             }
 
-            virtual int Flush() OVERRIDE
+            virtual int Flush() override
             {
                 _stream->Flush();
                 return 0;
             }
 
-            virtual bool MayBlock() OVERRIDE
+            virtual bool MayBlock() override
             {
                 return !_isMemoryStream;
             }

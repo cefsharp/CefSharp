@@ -36,9 +36,9 @@ namespace CefSharp
                 bool is_main_frame,
                 const CefString& top_origin_url,
                 CefRefPtr<CefWebPluginInfo> plugin_info,
-                CefRequestContextHandler::PluginPolicy* plugin_policy) OVERRIDE;
+                CefRequestContextHandler::PluginPolicy* plugin_policy) override;
 
-            virtual void OnRequestContextInitialized(CefRefPtr<CefRequestContext> requestContext) OVERRIDE;
+            virtual void OnRequestContextInitialized(CefRefPtr<CefRequestContext> requestContext) override;
 
             virtual CefRefPtr<CefResourceRequestHandler> GetResourceRequestHandler(
                 CefRefPtr<CefBrowser> browser,
@@ -47,7 +47,7 @@ namespace CefSharp
                 bool is_navigation,
                 bool is_download,
                 const CefString& request_initiator,
-                bool& disable_default_handling) OVERRIDE;
+                bool& disable_default_handling) override;
 
             IMPLEMENT_REFCOUNTING(CefRequestContextHandlerAdapter);
         };

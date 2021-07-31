@@ -31,7 +31,7 @@ namespace CefSharp
                 _javascriptCallbackRegistry = javascriptCallbackRegistry;
             }
 
-            bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
+            bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) override
             {
                 if (arguments.size() == 0 || arguments.size() > 1)
                 {

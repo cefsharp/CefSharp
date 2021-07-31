@@ -32,7 +32,7 @@ namespace CefSharp
                 _filter = nullptr;
             }
 
-            virtual bool InitFilter() OVERRIDE
+            virtual bool InitFilter() override
             {
                 return _filter->InitFilter();
             }
@@ -54,7 +54,7 @@ namespace CefSharp
             // the method returns RESPONSE_FILTER_DONE or RESPONSE_FILTER_ERROR. Do not
             // keep a reference to the buffers passed to this method.
             /*--cef(optional_param=data_in,default_retval=RESPONSE_FILTER_ERROR)--*/
-            virtual FilterStatus Filter(void* dataIn, size_t dataInSize, size_t& dataInRead, void* dataOut, size_t dataOutSize, size_t& dataOutWritten) OVERRIDE
+            virtual FilterStatus Filter(void* dataIn, size_t dataInSize, size_t& dataInRead, void* dataOut, size_t dataOutSize, size_t& dataOutWritten) override
             {
                 Int64 dataInReadPtr = 0;
                 Int64 dataOutWrittenPtr = 0;

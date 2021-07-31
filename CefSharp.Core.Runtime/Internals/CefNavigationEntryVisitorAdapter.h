@@ -31,7 +31,7 @@ namespace CefSharp
             bool Visit(CefRefPtr<CefNavigationEntry> entry,
                 bool current,
                 int index,
-                int total) OVERRIDE
+                int total) override
             {
                 auto navEntry = TypeConversion::FromNative(entry, current);
 

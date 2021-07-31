@@ -29,7 +29,7 @@ namespace CefSharp
                 _callback = nullptr;
             }
 
-            virtual void OnPdfPrintFinished(const CefString& path, bool ok) OVERRIDE
+            virtual void OnPdfPrintFinished(const CefString& path, bool ok) override
             {
                 if (static_cast<IPrintToPdfCallback^>(_callback) != nullptr)
                 {

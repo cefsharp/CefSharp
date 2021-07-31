@@ -45,7 +45,7 @@ namespace CefSharp
                 _handler = nullptr;
             }
 
-            CefRefPtr<CefCookieAccessFilter> GetCookieAccessFilter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) OVERRIDE
+            CefRefPtr<CefCookieAccessFilter> GetCookieAccessFilter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) override
             {
                 ICookieAccessFilter^ accessFilter;
                 Request requestWrapper(request);
@@ -71,7 +71,7 @@ namespace CefSharp
                 return new CefCookieAccessFilterAdapter(accessFilter, _browserControl);
             }
 
-            cef_return_value_t OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback) OVERRIDE
+            cef_return_value_t OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback) override
             {
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
@@ -93,7 +93,7 @@ namespace CefSharp
                 return (cef_return_value_t)_handler->OnBeforeResourceLoad(_browserControl, nullptr, nullptr, requestWrapper, requestCallback);
             }
 
-            CefRefPtr<CefResourceHandler> GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) OVERRIDE
+            CefRefPtr<CefResourceHandler> GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) override
             {
                 IResourceHandler^ resourceHandler;
                 Request requestWrapper(request);
@@ -150,7 +150,7 @@ namespace CefSharp
                 return new CefResourceHandlerAdapter(resourceHandler);
             }
 
-            void OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, CefString& newUrl) OVERRIDE
+            void OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, CefString& newUrl) override
             {
                 auto managedNewUrl = StringUtils::ToClr(newUrl);
                 Request requestWrapper(request);
@@ -173,7 +173,7 @@ namespace CefSharp
 
             }
 
-            bool OnResourceResponse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response) OVERRIDE
+            bool OnResourceResponse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response) override
             {
                 Request requestWrapper(request);
                 CefResponseWrapper responseWrapper(response);
@@ -191,7 +191,7 @@ namespace CefSharp
                 return _handler->OnResourceResponse(_browserControl, nullptr, nullptr, %requestWrapper, %responseWrapper);
             }
 
-            CefRefPtr<CefResponseFilter> GetResourceResponseFilter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response) OVERRIDE
+            CefRefPtr<CefResponseFilter> GetResourceResponseFilter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response) override
             {
                 IResponseFilter^ responseFilter;
                 Request requestWrapper(request);
@@ -218,7 +218,7 @@ namespace CefSharp
                 return new CefResponseFilterAdapter(responseFilter);
             }
 
-            void OnResourceLoadComplete(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, URLRequestStatus status, int64 receivedContentLength) OVERRIDE
+            void OnResourceLoadComplete(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, URLRequestStatus status, int64 receivedContentLength) override
             {
                 Request requestWrapper(request);
                 CefResponseWrapper responseWrapper(response);
@@ -237,7 +237,7 @@ namespace CefSharp
                 }
             }
 
-            void OnProtocolExecution(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool& allowOSExecution) OVERRIDE
+            void OnProtocolExecution(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool& allowOSExecution) override
             {
                 Request requestWrapper(request);
 

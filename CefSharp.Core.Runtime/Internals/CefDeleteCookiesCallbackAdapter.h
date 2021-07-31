@@ -28,7 +28,7 @@ namespace CefSharp
                 _handler = nullptr;
             }
 
-            void OnComplete(int numDeleted) OVERRIDE
+            void OnComplete(int numDeleted) override
             {
                 _handler->OnComplete(numDeleted);
             }
