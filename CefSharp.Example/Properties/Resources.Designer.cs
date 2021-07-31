@@ -19,7 +19,7 @@ namespace CefSharp.Example.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -324,7 +324,7 @@ namespace CefSharp.Example.Properties {
         ///    (async function() {
         ///        // &lt;embed user provided code here&gt;
         ///
-        ///        await CefSharp.BindObjectAsync(&quot;boundAsy [rest of string was truncated]&quot;;.
+        ///        await CefSharp.BindObjectAsync(&quot;boundA [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTest {
             get {
@@ -333,23 +333,20 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (async () =&gt;
+        ///   Looks up a localized string similar to QUnit.module(&apos;BindingTestAsync&apos;, (hooks) =&gt;
         ///{
-        ///    // Verify that two objects are completely equal
-        ///    function deepEqual(x, y)
+        ///    hooks.before(async () =&gt;
         ///    {
-        ///        if ((typeof x == &quot;object&quot; &amp;&amp; x != null) &amp;&amp; (typeof y == &quot;object&quot; &amp;&amp; y != null))
-        ///        {
-        ///            for (var prop in x)
-        ///            {
-        ///                if (prop in y &amp;&amp; (Object.keys(x).length === Object.keys(y).length))
-        ///                {
-        ///                    return deepEqual(x[prop], y[prop]);
-        ///                }
-        ///                else
-        ///                {
-        ///                    return false;
-        ///  [rest of string was truncated]&quot;;.
+        ///        await CefSharp.BindObjectAsync(&quot;boundAsync&quot;);
+        ///    });
+        ///
+        ///    QUnit.test(&quot;BindObjectAsync Second call with boundAsync param&quot;, async (assert) =&gt;
+        ///    {
+        ///        const res = await CefSharp.BindObjectAsync(&quot;boundAsync&quot;);
+        ///        assert.equal(res.Success, false, &quot;Second call to BindObjectAsync with already bound objects as params returned false.&quot;);
+        ///    });
+        ///
+        ///    QUnit.test(&quot;Async call (Throw .Net Exception)&quot;, async ( [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTestAsync {
             get {
@@ -373,7 +370,7 @@ namespace CefSharp.Example.Properties {
         ///    (async function() {
         ///        // &lt;embed user provided code here&gt;
         ///
-        ///        await CefSharp.BindObjectAsyn [rest of string was truncated]&quot;;.
+        ///        await CefSharp.BindObjectAs [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTestNetCore {
             get {
@@ -398,19 +395,19 @@ namespace CefSharp.Example.Properties {
         ///    &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
         ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
         ///
-        ///     [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTestsAsyncTask {
             get {
                 return ResourceManager.GetString("BindingTestsAsyncTask", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
-        ///    &lt;title&gt;Binding Test&lt;/title&gt;
+        ///    &lt;title&gt;Binding Test Single&lt;/title&gt;
         ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.10.0.css&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
@@ -419,11 +416,11 @@ namespace CefSharp.Example.Properties {
         ///    &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.10.0.js&quot;&gt;&lt;/script&gt;
         ///
         ///    &lt;script type=&quot;text/javascript&quot;&gt;
-        ///        (async () =&gt;
+        ///    QUnit.module(&apos;BindingTestSingle&apos;, (hooks) =&gt;
+        ///    {
+        ///        hooks.before(async () =&gt;
         ///        {
-        ///            await CefSharp.BindObjectAsync(&quot;boundAsync&quot;);
-        ///
-        ///            QUnit.test(&quot;Async [rest of string was truncated]&quot;;.
+        ///             [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTestSingle {
             get {
@@ -432,21 +429,23 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (async () =&gt;
+        ///   Looks up a localized string similar to QUnit.module(&apos;BindingTestSync&apos;, (hooks) =&gt;
         ///{
-        ///    await CefSharp.BindObjectAsync(&quot;bound&quot;);
-        ///
-        ///    QUnit.test(&quot;BindObjectAsync Second call with Bound param&quot;, function (assert)
+        ///    hooks.before(async () =&gt;
         ///    {
-        ///        let asyncCallback = assert.async();
-        ///        CefSharp.BindObjectAsync(&quot;bound&quot;).then(function (res)
-        ///        {
-        ///            assert.equal(res.Success, false, &quot;Second call to BindObjectAsync with already bound objects as params returned false.&quot;);
-        ///            asyncCallback();
-        ///        });
+        ///        await CefSharp.BindObjectAsync(&quot;bound&quot;);
         ///    });
         ///
-        ///    QUnit.test(&quot;bound.repeat(&apos;hi &apos;, 5)&quot;, function ( [rest of string was truncated]&quot;;.
+        ///    QUnit.test(&quot;BindObjectAsync Second call with Bound param&quot;, async (assert) =&gt;
+        ///    {
+        ///        const res = await CefSharp.BindObjectAsync(&quot;bound&quot;);
+        ///
+        ///        assert.equal(res.Success, false, &quot;Second call to BindObjectAsync with already bound objects as params returned false.&quot;);
+        ///    });
+        ///
+        ///    QUnit.test(&quot;bound.repeat(&apos;hi &apos;, 5)&quot;, function (assert)
+        ///    {
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BindingTestSync {
             get {
@@ -724,7 +723,7 @@ namespace CefSharp.Example.Properties {
         ///        &lt;script type=&quot;text/javascript&quot;&gt;
         ///        (function()
         ///        {            
-        ///            QUnit.test( &quot;bound.repea [rest of string was truncated]&quot;;.
+        ///            QUnit.test( &quot;bound.rep [rest of string was truncated]&quot;;.
         /// </summary>
         public static string LegacyBindingTest {
             get {
@@ -792,7 +791,7 @@ namespace CefSharp.Example.Properties {
         ///
         ///        (async () =&gt;
         ///        {
-        ///           [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         public static string PostMessageTest {
             get {
