@@ -30,6 +30,7 @@ namespace CefSharp.DevTools
         private IRegistration devToolsRegistration;
         private bool devToolsAttached;
         private SynchronizationContext syncContext;
+        private int disposeCount;
 
         /// <inheritdoc/>
         public event EventHandler<DevToolsEventArgs> DevToolsEvent;
@@ -203,10 +204,18 @@ namespace CefSharp.DevTools
         /// <inheritdoc/>
         void IDisposable.Dispose()
         {
-            DevToolsEvent = null;
-            devToolsRegistration?.Dispose();
-            devToolsRegistration = null;
-            browser = null;
+            //Dispose can be called from different Threads
+            //CEF maintains a reference and the user
+            //maintains a reference, we in a rare case
+            //we end up disposing of #3725 twice from different
+            //threads. This will ensure our dispose only runs once.
+            if (Interlocked.Increment(ref disposeCount) == 1)
+            {
+                DevToolsEvent = null;
+                devToolsRegistration?.Dispose();
+                devToolsRegistration = null;
+                browser = null;
+            }
         }
 
         /// <inheritdoc/>
