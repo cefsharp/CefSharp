@@ -30,7 +30,7 @@ namespace CefSharp
 
             !CefCertificateCallbackWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefCertificateCallbackWrapper()
@@ -46,7 +46,7 @@ namespace CefSharp
 
                 if (cert == nullptr)
                 {
-                    _callback->Select(NULL);
+                    _callback->Select(nullptr);
                 }
                 else
                 {

@@ -33,7 +33,7 @@ namespace CefSharp
         public:
             !PopupFeatures()
             {
-                _popupFeatures = NULL;
+                _popupFeatures = nullptr;
             }
 
             ~PopupFeatures()

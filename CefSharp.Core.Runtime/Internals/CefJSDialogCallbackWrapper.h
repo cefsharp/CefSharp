@@ -23,7 +23,7 @@ namespace CefSharp
 
             !CefJSDialogCallbackWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefJSDialogCallbackWrapper()

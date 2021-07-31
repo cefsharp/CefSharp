@@ -50,7 +50,7 @@ namespace CefSharp
             if (type == JavascriptObject::typeid)
             {
                 JavascriptObject^ javascriptObject = (JavascriptObject^)obj;
-                CefRefPtr<CefV8Value> cefObject = CefV8Value::CreateObject(NULL, NULL);
+                CefRefPtr<CefV8Value> cefObject = CefV8Value::CreateObject(nullptr, nullptr);
 
                 for (int i = 0; i < javascriptObject->Properties->Count; i++)
                 {

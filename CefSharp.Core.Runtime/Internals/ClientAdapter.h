@@ -56,7 +56,7 @@ namespace CefSharp
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
                 _pendingTaskRepository(gcnew PendingTaskRepository<JavascriptResponse^>()),
                 _browserAdapter(browserAdapter),
-                _browserHwnd(NULL),
+                _browserHwnd(nullptr),
                 _disposed(false)
             {
 
@@ -74,7 +74,7 @@ namespace CefSharp
                 _browser = nullptr;
                 _browserControl = nullptr;
                 _browserHwnd = nullptr;
-                _cefBrowser = NULL;
+                _cefBrowser = nullptr;
                 _tooltip = nullptr;
                 _browserAdapter = nullptr;
                 _popupBrowsers = nullptr;

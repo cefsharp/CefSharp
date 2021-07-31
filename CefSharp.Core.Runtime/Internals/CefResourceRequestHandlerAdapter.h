@@ -65,7 +65,7 @@ namespace CefSharp
 
                 if (accessFilter == nullptr)
                 {
-                    return NULL;
+                    return nullptr;
                 }
 
                 return new CefCookieAccessFilterAdapter(accessFilter, _browserControl);
@@ -113,7 +113,7 @@ namespace CefSharp
 
                 if (resourceHandler == nullptr)
                 {
-                    return NULL;
+                    return nullptr;
                 }
 
                 if (resourceHandler->GetType() == FileResourceHandler::typeid)
@@ -128,10 +128,10 @@ namespace CefSharp
                     }
                     else
                     {
-                        auto msg = "Unable to load resource CefStreamReader::CreateForFile returned NULL for file:" + fileResourceHandler->FilePath;
+                        auto msg = "Unable to load resource CefStreamReader::CreateForFile returned nullptr for file:" + fileResourceHandler->FilePath;
                         LOG(ERROR) << StringUtils::ToNative(msg).ToString();
 
-                        return NULL;
+                        return nullptr;
                     }
                 }
                 else if (resourceHandler->GetType() == ByteArrayResourceHandler::typeid)
@@ -212,7 +212,7 @@ namespace CefSharp
 
                 if (responseFilter == nullptr)
                 {
-                    return NULL;
+                    return nullptr;
                 }
 
                 return new CefResponseFilterAdapter(responseFilter);

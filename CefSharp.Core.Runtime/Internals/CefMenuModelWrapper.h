@@ -28,7 +28,7 @@ namespace CefSharp
 
             !CefMenuModelWrapper()
             {
-                _menu = NULL;
+                _menu = nullptr;
             }
 
             ~CefMenuModelWrapper()

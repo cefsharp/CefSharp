@@ -197,9 +197,9 @@ namespace CefSharp
 
                                     //when refreshing the browser this is sometimes null, in this case return true and log message
                                     //https://github.com/cefsharp/CefSharp/pull/2446
-                                    if (promiseData == NULL)
+                                    if (promiseData == nullptr)
                                     {
-                                        LOG(WARNING) << "BindObjectAsyncHandler::Execute promiseData returned NULL";
+                                        LOG(WARNING) << "BindObjectAsyncHandler::Execute promiseData returned nullptr";
 
                                         return true;
                                     }

@@ -38,9 +38,9 @@ namespace CefSharp
 
                 //when refreshing the browser this is sometimes null, in this case return true and log message
                 //https://github.com/cefsharp/CefSharp/pull/2446
-                if (promiseData == NULL)
+                if (promiseData == nullptr)
                 {
-                    LOG(WARNING) << "JavascriptAsyncMethodHandler::Execute promiseData returned NULL";
+                    LOG(WARNING) << "JavascriptAsyncMethodHandler::Execute promiseData returned nullptr";
 
                     return true;
                 }

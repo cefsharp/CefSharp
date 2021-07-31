@@ -18,7 +18,7 @@ namespace CefSharp
             T* _ptr;
 
         public:
-            MCefRefPtr() : _ptr(NULL) {}
+            MCefRefPtr() : _ptr(nullptr) {}
 
             MCefRefPtr(T* p) : _ptr(p)
             {

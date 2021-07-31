@@ -40,7 +40,7 @@ namespace CefSharp
 
             !CefFrameWrapper()
             {
-                _frame = NULL;
+                _frame = nullptr;
             }
 
             ~CefFrameWrapper()

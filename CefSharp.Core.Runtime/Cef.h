@@ -257,7 +257,7 @@ namespace CefSharp
                                                            cefApp));
                 CefMainArgs main_args;
 
-                auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
+                auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), nullptr);
 
                 _initialized = success;
                 _multiThreadedMessageLoop = cefSettings->MultiThreadedMessageLoop;
@@ -325,7 +325,7 @@ namespace CefSharp
                 //TODO: Look at ways to expose an instance of CefApp
                 //CefRefPtr<CefSharpApp> app(new CefSharpApp(nullptr, nullptr));
 
-                return CefExecuteProcess(cefMainArgs, NULL, NULL);
+                return CefExecuteProcess(cefMainArgs, nullptr, nullptr);
             }
 
             /// <summary>Add an entry to the cross-origin whitelist.</summary>
@@ -448,7 +448,7 @@ namespace CefSharp
             /// <returns>A the global cookie manager or null if the RequestContext has not yet been initialized.</returns>
             static ICookieManager^ GetGlobalCookieManager(ICompletionCallback^ callback)
             {
-                CefRefPtr<CefCompletionCallback> c = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
+                CefRefPtr<CefCompletionCallback> c = callback == nullptr ? nullptr : new CefCompletionCallbackAdapter(callback);
 
                 auto cookieManager = CefCookieManager::GetGlobalManager(c);
                 if (cookieManager.get())
@@ -806,7 +806,7 @@ namespace CefSharp
             /// will be executed asynchronously once registration is complete</param>
             static void RegisterWidevineCdm(String^ path, [Optional] IRegisterCdmCallback^ callback)
             {
-                CefRefPtr<CefRegisterCdmCallbackAdapter> adapter = NULL;
+                CefRefPtr<CefRegisterCdmCallbackAdapter> adapter = nullptr;
 
                 if (callback != nullptr)
                 {

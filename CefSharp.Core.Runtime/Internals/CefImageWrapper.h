@@ -28,7 +28,7 @@ namespace CefSharp
 
             !CefImageWrapper()
             {
-                _image = NULL;
+                _image = nullptr;
             }
 
             ~CefImageWrapper()

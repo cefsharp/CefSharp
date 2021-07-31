@@ -23,7 +23,7 @@ namespace CefSharp
             );
 
             //V8Value that represents this javascript object - only one per complex type
-            auto javascriptObject = CefV8Value::CreateObject(_jsPropertyHandler.get(), NULL);
+            auto javascriptObject = CefV8Value::CreateObject(_jsPropertyHandler.get(), nullptr);
             auto objectName = StringUtils::ToNative(object->JavascriptName);
             v8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 

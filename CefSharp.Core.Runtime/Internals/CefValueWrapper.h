@@ -25,7 +25,7 @@ namespace CefSharp
 
             !CefValueWrapper()
             {
-                _cefValue = NULL;
+                _cefValue = nullptr;
             }
 
             ~CefValueWrapper()

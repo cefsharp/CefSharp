@@ -225,7 +225,7 @@ int CefBrowserHostWrapper::ExecuteDevToolsMethod(int messageId, String^ method, 
 
     if (paramaters == nullptr)
     {
-        return _browserHost->ExecuteDevToolsMethod(messageId, StringUtils::ToNative(method), NULL);
+        return _browserHost->ExecuteDevToolsMethod(messageId, StringUtils::ToNative(method), nullptr);
     }
 
     auto val = TypeConversion::ToNative(paramaters);
@@ -248,7 +248,7 @@ int CefBrowserHostWrapper::ExecuteDevToolsMethod(int messageId, String^ method, 
 
     if (String::IsNullOrEmpty(paramsAsJson))
     {
-        return _browserHost->ExecuteDevToolsMethod(messageId, StringUtils::ToNative(method), NULL);
+        return _browserHost->ExecuteDevToolsMethod(messageId, StringUtils::ToNative(method), nullptr);
     }
 
     auto val = CefParseJSON(StringUtils::ToNative(paramsAsJson), cef_json_parser_options_t::JSON_PARSER_RFC);

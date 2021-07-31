@@ -69,7 +69,7 @@ namespace CefSharp
             if (Object::ReferenceEquals(_requestContextHandler, nullptr))
             {
 
-                return NULL;
+                return nullptr;
             }
 
             CefBrowserWrapper browserWrapper(browser);
@@ -80,7 +80,7 @@ namespace CefSharp
 
             if (Object::ReferenceEquals(handler, nullptr))
             {
-                return NULL;
+                return nullptr;
             }
 
             //CefRequestContext is not associated with a specific browser

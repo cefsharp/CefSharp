@@ -250,7 +250,7 @@ namespace CefSharp
             //the handles don't match up (at least in WPF), need to investigate further.
             else if (_browserHwnd == browser->GetHost()->GetWindowHandle() || _browserControl->HasParent)
             {
-                _cefBrowser = NULL;
+                _cefBrowser = nullptr;
             }
 
             BrowserRefCounter::Instance->Decrement();
@@ -601,7 +601,7 @@ namespace CefSharp
             //No handler and no factory, we'll just return null
             if (handler == nullptr && resourceRequestHandlerFactory == nullptr)
             {
-                return NULL;
+                return nullptr;
             }
 
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
@@ -630,7 +630,7 @@ namespace CefSharp
                 }
             }
 
-            return NULL;
+            return nullptr;
         }
 
         bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback)
@@ -644,7 +644,7 @@ namespace CefSharp
 
             // If callback is empty the error cannot be recovered from and the request will be canceled automatically.
             // Still notify the user of the certificate error just don't provide a callback.
-            auto requestCallback = callback == NULL ? nullptr : gcnew CefRequestCallbackWrapper(callback);
+            auto requestCallback = callback == nullptr ? nullptr : gcnew CefRequestCallbackWrapper(callback);
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto sslInfoWrapper = gcnew CefSslInfoWrapper(ssl_info);
 

@@ -29,7 +29,7 @@ namespace CefSharp
 
             !CefResourceReadCallbackWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefResourceReadCallbackWrapper()

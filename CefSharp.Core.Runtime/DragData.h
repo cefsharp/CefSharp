@@ -52,7 +52,7 @@ namespace CefSharp
             {
                 if (this == nullptr)
                 {
-                    return NULL;
+                    return nullptr;
                 }
                 return _wrappedDragData.get();
             }
@@ -211,7 +211,7 @@ namespace CefSharp
             {
                 if (stream == nullptr)
                 {
-                    return (Int64)_wrappedDragData->GetFileContents(NULL);
+                    return (Int64)_wrappedDragData->GetFileContents(nullptr);
                 }
 
                 auto writeHandler = new CefWriteHandlerWrapper(stream);

@@ -52,7 +52,7 @@ namespace CefSharp
             {
                 if (this == nullptr)
                 {
-                    return NULL;
+                    return nullptr;
                 }
                 return _requestContext.get();
             }
@@ -61,14 +61,14 @@ namespace CefSharp
             RequestContext()
             {
                 CefRequestContextSettings settings;
-                _requestContext = CefRequestContext::CreateContext(settings, NULL);
+                _requestContext = CefRequestContext::CreateContext(settings, nullptr);
             }
 
             RequestContext(RequestContextSettings^ settings) : _settings(settings)
             {
                 PathCheck::AssertAbsolute(settings->CachePath, "RequestContextSettings.CachePath");
 
-                _requestContext = CefRequestContext::CreateContext(settings, NULL);
+                _requestContext = CefRequestContext::CreateContext(settings, nullptr);
             }
 
             RequestContext(IRequestContextHandler^ requestContextHandler)
@@ -87,7 +87,7 @@ namespace CefSharp
             ///Creates a new context object that shares storage with | other | and uses an optional | handler | .
             RequestContext(IRequestContext^ otherRequestContext)
             {
-                _requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext->UnWrap(), NULL);
+                _requestContext = CefRequestContext::CreateContext((RequestContext^)otherRequestContext->UnWrap(), nullptr);
             }
 
             RequestContext(IRequestContext^ otherRequestContext, IRequestContextHandler^ requestContextHandler)
@@ -97,7 +97,7 @@ namespace CefSharp
 
             !RequestContext()
             {
-                _requestContext = NULL;
+                _requestContext = nullptr;
             }
 
             ~RequestContext()
@@ -119,7 +119,7 @@ namespace CefSharp
             static IRequestContext^ CreateContext(IRequestContext^ other, IRequestContextHandler^ requestContextHandler)
             {
                 auto otherRequestContext = static_cast<RequestContext^>(other->UnWrap());
-                CefRefPtr<CefRequestContextHandler> handler = requestContextHandler == nullptr ? NULL : new CefRequestContextHandlerAdapter(requestContextHandler);
+                CefRefPtr<CefRequestContextHandler> handler = requestContextHandler == nullptr ? nullptr : new CefRequestContextHandlerAdapter(requestContextHandler);
 
                 auto newContext = CefRequestContext::CreateContext(otherRequestContext, handler);
                 return gcnew RequestContext(newContext);

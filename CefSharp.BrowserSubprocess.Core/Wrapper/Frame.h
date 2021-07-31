@@ -39,7 +39,7 @@ namespace CefSharp
 
             !Frame()
             {
-                _frame = NULL;
+                _frame = nullptr;
             }
 
             ~Frame()

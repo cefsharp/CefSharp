@@ -35,7 +35,7 @@ namespace CefSharp
 
             !UrlRequest()
             {
-                _urlRequest = NULL;
+                _urlRequest = nullptr;
             }
 
             ~UrlRequest()

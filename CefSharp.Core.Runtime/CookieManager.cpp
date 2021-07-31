@@ -26,7 +26,7 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
-        CefRefPtr<CefDeleteCookiesCallback> wrapper = callback == nullptr ? NULL : new CefDeleteCookiesCallbackAdapter(callback);
+        CefRefPtr<CefDeleteCookiesCallback> wrapper = callback == nullptr ? nullptr : new CefDeleteCookiesCallbackAdapter(callback);
 
         return _cookieManager->DeleteCookies(StringUtils::ToNative(url), StringUtils::ToNative(name), wrapper);
     }
@@ -35,7 +35,7 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
-        CefRefPtr<CefSetCookieCallback> wrapper = callback == nullptr ? NULL : new CefSetCookieCallbackAdapter(callback);
+        CefRefPtr<CefSetCookieCallback> wrapper = callback == nullptr ? nullptr : new CefSetCookieCallbackAdapter(callback);
 
         CefCookie c;
         StringUtils::AssignNativeFromClr(c.name, cookie->Name);
@@ -81,7 +81,7 @@ namespace CefSharp
     {
         ThrowIfDisposed();
 
-        CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
+        CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? nullptr : new CefCompletionCallbackAdapter(callback);
 
         return _cookieManager->FlushStore(wrapper);
     }

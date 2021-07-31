@@ -30,7 +30,7 @@ namespace CefSharp
 
             !CefSslInfoWrapper()
             {
-                _sslInfo = NULL;
+                _sslInfo = nullptr;
             }
 
             ~CefSslInfoWrapper()

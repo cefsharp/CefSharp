@@ -31,7 +31,7 @@ namespace CefSharp
 
             !CefBrowserHostWrapper()
             {
-                _browserHost = NULL;
+                _browserHost = nullptr;
             }
 
             ~CefBrowserHostWrapper()

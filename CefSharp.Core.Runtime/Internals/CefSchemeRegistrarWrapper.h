@@ -29,7 +29,7 @@ namespace CefSharp
 
             !CefSchemeRegistrarWrapper()
             {
-                _registra = NULL;
+                _registra = nullptr;
             }
 
             ~CefSchemeRegistrarWrapper()

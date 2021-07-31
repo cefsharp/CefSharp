@@ -156,7 +156,7 @@ namespace CefSharp
 
                 if (activeBrowser == nullptr)
                 {
-                    return NULL;
+                    return nullptr;
                 }
 
                 //TODO: CLean this up

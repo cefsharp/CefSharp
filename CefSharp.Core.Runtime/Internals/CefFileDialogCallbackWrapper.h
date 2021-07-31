@@ -26,7 +26,7 @@ namespace CefSharp
 
             !CefFileDialogCallbackWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefFileDialogCallbackWrapper()

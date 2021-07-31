@@ -43,7 +43,7 @@ namespace CefSharp
                     delete _windowInfo;
                 }
 
-                _windowInfo = NULL;
+                _windowInfo = nullptr;
             }
 
             ~WindowInfo()

@@ -27,7 +27,7 @@ namespace CefSharp
 
             !CefRunContextMenuCallbackWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefRunContextMenuCallbackWrapper()

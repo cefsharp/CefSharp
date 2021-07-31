@@ -27,7 +27,7 @@ namespace CefSharp
 
             !CefRegistrationWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefRegistrationWrapper()

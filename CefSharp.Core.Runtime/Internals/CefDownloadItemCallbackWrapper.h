@@ -27,7 +27,7 @@ namespace CefSharp
 
             !CefDownloadItemCallbackWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefDownloadItemCallbackWrapper()

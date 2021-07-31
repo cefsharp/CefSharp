@@ -54,7 +54,7 @@ namespace CefSharp
 
                 CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-                return CefExecuteProcess(cefMainArgs, (CefApp*)_cefApp.get(), NULL);
+                return CefExecuteProcess(cefMainArgs, (CefApp*)_cefApp.get(), nullptr);
             }
 
             virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper)
@@ -82,7 +82,7 @@ namespace CefSharp
 
                 CefRefPtr<CefApp> app = new SubProcessApp(schemes);
 
-                return CefExecuteProcess(cefMainArgs, app, NULL);
+                return CefExecuteProcess(cefMainArgs, app, nullptr);
             }
         };
     }

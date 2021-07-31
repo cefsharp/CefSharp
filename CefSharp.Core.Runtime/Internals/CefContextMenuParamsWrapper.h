@@ -27,7 +27,7 @@ namespace CefSharp
 
             !CefContextMenuParamsWrapper()
             {
-                _wrappedInfo = NULL;
+                _wrappedInfo = nullptr;
             }
 
             ~CefContextMenuParamsWrapper()

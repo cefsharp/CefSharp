@@ -28,7 +28,7 @@ namespace CefSharp
 
             !CefGetExtensionResourceCallbackWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefGetExtensionResourceCallbackWrapper()

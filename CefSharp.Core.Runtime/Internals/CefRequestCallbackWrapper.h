@@ -34,7 +34,7 @@ namespace CefSharp
 
             !CefRequestCallbackWrapper()
             {
-                _callback = NULL;
+                _callback = nullptr;
             }
 
             ~CefRequestCallbackWrapper()

@@ -47,7 +47,7 @@ namespace CefSharp
 
                 if (handler == nullptr)
                 {
-                    return NULL;
+                    return nullptr;
                 }
 
                 if (handler->GetType() == FileResourceHandler::typeid)
@@ -62,10 +62,10 @@ namespace CefSharp
                     }
                     else
                     {
-                        auto msg = "Unable to load resource CefStreamReader::CreateForFile returned NULL for file:" + resourceHandler->FilePath;
+                        auto msg = "Unable to load resource CefStreamReader::CreateForFile returned nullptr for file:" + resourceHandler->FilePath;
                         LOG(ERROR) << StringUtils::ToNative(msg).ToString();
 
-                        return NULL;
+                        return nullptr;
                     }
                 }
                 else if (handler->GetType() == ByteArrayResourceHandler::typeid)

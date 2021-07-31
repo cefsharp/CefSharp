@@ -156,7 +156,7 @@ namespace CefSharp
 
                 if (createCefSharpObj)
                 {
-                    auto cefSharpObj = CefV8Value::CreateObject(NULL, NULL);
+                    auto cefSharpObj = CefV8Value::CreateObject(nullptr, nullptr);
                     cefSharpObj->SetValue(kBindObjectAsync, bindObjAsyncFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
                     cefSharpObj->SetValue(kDeleteBoundObject, unBindObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
                     cefSharpObj->SetValue(kRemoveObjectFromCache, removeObjectFromCacheFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
@@ -170,7 +170,7 @@ namespace CefSharp
 
                 if (createCefSharpObjCamelCase)
                 {
-                    auto cefSharpObjCamelCase = CefV8Value::CreateObject(NULL, NULL);
+                    auto cefSharpObjCamelCase = CefV8Value::CreateObject(nullptr, nullptr);
                     cefSharpObjCamelCase->SetValue(kBindObjectAsyncCamelCase, bindObjAsyncFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
                     cefSharpObjCamelCase->SetValue(kDeleteBoundObjectCamelCase, unBindObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
                     cefSharpObjCamelCase->SetValue(kRemoveObjectFromCacheCamelCase, removeObjectFromCacheFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
@@ -613,7 +613,7 @@ namespace CefSharp
                             if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
                             {
                                 //Response object has no Accessor or Interceptor
-                                auto response = CefV8Value::CreateObject(NULL, NULL);
+                                auto response = CefV8Value::CreateObject(nullptr, nullptr);
 
                                 response->SetValue("Count", CefV8Value::CreateInt(javascriptObjects->Count), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 

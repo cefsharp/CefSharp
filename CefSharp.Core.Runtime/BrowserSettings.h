@@ -61,7 +61,7 @@ namespace CefSharp
                     delete _browserSettings;
                 }
 
-                _browserSettings = NULL;
+                _browserSettings = nullptr;
                 _isDisposed = true;
             }
 

@@ -43,7 +43,7 @@ namespace CefSharp
             {
                 if (this == nullptr)
                 {
-                    return NULL;
+                    return nullptr;
                 }
                 return _postDataElement.get();
             }

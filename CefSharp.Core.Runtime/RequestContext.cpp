@@ -55,7 +55,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
+            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? nullptr : new CefCompletionCallbackAdapter(callback);
 
             auto cookieManager = _requestContext->GetCookieManager(wrapper);
             if (cookieManager.get())
@@ -142,7 +142,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
+            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? nullptr : new CefCompletionCallbackAdapter(callback);
 
             _requestContext->ClearCertificateExceptions(wrapper);
         }
@@ -158,7 +158,7 @@ namespace CefSharp
                 callback = gcnew CefSharp::Callback::NoOpCompletionCallback();
             }
 
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
+            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? nullptr : new CefCompletionCallbackAdapter(callback);
 
             _requestContext->ClearHttpAuthCredentials(wrapper);
         }
@@ -167,7 +167,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
+            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? nullptr : new CefCompletionCallbackAdapter(callback);
 
             _requestContext->CloseAllConnections(wrapper);
         }
@@ -257,7 +257,7 @@ namespace CefSharp
                 }
             }
 
-            CefRefPtr<CefExtensionHandler> extensionHandler = handler == nullptr ? NULL : new CefExtensionHandlerAdapter(handler);
+            CefRefPtr<CefExtensionHandler> extensionHandler = handler == nullptr ? nullptr : new CefExtensionHandlerAdapter(handler);
 
             if (CefCurrentlyOn(CefThreadId::TID_UI))
             {

@@ -28,7 +28,7 @@ namespace CefSharp
 
             !V8Context()
             {
-                _context = NULL;
+                _context = nullptr;
             }
 
             ~V8Context()
