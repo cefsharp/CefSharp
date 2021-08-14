@@ -120,6 +120,8 @@
     <Compile Include="Handler\ExtensionHandler .cs" />
     <Compile Include="Handler\FindHandler.cs" />
     <Compile Include="Handler\FocusHandler.cs" />
+    <Compile Include="Handler\FrameHandler.cs" />
+    <Compile Include="Handler\IFrameHandler.cs" />
     <Compile Include="Handler\LoadHandler.cs" />
     <Compile Include="Handler\KeyboardHandler.cs" />
     <Compile Include="Handler\JsDialogHandler.cs" />
