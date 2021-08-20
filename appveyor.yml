@@ -1,7 +1,6 @@
-version: 92.0.250-CI{build}
+version: 93.0.10-CI{build}
 
 image:
-  - Visual Studio 2015
   - Visual Studio 2019
 
 clone_depth: 10
@@ -15,7 +14,7 @@ for:
   -
     matrix:
       only:
-        - image: Visual Studio 2015
+        - image: Visual Studio 2019
     build_script:
         - ps: .\build.ps1
     test:
