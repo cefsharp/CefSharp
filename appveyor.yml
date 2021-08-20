@@ -1,6 +1,6 @@
 image: Visual Studio 2019
 
-version: 91.1.230-CI{build}
+version: 92.0.260-CI{build}
 
 clone_depth: 10
 
