@@ -44,7 +44,11 @@ namespace CefSharp
             virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback) override;
             virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback) override;
 
-            IMPLEMENT_REFCOUNTING(CefResourceHandlerAdapter);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

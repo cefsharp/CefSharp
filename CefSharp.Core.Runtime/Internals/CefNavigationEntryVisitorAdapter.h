@@ -38,7 +38,11 @@ namespace CefSharp
                 return _handler->Visit(navEntry, current, index, total);
             }
 
-            IMPLEMENT_REFCOUNTING(CefNavigationEntryVisitorAdapter);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

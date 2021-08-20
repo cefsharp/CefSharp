@@ -38,7 +38,11 @@ namespace CefSharp
 
             CefRefPtr<CefV8Value> ConvertToCefObject(Object^ obj);
 
-            IMPLEMENT_REFCOUNTING(JavascriptMethodHandler);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

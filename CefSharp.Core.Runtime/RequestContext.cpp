@@ -13,10 +13,11 @@
 //the optimised ones. The original error is
 //warning C4561: '__fastcall' incompatible with the '/clr' option: converting to '__stdcall'
 //(compiling source file RequestContext.cpp) 
-#define CEF_INCLUDE_BASE_INTERNAL_CEF_BIND_INTERNAL_WIN_H_
-#include "include\base\cef_bind.h"
-#undef CEF_INCLUDE_BASE_INTERNAL_CEF_BIND_INTERNAL_WIN_H_
+//#define CEF_INCLUDE_BASE_INTERNAL_CEF_BIND_INTERNAL_WIN_H_
+//#include "include\base\cef_bind.h"
+//#undef CEF_INCLUDE_BASE_INTERNAL_CEF_BIND_INTERNAL_WIN_H_
 
+#include "include\base\cef_callback.h"
 #include "include\wrapper\cef_closure_task.h"
 
 #include "CookieManager.h"
@@ -265,7 +266,7 @@ namespace CefSharp
             }
             else
             {
-                CefPostTask(TID_UI, base::Bind(&CefRequestContext::LoadExtension, _requestContext.get(), StringUtils::ToNative(rootDirectory), manifest, extensionHandler));
+                CefPostTask(TID_UI, base::BindOnce(&CefRequestContext::LoadExtension, _requestContext.get(), StringUtils::ToNative(rootDirectory), manifest, extensionHandler));
             }
         }
 

@@ -44,7 +44,11 @@ namespace CefSharp
                 }
             }
 
-            IMPLEMENT_REFCOUNTING(SubProcessApp);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }                                                                  
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

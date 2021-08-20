@@ -321,8 +321,11 @@ namespace CefSharp
                 return false;
             }
 
-
-            IMPLEMENT_REFCOUNTING(BindObjectAsyncHandler);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

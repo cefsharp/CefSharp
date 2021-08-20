@@ -109,7 +109,11 @@ namespace CefSharp
                 return !_isMemoryStream;
             }
 
-            IMPLEMENT_REFCOUNTING(CefWriteHandlerWrapper);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

@@ -33,7 +33,11 @@ namespace CefSharp
                 _visitor->Visit(StringUtils::ToClr(string));
             }
 
-            IMPLEMENT_REFCOUNTING(CefStringVisitorAdapter);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

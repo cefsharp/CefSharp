@@ -37,7 +37,11 @@ namespace CefSharp
                 return _visitor->Visit(cookie, count, total, deleteCookie);
             }
 
-            IMPLEMENT_REFCOUNTING(CefCookieVisitorAdapter);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

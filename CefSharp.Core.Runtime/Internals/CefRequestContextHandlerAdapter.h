@@ -49,7 +49,11 @@ namespace CefSharp
                 const CefString& request_initiator,
                 bool& disable_default_handling) override;
 
-            IMPLEMENT_REFCOUNTING(CefRequestContextHandlerAdapter);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

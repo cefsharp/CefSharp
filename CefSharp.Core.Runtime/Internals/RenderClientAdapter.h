@@ -245,7 +245,11 @@ namespace CefSharp
                 _renderWebBrowser->OnVirtualKeyboardRequested(GetBrowserWrapper(browser->GetIdentifier()), (CefSharp::Enums::TextInputMode)input_mode);
             }
 
-            IMPLEMENT_REFCOUNTING(RenderClientAdapter);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }

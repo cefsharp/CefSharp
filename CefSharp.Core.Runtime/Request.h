@@ -60,7 +60,7 @@ namespace CefSharp
         public:
             Request()
             {
-                _request = CefRequest::Create();
+                _request = CefRequest::Create().get();
             }
 
             virtual property UrlRequestFlags Flags { UrlRequestFlags get(); void set(UrlRequestFlags flags); }

@@ -84,7 +84,11 @@ namespace CefSharp
                 return new CefResourceHandlerAdapter(handler);
             }
 
-            IMPLEMENT_REFCOUNTING(CefSchemeHandlerFactoryAdapter);
+        public:
+            void AddRef() const override {  }
+            bool Release() const override { return false; }
+            bool HasOneRef() const override { return false; }
+            bool HasAtLeastOneRef() const override { return false; }
         };
     }
 }
