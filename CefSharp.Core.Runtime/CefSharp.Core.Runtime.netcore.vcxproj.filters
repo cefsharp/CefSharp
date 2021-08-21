@@ -232,9 +232,6 @@
     <ClInclude Include="Internals\CefCertificateCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefRegisterCdmCallbackAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\CefSetCookieCallbackAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

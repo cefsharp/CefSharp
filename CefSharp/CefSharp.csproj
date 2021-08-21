@@ -69,7 +69,6 @@
     <Compile Include="Callback\IJavascriptCallback.cs" />
     <Compile Include="Callback\IJsDialogCallback.cs" />
     <Compile Include="Callback\IPrintToPdfCallback.cs" />
-    <Compile Include="Callback\IRegisterCdmCallback.cs" />
     <Compile Include="Callback\IRequestCallback.cs" />
     <Compile Include="Callback\IResolveCallback.cs" />
     <Compile Include="Callback\IResourceReadCallback.cs" />
@@ -81,11 +80,9 @@
     <Compile Include="Callback\NoOpCompletionCallback.cs" />
     <Compile Include="Callback\TaskDeleteCookiesCallback.cs" />
     <Compile Include="Callback\TaskSetCookieCallback.cs" />
-    <Compile Include="Callback\TaskRegisterCdmCallback.cs" />
     <Compile Include="Callback\TaskCompletionCallback.cs" />
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
-    <Compile Include="CdmRegistration.cs" />
     <Compile Include="CefRuntime.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="DevToolsExtensions.cs" />
@@ -208,7 +205,6 @@
     <Compile Include="DomNode.cs" />
     <Compile Include="Structs\CursorInfo.cs" />
     <Compile Include="Structs\DraggableRegion.cs" />
-    <Compile Include="Enums\CdmRegistrationErrorCode.cs" />
     <Compile Include="Enums\CursorType.cs" />
     <Compile Include="Enums\CefErrorCode.cs" />
     <Compile Include="Enums\CefEventFlags.cs" />

@@ -293,7 +293,6 @@
     <ClInclude Include="Internals\CefFrameWrapper.h" />
     <ClInclude Include="Internals\CefMenuModelWrapper.h" />
     <ClInclude Include="Internals\CefPdfPrintCallbackWrapper.h" />
-    <ClInclude Include="Internals\CefRegisterCdmCallbackAdapter.h" />
     <ClInclude Include="Internals\CefResolveCallbackAdapter.h" />
     <ClInclude Include="Internals\CefResponseFilterAdapter.h" />
     <ClInclude Include="Internals\CefResponseWrapper.h" />
