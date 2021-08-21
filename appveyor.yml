@@ -1,6 +1,7 @@
 version: 93.1.70-CI{build}
 
 image:
+  - Visual Studio 2019 Preview
   - Visual Studio 2019
 
 clone_depth: 10
@@ -14,6 +15,7 @@ for:
   -
     matrix:
       only:
+        - image: Visual Studio 2019
     build_script:
         - ps: .\build.ps1
     test:
@@ -23,6 +25,7 @@ for:
   -
     matrix:
       only:
+        - image: Visual Studio 2019 Preview
     build_script:
         - ps: .\build.netcore.ps1
     test_script:
