@@ -263,6 +263,7 @@
     <ClInclude Include="BindObjectAsyncHandler.h" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="CefRefCountManaged.h" />
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
     <ClInclude Include="SubProcessApp.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
@@ -296,6 +297,7 @@
     <ClCompile Include="Async\JavascriptAsyncMethodWrapper.cpp" />
     <ClCompile Include="Async\JavascriptAsyncObjectWrapper.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
+    <ClCompile Include="CefRefCountManaged.cpp" />
     <ClCompile Include="JavascriptRootObjectWrapper.cpp" />
     <ClCompile Include="Wrapper\Frame.cpp" />
     <ClCompile Include="Wrapper\Browser.cpp" />
