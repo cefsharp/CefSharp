@@ -40,7 +40,9 @@ public:
     ///
     bool HasOneRef() const
     {
-        return ref_count_ == 1;
+        LONG res = InterlockedCompareExchange(&ref_count_, 0, 0);
+
+        return res == 1;
     }
 
     ///
@@ -48,7 +50,9 @@ public:
     ///
     bool HasAtLeastOneRef() const
     {
-        return ref_count_ > 0;
+        LONG res = InterlockedCompareExchange(&ref_count_, 0, 0);
+
+        return res > 0;
     }
 
 private:
