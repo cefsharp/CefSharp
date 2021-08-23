@@ -1,7 +1,7 @@
 version: 93.1.70-CI{build}
 
 image:
-  - Visual Studio 2019 Preview
+#  - Visual Studio 2019 Preview
   - Visual Studio 2019
 
 clone_depth: 10
@@ -22,15 +22,15 @@ for:
         # Test our Release x64 build
         assemblies:
             - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
-  -
-    matrix:
-      only:
-        - image: Visual Studio 2019 Preview
-    build_script:
-        - ps: .\build.netcore.ps1
-    test_script:
+#  -
+#    matrix:
+#      only:
+#        - image: Visual Studio 2019 Preview
+#    build_script:
+#        - ps: .\build.netcore.ps1
+#    test_script:
         # Test our Release x64 build
-        dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\win-x64\CefSharp.Test.dll
+#        dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\win-x64\CefSharp.Test.dll
 
 artifacts:
   - path: NuGet\**\*.nupkg
