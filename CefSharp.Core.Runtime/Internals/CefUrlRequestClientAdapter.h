@@ -88,11 +88,7 @@ namespace CefSharp
                 const CefString& scheme,
                 CefRefPtr<CefAuthCallback> callback) override;
 
-        public:
-            void AddRef() const override {  }
-            bool Release() const override { return false; }
-            bool HasOneRef() const override { return false; }
-            bool HasAtLeastOneRef() const override { return false; }
+            IMPLEMENT_REFCOUNTINGM(CefUrlRequestClientAdapter);
         };
     }
 }

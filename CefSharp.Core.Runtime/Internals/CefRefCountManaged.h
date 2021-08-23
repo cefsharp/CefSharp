@@ -2,7 +2,11 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#ifndef CEFSHARP_CORE_CEFREFCOUNTEDMANAGED_H
+#define CEFSHARP_CORE_CEFREFCOUNTEDMANAGED_H
 #pragma once
+
+#include "include\base\cef_macros.h"
 
 class CefRefCountManaged
 {
@@ -70,3 +74,5 @@ private:
                                                                      \
  private:                                                            \
   CefRefCountManaged ref_count_
+
+#endif  // CEFSHARP_CORE_CEFREFCOUNTEDMANAGED_H

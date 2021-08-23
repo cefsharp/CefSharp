@@ -169,11 +169,13 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\MCefRefPtr.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\StringUtils.h" />
     <ClInclude Include="BindObjectAsyncHandler.h" />
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.cpp" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="JavascriptPromiseHandler.h" />

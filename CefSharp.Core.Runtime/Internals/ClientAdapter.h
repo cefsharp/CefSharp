@@ -201,11 +201,7 @@ namespace CefSharp
             virtual DECL void OnAudioStreamStopped(CefRefPtr<CefBrowser> browser) override;
             virtual DECL void OnAudioStreamError(CefRefPtr<CefBrowser> browser, const CefString& message) override;
 
-        public:
-            void AddRef() const override {  }
-            bool Release() const override { return false; }
-            bool HasOneRef() const override { return false; }
-            bool HasAtLeastOneRef() const override { return false; }
+            IMPLEMENT_REFCOUNTINGM(ClientAdapter);
         };
     }
 }

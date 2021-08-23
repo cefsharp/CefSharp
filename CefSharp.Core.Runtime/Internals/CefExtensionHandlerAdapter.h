@@ -208,11 +208,7 @@ namespace CefSharp
                     gcnew CefGetExtensionResourceCallbackWrapper(callback));
             }
 
-            public:
-                void AddRef() const override {  }
-                bool Release() const override { return false; }
-                bool HasOneRef() const override { return false; }
-                bool HasAtLeastOneRef() const override { return false; }
+            IMPLEMENT_REFCOUNTINGM(CefExtensionHandlerAdapter);
         };
     }
 }
