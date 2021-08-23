@@ -11,17 +11,17 @@ matrix:
   
 configuration: Release
 
-for:
-  -
-    matrix:
-      only:
-        - image: Visual Studio 2019
-    build_script:
-        - ps: .\build.ps1
-    test:
+#for:
+#  -
+#    matrix:
+#      only:
+#        - image: Visual Studio 2019
+#    build_script:
+#        - ps: .\build.ps1
+#    test:
         # Test our Release x64 build
-        assemblies:
-            - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
+#        assemblies:
+#            - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
 #  -
 #    matrix:
 #      only:
@@ -31,6 +31,15 @@ for:
 #    test_script:
         # Test our Release x64 build
 #        dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\win-x64\CefSharp.Test.dll
+
+# to run your custom scripts instead of automatic MSBuild
+build_script:
+  - ps: .\build.ps1
+
+test:
+    # Test our Release x64 build
+    assemblies:
+        - CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
 
 artifacts:
   - path: NuGet\**\*.nupkg
