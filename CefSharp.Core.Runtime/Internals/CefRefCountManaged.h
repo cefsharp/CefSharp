@@ -6,6 +6,8 @@
 #define CEFSHARP_CORE_CEFREFCOUNTEDMANAGED_H
 #pragma once
 
+#include <winnt.h>
+
 #include "include\base\cef_macros.h"
 
 class CefRefCountManaged
@@ -20,7 +22,7 @@ public:
     ///
     void AddRef() const
     {
-        
+        InterlockedIncrement(&ref_count_);
     }
 
     ///
@@ -28,7 +30,9 @@ public:
     ///
     bool Release() const
     {
-        return false;
+        LONG res = InterlockedDecrement(&ref_count_);
+
+        return res == 0;
     }
 
     ///
@@ -36,7 +40,7 @@ public:
     ///
     bool HasOneRef() const
     {
-        return false;
+        return ref_count_ == 1;
     }
 
     ///
@@ -44,11 +48,11 @@ public:
     ///
     bool HasAtLeastOneRef() const
     {
-        return false;
+        return ref_count_ > 0;
     }
 
 private:
-    int ref_count_;
+    mutable volatile LONG ref_count_;
     DISALLOW_COPY_AND_ASSIGN(CefRefCountManaged);
 };
 

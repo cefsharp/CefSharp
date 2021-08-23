@@ -332,6 +332,7 @@
     <ClCompile Include="Internals\CefExtensionWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
     <ClCompile Include="Internals\CefBrowserWrapper.cpp" />
+    <ClCompile Include="Internals\CefRefCountManaged.cpp" />
     <ClCompile Include="Internals\CefUrlRequestClientAdapter.cpp" />
     <ClCompile Include="Internals\CefValueWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
@@ -361,6 +362,7 @@
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
+    <ClInclude Include="Internals\CefRefCountManaged.h" />
     <ClInclude Include="Internals\CefRegistrationWrapper.h" />
     <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefCookieAccessFilterAdapter.h" />

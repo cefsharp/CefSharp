@@ -255,15 +255,16 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\MCefRefPtr.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\StringUtils.h" />
     <ClInclude Include="BindObjectAsyncHandler.h" />
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.cpp" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
-    <ClInclude Include="CefRefCountManaged.h" />
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
     <ClInclude Include="SubProcessApp.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
@@ -297,7 +298,6 @@
     <ClCompile Include="Async\JavascriptAsyncMethodWrapper.cpp" />
     <ClCompile Include="Async\JavascriptAsyncObjectWrapper.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
-    <ClCompile Include="CefRefCountManaged.cpp" />
     <ClCompile Include="JavascriptRootObjectWrapper.cpp" />
     <ClCompile Include="Wrapper\Frame.cpp" />
     <ClCompile Include="Wrapper\Browser.cpp" />
