@@ -82,14 +82,14 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk!
 With each release a new branch is created, for example the `79.1.360` release corresponds to the `cefsharp/79` branch.
 If you're new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch.
 
-**&ast;** For .Net Core Packages VC++ 2019 is required<br/>
+**&ast;** VC++ 2019 is required starting with version 93<br/>
 **&ast;&ast;** For .Net Core Packages .Net Core 3.1/.Net 5.0 is required. 
 
 | Branch                                                               | CEF Version  | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|-------|---------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                      | 4515 | 2015* | 4.5.2** | Development     |
+| [master](https://github.com/cefsharp/CefSharp/)                      | 4577 | 2019* | 4.5.2** | Development     |
 | [cefsharp/92](https://github.com/cefsharp/CefSharp/tree/cefsharp/92) | 4515 | 2015* | 4.5.2** | **Release**     |
-| [cefsharp/91](https://github.com/cefsharp/CefSharp/tree/cefsharp/91) | 4472 | 2015* | 4.5.2** | **Release**     |
+| [cefsharp/91](https://github.com/cefsharp/CefSharp/tree/cefsharp/91) | 4472 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/90](https://github.com/cefsharp/CefSharp/tree/cefsharp/90) | 4430 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/89](https://github.com/cefsharp/CefSharp/tree/cefsharp/89) | 4389 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/88](https://github.com/cefsharp/CefSharp/tree/cefsharp/88) | 4324 | 2015* | 4.5.2** | Unsupported     |
@@ -121,7 +121,7 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 | [cefsharp/39](https://github.com/cefsharp/CefSharp/tree/cefsharp/39) | 2171 | 2012  | 4.0     | Unsupported     |
 | [cefsharp/37](https://github.com/cefsharp/CefSharp/tree/cefsharp/37) | 2062 | 2012  | 4.0     | Unsupported     |
 
-**&ast;** For .Net Core Packages VC++ 2019 is required<br/>
+**&ast;** VC++ 2019 is required starting with version 93<br/>
 **&ast;&ast;** For .Net Core Packages .Net Core 3.1/.Net 5.0 is required. 
 
 ## Financial Support
