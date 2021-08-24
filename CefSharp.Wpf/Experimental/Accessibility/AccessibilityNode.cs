@@ -25,7 +25,6 @@ namespace CefSharp.Wpf.Experimental.Accessibility
         private CefSharp.Structs.Point scroll;
         private int offsetContainerId = -1;
         private HashSet<int> childIds;
-        private IDictionary<string, IValue> attributes;
 
         // Mapping implemented according to the following link
         // https://docs.microsoft.com/en-us/windows/desktop/winauto/uiauto-ariaspecification
@@ -251,7 +250,7 @@ namespace CefSharp.Wpf.Experimental.Accessibility
 
             if (node.ContainsKey("attributes"))
             {
-                attributes = node["attributes"].GetDictionary();
+                IDictionary<string, IValue> attributes = node["attributes"].GetDictionary();
                 if (attributes != null)
                 {
                     if (attributes.ContainsKey("name"))

@@ -58,6 +58,11 @@ namespace CefSharp.Wpf.Experimental.Accessibility
             }
 
             var accessibilityUpdateDictionary = value.GetDictionary();
+            if (accessibilityUpdateDictionary == null || !accessibilityUpdateDictionary.ContainsKey("ax_tree_id"))
+            {
+                return;
+            }
+
             string treeId = accessibilityUpdateDictionary["ax_tree_id"].GetString();
 
             owner.Dispatcher.Invoke(new Action(() =>
