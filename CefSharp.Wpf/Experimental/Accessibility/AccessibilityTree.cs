@@ -50,7 +50,7 @@ namespace CefSharp.Wpf.Experimental.Accessibility
 
         public virtual void Update(IDictionary<string, IValue> accessibilityUpdateDictionary)
         {
-            if (accessibilityUpdateDictionary == null || !accessibilityUpdateDictionary.ContainsKey("events"))
+            if (accessibilityUpdateDictionary == null || !accessibilityUpdateDictionary.ContainsKey("events") || !accessibilityUpdateDictionary.ContainsKey("updates"))
             {
                 return;
             }
