@@ -379,7 +379,7 @@ void CefBrowserHostWrapper::SendKeyEvent(int message, int wParam, int lParam)
 
         // mimic alt-gr check behaviour from
         // src/ui/events/win/events_win_utils.cc: GetModifiersFromKeyState
-        if (IsKeyDown(VK_RMENU) || IsKeyDown(VK_LMENU))
+        if (IsKeyDown(VK_RMENU))
         {
             // reverse AltGr detection taken from PlatformKeyMap::UsesAltGraph
             // instead of checking all combination for ctrl-alt, just check current char
