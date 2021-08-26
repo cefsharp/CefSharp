@@ -128,6 +128,13 @@ namespace CefSharp
         int ExecuteDevToolsMethod(int messageId, string method, IDictionary<string, object> parameters = null);
 
         /// <summary>
+        /// Returns the next unique message id which can be used in <see cref="ExecuteDevToolsMethod(int, string, string)"/> or
+        /// <see cref="ExecuteDevToolsMethod(int, string, IDictionary{string, object})"/>.
+        /// </summary>
+        /// <returns>The next unique message id.</returns>
+        int GetNextDevToolsMessageId();
+
+        /// <summary>
         /// Add an observer for DevTools protocol messages (method results and events).
         /// The observer will remain registered until the returned Registration object
         /// is destroyed. See the SendDevToolsMessage documentation for additional

@@ -270,6 +270,11 @@ IRegistration^ CefBrowserHostWrapper::AddDevToolsMessageObserver(IDevToolsMessag
     return gcnew CefRegistrationWrapper(registration);
 }
 
+int CefBrowserHostWrapper::GetNextDevToolsMessageId()
+{
+    return Interlocked::Increment(_lastDevToolsMessageId);
+}
+
 void CefBrowserHostWrapper::AddWordToDictionary(String^ word)
 {
     ThrowIfDisposed();

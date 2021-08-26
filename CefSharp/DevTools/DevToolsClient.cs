@@ -19,11 +19,6 @@ namespace CefSharp.DevTools
     /// </summary>
     public partial class DevToolsClient : IDevToolsMessageObserver, IDevToolsClient
     {
-        //TODO: Message Id is now global, limits the number of messages to int.MaxValue
-        //Needs to be unique and incrementing per browser with the option to have multiple
-        //DevToolsClient instances per browser.
-        private static int lastMessageId = 0;
-
         private readonly ConcurrentDictionary<int, DevToolsMethodResponseContext> queuedCommandResults = new ConcurrentDictionary<int, DevToolsMethodResponseContext>();
         private readonly ConcurrentDictionary<string, EventHandler<Stream>> eventHandlers = new ConcurrentDictionary<string, EventHandler<Stream>>();
         private IBrowser browser;
@@ -138,8 +133,6 @@ namespace CefSharp.DevTools
                 throw new ObjectDisposedException(nameof(IBrowser));
             }
 
-            var messageId = Interlocked.Increment(ref lastMessageId);
-
             var taskCompletionSource = new TaskCompletionSource<T>();
 
             var methodResultContext = new DevToolsMethodResponseContext(
@@ -149,12 +142,14 @@ namespace CefSharp.DevTools
                 syncContext: CaptureSyncContext ? SynchronizationContext.Current : SyncContext
             );
 
+            var browserHost = browser.GetHost();
+
+            var messageId = browserHost.GetNextDevToolsMessageId();
+
             if (!queuedCommandResults.TryAdd(messageId, methodResultContext))
             {
                 throw new DevToolsClientException(string.Format("Unable to add MessageId {0} to queuedCommandResults ConcurrentDictionary.", messageId));
             }
-
-            var browserHost = browser.GetHost();
 
             //Currently on CEF UI Thread we can directly execute
             if (CefThread.CurrentlyOnUiThread)

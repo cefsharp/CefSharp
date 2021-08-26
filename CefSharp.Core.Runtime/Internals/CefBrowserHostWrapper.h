@@ -21,6 +21,7 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefBrowserHost> _browserHost;
+            int _lastDevToolsMessageId = 0;
 
             double GetZoomLevelOnUI();
 
@@ -75,6 +76,7 @@ namespace CefSharp
             virtual int ExecuteDevToolsMethod(int messageId, String^ method, String^ paramsAsJson);
             virtual int ExecuteDevToolsMethod(int messageId, String^ method, IDictionary<String^, Object^>^ paramaters);
             virtual IRegistration^ AddDevToolsMessageObserver(IDevToolsMessageObserver^ observer);
+            virtual int GetNextDevToolsMessageId();
 
             virtual void AddWordToDictionary(String^ word);
             virtual void ReplaceMisspelling(String^ word);
