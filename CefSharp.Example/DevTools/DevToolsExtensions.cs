@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace CefSharp.Example.DevTools
 {
@@ -15,42 +14,14 @@ namespace CefSharp.Example.DevTools
         /// <returns>png encoded image as byte[]</returns>
         public static async Task<byte[]> CaptureScreenShotAsPng(this IWebBrowser chromiumWebBrowser)
         {
-            //if (!browser.HasDocument)
-            //{
-            //    throw new System.Exception("Page hasn't loaded");
-            //}
-
-            var browser = chromiumWebBrowser.GetBrowser();
-
-            if (browser == null || browser.IsDisposed)
-            {
-                throw new Exception("browser is Null or Disposed");
-            }
-
-            //var param = new Dictionary<string, object>
-            //{
-            //    { "format", "png" },
-            //}
-
             //Make sure to dispose of our observer registration when done
-            using (var devToolsClient = browser.GetDevToolsClient())
+            //If you need to make multiple calls then reuse the devtools client
+            //and Dispose when done.
+            using (var devToolsClient = chromiumWebBrowser.GetDevToolsClient())
             {
-                const string methodName = "Page.captureScreenshot";
+                var result = await devToolsClient.Page.CaptureScreenshotAsync();
 
-                var result = await devToolsClient.ExecuteDevToolsMethodAsync(methodName);
-
-                dynamic response = JsonConvert.DeserializeObject<dynamic>(result.ResponseAsJsonString);
-
-                //Success
-                if (result.Success)
-                {
-                    return Convert.FromBase64String((string)response.data);
-                }
-
-                var code = (string)response.code;
-                var message = (string)response.message;
-
-                throw new Exception(code + ":" + message);
+                return result.Data;
             }
         }
     }
