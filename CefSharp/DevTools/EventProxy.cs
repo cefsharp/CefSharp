@@ -36,6 +36,8 @@ namespace CefSharp.DevTools
 
         public void Raise(object sender, string eventName, Stream stream)
         {
+            stream.Position = 0;
+
             var args = convert(eventName, stream);
 
             handlers?.Invoke(sender, args);
