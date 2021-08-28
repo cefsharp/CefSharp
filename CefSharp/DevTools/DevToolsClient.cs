@@ -92,12 +92,7 @@ namespace CefSharp.DevTools
             }
         }
 
-        /// <summary>
-        /// Remove event handler for a DevTools protocol event.
-        /// </summary>
-        /// <typeparam name="T">The event args type to which the event will be deserialized to.</typeparam>
-        /// <param name="eventName">is the event name to listen to</param>
-        /// <param name="eventHandler">event handler to call when the event occurs</param>
+        /// <inheritdoc/>
         public void RemoveEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs
         {
             if (eventHandlers.TryGetValue(eventName, out IEventProxy eventProxy))
