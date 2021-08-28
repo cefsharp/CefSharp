@@ -20,7 +20,7 @@ namespace CefSharp.DevTools
     public partial class DevToolsClient : IDevToolsMessageObserver, IDevToolsClient
     {
         private readonly ConcurrentDictionary<int, DevToolsMethodResponseContext> queuedCommandResults = new ConcurrentDictionary<int, DevToolsMethodResponseContext>();
-        private readonly ConcurrentDictionary<string, EventHandler<Stream>> eventHandlers = new ConcurrentDictionary<string, EventHandler<Stream>>();
+        private readonly ConcurrentDictionary<string, IEventProxy> eventHandlers = new ConcurrentDictionary<string, IEventProxy>();
         private IBrowser browser;
         private IRegistration devToolsRegistration;
         private bool devToolsAttached;
@@ -78,27 +78,33 @@ namespace CefSharp.DevTools
         }
 
         /// <inheritdoc/>
-        public IRegistration RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase
+        public void AddEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs
         {
-            EventHandler<Stream> handler = (sender, stream) =>
+            if (eventHandlers.TryGetValue(eventName, out IEventProxy eventProxy))
             {
-                stream.Position = 0;
-                if (typeof(T) == typeof(DevToolsEventArgs) || typeof(T) == typeof(DevToolsDomainEventArgsBase))
-                {
-                    var paramsAsJsonString = StreamToString(stream, leaveOpen: true);
-                    var args = new DevToolsEventArgs(eventName, paramsAsJsonString);
+                var p = ((EventProxy<T>)eventProxy);
+                p.AddHandler(eventHandler);
+            }
+            else
+            {
+                eventProxy = new EventProxy<T>(eventHandler, DeserializeJsonEvent<T>);
+                eventHandlers.TryAdd(eventName, eventProxy);
+            }
+        }
 
-                    eventHandler(sender, (T)(object)args);
-                }
-                else
-                {
-                    eventHandler(sender, DeserializeJson<T>(stream));
-                }
-            };
-
-            eventHandlers.AddOrUpdate(eventName, _ => handler, (_, existingHandler) => existingHandler += handler);
-
-            return new DevToolsEventHandlerRegistration(eventName, handler, eventHandlers);
+        /// <summary>
+        /// Remove event handler for a DevTools protocol event.
+        /// </summary>
+        /// <typeparam name="T">The event args type to which the event will be deserialized to.</typeparam>
+        /// <param name="eventName">is the event name to listen to</param>
+        /// <param name="eventHandler">event handler to call when the event occurs</param>
+        public void RemoveEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs
+        {
+            if (eventHandlers.TryGetValue(eventName, out IEventProxy eventProxy))
+            {
+                var p = ((EventProxy<T>)eventProxy);
+                p.RemoveHandler(eventHandler);
+            }
         }
 
         /// <summary>
@@ -210,6 +216,14 @@ namespace CefSharp.DevTools
                 devToolsRegistration?.Dispose();
                 devToolsRegistration = null;
                 browser = null;
+
+                var events = eventHandlers.Values;
+                eventHandlers.Clear();
+
+                foreach(var evt in events)
+                {
+                    evt.Dispose();
+                }
             }
         }
 
@@ -238,10 +252,9 @@ namespace CefSharp.DevTools
                 evt(this, new DevToolsEventArgs(method, paramsAsJsonString));
             }
 
-            EventHandler<Stream> eventHandler;
-            if (eventHandlers.TryGetValue(method, out eventHandler))
+            if (eventHandlers.TryGetValue(method, out IEventProxy eventProxy))
             {
-                eventHandler(this, parameters);
+                eventProxy.Raise(this, method, parameters);
             }
         }
 
@@ -290,6 +303,33 @@ namespace CefSharp.DevTools
             }
         }
 
+
+        /// <summary>
+        /// Deserialize the JSON stream into a .Net object.
+        /// For .Net Core/.Net 5.0 uses System.Text.Json
+        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="eventName">event Name</param>
+        /// <param name="stream">JSON stream</param>
+        /// <returns>object of type <typeparamref name="T"/></returns>
+        private static T DeserializeJsonEvent<T>(string eventName, Stream stream)  where T : EventArgs
+        {
+            if (typeof(T) == typeof(EventArgs))
+            {
+                return (T)EventArgs.Empty;
+            }
+
+            if (typeof(T) == typeof(DevToolsEventArgs))
+            {
+                var paramsAsJsonString = StreamToString(stream, leaveOpen: true);
+                var args = new DevToolsEventArgs(eventName, paramsAsJsonString);
+
+                return (T)(object)args;
+            }
+
+            return (T)DeserializeJson(typeof(T), stream);
+        }
 
         /// <summary>
         /// Deserialize the JSON stream into a .Net object.

@@ -21,22 +21,29 @@ namespace CefSharp.DevTools
         event EventHandler<DevToolsEventArgs> DevToolsEvent;
 
         /// <summary>
-        /// Registers an event handler for a DevTools protocol event. Events by default are disabled and need to be
+        /// Add event handler for a DevTools protocol event. Events by default are disabled and need to be
         /// enabled on a per domain basis, e.g. Sending Network.enable (or calling <see cref="Network.NetworkClient.EnableAsync(int?, int?, int?)"/>)
         /// to enable network related events.
         /// </summary>
         /// <typeparam name="T">The event args type to which the event will be deserialized to.</typeparam>
         /// <param name="eventName">is the event name to listen to</param>
         /// <param name="eventHandler">event handler to call when the event occurs</param>
-        /// <returns>return an IRegistration that can be used to unregister the event handler.</returns>
-        IRegistration RegisterEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : DevToolsDomainEventArgsBase;
+        void AddEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs;
+
+        /// <summary>
+        /// Remove event handler for a DevTools protocol event.
+        /// </summary>
+        /// <typeparam name="T">The event args type to which the event will be deserialized to.</typeparam>
+        /// <param name="eventName">is the event name to listen to</param>
+        /// <param name="eventHandler">event handler to call when the event occurs</param>
+        void RemoveEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs;
 
         /// <summary>
         /// Execute a method call over the DevTools protocol. This method can be called on any thread.
         /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
         /// of supported methods and the expected <paramref name="parameters"/> dictionary contents.
         /// </summary>
-        /// <typeparam name="T">The type into which the result will be deserialzed.</typeparam>
+        /// <typeparam name="T">The type to which the method result will be deserialzed to.</typeparam>
         /// <param name="method">is the method name</param>
         /// <param name="parameters">are the method parameters represented as a dictionary,
         /// which may be empty.</param>
