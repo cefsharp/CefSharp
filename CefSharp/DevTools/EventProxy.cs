@@ -28,9 +28,16 @@ namespace CefSharp.DevTools
             handlers += handler;
         }
 
-        public void RemoveHandler(EventHandler<T> handler)
+        /// <summary>
+        /// Remove the event handler
+        /// </summary>
+        /// <param name="handler">event handler to remove</param>
+        /// <returns>returns true if the last event handler for this proxy was removed.</returns>
+        public bool RemoveHandler(EventHandler<T> handler)
         {
             handlers -= handler;
+
+            return handlers == null;
         }
 
         public void Raise(object sender, string eventName, Stream stream)

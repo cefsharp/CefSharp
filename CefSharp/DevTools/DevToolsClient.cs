@@ -92,7 +92,11 @@ namespace CefSharp.DevTools
             if (eventHandlers.TryGetValue(eventName, out IEventProxy eventProxy))
             {
                 var p = ((EventProxy<T>)eventProxy);
-                p.RemoveHandler(eventHandler);
+                if(p.RemoveHandler(eventHandler))
+                {
+                    //TODO: Replace with out _ once we upgrade to VS2019
+                    eventHandlers.TryRemove(eventName, out IEventProxy e);
+                }
             }
         }
 
