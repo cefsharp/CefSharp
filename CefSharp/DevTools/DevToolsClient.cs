@@ -80,7 +80,7 @@ namespace CefSharp.DevTools
         /// <inheritdoc/>
         public void AddEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs
         {
-            var eventProxy = eventHandlers.GetOrAdd(eventName, _ => new EventProxy<T>(eventHandler, DeserializeJsonEvent<T>));
+            var eventProxy = eventHandlers.GetOrAdd(eventName, _ => new EventProxy<T>(DeserializeJsonEvent<T>));
 
             var p = (EventProxy<T>)eventProxy;
             p.AddHandler(eventHandler);

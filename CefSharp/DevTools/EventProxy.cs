@@ -18,9 +18,8 @@ namespace CefSharp.DevTools
         private event EventHandler<T> handlers;
         private Func<string, Stream, T> convert;
 
-        public EventProxy(EventHandler<T> handler, Func<string, Stream, T> convert)
+        public EventProxy(Func<string, Stream, T> convert)
         {
-            handlers += handler;
             this.convert = convert;
         }
 
