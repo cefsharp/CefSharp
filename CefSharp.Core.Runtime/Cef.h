@@ -94,6 +94,16 @@ namespace CefSharp
                 }
             }
 
+            /// <summary>Gets a value that indicates whether CefSharp was shutdown.</summary>
+            /// <value>true if CefSharp was shutdown; otherwise, false.</value>
+            static property bool IsShutdown
+            {
+                bool get()
+                {
+                    return _hasShutdown;
+                }
+            }
+
             /// <summary>Gets a value that indicates the version of CefSharp currently being used.</summary>
             /// <value>The CefSharp version.</value>
             static property String^ CefSharpVersion
