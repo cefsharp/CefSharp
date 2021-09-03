@@ -1139,9 +1139,9 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                auto frameWrapper = gcnew CefFrameWrapper(frame);
+                CefFrameWrapper frameWrapper(frame);
 
-                handler->OnFrameAttached(_browserControl, browserWrapper, frameWrapper);
+                handler->OnFrameAttached(_browserControl, browserWrapper, % frameWrapper);
             }
         }
 
@@ -1152,9 +1152,9 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                auto frameWrapper = gcnew CefFrameWrapper(frame);
+                CefFrameWrapper frameWrapper(frame);
 
-                handler->OnFrameDetached(_browserControl, browserWrapper, frameWrapper);
+                handler->OnFrameDetached(_browserControl, browserWrapper, % frameWrapper);
             }
         }
 
@@ -1165,11 +1165,13 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
                 CefFrameWrapper^ oldFrameWrapper = nullptr;
                 if (oldFrame.get())
                 {
                     oldFrameWrapper = gcnew CefFrameWrapper(oldFrame);
                 }
+
                 CefFrameWrapper^ newFrameWrapper = nullptr;
                 if (newFrame.get())
                 {
@@ -1177,6 +1179,9 @@ namespace CefSharp
                 }
 
                 handler->OnMainFrameChanged(_browserControl, browserWrapper, oldFrameWrapper, newFrameWrapper);
+
+                delete oldFrameWrapper;
+                delete newFrameWrapper;
             }
         }
 
