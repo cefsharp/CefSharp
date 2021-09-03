@@ -83,7 +83,7 @@ namespace CefSharp
                 return false;
             }
 
-            IMPLEMENT_REFCOUNTING(JavascriptPromiseHandler);
+            IMPLEMENT_REFCOUNTINGM(JavascriptPromiseHandler);
         };
     }
 }

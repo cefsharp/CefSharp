@@ -321,8 +321,7 @@ namespace CefSharp
                 return false;
             }
 
-
-            IMPLEMENT_REFCOUNTING(BindObjectAsyncHandler);
+            IMPLEMENT_REFCOUNTINGM(BindObjectAsyncHandler);
         };
     }
 }

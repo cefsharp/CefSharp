@@ -62,7 +62,7 @@ namespace CefSharp
                 return true;
             }
 
-            IMPLEMENT_REFCOUNTING(JavascriptPropertyHandler);
+            IMPLEMENT_REFCOUNTINGM(JavascriptPropertyHandler);
         };
     }
 }

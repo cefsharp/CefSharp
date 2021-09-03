@@ -208,7 +208,7 @@ namespace CefSharp
                 }
             };
 
-            IMPLEMENT_REFCOUNTING(CefSharpApp);
+            IMPLEMENT_REFCOUNTINGM(CefSharpApp);
         };
     }
 }

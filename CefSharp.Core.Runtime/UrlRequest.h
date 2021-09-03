@@ -60,7 +60,7 @@ namespace CefSharp
                     throw gcnew ArgumentNullException("urlRequestClient");
                 }
 
-                _urlRequest = CefURLRequest::Create((Request^)request, new CefUrlRequestClientAdapter(urlRequestClient), (RequestContext^)requestContext);
+                _urlRequest = CefURLRequest::Create((Request^)request, new CefUrlRequestClientAdapter(urlRequestClient), (RequestContext^)requestContext).get();
             }
 
             ///

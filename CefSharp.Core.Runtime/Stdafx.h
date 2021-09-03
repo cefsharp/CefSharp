@@ -15,6 +15,7 @@
 
 #include <include/cef_base.h>
 
+#include "Internals\CefRefCountManaged.h"
 #include "Internals\MCefRefPtr.h"
 #include "Internals\StringUtils.h"
 #include "vcclr_local.h"

@@ -122,7 +122,7 @@ namespace CefSharp
                 return true;
             }
 
-            IMPLEMENT_REFCOUNTING(RegisterBoundObjectHandler);
+            IMPLEMENT_REFCOUNTINGM(RegisterBoundObjectHandler);
         };
     }
 }

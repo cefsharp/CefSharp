@@ -76,7 +76,7 @@ namespace CefSharp
                 _handler->OnDevToolsAgentDetached(%browserWrapper);
             }
 
-            IMPLEMENT_REFCOUNTING(CefDevToolsMessageObserverAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefDevToolsMessageObserverAdapter);
         };
     }
 }

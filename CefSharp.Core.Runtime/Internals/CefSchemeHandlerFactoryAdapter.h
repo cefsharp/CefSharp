@@ -84,7 +84,7 @@ namespace CefSharp
                 return new CefResourceHandlerAdapter(handler);
             }
 
-            IMPLEMENT_REFCOUNTING(CefSchemeHandlerFactoryAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefSchemeHandlerFactoryAdapter);
         };
     }
 }

@@ -10,26 +10,26 @@ Post Installation:
   - For `x86` or x64` set your projects PlatformTarget architecture to `x86` or `x64`.
   - `AnyCPU` target is supported though requires additional code/changes see https://github.com/cefsharp/CefSharp/issues/1714 for details.
   - Check your output `\bin` directory to make sure the appropriate references have been copied.
-  - Add an app.manifest to your exe if you don't already have one, it's required for Windows 10 compatability, HighDPI support and tooltips. The   https://github.com/cefsharp/CefSharp.MinimalExample project contains an example app.manifest file in the root of the WPF/WinForms/OffScreen examples. 
+  - Add an app.manifest to your exe if you don't already have one, it's required for Windows 10 compatability, HighDPI support and tooltips. The https://github.com/cefsharp/CefSharp.MinimalExample project contains an example app.manifest file in the root of the WPF/WinForms/OffScreen examples. 
   
 Deployment:
-  - Make sure a minimum of `Visual C++ 2015` is installed (`x86` or x64` depending on your build) or package the runtime dlls with your application, see the FAQ for details.
+  - Make sure a minimum of `Visual C++ 2019` is installed (`x86` or x64` depending on your build) or package the runtime dlls with your application, see the FAQ for details.
   
 What's New:
   See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
-  IMPORTANT NOTE - Visual C++ 2015 is now required
+  IMPORTANT NOTE - Visual C++ 2019 is now required
   IMPORTANT NOTE - .NET Framework 4.5.2 is now required.  
   IMPORTANT NOTE - Chromium has removed support for Windows XP/2003 and Windows Vista/Server 2008 (non R2).
 
 Basic Troubleshooting:
   - Minimum of .Net 4.5.2
-  - Minimum of `Visual C++ 2015 Redist` is installed (either `x86` or `x64` depending on your application). VC++ 2017/2019 are backwards compatible. 
+  - Minimum of `Visual C++ 2019 Redist` is installed (either `x86` or `x64` depending on your application).
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (Chromium Embedded Framework Core library)
     * icudtl.dat (Unicode Support data)
 	* chrome_elf.dll(Crash reporting library)
 	* snapshot_blob.bin, v8_context_snapshot.bin (V8 snapshot data)
-	* locales\en-US.pak, cef.pak, cef_100_percent.pak, cef_200_percent.pak, cef_extensions.pak, devtools_resources.pak, d3dcompiler_47.dll, libEGL.dll, libGLESv2.dll, swiftshader/libEGL.dll, swiftshader/libGLESv2.dll
+	* locales\en-US.pak, chrome_100_percent.pak, chrome_200_percent.pak, resources.pak, d3dcompiler_47.dll, libEGL.dll, libGLESv2.dll, swiftshader/libEGL.dll, swiftshader/libGLESv2.dll
 	  - Whilst these are technically listed as optional, the browser is unlikely to function without these files.
 	  - See https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29 for details
     * CefSharp.Core.dll, CefSharp.dll, CefSharp.Core.Runtime.dll
@@ -40,8 +40,7 @@ Basic Troubleshooting:
         * CefSharp.Wpf.dll
         * CefSharp.OffScreen.dll
   - Additional CEF files are described at: https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29
-    Whilst technically optional the bin
-    NOTE: CefSharp does not currently support CEF sandboxing.
+  - NOTE: CefSharp does not currently support CEF sandboxing.
   - By default `CEF` has it's own log file, `Debug.log` which is located in your executing folder. e.g. `bin`
 
 For further help please read the following content:

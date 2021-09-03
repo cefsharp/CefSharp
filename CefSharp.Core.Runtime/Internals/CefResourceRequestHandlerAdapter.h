@@ -257,7 +257,7 @@ namespace CefSharp
                 }
             }
 
-            IMPLEMENT_REFCOUNTING(CefResourceRequestHandlerAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefResourceRequestHandlerAdapter);
         };
     }
 }

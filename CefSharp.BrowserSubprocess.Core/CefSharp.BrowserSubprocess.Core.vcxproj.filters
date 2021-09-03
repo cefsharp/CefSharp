@@ -119,6 +119,9 @@
     <ClInclude Include="JavascriptPromiseHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -189,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="BrowserSubprocessExecutable.h">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

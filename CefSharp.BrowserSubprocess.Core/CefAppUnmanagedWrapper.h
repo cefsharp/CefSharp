@@ -84,7 +84,7 @@ namespace CefSharp
             virtual DECL void OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node) override;
             virtual DECL void OnUncaughtException(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Exception> exception, CefRefPtr<CefV8StackTrace> stackTrace) override;
 
-            IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
+            IMPLEMENT_REFCOUNTINGM(CefAppUnmanagedWrapper);
         };
     }
 }

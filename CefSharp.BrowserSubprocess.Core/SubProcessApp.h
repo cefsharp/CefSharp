@@ -44,7 +44,7 @@ namespace CefSharp
                 }
             }
 
-            IMPLEMENT_REFCOUNTING(SubProcessApp);
+            IMPLEMENT_REFCOUNTINGM(SubProcessApp);
         };
     }
 }

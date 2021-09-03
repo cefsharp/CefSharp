@@ -37,7 +37,7 @@ namespace CefSharp
                 return _visitor->Visit(cookie, count, total, deleteCookie);
             }
 
-            IMPLEMENT_REFCOUNTING(CefCookieVisitorAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefCookieVisitorAdapter);
         };
     }
 }

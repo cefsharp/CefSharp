@@ -38,7 +38,7 @@ namespace CefSharp
                 }
             }
 
-            IMPLEMENT_REFCOUNTING(CefRunFileDialogCallbackAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefRunFileDialogCallbackAdapter);
         };
     }
 }

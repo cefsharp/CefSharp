@@ -14,6 +14,7 @@
 
 #include <include/cef_base.h>
 
+#include ".\..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.h"
 #include ".\..\CefSharp.Core.Runtime\Internals\MCefRefPtr.h"
 #include ".\..\CefSharp.Core.Runtime\Internals\StringUtils.h"
 #include "vcclr_local.h"

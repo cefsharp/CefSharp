@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\GitLink.3.1.0\build\GitLink.props" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -69,7 +68,6 @@
     <Compile Include="Callback\IJavascriptCallback.cs" />
     <Compile Include="Callback\IJsDialogCallback.cs" />
     <Compile Include="Callback\IPrintToPdfCallback.cs" />
-    <Compile Include="Callback\IRegisterCdmCallback.cs" />
     <Compile Include="Callback\IRequestCallback.cs" />
     <Compile Include="Callback\IResolveCallback.cs" />
     <Compile Include="Callback\IResourceReadCallback.cs" />
@@ -81,11 +79,9 @@
     <Compile Include="Callback\NoOpCompletionCallback.cs" />
     <Compile Include="Callback\TaskDeleteCookiesCallback.cs" />
     <Compile Include="Callback\TaskSetCookieCallback.cs" />
-    <Compile Include="Callback\TaskRegisterCdmCallback.cs" />
     <Compile Include="Callback\TaskCompletionCallback.cs" />
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
-    <Compile Include="CdmRegistration.cs" />
     <Compile Include="CefRuntime.cs" />
     <Compile Include="DefaultApp.cs" />
     <Compile Include="DevToolsExtensions.cs" />
@@ -208,7 +204,6 @@
     <Compile Include="DomNode.cs" />
     <Compile Include="Structs\CursorInfo.cs" />
     <Compile Include="Structs\DraggableRegion.cs" />
-    <Compile Include="Enums\CdmRegistrationErrorCode.cs" />
     <Compile Include="Enums\CursorType.cs" />
     <Compile Include="Enums\CefErrorCode.cs" />
     <Compile Include="Enums\CefEventFlags.cs" />

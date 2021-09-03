@@ -86,7 +86,7 @@ namespace CefSharp
                 return true;
             }
 
-            IMPLEMENT_REFCOUNTING(JavascriptPostMessageHandler);
+            IMPLEMENT_REFCOUNTINGM(JavascriptPostMessageHandler);
         };
     }
 }

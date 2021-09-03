@@ -79,7 +79,7 @@ namespace CefSharp
                 return (FilterStatus)status;
             }
 
-            IMPLEMENT_REFCOUNTING(CefResponseFilterAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefResponseFilterAdapter);
         };
     }
 }

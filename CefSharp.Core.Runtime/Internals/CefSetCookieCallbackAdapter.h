@@ -33,7 +33,7 @@ namespace CefSharp
                 _handler->OnComplete(success);
             }
 
-            IMPLEMENT_REFCOUNTING(CefSetCookieCallbackAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefSetCookieCallbackAdapter);
         };
     }
 }

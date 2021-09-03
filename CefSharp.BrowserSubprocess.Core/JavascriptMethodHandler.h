@@ -38,7 +38,7 @@ namespace CefSharp
 
             CefRefPtr<CefV8Value> ConvertToCefObject(Object^ obj);
 
-            IMPLEMENT_REFCOUNTING(JavascriptMethodHandler);
+            IMPLEMENT_REFCOUNTINGM(JavascriptMethodHandler);
         };
     }
 }

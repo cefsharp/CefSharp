@@ -36,7 +36,7 @@ namespace CefSharp
         public:
             CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
             {
-                _cefBrowser = cefBrowser;
+                _cefBrowser = cefBrowser.get();
                 BrowserId = cefBrowser->GetIdentifier();
                 IsPopup = cefBrowser->IsPopup();
 
