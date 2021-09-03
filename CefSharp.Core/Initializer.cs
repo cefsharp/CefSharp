@@ -47,7 +47,12 @@ namespace CefSharp
             //otherwise Path.Combine will throw an exception.
             //In .NET 5.0 and later versions, for bundled assemblies, AppContext.BaseDirectory returns the containing directory of the host executable.
             //https://docs.microsoft.com/en-us/dotnet/api/system.appcontext.basedirectory?view=net-5.0
-            var libCefPath = Path.Combine(currentFolder ?? AppContext.BaseDirectory, "libcef.dll");
+            if(string.IsNullOrEmpty(currentFolder))
+            {
+                currentFolder = AppContext.BaseDirectory;
+            }
+
+            var libCefPath = Path.Combine(currentFolder, "libcef.dll");
 
             if (File.Exists(libCefPath))
             {

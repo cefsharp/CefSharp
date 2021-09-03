@@ -92,7 +92,7 @@ namespace CefSharp
             /// </summary>
             PostData()
             {
-                _postData = CefPostData::Create();
+                _postData = CefPostData::Create().get();
             }
 
             /// <summary>

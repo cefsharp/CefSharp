@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.92.0.25\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.92.0.25\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.93.1.11\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.93.1.11\build\cef.sdk.props')" />
   <Import Project="..\packages\GitLink.3.1.0\build\GitLink.props" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -236,6 +236,7 @@
     <ClCompile Include="Internals\CefExtensionWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
     <ClCompile Include="Internals\CefBrowserWrapper.cpp" />
+    <ClCompile Include="Internals\CefRefCountManaged.cpp" />
     <ClCompile Include="Internals\CefUrlRequestClientAdapter.cpp" />
     <ClCompile Include="Internals\CefValueWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="Cef.h" />
     <ClInclude Include="DragData.h" />
     <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
+    <ClInclude Include="Internals\CefRefCountManaged.h" />
     <ClInclude Include="Internals\CefRegistrationWrapper.h" />
     <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefCookieAccessFilterAdapter.h" />
@@ -293,7 +295,6 @@
     <ClInclude Include="Internals\CefFrameWrapper.h" />
     <ClInclude Include="Internals\CefMenuModelWrapper.h" />
     <ClInclude Include="Internals\CefPdfPrintCallbackWrapper.h" />
-    <ClInclude Include="Internals\CefRegisterCdmCallbackAdapter.h" />
     <ClInclude Include="Internals\CefResolveCallbackAdapter.h" />
     <ClInclude Include="Internals\CefResponseFilterAdapter.h" />
     <ClInclude Include="Internals\CefResponseWrapper.h" />

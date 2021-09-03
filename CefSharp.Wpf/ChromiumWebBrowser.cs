@@ -323,6 +323,10 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Initializes static members of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
+        //TODO: Currently only a single Dispatcher is supported, all controls will
+        //be Shutdown on that dispatcher which may not actually be the correct Dispatcher.
+        //We could potentially use a ThreadStatic variable to implement this behaviour
+        //and support multiple dispatchers.
         static ChromiumWebBrowser()
         {
             DefaultStyleKeyProperty.OverrideMetadata(

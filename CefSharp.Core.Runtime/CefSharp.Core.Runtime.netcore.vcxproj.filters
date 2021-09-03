@@ -83,6 +83,9 @@
     <ClCompile Include="Internals\CefResourceHandlerAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Internals\CefRefCountManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -232,9 +235,6 @@
     <ClInclude Include="Internals\CefCertificateCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefRegisterCdmCallbackAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\CefSetCookieCallbackAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -326,6 +326,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DragData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefRefCountManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

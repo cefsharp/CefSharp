@@ -33,7 +33,7 @@ namespace CefSharp
                 _visitor->Visit(StringUtils::ToClr(string));
             }
 
-            IMPLEMENT_REFCOUNTING(CefStringVisitorAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefStringVisitorAdapter);
         };
     }
 }

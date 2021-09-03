@@ -208,7 +208,7 @@ namespace CefSharp
                     gcnew CefGetExtensionResourceCallbackWrapper(callback));
             }
 
-            IMPLEMENT_REFCOUNTING(CefExtensionHandlerAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefExtensionHandlerAdapter);
         };
     }
 }

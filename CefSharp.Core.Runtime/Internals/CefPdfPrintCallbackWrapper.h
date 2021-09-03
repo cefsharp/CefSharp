@@ -37,7 +37,7 @@ namespace CefSharp
                 }
             }
 
-            IMPLEMENT_REFCOUNTING(CefPdfPrintCallbackWrapper);
+            IMPLEMENT_REFCOUNTINGM(CefPdfPrintCallbackWrapper);
         };
     }
 }

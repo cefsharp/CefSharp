@@ -49,7 +49,7 @@ namespace CefSharp
                 const CefString& request_initiator,
                 bool& disable_default_handling) override;
 
-            IMPLEMENT_REFCOUNTING(CefRequestContextHandlerAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefRequestContextHandlerAdapter);
         };
     }
 }

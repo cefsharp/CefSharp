@@ -51,7 +51,7 @@ namespace CefSharp
         public:
             PostDataElement()
             {
-                _postDataElement = CefPostDataElement::Create();
+                _postDataElement = CefPostDataElement::Create().get();
             }
 
             virtual property bool IsReadOnly

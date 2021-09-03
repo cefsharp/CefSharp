@@ -2,18 +2,17 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <VisualStudioProductVersion>2013</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='14.0'">2015</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='15.0'">2017</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0'">2017</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0' AND Exists('$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS2019\libcef_dll_wrapper.lib')">2019</VisualStudioProductVersion>
+    <VisualStudioProductVersion>2019</VisualStudioProductVersion>
+    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='15.0'">2017</VisualStudioProductVersion> -->
+    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0'">2017</VisualStudioProductVersion> -->
+    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0' AND Exists('$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS2019\libcef_dll_wrapper.lib')">2019</VisualStudioProductVersion> -->
 
-    <PlatformToolset>v120</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
+    <!--<PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v140</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='15.0'">v141</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='16.0'">v142</PlatformToolset>
-	
-	<WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='16.0'">v142</PlatformToolset>-->
+  
+    <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion>
     
     <CefSharpBrowserSubprocessPostBuildEvent>
       <![CDATA[

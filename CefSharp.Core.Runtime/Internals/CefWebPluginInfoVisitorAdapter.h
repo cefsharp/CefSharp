@@ -38,7 +38,7 @@ namespace CefSharp
                 return _visitor->Visit(plugin, count, total);
             }
 
-            IMPLEMENT_REFCOUNTING(CefWebPluginInfoVisitorAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefWebPluginInfoVisitorAdapter);
         };
     }
 }

@@ -270,6 +270,11 @@ IRegistration^ CefBrowserHostWrapper::AddDevToolsMessageObserver(IDevToolsMessag
     return gcnew CefRegistrationWrapper(registration);
 }
 
+int CefBrowserHostWrapper::GetNextDevToolsMessageId()
+{
+    return Interlocked::Increment(_lastDevToolsMessageId);
+}
+
 void CefBrowserHostWrapper::AddWordToDictionary(String^ word)
 {
     ThrowIfDisposed();
@@ -379,7 +384,7 @@ void CefBrowserHostWrapper::SendKeyEvent(int message, int wParam, int lParam)
 
         // mimic alt-gr check behaviour from
         // src/ui/events/win/events_win_utils.cc: GetModifiersFromKeyState
-        if (IsKeyDown(VK_RMENU))
+        if (IsKeyDown(VK_MENU))
         {
             // reverse AltGr detection taken from PlatformKeyMap::UsesAltGraph
             // instead of checking all combination for ctrl-alt, just check current char

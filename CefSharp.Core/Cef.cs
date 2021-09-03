@@ -47,6 +47,13 @@ namespace CefSharp
             get { return Core.Cef.IsInitialized; }
         }
 
+        /// <summary>Gets a value that indicates whether CefSharp was shutdown.</summary>
+        /// <value>true if CefSharp was shutdown; otherwise, false.</value>
+        public static bool IsShutdown
+        {
+            get { return Core.Cef.IsShutdown; }
+        }
+
         /// <summary>Gets a value that indicates the version of CefSharp currently being used.</summary>
         /// <value>The CefSharp version.</value>
         public static string CefSharpVersion
@@ -573,64 +580,6 @@ namespace CefSharp
 
             //No matching type, return the integer value as enum
             return (LogSeverity)severity;
-        }
-
-        /// <summary>
-        /// Register the Widevine CDM plugin.
-        /// 
-        /// The client application is responsible for downloading an appropriate
-        /// platform-specific CDM binary distribution from Google, extracting the
-        /// contents, and building the required directory structure on the local machine.
-        /// The <see cref="CefSharp.IBrowserHost.StartDownload"/> method class can be used
-        /// to implement this functionality in CefSharp. Contact Google via
-        /// https://www.widevine.com/contact.html for details on CDM download.
-        /// 
-        /// 
-        /// path is a directory that must contain the following files:
-        ///   1. manifest.json file from the CDM binary distribution (see below).
-        ///   2. widevinecdm file from the CDM binary distribution (e.g.
-        ///      widevinecdm.dll on Windows).
-        ///   3. widevidecdmadapter file from the CEF binary distribution (e.g.
-        ///      widevinecdmadapter.dll on Windows).
-        ///
-        /// If any of these files are missing or if the manifest file has incorrect
-        /// contents the registration will fail and callback will receive an ErrorCode
-        /// value of <see cref="CefSharp.CdmRegistrationErrorCode.IncorrectContents"/>.
-        ///
-        /// The manifest.json file must contain the following keys:
-        ///   A. "os": Supported OS (e.g. "mac", "win" or "linux").
-        ///   B. "arch": Supported architecture (e.g. "ia32" or "x64").
-        ///   C. "x-cdm-module-versions": Module API version (e.g. "4").
-        ///   D. "x-cdm-interface-versions": Interface API version (e.g. "8").
-        ///   E. "x-cdm-host-versions": Host API version (e.g. "8").
-        ///   F. "version": CDM version (e.g. "1.4.8.903").
-        ///   G. "x-cdm-codecs": List of supported codecs (e.g. "vp8,vp9.0,avc1").
-        ///
-        /// A through E are used to verify compatibility with the current Chromium
-        /// version. If the CDM is not compatible the registration will fail and
-        /// callback will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode.Incompatible"/>.
-        ///
-        /// If registration is not supported at the time that Cef.RegisterWidevineCdm() is called then callback
-        /// will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode.NotSupported"/>.
-        /// </summary>
-        /// <param name="path"> is a directory that contains the Widevine CDM files</param>
-        /// <param name="callback">optional callback - <see cref="IRegisterCdmCallback.OnRegistrationComplete"/> 
-        /// will be executed asynchronously once registration is complete</param>
-        public static void RegisterWidevineCdm(string path, IRegisterCdmCallback callback = null)
-        {
-            Core.Cef.RegisterWidevineCdm(path, callback);
-        }
-
-        /// <summary>
-        /// Register the Widevine CDM plugin.
-        ///
-        /// See <see cref="RegisterWidevineCdm(string, IRegisterCdmCallback)"/> for more details.
-        /// </summary>
-        /// <param name="path"> is a directory that contains the Widevine CDM files</param>
-        /// <returns>Returns a Task that can be awaited to receive the <see cref="CdmRegistration"/> response.</returns>
-        public static Task<CdmRegistration> RegisterWidevineCdmAsync(string path)
-        {
-            return Core.Cef.RegisterWidevineCdmAsync(path);
         }
 
         /// <summary>

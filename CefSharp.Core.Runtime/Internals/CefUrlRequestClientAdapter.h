@@ -88,7 +88,7 @@ namespace CefSharp
                 const CefString& scheme,
                 CefRefPtr<CefAuthCallback> callback) override;
 
-            IMPLEMENT_REFCOUNTING(CefUrlRequestClientAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefUrlRequestClientAdapter);
         };
     }
 }

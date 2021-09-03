@@ -33,7 +33,7 @@ namespace CefSharp
                 _handler->OnComplete(numDeleted);
             }
 
-            IMPLEMENT_REFCOUNTING(CefDeleteCookiesCallbackAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefDeleteCookiesCallbackAdapter);
         };
     }
 }

@@ -38,7 +38,7 @@ namespace CefSharp
                 return _handler->Visit(navEntry, current, index, total);
             }
 
-            IMPLEMENT_REFCOUNTING(CefNavigationEntryVisitorAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefNavigationEntryVisitorAdapter);
         };
     }
 }

@@ -1,11 +1,11 @@
 ﻿param(
-    [ValidateSet("vs2015", "vs2017", "vs2019", "nupkg-only")]
+    [ValidateSet("vs2019", "nupkg-only")]
     [Parameter(Position = 0)] 
-    [string] $Target = "vs2015",
+    [string] $Target = "vs2019",
     [Parameter(Position = 1)]
-    [string] $Version = "92.0.250",
+    [string] $Version = "93.1.110",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "92.0.250"
+    [string] $AssemblyVersion = "93.1.110"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -428,16 +428,6 @@ switch -Exact ($Target)
 {
     "nupkg-only"
     {
-        Nupkg
-    }
-    "vs2015"
-    {
-        VSX v140
-        Nupkg
-    }
-    "vs2017"
-    {
-        VSX v141
         Nupkg
     }
     "vs2019"

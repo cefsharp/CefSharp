@@ -288,8 +288,8 @@ namespace CefSharp
                     cookie->Path = StringUtils::ToClr(cefCookie.path);
                     cookie->Secure = cefCookie.secure == 1;
                     cookie->HttpOnly = cefCookie.httponly == 1;
-                    cookie->Creation = ConvertCefTimeToDateTime(cefCookie.creation);
-                    cookie->LastAccess = ConvertCefTimeToDateTime(cefCookie.last_access);
+                    cookie->SetCreationDate(ConvertCefTimeToDateTime(cefCookie.creation));
+                    cookie->SetLastAccessDate(ConvertCefTimeToDateTime(cefCookie.last_access));
                     cookie->SameSite = (CefSharp::Enums::CookieSameSite)cefCookie.same_site;
                     cookie->Priority = (CefSharp::Enums::CookiePriority)cefCookie.priority;
 

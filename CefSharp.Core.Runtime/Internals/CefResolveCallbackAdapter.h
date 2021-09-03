@@ -33,7 +33,7 @@ namespace CefSharp
                 _handler->OnResolveCompleted((CefErrorCode)result, StringUtils::ToClr(resolvedIps));
             }
 
-            IMPLEMENT_REFCOUNTING(CefResolveCallbackAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefResolveCallbackAdapter);
         };
     }
 }

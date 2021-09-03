@@ -44,6 +44,10 @@
       <Compile Remove="RequestContext.cs" />
       <Compile Remove="UrlRequest.cs" />
       <Compile Remove="WindowInfo.cs" />
+      <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+      <None Remove="bin/**/*.*" />
+      <None Remove="obj/**/*.*" />
+      <Compile Remove="obj/**/*.*" />
     </ItemGroup>
     
     <ItemGroup>

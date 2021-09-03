@@ -76,7 +76,7 @@ namespace CefSharp
                 return _handler->CanSaveCookie(_browserControl, nullptr, nullptr, %requestWrapper, %responseWrapper, managedCookie);
             }
 
-            IMPLEMENT_REFCOUNTING(CefCookieAccessFilterAdapter);
+            IMPLEMENT_REFCOUNTINGM(CefCookieAccessFilterAdapter);
         };
     }
 }

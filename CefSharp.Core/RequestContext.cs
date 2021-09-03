@@ -198,7 +198,17 @@ namespace CefSharp
         /// <inheritdoc/>
         public void LoadExtension(string rootDirectory, string manifestJson, IExtensionHandler handler)
         {
-            requestContext.LoadExtension(rootDirectory, manifestJson, handler);
+            if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+            {
+                requestContext.LoadExtension(rootDirectory, manifestJson, handler);
+            }
+            else
+            {
+                Cef.UIThreadTaskFactory.StartNew(() =>
+                {
+                    requestContext.LoadExtension(rootDirectory, manifestJson, handler);
+                });
+            }
         }
 
         /// <inheritdoc/>

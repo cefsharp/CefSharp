@@ -109,7 +109,7 @@ namespace CefSharp
                 return !_isMemoryStream;
             }
 
-            IMPLEMENT_REFCOUNTING(CefWriteHandlerWrapper);
+            IMPLEMENT_REFCOUNTINGM(CefWriteHandlerWrapper);
         };
     }
 }
