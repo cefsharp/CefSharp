@@ -856,6 +856,10 @@ namespace CefSharp.Wpf.HwndHost
                 UiThreadRunAsync(() =>
                 {
                     OnIsBrowserInitializedChanged(true, false);
+
+                    //To Minic the WPF behaviour this happens after OnIsBrowserInitializedChanged
+                    IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
+
                     WebBrowser = null;
                 });
 
@@ -1066,6 +1070,8 @@ namespace CefSharp.Wpf.HwndHost
                 if (!IsDisposed)
                 {
                     OnIsBrowserInitializedChanged(false, true);
+                    //To Minic the WPF behaviour this happens after OnIsBrowserInitializedChanged
+                    IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
 
                     // Only call Load if initialAddress is null and Address is not empty
                     if (string.IsNullOrEmpty(initialAddress) && !string.IsNullOrEmpty(Address))
@@ -1193,7 +1199,10 @@ namespace CefSharp.Wpf.HwndHost
         }
 
         /// <summary>
-        /// Event called after the underlying CEF browser instance has been created. 
+        /// Event called after the underlying CEF browser instance has been created and
+        /// when the <see cref="ChromiumWebBrowser"/> instance has been Disposed.
+        /// <see cref="IsBrowserInitialized"/> will be true when the underlying CEF Browser
+        /// has been created and false when the browser is being Disposed.
         /// </summary>
         public event EventHandler IsBrowserInitializedChanged;
 
@@ -1206,8 +1215,6 @@ namespace CefSharp.Wpf.HwndHost
         {
             if (newValue && !IsDisposed)
             {
-                IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
-
                 var task = this.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
                 {
