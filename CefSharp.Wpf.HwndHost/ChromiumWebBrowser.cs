@@ -477,13 +477,87 @@ namespace CefSharp.Wpf.HwndHost
         {
             if (CefSharpSettings.ShutdownOnExit)
             {
-                var app = Application.Current;
-
-                if (app != null)
+                //Use Dispatcher.FromThread as it returns null if no dispatcher
+                //is available for this thread.
+                var dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
+                if (dispatcher == null)
                 {
-                    app.Exit += OnApplicationExit;
+                    //No dispatcher then we'll rely on Application.Exit
+                    var app = Application.Current;
+
+                    if (app != null)
+                    {
+                        app.Exit += OnApplicationExit;
+                    }
+                }
+                else
+                {
+                    dispatcher.ShutdownStarted += DispatcherShutdownStarted;
+                    dispatcher.ShutdownFinished += DispatcherShutdownFinished;
                 }
             }
+        }
+
+        /// <summary>
+        /// Handles Dispatcher Shutdown
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
+        private static void DispatcherShutdownStarted(object sender, EventArgs e)
+        {
+            var dispatcher = (Dispatcher)sender;
+
+            dispatcher.ShutdownStarted -= DispatcherShutdownStarted;
+
+            if (!DesignMode)
+            {
+                CefPreShutdown();
+            }
+        }
+
+        private static void DispatcherShutdownFinished(object sender, EventArgs e)
+        {
+            var dispatcher = (Dispatcher)sender;
+
+            dispatcher.ShutdownFinished -= DispatcherShutdownFinished;
+
+            if (!DesignMode)
+            {
+                CefShutdown();
+            }
+        }
+
+        /// <summary>
+        /// Handles the <see cref="E:ApplicationExit" /> event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ExitEventArgs"/> instance containing the event data.</param>
+        private static void OnApplicationExit(object sender, ExitEventArgs e)
+        {
+            if (!DesignMode)
+            {
+                CefShutdown();
+            }
+        }
+
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsequently throw an exception.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void CefPreShutdown()
+        {
+            Cef.PreShutdown();
+        }
+
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void CefShutdown()
+        {
+            Cef.Shutdown();
         }
 
         /// <summary>
@@ -1381,29 +1455,6 @@ namespace CefSharp.Wpf.HwndHost
                     ResizeBrowser(0, 0);
                 }
             }
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:ApplicationExit" /> event.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="ExitEventArgs"/> instance containing the event data.</param>
-        private static void OnApplicationExit(object sender, ExitEventArgs e)
-        {
-            if (!DesignMode)
-            {
-                CefShutdown();
-            }
-        }
-
-        /// <summary>
-        /// Required for designer support - this method cannot be inlined as the designer
-        /// will attempt to load libcef.dll and will subsiquently throw an exception.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void CefShutdown()
-        {
-            Cef.Shutdown();
         }
 
         /// <summary>
