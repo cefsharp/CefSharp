@@ -1126,9 +1126,9 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                CefFrameWrapper frameWrapper(frame);
+                auto frameWrapper = gcnew CefFrameWrapper(frame);
 
-                handler->OnFrameCreated(_browserControl, browserWrapper, %frameWrapper);
+                handler->OnFrameCreated(_browserControl, browserWrapper, frameWrapper);
             }
         }
 
@@ -1139,9 +1139,9 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                CefFrameWrapper frameWrapper(frame);
+                auto frameWrapper = gcnew CefFrameWrapper(frame);
 
-                handler->OnFrameAttached(_browserControl, browserWrapper, %frameWrapper);
+                handler->OnFrameAttached(_browserControl, browserWrapper, frameWrapper);
             }
         }
 
@@ -1152,13 +1152,13 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                CefFrameWrapper frameWrapper(frame);
+                auto frameWrapper = gcnew CefFrameWrapper(frame);
 
-                handler->OnFrameDetached(_browserControl, browserWrapper, %frameWrapper);
+                handler->OnFrameDetached(_browserControl, browserWrapper, frameWrapper);
             }
         }
 
-        void ClientAdapter::OnMainFrameChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> old_frame, CefRefPtr<CefFrame> new_frame)
+        void ClientAdapter::OnMainFrameChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> oldFrame, CefRefPtr<CefFrame> newFrame)
         {
             auto handler = _browserControl->FrameHandler;
 
@@ -1166,12 +1166,14 @@ namespace CefSharp
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                 CefFrameWrapper^ oldFrameWrapper = nullptr;
-                if (old_frame.get()) {
-                    oldFrameWrapper = gcnew CefFrameWrapper(old_frame);
+                if (oldFrame.get())
+                {
+                    oldFrameWrapper = gcnew CefFrameWrapper(oldFrame);
                 }
                 CefFrameWrapper^ newFrameWrapper = nullptr;
-                if (new_frame.get()) {
-                    newFrameWrapper = gcnew CefFrameWrapper(new_frame);
+                if (newFrame.get())
+                {
+                    newFrameWrapper = gcnew CefFrameWrapper(newFrame);
                 }
 
                 handler->OnMainFrameChanged(_browserControl, browserWrapper, oldFrameWrapper, newFrameWrapper);
