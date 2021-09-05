@@ -13,20 +13,20 @@ Post Installation:
   - Add an app.manifest to your exe if you don't already have one, it's required for Windows 10 compatability, HighDPI support and tooltips. The   https://github.com/cefsharp/CefSharp.MinimalExample project contains an example app.manifest file in the root of the WPF/WinForms/OffScreen examples. 
   
 Deployment:
-  - Make sure a minimum of `Visual C++ 2019` is installed (`x86` or x64` depending on your build) or package the runtime dlls with your application, see the FAQ for details.
+  - Make sure a minimum of `Visual C++ 2019` is installed (`x86`, `x64` or `arm64` depending on your build) or package the runtime dlls with your application, see the FAQ for details.
   
 What's New:
   See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
 
 Basic Troubleshooting:
   - Minimum of .Net Core 3.1 (.Net 5.0 is supported)
-  - Minimum of `Visual C++ 2019 Redist` is installed (either `x86` or `x64` depending on your application).
+  - Minimum of `Visual C++ 2019 Redist` is installed (either `x86`, `x64` or `arm64` depending on your application).
   - Please ensure your output directory contains these required dependencies:
     * libcef.dll (Chromium Embedded Framework Core library)
     * icudtl.dat (Unicode Support data)
 	* chrome_elf.dll(Crash reporting library)
 	* snapshot_blob.bin, v8_context_snapshot.bin (V8 snapshot data)
-	* locales\en-US.pak, cef.pak, cef_100_percent.pak, cef_200_percent.pak, cef_extensions.pak, devtools_resources.pak, d3dcompiler_47.dll, libEGL.dll, libGLESv2.dll, swiftshader/libEGL.dll, swiftshader/libGLESv2.dll
+	* locales\en-US.pak, chrome_100_percent.pak, chrome_200_percent.pak, resources.pak, d3dcompiler_47.dll, libEGL.dll, libGLESv2.dll, swiftshader/libEGL.dll, swiftshader/libGLESv2.dll
 	  - Whilst these are technically listed as optional, the browser is unlikely to function without these files.
 	  - See https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29 for details
 	* Ijwhost.dll (To support C++/CLI libraries in .NET Core/.Net 5.0, ijwhost was created as a shim for finding and loading the runtime.)
