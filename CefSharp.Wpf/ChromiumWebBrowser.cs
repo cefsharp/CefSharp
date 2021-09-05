@@ -1669,7 +1669,7 @@ namespace CefSharp.Wpf
             }
         }
 
-#if NETCOREAPP
+#if NETCOREAPP || NET462
         /// <inheritdoc/>
         protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
         {
