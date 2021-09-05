@@ -79,7 +79,7 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk!
 
 ### Release Branches
 
-With each release a new branch is created, for example the `79.1.360` release corresponds to the `cefsharp/79` branch.
+With each release a new branch is created, for example the `92.0.260` release corresponds to the [cefsharp/92](https://github.com/cefsharp/CefSharp/tree/cefsharp/92) branch.
 If you're new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch.
 
 **&ast;** VC++ 2019 is required starting with version 93<br/>
@@ -88,6 +88,7 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 | Branch                                                               | CEF Version  | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|-------|---------|-----------------|
 | [master](https://github.com/cefsharp/CefSharp/)                      | 4577 | 2019* | 4.5.2** | Development     |
+| [cefsharp/93](https://github.com/cefsharp/CefSharp/tree/cefsharp/93) | 4577 | 2019* | 4.5.2** | **Pre-Release** |
 | [cefsharp/92](https://github.com/cefsharp/CefSharp/tree/cefsharp/92) | 4515 | 2015* | 4.5.2** | **Release**     |
 | [cefsharp/91](https://github.com/cefsharp/CefSharp/tree/cefsharp/91) | 4472 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/90](https://github.com/cefsharp/CefSharp/tree/cefsharp/90) | 4430 | 2015* | 4.5.2** | Unsupported     |
