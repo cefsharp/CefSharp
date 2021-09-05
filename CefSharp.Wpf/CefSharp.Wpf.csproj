@@ -1,131 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\GitLink.3.1.0\build\GitLink.props" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E6CB3790-F267-4AC7-892C-2620737682CA}</ProjectGuid>
-    <OutputType>library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefSharp.Wpf</RootNamespace>
-    <AssemblyName>CefSharp.Wpf</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <LangVersion>7.1</LangVersion>
+    <TargetFrameworks>net452;net462</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+	<SignAssembly>true</SignAssembly>
+	<AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+	<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DefineConstants>TRACE;WPF</DefineConstants>
     <DocumentationFile>bin\Release\CefSharp.Wpf.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
+    <Compile Remove="bin.netcore\**" />
+    <Compile Remove="obj.netcore\**" />
+    <EmbeddedResource Remove="bin.netcore\**" />
+    <EmbeddedResource Remove="obj.netcore\**" />
+    <None Remove="bin.netcore\**" />
+    <None Remove="obj.netcore\**" />
+    <Page Remove="bin.netcore\**" />
+    <Page Remove="obj.netcore\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs" Link="ChromiumWebBrowser.Partial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
   </ItemGroup>
+  
   <ItemGroup>
-    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs">
-      <Link>ChromiumWebBrowser.Partial.cs</Link>
-    </Compile>
-    <Compile Include="CefSettings.cs" />
-    <Compile Include="Experimental\Accessibility\AccessibilityHandler.cs" />
-    <Compile Include="Experimental\Accessibility\AccessibilityNode.cs" />
-    <Compile Include="Experimental\Accessibility\AccessibilityTree.cs" />
-    <Compile Include="Experimental\Accessibility\BrowserAutomationPeer.cs" />
-    <Compile Include="Experimental\Accessibility\TabControlAutomationPeer.cs" />
-    <Compile Include="Experimental\ChromiumWebBrowserWithTouchSupport.cs" />
-    <Compile Include="Internals\DragOperationMaskExtensions.cs" />
-    <Compile Include="Internals\ImeHandler.cs" />
-    <Compile Include="Internals\MonitorInfo.cs" />
-    <Compile Include="Internals\MonitorInfoEx.cs" />
-    <Compile Include="Internals\ImeNative.cs" />
-    <Compile Include="Internals\RectStruct.cs" />
-    <Compile Include="Experimental\WpfImeKeyboardHandler.cs" />
-    <Compile Include="Internals\WpfKeyboardHandler.cs" />
-    <Compile Include="IWpfKeyboardHandler.cs" />
-    <Compile Include="Internals\VirtualKeys.cs" />
-    <Compile Include="Internals\WpfLegacyKeyboardHandler.cs" />
-    <Compile Include="DelegateCommand.cs" />
-    <Compile Include="IRenderHandler.cs" />
-    <Compile Include="Internals\WpfExtensions.cs" />
-    <Compile Include="IWpfWebBrowser.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <AppDesigner Include="Properties\" />
-    <Compile Include="ChromiumWebBrowser.cs" />
-    <Compile Include="PaintEventArgs.cs" />
-    <Compile Include="Rendering\AbstractRenderHandler.cs" />
-    <Compile Include="Rendering\AllocHGlobalWritableBitmapRenderHandler.cs" />
-    <Compile Include="Rendering\Experimental\CompositionTargetRenderHandler.cs" />
-    <Compile Include="Rendering\DirectWritableBitmapRenderHandler.cs" />
-    <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
-    <Compile Include="Rendering\InteropBitmapRenderHandler.cs" />
-    <Compile Include="Rendering\WritableBitmapRenderHandler.cs" />
-    <Compile Include="VirtualKeyboardRequestedEventArgs.cs" />
-    <Compile Include="WM.cs" />
+    <PackageReference Include="GitLink" Version="3.1.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj">
-      <Project>{b760b002-d277-4525-9f63-67ed2065034a}</Project>
-      <Name>CefSharp.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.csproj">
-      <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>
-      <Name>CefSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\GitLink.3.1.0\build\GitLink.targets" Condition="Exists('..\packages\GitLink.3.1.0\build\GitLink.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

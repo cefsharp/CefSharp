@@ -27,9 +27,13 @@
     </releaseNotes>
   </metadata>
   <files>
-    <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.dll" target="lib\net452" />
-    <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.xml" target="lib\net452" />
-    <file src="..\CefSharp.OffScreen\bin\Release\CefSharp.OffScreen.pdb" target="lib\net452" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net452\CefSharp.OffScreen.dll" target="lib\net452" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net452\CefSharp.OffScreen.xml" target="lib\net452" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net452\CefSharp.OffScreen.pdb" target="lib\net452" />
+	
+	<file src="..\CefSharp.OffScreen\bin\Release\net462\CefSharp.OffScreen.dll" target="lib\net462" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net462\CefSharp.OffScreen.xml" target="lib\net462" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net462\CefSharp.OffScreen.pdb" target="lib\net462" />
 
     <file src="Readme.txt" target="" />
 

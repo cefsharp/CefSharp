@@ -27,9 +27,13 @@
     </releaseNotes>
   </metadata>
   <files>
-    <file src="..\CefSharp.Wpf\bin\Release\CefSharp.Wpf.dll" target="lib\net452" />
-    <file src="..\CefSharp.Wpf\bin\Release\CefSharp.Wpf.xml" target="lib\net452" />
-    <file src="..\CefSharp.Wpf\bin\Release\CefSharp.Wpf.pdb" target="lib\net452" />
+    <file src="..\CefSharp.Wpf\bin\Release\net452\CefSharp.Wpf.dll" target="lib\net452" />
+    <file src="..\CefSharp.Wpf\bin\Release\net452\CefSharp.Wpf.xml" target="lib\net452" />
+    <file src="..\CefSharp.Wpf\bin\Release\net452\CefSharp.Wpf.pdb" target="lib\net452" />
+	
+	<file src="..\CefSharp.Wpf\bin\Release\net462\CefSharp.Wpf.dll" target="lib\net462" />
+    <file src="..\CefSharp.Wpf\bin\Release\net462\CefSharp.Wpf.xml" target="lib\net462" />
+    <file src="..\CefSharp.Wpf\bin\Release\net462\CefSharp.Wpf.pdb" target="lib\net462" />
 
     <file src="Readme.txt" target="" />
 

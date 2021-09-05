@@ -27,9 +27,13 @@
     </releaseNotes>
   </metadata>
   <files>
-    <file src="..\CefSharp.WinForms\bin\Release\CefSharp.WinForms.dll" target="lib\net452" />
-    <file src="..\CefSharp.WinForms\bin\Release\CefSharp.WinForms.xml" target="lib\net452" />
-    <file src="..\CefSharp.WinForms\bin\Release\CefSharp.WinForms.pdb" target="lib\net452" />
+    <file src="..\CefSharp.WinForms\bin\Release\net452\CefSharp.WinForms.dll" target="lib\net452" />
+    <file src="..\CefSharp.WinForms\bin\Release\net452\CefSharp.WinForms.xml" target="lib\net452" />
+    <file src="..\CefSharp.WinForms\bin\Release\net452\CefSharp.WinForms.pdb" target="lib\net452" />
+	
+	<file src="..\CefSharp.WinForms\bin\Release\net462\CefSharp.WinForms.dll" target="lib\net462" />
+    <file src="..\CefSharp.WinForms\bin\Release\net462\CefSharp.WinForms.xml" target="lib\net462" />
+    <file src="..\CefSharp.WinForms\bin\Release\net462\CefSharp.WinForms.pdb" target="lib\net462" />
 
     <file src="Readme.txt" target="" />
 
