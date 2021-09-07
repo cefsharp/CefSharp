@@ -89,6 +89,7 @@ namespace CefSharp.WinForms.Example
             var browser = new BrowserTabUserControl(AddTab, url, multiThreadedMessageLoopEnabled)
             {
                 Dock = DockStyle.Fill,
+                Bounds = browserTabControl.Bounds
             };
 
             var tabPage = new TabPage(url)
