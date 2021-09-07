@@ -38,9 +38,10 @@
     <Reference Include="System.ServiceModel" />
     <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="GitLink" Version="3.1.0" />
+
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>  
   </ItemGroup>
 </Project>

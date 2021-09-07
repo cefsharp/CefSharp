@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net452;net462</TargetFrameworks>
     <OutputType>Library</OutputType>
@@ -25,8 +25,11 @@
 	
 	<ProjectReference Include="..\CefSharp\CefSharp.csproj" />
 	<ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
-	
-	<PackageReference Include="GitLink" Version="3.1.0" />
+
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   
   <ItemGroup>
