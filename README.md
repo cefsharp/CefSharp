@@ -29,7 +29,7 @@ Stable binaries are released on NuGet, and contain everything you need  to embed
 * See the [Wiki](https://github.com/cefsharp/CefSharp/wiki) for work-in-progress documentation
 * See the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions) for help with common issues
 * Upgrading from an earlier version of CefSharp? See the [ChangeLog](https://github.com/cefsharp/CefSharp/wiki/ChangeLog) for breaking changes and upgrade tips.
-* [CefSharp API](https://cefsharp.github.io/api/55.0.0/) generated from the source code comments.
+* [CefSharp API](https://cefsharp.github.io/api/) generated from the source code comments.
 
 ## Contact
 
