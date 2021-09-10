@@ -115,7 +115,7 @@ function TernaryReturn
 function Msvs 
 {
     param(
-        [ValidateSet('v140', 'v141', 'v142')]
+        [ValidateSet('v142')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -133,21 +133,12 @@ function Msvs
     $VisualStudioVersion = $null
     $VXXCommonTools = $null
 
-    switch -Exact ($Toolchain) {
-        'v140' {
-            if($env:VS140COMNTOOLS -eq $null) {
-                Die "Visual Studio 2015 is not installed on your development machine, unable to continue."
-            }
-
-            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
-            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
-            $VisualStudioVersion = '14.0'
-            $VXXCommonTools = Join-Path $env:VS140COMNTOOLS '..\..\vc'
-        }
-        {($_ -eq 'v141') -or ($_ -eq 'v142')} {
-            $VS_VER = 15;
-            $VS_OFFICIAL_VER = 2017;
-            if ($_ -eq 'v142'){$VS_VER=16;$VS_OFFICIAL_VER=2019;}
+    switch -Exact ($Toolchain)
+	{
+        'v142'
+		{
+            $VS_VER = 16;
+            $VS_OFFICIAL_VER = 2019;
             $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
 
             $vswherePath = Join-Path $programFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
@@ -246,7 +237,7 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v140', 'v141', 'v142')]
+        [ValidateSet('v142')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
