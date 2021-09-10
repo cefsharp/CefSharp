@@ -88,8 +88,8 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 | Branch                                                               | CEF Version  | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|-------|---------|-----------------|
 | [master](https://github.com/cefsharp/CefSharp/)                      | 4606 | 2019* | 4.5.2** | Development     |
-| [cefsharp/93](https://github.com/cefsharp/CefSharp/tree/cefsharp/93) | 4577 | 2019* | 4.5.2** | **Pre-Release** |
-| [cefsharp/92](https://github.com/cefsharp/CefSharp/tree/cefsharp/92) | 4515 | 2015* | 4.5.2** | **Release**     |
+| [cefsharp/93](https://github.com/cefsharp/CefSharp/tree/cefsharp/93) | 4577 | 2019* | 4.5.2** | **Release**     |
+| [cefsharp/92](https://github.com/cefsharp/CefSharp/tree/cefsharp/92) | 4515 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/91](https://github.com/cefsharp/CefSharp/tree/cefsharp/91) | 4472 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/90](https://github.com/cefsharp/CefSharp/tree/cefsharp/90) | 4430 | 2015* | 4.5.2** | Unsupported     |
 | [cefsharp/89](https://github.com/cefsharp/CefSharp/tree/cefsharp/89) | 4389 | 2015* | 4.5.2** | Unsupported     |
@@ -129,7 +129,7 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 To continue developing/supporting the project I (@amaitland) am asking for financial contributions. Donations of any size are greatly appreciated!
 
-Recurring contributions can be made through [GitHub Sponsors](https://github.com/sponsors/amaitland) it only takes a GitHub account and a credit card.  Currently GitHub is **doubling(!)** all pledges so is very much the preferred method of donation.  I can also take contributions through [PayPal](https://paypal.me/AlexMaitland).
+One-Time or Recurring contributions can be made through [GitHub Sponsors](https://github.com/sponsors/amaitland) it only takes a GitHub account and a credit card.  I can also take contributions through [PayPal](https://paypal.me/AlexMaitland).
 
 Now that I (@amaitland) am a stay at home dad your contributions are the only reason I'm allowed to continue working on the project. Without continued funding the time I currently spend on the project will have to be put into finding other paid work.
 
