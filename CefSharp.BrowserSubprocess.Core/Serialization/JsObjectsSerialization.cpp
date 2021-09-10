@@ -70,7 +70,9 @@ namespace CefSharp
             {
                 auto result = gcnew List<JavascriptObject^>();
                 auto subList = list->GetList(index);
-                for (size_t i = 0; i < subList->GetSize(); i++)
+                auto size = static_cast<int>(subList->GetSize());
+
+                for (int i = 0; i < size; i++)
                 {
                     result->Add(DeserializeJsObject(subList, i));
                 }

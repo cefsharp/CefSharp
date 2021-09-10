@@ -149,9 +149,9 @@ namespace CefSharp
                 if (type == VTYPE_LIST)
                 {
                     auto subList = list->GetList(index);
-                    size_t size = subList->GetSize();
+                    auto size = static_cast<int>(subList->GetSize());
                     auto result = CefV8Value::CreateArray(size);
-                    for (size_t i = 0; i < size; i++)
+                    for (int i = 0; i < size; i++)
                     {
                         result->SetValue(i, DeserializeV8Object(subList, i));
                     }

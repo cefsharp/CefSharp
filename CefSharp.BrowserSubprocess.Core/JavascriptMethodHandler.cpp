@@ -12,9 +12,10 @@ namespace CefSharp
     {
         bool JavascriptMethodHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
         {
-            auto parameter = gcnew array<Object^>(arguments.size());
+            auto size = static_cast<int>(arguments.size());
+            auto parameter = gcnew array<Object^>(size);
 
-            for (std::vector<CefRefPtr<CefV8Value>>::size_type i = 0; i != arguments.size(); i++)
+            for (int i = 0; i < size; i++)
             {
                 parameter[i] = TypeUtils::ConvertFromCef(arguments[i], _callbackRegistry);
             }

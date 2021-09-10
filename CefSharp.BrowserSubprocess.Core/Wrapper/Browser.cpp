@@ -189,7 +189,7 @@ IFrame^ Browser::GetFrame(String^ name)
 /*--cef()--*/
 int Browser::GetFrameCount()
 {
-    return _browser->GetFrameCount();
+    return static_cast<int>(_browser->GetFrameCount());
 }
 
 ///
@@ -200,7 +200,7 @@ List<Int64>^ Browser::GetFrameIdentifiers()
 {
     std::vector<Int64> identifiers;
     _browser->GetFrameIdentifiers(identifiers);
-    List<Int64>^ results = gcnew List<Int64>(identifiers.size());
+    List<Int64>^ results = gcnew List<Int64>(static_cast<int>(identifiers.size()));
     for (UINT i = 0; i < identifiers.size(); i++)
     {
         results->Add(identifiers[i]);

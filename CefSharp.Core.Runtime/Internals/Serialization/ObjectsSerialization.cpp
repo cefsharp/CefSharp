@@ -54,7 +54,7 @@ namespace CefSharp
                 else if (type == VTYPE_LIST)
                 {
                     auto subList = list->GetList(index);
-                    auto array = gcnew List<Object^>(subList->GetSize());
+                    auto array = gcnew List<Object^>(static_cast<int>(subList->GetSize()));
                     for (size_t i = 0; i < subList->GetSize(); i++)
                     {
                         array->Add(DeserializeObject(subList, i, javascriptCallbackFactory));
