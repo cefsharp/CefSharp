@@ -6,6 +6,7 @@
 
 using System;
 using System.IO;
+using System.Threading;
 
 namespace CefSharp.DevTools
 {
@@ -18,11 +19,19 @@ namespace CefSharp.DevTools
         private event EventHandler<T> handlers;
         private Func<string, Stream, T> convert;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="convert">Delegate used to convert from the Stream to event args</param>
         public EventProxy(Func<string, Stream, T> convert)
         {
             this.convert = convert;
         }
 
+        /// <summary>
+        /// Add the event handler
+        /// </summary>
+        /// <param name="handler">event handler to add</param>
         public void AddHandler(EventHandler<T> handler)
         {
             handlers += handler;
@@ -40,15 +49,28 @@ namespace CefSharp.DevTools
             return handlers == null;
         }
 
-        public void Raise(object sender, string eventName, Stream stream)
+        /// <inheritdoc/>
+        public void Raise(object sender, string eventName, Stream stream, SynchronizationContext syncContext)
         {
             stream.Position = 0;
 
             var args = convert(eventName, stream);
 
-            handlers?.Invoke(sender, args);
+            if (syncContext == null)
+            {
+                handlers?.Invoke(sender, args);
+            }
+            else
+            {
+                syncContext.Post(new SendOrPostCallback(state =>
+                {
+                    handlers?.Invoke(sender, args);
+
+                }), null);
+            }
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             handlers = null;

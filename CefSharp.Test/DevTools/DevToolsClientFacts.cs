@@ -263,7 +263,6 @@ namespace CefSharp.Test.DevTools
             {
                 await browser.CreateBrowserAsync();
 
-                RequestWillBeSentEventArgs requestWillBeSentEventArgs = null;
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
                     var extraHeaders = new Headers();
@@ -273,32 +272,35 @@ namespace CefSharp.Test.DevTools
 
                     await devToolsClient.Network.SetExtraHTTPHeadersAsync(extraHeaders);
 
-                    devToolsClient.Network.RequestWillBeSent += (sender, args) =>
-                    {
-                        if (requestWillBeSentEventArgs == null)
+                    var evtTask = Assert.RaisesAsync<RequestWillBeSentEventArgs>(
+                        x => devToolsClient.Network.RequestWillBeSent += x,
+                        x => devToolsClient.Network.RequestWillBeSent -= x,
+                        async () =>
                         {
-                            requestWillBeSentEventArgs = args;
-                        }
-                    };
+                            // enable events
+                            await devToolsClient.Network.EnableAsync();
 
-                    // enable events
-                    await devToolsClient.Network.EnableAsync();
+                            await browser.LoadUrlAsync("www.google.com");
+                        });
 
-                    await browser.LoadUrlAsync("www.google.com");
-                }
+                    var xUnitEvent = await evtTask;
+                    Assert.NotNull(xUnitEvent);
 
-                Assert.NotNull(requestWillBeSentEventArgs);
-                Assert.NotEmpty(requestWillBeSentEventArgs.RequestId);
-                Assert.NotEqual(0, requestWillBeSentEventArgs.Timestamp);
-                Assert.NotEqual(0, requestWillBeSentEventArgs.WallTime);
-                Assert.NotNull(requestWillBeSentEventArgs.Request);
-                Assert.True(requestWillBeSentEventArgs.Request.Headers.TryGetValues("TeSt", out var values));
-                Assert.Collection(values,
-                    v => Assert.Equal("0", v),
-                    v => Assert.Equal("1", v),
-                    v => Assert.Equal(" 2 ", v),
-                    v => Assert.Equal(" 2,5 ", v)
-                );
+                    var args = xUnitEvent.Arguments;
+
+                    Assert.NotNull(args);
+                    Assert.NotEmpty(args.RequestId);
+                    Assert.NotEqual(0, args.Timestamp);
+                    Assert.NotEqual(0, args.WallTime);
+                    Assert.NotNull(args.Request);
+                    Assert.True(args.Request.Headers.TryGetValues("TeSt", out var values));
+                    Assert.Collection(values,
+                        v => Assert.Equal("0", v),
+                        v => Assert.Equal("1", v),
+                        v => Assert.Equal(" 2 ", v),
+                        v => Assert.Equal(" 2,5 ", v)
+                    );
+                }                
             }
         }
 
@@ -388,16 +390,33 @@ namespace CefSharp.Test.DevTools
         }
 
         [Fact]
-        public async Task CanRemoveEventListenerBeforeAddingOne()
+        public void CanRemoveEventListenerBeforeAddingOne()
         {
-            using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false))
+            using (var devToolsClient = new DevToolsClient(null))
             {
-                await browser.CreateBrowserAsync();
+                devToolsClient.Network.RequestWillBeSent -= (sender, args) => { };
+            }
+        }
 
-                using (var devToolsClient = browser.GetDevToolsClient())
-                {
-                    devToolsClient.Network.RequestWillBeSent -= (sender, args) => { };
-                }
+        [Fact]
+        public void IsIEventProxyRemovedFromConcurrentDictionary()
+        {
+            const string eventName = "Browser.downloadProgress";
+            using (var devToolsClient = new DevToolsClient(null))
+            {
+                EventHandler<DownloadProgressEventArgs> eventHandler1 = (object sender, DownloadProgressEventArgs args) => { };
+                EventHandler<DownloadProgressEventArgs> eventHandler2 = (object sender, DownloadProgressEventArgs args) => { };
+
+                devToolsClient.AddEventHandler(eventName, eventHandler1);
+                devToolsClient.AddEventHandler(eventName, eventHandler2);
+
+                var hasHandlers = devToolsClient.RemoveEventHandler(eventName, eventHandler1);
+
+                Assert.True(hasHandlers);
+
+                hasHandlers = devToolsClient.RemoveEventHandler(eventName, eventHandler2);
+
+                Assert.False(hasHandlers);
             }
         }
     }

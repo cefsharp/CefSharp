@@ -30,6 +30,9 @@ namespace CefSharp.DevTools
         /// <inheritdoc/>
         public event EventHandler<DevToolsEventArgs> DevToolsEvent;
 
+        /// <inheritdoc/>
+        public event EventHandler<DevToolsErrorEventArgs> DevToolsEventError;
+
         /// <summary>
         /// Capture the current <see cref="SynchronizationContext"/> so
         /// continuation executes on the original calling thread. If
@@ -83,21 +86,24 @@ namespace CefSharp.DevTools
             var eventProxy = eventHandlers.GetOrAdd(eventName, _ => new EventProxy<T>(DeserializeJsonEvent<T>));
 
             var p = (EventProxy<T>)eventProxy;
+
             p.AddHandler(eventHandler);
         }
 
         /// <inheritdoc/>
-        public void RemoveEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs
+        public bool RemoveEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs
         {
             if (eventHandlers.TryGetValue(eventName, out IEventProxy eventProxy))
             {
                 var p = ((EventProxy<T>)eventProxy);
+
                 if(p.RemoveHandler(eventHandler))
                 {
-                    //TODO: Replace with out _ once we upgrade to VS2019
-                    eventHandlers.TryRemove(eventName, out IEventProxy e);
+                    return !eventHandlers.TryRemove(eventName, out _);
                 }
             }
+
+            return true;
         }
 
         /// <summary>
@@ -235,19 +241,46 @@ namespace CefSharp.DevTools
         /// <inheritdoc/>
         void IDevToolsMessageObserver.OnDevToolsEvent(IBrowser browser, string method, Stream parameters)
         {
-            var evt = DevToolsEvent;
-
-            //Only parse the data if we have an event handler
-            if (evt != null)
+            try
             {
-                var paramsAsJsonString = StreamToString(parameters, leaveOpen: true);
+                var evt = DevToolsEvent;
 
-                evt(this, new DevToolsEventArgs(method, paramsAsJsonString));
+                //Only parse the data if we have an event handler
+                if (evt != null)
+                {
+                    var paramsAsJsonString = StreamToString(parameters, leaveOpen: true);
+
+                    evt(this, new DevToolsEventArgs(method, paramsAsJsonString));
+                }
+
+                if (eventHandlers.TryGetValue(method, out IEventProxy eventProxy))
+                {
+                    eventProxy.Raise(this, method, parameters, SyncContext);
+                }
             }
-
-            if (eventHandlers.TryGetValue(method, out IEventProxy eventProxy))
+            catch(Exception ex)
             {
-                eventProxy.Raise(this, method, parameters);
+                var errorEvent = DevToolsEventError;
+
+                var json = "";
+
+                if(parameters.Length > 0)
+                {
+                    parameters.Position = 0;
+
+                    try
+                    {
+                        json = StreamToString(parameters, leaveOpen: false);
+                    }
+                    catch(Exception)
+                    {
+                        //TODO: do we somehow pass this exception to the user?
+                    }
+                }
+
+                var args = new DevToolsErrorEventArgs(method, json, ex);
+
+                errorEvent?.Invoke(this, args);
             }
         }
 
