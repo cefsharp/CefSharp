@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Generic;
+
 namespace CefSharp.Handler
 {
     /// <summary>
@@ -10,10 +12,16 @@ namespace CefSharp.Handler
     /// </summary>
     public class FrameHandler : IFrameHandler
     {
+        private Dictionary<long, IFrame> frames = new Dictionary<long, IFrame>();
+
         /// <inheritdoc/>
         void IFrameHandler.OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
-            OnFrameAttached(chromiumWebBrowser, browser, frame);
+            //If we have a reference to the frame then we'll reuse that for memory management purposes
+            //The frame param massed on here is stack allocated so will be disposed when out of scope.
+            var storedFrame = GetFrameById(frame.Identifier);
+
+            OnFrameAttached(chromiumWebBrowser, browser, storedFrame ?? frame);
         }
 
         /// <summary>
@@ -25,12 +33,14 @@ namespace CefSharp.Handler
         /// <param name="frame">the frame object</param>
         protected virtual void OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
-
+            
         }
 
         /// <inheritdoc/>
         void IFrameHandler.OnFrameCreated(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
+            frames.Add(frame.Identifier, frame);
+
             OnFrameCreated(chromiumWebBrowser, browser, frame);
         }
 
@@ -45,12 +55,14 @@ namespace CefSharp.Handler
         /// <param name="frame">the frame object</param>
         protected virtual void OnFrameCreated(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
-
+            
         }
 
         /// <inheritdoc/>
         void IFrameHandler.OnFrameDetached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
+            frames.Remove(frame.Identifier);
+
             OnFrameDetached(chromiumWebBrowser, browser, frame);
         }
 
@@ -66,13 +78,17 @@ namespace CefSharp.Handler
         /// <param name="frame">the frame object</param>
         protected virtual void OnFrameDetached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
-
+            
         }
 
         /// <inheritdoc/>
         void IFrameHandler.OnMainFrameChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame oldFrame, IFrame newFrame)
         {
-            OnMainFrameChanged(chromiumWebBrowser, browser, oldFrame, newFrame);
+            //If we have a reference to the frame then we'll reuse that for memory management purposes
+            //The frame param massed on here is stack allocated so will be disposed when out of scope.
+            var storedFrame = newFrame == null ? null : GetFrameById(newFrame.Identifier);
+
+            OnMainFrameChanged(chromiumWebBrowser, browser, oldFrame, storedFrame ?? newFrame);
         }
 
         /// <summary>
@@ -100,6 +116,16 @@ namespace CefSharp.Handler
         protected virtual void OnMainFrameChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame oldFrame, IFrame newFrame)
         {
 
+        }
+
+        private IFrame GetFrameById(long frameId)
+        {
+            if(frames.TryGetValue(frameId, out var frame))
+            {
+                return frame;
+            }
+
+            return null;
         }
     }
 }
