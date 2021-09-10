@@ -6,6 +6,7 @@
 
 using System;
 using System.IO;
+using System.Threading;
 
 namespace CefSharp.DevTools
 {
@@ -19,7 +20,8 @@ namespace CefSharp.DevTools
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="eventName">event name</param>
-        /// <param name="stream">json Stream</param>
-        void Raise(object sender, string eventName, Stream stream);
+        /// <param name="stream">Stream containing JSON</param>
+        /// <param name="syncContext">SynchronizationContext</param>
+        void Raise(object sender, string eventName, Stream stream, SynchronizationContext syncContext);
     }
 }

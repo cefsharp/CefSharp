@@ -21,6 +21,11 @@ namespace CefSharp.DevTools
         event EventHandler<DevToolsEventArgs> DevToolsEvent;
 
         /// <summary>
+        /// Will be called when an error occurs when attempting to raise <see cref="DevToolsEvent"/>
+        /// </summary>
+        event EventHandler<DevToolsErrorEventArgs> DevToolsEventError;
+
+        /// <summary>
         /// Add event handler for a DevTools protocol event. Events by default are disabled and need to be
         /// enabled on a per domain basis, e.g. Sending Network.enable (or calling <see cref="Network.NetworkClient.EnableAsync(int?, int?, int?)"/>)
         /// to enable network related events.
@@ -36,7 +41,11 @@ namespace CefSharp.DevTools
         /// <typeparam name="T">The event args type to which the event will be deserialized to.</typeparam>
         /// <param name="eventName">is the event name to listen to</param>
         /// <param name="eventHandler">event handler to call when the event occurs</param>
-        void RemoveEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs;
+        /// <returns>
+        /// Returns false if all handlers for the <paramref name="eventName"/> have been removed,
+        /// otherwise returns true if there are still handlers registered.
+        /// </returns>
+        bool RemoveEventHandler<T>(string eventName, EventHandler<T> eventHandler) where T : EventArgs;
 
         /// <summary>
         /// Execute a method call over the DevTools protocol. This method can be called on any thread.
