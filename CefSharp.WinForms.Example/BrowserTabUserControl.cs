@@ -42,6 +42,7 @@ namespace CefSharp.WinForms.Example
             browser.JsDialogHandler = new JsDialogHandler();
             browser.DownloadHandler = new DownloadHandler();
             browser.AudioHandler = new CefSharp.Handler.AudioHandler();
+            browser.FrameHandler = new CefSharp.Handler.FrameHandler();
 
             if (multiThreadedMessageLoopEnabled)
             {

@@ -311,7 +311,6 @@ String^ CefFrameWrapper::Name::get()
 Int64 CefFrameWrapper::Identifier::get()
 {
     ThrowIfDisposed();
-    ThrowIfFrameInvalid();
 
     return _frame->GetIdentifier();
 }
