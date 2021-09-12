@@ -1,4 +1,4 @@
-version: 94.0.30-CI{build}
+version: 94.0.50-CI{build}
 
 clone_depth: 10
 
