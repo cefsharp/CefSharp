@@ -135,6 +135,7 @@
     <Compile Include="Internals\Tasks\SyncContextTaskCompletionSource.cs" />
     <Compile Include="IRegistration.cs" />
     <Compile Include="LoadUrlAsyncResponse.cs" />
+    <Compile Include="UrlParts.cs" />
     <Compile Include="UrlRequestClient.cs" />
     <Compile Include="JavascriptBinding\JavascriptBindingSettings.cs" />
     <Compile Include="Internals\NoOpBrowserRefCounter.cs" />

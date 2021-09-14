@@ -150,6 +150,51 @@ namespace CefSharp
             }
 
             /// <summary>
+            /// Parse the specified url into its component parts.
+            /// Uses a GURL to parse the Url. GURL is Google's URL parsing library.
+            /// </summary>
+            /// <param name="url">url</param>
+            /// <returns>Returns null if the URL is empty or invalid.</returns>
+            static UrlParts^ ParseUrl(String^ url)
+            {
+                if (String::IsNullOrEmpty(url))
+                {
+                    return nullptr;
+                }
+
+                CefURLParts parts;
+
+                if (CefParseURL(StringUtils::ToNative(url), parts))
+                {
+                    auto url = gcnew UrlParts();
+                    url->Fragment = StringUtils::ToClr(parts.fragment);
+                    url->Host = StringUtils::ToClr(parts.host);
+                    url->Origin = StringUtils::ToClr(parts.origin);
+                    url->Password = StringUtils::ToClr(parts.password);
+                    url->Path = StringUtils::ToClr(parts.path);
+                    url->Query = StringUtils::ToClr(parts.query);
+                    url->Scheme = StringUtils::ToClr(parts.scheme);
+                    url->Spec = StringUtils::ToClr(parts.spec);
+                    url->Username = StringUtils::ToClr(parts.username);
+
+                    auto portString = StringUtils::ToClr(parts.port);
+                    if (!String::IsNullOrEmpty(portString))
+                    {
+                        int port = 0;
+
+                        if (int::TryParse(portString, port))
+                        {
+                            url->Port = port;
+                        }
+                    }
+
+                    return url;
+                }
+
+                return nullptr;
+            }
+
+            /// <summary>
             /// Initializes CefSharp with user-provided settings.
             /// It's important to note that Initialize and Shutdown <strong>MUST</strong> be called on your main
             /// application thread (typically the UI thread). If you call them on different

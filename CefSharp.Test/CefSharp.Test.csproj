@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingRedirectAssemblyResolver.cs" />
+    <Compile Include="Framework\ParseUrlFacts.cs" />
     <Compile Include="DevTools\DevToolsClientFacts.cs" />
     <Compile Include="DevTools\HeadersFacts.cs" />
     <Compile Include="Framework\BinderFacts.cs" />

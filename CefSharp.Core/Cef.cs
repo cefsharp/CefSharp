@@ -85,6 +85,17 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Parse the specified url into its component parts.
+        /// Uses a GURL to parse the Url. GURL is Google's URL parsing library.
+        /// </summary>
+        /// <param name="url">url</param>
+        /// <returns>Returns null if the URL is empty or invalid.</returns>
+        public static UrlParts ParseUrl(string url)
+        {
+            return Core.Cef.ParseUrl(url);
+        }
+
+        /// <summary>
         /// Initializes CefSharp with user-provided settings.
         /// It's important to note that Initialize and Shutdown <strong>MUST</strong> be called on your main
         /// application thread (typically the UI thread). If you call them on different
