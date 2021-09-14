@@ -63,11 +63,12 @@ namespace CefSharp
                     auto array = CefListValue::Create();
                     if (arrLength > 0 && obj->GetKeys(keys))
                     {
+                        int index = 0;
                         for (int i = 0; i < arrLength; i++)
                         {
-                            SerializeV8Object(obj->GetValue(keys[i]), array, i, callbackRegistry, seen);
+                            if (obj->HasValue(i))
+                                SerializeV8Object(obj->GetValue(keys[index++]), array, i, callbackRegistry, seen);
                         }
-
                     }
 
                     list->SetList(index, array);
