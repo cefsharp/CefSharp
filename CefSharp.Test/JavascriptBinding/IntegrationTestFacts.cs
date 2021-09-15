@@ -230,5 +230,28 @@ namespace CefSharp.Test.JavascriptBinding
                 Assert.Equal(JavascriptObjectRepository.AllObjects, evt.Arguments.ObjectName);
             }
         }
+
+        [Fact]
+        public async Task CanSerializePartiallyEmptyArrays()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl))
+            {
+                var testCases = new[]
+                {
+                    ("[1,2,,5]", new object[] { 1, 2, null, 5 }),
+                    ("[1,2,,]", new object[] { 1, 2, null }),
+                    ("[,2,3]", new object[] { null, 2, 3 }),
+                    ("[,2,,3,,4,,,,5,,,]", new object[] {null, 2, null, 3, null, 4, null, null, null, 5, null, null })
+                };
+                await browser.LoadUrlAsync();
+                foreach (var testCase in testCases)
+                {
+                    var result = await browser.EvaluateScriptAsync(testCase.Item1);
+
+                    Assert.True(result.Success);
+                    Assert.Equal(testCase.Item2, result.Result);
+                }
+            }
+        }
     }
 }

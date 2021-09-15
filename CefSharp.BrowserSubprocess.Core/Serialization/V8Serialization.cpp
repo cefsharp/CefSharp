@@ -59,15 +59,12 @@ namespace CefSharp
                 else if (obj->IsArray())
                 {
                     int arrLength = obj->GetArrayLength();
-                    std::vector<CefString> keys;
                     auto array = CefListValue::Create();
-                    if (arrLength > 0 && obj->GetKeys(keys))
+                    if (arrLength > 0)
                     {
-                        int index = 0;
                         for (int i = 0; i < arrLength; i++)
                         {
-                            if (obj->HasValue(i))
-                                SerializeV8Object(obj->GetValue(keys[index++]), array, i, callbackRegistry, seen);
+                            SerializeV8Object(obj->GetValue(i), array, i, callbackRegistry, seen);
                         }
                     }
 
