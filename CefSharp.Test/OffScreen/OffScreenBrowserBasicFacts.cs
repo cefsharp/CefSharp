@@ -155,6 +155,24 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Theory]
+        [InlineData("[1,2,,5]", new object[] { 1, 2, null, 5 })]
+        [InlineData("[1,2,,]", new object[] { 1, 2, null })]
+        [InlineData("[,2,3]", new object[] { null, 2, 3 })]
+        [InlineData("[,2,,3,,4,,,,5,,,]", new object[] { null, 2, null, 3, null, 4, null, null, null, 5, null, null })]
+        public async Task CanEvaluateScriptAsyncReturnPartiallyEmptyArrays(string javascript, object[] expected)
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl))
+            {
+                await browser.LoadUrlAsync();
+
+                var result = await browser.EvaluateScriptAsync(javascript);
+
+                Assert.True(result.Success);
+                Assert.Equal(expected, result.Result);
+            }
+        }
+
         [Fact]
         public async Task CrossSiteNavigationJavascriptBinding()
         {
