@@ -667,10 +667,11 @@ namespace CefSharp.Wpf.HwndHost
                     sourceWindow = window;
 
                     // If CleanupElement is null, set the CleanupElement to the new window that the browser is moved in.
-                    if (CleanupElement == null)
-                    {
-                        CleanupElement = window;
-                    }
+                    //TODO: Test and uncomment this
+                    //if (CleanupElement == null)
+                    //{
+                    //    CleanupElement = window;
+                    //}
                 }
             }
             else if (args.OldSource != null)
@@ -684,10 +685,11 @@ namespace CefSharp.Wpf.HwndHost
                     sourceWindow = null;
 
                     // If CleanupElement is the old Window that the browser is moved out of, set CleanupElement to null.
-                    if (CleanupElement == window)
-                    {
-                        CleanupElement = null;
-                    }
+                    //TODO: Test and uncomment this
+                    //if (CleanupElement == window)
+                    //{
+                    //    CleanupElement = null;
+                    //}
                 }
             }
         }
@@ -1351,11 +1353,9 @@ namespace CefSharp.Wpf.HwndHost
             DependencyProperty.Register(nameof(ZoomLevelIncrement), typeof(double), typeof(ChromiumWebBrowser), new PropertyMetadata(0.10));
 
         /// <summary>
-        /// The CleanupElement Controls when the BrowserResources will be cleaned up.
-        /// The ChromiumWebBrowser will register on Unloaded of the provided Element and dispose all resources when that handler is called.
-        /// By default the cleanup element is the Window that contains the ChromiumWebBrowser.
-        /// if you want cleanup to happen earlier provide another FrameworkElement.
-        /// Be aware that this Control is not usable anymore after cleanup is done.
+        /// The CleanupElement controls when the Browser will be Disposed.
+        /// The <see cref="ChromiumWebBrowser"/> will be Disposed when <see cref="FrameworkElement.Unloaded"/> is called.
+        /// Be aware that this Control is not usable anymore after it has been disposed.
         /// </summary>
         /// <value>The cleanup element.</value>
         public FrameworkElement CleanupElement
