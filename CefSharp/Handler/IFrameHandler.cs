@@ -17,7 +17,8 @@ namespace CefSharp
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="frame">the frame object</param>
-        void OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame);
+        /// <param name="reattached">will be true if the frame was re-attached after exiting the BackForwardCache.</param>
+        void OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, bool reattached);
 
         /// <summary>
         /// Called when a new frame is created. This will be the first notification

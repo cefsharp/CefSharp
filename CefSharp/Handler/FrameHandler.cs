@@ -15,13 +15,13 @@ namespace CefSharp.Handler
         private Dictionary<long, IFrame> frames = new Dictionary<long, IFrame>();
 
         /// <inheritdoc/>
-        void IFrameHandler.OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
+        void IFrameHandler.OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, bool reattached)
         {
             //If we have a reference to the frame then we'll reuse that for memory management purposes
             //The frame param massed on here is stack allocated so will be disposed when out of scope.
             var storedFrame = GetFrameById(frame.Identifier);
 
-            OnFrameAttached(chromiumWebBrowser, browser, storedFrame ?? frame);
+            OnFrameAttached(chromiumWebBrowser, browser, storedFrame ?? frame, reattached);
         }
 
         /// <summary>
@@ -31,7 +31,8 @@ namespace CefSharp.Handler
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="frame">the frame object</param>
-        protected virtual void OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
+        /// <param name="reattached">will be true if the frame was re-attached after exiting the BackForwardCache.</param>
+        protected virtual void OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, bool reattached)
         {
             
         }

@@ -1132,7 +1132,7 @@ namespace CefSharp
             }
         }
 
-        void ClientAdapter::OnFrameAttached(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+        void ClientAdapter::OnFrameAttached(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool reattached)
         {
             auto handler = _browserControl->FrameHandler;
 
@@ -1141,7 +1141,7 @@ namespace CefSharp
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                 CefFrameWrapper frameWrapper(frame);
 
-                handler->OnFrameAttached(_browserControl, browserWrapper, % frameWrapper);
+                handler->OnFrameAttached(_browserControl, browserWrapper, % frameWrapper, reattached);
             }
         }
 
