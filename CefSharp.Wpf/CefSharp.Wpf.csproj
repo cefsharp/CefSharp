@@ -12,11 +12,15 @@
   
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DefineConstants>TRACE;WPF</DefineConstants>
     <DocumentationFile>bin\Release\CefSharp.Wpf.XML</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   
   <ItemGroup>

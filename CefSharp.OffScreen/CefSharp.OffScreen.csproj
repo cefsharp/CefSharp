@@ -10,10 +10,14 @@
   
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>DEBUG;TRACE;OFFSCREEN</DefineConstants>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DefineConstants>TRACE;OFFSCREEN</DefineConstants>
     <DocumentationFile>bin\Release\CefSharp.OffScreen.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   
   <ItemGroup>

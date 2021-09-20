@@ -12,12 +12,15 @@
   
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>TRACE;DEBUG;WINFORMS</DefineConstants>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;WINFORMS</DefineConstants>
     <DocumentationFile>bin\Release\CefSharp.WinForms.XML</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   
   <ItemGroup>
