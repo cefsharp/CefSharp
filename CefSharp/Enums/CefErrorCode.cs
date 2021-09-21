@@ -1464,5 +1464,12 @@ namespace CefSharp
         /// Failed to resolve the hostname of a DNS-over-HTTPS server.
         /// </summary>
         DnsSecureResolverHostnameResolutionFailed = -808,
+
+        /// <summary>
+        /// DNS identified the request as disallowed for insecure connection (http/ws).
+        /// Error should be handled as if an HTTP redirect was received to redirect to
+        /// https or wss.
+        /// </summary>
+        DnsNameHttpsOnly = 809,
     };
 }
