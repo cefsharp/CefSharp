@@ -40,10 +40,12 @@ namespace CefSharp.BrowserSubprocess
             {
                 AppDomain.CurrentDomain.AssemblyResolve -= AssemblyResolve;
 
-                //Load from parent directory for AnyCPU Clickonce
-                if (File.Exists("..\\CefSharp.dll"))
+                var path = Path.GetFullPath("..\\CefSharp.dll");
+
+                //Load CefSharp.dll from parent directory for AnyCPU Clickonce
+                if (File.Exists(path))
                 {
-                    return System.Reflection.Assembly.LoadFile("..\\CefSharp.dll");
+                    return System.Reflection.Assembly.LoadFile(path);
                 }
             }
 
