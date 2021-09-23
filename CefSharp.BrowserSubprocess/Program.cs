@@ -2,10 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
 using CefSharp.RenderProcess;
 
 namespace CefSharp.BrowserSubprocess
@@ -23,38 +20,6 @@ namespace CefSharp.BrowserSubprocess
         {
             Debug.WriteLine("BrowserSubprocess starting up with command line: " + string.Join("\n", args));
 
-            if(!File.Exists("CefSharp.dll"))
-            {
-                //For publshing ClickOnce AnyCPU CefSharp.dll isn't included in the x64 build
-                //and the  BrowserSubprocess fails to launch as a result.
-                //As a temp workaround load the file from the parent directory.
-                AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolve;
-            }
-
-            return MainInternal(args);
-        }
-
-        private static System.Reflection.Assembly AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            if (args.Name.StartsWith("CefSharp.dll"))
-            {
-                AppDomain.CurrentDomain.AssemblyResolve -= AssemblyResolve;
-
-                var path = Path.GetFullPath("..\\CefSharp.dll");
-
-                //Load CefSharp.dll from parent directory for AnyCPU Clickonce
-                if (File.Exists(path))
-                {
-                    return System.Reflection.Assembly.LoadFile(path);
-                }
-            }
-
-            return null;
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static int MainInternal(string[] args)
-        {
             SubProcess.EnableHighDPISupport();
 
             //Add your own custom implementation of IRenderProcessHandler here
