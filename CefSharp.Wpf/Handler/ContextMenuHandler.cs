@@ -129,7 +129,7 @@ namespace CefSharp.Wpf.Handler
                             //see https://github.com/cefsharp/CefSharp/issues/1767
                             //The following line worked in previous versions, it doesn't now, so custom handling below
                             //callback.Continue(item.Item2, CefEventFlags.None);
-                            ExecuteCommand(browser, item.CommandId, dictionarySuggestions, xCoord, yCoord, selectionText, misspelledWord);
+                            ExecuteCommand(browser, new ContextMenuExecuteModel(item.CommandId, dictionarySuggestions, xCoord, yCoord, selectionText, misspelledWord));
                         }),
                     };
 
@@ -162,7 +162,7 @@ namespace CefSharp.Wpf.Handler
                                     //see https://github.com/cefsharp/CefSharp/issues/1767
                                     //The following line worked in previous versions, it doesn't now, so custom handling below
                                     //callback.Continue(item.Item2, CefEventFlags.None);
-                                    ExecuteCommand(browser, subItem.CommandId, dictionarySuggestions, xCoord, yCoord, selectionText, misspelledWord);
+                                    ExecuteCommand(browser, new ContextMenuExecuteModel(subItem.CommandId, dictionarySuggestions, xCoord, yCoord, selectionText, misspelledWord));
                                 }),
                             };
 
@@ -177,24 +177,24 @@ namespace CefSharp.Wpf.Handler
 
             return true;
         }
-        protected virtual void ExecuteCommand(IBrowser browser, CefMenuCommand menuCommand, IList<string> dictionarySuggestions, int xCoord, int yCoord, string selectionText, string misspelledWord)
+
+        protected virtual void ExecuteCommand(IBrowser browser, ContextMenuExecuteModel model)
         {
             // If the user chose a replacement word for a misspelling, replace it here.
-            if (menuCommand >= CefMenuCommand.SpellCheckSuggestion0 &&
-                menuCommand <= CefMenuCommand.SpellCheckSuggestion4)
+            if (model.MenuCommand >= CefMenuCommand.SpellCheckSuggestion0 &&
+                model.MenuCommand <= CefMenuCommand.SpellCheckSuggestion4)
             {
-                int sugestionIndex = ((int)menuCommand) - (int)CefMenuCommand.SpellCheckSuggestion0;
-                if (sugestionIndex < dictionarySuggestions.Count)
+                int sugestionIndex = ((int)model.MenuCommand) - (int)CefMenuCommand.SpellCheckSuggestion0;
+                if (sugestionIndex < model.DictionarySuggestions.Count)
                 {
-                    var suggestion = dictionarySuggestions[sugestionIndex];
+                    var suggestion = model.DictionarySuggestions[sugestionIndex];
                     browser.ReplaceMisspelling(suggestion);
                 }
 
                 return;
             }
 
-            //NOTE: Note all menu item options below have been tested, you can work out the rest
-            switch (menuCommand)
+            switch (model.MenuCommand)
             {
                 // Navigation.
                 case CefMenuCommand.Back:
@@ -273,20 +273,20 @@ namespace CefSharp.Wpf.Handler
                 }
                 case CefMenuCommand.Find:
                 {
-                    browser.GetHost().Find(0, selectionText, true, false, false);
+                    browser.GetHost().Find(0, model.SelectionText, true, false, false);
                     break;
                 }
 
                 // Spell checking.
                 case CefMenuCommand.AddToDictionary:
                 {
-                    browser.GetHost().AddWordToDictionary(misspelledWord);
+                    browser.GetHost().AddWordToDictionary(model.MisspelledWord);
                     break;
                 }
 
                 case (CefMenuCommand)26501:
                 {
-                    browser.GetHost().ShowDevTools(inspectElementAtX: xCoord, inspectElementAtY: yCoord);
+                    browser.GetHost().ShowDevTools(inspectElementAtX: model.XCoord, inspectElementAtY: model.YCoord);
                     break;
                 }
                 case (CefMenuCommand)26502:

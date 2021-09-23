@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using CefSharp.Wpf.Handler;
 
 namespace CefSharp.Wpf.Example.Handlers
 {
@@ -46,16 +47,16 @@ namespace CefSharp.Wpf.Example.Handlers
             return false;
         }
 
-        protected override void ExecuteCommand(IBrowser browser, CefMenuCommand menuCommand, IList<string> dictionarySuggestions, int xCoord, int yCoord, string selectionText, string misspelledWord)
+        protected override void ExecuteCommand(IBrowser browser, ContextMenuExecuteModel model)
         {
             //Custom item
-            if (menuCommand == (CefMenuCommand)26503)
+            if (model.MenuCommand == (CefMenuCommand)26503)
             {
                 Console.WriteLine("Custom menu used");
             }
             else
             {
-                base.ExecuteCommand(browser, menuCommand, dictionarySuggestions, xCoord, yCoord, selectionText, misspelledWord);
+                base.ExecuteCommand(browser, model);
             }
         }
     }
