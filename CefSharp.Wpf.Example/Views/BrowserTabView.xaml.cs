@@ -115,7 +115,7 @@ namespace CefSharp.Wpf.Example.Views
             //This LifeSpanHandler implementaion demos hosting a popup in a ChromiumWebBrowser
             //instance, it's still considered Experimental
             //browser.LifeSpanHandler = new ExperimentalLifespanHandler();
-            browser.MenuHandler = new MenuHandler();
+            browser.MenuHandler = new MenuHandler(addDevtoolsMenuItems:true);
 
             //Enable experimental Accessibility support 
             browser.AccessibilityHandler = new AccessibilityHandler(browser);
