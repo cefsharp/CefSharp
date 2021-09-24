@@ -80,6 +80,14 @@ namespace CefSharp
         /// <summary>
         /// A resource that a plugin requested.
         /// </summary>
-        PluginResource
+        PluginResource,
+        /// <summary>
+        /// A main-frame service worker navigation preload request.
+        /// </summary>
+        NavigationPreLoadMainFrame = 19,
+        /// <summary>
+        /// A sub-frame service worker navigation preload request.
+        /// </summary>
+        NavigationPreLoadSubFrame
     }
 }
