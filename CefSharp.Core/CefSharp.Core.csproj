@@ -42,5 +42,10 @@
     <Compile Remove="UrlRequest.netcore.cs" />
     <Compile Remove="WindowInfo.netcore.cs" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Remove="bin.netcore\**" />
+    <Compile Remove="obj.netcore\**" />
+    <None Remove="bin.netcore\**" />
+    <None Remove="obj.netcore\**" />
+  </ItemGroup>
 </Project>

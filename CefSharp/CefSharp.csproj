@@ -29,4 +29,10 @@
     <Compile Remove="Internals\Json\JsonEnumConverterFactory.cs" />
     <Compile Remove="Internals\Partial\ChromiumWebBrowser.Partial.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="bin.netcore\**" />
+    <Compile Remove="obj.netcore\**" />
+    <None Remove="bin.netcore\**" />
+    <None Remove="obj.netcore\**" />
+  </ItemGroup>
 </Project>
