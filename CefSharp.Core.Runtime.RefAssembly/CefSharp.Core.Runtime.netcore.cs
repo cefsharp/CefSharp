@@ -85,6 +85,7 @@ namespace CefSharp.Core
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings, bool performDependencyCheck) { throw null; }
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings, bool performDependencyCheck, CefSharp.IApp cefApp) { throw null; }
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings, bool performDependencyCheck, CefSharp.IBrowserProcessHandler browserProcessHandler) { throw null; }
+        public static CefSharp.UrlParts ParseUrl(string url) { throw null; }
         public static void PreShutdown() { }
         public static void QuitMessageLoop() { }
         public static void RefreshWebPlugins() { }
