@@ -5,7 +5,12 @@
 #pragma once
 
 #include "Stdafx.h"
+#include <msclr\marshal_cppstd.h>
+#include <stdlib.h>
+#include <string.h>
 #include "include/cef_string_visitor.h"
+
+using namespace msclr::interop;
 
 namespace CefSharp
 {
@@ -30,7 +35,15 @@ namespace CefSharp
 
             virtual void Visit(const CefString& string) override
             {
-                _visitor->Visit(string.empty() ? String::Empty : StringUtils::ToClr(string));
+                // New Mojo IPC implementation uses shared memory rather than a string copy
+                // Attempt to workaround the access violation that's been reported in a few isolated cases
+                // by copying the string rather than using directly.
+                // https://github.com/chromiumembedded/cef/commit/ebee84755ed14e71388b343231d3a419f1c5c1fd
+                std::wstring str = string.ToWString();
+
+                auto clrString = marshal_as<String^>(str);
+
+                _visitor->Visit(clrString);
             }
 
             IMPLEMENT_REFCOUNTINGM(CefStringVisitorAdapter);
