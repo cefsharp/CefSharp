@@ -10,3 +10,5 @@ Designed as a drop in replacement for [CefSharp.Wpf.ChromiumWebBrowser](http://n
 The control uses a [HwndHost](https://docs.microsoft.com/en-us/dotnet/api/system.windows.interop.hwndhost?view=netframework-4.6.2) to host the native `CefBrowser` instance.
 
 As with any HwndHost based control standard `AirSpace` issues apply.
+- https://docs.microsoft.com/en-us/dotnet/desktop/wpf/advanced/wpf-and-win32-interoperation
+- https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/technology-regions-overview
