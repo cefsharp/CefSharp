@@ -1,4 +1,8 @@
+[![CefSharp Logo](https://github.com/cefsharp/CefSharp/raw/master/logo.png)](https://cefsharp.github.io/ "CefSharp - Embedded Chromium for .NET")
+
 # CefSharp.Wpf.HwndHost
+
+[![CefSharp.Wpf](https://img.shields.io/nuget/v/CefSharp.Wpf.HwndHost.svg?style=flat&label=CefSharp.Wpf.HwndHost)](https://www.nuget.org/packages/CefSharp.Wpf.HwndHost/)
 
 Designed as a drop in replacement for [CefSharp.Wpf.ChromiumWebBrowser](http://nuget.org/packages/CefSharp.Wpf/) for those who want the native Win32 based implementation (For IME support and better performance).
 
