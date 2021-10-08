@@ -321,6 +321,12 @@ namespace CefSharp.WinForms
         }
 
         /// <inheritdoc/>
+        public void LoadUrl(string url)
+        {
+            Load(url);
+        }
+
+        /// <inheritdoc/>
         public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null)
         {
             //LoadUrlAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code

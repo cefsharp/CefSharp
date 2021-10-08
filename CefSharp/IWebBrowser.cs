@@ -81,10 +81,23 @@ namespace CefSharp
         event EventHandler<JavascriptMessageReceivedEventArgs> JavascriptMessageReceived;
 
         /// <summary>
-        /// Loads the specified <paramref name="url"/> in the Main Frame
+        /// Loads the specified <paramref name="url"/> in the Main Frame.
+        /// Same as calling <see cref="LoadUrl(string)"/>
         /// </summary>
         /// <param name="url">The URL to be loaded.</param>
         void Load(string url);
+
+        /// <summary>
+        /// Loads the specified <paramref name="url"/> in the Main Frame.
+        /// Same as calling <see cref="Load(string)"/>
+        /// </summary>
+        /// <param name="url">The URL to be loaded.</param>
+        /// <remarks>
+        /// This is exactly the same as calling Load(string), it was added
+        /// as the method name is more meaningful and easier to discover
+        /// via Intellisense.
+        /// </remarks>
+        void LoadUrl(string url);
 
         /// <summary>
         /// Load the <paramref name="url"/> in the main frame of the browser

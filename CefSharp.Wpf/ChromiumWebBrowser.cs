@@ -2414,10 +2414,7 @@ namespace CefSharp.Wpf
 
         }
 
-        /// <summary>
-        /// Loads the specified URL.
-        /// </summary>
-        /// <param name="url">The URL to be loaded.</param>
+        /// <inheritdoc/>
         public void Load(string url)
         {
             if (!InternalIsBrowserInitialized())

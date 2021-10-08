@@ -446,10 +446,7 @@ namespace CefSharp.WinForms
             Cef.RemoveDisposable(this);
         }
 
-        /// <summary>
-        /// Loads the specified URL.
-        /// </summary>
-        /// <param name="url">The URL to be loaded.</param>
+        /// <inheritdoc/>
         public void Load(string url)
         {
             if (IsBrowserInitialized)
