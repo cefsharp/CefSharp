@@ -60,6 +60,29 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Gets the cookie manager associated with the <see cref="IRequestContext"/>. Once the cookie manager
+        /// storage has been initialized the method will return.
+        /// </summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        /// <param name="requestContext">The <see cref="IRequestContext"/> instance this method extends.</param>
+        /// <returns>returns <see cref="ICookieManager"/> if the store was successfully loaded otherwise null. </returns>
+        public static async Task<ICookieManager> GetCookieManagerAsync(this IRequestContext requestContext)
+        {
+            if (requestContext == null)
+            {
+                throw new Exception("RequestContext is null, unable to obtain cookie manager");
+            }
+
+            var callback = new TaskCompletionCallback();
+
+            var cookieManager = requestContext.GetCookieManager(callback);
+
+            var success = await callback.Task;
+
+            return success ? cookieManager : null;
+        }
+
+        /// <summary>
         /// Set the value associated with preference name. If value is null the
         /// preference will be restored to its default value. If setting the preference
         /// fails then error will be populated with a detailed description of the

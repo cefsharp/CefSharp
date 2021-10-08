@@ -4,12 +4,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace CefSharp.Test.Framework
 {
+    //NOTE: All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle
+    [Collection(CefSharpFixtureCollection.Key)]
     public class RequestContextExtensionFacts
     {
         private const string ProxyPreferenceKey = "proxy";
@@ -69,6 +72,21 @@ namespace CefSharp.Test.Framework
                 string msg;
                 mockRequestContext.Object.SetProxy("myscheme", "localhost", 0, out msg);
             });
+        }
+
+        [Fact]
+        public async Task CanGetCookieManagerForRequestContextAsync()
+        {
+            var requestContext = RequestContext
+                .Configure()
+                .Create();
+
+            var cookieManager = await requestContext.GetCookieManagerAsync();
+
+            var cookies = await cookieManager.VisitAllCookiesAsync();
+
+            Assert.NotNull(cookies);
+            output.WriteLine("Cookie Count {0}", cookies.Count);
         }
     }
 }
