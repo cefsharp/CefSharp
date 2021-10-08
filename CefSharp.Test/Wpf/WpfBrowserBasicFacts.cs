@@ -39,6 +39,43 @@ namespace CefSharp.Test.Wpf
         }
 
         [WpfFact]
+        public async Task CanCallLoadUrlAsyncImmediately()
+        {
+            using (var browser = new ChromiumWebBrowser(null, string.Empty, new Size(1024, 786)))
+            {
+                var response = await browser.LoadUrlAsync("www.google.com");
+
+                Assert.True(response.Success);
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
+        [WpfFact]
+        public async Task CanCallLoadUrlImmediately()
+        {
+            using (var browser = new ChromiumWebBrowser())
+            {
+                browser.Load("www.google.com");
+                browser.CreateBrowser(null, new Size(1024, 786));
+
+                var response = await browser.LoadUrlAsync();
+
+                Assert.True(response.Success);
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
+        [WpfFact]
         public async Task CanSetRequestContext()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))

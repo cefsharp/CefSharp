@@ -89,7 +89,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Initial address
         /// </summary>
-        private readonly string initialAddress;
+        private string initialAddress;
         /// <summary>
         /// Has the underlying Cef Browser been created (slightly different to initialized in that
         /// the browser is initialized in an async fashion)
@@ -1794,8 +1794,9 @@ namespace CefSharp.Wpf
             if (!webBrowserInternal.HasParent)
             {
                 var windowInfo = CreateOffscreenBrowserWindowInfo(source == null ? IntPtr.Zero : source.Handle);
-                //Pass null in for Address and rely on Load being called in OnAfterBrowserCreated
-                //Workaround for issue https://github.com/cefsharp/CefSharp/issues/2300
+                //If initialAddress is set then we use that value, later in OnAfterBrowserCreated then we will
+                //call Load(url) if initial address was empty.
+                //Issue https://github.com/cefsharp/CefSharp/issues/2300
                 managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, requestContext, address: initialAddress);
 
                 //Dispose of BrowserSettings if we created it, if user created then they're responsible
@@ -2417,20 +2418,40 @@ namespace CefSharp.Wpf
         /// <inheritdoc/>
         public void Load(string url)
         {
-            if (!InternalIsBrowserInitialized())
+            if(IsDisposed)
             {
-                throw new Exception("The browser has not been initialized. Load can only be called " +
-                                    "after the underlying CEF browser is initialized (CefLifeSpanHandler::OnAfterCreated).");
+                return;
             }
 
-            // Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called
-            // or before OnApplyTemplate has been called
-            if (browser != null)
+            //If the browser is already initialized then we can call LoadUrl directly
+            if (InternalIsBrowserInitialized())
             {
-                using (var frame = browser.MainFrame)
+                // Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called
+                // or before OnApplyTemplate has been called
+                if (browser != null)
                 {
-                    frame.LoadUrl(url);
+                    using (var frame = browser.MainFrame)
+                    {
+                        frame.LoadUrl(url);
+                    }
                 }
+            }
+            //If CreateBrowser was called and InternalIsBrowserInitialized() == false then we need to set the Address
+            //property so in OnAfterBrowserCreated the Url is loaded. If initialAddress was
+            //set then the Url set here will be ignored. If we called Load(url) then historically
+            //an aborted error would be raised as per https://github.com/cefsharp/CefSharp/issues/2300
+            //So we ignore the call for now.
+            else if (browserCreated)
+            {
+                UiThreadRunAsync(() =>
+                {
+                    Address = url;
+                });
+            }
+            //Before browser created, set the intialAddress
+            else
+            {
+                initialAddress = url;
             }
         }
 
