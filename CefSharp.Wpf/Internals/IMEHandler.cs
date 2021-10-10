@@ -100,8 +100,10 @@ namespace CefSharp.Wpf.Internals
             }
 
             if (attributes != null &&
-                ((compositionStart >= 0 && compositionStart < attributes.Length && attributes[compositionStart] == ImeNative.ATTR_INPUT)
+                // character before
+                ((compositionStart >= 0 && (compositionStart - 1) < attributes.Length && attributes[compositionStart - 1] == ImeNative.ATTR_INPUT)
                 ||
+                // character after
                 (compositionStart >= 0 && compositionStart < attributes.Length && attributes[compositionStart] == ImeNative.ATTR_INPUT)))
             {
                 // as MS does with their ime implementation we should only use the GCS_CURSORPOS if the character
