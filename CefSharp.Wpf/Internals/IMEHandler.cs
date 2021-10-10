@@ -101,7 +101,7 @@ namespace CefSharp.Wpf.Internals
 
             if (attributes != null &&
                 // character before
-                ((compositionStart >= 0 && (compositionStart - 1) < attributes.Length && attributes[compositionStart - 1] == ImeNative.ATTR_INPUT)
+                ((compositionStart > 0 && (compositionStart - 1) < attributes.Length && attributes[compositionStart - 1] == ImeNative.ATTR_INPUT)
                 ||
                 // character after
                 (compositionStart >= 0 && compositionStart < attributes.Length && attributes[compositionStart] == ImeNative.ATTR_INPUT)))
