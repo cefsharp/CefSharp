@@ -19,6 +19,7 @@ namespace CefSharp.Wpf.Internals
         internal const uint CS_NOMOVECARET = 0x4000;
         internal const uint NI_COMPOSITIONSTR = 0x0015;
 
+        internal const uint ATTR_INPUT = 0x00;
         internal const uint ATTR_TARGET_CONVERTED = 0x01;
         internal const uint ATTR_TARGET_NOTCONVERTED = 0x03;
 
