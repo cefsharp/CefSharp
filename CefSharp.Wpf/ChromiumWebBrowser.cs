@@ -91,6 +91,11 @@ namespace CefSharp.Wpf
         /// </summary>
         private string initialAddress;
         /// <summary>
+        /// Used to stop multiple threads trying to load the initial Url multiple times.
+        /// If the Address property is bound after the browser is initialized
+        /// </summary>
+        private bool initialLoadCalled;
+        /// <summary>
         /// Has the underlying Cef Browser been created (slightly different to initialized in that
         /// the browser is initialized in an async fashion)
         /// </summary>
@@ -1109,7 +1114,7 @@ namespace CefSharp.Wpf
                     SetCurrentValue(IsBrowserInitializedProperty, true);
 
                     // Only call Load if initialAddress is null and Address is not empty
-                    if (string.IsNullOrEmpty(initialAddress) && !string.IsNullOrEmpty(Address))
+                    if (string.IsNullOrEmpty(initialAddress) && !string.IsNullOrEmpty(Address) && !initialLoadCalled)
                     {
                         Load(Address);
                     }
@@ -2430,6 +2435,8 @@ namespace CefSharp.Wpf
                 // or before OnApplyTemplate has been called
                 if (browser != null)
                 {
+                    initialLoadCalled = true;
+
                     using (var frame = browser.MainFrame)
                     {
                         frame.LoadUrl(url);
