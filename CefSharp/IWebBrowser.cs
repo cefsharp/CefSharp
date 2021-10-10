@@ -112,6 +112,15 @@ namespace CefSharp
         Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null);
 
         /// <summary>
+        /// Wait for the Browser to finish Loading the initial web page
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Task{LoadUrlAsyncResponse}"/> that can be awaited which returns the HttpStatusCode and <see cref="CefErrorCode"/>.
+        /// A HttpStatusCode equal to 200 and <see cref="CefErrorCode.None"/> is considered a success.
+        /// </returns>
+        Task<LoadUrlAsyncResponse> WaitForBrowserInitialLoadAsync();
+
+        /// <summary>
         /// The javascript object repository, one repository per ChromiumWebBrowser instance.
         /// </summary>
         IJavascriptObjectRepository JavascriptObjectRepository { get; }

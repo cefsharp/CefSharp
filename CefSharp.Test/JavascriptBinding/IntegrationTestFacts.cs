@@ -106,7 +106,7 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 //We'll execute twice using the different cased (camelcase naming and standard)
                 var response = await browser.EvaluateScriptAsync("CefSharp.IsObjectCached('doesntexist')");
@@ -132,7 +132,7 @@ namespace CefSharp.Test.JavascriptBinding
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var result = await browser.EvaluateScriptAsync("bindingApiObject.isObjectCached('doesntexist') === false");
 
@@ -151,7 +151,7 @@ namespace CefSharp.Test.JavascriptBinding
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
-                var loadResponse = await browser.LoadUrlAsync();
+                var loadResponse = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(loadResponse.Success);
 
@@ -177,7 +177,7 @@ namespace CefSharp.Test.JavascriptBinding
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
@@ -197,7 +197,7 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var result = await browser.EvaluateScriptAsync(script);
 
@@ -217,7 +217,7 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 //TODO: See if we can avoid GetAwaiter().GetResult()
                 var evt = Assert.Raises<JavascriptBindingEventArgs>(
