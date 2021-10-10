@@ -13,19 +13,8 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='16.0'">v142</PlatformToolset>-->
   
     <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion>
-    
-    <CefSharpBrowserSubprocessPostBuildEvent>
-      <![CDATA[
-if $(PlatformName) == x86 (
-  "$(DevEnvDir)..\..\VC\bin\editbin" /largeaddressaware /TSAWARE "$(TargetPath)"
-  call "$(DevEnvDir)..\Tools\vsvars32.bat"
-  sn -R "$(TargetPath)" "$(ProjectDir)..\CefSharp.snk"
-) else (
-  "$(DevEnvDir)..\..\VC\bin\amd64\editbin" /TSAWARE "$(TargetPath)"
-)
-]]></CefSharpBrowserSubprocessPostBuildEvent>
 
-    <CefSharpBrowserSubprocessPostBuildEvent Condition="'$(VisualStudioVersion)'=='15.0' Or '$(VisualStudioVersion)'=='16.0'">
+    <CefSharpBrowserSubprocessPostBuildEvent>
       <![CDATA[
 if $(PlatformName) == x86 (
   call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat"

@@ -253,14 +253,19 @@ function VSX
 function NugetPackageRestore
 {
     $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
-    if(-not (Test-Path $nuget)) {
+    if(-not (Test-Path $nuget))
+	{
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
     }
 
     Write-Diagnostic "Restore Nuget Packages"
-
+	
     # Restore packages
-    . $nuget restore $CefSln
+    . $nuget restore CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config -PackagesDirectory packages
+    . $nuget restore CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.config -PackagesDirectory packages
+
+	# Restore for any platform is fine, doesn't seem to matter which one long as it's successful
+	&msbuild /t:restore /p:Platform=x64 /p:Configuration=Release CefSharp3.sln
 }
 
 function Nupkg
