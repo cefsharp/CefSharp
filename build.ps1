@@ -1,20 +1,41 @@
 ﻿param(
-    [ValidateSet("vs2019", "nupkg-only")]
+    [ValidateSet("vs2019", "netcore31", "nupkg-only")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2019",
     [Parameter(Position = 1)]
     [string] $Version = "94.4.20",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "94.4.20"
+    [string] $AssemblyVersion = "94.4.20",
+    [Parameter(Position = 3)]
+    [ValidateSet("NetFramework", "NetCore", "NetFramework452", "NetCore31")]
+    [string] $TargetFramework = "NetFramework",
+    [Parameter(Position = 4)]
+    [string] $BuildArches = "x86 x64 amd64"
 )
 
+$IsNetCoreBuild = $TargetFramework.Contains("NetCore")
+
+$ARCHES = $BuildArches.Split(" ");
+$ARCHES_TO_BITKEY = @{};
+foreach ($arch in $ARCHES) {
+    $arch_bit = $arch;
+    if ($arch_bit.StartsWith("x")) {
+        $arch_bit = $arch.Substring(1);
+        if ($arch_bit -eq "86"){
+            $arch_bit = "32";
+        }
+        $ARCHES_TO_BITKEY[$arch] = $arch_bit;
+    }
+}
+
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
-$CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
+$CefSln = Join-Path $WorkingDir 'CefSharp3' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.sln'
 
 # Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file
 # Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config'))
+$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.config'))
 $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
+$nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
 
 function Write-Diagnostic 
 {
@@ -115,7 +136,7 @@ function TernaryReturn
 function Msvs 
 {
     param(
-        [ValidateSet('v142')]
+        [ValidateSet('v142','netcore')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -124,7 +145,7 @@ function Msvs
         [string] $Configuration, 
 
         [Parameter(Position = 2, ValueFromPipeline = $true)]
-        [ValidateSet('x86', 'x64')]
+        [ValidateSet('x86', 'x64', 'arm64')]
         [string] $Platform
     )
 
@@ -191,8 +212,11 @@ function Msvs
         $env:CEFSHARP_BUILD_IS_BOOTSTRAPPED = $true
     }
 
-    $Arch = TernaryReturn ($Platform -eq 'x64') 'x64' 'win32'
-	
+    $Arch = $Platform
+    if ($Arch -eq "x86"){
+        $Arch="win32";
+    }
+
 	# Restore Nuget packages
 	&msbuild /t:restore /p:Platform=$Arch /p:Configuration=Release $CefSln
 
@@ -240,28 +264,37 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v142')]
+        [ValidateSet('v142','netcore')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
 
     Write-Diagnostic "Starting to build targeting toolchain $Toolchain"
 
-    Msvs "$Toolchain" 'Release' 'x86'
-    Msvs "$Toolchain" 'Release' 'x64'
+    foreach ($arch in $ARCHES) {
+        Msvs "$Toolchain" 'Release' $arch
+    }
 
     Write-Diagnostic "Finished build targeting toolchain $Toolchain"
 }
 
 function NugetPackageRestore
 {
-    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
-    if(-not (Test-Path $nuget))
-	{
+    if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
     }
 
     Write-Diagnostic "Restore Nuget Packages"
+
+    # Restore packages
+    if ($IsNetCoreBuild){
+        . $nuget restore CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.netcore.config -PackagesDirectory packages
+        . $nuget restore CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.netcore.config -PackagesDirectory packages
+        &msbuild /t:restore CefSharp3.netcore.sln
+    }else{
+        . $nuget restore $CefSln
+    }
+
 	
     # Restore packages
     . $nuget restore CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config -PackagesDirectory packages
@@ -284,11 +317,13 @@ function Nupkg
 
     Write-Diagnostic "Building nuget package"
 
-    # Build old packages
-    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
-    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    $PackageRefAdd = TernaryReturn $IsNetCoreBuild "\PackageReference" ""
+    $NetCoreAdd = TernaryReturn $IsNetCoreBuild ".NETCore" ""
+    # Build packages
+    . $nuget pack "nuget$($PackageRefAdd)\CefSharp.Common$($NetCoreAdd).nuspec" -NoPackageAnalysis -Version $Version -OutputDirectory "nuget$($PackageRefAdd)" -Properties "RedistVersion=$RedistVersion;"
+    . $nuget pack "nuget$($PackageRefAdd)\CefSharp.Wpf$($NetCoreAdd).nuspec" -NoPackageAnalysis -Version $Version -OutputDirectory "nuget$($PackageRefAdd)"
+    . $nuget pack "nuget$($PackageRefAdd)\CefSharp.OffScreen$($NetCoreAdd).nuspec" -NoPackageAnalysis -Version $Version -OutputDirectory "nuget$($PackageRefAdd)"
+    . $nuget pack "nuget$($PackageRefAdd)\CefSharp.WinForms$($NetCoreAdd).nuspec" -NoPackageAnalysis -Version $Version -OutputDirectory "nuget$($PackageRefAdd)"
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
@@ -305,6 +340,10 @@ function DownloadNuget()
     {
         $client = New-Object System.Net.WebClient;
         $client.DownloadFile('https://dist.nuget.org/win-x86-commandline/latest/nuget.exe', $nuget);
+    }
+    if(-not (Test-Path $nuget))
+    {
+        Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
     }
 }
 
@@ -398,6 +437,20 @@ function WriteVersionToAppveyor
     $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
+function WriteVersionToNugetTargets
+{
+    $Filename = Join-Path $WorkingDir NuGet\PackageReference\CefSharp.Common.NETCore.targets
+    
+    Write-Diagnostic  "Write Version ($RedistVersion) to $Filename"
+    $Regex1  = '" Version=".*"';
+    $Replace = '" Version="' + $RedistVersion + '"';
+    
+    $RunTimeJsonData = Get-Content -Encoding UTF8 $Filename
+    $NewString = $RunTimeJsonData -replace $Regex1, $Replace
+    
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
 
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
 
@@ -408,6 +461,7 @@ NugetPackageRestore
 WriteAssemblyVersion
 WriteVersionToShfbproj
 WriteVersionToAppveyor
+WriteVersionToNugetTargets
 
 WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
 WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
@@ -429,6 +483,11 @@ switch -Exact ($Target)
     "vs2019"
     {
         VSX v142
+        Nupkg
+    }
+    "netcore31"
+    {
+        VSX netcore
         Nupkg
     }
 }
