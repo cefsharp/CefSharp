@@ -5,7 +5,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+#if NETCOREAPP
+using System.Linq;
+#endif
 using System.Reflection;
+#if NETCOREAPP
+using System.Runtime.InteropServices;
+#endif
 using System.Text;
 
 namespace CefSharp
@@ -20,6 +26,11 @@ namespace CefSharp
         /// en-US Locales pak file location
         /// </summary>
         public const string LocalesPackFile = @"locales\en-US.pak";
+
+        /// <summary>
+        /// File name of the Direct3D Compiler DLL.
+        /// </summary>
+        private const string D3DCompilerDll = "d3dcompiler_47.dll";
 
         /// <summary>
         /// List of Cef Dependencies
@@ -60,7 +71,8 @@ namespace CefSharp
             // Note: Without these components HTML5 accelerated content like 2D canvas, 3D CSS and WebGL will not function.
             "libEGL.dll",
             "libGLESv2.dll",
-            "d3dcompiler_47.dll",
+            // The D3D Compiler isn't included in the win-arm64 redist; we remove it in the static constructor.
+            D3DCompilerDll,
             //Crashpad support
             "chrome_elf.dll"
         };
@@ -98,6 +110,17 @@ namespace CefSharp
             "Ijwhost.dll"
 #endif
         };
+
+#if NETCOREAPP
+        static DependencyChecker()
+        {
+            // win-arm64 doesn't ship with a copy of the D3D Compiler, it's included with the OS.
+            if (RuntimeInformation.ProcessArchitecture is Architecture.Arm64)
+            {
+                CefOptionalDependencies = CefOptionalDependencies.Where(x => x != D3DCompilerDll).ToArray();
+            }
+        }
+#endif
 
         /// <summary>
         /// CheckDependencies iterates through the list of Cef and CefSharp dependencines
