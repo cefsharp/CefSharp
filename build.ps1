@@ -162,6 +162,11 @@ function Msvs
 
     switch -Exact ($Toolchain)
 	{
+        'netcore'
+        {
+            $VS_VER = 16;
+            $VS_OFFICIAL_VER = 2019;
+        }
         'v142'
 		{
             $VS_VER = 16;
