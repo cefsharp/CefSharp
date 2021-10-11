@@ -75,11 +75,12 @@ namespace CefSharp.Wpf.Internals
 
             underlines.Clear();
 
+            byte[] attributes = null;
             int targetStart = text.Length;
             int targetEnd = text.Length;
             if (IsParam(lParam, ImeNative.GCS_COMPATTR))
             {
-                GetCompositionSelectionRange(hIMC, ref targetStart, ref targetEnd);
+                attributes = GetCompositionSelectionRange(hIMC, ref targetStart, ref targetEnd);
             }
 
             // Retrieve the selection range information. If CS_NOMOVECARET is specified
@@ -96,6 +97,22 @@ namespace CefSharp.Wpf.Internals
             else
             {
                 compositionStart = 0;
+            }
+
+            if (attributes != null &&
+                // character before
+                ((compositionStart > 0 && (compositionStart - 1) < attributes.Length && attributes[compositionStart - 1] == ImeNative.ATTR_INPUT)
+                ||
+                // character after
+                (compositionStart >= 0 && compositionStart < attributes.Length && attributes[compositionStart] == ImeNative.ATTR_INPUT)))
+            {
+                // as MS does with their ime implementation we should only use the GCS_CURSORPOS if the character
+                // before or after is new input.
+                // https://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/windows/Documents/ImmComposition.cs,1079
+            }
+            else
+            {
+                compositionStart = text.Length;
             }
 
             if (IsParam(lParam, ImeNative.GCS_COMPCLAUSE))
@@ -158,12 +175,12 @@ namespace CefSharp.Wpf.Internals
             }
         }
 
-        private static void GetCompositionSelectionRange(IntPtr hIMC, ref int targetStart, ref int targetEnd)
+        private static byte[] GetCompositionSelectionRange(IntPtr hIMC, ref int targetStart, ref int targetEnd)
         {
             var attributeSize = ImeNative.ImmGetCompositionString(hIMC, ImeNative.GCS_COMPATTR, null, 0);
             if (attributeSize <= 0)
             {
-                return;
+                return null;
             }
 
             int start = 0;
@@ -191,6 +208,7 @@ namespace CefSharp.Wpf.Internals
 
             targetStart = start;
             targetEnd = end;
+            return attributeData;
         }
 
         private static bool IsSelectionAttribute(byte attribute)
