@@ -1,5 +1,5 @@
 ﻿param(
-    [ValidateSet("vs2019", "netcore31", "nupkg-only")]
+    [ValidateSet("vs2022","vs2019", "netcore31", "nupkg-only")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2019",
     [Parameter(Position = 1)]
@@ -12,7 +12,8 @@
     [Parameter(Position = 4)]
     [string] $BuildArches = "x86 x64 amd64"
 )
-
+Set-StrictMode -version latest;
+$ErrorActionPreference = "Stop";
 $IsNetCoreBuild = $TargetFramework.Contains("NetCore")
 
 $ARCHES = $BuildArches.Split(" ");
@@ -28,12 +29,31 @@ foreach ($arch in $ARCHES) {
     }
 }
 
+function TernaryReturn 
+{
+    param(
+        [Parameter(Position = 0, ValueFromPipeline = $true)]
+        [bool] $Yes,
+        [Parameter(Position = 1, ValueFromPipeline = $true)]
+        $Value,
+        [Parameter(Position = 2, ValueFromPipeline = $true)]
+        $Value2
+    )
+
+    if($Yes) {
+        return $Value
+    }
+    
+    $Value2
+}
+
+
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
-$CefSln = Join-Path $WorkingDir 'CefSharp3' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.sln'
+$CefSln = Join-Path $WorkingDir ('CefSharp3' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.sln')
 
 # Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file
 # Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.config'))
+$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir ('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.config')))
 $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
 $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
 
@@ -115,28 +135,11 @@ function Warn
     Write-Host
 }
 
-function TernaryReturn 
-{
-    param(
-        [Parameter(Position = 0, ValueFromPipeline = $true)]
-        [bool] $Yes,
-        [Parameter(Position = 1, ValueFromPipeline = $true)]
-        $Value,
-        [Parameter(Position = 2, ValueFromPipeline = $true)]
-        $Value2
-    )
-
-    if($Yes) {
-        return $Value
-    }
-    
-    $Value2
-}
 
 function Msvs 
 {
     param(
-        [ValidateSet('v142','netcore')]
+        [ValidateSet('v142','v143','netcore')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -153,6 +156,9 @@ function Msvs
 
     $VisualStudioVersion = $null
     $VXXCommonTools = $null
+    $VS_VER = -1
+    $VS_OFFICIAL_VER = -1
+    $VS_PRE = $false;
 
     switch -Exact ($Toolchain)
 	{
@@ -160,42 +166,51 @@ function Msvs
 		{
             $VS_VER = 16;
             $VS_OFFICIAL_VER = 2019;
-            $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
-
-            $vswherePath = Join-Path $programFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
-            #Check if we already have vswhere which is included in newer versions of VS2017/VS2019
-            if(-not (Test-Path $vswherePath))
-            {
-                Write-Diagnostic "Downloading VSWhere as no install found at $vswherePath"
-                
-                # Check if we already have a local copy and download if required
-                $vswherePath = Join-Path $WorkingDir \vswhere.exe
-                
-                # TODO: Check hash and download if hash differs
-                if(-not (Test-Path $vswherePath))
-                {
-                    $client = New-Object System.Net.WebClient;
-                    $client.DownloadFile('https://github.com/Microsoft/vswhere/releases/download/2.2.11/vswhere.exe', $vswherePath);
-                }
-            }
-            
-            Write-Diagnostic "VSWhere path $vswherePath"
-            
-            $versionSearchStr = "[$VS_VER.0," + ($VS_VER+1) + ".0)"
-            $VS2017InstallPath = & $vswherePath -version $versionSearchStr -property installationPath
-            
-            Write-Diagnostic "$($VS_OFFICIAL_VER)InstallPath: $VS2017InstallPath"
-                
-            if(-not (Test-Path $VS2017InstallPath))
-            {
-                Die "Visual Studio $VS_OFFICIAL_VER is not installed on your development machine, unable to continue."
-            }
-                
-            $MSBuildExe = "msbuild.exe"
-            $VisualStudioVersion = "$VS_VER.0"
-            $VXXCommonTools = Join-Path $VS2017InstallPath VC\Auxiliary\Build
+        }
+        'v143'
+        {
+            $VS_VER = 17;
+            $VS_OFFICIAL_VER = 2022;
+            $VS_PRE = $true;
         }
     }
+    $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
+
+    $vswherePath = Join-Path $programFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
+    #Check if we already have vswhere which is included in newer versions of VS2017/VS2019
+    if(-not (Test-Path $vswherePath))
+    {
+        Write-Diagnostic "Downloading VSWhere as no install found at $vswherePath"
+        
+        # Check if we already have a local copy and download if required
+        $vswherePath = Join-Path $WorkingDir \vswhere.exe
+        
+        # TODO: Check hash and download if hash differs
+        if(-not (Test-Path $vswherePath))
+        {
+            $client = New-Object System.Net.WebClient;
+            $client.DownloadFile('https://github.com/Microsoft/vswhere/releases/download/2.2.11/vswhere.exe', $vswherePath);
+        }
+    }
+    
+    Write-Diagnostic "VSWhere path $vswherePath"
+    
+    $versionSearchStr = "[$VS_VER.0," + ($VS_VER+1) + ".0)"
+
+    $preStr = TernaryReturn $VS_PRE "-prerelease" ""
+    $VSInstallPath = & $vswherePath -version $versionSearchStr -property installationPath $preStr
+    
+    Write-Diagnostic "$($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
+        
+    if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))
+    {
+        Die "Visual Studio $VS_OFFICIAL_VER is not installed on your development machine, unable to continue, ran command: $vswherePath -version $versionSearchStr -property installationPath"
+    }
+        
+    $MSBuildExe = "msbuild.exe"
+    $VisualStudioVersion = "$VS_VER.0"
+    $VXXCommonTools = Join-Path $VSInstallPath VC\Auxiliary\Build
+
 
     if ($VXXCommonTools -eq $null -or (-not (Test-Path($VXXCommonTools)))) {
         Die 'Error unable to find any visual studio environment'
@@ -264,7 +279,7 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v142','netcore')]
+        [ValidateSet('v142','v143','netcore')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
@@ -483,6 +498,12 @@ switch -Exact ($Target)
     "vs2019"
     {
         VSX v142
+        Nupkg
+    }
+    "vs2022"
+    {
+
+        VSX v143
         Nupkg
     }
     "netcore31"
