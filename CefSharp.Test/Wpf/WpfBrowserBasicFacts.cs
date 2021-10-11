@@ -28,7 +28,7 @@ namespace CefSharp.Test.Wpf
         {
             using (var browser = new ChromiumWebBrowser(null, "www.google.com", new Size(1024, 786)))
             {
-                await browser.WaitForBrowserInitialLoadAsync();
+                await browser.LoadUrlAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
@@ -63,7 +63,7 @@ namespace CefSharp.Test.Wpf
                 browser.Load("www.google.com");
                 browser.CreateBrowser(null, new Size(1024, 786));
 
-                var response = await browser.WaitForBrowserInitialLoadAsync();
+                var response = await browser.LoadUrlAsync();
 
                 Assert.True(response.Success);
 
@@ -83,7 +83,7 @@ namespace CefSharp.Test.Wpf
                 browser.RequestContext = new RequestContext();
                 browser.CreateBrowser(null, new Size(1024, 786));
 
-                await browser.WaitForBrowserInitialLoadAsync();
+                await browser.LoadUrlAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
@@ -102,7 +102,7 @@ namespace CefSharp.Test.Wpf
 
                 browser.CreateBrowser(null, new Size(1024, 786));
 
-                await browser.WaitForBrowserInitialLoadAsync();
+                await browser.LoadUrlAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
