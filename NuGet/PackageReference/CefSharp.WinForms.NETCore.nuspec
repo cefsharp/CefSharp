@@ -27,6 +27,7 @@
     <!-- pdb and xml files not copied see https://github.com/dotnet/sdk/issues/1458 -->
 	<file src="..\..\CefSharp.WinForms\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.WinForms.dll" target="ref\netcoreapp3.1"/>
     <file src="..\..\CefSharp.WinForms\bin.netcore\Release\netcoreapp3.1\CefSharp.WinForms.dll" target="lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.WinForms\bin.netcore\Release\netcoreapp3.1\CefSharp.WinForms.xml" target="lib\netcoreapp3.1"/>
 
     <file src="Readme.txt" target="" />
 	<file src="..\..\LICENSE" target="LICENSE" />
