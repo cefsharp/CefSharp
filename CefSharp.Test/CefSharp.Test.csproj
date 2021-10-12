@@ -23,33 +23,16 @@
         <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="BrotliSharpLib" Version="0.3.3" />
-        <PackageReference Include="Castle.Core" Version="4.4.0" />
-        <PackageReference Include="cef.redist.x64" Version="94.4.2" />
-        <PackageReference Include="cef.redist.x86" Version="94.4.2" />
-        <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
-        <PackageReference Include="Moq" Version="4.13.0" />
-        <PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
-        <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
-        <PackageReference Include="Nito.AsyncEx.Tasks" Version="5.0.0" />
-        <PackageReference Include="Nito.Collections.Deque" Version="1.0.4" />
-        <PackageReference Include="Nito.Disposables" Version="2.0.0" />
-        <PackageReference Include="Portable.BouncyCastle" Version="1.8.5.2" />
-        <PackageReference Include="System.Buffers" Version="4.5.0" />
-        <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
-        <PackageReference Include="System.Memory" Version="4.5.3" />
-        <PackageReference Include="System.Numerics.Vectors" Version="4.4.0" />
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
-        <PackageReference Include="System.Security.AccessControl" Version="4.7.0" />
-        <PackageReference Include="System.Security.Principal.Windows" Version="4.7.0" />
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
-        <PackageReference Include="Titanium.Web.Proxy" Version="3.1.1301" />
-        <PackageReference Include="xunit.abstractions" Version="2.0.3" />
-        <PackageReference Include="xunit.assert" Version="2.4.1" />
-        <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
-        <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
-        <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="94.4.2" />
+		
+		<PackageReference Include="Moq" Version="4.13.0" />
+		<PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
+		<PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+		<PackageReference Include="Xunit.StaFact" Version="0.3.18" />
+		<PackageReference Include="Titanium.Web.Proxy" version="3.1.1301" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="DevTools\JsonEnumConverterFacts.cs" />
