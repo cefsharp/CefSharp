@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
         <Platforms>x86;x64</Platforms>
+        <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <UseWPF>true</UseWPF>
@@ -11,11 +12,11 @@
     </PropertyGroup>
     
     <PropertyGroup Condition="'$(PlatformTarget)' == 'x86'">
-        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x86</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win7-x86</RuntimeIdentifier>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(PlatformTarget)' == 'x64'">
-        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win7-x64</RuntimeIdentifier>
     </PropertyGroup>
     
     <ItemGroup>

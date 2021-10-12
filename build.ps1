@@ -192,6 +192,9 @@ function Msvs
     }
 
     $Arch = TernaryReturn ($Platform -eq 'x64') 'x64' 'win32'
+	
+	# Restore Nuget packages
+	&msbuild /t:restore /p:Platform=$Arch /p:Configuration=Release $CefSln
 
     $Arguments = @(
         "$CefSln",
@@ -263,9 +266,6 @@ function NugetPackageRestore
     # Restore packages
     . $nuget restore CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config -PackagesDirectory packages
     . $nuget restore CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.config -PackagesDirectory packages
-
-	# Restore for any platform is fine, doesn't seem to matter which one long as it's successful
-	&msbuild /t:restore /p:Platform=x64 /p:Configuration=Release CefSharp3.sln
 }
 
 function Nupkg
