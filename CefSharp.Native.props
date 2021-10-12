@@ -30,7 +30,7 @@
         </Content>
       </ItemGroup>
     </When>
-    <When Condition="'$(Platform)' == 'x86'">
+    <When Condition="'$(Platform)' == 'x86' OR '$(Platform)' == 'Win32'">
       <ItemGroup>
         <Content Include="@(CefRuntimeWin32Locales)">
           <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>

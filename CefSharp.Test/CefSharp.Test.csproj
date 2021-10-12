@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
@@ -9,6 +9,15 @@
         <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(PlatformTarget)' == 'x86'">
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x86</RuntimeIdentifier>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(PlatformTarget)' == 'x64'">
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    </PropertyGroup>
+    
     <ItemGroup>
         <Reference Include="System.Configuration" />
         <Reference Include="System.ServiceModel" />
@@ -23,16 +32,16 @@
         <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="94.4.2" />
-		
-		<PackageReference Include="Moq" Version="4.13.0" />
-		<PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
-		<PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
-		<PackageReference Include="xunit" Version="2.4.1" />
-		<PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
-		<PackageReference Include="Xunit.StaFact" Version="0.3.18" />
-		<PackageReference Include="Titanium.Web.Proxy" version="3.1.1301" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="94.4.2"/>
+
+        <PackageReference Include="Moq" Version="4.13.0" />
+        <PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
+        <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+        <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
+        <PackageReference Include="Titanium.Web.Proxy" version="3.1.1301" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="DevTools\JsonEnumConverterFacts.cs" />

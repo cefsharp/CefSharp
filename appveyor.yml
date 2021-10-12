@@ -12,7 +12,7 @@ build_script:
 
 test_script:
   # Test our Release x64 build
-  - dotnet test CefSharp.Test\bin\x64\Release\CefSharp.Test.dll
+  - dotnet test CefSharp.Test\bin\x64\Release\win-x64\CefSharp.Test.dll
   - dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\win-x64\CefSharp.Test.dll
 
 artifacts:
