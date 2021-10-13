@@ -95,7 +95,7 @@ function Warn
     Write-Host
 }
 
-function Msvs 
+function BuildSolution 
 {
     param(
         [ValidateSet('v142','v143')]
@@ -108,10 +108,75 @@ function Msvs
 
         [Parameter(Position = 2, ValueFromPipeline = $true)]
         [ValidateSet('x86', 'x64', 'arm64')]
-        [string] $Platform
+        [string] $Platform,
+
+        [Parameter(Position = 3, ValueFromPipeline = $true)]
+        [string] $VisualStudioVersion
     )
 
-    Write-Diagnostic "Targeting $Toolchain using configuration $Configuration on platform $Platform"
+    Write-Diagnostic "Begin compiling targeting $Toolchain using configuration $Configuration for platform $Platform"
+
+    $Arch = $Platform
+    if (!$IsNetCoreBuild -and $Arch -eq "x86")
+    {
+        $Arch="win32";
+    }
+
+	# Restore Nuget packages
+	&msbuild /nologo /verbosity:minimal /t:restore /p:Platform=$Arch /p:Configuration=Release $CefSln
+
+    $Arguments = @(
+        "$CefSln",
+        "/t:rebuild",
+        "/p:VisualStudioVersion=$VisualStudioVersion",
+        "/p:Configuration=$Configuration",
+        "/p:Platform=$Arch",
+        "/verbosity:normal"
+    )
+
+    $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $StartInfo.FileName = "msbuild.exe"
+    $StartInfo.Arguments = $Arguments
+
+    $StartInfo.EnvironmentVariables.Clear()
+
+    Get-ChildItem -Path env:* | ForEach-Object {
+        $StartInfo.EnvironmentVariables.Add($_.Name, $_.Value)
+    }
+
+    $StartInfo.UseShellExecute = $false
+    $StartInfo.CreateNoWindow = $false
+    $StartInfo.RedirectStandardError = $true
+    $StartInfo.RedirectStandardOutput = $true
+
+    $Process = New-Object System.Diagnostics.Process
+    $Process.StartInfo = $startInfo
+    $Process.Start()
+    
+    $stdout = $Process.StandardOutput.ReadToEnd()
+    $stderr = $Process.StandardError.ReadToEnd()
+    
+    $Process.WaitForExit()
+
+    if($Process.ExitCode -ne 0)
+    {
+        Write-Host "stdout: $stdout"
+        Write-Host "stderr: $stderr"
+        Die "Build failed"
+    }
+
+    Write-Diagnostic "Compile succeeded targeting $Toolchain using configuration $Configuration for platform $Platform"
+}
+
+function VSX 
+{
+    param(
+        [ValidateSet('v142','v143')]
+        [Parameter(Position = 0, ValueFromPipeline = $true)]
+        [string] $Toolchain
+    )
+
+    Write-Diagnostic "Starting to build targeting toolchain $Toolchain"
 
     $VisualStudioVersion = $null
     $VXXCommonTools = $null
@@ -145,11 +210,10 @@ function Msvs
         Die "Visual Studio $VS_OFFICIAL_VER is not installed on your development machine, unable to continue, ran command: $VSWherePath -version $versionSearchStr -property installationPath"
     }
         
-    $MSBuildExe = "msbuild.exe"
     $VisualStudioVersion = "$VS_VER.0"
     $VXXCommonTools = Join-Path $VSInstallPath VC\Auxiliary\Build
 
-    if ($VXXCommonTools -eq $null -or (-not (Test-Path($VXXCommonTools))))
+    if ($null -eq $VXXCommonTools -or (-not (Test-Path($VXXCommonTools))))
     {
         Die 'Error unable to find any visual studio environment'
     }
@@ -161,75 +225,24 @@ function Msvs
     }
 
     # Only configure build environment once
-    if($env:CEFSHARP_BUILD_IS_BOOTSTRAPPED -eq $null)
+    if($null -eq $env:CEFSHARP_BUILD_IS_BOOTSTRAPPED)
     {
-        Invoke-BatchFile $VCVarsAll $Platform
+        $VCVarsAllArch = $ARCHES[0]
+        if ($VCVarsAllArch -eq "arm64")
+        {
+            #TODO: Add support for compiling from an arm64 host
+            # Detect host and determine if we are native or cross compile
+            # currently only cross compiling arm64 from x64 host
+            $VCVarsAllArch = 'x64_arm64'
+        }
+
+        Invoke-BatchFile $VCVarsAll $VCVarsAllArch
         $env:CEFSHARP_BUILD_IS_BOOTSTRAPPED = $true
     }
 
-    $Arch = $Platform
-    if ($Arch -eq "x86")
-    {
-        $Arch="win32";
-    }
-
-	# Restore Nuget packages
-	&msbuild /t:restore /p:Platform=$Arch /p:Configuration=Release $CefSln
-
-    $Arguments = @(
-        "$CefSln",
-        "/t:rebuild",
-        "/p:VisualStudioVersion=$VisualStudioVersion",
-        "/p:Configuration=$Configuration",
-        "/p:Platform=$Arch",
-        "/verbosity:normal"
-    )
-
-    $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $StartInfo.FileName = $MSBuildExe
-    $StartInfo.Arguments = $Arguments
-
-    $StartInfo.EnvironmentVariables.Clear()
-
-    Get-ChildItem -Path env:* | ForEach-Object {
-        $StartInfo.EnvironmentVariables.Add($_.Name, $_.Value)
-    }
-
-    $StartInfo.UseShellExecute = $false
-    $StartInfo.CreateNoWindow = $false
-    $StartInfo.RedirectStandardError = $true
-    $StartInfo.RedirectStandardOutput = $true
-
-    $Process = New-Object System.Diagnostics.Process
-    $Process.StartInfo = $startInfo
-    $Process.Start()
-    
-    $stdout = $Process.StandardOutput.ReadToEnd()
-    $stderr = $Process.StandardError.ReadToEnd()
-    
-    $Process.WaitForExit()
-
-    if($Process.ExitCode -ne 0)
-    {
-        Write-Host "stdout: $stdout"
-        Write-Host "stderr: $stderr"
-        Die "Build failed"
-    }
-}
-
-function VSX 
-{
-    param(
-        [ValidateSet('v142','v143')]
-        [Parameter(Position = 0, ValueFromPipeline = $true)]
-        [string] $Toolchain
-    )
-
-    Write-Diagnostic "Starting to build targeting toolchain $Toolchain"
-
     foreach ($arch in $ARCHES)
     {
-        Msvs "$Toolchain" 'Release' $arch
+        BuildSolution "$Toolchain" 'Release' $arch $VisualStudioVersion     
     }
 
     Write-Diagnostic "Finished build targeting toolchain $Toolchain"
@@ -269,7 +282,51 @@ function Nupkg
     # Build packages
     foreach($file in $Files)
     {
-        . $nuget pack "$NugetPackagePath\$file" -Version $Version -OutputDirectory $NugetPackagePath -Properties "RedistVersion=$RedistVersion;"
+        $filePath = Join-Path $WorkingDir "$NugetPackagePath\$file"
+        $tempFile = $filePath + ".backup"
+        try
+        {
+            # We need to rewrite the CefSharp.Common nupkg file if we are building a subset of architectures
+            if($file.StartsWith("CefSharp.Common") -and $ARCHES.Count -lt $SupportedArches.Count)
+            {                
+                Copy-Item $filePath $tempFile
+                $removeArches = $SupportedArches | Where-Object {$_ -notin $ARCHES}
+                $NupkgXml = [xml](Get-Content ($filePath) -Encoding UTF8)
+
+                foreach($a in $removeArches)
+                {
+                    $targetFolder = "CefSharp\$a"
+                    if($IsNetCoreBuild)
+                    {
+                        $targetFolder = "runtimes\win-$a"
+                    }
+                    
+                    $nodes =  $NupkgXml.package.files.file | Where-Object {$_.Attributes["target"].Value.StartsWith($targetFolder) };
+
+                    $nodes | ForEach-Object { $_.ParentNode.RemoveChild($_) } | Out-Null
+                }
+                
+                $NupkgXml.Save($filePath)
+            }
+
+            #Only show package analysis for newer packages
+            if($IsNetCoreBuild)
+            {
+                . $nuget pack $filePath -Version $Version -OutputDirectory $NugetPackagePath -Properties "RedistVersion=$RedistVersion;"
+            }
+            else
+            {
+                . $nuget pack $filePath -NoPackageAnalysis -Version $Version -OutputDirectory $NugetPackagePath -Properties "RedistVersion=$RedistVersion;"
+            }
+        }
+        finally
+        {
+            if(Test-Path($tempFile))
+            {
+                Copy-Item $tempFile $filePath
+                Remove-Item $tempFile
+            }
+        }
     }
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
@@ -405,12 +462,13 @@ $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 Write-Diagnostic "pushd $WorkingDir"
 Push-Location $WorkingDir
 
-$IsNetCoreBuild = $TargetFramework.Contains("NetCore")
-$ARCHES = [System.Collections.ArrayList]$BuildArches.Split(" ");
+$IsNetCoreBuild = $TargetFramework.ToLower().Contains("netcore")
+$ARCHES = [System.Collections.ArrayList]$BuildArches.ToLower().Split(" ");
 $CefSln = $null
 $NugetPackagePath = $null
 $NupkgFiles = $null
 $VCXProjPackageConfigFiles = $null
+$SupportedArches = [System.Collections.ArrayList]@();
 
 if($IsNetCoreBuild)
 {
@@ -418,6 +476,7 @@ if($IsNetCoreBuild)
     $NugetPackagePath = "nuget\PackageReference";
     $NupkgFiles = @('CefSharp.Common.NETCore.nuspec', 'CefSharp.WinForms.NETCore.nuspec', 'CefSharp.Wpf.NETCore.nuspec','CefSharp.OffScreen.NETCore.nuspec')
     $VCXProjPackageConfigFiles = @('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.netcore.config', 'CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.netcore.config');
+    $SupportedArches.AddRange(@("x86", "x64", "arm64"));
 }
 else
 {
@@ -426,6 +485,7 @@ else
     $NugetPackagePath = "nuget";
     $NupkgFiles = @('CefSharp.Common.nuspec', 'CefSharp.WinForms.nuspec', 'CefSharp.Wpf.nuspec', 'CefSharp.OffScreen.nuspec')
     $VCXProjPackageConfigFiles = @('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config', 'CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.config');
+    $SupportedArches.AddRange(@("x86", "x64"));
 }
 
 # Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file
@@ -458,9 +518,9 @@ DownloadNuget
 
 NugetPackageRestore $VCXProjPackageConfigFiles
 
-$programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
+$ProgramFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
 
-$VSWherePath = Join-Path $programFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
+$VSWherePath = Join-Path $ProgramFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
 #Check if we already have vswhere which is included in newer versions of VS2017/VS2019
 if(-not (Test-Path $VSWherePath))
 {
