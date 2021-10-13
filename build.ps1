@@ -1,7 +1,7 @@
 ﻿#requires -Version 5
 
 param(
-    [ValidateSet("vs2022","vs2019", "netcore31", "nupkg-only")]
+    [ValidateSet("vs2022","vs2019", "nupkg-only")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2019",
     [Parameter(Position = 1)]
@@ -12,7 +12,7 @@ param(
     [ValidateSet("NetFramework", "NetCore", "NetFramework452", "NetCore31")]
     [string] $TargetFramework = "NetFramework",
     [Parameter(Position = 4)]
-    [string] $BuildArches = "x86 x64 amd64"
+    [string] $BuildArches = "x86 x64 arm64"
 )
 Set-StrictMode -version latest;
 $ErrorActionPreference = "Stop";
@@ -98,7 +98,7 @@ function Warn
 function Msvs 
 {
     param(
-        [ValidateSet('v142','v143','netcore')]
+        [ValidateSet('v142','v143')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -117,15 +117,10 @@ function Msvs
     $VXXCommonTools = $null
     $VS_VER = -1
     $VS_OFFICIAL_VER = -1
-    $VS_PRE = $false;
+    $VS_PRE = ""
 
     switch -Exact ($Toolchain)
 	{
-        'netcore'
-        {
-            $VS_VER = 16;
-            $VS_OFFICIAL_VER = 2019;
-        }
         'v142'
 		{
             $VS_VER = 16;
@@ -135,64 +130,46 @@ function Msvs
         {
             $VS_VER = 17;
             $VS_OFFICIAL_VER = 2022;
-            $VS_PRE = $true;
+            $VS_PRE = "-prerelease";
         }
     }
-    $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
 
-    $vswherePath = Join-Path $programFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
-    #Check if we already have vswhere which is included in newer versions of VS2017/VS2019
-    if(-not (Test-Path $vswherePath))
-    {
-        Write-Diagnostic "Downloading VSWhere as no install found at $vswherePath"
-        
-        # Check if we already have a local copy and download if required
-        $vswherePath = Join-Path $WorkingDir \vswhere.exe
-        
-        # TODO: Check hash and download if hash differs
-        if(-not (Test-Path $vswherePath))
-        {
-            $client = New-Object System.Net.WebClient;
-            $client.DownloadFile('https://github.com/Microsoft/vswhere/releases/download/2.2.11/vswhere.exe', $vswherePath);
-        }
-    }
-    
-    Write-Diagnostic "VSWhere path $vswherePath"
-    
     $versionSearchStr = "[$VS_VER.0," + ($VS_VER+1) + ".0)"
 
-    $preStr = TernaryReturn $VS_PRE "-prerelease" ""
-    $VSInstallPath = & $vswherePath -version $versionSearchStr -property installationPath $preStr
+    $VSInstallPath = & $VSWherePath -version $versionSearchStr -property installationPath $VS_PRE
     
     Write-Diagnostic "$($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
         
     if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))
     {
-        Die "Visual Studio $VS_OFFICIAL_VER is not installed on your development machine, unable to continue, ran command: $vswherePath -version $versionSearchStr -property installationPath"
+        Die "Visual Studio $VS_OFFICIAL_VER is not installed on your development machine, unable to continue, ran command: $VSWherePath -version $versionSearchStr -property installationPath"
     }
         
     $MSBuildExe = "msbuild.exe"
     $VisualStudioVersion = "$VS_VER.0"
     $VXXCommonTools = Join-Path $VSInstallPath VC\Auxiliary\Build
 
-
-    if ($VXXCommonTools -eq $null -or (-not (Test-Path($VXXCommonTools)))) {
+    if ($VXXCommonTools -eq $null -or (-not (Test-Path($VXXCommonTools))))
+    {
         Die 'Error unable to find any visual studio environment'
     }
 
     $VCVarsAll = Join-Path $VXXCommonTools vcvarsall.bat
-    if (-not (Test-Path $VCVarsAll)) {
+    if (-not (Test-Path $VCVarsAll))
+    {
         Die "Unable to find $VCVarsAll"
     }
 
     # Only configure build environment once
-    if($env:CEFSHARP_BUILD_IS_BOOTSTRAPPED -eq $null) {
+    if($env:CEFSHARP_BUILD_IS_BOOTSTRAPPED -eq $null)
+    {
         Invoke-BatchFile $VCVarsAll $Platform
         $env:CEFSHARP_BUILD_IS_BOOTSTRAPPED = $true
     }
 
     $Arch = $Platform
-    if ($Arch -eq "x86"){
+    if ($Arch -eq "x86")
+    {
         $Arch="win32";
     }
 
@@ -243,14 +220,15 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v142','v143','netcore')]
+        [ValidateSet('v142','v143')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
 
     Write-Diagnostic "Starting to build targeting toolchain $Toolchain"
 
-    foreach ($arch in $ARCHES) {
+    foreach ($arch in $ARCHES)
+    {
         Msvs "$Toolchain" 'Release' $arch
     }
 
@@ -259,53 +237,44 @@ function VSX
 
 function NugetPackageRestore
 {
-    if(-not (Test-Path $nuget)) {
-        Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
-    }
+    param(
+        [Parameter(Position = 0, ValueFromPipeline = $true)]
+        [string[]] $ConfigFiles
+    )
 
     Write-Diagnostic "Restore Nuget Packages"
 
-    # Restore packages
-    if ($IsNetCoreBuild){
-        . $nuget restore CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.netcore.config -PackagesDirectory packages
-        . $nuget restore CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.netcore.config -PackagesDirectory packages
-        &msbuild /t:restore CefSharp3.netcore.sln
-    }else{
-        . $nuget restore $CefSln
+    foreach($file in $ConfigFiles)
+    {
+        . $nuget restore $file -PackagesDirectory packages
     }
-
-	
-    # Restore packages
-    . $nuget restore CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config -PackagesDirectory packages
-    . $nuget restore CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.config -PackagesDirectory packages
 }
 
 function Nupkg
 {
+    param(
+        [Parameter(Position = 0, ValueFromPipeline = $true)]
+        [string[]] $Files
+    )
+
     if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
     {
         Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
         Write-Diagnostic "Skipping Nupkg"
         return
     }
-    
-    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
-    if(-not (Test-Path $nuget)) {
-        Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
-    }
 
     Write-Diagnostic "Building nuget package"
 
-    $PackageRefAdd = TernaryReturn $IsNetCoreBuild "\PackageReference" ""
-    $NetCoreAdd = TernaryReturn $IsNetCoreBuild ".NETCore" ""
     # Build packages
-    . $nuget pack "nuget$($PackageRefAdd)\CefSharp.Common$($NetCoreAdd).nuspec" -NoPackageAnalysis -Version $Version -OutputDirectory "nuget$($PackageRefAdd)" -Properties "RedistVersion=$RedistVersion;"
-    . $nuget pack "nuget$($PackageRefAdd)\CefSharp.Wpf$($NetCoreAdd).nuspec" -NoPackageAnalysis -Version $Version -OutputDirectory "nuget$($PackageRefAdd)"
-    . $nuget pack "nuget$($PackageRefAdd)\CefSharp.OffScreen$($NetCoreAdd).nuspec" -NoPackageAnalysis -Version $Version -OutputDirectory "nuget$($PackageRefAdd)"
-    . $nuget pack "nuget$($PackageRefAdd)\CefSharp.WinForms$($NetCoreAdd).nuspec" -NoPackageAnalysis -Version $Version -OutputDirectory "nuget$($PackageRefAdd)"
+    foreach($file in $Files)
+    {
+        . $nuget pack "$NugetPackagePath\$file" -Version $Version -OutputDirectory $NugetPackagePath -Properties "RedistVersion=$RedistVersion;"
+    }
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
-    if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
+    if(-not (Test-Path $WorkingDir\AfterBuild.ps1))
+    {
         return
     }
 
@@ -314,12 +283,12 @@ function Nupkg
 
 function DownloadNuget()
 {
-    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget))
     {
         $client = New-Object System.Net.WebClient;
         $client.DownloadFile('https://dist.nuget.org/win-x86-commandline/latest/nuget.exe', $nuget);
     }
+
     if(-not (Test-Path $nuget))
     {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
@@ -370,7 +339,6 @@ function WriteVersionToTransform($transform)
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
-
 function WriteVersionToResourceFile($resourceFile)
 {
     $Filename = Join-Path $WorkingDir $resourceFile
@@ -416,6 +384,7 @@ function WriteVersionToAppveyor
     $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
+
 function WriteVersionToNugetTargets
 {
     $Filename = Join-Path $WorkingDir NuGet\PackageReference\CefSharp.Common.NETCore.targets
@@ -431,27 +400,37 @@ function WriteVersionToNugetTargets
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
 
-$IsNetCoreBuild = $TargetFramework.Contains("NetCore")
-
-$ARCHES = $BuildArches.Split(" ");
-$ARCHES_TO_BITKEY = @{};
-foreach ($arch in $ARCHES) {
-    $arch_bit = $arch;
-    if ($arch_bit.StartsWith("x")) {
-        $arch_bit = $arch.Substring(1);
-        if ($arch_bit -eq "86"){
-            $arch_bit = "32";
-        }
-        $ARCHES_TO_BITKEY[$arch] = $arch_bit;
-    }
-}
-
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
-$CefSln = Join-Path $WorkingDir ('CefSharp3' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.sln')
+
+Write-Diagnostic "pushd $WorkingDir"
+Push-Location $WorkingDir
+
+$IsNetCoreBuild = $TargetFramework.Contains("NetCore")
+$ARCHES = [System.Collections.ArrayList]$BuildArches.Split(" ");
+$CefSln = $null
+$NugetPackagePath = $null
+$NupkgFiles = $null
+$VCXProjPackageConfigFiles = $null
+
+if($IsNetCoreBuild)
+{
+    $CefSln = Join-Path $WorkingDir 'CefSharp3.netcore.sln'
+    $NugetPackagePath = "nuget\PackageReference";
+    $NupkgFiles = @('CefSharp.Common.NETCore.nuspec', 'CefSharp.WinForms.NETCore.nuspec', 'CefSharp.Wpf.NETCore.nuspec','CefSharp.OffScreen.NETCore.nuspec')
+    $VCXProjPackageConfigFiles = @('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.netcore.config', 'CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.netcore.config');
+}
+else
+{
+    $ARCHES.Remove("arm64")
+    $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
+    $NugetPackagePath = "nuget";
+    $NupkgFiles = @('CefSharp.Common.nuspec', 'CefSharp.WinForms.nuspec', 'CefSharp.Wpf.nuspec', 'CefSharp.OffScreen.nuspec')
+    $VCXProjPackageConfigFiles = @('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config', 'CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.config');
+}
 
 # Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file
 # Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir ('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.config')))
+$CefSharpCorePackagesXml = [xml](Get-Content ($VCXProjPackageConfigFiles[0]))
 $RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
 $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
 
@@ -477,7 +456,28 @@ Write-Diagnostic "CEF Redist Version = $RedistVersion"
 
 DownloadNuget
 
-NugetPackageRestore
+NugetPackageRestore $VCXProjPackageConfigFiles
+
+$programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
+
+$VSWherePath = Join-Path $programFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
+#Check if we already have vswhere which is included in newer versions of VS2017/VS2019
+if(-not (Test-Path $VSWherePath))
+{
+    Write-Diagnostic "Downloading VSWhere as no install found at $VSWherePath"
+    
+    # Check if we already have a local copy and download if required
+    $VSWherePath = Join-Path $WorkingDir \vswhere.exe
+    
+    # TODO: Check hash and download if hash differs
+    if(-not (Test-Path $VSWherePath))
+    {
+        $client = New-Object System.Net.WebClient;
+        $client.DownloadFile('https://github.com/Microsoft/vswhere/releases/download/2.2.11/vswhere.exe', $VSWherePath);
+    }
+}
+
+Write-Diagnostic "VSWhere path $VSWherePath"
 
 WriteAssemblyVersion
 WriteVersionToShfbproj
@@ -499,22 +499,19 @@ switch -Exact ($Target)
 {
     "nupkg-only"
     {
-        Nupkg
+        Nupkg $NupkgFiles
     }
     "vs2019"
     {
         VSX v142
-        Nupkg
+        Nupkg $NupkgFiles
     }
     "vs2022"
     {
 
         VSX v143
-        Nupkg
-    }
-    "netcore31"
-    {
-        VSX netcore
-        Nupkg
+        Nupkg $NupkgFiles
     }
 }
+
+Pop-Location

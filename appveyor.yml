@@ -8,7 +8,7 @@ configuration: Release
 
 build_script:
   - ps: .\build.ps1
-  - ps: .\build.netcore.ps1
+  - ps: .\build.ps1 -TargetFramework NetCore
 
 test_script:
   # Test our Release x64 build
