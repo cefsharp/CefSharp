@@ -148,30 +148,6 @@
   
   <Choose>
     <!--
-    For .Net Core/Net5 when there's no runtime identifier specified then our lib files will be in the runtimes folders
-    we copy our unmanaged resources into the sub folder when required
-    -->
-    <When Condition="'$(RuntimeIdentifier)' == '' AND ($(TargetFramework.StartsWith('netcoreapp3')) OR $(TargetFramework.StartsWith('net5')))">
-      <Choose>
-        <When Condition="'$(CefSharpPlatformTarget)' == 'x64'">
-          <PropertyGroup>
-            <CefSharpTargetDir>runtimes\win-x64\lib\netcoreapp3.0\</CefSharpTargetDir>
-          </PropertyGroup>
-        </When>
-        <When Condition="'$(CefSharpPlatformTarget)' == 'x86'">
-          <PropertyGroup>
-            <CefSharpTargetDir>runtimes\win-x86\lib\netcoreapp3.0\</CefSharpTargetDir>
-          </PropertyGroup>
-        </When>
-        <When Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU'">
-          <PropertyGroup>
-            <CefSharpTargetDirAnyCpu32>runtimes\win-x86\lib\netcoreapp3.0\</CefSharpTargetDirAnyCpu32>
-            <CefSharpTargetDirAnyCpu64>runtimes\win-x64\lib\netcoreapp3.0\</CefSharpTargetDirAnyCpu64>
-          </PropertyGroup>
-        </When>
-      </Choose>   
-    </When>
-    <!--
     When CefSharpTargetDir is specified for x86/x64 platforms the files are included in a sub directory, 
     The CefSharp.dll file required by the BrowserSubProcess isn't copied by default and won't start, so we include an extra
     copy.
