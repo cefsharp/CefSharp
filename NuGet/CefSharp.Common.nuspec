@@ -12,8 +12,10 @@
     <tags>chrome browser</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
-      <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
+		<dependency id="cef.redist.x64" version="[$RedistVersion$]" />
+      </group>
     </dependencies>
   </metadata>
   <files>
