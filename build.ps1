@@ -1,4 +1,6 @@
-﻿param(
+﻿#requires -Version 5
+
+param(
     [ValidateSet("vs2022","vs2019", "netcore31", "nupkg-only")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2019",
@@ -14,20 +16,6 @@
 )
 Set-StrictMode -version latest;
 $ErrorActionPreference = "Stop";
-$IsNetCoreBuild = $TargetFramework.Contains("NetCore")
-
-$ARCHES = $BuildArches.Split(" ");
-$ARCHES_TO_BITKEY = @{};
-foreach ($arch in $ARCHES) {
-    $arch_bit = $arch;
-    if ($arch_bit.StartsWith("x")) {
-        $arch_bit = $arch.Substring(1);
-        if ($arch_bit -eq "86"){
-            $arch_bit = "32";
-        }
-        $ARCHES_TO_BITKEY[$arch] = $arch_bit;
-    }
-}
 
 function TernaryReturn 
 {
@@ -47,16 +35,6 @@ function TernaryReturn
     $Value2
 }
 
-
-$WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
-$CefSln = Join-Path $WorkingDir ('CefSharp3' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.sln')
-
-# Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file
-# Save having to update this file manually Example 3.2704.1418
-$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir ('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.config')))
-$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
-$nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
-
 function Write-Diagnostic 
 {
     param(
@@ -67,24 +45,6 @@ function Write-Diagnostic
     Write-Host
     Write-Host $Message -ForegroundColor Green
     Write-Host
-}
-
-if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
-{
-    $Version = $env:APPVEYOR_BUILD_VERSION
-}
-
-if ($env:APPVEYOR_REPO_TAG -eq "True")
-{
-    $Version = "$env:APPVEYOR_REPO_TAG_NAME".Substring(1)  # trim leading "v"
-    $AssemblyVersion = $Version
-    #Stip the -pre
-    if($AssemblyVersion.Contains("-pre"))
-    {
-        $AssemblyVersion = $AssemblyVersion.Substring(0, $AssemblyVersion.IndexOf("-pre"))
-    }
-    Write-Diagnostic "Setting Version based on tag to $Version"    
-    Write-Diagnostic "Setting AssemblyVersion based on tag to $AssemblyVersion"    
 }
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
@@ -134,7 +94,6 @@ function Warn
     Write-Host $Message -ForegroundColor Yellow
     Write-Host
 }
-
 
 function Msvs 
 {
@@ -470,6 +429,48 @@ function WriteVersionToNugetTargets
     
     $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
+}
+
+$IsNetCoreBuild = $TargetFramework.Contains("NetCore")
+
+$ARCHES = $BuildArches.Split(" ");
+$ARCHES_TO_BITKEY = @{};
+foreach ($arch in $ARCHES) {
+    $arch_bit = $arch;
+    if ($arch_bit.StartsWith("x")) {
+        $arch_bit = $arch.Substring(1);
+        if ($arch_bit -eq "86"){
+            $arch_bit = "32";
+        }
+        $ARCHES_TO_BITKEY[$arch] = $arch_bit;
+    }
+}
+
+$WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
+$CefSln = Join-Path $WorkingDir ('CefSharp3' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.sln')
+
+# Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file
+# Save having to update this file manually Example 3.2704.1418
+$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir ('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime' + (TernaryReturn $IsNetCoreBuild ".netcore" "") + '.config')))
+$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
+$nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
+
+if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
+{
+    $Version = $env:APPVEYOR_BUILD_VERSION
+}
+
+if ($env:APPVEYOR_REPO_TAG -eq "True")
+{
+    $Version = "$env:APPVEYOR_REPO_TAG_NAME".Substring(1)  # trim leading "v"
+    $AssemblyVersion = $Version
+    #Stip the -pre
+    if($AssemblyVersion.Contains("-pre"))
+    {
+        $AssemblyVersion = $AssemblyVersion.Substring(0, $AssemblyVersion.IndexOf("-pre"))
+    }
+    Write-Diagnostic "Setting Version based on tag to $Version"    
+    Write-Diagnostic "Setting AssemblyVersion based on tag to $AssemblyVersion"    
 }
 
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
