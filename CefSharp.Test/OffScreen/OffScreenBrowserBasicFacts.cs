@@ -572,8 +572,11 @@ namespace CefSharp.Test.OffScreen
         public async Task CanLoadRequestWithPostData(string url)
         {
             const string data = "Testing123";
-            //To use LoadRequest we must first load a web page
-            using (var browser = new ChromiumWebBrowser(new HtmlString("Testing")))
+            //When Chromium Site Isolation is enabled we must first navigate to
+            //a web page of the same origin to use LoadRequest
+            //When Site Isolation is disabled we can navigate to any web page
+            //https://magpcss.org/ceforum/viewtopic.php?f=10&t=18672&p=50266#p50249
+            using (var browser = new ChromiumWebBrowser("http://httpbin.org/"))
             {
                 var response = await browser.LoadUrlAsync();
 
