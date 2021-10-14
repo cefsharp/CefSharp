@@ -3,10 +3,9 @@
 # Update projects files
 # I haven't found a clean solution that allows for using just nuget.exe and dotnet.exe to do this
 # Update the vcxproj files first
-# Update the .Net 4.5.2 csproj files using nuget.exe
-# Update the .Net Core csproj files modifying the xml file directly
+# Update the .Net csproj files modifying the xml file directly
 
-$CefVersion = '94.4.2'
+$CefVersion = '94.4.9'
 
 function RemoveEnsureNuGetPackageBuildImports
 {
