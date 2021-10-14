@@ -17,24 +17,6 @@ param(
 Set-StrictMode -version latest;
 $ErrorActionPreference = "Stop";
 
-function TernaryReturn 
-{
-    param(
-        [Parameter(Position = 0, ValueFromPipeline = $true)]
-        [bool] $Yes,
-        [Parameter(Position = 1, ValueFromPipeline = $true)]
-        $Value,
-        [Parameter(Position = 2, ValueFromPipeline = $true)]
-        $Value2
-    )
-
-    if($Yes) {
-        return $Value
-    }
-    
-    $Value2
-}
-
 function Write-Diagnostic 
 {
     param(
