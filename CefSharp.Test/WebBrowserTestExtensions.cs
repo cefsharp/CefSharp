@@ -76,11 +76,11 @@ namespace CefSharp.Test
             return tcs.Task;
         }
 
-        public static Task<bool> WaitForQUnitTestExeuctionToComplete(this IWebBrowser browser)
+        public static Task<QUnitTestResult> WaitForQUnitTestExeuctionToComplete(this IWebBrowser browser)
         {
             //If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously
             //and switch to tcs.TrySetResult below - no need for the custom extension method
-            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var tcs = new TaskCompletionSource<QUnitTestResult>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             EventHandler<JavascriptMessageReceivedEventArgs> handler = null;
             handler = (sender, args) =>
@@ -95,7 +95,7 @@ namespace CefSharp.Test
                     var total = (int)details.total;
                     var passed = (int)details.passed;
 
-                    tcs.TrySetResult(total == passed);
+                    tcs.TrySetResult(new QUnitTestResult { Details = details, Passed = passed, Total = total });
                 }
                 else
                 {

@@ -70,11 +70,18 @@ namespace CefSharp.Test.JavascriptBinding
                 repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
 
                 browser.CreateBrowser();
-                var success = await browser.WaitForQUnitTestExeuctionToComplete();
+                var response = await browser.WaitForQUnitTestExeuctionToComplete();
 
-                Assert.True(success);
+                if (!response.Success)
+                {
+                    output.WriteLine("QUnit Details : {0}", response.Details);
+                    output.WriteLine("QUnit Passed : {0}", response.Total);
+                    output.WriteLine("QUnit Total : {0}", response.Passed);
+                }
 
-                output.WriteLine("QUnit Tests result: {0}", success);
+                Assert.True(response.Success);
+
+                output.WriteLine("QUnit Tests result: {0}", response.Success);
             }
         }
 
@@ -92,11 +99,18 @@ namespace CefSharp.Test.JavascriptBinding
                 repo.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
 
                 browser.CreateBrowser();
-                var success = await browser.WaitForQUnitTestExeuctionToComplete();
+                var response = await browser.WaitForQUnitTestExeuctionToComplete();
 
-                Assert.True(success);
+                if(!response.Success)
+                {
+                    output.WriteLine("QUnit Details : {0}", response.Details);
+                    output.WriteLine("QUnit Passed : {0}", response.Total);
+                    output.WriteLine("QUnit Total : {0}", response.Passed);
+                }
 
-                output.WriteLine("QUnit Tests result: {0}", success);
+                Assert.True(response.Success);
+
+                output.WriteLine("QUnit Tests result: {0}", response.Success);
             }
         }
 #endif
