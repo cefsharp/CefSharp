@@ -518,9 +518,13 @@ DownloadNuget
 
 NugetPackageRestore $VCXProjPackageConfigFiles
 
-$ProgramFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
+$VSWherePath = Join-Path ${env:ProgramFiles} 'Microsoft Visual Studio\Installer\vswhere.exe'
 
-$VSWherePath = Join-Path $ProgramFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
+if(-not (Test-Path $VSWherePath))
+{
+    $VSWherePath = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+}
+
 #Check if we already have vswhere which is included in newer versions of VS2017/VS2019
 if(-not (Test-Path $VSWherePath))
 {
