@@ -95,7 +95,7 @@ namespace CefSharp.Test
                     var total = (int)details.total;
                     var passed = (int)details.passed;
 
-                    tcs.TrySetResult(new QUnitTestResult { Details = details, Passed = passed, Total = total });
+                    tcs.TrySetResult(new QUnitTestResult { Passed = passed, Total = total });
                 }
                 else
                 {
