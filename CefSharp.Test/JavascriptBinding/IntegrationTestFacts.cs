@@ -47,13 +47,25 @@ namespace CefSharp.Test.JavascriptBinding
                 repo.Register("boundAsync", new AsyncBoundObject(), options: bindingOptions);
                 repo.Register("boundAsync2", new AsyncBoundObject(), options: bindingOptions);
 
+                browser.JavascriptMessageReceived += (s, e) =>
+                {
+                    dynamic msg = e.Message;
+                    var type = (string)msg.Type;
+
+                    if (type == "QUnitTestFailed")
+                    {
+                        var testOutput = (string)msg.Output;
+                        output.WriteLine(testOutput);
+                    }
+                };
+
                 browser.CreateBrowser();
                 var response = await browser.WaitForQUnitTestExeuctionToComplete();
 
                 if (!response.Success)
                 {
-                    output.WriteLine("QUnit Passed : {0}", response.Total);
-                    output.WriteLine("QUnit Total : {0}", response.Passed);
+                    output.WriteLine("QUnit Passed : {0}", response.Passed);
+                    output.WriteLine("QUnit Total : {0}", response.Total);
                 }
 
                 Assert.True(response.Success);
@@ -75,13 +87,25 @@ namespace CefSharp.Test.JavascriptBinding
                 repo.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
                 repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
 
+                browser.JavascriptMessageReceived += (s, e) =>
+                {
+                    dynamic msg = e.Message;
+                    var type = (string)msg.Type;
+
+                    if (type == "QUnitTestFailed")
+                    {
+                        var testOutput = (string)msg.Output;
+                        output.WriteLine(testOutput);
+                    }
+                };
+
                 browser.CreateBrowser();
                 var response = await browser.WaitForQUnitTestExeuctionToComplete();
 
                 if (!response.Success)
                 {
-                    output.WriteLine("QUnit Passed : {0}", response.Total);
-                    output.WriteLine("QUnit Total : {0}", response.Passed);
+                    output.WriteLine("QUnit Passed : {0}", response.Passed);
+                    output.WriteLine("QUnit Total : {0}", response.Total);
                 }
 
                 Assert.True(response.Success);
@@ -103,13 +127,25 @@ namespace CefSharp.Test.JavascriptBinding
                 repo.Register("bound", new BoundObject(), isAsync: false, options: bindingOptions);
                 repo.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
 
+                browser.JavascriptMessageReceived += (s, e) =>
+                {
+                    dynamic msg = e.Message;
+                    var type = (string)msg.Type;
+
+                    if (type == "QUnitTestFailed")
+                    {
+                        var testOutput = (string)msg.Output;
+                        output.WriteLine(testOutput);
+                    }
+                };
+
                 browser.CreateBrowser();
                 var response = await browser.WaitForQUnitTestExeuctionToComplete();
 
                 if(!response.Success)
                 {
-                    output.WriteLine("QUnit Passed : {0}", response.Total);
-                    output.WriteLine("QUnit Total : {0}", response.Passed);
+                    output.WriteLine("QUnit Passed : {0}", response.Passed);
+                    output.WriteLine("QUnit Total : {0}", response.Total);
                 }
 
                 Assert.True(response.Success);

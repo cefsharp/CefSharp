@@ -28,6 +28,31 @@
         {
             CefSharp.PostMessage({ "Type": "QUnitExecutionComplete", "Details": details });
         });
+
+        QUnit.log(function (details)
+        {
+            if (details.result)
+            {
+                return;
+            }
+
+            let output = `[FAILED] ${details.module} > ${details.name}`;
+
+            if (details.message)
+            {
+                output += `: ${details.message}`;
+            }
+            if (details.actual)
+            {
+                output += `\nexpected: ${details.expected}\nactual: ${details.actual}`;
+            }
+            if (details.source)
+            {
+                output += `\n${details.source}`;
+            }
+
+            CefSharp.PostMessage({ "Type": "QUnitTestFailed", "Output": output });
+        });
     </script>
 
 </body>
