@@ -34,7 +34,7 @@
     <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.netcore.csproj" />
     <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
     <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
-    <PackageReference Include="chromiumembeddedframework.runtime" Version="94.4.5" />
+    <PackageReference Include="chromiumembeddedframework.runtime" Version="94.4.11" />
   </ItemGroup>
 
   <ItemGroup>
