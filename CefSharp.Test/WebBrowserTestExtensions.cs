@@ -85,21 +85,17 @@ namespace CefSharp.Test
             EventHandler<JavascriptMessageReceivedEventArgs> handler = null;
             handler = (sender, args) =>
             {
-                browser.JavascriptMessageReceived -= handler;
-
                 dynamic msg = args.Message;
                 //Wait for while page to finish loading not just the first frame
                 if (msg.Type == "QUnitExecutionComplete")
                 {
+                    browser.JavascriptMessageReceived -= handler;
+
                     var details = msg.Details;
                     var total = (int)details.total;
                     var passed = (int)details.passed;
 
                     tcs.TrySetResult(new QUnitTestResult { Passed = passed, Total = total });
-                }
-                else
-                {
-                    tcs.TrySetException(new Exception("WaitForQUnitTestExeuctionToComplete - Incorrect Message Type"));
                 }
             };
 
