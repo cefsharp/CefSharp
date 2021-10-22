@@ -2,20 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <!-- Map RuntimeIdentifier e.g. converts from win10-x64 to win-x64 -->
-	<CefSharpRuntimeIdentifier>$(RuntimeIdentifier)</CefSharpRuntimeIdentifier>
+    <CefSharpRuntimeIdentifier>$(RuntimeIdentifier)</CefSharpRuntimeIdentifier>
     <CefSharpRuntimeIdentifier Condition="$(RuntimeIdentifier.StartsWith('win')) and $(RuntimeIdentifier.Contains('-x86'))">win-x86</CefSharpRuntimeIdentifier>
     <CefSharpRuntimeIdentifier Condition="$(RuntimeIdentifier.StartsWith('win')) and $(RuntimeIdentifier.Contains('-x64'))">win-x64</CefSharpRuntimeIdentifier>
     <CefSharpRuntimeIdentifier Condition="$(RuntimeIdentifier.StartsWith('win')) and $(RuntimeIdentifier.Contains('-arm64'))">win-arm64</CefSharpRuntimeIdentifier>
     <CefSharpRuntimeIdentifier Condition="'$(CefSharpRuntimeIdentifierOverride)' != ''">$(CefSharpRuntimeIdentifierOverride)</CefSharpRuntimeIdentifier>
-	
-	<!-- Current supported values are Default, and NoAction (this target doesn't copy any files.) -->
-    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == ''">Default</CefSharpBuildAction>
+    
     <!--
-    For Library projects with no RuntimeIdentifier we don't include our additional files and packages, the transitive reference should flow directly to the consuming projects.
+    For Library projects we don't include our additional files and packages, the transitive reference should flow directly to the consuming projects.
     For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are often win-x64 or win-x86 the resuiling build output
     is polluted with extra copies in sub folders.
+    If EnableDynamicLoading = true then CefSharpBuildAction will be Default unless otherwise specified
+    https://docs.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support#plugin-with-library-dependencies
     -->
-    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(OutputType)' == 'Library' AND '$(CefSharpRuntimeIdentifier)' == ''">NoAction</CefSharpBuildAction>
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(OutputType)' == 'Library' AND '$(EnableDynamicLoading)' != 'true'">NoAction</CefSharpBuildAction>
+    <!-- Current supported values are Default, and NoAction (this target doesn't copy any files.) -->
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == ''">Default</CefSharpBuildAction>
   </PropertyGroup>
   <ItemGroup>
     <_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(CefSharpRuntimeIdentifier)\native\CefSharp.BrowserSubprocess.runtimeconfig.json'))"/>
