@@ -59,12 +59,12 @@
   <Target Name="CefSharpAfterBuildDiagnostic">
     <Message Importance="high" Text="CefSharp After Build Diagnostic" />
     <Message Importance="high" Text="CefSharpBuildAction = $(CefSharpBuildAction)" />
-	<Message Importance="high" Text="CefSharpPropertiesLoaded = $(CefSharpPropertiesLoaded)" />
+    <Message Importance="high" Text="CefSharpPropertiesLoaded = $(CefSharpPropertiesLoaded)" />
     <Message Importance="high" Text="CefSharpTargetDir = $(CefSharpTargetDir)" />
     <Message Importance="high" Text="CefSharpTargetDirAnyCpu32 = $(CefSharpTargetDirAnyCpu32)" />
     <Message Importance="high" Text="CefSharpTargetDirAnyCpu64 = $(CefSharpTargetDirAnyCpu64)" />
     <Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
-	<Message Importance="high" Text="EffectivePlatform = $(EffectivePlatform)" />
+    <Message Importance="high" Text="EffectivePlatform = $(EffectivePlatform)" />
     <Message Importance="high" Text="Platform = $(Platform)" />
     <Message Importance="high" Text="PlatformName = $(PlatformName)" />
     <Message Importance="high" Text="Platforms = $(Platforms)" />
@@ -121,19 +121,19 @@
     Task correctly sets the build to AnyCPU, unfortunately it's too late. Previous attempt to hack around this failed,
     relying on user to manually specify $(PlatformTarget) until the SDK issue is fixed.
     When AnyCPU and Prefer32Bit we just set the PlatformTarget to x86 (only when CefSharpAnyCpuSupport is empty)
-	**This is must be kept in sync with _CefSharpCopyFilesSetProperties**
+    **This is must be kept in sync with _CefSharpCopyFilesSetProperties**
     -->
     <CefSharpPlatformTarget>$(PlatformTarget)</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == ''">$(Platform)</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'Win32'">x86</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</CefSharpPlatformTarget>
     <CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</CefSharpPlatformTarget>
-	
-	<!--
-	We use this to check if this property group was loaded so we know when to use our copy targets to workaround
-	https://github.com/dotnet/project-system/issues/4158
-	-->
-	<CefSharpPropertiesLoaded>true</CefSharpPropertiesLoaded>
+    
+    <!--
+    We use this to check if this property group was loaded so we know when to use our copy targets to workaround
+    https://github.com/dotnet/project-system/issues/4158
+    -->
+    <CefSharpPropertiesLoaded>true</CefSharpPropertiesLoaded>
     
     <!--
     For PackageReference library projects where buildTransitive is supported we'll default to setting CefSharpAnyCpuSupport to true
@@ -396,7 +396,7 @@
   -->
   <Target Name="CefSharpCopyFilesAfterNugetRestore" AfterTargets="Build" DependsOnTargets="_CefSharpCopyFilesSetProperties" Condition="'$(NuGetProjectStyle)' != 'PackageReference' AND '$(CefSharpBuildAction)' != 'NoAction' AND '$(CefSharpPropertiesLoaded)' == ''">
     <CallTarget Targets="CefSharpCopyFilesAfterNugetRestore32" Condition="'$(_CefSharpPlatformTarget)' == 'x86' OR '$(_CefSharpPlatformTarget)' == 'AnyCPU'" />
-	<CallTarget Targets="CefSharpCopyFilesAfterNugetRestore64" Condition="'$(_CefSharpPlatformTarget)' == 'x64' OR '$(_CefSharpPlatformTarget)' == 'AnyCPU'"/>
+    <CallTarget Targets="CefSharpCopyFilesAfterNugetRestore64" Condition="'$(_CefSharpPlatformTarget)' == 'x64' OR '$(_CefSharpPlatformTarget)' == 'AnyCPU'"/>
   </Target>
   
   <Target Name="CefSharpCopyFilesAfterNugetRestore32">
@@ -422,20 +422,20 @@
   </Target>
   
   <Target Name="_CefSharpCopyFilesSetProperties">
-	<PropertyGroup>
-	  <!-- This is must be kept in sync with the main property group above -->
-	  <_CefSharpPlatformTarget>$(PlatformTarget)</_CefSharpPlatformTarget>
+    <PropertyGroup>
+      <!-- This is must be kept in sync with the main property group above -->
+      <_CefSharpPlatformTarget>$(PlatformTarget)</_CefSharpPlatformTarget>
       <_CefSharpPlatformTarget Condition="'$(_CefSharpPlatformTarget)' == ''">$(Platform)</_CefSharpPlatformTarget>
       <_CefSharpPlatformTarget Condition="'$(_CefSharpPlatformTarget)' == 'Win32'">x86</_CefSharpPlatformTarget>
       <_CefSharpPlatformTarget Condition="'$(_CefSharpPlatformTarget)' == 'AnyCPU' AND '$(Prefer32Bit)' == 'true' AND '$(CefSharpAnyCpuSupport)' == ''">x86</_CefSharpPlatformTarget>
-	  <_CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</_CefSharpPlatformTarget>
-	
-	  <CefRedist32TargetDir Condition="'$(CefRedist32TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedist32TargetDir>
-	  <CefRedist64TargetDir Condition="'$(CefRedist64TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedist64TargetDir>
-	  <CefRedist32TargetDir Condition="'$(_CefSharpPlatformTarget)' == 'AnyCPU'">$(CefRedist32TargetDir)x86\</CefRedist32TargetDir>
+      <_CefSharpPlatformTarget Condition="'$(CefSharpPlatformTargetOverride)' != ''">$(CefSharpPlatformTargetOverride)</_CefSharpPlatformTarget>
+    
+      <CefRedist32TargetDir Condition="'$(CefRedist32TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedist32TargetDir>
+      <CefRedist64TargetDir Condition="'$(CefRedist64TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedist64TargetDir>
+      <CefRedist32TargetDir Condition="'$(_CefSharpPlatformTarget)' == 'AnyCPU'">$(CefRedist32TargetDir)x86\</CefRedist32TargetDir>
       <CefRedist64TargetDir Condition="'$(_CefSharpPlatformTarget)' == 'AnyCPU'">$(CefRedist64TargetDir)x64\</CefRedist64TargetDir>
     </PropertyGroup>
-	<ItemGroup>
+    <ItemGroup>
       <_CefSharpCommonManagedDll Include="$(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll" />
       <_CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
       <_CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
