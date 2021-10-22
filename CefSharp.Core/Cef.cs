@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -162,6 +163,46 @@ namespace CefSharp
             {
                 return Core.Cef.Initialize(settings.settings, performDependencyCheck, cefApp);
             }
+        }
+
+        /// <summary>
+        /// Initializes CefSharp with user-provided settings. This method allows you to wait for
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> to be called before continuing. 
+        /// It's important to note that Initialize and Shutdown <strong>MUST</strong> be called on your main
+        /// application thread (typically the UI thread). If you call them on different
+        /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
+        /// </summary>
+        /// <param name="settings">CefSharp configuration settings.</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies available, throws exception if any are missing</param>
+        /// <returns>returns a Task that can be awaited. true if successful; otherwise, false. If false check the log file for possible errors</returns>
+        /// <remarks>
+        /// If successful then the Task will be completed successfully when <see cref="IBrowserProcessHandler.OnContextInitialized"/> is called.
+        /// If successful then the continuation will happen syncrionously on the CEF UI thread.
+        /// </remarks>
+        public static Task<bool> InitializeAsync(CefSettingsBase settings, bool performDependencyCheck = true)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            var handler = new InitializeAsyncBrowserProcessHandler(tcs);
+
+            using (settings.settings)
+            {
+                try
+                {
+                    var success = Core.Cef.Initialize(settings.settings, performDependencyCheck, handler);
+
+                    //Failed, need to check the log file
+                    if (!success)
+                    {
+                        tcs.TrySetResult(false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+            }
+
+            return tcs.Task;
         }
 
         /// <summary>
