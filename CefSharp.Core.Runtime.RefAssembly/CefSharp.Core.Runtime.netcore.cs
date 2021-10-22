@@ -112,7 +112,6 @@ namespace CefSharp.Core
         public bool CookieableSchemesExcludeDefaults { get { throw null; } set { } }
         public string CookieableSchemesList { get { throw null; } set { } }
         public bool ExternalMessagePump { get { throw null; } set { } }
-        public bool IgnoreCertificateErrors { get { throw null; } set { } }
         public string JavascriptFlags { get { throw null; } set { } }
         public string Locale { get { throw null; } set { } }
         public string LocalesDirPath { get { throw null; } set { } }
@@ -341,6 +340,7 @@ namespace CefSharp.Core
         protected virtual void Dispose(bool A_0) { }
         ~WindowInfo() { }
         public virtual void SetAsChild(System.IntPtr parentHandle) { }
+        public virtual void SetAsChild(System.IntPtr parentHandle, CefSharp.Structs.Rect windowBounds) { }
         public virtual void SetAsChild(System.IntPtr parentHandle, int left, int top, int right, int bottom) { }
         public virtual void SetAsPopup(System.IntPtr parentHandle, string windowName) { }
         public virtual void SetAsWindowless(System.IntPtr parentHandle) { }
