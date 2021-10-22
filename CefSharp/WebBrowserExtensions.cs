@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -30,6 +31,7 @@ namespace CefSharp
         /// <exception cref="Exception">Browser is already initialized. RegisterJsObject must be +
         ///                                     called before the underlying CEF browser is created.</exception>
         [Obsolete("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void RegisterJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
         {
             throw new NotImplementedException("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.");
@@ -48,6 +50,7 @@ namespace CefSharp
         /// <remarks>The registered methods can only be called in an async way, they will all return immediately and the resulting
         /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
         [Obsolete("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void RegisterAsyncJsObject(this IWebBrowser webBrowser, string name, object objectToBind, BindingOptions options = null)
         {
             throw new NotImplementedException("This method has been removed, see https://github.com/cefsharp/CefSharp/issues/2990 for details on migrating your code.");
