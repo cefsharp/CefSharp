@@ -101,20 +101,6 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// Set to true to ignore errors related to invalid SSL certificates.
-            /// Enabling this setting can lead to potential security vulnerabilities like
-            /// "man in the middle" attacks. Applications that load content from the
-            /// internet should not enable this setting. Can be set globally using the
-            /// CefSettings.IgnoreCertificateErrors value. This value will be ignored if
-            /// CachePath matches the CefSettings.cache_path value.
-            /// </summary>
-            property bool IgnoreCertificateErrors
-            {
-                bool get() { return _settings->ignore_certificate_errors == 1; }
-                void set(bool value) { _settings->ignore_certificate_errors = value; }
-            }
-
-            /// <summary>
             /// Comma delimited list of schemes supported by the associated
             /// ICookieManager. If CookieableSchemesExcludeDefaults is false the
             /// default schemes ("http", "https", "ws" and "wss") will also be supported.

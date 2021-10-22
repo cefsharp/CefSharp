@@ -15,7 +15,6 @@ namespace CefSharp.Core
         public BrowserSettings() { }
         public BrowserSettings(bool autoDispose) { }
         public virtual string AcceptLanguageList { get { throw null; } set { } }
-        public virtual CefSharp.CefState ApplicationCache { get { throw null; } set { } }
         public virtual bool AutoDispose { get { throw null; } }
         public virtual uint BackgroundColor { get { throw null; } set { } }
         public virtual string CursiveFontFamily { get { throw null; } set { } }
@@ -24,7 +23,6 @@ namespace CefSharp.Core
         public virtual int DefaultFixedFontSize { get { throw null; } set { } }
         public virtual int DefaultFontSize { get { throw null; } set { } }
         public virtual string FantasyFontFamily { get { throw null; } set { } }
-        public virtual CefSharp.CefState FileAccessFromFileUrls { get { throw null; } set { } }
         public virtual string FixedFontFamily { get { throw null; } set { } }
         public virtual CefSharp.CefState ImageLoading { get { throw null; } set { } }
         public virtual CefSharp.CefState ImageShrinkStandaloneToFit { get { throw null; } set { } }
@@ -43,7 +41,6 @@ namespace CefSharp.Core
         public virtual string StandardFontFamily { get { throw null; } set { } }
         public virtual CefSharp.CefState TabToLinks { get { throw null; } set { } }
         public virtual CefSharp.CefState TextAreaResize { get { throw null; } set { } }
-        public virtual CefSharp.CefState UniversalAccessFromFileUrls { get { throw null; } set { } }
         public virtual CefSharp.CefState WebGl { get { throw null; } set { } }
         public virtual int WindowlessFrameRate { get { throw null; } set { } }
         public void Dispose() { }
@@ -307,7 +304,6 @@ namespace CefSharp.Core
         public string CachePath { get { throw null; } set { } }
         public bool CookieableSchemesExcludeDefaults { get { throw null; } set { } }
         public string CookieableSchemesList { get { throw null; } set { } }
-        public bool IgnoreCertificateErrors { get { throw null; } set { } }
         public bool PersistSessionCookies { get { throw null; } set { } }
         public bool PersistUserPreferences { get { throw null; } set { } }
         public void Dispose() { }

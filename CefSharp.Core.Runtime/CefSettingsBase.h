@@ -187,15 +187,6 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// Set to true in order to completely ignore SSL certificate errors. This is NOT recommended.
-            /// </summary>
-            property bool IgnoreCertificateErrors
-            {
-                bool get() { return _cefSettings->ignore_certificate_errors == 1; }
-                void set(bool value) { _cefSettings->ignore_certificate_errors = value; }
-            }
-
-            /// <summary>
             /// The locale string that will be passed to WebKit. If empty the default locale of "en-US" will be used. Also configurable using
             /// the "lang" command-line switch.
             /// </summary>

@@ -5,6 +5,7 @@
 //NOTE:Classes in the CefSharp.Core namespace have been hidden from intellisnse so users don't use them directly
 
 using System;
+using CefSharp.Structs;
 
 namespace CefSharp
 {
@@ -100,6 +101,12 @@ namespace CefSharp
         public void SetAsChild(IntPtr parentHandle)
         {
             windowInfo.SetAsChild(parentHandle);
+        }
+
+        /// <inheritdoc/>
+        public void SetAsChild(IntPtr parentHandle, Rect windowBounds)
+        {
+            windowInfo.SetAsChild(parentHandle, windowBounds);
         }
 
         /// <inheritdoc/>

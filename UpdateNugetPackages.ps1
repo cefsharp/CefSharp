@@ -5,7 +5,7 @@
 # Update the vcxproj files first
 # Update the .Net csproj files modifying the xml file directly
 
-$CefVersion = '94.4.11'
+$CefVersion = '95.7.10'
 
 function RemoveEnsureNuGetPackageBuildImports
 {

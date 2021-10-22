@@ -55,11 +55,11 @@ namespace CefSharp
             {
                 int get()
                 {
-                    return _windowInfo->x;
+                    return _windowInfo->bounds.x;
                 }
                 void set(int x)
                 {
-                    _windowInfo->x = x;
+                    _windowInfo->bounds.x = x;
                 }
             }
 
@@ -67,11 +67,11 @@ namespace CefSharp
             {
                 int get()
                 {
-                    return _windowInfo->y;
+                    return _windowInfo->bounds.y;
                 }
                 void set(int y)
                 {
-                    _windowInfo->y = y;
+                    _windowInfo->bounds.y = y;
                 }
             }
 
@@ -79,11 +79,11 @@ namespace CefSharp
             {
                 int get()
                 {
-                    return _windowInfo->width;
+                    return _windowInfo->bounds.width;
                 }
                 void set(int width)
                 {
-                    _windowInfo->width = width;
+                    _windowInfo->bounds.width = width;
                 }
             }
 
@@ -91,11 +91,11 @@ namespace CefSharp
             {
                 int get()
                 {
-                    return _windowInfo->height;
+                    return _windowInfo->bounds.height;
                 }
                 void set(int height)
                 {
-                    _windowInfo->height = height;
+                    _windowInfo->bounds.height = height;
                 }
             }
 
@@ -185,21 +185,38 @@ namespace CefSharp
 
             virtual void SetAsChild(IntPtr parentHandle)
             {
+                CefWindowInfo window;
+                CefRect windowBounds;
+
                 HWND hwnd = static_cast<HWND>(parentHandle.ToPointer());
+
                 RECT rect;
                 GetClientRect(hwnd, &rect);
-                CefWindowInfo window;
-                _windowInfo->SetAsChild(hwnd, rect);
+
+                windowBounds.x = rect.left;
+                windowBounds.y = rect.top;
+                windowBounds.width = rect.right - rect.left;
+                windowBounds.height = rect.bottom - rect.top;
+
+                _windowInfo->SetAsChild(hwnd, windowBounds);
+            }
+
+            virtual void SetAsChild(IntPtr parentHandle, CefSharp::Structs::Rect windowBounds)
+            {
+                auto rect = CefRect(windowBounds.X, windowBounds.Y, windowBounds.Width, windowBounds.Height);
+                
+                _windowInfo->SetAsChild((HWND)parentHandle.ToPointer(), rect);
             }
 
             virtual void SetAsChild(IntPtr parentHandle, int left, int top, int right, int bottom)
             {
-                RECT rect;
-                rect.left = left;
-                rect.top = top;
-                rect.right = right;
-                rect.bottom = bottom;
-                _windowInfo->SetAsChild((HWND)parentHandle.ToPointer(), rect);
+                CefRect windowBounds;
+                windowBounds.x = left;
+                windowBounds.y = top;
+                windowBounds.width = right - left;
+                windowBounds.height = bottom - top;
+
+                _windowInfo->SetAsChild((HWND)parentHandle.ToPointer(), windowBounds);
             }
 
             virtual void SetAsPopup(IntPtr parentHandle, String^ windowName)

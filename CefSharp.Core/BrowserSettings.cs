@@ -137,20 +137,6 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
-        public CefState UniversalAccessFromFileUrls
-        {
-            get { return settings.UniversalAccessFromFileUrls; }
-            set { settings.UniversalAccessFromFileUrls = value; }
-        }
-
-        /// <inheritdoc/>
-        public CefState FileAccessFromFileUrls
-        {
-            get { return settings.FileAccessFromFileUrls; }
-            set { settings.FileAccessFromFileUrls = value; }
-        }
-
-        /// <inheritdoc/>
         public CefState ImageLoading
         {
             get { return settings.ImageLoading; }
@@ -190,13 +176,6 @@ namespace CefSharp
         {
             get { return settings.Databases; }
             set { settings.Databases = value; }
-        }
-
-        /// <inheritdoc/>
-        public CefState ApplicationCache
-        {
-            get { return settings.ApplicationCache; }
-            set { settings.ApplicationCache = value; }
         }
 
         /// <inheritdoc/>

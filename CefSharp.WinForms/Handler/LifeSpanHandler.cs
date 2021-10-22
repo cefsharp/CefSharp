@@ -153,7 +153,9 @@ namespace CefSharp.WinForms.Handler
 
                 var rect = control.ClientRectangle;
 
-                windowInfo.SetAsChild(control.Handle, rect.Left, rect.Top, rect.Right, rect.Bottom);
+                var windowBounds = new CefSharp.Structs.Rect(rect.X, rect.Y, rect.Width, rect.Height);
+
+                windowInfo.SetAsChild(control.Handle, windowBounds);
             }));
 
             return false;

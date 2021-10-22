@@ -108,18 +108,6 @@ namespace CefSharp
         CefState Plugins { get; set; }
 
         /// <summary>
-        /// Controls whether file URLs will have access to all URLs. Also configurable
-        /// using the "allow-universal-access-from-files" command-line switch.
-        /// </summary>
-        CefState UniversalAccessFromFileUrls { get; set; }
-
-        /// <summary>
-        /// Controls whether file URLs will have access to other file URLs. Also
-        /// configurable using the "allow-access-from-files" command-line switch.
-        /// </summary>
-        CefState FileAccessFromFileUrls { get; set; }
-
-        /// <summary>
         /// Controls whether image URLs will be loaded from the network. A cached image
         /// will still be rendered if requested. Also configurable using the
         /// "disable-image-loading" command-line switch.
@@ -156,12 +144,6 @@ namespace CefSharp
         /// "disable-databases" command-line switch.
         /// </summary>
         CefState Databases { get; set; }
-
-        /// <summary>
-        /// Controls whether the application cache can be used. Also configurable using
-        /// the "disable-application-cache" command-line switch.
-        /// </summary>
-        CefState ApplicationCache { get; set; }
 
         /// <summary>
         /// Controls whether WebGL can be used. Note that WebGL requires hardware

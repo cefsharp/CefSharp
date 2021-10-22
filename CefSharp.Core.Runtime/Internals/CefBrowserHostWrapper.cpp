@@ -340,7 +340,7 @@ void CefBrowserHostWrapper::SendFocusEvent(bool setFocus)
 {
     ThrowIfDisposed();
 
-    _browserHost->SendFocusEvent(setFocus);
+    _browserHost->SetFocus(setFocus);
 }
 
 void CefBrowserHostWrapper::SendKeyEvent(KeyEvent keyEvent)

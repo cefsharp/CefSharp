@@ -71,7 +71,7 @@ namespace CefSharp
                 return new CefCookieAccessFilterAdapter(accessFilter, _browserControl);
             }
 
-            cef_return_value_t OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback) override
+            cef_return_value_t OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback) override
             {
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())

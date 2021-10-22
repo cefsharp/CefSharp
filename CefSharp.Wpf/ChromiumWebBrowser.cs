@@ -1123,7 +1123,7 @@ namespace CefSharp.Wpf
 
             if (initialFocus)
             {
-                browser.GetHost()?.SendFocusEvent(true);
+                browser.GetHost()?.SetFocus(true);
             }
         }
 
@@ -2069,7 +2069,7 @@ namespace CefSharp.Wpf
             }
             else
             {
-                browser.GetHost().SendFocusEvent(true);
+                browser.GetHost().SetFocus(true);
             }
         }
 
@@ -2086,7 +2086,7 @@ namespace CefSharp.Wpf
             }
             else
             {
-                browser.GetHost().SendFocusEvent(false);
+                browser.GetHost().SetFocus(false);
             }
         }
 

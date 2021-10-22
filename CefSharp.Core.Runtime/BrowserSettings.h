@@ -238,26 +238,6 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// Controls whether file URLs will have access to all URLs. Also configurable
-            /// using the "allow-universal-access-from-files" command-line switch.
-            /// </summary>
-            virtual property CefState UniversalAccessFromFileUrls
-            {
-                CefState get() { return (CefState)_browserSettings->universal_access_from_file_urls; }
-                void set(CefState value) { _browserSettings->universal_access_from_file_urls = (cef_state_t)value; }
-            }
-
-            /// <summary>
-            /// Controls whether file URLs will have access to other file URLs. Also
-            /// configurable using the "allow-access-from-files" command-line switch.
-            /// </summary>
-            virtual property CefState FileAccessFromFileUrls
-            {
-                CefState get() { return (CefState)_browserSettings->file_access_from_file_urls; }
-                void set(CefState value) { _browserSettings->file_access_from_file_urls = (cef_state_t)value; }
-            }
-
-            /// <summary>
             /// Controls whether image URLs will be loaded from the network. A cached image
             /// will still be rendered if requested. Also configurable using the
             /// "disable-image-loading" command-line switch.
@@ -317,16 +297,6 @@ namespace CefSharp
             {
                 CefState get() { return (CefState)_browserSettings->databases; }
                 void set(CefState value) { _browserSettings->databases = (cef_state_t)value; }
-            }
-
-            /// <summary>
-            /// Controls whether the application cache can be used. Also configurable using
-            /// the "disable-application-cache" command-line switch.
-            /// </summary>
-            virtual property CefState ApplicationCache
-            {
-                CefState get() { return (CefState)_browserSettings->application_cache; }
-                void set(CefState value) { _browserSettings->application_cache = (cef_state_t)value; }
             }
 
             /// <summary>

@@ -123,7 +123,8 @@ namespace CefSharp.WinForms
             //Devtools will be a child of the ChromiumHostControl
             var rect = control.ClientRectangle;
             var windowInfo = new WindowInfo();
-            windowInfo.SetAsChild(control.Handle, rect.Left, rect.Top, rect.Right, rect.Bottom);
+            var windowBounds = new CefSharp.Structs.Rect(rect.X, rect.Y, rect.Width, rect.Height);
+            windowInfo.SetAsChild(control.Handle, windowBounds);
             host.ShowDevTools(windowInfo, inspectElementAtX, inspectElementAtY);
 
             return control;

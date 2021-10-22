@@ -14,18 +14,18 @@ namespace CefSharp
         private ref class CefRequestCallbackWrapper : public IRequestCallback, public CefWrapper
         {
         private:
-            MCefRefPtr<CefRequestCallback> _callback;
+            MCefRefPtr<CefCallback> _callback;
             IFrame^ _frame;
             IRequest^ _request;
 
         internal:
-            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> &callback)
+            CefRequestCallbackWrapper(CefRefPtr<CefCallback> &callback)
                 : _callback(callback), _frame(nullptr), _request(nullptr)
             {
             }
 
             CefRequestCallbackWrapper(
-                CefRefPtr<CefRequestCallback> &callback,
+                CefRefPtr<CefCallback> &callback,
                 IFrame^ frame,
                 IRequest^ request)
                 : _callback(callback), _frame(frame), _request(request)
@@ -53,7 +53,14 @@ namespace CefSharp
             {
                 ThrowIfDisposed();
 
-                _callback->Continue(allow);
+                if (allow)
+                {
+                    _callback->Continue();
+                }
+                else
+                {
+                    _callback->Cancel();
+                }
 
                 delete this;
             }

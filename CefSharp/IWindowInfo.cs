@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using CefSharp.Structs;
 
 namespace CefSharp
 {
@@ -71,6 +72,13 @@ namespace CefSharp
         /// </summary>
         /// <param name="parentHandle">parent handle</param>
         void SetAsChild(IntPtr parentHandle);
+
+        /// <summary>
+        /// Create the browser as a child window.
+        /// </summary>
+        /// <param name="parentHandle">parent handle</param>
+        /// <param name="windowBounds">window bounds</param>
+        void SetAsChild(IntPtr parentHandle, Rect windowBounds);
 
         /// <summary>
         /// Create the browser as a child window.

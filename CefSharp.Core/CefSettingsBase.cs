@@ -163,8 +163,24 @@ namespace CefSharp
         /// </summary>
         public bool IgnoreCertificateErrors
         {
-            get { return settings.IgnoreCertificateErrors; }
-            set { settings.IgnoreCertificateErrors = value; }
+            get { return settings.CefCommandLineArgs.ContainsKey("ignore-certificate-errors"); }
+            set
+            {
+                if(value)
+                {
+                    if (!settings.CefCommandLineArgs.ContainsKey("ignore-certificate-errors"))
+                    {
+                        settings.CefCommandLineArgs.Add("ignore-certificate-errors");
+                    }
+                }
+                else
+                {
+                    if(settings.CefCommandLineArgs.ContainsKey("ignore-certificate-errors"))
+                    {
+                        settings.CefCommandLineArgs.Remove("ignore-certificate-errors");
+                    }
+                }
+            }
         }
 
         /// <summary>
