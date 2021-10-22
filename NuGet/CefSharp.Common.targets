@@ -3,22 +3,16 @@
   <!--
   MSBuild is finding CefSharp.Core.Runtime.dll from the x86/x64 folders and copying it to the bin folder which is a problem
   for targeting AnyCPU and when CefSharpTargetDir is used to move the files into a sub folder.
-  AnyCPU/x86:
-    - CefSharp.Core.Runtime.dll is copied from the x86 folder into the bin folder
-  x64:
-    - CefSharp.Core.Runtime.dll is copied from the x64 folder into the bin folder
-  We manually remove CefSharp.Core.Runtime.dll from ReferenceCopyLocalPaths
+  We manually remove CefSharp.Core.Runtime.dll etc from ReferenceCopyLocalPaths
+  VS2022 handles file paths differently than VS2019/VS2017 https://github.com/cefsharp/CefSharp/issues/3854 
   https://thomasfreudenberg.com/archive/2012/11/21/dont-copy-my-referenced-assemblies/
   -->
   <Target Name="CefSharpExcludeCoreRuntimeAfterResolveAssemblyReferences" AfterTargets="ResolveAssemblyReferences" Condition="('$(CefSharpPlatformTarget)' == 'AnyCPU' OR '$(CefSharpTargetDir)' != '') AND $(TargetFrameworkVersion.StartsWith('v4.'))">
-    <PropertyGroup>
-      <_CefSharpCoreRuntimeExclude>$(CefSharpPlatformTarget)</_CefSharpCoreRuntimeExclude>
-      <_CefSharpCoreRuntimeExclude Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU'">x86</_CefSharpCoreRuntimeExclude>
-    </PropertyGroup>
     <ItemGroup>
-      <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(_CefSharpCoreRuntimeExclude)\CefSharp.Core.Runtime.dll" />
-      <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(_CefSharpCoreRuntimeExclude)\CefSharp.Core.Runtime.pdb" />
-      <ReferenceCopyLocalPaths Remove="$(MSBuildThisFileDirectory)..\CefSharp\$(_CefSharpCoreRuntimeExclude)\CefSharp.Core.Runtime.xml" />
+      <_CefSharpCoreRuntimeFiltered Include="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)%(Extension)' == 'CefSharp.Core.Runtime.dll'" />
+      <_CefSharpCoreRuntimeFiltered Include="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)%(Extension)' == 'CefSharp.Core.Runtime.pdb'" />
+      <_CefSharpCoreRuntimeFiltered Include="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)%(Extension)' == 'CefSharp.Core.Runtime.xml'" />
+      <ReferenceCopyLocalPaths Remove="@(_CefSharpCoreRuntimeFiltered)" />
     </ItemGroup>
   </Target>
   
@@ -43,9 +37,10 @@
   -->
   <Target Name="CefSharpAnyCPUExcludeCoreRuntimeBeforeGenerateApplicationManifest" BeforeTargets="GenerateApplicationManifest" Condition="'$(CefSharpPlatformTarget)' == 'AnyCPU' AND $(TargetFrameworkVersion.StartsWith('v4.'))">
     <ItemGroup>
-      <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.dll" />
-      <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.pdb" />
-      <_DeploymentManifestDependencies Remove="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.Runtime.xml" />
+      <_CefSharpCoreRuntimeFilteredManifest Include="@(_DeploymentManifestDependencies)" Condition="'%(Filename)%(Extension)' == 'CefSharp.Core.Runtime.dll'" />
+      <_CefSharpCoreRuntimeFilteredManifest Include="@(_DeploymentManifestDependencies)" Condition="'%(Filename)%(Extension)' == 'CefSharp.Core.Runtime.pdb'" />
+      <_CefSharpCoreRuntimeFilteredManifest Include="@(_DeploymentManifestDependencies)" Condition="'%(Filename)%(Extension)' == 'CefSharp.Core.Runtime.xml'" />
+	  <_DeploymentManifestDependencies Remove="@(_CefSharpCoreRuntimeFilteredManifest)" />
     </ItemGroup>
   </Target>
 
