@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Binding Test Single</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.10.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.10.0.js"></script>
+
+    <script type="text/javascript">
+    QUnit.module('BindingTestSingle', (hooks) =>
+    {
+        hooks.before(async () =>
+        {
+            await CefSharp.BindObjectAsync("boundAsync");
+        });
+
+        QUnit.test("Async call (Divide 16 / 2):", async (assert) =>
+        {
+            const expectedResult = 8
+            const actualResult = await boundAsync.div(16, 2);
+
+            assert.equal(expectedResult, actualResult, "Divide 16 / 2 resulted in " + expectedResult);
+        });
+    });
+    </script>
+
+</body>
+</html>

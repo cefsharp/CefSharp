@@ -1,78 +1,61 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7A4D5447-183B-4A11-8E63-9848991B46FF}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefSharp.Test</RootNamespace>
-    <AssemblyName>CefSharp.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.0.12035, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\nunit\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BrowserCoreTest.cs" />
-    <Compile Include="BrowserTest.cs" />
-    <Compile Include="Fixture.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.vcxproj">
-      <Project>{978c9b2b-04b6-4359-a341-ca3fcbe98d32}</Project>
-      <Name>CefSharp.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
-      <Name>CefSharp.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
-      <Name>CefSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <OutputType>Library</OutputType>
+        <Platforms>x86;x64</Platforms>
+        <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <UseWindowsForms>true</UseWindowsForms>
+        <UseWPF>true</UseWPF>
+        <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(PlatformTarget)' == 'x86'">
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win7-x86</RuntimeIdentifier>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(PlatformTarget)' == 'x64'">
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win7-x64</RuntimeIdentifier>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.ServiceModel" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj" />
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
+        <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj" />
+        <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.csproj" />
+        <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.csproj" />
+        <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.csproj" />
+        <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="95.7.10" />
+
+        <PackageReference Include="Moq" Version="4.13.0" />
+        <PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
+        <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+        <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
+        <PackageReference Include="Titanium.Web.Proxy" version="3.1.1301" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="DevTools\JsonEnumConverterFacts.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="bin.netcore\**" />
+        <Compile Remove="obj.netcore\**" />
+        <EmbeddedResource Remove="bin.netcore\**" />
+        <EmbeddedResource Remove="obj.netcore\**" />
+        <None Remove="bin.netcore\**" />
+        <None Remove="obj.netcore\**" />
+        <Page Remove="bin.netcore\**" />
+        <Page Remove="obj.netcore\**" />
+    </ItemGroup>
+    <Import Project="$(SolutionDir)\CefSharp.Native.props" />
 </Project>

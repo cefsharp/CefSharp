@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CefSharp.OffScreen</id>
+    <version>$version$</version>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
+    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The CefSharp Chromium-based browser component (OffScreen control).</description>
+    <tags>osr chrome browser chromium-embedded cefsharp</tags>
+    <copyright>Copyright © The CefSharp Authors</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="CefSharp.Common" version="[$version$]" />
+      </group>
+	  <group targetFramework=".NETFramework4.6.2">
+        <dependency id="CefSharp.Common" version="[$version$]" />
+      </group>
+    </dependencies>
+    <releaseNotes>
+    <![CDATA[
+      See https://github.com/cefsharp/CefSharp/releases/tag/v$version$ for release notes including Known Issues, Breaking Changes, Bugs Fixed, new features.
+      Important you read the release notes to see what's changed in this version.
+    ]]>
+    </releaseNotes>
+  </metadata>
+  <files>
+    <file src="..\CefSharp.OffScreen\bin\Release\net452\CefSharp.OffScreen.dll" target="lib\net452" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net452\CefSharp.OffScreen.xml" target="lib\net452" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net452\CefSharp.OffScreen.pdb" target="lib\net452" />
+	
+	<file src="..\CefSharp.OffScreen\bin\Release\net462\CefSharp.OffScreen.dll" target="lib\net462" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net462\CefSharp.OffScreen.xml" target="lib\net462" />
+    <file src="..\CefSharp.OffScreen\bin\Release\net462\CefSharp.OffScreen.pdb" target="lib\net462" />
+
+    <file src="Readme.txt" target="" />
+
+    <file src="..\CefSharp.OffScreen\**\*.cs" target="src\CefSharp.OffScreen" />
+  </files>
+</package>

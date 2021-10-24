@@ -1,0 +1,9 @@
+# https://help.github.com/en/github/building-a-strong-community/configuring-issue-templates-for-your-repository#configuring-the-template-chooser
+blank_issues_enabled: false
+contact_links:
+  - name: stackoverflow
+    url: http://stackoverflow.com/questions/tagged/cefsharp
+    about: Please ask and answer questions here.
+  - name: Chromium Embedded Framework(CEF) Forum
+    url: https://magpcss.org/ceforum/index.php
+    about: Please ask your non CefSharp specific CEF questions here

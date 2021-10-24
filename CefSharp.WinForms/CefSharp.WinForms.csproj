@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net452;net462</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+	<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DefineConstants>TRACE;DEBUG;WINFORMS</DefineConstants>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DefineConstants>TRACE;WINFORMS</DefineConstants>
+    <DocumentationFile>bin\Release\CefSharp.WinForms.XML</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs">
+      <Link>ChromiumWebBrowser.Partial.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Host\ChromiumHostControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ChromiumWebBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+	
+	<EmbeddedResource Include="ChromiumWebBrowser.bmp" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="System.Design" />
+    <Reference Include="System.ServiceModel" />
+	
+    <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
+	<ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
+
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="bin.netcore\**" />
+    <Compile Remove="obj.netcore\**" />
+    <EmbeddedResource Remove="bin.netcore\**" />
+    <EmbeddedResource Remove="obj.netcore\**" />
+    <None Remove="bin.netcore\**" />
+    <None Remove="obj.netcore\**" />
+    <Page Remove="bin.netcore\**" />
+    <Page Remove="obj.netcore\**" />
+  </ItemGroup>
+</Project>

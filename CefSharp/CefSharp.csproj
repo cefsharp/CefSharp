@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net452</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DocumentationFile>bin\Release\CefSharp.XML</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.ServiceModel" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DevTools\DevToolsClient.Generated.netcore.cs" />
+    <Compile Remove="Internals\Json\JsonEnumConverter.cs" />
+    <Compile Remove="Internals\Json\JsonEnumConverterFactory.cs" />
+    <Compile Remove="Internals\Partial\ChromiumWebBrowser.Partial.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="bin.netcore\**" />
+    <Compile Remove="obj.netcore\**" />
+    <None Remove="bin.netcore\**" />
+    <None Remove="obj.netcore\**" />
+  </ItemGroup>
+</Project>

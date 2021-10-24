@@ -1,0 +1,16 @@
+# Comment to be posted to on first time issues
+newIssueWelcomeComment: >
+  Welcome! We prefer to keep this issue track just for bug reports. If you have a question or need help with something I'd ask that you self close this issue and have a read over https://github.com/cefsharp/CefSharp/blob/master/ISSUE_TEMPLATE.md it contains
+  background information, details on where to ask your questions [Gitter](https://gitter.im/cefsharp/CefSharp) or [StackOverflow](https://stackoverflow.com/questions/tagged/cefsharp)) should be used.
+  <br/>
+  <br/>
+  If you're reporting a bug, you **must** complete the bug report template see https://github.com/cefsharp/CefSharp/blob/master/ISSUE_TEMPLATE.md#bug-report.
+  Please make sure you provide enough detail that **someone else** can reproduce the issue you are experiencing.
+  <br/>
+  <br/>
+  It's also important to remember that `CefSharp` is just a wrapper around the `Chromium Embedded Framework(CEF)`, a lot of questions people
+  have aren't actually `CefSharp` specific, they're generic to `CEF` and for those `CEF` has it's own support forum at http://magpcss.org/ceforum/index.php and issue tracker at https://bitbucket.org/chromiumembedded/cef
+  <br/>
+  <br/>
+  
+  

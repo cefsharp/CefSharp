@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Must be kept in sync with the entries in the .targets files (copy tasks) -->
+  <ItemGroup>
+    <CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
+    <CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
+    <CefSharpCommonBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
+    <CefSharpCommonManagedDlls Include="$(MSBuildThisFileDirectory)..\lib\net452\**\*.*" />
+    <!-- Just CefSharp.dlll -->
+    <CefSharpCommonManagedDll Include="$(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll" />
+    <CefSharpCommonTransform32 Include="$(MSBuildThisFileDirectory)..\build\app.config.x86.transform"/>
+    <CefSharpCommonTransform64 Include="$(MSBuildThisFileDirectory)..\build\app.config.x64.transform"/>
+
+    <CefSharpBrowserProcessCore32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.BrowserSubprocess.Core.dll" />
+    <CefSharpBrowserProcessCore64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.BrowserSubprocess.Core.dll" />
+  </ItemGroup>
+</Project>

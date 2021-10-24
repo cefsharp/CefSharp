@@ -1,12 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <VisualStudioProductVersion>2010</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='11.0'">2012</VisualStudioProductVersion>
+    <VisualStudioProductVersion>2019</VisualStudioProductVersion>
+    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='15.0'">2017</VisualStudioProductVersion> -->
+    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0'">2017</VisualStudioProductVersion> -->
+    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0' AND Exists('$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS2019\libcef_dll_wrapper.lib')">2019</VisualStudioProductVersion> -->
 
-    <PlatformToolset>v100</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0'">v110</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
+    <!--<PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v140</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='15.0'">v141</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='16.0'">v142</PlatformToolset>-->
+  
+    <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion>
+
+    <CefSharpBrowserSubprocessPostBuildEvent>
+      <![CDATA[
+if $(PlatformName) == x86 (
+  call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat"
+  editbin /largeaddressaware /TSAWARE "$(TargetPath)"  
+  sn -R "$(TargetPath)" "$(ProjectDir)..\CefSharp.snk"
+) else (
+  call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat"
+  editbin /TSAWARE "$(TargetPath)"
+)
+]]>
+    </CefSharpBrowserSubprocessPostBuildEvent>
   </PropertyGroup>
 
 </Project>

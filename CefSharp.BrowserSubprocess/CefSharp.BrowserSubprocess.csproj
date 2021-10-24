@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net452</TargetFramework>
+        <OutputType>WinExe</OutputType>
+        <Platforms>x86;x64</Platforms>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <StartupObject>CefSharp.BrowserSubprocess.Program</StartupObject>
+        <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DebugType>full</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DebugSymbols>true</DebugSymbols>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System.ServiceModel" />
+        <ProjectReference Include="..\CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.vcxproj" />
+        <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Program.netcore.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="bin.netcore\**" />
+        <Compile Remove="obj.netcore\**" />
+        <None Remove="bin.netcore\**" />
+        <None Remove="obj.netcore\**" />
+    </ItemGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="if $(PlatformName) == x86 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat&quot;&#xD;&#xA;  editbin /largeaddressaware /TSAWARE &quot;$(TargetPath)&quot;  &#xD;&#xA;  sn -R &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\CefSharp.snk&quot;&#xD;&#xA;) else (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat&quot;&#xD;&#xA;  editbin /TSAWARE &quot;$(TargetPath)&quot;&#xD;&#xA;)" />
+    </Target>
+</Project>

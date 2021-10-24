@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+       to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+        <BaseOutputPath>bin.netcore\</BaseOutputPath>
+    </PropertyGroup>
+
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>CefSharp.OffScreen.Example</RootNamespace>
+        <AssemblyName>CefSharp.OffScreen.Example</AssemblyName>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <Platforms>x86;x64;arm64</Platforms>
+        <!-- Explicitly set the PlatformTarget for arm64, see: https://github.com/dotnet/sdk/issues/15434 -->
+        <PlatformTarget Condition="'$(Platform)' == 'arm64'">arm64</PlatformTarget>
+        <StartupObject>CefSharp.OffScreen.Example.Program</StartupObject>
+        <!--
+        Run on a newer version of .Net if the specified version (.Net Core 3.1) is not installed
+        https://github.com/dotnet/docs/issues/12237
+        -->
+        <RollForward>Major</RollForward>
+        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'arm64'">win-arm64</RuntimeIdentifier>
+        <SelfContained Condition="'$(Configuration)' == 'Debug'">false</SelfContained>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="95.7.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="crash_reporter.cfg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+        <None Remove="bin/**/*.*" />
+        <None Remove="obj/**/*.*" />
+        <Compile Remove="obj/**/*.*" />
+    </ItemGroup>
+
+    <Import Project="$(SolutionDir)\CefSharp.AfterBuild.targets" />
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

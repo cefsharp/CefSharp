@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
+    to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>obj.netcore\</BaseIntermediateOutputPath>
+        <BaseOutputPath>bin.netcore\</BaseOutputPath>
+    </PropertyGroup>
+
+    <!-- Implicit top import -->
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
+        <RootNamespace>CefSharp.BrowserSubprocess</RootNamespace>
+        <AssemblyName>CefSharp.BrowserSubprocess</AssemblyName>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <StartupObject>CefSharp.BrowserSubprocess.Program</StartupObject>
+        <Platforms>x86;x64;arm64</Platforms>
+        <!-- Explicitly set the PlatformTarget for arm64, see: https://github.com/dotnet/sdk/issues/15434 -->
+        <PlatformTarget Condition="'$(Platform)' == 'arm64'">arm64</PlatformTarget>
+        <!--
+        Run on a newer version of .Net if the specified version (.Net Core 3.1) is not installed
+        https://github.com/dotnet/docs/issues/12237
+        -->
+        <RollForward>Major</RollForward>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+      <WarningLevel>2</WarningLevel>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <EmbedAllSources>True</EmbedAllSources>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="bin\**" />
+        <Compile Remove="obj\**" />
+        <EmbeddedResource Remove="bin\**" />
+        <EmbeddedResource Remove="obj\**" />
+        <None Remove="bin\**" />
+        <None Remove="obj\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="Program.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.netcore.vcxproj" />
+        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
+    </ItemGroup>
+
+    <!-- Implicit bottom import -->
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net452</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CefSharp</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <!--
+    Stop MSBuild from appending TargetFramework to output path.
+    Remove if we use TargetFrameworks
+    -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DocumentationFile>bin\Release\CefSharp.Core.XML</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj" />
+    <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="BrowserSettings.netcore.cs" />
+    <Compile Remove="Initializer.cs" />
+    <Compile Remove="ModuleInitializerAttribute.cs" />
+    <Compile Remove="PostData.netcore.cs" />
+    <Compile Remove="PostDataElement.netcore.cs" />
+    <Compile Remove="Request.netcore.cs" />
+    <Compile Remove="RequestContext.netcore.cs" />
+    <Compile Remove="UrlRequest.netcore.cs" />
+    <Compile Remove="WindowInfo.netcore.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="bin.netcore\**" />
+    <Compile Remove="obj.netcore\**" />
+    <None Remove="bin.netcore\**" />
+    <None Remove="obj.netcore\**" />
+  </ItemGroup>
+</Project>

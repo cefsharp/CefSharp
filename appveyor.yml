@@ -1,0 +1,39 @@
+version: 95.7.100-CI{build}
+
+clone_depth: 10
+
+image: Visual Studio 2019
+
+configuration: Release
+
+build_script:
+  - ps: .\build.ps1
+  - ps: .\build.ps1 -TargetFramework NetCore
+
+test_script:
+  # Test our Release x64 build
+  - dotnet test CefSharp.Test\bin\x64\Release\win7-x64\CefSharp.Test.dll
+  - dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\win-x64\CefSharp.Test.dll
+
+artifacts:
+  - path: NuGet\**\*.nupkg
+    name: nupkgfiles
+
+# Publish to myget.org feed
+deploy:
+  provider: NuGet
+  server: https://www.myget.org/F/cefsharp/api/v2/package
+  api_key:
+    secure: V8du2PPvMPok3Ya701jt5v2XWQgOZf52/H5wDHXBpKvXYkIIe8sonhVUy2TmEkqt
+  skip_symbols: true
+  symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
+  artifact: nupkgfiles
+
+#Skip builing if we only modify text files
+skip_commits:
+  files:
+    - '**/*.md'
+    - '**/*.html'
+    - '**/*.js'
+    - '**/*.css'
+    - '**/*.txt'

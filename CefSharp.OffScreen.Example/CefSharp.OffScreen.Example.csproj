@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <Platforms>x86;x64</Platforms>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj" />
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
+        <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj" />
+        <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.csproj" />
+        <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="crash_reporter.cfg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="95.7.10" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="bin.netcore\**" />
+        <Compile Remove="obj.netcore\**" />
+        <EmbeddedResource Remove="bin.netcore\**" />
+        <EmbeddedResource Remove="obj.netcore\**" />
+        <None Remove="bin.netcore\**" />
+        <None Remove="obj.netcore\**" />
+        <Page Remove="bin.netcore\**" />
+        <Page Remove="obj.netcore\**" />
+    </ItemGroup>
+    <Import Project="$(SolutionDir)\CefSharp.Native.props" />
+</Project>
