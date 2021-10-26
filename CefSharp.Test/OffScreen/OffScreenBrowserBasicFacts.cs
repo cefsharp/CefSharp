@@ -181,7 +181,7 @@ namespace CefSharp.Test.OffScreen
 
                 Assert.All(tasks, (t) =>
                 {
-                    Assert.Equal(t.Result, 4);
+                    Assert.Equal(4, t.Result);
                 });
             }
         }
