@@ -181,28 +181,20 @@ namespace CefSharp
         /// </remarks>
         public static Task<bool> InitializeAsync(CefSettingsBase settings, bool performDependencyCheck = true)
         {
-            var tcs = new TaskCompletionSource<bool>();
-            var handler = new InitializeAsyncBrowserProcessHandler(tcs);
-
             using (settings.settings)
             {
                 try
                 {
-                    var success = Core.Cef.Initialize(settings.settings, performDependencyCheck, handler);
-
-                    //Failed, need to check the log file
-                    if (!success)
-                    {
-                        tcs.TrySetResult(false);
-                    }
+                    //Ignore the result, the Task will be set in Core.Cef.Initialze
+                    Core.Cef.Initialize(settings.settings, performDependencyCheck);
                 }
                 catch (Exception ex)
                 {
-                    tcs.TrySetException(ex);
+                    GlobalContextInitialized.SetException(ex);
                 }
             }
 
-            return tcs.Task;
+            return GlobalContextInitialized.Task;
         }
 
         /// <summary>
