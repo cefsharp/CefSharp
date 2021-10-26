@@ -313,6 +313,11 @@ namespace CefSharp
 
                 auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), nullptr);
 
+                if (!success)
+                {
+                    CefSharp::Internals::GlobalContextInitialized::SetResult(false);
+                }
+
                 _initialized = success;
                 _multiThreadedMessageLoop = cefSettings->MultiThreadedMessageLoop;
 

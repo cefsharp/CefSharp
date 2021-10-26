@@ -93,11 +93,6 @@ namespace CefSharp
 
             virtual void OnContextInitialized() override
             {
-                if (!Object::ReferenceEquals(_app, nullptr) && !Object::ReferenceEquals(_app->BrowserProcessHandler, nullptr))
-                {
-                    _app->BrowserProcessHandler->OnContextInitialized();
-                }
-
                 auto customSchemes = (IEnumerable<CefCustomScheme^>^)_customSchemes;
 
                 //CefRegisterSchemeHandlerFactory requires access to the Global CefRequestContext
@@ -110,6 +105,13 @@ namespace CefSharp
                         CefRefPtr<CefSchemeHandlerFactory> wrapper = new CefSchemeHandlerFactoryAdapter(cefCustomScheme->SchemeHandlerFactory);
                         CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
                     }
+                }
+
+                CefSharp::Internals::GlobalContextInitialized::SetResult(true);
+
+                if (!Object::ReferenceEquals(_app, nullptr) && !Object::ReferenceEquals(_app->BrowserProcessHandler, nullptr))
+                {
+                    _app->BrowserProcessHandler->OnContextInitialized();
                 }
             }
 

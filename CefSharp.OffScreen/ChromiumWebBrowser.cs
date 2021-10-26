@@ -323,14 +323,27 @@ namespace CefSharp.OffScreen
                 windowInfo.SetAsWindowless(IntPtr.Zero);
             }
 
-            managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, RequestContext, Address);
-
-            //Dispose of BrowserSettings if we created it, if user created then they're responsible
-            if (browserSettings.AutoDispose)
+            //TODO: We need some sort of timeout and
+            //if we use the same approach for WPF/WinForms then
+            //we need to move the common code into the partial class
+            GlobalContextInitialized.ExecuteOrEnqueue((success) =>
             {
-                browserSettings.Dispose();
-            }
-            browserSettings = null;
+                if(!success)
+                {
+                    return;
+                }
+
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, RequestContext, Address);
+
+                //Dispose of BrowserSettings if we created it, if user created then they're responsible
+                if (browserSettings.AutoDispose)
+                {
+                    browserSettings.Dispose();
+                }
+                browserSettings = null;
+
+            });
+            
         }
 
         /// <summary>
@@ -348,39 +361,21 @@ namespace CefSharp.OffScreen
         /// </returns>
         public Task<IBrowser> CreateBrowserAsync(IWindowInfo windowInfo = null, IBrowserSettings browserSettings = null)
         {
-            if (browserCreated)
-            {
-                throw new Exception("An instance of the underlying offscreen browser has already been created, this method can only be called once.");
-            }
-
-            browserCreated = true;
-
-            if (browserSettings == null)
-            {
-                browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
-            }
-
-            if (windowInfo == null)
-            {
-                windowInfo = Core.ObjectFactory.CreateWindowInfo();
-                windowInfo.SetAsWindowless(IntPtr.Zero);
-            }
-
             var tcs = new TaskCompletionSource<IBrowser>();
 
-            onAfterBrowserCreatedDelegate = new Action<IBrowser>(b =>
+            onAfterBrowserCreatedDelegate += new Action<IBrowser>(b =>
             {
                 tcs.TrySetResultAsync(b);
             });
 
-            managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings, RequestContext, Address);
-
-            //Dispose of BrowserSettings if we created it, if user created then they're responsible
-            if (browserSettings.AutoDispose)
+            try
             {
-                browserSettings.Dispose();
+                CreateBrowser(windowInfo, browserSettings);
             }
-            browserSettings = null;
+            catch(Exception ex)
+            {
+                tcs.TrySetExceptionAsync(ex);
+            }
 
             return tcs.Task;
         }
