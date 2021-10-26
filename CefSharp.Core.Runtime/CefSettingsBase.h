@@ -48,10 +48,6 @@ namespace CefSharp
                 BrowserSubprocessPath = Path::Combine(Path::GetDirectoryName(CefSettingsBase::typeid->Assembly->Location), "CefSharp.BrowserSubprocess.exe");
                 _cefCustomSchemes = gcnew List<CefCustomScheme^>();
                 _cefCommandLineArgs = gcnew CommandLineArgDictionary();
-
-                //Disable Windows Spellchecker as CEF doesn't support yet
-                //https://bitbucket.org/chromiumembedded/cef/issues/3055/windows-spell-checker-not-working-add
-                _cefCommandLineArgs->Add("disable-features", "CalculateNativeWinOcclusion,WinUseBrowserSpellChecker");
             }
 
             /// <summary>
