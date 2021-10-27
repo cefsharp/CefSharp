@@ -37,7 +37,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -83,7 +83,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -104,7 +104,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -120,7 +120,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -143,7 +143,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -159,7 +159,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -192,7 +192,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
@@ -309,7 +309,7 @@ namespace CefSharp.Test.DevTools
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {

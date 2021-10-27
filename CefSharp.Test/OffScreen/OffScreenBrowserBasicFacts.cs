@@ -48,7 +48,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -66,7 +66,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("notfound.cefsharp.test"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
@@ -82,7 +82,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("https://expired.badssl.com/"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
@@ -141,7 +141,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -161,7 +161,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -195,7 +195,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl))
             {
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var result = await browser.EvaluateScriptAsync(javascript);
 
@@ -224,7 +224,7 @@ namespace CefSharp.Test.OffScreen
                 browser.JavascriptObjectRepository.Register("bound", boundObj, true);
 #endif
 
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -236,7 +236,7 @@ namespace CefSharp.Test.OffScreen
                 boundObj.MethodCalled = false;
 
                 browser.Load("https://www.google.com");
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
                 browser.GetMainFrame().ExecuteJavaScriptAsync(script);
                 await Task.Delay(2000);
                 Assert.True(boundObj.MethodCalled);
@@ -268,7 +268,7 @@ namespace CefSharp.Test.OffScreen
 #endif
                 };
 
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
                 browser.GetMainFrame().ExecuteJavaScriptAsync(script);
 
                 await Task.Delay(2000);
@@ -286,7 +286,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("http://www.google.com"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -319,7 +319,7 @@ namespace CefSharp.Test.OffScreen
                 browser.JavascriptObjectRepository.Settings.JavascriptBindingApiGlobalObjectName = rootObjName;
                 browser.CreateBrowser();
 
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -345,7 +345,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("http://www.google.com"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -377,7 +377,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("http://www.google.com"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -406,7 +406,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser("https://code.jquery.com/jquery-3.4.1.min.js"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -444,7 +444,7 @@ namespace CefSharp.Test.OffScreen
         {            
             using (var browser = new ChromiumWebBrowser(url))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -490,7 +490,7 @@ namespace CefSharp.Test.OffScreen
                             }
                         });
 
-                await chromiumWebBrowser.LoadUrlAsync();
+                await chromiumWebBrowser.WaitForBrowserInitialLoadAsync();
 
                 chromiumWebBrowser.StartDownload(url);
 
@@ -551,7 +551,7 @@ namespace CefSharp.Test.OffScreen
         {
             using (var browser = new ChromiumWebBrowser(firstUrl))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -578,7 +578,7 @@ namespace CefSharp.Test.OffScreen
             //https://magpcss.org/ceforum/viewtopic.php?f=10&t=18672&p=50266#p50249
             using (var browser = new ChromiumWebBrowser("http://httpbin.org/"))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -623,7 +623,7 @@ namespace CefSharp.Test.OffScreen
                 
             using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -659,7 +659,7 @@ namespace CefSharp.Test.OffScreen
 
             using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -711,7 +711,7 @@ namespace CefSharp.Test.OffScreen
 
             using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
             {
-                var response = await browser.LoadUrlAsync();
+                var response = await browser.WaitForBrowserInitialLoadAsync();
 
                 Assert.True(response.Success);
 
@@ -723,6 +723,28 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Fact]
+        public async Task CanWaitForBrowserInitialLoadAfterLoad()
+        {
+            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            {
+                var response = await browser.WaitForBrowserInitialLoadAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google.com", mainFrame.Url);
+                Assert.Equal(CefErrorCode.None, response.ErrorCode);
+                Assert.Equal(200, response.HttpStatusCode);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+
+                response = await browser.WaitForBrowserInitialLoadAsync();
+
+                Assert.Equal(CefErrorCode.None, response.ErrorCode);
+                Assert.Equal(200, response.HttpStatusCode);
+            }
+        }
+
 #if DEBUG
         [Fact]
         public async Task CanLoadMultipleBrowserInstancesSequentially()
@@ -731,7 +753,7 @@ namespace CefSharp.Test.OffScreen
             {
                 using (var browser = new ChromiumWebBrowser(new HtmlString("Testing")))
                 {
-                    var response = await browser.LoadUrlAsync();
+                    var response = await browser.WaitForBrowserInitialLoadAsync();
 
                     Assert.True(response.Success);
 

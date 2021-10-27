@@ -102,11 +102,13 @@ namespace CefSharp.Internals
         public static void TrySetResultAsync<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TResult result)
         {
             Task.Factory.StartNew(delegate
-            { taskCompletionSource.TrySetResult(result); }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+            {
+                taskCompletionSource.TrySetResult(result);
+            }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
         }
 
         /// <summary>
-        /// Calls <see cref="TaskCompletionSource{TResult}.SetException(Exception)"/> in an async fashion. This prevents the Task Continuation being executed sync on the same thread
+        /// Calls <see cref="TaskCompletionSource{TResult}.TrySetException(Exception)"/> in an async fashion. This prevents the Task Continuation being executed sync on the same thread
         /// This is required otherwise continuations will happen on CEF UI threads
         /// </summary>
         /// <typeparam name="TResult">Generic param</typeparam>
@@ -117,6 +119,20 @@ namespace CefSharp.Internals
             Task.Factory.StartNew(delegate
             {
                 taskCompletionSource.TrySetException(ex);
+            }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+        }
+
+        /// <summary>
+        /// Calls <see cref="TaskCompletionSource{TResult}.TrySetCanceled()"/> in an async fashion. This prevents the Task Continuation being executed sync on the same thread
+        /// This is required otherwise continuations will happen on CEF UI threads
+        /// </summary>
+        /// <typeparam name="TResult">Generic param</typeparam>
+        /// <param name="taskCompletionSource">tcs</param>
+        public static void TrySetCanceledAsync<TResult>(this TaskCompletionSource<TResult> taskCompletionSource)
+        {
+            Task.Factory.StartNew(delegate
+            {
+                taskCompletionSource.TrySetCanceled();
             }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
         }
     }
