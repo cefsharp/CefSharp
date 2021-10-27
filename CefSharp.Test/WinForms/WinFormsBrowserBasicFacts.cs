@@ -30,7 +30,7 @@ namespace CefSharp.Test.WinForms
                 browser.Size = new System.Drawing.Size(1024, 768);
                 browser.CreateControl();
 
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
@@ -52,7 +52,7 @@ namespace CefSharp.Test.WinForms
                 browser.Size = new System.Drawing.Size(1024, 768);
                 browser.CreateControl();
 
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
@@ -75,7 +75,7 @@ namespace CefSharp.Test.WinForms
                 browser.Size = new System.Drawing.Size(1024, 768);
                 browser.CreateControl();
 
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
@@ -97,7 +97,7 @@ namespace CefSharp.Test.WinForms
                 browser.Size = new System.Drawing.Size(1024, 768);
                 browser.CreateControl();
 
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
@@ -117,7 +117,7 @@ namespace CefSharp.Test.WinForms
                 browser.Size = new System.Drawing.Size(1024, 768);
                 browser.CreateControl();
 
-                await browser.LoadUrlAsync();
+                await browser.WaitForBrowserInitialLoadAsync();
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);

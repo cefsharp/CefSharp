@@ -330,9 +330,14 @@ namespace CefSharp.WinForms
         public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null)
         {
             //LoadUrlAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
-            //It's not actually an extension method so we can have it included as part of the
-            //IWebBrowser interface
             return CefSharp.WebBrowserExtensions.LoadUrlAsync(this, url, ctx);
+        }
+
+        /// <inheritdoc/>
+        public Task<LoadUrlAsyncResponse> WaitForBrowserInitialLoadAsync(CancellationToken? cancellationToken = null)
+        {
+            //WaitForBrowserLoadAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
+            return CefSharp.WebBrowserExtensionsEx.WaitForBrowserInitialLoadAsync(this, cancellationToken);
         }
 
         partial void OnAfterBrowserCreated(IBrowser browser);
