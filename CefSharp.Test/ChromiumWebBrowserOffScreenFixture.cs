@@ -24,7 +24,7 @@ namespace CefSharp.Test
         {
             Browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl);
 
-            return Browser.LoadUrlAsync();
+            return Browser.WaitForInitialLoadAsync();
         }
     }
 }

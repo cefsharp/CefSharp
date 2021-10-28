@@ -93,7 +93,7 @@ namespace CefSharp.OffScreen.Example
                         }
                     };
                 }
-                await browser.LoadUrlAsync();
+                await browser.WaitForInitialLoadAsync();
 
                 //Check preferences on the CEF UI Thread
                 await Cef.UIThreadTaskFactory.StartNew(delegate
