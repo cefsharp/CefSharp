@@ -104,12 +104,11 @@ namespace CefSharp
         /// Load the <paramref name="url"/> in the main frame of the browser
         /// </summary>
         /// <param name="url">url to load</param>
-        /// <param name="ctx">SynchronizationContext to execute the continuation on, if null then the ThreadPool will be used.</param>
         /// <returns>
         /// A <see cref="Task{LoadUrlAsyncResponse}"/> that can be awaited to load the <paramref name="url"/> and return the HttpStatusCode and <see cref="CefErrorCode"/>.
         /// A HttpStatusCode equal to 200 and <see cref="CefErrorCode.None"/> is considered a success.
         /// </returns>
-        Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null);
+        Task<LoadUrlAsyncResponse> LoadUrlAsync(string url);
 
         /// <summary>
         /// Wait for the Browser to finish loading the initial web page.
