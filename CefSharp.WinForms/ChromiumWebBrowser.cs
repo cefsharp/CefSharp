@@ -661,7 +661,7 @@ namespace CefSharp.WinForms
         /// Sets the loading state change.
         /// </summary>
         /// <param name="args">The <see cref="LoadingStateChangedEventArgs"/> instance containing the event data.</param>
-        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
+        partial void SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
             CanGoBack = args.CanGoBack;
             CanGoForward = args.CanGoForward;
@@ -677,12 +677,6 @@ namespace CefSharp.WinForms
                 //browser correctly activate and focus the browser. 
                 //https://github.com/chromiumembedded/cef/blob/9df4a54308a88fd80c5774d91c62da35afb5fd1b/tests/cefclient/browser/root_window_win.cc#L1088
                 NativeMethodWrapper.RemoveExNoActivateStyle(hwnd);
-            }
-
-            var handler = LoadingStateChanged;
-            if (handler != null)
-            {
-                handler(this, args);
             }
         }
 

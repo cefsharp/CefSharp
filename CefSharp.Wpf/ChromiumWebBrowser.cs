@@ -1067,7 +1067,7 @@ namespace CefSharp.Wpf
         /// Sets the loading state change.
         /// </summary>
         /// <param name="args">The <see cref="LoadingStateChangedEventArgs"/> instance containing the event data.</param>
-        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
+        partial void SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
             UiThreadRunAsync(() =>
             {
@@ -1079,8 +1079,6 @@ namespace CefSharp.Wpf
                 ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
             });
-
-            LoadingStateChanged?.Invoke(this, args);
         }
 
         /// <summary>
