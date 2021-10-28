@@ -49,6 +49,16 @@ namespace CefSharp.WinForms
         private IBrowser browser;
 
         /// <summary>
+        /// Initial browser load task complection source
+        /// </summary>
+        private TaskCompletionSource<LoadUrlAsyncResponse> initialLoadTaskCompletionSource = new TaskCompletionSource<LoadUrlAsyncResponse>();
+
+        /// <summary>
+        /// Initial browser load action
+        /// </summary>
+        private Action<bool?, CefErrorCode?> initialLoadAction;
+
+        /// <summary>
         /// A flag that indicates if you can execute javascript in the main frame.
         /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
         /// and false in IRenderProcessMessageHandler.OnContextReleased
@@ -290,6 +300,8 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             LoadError?.Invoke(this, args);
+
+            initialLoadAction?.Invoke(null, args.ErrorCode);
         }
 
         /// <summary>
@@ -315,9 +327,23 @@ namespace CefSharp.WinForms
             }
 
             this.browser = browser;
+            initialLoadAction = InitialLoad;
             Interlocked.Exchange(ref browserInitialized, 1);
 
             OnAfterBrowserCreated(browser);
+        }
+
+        /// <summary>
+        /// Sets the loading state change.
+        /// </summary>
+        /// <param name="args">The <see cref="LoadingStateChangedEventArgs"/> instance containing the event data.</param>
+        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
+        {
+            SetLoadingStateChange(args);
+
+            LoadingStateChanged?.Invoke(this, args);
+
+            initialLoadAction?.Invoke(args.IsLoading, null);
         }
 
         /// <inheritdoc/>
@@ -334,13 +360,55 @@ namespace CefSharp.WinForms
         }
 
         /// <inheritdoc/>
-        public Task<LoadUrlAsyncResponse> WaitForBrowserInitialLoadAsync(CancellationToken? cancellationToken = null)
+        public Task<LoadUrlAsyncResponse> WaitForInitialLoadAsync()
         {
-            //WaitForBrowserLoadAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
-            return CefSharp.WebBrowserExtensionsEx.WaitForBrowserInitialLoadAsync(this, cancellationToken);
+            return initialLoadTaskCompletionSource.Task;
+        }
+
+        private void InitialLoad(bool? isLoading, CefErrorCode? errorCode)
+        {
+            if (isLoading.HasValue)
+            {
+                if (isLoading.Value)
+                {
+                    return;
+                }
+
+                initialLoadAction = null;
+
+                var host = browser?.GetHost();
+
+                var navEntry = host?.GetVisibleNavigationEntry();
+
+                int statusCode = navEntry?.HttpStatusCode ?? -1;
+
+                //By default 0 is some sort of error, we map that to -1
+                //so that it's clearer that something failed.
+                if (statusCode == 0)
+                {
+                    statusCode = -1;
+                }
+
+                initialLoadTaskCompletionSource.TrySetResultAsync(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
+            }
+            else if (errorCode.HasValue)
+            {
+                //Actions that trigger a download will raise an aborted error.
+                //Generally speaking Aborted is safe to ignore
+                if (errorCode == CefErrorCode.Aborted)
+                {
+                    return;
+                }
+
+                initialLoadAction = null;
+
+                initialLoadTaskCompletionSource.TrySetResultAsync(new LoadUrlAsyncResponse(errorCode.Value, -1));
+            }
         }
 
         partial void OnAfterBrowserCreated(IBrowser browser);
+
+        partial void SetLoadingStateChange(LoadingStateChangedEventArgs args);
 
         /// <summary>
         /// Sets the handler references to null.

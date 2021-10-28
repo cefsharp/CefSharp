@@ -756,13 +756,11 @@ namespace CefSharp.OffScreen
         /// Sets the loading state change.
         /// </summary>
         /// <param name="args">The <see cref="LoadingStateChangedEventArgs"/> instance containing the event data.</param>
-        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
+        partial void SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
             CanGoBack = args.CanGoBack;
             CanGoForward = args.CanGoForward;
             IsLoading = args.IsLoading;
-
-            LoadingStateChanged?.Invoke(this, args);
         }
 
         /// <summary>
