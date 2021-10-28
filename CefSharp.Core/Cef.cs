@@ -174,19 +174,20 @@ namespace CefSharp
         /// </summary>
         /// <param name="settings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies available, throws exception if any are missing</param>
+        /// <param name="browserProcessHandler">The handler for functionality specific to the browser process. Null if you don't wish to handle these events</param>
         /// <returns>returns a Task that can be awaited. true if successful; otherwise, false. If false check the log file for possible errors</returns>
         /// <remarks>
         /// If successful then the Task will be completed successfully when <see cref="IBrowserProcessHandler.OnContextInitialized"/> is called.
         /// If successful then the continuation will happen syncrionously on the CEF UI thread.
         /// </remarks>
-        public static Task<bool> InitializeAsync(CefSettingsBase settings, bool performDependencyCheck = true)
+        public static Task<bool> InitializeAsync(CefSettingsBase settings, bool performDependencyCheck = true, IBrowserProcessHandler browserProcessHandler = null)
         {
             using (settings.settings)
             {
                 try
                 {
                     //Ignore the result, the Task will be set in Core.Cef.Initialze
-                    Core.Cef.Initialize(settings.settings, performDependencyCheck);
+                    Core.Cef.Initialize(settings.settings, performDependencyCheck, browserProcessHandler);
                 }
                 catch (Exception ex)
                 {
