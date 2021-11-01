@@ -367,6 +367,15 @@ namespace CefSharp.WinForms
 
         private void InitialLoad(bool? isLoading, CefErrorCode? errorCode)
         {
+            if(IsDisposed)
+            {
+                initialLoadAction = null;
+
+                initialLoadTaskCompletionSource.TrySetCanceled();
+
+                return;
+            }
+
             if (isLoading.HasValue)
             {
                 if (isLoading.Value)
