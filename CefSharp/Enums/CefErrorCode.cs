@@ -1470,6 +1470,6 @@ namespace CefSharp
         /// Error should be handled as if an HTTP redirect was received to redirect to
         /// https or wss.
         /// </summary>
-        DnsNameHttpsOnly = 809,
+        DnsNameHttpsOnly = -809,
     };
 }
