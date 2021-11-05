@@ -1691,7 +1691,7 @@ namespace CefSharp.Wpf
                 case WindowState.Normal:
                 case WindowState.Maximized:
                 {
-                    if (previousWindowState == WindowState.Minimized)
+                    if (previousWindowState == WindowState.Minimized && IsVisible)
                     {
                         OnBrowserWasHidden(false);
                     }
