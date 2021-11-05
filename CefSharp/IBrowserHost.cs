@@ -471,7 +471,7 @@ namespace CefSharp
         /// Layouting and rendering notification will stop when the browser is hidden.
         /// This method is only used when window rendering is disabled (WPF/OffScreen). 
         /// </summary>
-        /// <param name="hidden"></param>
+        /// <param name="hidden">if true the browser will be notified that it was hidden.</param>
         void WasHidden(bool hidden);
 
         /// <summary>
