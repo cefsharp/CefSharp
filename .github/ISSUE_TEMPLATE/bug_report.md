@@ -33,8 +33,8 @@ Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
     - What version are you using? Nuget? CI Nuget? build from a branch? If so please link to the relevant commit.
-	- Please include the exact version number you are using e.g. 86.0.241 (no ambiguous statements like `Latest from Nuget`)
-    - Please only create an issue if you can reproduce the problem with version 86.0.241 or greater.
+	- Please include the exact version number you are using e.g. 95.7.141 (no ambiguous statements like `Latest from Nuget`)
+    - Please only create an issue if you can reproduce the problem with version 95.7.141 or greater.
 
 - **What architecture x86 or x64?**
     <x86/x64>
@@ -69,9 +69,9 @@ Delete this line and everything above, and then fill in the details below.
 
 - **Does this problem also occur in the `CEF` Sample Application**
     - Download one of the following:
-    - For x86 download https://cef-builds.spotifycdn.com/cef_binary_94.4.2%2Bg6a963ca%2Bchromium-94.0.4606.61_windows32_client.tar.bz2
-    - For x64 download https://cef-builds.spotifycdn.com/cef_binary_94.4.2%2Bg6a963ca%2Bchromium-94.0.4606.61_windows64_client.tar.bz2
-	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_94.4.2%2Bg6a963ca%2Bchromium-94.0.4606.61_windowsarm64_client.tar.bz2
+    - For x86 download https://cef-builds.spotifycdn.com/cef_binary_95.7.14%2Bg9f72f35%2Bchromium-95.0.4638.69_windows32_client.tar.bz2
+    - For x64 download https://cef-builds.spotifycdn.com/cef_binary_95.7.14%2Bg9f72f35%2Bchromium-95.0.4638.69_windows64_client.tar.bz2
+	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_95.7.14%2Bg9f72f35%2Bchromium-95.0.4638.69_windowsarm64_client.tar.bz2
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
