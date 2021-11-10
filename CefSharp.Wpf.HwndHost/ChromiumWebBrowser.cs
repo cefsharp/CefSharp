@@ -167,6 +167,16 @@ namespace CefSharp.Wpf.HwndHost
         private bool initialFocus;
 
         /// <summary>
+        /// Initial browser load task complection source
+        /// </summary>
+        private TaskCompletionSource<LoadUrlAsyncResponse> initialLoadTaskCompletionSource = new TaskCompletionSource<LoadUrlAsyncResponse>();
+
+        /// <summary>
+        /// Initial browser load action
+        /// </summary>
+        private Action<bool?, CefErrorCode?> initialLoadAction;
+
+        /// <summary>
         /// Activates browser upon creation, the default value is false. Prior to version 73
         /// the default behaviour was to activate browser on creation (Equivilent of setting this property to true).
         /// To restore this behaviour set this value to true immediately after you create the <see cref="ChromiumWebBrowser"/> instance.
@@ -976,6 +986,8 @@ namespace CefSharp.Wpf.HwndHost
             });
 
             LoadingStateChanged?.Invoke(this, args);
+
+            initialLoadAction?.Invoke(args.IsLoading, null);
         }
 
         /// <summary>
@@ -1039,6 +1051,8 @@ namespace CefSharp.Wpf.HwndHost
         void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             LoadError?.Invoke(this, args);
+
+            initialLoadAction?.Invoke(null, args.ErrorCode);
         }
 
         void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
@@ -1090,8 +1104,9 @@ namespace CefSharp.Wpf.HwndHost
                 return;
             }
 
-            Interlocked.Exchange(ref browserInitialized, 1);
             this.browser = browser;
+            initialLoadAction = InitialLoad;
+            Interlocked.Exchange(ref browserInitialized, 1);
 
             UiThreadRunAsync(() =>
             {
@@ -1572,12 +1587,12 @@ namespace CefSharp.Wpf.HwndHost
         }
 
         /// <inheritdoc/>
-        public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url = null, SynchronizationContext ctx = null)
+        public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url)
         {
             //LoadUrlAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
             //It's not actually an extension method so we can have it included as part of the
             //IWebBrowser interface
-            return CefSharp.WebBrowserExtensions.LoadUrlAsync(this, url, ctx);
+            return CefSharp.WebBrowserExtensions.LoadUrlAsync(this, url);
         }
 
         /// <summary>
@@ -1694,6 +1709,68 @@ namespace CefSharp.Wpf.HwndHost
                 var host = browser.GetHost();
 
                 host.NotifyMoveOrResizeStarted();
+            }
+        }
+
+        /// <inheritdoc/>
+        public void LoadUrl(string url)
+        {
+            Load(url);
+        }
+
+        /// <inheritdoc/>
+        public Task<LoadUrlAsyncResponse> WaitForInitialLoadAsync()
+        {
+            return initialLoadTaskCompletionSource.Task;
+        }
+
+        private void InitialLoad(bool? isLoading, CefErrorCode? errorCode)
+        {
+            if (IsDisposed)
+            {
+                initialLoadAction = null;
+
+                initialLoadTaskCompletionSource.TrySetCanceled();
+
+                return;
+            }
+
+            if (isLoading.HasValue)
+            {
+                if (isLoading.Value)
+                {
+                    return;
+                }
+
+                initialLoadAction = null;
+
+                var host = browser?.GetHost();
+
+                var navEntry = host?.GetVisibleNavigationEntry();
+
+                int statusCode = navEntry?.HttpStatusCode ?? -1;
+
+                //By default 0 is some sort of error, we map that to -1
+                //so that it's clearer that something failed.
+                if (statusCode == 0)
+                {
+                    statusCode = -1;
+                }
+
+                initialLoadTaskCompletionSource.TrySetResultAsync(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
+            }
+            else if (errorCode.HasValue)
+            {
+                //Actions that trigger a download will raise an aborted error.
+                //Generally speaking Aborted is safe to ignore
+                if (errorCode == CefErrorCode.Aborted)
+                {
+                    return;
+                }
+
+                initialLoadAction = null;
+
+                initialLoadTaskCompletionSource.TrySetResultAsync(new LoadUrlAsyncResponse(errorCode.Value, -1));
             }
         }
     }
