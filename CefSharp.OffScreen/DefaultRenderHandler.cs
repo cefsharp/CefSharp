@@ -98,7 +98,7 @@ namespace CefSharp.OffScreen
         /// <returns>Return null if no screenInfo structure is provided.</returns>	
         public virtual ScreenInfo? GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo { DeviceScaleFactor = 1.0F };
+            var screenInfo = new ScreenInfo { DeviceScaleFactor = browser.DeviceScaleFactor };
 
             return screenInfo;
         }

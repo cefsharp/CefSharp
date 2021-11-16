@@ -4,9 +4,9 @@
 
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+using CefSharp.DevTools.Page;
 
 namespace CefSharp.OffScreen.Example
 {
@@ -14,6 +14,8 @@ namespace CefSharp.OffScreen.Example
     {
         private const string TestUrlOne = "https://www.google.com/";
         private const string TestUrlTwo = "https://github.com/";
+        private const string TestUrlThree = "https://www.google.com/doodles";
+        private const string TestUrlFour = "https://microsoft.com/";
 
         public static int Main(string[] args)
         {
@@ -22,7 +24,7 @@ namespace CefSharp.OffScreen.Example
             Console.WriteLine();
 
             //Console app doesn't have a message loop which we need as Cef.Initialize/Cef.Shutdown must be called on the same
-            //thread. We use a super simple implementation from
+            //thread. We use a super simple SynchronizationContext implementation from
             //https://devblogs.microsoft.com/pfxteam/await-synchronizationcontext-and-console-apps/
             //Continuations will happen on the main thread
             //The Nito.AsyncEx.Context Nuget package has a more advanced implementation
@@ -39,13 +41,15 @@ namespace CefSharp.OffScreen.Example
                     return;
                 }
 
-                var t1 =  MainAsync(TestUrlOne, "cache\\path1", 1.0);
+                var t1 =  MainAsync(TestUrlOne, TestUrlTwo, "cache\\path1", 1.0);
                 //Demo showing Zoom Level of 2.0
                 //Using seperate request contexts allows the urls from the same domain to have independent zoom levels
                 //otherwise they would be the same - default behaviour of Chromium
-                var t2 = MainAsync(TestUrlTwo, "cache\\path2", 2.0);
+                var t2 = MainAsync(TestUrlThree, TestUrlFour, "cache\\path2", 2.0);
 
                 await Task.WhenAll(t1, t2);
+
+                Console.WriteLine("Image viewer launched.  Press any key to exit.");
 
                 // Wait for user input
                 Console.ReadKey();
@@ -64,7 +68,7 @@ namespace CefSharp.OffScreen.Example
             return 0;
         }
 
-        private static async Task MainAsync(string url, string cachePath, double zoomLevel)
+        private static async Task MainAsync(string url, string secondUrl, string cachePath, double zoomLevel)
         {
             var browserSettings = new BrowserSettings
             {
@@ -125,54 +129,74 @@ namespace CefSharp.OffScreen.Example
                 ////Give the browser a little time to finish drawing our SendKeyEvent input
                 //await Task.Delay(100);
 
+                var contentSize = await browser.GetContentSizeAsync();
+
+                var viewport = new Viewport
+                {
+                    Height = contentSize.Height,
+                    Width = contentSize.Width,
+                    Scale = 1.0
+                };
+
                 // Wait for the screenshot to be taken,
                 // if one exists ignore it, wait for a new one to make sure we have the most up to date
-                var bitmap = await browser.ScreenshotAsync(true);
+                var bitmap = await browser.CaptureScreenshotAsync(viewport:viewport);
 
-                DisplayBitmap(bitmap);
+                // Make a file to save it to (e.g. C:\Users\jan\Desktop\CefSharp screenshot.png)
+                var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot" + DateTime.Now.Ticks + ".png");
 
-                //await browser.LoadUrlAsync("http://github.com");
+                Console.WriteLine();
+                Console.WriteLine("Screenshot ready. Saving to {0}", screenshotPath);
+
+                File.WriteAllBytes(screenshotPath, bitmap);
+
+                Console.WriteLine("Screenshot saved. Launching your default image viewer...");
+
+                // Tell Windows to launch the saved image.
+                Process.Start(new ProcessStartInfo(screenshotPath)
+                {
+                    // UseShellExecute is false by default on .NET Core.
+                    UseShellExecute = true
+                });
+
+                await browser.LoadUrlAsync(secondUrl);
 
                 // Gets a warpper around the CefBrowserHost instance
                 // You can perform a lot of low level browser operations using this interface
-                //var cefbrowserHost = browser.GetBrowserHost();                
+                var cefbrowserHost = browser.GetBrowserHost();                
 
                 //You can call Invalidate to redraw/refresh the image
-                //cefbrowserHost.Invalidate(PaintElementType.View);
+                cefbrowserHost.Invalidate(PaintElementType.View);
 
-                // Wait for the screenshot to be taken.
-                //bitmap = await browser.ScreenshotAsync(true);
+                contentSize = await browser.GetContentSizeAsync();
 
-                //DisplayBitmap(bitmap);
+                viewport = new Viewport
+                {
+                    Height = contentSize.Height,
+                    Width = contentSize.Width,
+                    Scale = 1.0
+                };
+
+                // Wait for the screenshot to be taken,
+                // if one exists ignore it, wait for a new one to make sure we have the most up to date
+                bitmap = await browser.CaptureScreenshotAsync(viewport: viewport);
+
+                screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot" + DateTime.Now.Ticks + ".png");
+
+                Console.WriteLine();
+                Console.WriteLine("Screenshot ready. Saving to {0}", screenshotPath);
+
+                File.WriteAllBytes(screenshotPath, bitmap);
+
+                Console.WriteLine("Screenshot saved. Launching your default image viewer...");
+
+                // Tell Windows to launch the saved image.
+                Process.Start(new ProcessStartInfo(screenshotPath)
+                {
+                    // UseShellExecute is false by default on .NET Core.
+                    UseShellExecute = true
+                });
             }
-        }
-
-        private static void DisplayBitmap(Bitmap bitmap)
-        {
-            // Make a file to save it to (e.g. C:\Users\jan\Desktop\CefSharp screenshot.png)
-            var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot" + DateTime.Now.Ticks + ".png");
-
-            Console.WriteLine();
-            Console.WriteLine("Screenshot ready. Saving to {0}", screenshotPath);
-
-            // Save the Bitmap to the path.
-            // The image type is auto-detected via the ".png" extension.
-            bitmap.Save(screenshotPath);
-
-            // We no longer need the Bitmap.
-            // Dispose it to avoid keeping the memory alive.  Especially important in 32-bit applications.
-            bitmap.Dispose();
-
-            Console.WriteLine("Screenshot saved. Launching your default image viewer...");
-
-            // Tell Windows to launch the saved image.
-            Process.Start(new ProcessStartInfo(screenshotPath)
-            {
-                // UseShellExecute is false by default on .NET Core.
-                UseShellExecute = true
-            });
-
-            Console.WriteLine("Image viewer launched.  Press any key to exit.");
         }
     }
 }
