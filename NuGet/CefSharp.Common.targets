@@ -166,6 +166,7 @@
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
           </ItemGroup>
         </When>
@@ -264,12 +265,14 @@
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
             <Content Include="@(CefSharpCommonBinaries64)">
               <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
           </ItemGroup>
         </When>
@@ -280,24 +283,28 @@
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
             <Content Include="@(CefRedist64)">
               <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
             <Content Include="@(CefSharpCommonBinaries32)">
               <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
             <Content Include="@(CefSharpCommonBinaries64)">
               <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
             <!--
             Include CefSharp.dll and CefSharp.Core.dll (we only need CefSharp.dll but it's easier to include both)
@@ -308,12 +315,14 @@
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
             <Content Include="@(CefSharpCommonManagedDll)">
               <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>     
           </ItemGroup>
         </When>
@@ -325,12 +334,14 @@
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
             <Content Include="@(CefSharpCommonBinaries32)">
               <Link>$(CefSharpTargetDir)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
           </ItemGroup>
         </Otherwise>
