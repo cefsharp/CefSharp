@@ -114,7 +114,8 @@ namespace CefSharp.Test.JavascriptBinding
             }
         }
 
-        [Fact]
+        [SkipIfRunOnAppVeyorFact()]
+        //Skipping Issue https://github.com/cefsharp/CefSharp/issues/3867
         public async Task LoadLegacyJavaScriptBindingQunitTestsSuccessfulCompletion()
         {
             using (var browser = new ChromiumWebBrowser(CefExample.LegacyBindingTestUrl, automaticallyCreateBrowser: false))
