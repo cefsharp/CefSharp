@@ -55,7 +55,7 @@ namespace CefSharp
             /// </summary>
             !CefSettingsBase()
             {
-                delete _cefSettings;
+                _cefSettings = nullptr;
             }
 
             /// <summary>

@@ -34,7 +34,12 @@ namespace CefSharp.OffScreen.Example
             {
                 Cef.EnableWaitForBrowsersToClose();
 
-                var success = await Cef.InitializeAsync(new CefSettings());
+                var settings = new CefSettings();
+                //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
+                //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 
+                settings.CachePath = Path.GetFullPath("cache");
+
+                var success = await Cef.InitializeAsync(settings);
 
                 if (!success)
                 {

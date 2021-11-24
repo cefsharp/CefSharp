@@ -15,9 +15,10 @@ namespace CefSharp
     /// WPF/WinForms/OffScreen each have their own CefSettings implementation that sets
     /// relevant settings e.g. OffScreen starts with audio muted.
     /// </summary>
-    public abstract class CefSettingsBase
+    public abstract class CefSettingsBase : IDisposable
     {
-        internal Core.CefSettingsBase settings = new Core.CefSettingsBase();
+        private bool disposed = false;
+        internal Core.CefSettingsBase settings = new Core.CefSettingsBase();        
 
 #if NETCOREAPP
         public CefSettingsBase() : base()
@@ -38,8 +39,16 @@ namespace CefSharp
         /// </summary>
         public void Dispose()
         {
-            settings?.Dispose();
+            disposed = true;
             settings = null;
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the CefSettings has been disposed.
+        /// </summary>
+        public bool IsDisposed
+        {
+            get { return disposed; }
         }
 
         /// <summary>

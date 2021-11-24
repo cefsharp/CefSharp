@@ -310,8 +310,9 @@ namespace CefSharp
                                                            cefSettings->CefCustomSchemes,
                                                            cefApp));
                 CefMainArgs main_args;
+                CefSettings settings = *(cefSettings->_cefSettings);
 
-                auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), nullptr);
+                auto success = CefInitialize(main_args, settings, app.get(), nullptr);
 
                 if (!success)
                 {
@@ -322,6 +323,9 @@ namespace CefSharp
                 _multiThreadedMessageLoop = cefSettings->MultiThreadedMessageLoop;
 
                 _initializedThreadId = Thread::CurrentThread->ManagedThreadId;
+
+                //We took a copy of CefSettings earlier, now we set our pointer to nullptr
+                delete cefSettings;
 
                 return success;
             }
