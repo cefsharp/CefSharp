@@ -91,6 +91,12 @@ namespace CefSharp.WinForms.Example
                         }
                     }
                 })
+                .OnPopupBrowserCreated((popupBrowser) =>
+                {
+                    //You can access all the core browser functionality via IBrowser
+                    //frames, browwser host, etc.
+                    var isPopup = popupBrowser.IsPopup;
+                })
                 .Build();            
 
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;

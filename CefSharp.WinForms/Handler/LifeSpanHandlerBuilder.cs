@@ -27,6 +27,21 @@ namespace CefSharp.WinForms.Handler
         }
 
         /// <summary>
+        /// The <see cref="OnPopupBrowserCreatedDelegate"/> will be called when the<see cref="IBrowser"/> has been
+        /// created. The <see cref="IBrowser"/> instance is valid until <see cref="OnPopupDestroyed(OnPopupDestroyedDelegate)"/>
+        /// is called. <see cref="IBrowser"/> provides low level access to the CEF Browser, you can access frames, view source,
+        /// perform navigation (via frame) etc.
+        /// </summary>
+        /// <param name="onPopupBrowserCreated">Action to be invoked when the <see cref="IBrowser"/> has been created.</param>
+        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
+        public LifeSpanHandlerBuilder OnPopupBrowserCreated(OnPopupBrowserCreatedDelegate onPopupBrowserCreated)
+        {
+            handler.OnPopupBrowserCreated(onPopupBrowserCreated);
+
+            return this;
+        }
+
+        /// <summary>
         /// The <see cref="OnPopupDestroyedDelegate"/> will be called when the <see cref="ChromiumHostControl"/> is to be
         /// removed from it's parent.
         /// When the <see cref="OnPopupDestroyedDelegate"/> is called you must remove/dispose of the <see cref="ChromiumHostControl"/>.

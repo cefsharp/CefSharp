@@ -21,6 +21,13 @@ namespace CefSharp.WinForms.Handler
     public delegate void OnPopupCreatedDelegate(ChromiumHostControl control, string url);
 
     /// <summary>
+    /// Called when the <see cref="IBrowser"/> instance has been created.
+    /// The <see cref="IBrowser"/> reference will be valid until <see cref="OnPopupDestroyedDelegate"/> is called
+    /// </summary>
+    /// <param name="browser">browser</param>
+    public delegate void OnPopupBrowserCreatedDelegate(IBrowser browser);
+
+    /// <summary>
     /// Called when the <see cref="ChromiumHostControl"/> is to be removed from it's parent.
     /// When called you must remove/dispose of the <see cref="ChromiumHostControl"/>.
     /// </summary>
@@ -38,6 +45,7 @@ namespace CefSharp.WinForms.Handler
     {
         private readonly Dictionary<int, ParentFormMessageInterceptor> popupParentFormMessageInterceptors = new Dictionary<int, ParentFormMessageInterceptor>();
         private OnPopupDestroyedDelegate onPopupDestroyed;
+        private OnPopupBrowserCreatedDelegate onPopupBrowserCreated;
         private OnPopupCreatedDelegate onPopupCreated;
         
         /// <inheritdoc/>
@@ -78,6 +86,8 @@ namespace CefSharp.WinForms.Handler
         {
             if (browser.IsPopup)
             {
+                onPopupBrowserCreated?.Invoke(browser);
+
                 var windowHandle = browser.GetHost().GetWindowHandle();
 
                 //WinForms will kindly lookup the child control from it's handle
@@ -167,11 +177,26 @@ namespace CefSharp.WinForms.Handler
         /// so the <see cref="Control.ClientRectangle"/> can be calculated to set the initial
         /// size correctly.
         /// </summary>
-        /// <param name="onPopupCreated">Action to be invoked when the Popup is to be destroyed.</param>
+        /// <param name="onPopupCreated">Action to be invoked when the Popup host has been created and is ready to be attached to it's parent..</param>
         /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
         public LifeSpanHandler OnPopupCreated(OnPopupCreatedDelegate onPopupCreated)
         {
             this.onPopupCreated = onPopupCreated;
+
+            return this;
+        }
+
+        /// <summary>
+        /// The <see cref="OnPopupBrowserCreatedDelegate"/> will be called when the<see cref="IBrowser"/> has been
+        /// created. The <see cref="IBrowser"/> instance is valid until <see cref="OnPopupDestroyed(OnPopupDestroyedDelegate)"/>
+        /// is called. <see cref="IBrowser"/> provides low level access to the CEF Browser, you can access frames, view source,
+        /// perform navigation (via frame) etc.
+        /// </summary>
+        /// <param name="onPopupBrowserCreated">Action to be invoked when the <see cref="IBrowser"/> has been created.</param>
+        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
+        public LifeSpanHandler OnPopupBrowserCreated(OnPopupBrowserCreatedDelegate onPopupBrowserCreated)
+        {
+            this.onPopupBrowserCreated = onPopupBrowserCreated;
 
             return this;
         }
