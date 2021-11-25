@@ -91,8 +91,14 @@ namespace CefSharp.WinForms.Example
                         }
                     }
                 })
-                .OnPopupBrowserCreated((popupBrowser) =>
+                .OnPopupBrowserCreated((ctrl, popupBrowser) =>
                 {
+                    //The host control maybe null if the popup was hosted in a native Window e.g. Devtools by default
+                    if(ctrl == null)
+                    {
+                        return;
+                    }
+
                     //You can access all the core browser functionality via IBrowser
                     //frames, browwser host, etc.
                     var isPopup = popupBrowser.IsPopup;

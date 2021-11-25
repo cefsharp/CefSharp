@@ -198,13 +198,6 @@ namespace CefSharp.WinForms
         /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
         /// </summary>
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
-        /// <summary>
-        /// Event called after the underlying CEF browser instance has been created. 
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// </summary>
-        public event EventHandler IsBrowserInitializedChanged;
 
         /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
@@ -398,7 +391,6 @@ namespace CefSharp.WinForms
                 ConsoleMessage = null;
                 FrameLoadEnd = null;
                 FrameLoadStart = null;
-                IsBrowserInitializedChanged = null;
                 LoadError = null;
                 LoadingStateChanged = null;
                 StatusMessage = null;
@@ -604,6 +596,7 @@ namespace CefSharp.WinForms
         /// <param name="browser">The browser.</param>
         partial void OnAfterBrowserCreated(IBrowser browser)
         {
+            BrowserCore = browser;
             BrowserHwnd = browser.GetHost().GetWindowHandle();
 
             // By the time this callback gets called, this control
@@ -639,7 +632,7 @@ namespace CefSharp.WinForms
                 browser.GetHost()?.SetFocus(true);
             }
 
-            IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
+            RaiseIsBrowserInitializedChangedEvent();
         }
 
         /// <summary>
@@ -769,7 +762,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Returns the current IBrowser Instance
         /// </summary>
-        /// <returns>browser instance or null</returns>
+        /// <returns>browser instance</returns>
         public IBrowser GetBrowser()
         {
             ThrowExceptionIfDisposed();

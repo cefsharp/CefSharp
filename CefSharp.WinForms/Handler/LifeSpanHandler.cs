@@ -24,8 +24,10 @@ namespace CefSharp.WinForms.Handler
     /// Called when the <see cref="IBrowser"/> instance has been created.
     /// The <see cref="IBrowser"/> reference will be valid until <see cref="OnPopupDestroyedDelegate"/> is called
     /// </summary>
+    /// <param name="control">popup host control, maybe null if Browser is hosted in a native Popup window.
+    /// DevTools by default will be hosted in a native popup window.</param>
     /// <param name="browser">browser</param>
-    public delegate void OnPopupBrowserCreatedDelegate(IBrowser browser);
+    public delegate void OnPopupBrowserCreatedDelegate(ChromiumHostControl control, IBrowser browser);
 
     /// <summary>
     /// Called when the <see cref="ChromiumHostControl"/> is to be removed from it's parent.
@@ -53,8 +55,7 @@ namespace CefSharp.WinForms.Handler
         {
             if (browser.IsPopup)
             {
-                var windowHandle = browser.GetHost().GetWindowHandle();
-                var control = Control.FromChildHandle(windowHandle) as ChromiumHostControl;
+                var control = ChromiumHostControl.FromBrowser(browser);
 
                 //We don't have a parent control so we allow the default behaviour, required to close
                 //default popups e.g. DevTools
@@ -86,21 +87,17 @@ namespace CefSharp.WinForms.Handler
         {
             if (browser.IsPopup)
             {
-                onPopupBrowserCreated?.Invoke(browser);
-
-                var windowHandle = browser.GetHost().GetWindowHandle();
-
                 //WinForms will kindly lookup the child control from it's handle
                 //If no parentControl then likely it's a native popup created by CEF
                 //(Devtools by default will open as a popup, at this point the Url hasn't been set, so 
                 // we're going with this assumption as it fits the use case currently)
-                var control = Control.FromChildHandle(windowHandle) as ChromiumHostControl;
+                var control = ChromiumHostControl.FromBrowser(browser);
 
                 //If control is null then we'll treat as a native popup (do nothing)
                 //If control is disposed there's nothing for us to do either.
                 if (control != null && !control.IsDisposed)
                 {
-                    control.BrowserHwnd = windowHandle;
+                    control.BrowserHwnd = browser.GetHost().GetWindowHandle();
 
                     control.InvokeOnUiThreadIfRequired(() =>
                     {
@@ -114,8 +111,13 @@ namespace CefSharp.WinForms.Handler
                         };
 
                         popupParentFormMessageInterceptors.Add(browser.Identifier, interceptor);
-                    });                   
+                    });
+
+                    control.BrowserCore = browser;
+                    control.RaiseIsBrowserInitializedChangedEvent();
                 }
+
+                onPopupBrowserCreated?.Invoke(control, browser);
             }
         }
 

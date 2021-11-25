@@ -20,6 +20,12 @@ namespace CefSharp.WinForms.Host
     public class ChromiumHostControl : Control
     {
         /// <summary>
+        /// Get access to the core <see cref="IBrowser"/> instance.
+        /// Maybe null if the underlying CEF Browser has not yet been
+        /// created or if this control has been disposed.
+        /// </summary>
+        public IBrowser BrowserCore { get; internal set; }
+        /// <summary>
         /// IntPtr that represents the CefBrowser Hwnd
         /// Used for sending messages to the browser
         /// e.g. resize
@@ -32,6 +38,14 @@ namespace CefSharp.WinForms.Host
         /// <value><c>true</c> if this instance is activating; otherwise, <c>false</c>.</value>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool IsActivating { get; set; }
+
+        /// <summary>
+        /// Event called after the underlying CEF browser instance has been created. 
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
+        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
+        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
+        /// </summary>
+        public event EventHandler IsBrowserInitializedChanged;
 
         /// <summary>
         /// Gets the default size of the control.
@@ -161,10 +175,45 @@ namespace CefSharp.WinForms.Host
         {
             if (disposing)
             {
+                BrowserCore = null;
                 BrowserHwnd = IntPtr.Zero;
+                IsBrowserInitializedChanged = null;
             }
 
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Trigger the <see cref="IsBrowserInitializedChanged"/> event
+        /// </summary>
+        internal void RaiseIsBrowserInitializedChangedEvent()
+        {
+            IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ChromiumHostControl"/> associated with
+        /// a specific <see cref="IBrowser"/> instance. 
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <returns>returns the assocaited <see cref="ChromiumHostControl"/> or null if Disposed or no host found.</returns>
+        public static ChromiumHostControl FromBrowser(IBrowser browser)
+        {
+            if(browser.IsDisposed)
+            {
+                return null;
+            }
+
+            var windowHandle = browser.GetHost().GetWindowHandle();
+
+            if(windowHandle == IntPtr.Zero)
+            {
+                return null;
+            }
+
+            var control = Control.FromChildHandle(windowHandle) as ChromiumHostControl;
+
+            return control;
         }
     }
 }
