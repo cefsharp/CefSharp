@@ -17,6 +17,7 @@ using CefSharp.Enums;
 using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Wpf.Experimental;
+using CefSharp.Wpf.Handler;
 using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
@@ -562,6 +563,8 @@ namespace CefSharp.Wpf
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
+
+            MenuHandler = new ContextMenuHandler();
 
             UseLayoutRounding = true;
         }
