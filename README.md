@@ -5,7 +5,7 @@
 [![CefSharp.Wpf](https://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=Wpf)](https://www.nuget.org/packages/CefSharp.Wpf/)
 [![CefSharp.OffScreen](https://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](https://www.nuget.org/packages/CefSharp.OffScreen/)
 
-Got a quick question? Jump on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+Got a quick question? [Discussions](https://github.com/cefsharp/CefSharp/discussions) here on `GitHub` is the preferred place to ask!
 
 [CefSharp](https://cefsharp.github.io/) lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the [Chromium Embedded Framework (CEF)](https://bitbucket.org/chromiumembedded/cef) by Marshall A. Greenblatt. About 30% of the bindings are written in C++/CLI with the majority of code here is C#. It can be used from C# or VB, or any other CLR language. CefSharp provides both WPF and WinForms web browser control implementations.
 
@@ -35,10 +35,9 @@ Stable binaries are released on NuGet, and contain everything you need  to embed
 
 Please keep the `Issue Tracker` for **Bugs** only please! Before submitting a `PR` please read [CONTRIBUTING](https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md).
 
-- [Stackoverflow](https://stackoverflow.com/questions/tagged/cefsharp) is generally where questions should be asked, please search before posting, thanks!
-- [CefSharp Questions-and-Support](https://github.com/cefsharp/Questions-and-Support/issues) is a repository here on `GitHub` where you can ask `CefSharp` specific questions.
+- [CefSharp Discussions](https://github.com/cefsharp/CefSharp/discussions) is generally where `CefSharp` specific questions should be asked, please search before posting, thanks!
+- [Stackoverflow](https://stackoverflow.com/questions/tagged/cefsharp) is where generic html/javascript/C# questions can be asked.
 - [Chromium Embedded Framework(CEF) Forum](https://magpcss.org/ceforum/viewforum.php?f=18)
-- [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) is the place to ask if you need a quick pointer or two.
 
 ## Branches & Forks
 
