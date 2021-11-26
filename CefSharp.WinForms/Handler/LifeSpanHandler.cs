@@ -74,6 +74,8 @@ namespace CefSharp.WinForms.Handler
                     control.InvokeSyncOnUiThreadIfRequired(new Action(() =>
                     {
                         onPopupDestroyed?.Invoke(control, browser);
+
+                        control.Dispose();
                     }));
                 }
             }
@@ -151,6 +153,17 @@ namespace CefSharp.WinForms.Handler
             }
 
             var webBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
+
+            //Load and Display Handlers are used to trigger the relevant events.
+            //If they are already assigned we'll leave the user preference in place
+            if (webBrowser.LoadHandler == null)
+            {
+                webBrowser.LoadHandler = new LoadHandler();
+            }
+            if (webBrowser.DisplayHandler == null)
+            {
+                webBrowser.DisplayHandler = new DisplayHandler();
+            }
 
             //We need to execute sync here so IWindowInfo.SetAsChild is called before we return false;
             webBrowser.InvokeSyncOnUiThreadIfRequired(new Action(() =>

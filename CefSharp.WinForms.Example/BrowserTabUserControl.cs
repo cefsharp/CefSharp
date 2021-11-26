@@ -14,15 +14,32 @@ using CefSharp.Example.JavascriptBinding;
 using CefSharp.WinForms.Example.Handlers;
 using CefSharp.WinForms.Experimental;
 using CefSharp.WinForms.Handler;
+using CefSharp.WinForms.Host;
 
 namespace CefSharp.WinForms.Example
 {
     public partial class BrowserTabUserControl : UserControl
     {
-        public IWinFormsWebBrowser Browser { get; private set; }
-        private IntPtr browserHandle;
+        public IChromiumHostControl BrowserControl { get; private set; }
         private ChromiumWidgetNativeWindow messageInterceptor;
         private bool multiThreadedMessageLoopEnabled;
+
+        public BrowserTabUserControl(ChromiumHostControl chromiumHostControl)
+        {
+            InitializeComponent();
+
+            BrowserControl = chromiumHostControl;
+
+            browserPanel.Controls.Add(chromiumHostControl);
+
+            chromiumHostControl.LoadingStateChanged += OnBrowserLoadingStateChanged;
+            chromiumHostControl.ConsoleMessage += OnBrowserConsoleMessage;
+            chromiumHostControl.TitleChanged += OnBrowserTitleChanged;
+            chromiumHostControl.AddressChanged += OnBrowserAddressChanged;
+            chromiumHostControl.StatusMessage += OnBrowserStatusMessage;
+            chromiumHostControl.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
+            chromiumHostControl.LoadError += OnLoadError;
+        }
 
         public BrowserTabUserControl(Action<string, int?> openNewTab, string url, bool multiThreadedMessageLoopEnabled)
         {
@@ -35,7 +52,7 @@ namespace CefSharp.WinForms.Example
 
             browserPanel.Controls.Add(browser);
 
-            Browser = browser;
+            BrowserControl = browser;
 
             browser.MenuHandler = new MenuHandler();
             browser.RequestHandler = new WinFormsRequestHandler(openNewTab);
@@ -136,10 +153,8 @@ namespace CefSharp.WinForms.Example
             };
 
             browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
-            browser.DisplayHandler = new DisplayHandler();
+            browser.DisplayHandler = new WinFormsDisplayHandler();
             //browser.MouseDown += OnBrowserMouseClick;
-            browser.HandleCreated += OnBrowserHandleCreated;
-            //browser.ResourceHandlerFactory = new FlashResourceHandlerFactory();
             this.multiThreadedMessageLoopEnabled = multiThreadedMessageLoopEnabled;
 
             var eventObject = new ScriptedMethodsBoundObject();
@@ -178,11 +193,6 @@ namespace CefSharp.WinForms.Example
                 }
             }
             base.Dispose(disposing);
-        }
-
-        private void OnBrowserHandleCreated(object sender, EventArgs e)
-        {
-            browserHandle = ((ChromiumWebBrowser)Browser).Handle;
         }
 
         private void OnBrowserMouseClick(object sender, MouseEventArgs e)
@@ -278,7 +288,7 @@ namespace CefSharp.WinForms.Example
         private void OnIsBrowserInitializedChanged(object sender, EventArgs e)
         {
             //Get the underlying browser host wrapper
-            var browserHost = Browser.GetBrowser().GetHost();
+            var browserHost = BrowserControl.BrowserCore.GetHost();
             var requestContext = browserHost.RequestContext;
             string errorMessage;
             // Browser must be initialized before getting/setting preferences
@@ -325,9 +335,9 @@ namespace CefSharp.WinForms.Example
                     while (true)
                     {
                         IntPtr chromeWidgetHostHandle;
-                        if (ChromiumRenderWidgetHandleFinder.TryFindHandle(Browser, out chromeWidgetHostHandle))
+                        if (ChromiumRenderWidgetHandleFinder.TryFindHandle(BrowserControl.BrowserCore, out chromeWidgetHostHandle))
                         {
-                            messageInterceptor = new ChromiumWidgetNativeWindow((Control)Browser, chromeWidgetHostHandle);
+                            messageInterceptor = new ChromiumWidgetNativeWindow((Control)BrowserControl, chromeWidgetHostHandle);
 
                             messageInterceptor.OnWndProc(message =>
                             {
@@ -424,12 +434,12 @@ namespace CefSharp.WinForms.Example
 
         private void BackButtonClick(object sender, EventArgs e)
         {
-            Browser.Back();
+            BrowserControl.GoBack();
         }
 
         private void ForwardButtonClick(object sender, EventArgs e)
         {
-            Browser.Forward();
+            BrowserControl.GoForward();
         }
 
         private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
@@ -446,20 +456,20 @@ namespace CefSharp.WinForms.Example
         {
             if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                Browser.Load(url);
+                BrowserControl.LoadUrl(url);
             }
             else
             {
                 var searchUrl = "https://www.google.com/search?q=" + Uri.EscapeDataString(url);
 
-                Browser.Load(searchUrl);
+                BrowserControl.LoadUrl(searchUrl);
             }
 
         }
 
         public async void CopySourceToClipBoardAsync()
         {
-            var htmlSource = await Browser.GetSourceAsync();
+            var htmlSource = await BrowserControl.GetSourceAsync();
 
             Clipboard.SetText(htmlSource);
             DisplayOutput("HTML Source copied to clipboard");
@@ -469,7 +479,7 @@ namespace CefSharp.WinForms.Example
         {
             if (toolStrip2.Visible)
             {
-                Browser.StopFinding(true);
+                BrowserControl.StopFinding(true);
                 toolStrip2.Visible = false;
             }
             else
@@ -493,7 +503,7 @@ namespace CefSharp.WinForms.Example
         {
             if (!string.IsNullOrEmpty(findTextBox.Text))
             {
-                Browser.Find(0, findTextBox.Text, next, false, false);
+                BrowserControl.Find(0, findTextBox.Text, next, false, false);
             }
         }
 
@@ -532,7 +542,7 @@ namespace CefSharp.WinForms.Example
 
             if (devToolsControl == null || devToolsControl.IsDisposed)
             {
-                devToolsControl = Browser.ShowDevToolsDocked(
+                devToolsControl = BrowserControl.ShowDevToolsDocked(
                     parentControl: browserSplitContainer.Panel2,
                     controlName: nameof(devToolsControl));
 
@@ -553,7 +563,7 @@ namespace CefSharp.WinForms.Example
         {
             return Cef.UIThreadTaskFactory.StartNew(() =>
             {
-                return Browser.GetBrowserHost().HasDevTools;
+                return BrowserControl.GetBrowserHost().HasDevTools;
             });
         }
     }

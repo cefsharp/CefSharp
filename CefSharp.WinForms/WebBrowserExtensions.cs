@@ -5,7 +5,6 @@
 using System;
 using System.Windows.Forms;
 using CefSharp.WinForms.Host;
-using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms
 {
