@@ -40,7 +40,7 @@ namespace CefSharp.WinForms.Internals
         /// Gets or sets the browser.
         /// </summary>
         /// <value>The browser.</value>
-        private ChromiumHostControl Browser { get; set; }
+        private ChromiumHostControlBase Browser { get; set; }
 
         /// <summary>
         /// Gets or sets the parent form.
@@ -57,7 +57,7 @@ namespace CefSharp.WinForms.Internals
         /// Initializes a new instance of the <see cref="ParentFormMessageInterceptor"/> class.
         /// </summary>
         /// <param name="browser">The browser.</param>
-        public ParentFormMessageInterceptor(ChromiumHostControl browser)
+        public ParentFormMessageInterceptor(ChromiumHostControlBase browser)
         {
             Browser = browser;
             // Get notified if our browser window parent changes:

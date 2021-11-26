@@ -10,6 +10,35 @@ namespace CefSharp.WinForms.Example
     public static class ControlExtensions
     {
         /// <summary>
+        /// Finds the parent for the given control of <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="control">control</param>
+        /// <returns>Parent or null</returns>
+        public static T GetParentOfType<T>(this Control control) where T : Control
+        {
+            if(control.IsDisposed  || !control.IsHandleCreated)
+            {
+                return default;
+            }
+
+            var current = control;
+
+            do
+            {
+                current = current.Parent;
+
+                if (current == null)
+                {
+                    return default;
+                }
+
+            }
+            while (current.GetType() != typeof(T));
+
+            return (T)current;
+        }
+        /// <summary>
         /// Executes the Action asynchronously on the UI thread, does not block execution on the calling thread.
         /// No action will be performed if the control doesn't have a valid handle or the control is Disposed/Disposing.
         /// </summary>

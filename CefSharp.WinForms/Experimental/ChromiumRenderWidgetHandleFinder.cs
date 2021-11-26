@@ -55,6 +55,26 @@ namespace CefSharp.WinForms.Experimental
         }
 
         /// <summary>
+        /// Chromium's message-loop Window isn't created synchronously, so this may not find it.
+        /// If so, you need to wait and try again later.
+        /// </summary>
+        /// <param name="browser">IBrowser instance</param>
+        /// <param name="chromerRenderWidgetHostHandle">Handle of the child HWND with the name <see cref="ChromeRenderWidgetHostClassName"/></param>
+        /// <returns>returns true if the HWND was found otherwise false.</returns>
+        public static bool TryFindHandle(IBrowser browser, out IntPtr chromerRenderWidgetHostHandle)
+        {
+            var host = browser.GetHost();
+            if (host == null)
+            {
+                throw new Exception("IBrowserHost is null, you've likely call this method before the underlying browser has been created.");
+            }
+
+            var hwnd = host.GetWindowHandle();
+
+            return TryFindHandle(hwnd, ChromeRenderWidgetHostClassName, out chromerRenderWidgetHostHandle);
+        }
+
+        /// <summary>
         /// Helper function used to find the child HWND with the ClassName matching <paramref name="chromeRenderWidgetHostClassName"/>
         /// Chromium's message-loop Window isn't created synchronously, so this may not find it.
         /// If so, you need to wait and try again later.
