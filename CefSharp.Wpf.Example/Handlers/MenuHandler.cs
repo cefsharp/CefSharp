@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
 using CefSharp.Wpf.Handler;
 
 namespace CefSharp.Wpf.Example.Handlers
@@ -16,6 +15,8 @@ namespace CefSharp.Wpf.Example.Handlers
 
         protected override void OnBeforeContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
+            base.OnBeforeContextMenu(chromiumWebBrowser, browser, frame, parameters, model);
+
             Console.WriteLine("Context menu opened");
             Console.WriteLine(parameters.MisspelledWord);
 
@@ -24,33 +25,17 @@ namespace CefSharp.Wpf.Example.Handlers
                 model.AddSeparator();
             }
 
-            //For this menu handler 26501 and 26502 are used by the Show/Close DevTools commands
-            model.AddItem((CefMenuCommand)26503, "Do Something");
+            //For this menu handler 28440 and 28441 are used by the Show/Close DevTools commands
+            model.AddItem((CefMenuCommand)26501, "Do Something");
 
-            //To disable context mode then clear
+            //To disable context menu then clear
             // model.Clear();
-        }
-
-        protected override bool OnContextMenuCommand(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
-        {
-            if (commandId == (CefMenuCommand)26501)
-            {
-                browser.GetHost().ShowDevTools();
-                return true;
-            }
-            if (commandId == (CefMenuCommand)26502)
-            {
-                browser.GetHost().CloseDevTools();
-                return true;
-            }
-
-            return false;
         }
 
         protected override void ExecuteCommand(IBrowser browser, ContextMenuExecuteModel model)
         {
             //Custom item
-            if (model.MenuCommand == (CefMenuCommand)26503)
+            if (model.MenuCommand == (CefMenuCommand)26501)
             {
                 Console.WriteLine("Custom menu used");
             }
