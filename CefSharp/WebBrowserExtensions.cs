@@ -471,9 +471,7 @@ namespace CefSharp
         /// <see cref="EncodeScriptParam"/>, you can provide a custom implementation if you require one.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
         {
-            var script = GetScriptForJavascriptMethodWithArgs(methodName, args);
-
-            browser.ExecuteScriptAsync(script);
+            browser.BrowserCore.ExecuteScriptAsync(methodName, args);
         }
 
         /// <summary>
