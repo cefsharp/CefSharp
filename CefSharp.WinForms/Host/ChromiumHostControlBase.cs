@@ -18,12 +18,6 @@ namespace CefSharp.WinForms.Host
     public abstract class ChromiumHostControlBase : Control
     {
         /// <summary>
-        /// Get access to the core <see cref="IBrowser"/> instance.
-        /// Maybe null if the underlying CEF Browser has not yet been
-        /// created or if this control has been disposed.
-        /// </summary>
-        public IBrowser BrowserCore { get; internal set; }
-        /// <summary>
         /// IntPtr that represents the CefBrowser Hwnd
         /// Used for sending messages to the browser
         /// e.g. resize
@@ -173,7 +167,6 @@ namespace CefSharp.WinForms.Host
         {
             if (disposing)
             {
-                BrowserCore = null;
                 BrowserHwnd = IntPtr.Zero;
                 IsBrowserInitializedChanged = null;
             }

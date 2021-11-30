@@ -5,6 +5,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CefSharp.WinForms.Host
@@ -15,8 +16,17 @@ namespace CefSharp.WinForms.Host
     /// <seealso cref="Control" />
     [Docking(DockingBehavior.AutoDock), ToolboxBitmap(typeof(ChromiumHostControl)),
     Designer(typeof(ChromiumWebBrowserDesigner))]
-    public class ChromiumHostControl : ChromiumHostControlBase, IChromiumHostControl
+    public class ChromiumHostControl : ChromiumHostControlBase, IChromiumWebBrowserBase
     {
+        /// <summary>
+        /// Get access to the core <see cref="IBrowser"/> instance.
+        /// Maybe null if the underlying CEF Browser has not yet been
+        /// created or if this control has been disposed. Check
+        /// <see cref="IBrowser.IsDisposed"/> before accessing.
+        /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
+        public IBrowser BrowserCore { get; internal set; }
+
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
@@ -232,6 +242,12 @@ namespace CefSharp.WinForms.Host
             }
         }
 
+        public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url)
+        {
+            //LoadUrlAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
+            return CefSharp.WebBrowserExtensions.LoadUrlAsync(this, url);
+        }
+
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
         /// </summary>
@@ -260,7 +276,7 @@ namespace CefSharp.WinForms.Host
                 LoadingStateChanged = null;
                 StatusMessage = null;
                 TitleChanged = null;
-                
+                BrowserCore = null;
             }
 
             base.Dispose(disposing);

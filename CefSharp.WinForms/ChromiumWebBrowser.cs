@@ -23,7 +23,7 @@ namespace CefSharp.WinForms
     [Docking(DockingBehavior.AutoDock), DefaultEvent("LoadingStateChanged"), ToolboxBitmap(typeof(ChromiumWebBrowser)),
     Description("CefSharp ChromiumWebBrowser - Chromium Embedded Framework .Net wrapper. https://github.com/cefsharp/CefSharp"),
     Designer(typeof(ChromiumWebBrowserDesigner))]
-    public partial class ChromiumWebBrowser : ChromiumHostControlBase, IWebBrowserInternal, IWinFormsWebBrowser, IChromiumHostControl
+    public partial class ChromiumWebBrowser : ChromiumHostControlBase, IWebBrowserInternal, IWinFormsWebBrowser
     {
         //TODO: If we start adding more consts then extract them into a common class
         //Possibly in the CefSharp assembly and move the WPF ones into there as well.
@@ -406,6 +406,7 @@ namespace CefSharp.WinForms
                 FocusHandler = new NoFocusHandler();
 
                 browser = null;
+                BrowserCore = null;
 
                 if (parentFormMessageInterceptor != null)
                 {
@@ -596,7 +597,6 @@ namespace CefSharp.WinForms
         /// <param name="browser">The browser.</param>
         partial void OnAfterBrowserCreated(IBrowser browser)
         {
-            BrowserCore = browser;
             BrowserHwnd = browser.GetHost().GetWindowHandle();
 
             // By the time this callback gets called, this control

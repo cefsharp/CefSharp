@@ -71,7 +71,7 @@ namespace CefSharp.WinForms
         /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
         /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
         /// <returns>Returns the <see cref="Control"/> that hosts the DevTools instance if successful, otherwise returns null on error.</returns>
-        public static Control ShowDevToolsDocked(this IWebBrowser chromiumWebBrowser, Control parentControl, string controlName = nameof(ChromiumHostControl) + "DevTools", DockStyle dockStyle = DockStyle.Fill, int inspectElementAtX = 0, int inspectElementAtY = 0)
+        public static Control ShowDevToolsDocked(this IChromiumWebBrowserBase chromiumWebBrowser, Control parentControl, string controlName = nameof(ChromiumHostControl) + "DevTools", DockStyle dockStyle = DockStyle.Fill, int inspectElementAtX = 0, int inspectElementAtY = 0)
         {
             if (chromiumWebBrowser.IsDisposed || parentControl == null || parentControl.IsDisposed)
             {
@@ -95,7 +95,7 @@ namespace CefSharp.WinForms
         /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
         /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
         /// <returns>Returns the <see cref="Control"/> that hosts the DevTools instance if successful, otherwise returns null on error.</returns>
-        public static Control ShowDevToolsDocked(this IWebBrowser chromiumWebBrowser, Action<ChromiumHostControl> addParentControl, string controlName = nameof(ChromiumHostControl) + "DevTools", DockStyle dockStyle = DockStyle.Fill, int inspectElementAtX = 0, int inspectElementAtY = 0)
+        public static Control ShowDevToolsDocked(this IChromiumWebBrowserBase chromiumWebBrowser, Action<ChromiumHostControl> addParentControl, string controlName = nameof(ChromiumHostControl) + "DevTools", DockStyle dockStyle = DockStyle.Fill, int inspectElementAtX = 0, int inspectElementAtY = 0)
         {
             if (chromiumWebBrowser.IsDisposed || addParentControl == null)
             {

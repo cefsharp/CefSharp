@@ -229,7 +229,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.Undo();
+                control.Browser.Undo();
             }
         }
 
@@ -238,7 +238,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.Redo();
+                control.Browser.Redo();
             }
         }
 
@@ -247,7 +247,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.Cut();
+                control.Browser.Cut();
             }
         }
 
@@ -256,7 +256,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.Copy();
+                control.Browser.Copy();
             }
         }
 
@@ -265,7 +265,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.Paste();
+                control.Browser.Paste();
             }
         }
 
@@ -274,7 +274,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.Delete();
+                control.Browser.Delete();
             }
         }
 
@@ -283,7 +283,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.SelectAll();
+                control.Browser.SelectAll();
             }
         }
 
@@ -292,7 +292,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.Print();
+                control.Browser.Print();
             }
         }
 
@@ -304,7 +304,7 @@ namespace CefSharp.WinForms.Example
                 var isDevToolsOpen = await control.CheckIfDevToolsIsOpenAsync();
                 if (!isDevToolsOpen)
                 {
-                    control.BrowserControl.ShowDevTools();
+                    control.Browser.ShowDevTools();
                 }
             }
         }
@@ -317,7 +317,7 @@ namespace CefSharp.WinForms.Example
                 var isDevToolsOpen = await control.CheckIfDevToolsIsOpenAsync();
                 if (!isDevToolsOpen)
                 {
-                    var chromiumWebBrowser = control.BrowserControl as ChromiumWebBrowser;
+                    var chromiumWebBrowser = control.Browser as ChromiumWebBrowser;
                     if (chromiumWebBrowser != null && chromiumWebBrowser.LifeSpanHandler != null)
                     {
                         control.ShowDevToolsDocked();
@@ -337,7 +337,7 @@ namespace CefSharp.WinForms.Example
                 var isDevToolsOpen = await control.CheckIfDevToolsIsOpenAsync();
                 if (isDevToolsOpen)
                 {
-                    control.BrowserControl.CloseDevTools();
+                    control.Browser.CloseDevTools();
                 }
             }
         }
@@ -347,14 +347,14 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                var task = control.BrowserControl.GetZoomLevelAsync();
+                var task = control.Browser.GetZoomLevelAsync();
 
                 task.ContinueWith(previous =>
                 {
                     if (previous.Status == TaskStatus.RanToCompletion)
                     {
                         var currentLevel = previous.Result;
-                        control.BrowserControl.SetZoomLevel(currentLevel + ZoomIncrement);
+                        control.Browser.SetZoomLevel(currentLevel + ZoomIncrement);
                     }
                     else
                     {
@@ -369,13 +369,13 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                var task = control.BrowserControl.GetZoomLevelAsync();
+                var task = control.Browser.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
                 {
                     if (previous.Status == TaskStatus.RanToCompletion)
                     {
                         var currentLevel = previous.Result;
-                        control.BrowserControl.SetZoomLevel(currentLevel - ZoomIncrement);
+                        control.Browser.SetZoomLevel(currentLevel - ZoomIncrement);
                     }
                     else
                     {
@@ -390,7 +390,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                var task = control.BrowserControl.GetZoomLevelAsync();
+                var task = control.Browser.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
                 {
                     if (previous.Status == TaskStatus.RanToCompletion)
@@ -411,7 +411,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                var frame = control.BrowserControl.GetFocusedFrame();
+                var frame = control.Browser.GetFocusedFrame();
 
                 //Execute extension method
                 frame.ActiveElementAcceptsTextInput().ContinueWith(task =>
@@ -450,7 +450,7 @@ namespace CefSharp.WinForms.Example
                 var control = GetCurrentTabControl();
                 if (control != null)
                 {
-                    var frame = control.BrowserControl.GetFocusedFrame();
+                    var frame = control.Browser.GetFocusedFrame();
 
                     //Execute extension method
                     frame.ElementWithIdExists(dialog.Value).ContinueWith(task =>
@@ -486,7 +486,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.LoadUrl("custom://cefsharp/ScriptedMethodsTest.html");
+                control.Browser.LoadUrl("custom://cefsharp/ScriptedMethodsTest.html");
             }
         }
 
@@ -495,7 +495,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                var frame = control.BrowserControl.GetFocusedFrame();
+                var frame = control.Browser.GetFocusedFrame();
 
                 //Execute extension method
                 frame.ListenForEvent("test-button", "click");
@@ -515,7 +515,7 @@ namespace CefSharp.WinForms.Example
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var success = await control.BrowserControl.PrintToPdfAsync(dialog.FileName, new PdfPrintSettings
+                    var success = await control.Browser.PrintToPdfAsync(dialog.FileName, new PdfPrintSettings
                     {
                         MarginType = CefPdfPrintMarginType.Custom,
                         MarginBottom = 10,
@@ -544,7 +544,7 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 const string html = "<html><head><title>Test</title></head><body><h1>Html Encoded in URL!</h1></body></html>";
-                control.BrowserControl.LoadHtml(html, false);
+                control.Browser.LoadHtml(html, false);
             }
         }
 
@@ -553,7 +553,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.LoadUrl("https://httpbin.org/");
+                control.Browser.LoadUrl("https://httpbin.org/");
             }
         }
 
@@ -562,7 +562,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.GetBrowserHost().RunFileDialog(CefFileDialogMode.Open, "Open", null, new List<string> { "*.*" }, 0, new RunFileDialogCallback());
+                control.Browser.GetBrowserHost().RunFileDialog(CefFileDialogMode.Open, "Open", null, new List<string> { "*.*" }, 0, new RunFileDialogCallback());
             }
         }
 
@@ -572,9 +572,9 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 //The sample extension only works for http(s) schemes
-                if (control.BrowserControl.GetMainFrame().Url.StartsWith("http"))
+                if (control.Browser.GetMainFrame().Url.StartsWith("http"))
                 {
-                    var requestContext = control.BrowserControl.GetBrowserHost().RequestContext;
+                    var requestContext = control.Browser.GetBrowserHost().RequestContext;
 
                     const string cefSharpExampleResourcesFolder =
 #if !NETCOREAPP
@@ -612,7 +612,7 @@ namespace CefSharp.WinForms.Example
                         GetActiveBrowser = (extension, isIncognito) =>
                         {
                             //Return the active browser for which the extension will act upon
-                            return control.BrowserControl.BrowserCore;
+                            return control.Browser.BrowserCore;
                         }
                     };
 
@@ -630,16 +630,16 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.BrowserControl.LoadUrl(CefExample.BindingTestUrl);
-                control.BrowserControl.LoadingStateChanged += (o, args) =>
+                control.Browser.LoadUrl(CefExample.BindingTestUrl);
+                control.Browser.LoadingStateChanged += (o, args) =>
                 {
                     if (args.IsLoading == false)
                     {
                         Task.Delay(10000).ContinueWith(t =>
                         {
-                            if (control.BrowserControl != null)
+                            if (control.Browser != null)
                             {
-                                control.BrowserControl.Reload();
+                                control.Browser.Reload();
                             }
                         });
                     }
