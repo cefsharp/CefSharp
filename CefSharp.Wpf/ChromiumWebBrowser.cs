@@ -656,6 +656,7 @@ namespace CefSharp.Wpf
                 FocusHandler = new NoFocusHandler();
 
                 browser = null;
+                BrowserCore = null;
 
                 // In case we accidentally have a reference to the CEF drag data
                 currentDragData?.Dispose();

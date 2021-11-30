@@ -284,6 +284,7 @@ namespace CefSharp.OffScreen
                 FocusHandler = new NoFocusHandler();
 
                 browser = null;
+                BrowserCore = null;
 
                 if (managedCefBrowserAdapter != null)
                 {
@@ -656,7 +657,7 @@ namespace CefSharp.OffScreen
         /// Has Focus - Always False
         /// </summary>
         /// <returns>returns false</returns>
-        bool IWebBrowser.Focus()
+        bool IChromiumWebBrowserBase.Focus()
         {
             // no control to focus for offscreen browser
             return false;

@@ -3,14 +3,15 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Threading.Tasks;
 
-namespace CefSharp.WinForms.Host
+namespace CefSharp
 {
     /// <summary>
-    /// Chromium Host Control Interface used by WinForms as a common reference
-    /// for <see cref="ChromiumWebBrowser"/> and <see cref="ChromiumHostControl"/>
+    /// Interface for common events/methods/properties for <see cref="ChromiumWebBrowser"/> and popup host implementations.
     /// </summary>
-    public interface IChromiumHostControl
+    /// <seealso cref="IDisposable" />
+    public interface IChromiumWebBrowserBase : IDisposable
     {
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
@@ -73,30 +74,6 @@ namespace CefSharp.WinForms.Host
         event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
-        /// Occurs when the browser address changed.
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// </summary>
-        event EventHandler<AddressChangedEventArgs> AddressChanged;
-
-        /// <summary>
-        /// Occurs when the browser title changed.
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// </summary>
-        event EventHandler<TitleChangedEventArgs> TitleChanged;
-
-        /// <summary>
-        /// Event called after the underlying CEF browser instance has been created. 
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
-        /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
-        /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
-        /// </summary>
-        event EventHandler IsBrowserInitializedChanged;
-
-        /// <summary>
         /// Loads the specified <paramref name="url"/> in the Main Frame.
         /// Same as calling <see cref="Load(string)"/>
         /// </summary>
@@ -107,6 +84,16 @@ namespace CefSharp.WinForms.Host
         /// via Intellisense.
         /// </remarks>
         void LoadUrl(string url);
+
+        /// <summary>
+        /// Load the <paramref name="url"/> in the main frame of the browser
+        /// </summary>
+        /// <param name="url">url to load</param>
+        /// <returns>
+        /// A <see cref="Task{LoadUrlAsyncResponse}"/> that can be awaited to load the <paramref name="url"/> and return the HttpStatusCode and <see cref="CefErrorCode"/>.
+        /// A HttpStatusCode equal to 200 and <see cref="CefErrorCode.None"/> is considered a success.
+        /// </returns>
+        Task<LoadUrlAsyncResponse> LoadUrlAsync(string url);
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).

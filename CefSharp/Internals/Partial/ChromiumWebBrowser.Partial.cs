@@ -59,6 +59,15 @@ namespace CefSharp.WinForms
         private Action<bool?, CefErrorCode?> initialLoadAction;
 
         /// <summary>
+        /// Get access to the core <see cref="IBrowser"/> instance.
+        /// Maybe null if the underlying CEF Browser has not yet been
+        /// created or if this control has been disposed. Check
+        /// <see cref="IBrowser.IsDisposed"/> before accessing.
+        /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
+        public IBrowser BrowserCore { get; internal set; }
+
+        /// <summary>
         /// A flag that indicates if you can execute javascript in the main frame.
         /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
         /// and false in IRenderProcessMessageHandler.OnContextReleased
@@ -228,7 +237,7 @@ namespace CefSharp.WinForms
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
-        bool IWebBrowser.IsBrowserInitialized
+        bool IChromiumWebBrowserBase.IsBrowserInitialized
         {
             get { return InternalIsBrowserInitialized(); }
         }
@@ -327,6 +336,7 @@ namespace CefSharp.WinForms
             }
 
             this.browser = browser;
+            BrowserCore = browser;
             initialLoadAction = InitialLoad;
             Interlocked.Exchange(ref browserInitialized, 1);
 
