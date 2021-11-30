@@ -263,9 +263,17 @@ namespace CefSharp.Wpf.Experimental
 
                 if (ImeHandler.GetComposition(hwnd, (uint)lParam, underlines, ref compositionStart, out text))
                 {
-                    browserHost.ImeSetComposition(text, underlines.ToArray(),
+                    if(languageCodeId == ImeNative.LANG_KOREAN)
+                    {
+                        browserHost.ImeSetComposition(text, underlines.ToArray(),
+                        new Range(int.MaxValue, int.MaxValue), new Range(compositionStart + underlines.Count, compositionStart + underlines.Count));
+                    }
+                    else
+                    {
+                        browserHost.ImeSetComposition(text, underlines.ToArray(),
                         new Range(int.MaxValue, int.MaxValue), new Range(compositionStart, compositionStart));
-
+                    }
+                    
                     UpdateCaretPosition(compositionStart - 1);
                 }
                 else
