@@ -20,33 +20,6 @@ namespace CefSharp
 {
     namespace Internals
     {
-        bool CefRequestContextHandlerAdapter::OnBeforePluginLoad(const CefString& mime_type,
-            const CefString& plugin_url,
-            bool is_main_frame,
-            const CefString& top_origin_url,
-            CefRefPtr<CefWebPluginInfo> plugin_info,
-            CefRequestContextHandler::PluginPolicy* plugin_policy)
-        {
-            if (Object::ReferenceEquals(_requestContextHandler, nullptr))
-            {
-                return false;
-            }
-
-            auto pluginInfo = TypeConversion::FromNative(plugin_info);
-            auto pluginPolicy = (CefSharp::PluginPolicy)*plugin_policy;
-
-            auto result = _requestContextHandler->OnBeforePluginLoad(StringUtils::ToClr(mime_type),
-                StringUtils::ToClr(plugin_url),
-                is_main_frame,
-                StringUtils::ToClr(top_origin_url),
-                pluginInfo,
-                pluginPolicy);
-
-            *plugin_policy = (CefRequestContextHandler::PluginPolicy)pluginPolicy;
-
-            return result;
-        }
-
         void CefRequestContextHandlerAdapter::OnRequestContextInitialized(CefRefPtr<CefRequestContext> requestContext)
         {
             if (!Object::ReferenceEquals(_requestContextHandler, nullptr))

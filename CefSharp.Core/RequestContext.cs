@@ -112,12 +112,6 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
-        public void PurgePluginListCache(bool reloadPages)
-        {
-            requestContext.PurgePluginListCache(reloadPages);
-        }
-
-        /// <inheritdoc/>
         public bool HasPreference(string name)
         {
             return requestContext.HasPreference(name);

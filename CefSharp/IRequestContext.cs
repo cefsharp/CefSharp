@@ -84,15 +84,6 @@ namespace CefSharp
         string CachePath { get; }
 
         /// <summary>
-        /// Tells all renderer processes associated with this context to throw away
-        /// their plugin list cache. If reloadPages is true they will also reload
-        /// all pages with plugins. RequestContextHandler.OnBeforePluginLoad may
-        /// be called to rebuild the plugin list cache.
-        /// </summary>
-        /// <param name="reloadPages">reload any pages with pluginst</param>
-        void PurgePluginListCache(bool reloadPages);
-
-        /// <summary>
         /// Returns true if a preference with the specified name exists. This method
         /// must be called on the CEF UI thread.
         /// </summary>

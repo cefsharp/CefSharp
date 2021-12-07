@@ -31,13 +31,6 @@ namespace CefSharp
                 _requestContextHandler = nullptr;
             }
 
-            virtual bool OnBeforePluginLoad(const CefString& mime_type,
-                const CefString& plugin_url,
-                bool is_main_frame,
-                const CefString& top_origin_url,
-                CefRefPtr<CefWebPluginInfo> plugin_info,
-                CefRequestContextHandler::PluginPolicy* plugin_policy) override;
-
             virtual void OnRequestContextInitialized(CefRefPtr<CefRequestContext> requestContext) override;
 
             virtual CefRefPtr<CefResourceRequestHandler> GetResourceRequestHandler(

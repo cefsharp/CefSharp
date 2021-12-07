@@ -68,13 +68,6 @@ namespace CefSharp
             return _requestContext->ClearSchemeHandlerFactories();
         }
 
-        void RequestContext::PurgePluginListCache(bool reloadPages)
-        {
-            ThrowIfDisposed();
-
-            _requestContext->PurgePluginListCache(reloadPages);
-        }
-
         bool RequestContext::HasPreference(String^ name)
         {
             ThrowIfDisposed();

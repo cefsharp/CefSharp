@@ -11,14 +11,6 @@ namespace CefSharp.Example.Handlers
             return new ExampleResourceRequestHandler();
         }
 
-        protected override bool OnBeforePluginLoad(string mimeType, string url, bool isMainFrame, string topOriginUrl, WebPluginInfo pluginInfo, ref PluginPolicy pluginPolicy)
-        {
-            //pluginPolicy = PluginPolicy.Disable;
-            //return true;
-
-            return false;
-        }
-
         protected override void OnRequestContextInitialized(IRequestContext requestContext)
         {
             //You can set preferences here on your newly initialized request context.
