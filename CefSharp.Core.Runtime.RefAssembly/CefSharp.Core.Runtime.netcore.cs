@@ -289,7 +289,6 @@ namespace CefSharp.Core
         public virtual bool IsSame(CefSharp.IRequestContext context) { throw null; }
         public virtual bool IsSharingWith(CefSharp.IRequestContext context) { throw null; }
         public virtual void LoadExtension(string rootDirectory, string manifestJson, CefSharp.IExtensionHandler handler) { }
-        public virtual void PurgePluginListCache(bool reloadPages) { }
         public virtual bool RegisterSchemeHandlerFactory(string schemeName, string domainName, CefSharp.ISchemeHandlerFactory factory) { throw null; }
         public virtual System.Threading.Tasks.Task<CefSharp.ResolveCallbackResult> ResolveHostAsync(System.Uri origin) { throw null; }
         public virtual bool SetPreference(string name, object value, out string error) { throw null; }
