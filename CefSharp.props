@@ -3,16 +3,15 @@
 
   <PropertyGroup>
     <VisualStudioProductVersion>2019</VisualStudioProductVersion>
-    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='15.0'">2017</VisualStudioProductVersion> -->
-    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0'">2017</VisualStudioProductVersion> -->
-    <!-- <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='16.0' AND Exists('$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS2019\libcef_dll_wrapper.lib')">2019</VisualStudioProductVersion> -->
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='17.0' AND Exists('$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS2022\libcef_dll_wrapper.lib')">VS2022</VisualStudioProductVersion>
 
     <PlatformToolset>v142</PlatformToolset>
-    <!--<PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v140</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='15.0'">v141</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='16.0'">v142</PlatformToolset>-->
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='17.0'">v143</PlatformToolset>
   
-    <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion>
+    <!-- TODO: We might need to do something here when VS2019 and VS2022 are installed -->
+	<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+	<!-- <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion> -->
+	<!-- <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='17.0'">10.0</WindowsTargetPlatformVersion> -->
 
     <CefSharpBrowserSubprocessPostBuildEvent>
       <![CDATA[
