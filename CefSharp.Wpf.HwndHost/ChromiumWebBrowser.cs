@@ -926,6 +926,7 @@ namespace CefSharp.Wpf.HwndHost
                 RenderProcessMessageHandler = null;
 
                 browser = null;
+                BrowserCore = null;
 
                 if (CleanupElement != null)
                 {
@@ -1105,6 +1106,7 @@ namespace CefSharp.Wpf.HwndHost
             }
 
             this.browser = browser;
+            BrowserCore = browser;
             initialLoadAction = InitialLoad;
             Interlocked.Exchange(ref browserInitialized, 1);
 
@@ -1635,6 +1637,9 @@ namespace CefSharp.Wpf.HwndHost
         {
             get { return managedCefBrowserAdapter?.JavascriptObjectRepository; }
         }
+
+        /// <inheritdoc />
+        public IBrowser BrowserCore { get; private set; }
 
         /// <summary>
         /// Returns the current IBrowser Instance
