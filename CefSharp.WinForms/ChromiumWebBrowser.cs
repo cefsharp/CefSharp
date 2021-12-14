@@ -520,9 +520,15 @@ namespace CefSharp.WinForms
                 parkingControl.CreateControl();
 
                 var host = this.GetBrowserHost();
-                var hwnd = host.GetWindowHandle();
 
-                NativeMethodWrapper.SetWindowParent(hwnd, parkingControl.Handle);
+                // Possible host is null
+                // https://github.com/cefsharp/CefSharp/issues/3931
+                if (host != null)
+                {
+                    var hwnd = host.GetWindowHandle();
+
+                    NativeMethodWrapper.SetWindowParent(hwnd, parkingControl.Handle);
+                }
             }
         }
 
