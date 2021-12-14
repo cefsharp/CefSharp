@@ -454,7 +454,10 @@ namespace CefSharp.WinForms
             {
                 using (var frame = this.GetMainFrame())
                 {
-                    frame.LoadUrl(url);
+                    if (frame.IsValid)
+                    {
+                        frame.LoadUrl(url);
+                    }
                 }
             }
             else
