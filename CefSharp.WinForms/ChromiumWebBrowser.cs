@@ -447,19 +447,32 @@ namespace CefSharp.WinForms
                 return;
             }
 
+            var browserCore = BrowserCore;
+
             //There's a small window here between CreateBrowser
             //and OnAfterBrowserCreated where the Address prop
-            //will be updated, though LoadUrl won't be called.
-            if (IsBrowserInitialized)
+            //will be updated, no MainFrame.LoadUrl call will be made.
+            if (browserCore == null)
             {
-                using (var frame = this.GetMainFrame())
-                {
-                    frame.LoadUrl(url);
-                }
+                Address = url;
             }
             else
             {
-                Address = url;
+                if(browserCore.IsDisposed)
+                {
+                    return;
+                }
+
+                using (var frame = browserCore.MainFrame)
+                {
+                    //Only attempt to call load if frame is valid
+                    //I've seen so far one case where the MainFrame is invalid.
+                    //As yet unable to reproduce
+                    if (frame.IsValid)
+                    {
+                        frame.LoadUrl(url);
+                    }
+                }
             }
         }
 
