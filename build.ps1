@@ -1,7 +1,7 @@
 ﻿#requires -Version 5
 
 param(
-    [ValidateSet("vs2022","vs2019", "nupkg-only")]
+    [ValidateSet("vs2022","vs2019", "nupkg-only", "update-build-version")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2019",
     [Parameter(Position = 1)]
@@ -558,6 +558,11 @@ switch -Exact ($Target)
         VSX v143
         Nupkg $NupkgFiles
     }
+	"update-build-version"
+	{
+		Write-Diagnostic "Updated Version to $Version"
+		Write-Diagnostic "Updated AssemblyVersion to $AssemblyVersion"
+	}
 }
 
 Pop-Location
