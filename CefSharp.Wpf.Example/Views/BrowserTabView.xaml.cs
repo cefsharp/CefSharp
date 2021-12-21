@@ -46,7 +46,8 @@ namespace CefSharp.Wpf.Example.Views
             var bindingOptions = new BindingOptions()
             {
                 Binder = BindingOptions.DefaultBinder.Binder,
-                MethodInterceptor = new MethodInterceptorLogger() // intercept .net methods calls from js and log it
+                MethodInterceptor = new MethodInterceptorLogger(), // intercept .net methods calls from js and log it
+                PropertyInterceptor = new PropertyInterceptorLogger()
             };
 
             //To use the ResolveObject below and bind an object with isAsync:false we must set CefSharpSettings.WcfEnabled = true before
@@ -90,7 +91,7 @@ namespace CefSharp.Wpf.Example.Views
                 {
                     if (e.ObjectName == "bound")
                     {
-                        repo.Register("bound", new BoundObject(), isAsync: false, options: BindingOptions.DefaultBinder);
+                        repo.Register("bound", new BoundObject(), isAsync: false, options: bindingOptions);
                     }
                     else if (e.ObjectName == "boundAsync")
                     {

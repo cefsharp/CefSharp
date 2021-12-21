@@ -62,6 +62,8 @@ namespace CefSharp.Internals
 
         public IMethodInterceptor MethodInterceptor { get; set; }
 
+        public IPropertyInterceptor PropertyInterceptor { get; set; }
+
         public JavascriptObject()
         {
             Methods = new List<JavascriptMethod>();

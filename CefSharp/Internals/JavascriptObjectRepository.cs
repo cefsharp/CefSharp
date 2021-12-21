@@ -250,6 +250,7 @@ namespace CefSharp.Internals
             jsObject.IsAsync = isAsync;
             jsObject.Binder = options?.Binder;
             jsObject.MethodInterceptor = options?.MethodInterceptor;
+            jsObject.PropertyInterceptor = options?.PropertyInterceptor;
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false);
         }
@@ -585,7 +586,14 @@ namespace CefSharp.Internals
 
             try
             {
-                result = property.GetValue(obj.Value);
+                if (obj.PropertyInterceptor == null)
+                {
+                    result = property.GetValue(obj.Value);
+                }
+                else
+                {
+                    result = obj.PropertyInterceptor.GetIntercept(() => property.GetValue(obj.Value), property.ManagedName);
+                }
 
                 return true;
             }
@@ -618,7 +626,14 @@ namespace CefSharp.Internals
             }
             try
             {
-                property.SetValue(obj.Value, value);
+                if (obj.PropertyInterceptor == null)
+                {
+                    property.SetValue(obj.Value, value);
+                }
+                else
+                {
+                    obj.PropertyInterceptor.SetIntercept((p) => property.SetValue(obj.Value, p), value, property.ManagedName);
+                }
 
                 return true;
             }
