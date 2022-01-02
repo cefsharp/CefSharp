@@ -10,17 +10,17 @@ namespace CefSharp.Example.ModelBinding
 {
     public class PropertyInterceptorLogger : IPropertyInterceptor
     {
-        object IPropertyInterceptor.GetIntercept(Func<object> property, string propertyName)
+        object IPropertyInterceptor.InterceptGet(Func<object> propertyGetter, string propertyName)
         {
-            object result = property();
-            Debug.WriteLine("GetIntercept " + propertyName);
+            object result = propertyGetter();
+            Debug.WriteLine("InterceptGet " + propertyName);
             return result;
         }
 
-        public void SetIntercept(Action<object> property, object parameter, string propertName)
+        void IPropertyInterceptor.InterceptSet(Action<object> propertySetter, object parameter, string propertName)
         {
-            property(parameter);
-            Debug.WriteLine("SetIntercept " + propertName);
+            Debug.WriteLine("InterceptSet " + propertName);
+            propertySetter(parameter);
         }
     }
 }

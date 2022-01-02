@@ -592,7 +592,7 @@ namespace CefSharp.Internals
                 }
                 else
                 {
-                    result = obj.PropertyInterceptor.GetIntercept(() => property.GetValue(obj.Value), property.ManagedName);
+                    result = obj.PropertyInterceptor.InterceptGet(() => property.GetValue(obj.Value), property.ManagedName);
                 }
 
                 return true;
@@ -632,7 +632,7 @@ namespace CefSharp.Internals
                 }
                 else
                 {
-                    obj.PropertyInterceptor.SetIntercept((p) => property.SetValue(obj.Value, p), value, property.ManagedName);
+                    obj.PropertyInterceptor.InterceptSet((p) => property.SetValue(obj.Value, p), value, property.ManagedName);
                 }
 
                 return true;

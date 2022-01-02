@@ -31,7 +31,7 @@ namespace CefSharp
         public IMethodInterceptor MethodInterceptor { get; set; }
 
         /// <summary>
-        /// Interceptor used for intercepting calls to the target object property. For instance, can be used 
+        /// Interceptor used for intercepting get/set calls to the target object property. For instance, can be used 
         /// for logging calls to .net property (from js)
         /// </summary>
         public IPropertyInterceptor PropertyInterceptor { get; set; }

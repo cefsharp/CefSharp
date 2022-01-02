@@ -7,28 +7,47 @@ using System.Threading.Tasks;
 namespace CefSharp.ModelBinding
 {
     /// <summary>
-    /// Provides the capability intercept Net property calls made from javascript as part of the
+    /// Provides the capability intercepting get/set property calls made from javascript as part of the
     /// JavascriptBinding (JSB) implementation.
     /// </summary>
     public interface IPropertyInterceptor
     {
         /// <summary>
-        /// Intercept the get property
+        /// Called before the get property is invokved. You are now responsible for evaluating
+        /// the property and returning the result.
         /// </summary>
-        /// <param name="property"></param>
-        /// <param name="parameters"></param>
-        /// <param name="propertName"></param>
-        /// <returns></returns>
-        object GetIntercept(Func<object> property, string propertName);
+        /// <param name="propertyGetter">A Func that represents the property to be called</param>
+        /// <param name="propertName">Name of the property to be called</param>
+        /// <returns>The property result</returns>
+        /// <example>
+        /// 
+        ///public object IPropertyInterceptor.InterceptGet(Func<object> propertyGetter, string propertyName)
+        ///{
+        ///    object result = propertyGetter();
+        ///    Debug.WriteLine("InterceptGet " + propertyName);
+        ///    return result;
+        ///}
+        /// </example>
+        /// 
+        object InterceptGet(Func<object> propertyGetter, string propertName);
 
         /// <summary>
-        /// Intercept the set property
+        /// Called before the set property is invokved. You are now responsible for evaluating
+        /// the property.
         /// </summary>
-        /// <param name="property"></param>
-        /// <param name="parameters"></param>
-        /// <param name="propertName"></param>
-        /// <returns></returns>
-        void SetIntercept(Action<Object> property, object parameter, string propertName);
+        /// <param name="propertySetter">A Func that represents the property to be called</param>
+        /// <param name="parameter">paramater to be set to property</param>
+        /// <param name="propertName">Name of the property to be called</param>
+        /// <example>
+        /// 
+        /// public void IPropertyInterceptor.InterceptSet(Action<object> propertySetter, object parameter, string propertName)
+        /// {
+        ///    Debug.WriteLine("InterceptSet " + propertName);
+        ///    propertySetter(parameter);
+        /// }
+        /// </example>
+        ///
+        void InterceptSet(Action<Object> propertySetter, object parameter, string propertName);
     }
 }
 
