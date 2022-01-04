@@ -2328,7 +2328,17 @@ namespace CefSharp.Wpf
                 }
                 else
                 {
-                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, e.ClickCount, modifiers);
+                    //Chromium only supports values of 1, 2 or 3.
+                    //https://github.com/cefsharp/CefSharp/issues/3940
+                    //Anything greater than 3 then we send click count of 1
+                    var clickCount = e.ClickCount;
+
+                    if(clickCount > 3)
+                    {
+                        clickCount = 1;
+                    }
+
+                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, clickCount, modifiers);
                 }
 
                 e.Handled = true;

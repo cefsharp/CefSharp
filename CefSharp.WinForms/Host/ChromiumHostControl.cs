@@ -268,6 +268,8 @@ namespace CefSharp.WinForms.Host
         {
             if (disposing)
             {
+                var browserCore = BrowserCore;
+
                 AddressChanged = null;
                 ConsoleMessage = null;
                 FrameLoadEnd = null;
@@ -277,6 +279,12 @@ namespace CefSharp.WinForms.Host
                 StatusMessage = null;
                 TitleChanged = null;
                 BrowserCore = null;
+
+                if (browserCore?.IsDisposed == false)
+                {
+                    //Close the underlying CEF Browser
+                    browserCore?.GetHost()?.CloseBrowser(true);
+                }
             }
 
             base.Dispose(disposing);
