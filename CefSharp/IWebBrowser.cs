@@ -160,5 +160,14 @@ namespace CefSharp
         /// </summary>
         /// <returns>browser instance or null</returns>
         IBrowser GetBrowser();
+
+        /// <summary>
+        /// Try and get a reference to the <see cref="IBrowser"/> instance that matches the <paramref name="browserId"/>.
+        /// Primarily used for geting a reference to the <see cref="IBrowser"/> used by popups.
+        /// </summary>
+        /// <param name="browserId">browser Id</param>
+        /// <param name="browser">When this method returns, contains the <see cref="IBrowser"/> object reference that matches the specified <paramref name="browserId"/>, or null if no matching instance found.</param>
+        /// <returns>true if a <see cref="IBrowser"/> instance was found matching <paramref name="browserId"/>; otherwise, false.</returns>
+        bool TryGetBrowserCoreById(int browserId, out IBrowser browser);
     }
 }

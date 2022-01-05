@@ -745,6 +745,35 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Fact]
+        public async Task CanCallTryGetBrowserCoreByIdWithInvalidId()
+        {
+            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            {
+                var response = await browser.WaitForInitialLoadAsync();
+
+                var result = browser.TryGetBrowserCoreById(100, out IBrowser browserCore);
+
+                Assert.False(result);
+                Assert.Null(browserCore);
+            }
+        }
+
+        [Fact]
+        public async Task CanCallTryGetBrowserCoreByIdWithOwnId()
+        {
+            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            {
+                var response = await browser.WaitForInitialLoadAsync();
+
+                var result = browser.TryGetBrowserCoreById(browser.BrowserCore.Identifier, out IBrowser browserCore);
+
+                Assert.True(result);
+                Assert.NotNull(browserCore);
+                Assert.Equal(browser.BrowserCore.Identifier, browserCore.Identifier);
+            }
+        }
+
 #if DEBUG
         [Fact]
         public async Task CanLoadMultipleBrowserInstancesSequentially()

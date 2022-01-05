@@ -375,6 +375,23 @@ namespace CefSharp.WinForms
             return initialLoadTaskCompletionSource.Task;
         }
 
+        /// <inheritdoc/>
+        public bool TryGetBrowserCoreById(int browserId, out IBrowser browser)
+        {
+            var browserAdapter = managedCefBrowserAdapter;
+
+            if (IsDisposed || browserAdapter == null || browserAdapter.IsDisposed)
+            {
+                browser = null;
+
+                return false;
+            }
+
+            browser = browserAdapter.GetBrowser(browserId);
+
+            return browser != null;
+        }
+
         private void InitialLoad(bool? isLoading, CefErrorCode? errorCode)
         {
             if(IsDisposed)
