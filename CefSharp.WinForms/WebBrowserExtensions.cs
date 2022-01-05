@@ -47,7 +47,7 @@ namespace CefSharp.WinForms
                 return false;
             }
 
-            var browser = chromiumWebBrowser.GetBrowser();
+            var browser = chromiumWebBrowser.BrowserCore;
 
             if (browser == null)
             {

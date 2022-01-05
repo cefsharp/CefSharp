@@ -181,7 +181,7 @@ namespace CefSharp.Wpf.Example
                             GetActiveBrowser = (extension, isIncognito) =>
                             {
                                 //Return the active browser for which the extension will act upon
-                                return browser.GetBrowser();
+                                return browser.BrowserCore;
                             }
                         };
 

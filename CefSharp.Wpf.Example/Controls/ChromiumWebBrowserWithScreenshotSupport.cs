@@ -61,7 +61,7 @@ namespace CefSharp.Wpf.Example.Controls
                 throw new Exception("Unable to take screenshot while browser is loading");
             }
 
-            var browserHost = this.GetBrowser().GetHost();
+            var browserHost = this.GetBrowserHost();
 
             if (browserHost == null)
             {
