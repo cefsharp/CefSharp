@@ -5,7 +5,7 @@
 namespace CefSharp.WinForms.Handler
 {
     /// <summary>
-    /// Fluent LifeSpanHandler Builder
+    /// Fluent <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/> Builder
     /// </summary>
     public class LifeSpanHandlerBuilder
     {
@@ -61,7 +61,7 @@ namespace CefSharp.WinForms.Handler
         /// <see cref="ILifeSpanHandler"/> returns true in <see cref="ILifeSpanHandler.DoClose(IWebBrowser, IBrowser)"/>
         /// so no WM_CLOSE message is sent, this differs from the default CEF behaviour.
         /// </summary>
-        /// <returns>a <see cref="IDownloadHandler"/> instance</returns>
+        /// <returns>a <see cref="ILifeSpanHandler"/> instance</returns>
         public ILifeSpanHandler Build()
         {
             return handler;

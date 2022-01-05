@@ -234,6 +234,9 @@ namespace CefSharp.WinForms.Handler
         /// Create a new instance of the <see cref="LifeSpanHandlerBuilder"/>
         /// which can be used to create a WinForms specific <see cref="ILifeSpanHandler"/>
         /// implementation that simplifies the process of hosting a Popup as a Control/Tab.
+        /// In scnarios where you also need to implement <see cref="ILoadHandler"/> then instead
+        /// of implementing directly you will need to inherit from <see cref="CefSharp.WinForms.Handler.LoadHandler"/>.
+        /// As it provides base functionality required to make <see cref="ChromiumHostControl"/> events work correctly.
         /// </summary>
         /// <returns>LifeSpanHandlerBuilder</returns>
         public static LifeSpanHandlerBuilder Create()
