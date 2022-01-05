@@ -3,6 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/9g4mcuqruc283g66/branch/master?svg=true)](https://ci.appveyor.com/project/cefsharp/cefsharp/branch/master)
 [![CefSharp.WinForms](https://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat&label=WinForms)](https://www.nuget.org/packages/CefSharp.WinForms/)
 [![CefSharp.Wpf](https://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=Wpf)](https://www.nuget.org/packages/CefSharp.Wpf/)
+[![CefSharp.Wpf.HwndHost](https://img.shields.io/nuget/v/CefSharp.Wpf.HwndHost.svg?style=flat&label=Wpf.HwndHost)](https://www.nuget.org/packages/CefSharp.Wpf.HwndHost/)
 [![CefSharp.OffScreen](https://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](https://www.nuget.org/packages/CefSharp.OffScreen/)
 
 Got a quick question? [Discussions](https://github.com/cefsharp/CefSharp/discussions) here on `GitHub` is the preferred place to ask!
@@ -11,15 +12,16 @@ Got a quick question? [Discussions](https://github.com/cefsharp/CefSharp/discuss
 
 CefSharp is [BSD](https://opensource.org/licenses/BSD-3-Clause "BSD License") licensed, so it can be used in both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file. 
 
-If you like and use CefSharp please consider signing up for a small monthly donation, even $25 can help tremendously. See [Financial Support](#Financial-Support) for more details.
+If you like and use CefSharp please consider signing up for a small monthly donation, even $25 can help tremendously. See [Financial Support](Readme.md#Financial-Support) for more details.
 
 ## Releases
 
-Stable binaries are released on NuGet, and contain everything you need  to embed Chromium in your .Net/CLR application. For usage see the [Quick Start](https://github.com/cefsharp/CefSharp/wiki/Quick-Start) guide or [FAQ #8](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CefSharp_binaries).
+Stable binaries are released on NuGet, and contain everything you need to embed Chromium in your .Net/CLR application. For usage see the [Quick Start](https://github.com/cefsharp/CefSharp/wiki/Quick-Start) guide or checkout [CefSharp.MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample/) project for basic demos using the CefSharp NuGet packages.
 
 - [CefSharp.WinForms](https://www.nuget.org/packages/CefSharp.WinForms/)
 - [CefSharp.Wpf](https://www.nuget.org/packages/CefSharp.Wpf/)
 - [CefSharp.OffScreen](https://www.nuget.org/packages/CefSharp.OffScreen/)
+- [CefSharp.Wpf.HwndHost](https://github.com/cefsharp/CefSharp.Wpf.HwndHost/) (A [HwndHost](https://docs.microsoft.com/en-us/dotnet/api/system.windows.interop.hwndhost) based WPF implementation, similar to hosting the WinForms version in WPF, supports data binding, airspace issues apply).
 
 ## Documentation
 
