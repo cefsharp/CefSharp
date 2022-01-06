@@ -1318,12 +1318,16 @@ namespace CefSharp
         /// <param name="frame">The <seealso cref="IFrame"/> instance this method extends.</param>
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">(Optional) The timeout after which the Javascript code execution should be aborted.</param>
+        /// <param name="javascriptBindingApiGlobalObjectName">
+        /// Only required if a custom value was specified for <see cref="JavascriptBinding.JavascriptBindingSettings.JavascriptBindingApiGlobalObjectName"/>
+        /// then this param must match that value. Otherwise exclude passing a value for this param or pass in null.
+        /// </param>
         /// <returns>
         /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
         /// </returns>
-        public static Task<JavascriptResponse> EvaluateScriptAsPromiseAsync(this IFrame frame, string script, TimeSpan? timeout = null)
+        public static Task<JavascriptResponse> EvaluateScriptAsPromiseAsync(this IFrame frame, string script, TimeSpan? timeout = null, string javascriptBindingApiGlobalObjectName = null)
         {
-            var promiseHandlerScript = GetPromiseHandlerScript(script, null);
+            var promiseHandlerScript = GetPromiseHandlerScript(script, javascriptBindingApiGlobalObjectName);
 
             return frame.EvaluateScriptAsync(promiseHandlerScript, timeout: timeout, useImmediatelyInvokedFuncExpression: true);
         }
