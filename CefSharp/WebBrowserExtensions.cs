@@ -379,14 +379,14 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// See <see cref="IWebBrowser.LoadUrlAsync(string)"/> for details
+        /// See <see cref="IChromiumWebBrowserBase.LoadUrlAsync(string)"/> for details
         /// </summary>
         /// <param name="chromiumWebBrowser">ChromiumWebBrowser instance (cannot be null)</param>
         /// <summary>
         /// Load the <paramref name="url"/> in the main frame of the browser
         /// </summary>
         /// <param name="url">url to load</param>
-        /// <returns>See <see cref="IWebBrowser.LoadUrlAsync(string)"/> for details</returns>
+        /// <returns>See <see cref="IChromiumWebBrowserBase.LoadUrlAsync(string)"/> for details</returns>
         public static Task<LoadUrlAsyncResponse> LoadUrlAsync(IChromiumWebBrowserBase chromiumWebBrowser, string url)
         {
             if(string.IsNullOrEmpty(url))
@@ -491,7 +491,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be executed
+        /// Execute Javascript in the context of this Browsers Main Frame. As the method name implies, the script will be executed
         /// asynchronously, and the method therefore returns before the script has actually been executed.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
@@ -507,7 +507,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be executed
+        /// Execute Javascript in the context of this Browser Main Frame. As the method name implies, the script will be executed
         /// asynchronously, and the method therefore returns before the script has actually been executed.
         /// </summary>
         /// <param name="browser">The IBrowser instance this method extends.</param>
@@ -525,7 +525,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Execute Javascript code in the context of this WebBrowser. This extension method uses the LoadingStateChanged event. As the
+        /// Execute Javascript code in the context of this Browsers Main Frame. This extension method uses the LoadingStateChanged event. As the
         /// method name implies, the script will be executed asynchronously, and the method therefore returns before the script has
         /// actually been executed.
         /// </summary>
@@ -793,7 +793,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Navigates back, must check <see cref="IWebBrowser.CanGoBack"/> before calling this method.
+        /// Navigates back, must check <see cref="IChromiumWebBrowserBase.CanGoBack"/> before calling this method.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Back(this IChromiumWebBrowserBase browser)
@@ -813,7 +813,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Navigates forward, must check <see cref="IWebBrowser.CanGoForward"/> before calling this method.
+        /// Navigates forward, must check <see cref="IChromiumWebBrowserBase.CanGoForward"/> before calling this method.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Forward(this IChromiumWebBrowserBase browser)
@@ -868,7 +868,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Gets the default cookie manager associated with the IWebBrowser.
+        /// Gets the default cookie manager associated with the <see cref="IChromiumWebBrowserBase"/> instance.
         /// </summary>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
@@ -877,7 +877,7 @@ namespace CefSharp
         /// <returns>
         /// Cookie Manager.
         /// </returns>
-        public static ICookieManager GetCookieManager(this IWebBrowser browser, ICompletionCallback callback = null)
+        public static ICookieManager GetCookieManager(this IChromiumWebBrowserBase browser, ICompletionCallback callback = null)
         {
             var host = browser.GetBrowserHost();
 
@@ -1264,7 +1264,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
+        /// Evaluate Javascript in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
         /// asynchronously and the method returns a Task encapsulating the response from the Javascript. The result of the script execution
         /// in javascript is Promise.resolve so even no promise values will be treated as a promise. Your javascript should return a value.
         /// The javascript will be wrapped in an Immediately Invoked Function Expression.
@@ -1287,7 +1287,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
+        /// Evaluate Javascript in the context of this Browsers Main Frame. The script will be executed
         /// asynchronously and the method returns a Task encapsulating the response from the Javascript. The result of the script execution
         /// in javascript is Promise.resolve so even no promise values will be treated as a promise. Your javascript should return a value.
         /// The javascript will be wrapped in an Immediately Invoked Function Expression.
@@ -1308,7 +1308,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
+        /// Evaluate Javascript in the context of this Browsers Main Frame. The script will be executed
         /// asynchronously and the method returns a Task encapsulating the response from the Javascript. The result of the script execution
         /// in javascript is Promise.resolve so even no promise values will be treated as a promise. Your javascript should return a value.
         /// The javascript will be wrapped in an Immediately Invoked Function Expression.
@@ -1353,7 +1353,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
+        /// Evaluate Javascript in the context of this Browsers Main Frame. The script will be executed
         /// asynchronously and the method returns a Task encapsulating the response from the Javascript
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
