@@ -461,7 +461,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be executed
+        /// Execute Javascript code in the context of this Browser. As the method name implies, the script will be executed
         /// asynchronously, and the method therefore returns before the script has actually been executed. This simple helper extension
         /// will encapsulate params in single quotes (unless int, uint, etc)
         /// </summary>
@@ -469,13 +469,13 @@ namespace CefSharp
         /// <param name="methodName">The javascript method name to execute.</param>
         /// <param name="args">the arguments to be passed as params to the method. Args are encoded using
         /// <see cref="EncodeScriptParam"/>, you can provide a custom implementation if you require one.</param>
-        public static void ExecuteScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
+        public static void ExecuteScriptAsync(this IChromiumWebBrowserBase browser, string methodName, params object[] args)
         {
             browser.BrowserCore.ExecuteScriptAsync(methodName, args);
         }
 
         /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be executed
+        /// Execute Javascript code in the context of this WebBrowser. As the method name implies, the script will be executed
         /// asynchronously, and the method therefore returns before the script has actually been executed. This simple helper extension
         /// will encapsulate params in single quotes (unless int, uint, etc)
         /// </summary>
@@ -1430,13 +1430,13 @@ namespace CefSharp
         /// <returns>
         /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
         /// </returns>
-        public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
+        public static Task<JavascriptResponse> EvaluateScriptAsync(this IChromiumWebBrowserBase browser, string methodName, params object[] args)
         {
             return browser.EvaluateScriptAsync(null, methodName, args);
         }
 
         /// <summary>
-        /// Evaluate some Javascript code in the context of this WebBrowser using the specified timeout. The script will be executed
+        /// Evaluate Javascript code in the context of this WebBrowser using the specified timeout. The script will be executed
         /// asynchronously and the method returns a Task encapsulating the response from the Javascript This simple helper extension will
         /// encapsulate params in single quotes (unless int, uint, etc).
         /// </summary>
@@ -1448,7 +1448,7 @@ namespace CefSharp
         /// <returns>
         /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
         /// </returns>
-        public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, TimeSpan? timeout, string methodName, params object[] args)
+        public static Task<JavascriptResponse> EvaluateScriptAsync(this IChromiumWebBrowserBase browser, TimeSpan? timeout, string methodName, params object[] args)
         {
             var script = GetScriptForJavascriptMethodWithArgs(methodName, args);
 
