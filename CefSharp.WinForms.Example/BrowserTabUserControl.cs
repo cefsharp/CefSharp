@@ -69,8 +69,18 @@ namespace CefSharp.WinForms.Example
             //The CefSharp.WinForms.Handler.LifeSpanHandler implementation
             //allows for Popups to be hosted in Controls/Tabs
             //This example also demonstrates docking DevTools in a SplitPanel
-            browser.LifeSpanHandler = LifeSpanHandler
+            browser.LifeSpanHandler = CefSharp.WinForms.Handler.LifeSpanHandler
                 .Create()
+                .OnBeforePopupCreated((chromiumWebBrowser, b, frame, targetUrl, targetFrameName, targetDisposition, userGesture, browserSettings) =>
+                {
+                    //Can cancel opening popup based on Url if required.
+                    if(targetUrl?.StartsWith(CefExample.BaseUrl + "/cancelme.html") == true)
+                    {
+                        return PopupCreation.Cancel;
+                    }
+
+                    return PopupCreation.Continue;
+                })
                 .OnPopupCreated((ctrl, targetUrl) =>
                 {
                     //Don't try using ctrl.FindForm() here as
