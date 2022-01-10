@@ -23,7 +23,7 @@ namespace CefSharp
         /// <returns>
         /// <see cref="Task{NavigationEntry}"/> that when executed returns the current <see cref="NavigationEntry"/> or null
         /// </returns>
-        public static Task<NavigationEntry> GetVisibleNavigationEntryAsync(this IWebBrowser browser)
+        public static Task<NavigationEntry> GetVisibleNavigationEntryAsync(this IChromiumWebBrowserBase browser)
         {
             var host = browser.GetBrowserHost();
 

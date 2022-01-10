@@ -1369,26 +1369,19 @@ namespace CefSharp
         /// When false don't include a return statement e.g. 42;
         /// </param>
         /// <returns>
-        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
+        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to obtain the result of the script execution.
         /// </returns>
-        public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null, bool useImmediatelyInvokedFuncExpression = false)
+        public static Task<JavascriptResponse> EvaluateScriptAsync(this IChromiumWebBrowserBase browser, string script, TimeSpan? timeout = null, bool useImmediatelyInvokedFuncExpression = false)
         {
-            if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32.MaxValue)
+            if (browser is IWebBrowser b)
             {
-                throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
+                if (b.CanExecuteJavascriptInMainFrame == false)
+                {
+                    ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+                }
             }
 
-            if (browser.CanExecuteJavascriptInMainFrame == false)
-            {
-                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            }
-
-            using (var frame = browser.GetMainFrame())
-            {
-                ThrowExceptionIfFrameNull(frame);
-
-                return frame.EvaluateScriptAsync(script, timeout: timeout, useImmediatelyInvokedFuncExpression: useImmediatelyInvokedFuncExpression);
-            }
+            return browser.BrowserCore.EvaluateScriptAsync(script, timeout, useImmediatelyInvokedFuncExpression);
         }
 
         /// <summary>
@@ -1404,7 +1397,7 @@ namespace CefSharp
         /// When false don't include a return statement e.g. 42;
         /// </param>
         /// <returns>
-        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
+        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to obtain the result of the script execution.
         /// </returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IBrowser browser, string script, TimeSpan? timeout = null, bool useImmediatelyInvokedFuncExpression = false)
         {
@@ -1432,7 +1425,7 @@ namespace CefSharp
         /// <param name="methodName">The javascript method name to execute.</param>
         /// <param name="args">the arguments to be passed as params to the method.</param>
         /// <returns>
-        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution.
+        /// <see cref="Task{JavascriptResponse}"/> that can be awaited to obtain the result of the script execution.
         /// </returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IChromiumWebBrowserBase browser, string methodName, params object[] args)
         {
