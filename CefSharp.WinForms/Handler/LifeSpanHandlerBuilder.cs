@@ -9,7 +9,12 @@ namespace CefSharp.WinForms.Handler
     /// </summary>
     public class LifeSpanHandlerBuilder
     {
-        private readonly LifeSpanHandler handler = new LifeSpanHandler();
+        private readonly LifeSpanHandler handler;
+
+        public LifeSpanHandlerBuilder(CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate)
+        {
+            handler = new LifeSpanHandler(chromiumHostControlCreatedDelegate);
+        }
 
         /// <summary>
         /// The <see cref="OnPopupCreatedDelegate"/> will be called when the<see cref="ChromiumHostControl"/> has been

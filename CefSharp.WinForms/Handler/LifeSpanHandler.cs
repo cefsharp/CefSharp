@@ -38,6 +38,13 @@ namespace CefSharp.WinForms.Handler
     public delegate void OnPopupDestroyedDelegate(ChromiumHostControl control, IBrowser browser);
 
     /// <summary>
+    /// Called to create a new instance of <see cref="ChromiumHostControl"/>. Allows creation of a derived
+    /// implementation of <see cref="ChromiumHostControl"/>.
+    /// </summary>
+    /// <returns>A custom instance of <see cref="ChromiumHostControl"/>.</returns>
+    public delegate ChromiumHostControl CreatePopupChromiumHostControl();
+
+    /// <summary>
     /// A WinForms Specific <see cref="ILifeSpanHandler"/> implementation that simplifies
     /// the process of hosting a Popup as a Control/Tab.
     /// This <see cref="ILifeSpanHandler"/> implementation returns true in <see cref="ILifeSpanHandler.DoClose(IWebBrowser, IBrowser)"/>
@@ -49,7 +56,13 @@ namespace CefSharp.WinForms.Handler
         private OnPopupDestroyedDelegate onPopupDestroyed;
         private OnPopupBrowserCreatedDelegate onPopupBrowserCreated;
         private OnPopupCreatedDelegate onPopupCreated;
-        
+        private CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate;
+
+        public LifeSpanHandler(CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate)
+        {
+            this.chromiumHostControlCreatedDelegate = chromiumHostControlCreatedDelegate;
+        }
+
         /// <inheritdoc/>
         protected override bool DoClose(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
@@ -168,10 +181,15 @@ namespace CefSharp.WinForms.Handler
             //We need to execute sync here so IWindowInfo.SetAsChild is called before we return false;
             webBrowser.InvokeSyncOnUiThreadIfRequired(new Action(() =>
             {
-                var control = new ChromiumHostControl
+                ChromiumHostControl control = chromiumHostControlCreatedDelegate?.Invoke();
+
+                if (control == null)
                 {
-                    Dock = DockStyle.Fill
-                };
+                    control = new ChromiumHostControl
+                    {
+                        Dock = DockStyle.Fill
+                    };
+                }
                 control.CreateControl();
 
                 onPopupCreated?.Invoke(control, targetUrl);
@@ -238,10 +256,14 @@ namespace CefSharp.WinForms.Handler
         /// of implementing directly you will need to inherit from <see cref="CefSharp.WinForms.Handler.LoadHandler"/>.
         /// As it provides base functionality required to make <see cref="ChromiumHostControl"/> events work correctly.
         /// </summary>
-        /// <returns>LifeSpanHandlerBuilder</returns>
-        public static LifeSpanHandlerBuilder Create()
+        /// <returns>
+        /// A <see cref="LifeSpanHandlerBuilder"/> which can be used to fluently create an <see cref="ILifeSpanHandler"/>.
+        /// Call <see cref="LifeSpanHandlerBuilder.Build"/> to create the actual instance after you have call
+        /// <see cref="LifeSpanHandlerBuilder.OnPopupCreated(OnPopupCreatedDelegate)"/> etc.
+        /// </returns>
+        public static LifeSpanHandlerBuilder Create(CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate = null)
         {
-            return new LifeSpanHandlerBuilder();
+            return new LifeSpanHandlerBuilder(chromiumHostControlCreatedDelegate);
         }
     }
 }
