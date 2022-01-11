@@ -73,7 +73,7 @@ namespace CefSharp.Test.JavascriptBinding
             }
         }
 #else
-        [Fact]
+        [Fact(Skip = "Issue https://github.com/cefsharp/CefSharp/issues/3867")]
         public async Task LoadJavaScriptBindingQunitTestsSuccessfulCompletion()
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingTestUrl, automaticallyCreateBrowser: false))
