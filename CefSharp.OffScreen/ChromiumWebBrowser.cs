@@ -597,12 +597,15 @@ namespace CefSharp.OffScreen
                 return Task.FromResult(true);
             }
 
+            var scaledWidth = (int)(width * DeviceScaleFactor);
+            var scaledHeight = (int)(height * DeviceScaleFactor);
+
             var tcs = new TaskCompletionSource<bool>();
             EventHandler<OnPaintEventArgs> handler = null;
 
             handler = (s, e) =>
             {
-                if (e.Width == width && e.Height == height)
+                if (e.Width == scaledWidth && e.Height == scaledHeight)
                 {
                     AfterPaint -= handler;
 
@@ -616,6 +619,8 @@ namespace CefSharp.OffScreen
             //a call to NotifyScreenInfoChanged will be made.
             if (deviceScaleFactor.HasValue)
             {
+                scaledWidth = (int)(width * deviceScaleFactor.Value);
+                scaledHeight = (int)(height * deviceScaleFactor.Value);
                 DeviceScaleFactor = deviceScaleFactor.Value;
             }
             Size = new Size(width, height);

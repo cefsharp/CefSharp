@@ -774,6 +774,60 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Fact]
+        public async Task CanResizeWithDeviceScalingFactor()
+        {
+            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            {
+                var response = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(response.Success);
+
+                Assert.Equal(1366, browser.Size.Width);
+                Assert.Equal(768, browser.Size.Height);
+                Assert.Equal(1, browser.DeviceScaleFactor);
+
+
+                await browser.ResizeAsync(800, 600, 2);
+
+                Assert.Equal(800, browser.Size.Width);
+                Assert.Equal(600, browser.Size.Height);
+                Assert.Equal(2, browser.DeviceScaleFactor);
+
+                using (var screenshot = browser.ScreenshotOrNull())
+                {
+                    Assert.Equal(1600, screenshot.Width);
+                    Assert.Equal(1200, screenshot.Height);
+                }
+
+
+                await browser.ResizeAsync(400, 300);
+
+                Assert.Equal(400, browser.Size.Width);
+                Assert.Equal(300, browser.Size.Height);
+                Assert.Equal(2, browser.DeviceScaleFactor);
+
+                using (var screenshot = browser.ScreenshotOrNull())
+                {
+                    Assert.Equal(800, screenshot.Width);
+                    Assert.Equal(600, screenshot.Height);
+                }
+
+
+                await browser.ResizeAsync(1366, 768, 1);
+
+                Assert.Equal(1366, browser.Size.Width);
+                Assert.Equal(768, browser.Size.Height);
+                Assert.Equal(1, browser.DeviceScaleFactor);
+
+                using (var screenshot = browser.ScreenshotOrNull())
+                {
+                    Assert.Equal(1366, screenshot.Width);
+                    Assert.Equal(768, screenshot.Height);
+                }
+            }
+        }
+
 #if DEBUG
         [Fact]
         public async Task CanLoadMultipleBrowserInstancesSequentially()
