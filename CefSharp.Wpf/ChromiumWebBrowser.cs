@@ -1655,6 +1655,19 @@ namespace CefSharp.Wpf
                     window.StateChanged += OnWindowStateChanged;
                     window.LocationChanged += OnWindowLocationChanged;
                     sourceWindow = window;
+
+                    if (CleanupElement == null)
+                    {
+                        CleanupElement = window;
+                    }
+                    else if(CleanupElement is Window parent)
+                    {
+                        //If the CleanupElement is a window then move it to the new Window
+                        if(parent != window)
+                        {
+                            CleanupElement = window;
+                        }
+                    }
                 }
 
                 browserScreenLocation = GetBrowserScreenLocation();
@@ -1941,11 +1954,6 @@ namespace CefSharp.Wpf
         /// <param name="routedEventArgs">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (CleanupElement == null)
-            {
-                CleanupElement = Window.GetWindow(this);
-            }
-
             // TODO: Consider making the delay here configurable.
             tooltipTimer = new DispatcherTimer(
                 TimeSpan.FromSeconds(0.5),
