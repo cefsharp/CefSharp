@@ -1778,5 +1778,22 @@ namespace CefSharp.Wpf.HwndHost
                 initialLoadTaskCompletionSource.TrySetResultAsync(new LoadUrlAsyncResponse(errorCode.Value, -1));
             }
         }
+
+        /// <inheritdoc/>
+        public bool TryGetBrowserCoreById(int browserId, out IBrowser browser)
+        {
+            var browserAdapter = managedCefBrowserAdapter;
+
+            if (IsDisposed || browserAdapter == null || browserAdapter.IsDisposed)
+            {
+                browser = null;
+
+                return false;
+            }
+
+            browser = browserAdapter.GetBrowser(browserId);
+
+            return browser != null;
+        }
     }
 }
