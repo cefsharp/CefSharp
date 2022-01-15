@@ -673,7 +673,6 @@ namespace CefSharp.Wpf.HwndHost
 
                 dpiScale = matrix.M11;
 
-                //TODO:
                 var window = source.RootVisual as Window;
                 if (window != null)
                 {
@@ -681,30 +680,28 @@ namespace CefSharp.Wpf.HwndHost
                     window.LocationChanged += OnWindowLocationChanged;
                     sourceWindow = window;
 
-                    // If CleanupElement is null, set the CleanupElement to the new window that the browser is moved in.
-                    //TODO: Test and uncomment this
-                    //if (CleanupElement == null)
-                    //{
-                    //    CleanupElement = window;
-                    //}
+                    if (CleanupElement == null)
+                    {
+                        CleanupElement = window;
+                    }
+                    else if (CleanupElement is Window parent)
+                    {
+                        //If the CleanupElement is a window then move it to the new Window
+                        if (parent != window)
+                        {
+                            CleanupElement = window;
+                        }
+                    }
                 }
             }
             else if (args.OldSource != null)
             {
-                //TODO:
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
                 {
                     window.StateChanged -= OnWindowStateChanged;
                     window.LocationChanged -= OnWindowLocationChanged;
                     sourceWindow = null;
-
-                    // If CleanupElement is the old Window that the browser is moved out of, set CleanupElement to null.
-                    //TODO: Test and uncomment this
-                    //if (CleanupElement == window)
-                    //{
-                    //    CleanupElement = null;
-                    //}
                 }
             }
         }
