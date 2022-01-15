@@ -638,6 +638,23 @@ namespace CefSharp
         /// </summary>
         SslKeyUsageIncompatible = -181,
 
+        /// <summary>
+        /// The ECHConfigList fetched over DNS cannot be parsed.
+        /// </summary>
+        InvalidEchConfigList = -182,
+
+        /// <summary>
+        /// ECH was enabled, but the server was unable to decrypt the encrypted
+        /// ClientHello.
+        /// </summary>
+        EchNotNegotiated = -183,
+
+        /// <summary>
+        /// ECH was enabled, the server was unable to decrypt the encrypted ClientHello,
+        /// and additionally did not present a certificate valid for the public name.
+        /// </summary>
+        EchFallbackCertificateInvalid = -184,
+
         // Certificate error codes
         //
         // The values of certificate error codes must be consecutive.
