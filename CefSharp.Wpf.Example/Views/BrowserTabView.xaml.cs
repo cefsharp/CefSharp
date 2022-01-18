@@ -47,7 +47,9 @@ namespace CefSharp.Wpf.Example.Views
             {
                 Binder = BindingOptions.DefaultBinder.Binder,
                 MethodInterceptor = new MethodInterceptorLogger(), // intercept .net methods calls from js and log it
+#if !NETCOREAPP
                 PropertyInterceptor = new PropertyInterceptorLogger()
+#endif
             };
 
             //To use the ResolveObject below and bind an object with isAsync:false we must set CefSharpSettings.WcfEnabled = true before

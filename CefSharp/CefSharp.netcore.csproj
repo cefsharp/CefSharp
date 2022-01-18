@@ -45,6 +45,7 @@
     <Compile Remove="CefRuntime.cs" />
     <Compile Remove="DevTools\DevToolsClient.Generated.cs" />
     <Compile Remove="Internals\Partial\ChromiumWebBrowser.Partial.cs" />
+    <Compile Remove="ModelBinding\IPropertyInterceptor.cs" />
   </ItemGroup>
 
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />

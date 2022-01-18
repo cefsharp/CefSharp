@@ -250,7 +250,9 @@ namespace CefSharp.Internals
             jsObject.IsAsync = isAsync;
             jsObject.Binder = options?.Binder;
             jsObject.MethodInterceptor = options?.MethodInterceptor;
+#if !NETCOREAPP
             jsObject.PropertyInterceptor = options?.PropertyInterceptor;
+#endif
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false);
         }
@@ -586,6 +588,9 @@ namespace CefSharp.Internals
 
             try
             {
+#if NETCOREAPP
+                result = property.GetValue(obj.Value);
+#else
                 if (obj.PropertyInterceptor == null)
                 {
                     result = property.GetValue(obj.Value);
@@ -594,7 +599,7 @@ namespace CefSharp.Internals
                 {
                     result = obj.PropertyInterceptor.InterceptGet(() => property.GetValue(obj.Value), property.ManagedName);
                 }
-
+#endif
                 return true;
             }
             catch (Exception ex)
@@ -626,6 +631,9 @@ namespace CefSharp.Internals
             }
             try
             {
+#if NETCOREAPP
+                property.SetValue(obj.Value, value);
+#else
                 if (obj.PropertyInterceptor == null)
                 {
                     property.SetValue(obj.Value, value);
@@ -634,7 +642,7 @@ namespace CefSharp.Internals
                 {
                     obj.PropertyInterceptor.InterceptSet((p) => property.SetValue(obj.Value, p), value, property.ManagedName);
                 }
-
+#endif
                 return true;
             }
             catch (Exception ex)

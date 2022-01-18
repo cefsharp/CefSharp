@@ -20,15 +20,17 @@ namespace CefSharp.ModelBinding
         /// <param name="propertName">Name of the property to be called</param>
         /// <returns>The property result</returns>
         /// <example>
-        /// 
-        ///public object IPropertyInterceptor.InterceptGet(Func<object> propertyGetter, string propertyName)
-        ///{
+        /// <code>
+        /// <![CDATA[
+        /// public object IPropertyInterceptor.InterceptGet(Func<object> propertyGetter, string propertyName)
+        /// {
         ///    object result = propertyGetter();
         ///    Debug.WriteLine("InterceptGet " + propertyName);
         ///    return result;
-        ///}
+        /// }
+        /// ]]>
+        /// </code>
         /// </example>
-        /// 
         object InterceptGet(Func<object> propertyGetter, string propertName);
 
         /// <summary>
@@ -39,16 +41,16 @@ namespace CefSharp.ModelBinding
         /// <param name="parameter">paramater to be set to property</param>
         /// <param name="propertName">Name of the property to be called</param>
         /// <example>
-        /// 
-        /// public void IPropertyInterceptor.InterceptSet(Action<object> propertySetter, object parameter, string propertName)
+        /// <code>
+        /// <![CDATA[
+        /// public object IPropertyInterceptor.InterceptSet(Action<object> propertySetter, object parameter, string propertName)
         /// {
         ///    Debug.WriteLine("InterceptSet " + propertName);
         ///    propertySetter(parameter);
         /// }
+        /// ]]>
+        /// </code>
         /// </example>
-        ///
         void InterceptSet(Action<Object> propertySetter, object parameter, string propertName);
     }
 }
-
-

@@ -87,6 +87,10 @@
     <None Remove="obj/**/*.*" />
     <Compile Remove="obj/**/*.*" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="ModelBinding\PropertyInterceptorLogger.cs" />
+  </ItemGroup>
 
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
 </Project>

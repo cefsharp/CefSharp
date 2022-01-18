@@ -62,7 +62,9 @@ namespace CefSharp.Internals
 
         public IMethodInterceptor MethodInterceptor { get; set; }
 
+#if !NETCOREAPP
         public IPropertyInterceptor PropertyInterceptor { get; set; }
+#endif
 
         public JavascriptObject()
         {
