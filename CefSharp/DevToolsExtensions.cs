@@ -96,9 +96,9 @@ namespace CefSharp
         /// which may be empty.</param>
         /// <returns>return a Task that can be awaited to obtain the assigned message Id. If the message was
         /// unsuccessfully submitted for validation, this value will be 0.</returns>
-        public static Task<int> ExecuteDevToolsMethodAsync(this IWebBrowser chromiumWebBrowser, int messageId, string method, IDictionary<string, object> parameters = null)
+        public static Task<int> ExecuteDevToolsMethodAsync(this IChromiumWebBrowserBase chromiumWebBrowser, int messageId, string method, IDictionary<string, object> parameters = null)
         {
-            var browser = chromiumWebBrowser.GetBrowser();
+            var browser = chromiumWebBrowser.BrowserCore;
 
             return browser.ExecuteDevToolsMethodAsync(messageId, method, parameters);
         }
@@ -109,9 +109,9 @@ namespace CefSharp
         /// </summary>
         /// <param name="chromiumWebBrowser">the chromiumWebBrowser instance</param>
         /// <returns>DevToolsClient</returns>
-        public static DevToolsClient GetDevToolsClient(this IWebBrowser chromiumWebBrowser)
+        public static DevToolsClient GetDevToolsClient(this IChromiumWebBrowserBase chromiumWebBrowser)
         {
-            var browser = chromiumWebBrowser.GetBrowser();
+            var browser = chromiumWebBrowser.BrowserCore;
 
             return browser.GetDevToolsClient();
         }
@@ -123,6 +123,8 @@ namespace CefSharp
         /// <returns>DevToolsClient</returns>
         public static DevToolsClient GetDevToolsClient(this IBrowser browser)
         {
+            WebBrowserExtensions.ThrowExceptionIfBrowserNull(browser);
+
             var browserHost = browser.GetHost();
 
             WebBrowserExtensions.ThrowExceptionIfBrowserHostNull(browserHost);
@@ -134,6 +136,42 @@ namespace CefSharp
             devToolsClient.SetDevToolsObserverRegistration(observerRegistration);
 
             return devToolsClient;
+        }
+
+        /// <summary>
+        /// Set the Document Content for the Main Frame using DevTools Protocol.
+        /// </summary>
+        /// <param name="chromiumWebBrowser">ChromiumWebBrowser instance</param>
+        /// <param name="html">html</param>
+        /// <returns>Task that can be awaited to determine if the content was successfully updated.</returns>
+        public static Task<bool> SetMainFrameDocumentContentAsync(this IChromiumWebBrowserBase chromiumWebBrowser, string html)
+        {
+            var browser = chromiumWebBrowser.BrowserCore;
+
+            return browser.SetMainFrameDocumentContentAsync(html);
+        }
+
+        /// <summary>
+        /// Set the Document Content for the Main Frame using DevTools Protocol.
+        /// </summary>
+        /// <param name="browser">the browser instance</param>
+        /// <param name="html">html</param>
+        /// <returns>Task that can be awaited to determine if the content was successfully updated.</returns>
+        public static async Task<bool> SetMainFrameDocumentContentAsync(this IBrowser browser, string html)
+        {
+            WebBrowserExtensions.ThrowExceptionIfBrowserNull(browser);
+
+            using (var client = browser.GetDevToolsClient())
+            {
+                var response = await client.Page.GetFrameTreeAsync().ConfigureAwait(false);
+
+                var frames = response.FrameTree;
+                var mainFrame = frames.Frame;
+
+                var setContentResponse = await client.Page.SetDocumentContentAsync(mainFrame.Id, html).ConfigureAwait(false);
+
+                return setContentResponse.Success;
+            }
         }
     }
 }

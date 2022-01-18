@@ -69,8 +69,18 @@ namespace CefSharp.WinForms.Example
             //The CefSharp.WinForms.Handler.LifeSpanHandler implementation
             //allows for Popups to be hosted in Controls/Tabs
             //This example also demonstrates docking DevTools in a SplitPanel
-            browser.LifeSpanHandler = LifeSpanHandler
+            browser.LifeSpanHandler = CefSharp.WinForms.Handler.LifeSpanHandler
                 .Create()
+                .OnBeforePopupCreated((chromiumWebBrowser, b, frame, targetUrl, targetFrameName, targetDisposition, userGesture, browserSettings) =>
+                {
+                    //Can cancel opening popup based on Url if required.
+                    if(targetUrl?.StartsWith(CefExample.BaseUrl + "/cancelme.html") == true)
+                    {
+                        return PopupCreation.Cancel;
+                    }
+
+                    return PopupCreation.Continue;
+                })
                 .OnPopupCreated((ctrl, targetUrl) =>
                 {
                     //Don't try using ctrl.FindForm() here as
@@ -202,14 +212,28 @@ namespace CefSharp.WinForms.Example
 
         private void OnLoadError(object sender, LoadErrorEventArgs args)
         {
-            //Don't display an error for external protocols that we allow the OS to
-            //handle in OnProtocolExecution().
+            //Aborted is generally safe to ignore
+            //Actions like starting a download will trigger an Aborted error
+            //which doesn't require any user action.
+            if(args.ErrorCode == CefErrorCode.Aborted)
+            {
+                return;
+            }
+
+            //Don't display an error for external protocols such as mailto which
+            //we might want to open in the default viewer
             if (args.ErrorCode == CefErrorCode.UnknownUrlScheme && args.Frame.Url.StartsWith("mailto"))
             {
                 return;
             }
 
-            DisplayOutput("Load Error:" + args.ErrorCode + ";" + args.ErrorText);
+            var errorHtml = string.Format("<html><body><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>",
+                                              args.FailedUrl, args.ErrorText, args.ErrorCode);
+
+            _ = args.Browser.SetMainFrameDocumentContentAsync(errorHtml);
+
+            //AddressChanged isn't called for failed Urls so we need to manually update the Url TextBox
+            this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.FailedUrl);
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)

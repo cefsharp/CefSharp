@@ -195,7 +195,12 @@ namespace CefSharp
 
         IBrowser^ ManagedCefBrowserAdapter::GetBrowser(int browserId)
         {
-            return _clientAdapter->GetBrowserWrapper(browserId);
+            if (_clientAdapter.get())
+            {
+                return _clientAdapter->GetBrowserWrapper(browserId);
+            }
+
+            return nullptr;
         }
 
         IJavascriptCallbackFactory^ ManagedCefBrowserAdapter::JavascriptCallbackFactory::get()

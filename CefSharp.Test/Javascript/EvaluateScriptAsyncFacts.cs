@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -64,7 +65,7 @@ namespace CefSharp.Test.Javascript
 
             Assert.False(browser.IsLoading);
 
-            var javascriptResponse = await browser.EvaluateScriptAsync(num.ToString());
+            var javascriptResponse = await browser.EvaluateScriptAsync(num.ToString(CultureInfo.InvariantCulture));
             Assert.True(javascriptResponse.Success);
 
             var actualType = javascriptResponse.Result.GetType();

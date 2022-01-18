@@ -181,5 +181,30 @@ namespace CefSharp.WinForms.Host
         {
             IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        /// <summary>
+        /// Gets the <see cref="ChromiumHostControl"/> or <see cref="ChromiumWebBrowser"/> associated with
+        /// a specific <see cref="IBrowser"/> instance. 
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <returns>returns the assocaited <see cref="ChromiumHostControl"/> or <see cref="ChromiumWebBrowser"/> or null if Disposed or no host found.</returns>
+        internal static T FromBrowser<T>(IBrowser browser) where T : ChromiumHostControlBase
+        {
+            if (browser.IsDisposed)
+            {
+                return null;
+            }
+
+            var windowHandle = browser.GetHost().GetWindowHandle();
+
+            if (windowHandle == IntPtr.Zero)
+            {
+                return null;
+            }
+
+            var control = Control.FromChildHandle(windowHandle) as T;
+
+            return control;
+        }
     }
 }

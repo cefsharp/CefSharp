@@ -90,7 +90,7 @@ namespace CefSharp.Wpf.Internals
                         return IntPtr.Zero;
                     }
 
-                    var browser = owner.GetBrowser();
+                    var browser = owner.BrowserCore;
                     if (browser != null)
                     {
                         browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
@@ -118,7 +118,7 @@ namespace CefSharp.Wpf.Internals
                 var modifiers = e.GetModifiers();
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
-                var browser = owner.GetBrowser();
+                var browser = owner.BrowserCore;
 
                 if (browser != null)
                 {

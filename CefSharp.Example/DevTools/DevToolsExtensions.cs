@@ -12,7 +12,7 @@ namespace CefSharp.Example.DevTools
         /// </summary>
         /// <param name="browser">the ChromiumWebBrowser</param>
         /// <returns>png encoded image as byte[]</returns>
-        public static async Task<byte[]> CaptureScreenShotAsPng(this IWebBrowser chromiumWebBrowser)
+        public static async Task<byte[]> CaptureScreenShotAsPng(this IChromiumWebBrowserBase chromiumWebBrowser)
         {
             //Make sure to dispose of our observer registration when done
             //If you need to make multiple calls then reuse the devtools client

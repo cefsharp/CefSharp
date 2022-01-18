@@ -789,5 +789,16 @@ namespace CefSharp.WinForms
 
             return browser;
         }
+
+        /// <summary>
+        /// Gets the <see cref="ChromiumWebBrowser"/> associated with
+        /// a specific <see cref="IBrowser"/> instance. 
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <returns>returns the assocaited <see cref="ChromiumWebBrowser"/> or null if Disposed or no host found.</returns>
+        public static ChromiumWebBrowser FromBrowser(IBrowser browser)
+        {
+            return FromBrowser<ChromiumWebBrowser>(browser);
+        }
     }
 }
