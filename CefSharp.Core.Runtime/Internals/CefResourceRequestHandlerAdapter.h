@@ -31,12 +31,15 @@ namespace CefSharp
         private:
             gcroot<IResourceRequestHandler^> _handler;
             gcroot<IWebBrowser^> _browserControl;
+            //For resource requests that are handled by CefRequestContextHandlerAdapter::GetResourceRequestHandler
+            //this will be false
+            bool _hasAssociatedBrowserControl;
 
         public:
             CefResourceRequestHandlerAdapter(IWebBrowser^ browserControl, IResourceRequestHandler^ handler) :
                 _handler(handler), _browserControl(browserControl)
             {
-
+                _hasAssociatedBrowserControl = !Object::ReferenceEquals(_browserControl, nullptr);
             }
 
             ~CefResourceRequestHandlerAdapter()
@@ -59,7 +62,7 @@ namespace CefSharp
                     // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
                     // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
                     // have a IBrowser reference already ready to use.
-                    if (_browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
                     {
                         accessFilter = _handler->GetCookieAccessFilter(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper);
                     }
@@ -98,7 +101,7 @@ namespace CefSharp
                     // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
                     // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
                     // have a IBrowser reference already ready to use.
-                    if (_browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
                     {
                         return (cef_return_value_t)_handler->OnBeforeResourceLoad(_browserControl, existingBrowserWrapper, frameWrapper, requestWrapper, requestCallback);
                     }
@@ -128,7 +131,7 @@ namespace CefSharp
                     // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
                     // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
                     // have a IBrowser reference already ready to use.
-                    if (_browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
                     {
                         resourceHandler = _handler->GetResourceHandler(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper);
                     }
@@ -198,7 +201,7 @@ namespace CefSharp
                     // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
                     // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
                     // have a IBrowser reference already ready to use.
-                    if (_browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
                     {
                         _handler->OnResourceRedirect(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, managedNewUrl);
                     }
@@ -232,7 +235,7 @@ namespace CefSharp
                     // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
                     // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
                     // have a IBrowser reference already ready to use.
-                    if (_browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
                     {
                         return _handler->OnResourceResponse(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
                     }
@@ -260,7 +263,7 @@ namespace CefSharp
                     // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
                     // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
                     // have a IBrowser reference already ready to use.
-                    if (_browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
                     {
                         responseFilter = _handler->GetResourceResponseFilter(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
                     }
@@ -298,7 +301,7 @@ namespace CefSharp
                     // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
                     // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
                     // have a IBrowser reference already ready to use.
-                    if (_browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
                     {
                         _handler->OnResourceLoadComplete(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
                     }
@@ -328,7 +331,7 @@ namespace CefSharp
                     // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
                     // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
                     // have a IBrowser reference already ready to use.
-                    if (_browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
                     {
                         allowOSExecution = _handler->OnProtocolExecution(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper);
                     }
