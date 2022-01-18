@@ -543,20 +543,35 @@ namespace CefSharp.OffScreen
 
             using (var devToolsClient = browser.GetDevToolsClient())
             {
-                if(viewport == null)
+                if (viewport == null)
                 {
                     var screenShot = await devToolsClient.Page.CaptureScreenshotAsync(format, quality, fromSurface: true).ConfigureAwait(continueOnCapturedContext: false);
 
                     return screenShot.Data;
                 }
 
-                //TODO: Check scale
                 //https://bitbucket.org/chromiumembedded/cef/issues/3103/offscreen-capture-screenshot-with-devtools
                 //CEF OSR mode doesn't set the size internally when CaptureScreenShot is called with a clip param specified, so
                 //we must manually resize our view if size is greater
-                if (viewport.Scale > deviceScaleFactor || (int)viewport.Width > size.Width || (int)viewport.Height > size.Height)
+                var newWidth = viewport.Width + viewport.X;
+                if (newWidth < size.Width)
                 {
-                    await ResizeAsync((int)viewport.Width, (int)viewport.Height, (float)viewport.Scale).ConfigureAwait(continueOnCapturedContext:false);
+                    newWidth = size.Width;
+                }
+                var newHeight = viewport.Height + viewport.Y;
+                if (newHeight < size.Height)
+                {
+                    newHeight = size.Height;
+                }
+                var newScale = viewport.Scale;
+                if (newScale == 0)
+                {
+                    newScale = deviceScaleFactor;
+                }
+
+                if ((int)newWidth > size.Width || (int)newHeight > size.Height || newScale != deviceScaleFactor)
+                {
+                    await ResizeAsync((int)newWidth, (int)newHeight, (float)newScale).ConfigureAwait(continueOnCapturedContext:false);
                 }
 
                 //Create a copy instead of modifying users object as we need to set Scale to 1
@@ -592,17 +607,20 @@ namespace CefSharp.OffScreen
             ThrowExceptionIfDisposed();
             ThrowExceptionIfBrowserNotInitialized();
 
-            if(size.Width == width && size.Height == height && deviceScaleFactor == null)
+            if (size.Width == width && size.Height == height && (deviceScaleFactor == null || deviceScaleFactor == DeviceScaleFactor))
             {
                 return Task.FromResult(true);
             }
+
+            var scaledWidth = (int)(width * DeviceScaleFactor);
+            var scaledHeight = (int)(height * DeviceScaleFactor);
 
             var tcs = new TaskCompletionSource<bool>();
             EventHandler<OnPaintEventArgs> handler = null;
 
             handler = (s, e) =>
             {
-                if (e.Width == width && e.Height == height)
+                if (e.Width == scaledWidth && e.Height == scaledHeight)
                 {
                     AfterPaint -= handler;
 
@@ -616,6 +634,8 @@ namespace CefSharp.OffScreen
             //a call to NotifyScreenInfoChanged will be made.
             if (deviceScaleFactor.HasValue)
             {
+                scaledWidth = (int)(width * deviceScaleFactor.Value);
+                scaledHeight = (int)(height * deviceScaleFactor.Value);
                 DeviceScaleFactor = deviceScaleFactor.Value;
             }
             Size = new Size(width, height);
