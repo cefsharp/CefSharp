@@ -138,6 +138,9 @@ namespace CefSharp
 
         bool IResourceHandler.Skip(long bytesToSkip, out long bytesSkipped, IResourceSkipCallback callback)
         {
+            //We don't need the callback, as it's an unmanaged resource we should dispose it (could wrap it in a using statement).
+            callback.Dispose();
+
             //No Stream or Stream cannot seek then we indicate failure
             if (Stream == null || !Stream.CanSeek)
             {
