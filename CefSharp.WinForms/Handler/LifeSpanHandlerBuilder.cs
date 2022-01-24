@@ -5,11 +5,29 @@
 namespace CefSharp.WinForms.Handler
 {
     /// <summary>
-    /// Fluent LifeSpanHandler Builder
+    /// Fluent <see cref="CefSharp.WinForms.Handler.LifeSpanHandler"/> Builder
     /// </summary>
     public class LifeSpanHandlerBuilder
     {
-        private readonly LifeSpanHandler handler = new LifeSpanHandler();
+        private readonly LifeSpanHandler handler;
+
+        public LifeSpanHandlerBuilder(CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate)
+        {
+            handler = new LifeSpanHandler(chromiumHostControlCreatedDelegate);
+        }
+
+        /// <summary>
+        /// The <see cref="OnBeforePopupCreatedDelegate"/> will be called <b>before</b> the popup has been created and
+        /// can be used to cancel popup creation if required, modify <see cref="IBrowserSettings"/> and disable javascript.
+        /// </summary>
+        /// <param name="onBeforePopupCreated">Action to be invoked before popup is created.</param>
+        /// <returns><see cref="LifeSpanHandlerBuilder"/> instance allowing you to chain method calls together</returns>
+        public LifeSpanHandlerBuilder OnBeforePopupCreated(OnBeforePopupCreatedDelegate onBeforePopupCreated)
+        {
+            handler.OnBeforePopupCreated(onBeforePopupCreated);
+
+            return this;
+        }
 
         /// <summary>
         /// The <see cref="OnPopupCreatedDelegate"/> will be called when the<see cref="ChromiumHostControl"/> has been
@@ -18,7 +36,7 @@ namespace CefSharp.WinForms.Handler
         /// size correctly.
         /// </summary>
         /// <param name="onPopupCreated">Action to be invoked when the Popup is to be destroyed.</param>
-        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
+        /// <returns><see cref="LifeSpanHandlerBuilder"/> instance allowing you to chain method calls together</returns>
         public LifeSpanHandlerBuilder OnPopupCreated(OnPopupCreatedDelegate onPopupCreated)
         {
             handler.OnPopupCreated(onPopupCreated);
@@ -33,7 +51,7 @@ namespace CefSharp.WinForms.Handler
         /// perform navigation (via frame) etc.
         /// </summary>
         /// <param name="onPopupBrowserCreated">Action to be invoked when the <see cref="IBrowser"/> has been created.</param>
-        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
+        /// <returns><see cref="LifeSpanHandlerBuilder"/> instance allowing you to chain method calls together</returns>
         public LifeSpanHandlerBuilder OnPopupBrowserCreated(OnPopupBrowserCreatedDelegate onPopupBrowserCreated)
         {
             handler.OnPopupBrowserCreated(onPopupBrowserCreated);
@@ -47,7 +65,7 @@ namespace CefSharp.WinForms.Handler
         /// When the <see cref="OnPopupDestroyedDelegate"/> is called you must remove/dispose of the <see cref="ChromiumHostControl"/>.
         /// </summary>
         /// <param name="onPopupDestroyed">Action to be invoked when the Popup is to be destroyed.</param>
-        /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
+        /// <returns><see cref="LifeSpanHandlerBuilder"/> instance allowing you to chain method calls together</returns>
         public LifeSpanHandlerBuilder OnPopupDestroyed(OnPopupDestroyedDelegate onPopupDestroyed)
         {
             handler.OnPopupDestroyed(onPopupDestroyed);
@@ -61,7 +79,7 @@ namespace CefSharp.WinForms.Handler
         /// <see cref="ILifeSpanHandler"/> returns true in <see cref="ILifeSpanHandler.DoClose(IWebBrowser, IBrowser)"/>
         /// so no WM_CLOSE message is sent, this differs from the default CEF behaviour.
         /// </summary>
-        /// <returns>a <see cref="IDownloadHandler"/> instance</returns>
+        /// <returns>a <see cref="ILifeSpanHandler"/> instance</returns>
         public ILifeSpanHandler Build()
         {
             return handler;

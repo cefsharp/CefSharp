@@ -298,21 +298,7 @@ namespace CefSharp.WinForms.Host
         /// <returns>returns the assocaited <see cref="ChromiumHostControl"/> or null if Disposed or no host found.</returns>
         public static ChromiumHostControl FromBrowser(IBrowser browser)
         {
-            if (browser.IsDisposed)
-            {
-                return null;
-            }
-
-            var windowHandle = browser.GetHost().GetWindowHandle();
-
-            if (windowHandle == IntPtr.Zero)
-            {
-                return null;
-            }
-
-            var control = Control.FromChildHandle(windowHandle) as ChromiumHostControl;
-
-            return control;
+            return FromBrowser<ChromiumHostControl>(browser);
         }
     }
 }

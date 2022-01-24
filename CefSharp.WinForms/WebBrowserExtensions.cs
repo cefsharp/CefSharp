@@ -23,7 +23,7 @@ namespace CefSharp.WinForms
         /// This will avoid the WM_Close message that CEF sends by default to the top level window.
         /// (Which closes your application). This method should generally only be used in the WinForms version.
         /// </summary>
-        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser instance</param>
+        /// <param name="chromiumWebBrowser">the <see cref="ChromiumWebBrowser"/> or <see cref="ChromiumHostControl"/> instance.</param>
         /// <returns>If the function succeeds, the return value is true.</returns>
         /// <example>
         /// <code>
@@ -34,7 +34,7 @@ namespace CefSharp.WinForms
         /// });
         /// </code>
         /// </example>
-        public static bool DestroyWindow(this IWebBrowser chromiumWebBrowser)
+        public static bool DestroyWindow(this IChromiumWebBrowserBase chromiumWebBrowser)
         {
             if (!Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
             {
@@ -47,7 +47,7 @@ namespace CefSharp.WinForms
                 return false;
             }
 
-            var browser = chromiumWebBrowser.GetBrowser();
+            var browser = chromiumWebBrowser.BrowserCore;
 
             if (browser == null)
             {

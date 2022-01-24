@@ -31,7 +31,7 @@ namespace CefSharp.Wpf.Internals
 
         public virtual void HandleKeyPress(KeyEventArgs e)
         {
-            var browser = owner.GetBrowser();
+            var browser = owner.BrowserCore;
             var key = e.SystemKey == Key.None ? e.Key : e.SystemKey;
             if (browser != null)
             {
@@ -92,7 +92,7 @@ namespace CefSharp.Wpf.Internals
 
         public virtual void HandleTextInput(TextCompositionEventArgs e)
         {
-            var browser = owner.GetBrowser();
+            var browser = owner.BrowserCore;
             if (browser != null)
             {
                 var browserHost = browser.GetHost();

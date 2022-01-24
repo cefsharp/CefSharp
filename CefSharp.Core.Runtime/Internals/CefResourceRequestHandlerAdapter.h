@@ -31,12 +31,15 @@ namespace CefSharp
         private:
             gcroot<IResourceRequestHandler^> _handler;
             gcroot<IWebBrowser^> _browserControl;
+            //For resource requests that are handled by CefRequestContextHandlerAdapter::GetResourceRequestHandler
+            //this will be false
+            bool _hasAssociatedBrowserControl;
 
         public:
             CefResourceRequestHandlerAdapter(IWebBrowser^ browserControl, IResourceRequestHandler^ handler) :
                 _handler(handler), _browserControl(browserControl)
             {
-
+                _hasAssociatedBrowserControl = !Object::ReferenceEquals(_browserControl, nullptr);
             }
 
             ~CefResourceRequestHandlerAdapter()
@@ -53,10 +56,22 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefBrowserWrapper browserWrapper(browser);
+                    IBrowser^ existingBrowserWrapper;
                     CefFrameWrapper frameWrapper(frame);
 
-                    accessFilter = _handler->GetCookieAccessFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                    // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
+                    // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
+                    // have a IBrowser reference already ready to use.
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    {
+                        accessFilter = _handler->GetCookieAccessFilter(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper);
+                    }
+                    else
+                    {
+                        CefBrowserWrapper browserWrapper(browser);
+
+                        accessFilter = _handler->GetCookieAccessFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                    }
                 }
                 else
                 {
@@ -76,13 +91,22 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    //TODO: We previously used GetBrowserWrapper - investigate passing in reference to this adapter
-                    CefBrowserWrapper browserWrapper(browser);
+                    IBrowser^ existingBrowserWrapper;
                     //We pass the frame and request wrappers to CefRequestCallbackWrapper so they can be disposed of
                     //when the callback is executed
                     auto frameWrapper = gcnew CefFrameWrapper(frame);
                     auto requestWrapper = gcnew Request(request);
                     auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
+
+                    // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
+                    // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
+                    // have a IBrowser reference already ready to use.
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    {
+                        return (cef_return_value_t)_handler->OnBeforeResourceLoad(_browserControl, existingBrowserWrapper, frameWrapper, requestWrapper, requestCallback);
+                    }
+
+                    CefBrowserWrapper browserWrapper(browser);
 
                     return (cef_return_value_t)_handler->OnBeforeResourceLoad(_browserControl, %browserWrapper, frameWrapper, requestWrapper, requestCallback);
                 }
@@ -101,10 +125,22 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefBrowserWrapper browserWrapper(browser);
+                    IBrowser^ existingBrowserWrapper;
                     CefFrameWrapper frameWrapper(frame);
 
-                    resourceHandler = _handler->GetResourceHandler(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                    // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
+                    // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
+                    // have a IBrowser reference already ready to use.
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    {
+                        resourceHandler = _handler->GetResourceHandler(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper);
+                    }
+                    else
+                    {
+                        CefBrowserWrapper browserWrapper(browser);
+
+                        resourceHandler = _handler->GetResourceHandler(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                    }
                 }
                 else
                 {
@@ -159,10 +195,22 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefBrowserWrapper browserWrapper(browser);
+                    IBrowser^ existingBrowserWrapper;
                     CefFrameWrapper frameWrapper(frame);
 
-                    _handler->OnResourceRedirect(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, managedNewUrl);
+                    // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
+                    // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
+                    // have a IBrowser reference already ready to use.
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    {
+                        _handler->OnResourceRedirect(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, managedNewUrl);
+                    }
+                    else
+                    {
+                        CefBrowserWrapper browserWrapper(browser);
+
+                        _handler->OnResourceRedirect(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, managedNewUrl);
+                    }
                 }
                 else
                 {
@@ -181,9 +229,18 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
+                    IBrowser^ existingBrowserWrapper;
+                    CefFrameWrapper frameWrapper(frame);
+
+                    // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
+                    // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
+                    // have a IBrowser reference already ready to use.
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    {
+                        return _handler->OnResourceResponse(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+                    }
 
                     CefBrowserWrapper browserWrapper(browser);
-                    CefFrameWrapper frameWrapper(frame);
 
                     return _handler->OnResourceResponse(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
                 }
@@ -200,10 +257,22 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefBrowserWrapper browserWrapper(browser);
+                    IBrowser^ existingBrowserWrapper;
                     CefFrameWrapper frameWrapper(frame);
 
-                    responseFilter = _handler->GetResourceResponseFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+                    // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
+                    // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
+                    // have a IBrowser reference already ready to use.
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    {
+                        responseFilter = _handler->GetResourceResponseFilter(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+                    }
+                    else
+                    {
+                        CefBrowserWrapper browserWrapper(browser);
+
+                        responseFilter = _handler->GetResourceResponseFilter(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+                    }
                 }
                 else
                 {
@@ -226,10 +295,22 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefBrowserWrapper browserWrapper(browser);
+                    IBrowser^ existingBrowserWrapper;
                     CefFrameWrapper frameWrapper(frame);
 
-                    _handler->OnResourceLoadComplete(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
+                    // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
+                    // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
+                    // have a IBrowser reference already ready to use.
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    {
+                        _handler->OnResourceLoadComplete(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
+                    }
+                    else
+                    {
+                        CefBrowserWrapper browserWrapper(browser);
+
+                        _handler->OnResourceLoadComplete(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
+                    }
                 }
                 else
                 {
@@ -244,11 +325,22 @@ namespace CefSharp
                 //For ServiceWorker browser and frame will be null
                 if (browser.get() && frame.get())
                 {
-                    CefBrowserWrapper browserWrapper(browser);
+                    IBrowser^ existingBrowserWrapper;
                     CefFrameWrapper frameWrapper(frame);
 
+                    // If we already have an IBrowser instance then use it, otherwise we'll pass in a scoped instance
+                    // which cannot be accessed outside the scope of the method. We should under normal circumstanaces
+                    // have a IBrowser reference already ready to use.
+                    if (_hasAssociatedBrowserControl && _browserControl->TryGetBrowserCoreById(browser->GetIdentifier(), existingBrowserWrapper))
+                    {
+                        allowOSExecution = _handler->OnProtocolExecution(_browserControl, existingBrowserWrapper, %frameWrapper, %requestWrapper);
+                    }
+                    else
+                    {
+                        CefBrowserWrapper browserWrapper(browser);
 
-                    allowOSExecution = _handler->OnProtocolExecution(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                        allowOSExecution = _handler->OnProtocolExecution(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper);
+                    }
                 }
                 else
                 {
