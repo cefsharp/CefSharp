@@ -54,6 +54,7 @@ namespace CefSharp.Test.JavascriptBinding
             Assert.True(result.Success);
             Assert.Equal("ok", result.ReturnValue.ToString());
 
+#if !NETCOREAPP
             object getResult;
             object setResult = 100;
             string exception;
@@ -64,6 +65,7 @@ namespace CefSharp.Test.JavascriptBinding
             retValue = javascriptObjectRepository.TryGetProperty(boundObjects[0].Id, "year", out getResult, out exception);
             Assert.True(retValue);
             Assert.Equal(100, Convert.ToInt32(getResult));
+#endif
         }
     }
 }
