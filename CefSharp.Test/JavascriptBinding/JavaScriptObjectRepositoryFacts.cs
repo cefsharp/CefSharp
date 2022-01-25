@@ -2,7 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Example.ModelBinding;
 using CefSharp.Internals;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -35,7 +37,13 @@ namespace CefSharp.Test.JavascriptBinding
 #if NETCOREAPP
             javascriptObjectRepository.Register(name, new NoNamespaceClass(), new BindingOptions());
 #else
-            javascriptObjectRepository.Register(name, new NoNamespaceClass(), false, new BindingOptions());
+            BindingOptions bindingOptions = new BindingOptions()
+            {
+                Binder = BindingOptions.DefaultBinder.Binder,
+                MethodInterceptor = new MethodInterceptorLogger(),
+                PropertyInterceptor = new PropertyInterceptorLogger()
+            };
+            javascriptObjectRepository.Register(name, new NoNamespaceClass(), false, bindingOptions);
 #endif
             Assert.True(javascriptObjectRepository.IsBound(name));
 
@@ -45,6 +53,17 @@ namespace CefSharp.Test.JavascriptBinding
             var result = javascriptObjectRepository.TryCallMethod(boundObjects[0].Id, "getExampleString", new object[0]);
             Assert.True(result.Success);
             Assert.Equal("ok", result.ReturnValue.ToString());
+
+            object getResult;
+            object setResult = 100;
+            string exception;
+            NoNamespaceClass noNamespaceClass = new NoNamespaceClass();
+            bool retValue = javascriptObjectRepository.TrySetProperty(boundObjects[0].Id, "year", setResult, out exception);
+            Assert.True(retValue);
+
+            retValue = javascriptObjectRepository.TryGetProperty(boundObjects[0].Id, "year", out getResult, out exception);
+            Assert.True(retValue);
+            Assert.Equal(100, Convert.ToInt32(getResult));
         }
     }
 }
