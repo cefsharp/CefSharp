@@ -25,11 +25,11 @@ It maybe helpful to run the `cefclient` application and compare output with `Cef
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
-		cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --no-sandbox --disable-site-isolation-trials --disable-gpu-compositing
+		cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --no-sandbox
 		```
 		- If you are using WinForms run
 		```
-		cefclient.exe --multi-threaded-message-loop --no-sandbox --disable-site-isolation-trials
+		cefclient.exe --multi-threaded-message-loop --no-sandbox
 		```
 	- **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED ABOVE**
     - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
