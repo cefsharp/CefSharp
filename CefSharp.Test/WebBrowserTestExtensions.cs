@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using CefSharp.OffScreen;
 
 namespace CefSharp.Test
 {
@@ -76,7 +77,7 @@ namespace CefSharp.Test
             return tcs.Task;
         }
 
-        public static Task<QUnitTestResult> WaitForQUnitTestExeuctionToComplete(this IWebBrowser browser)
+        public static Task<QUnitTestResult> CreateBrowserAndWaitForQUnitTestExeuctionToComplete(this ChromiumWebBrowser browser)
         {
             //If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously
             //and switch to tcs.TrySetResult below - no need for the custom extension method
@@ -100,6 +101,8 @@ namespace CefSharp.Test
             };
 
             browser.JavascriptMessageReceived += handler;
+
+            browser.CreateBrowser();
 
             return tcs.Task;
         }
