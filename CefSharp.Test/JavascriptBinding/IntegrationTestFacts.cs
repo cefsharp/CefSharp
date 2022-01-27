@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using CefSharp.Event;
 using CefSharp.Example;
 using CefSharp.Example.JavascriptBinding;
+using CefSharp.Example.ModelBinding;
 using CefSharp.Internals;
+using CefSharp.ModelBinding;
 using CefSharp.OffScreen;
 using Xunit;
 using Xunit.Abstractions;
@@ -124,6 +126,8 @@ namespace CefSharp.Test.JavascriptBinding
 
                 //TODO: Extract this into some sort of helper setup method
                 var bindingOptions = BindingOptions.DefaultBinder;
+                // intercept .net methods calls from js and log it
+                bindingOptions.MethodInterceptor = new MethodInterceptorLogger();
                 var repo = browser.JavascriptObjectRepository;
 
                 repo.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
