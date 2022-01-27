@@ -33,7 +33,7 @@ namespace CefSharp
             auto browserWrapper = static_cast<CefBrowserWrapper^>(browser);
             auto javascriptNameConverter = GetJavascriptNameConverter();
 
-            auto doneCallback = _pendingTasks->CreatePendingTask(timeout);
+            auto doneCallback = _pendingTasks->CreateJavascriptCallbackPendingTask(_callback->Id, timeout);
 
             auto callbackMessage = CefProcessMessage::Create(kJavascriptCallbackRequest);
             auto argList = callbackMessage->GetArgumentList();
