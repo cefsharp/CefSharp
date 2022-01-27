@@ -1393,7 +1393,10 @@ namespace CefSharp
                 auto success = argList->GetBool(0);
                 auto callbackId = GetInt64(argList, 1);
 
-                auto pendingTask = _pendingTaskRepository->RemovePendingTask(callbackId);
+                auto pendingTask = name == kEvaluateJavascriptResponse ?
+                    _pendingTaskRepository->RemovePendingTask(callbackId) :
+                    _pendingTaskRepository->RemoveJavascriptCallbackPendingTask(callbackId);
+
                 if (pendingTask != nullptr)
                 {
                     auto response = gcnew JavascriptResponse();

@@ -256,5 +256,20 @@ namespace CefSharp.Example.JavascriptBinding
         {
             return paramA + paramB;
         }
+
+        public async Task<string> JavascriptOptionalCallbackEvalPromise(bool invokeCallback, string msg, IJavascriptCallback callback)
+        {
+            using (callback)
+            {
+                if (invokeCallback)
+                {
+                    var response = await callback.ExecuteAsync(callback.Id, msg).ConfigureAwait(false);
+                    //Echo the response
+                    return (string)response.Result;
+                }
+
+                return msg;
+            }
+        }
     }
 }
