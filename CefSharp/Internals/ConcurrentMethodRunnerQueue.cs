@@ -16,6 +16,7 @@ namespace CefSharp.Internals
     /// </summary>
     public class ConcurrentMethodRunnerQueue : IMethodRunnerQueue
     {
+        private static Type VoidTaskResultType = Type.GetType("System.Threading.Tasks.VoidTaskResult");
         private readonly IJavascriptObjectRepositoryInternal repository;
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -77,10 +78,14 @@ namespace CefSharp.Internals
                             {
                                 if (t.Status == TaskStatus.RanToCompletion)
                                 {
-                                    //TODO: Use resultTask.GetAwaiter().GetResult() instead
                                     //We use some reflection to get the Result
                                     //If someone has a better way of doing this then please submit a PR
                                     result.Result = resultType.GetProperty("Result").GetValue(resultTask);
+
+                                    if (result.Result != null && result.Result.GetType() == VoidTaskResultType)
+                                    {
+                                        result.Result = null;
+                                    }
                                 }
                                 else
                                 {
