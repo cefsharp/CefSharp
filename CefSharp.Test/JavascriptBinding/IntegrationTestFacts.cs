@@ -59,8 +59,7 @@ namespace CefSharp.Test.JavascriptBinding
                     }
                 };
 
-                browser.CreateBrowser();
-                var response = await browser.WaitForQUnitTestExeuctionToComplete();
+                var response = await browser.CreateBrowserAndWaitForQUnitTestExeuctionToComplete();
 
                 if (!response.Success)
                 {
