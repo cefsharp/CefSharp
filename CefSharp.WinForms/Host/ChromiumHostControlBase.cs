@@ -188,7 +188,7 @@ namespace CefSharp.WinForms.Host
         /// </summary>
         /// <param name="browser">browser</param>
         /// <returns>returns the assocaited <see cref="ChromiumHostControl"/> or <see cref="ChromiumWebBrowser"/> or null if Disposed or no host found.</returns>
-        internal static T FromBrowser<T>(IBrowser browser) where T : ChromiumHostControlBase
+        public static T FromBrowser<T>(IBrowser browser) where T : ChromiumHostControlBase
         {
             if (browser.IsDisposed)
             {

@@ -69,17 +69,17 @@ Delete this line and everything above, and then fill in the details below.
 
 - **Does this problem also occur in the `CEF` Sample Application**
     - Download one of the following:
-    - For x86 download https://cef-builds.spotifycdn.com/cef_binary_96.0.18%2Bgfe551e4%2Bchromium-96.0.4664.110_windows32_client.tar.bz2
-    - For x64 download https://cef-builds.spotifycdn.com/cef_binary_96.0.18%2Bgfe551e4%2Bchromium-96.0.4664.110_windows64_client.tar.bz2
-	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_96.0.18%2Bgfe551e4%2Bchromium-96.0.4664.110_windowsarm64_client.tar.bz2
+    - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_97.1.6%2Bg8961cdb%2Bchromium-97.0.4692.99_windows32_client.tar.bz2
+    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_97.1.6%2Bg8961cdb%2Bchromium-97.0.4692.99_windows64_client.tar.bz2
+	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_97.1.6%2Bg8961cdb%2Bchromium-97.0.4692.99_windowsarm64_client.tar.bz2
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
-		cefclient.exe --multi-threaded-message-loop --off-screen-rendering-enabled --enable-gpu --no-sandbox --disable-site-isolation-trials
+		cefclient.exe --multi-threaded-message-loop --no-sandbox --off-screen-rendering-enabled --enable-gpu
 		```
 		- If you are using WinForms run
 		```
-		cefclient.exe --multi-threaded-message-loop --no-sandbox --disable-site-isolation-trials
+		cefclient.exe --multi-threaded-message-loop --no-sandbox
 		```
 	- **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED ABOVE**
     - If you can reproduce the problem with `cefclient` then please report the issue on https://bitbucket.org/chromiumembedded/cef/overview (Make sure you search before opening an issue). If you open an issue here it will most likely be closed as `upstream` as the bug needs to be fixed in `CEF`.

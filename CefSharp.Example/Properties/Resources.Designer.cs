@@ -646,6 +646,9 @@ namespace CefSharp.Example.Properties {
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;p&gt;Hello World&lt;/p&gt;
+        ///    &lt;script&gt;
+        ///        document.write(&quot;Testing&quot;);
+        ///    &lt;/script&gt;
         ///&lt;/body&gt;
         ///&lt;/html&gt;
         ///.
