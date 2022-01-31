@@ -16,7 +16,7 @@ namespace CefSharp.WinForms.Host
     /// <seealso cref="Control" />
     [Docking(DockingBehavior.AutoDock), ToolboxBitmap(typeof(ChromiumHostControl)),
     Designer(typeof(ChromiumWebBrowserDesigner))]
-    public class ChromiumHostControl : ChromiumHostControlBase, IChromiumWebBrowserBase
+    public class ChromiumHostControl : ChromiumHostControlBase, IWinFormsChromiumWebBrowser
     {
         /// <summary>
         /// Get access to the core <see cref="IBrowser"/> instance.

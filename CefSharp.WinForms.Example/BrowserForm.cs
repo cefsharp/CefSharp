@@ -140,22 +140,18 @@ namespace CefSharp.WinForms.Example
             new AboutBox().ShowDialog();
         }
 
-        public void RemoveTab(IntPtr windowHandle)
+        public void RemoveTab(ChromiumHostControl ctrl)
         {
-            var parentControl = FromChildHandle(windowHandle);
-            if (!parentControl.IsDisposed)
+            if (!ctrl.IsDisposed)
             {
-                if (parentControl.Parent is TabPage tabPage)
-                {
-                    browserTabControl.TabPages.Remove(tabPage);
-                }
-                else if (parentControl.Parent is Panel panel)
-                {
-                    var browserTabUserControl = (BrowserTabUserControl)panel.Parent;
+                var tabPage = ctrl.GetParentOfType<TabPage>();
 
-                    var tab = (TabPage)browserTabUserControl.Parent;
-                    browserTabControl.TabPages.Remove(tab);
+                if(tabPage == null)
+                {
+                    throw new Exception("Unable to find parent TabPage");
                 }
+
+                browserTabControl.TabPages.Remove(tabPage);
             }
         }
 
