@@ -20,7 +20,7 @@ namespace CefSharp.WinForms.Example
 {
     public partial class BrowserTabUserControl : UserControl
     {
-        public IChromiumWebBrowserBase Browser { get; private set; }
+        public IWinFormsChromiumWebBrowser Browser { get; private set; }
         private ChromiumWidgetNativeWindow messageInterceptor;
         private bool multiThreadedMessageLoopEnabled;
 
@@ -109,9 +109,7 @@ namespace CefSharp.WinForms.Example
                         {
                             if (ctrl.FindForm() is BrowserForm owner)
                             {
-                                var windowHandle = popupBrowser.GetHost().GetWindowHandle();
-
-                                owner.RemoveTab(windowHandle);
+                                owner.RemoveTab(ctrl);
                             }
 
                             ctrl.Dispose();
