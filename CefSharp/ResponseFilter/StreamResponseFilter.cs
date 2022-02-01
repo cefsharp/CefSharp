@@ -12,7 +12,7 @@ namespace CefSharp.ResponseFilter
     /// to the provided Stream. The <see cref="Stream"/> must be writable, no data will be copied otherwise.
     /// The StreamResponseFilter will release it's reference (set to null) to the <see cref="Stream"/> when it's Disposed.
     /// </summary>
-    public class StreamResponseFilter : IResponseFilter
+    public sealed class StreamResponseFilter : IResponseFilter
     {
         private Stream responseStream;
 
@@ -62,7 +62,8 @@ namespace CefSharp.ResponseFilter
             return FilterStatus.Done;
         }
 
-        void IDisposable.Dispose()
+        /// <inheritdoc/>
+        public void Dispose()
         {
             responseStream = null;
         }

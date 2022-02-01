@@ -15,8 +15,8 @@ namespace CefSharp
     {
         /// <summary>
         /// Called before browser navigation.
-        /// If the navigation is allowed <see cref="IWebBrowser.FrameLoadStart"/> and <see cref="IWebBrowser.FrameLoadEnd"/>
-        /// will be called. If the navigation is canceled <see cref="IWebBrowser.LoadError"/> will be called with an ErrorCode
+        /// If the navigation is allowed <see cref="IChromiumWebBrowserBase.FrameLoadStart"/> and <see cref="IChromiumWebBrowserBase.FrameLoadEnd"/>
+        /// will be called. If the navigation is canceled <see cref="IChromiumWebBrowserBase.LoadError"/> will be called with an ErrorCode
         /// value of <see cref="CefErrorCode.Aborted"/>. 
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>

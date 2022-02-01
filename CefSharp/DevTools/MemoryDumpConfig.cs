@@ -4,6 +4,9 @@
 
 namespace CefSharp.DevTools.Tracing
 {
+    /// <summary>
+    /// MemoryDumpConfig
+    /// </summary>
     public class MemoryDumpConfig
     {
     }

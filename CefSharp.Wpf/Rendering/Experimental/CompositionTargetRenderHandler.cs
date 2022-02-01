@@ -25,6 +25,12 @@ namespace CefSharp.Wpf.Rendering.Experimental
         private readonly object lockObj = new object();
         private ChromiumWebBrowser browser;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="browser">ChromiumWebBrowser instance</param>
+        /// <param name="dpiX">DPI X</param>
+        /// <param name="dpiY">DPI Y</param>
         public CompositionTargetRenderHandler(ChromiumWebBrowser browser, double dpiX, double dpiY)
         {
             this.browser = browser;

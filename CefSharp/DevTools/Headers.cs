@@ -26,6 +26,10 @@ namespace CefSharp.DevTools.Network
         {
         }
 
+        /// <summary>
+        /// Returns itself
+        /// </summary>
+        /// <returns>Dictionary of headers</returns>
         public Dictionary<string, string> ToDictionary()
         {
             return this;

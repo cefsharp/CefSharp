@@ -11,6 +11,13 @@ namespace CefSharp.WinForms.Handler
     {
         private readonly LifeSpanHandler handler;
 
+        /// <summary>
+        /// LifeSpanHandlerBuilder
+        /// </summary>
+        /// <param name="chromiumHostControlCreatedDelegate">
+        /// When specified the delegate will be used to create the <see cref="Host.ChromiumHostControl"/>
+        /// instance. Allowing users to create their own custom instance that extends <see cref="Host.ChromiumHostControl"/>
+        /// </param>
         public LifeSpanHandlerBuilder(CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate)
         {
             handler = new LifeSpanHandler(chromiumHostControlCreatedDelegate);
@@ -30,9 +37,9 @@ namespace CefSharp.WinForms.Handler
         }
 
         /// <summary>
-        /// The <see cref="OnPopupCreatedDelegate"/> will be called when the<see cref="ChromiumHostControl"/> has been
+        /// The <see cref="OnPopupCreatedDelegate"/> will be called when the<see cref="Host.ChromiumHostControl"/> has been
         /// created. When the <see cref="OnPopupCreatedDelegate"/> is called you must add the control to it's intended parent
-        /// so the <see cref="Control.ClientRectangle"/> can be calculated to set the initial
+        /// so the <see cref="System.Windows.Forms.Control.ClientRectangle"/> can be calculated to set the initial
         /// size correctly.
         /// </summary>
         /// <param name="onPopupCreated">Action to be invoked when the Popup is to be destroyed.</param>
@@ -60,9 +67,9 @@ namespace CefSharp.WinForms.Handler
         }
 
         /// <summary>
-        /// The <see cref="OnPopupDestroyedDelegate"/> will be called when the <see cref="ChromiumHostControl"/> is to be
+        /// The <see cref="OnPopupDestroyedDelegate"/> will be called when the <see cref="Host.ChromiumHostControl"/> is to be
         /// removed from it's parent.
-        /// When the <see cref="OnPopupDestroyedDelegate"/> is called you must remove/dispose of the <see cref="ChromiumHostControl"/>.
+        /// When the <see cref="OnPopupDestroyedDelegate"/> is called you must remove/dispose of the <see cref="Host.ChromiumHostControl"/>.
         /// </summary>
         /// <param name="onPopupDestroyed">Action to be invoked when the Popup is to be destroyed.</param>
         /// <returns><see cref="LifeSpanHandlerBuilder"/> instance allowing you to chain method calls together</returns>

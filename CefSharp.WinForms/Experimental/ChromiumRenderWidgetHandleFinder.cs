@@ -78,7 +78,7 @@ namespace CefSharp.WinForms.Experimental
         /// Helper function used to find the child HWND with the ClassName matching <paramref name="chromeRenderWidgetHostClassName"/>
         /// Chromium's message-loop Window isn't created synchronously, so this may not find it.
         /// If so, you need to wait and try again later.
-        /// In most cases you should use the <see cref="TryFindHandle(ChromiumWebBrowser, out IntPtr)"/> overload.
+        /// In most cases you should use the <see cref="TryFindHandle(IWebBrowser, out IntPtr)"/> overload.
         /// </summary>
         /// <param name="chromiumWebBrowserHandle"><see cref="ChromiumWebBrowser"/> control Handle</param>
         /// <param name="chromeRenderWidgetHostClassName">class name used to match</param>

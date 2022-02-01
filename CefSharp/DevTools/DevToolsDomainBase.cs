@@ -11,14 +11,28 @@ using CefSharp.DevTools.Network;
 
 namespace CefSharp.DevTools
 {
+    /// <summary>
+    /// DevTools Domain base class
+    /// Provides some basic helper methods
+    /// </summary>
     public abstract class DevToolsDomainBase
     {
 #if NETCOREAPP
+        /// <summary>
+        /// Convert Enum to String
+        /// </summary>
+        /// <param name="val">enum</param>
+        /// <returns>string</returns>
         protected string EnumToString(Enum val)
         {
             return Internals.Json.JsonEnumConverterFactory.ConvertEnumToString(val);
         }
 
+        /// <summary>
+        /// Enum to string
+        /// </summary>
+        /// <param name="values">array of type <see cref="CefSharp.DevTools.Network.ContentEncoding"/></param>
+        /// <returns>enumerable string</returns>
         protected IEnumerable<string> EnumToString(CefSharp.DevTools.Network.ContentEncoding[] values)
         {
             foreach (var val in values)
@@ -27,6 +41,11 @@ namespace CefSharp.DevTools
             }
         }
 
+        /// <summary>
+        /// Enum to string
+        /// </summary>
+        /// <param name="values">array of type <see cref="CefSharp.DevTools.Emulation.DisabledImageType"/></param>
+        /// <returns>enumerable string</returns>
         protected IEnumerable<string> EnumToString(CefSharp.DevTools.Emulation.DisabledImageType[] values)
         {
             foreach (var val in values)
@@ -35,6 +54,11 @@ namespace CefSharp.DevTools
             }
         }
 
+        /// <summary>
+        /// Enum to string
+        /// </summary>
+        /// <param name="values">array of type <see cref="PermissionType"/></param>
+        /// <returns>enumerable string</returns>
         protected IEnumerable<string> EnumToString(PermissionType[] values)
         {
             foreach (var val in values)
@@ -43,6 +67,11 @@ namespace CefSharp.DevTools
             }
         }
 
+        /// <summary>
+        /// Enum to string
+        /// </summary>
+        /// <param name="values">array of type <see cref="CefSharp.DevTools.DOMDebugger.CSPViolationType"/></param>
+        /// <returns>enumerable string</returns>
         protected IEnumerable<string> EnumToString(CefSharp.DevTools.DOMDebugger.CSPViolationType[] values)
         {
             foreach (var val in values)

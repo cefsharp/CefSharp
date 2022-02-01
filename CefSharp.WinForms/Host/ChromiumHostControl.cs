@@ -242,6 +242,7 @@ namespace CefSharp.WinForms.Host
             }
         }
 
+        /// <inheritdoc/>
         public Task<LoadUrlAsyncResponse> LoadUrlAsync(string url)
         {
             //LoadUrlAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
@@ -264,6 +265,7 @@ namespace CefSharp.WinForms.Host
             return browser.MainFrame;
         }
 
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

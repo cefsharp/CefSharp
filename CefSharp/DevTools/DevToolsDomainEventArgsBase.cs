@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 
 namespace CefSharp.DevTools
 {
+    /// <summary>
+    /// DevToolsDomainEventArgsBase
+    /// </summary>
     [DataContract]
     public abstract class DevToolsDomainEventArgsBase : EventArgs
     {

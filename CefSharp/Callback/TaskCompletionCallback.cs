@@ -11,7 +11,7 @@ namespace CefSharp
     /// <summary>
     /// Provides a callback implementation of <see cref="ICompletionCallback"/>.
     /// </summary>
-    public class TaskCompletionCallback : ICompletionCallback
+    public sealed class TaskCompletionCallback : ICompletionCallback
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource;
         private volatile bool isDisposed;

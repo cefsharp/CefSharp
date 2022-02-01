@@ -11,19 +11,22 @@ namespace CefSharp.Callback
     /// that does nothing with complete.
     /// Added to workaround a CEF bug as per https://github.com/cefsharp/CefSharp/issues/2957#issuecomment-555285400
     /// </summary>
-    public class NoOpCompletionCallback : ICompletionCallback
+    public sealed class NoOpCompletionCallback : ICompletionCallback
     {
+        /// <inheritdoc/>
         void ICompletionCallback.OnComplete()
         {
 
         }
 
+        /// <inheritdoc/>
         bool ICompletionCallback.IsDisposed
         {
             //For now we return false
             get { return false; }
         }
 
+        /// <inheritdoc/>
         void IDisposable.Dispose()
         {
 

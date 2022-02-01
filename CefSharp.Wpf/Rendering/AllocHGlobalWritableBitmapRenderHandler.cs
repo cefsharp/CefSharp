@@ -15,7 +15,7 @@ namespace CefSharp.Wpf.Rendering
 {
     /// <summary>
     /// AllocHGlobalWritableBitmapRenderHandler - creates/updates an WritableBitmap
-    /// Uses <see cref="Marshal.AllocHGlobal"/> to allocate memory for
+    /// Uses <see cref="Marshal.AllocHGlobal(int)"/> to allocate memory for
     /// double buffering when the size matches or creates a new WritableBitmap
     /// when required.
     /// </summary>

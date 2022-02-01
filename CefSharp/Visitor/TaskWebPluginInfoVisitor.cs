@@ -12,7 +12,7 @@ namespace CefSharp
     /// <summary>
     /// Provides a visitor implementation of <see cref="IWebPluginInfoVisitor"/>
     /// </summary>
-    public class TaskWebPluginInfoVisitor : IWebPluginInfoVisitor
+    public sealed class TaskWebPluginInfoVisitor : IWebPluginInfoVisitor
     {
         private TaskCompletionSource<List<WebPluginInfo>> taskCompletionSource;
         private List<WebPluginInfo> list;

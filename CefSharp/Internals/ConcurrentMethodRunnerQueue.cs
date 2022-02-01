@@ -14,25 +14,32 @@ namespace CefSharp.Internals
     /// the we use ContinueWith to be notified of completion then
     /// raise the MethodInvocationComplete event
     /// </summary>
-    public class ConcurrentMethodRunnerQueue : IMethodRunnerQueue
+    public sealed class ConcurrentMethodRunnerQueue : IMethodRunnerQueue
     {
-        private static Type VoidTaskResultType = Type.GetType("System.Threading.Tasks.VoidTaskResult");
+        private static readonly Type VoidTaskResultType = Type.GetType("System.Threading.Tasks.VoidTaskResult");
         private readonly IJavascriptObjectRepositoryInternal repository;
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
+        /// <inheritdoc/>
         public event EventHandler<MethodInvocationCompleteArgs> MethodInvocationComplete;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="repository">javascript object repository</param>
         public ConcurrentMethodRunnerQueue(IJavascriptObjectRepositoryInternal repository)
         {
             this.repository = repository;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             MethodInvocationComplete = null;
             cancellationTokenSource.Cancel();
         }
 
+        /// <inheritdoc/>
         public void Enqueue(MethodInvocation methodInvocation)
         {
             if (cancellationTokenSource.IsCancellationRequested)

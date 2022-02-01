@@ -9,27 +9,38 @@ using CefSharp.Internals.Tasks;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// MethodRunnerQueue - Async Javascript Binding methods are run
+    /// on the ThreadPool sequentially
+    /// </summary>
     public sealed class MethodRunnerQueue : IMethodRunnerQueue
     {
         //Limit to 1 task per methodRunnerQueue
         //https://social.msdn.microsoft.com/Forums/vstudio/en-US/d0bcb415-fb1e-42e4-90f8-c43a088537fb/aborting-a-long-running-task-in-tpl?forum=parallelextensions
         private readonly LimitedConcurrencyLevelTaskScheduler taskScheduler = new LimitedConcurrencyLevelTaskScheduler(1);
         private readonly IJavascriptObjectRepositoryInternal repository;
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
+        /// <inheritdoc/>
         public event EventHandler<MethodInvocationCompleteArgs> MethodInvocationComplete;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="repository">javascript object repository</param>
         public MethodRunnerQueue(IJavascriptObjectRepositoryInternal repository)
         {
             this.repository = repository;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             //Cancel all tasks associated with this MethoRunnerQueue
             cancellationTokenSource.Cancel();
         }
 
+        /// <inheritdoc/>
         public void Enqueue(MethodInvocation methodInvocation)
         {
             if(cancellationTokenSource.IsCancellationRequested)

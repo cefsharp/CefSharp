@@ -68,6 +68,8 @@ namespace CefSharp.WinForms
         /// </summary>
         /// <param name="chromiumWebBrowser"><see cref="ChromiumWebBrowser"/> instance</param>
         /// <param name="parentControl">Control used as the parent for DevTools (a custom control will be added to the <see cref="Control.Controls"/> collection)</param>
+        /// <param name="controlName">Control name</param>
+        /// <param name="dockStyle">Dock Style</param>
         /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
         /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
         /// <returns>Returns the <see cref="Control"/> that hosts the DevTools instance if successful, otherwise returns null on error.</returns>
@@ -92,6 +94,8 @@ namespace CefSharp.WinForms
         /// Action that is Invoked when the DevTools Host Control has been created and needs to be added to it's parent.
         /// It's important the control is added to it's intended parent at this point so the <see cref="Control.ClientRectangle"/>
         /// can be calculated to set the initial display size.</param>
+        /// <param name="controlName">control name</param>
+        /// <param name="dockStyle">Dock Style</param>
         /// <param name="inspectElementAtX">x coordinate (used for inspectElement)</param>
         /// <param name="inspectElementAtY">y coordinate (used for inspectElement)</param>
         /// <returns>Returns the <see cref="Control"/> that hosts the DevTools instance if successful, otherwise returns null on error.</returns>

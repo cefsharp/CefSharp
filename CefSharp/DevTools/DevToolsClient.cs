@@ -377,7 +377,7 @@ namespace CefSharp.DevTools
         /// </summary>
         /// <param name="type">Object type</param>
         /// <param name="stream">JSON stream</param>
-        /// <returns>object of type <typeparamref name="type"/></returns>
+        /// <returns>object of type <paramref name="type"/></returns>
         private static object DeserializeJson(Type type, Stream stream)
         {
 #if NETCOREAPP
