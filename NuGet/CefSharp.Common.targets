@@ -85,9 +85,12 @@
     If https://www.nuget.org/packages/MSBuild.Microsoft.VisualStudio.Web.targets/ package is installed
     we'll attempt to use the task from there, otherwise see if it's installed as part of Visual Studio
     If not installed then we'll fallback to the old behaviour (user has to manage AnyCPU themselves)
+	If Microsoft.Web.Publishing.Tasks.dll is in a different location to those below then set
+	CefSharpTransformXmlDllPathOverride in your project file.
     -->
     <CefSharpTransformXmlDllPath Condition="$(VSToolsPath) == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll</CefSharpTransformXmlDllPath>
     <CefSharpTransformXmlDllPath Condition="$(VSToolsPath) != ''" >$(VSToolsPath)\Web\Microsoft.Web.Publishing.Tasks.dll</CefSharpTransformXmlDllPath>
+	<CefSharpTransformXmlDllPath Condition="'$(CefSharpTransformXmlDllPathOverride)' != ''">$(CefSharpTransformXmlDllPathOverride)</CefSharpTransformXmlDllPath>
   </PropertyGroup>
 
   <PropertyGroup>
