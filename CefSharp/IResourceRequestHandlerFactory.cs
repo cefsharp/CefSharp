@@ -16,6 +16,13 @@ namespace CefSharp
         /// <summary>
         /// Are there any <see cref="ResourceHandler"/>'s registered?
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Implementors must return <see langword="true"/> from this method if the factory is to be used.
+        /// The <see cref="GetResourceRequestHandler"/> method will not be executed if this property returns
+        /// <see langword="false"/>, presumably as an optimisation.
+        /// </para>
+        /// </remarks>
         bool HasHandlers { get; }
 
         /// <summary>
