@@ -14,8 +14,10 @@ namespace CefSharp.Internals
     {
         TryCallMethodResult TryCallMethod(long objectId, string name, object[] parameters);
         Task<TryCallMethodResult> TryCallMethodAsync(long objectId, string name, object[] parameters);
+#if !NETCOREAPP
         bool TryGetProperty(long objectId, string name, out object result, out string exception);
         bool TrySetProperty(long objectId, string name, object value, out string exception);
+#endif
         bool IsBrowserInitialized { get; set; }
         List<JavascriptObject> GetObjects(List<string> names = null);
         List<JavascriptObject> GetLegacyBoundObjects();

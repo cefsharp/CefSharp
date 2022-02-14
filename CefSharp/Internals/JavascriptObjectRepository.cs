@@ -250,6 +250,9 @@ namespace CefSharp.Internals
             jsObject.IsAsync = isAsync;
             jsObject.Binder = options?.Binder;
             jsObject.MethodInterceptor = options?.MethodInterceptor;
+#if !NETCOREAPP
+            jsObject.PropertyInterceptor = options?.PropertyInterceptor;
+#endif
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false);
         }
@@ -562,6 +565,7 @@ namespace CefSharp.Internals
             return new TryCallMethodResult(false, result, exception);
         }
 
+#if !NETCOREAPP
         bool IJavascriptObjectRepositoryInternal.TryGetProperty(long objectId, string name, out object result, out string exception)
         {
             return TryGetProperty(objectId, name, out result, out exception);
@@ -585,8 +589,14 @@ namespace CefSharp.Internals
 
             try
             {
-                result = property.GetValue(obj.Value);
-
+                if (obj.PropertyInterceptor == null)
+                {
+                    result = property.GetValue(obj.Value);
+                }
+                else
+                {
+                    result = obj.PropertyInterceptor.InterceptGet(() => property.GetValue(obj.Value), property.ManagedName);
+                }
                 return true;
             }
             catch (Exception ex)
@@ -596,7 +606,9 @@ namespace CefSharp.Internals
 
             return false;
         }
+#endif
 
+#if !NETCOREAPP
         bool IJavascriptObjectRepositoryInternal.TrySetProperty(long objectId, string name, object value, out string exception)
         {
             return TrySetProperty(objectId, name, value, out exception);
@@ -618,8 +630,14 @@ namespace CefSharp.Internals
             }
             try
             {
-                property.SetValue(obj.Value, value);
-
+                if (obj.PropertyInterceptor == null)
+                {
+                    property.SetValue(obj.Value, value);
+                }
+                else
+                {
+                    obj.PropertyInterceptor.InterceptSet((p) => property.SetValue(obj.Value, p), value, property.ManagedName);
+                }
                 return true;
             }
             catch (Exception ex)
@@ -629,6 +647,8 @@ namespace CefSharp.Internals
 
             return false;
         }
+#endif
+
 
         /// <summary>
         /// Analyse the object and generate metadata which will
