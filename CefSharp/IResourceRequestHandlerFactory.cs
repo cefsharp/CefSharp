@@ -14,14 +14,12 @@ namespace CefSharp
     public interface IResourceRequestHandlerFactory
     {
         /// <summary>
-        /// Are there any <see cref="ResourceHandler"/>'s registered?
+        /// Return <see langword="true"/> to have <see cref="GetResourceRequestHandler(IWebBrowser, IBrowser, IFrame, IRequest, bool, bool, string, ref bool)"/>
+        /// called for every resource request. Otherwise return <see langword="false"/>.
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// Implementors must return <see langword="true"/> from this method if the factory is to be used.
-        /// The <see cref="GetResourceRequestHandler"/> method will not be executed if this property returns
-        /// <see langword="false"/>, presumably as an optimisation.
-        /// </para>
+        /// If you return <see langword="false"/> then <see cref="GetResourceRequestHandler(IWebBrowser, IBrowser, IFrame, IRequest, bool, bool, string, ref bool)"/>
+        /// will not be called.
         /// </remarks>
         bool HasHandlers { get; }
 
