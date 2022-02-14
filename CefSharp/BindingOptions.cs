@@ -29,5 +29,14 @@ namespace CefSharp
         /// for logging calls (from js) to .net methods.
         /// </summary>
         public IMethodInterceptor MethodInterceptor { get; set; }
+
+#if !NETCOREAPP
+        /// <summary>
+        /// Interceptor used for intercepting get/set calls to the target object property. For instance, can be used 
+        /// for logging calls to .net property (from js)
+        /// </summary>
+        public IPropertyInterceptor PropertyInterceptor { get; set; }
+#endif
+
     }
 }
