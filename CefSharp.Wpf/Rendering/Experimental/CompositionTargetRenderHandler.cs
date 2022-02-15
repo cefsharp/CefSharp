@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Rect = CefSharp.Structs.Rect;
 
 namespace CefSharp.Wpf.Rendering.Experimental
@@ -109,7 +108,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
 
         private void UpdateImage(PaintElement element)
         {
-            if (element.IsDirty && element.Image != null)
+            if (element != null && element.IsDirty && element.Image != null)
             {
                 var bitmap = element.Image.Source as WriteableBitmap;
                 if (bitmap == null || bitmap.PixelWidth != element.Width || bitmap.PixelHeight != element.Height)
