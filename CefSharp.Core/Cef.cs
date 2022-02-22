@@ -572,9 +572,11 @@ namespace CefSharp
         /// <summary>
         /// Sets or clears a specific key-value pair from the crash metadata.
         /// </summary>
-        public static void SetCrashKeyValue(string c, string value)
+        /// <param name="key">key</param>
+        /// <param name="value">value</param>
+        public static void SetCrashKeyValue(string key, string value)
         {
-            Core.Cef.SetCrashKeyValue(value, value);
+            Core.Cef.SetCrashKeyValue(key, value);
         }
 
         /// <summary>
