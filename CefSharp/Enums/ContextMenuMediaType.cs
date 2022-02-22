@@ -26,6 +26,10 @@ namespace CefSharp
         /// </summary>
         Audio,
         /// <summary>
+        /// An canvas node is selected
+        /// </summary>
+        Canvas,
+        /// <summary>
         /// A file node is selected.
         /// </summary>
         File,

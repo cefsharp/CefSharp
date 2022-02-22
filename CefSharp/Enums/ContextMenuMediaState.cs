@@ -7,7 +7,9 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Supported context menu media state bit flags.
+    /// Supported context menu media state bit flags. These constants match their
+    /// equivalents in Chromium's ContextMenuData::MediaFlags and should not be
+    /// renumbered.
     /// </summary>
     [Flags]
     public enum ContextMenuMediaState
@@ -41,13 +43,13 @@ namespace CefSharp
         /// </summary>
         HasAudio = 1 << 5,
         /// <summary>
-        /// HasVideo
+        /// Can Toggle Controls
         /// </summary>
-        HasVideo = 1 << 6,
+        CanToggleControls = 1 << 6,
         /// <summary>
-        /// ControlRootElement
+        /// Controls
         /// </summary>
-        ControlRootElement = 1 << 7,
+        Controls = 1 << 7,
         /// <summary>
         /// CanPrint
         /// </summary>
@@ -56,5 +58,17 @@ namespace CefSharp
         /// CanRotate
         /// </summary>
         CanRotate = 1 << 9,
+        /// <summary>
+        /// CanPictureInPicture
+        /// </summary>
+        CanPictureInPicture = 1 << 10,
+        /// <summary>
+        /// PictureInPicture
+        /// </summary>
+        PictureInPicture = 1 << 11,
+        /// <summary>
+        /// CanLoop
+        /// </summary>
+        CanLoop = 1 << 12,
     }
 }
