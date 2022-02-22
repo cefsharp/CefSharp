@@ -48,5 +48,9 @@ namespace CefSharp
         /// A binary constant representing the can translate flag.
         /// </summary>
         CanTranslate = 1 << 7,
+        /// <summary>
+        /// A binary constant representing the can edit richly flag.
+        /// </summary>
+        CanEditRichly = 1 << 8,
     }
 }
