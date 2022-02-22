@@ -105,7 +105,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Set to true to have the browser process message loop run in a separate thread. If false than the CefDoMessageLoopWork()
+        /// Set to true to have the browser process message loop run in a separate thread. If false then the CefDoMessageLoopWork()
         /// function must be called from your application message loop. This option is only supported on Windows. The default value is
         /// true.
         /// </summary>
