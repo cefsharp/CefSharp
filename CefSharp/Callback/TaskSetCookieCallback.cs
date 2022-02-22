@@ -11,7 +11,7 @@ namespace CefSharp
     /// <summary>
     /// Provides a callback implementation of <see cref="ISetCookieCallback"/>.
     /// </summary>
-    public class TaskSetCookieCallback : ISetCookieCallback
+    public sealed class TaskSetCookieCallback : ISetCookieCallback
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource;
         private volatile bool isDisposed;

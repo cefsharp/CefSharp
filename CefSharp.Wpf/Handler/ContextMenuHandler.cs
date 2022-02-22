@@ -305,7 +305,7 @@ namespace CefSharp.Wpf.Handler
 
                 var subItems = model.GetSubMenuAt(i);
 
-                IList<MenuModel> subMenus = subItems == null ? null : GetMenuItems(subItems);
+                var subMenus = subItems == null ? null : GetMenuItems(subItems);
 
                 var menuItem = new MenuModel
                 {

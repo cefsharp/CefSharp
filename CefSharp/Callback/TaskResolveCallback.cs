@@ -12,7 +12,7 @@ namespace CefSharp
     /// <summary>
     /// Provides a callback implementation of <see cref="IResolveCallback"/>.
     /// </summary>
-    public class TaskResolveCallback : IResolveCallback
+    public sealed class TaskResolveCallback : IResolveCallback
     {
         private readonly TaskCompletionSource<ResolveCallbackResult> taskCompletionSource;
         private volatile bool isDisposed;

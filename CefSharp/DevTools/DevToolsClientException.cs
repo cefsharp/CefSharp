@@ -3,12 +3,14 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Runtime.Serialization;
 
 namespace CefSharp.DevTools
 {
     /// <summary>
     /// The exception that is thrown when there's a problem executing a DevTools protocol method.
     /// </summary>
+    [Serializable]
     public class DevToolsClientException : Exception
     {
         /// <summary>
@@ -53,6 +55,12 @@ namespace CefSharp.DevTools
         /// <param name="inner">inner exception</param>
         public DevToolsClientException(string message, Exception inner) : base(message, inner)
         {
+        }
+
+        /// <inheritdoc/>
+        protected DevToolsClientException(SerializationInfo serializationInfo, StreamingContext streamingContext) : base(serializationInfo, streamingContext)
+        {
+            
         }
     }
 }

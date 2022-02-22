@@ -58,8 +58,7 @@ namespace CefSharp
         /// <returns>returns true if successfully removed</returns>
         public virtual bool UnregisterHandler(string url)
         {
-            ResourceRequestHandlerFactoryItem entry;
-            return Handlers.TryRemove(url, out entry);
+            return Handlers.TryRemove(url, out _);
         }
 
         /// <summary>
