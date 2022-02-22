@@ -525,7 +525,7 @@ namespace CefSharp.WinForms.Example
         {
             if (!string.IsNullOrEmpty(findTextBox.Text))
             {
-                Browser.Find(0, findTextBox.Text, next, false, false);
+                Browser.Find(findTextBox.Text, next, false, false);
             }
         }
 

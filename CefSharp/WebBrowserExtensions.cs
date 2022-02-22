@@ -957,34 +957,32 @@ namespace CefSharp
         /// Search for text within the current page.
         /// </summary>
         /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
-        /// <param name="identifier">Can be used in can conjunction with searchText to have multiple searches running simultaneously.</param>
         /// <param name="searchText">search text.</param>
         /// <param name="forward">indicates whether to search forward or backward within the page.</param>
         /// <param name="matchCase">indicates whether the search should be case-sensitive.</param>
         /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
-        public static void Find(this IBrowser cefBrowser, int identifier, string searchText, bool forward, bool matchCase, bool findNext)
+        public static void Find(this IBrowser cefBrowser, string searchText, bool forward, bool matchCase, bool findNext)
         {
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
-            host.Find(identifier, searchText, forward, matchCase, findNext);
+            host.Find(searchText, forward, matchCase, findNext);
         }
 
         /// <summary>
         /// Search for text within the current page.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        /// <param name="identifier">Can be used in can conjunction with searchText to have multiple searches running simultaneously.</param>
         /// <param name="searchText">search text.</param>
         /// <param name="forward">indicates whether to search forward or backward within the page.</param>
         /// <param name="matchCase">indicates whether the search should be case-sensitive.</param>
         /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
-        public static void Find(this IChromiumWebBrowserBase browser, int identifier, string searchText, bool forward, bool matchCase, bool findNext)
+        public static void Find(this IChromiumWebBrowserBase browser, string searchText, bool forward, bool matchCase, bool findNext)
         {
             var cefBrowser = browser.BrowserCore;
             cefBrowser.ThrowExceptionIfBrowserNull();
 
-            cefBrowser.Find(identifier, searchText, forward, matchCase, findNext);
+            cefBrowser.Find(searchText, forward, matchCase, findNext);
         }
 
         /// <summary>

@@ -265,7 +265,7 @@ namespace CefSharp.Wpf.Handler
                 }
                 case CefMenuCommand.Find:
                 {
-                    browser.GetHost().Find(0, model.SelectionText, true, false, false);
+                    browser.GetHost().Find(model.SelectionText, true, false, false);
                     break;
                 }
 
