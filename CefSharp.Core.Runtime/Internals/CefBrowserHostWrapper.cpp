@@ -315,11 +315,11 @@ void CefBrowserHostWrapper::RunFileDialog(CefFileDialogMode mode, String^ title,
         new CefRunFileDialogCallbackAdapter(callback));
 }
 
-void CefBrowserHostWrapper::Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)
+void CefBrowserHostWrapper::Find(String^ searchText, bool forward, bool matchCase, bool findNext)
 {
     ThrowIfDisposed();
 
-    _browserHost->Find(identifier, StringUtils::ToNative(searchText), forward, matchCase, findNext);
+    _browserHost->Find(StringUtils::ToNative(searchText), forward, matchCase, findNext);
 }
 
 void CefBrowserHostWrapper::StopFinding(bool clearSelection)
