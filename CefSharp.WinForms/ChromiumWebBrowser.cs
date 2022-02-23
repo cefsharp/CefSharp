@@ -497,7 +497,13 @@ namespace CefSharp.WinForms
         {
             designMode = DesignMode;
 
-            if (!designMode)
+            if(designMode)
+            {
+                //For design mode only we remove our custom ApplicationExit event handler
+                //As we must avoid making all unmanaged calls
+                Application.ApplicationExit -= OnApplicationExit;
+            }
+            else
             {
                 InitializeFieldsAndCefIfRequired();
 
