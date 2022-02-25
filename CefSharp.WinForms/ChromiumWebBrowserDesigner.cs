@@ -4,7 +4,11 @@
 
 using System.Collections;
 using System.Drawing;
+#if NETCOREAPP
+using Microsoft.DotNet.DesignTools.Designers;
+#else
 using System.Windows.Forms.Design;
+#endif
 
 namespace CefSharp.WinForms
 {
