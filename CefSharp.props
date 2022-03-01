@@ -9,22 +9,9 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='17.0'">v143</PlatformToolset>
   
     <!-- TODO: We might need to do something here when VS2019 and VS2022 are installed -->
-	<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-	<!-- <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion> -->
-	<!-- <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='17.0'">10.0</WindowsTargetPlatformVersion> -->
-
-    <CefSharpBrowserSubprocessPostBuildEvent>
-      <![CDATA[
-if $(PlatformName) == x86 (
-  call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat"
-  editbin /largeaddressaware /TSAWARE "$(TargetPath)"  
-  sn -R "$(TargetPath)" "$(ProjectDir)..\CefSharp.snk"
-) else (
-  call "$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat"
-  editbin /TSAWARE "$(TargetPath)"
-)
-]]>
-    </CefSharpBrowserSubprocessPostBuildEvent>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <!-- <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='16.0'">10.0</WindowsTargetPlatformVersion> -->
+    <!-- <WindowsTargetPlatformVersion Condition="'$(VisualStudioVersion)'=='17.0'">10.0</WindowsTargetPlatformVersion> -->
   </PropertyGroup>
 
 </Project>

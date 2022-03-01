@@ -35,6 +35,6 @@
         <None Remove="obj.netcore\**" />
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="if $(PlatformName) == x86 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat&quot;&#xD;&#xA;  editbin /largeaddressaware /TSAWARE &quot;$(TargetPath)&quot;  &#xD;&#xA;  sn -R &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\CefSharp.snk&quot;&#xD;&#xA;) else (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat&quot;&#xD;&#xA;  editbin /TSAWARE &quot;$(TargetPath)&quot;&#xD;&#xA;)" />
+      <Exec Command="if $(PlatformName) == x86 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat&quot;&#xD;&#xA;  editbin /largeaddressaware /TSAWARE &quot;$(TargetPath)&quot;  &#xD;&#xA;  sn -R &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\CefSharp.snk&quot;&#xD;&#xA;) else (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat&quot;&#xD;&#xA;  editbin /TSAWARE /STACK:0x800000 &quot;$(TargetPath)&quot;&#xD;&#xA;  sn -R &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\CefSharp.snk&quot;&#xD;&#xA;)" />
     </Target>
 </Project>
