@@ -489,7 +489,14 @@ namespace CefSharp.WinForms.Example
 
         }
 
-        public async void CopySourceToClipBoardAsync()
+        public async Task HideScrollbarsAsync()
+        {
+            var devTools = Browser.GetDevToolsClient();
+
+            await devTools.Emulation.SetScrollbarsHiddenAsync(true);
+        }
+
+        public async Task CopySourceToClipBoardAsync()
         {
             var htmlSource = await Browser.GetSourceAsync();
 

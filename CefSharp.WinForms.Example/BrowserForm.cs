@@ -642,5 +642,12 @@ namespace CefSharp.WinForms.Example
                 };
             }
         }
+
+        private void HideScrollbarsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+
+            _ = control?.HideScrollbarsAsync();
+        }
     }
 }
