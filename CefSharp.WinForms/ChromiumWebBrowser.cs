@@ -270,12 +270,13 @@ namespace CefSharp.WinForms
         }
 
         /// <summary>
+        /// <strong>Important!!!</strong>
         /// This constructor exists as the WinForms designer requires a parameterless constructor, if you are instantiating
         /// an instance of this class in code then use the <see cref="ChromiumWebBrowser(string, IRequestContext)"/>
         /// constructor overload instead. Using this constructor in code is unsupported and you may experience <see cref="NullReferenceException"/>'s
         /// when attempting to access some of the properties immediately after instantiation. 
         /// </summary>
-        [Obsolete("Should only be used by the WinForms Designer. Use the ChromiumWebBrowser(string, IRequestContext) constructor overload instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public ChromiumWebBrowser()
         {
 
