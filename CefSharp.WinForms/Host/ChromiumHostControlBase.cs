@@ -22,6 +22,7 @@ namespace CefSharp.WinForms.Host
         /// Used for sending messages to the browser
         /// e.g. resize
         /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IntPtr BrowserHwnd { get; set; }
         /// <summary>
         /// Set to true while handing an activating WM_ACTIVATE message.
