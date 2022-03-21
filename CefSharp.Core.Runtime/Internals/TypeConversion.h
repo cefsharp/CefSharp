@@ -9,7 +9,6 @@
 #include "include/internal/cef_ptr.h"
 #include "include\cef_download_item.h"
 #include "include\cef_response.h"
-#include "include\cef_web_plugin.h"
 
 #include "Serialization\ObjectsSerialization.h"
 #include "Serialization\V8Serialization.h"
@@ -86,14 +85,6 @@ namespace CefSharp
                     return Nullable<DateTime>();
                 }
                 return Nullable<DateTime>(DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime());
-            }
-
-            static WebPluginInfo^ FromNative(CefRefPtr<CefWebPluginInfo> webPluginInfo)
-            {
-                return gcnew WebPluginInfo(StringUtils::ToClr(webPluginInfo->GetName()),
-                    StringUtils::ToClr(webPluginInfo->GetDescription()),
-                    StringUtils::ToClr(webPluginInfo->GetPath()),
-                    StringUtils::ToClr(webPluginInfo->GetVersion()));
             }
 
             static IList<DraggableRegion>^ FromNative(const std::vector<CefDraggableRegion>& regions)

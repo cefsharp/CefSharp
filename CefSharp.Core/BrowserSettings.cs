@@ -130,13 +130,6 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
-        public CefState Plugins
-        {
-            get { return settings.Plugins; }
-            set { settings.Plugins = value; }
-        }
-
-        /// <inheritdoc/>
         public CefState ImageLoading
         {
             get { return settings.ImageLoading; }

@@ -10,7 +10,7 @@ namespace CefSharp.Handler
     /// <summary>
     /// Implement this interface to provide handler implementations. The handler
     /// instance will not be released until all objects related to the context have
-    /// been destroyed. Implement this interface to cancel loading of specific plugins
+    /// been destroyed.
     /// </summary>
     public class RequestContextHandler : IRequestContextHandler
     {

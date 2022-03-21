@@ -22,7 +22,6 @@ namespace CefSharp.Example.RequestEventHandler
         public event EventHandler<OnBeforeBrowseEventArgs> OnBeforeBrowseEvent;
         public event EventHandler<OnOpenUrlFromTabEventArgs> OnOpenUrlFromTabEvent;
         public event EventHandler<OnCertificateErrorEventArgs> OnCertificateErrorEvent;
-        public event EventHandler<OnPluginCrashedEventArgs> OnPluginCrashedEvent;
         public event EventHandler<GetAuthCredentialsEventArgs> GetAuthCredentialsEvent;
         public event EventHandler<OnRenderProcessTerminatedEventArgs> OnRenderProcessTerminatedEvent;
         public event EventHandler<OnQuotaRequestEventArgs> OnQuotaRequestEvent;
@@ -53,13 +52,6 @@ namespace CefSharp.Example.RequestEventHandler
 
             EnsureCallbackDisposal(callback);
             return args.ContinueAsync;
-        }
-
-        protected override void OnPluginCrashed(IWebBrowser chromiumWebBrowser, IBrowser browser, string pluginPath)
-        {
-            var args = new OnPluginCrashedEventArgs(chromiumWebBrowser, browser, pluginPath);
-
-            OnPluginCrashedEvent?.Invoke(this, args);
         }
 
         protected override bool GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)

@@ -310,9 +310,6 @@
     <ClInclude Include="Internals\CefSchemeHandlerFactoryAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefWebPluginInfoVisitorAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\CefResourceHandlerAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

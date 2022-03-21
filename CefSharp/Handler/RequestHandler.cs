@@ -217,22 +217,6 @@ namespace CefSharp.Handler
         }
 
         /// <inheritdoc/>
-        void IRequestHandler.OnPluginCrashed(IWebBrowser chromiumWebBrowser, IBrowser browser, string pluginPath)
-        {
-            OnPluginCrashed(chromiumWebBrowser, browser, pluginPath);
-        }
-
-        /// <summary>
-        /// Called when a plugin has crashed.
-        /// </summary>
-        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control.</param>
-        /// <param name="browser">the browser object.</param>
-        /// <param name="pluginPath">path of the plugin that crashed.</param>
-        protected virtual void OnPluginCrashed(IWebBrowser chromiumWebBrowser, IBrowser browser, string pluginPath)
-        {
-        }
-
-        /// <inheritdoc/>
         void IRequestHandler.OnRenderViewReady(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
             OnRenderViewReady(chromiumWebBrowser, browser);

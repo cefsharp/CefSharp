@@ -666,18 +666,6 @@ namespace CefSharp
             return handler->OnQuotaRequest(_browserControl, browserWrapper, StringUtils::ToClr(originUrl), newSize, requestCallback);
         }
 
-        void ClientAdapter::OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path)
-        {
-            auto handler = _browserControl->RequestHandler;
-
-            if (handler != nullptr)
-            {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
-                handler->OnPluginCrashed(_browserControl, browserWrapper, StringUtils::ToClr(plugin_path));
-            }
-        }
-
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
             auto handler = _browserControl->RequestHandler;

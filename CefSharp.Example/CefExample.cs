@@ -29,7 +29,6 @@ namespace CefSharp.Example
         public const string BindingTestsAsyncTaskUrl = BaseUrl + "/BindingTestsAsyncTask.html";
         public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
         public const string PostMessageTestUrl = BaseUrl + "/PostMessageTest.html";
-        public const string PluginsTestUrl = BaseUrl + "/plugins.html";
         public const string PopupTestUrl = BaseUrl + "/PopupTest.html";
         public const string TooltipTestUrl = BaseUrl + "/TooltipTest.html";
         public const string BasicSchemeTestUrl = BaseUrl + "/SchemeTest.html";
@@ -50,7 +49,6 @@ namespace CefSharp.Example
 
         // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
-        private static string PluginInformation = "";
 
         public static void Init(CefSettingsBase settings, IBrowserProcessHandler browserProcessHandler)
         {
@@ -85,9 +83,7 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
             //settings.CefCommandLineArgs.Add("enable-media-stream"); //Enable WebRTC
             //settings.CefCommandLineArgs.Add("no-proxy-server"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
-            //settings.CefCommandLineArgs.Add("debug-plugin-loading"); //Dumps extra logging about plugin loading to the log file.
-            //settings.CefCommandLineArgs.Add("disable-plugins-discovery"); //Disable discovering third-party plugins. Effectively loading only ones shipped with the browser plus third-party ones as specified by --extra-plugin-dir and --load-plugin switches
-            //settings.CefCommandLineArgs.Add("allow-running-insecure-content"); //By default, an https page cannot run JavaScript, CSS or plugins from http URLs. This provides an override to get the old insecure behavior. Only available in 47 and above.
+            //settings.CefCommandLineArgs.Add("allow-running-insecure-content"); //By default, an https page cannot run JavaScript or CSS from http URLs. This provides an override to get the old insecure behavior. Only available in 47 and above.
             //https://peter.sh/experiments/chromium-command-line-switches/#disable-site-isolation-trials
             //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
             //NOTE: Running the Network Service in Process is not something CEF officially supports
@@ -276,48 +272,6 @@ namespace CefSharp.Example
 
                 const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
                 handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.GetByteArray(unicodeResponseBody, Encoding.UTF8));
-
-                if (string.IsNullOrEmpty(PluginInformation))
-                {
-                    var pluginBody = new StringBuilder();
-                    pluginBody.Append("<html><body><h1>Plugins</h1><table>");
-                    pluginBody.Append("<tr>");
-                    pluginBody.Append("<th>Name</th>");
-                    pluginBody.Append("<th>Description</th>");
-                    pluginBody.Append("<th>Version</th>");
-                    pluginBody.Append("<th>Path</th>");
-                    pluginBody.Append("</tr>");
-
-                    var plugins = await Cef.GetPlugins();
-
-                    if (plugins.Count == 0)
-                    {
-                        pluginBody.Append("<tr>");
-                        pluginBody.Append("<td colspan='4'>Cef.GetPlugins returned an empty list - likely no plugins were loaded on your system</td>");
-                        pluginBody.Append("</tr>");
-                        pluginBody.Append("<tr>");
-                        pluginBody.Append("<td colspan='4'>You may find that NPAPI/PPAPI need to be enabled</td>");
-                        pluginBody.Append("</tr>");
-                    }
-                    else
-                    {
-                        foreach (var plugin in plugins)
-                        {
-                            pluginBody.Append("<tr>");
-                            pluginBody.Append("<td>" + plugin.Name + "</td>");
-                            pluginBody.Append("<td>" + plugin.Description + "</td>");
-                            pluginBody.Append("<td>" + plugin.Version + "</td>");
-                            pluginBody.Append("<td>" + plugin.Path + "</td>");
-                            pluginBody.Append("</tr>");
-                        }
-                    }
-
-                    pluginBody.Append("</table></body></html>");
-
-                    PluginInformation = pluginBody.ToString();
-                }
-
-                handler.RegisterHandler(PluginsTestUrl, ResourceHandler.GetByteArray(PluginInformation, Encoding.UTF8));
             }
         }
     }

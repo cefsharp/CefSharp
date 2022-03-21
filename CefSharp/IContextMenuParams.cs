@@ -117,7 +117,7 @@ namespace CefSharp
 
         /// <summary>
         /// Returns true if the context menu contains items specified by the renderer
-        /// process (for example, plugin placeholder or pepper plugin menu items).
+        /// process.
         /// </summary>
         bool IsCustomMenu { get; }
 

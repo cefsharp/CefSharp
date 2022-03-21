@@ -47,7 +47,7 @@ public class SelfHost
     {
         /// <summary>
         /// This function should be called from the application entry point function (typically Program.Main)
-        /// to execute a secondary process e.g. gpu, plugin, renderer, utility
+        /// to execute a secondary process e.g. gpu, renderer, utility
         /// This overload is specifically used for .Net Core. For hosting your own BrowserSubProcess
         /// it's preferable to use the Main method provided by this class.
         /// - Pass in command line args

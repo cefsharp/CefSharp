@@ -136,14 +136,6 @@ namespace CefSharp
         bool OnSelectClientCertificate(IWebBrowser chromiumWebBrowser, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback);
 
         /// <summary>
-        /// Called when a plugin has crashed
-        /// </summary>
-        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
-        /// <param name="browser">the browser object</param>
-        /// <param name="pluginPath">path of the plugin that crashed</param>
-        void OnPluginCrashed(IWebBrowser chromiumWebBrowser, IBrowser browser, string pluginPath);
-
-        /// <summary>
         /// Called on the CEF UI thread when the render view associated
         /// with browser is ready to receive/handle IPC messages in the render
         /// process.

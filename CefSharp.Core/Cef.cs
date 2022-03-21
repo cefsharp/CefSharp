@@ -409,41 +409,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Visit web plugin information. Can be called on any thread in the browser process.
-        /// </summary>
-        public static void VisitWebPluginInfo(IWebPluginInfoVisitor visitor)
-        {
-            Core.Cef.VisitWebPluginInfo(visitor);
-        }
-
-        /// <summary>
-        /// Async returns a list containing Plugin Information
-        /// (Wrapper around CefVisitWebPluginInfo)
-        /// </summary>
-        /// <returns>Returns List of <see cref="WebPluginInfo"/> structs.</returns>
-        public static Task<List<WebPluginInfo>> GetPlugins()
-        {
-            return Core.Cef.GetPlugins();
-        }
-
-        /// <summary>
-        /// Cause the plugin list to refresh the next time it is accessed regardless of whether it has already been loaded.
-        /// </summary>
-        public static void RefreshWebPlugins()
-        {
-            Core.Cef.RefreshWebPlugins();
-        }
-
-        /// <summary>
-        /// Unregister an internal plugin. This may be undone the next time RefreshWebPlugins() is called. 
-        /// </summary>
-        /// <param name="path">Path (directory + file).</param>
-        public static void UnregisterInternalWebPlugin(string path)
-        {
-            Core.Cef.UnregisterInternalWebPlugin(path);
-        }
-
-        /// <summary>
         /// Call during process startup to enable High-DPI support on Windows 7 or newer.
         /// Older versions of Windows should be left DPI-unaware because they do not
         /// support DirectWrite and GDI fonts are kerned very badly.

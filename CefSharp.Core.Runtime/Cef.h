@@ -13,13 +13,11 @@
 #include <msclr/marshal.h>
 #include <include/cef_version.h>
 #include <include/cef_origin_whitelist.h>
-#include <include/cef_web_plugin.h>
 #include <include/cef_crash_util.h>
 #include <include/cef_parser.h>
 #include <include/internal/cef_types.h>
 
 #include "Internals/CefSharpApp.h"
-#include "Internals/CefWebPluginInfoVisitorAdapter.h"
 #include "Internals/CefTaskScheduler.h"
 #include "CookieManager.h"
 #include "CefSettingsBase.h"
@@ -635,46 +633,6 @@ namespace CefSharp
             static bool ClearSchemeHandlerFactories()
             {
                 return CefClearSchemeHandlerFactories();
-            }
-
-            /// <summary>
-            /// Visit web plugin information. Can be called on any thread in the browser process.
-            /// </summary>
-            static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
-            {
-                CefVisitWebPluginInfo(new CefWebPluginInfoVisitorAdapter(visitor));
-            }
-
-            /// <summary>
-            /// Async returns a list containing Plugin Information
-            /// (Wrapper around CefVisitWebPluginInfo)
-            /// </summary>
-            /// <returns>Returns List of <see cref="WebPluginInfo"/> structs.</returns>
-            static Task<List<WebPluginInfo^>^>^ GetPlugins()
-            {
-                auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
-                CefRefPtr<CefWebPluginInfoVisitorAdapter> visitor = new CefWebPluginInfoVisitorAdapter(taskVisitor);
-
-                CefVisitWebPluginInfo(visitor);
-
-                return taskVisitor->Task;
-            }
-
-            /// <summary>
-            /// Cause the plugin list to refresh the next time it is accessed regardless of whether it has already been loaded.
-            /// </summary>
-            static void RefreshWebPlugins()
-            {
-                CefRefreshWebPlugins();
-            }
-
-            /// <summary>
-            /// Unregister an internal plugin. This may be undone the next time RefreshWebPlugins() is called. 
-            /// </summary>
-            /// <param name="path">Path (directory + file).</param>
-            static void UnregisterInternalWebPlugin(String^ path)
-            {
-                CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
             }
 
             /// <summary>

@@ -71,11 +71,6 @@ namespace CefSharp.Example.Handlers
             //return false;
         }
 
-        protected override void OnPluginCrashed(IWebBrowser chromiumWebBrowser, IBrowser browser, string pluginPath)
-        {
-            // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
-        }
-
         protected override bool GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
             //NOTE: We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.

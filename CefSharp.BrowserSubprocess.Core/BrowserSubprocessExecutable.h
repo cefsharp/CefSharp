@@ -30,7 +30,7 @@ namespace CefSharp
 
             /// <summary>
             /// This function should be called from the application entry point function (typically Program.Main)
-            /// to execute a secondary process e.g. gpu, plugin, renderer, utility
+            /// to execute a secondary process e.g. gpu, renderer, utility
             /// This overload is specifically used for .Net Core. For hosting your own BrowserSubProcess
             /// it's preferable to use the Main method provided by this class.
             /// - Obtains the command line args via a call to Environment::GetCommandLineArgs
@@ -49,7 +49,7 @@ namespace CefSharp
 
             /// <summary>
             /// This function should be called from the application entry point function (typically Program.Main)
-            /// to execute a secondary process e.g. gpu, plugin, renderer, utility
+            /// to execute a secondary process e.g. gpu, renderer, utility
             /// This overload is specifically used for .Net Core. For hosting your own BrowserSubProcess
             /// it's preferable to use the Main method provided by this class.
             /// - Obtains the command line args via a call to Environment::GetCommandLineArgs
@@ -72,7 +72,7 @@ namespace CefSharp
 
             /// <summary>
             /// This function should be called from the application entry point function (typically Program.Main)
-            /// to execute a secondary process e.g. gpu, plugin, renderer, utility
+            /// to execute a secondary process e.g. gpu, renderer, utility
             /// It can be used to run secondary processes (BrowserSubProcess) from your main applications executable
             /// or from a separate executable specified by the CefSettings.BrowserSubprocessPath value.
             /// CefSharp defaults to using the latter approach, a default implementation (CefSharp.BrowserSubProcess.exe) is
@@ -91,7 +91,7 @@ namespace CefSharp
 
             /// <summary>
             /// This function should be called from the application entry point function (typically Program.Main)
-            /// to execute a secondary process e.g. gpu, plugin, renderer, utility
+            /// to execute a secondary process e.g. gpu, renderer, utility
             /// It can be used to run secondary processes (BrowserSubProcess) from your main applications executable
             /// or from a separate executable specified by the CefSettings.BrowserSubprocessPath value.
             /// CefSharp defaults to using the latter approach, a default implementation (CefSharp.BrowserSubProcess.exe) is
