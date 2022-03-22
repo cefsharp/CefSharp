@@ -325,6 +325,25 @@ namespace CefSharp.Test.DevTools
         }
 
         [Fact]
+        public async Task CanGetMediaQueries()
+        {
+            using (var browser = new ChromiumWebBrowser("https://cefsharp.github.io/demo/mediaqueryhover.html"))
+            {
+                await browser.WaitForInitialLoadAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    await devToolsClient.DOM.EnableAsync();
+                    await devToolsClient.CSS.EnableAsync();
+
+                    var mediaQueries = await devToolsClient.CSS.GetMediaQueriesAsync();
+
+                    Assert.True(mediaQueries.Medias.Count > 0);
+                }
+            }
+        }
+
+        [Fact]
         public async Task CanRegisterMultipleEventHandlers()
         {
             using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false))
