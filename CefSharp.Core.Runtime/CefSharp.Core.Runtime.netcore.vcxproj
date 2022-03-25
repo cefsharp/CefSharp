@@ -419,7 +419,6 @@
     <ClInclude Include="Internals\JavascriptCallbackFactory.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
     <ClInclude Include="Internals\Messaging\Messages.h" />
-    <ClInclude Include="Internals\CefWebPluginInfoVisitorAdapter.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="Internals\CefRequestCallbackWrapper.h" />

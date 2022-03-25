@@ -72,9 +72,16 @@ namespace CefSharp.Example.Handlers
             using (var context = Cef.GetGlobalRequestContext())
             {
                 string errorMessage;
+
                 //You can set most preferences using a `.` notation rather than having to create a complex set of dictionaries.
-                //The default is true, you can change to false to disable
-                context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
+                //The default is true, you can change to false to disable resizing of text areas
+                //This is just one example, there are many many configuration options avaliable via preferences
+                var success = context.SetPreference("webkit.webprefs.text_areas_are_resizable", true, out errorMessage);
+
+                if(!success)
+                {
+                    //Check the errorMessage for more details
+                }
 
                 //string error;
                 //var dicts = new List<string> { "en-GB", "en-US" };
