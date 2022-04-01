@@ -10,7 +10,8 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks Condition="'$(VisualStudioVersion)'=='17.0'">$(TargetFrameworks);net6.0-windows</TargetFrameworks>
     <RootNamespace>CefSharp.Wpf</RootNamespace>
     <AssemblyName>CefSharp.Wpf</AssemblyName>
     <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>

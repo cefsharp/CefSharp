@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
        to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
@@ -11,7 +11,8 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
+        <TargetFrameworks Condition="'$(VisualStudioVersion)'=='17.0'">$(TargetFrameworks);net6.0-windows</TargetFrameworks>
         <RootNamespace>CefSharp.WinForms.Example</RootNamespace>
         <AssemblyName>CefSharp.WinForms.Example</AssemblyName>
         <UseWindowsForms>true</UseWindowsForms>
