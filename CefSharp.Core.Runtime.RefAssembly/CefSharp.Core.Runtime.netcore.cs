@@ -178,6 +178,7 @@ namespace CefSharp.Core
     {
         public NativeMethodWrapper() { }
         public static bool IsFocused(System.IntPtr handle) { throw null; }
+        public static System.IntPtr LoadCursorFromLibCef(int resourceIdentifier) { throw null; }
         public static void MemoryCopy(System.IntPtr dest, System.IntPtr src, int numberOfBytes) { }
         public static void RemoveExNoActivateStyle(System.IntPtr browserHwnd) { }
         public static void SetWindowParent(System.IntPtr child, System.IntPtr newParent) { }
