@@ -60,5 +60,23 @@ namespace CefSharp
                 SetWindowLongPtr(hwnd, GWL_EXSTYLE, exStyle & ~WS_EX_NOACTIVATE);
             }
         }
+
+        IntPtr NativeMethodWrapper::LoadCursorFromLibCef(int resourceIdentifier)
+        {
+            auto moduleName = L"libcef.dll";
+
+            HMODULE hModule = GetModuleHandle(moduleName);
+
+            if (hModule == nullptr)
+            {
+                return IntPtr::Zero;
+            }
+
+            auto lpCursorName = MAKEINTRESOURCE(resourceIdentifier);
+
+            auto cursor = LoadCursor(hModule, lpCursorName);
+
+            return static_cast<IntPtr>(cursor);
+        }        
     }
 }

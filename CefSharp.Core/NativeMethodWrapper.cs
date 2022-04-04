@@ -38,5 +38,10 @@ namespace CefSharp
         {
             CefSharp.Core.NativeMethodWrapper.RemoveExNoActivateStyle(browserHwnd);
         }
+
+        public static IntPtr LoadCursorFromLibCef(int resourceIdentifier)
+        {
+            return CefSharp.Core.NativeMethodWrapper.LoadCursorFromLibCef(resourceIdentifier);
+        }
     }
 }
