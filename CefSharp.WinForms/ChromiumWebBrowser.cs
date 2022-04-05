@@ -490,6 +490,36 @@ namespace CefSharp.WinForms
             }
         }
 
+        
+        /// <summary>
+        ///  Indicates if one of the Ancestors of this control is sited
+        ///  and that site in DesignMode.
+        /// </summary>
+        // Roughly based on https://github.com/dotnet/winforms/pull/5375
+        private bool IsParentInDesignMode(Control control)
+        {
+            if(control == null)
+            {
+                throw new ArgumentNullException(nameof(control));
+            }
+
+            //Check if our Site is in DesignMode
+            //If not then walk up the tree
+            //Until we find a Site that is or our parent is null
+            if(control.Site?.DesignMode ?? false)
+            {
+                return true;
+            }
+
+            if(control.Parent == null)
+            {
+                return false;
+            }
+
+            return IsParentInDesignMode(control.Parent);
+        }
+
+
         /// <summary>
         /// Raises the <see cref="E:System.Windows.Forms.Control.HandleCreated" /> event.
         /// </summary>
@@ -497,6 +527,20 @@ namespace CefSharp.WinForms
         protected override void OnHandleCreated(EventArgs e)
         {
             designMode = DesignMode;
+
+            //Check if our Parent is in design mode.
+            if (!designMode)
+            {
+                try
+                {
+                    designMode = IsParentInDesignMode(this);
+                }
+                catch (Exception)
+                {
+                    //TODO: We should log the exception
+                    //Need to provide a wrapper around CEF Log first
+                }
+            }
 
             if(designMode)
             {
