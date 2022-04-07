@@ -86,48 +86,49 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 **&ast;** VC++ 2019 is required starting with version 93<br/>
 **&ast;&ast;** For .Net Core Packages .Net Core 3.1/.Net 5.0 is required. 
 
-| Branch                                                               | CEF Version  | VC++ Version | .Net Version | Status |
-|----------------------------------------------------------------------|------|-------|---------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                      | 4896 | 2019* | 4.5.2** | Development     |
-| [cefsharp/99](https://github.com/cefsharp/CefSharp/tree/cefsharp/99) | 4844 | 2019* | 4.5.2** | **Release**     |
-| [cefsharp/98](https://github.com/cefsharp/CefSharp/tree/cefsharp/98) | 4758 | 2019* | 4.5.2** | Unsupported     |
-| [cefsharp/97](https://github.com/cefsharp/CefSharp/tree/cefsharp/97) | 4692 | 2019* | 4.5.2** | Unsupported     |
-| [cefsharp/96](https://github.com/cefsharp/CefSharp/tree/cefsharp/96) | 4664 | 2019* | 4.5.2** | Unsupported     |
-| [cefsharp/95](https://github.com/cefsharp/CefSharp/tree/cefsharp/95) | 4638 | 2019* | 4.5.2** | Unsupported     |
-| [cefsharp/94](https://github.com/cefsharp/CefSharp/tree/cefsharp/94) | 4606 | 2019* | 4.5.2** | Unsupported     |
-| [cefsharp/93](https://github.com/cefsharp/CefSharp/tree/cefsharp/93) | 4577 | 2019* | 4.5.2** | Unsupported     |
-| [cefsharp/92](https://github.com/cefsharp/CefSharp/tree/cefsharp/92) | 4515 | 2015* | 4.5.2** | Unsupported     |
-| [cefsharp/91](https://github.com/cefsharp/CefSharp/tree/cefsharp/91) | 4472 | 2015* | 4.5.2** | Unsupported     |
-| [cefsharp/90](https://github.com/cefsharp/CefSharp/tree/cefsharp/90) | 4430 | 2015* | 4.5.2** | Unsupported     |
-| [cefsharp/89](https://github.com/cefsharp/CefSharp/tree/cefsharp/89) | 4389 | 2015* | 4.5.2** | Unsupported     |
-| [cefsharp/88](https://github.com/cefsharp/CefSharp/tree/cefsharp/88) | 4324 | 2015* | 4.5.2** | Unsupported     |
-| [cefsharp/87](https://github.com/cefsharp/CefSharp/tree/cefsharp/87) | 4280 | 2015* | 4.5.2** | Unsupported     |
-| [cefsharp/86](https://github.com/cefsharp/CefSharp/tree/cefsharp/86) | 4240 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/85](https://github.com/cefsharp/CefSharp/tree/cefsharp/85) | 4183 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/84](https://github.com/cefsharp/CefSharp/tree/cefsharp/84) | 4147 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/83](https://github.com/cefsharp/CefSharp/tree/cefsharp/83) | 4103 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/81](https://github.com/cefsharp/CefSharp/tree/cefsharp/81) | 4044 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/79](https://github.com/cefsharp/CefSharp/tree/cefsharp/79) | 3945 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/77](https://github.com/cefsharp/CefSharp/tree/cefsharp/77) | 3865 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/75](https://github.com/cefsharp/CefSharp/tree/cefsharp/75) | 3770 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/73](https://github.com/cefsharp/CefSharp/tree/cefsharp/73) | 3683 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/71](https://github.com/cefsharp/CefSharp/tree/cefsharp/71) | 3578 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/69](https://github.com/cefsharp/CefSharp/tree/cefsharp/69) | 3497 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/67](https://github.com/cefsharp/CefSharp/tree/cefsharp/67) | 3396 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/65](https://github.com/cefsharp/CefSharp/tree/cefsharp/65) | 3325 | 2015  | 4.5.2   | Unsupported     |
-| [cefsharp/63](https://github.com/cefsharp/CefSharp/tree/cefsharp/63) | 3239 | 2013  | 4.5.2   | Unsupported     |
-| [cefsharp/62](https://github.com/cefsharp/CefSharp/tree/cefsharp/62) | 3202 | 2013  | 4.5.2   | Unsupported     |
-| [cefsharp/57](https://github.com/cefsharp/CefSharp/tree/cefsharp/57) | 2987 | 2013  | 4.5.2   | Unsupported     |
-| [cefsharp/55](https://github.com/cefsharp/CefSharp/tree/cefsharp/55) | 2883 | 2013  | 4.5.2   | Unsupported     |
-| [cefsharp/53](https://github.com/cefsharp/CefSharp/tree/cefsharp/53) | 2785 | 2013  | 4.5.2   | Unsupported     |
-| [cefsharp/51](https://github.com/cefsharp/CefSharp/tree/cefsharp/51) | 2704 | 2013  | 4.5.2   | Unsupported     |
-| [cefsharp/49](https://github.com/cefsharp/CefSharp/tree/cefsharp/49) | 2623 | 2013  | 4.0     | Unsupported     |
-| [cefsharp/47](https://github.com/cefsharp/CefSharp/tree/cefsharp/47) | 2526 | 2013  | 4.0     | Unsupported     |
-| [cefsharp/45](https://github.com/cefsharp/CefSharp/tree/cefsharp/45) | 2454 | 2013  | 4.0     | Unsupported     |
-| [cefsharp/43](https://github.com/cefsharp/CefSharp/tree/cefsharp/43) | 2357 | 2012  | 4.0     | Unsupported     |
-| [cefsharp/41](https://github.com/cefsharp/CefSharp/tree/cefsharp/41) | 2272 | 2012  | 4.0     | Unsupported     |
-| [cefsharp/39](https://github.com/cefsharp/CefSharp/tree/cefsharp/39) | 2171 | 2012  | 4.0     | Unsupported     |
-| [cefsharp/37](https://github.com/cefsharp/CefSharp/tree/cefsharp/37) | 2062 | 2012  | 4.0     | Unsupported     |
+| Branch                                                                | CEF Version  | VC++ Version | .Net Version | Status |
+|-----------------------------------------------------------------------|------|-------|---------|-----------------|
+| [master](https://github.com/cefsharp/CefSharp/)                       | 4896 | 2019* | 4.5.2** | Development     |
+| [cefsharp/100](https://github.com/cefsharp/CefSharp/tree/cefsharp/100)| 4896 | 2019* | 4.5.2** | **Release**     |
+| [cefsharp/99](https://github.com/cefsharp/CefSharp/tree/cefsharp/99)  | 4844 | 2019* | 4.5.2** | Unsupported     |
+| [cefsharp/98](https://github.com/cefsharp/CefSharp/tree/cefsharp/98)  | 4758 | 2019* | 4.5.2** | Unsupported     |
+| [cefsharp/97](https://github.com/cefsharp/CefSharp/tree/cefsharp/97)  | 4692 | 2019* | 4.5.2** | Unsupported     |
+| [cefsharp/96](https://github.com/cefsharp/CefSharp/tree/cefsharp/96)  | 4664 | 2019* | 4.5.2** | Unsupported     |
+| [cefsharp/95](https://github.com/cefsharp/CefSharp/tree/cefsharp/95)  | 4638 | 2019* | 4.5.2** | Unsupported     |
+| [cefsharp/94](https://github.com/cefsharp/CefSharp/tree/cefsharp/94)  | 4606 | 2019* | 4.5.2** | Unsupported     |
+| [cefsharp/93](https://github.com/cefsharp/CefSharp/tree/cefsharp/93)  | 4577 | 2019* | 4.5.2** | Unsupported     |
+| [cefsharp/92](https://github.com/cefsharp/CefSharp/tree/cefsharp/92)  | 4515 | 2015* | 4.5.2** | Unsupported     |
+| [cefsharp/91](https://github.com/cefsharp/CefSharp/tree/cefsharp/91)  | 4472 | 2015* | 4.5.2** | Unsupported     |
+| [cefsharp/90](https://github.com/cefsharp/CefSharp/tree/cefsharp/90)  | 4430 | 2015* | 4.5.2** | Unsupported     |
+| [cefsharp/89](https://github.com/cefsharp/CefSharp/tree/cefsharp/89)  | 4389 | 2015* | 4.5.2** | Unsupported     |
+| [cefsharp/88](https://github.com/cefsharp/CefSharp/tree/cefsharp/88)  | 4324 | 2015* | 4.5.2** | Unsupported     |
+| [cefsharp/87](https://github.com/cefsharp/CefSharp/tree/cefsharp/87)  | 4280 | 2015* | 4.5.2** | Unsupported     |
+| [cefsharp/86](https://github.com/cefsharp/CefSharp/tree/cefsharp/86)  | 4240 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/85](https://github.com/cefsharp/CefSharp/tree/cefsharp/85)  | 4183 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/84](https://github.com/cefsharp/CefSharp/tree/cefsharp/84)  | 4147 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/83](https://github.com/cefsharp/CefSharp/tree/cefsharp/83)  | 4103 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/81](https://github.com/cefsharp/CefSharp/tree/cefsharp/81)  | 4044 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/79](https://github.com/cefsharp/CefSharp/tree/cefsharp/79)  | 3945 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/77](https://github.com/cefsharp/CefSharp/tree/cefsharp/77)  | 3865 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/75](https://github.com/cefsharp/CefSharp/tree/cefsharp/75)  | 3770 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/73](https://github.com/cefsharp/CefSharp/tree/cefsharp/73)  | 3683 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/71](https://github.com/cefsharp/CefSharp/tree/cefsharp/71)  | 3578 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/69](https://github.com/cefsharp/CefSharp/tree/cefsharp/69)  | 3497 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/67](https://github.com/cefsharp/CefSharp/tree/cefsharp/67)  | 3396 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/65](https://github.com/cefsharp/CefSharp/tree/cefsharp/65)  | 3325 | 2015  | 4.5.2   | Unsupported     |
+| [cefsharp/63](https://github.com/cefsharp/CefSharp/tree/cefsharp/63)  | 3239 | 2013  | 4.5.2   | Unsupported     |
+| [cefsharp/62](https://github.com/cefsharp/CefSharp/tree/cefsharp/62)  | 3202 | 2013  | 4.5.2   | Unsupported     |
+| [cefsharp/57](https://github.com/cefsharp/CefSharp/tree/cefsharp/57)  | 2987 | 2013  | 4.5.2   | Unsupported     |
+| [cefsharp/55](https://github.com/cefsharp/CefSharp/tree/cefsharp/55)  | 2883 | 2013  | 4.5.2   | Unsupported     |
+| [cefsharp/53](https://github.com/cefsharp/CefSharp/tree/cefsharp/53)  | 2785 | 2013  | 4.5.2   | Unsupported     |
+| [cefsharp/51](https://github.com/cefsharp/CefSharp/tree/cefsharp/51)  | 2704 | 2013  | 4.5.2   | Unsupported     |
+| [cefsharp/49](https://github.com/cefsharp/CefSharp/tree/cefsharp/49)  | 2623 | 2013  | 4.0     | Unsupported     |
+| [cefsharp/47](https://github.com/cefsharp/CefSharp/tree/cefsharp/47)  | 2526 | 2013  | 4.0     | Unsupported     |
+| [cefsharp/45](https://github.com/cefsharp/CefSharp/tree/cefsharp/45)  | 2454 | 2013  | 4.0     | Unsupported     |
+| [cefsharp/43](https://github.com/cefsharp/CefSharp/tree/cefsharp/43)  | 2357 | 2012  | 4.0     | Unsupported     |
+| [cefsharp/41](https://github.com/cefsharp/CefSharp/tree/cefsharp/41)  | 2272 | 2012  | 4.0     | Unsupported     |
+| [cefsharp/39](https://github.com/cefsharp/CefSharp/tree/cefsharp/39)  | 2171 | 2012  | 4.0     | Unsupported     |
+| [cefsharp/37](https://github.com/cefsharp/CefSharp/tree/cefsharp/37)  | 2062 | 2012  | 4.0     | Unsupported     |
 
 **&ast;** VC++ 2019 is required starting with version 93<br/>
 **&ast;&ast;** For .Net Core Packages .Net Core 3.1/.Net 5.0 is required. 
