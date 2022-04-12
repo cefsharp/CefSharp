@@ -894,6 +894,23 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Gets the RequestContext associated with the <see cref="IChromiumWebBrowserBase"/> instance.
+        /// </summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <returns>
+        /// RequestContext
+        /// </returns>
+        public static IRequestContext GetRequestContext(this IChromiumWebBrowserBase browser)
+        {
+            var host = browser.GetBrowserHost();
+
+            ThrowExceptionIfBrowserHostNull(host);
+
+            return host.RequestContext;
+        }
+
+        /// <summary>
         /// Asynchronously gets the current Zoom Level.
         /// </summary>
         /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
