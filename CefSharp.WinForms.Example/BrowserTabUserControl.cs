@@ -309,9 +309,7 @@ namespace CefSharp.WinForms.Example
 
         private void OnIsBrowserInitializedChanged(object sender, EventArgs e)
         {
-            //Get the underlying browser host wrapper
-            var browserHost = Browser.BrowserCore.GetHost();
-            var requestContext = browserHost.RequestContext;
+            var requestContext = Browser.GetRequestContext();
             string errorMessage;
             // Browser must be initialized before getting/setting preferences
             var success = requestContext.SetPreference("enable_do_not_track", true, out errorMessage);

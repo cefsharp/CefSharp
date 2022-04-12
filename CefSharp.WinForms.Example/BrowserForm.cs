@@ -570,7 +570,7 @@ namespace CefSharp.WinForms.Example
                 //The sample extension only works for http(s) schemes
                 if (control.Browser.GetMainFrame().Url.StartsWith("http"))
                 {
-                    var requestContext = control.Browser.GetBrowserHost().RequestContext;
+                    var requestContext = control.Browser.GetRequestContext();
 
                     const string cefSharpExampleResourcesFolder =
 #if !NETCOREAPP
