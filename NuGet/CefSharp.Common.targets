@@ -58,6 +58,7 @@
     <Message Importance="high" Text="CefSharpTargetDir = $(CefSharpTargetDir)" />
     <Message Importance="high" Text="CefSharpTargetDirAnyCpu32 = $(CefSharpTargetDirAnyCpu32)" />
     <Message Importance="high" Text="CefSharpTargetDirAnyCpu64 = $(CefSharpTargetDirAnyCpu64)" />
+	<Message Importance="high" Text="CefSharpAnyCpuSupport = $(CefSharpAnyCpuSupport)" />
     <Message Importance="high" Text="RuntimeIdentifier = $(RuntimeIdentifier)" />
     <Message Importance="high" Text="EffectivePlatform = $(EffectivePlatform)" />
     <Message Importance="high" Text="Platform = $(Platform)" />
