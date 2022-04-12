@@ -96,16 +96,21 @@
   <PropertyGroup>
     <!--
     Allowable options are None, Content, NoAction.
-    None is the default (same as selecting the None Build Action in Visual Studio) for Nuget packages.config
-    Content is the default (same as selecting the None Build Action in Visual Studio) for Nuget PackageReference
+    
+	None is the default (same as selecting the None Build Action in Visual Studio) for Nuget packages.config
+	for WinExe/Exe projects (anything that's not Library) see https://github.com/cefsharp/CefSharp/issues/4062
+	None will copy the dependenceis to a directly referencing project file which is useful for library projects
+	that target packages.config as buildTransitive is not supported.
+	
+    Content is the default (same as selecting the Content Build Action in Visual Studio) for Nuget PackageReference
+	and WinExe/Exe projects (anything that's not Library)
     Technically the older Non-SDK Style project can use PackageReference under VS2019 (possibly VS2017 as well),
     so we use NuGetProjectStyle which is defined in the .nuget.g.props file for projects using PackageReference.
-    For Library projects with Nuget supports buildTransitive we don't include our additional files and packages, the transitive reference should flow directly to the consuming projects.
     For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are x64 or x86 the resulting build output
-    is polluted with extra copies in sub folders.
+    is polluted with extra copies in sub folders. Set CefSharpBuildAction to NoAction to avoid copying the files.	
     -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' != 'PackageReference'">None</CefSharpBuildAction>
-    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' == 'PackageReference'">Content</CefSharpBuildAction>
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND ('$(NuGetProjectStyle)' == 'PackageReference' OR '$(OutputType)' != 'Library')">Content</CefSharpBuildAction>
     
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''"></CefSharpTargetDir>
     <!-- Ideally we could use EnsureTrailingSlash, was only added on 2017 so unlikely supported in older version of VS -->
