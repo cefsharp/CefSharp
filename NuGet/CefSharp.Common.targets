@@ -138,16 +138,6 @@
     https://github.com/dotnet/project-system/issues/4158
     -->
     <CefSharpPropertiesLoaded>true</CefSharpPropertiesLoaded>
-    
-    <!--
-    For PackageReference library projects where buildTransitive is supported we'll default to setting CefSharpAnyCpuSupport to true
-    This should only require WinExe and Exe projects to specify CefSharpAnyCpuSupport rather than every project in a solution.
-    Only for PackageReference projects where NuGetToolVersion > 5.0 and OutputType is library.
-    Defaulting CefSharpAnyCpuSupport to true is simpler than modifying the already complex Condition for the CefSharpPlatformCheck
-    target below.
-    https://github.com/cefsharp/CefSharp/issues/3622
-    -->
-    <CefSharpAnyCpuSupport Condition="'$(CefSharpAnyCpuSupport)' != 'true' AND '$(NuGetProjectStyle)' == 'PackageReference' AND $(NuGetToolVersion) > '5.0' AND '$(OutputType)' == 'Library'">true</CefSharpAnyCpuSupport>
   </PropertyGroup>
   
   <Choose>
@@ -359,18 +349,15 @@
   </Choose>
   
   <!--
+  This Transform is no longer used by default, the project was changed to use a ModuleInitializer to resolve the references
+  at runtime. The transform remains here for anyone wishing to manually call
   For AnyCPU we use a Transform to add entries to app.config if possible
-  Otherwise throw error to alert user they need to perform additional action
   --> 
   <UsingTask TaskName="TransformXml" AssemblyFile="$(CefSharpTransformXmlDllPath)" Condition="Exists('$(CefSharpTransformXmlDllPath)') AND '$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == '' AND '$(CefSharpBuildAction)' != 'NoAction'" />
   
-  <Target Name="CefSharpCommonAnyCPUConfigTransform" AfterTargets="_CopyAppConfigFile" Condition="'@(AppConfigWithTargetPath)' != '' AND Exists('$(CefSharpTransformXmlDllPath)') AND '$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' == '' AND '$(CefSharpBuildAction)' != 'NoAction'">
+  <Target Name="CefSharpCommonAnyCPUConfigTransform">
     <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)..\build\app.config.x86.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
     <TransformXml Source="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" Transform="$(MSBuildThisFileDirectory)..\build\app.config.x64.transform" Destination="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')"/>
-  </Target>
-  
-  <Target Name="CefSharpPlatformCheck" BeforeTargets="ResolveAssemblyReferences" Condition="('@(AppConfigWithTargetPath)' == '' OR !Exists('$(CefSharpTransformXmlDllPath)')) AND '$(CefSharpPlatformTarget)' == 'AnyCPU' AND '$(CefSharpAnyCpuSupport)' != 'true' AND '$(CefSharpBuildAction)' != 'NoAction'">
-    <Error Text="$(MSBuildThisFileName) is unable to proceeed as your current PlatformTarget is '$(CefSharpPlatformTarget)'. To target AnyCPU please read https://github.com/cefsharp/CefSharp/issues/1714. Alternatively change your PlatformTarget to x86 or x64 and the relevant files will be copied automatically." HelpKeyword="CefSharpSolutionPlatformCheck" />
   </Target>
   
   <!--

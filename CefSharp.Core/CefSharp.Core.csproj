@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <OutputType>Library</OutputType>
@@ -8,6 +8,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>9</LangVersion>
     <!--
     Stop MSBuild from appending TargetFramework to output path.
     Remove if we use TargetFrameworks
@@ -34,7 +35,6 @@
   <ItemGroup>
     <Compile Remove="BrowserSettings.netcore.cs" />
     <Compile Remove="Initializer.cs" />
-    <Compile Remove="ModuleInitializerAttribute.cs" />
     <Compile Remove="PostData.netcore.cs" />
     <Compile Remove="PostDataElement.netcore.cs" />
     <Compile Remove="Request.netcore.cs" />

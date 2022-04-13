@@ -14,7 +14,27 @@ namespace CefSharp
     /// </summary>
     public static class CefRuntime
     {
-        private static ResolveEventHandler currentDomainAssemblyResolveHandler;
+        private static ResolveEventHandler CurrentDomainAssemblyResolveHandler;
+
+        /// <summary>
+        /// For AnyCPU support a ModileInitializer in CefSharp.Core.dll will run when the dll is
+        /// loaded and call <see cref="SubscribeAnyCpuAssemblyResolver(string)"/> if tge dll is <see cref="ProcessorArchitecture.MSIL"/>
+        /// Set this to false before attempting to load any other CefSharp resources to avoid attaching the resolver.
+        /// Alternatively call <see cref="UnsubscribeAnyCpuAssemblyResolver"/> to remove the resolver.
+        /// </summary>
+        public static bool SubscribeToAnyCpuResolverInModuleInitializer { get; set; } = true;
+
+        /// <summary>
+        /// Check if an AnyCpu resolver has already been attached (subscribed to the
+        /// <see cref="AppDomain.AssemblyResolve"/> event for the <see cref="AppDomain.CurrentDomain"/>
+        /// </summary>
+        public static bool IsAnyCpuAssemblyResolverAttached
+        {
+            get
+            {
+                return CurrentDomainAssemblyResolveHandler != null;
+            }
+        }
 
         /// <summary>
         /// When using AnyCPU the architecture specific version of CefSharp.Core.Runtime.dll
@@ -24,17 +44,19 @@ namespace CefSharp
         /// based on <see cref="Environment.Is64BitProcess"/>.
         /// This method MUST be called before you call Cef.Initialize, create your first ChromiumWebBrowser instance, basically
         /// before anything CefSharp related happens. This method is part of CefSharp.dll which is an AnyCPU library and
-        /// doesn't have any references to the CefSharp.Core.Runtime.dll so it's safe to use.
+        /// doesn't have any references to the CefSharp.Core.Runtime.dll so it's safe to use. Multiple calls will
+        /// result in <see cref="UnsubscribeAnyCpuAssemblyResolver"/> being called if <see cref="IsAnyCpuAssemblyResolverAttached"/>
+        /// is true. 
         /// </summary>
         /// <param name="basePath">
         /// The path containing the x64/x86 folders which contain the CefSharp/CEF resources.
         /// If null then AppDomain.CurrentDomain.SetupInformation.ApplicationBase will be used as the path.
-        /// (</param>
+        /// </param>
         public static void SubscribeAnyCpuAssemblyResolver(string basePath = null)
         {
-            if(currentDomainAssemblyResolveHandler != null)
+            if(IsAnyCpuAssemblyResolverAttached)
             {
-                throw new Exception("UseAnyCpuAssemblyResolver has already been called, call ");
+                UnsubscribeAnyCpuAssemblyResolver();
             }
 
             if(basePath == null)
@@ -42,7 +64,7 @@ namespace CefSharp
                 basePath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             }
 
-            currentDomainAssemblyResolveHandler = (sender, args) =>
+            CurrentDomainAssemblyResolveHandler = (sender, args) =>
             {
                 if (args.Name.StartsWith("CefSharp.Core.Runtime"))
                 {
@@ -59,7 +81,7 @@ namespace CefSharp
                 return null;
             };
 
-            AppDomain.CurrentDomain.AssemblyResolve += currentDomainAssemblyResolveHandler;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolveHandler;
         }
 
         /// <summary>
@@ -68,9 +90,9 @@ namespace CefSharp
         /// </summary>
         public static void UnsubscribeAnyCpuAssemblyResolver()
         {
-            AppDomain.CurrentDomain.AssemblyResolve -= currentDomainAssemblyResolveHandler;
+            AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomainAssemblyResolveHandler;
 
-            currentDomainAssemblyResolveHandler = null;
+            CurrentDomainAssemblyResolveHandler = null;
         }
 
         /// <summary>
