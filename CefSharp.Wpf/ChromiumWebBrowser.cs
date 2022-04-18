@@ -1007,16 +1007,7 @@ namespace CefSharp.Wpf
             {
                 UiThreadRunAsync(() =>
                 {
-                    //Workaround for upstream issue
-                    //See #4021
-                    if (EmbeddedCursor.TryLoadCursor(type, out IntPtr cursorHandle))
-                    {
-                        Cursor = CursorInteropHelper.Create(new SafeFileHandle(cursorHandle, ownsHandle: false));
-                    }
-                    else
-                    {
-                        Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
-                    }
+                    Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
                 });
             }
         }
