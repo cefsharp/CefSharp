@@ -282,7 +282,14 @@ function Nupkg
                     {
                         $targetFolder = "runtimes\win-$a"
                     }
+                    else
+                    {
+                        # Remove cef.redist dependency
+                        $depNode =  $NupkgXml.package.metadata.dependencies.group.dependency | Where-Object {$_.Attributes["id"].Value.Equals("cef.redist." + $a) };
+                        $depNode.ParentNode.RemoveChild($depNode) | Out-Null
+                    }
                     
+                    #Remove files
                     $nodes =  $NupkgXml.package.files.file | Where-Object {$_.Attributes["target"].Value.StartsWith($targetFolder) };
 
                     $nodes | ForEach-Object { $_.ParentNode.RemoveChild($_) } | Out-Null
