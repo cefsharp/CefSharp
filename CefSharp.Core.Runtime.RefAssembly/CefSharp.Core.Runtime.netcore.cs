@@ -96,7 +96,6 @@ namespace CefSharp.Core
     {
         public CefSettingsBase() { }
         public string AcceptLanguageList { get { throw null; } set { } }
-        public string ApplicationClientIdForFileScanning { get { throw null; } set { } }
         public uint BackgroundColor { get { throw null; } set { } }
         public string BrowserSubprocessPath { get { throw null; } set { } }
         public string CachePath { get { throw null; } set { } }

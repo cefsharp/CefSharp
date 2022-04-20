@@ -392,16 +392,6 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// GUID string used for identifying the application. This is passed to the system AV function for scanning downloaded files. By
-            /// default, the GUID will be an empty string and the file will be treated as an untrusted file when the GUID is empty.
-            /// </summary>
-            property String^ ApplicationClientIdForFileScanning
-            {
-                String^ get() { return StringUtils::ToClr(_cefSettings->application_client_id_for_file_scanning); }
-                void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->application_client_id_for_file_scanning, value); }
-            }
-
-            /// <summary>
             /// Registers a custom scheme using the provided settings.
             /// </summary>
             /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
