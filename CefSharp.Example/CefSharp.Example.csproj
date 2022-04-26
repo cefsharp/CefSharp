@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net472</TargetFrameworks>
     <OutputType>Library</OutputType>
@@ -66,9 +66,6 @@
     <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj" />
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
     <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="bin.netcore\**" />
