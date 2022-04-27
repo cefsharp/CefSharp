@@ -370,6 +370,13 @@ namespace CefSharp.WinForms
         }
 
         /// <inheritdoc/>
+        public Task<WaitForNavigationAsyncResponse> WaitForNavigationAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+        {
+            //WaitForNavigationAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
+            return CefSharp.WebBrowserExtensions.WaitForNavigationAsync(this, timeout, cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public Task<LoadUrlAsyncResponse> WaitForInitialLoadAsync()
         {
             return initialLoadTaskCompletionSource.Task;
