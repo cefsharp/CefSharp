@@ -5,6 +5,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -247,6 +248,13 @@ namespace CefSharp.WinForms.Host
         {
             //LoadUrlAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
             return CefSharp.WebBrowserExtensions.LoadUrlAsync(this, url);
+        }
+
+        /// <inheritdoc/>
+        public Task<WaitForNavigationAsyncResponse> WaitForNavigationAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+        {
+            //WaitForNavigationAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
+            return CefSharp.WebBrowserExtensions.WaitForNavigationAsync(this, timeout, cancellationToken);
         }
 
         /// <summary>

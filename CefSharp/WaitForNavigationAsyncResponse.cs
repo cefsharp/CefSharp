@@ -1,13 +1,13 @@
-// Copyright © 2021 The CefSharp Authors. All rights reserved.
+// Copyright © 2022 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 namespace CefSharp
 {
     /// <summary>
-    /// Response returned from <see cref="IChromiumWebBrowserBase.LoadUrlAsync(string)"/>
+    /// WaitForNavigationAsyncResponse
     /// </summary>
-    public class LoadUrlAsyncResponse
+    public class WaitForNavigationAsyncResponse
     {
         /// <summary>
         /// Error Code. If the network request was made successfully this value will be <see cref="CefErrorCode.None"/>
@@ -32,11 +32,11 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the LoadUrlAsyncResponse class.
+        /// Initializes a new instance of the WaitForNavigationAsyncResponse class.
         /// </summary>
         /// <param name="errorCode">CEF Error Code</param>
         /// <param name="httpStatusCode">Http Status Code</param>
-        public LoadUrlAsyncResponse(CefErrorCode errorCode, int httpStatusCode)
+        public WaitForNavigationAsyncResponse(CefErrorCode errorCode, int httpStatusCode)
         {
             ErrorCode = errorCode;
             HttpStatusCode = httpStatusCode;

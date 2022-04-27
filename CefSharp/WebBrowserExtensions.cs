@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 using CefSharp.Web;
@@ -448,7 +449,7 @@ namespace CefSharp
                     //Ensure our continuation is executed on the ThreadPool
                     //For the .Net Core implementation we could use
                     //TaskCreationOptions.RunContinuationsAsynchronously
-                    tcs.TrySetResultAsync(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
+                    tcs.TrySetResultAsync(new LoadUrlAsyncResponse(statusCode == -1 ? CefErrorCode.Failed : CefErrorCode.None, statusCode));
                 }
             };
 
@@ -458,6 +459,98 @@ namespace CefSharp
             chromiumWebBrowser.LoadUrl(url);
 
             return tcs.Task;
+        }
+
+        /// <summary>
+        /// This resolves when the browser navigates to a new URL or reloads.
+        /// It is useful for when you run code which will indirectly cause the browser to navigate.
+        /// A common use case would be when executing javascript that results in a navigation. e.g. clicks a link
+        /// This must be called before executing the action that navigates the browser. It may not resolve correctly
+        /// if called after.
+        /// </summary>
+        /// <remarks>
+        /// Usage of the <c>History API</c> <see href="https://developer.mozilla.org/en-US/docs/Web/API/History_API"/> to change the URL is considered a navigation
+        /// </remarks>
+        /// <param name="chromiumWebBrowser">ChromiumWebBrowser instance (cannot be null)</param>
+        /// <param name="timeout">optional timeout, if not specified defaults to five(5) seconds.</param>
+        /// <param name="cancellationToken">optional CancellationToken</param>
+        /// <returns>Task which resolves when <see cref="IChromiumWebBrowserBase.LoadingStateChanged"/> has been called with <see cref="LoadingStateChangedEventArgs.IsLoading"/> false.
+        /// or when <see cref="IChromiumWebBrowserBase.LoadError"/> is called to signify a load failure.
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// string script = "document.getElementsByTagName('a')[0].click();";
+        /// await Task.WhenAll(
+        ///     chromiumWebBrowser.WaitForNavigationAsync(),
+        ///     chromiumWebBrowser.EvaluateScriptAsync(jsScript3));
+        /// ]]>
+        /// </code>
+        /// </example>
+        public static Task<WaitForNavigationAsyncResponse> WaitForNavigationAsync(IChromiumWebBrowserBase chromiumWebBrowser, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+        {
+            var tcs = new TaskCompletionSource<WaitForNavigationAsyncResponse>();
+
+            EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
+            EventHandler<LoadingStateChangedEventArgs> loadingStateChangeHandler = null;
+
+            loadErrorHandler = (sender, args) =>
+            {
+                //Actions that trigger a download will raise an aborted error.
+                //Generally speaking Aborted is safe to ignore
+                if (args.ErrorCode == CefErrorCode.Aborted)
+                {
+                    return;
+                }
+
+                //If LoadError was called then we'll remove both our handlers
+                //as we won't need to capture LoadingStateChanged, we know there
+                //was an error
+                chromiumWebBrowser.LoadError -= loadErrorHandler;
+                chromiumWebBrowser.LoadingStateChanged -= loadingStateChangeHandler;
+
+                //Ensure our continuation is executed on the ThreadPool
+                //For the .Net Core implementation we could use
+                //TaskCreationOptions.RunContinuationsAsynchronously
+                tcs.TrySetResultAsync(new WaitForNavigationAsyncResponse(args.ErrorCode, -1));
+            };
+
+            loadingStateChangeHandler = (sender, args) =>
+            {
+                //Wait for while page to finish loading not just the first frame
+                if (!args.IsLoading)
+                {
+                    //If LoadingStateChanged was called then we'll remove both our handlers
+                    //as LoadError won't be called, our site has loaded with a valid HttpStatusCode
+                    //HttpStatusCodes can still be for example 404, this is considered a successful request,
+                    //the server responded, it just didn't have the page you were after.
+                    chromiumWebBrowser.LoadError -= loadErrorHandler;
+                    chromiumWebBrowser.LoadingStateChanged -= loadingStateChangeHandler;
+
+                    var host = args.Browser.GetHost();
+
+                    var navEntry = host?.GetVisibleNavigationEntry();
+
+                    int statusCode = navEntry?.HttpStatusCode ?? -1;
+
+                    //By default 0 is some sort of error, we map that to -1
+                    //so that it's clearer that something failed.
+                    if (statusCode == 0)
+                    {
+                        statusCode = -1;
+                    }
+
+                    //Ensure our continuation is executed on the ThreadPool
+                    //For the .Net Core implementation we could use
+                    //TaskCreationOptions.RunContinuationsAsynchronously
+                    tcs.TrySetResultAsync(new WaitForNavigationAsyncResponse(statusCode == -1 ? CefErrorCode.Failed : CefErrorCode.None, statusCode));
+                }
+            };
+
+            chromiumWebBrowser.LoadError += loadErrorHandler;
+            chromiumWebBrowser.LoadingStateChanged += loadingStateChangeHandler;
+
+            return TaskTimeoutExtensions.WaitAsync(tcs.Task, timeout ?? TimeSpan.FromSeconds(5), cancellationToken);
         }
 
         /// <summary>

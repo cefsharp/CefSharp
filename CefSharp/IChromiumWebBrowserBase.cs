@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -94,6 +95,33 @@ namespace CefSharp
         /// A HttpStatusCode equal to 200 and <see cref="CefErrorCode.None"/> is considered a success.
         /// </returns>
         Task<LoadUrlAsyncResponse> LoadUrlAsync(string url);
+
+        /// <summary>
+        /// This resolves when the browser navigates to a new URL or reloads.
+        /// It is useful for when you run code which will indirectly cause the browser to navigate.
+        /// A common use case would be when executing javascript that results in a navigation. e.g. clicks a link
+        /// This must be called before executing the action that navigates the browser. It may not resolve correctly
+        /// if called after.
+        /// </summary>
+        /// <remarks>
+        /// Usage of the <c>History API</c> <see href="https://developer.mozilla.org/en-US/docs/Web/API/History_API"/> to change the URL is considered a navigation
+        /// </remarks>
+        /// <param name="timeout">optional timeout, if not specified defaults to five(5) seconds.</param>
+        /// <param name="cancellationToken">optional CancellationToken</param>
+        /// <returns>Task which resolves when <see cref="IChromiumWebBrowserBase.LoadingStateChanged"/> has been called with <see cref="LoadingStateChangedEventArgs.IsLoading"/> false.
+        /// or when <see cref="IChromiumWebBrowserBase.LoadError"/> is called to signify a load failure.
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// string script = "document.getElementsByTagName('a')[0].click();";
+        /// await Task.WhenAll(
+        ///     chromiumWebBrowser.WaitForNavigationAsync(),
+        ///     chromiumWebBrowser.EvaluateScriptAsync(jsScript3));
+        /// ]]>
+        /// </code>
+        /// </example>
+        Task<WaitForNavigationAsyncResponse> WaitForNavigationAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
