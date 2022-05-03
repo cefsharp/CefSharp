@@ -669,7 +669,6 @@ namespace CefSharp.WinForms.Example
             {
                 Width = contentSize.Width,
                 Height = contentSize.Height,
-                Scale = 1.0
             };
 
             var data = await chromiumWebBrowser.CaptureScreenshotAsync(viewPort: viewPort, captureBeyondViewport: true);
