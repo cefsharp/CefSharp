@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -648,6 +649,42 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
 
             _ = control?.HideScrollbarsAsync();
+        }
+
+        private async void TakeScreenShotMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+
+            if(control == null)
+            {
+                return;
+            }
+
+            var chromiumWebBrowser = (ChromiumWebBrowser)control.Browser;
+
+            var contentSize = await chromiumWebBrowser.GetContentSizeAsync();
+
+            //Capture current scrollable area
+            var viewPort = new DevTools.Page.Viewport
+            {
+                Width = contentSize.Width,
+                Height = contentSize.Height,
+                Scale = 1.0
+            };
+
+            var data = await chromiumWebBrowser.CaptureScreenshotAsync(viewPort: viewPort, captureBeyondViewport: true);
+
+            // Make a file to save it to (e.g. C:\Users\[user]\Desktop\CefSharp screenshot.png)
+            var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot" + DateTime.Now.Ticks + ".png");
+
+            File.WriteAllBytes(screenshotPath, data);
+
+            // Tell Windows to launch the saved image.
+            Process.Start(new ProcessStartInfo(screenshotPath)
+            {
+                // UseShellExecute is false by default on .NET Core.
+                UseShellExecute = true
+            });
         }
     }
 }

@@ -643,24 +643,6 @@ namespace CefSharp.OffScreen
             return tcs.Task;
         }
 
-        /// <summary>
-        /// Size of scrollable area in CSS pixels
-        /// </summary>
-        /// <returns>A task that can be awaited to get the size of the scrollable area in CSS pixels.</returns>
-        public async Task<DevTools.DOM.Rect> GetContentSizeAsync()
-        {
-            ThrowExceptionIfDisposed();
-            ThrowExceptionIfBrowserNotInitialized();
-
-            using (var devToolsClient = browser.GetDevToolsClient())
-            {
-                //Get the content size
-                var layoutMetricsResponse = await devToolsClient.Page.GetLayoutMetricsAsync().ConfigureAwait(continueOnCapturedContext:false);
-
-                return layoutMetricsResponse.CssContentSize;
-            }
-        }
-
         /// <inheritdoc/>
         public void Load(string url)
         {

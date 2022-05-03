@@ -399,6 +399,21 @@ namespace CefSharp.WinForms
             return browser != null;
         }
 
+        /// <inheritdoc/>
+        public async Task<DevTools.DOM.Rect> GetContentSizeAsync()
+        {
+            ThrowExceptionIfDisposed();
+            ThrowExceptionIfBrowserNotInitialized();
+
+            using (var devToolsClient = browser.GetDevToolsClient())
+            {
+                //Get the content size
+                var layoutMetricsResponse = await devToolsClient.Page.GetLayoutMetricsAsync().ConfigureAwait(continueOnCapturedContext: false);
+
+                return layoutMetricsResponse.CssContentSize;
+            }
+        }
+
         private void InitialLoad(bool? isLoading, CefErrorCode? errorCode)
         {
             if(IsDisposed)

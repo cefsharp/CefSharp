@@ -169,5 +169,11 @@ namespace CefSharp
         /// <param name="browser">When this method returns, contains the <see cref="IBrowser"/> object reference that matches the specified <paramref name="browserId"/>, or null if no matching instance found.</param>
         /// <returns>true if a <see cref="IBrowser"/> instance was found matching <paramref name="browserId"/>; otherwise, false.</returns>
         bool TryGetBrowserCoreById(int browserId, out IBrowser browser);
+
+        /// <summary>
+        /// Size of scrollable area in CSS pixels
+        /// </summary>
+        /// <returns>A task that can be awaited to get the size of the scrollable area in CSS pixels.</returns>
+        Task<DevTools.DOM.Rect> GetContentSizeAsync();
     }
 }

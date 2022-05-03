@@ -33,6 +33,7 @@ namespace CefSharp.WinForms.Example
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideScrollbarsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToPdfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +71,7 @@ namespace CefSharp.WinForms.Example
             this.loadExtensionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.javascriptBindingStressTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browserTabControl = new System.Windows.Forms.TabControl();
-            this.hideScrollbarsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.takeScreenShotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,6 +99,7 @@ namespace CefSharp.WinForms.Example
             this.printToolStripMenuItem,
             this.printToPdfToolStripMenuItem,
             this.aboutToolStripMenuItem,
+            this.takeScreenShotMenuItem,
             this.showDevToolsMenuItem,
             this.showDevToolsDockedToolStripMenuItem,
             this.closeDevToolsMenuItem,
@@ -122,6 +124,13 @@ namespace CefSharp.WinForms.Example
             this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.closeTabToolStripMenuItem.Text = "&Close Tab";
             this.closeTabToolStripMenuItem.Click += new System.EventHandler(this.CloseTabToolStripMenuItemClick);
+            // 
+            // hideScrollbarsMenuItem
+            // 
+            this.hideScrollbarsMenuItem.Name = "hideScrollbarsMenuItem";
+            this.hideScrollbarsMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.hideScrollbarsMenuItem.Text = "Hide Scrollbars";
+            this.hideScrollbarsMenuItem.Click += new System.EventHandler(this.HideScrollbarsToolStripMenuItemClick);
             // 
             // printToolStripMenuItem
             // 
@@ -402,12 +411,12 @@ namespace CefSharp.WinForms.Example
             this.browserTabControl.Size = new System.Drawing.Size(730, 466);
             this.browserTabControl.TabIndex = 2;
             // 
-            // hideScrollbarsMenuItem
+            // takeScreenShotMenuItem
             // 
-            this.hideScrollbarsMenuItem.Name = "toolStripMenuItem1";
-            this.hideScrollbarsMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.hideScrollbarsMenuItem.Text = "Hide Scrollbars";
-            this.hideScrollbarsMenuItem.Click += new System.EventHandler(this.HideScrollbarsToolStripMenuItemClick);
+            this.takeScreenShotMenuItem.Name = "takeScreenShotMenuItem";
+            this.takeScreenShotMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.takeScreenShotMenuItem.Text = "Take Screenshot";
+            this.takeScreenShotMenuItem.Click += new System.EventHandler(this.TakeScreenShotMenuItemClick);
             // 
             // BrowserForm
             // 
@@ -471,5 +480,6 @@ namespace CefSharp.WinForms.Example
         private System.Windows.Forms.ToolStripMenuItem javascriptBindingStressTestToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showDevToolsDockedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideScrollbarsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem takeScreenShotMenuItem;
     }
 }
