@@ -12,6 +12,8 @@ using CefSharp.Internals;
 using CefSharp.Web;
 using CefSharp.WinForms.Internals;
 using CefSharp.WinForms.Host;
+using CefSharp.DevTools.Page;
+using System.Threading.Tasks;
 
 namespace CefSharp.WinForms
 {
@@ -474,6 +476,28 @@ namespace CefSharp.WinForms
                         frame.LoadUrl(url);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Capture page screenshot.
+        /// </summary>
+        /// <param name="format">Image compression format (defaults to png).</param>
+        /// <param name="quality">Compression quality from range [0..100] (jpeg only).</param>
+        /// <param name="viewPort">Capture the screenshot of a given region only.</param>
+        /// <param name="fromSurface">Capture the screenshot from the surface, rather than the view. Defaults to true.</param>
+        /// <param name="captureBeyondViewport">Capture the screenshot beyond the viewport. Defaults to false.</param>
+        /// <returns>A task that can be awaited to obtain the screenshot as a byte[].</returns>
+        public async Task<byte[]> CaptureScreenshotAsync(CaptureScreenshotFormat format = CaptureScreenshotFormat.Png, int? quality = null, Viewport viewPort = null, bool fromSurface = true, bool captureBeyondViewport = false)
+        {
+            ThrowExceptionIfDisposed();
+            ThrowExceptionIfBrowserNotInitialized();
+
+            using (var devToolsClient = browser.GetDevToolsClient())
+            {
+                var screenShot = await devToolsClient.Page.CaptureScreenshotAsync(format, quality, viewPort, fromSurface, captureBeyondViewport).ConfigureAwait(continueOnCapturedContext: false);
+
+                return screenShot.Data;
             }
         }
 
