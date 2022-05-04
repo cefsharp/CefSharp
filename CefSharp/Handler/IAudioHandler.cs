@@ -26,7 +26,7 @@ namespace CefSharp
 
         /// <summary>
         /// Called on a browser audio capture thread when the browser starts streaming audio.
-        /// OnAudioSteamStopped will always be called after OnAudioStreamStarted; both methods may be called multiple
+        /// OnAudioStreamStopped will always be called after OnAudioStreamStarted; both methods may be called multiple
         /// times for the same browser.
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
@@ -52,7 +52,7 @@ namespace CefSharp
         void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr data, int noOfFrames, long pts);
 
         /// <summary>
-        /// Called on the CEF UI thread when the stream has stopped. OnAudioSteamStopped will always be called after <see cref="OnAudioStreamStarted"/>;
+        /// Called on the CEF UI thread when the stream has stopped. OnAudioStreamStopped will always be called after <see cref="OnAudioStreamStarted"/>;
         /// both methods may be called multiple times for the same stream.
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
