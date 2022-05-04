@@ -16,8 +16,12 @@
     https://docs.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support#plugin-with-library-dependencies
     -->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(OutputType)' == 'Library' AND '$(EnableDynamicLoading)' != 'true'">NoAction</CefSharpBuildAction>
-    <!-- Current supported values are Default, and NoAction (this target doesn't copy any files.) -->
+    <!--
+	Current supported values are Default, Content, and NoAction (this target doesn't copy any files.)
+	For backwards compatability for the older nuget packages Content will be mapped to Default
+	-->
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == ''">Default</CefSharpBuildAction>
+	<CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == 'Content'">Default</CefSharpBuildAction>
   </PropertyGroup>
   <ItemGroup>
     <_CefSharpBrowserSubProcessFiles Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\runtimes\$(CefSharpRuntimeIdentifier)\native\CefSharp.BrowserSubprocess.runtimeconfig.json'))"/>
@@ -149,9 +153,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="100.0.23" />
-        <PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="100.0.23" />
-        <PackageReference Include="chromiumembeddedframework.runtime.win-arm64" Version="100.0.23" />
+        <PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="101.0.15" />
+        <PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="101.0.15" />
+        <PackageReference Include="chromiumembeddedframework.runtime.win-arm64" Version="101.0.15" />
         <Content Include="@(CefRuntimeWin32Locales)">
           <Link>runtimes\win-x86\native\locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

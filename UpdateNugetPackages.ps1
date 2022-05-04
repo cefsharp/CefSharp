@@ -1,21 +1,45 @@
 #requires -Version 5
+[CmdletBinding()]
+
+param(
+	[Parameter(Position = 1)]
+	[string] $CefVersion = "101.0.15",
+	[Parameter(Position = 2)]
+	[string] $CefSharpVersion = ""
+	)
 
 # Update projects files
 # I haven't found a clean solution that allows for using just nuget.exe and dotnet.exe to do this
 # Update the vcxproj files first
 # Update the .Net csproj files modifying the xml file directly
+Set-StrictMode -version latest;
+$ErrorActionPreference = "Stop";
 
-$CefVersion = '100.0.23'
-$CefSharpVersion = $CefVersion + "0"
+function DownloadNuget()
+{
+	if(-not (Test-Path $nuget))
+	{
+		$client = New-Object System.Net.WebClient;
+		$client.DownloadFile('https://dist.nuget.org/win-x86-commandline/latest/nuget.exe', $nuget);
+	}
+
+	if(-not (Test-Path $nuget))
+	{
+		Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
+	}
+}
 
 function RemoveEnsureNuGetPackageBuildImports
 {
-    param([Parameter(Position = 0, ValueFromPipeline = $true)][string] $FileName)
+	param([Parameter(Position = 0, ValueFromPipeline = $true)][string] $FileName)
 
-    $xml = [xml](Get-Content $FileName)
-	$target = $xml.Project.Target | Where-Object {$_."Name" -eq "EnsureNuGetPackageBuildImports"}
+	$xml = [xml](Get-Content $FileName)
+	$ns = new-object Xml.XmlNamespaceManager $xml.NameTable
+	$ns.AddNamespace("ns", $xml.DocumentElement.NamespaceURI)
+
+	$target = $xml.SelectSingleNode("//ns:Project/ns:Target[@Name='EnsureNuGetPackageBuildImports']", $ns);
 	
-	if($target -ne $null)
+	if($null -ne $target)
 	{
 		$target.ParentNode.RemoveChild($target)
 
@@ -23,11 +47,20 @@ function RemoveEnsureNuGetPackageBuildImports
 	}
 }
 
+if ($CefSharpVersion -eq "")
+{
+	$CefSharpVersion = $CefVersion + "0"
+}
+
+$WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
+$nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
+DownloadNuget
+
 $vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj','CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.vcxproj')
 
 foreach($file in $vcxprojFiles)
 {
-	..\nuget update $file -Id cef.sdk -Version $CefVersion
+	. $nuget update $file -Id cef.sdk -Version $CefVersion
 	
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
@@ -36,7 +69,7 @@ $vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj',
 
 foreach($file in $vcxprojFiles)
 {
-	..\nuget update $file -Id cef.sdk -Version $CefVersion
+	. $nuget update $file -Id cef.sdk -Version $CefVersion
 	
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
@@ -52,14 +85,13 @@ $csprojFiles = @('CefSharp.WinForms.Example\CefSharp.WinForms.Example.netcore.cs
 
 foreach($file in $csprojFiles)
 {
-    $file = Resolve-Path $file
+	$file = Resolve-Path $file
 	$xml = New-Object xml
 	$xml.PreserveWhitespace = $true
 	$xml.Load($file)
-	
-	$packRef = $xml.Project.ItemGroup.PackageReference | Where-Object {$_."Include" -eq "chromiumembeddedframework.runtime"}
-	
-	$packRef.Version = $RedistVersion
+
+	$packRef = $xml.SelectSingleNode("//Project/ItemGroup/PackageReference[@Include='chromiumembeddedframework.runtime']");
+	$packRef.Version = $RedistVersion	
 	
 	$xml.Save( $file )
 }
