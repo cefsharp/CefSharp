@@ -207,6 +207,11 @@ namespace CefSharp
                 _wrappedDragData->ResetFileContents();
             }
 
+            virtual void ClearFilenames()
+            {
+                _wrappedDragData->ClearFilenames();
+            }
+
             virtual Int64 GetFileContents(Stream^ stream)
             {
                 if (stream == nullptr)

@@ -120,6 +120,11 @@ namespace CefSharp
         Int64 GetFileContents(Stream stream);
 
         /// <summary>
+        /// Clear list of filenames.
+        /// </summary>
+        void ClearFilenames();
+
+        /// <summary>
         /// Gets a value indicating whether the object has been disposed of.
         /// </summary>
         bool IsDisposed { get; }
