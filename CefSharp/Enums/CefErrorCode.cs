@@ -1179,6 +1179,11 @@ namespace CefSharp
         QuicGoawayRequestCanBeRetried = -381,
 
         /// <summary>
+        /// The ACCEPT_CH restart has been triggered too many times
+        /// </summary>
+        TooManyAcceptChRestarts = -382,
+
+        /// <summary>
         /// The cache does not have the requested entry.
         /// </summary>
         CacheMiss = -400,
