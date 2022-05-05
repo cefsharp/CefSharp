@@ -148,6 +148,7 @@ namespace CefSharp.Core
         public virtual string LinkTitle { get { throw null; } set { } }
         public virtual string LinkUrl { get { throw null; } set { } }
         public virtual void AddFile(string path, string displayName) { }
+        public virtual void ClearFilenames() { }
         public virtual CefSharp.IDragData Clone() { throw null; }
         public static CefSharp.IDragData Create() { throw null; }
         public void Dispose() { }
