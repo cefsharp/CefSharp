@@ -550,6 +550,11 @@ namespace CefSharp.OffScreen
                     return screenShot.Data;
                 }
 
+                if (viewport.Scale <= 0)
+                {
+                    throw new ArgumentException($"{nameof(viewport)}.{nameof(viewport.Scale)} must be greater than 0.");
+                }
+
                 //https://bitbucket.org/chromiumembedded/cef/issues/3103/offscreen-capture-screenshot-with-devtools
                 //CEF OSR mode doesn't set the size internally when CaptureScreenShot is called with a clip param specified, so
                 //we must manually resize our view if size is greater
@@ -563,19 +568,14 @@ namespace CefSharp.OffScreen
                 {
                     newHeight = size.Height;
                 }
-                var newScale = viewport.Scale;
-                if (newScale == 0)
-                {
-                    newScale = deviceScaleFactor;
-                }
 
-                if ((int)newWidth > size.Width || (int)newHeight > size.Height || newScale != deviceScaleFactor)
+                if ((int)newWidth > size.Width || (int)newHeight > size.Height || viewport.Scale != deviceScaleFactor)
                 {
-                    await ResizeAsync((int)newWidth, (int)newHeight, (float)newScale).ConfigureAwait(continueOnCapturedContext:false);
+                    await ResizeAsync((int)newWidth, (int)newHeight, (float)viewport.Scale).ConfigureAwait(continueOnCapturedContext:false);
                 }
 
                 //Create a copy instead of modifying users object as we need to set Scale to 1
-                //as CEF doesn't support passing custom scale.
+                //as CEF doesn't support passing custom scale for OSR.
                 var clip = new Viewport
                 {
                     Height = viewport.Height,

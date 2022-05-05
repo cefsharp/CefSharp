@@ -493,6 +493,11 @@ namespace CefSharp.WinForms
             ThrowExceptionIfDisposed();
             ThrowExceptionIfBrowserNotInitialized();
 
+            if(viewPort != null && viewPort.Scale <= 0)
+            {
+                throw new ArgumentException($"{nameof(viewPort)}.{nameof(viewPort.Scale)} must be greater than 0.");
+            }
+
             using (var devToolsClient = browser.GetDevToolsClient())
             {
                 var screenShot = await devToolsClient.Page.CaptureScreenshotAsync(format, quality, viewPort, fromSurface, captureBeyondViewport).ConfigureAwait(continueOnCapturedContext: false);
