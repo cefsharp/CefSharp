@@ -7,6 +7,18 @@ using System.IO;
 namespace CefSharp.Fluent
 {
     /// <summary>
+    /// Called before a download begins in response to a user-initiated action
+    /// (e.g. alt + link click or link click that returns a `Content-Disposition:
+    /// attachment` response from the server).
+    /// </summary>
+    /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+    /// <param name="browser">The browser instance</param>
+    /// <param name="url">is the target download URL</param>
+    /// <param name="requestMethod">is the target method (GET, POST, etc)</param>
+    /// <returns>Return true to proceed with the download or false to cancel the download.</returns>
+    public delegate bool CanDownloadDelegate(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod);
+
+    /// <summary>
     /// Called before a download begins.
     /// </summary>
     /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
@@ -30,6 +42,7 @@ namespace CefSharp.Fluent
     /// </summary>
     public class DownloadHandler : Handler.DownloadHandler
     {
+        private CanDownloadDelegate canDownload;
         private OnBeforeDownloadDelegate onBeforeDownload;
         private OnDownloadUpdatedDelegate onDownloadUpdated;
 
@@ -94,6 +107,11 @@ namespace CefSharp.Fluent
 
         }
 
+        internal void SetCanDownload(CanDownloadDelegate action)
+        {
+            canDownload = action;
+        }
+
         internal void SetOnBeforeDownload(OnBeforeDownloadDelegate action)
         {
             onBeforeDownload = action;
@@ -102,6 +120,12 @@ namespace CefSharp.Fluent
         internal void SetOnDownloadUpdated(OnDownloadUpdatedDelegate action)
         {
             onDownloadUpdated = action;
+        }
+
+        /// <inheritdoc/>
+        protected override bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
+        {
+            return canDownload?.Invoke(chromiumWebBrowser, browser, url, requestMethod) ?? true;
         }
 
         /// <inheritdoc/>

@@ -10,6 +10,27 @@ namespace CefSharp.Handler
     /// </summary>
     public class DownloadHandler : IDownloadHandler
     {
+        /// <inheritdoc />
+        bool IDownloadHandler.CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
+        {
+            return CanDownload(chromiumWebBrowser, browser, url, requestMethod);
+        }
+
+        /// <summary>
+        /// Called before a download begins in response to a user-initiated action
+        /// (e.g. alt + link click or link click that returns a `Content-Disposition:
+        /// attachment` response from the server).
+        /// </summary>
+        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
+        /// <param name="browser">The browser instance</param>
+        /// <param name="url">is the target download URL</param>
+        /// <param name="requestMethod">is the target method (GET, POST, etc)</param>
+        /// <returns>Return true to proceed with the download or false to cancel the download.</returns>
+        protected virtual bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
+        {
+            return true;
+        }
+
         /// <summary>
         /// Called before a download begins.
         /// </summary>
