@@ -808,7 +808,7 @@ namespace CefSharp.Test.OffScreen
                 }
 
 
-                var result3 = await browser.CaptureScreenshotAsync(viewport: new Viewport { Width = 100, Height = 200 });
+                var result3 = await browser.CaptureScreenshotAsync(viewport: new Viewport { Width = 100, Height = 200, Scale = 2 });
                 Assert.Equal(1466, browser.Size.Width);
                 Assert.Equal(968, browser.Size.Height);
                 Assert.Equal(2, browser.DeviceScaleFactor);
