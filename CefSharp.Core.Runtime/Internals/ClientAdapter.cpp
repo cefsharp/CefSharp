@@ -990,6 +990,20 @@ namespace CefSharp
             }
         }
 
+        bool ClientAdapter::CanDownload(CefRefPtr<CefBrowser> browser, const CefString& url, const CefString& request_method)
+        {
+            auto handler = _browserControl->DownloadHandler;
+
+            if (handler == nullptr)
+            {
+                return true;
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            return handler->CanDownload(_browserControl, browserWrapper, StringUtils::ToClr(url), StringUtils::ToClr(request_method));
+        }
+
         void ClientAdapter::OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
             const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback)
         {

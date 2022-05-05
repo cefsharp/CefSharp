@@ -57,7 +57,7 @@ namespace CefSharp.WinForms.Example
             browser.MenuHandler = new MenuHandler();
             browser.RequestHandler = new WinFormsRequestHandler(openNewTab);
             browser.JsDialogHandler = new JsDialogHandler();
-            browser.DownloadHandler = new DownloadHandler();
+            browser.DownloadHandler = Fluent.DownloadHandler.AskUser();
             browser.AudioHandler = new CefSharp.Handler.AudioHandler();
             browser.FrameHandler = new CefSharp.Handler.FrameHandler();
 

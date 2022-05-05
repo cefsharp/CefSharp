@@ -12,6 +12,22 @@ namespace CefSharp.Fluent
         private readonly DownloadHandler handler = new DownloadHandler();
 
         /// <summary>
+        /// See <see cref="IDownloadHandler.CanDownload(IWebBrowser, IBrowser, string, string)"/> for details.
+        /// </summary>
+        /// <param name="action">Action to be executed when <see cref="IDownloadHandler.CanDownload(IWebBrowser, IBrowser, string, string)"/>
+        /// is called</param>
+        /// <returns>
+        /// Fluent Builder, call <see cref="Build"/> to create
+        /// a new <see cref="IDownloadHandler"/> instance
+        /// </returns>
+        public DownloadHandlerBuilder CanDownload(CanDownloadDelegate action)
+        {
+            handler.SetCanDownload(action);
+
+            return this;
+        }
+
+        /// <summary>
         /// See <see cref="IDownloadHandler.OnBeforeDownload(IWebBrowser, IBrowser, DownloadItem, IBeforeDownloadCallback)"/> for details.
         /// </summary>
         /// <param name="action">Action to be executed when <see cref="IDownloadHandler.OnBeforeDownload(IWebBrowser, IBrowser, DownloadItem, IBeforeDownloadCallback)"/>
