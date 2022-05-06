@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using CefSharp.DevTools.Page;
 using CefSharp.Internals;
 using CefSharp.Wpf.HwndHost.Internals;
 
@@ -25,6 +26,11 @@ namespace CefSharp.Wpf.HwndHost
     /// and https://stackoverflow.com/questions/6500336/custom-dwm-drawn-window-frame-flickers-on-resizing-if-the-window-contains-a-hwnd/17471534#17471534
     public class ChromiumWebBrowser : System.Windows.Interop.HwndHost, IWpfWebBrowser
     {
+        public const string BrowserNotInitializedExceptionErrorMessage =
+            "The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
+            "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
+            "the IsBrowserInitialized property to determine when the browser has been initialized.";
+
         [DllImport("user32.dll", EntryPoint = "CreateWindowEx", CharSet = CharSet.Unicode)]
         private static extern IntPtr CreateWindowEx(int dwExStyle,
                                               string lpszClassName,
@@ -1791,6 +1797,79 @@ namespace CefSharp.Wpf.HwndHost
             browser = browserAdapter.GetBrowser(browserId);
 
             return browser != null;
+        }
+
+        /// <inheritdoc/>
+        public async Task<DevTools.DOM.Rect> GetContentSizeAsync()
+        {
+            ThrowExceptionIfDisposed();
+            ThrowExceptionIfBrowserNotInitialized();
+
+            using (var devToolsClient = browser.GetDevToolsClient())
+            {
+                //Get the content size
+                var layoutMetricsResponse = await devToolsClient.Page.GetLayoutMetricsAsync().ConfigureAwait(continueOnCapturedContext: false);
+
+                return layoutMetricsResponse.CssContentSize;
+            }
+        }
+
+        /// <inheritdoc/>
+        public Task<WaitForNavigationAsyncResponse> WaitForNavigationAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+        {
+            //WaitForNavigationAsync is actually a static method so that CefSharp.Wpf.HwndHost can reuse the code
+            return CefSharp.WebBrowserExtensions.WaitForNavigationAsync(this, timeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Capture page screenshot.
+        /// </summary>
+        /// <param name="format">Image compression format (defaults to png).</param>
+        /// <param name="quality">Compression quality from range [0..100] (jpeg only).</param>
+        /// <param name="viewPort">Capture the screenshot of a given region only.</param>
+        /// <param name="fromSurface">Capture the screenshot from the surface, rather than the view. Defaults to true.</param>
+        /// <param name="captureBeyondViewport">Capture the screenshot beyond the viewport. Defaults to false.</param>
+        /// <returns>A task that can be awaited to obtain the screenshot as a byte[].</returns>
+        public async Task<byte[]> CaptureScreenshotAsync(CaptureScreenshotFormat format = CaptureScreenshotFormat.Png, int? quality = null, Viewport viewPort = null, bool fromSurface = true, bool captureBeyondViewport = false)
+        {
+            ThrowExceptionIfDisposed();
+            ThrowExceptionIfBrowserNotInitialized();
+
+            if (viewPort != null && viewPort.Scale <= 0)
+            {
+                throw new ArgumentException($"{nameof(viewPort)}.{nameof(viewPort.Scale)} must be greater than 0.");
+            }
+
+            using (var devToolsClient = browser.GetDevToolsClient())
+            {
+                var screenShot = await devToolsClient.Page.CaptureScreenshotAsync(format, quality, viewPort, fromSurface, captureBeyondViewport).ConfigureAwait(continueOnCapturedContext: false);
+
+                return screenShot.Data;
+            }
+        }
+
+        /// <summary>
+        /// Throw exception if browser not initialized.
+        /// </summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        private void ThrowExceptionIfBrowserNotInitialized()
+        {
+            if (!InternalIsBrowserInitialized())
+            {
+                throw new Exception(BrowserNotInitializedExceptionErrorMessage);
+            }
+        }
+
+        /// <summary>
+        /// Throw exception if disposed.
+        /// </summary>
+        /// <exception cref="ObjectDisposedException">Thrown when a supplied object has been disposed.</exception>
+        private void ThrowExceptionIfDisposed()
+        {
+            if (IsDisposed)
+            {
+                throw new ObjectDisposedException("browser", "Browser has been disposed");
+            }
         }
     }
 }
