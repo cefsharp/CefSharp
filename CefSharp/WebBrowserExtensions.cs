@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
@@ -483,7 +484,7 @@ namespace CefSharp
         /// string script = "document.getElementsByTagName('a')[0].click();";
         /// await Task.WhenAll(
         ///     chromiumWebBrowser.WaitForNavigationAsync(),
-        ///     chromiumWebBrowser.EvaluateScriptAsync(jsScript3));
+        ///     chromiumWebBrowser.EvaluateScriptAsync(script));
         /// ]]>
         /// </code>
         /// </example>
@@ -551,6 +552,128 @@ namespace CefSharp
             chromiumWebBrowser.LoadingStateChanged += loadingStateChangeHandler;
 
             return TaskTimeoutExtensions.WaitAsync(tcs.Task, timeout ?? TimeSpan.FromSeconds(5), cancellationToken);
+        }
+
+        /// <summary>
+        /// Waits for a DOM element specified by the <paramref name="selector"/> string to be added to or removed from the DOM.
+        /// A simplified version of Puppeteer WaitForSelector. Uses a MutationObserver to wait for the element to become added or removed.
+        /// </summary>
+        /// <param name="chromiumWebBrowser">ChromiumWebBrowser instance (cannot be null)</param>
+        /// <param name="selector">querySelector for the element e.g. #idOfMyElement</param>
+        /// <param name="timeout">timeout</param>
+        /// <param name="removed">
+        /// (Optional) if true  waits for element to be removed from the DOM. If the querySelector immediately resolves
+        /// to null then the element is considered removed. If false (default) waits for the element to be added to the DOM.
+        /// </param>
+        /// <returns>A Task that resolves when element specified by selector string is added to or removed from the DOM.</returns>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// string script = "const newDiv = document.createElement('div'); newDiv.id = 'myElement'; document.body.append(newDiv);";
+        /// await Task.WhenAll(
+        ///     browser.WaitForSelectorAsync("#myElement");,
+        ///     chromiumWebBrowser.EvaluateScriptAsync(script));
+        /// ]]>
+        /// </code>
+        /// </example>
+        /// <remarks>
+        /// This function is typically used in conjunction with javascript that directly or indirectly adds/removes an element from the DOM.
+        /// Unlike the puppeteer version navigations aren't handled internally, the method will throw a <see cref="TimeoutException"/> if a navigation
+        /// occurs whilst waiting to resolve.
+        /// </remarks>
+        public static async Task<WaitForSelectorAsyncResponse> WaitForSelectorAsync(this IWebBrowser chromiumWebBrowser, string selector, TimeSpan? timeout = null, bool removed = false)
+        {
+            const string waitForSelectorFunction = @"
+            async function waitForSelectorFunction(timeout, selector, waitForRemoved)
+            {
+                let timedOut = false;
+                if (timeout)
+                    setTimeout(() => (timedOut = true), timeout);
+
+                return await pollMutation();
+
+                async function pollMutation() {
+                    const success = await mutationSelector(selector, waitForRemoved);
+                    if (success)
+                        return Promise.resolve(success);
+                    let fulfill;
+                    const result = new Promise((x) => (fulfill = x));
+                    const observer = new MutationObserver(async () => {
+                        if (timedOut) {
+                            observer.disconnect();
+                            fulfill();
+                        }
+                        const success = await mutationSelector(selector, waitForRemoved);
+                        if (success) {
+                            observer.disconnect();
+                            fulfill(success);
+                        }
+                    });
+                    observer.observe(document, {
+                        childList: true,
+                        subtree: true,
+                        attributes: false,
+                    });
+                    return result;
+                }
+
+                async function mutationSelector(selector, waitForRemoved)
+                {
+                    const element = document.querySelector(selector);
+
+                    if (!element)
+                        return waitForRemoved;
+
+                    if(waitForRemoved && element)
+                        return null;
+                    
+                    let obj = {};
+                    obj.id = element.id;
+                    obj.nodeValue = element.nodeValue;
+                    obj.localName = element.localName;
+                    obj.tagName = element.tagName;
+
+                    return obj;
+                }
+            };";
+
+            if(chromiumWebBrowser == null)
+            {
+                throw new ArgumentNullException(nameof(chromiumWebBrowser));
+            }
+
+            if(string.IsNullOrEmpty(selector))
+            {
+                throw new ArgumentException($"{nameof(selector)} cannot be null or empty.");
+            }
+
+            var execute = GetScriptForJavascriptMethodWithArgs("waitForSelectorFunction", new object[] { timeout.HasValue ? timeout.Value.Milliseconds : 5000, selector, removed });
+            var query = @"return (async () => {" + Environment.NewLine + waitForSelectorFunction + Environment.NewLine + "return " + execute + Environment.NewLine + "})(); ";
+
+            var response = chromiumWebBrowser.EvaluateScriptAsPromiseAsync(query);
+
+            var timeoutResponse = await  TaskTimeoutExtensions.WaitAsync(response, timeout ?? TimeSpan.FromSeconds(5)).ConfigureAwait(continueOnCapturedContext:false);
+
+            if(timeoutResponse.Success)
+            {
+                if(removed)
+                {
+                    if ((bool)timeoutResponse.Result)
+                    {
+                        return new WaitForSelectorAsyncResponse(string.Empty, string.Empty, false);
+                    }
+
+                    return new WaitForSelectorAsyncResponse(false, $"Failed to detect DOM change for removed element via selector {selector}");
+                }
+
+                var element = (IDictionary<string, object>)timeoutResponse.Result;
+                var id = element["id"].ToString();
+                var tagName = element["tagName"].ToString();
+
+                return new WaitForSelectorAsyncResponse(id, tagName, true);
+            }
+
+            return new WaitForSelectorAsyncResponse(false, timeoutResponse.Message);
         }
 
         /// <summary>
