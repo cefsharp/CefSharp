@@ -110,8 +110,8 @@
     For class libraries that are often AnyCPU and consuming Exe/WinExe projects that are x64 or x86 the resulting build output
     is polluted with extra copies in sub folders. Set CefSharpBuildAction to NoAction to avoid copying the files.	
     -->
-    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' != 'PackageReference'">None</CefSharpBuildAction>
     <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND ('$(NuGetProjectStyle)' == 'PackageReference' OR '$(OutputType)' != 'Library')">Content</CefSharpBuildAction>
+    <CefSharpBuildAction Condition="'$(CefSharpBuildAction)' == '' AND '$(NuGetProjectStyle)' != 'PackageReference'">None</CefSharpBuildAction>
     
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' == ''"></CefSharpTargetDir>
     <!-- Ideally we could use EnsureTrailingSlash, was only added on 2017 so unlikely supported in older version of VS -->
