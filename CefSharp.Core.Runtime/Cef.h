@@ -561,7 +561,7 @@ namespace CefSharp
                         {
                             throw gcnew Exception("Cef.Shutdown must be called on the same thread that Cef.Initialize was called - typically your UI thread. " +
                                 "If you called Cef.Initialize on a Thread other than the UI thread then you will need to call Cef.Shutdown on the same thread. " +
-                                "Cef.Initialize was called on ManagedThreadId: " + _initializedThreadId + "where Cef.Shutdown is being called on " +
+                                "Cef.Initialize was called on ManagedThreadId: " + _initializedThreadId + " where Cef.Shutdown is being called on " +
                                 "ManagedThreadId: " + Thread::CurrentThread->ManagedThreadId);
                         }
 
