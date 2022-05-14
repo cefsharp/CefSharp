@@ -32,9 +32,9 @@ Before posting a bug report please take the time to read https://codeblog.jonske
 Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
+    - Please only create an issue if you can reproduce the problem with version 101.0.150 or greater.
     - What version are you using? Nuget? CI Nuget? build from a branch? If so please link to the relevant commit.
-	- Please include the exact version number you are using e.g. 95.7.141 (no ambiguous statements like `Latest from Nuget`)
-    - Please only create an issue if you can reproduce the problem with version 95.7.141 or greater.
+	- Please include the exact version number you are using e.g. 101.0.150 (no ambiguous statements like `Latest from Nuget`)
 
 - **What architecture x86 or x64?**
     <x86/x64>
