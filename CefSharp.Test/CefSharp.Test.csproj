@@ -33,7 +33,7 @@
         <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="101.0.15" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="102.0.5" />
 
         <PackageReference Include="Moq" Version="4.13.0" />
         <PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
