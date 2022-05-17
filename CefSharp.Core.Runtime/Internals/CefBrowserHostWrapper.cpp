@@ -303,7 +303,7 @@ IExtension^ CefBrowserHostWrapper::Extension::get()
     return nullptr;
 }
 
-void CefBrowserHostWrapper::RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, int selectedAcceptFilter, IRunFileDialogCallback^ callback)
+void CefBrowserHostWrapper::RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, IRunFileDialogCallback^ callback)
 {
     ThrowIfDisposed();
 
@@ -311,7 +311,6 @@ void CefBrowserHostWrapper::RunFileDialog(CefFileDialogMode mode, String^ title,
         StringUtils::ToNative(title),
         StringUtils::ToNative(defaultFilePath),
         StringUtils::ToNative(acceptFilters),
-        selectedAcceptFilter,
         new CefRunFileDialogCallbackAdapter(callback));
 }
 

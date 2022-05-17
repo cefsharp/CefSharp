@@ -15,8 +15,7 @@ namespace CefSharp.Callback
         /// <summary>
         /// Called asynchronously after the file dialog is dismissed.
         /// </summary>
-        /// <param name="selectedAcceptFilter">is the 0-based index of the value selected from the accept filters array passed to IBrowserHost.RunFileDialog</param>
         /// <param name="filePaths">will be a single value or a list of values depending on the dialog mode. If the selection was cancelled filePaths will be empty</param>
-        void OnFileDialogDismissed(int selectedAcceptFilter, IList<string> filePaths);
+        void OnFileDialogDismissed(IList<string> filePaths);
     }
 }

@@ -559,7 +559,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.Browser.GetBrowserHost().RunFileDialog(CefFileDialogMode.Open, "Open", null, new List<string> { "*.*" }, 0, new RunFileDialogCallback());
+                control.Browser.GetBrowserHost().RunFileDialog(CefFileDialogMode.Open, "Open", null, new List<string> { "*.*" }, new RunFileDialogCallback());
             }
         }
 

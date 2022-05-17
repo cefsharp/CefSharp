@@ -933,7 +933,7 @@ namespace CefSharp
         }
 
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
-            const CefString& default_file_path, const std::vector<CefString>& accept_filters, int selected_accept_filter,
+            const CefString& default_file_path, const std::vector<CefString>& accept_filters,
             CefRefPtr<CefFileDialogCallback> callback)
         {
             auto handler = _browserControl->DialogHandler;
@@ -946,18 +946,13 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto callbackWrapper = gcnew CefFileDialogCallbackWrapper(callback);
 
-            auto dialogMode = mode & FileDialogMode::FILE_DIALOG_TYPE_MASK;
-            auto dialogFlags = mode & ~FileDialogMode::FILE_DIALOG_TYPE_MASK;
-
             return handler->OnFileDialog(
                 _browserControl,
                 browserWrapper,
-                (CefFileDialogMode)dialogMode,
-                (CefFileDialogFlags)dialogFlags,
+                (CefFileDialogMode)mode,
                 StringUtils::ToClr(title),
                 StringUtils::ToClr(default_file_path),
                 StringUtils::ToClr(accept_filters),
-                selected_accept_filter,
                 callbackWrapper);
         }
 

@@ -36,11 +36,11 @@ namespace CefSharp
                 _disposed = true;
             }
 
-            virtual void Continue(int selectedAcceptFilter, List<String^>^ filePaths)
+            virtual void Continue(List<String^>^ filePaths)
             {
                 ThrowIfDisposed();
 
-                _callback->Continue(selectedAcceptFilter, StringUtils::ToNative(filePaths));
+                _callback->Continue(StringUtils::ToNative(filePaths));
 
                 delete this;
             }

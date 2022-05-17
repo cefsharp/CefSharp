@@ -9,7 +9,7 @@ namespace CefSharp.Example.Callback
 {
     public class RunFileDialogCallback : IRunFileDialogCallback
     {
-        void IRunFileDialogCallback.OnFileDialogDismissed(int selectedAcceptFilter, IList<string> filePaths)
+        void IRunFileDialogCallback.OnFileDialogDismissed(IList<string> filePaths)
         {
             
         }

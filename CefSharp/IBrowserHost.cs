@@ -331,9 +331,8 @@ namespace CefSharp
         /// <param name="title">to the title to be used for the dialog and may be empty to show the default title ("Open" or "Save" depending on the mode)</param>
         /// <param name="defaultFilePath">is the path with optional directory and/or file name component that will be initially selected in the dialog</param>
         /// <param name="acceptFilters">are used to restrict the selectable file types and may any combination of (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"), (b) individual file extensions (e.g. ".txt" or ".png"), or (c) combined description and file extension delimited using "|" and ";" (e.g. "Image Types|.png;.gif;.jpg")</param>
-        /// <param name="selectedAcceptFilter">is the 0-based index of the filter that will be selected by default</param>
         /// <param name="callback">will be executed after the dialog is dismissed or immediately if another dialog is already pending.</param>
-        void RunFileDialog(CefFileDialogMode mode, string title, string defaultFilePath, IList<string> acceptFilters, int selectedAcceptFilter, IRunFileDialogCallback callback);
+        void RunFileDialog(CefFileDialogMode mode, string title, string defaultFilePath, IList<string> acceptFilters, IRunFileDialogCallback callback);
 
         /// <summary>
         /// Returns the request context for this browser.

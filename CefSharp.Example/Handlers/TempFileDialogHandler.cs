@@ -4,14 +4,15 @@
 
 using System.Collections.Generic;
 using System.IO;
+using CefSharp.Handler;
 
 namespace CefSharp.Example.Handlers
 {
-    public class TempFileDialogHandler : IDialogHandler
+    public class TempFileDialogHandler : DialogHandler
     {
-        public bool OnFileDialog(IWebBrowser chromiumWebBrowser, IBrowser browser, CefFileDialogMode mode, CefFileDialogFlags flags, string title, string defaultFilePath, List<string> acceptFilters, int selectedAcceptFilter, IFileDialogCallback callback)
+        protected override bool OnFileDialog(IWebBrowser chromiumWebBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback)
         {
-            callback.Continue(selectedAcceptFilter, new List<string> { Path.GetRandomFileName() });
+            callback.Continue(new List<string> { Path.GetRandomFileName() });
 
             return true;
         }

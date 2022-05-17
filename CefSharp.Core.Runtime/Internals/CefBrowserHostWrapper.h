@@ -86,7 +86,7 @@ namespace CefSharp
                 IExtension^ get();
             }
 
-            virtual void RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, int selectedAcceptFilter, IRunFileDialogCallback^ callback);
+            virtual void RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, IRunFileDialogCallback^ callback);
 
             virtual void Find(String^ searchText, bool forward, bool matchCase, bool findNext);
             virtual void StopFinding(bool clearSelection);
