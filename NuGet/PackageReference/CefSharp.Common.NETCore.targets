@@ -106,26 +106,12 @@
           <Visible>false</Visible>
           <IncludeInVsix>true</IncludeInVsix>
         </Content>
-        <Content Include="@(CefRuntimeWin64SwiftShader)">
-          <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
       </ItemGroup>
     </When>
     <When Condition="'$(CefSharpRuntimeIdentifier)' == 'win-x86'">
       <ItemGroup>
         <Content Include="@(CefRuntimeWin32Locales)">
           <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
-        <Content Include="@(CefRuntimeWin32SwiftShader)">
-          <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
           <PublishState>Included</PublishState>
           <Visible>false</Visible>
@@ -142,13 +128,6 @@
           <Visible>false</Visible>
           <IncludeInVsix>true</IncludeInVsix>
         </Content>
-        <Content Include="@(CefRuntimeWinArm64SwiftShader)">
-          <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
       </ItemGroup>
     </When>
     <Otherwise>
@@ -158,13 +137,6 @@
         <PackageReference Include="chromiumembeddedframework.runtime.win-arm64" Version="102.0.6" />
         <Content Include="@(CefRuntimeWin32Locales)">
           <Link>runtimes\win-x86\native\locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
-        <Content Include="@(CefRuntimeWin32SwiftShader)">
-          <Link>runtimes\win-x86\native\swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
           <PublishState>Included</PublishState>
           <Visible>false</Visible>
@@ -192,13 +164,6 @@
           <Visible>false</Visible>
           <IncludeInVsix>true</IncludeInVsix>
         </Content>
-        <Content Include="@(CefRuntimeWin64SwiftShader)">
-          <Link>runtimes\win-x64\native\swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
         <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\lib\netcoreapp3.1\CefSharp.dll">
           <Link>runtimes\win-x64\native\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -216,13 +181,6 @@
         
         <Content Include="@(CefRuntimeWinArm64Locales)">
           <Link>runtimes\win-arm64\native\locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
-        <Content Include="@(CefRuntimeWinArm64SwiftShader)">
-          <Link>runtimes\win-arm64\native\swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
           <PublishState>Included</PublishState>
           <Visible>false</Visible>

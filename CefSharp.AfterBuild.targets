@@ -17,20 +17,13 @@
   </Target>
   
   <!--
-  Include swiftshader and locales in the Example projects
+  Include locales in the Example projects
   -->
   <Choose>
     <When Condition="$(RuntimeIdentifier.StartsWith('win')) and $(RuntimeIdentifier.Contains('-x64'))">
       <ItemGroup>
         <Content Include="@(CefRuntimeWin64Locales)">
           <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
-        <Content Include="@(CefRuntimeWin64SwiftShader)">
-          <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
           <PublishState>Included</PublishState>
           <Visible>false</Visible>
@@ -47,26 +40,12 @@
           <Visible>false</Visible>
           <IncludeInVsix>true</IncludeInVsix>
         </Content>
-        <Content Include="@(CefRuntimeWin32SwiftShader)">
-          <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
       </ItemGroup>
     </When>
     <When Condition="$(RuntimeIdentifier.StartsWith('win')) and $(RuntimeIdentifier.Contains('-arm64'))">
       <ItemGroup>
         <Content Include="@(CefRuntimeWinArm64Locales)">
           <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
-        <Content Include="@(CefRuntimeWinArm64SwiftShader)">
-          <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
           <PublishState>Included</PublishState>
           <Visible>false</Visible>

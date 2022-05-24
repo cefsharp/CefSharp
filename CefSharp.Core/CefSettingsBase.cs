@@ -412,7 +412,7 @@ namespace CefSharp
 
         /// <summary>
         /// Set command line argument to disable GPU Acceleration. WebGL will use
-        /// software rendering via Swiftshader (https://swiftshader.googlesource.com/SwiftShader#introduction)
+        /// software rendering
         /// </summary>
         public void DisableGpuAcceleration()
         {
@@ -435,9 +435,8 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance Swiftshader will be used for WebGL, look at the source
-        /// to determine which flags best suite your requirements. See https://swiftshader.googlesource.com/SwiftShader#introduction for
-        /// details on Swiftshader
+        /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance Software Rendering will be used for WebGL, look at the source
+        /// to determine which flags best suite your requirements. 
         /// </summary>
         public void SetOffScreenRenderingBestPerformanceArgs()
         {

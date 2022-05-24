@@ -9,7 +9,7 @@
   </Target>
 
   <!--
-  Include swiftshader and locales in the Example projects
+  Include locales in the Example projects
   -->
   <Choose>
     <When Condition="'$(Platform)' == 'x64'">
@@ -21,26 +21,12 @@
           <Visible>false</Visible>
           <IncludeInVsix>true</IncludeInVsix>
         </Content>
-        <Content Include="@(CefRuntimeWin64SwiftShader)">
-          <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
       </ItemGroup>
     </When>
     <When Condition="'$(Platform)' == 'x86' OR '$(Platform)' == 'Win32'">
       <ItemGroup>
         <Content Include="@(CefRuntimeWin32Locales)">
           <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <PublishState>Included</PublishState>
-          <Visible>false</Visible>
-          <IncludeInVsix>true</IncludeInVsix>
-        </Content>
-        <Content Include="@(CefRuntimeWin32SwiftShader)">
-          <Link>swiftshader\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
           <PublishState>Included</PublishState>
           <Visible>false</Visible>
