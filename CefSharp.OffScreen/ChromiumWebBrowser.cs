@@ -670,7 +670,9 @@ namespace CefSharp.OffScreen
 #if NETCOREAPP || NET462
         /// <summary>
         /// Waits for the page rendering to be idle for <paramref name="idleTimeInMs"/>.
-        /// This is useful for scenarios like taking a screen shot
+        /// Rendering is considered to be idle when no <see cref="Paint"/> events have occured
+        /// for <paramref name="idleTimeInMs"/>.
+        /// This is useful for scenarios like taking a screen shot.
         /// </summary>
         /// <param name="idleTimeInMs">optional idleTime in miliseconds, default to 500ms</param>
         /// <param name="timeout">optional timeout, if not specified defaults to thirty(30) seconds.</param>
@@ -709,7 +711,18 @@ namespace CefSharp.OffScreen
 
             Paint += handler;
 
-            return TaskTimeoutExtensions.WaitAsync(renderIdleTcs.Task, timeout ?? TimeSpan.FromSeconds(30), cancellationToken);
+            var timeOutTask = TaskTimeoutExtensions.WaitAsync(renderIdleTcs.Task, timeout ?? TimeSpan.FromSeconds(30), cancellationToken);
+
+            timeOutTask.ContinueWith(x =>
+            {
+                Paint -= handler;
+
+                idleTimer?.Stop();
+                idleTimer?.Dispose();
+
+            }, TaskContinuationOptions.NotOnRanToCompletion);
+
+            return timeOutTask;
         }
 #endif
 
