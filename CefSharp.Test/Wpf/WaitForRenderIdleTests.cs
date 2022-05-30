@@ -1,11 +1,12 @@
 using CefSharp.Example;
-using CefSharp.OffScreen;
+using CefSharp.Wpf;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace CefSharp.Test.OffScreen
+namespace CefSharp.Test.Wpf
 {
     //NOTE: All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle
     [Collection(CefSharpFixtureCollection.Key)]
@@ -21,12 +22,12 @@ namespace CefSharp.Test.OffScreen
             this.output = output;
         }
 
-        [Fact]
+        [WpfFact]
         public async Task ShouldWork()
         {
             const int expected = 500;
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(null, CefExample.DefaultUrl, new Size(1024, 786)))
             {
                 var start = DateTime.Now;
                 await browser.WaitForRenderIdleAsync();
@@ -44,12 +45,12 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
-        [Fact]
+        [WpfFact]
         public async Task ShouldWorkForManualInvalidateCalls()
         {
             const int expected = 600;
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(null, CefExample.DefaultUrl, new Size(1024, 786)))
             {
                 var start = DateTime.Now;
 
@@ -83,10 +84,10 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
-        [Fact]
+        [WpfFact]
         public async Task ShouldRespectTimeout()
         {
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(null, CefExample.DefaultUrl, new Size(1024, 786)))
             {
                 var exception = await Assert.ThrowsAsync<TimeoutException>(async () =>
                 {

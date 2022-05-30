@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using CefSharp.OffScreen;
 
@@ -10,6 +11,42 @@ namespace CefSharp.Test
 {
     public static class WebBrowserTestExtensions
     {
+        public static bool HasPaintEventHandler(this CefSharp.Wpf.ChromiumWebBrowser browser)
+        {
+            var field = typeof(CefSharp.Wpf.ChromiumWebBrowser).GetField("Paint", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            System.Diagnostics.Debug.Assert(field != null);
+
+            var handler = field.GetValue(browser) as Delegate;
+
+            if (handler == null)
+            {
+                return false;
+            }
+
+            var subscribers = handler.GetInvocationList();
+
+            return subscribers.Length > 0;
+        }
+
+        public static bool HasPaintEventHandler(this ChromiumWebBrowser browser)
+        {
+            var field = typeof(ChromiumWebBrowser).GetField("Paint", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            System.Diagnostics.Debug.Assert(field != null);
+
+            var handler = field.GetValue(browser) as Delegate;
+
+            if (handler == null)
+            {
+                return false;
+            }
+
+            var subscribers = handler.GetInvocationList();
+
+            return subscribers.Length > 0;
+        }
+
         public static Task<LoadUrlAsyncResponse> LoadRequestAsync(this IWebBrowser browser, IRequest request)
         {
             if(request == null)
