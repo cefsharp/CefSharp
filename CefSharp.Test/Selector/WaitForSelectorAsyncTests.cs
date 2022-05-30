@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CefSharp.OffScreen;
 using CefSharp.Example;
 using System;
-using CefSharp.DevTools.Accessibility;
+using CefSharp.Web;
 
 namespace CefSharp.Test.Selector
 {
@@ -174,6 +174,30 @@ namespace CefSharp.Test.Selector
                 Assert.Contains(url, browser.GetMainFrame().Url);
 
                 output.WriteLine("Exception {0}", exception.Message);
+            }
+        }
+
+        [Fact]
+        public async Task ShouldRespondToNodeAttributeMutation()
+        {
+            var html = new HtmlString("<div class='notZombo'></div>");
+
+            using (var browser = new ChromiumWebBrowser(html))
+            {
+                var response = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(response.Success);
+
+                var divFound = false;
+                var waitForSelector = browser.WaitForSelectorAsync(".zombo").ContinueWith(_ => divFound = true);
+
+                Assert.False(divFound);
+
+                browser.ExecuteScriptAsync("document.querySelector('div').className = 'zombo'");
+
+                var actual = await waitForSelector;
+
+                Assert.True(actual);
             }
         }
     }
