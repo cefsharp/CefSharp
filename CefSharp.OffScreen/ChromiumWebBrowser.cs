@@ -678,7 +678,7 @@ namespace CefSharp.OffScreen
         /// <param name="timeout">optional timeout, if not specified defaults to thirty(30) seconds.</param>
         /// <param name="cancellationToken">optional CancellationToken</param>
         /// <returns>Task that resolves when page rendering has been idle for <paramref name="idleTimeInMs"/></returns>
-        public Task WaitForRenderIdleAsync(int idleTimeInMs = 500, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+        public async Task WaitForRenderIdleAsync(int idleTimeInMs = 500, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             var renderIdleTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -711,18 +711,19 @@ namespace CefSharp.OffScreen
 
             Paint += handler;
 
-            var timeOutTask = TaskTimeoutExtensions.WaitAsync(renderIdleTcs.Task, timeout ?? TimeSpan.FromSeconds(30), cancellationToken);
-
-            timeOutTask.ContinueWith(x =>
+            try
+            {
+                await TaskTimeoutExtensions.WaitAsync(renderIdleTcs.Task, timeout ?? TimeSpan.FromSeconds(30), cancellationToken).ConfigureAwait(false);
+            }
+            catch(Exception)
             {
                 Paint -= handler;
 
                 idleTimer?.Stop();
                 idleTimer?.Dispose();
 
-            }, TaskContinuationOptions.NotOnRanToCompletion);
-
-            return timeOutTask;
+                throw;
+            }
         }
 #endif
 
