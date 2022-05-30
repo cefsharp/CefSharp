@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using CefSharp.Internals;
 
@@ -15,6 +16,7 @@ namespace CefSharp
     [KnownType(typeof(object[]))]
     [KnownType(typeof(JavascriptCallback))]
     [KnownType(typeof(Dictionary<string, object>))]
+    [DebuggerDisplay("Success = {Success}, Message = {Message}, Result = {Result}")]
     public class JavascriptResponse
     {
         /// <summary>
