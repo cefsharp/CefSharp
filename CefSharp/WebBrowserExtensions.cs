@@ -551,7 +551,16 @@ namespace CefSharp
             chromiumWebBrowser.LoadError += loadErrorHandler;
             chromiumWebBrowser.LoadingStateChanged += loadingStateChangeHandler;
 
-            return TaskTimeoutExtensions.WaitAsync(tcs.Task, timeout ?? TimeSpan.FromSeconds(5), cancellationToken);
+            var timeOutTask = TaskTimeoutExtensions.WaitAsync(tcs.Task, timeout ?? TimeSpan.FromSeconds(5), cancellationToken);
+
+            timeOutTask.ContinueWith(x =>
+            {
+                chromiumWebBrowser.LoadError -= loadErrorHandler;
+                chromiumWebBrowser.LoadingStateChanged -= loadingStateChangeHandler;
+
+            }, TaskContinuationOptions.NotOnRanToCompletion);
+
+            return timeOutTask;
         }
 
         /// <summary>
