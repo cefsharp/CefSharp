@@ -2,6 +2,8 @@ using Xunit;
 
 namespace CefSharp.Test.Framework
 {
+    //NOTE: All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle
+    [Collection(CefSharpFixtureCollection.Key)]
     public class HasHandlerFacts
     {
         [Fact]
