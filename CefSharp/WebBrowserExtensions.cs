@@ -1696,6 +1696,21 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Dispose of the DevTools Context (if any). Used in conjunction with CefSharp.Puppeteer
+        /// </summary>
+        /// <param name="webBrowserInternal">ChromiumWebBrowser instance</param>
+        public static void DisposeDevToolsContext(this IWebBrowserInternal webBrowserInternal)
+        {
+            if(webBrowserInternal == null)
+            {
+                return;
+            }
+
+            webBrowserInternal.DevToolsContext?.Dispose();
+            webBrowserInternal.DevToolsContext = null;
+        }
+
+        /// <summary>
         /// Function used to encode the params passed to <see cref="ExecuteScriptAsync(IWebBrowser, string, object[])"/>,
         /// <see cref="EvaluateScriptAsync(IWebBrowser, string, object[])"/> and
         /// <see cref="EvaluateScriptAsync(IWebBrowser, TimeSpan?, string, object[])"/>

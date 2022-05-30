@@ -320,6 +320,11 @@ namespace CefSharp.WinForms
         bool IWebBrowserInternal.HasParent { get; set; }
 
         /// <summary>
+        /// Used by CefSharp.Puppeteer to associate a single DevToolsContext with a ChromiumWebBrowser instance.
+        /// </summary>
+        IDisposable IWebBrowserInternal.DevToolsContext { get; set; }
+
+        /// <summary>
         /// Gets the browser adapter.
         /// </summary>
         /// <value>The browser adapter.</value>
@@ -488,6 +493,8 @@ namespace CefSharp.WinForms
             MenuHandler = null;
             ResourceRequestHandlerFactory = null;
             RenderProcessMessageHandler = null;
+
+            this.DisposeDevToolsContext();
         }
 
         /// <summary>
