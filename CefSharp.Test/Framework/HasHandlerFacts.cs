@@ -21,7 +21,7 @@ namespace CefSharp.Test.Framework
             }
         }
 
-        [Fact]
+        [WpfFact]
         public void ShouldWorkForWpf()
         {
             using (var browser = new CefSharp.Wpf.ChromiumWebBrowser())
