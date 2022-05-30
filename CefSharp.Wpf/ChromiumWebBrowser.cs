@@ -2575,6 +2575,66 @@ namespace CefSharp.Wpf
             }
         }
 
+#if NETCOREAPP || NET462
+        /// <summary>
+        /// Waits for the page rendering to be idle for <paramref name="idleTimeInMs"/>.
+        /// Rendering is considered to be idle when no <see cref="Paint"/> events have occured
+        /// for <paramref name="idleTimeInMs"/>.
+        /// This is useful for scenarios like taking a screen shot
+        /// </summary>
+        /// <param name="idleTimeInMs">optional idleTime in miliseconds, default to 500ms</param>
+        /// <param name="timeout">optional timeout, if not specified defaults to thirty(30) seconds.</param>
+        /// <param name="cancellationToken">optional CancellationToken</param>
+        /// <returns>Task that resolves when page rendering has been idle for <paramref name="idleTimeInMs"/></returns>
+        public async Task WaitForRenderIdleAsync(int idleTimeInMs = 500, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+        {
+            var renderIdleTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            var idleTimer = new System.Timers.Timer
+            {
+                Interval = idleTimeInMs,
+                AutoReset = false
+            };
+
+            EventHandler<PaintEventArgs> handler = null;
+
+            idleTimer.Elapsed += (sender, args) =>
+            {
+                Paint -= handler;
+
+                idleTimer.Stop();
+                idleTimer.Dispose();
+
+                renderIdleTcs.TrySetResult(true);
+            };
+
+            //Every time Paint is called we reset our timer
+            handler = (s, args) =>
+            {
+                idleTimer.Stop();
+                idleTimer.Start();
+            };
+
+            idleTimer.Start();
+
+            Paint += handler;
+
+            try
+            {
+                await TaskTimeoutExtensions.WaitAsync(renderIdleTcs.Task, timeout ?? TimeSpan.FromSeconds(30), cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                Paint -= handler;
+
+                idleTimer?.Stop();
+                idleTimer?.Dispose();
+
+                throw;
+            }
+        }
+#endif
+
         /// <summary>
         /// Legacy keyboard handler uses WindowProc callback interceptor to forward keypress events
         /// the the browser. Use this method to revert to the previous keyboard handling behaviour

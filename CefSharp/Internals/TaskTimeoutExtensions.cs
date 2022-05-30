@@ -13,7 +13,7 @@ namespace CefSharp.Internals
     /// WaitAsync polyfills imported from .Net Runtime
     /// as we don't get access to this method in older .net versions
     /// </summary>
-    internal static class TaskTimeoutExtensions
+    public static class TaskTimeoutExtensions
     {
         public static Task<TResult> WaitAsync<TResult>(Task<TResult> task, int millisecondsTimeout) =>
             WaitAsync(task, TimeSpan.FromMilliseconds(millisecondsTimeout), default);
