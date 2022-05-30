@@ -488,7 +488,7 @@ namespace CefSharp
         /// ]]>
         /// </code>
         /// </example>
-        public static Task<WaitForNavigationAsyncResponse> WaitForNavigationAsync(IChromiumWebBrowserBase chromiumWebBrowser, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+        public static async Task<WaitForNavigationAsyncResponse> WaitForNavigationAsync(IChromiumWebBrowserBase chromiumWebBrowser, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             var tcs = new TaskCompletionSource<WaitForNavigationAsyncResponse>();
 
@@ -551,16 +551,17 @@ namespace CefSharp
             chromiumWebBrowser.LoadError += loadErrorHandler;
             chromiumWebBrowser.LoadingStateChanged += loadingStateChangeHandler;
 
-            var timeOutTask = TaskTimeoutExtensions.WaitAsync(tcs.Task, timeout ?? TimeSpan.FromSeconds(5), cancellationToken);
-
-            timeOutTask.ContinueWith(x =>
+            try
+            {
+                return await TaskTimeoutExtensions.WaitAsync(tcs.Task, timeout ?? TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
             {
                 chromiumWebBrowser.LoadError -= loadErrorHandler;
                 chromiumWebBrowser.LoadingStateChanged -= loadingStateChangeHandler;
 
-            }, TaskContinuationOptions.NotOnRanToCompletion);
-
-            return timeOutTask;
+                throw;
+            }
         }
 
         /// <summary>
