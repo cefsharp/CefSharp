@@ -15,7 +15,10 @@ namespace CefSharp.Test
         {
             var field = typeof(CefSharp.Wpf.ChromiumWebBrowser).GetField("Paint", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            System.Diagnostics.Debug.Assert(field != null);
+            if(field == null)
+            {
+                throw new Exception("Unable to obtain Paint event handler");
+            }
 
             var handler = field.GetValue(browser) as Delegate;
 
@@ -33,7 +36,10 @@ namespace CefSharp.Test
         {
             var field = typeof(ChromiumWebBrowser).GetField("Paint", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            System.Diagnostics.Debug.Assert(field != null);
+            if (field == null)
+            {
+                throw new Exception("Unable to obtain Paint event handler");
+            }
 
             var handler = field.GetValue(browser) as Delegate;
 

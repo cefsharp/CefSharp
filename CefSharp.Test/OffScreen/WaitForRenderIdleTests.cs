@@ -40,7 +40,7 @@ namespace CefSharp.Test.OffScreen
 
                 output.WriteLine("Time {0}ms", time);
 
-                Assert.False(browser.HasPaintEventHandler());
+                Assert.False(browser.HasPaintEventHandler(), "Paint event handler is null");
             }
         }
 
@@ -77,7 +77,7 @@ namespace CefSharp.Test.OffScreen
                 Assert.True(end > start);
                 Assert.True(time > expected, $"Executed in {time}ms");
 
-                Assert.False(browser.HasPaintEventHandler());
+                Assert.False(browser.HasPaintEventHandler(), "Paint event handler is null");
 
                 output.WriteLine("Time {0}ms", time);
             }
@@ -95,7 +95,7 @@ namespace CefSharp.Test.OffScreen
 
                 Assert.Equal("The operation has timed out.", exception.Message);
 
-                Assert.False(browser.HasPaintEventHandler());
+                Assert.False(browser.HasPaintEventHandler(), "Paint event handler is null");
             }
         }        
     }
