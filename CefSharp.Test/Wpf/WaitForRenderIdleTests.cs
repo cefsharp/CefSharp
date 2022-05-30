@@ -1,6 +1,7 @@
 using CefSharp.Example;
 using CefSharp.Wpf;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Xunit;
@@ -102,6 +103,25 @@ namespace CefSharp.Test.Wpf
 
                 Assert.Equal(0, browser.PaintEventHandlerCount());
             }
-        }        
+        }
+
+        [WpfFact]
+        public async Task ShouldRespectCancellation()
+        {
+            using (var cancellationSource = new CancellationTokenSource())
+            using (var browser = new ChromiumWebBrowser(null, CefExample.DefaultUrl, new Size(1024, 786)))
+            {
+                cancellationSource.CancelAfter(400);
+
+                var exception = await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+                {
+                    await browser.WaitForRenderIdleAsync(cancellationToken:cancellationSource.Token);
+                });
+
+                Assert.Equal("A task was canceled.", exception.Message);
+
+                Assert.Equal(0, browser.PaintEventHandlerCount());
+            }
+        }
     }
 }

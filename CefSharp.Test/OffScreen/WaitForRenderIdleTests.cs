@@ -1,6 +1,7 @@
 using CefSharp.Example;
 using CefSharp.OffScreen;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -97,6 +98,26 @@ namespace CefSharp.Test.OffScreen
 
                 Assert.Equal(0, browser.PaintEventHandlerCount());
             }
-        }        
+        }
+
+        [Fact]
+        public async Task ShouldRespectCancellation()
+        {
+
+            using (var cancellationSource = new CancellationTokenSource())
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            {
+                cancellationSource.CancelAfter(400);
+
+                var exception = await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+                {
+                    await browser.WaitForRenderIdleAsync(cancellationToken:cancellationSource.Token);
+                });
+
+                Assert.Equal("A task was canceled.", exception.Message);
+
+                Assert.Equal(0, browser.PaintEventHandlerCount());
+            }
+        }
     }
 }
