@@ -11,7 +11,7 @@ namespace CefSharp.Test
 {
     public static class WebBrowserTestExtensions
     {
-        public static bool HasPaintEventHandler(this CefSharp.Wpf.ChromiumWebBrowser browser)
+        public static int PaintEventHandlerCount(this CefSharp.Wpf.ChromiumWebBrowser browser)
         {
             var field = typeof(CefSharp.Wpf.ChromiumWebBrowser).GetField("Paint", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -24,15 +24,15 @@ namespace CefSharp.Test
 
             if (handler == null)
             {
-                return false;
+                return 0;
             }
 
             var subscribers = handler.GetInvocationList();
 
-            return subscribers.Length > 0;
+            return subscribers.Length;
         }
 
-        public static bool HasPaintEventHandler(this ChromiumWebBrowser browser)
+        public static int PaintEventHandlerCount(this ChromiumWebBrowser browser)
         {
             var field = typeof(ChromiumWebBrowser).GetField("Paint", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -45,12 +45,12 @@ namespace CefSharp.Test
 
             if (handler == null)
             {
-                return false;
+                return 0;
             }
 
             var subscribers = handler.GetInvocationList();
 
-            return subscribers.Length > 0;
+            return subscribers.Length;
         }
 
         public static Task<LoadUrlAsyncResponse> LoadRequestAsync(this IWebBrowser browser, IRequest request)

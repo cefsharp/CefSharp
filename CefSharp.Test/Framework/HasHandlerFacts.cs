@@ -13,11 +13,11 @@ namespace CefSharp.Test.Framework
             {
                 browser.Paint += OffScreenBrowserPaint;
 
-                Assert.True(browser.HasPaintEventHandler());
+                Assert.Equal(1, browser.PaintEventHandlerCount());
 
                 browser.Paint -= OffScreenBrowserPaint;
 
-                Assert.False(browser.HasPaintEventHandler());
+                Assert.Equal(0, browser.PaintEventHandlerCount());
             }
         }
 
@@ -28,11 +28,11 @@ namespace CefSharp.Test.Framework
             {
                 browser.Paint += WpfBrowserPaint;
 
-                Assert.True(browser.HasPaintEventHandler());
+                Assert.Equal(1, browser.PaintEventHandlerCount());
 
                 browser.Paint -= WpfBrowserPaint;
 
-                Assert.False(browser.HasPaintEventHandler());
+                Assert.Equal(0, browser.PaintEventHandlerCount());
             }
         }
 
