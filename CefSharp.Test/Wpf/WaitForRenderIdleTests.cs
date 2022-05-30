@@ -58,6 +58,10 @@ namespace CefSharp.Test.Wpf
                 {
                     await Task.Delay(400);
 
+                    // Ensure the browser has finished loading before we attempt
+                    // to access BrowserHost
+                    await browser.WaitForInitialLoadAsync();
+
                     browser.GetBrowserHost().Invalidate(PaintElementType.View);
 
                     await Task.Delay(100);
