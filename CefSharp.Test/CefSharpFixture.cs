@@ -36,6 +36,7 @@ namespace CefSharp.Test
                 }
 
                 Cef.EnableWaitForBrowsersToClose();
+                CefSharp.Internals.BrowserRefCounter.Instance.EnableLogging();
 
                 CefSharpSettings.ShutdownOnExit = false;
                 var settings = new CefSettings();

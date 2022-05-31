@@ -2,32 +2,56 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Threading;
 
 namespace CefSharp.Internals
 {
-    public class NoOpBrowserRefCounter : IBrowserRefCounter
+    /// <inheritdoc/>
+    public sealed class NoOpBrowserRefCounter : IBrowserRefCounter
     {
+        /// <inheritdoc/>
         int IBrowserRefCounter.Count
         {
             get { return 0; }
         }
 
-        bool IBrowserRefCounter.Decrement()
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+        }
+
+        /// <inheritdoc/>
+        void IBrowserRefCounter.EnableLogging()
+        {
+            
+        }
+
+        /// <inheritdoc/>
+        string IBrowserRefCounter.GetLog()
+        {
+            return string.Empty;
+        }
+
+        /// <inheritdoc/>
+        bool IBrowserRefCounter.Decrement(Type type)
         {
             return false;
         }
 
-        void IBrowserRefCounter.Increment()
+        /// <inheritdoc/>
+        void IBrowserRefCounter.Increment(Type type)
         {
 
         }
 
+        /// <inheritdoc/>
         void IBrowserRefCounter.WaitForBrowsersToClose(int timeoutInMiliseconds)
         {
 
         }
 
+        /// <inheritdoc/>
         void IBrowserRefCounter.WaitForBrowsersToClose(int timeoutInMiliseconds, CancellationToken cancellationToken)
         {
 
