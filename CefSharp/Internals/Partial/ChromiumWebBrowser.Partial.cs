@@ -528,7 +528,7 @@ namespace CefSharp.WinForms
         {
             if (IsDisposed)
             {
-                throw new ObjectDisposedException("browser", "Browser has been disposed");
+                throw new ObjectDisposedException("ChromiumWebBrowser");
             }
         }
     }

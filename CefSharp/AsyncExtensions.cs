@@ -26,12 +26,12 @@ namespace CefSharp
         {
             if (cookieManager == null)
             {
-                throw new NullReferenceException("cookieManager");
+                throw new ArgumentNullException(nameof(cookieManager));
             }
 
             if (cookieManager.IsDisposed)
             {
-                throw new ObjectDisposedException("cookieManager");
+                throw new ObjectDisposedException("CookieManager");
             }
 
             var callback = new TaskDeleteCookiesCallback();
@@ -58,12 +58,12 @@ namespace CefSharp
         {
             if (cookieManager == null)
             {
-                throw new NullReferenceException("cookieManager");
+                throw new ArgumentNullException(nameof(cookieManager));
             }
 
             if (cookieManager.IsDisposed)
             {
-                throw new ObjectDisposedException("cookieManager");
+                throw new ObjectDisposedException("CookieManager");
             }
 
             var callback = new TaskSetCookieCallback();
