@@ -127,6 +127,8 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public void BrowserRefCountDecrementedOnDispose()
         {
+            var currentCount = BrowserRefCounter.Instance.Count;
+
             var manualResetEvent = new ManualResetEvent(false);
 
             var browser = new ChromiumWebBrowser("https://google.com");
@@ -141,11 +143,9 @@ namespace CefSharp.Test.OffScreen
             manualResetEvent.WaitOne();
 
             //TODO: Refactor this so reference is injected into browser
-            Assert.Equal(1, BrowserRefCounter.Instance.Count);
+            Assert.Equal(currentCount + 1, BrowserRefCounter.Instance.Count);
 
             browser.Dispose();
-
-            Assert.True(BrowserRefCounter.Instance.Count <= 1);
 
             Cef.WaitForBrowsersToClose();
 
