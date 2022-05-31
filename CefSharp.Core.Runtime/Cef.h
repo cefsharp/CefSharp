@@ -863,7 +863,7 @@ namespace CefSharp
                 _disposables->Clear();
 
                 //Wait for the browsers to close
-                BrowserRefCounter::Instance->WaitForBrowsersToClose(500);
+                BrowserRefCounter::Instance->WaitForBrowsersToClose(750);
 
                 //A few extra ms to allow for CEF to finish 
                 Thread::Sleep(50);
