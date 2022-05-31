@@ -69,6 +69,8 @@ namespace CefSharp
         /// <returns> the main frame. </returns>
         public static IFrame GetMainFrame(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var cefBrowser = browser.BrowserCore;
 
             cefBrowser.ThrowExceptionIfBrowserNull();
@@ -83,6 +85,8 @@ namespace CefSharp
         /// <returns>the focused frame.</returns>
         public static IFrame GetFocusedFrame(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var cefBrowser = browser.BrowserCore;
 
             cefBrowser.ThrowExceptionIfBrowserNull();
@@ -96,6 +100,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Undo(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Undo();
         }
 
@@ -121,6 +127,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Redo(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Redo();
         }
 
@@ -146,6 +154,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Cut(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Cut();
         }
 
@@ -171,6 +181,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Copy(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Copy();
         }
 
@@ -196,6 +208,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Paste(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Paste();
         }
 
@@ -221,6 +235,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Delete(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Delete();
         }
 
@@ -246,6 +262,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void SelectAll(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.SelectAll();
         }
 
@@ -272,6 +290,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void ViewSource(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.ViewSource();
         }
 
@@ -301,6 +321,8 @@ namespace CefSharp
         /// </returns>
         public static Task<string> GetSourceAsync(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             return browser.BrowserCore.GetSourceAsync();
         }
 
@@ -332,6 +354,8 @@ namespace CefSharp
         /// </returns>
         public static Task<string> GetTextAsync(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             return browser.BrowserCore.GetTextAsync();
         }
 
@@ -361,6 +385,8 @@ namespace CefSharp
         /// <param name="url">url to download</param>
         public static void StartDownload(this IChromiumWebBrowserBase browser, string url)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.StartDownload(url);
         }
 
@@ -391,7 +417,9 @@ namespace CefSharp
         /// <returns>See <see cref="IChromiumWebBrowserBase.LoadUrlAsync(string)"/> for details</returns>
         public static Task<LoadUrlAsyncResponse> LoadUrlAsync(IChromiumWebBrowserBase chromiumWebBrowser, string url)
         {
-            if(string.IsNullOrEmpty(url))
+            ThrowExceptionIfChromiumWebBrowserDisposed(chromiumWebBrowser);
+
+            if (string.IsNullOrEmpty(url))
             {
                 throw new ArgumentNullException(nameof(url));
             }
@@ -490,6 +518,8 @@ namespace CefSharp
         /// </example>
         public static async Task<WaitForNavigationAsyncResponse> WaitForNavigationAsync(IChromiumWebBrowserBase chromiumWebBrowser, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(chromiumWebBrowser);
+
             var tcs = new TaskCompletionSource<WaitForNavigationAsyncResponse>();
 
             EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
@@ -697,6 +727,8 @@ namespace CefSharp
         /// <see cref="EncodeScriptParam"/>, you can provide a custom implementation if you require one.</param>
         public static void ExecuteScriptAsync(this IChromiumWebBrowserBase browser, string methodName, params object[] args)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.ExecuteScriptAsync(methodName, args);
         }
 
@@ -724,6 +756,8 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IChromiumWebBrowserBase browser, string script)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             using (var frame = browser.GetMainFrame())
             {
                 ThrowExceptionIfFrameNull(frame);
@@ -765,6 +799,8 @@ namespace CefSharp
         /// <param name="oneTime">(Optional) The script will only be executed on first page load, subsequent page loads will be ignored.</param>
         public static void ExecuteScriptAsyncWhenPageLoaded(this IChromiumWebBrowserBase webBrowser, string script, bool oneTime = true)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(webBrowser);
+
             var useLoadingStateChangedEventHandler = webBrowser.IsBrowserInitialized == false || oneTime == false;
 
             //Browser has been initialized, we check if there is a valid document and we're not loading
@@ -816,6 +852,8 @@ namespace CefSharp
         /// <param name="contentType">(Optional) if set the Content-Type header will be set</param>
         public static void LoadUrlWithPostData(this IChromiumWebBrowserBase browser, string url, byte[] postDataBytes, string contentType = null)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.LoadUrlWithPostData(url, postDataBytes, contentType);
         }
 
@@ -886,6 +924,8 @@ namespace CefSharp
         /// <param name="base64Encode">(Optional) if true the html string will be base64 encoded using UTF8 encoding.</param>
         public static void LoadHtml(this IChromiumWebBrowserBase browser, string html, bool base64Encode = false)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var htmlString = new HtmlString(html, base64Encode);
 
             browser.LoadUrl(htmlString.ToDataUriString());
@@ -924,6 +964,8 @@ namespace CefSharp
         /// </returns>
         public static bool LoadHtml(this IWebBrowser browser, string html, string url, Encoding encoding, bool oneTimeUse = false)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             if (browser.ResourceRequestHandlerFactory == null)
             {
                 browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
@@ -959,6 +1001,8 @@ namespace CefSharp
         public static void RegisterResourceHandler(this IWebBrowser browser, string url, Stream stream, string mimeType = ResourceHandler.DefaultMimeType,
             bool oneTimeUse = false)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             if (browser.ResourceRequestHandlerFactory == null)
             {
                 browser.ResourceRequestHandlerFactory = new ResourceRequestHandlerFactory();
@@ -988,6 +1032,8 @@ namespace CefSharp
         /// <param name="url">the url of the resource to unregister.</param>
         public static void UnRegisterResourceHandler(this IWebBrowser browser, string url)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var handler = browser.ResourceRequestHandlerFactory as ResourceRequestHandlerFactory;
 
             if (handler == null)
@@ -1004,6 +1050,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Stop(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Stop();
         }
 
@@ -1024,6 +1072,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Back(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Back();
         }
 
@@ -1044,6 +1094,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Forward(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Forward();
         }
 
@@ -1064,6 +1116,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Reload(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.Reload(false);
         }
 
@@ -1076,6 +1130,8 @@ namespace CefSharp
         /// files from the browser cache, if available.</param>
         public static void Reload(this IChromiumWebBrowserBase browser, bool ignoreCache)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.Reload(ignoreCache);
         }
 
@@ -1105,6 +1161,8 @@ namespace CefSharp
         /// </returns>
         public static ICookieManager GetCookieManager(this IChromiumWebBrowserBase browser, ICompletionCallback callback = null)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var host = browser.GetBrowserHost();
 
             ThrowExceptionIfBrowserHostNull(host);
@@ -1129,6 +1187,8 @@ namespace CefSharp
         /// </returns>
         public static IRequestContext GetRequestContext(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var host = browser.GetBrowserHost();
 
             ThrowExceptionIfBrowserHostNull(host);
@@ -1160,6 +1220,8 @@ namespace CefSharp
         /// </returns>
         public static Task<double> GetZoomLevelAsync(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             return browser.BrowserCore.GetZoomLevelAsync();
         }
 
@@ -1193,6 +1255,8 @@ namespace CefSharp
         /// <param name="zoomLevel">zoom level.</param>
         public static void SetZoomLevel(this IChromiumWebBrowserBase browser, double zoomLevel)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.SetZoomLevel(zoomLevel);
         }
 
@@ -1222,6 +1286,8 @@ namespace CefSharp
         /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
         public static void Find(this IChromiumWebBrowserBase browser, string searchText, bool forward, bool matchCase, bool findNext)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var cefBrowser = browser.BrowserCore;
             cefBrowser.ThrowExceptionIfBrowserNull();
 
@@ -1250,6 +1316,8 @@ namespace CefSharp
         /// <param name="clearSelection">clear the current search selection.</param>
         public static void StopFinding(this IChromiumWebBrowserBase browser, bool clearSelection)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.StopFinding(clearSelection);
         }
 
@@ -1293,6 +1361,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void Print(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var cefBrowser = browser.BrowserCore;
             cefBrowser.ThrowExceptionIfBrowserNull();
 
@@ -1312,6 +1382,8 @@ namespace CefSharp
         /// </returns>
         public static Task<bool> PrintToPdfAsync(this IChromiumWebBrowserBase browser, string path, PdfPrintSettings settings = null)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             return browser.BrowserCore.PrintToPdfAsync(path, settings);
         }
 
@@ -1339,6 +1411,8 @@ namespace CefSharp
         /// <param name="inspectElementAtY">(Optional) y coordinate (used for inspectElement)</param>
         public static void ShowDevTools(this IChromiumWebBrowserBase browser, IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.ShowDevTools(windowInfo, inspectElementAtX, inspectElementAtY);
         }
 
@@ -1360,6 +1434,8 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         public static void CloseDevTools(this IChromiumWebBrowserBase browser)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.CloseDevTools();
         }
 
@@ -1383,6 +1459,8 @@ namespace CefSharp
         /// <param name="word">The new word that will replace the currently selected word.</param>
         public static void ReplaceMisspelling(this IChromiumWebBrowserBase browser, string word)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.ReplaceMisspelling(word);
         }
 
@@ -1420,6 +1498,8 @@ namespace CefSharp
         /// <param name="word">The new word that will be added to the dictionary.</param>
         public static void AddWordToDictionary(this IChromiumWebBrowserBase browser, string word)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.AddWordToDictionary(word);
         }
 
@@ -1434,6 +1514,8 @@ namespace CefSharp
         /// <param name="modifiers">The modifiers.</param>
         public static void SendMouseWheelEvent(this IChromiumWebBrowserBase browser, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             browser.BrowserCore.SendMouseWheelEvent(x, y, deltaX, deltaY, modifiers);
         }
 
@@ -1520,6 +1602,8 @@ namespace CefSharp
         /// </returns>
         public static Task<JavascriptResponse> EvaluateScriptAsPromiseAsync(this IWebBrowser chromiumWebBrowser, string script, TimeSpan? timeout = null)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(chromiumWebBrowser);
+
             var jsbSettings = chromiumWebBrowser.JavascriptObjectRepository.Settings;
 
             var promiseHandlerScript = GetPromiseHandlerScript(script, jsbSettings.JavascriptBindingApiGlobalObjectName);
@@ -1614,6 +1698,8 @@ namespace CefSharp
         /// </returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IChromiumWebBrowserBase browser, string script, TimeSpan? timeout = null, bool useImmediatelyInvokedFuncExpression = false)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             if (browser is IWebBrowser b)
             {
                 if (b.CanExecuteJavascriptInMainFrame == false)
@@ -1670,6 +1756,8 @@ namespace CefSharp
         /// </returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IChromiumWebBrowserBase browser, string methodName, params object[] args)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             return browser.EvaluateScriptAsync(null, methodName, args);
         }
 
@@ -1688,6 +1776,8 @@ namespace CefSharp
         /// </returns>
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IChromiumWebBrowserBase browser, TimeSpan? timeout, string methodName, params object[] args)
         {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
             var script = GetScriptForJavascriptMethodWithArgs(methodName, args);
 
             return browser.EvaluateScriptAsync(script, timeout);
@@ -1810,6 +1900,23 @@ namespace CefSharp
             stringBuilder.Append(");");
 
             return stringBuilder.ToString();
+        }
+
+        private static void ThrowExceptionIfChromiumWebBrowserDisposed(IChromiumWebBrowserBase browser)
+        {
+            if (browser == null)
+            {
+                throw new ArgumentNullException(nameof(browser));
+            }
+
+            if (browser.IsDisposed)
+            {
+                // Provide a more meaningful message for WinForms ChromiumHostControl
+                // should be ChromiumWebBrowser/ChromiumHostControl
+                var type = browser.GetType();
+
+                throw new ObjectDisposedException(type.Name);
+            }
         }
 
         /// <summary>

@@ -65,6 +65,33 @@ namespace CefSharp.Test.OffScreen
         }
 
         [Fact]
+        public async Task ShouldRespectDisposed()
+        {
+            ChromiumWebBrowser browser;
+
+            using (browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            {
+                var response = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(response.Success);
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Equal(CefExample.DefaultUrl, mainFrame.Url);
+                Assert.Equal(200, response.HttpStatusCode);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+
+            Assert.True(browser.IsDisposed);
+
+            Assert.Throws<ObjectDisposedException>(() =>
+            {
+                browser.Copy();
+            });
+        }
+
+        [Fact]
         public async Task CanLoadInvalidDomain()
         {
             using (var browser = new ChromiumWebBrowser("notfound.cefsharp.test"))

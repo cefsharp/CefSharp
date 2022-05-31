@@ -2,8 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Threading.Tasks;
 using System.Windows;
+using CefSharp.Example;
 using CefSharp.Wpf;
 using Xunit;
 using Xunit.Abstractions;
@@ -110,6 +112,24 @@ namespace CefSharp.Test.Wpf
 
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
+        }
+
+        [WpfFact]
+        public async Task ShouldRespectDisposed()
+        {
+            ChromiumWebBrowser browser;
+
+            using (browser = new ChromiumWebBrowser(null, CefExample.DefaultUrl, new Size(1024, 786)))
+            {
+                await browser.WaitForInitialLoadAsync();
+            }
+
+            Assert.True(browser.IsDisposed);
+
+            var ex = Assert.Throws<ObjectDisposedException>(() =>
+            {
+                browser.Copy();
+            });
         }
     }
 }

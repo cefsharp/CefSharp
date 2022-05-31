@@ -2,7 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Threading.Tasks;
+using CefSharp.Example;
 using CefSharp.WinForms;
 using Xunit;
 using Xunit.Abstractions;
@@ -125,6 +127,33 @@ namespace CefSharp.Test.WinForms
 
                 output.WriteLine("Url {0}", mainFrame.Url);
             }
+        }
+
+        [WinFormsFact]
+        public async Task ShouldRespectDisposed()
+        {
+            ChromiumWebBrowser browser;
+
+            using (browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            {
+                browser.Size = new System.Drawing.Size(1024, 768);
+                browser.CreateControl();
+
+                await browser.WaitForInitialLoadAsync();
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                Assert.Equal(CefExample.DefaultUrl, mainFrame.Url);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+
+            Assert.True(browser.IsDisposed);
+
+            Assert.Throws<ObjectDisposedException>(() =>
+            {
+                browser.Copy();
+            });
         }
     }
 }
