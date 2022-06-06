@@ -784,7 +784,16 @@ namespace CefSharp.OffScreen
         /// <returns>ScreenInfo.</returns>
         protected virtual ScreenInfo? GetScreenInfo()
         {
-            return RenderHandler?.GetScreenInfo();
+            var renderHandler = RenderHandler;
+
+            if(renderHandler == null)
+            {
+                var screenInfo = new ScreenInfo { DeviceScaleFactor = DeviceScaleFactor };
+
+                return screenInfo;
+            }
+
+            return renderHandler.GetScreenInfo();
         }
 
         /// <summary>
@@ -802,12 +811,18 @@ namespace CefSharp.OffScreen
         /// <returns>ViewRect.</returns>
         protected virtual Rect GetViewRect()
         {
-            if (RenderHandler == null)
+            var renderHandler = RenderHandler;
+
+            if (renderHandler == null)
             {
-                return new Rect(0, 0, 640, 480);
+                var size = Size;
+
+                var viewRect = new Rect(0, 0, size.Width, size.Height);
+
+                return viewRect;
             }
 
-            return RenderHandler.GetViewRect();
+            return renderHandler.GetViewRect();
         }
 
         /// <summary>
