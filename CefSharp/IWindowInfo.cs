@@ -65,6 +65,10 @@ namespace CefSharp
         /// Handle for the new browser window. Only used with windowed rendering.
         /// </summary>
         IntPtr WindowHandle { get; set; }
+        /// <summary>
+        /// Window Name
+        /// </summary>
+        string WindowName { get; set; }
 
         /// <summary>
         /// Create the browser as a child window.
