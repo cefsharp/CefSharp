@@ -928,6 +928,8 @@ namespace CefSharp.Wpf.HwndHost
                 ResourceRequestHandlerFactory = null;
                 RenderProcessMessageHandler = null;
 
+                this.DisposeDevToolsContext();
+
                 browser = null;
                 BrowserCore = null;
 
@@ -1643,6 +1645,11 @@ namespace CefSharp.Wpf.HwndHost
 
         /// <inheritdoc />
         public IBrowser BrowserCore { get; private set; }
+
+        /// <summary>
+        /// Used by CefSharp.Puppeteer to associate a single DevToolsContext with a ChromiumWebBrowser instance.
+        /// </summary>
+        IDisposable IWebBrowserInternal.DevToolsContext { get; set; }
 
         /// <summary>
         /// Returns the current IBrowser Instance
