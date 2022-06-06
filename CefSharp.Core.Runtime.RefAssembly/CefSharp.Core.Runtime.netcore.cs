@@ -329,6 +329,7 @@ namespace CefSharp.Core
         public virtual int Width { get { throw null; } set { } }
         public virtual System.IntPtr WindowHandle { get { throw null; } set { } }
         public virtual bool WindowlessRenderingEnabled { get { throw null; } set { } }
+        public virtual string WindowName { get { throw null; } set { } }
         public virtual int X { get { throw null; } set { } }
         public virtual int Y { get { throw null; } set { } }
         public void Dispose() { }

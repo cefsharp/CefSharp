@@ -147,6 +147,18 @@ namespace CefSharp
                 }
             }
 
+            virtual property String^ WindowName
+            {
+                String^ get()
+                {
+                    return StringUtils::ToClr(_windowInfo->window_name);
+                }
+                void set(String^ value)
+                {
+                    StringUtils::AssignNativeFromClr(_windowInfo->window_name, value);
+                }
+            }
+
             virtual property bool WindowlessRenderingEnabled
             {
                 bool get()

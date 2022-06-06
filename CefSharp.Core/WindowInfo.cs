@@ -92,6 +92,13 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
+        public string WindowName
+        {
+            get { return windowInfo.WindowName; }
+            set { windowInfo.WindowName = value; }
+        }
+
+        /// <inheritdoc/>
         public void Dispose()
         {
             windowInfo.Dispose();
