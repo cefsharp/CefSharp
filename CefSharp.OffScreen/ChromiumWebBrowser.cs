@@ -261,6 +261,11 @@ namespace CefSharp.OffScreen
                 CanExecuteJavascriptInMainFrame = false;
                 Interlocked.Exchange(ref browserInitialized, 0);
 
+                //Stop rendering immediately so later on when we dispose of the
+                //RenderHandler no further OnPaint calls take place
+                //Check browser not null as it's possible to call Dispose before it's created
+                browser?.GetHost().WasHidden(true);
+
                 // Don't reference event listeners any longer:
                 AddressChanged = null;
                 BrowserInitialized = null;
@@ -295,6 +300,13 @@ namespace CefSharp.OffScreen
                 // LifeSpanHandler is set to null after managedCefBrowserAdapter.Dispose so ILifeSpanHandler.DoClose
                 // is called.
                 LifeSpanHandler = null;
+
+                //Take a copy of the RenderHandler then set to property to null
+                //Before we dispose, reduces the changes of any OnPaint calls
+                //using the RenderHandler after Dispose
+                var renderHandler = RenderHandler;
+                RenderHandler = null;
+                renderHandler?.Dispose();
             }
 
             Cef.RemoveDisposable(this);
