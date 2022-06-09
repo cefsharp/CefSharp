@@ -202,7 +202,7 @@ namespace CefSharp.DevTools
         }
 
         /// <inheritdoc/>
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             //Dispose can be called from different Threads
             //CEF maintains a reference and the user
