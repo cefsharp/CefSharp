@@ -11,7 +11,7 @@ namespace CefSharp.DevTools
     /// <summary>
     /// DevTools Client
     /// </summary>
-    public interface IDevToolsClient
+    public interface IDevToolsClient : IDisposable
     {
         /// <summary>
         /// Will be called on receipt of a DevTools protocol event. Events by default are disabled and need to be
