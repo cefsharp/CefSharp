@@ -34,13 +34,18 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="chromiumembeddedframework.runtime" Version="102.0.10" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="102.0.9" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
 
         <PackageReference Include="Moq" Version="4.13.0" />
         <PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
         <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
         <PackageReference Include="Titanium.Web.Proxy" version="3.1.1301" />
     </ItemGroup>
