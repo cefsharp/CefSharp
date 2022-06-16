@@ -5,9 +5,9 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "vs2019",
     [Parameter(Position = 1)]
-    [string] $Version = "102.0.90",
+    [string] $Version = "102.0.100",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "102.0.90",
+    [string] $AssemblyVersion = "102.0.100",
     [Parameter(Position = 3)]
     [ValidateSet("NetFramework", "NetCore", "NetFramework452", "NetCore31")]
     [string] $TargetFramework = "NetFramework",
@@ -422,7 +422,7 @@ function WriteVersionToShfbproj
 function WriteVersionToAppveyor
 {
     $Filename = Join-Path $WorkingDir appveyor.yml
-    $Regex1 = 'version: .*-CI{build}';
+    $Regex1 = 'version: .*-RCI{build}';
     
     $AppveyorData = Get-Content -Encoding UTF8 $Filename
     $NewString = $AppveyorData -replace $Regex1, "version: $AssemblyVersion-CI{build}"
