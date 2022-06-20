@@ -90,6 +90,7 @@ namespace CefSharp.Core
         public static void Shutdown() { }
         public static void ShutdownWithoutChecks() { }
         public static void WaitForBrowsersToClose() { }
+        public static void WaitForBrowsersToClose(int timeoutInMiliseconds) { }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
     public sealed partial class CefSettingsBase : System.IDisposable
