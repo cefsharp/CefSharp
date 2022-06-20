@@ -848,6 +848,21 @@ namespace CefSharp
             /// </summary>
             static void WaitForBrowsersToClose()
             {
+                WaitForBrowsersToClose(750);
+            }
+
+            /// <summary>
+            /// Helper method to ensure all ChromiumWebBrowser instances have been
+            /// closed/disposed, should be called before Cef.Shutdown.
+            /// Disposes all remaning ChromiumWebBrowser instances
+            /// then waits for CEF to release it's remaning CefBrowser instances.
+            /// Finally a small delay of 50ms to allow for CEF to finish it's cleanup.
+            /// Should only be called when MultiThreadedMessageLoop = true;
+            /// (Hasn't been tested when when CEF integrates into main message loop).
+            /// </summary>
+            /// <param name="timeoutInMiliseconds">The timeout in miliseconds.</param>
+            static void WaitForBrowsersToClose(int timeoutInMiliseconds)
+            {
                 if (!_waitForBrowsersToCloseEnabled)
                 {
                     throw gcnew Exception("This feature is currently disabled. Call Cef.EnableWaitForBrowsersToClose before calling Cef.Initialize to enable.");
@@ -863,7 +878,7 @@ namespace CefSharp
                 _disposables->Clear();
 
                 //Wait for the browsers to close
-                BrowserRefCounter::Instance->WaitForBrowsersToClose(750);
+                BrowserRefCounter::Instance->WaitForBrowsersToClose(timeoutInMiliseconds);
 
                 //A few extra ms to allow for CEF to finish 
                 Thread::Sleep(50);

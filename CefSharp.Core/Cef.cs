@@ -628,5 +628,21 @@ namespace CefSharp
         {
             Core.Cef.WaitForBrowsersToClose();
         }
+
+
+        /// <summary>
+        /// Helper method to ensure all ChromiumWebBrowser instances have been
+        /// closed/disposed, should be called before Cef.Shutdown.
+        /// Disposes all remaining ChromiumWebBrowser instances
+        /// then waits for CEF to release its remaining CefBrowser instances.
+        /// Finally a small delay of 50ms to allow for CEF to finish it's cleanup.
+        /// Should only be called when MultiThreadedMessageLoop = true;
+        /// (Hasn't been tested when when CEF integrates into main message loop).
+        /// </summary>
+        /// <param name="timeoutInMiliseconds">The timeout in miliseconds.</param>
+        public static void WaitForBrowsersToClose(int timeoutInMiliseconds)
+        {
+            Core.Cef.WaitForBrowsersToClose(timeoutInMiliseconds);
+        }
     }
 }
