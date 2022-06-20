@@ -83,6 +83,7 @@ namespace CefSharp.Handler
         /// you can calculate the size of the <paramref name="data"/> array in bytes.
         /// </summary>
         /// <param name="chromiumWebBrowser"></param>
+        /// <param name="browser">the browser object</param>
         /// <param name="data">is an array representing the raw PCM data as a floating point type, i.e. 4-byte value(s).</param>
         /// <param name="noOfFrames">is the number of frames in the PCM packet</param>
         /// <param name="pts">is the presentation timestamp (in milliseconds since the Unix Epoch)

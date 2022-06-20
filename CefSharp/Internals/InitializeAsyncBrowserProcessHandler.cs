@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CefSharp.Internals
 {
     /// <summary>
-    /// BrowserProcessHandler implementation that takes a <see cref="TaskCompletionSource{bool}"/>
+    /// BrowserProcessHandler implementation that takes a <see cref="TaskCompletionSource{TResult}"/>
     /// and resolves when <see cref="OnContextInitialized"/> is called.
     /// </summary>
     public class InitializeAsyncBrowserProcessHandler : CefSharp.Handler.BrowserProcessHandler

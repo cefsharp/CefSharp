@@ -63,6 +63,10 @@ namespace CefSharp.Handler
             get { return isDisposed; }
         }
 
+        /// <summary>
+        /// Disposes of the resources
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             isDisposed = true;
