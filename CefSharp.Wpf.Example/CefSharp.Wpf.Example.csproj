@@ -31,7 +31,7 @@
         <Folder Include="Assets\Images\" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="102.0.9" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="103.0.6" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="bin.netcore\**" />
