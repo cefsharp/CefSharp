@@ -15,10 +15,12 @@
 #include <include/cef_origin_whitelist.h>
 #include <include/cef_crash_util.h>
 #include <include/cef_parser.h>
+#include <include/cef_task.h>
 #include <include/internal/cef_types.h>
 
 #include "Internals/CefSharpApp.h"
 #include "Internals/CefTaskScheduler.h"
+#include "Internals/CefTaskDelegate.h"
 #include "CookieManager.h"
 #include "CefSettingsBase.h"
 #include "RequestContext.h"
@@ -882,6 +884,33 @@ namespace CefSharp
 
                 //A few extra ms to allow for CEF to finish 
                 Thread::Sleep(50);
+            }
+
+            /// <summary>
+            /// Post an action for delayed execution on the specified thread.
+            /// </summary>
+            /// <param name="threadId">thread id</param>
+            /// <param name="action">action to execute</param>
+            /// <param name="delayInMs">delay in ms</param>
+            /// <returns>bool</returns>
+            static bool PostDelayedAction(CefThreadIds threadId, Action^ action, int delayInMs)
+            {
+                auto task = new CefTaskDelegate(action);
+
+                return CefPostDelayedTask((cef_thread_id_t)threadId, task, delayInMs);
+            }
+
+            /// <summary>
+            /// Post an action for execution on the specified thread.
+            /// </summary>
+            /// <param name="threadId">thread id</param>
+            /// <param name="action">action to execute</param>
+            /// <returns>bool</returns>
+            static bool PostAction(CefThreadIds threadId, Action^ action)
+            {
+                auto task = new CefTaskDelegate(action);
+
+                return CefPostTask((cef_thread_id_t)threadId, task);
             }
         };
     }
