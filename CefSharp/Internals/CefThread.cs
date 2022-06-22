@@ -101,6 +101,58 @@ namespace CefSharp.Internals
         }
 
         /// <summary>
+        /// Execute the provided action on the CEF UI Thread
+        /// </summary>
+        /// <param name="action">action</param>
+        /// <returns>Task</returns>
+        public static Task ExecuteOnUiThread(Action action)
+        {
+            lock (LockObj)
+            {
+                if (HasShutdown)
+                {
+                    throw new Exception("Cef.Shutdown has already been called, it's no longer possible to execute on the CEF UI Thread. Check CefThread.HasShutdown to guard against this execption");
+                }
+
+                var taskFactory = UiThreadTaskFactory;
+
+                if (taskFactory == null)
+                {
+                    //We don't have a task factory yet, so we'll queue for execution.
+                    return QueueForExcutionWhenUiThreadCreated(action);
+                }
+
+                return taskFactory.StartNew(action);
+            }
+        }
+
+        /// <summary>
+        /// Wait for CEF to Initialize, continuation happens on
+        /// the CEF UI Thraed.
+        /// </summary>
+        /// <returns>Task that can be awaited</returns>
+        private static Task QueueForExcutionWhenUiThreadCreated(Action action)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            EventHandler handler = null;
+
+            handler = (s, args) =>
+            {
+                Initialized -= handler;
+
+                //TODO: Should this call UiThreadTaskFactory.StartNew?
+                action();
+
+                tcs.SetResult(true);
+            };
+
+            Initialized += handler;
+
+            return tcs.Task;
+        }
+
+        /// <summary>
         /// Wait for CEF to Initialize, continuation happens on
         /// the CEF UI Thraed.
         /// </summary>
@@ -115,6 +167,7 @@ namespace CefSharp.Internals
             {
                 Initialized -= handler;
 
+                //TODO: Should this call UiThreadTaskFactory.StartNew?
                 var result = func();
 
                 tcs.SetResult(result);

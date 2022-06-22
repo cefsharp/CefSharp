@@ -167,7 +167,6 @@ namespace CefSharp.DevTools
                 CefThread.ExecuteOnUiThread(() =>
                 {
                     ExecuteDevToolsMethod(browserHost, messageId, method, parameters, methodResultContext);
-                    return (object)null;
                 });
             }
             else
