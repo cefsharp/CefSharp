@@ -644,5 +644,28 @@ namespace CefSharp
         {
             Core.Cef.WaitForBrowsersToClose(timeoutInMiliseconds);
         }
+
+        /// <summary>
+        /// Post an action for delayed execution on the specified thread.
+        /// </summary>
+        /// <param name="threadId">thread id</param>
+        /// <param name="action">action to execute</param>
+        /// <param name="delayInMs">delay in ms</param>
+        /// <returns>bool</returns>
+        public static bool PostDelayedAction(CefThreadIds threadId, Action action, int delayInMs)
+        {
+            return Core.Cef.PostDelayedAction(threadId, action, delayInMs);
+        }
+
+        /// <summary>
+        /// Post an action for execution on the specified thread.
+        /// </summary>
+        /// <param name="threadId">thread id</param>
+        /// <param name="action">action to execute</param>
+        /// <returns>bool</returns>
+        public static bool PostAction(CefThreadIds threadId, Action action)
+        {
+            return Core.Cef.PostAction(threadId, action);
+        }
     }
 }

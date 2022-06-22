@@ -81,6 +81,8 @@ namespace CefSharp.Core
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings, bool performDependencyCheck, CefSharp.IApp cefApp) { throw null; }
         public static bool Initialize(CefSharp.Core.CefSettingsBase cefSettings, bool performDependencyCheck, CefSharp.IBrowserProcessHandler browserProcessHandler) { throw null; }
         public static CefSharp.UrlParts ParseUrl(string url) { throw null; }
+        public static bool PostAction(CefSharp.CefThreadIds threadId, System.Action action) { throw null; }
+        public static bool PostDelayedAction(CefSharp.CefThreadIds threadId, System.Action action, int delayInMs) { throw null; }
         public static void PreShutdown() { }
         public static void QuitMessageLoop() { }
         public static bool RemoveCrossOriginWhitelistEntry(string sourceOrigin, string targetProtocol, string targetDomain, bool allowTargetSubdomains) { throw null; }
