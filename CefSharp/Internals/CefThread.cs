@@ -141,10 +141,17 @@ namespace CefSharp.Internals
             {
                 Initialized -= handler;
 
-                //TODO: Should this call UiThreadTaskFactory.StartNew?
-                action();
+                try
+                {
+                    //TODO: Should this call UiThreadTaskFactory.StartNew?
+                    action();
 
-                tcs.SetResult(true);
+                    tcs.TrySetResult(true);
+                }
+                catch(Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
             };
 
             Initialized += handler;
@@ -167,10 +174,17 @@ namespace CefSharp.Internals
             {
                 Initialized -= handler;
 
-                //TODO: Should this call UiThreadTaskFactory.StartNew?
-                var result = func();
+                try
+                {
+                    //TODO: Should this call UiThreadTaskFactory.StartNew?
+                    var result = func();
 
-                tcs.SetResult(result);
+                    tcs.TrySetResult(result);
+                }
+                catch(Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
             };
 
             Initialized += handler;
