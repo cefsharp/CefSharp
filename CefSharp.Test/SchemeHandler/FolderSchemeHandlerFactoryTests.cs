@@ -26,7 +26,11 @@ namespace CefSharp.Test.SchemeHandler
         public async Task CanWork()
         {
             const string expected = "https://folderschemehandlerfactory.test/";
+#if NETCOREAPP
+            var folder = Path.GetFullPath(@"..\..\..\..\..\..\CefSharp.Example\Resources");
+#else
             var folder = Path.GetFullPath(@"..\..\..\..\..\CefSharp.Example\Resources");
+#endif
 
             using (var requestContext = new RequestContext(Cef.GetGlobalRequestContext()))
             using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, requestContext: requestContext))
