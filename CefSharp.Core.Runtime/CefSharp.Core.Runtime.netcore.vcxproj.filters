@@ -124,6 +124,12 @@
     <ClInclude Include="Internals\CefTaskScheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+	<ClInclude Include="Internals\CefPermissionPromptCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefMediaAccessCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="NativeMethodWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>

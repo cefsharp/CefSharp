@@ -151,6 +151,11 @@ namespace CefSharp.WinForms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
         public IFrameHandler FrameHandler { get; set; }
         /// <summary>
+        /// Implement <see cref="IPermissionHandler" /> to handle events related to permission requests.
+        /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(null)]
+        public IPermissionHandler PermissionHandler { get; set; }
+        /// <summary>
         /// The <see cref="IFocusHandler" /> for this ChromiumWebBrowser.
         /// </summary>
         /// <value>The focus handler.</value>

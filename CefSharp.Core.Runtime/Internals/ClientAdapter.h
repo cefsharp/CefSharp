@@ -34,7 +34,8 @@ namespace CefSharp
             public CefDownloadHandler,
             public CefFindHandler,
             public CefAudioHandler,
-            public CefFrameHandler
+            public CefFrameHandler,
+            public CefPermissionHandler
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
@@ -102,6 +103,7 @@ namespace CefSharp
             virtual DECL CefRefPtr<CefFindHandler> GetFindHandler() override { return this; }
             virtual DECL CefRefPtr<CefAudioHandler> GetAudioHandler() override { return this; }
             virtual DECL CefRefPtr<CefFrameHandler> GetFrameHandler() override { return this; }
+            virtual DECL CefRefPtr<CefPermissionHandler> GetPermissionHandler() override { return this; }
             virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) override;
 
 
@@ -208,6 +210,26 @@ namespace CefSharp
             virtual DECL void OnFrameAttached(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool reattached) override;
             virtual DECL void OnFrameDetached(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) override;
             virtual DECL void OnMainFrameChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> old_frame, CefRefPtr<CefFrame> new_frame) override;
+
+            //CefPermissionHandler
+            virtual DECL bool OnShowPermissionPrompt(
+                CefRefPtr<CefBrowser> browser,
+                uint64 prompt_id,
+                const CefString& requesting_origin,
+                uint32 requested_permissions,
+                CefRefPtr<CefPermissionPromptCallback> callback) override;
+
+            virtual DECL void OnDismissPermissionPrompt(
+                CefRefPtr<CefBrowser> browser,
+                uint64 prompt_id,
+                cef_permission_request_result_t result) override;
+
+            virtual DECL bool OnRequestMediaAccessPermission(
+                CefRefPtr<CefBrowser> browser,
+                CefRefPtr<CefFrame> frame,
+                const CefString& requesting_origin,
+                uint32 requested_permissions,
+                CefRefPtr<CefMediaAccessCallback> callback) override;
 
             IMPLEMENT_REFCOUNTINGM(ClientAdapter);
         };

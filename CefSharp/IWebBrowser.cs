@@ -135,6 +135,11 @@ namespace CefSharp
         IFrameHandler FrameHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IPermissionHandler" /> to handle events related to permission requests.
+        /// </summary>
+        IPermissionHandler PermissionHandler { get; set; }
+
+        /// <summary>
         /// The text that will be displayed as a ToolTip
         /// </summary>
         /// <value>The tooltip text.</value>

@@ -22,8 +22,10 @@
 #include "CefResourceRequestHandlerAdapter.h"
 #include "CefRequestCallbackWrapper.h"
 #include "CefRunContextMenuCallbackWrapper.h"
+#include "CefPermissionPromptCallbackWrapper.h"
 #include "CefSslInfoWrapper.h"
 #include "CefBrowserWrapper.h"
+#include "CefMediaAccessCallbackWrapper.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "Messaging\Messages.h"
 #include "PopupFeatures.h"
@@ -1180,6 +1182,50 @@ namespace CefSharp
                 delete oldFrameWrapper;
                 delete newFrameWrapper;
             }
+        }
+
+        bool ClientAdapter::OnShowPermissionPrompt(CefRefPtr<CefBrowser> browser, uint64 prompt_id,
+            const CefString& requesting_origin, uint32 requested_permissions,
+            CefRefPtr<CefPermissionPromptCallback> callback)
+        {
+            auto handler = _browserControl->PermissionHandler;
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                auto callbackWrapper = gcnew CefPermissionPromptCallbackWrapper(callback);
+
+                return handler->OnShowPermissionPrompt(browserWrapper, prompt_id, StringUtils::ToClr(requesting_origin), (CefPermissionType)requested_permissions, callbackWrapper);                
+            }
+
+            return false;
+        }
+
+        void ClientAdapter::OnDismissPermissionPrompt(CefRefPtr<CefBrowser> browser, uint64 prompt_id,
+            cef_permission_request_result_t result)
+        {
+            auto handler = _browserControl->PermissionHandler;
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnDismissPermissionPrompt(browserWrapper, prompt_id, (CefPermissionResult)result);
+            }
+        }
+
+        bool ClientAdapter::OnRequestMediaAccessPermission(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+            const CefString& requesting_origin, uint32 requested_permissions,
+            CefRefPtr<CefMediaAccessCallback> callback)
+        {
+            auto handler = _browserControl->PermissionHandler;
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                CefFrameWrapper frameWrapper(frame);
+                auto callbackWrapper = gcnew CefMediaAccessCallbackWrapper(callback);
+
+                return handler->OnRequestMediaAccessPermission(browserWrapper, %frameWrapper, StringUtils::ToClr(requesting_origin), (CefMediaAccessPermissionType)requested_permissions, callbackWrapper);
+            }
+            return false;
         }
 
         bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
