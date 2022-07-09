@@ -362,6 +362,8 @@
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
+    <ClInclude Include="Internals\CefMediaAccessCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefPermissionPromptCallbackWrapper.h" />
     <ClInclude Include="Internals\CefRefCountManaged.h" />
     <ClInclude Include="Internals\CefRegistrationWrapper.h" />
     <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
