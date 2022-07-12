@@ -10,7 +10,7 @@ namespace CefSharp
     /// Callback interface used for asynchronous continuation of media access
     /// permission requests.
     /// </summary>
-    public interface IMediaAccessCallback:IDisposable
+    public interface IMediaAccessCallback : IDisposable
     {
         /// <summary>
         /// Call to allow or deny media access. If this callback was initiated in
