@@ -13,6 +13,10 @@ namespace CefSharp
     {
         /// <summary>
         /// Called when a page requests permission to access media.
+        /// With the Chrome runtime, default handling will display the
+        /// permission request UI.With the Alloy runtime, default handling will deny
+        /// the request.This method will not be called if the "--enable-media-stream"
+        /// command-line switch is used to grant all permissions.
         /// </summary>
         /// <param name="browser">browser</param>
         /// <param name="frame">frame></param>
@@ -21,10 +25,6 @@ namespace CefSharp
         /// <param name="callback">Callback interface used for asynchronous continuation of media access.</param>
         /// <returns>Return true and call CefMediaAccessCallback methods either in this method or at a later time to continue or cancel the request.
         /// Return false to proceed with default handling.
-        /// With the Chrome runtime, default handling will display the
-        /// permission request UI.With the Alloy runtime, default handling will deny
-        /// the request.This method will not be called if the "--enable-media-stream"
-        /// command-line switch is used to grant all permissions.
         /// </returns>
         bool OnRequestMediaAccessPermission(IWebBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback);
 

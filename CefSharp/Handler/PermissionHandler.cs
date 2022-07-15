@@ -4,11 +4,7 @@
 
 namespace CefSharp.Handler
 {
-    /// <summary>
-    /// Inherit from this class to handle events related to permission requests.
-    /// It's important to note that the methods of this interface are called on a CEF UI thread,
-    /// which by default is not the same as your application UI thread.
-    /// </summary>
+    ///<inheritdoc/>
     public class PermissionHandler : IPermissionHandler
     {
         ///<inheritdoc/>
