@@ -1191,10 +1191,9 @@ namespace CefSharp
             auto handler = _browserControl->PermissionHandler;
             if (handler != nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                 auto callbackWrapper = gcnew CefPermissionPromptCallbackWrapper(callback);
 
-                return handler->OnShowPermissionPrompt(browserWrapper, prompt_id, StringUtils::ToClr(requesting_origin), (CefPermissionType)requested_permissions, callbackWrapper);                
+                return handler->OnShowPermissionPrompt(_browserControl, prompt_id, StringUtils::ToClr(requesting_origin), (CefPermissionType)requested_permissions, callbackWrapper);
             }
 
             return false;
@@ -1206,9 +1205,7 @@ namespace CefSharp
             auto handler = _browserControl->PermissionHandler;
             if (handler != nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
-                handler->OnDismissPermissionPrompt(browserWrapper, prompt_id, (CefPermissionResult)result);
+                handler->OnDismissPermissionPrompt(_browserControl, prompt_id, (CefPermissionResult)result);
             }
         }
 
@@ -1219,11 +1216,10 @@ namespace CefSharp
             auto handler = _browserControl->PermissionHandler;
             if (handler != nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                 CefFrameWrapper frameWrapper(frame);
                 auto callbackWrapper = gcnew CefMediaAccessCallbackWrapper(callback);
 
-                return handler->OnRequestMediaAccessPermission(browserWrapper, %frameWrapper, StringUtils::ToClr(requesting_origin), (CefMediaAccessPermissionType)requested_permissions, callbackWrapper);
+                return handler->OnRequestMediaAccessPermission(_browserControl, %frameWrapper, StringUtils::ToClr(requesting_origin), (CefMediaAccessPermissionType)requested_permissions, callbackWrapper);
             }
             return false;
         }
