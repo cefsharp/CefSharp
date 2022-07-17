@@ -8,7 +8,7 @@ namespace CefSharp.Handler
     public class PermissionHandler : IPermissionHandler
     {
         ///<inheritdoc/>
-        bool IPermissionHandler.OnRequestMediaAccessPermission(IWebBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback)
+        bool IPermissionHandler.OnRequestMediaAccessPermission(IBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback)
         {
             return OnRequestMediaAccessPermission(browser, frame, requestingOrigin, requestedPermissions, callback);
         }
@@ -26,7 +26,7 @@ namespace CefSharp.Handler
         /// permission request UI.With the Alloy runtime, default handling will deny
         /// the request.This method will not be called if the "--enable-media-stream"
         /// command-line switch is used to grant all permissions.</returns>
-        public virtual bool OnRequestMediaAccessPermission(IWebBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback)
+        public virtual bool OnRequestMediaAccessPermission(IBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback)
         {
             using (callback)
             {
@@ -35,7 +35,7 @@ namespace CefSharp.Handler
         }
 
         ///<inheritdoc/>
-        bool IPermissionHandler.OnShowPermissionPrompt(IWebBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback)
+        bool IPermissionHandler.OnShowPermissionPrompt(IBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback)
         {
             return OnShowPermissionPrompt(browser, promptId, requestingOrigin, requestedPermissions, callback);
         }
@@ -53,7 +53,7 @@ namespace CefSharp.Handler
         /// With the Chrome runtime, default handling
         /// will display the permission prompt UI. With the Alloy runtime, default
         /// handling is <see cref="CefPermissionResult.Ignore"/>.</returns>
-        public virtual bool OnShowPermissionPrompt(IWebBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback)
+        public virtual bool OnShowPermissionPrompt(IBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback)
         {
             using (callback)
             {
@@ -62,7 +62,7 @@ namespace CefSharp.Handler
         }
 
         ///<inheritdoc/>
-        void IPermissionHandler.OnDismissPermissionPrompt(IWebBrowser browser, ulong promptId, CefPermissionResult result)
+        void IPermissionHandler.OnDismissPermissionPrompt(IBrowser browser, ulong promptId, CefPermissionResult result)
         {
             OnDismissPermissionPrompt(browser, promptId, result);
         }
@@ -74,7 +74,7 @@ namespace CefSharp.Handler
         /// <param name="promptId">will match the value that was passed to <see cref="IPermissionHandler.OnShowPermissionPrompt"/>.</param>
         /// <param name="result">will be the value passed to <see cref="IPermissionPromptCallback.Continue"/> or <see cref="CefPermissionResult.Ignore"/> if the dialog was dismissed for other reasons such as navigation, browser closure, etc.
         /// This method will not be called if <see cref="OnShowPermissionPrompt"/> returned false for <paramref name="promptId"/>.</param>
-        public virtual void OnDismissPermissionPrompt(IWebBrowser browser, ulong promptId, CefPermissionResult result)
+        public virtual void OnDismissPermissionPrompt(IBrowser browser, ulong promptId, CefPermissionResult result)
         {
 
         }

@@ -26,7 +26,7 @@ namespace CefSharp
         /// <returns>Return true and call CefMediaAccessCallback methods either in this method or at a later time to continue or cancel the request.
         /// Return false to proceed with default handling.
         /// </returns>
-        bool OnRequestMediaAccessPermission(IWebBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback);
+        bool OnRequestMediaAccessPermission(IBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback);
 
         /// <summary>
         /// Called when a page should show a permission prompt.
@@ -41,7 +41,7 @@ namespace CefSharp
         /// With the Chrome runtime, default handling
         /// will display the permission prompt UI. With the Alloy runtime, default
         /// handling is <see cref="CefPermissionResult.Ignore"/>.</returns>
-        bool OnShowPermissionPrompt(IWebBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback);
+        bool OnShowPermissionPrompt(IBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback);
 
         /// <summary>
         /// Called when a permission prompt handled via <see cref="OnShowPermissionPrompt"/> is dismissed.
@@ -54,6 +54,6 @@ namespace CefSharp
         /// <param name="browser">browser</param>
         /// <param name="promptId">will match the value that was passed to <see cref="OnShowPermissionPrompt"/>.</param>
         /// <param name="result">will be the value passed to <see cref="IPermissionPromptCallback.Continue"/> or <see cref="CefPermissionResult.Ignore"/> if the dialog was dismissed for other reasons such as navigation, browser closure, etc. This method will not be called if <see cref="OnShowPermissionPrompt"/> returned false for <paramref name="promptId"/>.</param>
-        void OnDismissPermissionPrompt(IWebBrowser browser, ulong promptId, CefPermissionResult result);
+        void OnDismissPermissionPrompt(IBrowser browser, ulong promptId, CefPermissionResult result);
     }
 }
