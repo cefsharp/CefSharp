@@ -1194,7 +1194,7 @@ namespace CefSharp
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                 auto callbackWrapper = gcnew CefPermissionPromptCallbackWrapper(callback);
 
-                return handler->OnShowPermissionPrompt(browserWrapper, prompt_id, StringUtils::ToClr(requesting_origin), (CefPermissionType)requested_permissions, callbackWrapper);                
+                return handler->OnShowPermissionPrompt(_browserControl, browserWrapper, prompt_id, StringUtils::ToClr(requesting_origin), (CefPermissionType)requested_permissions, callbackWrapper);
             }
 
             return false;
@@ -1208,7 +1208,7 @@ namespace CefSharp
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                handler->OnDismissPermissionPrompt(browserWrapper, prompt_id, (CefPermissionResult)result);
+                handler->OnDismissPermissionPrompt(_browserControl, browserWrapper, prompt_id, (CefPermissionResult)result);
             }
         }
 
@@ -1223,7 +1223,7 @@ namespace CefSharp
                 CefFrameWrapper frameWrapper(frame);
                 auto callbackWrapper = gcnew CefMediaAccessCallbackWrapper(callback);
 
-                return handler->OnRequestMediaAccessPermission(browserWrapper, %frameWrapper, StringUtils::ToClr(requesting_origin), (CefMediaAccessPermissionType)requested_permissions, callbackWrapper);
+                return handler->OnRequestMediaAccessPermission(_browserControl, browserWrapper, %frameWrapper, StringUtils::ToClr(requesting_origin), (CefMediaAccessPermissionType)requested_permissions, callbackWrapper);
             }
             return false;
         }

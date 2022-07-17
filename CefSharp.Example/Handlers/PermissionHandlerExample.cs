@@ -8,7 +8,7 @@ namespace CefSharp.Example.Handlers
 {
     public class PermissionHandlerExample : PermissionHandler
     {
-        public override bool OnShowPermissionPrompt(IBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback)
+        protected override bool OnShowPermissionPrompt(IWebBrowser chromiumWebBrowser, IBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback)
         {
             using (callback)
             {
@@ -18,12 +18,12 @@ namespace CefSharp.Example.Handlers
             }
         }
 
-        public override void OnDismissPermissionPrompt(IBrowser browser, ulong promptId, CefPermissionResult result)
+        protected override void OnDismissPermissionPrompt(IWebBrowser chromiumWebBrowser, IBrowser browser, ulong promptId, CefPermissionResult result)
         {
-            base.OnDismissPermissionPrompt(browser, promptId, result);
+            base.OnDismissPermissionPrompt(chromiumWebBrowser, browser, promptId, result);
         }
 
-        public override bool OnRequestMediaAccessPermission(IBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback)
+        protected override bool OnRequestMediaAccessPermission(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback)
         {
             using (callback)
             {
