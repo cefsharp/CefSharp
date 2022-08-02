@@ -50,7 +50,7 @@ namespace CefSharp
             {
                 ThrowIfDisposed();
 
-                _callback->Continue((int)commandId, (CefRunContextMenuCallback::EventFlags) eventFlags);
+                _callback->Continue((int)commandId, (cef_event_flags_t) eventFlags);
 
                 delete this;
             }

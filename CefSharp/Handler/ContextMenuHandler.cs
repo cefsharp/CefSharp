@@ -65,7 +65,7 @@ namespace CefSharp.Handler
 
         /// <summary>
         /// Called when the context menu is dismissed irregardless of whether the menu
-        /// was empty or a command was selected.
+        /// was canceled or a command was selected.
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
