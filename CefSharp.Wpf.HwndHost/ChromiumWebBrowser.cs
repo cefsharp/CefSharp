@@ -1680,8 +1680,8 @@ namespace CefSharp.Wpf.HwndHost
             {
                 if (dpiScale > 1)
                 {
-                    width = (int)(width * dpiScale);
-                    height = (int)(height * dpiScale);
+                    width = (int)Math.Round(width * dpiScale);
+                    height = (int)Math.Round(height * dpiScale);
                 }
 
                 managedCefBrowserAdapter.Resize(width, height);
