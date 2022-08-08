@@ -77,7 +77,7 @@ namespace CefSharp.WinForms.Example
             InitializeComponent();
             ExecutingAssembly = Assembly.GetExecutingAssembly();
 
-            Text = "About CefTest";
+            Text = "About CefSharp.WinForms.Example";
             labelProductName.Text = AssemblyProduct;
             labelVersion.Text = String.Format("Version {0} ", Cef.CefSharpVersion);
             labelCopyright.Text = AssemblyCopyright;

@@ -138,7 +138,7 @@ namespace CefSharp.WinForms.Example.Minimal
                     width -= item.Width - item.Margin.Horizontal;
                 }
             }
-            urlTextBox.Width = Math.Max(0, width - urlTextBox.Margin.Horizontal - 18);
+            urlTextBox.Width = Math.Max(100, width - urlTextBox.Margin.Horizontal - goButton.Width);
         }
 
         private void ExitMenuItemClick(object sender, EventArgs e)

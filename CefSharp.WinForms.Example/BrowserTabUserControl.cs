@@ -444,7 +444,7 @@ namespace CefSharp.WinForms.Example
                     width -= item.Width - item.Margin.Horizontal;
                 }
             }
-            urlTextBox.Width = Math.Max(0, width - urlTextBox.Margin.Horizontal - 18);
+            urlTextBox.Width = Math.Max(100, width - urlTextBox.Margin.Horizontal - goButton.Width);
         }
 
         private void GoButtonClick(object sender, EventArgs e)
