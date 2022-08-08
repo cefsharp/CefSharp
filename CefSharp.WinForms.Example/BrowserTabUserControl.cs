@@ -60,6 +60,7 @@ namespace CefSharp.WinForms.Example
             browser.DownloadHandler = Fluent.DownloadHandler.AskUser();
             browser.AudioHandler = new CefSharp.Handler.AudioHandler();
             browser.FrameHandler = new CefSharp.Handler.FrameHandler();
+            browser.PermissionHandler = new ExamplePermissionHandler();
 
             if (multiThreadedMessageLoopEnabled)
             {

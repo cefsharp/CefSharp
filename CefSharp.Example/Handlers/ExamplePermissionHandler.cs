@@ -6,7 +6,11 @@ using CefSharp.Handler;
 
 namespace CefSharp.Example.Handlers
 {
-    public class PermissionHandlerExample : PermissionHandler
+    /// <summary>
+    /// A simple <see cref="PermissionHandler"/> implementation that programatically allows
+    /// all requests without user interaction.
+    /// </summary>
+    public class ExamplePermissionHandler : PermissionHandler
     {
         protected override bool OnShowPermissionPrompt(IWebBrowser chromiumWebBrowser, IBrowser browser, ulong promptId, string requestingOrigin, PermissionRequestType requestedPermissions, IPermissionPromptCallback callback)
         {
@@ -27,10 +31,8 @@ namespace CefSharp.Example.Handlers
         {
             using (callback)
             {
-                callback.Continue(MediaAccessPermissionType.AudioCapture |
-                                  MediaAccessPermissionType.VideoCapture |
-                                  MediaAccessPermissionType.DesktopVideoCapture |
-                                  MediaAccessPermissionType.DesktopAudioCapture);
+                //Allow the requested permissions
+                callback.Continue(requestedPermissions);
                 return true;
             }
         }
