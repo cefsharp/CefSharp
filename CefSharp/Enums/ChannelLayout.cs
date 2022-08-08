@@ -181,7 +181,15 @@ namespace CefSharp.Enums
         /// </summary>
         LayoutBitstream = 32,
 
+        /// <summary>
+		/// Front L, Front R, Front C, LFE, Side L, Side R,
+		/// Front Height L, Front Height R, Rear Height L, Rear Height R
+		/// Will be represented as six channels (5.1) due to eight channel limit
+		/// kMaxConcurrentChannels
+		/// </summary>
+		Layout5_1_4DownMix = 33,
+
         // Max value, must always equal the largest entry ever logged.
-        LayoutMax = LayoutBitstream
+        LayoutMax = Layout5_1_4DownMix
     }
 }
