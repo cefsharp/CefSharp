@@ -1184,6 +1184,13 @@ namespace CefSharp
         TooManyAcceptChRestarts = -382,
 
         /// <summary>
+        /// The IP address space of the remote endpoint differed from the previous
+        /// observed value during the same request. Any cache entry for the affected
+        /// request should be invalidated.
+        /// </summary>
+        InconsistentIpAddressSpace = -383,
+
+        /// <summary>
         /// The cache does not have the requested entry.
         /// </summary>
         CacheMiss = -400,
@@ -1489,5 +1496,11 @@ namespace CefSharp
         /// All DNS requests associated with this job have been cancelled.
         /// </summary>
         DnsRequestCancelled = -810,
+
+        /// <summary>
+        /// The hostname resolution of HTTPS record was expected to be resolved with
+        /// alpn values of supported protocols, but did not.
+        /// </summary>
+        DnsNoMachingSupportedAlpn = -811,
     };
 }
