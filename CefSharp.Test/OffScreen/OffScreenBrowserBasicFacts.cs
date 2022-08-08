@@ -147,7 +147,7 @@ namespace CefSharp.Test.OffScreen
 
             browser.Dispose();
 
-            Cef.WaitForBrowsersToClose(5000);
+            Cef.WaitForBrowsersToClose(10000);
 
             output.WriteLine("BrowserRefCounter Log");
             output.WriteLine(BrowserRefCounter.Instance.GetLog());
