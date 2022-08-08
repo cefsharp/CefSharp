@@ -48,7 +48,7 @@ namespace CefSharp
         void OnResetDialogState(IWebBrowser chromiumWebBrowser, IBrowser browser);
 
         /// <summary>
-        /// Called when the default implementation dialog is closed.
+        /// Called when the dialog is closed.
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
