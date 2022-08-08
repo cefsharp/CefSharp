@@ -7,7 +7,7 @@ namespace CefSharp
     /// <summary>
     /// Permission request results.
     /// </summary>
-    public enum CefPermissionResult : uint
+    public enum PermissionRequestResult : uint
     {
         /// <summary>
         /// Accept the permission request as an explicit user action.

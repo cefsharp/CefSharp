@@ -7,15 +7,15 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Permission types used with OnShowPermissionPrompt. Some types are
-    /// platform-specific or only supported with the Chrome runtime. Should be kept
+    /// Permission types used with <see cref="IPermissionHandler.OnShowPermissionPrompt(IWebBrowser, IBrowser, ulong, string, PermissionRequestType, IPermissionPromptCallback)"/>.
+    /// Some types are platform-specific or only supported with the Chrome runtime. Should be kept
     /// in sync with Chromium's permissions::RequestType type.
     /// </summary>
     [Flags]
-    public enum CefPermissionType : uint
+    public enum PermissionRequestType : uint
     {
         None = 0,
-        AccessibiLityEvents = 1 << 0,
+        AccessibilityEvents = 1 << 0,
         ArSession = 1 << 1,
         CameraPanTiltZoom = 1 << 2,
         CameraStream = 1 << 3,
@@ -34,6 +34,6 @@ namespace CefSharp
         StorageAccess = 1 << 16,
         U2FApiRequest = 1 << 17,
         VrSession = 1 << 18,
-        Windowplacement = 1 << 19
+        WindowPlacement = 1 << 19
     }
 }

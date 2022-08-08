@@ -45,7 +45,7 @@ namespace CefSharp
                 delete this;
             }
 
-            virtual void Continue(CefMediaAccessPermissionType allowedPermissions)
+            virtual void Continue(MediaAccessPermissionType allowedPermissions)
             {
                 ThrowIfDisposed();
 

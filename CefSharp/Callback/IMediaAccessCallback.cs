@@ -20,7 +20,7 @@ namespace CefSharp
         /// <see cref="IPermissionHandler.OnRequestMediaAccessPermission"/>
         /// </summary>
         /// <param name="allowedPermissions">Allowed Permissions</param>
-        void Continue(CefMediaAccessPermissionType allowedPermissions);
+        void Continue(MediaAccessPermissionType allowedPermissions);
 
         /// <summary>
         /// Cancel the media access request.

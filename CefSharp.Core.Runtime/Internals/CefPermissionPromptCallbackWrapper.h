@@ -36,7 +36,7 @@ namespace CefSharp
                 _disposed = true;
             }
 
-            virtual void Continue(CefPermissionResult result)
+            virtual void Continue(PermissionRequestResult result)
             {
                 ThrowIfDisposed();
 

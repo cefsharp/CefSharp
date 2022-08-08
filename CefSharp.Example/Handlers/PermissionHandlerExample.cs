@@ -8,29 +8,29 @@ namespace CefSharp.Example.Handlers
 {
     public class PermissionHandlerExample : PermissionHandler
     {
-        protected override bool OnShowPermissionPrompt(IWebBrowser chromiumWebBrowser, IBrowser browser, ulong promptId, string requestingOrigin, CefPermissionType requestedPermissions, IPermissionPromptCallback callback)
+        protected override bool OnShowPermissionPrompt(IWebBrowser chromiumWebBrowser, IBrowser browser, ulong promptId, string requestingOrigin, PermissionRequestType requestedPermissions, IPermissionPromptCallback callback)
         {
             using (callback)
             {
                 System.Diagnostics.Debug.WriteLine($"{promptId}|{requestedPermissions} {requestingOrigin}");
-                callback.Continue(CefPermissionResult.Accept);
+                callback.Continue(PermissionRequestResult.Accept);
                 return true;
             }
         }
 
-        protected override void OnDismissPermissionPrompt(IWebBrowser chromiumWebBrowser, IBrowser browser, ulong promptId, CefPermissionResult result)
+        protected override void OnDismissPermissionPrompt(IWebBrowser chromiumWebBrowser, IBrowser browser, ulong promptId, PermissionRequestResult result)
         {
             base.OnDismissPermissionPrompt(chromiumWebBrowser, browser, promptId, result);
         }
 
-        protected override bool OnRequestMediaAccessPermission(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string requestingOrigin, CefMediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback)
+        protected override bool OnRequestMediaAccessPermission(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string requestingOrigin, MediaAccessPermissionType requestedPermissions, IMediaAccessCallback callback)
         {
             using (callback)
             {
-                callback.Continue(CefMediaAccessPermissionType.AudioCapture |
-                                  CefMediaAccessPermissionType.VideoCapture |
-                                  CefMediaAccessPermissionType.DesktopVideoCapture |
-                                  CefMediaAccessPermissionType.DesktopAudioCapture);
+                callback.Continue(MediaAccessPermissionType.AudioCapture |
+                                  MediaAccessPermissionType.VideoCapture |
+                                  MediaAccessPermissionType.DesktopVideoCapture |
+                                  MediaAccessPermissionType.DesktopAudioCapture);
                 return true;
             }
         }

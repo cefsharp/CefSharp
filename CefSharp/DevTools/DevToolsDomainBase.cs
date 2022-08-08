@@ -100,7 +100,7 @@ namespace CefSharp.DevTools
             }
         }
 
-        protected IEnumerable<string> EnumToString(PermissionType[] values)
+        protected IEnumerable<string> EnumToString(Browser.PermissionType[] values)
         {
             foreach (var val in values)
             {

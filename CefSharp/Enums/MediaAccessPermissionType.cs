@@ -7,10 +7,10 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Media access permissions used by OnRequestMediaAccessPermission.
+    /// Media access permissions used by <see cref="IPermissionHandler.OnRequestMediaAccessPermission(IWebBrowser, IBrowser, IFrame, string, MediaAccessPermissionType, IMediaAccessCallback)"/>.
     /// </summary>
     [Flags]
-    public enum CefMediaAccessPermissionType : uint
+    public enum MediaAccessPermissionType : uint
     {
         /// <summary>
         ///  No permission.

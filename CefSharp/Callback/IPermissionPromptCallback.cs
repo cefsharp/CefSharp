@@ -15,6 +15,6 @@ namespace CefSharp
         /// Complete the permissions request with the specified result.
         /// </summary>
         /// <param name="result">Permission request results.</param>
-        void Continue(CefPermissionResult result);
+        void Continue(PermissionRequestResult result);
     }
 }
