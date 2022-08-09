@@ -117,7 +117,7 @@ namespace CefSharp.SchemeHandler
                 var fileExtension = Path.GetExtension(filePath);
                 var mimeType = GetMimeTypeDelegate(fileExtension);
                 var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, resourceFileShare);
-                return ResourceHandler.FromStream(stream, mimeType);
+                return ResourceHandler.FromStream(stream, mimeType, autoDisposeStream: true);
             }
 
             return ResourceHandler.ForErrorMessage("File Not Found - " + filePath, HttpStatusCode.NotFound);
