@@ -335,7 +335,7 @@ namespace CefSharp
         {
             var stream = GetMemoryStream(errorMessage, Encoding.UTF8);
 
-            var resourceHandler = FromStream(stream);
+            var resourceHandler = FromStream(stream, autoDisposeStream: true);
             resourceHandler.StatusCode = (int)statusCode;
 
             return resourceHandler;
