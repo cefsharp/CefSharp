@@ -331,6 +331,11 @@ namespace CefSharp.Wpf.HwndHost
         public IFrameHandler FrameHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IPermissionHandler" /> to handle events related to permission requests.
+        /// </summary>
+        public IPermissionHandler PermissionHandler { get; set; }
+
+        /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI
         /// thread. It is unwise to block on this thread for any length of time as your browser will become unresponsive and/or hang..
