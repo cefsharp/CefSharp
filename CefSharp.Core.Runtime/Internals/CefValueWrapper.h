@@ -13,10 +13,44 @@ namespace CefSharp
 {
     namespace Internals
     {
+        [System::Diagnostics::DebuggerDisplay("{DebuggerDisplay,nq}")]
         private ref class CefValueWrapper : public IValue, public CefWrapper
         {
         private:
             MCefRefPtr<CefValue> _cefValue;
+
+            property String^ DebuggerDisplay
+            {
+                String^ get()
+                {
+                    if (IsDisposed)
+                    {
+                        return "CefValueWrapper";
+                    }
+
+                    if (Type == Enums::ValueType::String)
+                    {
+                        return GetString();
+                    }
+
+                    if (Type == Enums::ValueType::Bool)
+                    {
+                        return GetBool().ToString();
+                    }
+
+                    if (Type == Enums::ValueType::Int)
+                    {
+                        return GetInt().ToString();
+                    }
+
+                    if (Type == Enums::ValueType::Double)
+                    {
+                        return GetDouble().ToString();
+                    }
+
+                    return "CefValueWrapper: " + Type.ToString();
+                }
+            }
 
         internal:
             CefValueWrapper(CefRefPtr<CefValue> &cefValue) : _cefValue(cefValue)
