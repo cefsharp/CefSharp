@@ -49,6 +49,16 @@ namespace CefSharp.Test.JavascriptBinding
             Assert.Equal("ok", result.ReturnValue.ToString());
         }
 
+        [Fact]
+        public void ShouldReturnErrorMessageForObjectInvalidId()
+        {
+            IJavascriptObjectRepositoryInternal javascriptObjectRepository = new JavascriptObjectRepository();
+            
+            var result = javascriptObjectRepository.TryCallMethod(100, "getExampleString", new object[0]);
+            Assert.False(result.Success);
+            Assert.StartsWith("Object Not Found Matching Id", result.Exception);
+        }
+
 #if !NETCOREAPP
         [Fact]
         public void CanRegisterJavascriptObjectPropertyBindWhenNamespaceIsNull()

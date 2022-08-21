@@ -293,7 +293,9 @@ namespace CefSharp.Internals
 
             if (!objects.TryGetValue(objectId, out obj))
             {
-                return new TryCallMethodResult(false, result, "Object Not Found Matching Id:" + objectId);
+                var paramCount = parameters == null ? 0 : parameters.Length;
+
+                return new TryCallMethodResult(false, result, $"Object Not Found Matching Id:{objectId}, MethodName:{name}, ParamCount:{paramCount}");
             }
 
             var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
