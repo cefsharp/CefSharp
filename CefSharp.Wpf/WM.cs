@@ -44,7 +44,7 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// The WM_SYSCHAR message is posted to the window with the keyboard focus when a WM_SYSKEYDOWN message is translated by
-        /// the TranslateMessage function. It specifies the character code of a system character key — that is, a character key
+        /// the TranslateMessage function. It specifies the character code of a system character key that is, a character key
         /// that is pressed while the ALT key is down.
         /// </summary>
         SYSCHAR = 0x0106,
