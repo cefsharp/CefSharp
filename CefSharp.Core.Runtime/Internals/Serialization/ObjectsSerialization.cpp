@@ -36,7 +36,7 @@ namespace CefSharp
                 else if (IsCefTime(list, index))
                 {
                     auto cefTime = GetCefTime(list, index);
-                    result = ConvertCefTimeToDateTime(cefTime);
+                    result = CefTimeUtils::FromBaseTimeToDateTime(cefTime.val);
                 }
                 else if (IsJsCallback(list, index) && javascriptCallbackFactory != nullptr)
                 {
@@ -80,16 +80,6 @@ namespace CefSharp
                 }
 
                 return result;
-            }
-
-            DateTime ConvertCefTimeToDateTime(CefTime time)
-            {
-                auto epoch = time.GetDoubleT();
-                if (epoch == 0)
-                {
-                    return DateTime::MinValue;
-                }
-                return DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime();
             }
         }
     }

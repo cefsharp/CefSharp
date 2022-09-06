@@ -17,9 +17,7 @@
         <Reference Include="System.Security" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Update="BrowserTabUserControl.cs">
-            <SubType>UserControl</SubType>
-        </Compile>
+        <Compile Update="BrowserTabUserControl.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Update="crash_reporter.cfg">

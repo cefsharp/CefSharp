@@ -92,7 +92,9 @@ namespace CefSharp
             }
             if (type == DateTime::typeid)
             {
-                return CefV8Value::CreateDate(TypeUtils::ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
+                CefBaseTime baseTime;
+                baseTime.val = CefTimeUtils::FromDateTimeToBaseTime(safe_cast<DateTime>(obj));
+                return CefV8Value::CreateDate(baseTime);
             }
             if (type->IsArray)
             {
@@ -175,7 +177,7 @@ namespace CefSharp
             }
             if (obj->IsDate())
             {
-                return TypeUtils::ConvertCefTimeToDateTime(obj->GetDateValue());
+                return CefTimeUtils::FromBaseTimeToDateTime(obj->GetDateValue().val);
             }
 
             if (obj->IsArray())
@@ -253,31 +255,6 @@ namespace CefSharp
 
             //TODO: What exception type?
             throw gcnew Exception("Cannot convert object from Cef to CLR.");
-        }
-
-        DateTime TypeUtils::ConvertCefTimeToDateTime(CefBaseTime baseTime)
-        {
-            //TODO: Issue #4234
-            CefTime time;
-            cef_time_from_basetime(baseTime, &time);
-
-            return CefTimeUtils::FromCefTime(time.year,
-                time.month,
-                time.day_of_month,
-                time.hour,
-                time.minute,
-                time.second,
-                time.millisecond);
-        }
-
-        CefBaseTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime)
-        {
-            //TODO: Issue #4234
-            auto time = CefTime(CefTimeUtils::ToCefTime(dateTime));
-            CefBaseTime baseTime;
-            cef_time_to_basetime(&time, &baseTime);
-
-            return baseTime;
         }
     }
 }

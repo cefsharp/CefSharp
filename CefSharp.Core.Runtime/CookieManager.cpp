@@ -48,11 +48,11 @@ namespace CefSharp
 
         if (cookie->Expires.HasValue)
         {
-            c.expires.val = CefTimeUtils::FromDateTimeBaseTime(cookie->Expires.Value);
+            c.expires.val = CefTimeUtils::FromDateTimeToBaseTime(cookie->Expires.Value);
         }
 
-        c.creation.val = CefTimeUtils::FromDateTimeBaseTime(cookie->Creation);
-        c.last_access.val = CefTimeUtils::FromDateTimeBaseTime(cookie->LastAccess);
+        c.creation.val = CefTimeUtils::FromDateTimeToBaseTime(cookie->Creation);
+        c.last_access.val = CefTimeUtils::FromDateTimeToBaseTime(cookie->LastAccess);
         c.same_site = (cef_cookie_same_site_t)cookie->SameSite;
         c.priority = (cef_cookie_priority_t)cookie->Priority;
 

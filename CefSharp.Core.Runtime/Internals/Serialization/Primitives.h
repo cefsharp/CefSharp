@@ -20,9 +20,9 @@ namespace CefSharp
             bool IsInt64(const CefRefPtr<TList>& list, TIndex index);
 
             template<typename TList, typename TIndex>
-            void SetCefTime(const CefRefPtr<TList>& list, TIndex index, const CefTime &value);
+            void SetCefTime(const CefRefPtr<TList>& list, TIndex index, const int64 &value);
             template<typename TList, typename TIndex>
-            CefTime GetCefTime(const CefRefPtr<TList>& list, TIndex index);
+            CefBaseTime GetCefTime(const CefRefPtr<TList>& list, TIndex index);
             template<typename TList, typename TIndex>
             bool IsCefTime(const CefRefPtr<TList>& list, TIndex index);
 
@@ -43,12 +43,12 @@ namespace CefSharp
             template bool IsInt64(const CefRefPtr<CefListValue>& list, size_t index);
             template bool IsInt64(const CefRefPtr<CefDictionaryValue>& list, CefString index);
 
-            template void SetCefTime(const CefRefPtr<CefListValue>& list, int index, const CefTime &value);
-            template void SetCefTime(const CefRefPtr<CefListValue>& list, size_t index, const CefTime &value);
-            template void SetCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index, const CefTime &value);
-            template CefTime GetCefTime(const CefRefPtr<CefListValue>& list, int index);
-            template CefTime GetCefTime(const CefRefPtr<CefListValue>& list, size_t index);
-            template CefTime GetCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index);
+            template void SetCefTime(const CefRefPtr<CefListValue>& list, int index, const int64 &value);
+            template void SetCefTime(const CefRefPtr<CefListValue>& list, size_t index, const int64 &value);
+            template void SetCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index, const int64 &value);
+            template CefBaseTime GetCefTime(const CefRefPtr<CefListValue>& list, int index);
+            template CefBaseTime GetCefTime(const CefRefPtr<CefListValue>& list, size_t index);
+            template CefBaseTime GetCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index);
             template bool IsCefTime(const CefRefPtr<CefListValue>& list, size_t index);
             template bool IsCefTime(const CefRefPtr<CefListValue>& list, int index);
             template bool IsCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index);

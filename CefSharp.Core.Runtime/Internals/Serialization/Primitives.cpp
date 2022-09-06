@@ -65,26 +65,25 @@ namespace CefSharp
             }
 
             template<typename TList, typename TIndex>
-            void SetCefTime(const CefRefPtr<TList>& list, TIndex index, const CefTime &value)
+            void SetCefTime(const CefRefPtr<TList>& list, TIndex index, const int64 &value)
             {
-                auto doubleT = value.GetDoubleT();
-                unsigned char mem[1 + sizeof(double)];
+                unsigned char mem[1 + sizeof(int64)];
                 mem[0] = static_cast<unsigned char>(PrimitiveType::CEFTIME);
-                memcpy(reinterpret_cast<void*>(mem + 1), &doubleT, sizeof(double));
+                memcpy(reinterpret_cast<void*>(mem + 1), &value, sizeof(int64));
 
                 auto binaryValue = CefBinaryValue::Create(mem, sizeof(mem));
                 list->SetBinary(index, binaryValue);
             }
 
             template<typename TList, typename TIndex>
-            CefTime GetCefTime(const CefRefPtr<TList>& list, TIndex index)
+            CefBaseTime GetCefTime(const CefRefPtr<TList>& list, TIndex index)
             {
-                double doubleT;
+                CefBaseTime baseTime;
 
                 auto binaryValue = list->GetBinary(index);
-                binaryValue->GetData(&doubleT, sizeof(double), 1);
+                binaryValue->GetData(&baseTime.val, sizeof(int64), 1);
 
-                return CefTime(doubleT);
+                return baseTime;
             }
 
             template<typename TList, typename TIndex>

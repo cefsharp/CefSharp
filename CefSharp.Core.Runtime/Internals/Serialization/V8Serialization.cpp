@@ -114,7 +114,7 @@ namespace CefSharp
                 }
                 else if (type == DateTime::typeid)
                 {
-                    SetCefTime(list, index, ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
+                    SetCefTime(list, index, CefTimeUtils::FromDateTimeToBaseTime(safe_cast<DateTime>(obj)));
                 }
                 // Serialize enum to sbyte, short, int, long, byte, ushort, uint, ulong (check type of enum)
                 else if (type->IsEnum)
@@ -213,13 +213,6 @@ namespace CefSharp
                 }
 
                 ancestors->Remove(obj);
-            }
-
-            CefTime ConvertDateTimeToCefTime(DateTime dateTime)
-            {
-                auto timeSpan = dateTime.ToUniversalTime() - DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind::Utc);
-
-                return CefTime(timeSpan.TotalSeconds);
             }
         }
     }
