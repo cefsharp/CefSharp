@@ -49,14 +49,14 @@ namespace CefSharp
         //TODO: Issue #4234
         if (cookie->Expires.HasValue)
         {
-            auto expires = CefTime(DateTimeUtils::ToCefTime(cookie->Expires.Value));
+            auto expires = CefTime(CefTimeUtils::ToCefTime(cookie->Expires.Value));
             cef_time_to_basetime(&expires, &c.expires);
         }
 
-        auto creation = CefTime(DateTimeUtils::ToCefTime(cookie->Creation));
+        auto creation = CefTime(CefTimeUtils::ToCefTime(cookie->Creation));
         cef_time_to_basetime(&creation, &c.creation);
 
-        auto lastAccess = CefTime(DateTimeUtils::ToCefTime(cookie->LastAccess));
+        auto lastAccess = CefTime(CefTimeUtils::ToCefTime(cookie->LastAccess));
         cef_time_to_basetime(&lastAccess, &c.last_access);
 
         c.same_site = (cef_cookie_same_site_t)cookie->SameSite;

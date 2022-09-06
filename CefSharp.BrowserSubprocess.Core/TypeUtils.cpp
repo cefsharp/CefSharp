@@ -261,7 +261,7 @@ namespace CefSharp
             CefTime time;
             cef_time_from_basetime(baseTime, &time);
 
-            return DateTimeUtils::FromCefTime(time.year,
+            return CefTimeUtils::FromCefTime(time.year,
                 time.month,
                 time.day_of_month,
                 time.hour,
@@ -273,7 +273,7 @@ namespace CefSharp
         CefBaseTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime)
         {
             //TODO: Issue #4234
-            auto time = CefTime(DateTimeUtils::ToCefTime(dateTime));
+            auto time = CefTime(CefTimeUtils::ToCefTime(dateTime));
             CefBaseTime baseTime;
             cef_time_to_basetime(&time, &baseTime);
 

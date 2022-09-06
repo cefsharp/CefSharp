@@ -264,7 +264,7 @@ namespace CefSharp
                 CefTime time;
                 cef_time_from_basetime(baseTime, &time);
 
-                return DateTimeUtils::FromCefTime(time.year,
+                return CefTimeUtils::FromCefTime(time.year,
                     time.month,
                     time.day_of_month,
                     time.hour,
