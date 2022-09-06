@@ -255,8 +255,12 @@ namespace CefSharp
             throw gcnew Exception("Cannot convert object from Cef to CLR.");
         }
 
-        DateTime TypeUtils::ConvertCefTimeToDateTime(CefTime time)
+        DateTime TypeUtils::ConvertCefTimeToDateTime(CefBaseTime baseTime)
         {
+            //TODO: Issue #4234
+            CefTime time;
+            cef_time_from_basetime(baseTime, &time);
+
             return DateTimeUtils::FromCefTime(time.year,
                 time.month,
                 time.day_of_month,
@@ -266,9 +270,14 @@ namespace CefSharp
                 time.millisecond);
         }
 
-        CefTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime)
+        CefBaseTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime)
         {
-            return CefTime(DateTimeUtils::ToCefTime(dateTime));
+            //TODO: Issue #4234
+            auto time = CefTime(DateTimeUtils::ToCefTime(dateTime));
+            CefBaseTime baseTime;
+            cef_time_to_basetime(&time, &baseTime);
+
+            return baseTime;
         }
     }
 }

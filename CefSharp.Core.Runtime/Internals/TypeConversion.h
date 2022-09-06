@@ -77,8 +77,11 @@ namespace CefSharp
             }
 
             //Convert from CefTime to Nullable<DateTime>
-            static Nullable<DateTime> FromNative(CefTime time)
+            static Nullable<DateTime> FromNative(CefBaseTime baseTime)
             {
+                //TODO: Issue #4234
+                CefTime time;
+                cef_time_from_basetime(baseTime, &time);
                 auto epoch = time.GetDoubleT();
                 if (epoch == 0)
                 {
@@ -255,8 +258,12 @@ namespace CefSharp
             }
 
             // Copied from CefSharp.BrowserSubprocess.Core\TypeUtils.h since it can't be included
-            static DateTime ConvertCefTimeToDateTime(CefTime time)
+            static DateTime ConvertCefTimeToDateTime(CefBaseTime baseTime)
             {
+                //TODO: Issue #4234
+                CefTime time;
+                cef_time_from_basetime(baseTime, &time);
+
                 return DateTimeUtils::FromCefTime(time.year,
                     time.month,
                     time.day_of_month,
@@ -307,7 +314,11 @@ namespace CefSharp
                     return gcnew NavigationEntry(current, DateTime::MinValue, nullptr, -1, nullptr, nullptr, (TransitionType)-1, nullptr, false, false, sslStatus);
                 }
 
-                auto time = entry->GetCompletionTime();
+                //TODO: Issue #4234
+                auto baseTime = entry->GetCompletionTime();
+                CefTime time;
+                cef_time_from_basetime(baseTime, &time);
+
                 DateTime completionTime = CefTimeUtils::ConvertCefTimeToDateTime(time.GetDoubleT());
                 auto ssl = entry->GetSSLStatus();
                 X509Certificate2^ sslCertificate;

@@ -69,7 +69,11 @@ namespace CefSharp
                 }
                 else if (obj->IsDate())
                 {
-                    SetCefTime(list, index, obj->GetDateValue());
+                    //TODO: Issue #4234
+                    auto baseTime = obj->GetDateValue();
+                    CefTime time;
+                    cef_time_from_basetime(baseTime, &time);
+                    SetCefTime(list, index, time);
                 }
                 else if (obj->IsArray())
                 {
@@ -156,7 +160,11 @@ namespace CefSharp
 
                 if (IsCefTime(list, index))
                 {
-                    return CefV8Value::CreateDate(GetCefTime(list, index));
+                    //TODO: Issue #4234
+                    auto time = GetCefTime(list, index);
+                    CefBaseTime baseTime;
+                    cef_time_to_basetime(&time, &baseTime);
+                    return CefV8Value::CreateDate(baseTime);
                 }
 
                 if (type == VTYPE_LIST)

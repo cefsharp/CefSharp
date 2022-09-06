@@ -45,14 +45,20 @@ namespace CefSharp
         c.secure = cookie->Secure;
         c.httponly = cookie->HttpOnly;
         c.has_expires = cookie->Expires.HasValue;
+
+        //TODO: Issue #4234
         if (cookie->Expires.HasValue)
         {
-            auto expires = cookie->Expires.Value;
-            c.expires = CefTime(DateTimeUtils::ToCefTime(expires));
+            auto expires = CefTime(DateTimeUtils::ToCefTime(cookie->Expires.Value));
+            cef_time_to_basetime(&expires, &c.expires);
         }
 
-        c.creation = CefTime(DateTimeUtils::ToCefTime(cookie->Creation));
-        c.last_access = CefTime(DateTimeUtils::ToCefTime(cookie->LastAccess));
+        auto creation = CefTime(DateTimeUtils::ToCefTime(cookie->Creation));
+        cef_time_to_basetime(&creation, &c.creation);
+
+        auto lastAccess = CefTime(DateTimeUtils::ToCefTime(cookie->LastAccess));
+        cef_time_to_basetime(&lastAccess, &c.last_access);
+
         c.same_site = (cef_cookie_same_site_t)cookie->SameSite;
         c.priority = (cef_cookie_priority_t)cookie->Priority;
 

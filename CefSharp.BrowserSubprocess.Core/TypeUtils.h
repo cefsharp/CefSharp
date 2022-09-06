@@ -38,18 +38,18 @@ namespace CefSharp
             static Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj, JavascriptCallbackRegistry^ callbackRegistry);
 
             /// <summary>
-            /// Converts a Chromium V8 CefTime (Date) to a (managed) .NET DateTime.
+            /// Converts a Chromium V8 CefBaseTime (Date) to a (managed) .NET DateTime.
             /// </summary>
             /// <param name="obj">The CefTime value that should be converted.</param>
             /// <returns>A corresponding .NET DateTime.</returns>
-            static DateTime ConvertCefTimeToDateTime(CefTime time);
+            static DateTime ConvertCefTimeToDateTime(CefBaseTime time);
 
             /// <summary>
-            /// Converts a a (managed) .NET DateTime to Chromium V8 CefTime (Date).
+            /// Converts a a (managed) .NET DateTime to Chromium V8 CefBaseTime (Date).
             /// </summary>
             /// <param name="obj">The DateTime value that should be converted.</param>
             /// <returns>A corresponding CefTime (epoch).</returns>
-            static CefTime ConvertDateTimeToCefTime(DateTime dateTime);
+            static CefBaseTime ConvertDateTimeToCefTime(DateTime dateTime);
         };
     }
 }
