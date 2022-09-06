@@ -62,8 +62,8 @@ namespace CefSharp
                     item->PercentComplete = downloadItem->GetPercentComplete();
                     item->TotalBytes = downloadItem->GetTotalBytes();
                     item->ReceivedBytes = downloadItem->GetReceivedBytes();
-                    item->StartTime = FromNative(downloadItem->GetStartTime());
-                    item->EndTime = FromNative(downloadItem->GetEndTime());
+                    item->StartTime = CefTimeUtils::FromBaseTimeToNullableDateTime((downloadItem->GetStartTime().val));
+                    item->EndTime = CefTimeUtils::FromBaseTimeToNullableDateTime(downloadItem->GetEndTime().val);
                     item->FullPath = StringUtils::ToClr(downloadItem->GetFullPath());
                     item->Id = downloadItem->GetId();
                     item->Url = StringUtils::ToClr(downloadItem->GetURL());
@@ -74,20 +74,6 @@ namespace CefSharp
                 }
 
                 return item;
-            }
-
-            //Convert from CefTime to Nullable<DateTime>
-            static Nullable<DateTime> FromNative(CefBaseTime baseTime)
-            {
-                //TODO: Issue #4234
-                CefTime time;
-                cef_time_from_basetime(baseTime, &time);
-                auto epoch = time.GetDoubleT();
-                if (epoch == 0)
-                {
-                    return Nullable<DateTime>();
-                }
-                return Nullable<DateTime>(DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime());
             }
 
             static IList<DraggableRegion>^ FromNative(const std::vector<CefDraggableRegion>& regions)
