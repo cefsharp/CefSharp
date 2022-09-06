@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using CefSharp.Enums;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -68,30 +69,38 @@ namespace CefSharp
         /// Used internally to set <see cref="Creation"/>.
         /// <see cref="Creation"/> can only be set when fecting a Cookie from Chromium
         /// </summary>
-        /// <param name="dateTime">dateTime</param>
+        /// <param name="baseTime">
+        /// Represents a wall clock time in UTC. Values are not guaranteed to be monotonically
+        /// non-decreasing and are subject to large amounts of skew. Time is stored internally
+        /// as microseconds since the Windows epoch (1601).
+        /// </param>
         /// <remarks>
         /// Hidden from intellisense as only meant to be used internally, unfortunately
         /// VC++ makes it hard to use internal classes from C#
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void SetCreationDate(DateTime dateTime)
+        public void SetCreationDate(long baseTime)
         {
-            Creation = dateTime;
+            Creation = CefTimeUtils.FromBaseTimeToDateTime(baseTime);
         }
 
         /// <summary>
         /// Used internally to set <see cref="LastAccess"/>.
         /// <see cref="LastAccess"/> can only be set when fecting a Cookie from Chromium
         /// </summary>
-        /// <param name="dateTime">dateTime</param>
+        /// <param name="baseTime">
+        /// Represents a wall clock time in UTC. Values are not guaranteed to be monotonically
+        /// non-decreasing and are subject to large amounts of skew. Time is stored internally
+        /// as microseconds since the Windows epoch (1601).
+        /// </param>
         /// <remarks>
         /// Hidden from intellisense as only meant to be used internally, unfortunately
         /// VC++ makes it hard to use internal classes from C#
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void SetLastAccessDate(DateTime dateTime)
+        public void SetLastAccessDate(long baseTime)
         {
-            LastAccess = dateTime;
+            LastAccess = CefTimeUtils.FromBaseTimeToDateTime(baseTime);
         }
     }
 }

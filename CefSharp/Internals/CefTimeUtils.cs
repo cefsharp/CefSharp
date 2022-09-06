@@ -46,6 +46,20 @@ namespace CefSharp.Internals
             return DateTime.FromFileTime(val * 10);
         }
 
+        /// <summary>
+        /// Converts from DateTime to CefBaseTime
+        /// </summary>
+        /// <param name="dateTime">DateTime</param>
+        /// <returns>
+        /// Represents a wall clock time in UTC. Time as microseconds since the Windows epoch (1601).
+        /// </returns>
+        public static long FromDateTimeBaseTime(DateTime dateTime)
+        {
+            return dateTime.ToFileTimeUtc() / 10;
+        }
+
+        //dateTime.ToFileTimeUtc() / 10
+
         public static DateTime ConvertCefTimeToDateTime(double epoch)
         {
             if (epoch == 0)

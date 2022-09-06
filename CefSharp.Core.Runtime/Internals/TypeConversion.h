@@ -243,22 +243,6 @@ namespace CefSharp
                 return result;
             }
 
-            // Copied from CefSharp.BrowserSubprocess.Core\TypeUtils.h since it can't be included
-            static DateTime ConvertCefTimeToDateTime(CefBaseTime baseTime)
-            {
-                //TODO: Issue #4234
-                CefTime time;
-                cef_time_from_basetime(baseTime, &time);
-
-                return CefTimeUtils::FromCefTime(time.year,
-                    time.month,
-                    time.day_of_month,
-                    time.hour,
-                    time.minute,
-                    time.second,
-                    time.millisecond);
-            }
-
             static Cookie^ FromNative(const CefCookie& cefCookie)
             {
                 auto cookie = gcnew Cookie();
@@ -272,14 +256,14 @@ namespace CefSharp
                     cookie->Path = StringUtils::ToClr(cefCookie.path);
                     cookie->Secure = cefCookie.secure == 1;
                     cookie->HttpOnly = cefCookie.httponly == 1;
-                    cookie->SetCreationDate(ConvertCefTimeToDateTime(cefCookie.creation));
-                    cookie->SetLastAccessDate(ConvertCefTimeToDateTime(cefCookie.last_access));
+                    cookie->SetCreationDate(cefCookie.creation.val);
+                    cookie->SetLastAccessDate(cefCookie.last_access.val);
                     cookie->SameSite = (CefSharp::Enums::CookieSameSite)cefCookie.same_site;
                     cookie->Priority = (CefSharp::Enums::CookiePriority)cefCookie.priority;
 
                     if (cefCookie.has_expires)
                     {
-                        cookie->Expires = ConvertCefTimeToDateTime(cefCookie.expires);
+                        cookie->Expires = CefTimeUtils::FromBaseTimeToDateTime(cefCookie.expires.val);
                     }
                 }
 
