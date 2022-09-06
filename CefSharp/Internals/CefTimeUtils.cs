@@ -32,6 +32,20 @@ namespace CefSharp.Internals
             return DateTime.FromFileTime(val * 10);
         }
 
+        /// <summary>
+        /// Converts from CefBaseTime to DateTime
+        /// </summary>
+        /// <param name="val">
+        /// Represents a wall clock time in UTC. Values are not guaranteed to be monotonically
+        /// non-decreasing and are subject to large amounts of skew. Time is stored internally
+        /// as microseconds since the Windows epoch (1601).
+        /// </param>
+        /// <returns>returns a <see cref="DateTime"/> of <see cref="DateTimeKind.Local"/></returns>
+        public static DateTime FromBaseTimeToDateTime(long val)
+        {
+            return DateTime.FromFileTime(val * 10);
+        }
+
         public static DateTime ConvertCefTimeToDateTime(double epoch)
         {
             if (epoch == 0)

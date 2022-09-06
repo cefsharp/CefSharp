@@ -300,12 +300,7 @@ namespace CefSharp
                     return gcnew NavigationEntry(current, DateTime::MinValue, nullptr, -1, nullptr, nullptr, (TransitionType)-1, nullptr, false, false, sslStatus);
                 }
 
-                //TODO: Issue #4234
-                auto baseTime = entry->GetCompletionTime();
-                CefTime time;
-                cef_time_from_basetime(baseTime, &time);
-
-                DateTime completionTime = CefTimeUtils::ConvertCefTimeToDateTime(time.GetDoubleT());
+                DateTime completionTime = CefTimeUtils::FromBaseTimeToDateTime(entry->GetCompletionTime().val);
                 auto ssl = entry->GetSSLStatus();
                 X509Certificate2^ sslCertificate;
 
