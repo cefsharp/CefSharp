@@ -102,7 +102,7 @@ namespace CefSharp.Test.Javascript
         }
 
         [Theory]
-        [InlineData("1970-01-01", "1970-01-01")]
+        [InlineData("1980-01-01", "1980-01-01")]
         //https://github.com/cefsharp/CefSharp/issues/4234
         public async Task CanEvaluateDateValues(DateTime expected, string actual)
         {
@@ -114,11 +114,12 @@ namespace CefSharp.Test.Javascript
             Assert.True(javascriptResponse.Success);
 
             var actualType = javascriptResponse.Result.GetType();
+            var actualDateTime = (DateTime)javascriptResponse.Result;
 
             Assert.Equal(typeof(DateTime), actualType);
-            Assert.Equal(expected, (DateTime)javascriptResponse.Result);
+            Assert.Equal(expected.ToLocalTime(), actualDateTime);
 
-            output.WriteLine("Expected {0} : Actual {1}", expected, javascriptResponse.Result);
+            output.WriteLine("Expected {0} : Actual {1}", expected.ToLocalTime(), actualDateTime);
         }
     }
 }
