@@ -177,7 +177,7 @@ namespace CefSharp.Test.Javascript
 
             var actualDateTime = (DateTime)callbackResponse.Result;
 
-            Assert.Equal(expectedDateTime, actualDateTime, TimeSpan.FromMilliseconds(1));
+            Assert.Equal(expectedDateTime, actualDateTime, TimeSpan.FromMilliseconds(10));
 
             output.WriteLine("Expected {0} : Actual {1}", expectedDateTime, actualDateTime);
         }

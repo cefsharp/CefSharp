@@ -51,8 +51,11 @@ namespace CefSharp
             c.expires.val = CefTimeUtils::FromDateTimeToBaseTime(cookie->Expires.Value);
         }
 
-        c.creation.val = CefTimeUtils::FromDateTimeToBaseTime(cookie->Creation);
-        c.last_access.val = CefTimeUtils::FromDateTimeToBaseTime(cookie->LastAccess);
+        // creation/last_access are basically readonly (assigned by Chromium when the cookie is created)
+        // So I don't think we actually need to set them. The other option is to assign them to DateTime.Now
+        // Issue #4234
+        //c.creation.val = CefTimeUtils::FromDateTimeToBaseTime(cookie->Creation);
+        //c.last_access.val = CefTimeUtils::FromDateTimeToBaseTime(cookie->LastAccess);
         c.same_site = (cef_cookie_same_site_t)cookie->SameSite;
         c.priority = (cef_cookie_priority_t)cookie->Priority;
 

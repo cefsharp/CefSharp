@@ -53,7 +53,9 @@ namespace CefSharp.Internals
         /// </returns>
         public static long FromDateTimeToBaseTime(DateTime dateTime)
         {
-            return dateTime.ToUniversalTime().ToFileTime() / 10;
+            // Same as calling ToFileTime, this to me is a little
+            // more self descriptive of what's going on.
+            return dateTime.ToUniversalTime().ToFileTimeUtc() / 10;
         }
     }
 }
