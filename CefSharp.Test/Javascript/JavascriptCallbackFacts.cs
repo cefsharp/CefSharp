@@ -107,7 +107,7 @@ namespace CefSharp.Test.Javascript
         }
 
         [Theory]
-        [InlineData("1970-01-01", "1970-01-01")]
+        [InlineData("1970-01-02", "1970-01-02")]
         [InlineData("1980-01-01", "1980-01-01")]
         //https://github.com/cefsharp/CefSharp/issues/4234
         public async Task CanEvaluateDateValues(DateTime expected, string actual)
