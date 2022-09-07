@@ -57,7 +57,7 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="if $(PlatformName) == x86 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat&quot;&#xD;&#xA;  editbin /largeaddressaware /TSAWARE &quot;$(TargetDir)CefSharp.BrowserSubprocess.exe&quot;  &#xD;&#xA;) else if $(PlatformName) == x64 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat&quot;&#xD;&#xA;  editbin /STACK:0x800000 &quot;$(TargetDir)CefSharp.BrowserSubprocess.exe&quot;&#xD;&#xA;) else if $(PlatformName) == arm64 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvarsamd64_arm64.bat&quot;&#xD;&#xA;  editbin /STACK:0x800000 &quot;$(TargetDir)CefSharp.BrowserSubprocess.exe&quot;&#xD;&#xA;)&#xD;&#xA;" />
+        <Exec Command="if $(PlatformName) == x86 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars32.bat&quot;&#xD;&#xA;  editbin /largeaddressaware /TSAWARE &quot;$(TargetDir)CefSharp.BrowserSubprocess.exe&quot;  &#xD;&#xA;) else if $(PlatformName) == x64 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvars64.bat&quot;&#xD;&#xA;  editbin /STACK:8388608 &quot;$(TargetDir)CefSharp.BrowserSubprocess.exe&quot;&#xD;&#xA;) else if $(PlatformName) == arm64 (&#xD;&#xA;  call &quot;$(DevEnvDir)..\..\VC\Auxiliary\Build\vcvarsamd64_arm64.bat&quot;&#xD;&#xA;  editbin /STACK:8388608 &quot;$(TargetDir)CefSharp.BrowserSubprocess.exe&quot;&#xD;&#xA;)&#xD;&#xA;" />
     </Target>
 
     <!-- Implicit bottom import -->
