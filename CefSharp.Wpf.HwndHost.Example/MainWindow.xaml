@@ -9,7 +9,7 @@
         xmlns:hwndhost="clr-namespace:CefSharp.Wpf.HwndHost;assembly=CefSharp.Wpf.HwndHost"
         FocusManager.FocusedElement="{Binding ElementName=Browser}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024">
+        Title="CefSharp.Wpf.HwndHost.Example - MainWindow" Height="768" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
