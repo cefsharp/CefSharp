@@ -670,6 +670,7 @@ namespace CefSharp.Wpf.HwndHost
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
             FocusHandler = new FocusHandler();
+            LifeSpanHandler = new NoCloseLifespanHandler();
 
             UseLayoutRounding = true;
         }
@@ -753,7 +754,6 @@ namespace CefSharp.Wpf.HwndHost
             if (browserSettings.AutoDispose)
             {
                 browserSettings.Dispose();
-                browserSettings = null;
             }
 
             browserSettings = null;
