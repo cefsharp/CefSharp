@@ -74,7 +74,8 @@ namespace CefSharp.Test.JavascriptBinding
         }
 #else
 
-        [Fact]
+        // Issue https://github.com/cefsharp/CefSharp/issues/3867
+        [SkipIfRunOnAppVeyorFact]
         public async Task LoadJavaScriptBindingQunitTestsSuccessfulCompletion()
         {
             var requestContext = new RequestContext();
@@ -162,7 +163,8 @@ namespace CefSharp.Test.JavascriptBinding
             }
         }
 
-        [Fact]
+        [SkipIfRunOnAppVeyorFact()]
+        //Skipping Issue https://github.com/cefsharp/CefSharp/issues/3867
         public async Task LoadLegacyJavaScriptBindingQunitTestsSuccessfulCompletion()
         {
             var requestContext = new RequestContext();
