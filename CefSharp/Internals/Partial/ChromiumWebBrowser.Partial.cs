@@ -499,7 +499,7 @@ namespace CefSharp.WinForms
             ResourceRequestHandlerFactory = null;
             RenderProcessMessageHandler = null;
 
-            this.DisposeDevToolsContext();
+            this.FreeDevToolsContext();
         }
 
         /// <summary>

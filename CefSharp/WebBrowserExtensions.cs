@@ -1796,7 +1796,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Dispose of the DevTools Context (if any). Used in conjunction with CefSharp.Puppeteer
+        /// Dispose of the DevToolsContext (if any). Used in conjunction with CefSharp.Dom
         /// </summary>
         /// <param name="webBrowserInternal">ChromiumWebBrowser instance</param>
         public static void DisposeDevToolsContext(this IWebBrowserInternal webBrowserInternal)
@@ -1807,6 +1807,20 @@ namespace CefSharp
             }
 
             webBrowserInternal.DevToolsContext?.Dispose();
+            webBrowserInternal.DevToolsContext = null;
+        }
+
+        /// <summary>
+        /// Set the <see cref="IWebBrowserInternal.DevToolsContext"/> property to null. Used in conjunction with CefSharp.Dom
+        /// </summary>
+        /// <param name="webBrowserInternal">ChromiumWebBrowser instance</param>
+        public static void FreeDevToolsContext(this IWebBrowserInternal webBrowserInternal)
+        {
+            if (webBrowserInternal == null)
+            {
+                return;
+            }
+
             webBrowserInternal.DevToolsContext = null;
         }
 
