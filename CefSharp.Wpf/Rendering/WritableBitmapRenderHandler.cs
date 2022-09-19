@@ -39,6 +39,16 @@ namespace CefSharp.Wpf.Rendering
             this.dispatcherPriority = dispatcherPriority;
         }
 
+        /// <summary>
+        /// When true if the Dirty Rect (rectangle that's to be updated)
+        /// is smaller than the full width/height then only copy the Dirty Rect
+        /// from the CEF native buffer to our own managed buffer.
+        /// Set to true to improve performance when only a small portion of the screen is updated.
+        /// Defaults to false currently.
+        /// </summary>
+        public bool CopyOnlyDirtyRect { get; set; }
+
+        /// <inheritdoc/>
         protected override void CreateOrUpdateBitmap(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image, ref Size currentSize, ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor viewAccessor)
         {
             bool createNewBitmap = false;
@@ -68,7 +78,36 @@ namespace CefSharp.Wpf.Rendering
                     currentSize.Width = width;
                 }
 
-                NativeMethodWrapper.MemoryCopy(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
+                if (CopyOnlyDirtyRect)
+                {
+                    // For full buffer update we just perform a simple copy
+                    // otherwise only a portion will be updated.
+                    if (width == dirtyRect.Width && height == dirtyRect.Height)
+                    {
+                        NativeMethodWrapper.MemoryCopy(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
+                    }
+                    else
+                    {
+                        //TODO: We can probably perform some minor optimisations here.
+                        //var numberOfBytesToCopy = dirtyRect.Width * BytesPerPixel;
+                        //var safeMemoryMappedViewHandle = viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
+
+                        //for (int offset = width * dirtyRect.Y + dirtyRect.X; offset < (dirtyRect.Y + dirtyRect.Height) * width; offset += width)
+                        //{
+                        //    var b = offset * BytesPerPixel;
+                        //    NativeMethodWrapper.MemoryCopy(safeMemoryMappedViewHandle + b, buffer + b, numberOfBytesToCopy);
+                        //}
+
+                        for (int offset = width * dirtyRect.Y + dirtyRect.X; offset < (dirtyRect.Y + dirtyRect.Height) * width; offset += width)
+                        {
+                            NativeMethodWrapper.MemoryCopy(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle() + offset * BytesPerPixel, buffer + offset * BytesPerPixel, dirtyRect.Width * BytesPerPixel);
+                        }
+                    }
+                }
+                else
+                {
+                    NativeMethodWrapper.MemoryCopy(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
+                }
 
                 //Take a reference to the sourceBuffer that's used to update our WritableBitmap,
                 //once we're on the UI thread we need to check if it's still valid
