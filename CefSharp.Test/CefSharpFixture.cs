@@ -63,6 +63,8 @@ namespace CefSharp.Test
         {
             if (Cef.IsInitialized)
             {
+                Cef.WaitForBrowsersToClose();
+
                 Cef.Shutdown();
             }
 
