@@ -15,15 +15,14 @@ So you have a question to ask, where can you look for answers? Read on. Think yo
 - Check out the FAQ, lots of useful information there, specially if your having trouble deploying to a different machine : https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
 - GitHub proves a fantastic search feature, it'll search through past issues and code. So check that out (Search box at the top of this page) : https://github.com/cefsharp/CefSharp
 - You can see all the `CefSharp` tagged issues on `Stackoverflow`, some useful stuff there : http://stackoverflow.com/questions/tagged/cefsharp
-- You can search the `Gitter Chat Channel` for past questions/conversations, you can search through every discussion from the beginning : https://gitter.im/cefsharp/CefSharp
 
-Still have a question? Great, ask it on [Discussions](https://github.com/cefsharp/CefSharp/discussions) or [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp). Larger complex questions should be asked on `Stackoverflow`
+Still have a question? Great, ask it on [Discussions](https://github.com/cefsharp/CefSharp/discussions) or [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp). Larger complex questions should be asked on `Discussions`
 
 **Note: CefSharp is just a wrapper around the Chromium Embedded Project, it's worth searching http://magpcss.org/ceforum/index.php if your problem involves a low level Chromium error message**
 
 We ask that you put in a reasonable amount of effort in searching through the resources listed above. The developers have full time jobs, they have lives, families, the time they have available to contribute this project is a precious resource, make sure you use it wisely! Remember the more time we spend answering the same questions over and over again, less time goes into writing code, adding new features, actually fixing bugs! 
 
-Still have a question to ask or unsure where to go next? Start with the Gitter Chat room : https://gitter.im/cefsharp/CefSharp
+Still have a question to ask or unsure where to go next? Start with the Gitter Chat room : https://github.com/cefsharp/CefSharp/discussions
 
 Before posting a bug report please take the time to read https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/
 
@@ -32,9 +31,9 @@ Before posting a bug report please take the time to read https://codeblog.jonske
 Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
-    - Please only create an issue if you can reproduce the problem with version 104.4.180 or greater.
+    - Please only create an issue if you can reproduce the problem with version 105.3.330 or greater.
     - What version are you using? Nuget? CI Nuget? build from a branch? If so please link to the relevant commit.
-	- Please include the exact version number you are using e.g. 104.4.180 (no ambiguous statements like `Latest from Nuget`)
+	- Please include the exact version number you are using e.g. 105.3.330 (no ambiguous statements like `Latest from Nuget`)
 
 - **What architecture x86 or x64?**
     <x86/x64>
@@ -69,9 +68,9 @@ Delete this line and everything above, and then fill in the details below.
 
 - **Does this problem also occur in the `CEF` Sample Application**
     - Download one of the following:
-    - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_104.4.18%2Bg2587cf2%2Bchromium-104.0.5112.81_windows32_client.tar.bz2
-    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_104.4.18%2Bg2587cf2%2Bchromium-104.0.5112.81_windows64_client.tar.bz2
-	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_104.4.18%2Bg2587cf2%2Bchromium-104.0.5112.81_windowsarm64_client.tar.bz2
+    - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_105.3.39%2Bg2ec21f9%2Bchromium-105.0.5195.127_windows32_client.tar.bz2
+    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_105.3.39%2Bg2ec21f9%2Bchromium-105.0.5195.127_windows64_client.tar.bz2
+	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_105.3.39%2Bg2ec21f9%2Bchromium-105.0.5195.127_windowsarm64_client.tar.bz2
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
