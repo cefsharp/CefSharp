@@ -11,6 +11,7 @@ namespace CefSharp.Test.Wpf
 {
     //NOTE: All Test classes must be part of this collection as it manages the Cef Initialize/Shutdown lifecycle
     [Collection(CefSharpFixtureCollection.Key)]
+    [BrowserRefCountDebugging]
     public class WaitForRenderIdleTests
     {
 

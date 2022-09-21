@@ -28,14 +28,22 @@ namespace CefSharp.Internals
         /// TODO: Refactor this so it's not static.
         public static IBrowserRefCounter Instance = new NoOpBrowserRefCounter();
 
-        /// <inheritdoc/>
-        void IBrowserRefCounter.Increment(Type type)
+        /// <summary>
+        /// If logging is enabled the <paramref name="line"/> will be appended to
+        /// the internal log.
+        /// </summary>
+        /// <param name="line">text to append to log if logging enabled.</param>
+        public void AppendLineToLog(string line)
         {
             if(loggingEnabled)
             {
-                logger.AppendLine($"Incremented - {type}");
+                logger.AppendLine(line);
             }
+        }
 
+        /// <inheritdoc/>
+        void IBrowserRefCounter.Increment(Type type)
+        {
             var newCount = Interlocked.Increment(ref count);
 
             if (newCount > 0)
@@ -44,24 +52,23 @@ namespace CefSharp.Internals
 
                 if (loggingEnabled)
                 {
-                    logger.AppendLine("Incremented - ManualResetEvent was reset");
+                    logger.AppendLine($"Incremented - {type} : ManualResetEvent was reset");
                 }
+            }
+            else if(loggingEnabled)
+            {
+                logger.AppendLine($"New Count <= 0 - {newCount} ");
             }
         }
 
         /// <inheritdoc/>
         bool IBrowserRefCounter.Decrement(Type type)
         {
-            if (loggingEnabled)
-            {
-                logger.AppendLine($"Decremented - {type}");
-            }
-
             var newCount = Interlocked.Decrement(ref count);
 
             if (loggingEnabled)
             {
-                logger.AppendLine($"Decremented - Current Count {newCount}");
+                logger.AppendLine($"Decremented - {type} : Current Count {newCount}");
             }
 
             if (newCount == 0)
