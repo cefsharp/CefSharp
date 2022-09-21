@@ -1,8 +1,8 @@
 #pragma code_page(65001)
 
 1 VERSIONINFO
- FILEVERSION 105,3,390
- PRODUCTVERSION 105,3,390
+ FILEVERSION 106,0,200
+ PRODUCTVERSION 106,0,200
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -18,10 +18,10 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "CefSharp.BrowserSubprocess.Core"
-            VALUE "FileVersion", "105.3.390"
+            VALUE "FileVersion", "106.0.200"
             VALUE "LegalCopyright", "Copyright © 2022 The CefSharp Authors"
             VALUE "ProductName", "CefSharp"
-            VALUE "ProductVersion", "105.3.390"
+            VALUE "ProductVersion", "106.0.200"
         END
     END
     BLOCK "VarFileInfo"
