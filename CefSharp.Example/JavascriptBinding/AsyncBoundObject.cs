@@ -105,6 +105,16 @@ namespace CefSharp.Example.JavascriptBinding
             };
         }
 
+        public DateTime EchoDateTime(DateTime arg0)
+        {
+            return arg0;
+        }
+
+        public DateTime? EchoNullableDateTime(DateTime? arg0)
+        {
+            return arg0;
+        }
+
         public string[] EchoArray(string[] arg)
         {
             return arg;
