@@ -26,14 +26,9 @@
   <ItemGroup>
     <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs">
       <Link>ChromiumWebBrowser.Partial.cs</Link>
-      <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Host\ChromiumHostControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ChromiumWebBrowser.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="Host\ChromiumHostControl.cs" />
+    <Compile Update="ChromiumWebBrowser.cs" />
 	
 	<EmbeddedResource Include="ChromiumWebBrowser.bmp" />
   </ItemGroup>

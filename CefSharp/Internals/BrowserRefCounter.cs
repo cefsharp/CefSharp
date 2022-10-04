@@ -50,10 +50,7 @@ namespace CefSharp.Internals
             {
                 manualResetEvent.Reset();
 
-                if (loggingEnabled)
-                {
-                    logger.AppendLine($"Incremented - {type} : ManualResetEvent was reset");
-                }
+                AppendLineToLog($"{type} - Incremented (ManualResetEvent was reset)");
             }
             else if(loggingEnabled)
             {
@@ -66,10 +63,7 @@ namespace CefSharp.Internals
         {
             var newCount = Interlocked.Decrement(ref count);
 
-            if (loggingEnabled)
-            {
-                logger.AppendLine($"Decremented - {type} : Current Count {newCount}");
-            }
+            AppendLineToLog($"{type} - Decremented (Current Count {newCount})");
 
             if (newCount == 0)
             {
@@ -79,6 +73,8 @@ namespace CefSharp.Internals
 
             if (newCount < 0)
             {
+                AppendLineToLog($"{type} - Decremented (Less than 0 : Current Count {newCount})");
+
                 //If we went below 0 then reset to 0
                 // TODO: something went wrong with our tracking
                 Interlocked.Exchange(ref count, 0);
@@ -102,39 +98,27 @@ namespace CefSharp.Internals
         /// <inheritdoc/>
         void IBrowserRefCounter.WaitForBrowsersToClose(int timeoutInMiliseconds)
         {
-            if (loggingEnabled)
-            {
-                logger.AppendLine($"WaitForBrowsersToClose - Current Count {count}");
-            }
+            AppendLineToLog($"WaitForBrowsersToClose - Current Count {count}");
 
             if (!manualResetEvent.IsSet)
             {
                 manualResetEvent.Wait(timeoutInMiliseconds);
             }
 
-            if (loggingEnabled)
-            {
-                logger.AppendLine($"WaitForBrowsersToClose - Updated Count {count}");
-            }
+            AppendLineToLog($"WaitForBrowsersToClose - Updated Count {count}");
         }
 
         /// <inheritdoc/>
         void IBrowserRefCounter.WaitForBrowsersToClose(int timeoutInMiliseconds, CancellationToken cancellationToken)
         {
-            if (loggingEnabled)
-            {
-                logger.AppendLine($"WaitForBrowsersToClose - Current Count {count}");
-            }
+            AppendLineToLog($"WaitForBrowsersToClose - Current Count {count}");
 
             if (!manualResetEvent.IsSet)
             {
                 manualResetEvent.Wait(timeoutInMiliseconds, cancellationToken);
             }
 
-            if (loggingEnabled)
-            {
-                logger.AppendLine($"WaitForBrowsersToClose - Updated Count {count}");
-            }
+            AppendLineToLog($"WaitForBrowsersToClose - Updated Count {count}");
         }
 
         /// <inheritdoc/>
