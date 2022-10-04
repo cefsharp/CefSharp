@@ -38225,19 +38225,21 @@ namespace CefSharp.DevTools.IndexedDB
             _client = (client);
         }
 
-        partial void ValidateClearObjectStore(string securityOrigin = null, string storageKey, string databaseName, string objectStoreName);
+        partial void ValidateClearObjectStore(string databaseName, string objectStoreName, string securityOrigin = null, string storageKey = null);
         /// <summary>
         /// Clears all entries from an object store.
         /// </summary>
-        /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
-        /// <param name = "storageKey">Storage key.</param>
         /// <param name = "databaseName">Database name.</param>
         /// <param name = "objectStoreName">Object store name.</param>
+        /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
+        /// <param name = "storageKey">Storage key.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearObjectStoreAsync(string securityOrigin = null, string storageKey, string databaseName, string objectStoreName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> ClearObjectStoreAsync(string databaseName, string objectStoreName, string securityOrigin = null, string storageKey = null)
         {
-            ValidateClearObjectStore(securityOrigin, storageKey, databaseName, objectStoreName);
+            ValidateClearObjectStore(databaseName, objectStoreName, securityOrigin, storageKey);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("databaseName", databaseName);
+            dict.Add("objectStoreName", objectStoreName);
             if (!(string.IsNullOrEmpty(securityOrigin)))
             {
                 dict.Add("securityOrigin", securityOrigin);
@@ -38248,23 +38250,22 @@ namespace CefSharp.DevTools.IndexedDB
                 dict.Add("storageKey", storageKey);
             }
 
-            dict.Add("databaseName", databaseName);
-            dict.Add("objectStoreName", objectStoreName);
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.clearObjectStore", dict);
         }
 
-        partial void ValidateDeleteDatabase(string securityOrigin = null, string storageKey, string databaseName);
+        partial void ValidateDeleteDatabase(string databaseName, string securityOrigin = null, string storageKey = null);
         /// <summary>
         /// Deletes a database.
         /// </summary>
+        /// <param name = "databaseName">Database name.</param>
         /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
         /// <param name = "storageKey">Storage key.</param>
-        /// <param name = "databaseName">Database name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteDatabaseAsync(string securityOrigin = null, string storageKey, string databaseName)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteDatabaseAsync(string databaseName, string securityOrigin = null, string storageKey = null)
         {
-            ValidateDeleteDatabase(securityOrigin, storageKey, databaseName);
+            ValidateDeleteDatabase(databaseName, securityOrigin, storageKey);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("databaseName", databaseName);
             if (!(string.IsNullOrEmpty(securityOrigin)))
             {
                 dict.Add("securityOrigin", securityOrigin);
@@ -38275,24 +38276,26 @@ namespace CefSharp.DevTools.IndexedDB
                 dict.Add("storageKey", storageKey);
             }
 
-            dict.Add("databaseName", databaseName);
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.deleteDatabase", dict);
         }
 
-        partial void ValidateDeleteObjectStoreEntries(string securityOrigin = null, string storageKey, string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange);
+        partial void ValidateDeleteObjectStoreEntries(string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange, string securityOrigin = null, string storageKey = null);
         /// <summary>
         /// Delete a range of entries from an object store
         /// </summary>
-        /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
-        /// <param name = "storageKey">Storage key.</param>
         /// <param name = "databaseName">databaseName</param>
         /// <param name = "objectStoreName">objectStoreName</param>
         /// <param name = "keyRange">Range of entry keys to delete</param>
+        /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
+        /// <param name = "storageKey">Storage key.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;DevToolsMethodResponse&gt;</returns>
-        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteObjectStoreEntriesAsync(string securityOrigin = null, string storageKey, string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange)
+        public System.Threading.Tasks.Task<DevToolsMethodResponse> DeleteObjectStoreEntriesAsync(string databaseName, string objectStoreName, CefSharp.DevTools.IndexedDB.KeyRange keyRange, string securityOrigin = null, string storageKey = null)
         {
-            ValidateDeleteObjectStoreEntries(securityOrigin, storageKey, databaseName, objectStoreName, keyRange);
+            ValidateDeleteObjectStoreEntries(databaseName, objectStoreName, keyRange, securityOrigin, storageKey);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("databaseName", databaseName);
+            dict.Add("objectStoreName", objectStoreName);
+            dict.Add("keyRange", keyRange.ToDictionary());
             if (!(string.IsNullOrEmpty(securityOrigin)))
             {
                 dict.Add("securityOrigin", securityOrigin);
@@ -38303,9 +38306,6 @@ namespace CefSharp.DevTools.IndexedDB
                 dict.Add("storageKey", storageKey);
             }
 
-            dict.Add("databaseName", databaseName);
-            dict.Add("objectStoreName", objectStoreName);
-            dict.Add("keyRange", keyRange.ToDictionary());
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.deleteObjectStoreEntries", dict);
         }
 
@@ -38329,23 +38329,28 @@ namespace CefSharp.DevTools.IndexedDB
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("IndexedDB.enable", dict);
         }
 
-        partial void ValidateRequestData(string securityOrigin = null, string storageKey, string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null);
+        partial void ValidateRequestData(string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, string securityOrigin = null, string storageKey = null, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null);
         /// <summary>
         /// Requests data from object store or index.
         /// </summary>
-        /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
-        /// <param name = "storageKey">Storage key.</param>
         /// <param name = "databaseName">Database name.</param>
         /// <param name = "objectStoreName">Object store name.</param>
         /// <param name = "indexName">Index name, empty string for object store data requests.</param>
         /// <param name = "skipCount">Number of records to skip.</param>
         /// <param name = "pageSize">Number of records to fetch.</param>
+        /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
+        /// <param name = "storageKey">Storage key.</param>
         /// <param name = "keyRange">Key range.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestDataResponse&gt;</returns>
-        public System.Threading.Tasks.Task<RequestDataResponse> RequestDataAsync(string securityOrigin = null, string storageKey, string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null)
+        public System.Threading.Tasks.Task<RequestDataResponse> RequestDataAsync(string databaseName, string objectStoreName, string indexName, int skipCount, int pageSize, string securityOrigin = null, string storageKey = null, CefSharp.DevTools.IndexedDB.KeyRange keyRange = null)
         {
-            ValidateRequestData(securityOrigin, storageKey, databaseName, objectStoreName, indexName, skipCount, pageSize, keyRange);
+            ValidateRequestData(databaseName, objectStoreName, indexName, skipCount, pageSize, securityOrigin, storageKey, keyRange);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("databaseName", databaseName);
+            dict.Add("objectStoreName", objectStoreName);
+            dict.Add("indexName", indexName);
+            dict.Add("skipCount", skipCount);
+            dict.Add("pageSize", pageSize);
             if (!(string.IsNullOrEmpty(securityOrigin)))
             {
                 dict.Add("securityOrigin", securityOrigin);
@@ -38356,11 +38361,6 @@ namespace CefSharp.DevTools.IndexedDB
                 dict.Add("storageKey", storageKey);
             }
 
-            dict.Add("databaseName", databaseName);
-            dict.Add("objectStoreName", objectStoreName);
-            dict.Add("indexName", indexName);
-            dict.Add("skipCount", skipCount);
-            dict.Add("pageSize", pageSize);
             if ((keyRange) != (null))
             {
                 dict.Add("keyRange", keyRange.ToDictionary());
@@ -38369,19 +38369,21 @@ namespace CefSharp.DevTools.IndexedDB
             return _client.ExecuteDevToolsMethodAsync<RequestDataResponse>("IndexedDB.requestData", dict);
         }
 
-        partial void ValidateGetMetadata(string securityOrigin = null, string storageKey, string databaseName, string objectStoreName);
+        partial void ValidateGetMetadata(string databaseName, string objectStoreName, string securityOrigin = null, string storageKey = null);
         /// <summary>
         /// Gets metadata of an object store
         /// </summary>
-        /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
-        /// <param name = "storageKey">Storage key.</param>
         /// <param name = "databaseName">Database name.</param>
         /// <param name = "objectStoreName">Object store name.</param>
+        /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
+        /// <param name = "storageKey">Storage key.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;GetMetadataResponse&gt;</returns>
-        public System.Threading.Tasks.Task<GetMetadataResponse> GetMetadataAsync(string securityOrigin = null, string storageKey, string databaseName, string objectStoreName)
+        public System.Threading.Tasks.Task<GetMetadataResponse> GetMetadataAsync(string databaseName, string objectStoreName, string securityOrigin = null, string storageKey = null)
         {
-            ValidateGetMetadata(securityOrigin, storageKey, databaseName, objectStoreName);
+            ValidateGetMetadata(databaseName, objectStoreName, securityOrigin, storageKey);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("databaseName", databaseName);
+            dict.Add("objectStoreName", objectStoreName);
             if (!(string.IsNullOrEmpty(securityOrigin)))
             {
                 dict.Add("securityOrigin", securityOrigin);
@@ -38392,23 +38394,22 @@ namespace CefSharp.DevTools.IndexedDB
                 dict.Add("storageKey", storageKey);
             }
 
-            dict.Add("databaseName", databaseName);
-            dict.Add("objectStoreName", objectStoreName);
             return _client.ExecuteDevToolsMethodAsync<GetMetadataResponse>("IndexedDB.getMetadata", dict);
         }
 
-        partial void ValidateRequestDatabase(string securityOrigin = null, string storageKey, string databaseName);
+        partial void ValidateRequestDatabase(string databaseName, string securityOrigin = null, string storageKey = null);
         /// <summary>
         /// Requests database with given name in given frame.
         /// </summary>
+        /// <param name = "databaseName">Database name.</param>
         /// <param name = "securityOrigin">At least and at most one of securityOrigin, storageKey must be specified.Security origin.</param>
         /// <param name = "storageKey">Storage key.</param>
-        /// <param name = "databaseName">Database name.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;RequestDatabaseResponse&gt;</returns>
-        public System.Threading.Tasks.Task<RequestDatabaseResponse> RequestDatabaseAsync(string securityOrigin = null, string storageKey, string databaseName)
+        public System.Threading.Tasks.Task<RequestDatabaseResponse> RequestDatabaseAsync(string databaseName, string securityOrigin = null, string storageKey = null)
         {
-            ValidateRequestDatabase(securityOrigin, storageKey, databaseName);
+            ValidateRequestDatabase(databaseName, securityOrigin, storageKey);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("databaseName", databaseName);
             if (!(string.IsNullOrEmpty(securityOrigin)))
             {
                 dict.Add("securityOrigin", securityOrigin);
@@ -38419,7 +38420,6 @@ namespace CefSharp.DevTools.IndexedDB
                 dict.Add("storageKey", storageKey);
             }
 
-            dict.Add("databaseName", databaseName);
             return _client.ExecuteDevToolsMethodAsync<RequestDatabaseResponse>("IndexedDB.requestDatabase", dict);
         }
 
@@ -41387,25 +41387,25 @@ namespace CefSharp.DevTools.Network
             return _client.ExecuteDevToolsMethodAsync<DevToolsMethodResponse>("Network.enableReportingApi", dict);
         }
 
-        partial void ValidateLoadNetworkResource(string frameId, string url, CefSharp.DevTools.Network.LoadNetworkResourceOptions options);
+        partial void ValidateLoadNetworkResource(string url, CefSharp.DevTools.Network.LoadNetworkResourceOptions options, string frameId = null);
         /// <summary>
         /// Fetches the resource and returns the content.
         /// </summary>
-        /// <param name = "frameId">Frame id to get the resource for. Mandatory for frame targets, andshould be omitted for worker targets.</param>
         /// <param name = "url">URL of the resource to get content for.</param>
         /// <param name = "options">Options for the request.</param>
+        /// <param name = "frameId">Frame id to get the resource for. Mandatory for frame targets, andshould be omitted for worker targets.</param>
         /// <returns>returns System.Threading.Tasks.Task&lt;LoadNetworkResourceResponse&gt;</returns>
-        public System.Threading.Tasks.Task<LoadNetworkResourceResponse> LoadNetworkResourceAsync(string frameId, string url, CefSharp.DevTools.Network.LoadNetworkResourceOptions options)
+        public System.Threading.Tasks.Task<LoadNetworkResourceResponse> LoadNetworkResourceAsync(string url, CefSharp.DevTools.Network.LoadNetworkResourceOptions options, string frameId = null)
         {
-            ValidateLoadNetworkResource(frameId, url, options);
+            ValidateLoadNetworkResource(url, options, frameId);
             var dict = new System.Collections.Generic.Dictionary<string, object>();
+            dict.Add("url", url);
+            dict.Add("options", options.ToDictionary());
             if (!(string.IsNullOrEmpty(frameId)))
             {
                 dict.Add("frameId", frameId);
             }
 
-            dict.Add("url", url);
-            dict.Add("options", options.ToDictionary());
             return _client.ExecuteDevToolsMethodAsync<LoadNetworkResourceResponse>("Network.loadNetworkResource", dict);
         }
     }
