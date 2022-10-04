@@ -68,12 +68,20 @@ QUnit.module('BindingTestSync', (hooks) =>
         assert.equal(actualResult, expectedResult, "Call to bound.getSubObject().simpleProperty resulted in : " + actualResult);
     });
 
-    QUnit.test("Call (echoDateTime):", (assert) =>
+    QUnit.test("Call (echoDateTime): now", (assert) =>
     {
         const now = new Date();
         const res = bound.echoDateTime(now);
 
         assert.deepEqual(res, now, "Expected echo datetime");
+    });
+
+    QUnit.test("Call (echoDateTime): unixTimeZero", (assert) =>
+    {
+        const unixTimeZero = new Date(Date.parse('01 Jan 1970 00:00:00 GMT'));
+        const res = bound.echoDateTime(unixTimeZero);
+
+        assert.deepEqual(res, unixTimeZero, "Expected echo unixTimeZero");
     });
 
     QUnit.test("Call (echoNullableDateTime):", (assert) =>
