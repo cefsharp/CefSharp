@@ -33,7 +33,7 @@
         <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="106.0.20" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="106.0.25" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
 
         <PackageReference Include="Moq" Version="4.13.0" />
