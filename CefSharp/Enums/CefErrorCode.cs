@@ -754,7 +754,7 @@ namespace CefSharp
         /// </summary>
         CertWeakSignatureAlgorithm = -208,
 
-        // -209 is availible: was CERT_NOT_IN_DNS.
+        // -209 is available: was CERT_NOT_IN_DNS.
 
         /// <summary>
         /// The host name specified in the certificate is not unique.
@@ -1049,7 +1049,7 @@ namespace CefSharp
         ResponseHeadersTruncated = -357,
 
         /// <summary>
-        /// The QUIC crytpo handshake failed.  This means that the server was unable
+        /// The QUIC crypto handshake failed.  This means that the server was unable
         /// to read any requests sent, so they may be resent.
         /// </summary>
         QuicHandshakeFailed = -358,
@@ -1191,6 +1191,12 @@ namespace CefSharp
         InconsistentIpAddressSpace = -383,
 
         /// <summary>
+        /// The IP address space of the cached remote endpoint is blocked by private
+        /// network access check.
+        /// </summary>
+        CachedIpAddressSpaceBlockedByPrivateNetworkAccessPolicy = -384,
+
+        /// <summary>
         /// The cache does not have the requested entry.
         /// </summary>
         CacheMiss = -400,
@@ -1256,7 +1262,7 @@ namespace CefSharp
 
         /// <summary>
         /// Internal not-quite error code for the HTTP cache. In-memory hints suggest
-        /// that the cache entry would not have been useable with the transaction's
+        /// that the cache entry would not have been usable with the transaction's
         /// current configuration (e.g. load flags, mode, etc.)
         /// </summary>
         CacheEntryNotSuitable = -411,
