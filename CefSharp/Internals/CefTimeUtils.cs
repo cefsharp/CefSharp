@@ -27,7 +27,7 @@ namespace CefSharp.Internals
                 return null;
             }
 
-            return DateTime.FromFileTime(val * 10);
+            return FromBaseTimeToDateTime(val);
         }
 
         /// <summary>
@@ -41,7 +41,16 @@ namespace CefSharp.Internals
         /// <returns>returns a <see cref="DateTime"/> of <see cref="DateTimeKind.Local"/></returns>
         public static DateTime FromBaseTimeToDateTime(long val)
         {
-            return DateTime.FromFileTime(val * 10);
+            const long MaxFileTime = 2650467743999999999;
+
+            var fileTime = val * 10;
+
+            if (fileTime > MaxFileTime)
+            {
+                return DateTime.MaxValue;
+            }
+
+            return DateTime.FromFileTime(fileTime);
         }
 
         /// <summary>
