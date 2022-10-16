@@ -19,6 +19,8 @@ namespace CefSharp.Test.Framework
         }
 
         [Theory]
+        [InlineData(-50491123200000000, "0001-01-01")]
+        [InlineData(-86400000000, "1600-12-31")]
         [InlineData(0, "1601-01-01")]
         [InlineData(2650467743999999999, "9999-12-31 23:59:59")]
         [InlineData(759797148870000000, "9999-12-31 23:59:59")]
@@ -52,15 +54,40 @@ namespace CefSharp.Test.Framework
             Assert.Equal(actual, expected);
         }
 
-        //[Fact]
-        //public void FromDateTimeToBaseTimeShouldWorkForMinValue()
-        //{
-        //    const long expected = 0;
-        //    var utcTime = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+        [Fact]
+        public void FromDateTimeToBaseTimeShouldWorkForMinValue()
+        {
+            const long expected = -50491123200000000;
+            var utcTime = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 
-        //    var actual = CefTimeUtils.FromDateTimeToBaseTime(utcTime);
+            var actual = CefTimeUtils.FromDateTimeToBaseTime(utcTime);
 
-        //    Assert.Equal(actual, expected);
-        //}
+            Assert.Equal(actual, expected);
+        }
+
+
+        [Fact]
+        public void ShouldConvertMinValueToAndFromDateTime()
+        {
+            var expected = DateTime.MinValue.ToLocalTime();
+
+            var baseTime = CefTimeUtils.FromDateTimeToBaseTime(expected);
+
+            var actual = CefTimeUtils.FromBaseTimeToDateTime(baseTime);
+
+            Assert.Equal(actual, expected);
+        }
+
+        [Fact]
+        public void ShouldConvertMaxValueToAndFromDateTime()
+        {
+            var expected = DateTime.MaxValue.ToLocalTime();
+
+            var baseTime = CefTimeUtils.FromDateTimeToBaseTime(expected);
+
+            var actual = CefTimeUtils.FromBaseTimeToDateTime(baseTime);
+
+            Assert.Equal(actual, expected, TimeSpan.FromMilliseconds(10));
+        }
     }
 }
