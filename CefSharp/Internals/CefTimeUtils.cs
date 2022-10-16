@@ -11,6 +11,27 @@ namespace CefSharp.Internals
     /// </summary>
     public static class CefTimeUtils
     {
+        private static IBaseTimeConverter BaseTimeConverter = new BaseTimeConverter();
+
+        /// <summary>
+        /// Assign your own custom <see cref="IBaseTimeConverter"/> converter
+        /// used to convert <see cref="DateTime"/> to/from CefBaseTime
+        /// </summary>
+        /// <param name="converter">converter</param>
+        /// <remarks>
+        /// Must be called in all processes for custom conversion of DateTime
+        /// used by the Sync Javascript Binding (.Net 4.x only)
+        /// </remarks>
+        public static void UseBaseTimeConveter(IBaseTimeConverter converter)
+        {
+            if (converter == null)
+            {
+                throw new ArgumentNullException(nameof(converter));
+            }
+
+            BaseTimeConverter = converter;
+        }
+
         /// <summary>
         /// Converts from CefBaseTime to DateTime?
         /// </summary>
@@ -41,16 +62,7 @@ namespace CefSharp.Internals
         /// <returns>returns a <see cref="DateTime"/> of <see cref="DateTimeKind.Local"/></returns>
         public static DateTime FromBaseTimeToDateTime(long val)
         {
-            const long MaxFileTime = 2650467743999999999;
-
-            var fileTime = val * 10;
-
-            if (fileTime > MaxFileTime)
-            {
-                return DateTime.MaxValue;
-            }
-
-            return DateTime.FromFileTime(fileTime);
+            return BaseTimeConverter.FromBaseTimeToDateTime(val);
         }
 
         /// <summary>
@@ -62,9 +74,7 @@ namespace CefSharp.Internals
         /// </returns>
         public static long FromDateTimeToBaseTime(DateTime dateTime)
         {
-            // Same as calling ToFileTime, this to me is a little
-            // more self descriptive of what's going on.
-            return dateTime.ToUniversalTime().ToFileTimeUtc() / 10;
+            return BaseTimeConverter.FromDateTimeToBaseTime(dateTime);
         }
     }
 }
