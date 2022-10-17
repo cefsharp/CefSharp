@@ -29,7 +29,7 @@ namespace CefSharp.Test.Framework
             var actual = CefTimeUtils.FromBaseTimeToDateTime(val);
             var expected = DateTime.Parse(expectedDateTime).ToLocalTime();
 
-            Assert.Equal(expected, actual, TimeSpan.FromMilliseconds(10));
+            Assert.Equal(expected, actual, TimeSpan.FromSeconds(1));
         }
 
         [Fact]
