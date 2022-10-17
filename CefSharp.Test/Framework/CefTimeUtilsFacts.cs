@@ -29,7 +29,7 @@ namespace CefSharp.Test.Framework
             var actual = CefTimeUtils.FromBaseTimeToDateTime(val);
             var expected = DateTime.Parse(expectedDateTime).ToLocalTime();
 
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual, TimeSpan.FromMilliseconds(10));
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace CefSharp.Test.Framework
 
             var actual = CefTimeUtils.FromDateTimeToBaseTime(maxValueAsUtc);
 
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace CefSharp.Test.Framework
 
             var actual = CefTimeUtils.FromDateTimeToBaseTime(utcTime);
 
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace CefSharp.Test.Framework
 
             var actual = CefTimeUtils.FromDateTimeToBaseTime(utcTime);
 
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
 
@@ -75,7 +75,7 @@ namespace CefSharp.Test.Framework
 
             var actual = CefTimeUtils.FromBaseTimeToDateTime(baseTime);
 
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace CefSharp.Test.Framework
 
             var actual = CefTimeUtils.FromBaseTimeToDateTime(baseTime);
 
-            Assert.Equal(actual, expected, TimeSpan.FromMilliseconds(10));
+            Assert.Equal(expected, actual, TimeSpan.FromMilliseconds(10));
         }
     }
 }
