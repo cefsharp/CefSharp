@@ -12,22 +12,42 @@
     <br />
     <a href="#" onclick="window.open('custom://cefsharp/MultiBindingTest.html')">MultiBindingTest.html</a>
     <br />
-    <button onclick="openWin()">Open "myWindow"</button>
-    <button onclick="closeWin()">Close "myWindow"</button>
+    <button id="openMyWindow">Open "myWindow"</button>
+    <button id="closeMyWindow">Close "myWindow"</button>
 
     <script>
         var myWindow;
 
-        function openWin()
+        document.getElementById('openMyWindow').addEventListener('click', function (e)
         {
-            myWindow = window.open("", "myWindow", "width=200,height=100");
-            myWindow.document.write("<p>This is 'myWindow'</p>");
-        }
+            myWindow = window.open('/HelloWorld.html', 'Popup WindowName', "menubar=0,resizable=1,location=0,status=0,scrollbars=1,width=640,height=480");
 
-        function closeWin()
+            try
+            {
+                myWindow.darkTheme = false;
+
+                myWindow.addEventListener('DOMContentLoaded', (event) =>
+                {
+                    myWindow.document.write("<title>Foo Title</title>");
+                    myWindow.document.write("<body>This is the new body</body>");
+                    myWindow.document.close();
+
+                    //myWindow.document.title = "Foo Title";
+                    //myWindow.document.body.innerHTML += "<br/>Appended to document body";
+
+                    console.log('Popup body and title updated:', myWindow.document.body.outerHTML);
+                });                
+            }
+            catch (e)
+            {
+                console.log('popup error', e);
+            }
+        });
+
+        document.getElementById('closeMyWindow').addEventListener('click', function (e)
         {
             myWindow.close();
-        }
+        });
     </script>
 </body>
 </html>
