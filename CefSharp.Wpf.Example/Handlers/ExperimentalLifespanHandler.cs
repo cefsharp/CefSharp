@@ -5,16 +5,14 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
-using System.Windows.Interop;
 
 namespace CefSharp.Wpf.Example.Handlers
 {
     /// <summary>
-    /// LifeSpanHandler implementation that demos hosting a popup in a new ChromiumWebBrowser instance.
-    /// This example code is EXPERIMENTAL
+    /// WPF - EXPERIMENTAL LifeSpanHandler implementation that demos hosting a popup in a new ChromiumWebBrowser instance
+    /// hosted in a new Window.
     /// </summary>
-    public class ExperimentalLifespanHandler : ILifeSpanHandler
+    public class ExperimentalLifespanHandler : CefSharp.Handler.LifeSpanHandler
     {
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
@@ -31,11 +29,8 @@ namespace CefSharp.Wpf.Example.Handlers
             return sb.ToString();
         }
 
-        bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
+        protected override bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
-            //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
-            //newBrowser = null;
-
             var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
             ChromiumWebBrowser popupChromiumWebBrowser = null;
@@ -45,15 +40,16 @@ namespace CefSharp.Wpf.Example.Handlers
             var windowWidth = (windowInfo.Width == int.MinValue) ? double.NaN : windowInfo.Width;
             var windowHeight = (windowInfo.Height == int.MinValue) ? double.NaN : windowInfo.Height;
 
+            // Invoke onto the WPF UI Thread to create a new Window/UI Control
             chromiumWebBrowser.Dispatcher.Invoke(() =>
             {
-                var owner = Window.GetWindow(chromiumWebBrowser);
+                var owner = System.Windows.Window.GetWindow(chromiumWebBrowser);
                 popupChromiumWebBrowser = new ChromiumWebBrowser();
 
                 popupChromiumWebBrowser.SetAsPopup();
                 popupChromiumWebBrowser.LifeSpanHandler = this;
 
-                var popup = new Window
+                var popup = new System.Windows.Window
                 {
                     Left = windowX,
                     Top = windowY,
@@ -64,7 +60,7 @@ namespace CefSharp.Wpf.Example.Handlers
                     Title = targetFrameName
                 };
 
-                var windowInteropHelper = new WindowInteropHelper(popup);
+                var windowInteropHelper = new System.Windows.Interop.WindowInteropHelper(popup);
                 //Create the handle Window handle (In WPF there's only one handle per window, not per control)
                 var handle = windowInteropHelper.EnsureHandle();
 
@@ -75,7 +71,7 @@ namespace CefSharp.Wpf.Example.Handlers
 
                 popup.Closed += (o, e) =>
                 {
-                    var w = o as Window;
+                    var w = o as System.Windows.Window;
                     if (w != null && w.Content is IWebBrowser)
                     {
                         (w.Content as IWebBrowser).Dispose();
@@ -89,7 +85,7 @@ namespace CefSharp.Wpf.Example.Handlers
             return false;
         }
 
-        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
+        protected override void OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
         {
             if (!browser.IsDisposed && browser.IsPopup)
             {
@@ -104,7 +100,7 @@ namespace CefSharp.Wpf.Example.Handlers
 
                     chromiumWebBrowser.Dispatcher.Invoke(() =>
                     {
-                        var owner = Window.GetWindow(chromiumWebBrowser);
+                        var owner = System.Windows.Window.GetWindow(chromiumWebBrowser);
 
                         if (owner != null && owner.Content == browserControl)
                         {
@@ -115,12 +111,7 @@ namespace CefSharp.Wpf.Example.Handlers
             }
         }
 
-        bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
-        {
-            return false;
-        }
-
-        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
+        protected override void OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
         {
             if (!browser.IsDisposed && browser.IsPopup)
             {
@@ -131,7 +122,7 @@ namespace CefSharp.Wpf.Example.Handlers
 
                     chromiumWebBrowser.Dispatcher.Invoke(() =>
                     {
-                        var owner = Window.GetWindow(chromiumWebBrowser);
+                        var owner = System.Windows.Window.GetWindow(chromiumWebBrowser);
 
                         if (owner != null && owner.Content == browserControl)
                         {

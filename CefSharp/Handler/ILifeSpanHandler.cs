@@ -11,7 +11,7 @@ namespace CefSharp
     public interface ILifeSpanHandler
     {
         /// <summary>
-        /// Called before a popup window is created.
+        /// Called before a popup window is created. By default the popup (browser) is created in a new native window.
         /// </summary>
         /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
         /// <param name="browser">The browser instance that launched this popup.</param>
@@ -27,23 +27,22 @@ namespace CefSharp
         /// <param name="browserSettings">browser settings, defaults to source browsers</param>
         /// <param name="noJavascriptAccess">value indicates whether the new browser window should be scriptable
         /// and in the same process as the source browser.</param>
-        /// <param name="newBrowser">EXPERIMENTAL - A newly created browser that will host the popup. Set to null
-        /// for default behaviour.</param>
-        /// <returns>To cancel creation of the popup window return true otherwise return false.</returns>
+        /// <param name="newBrowser">
+        /// EXPERIMENTAL - Low level this allows for assigning the CefClient instance associated with the new ChromiumWebBrowser instance to the CefClient param of the CefLifeSpanHandler::OnBeforeBrowser method.
+        /// This allows for all the handlers, LifeSpanHandler, DisplayHandler, etc to be associated with the CefClient of the new ChromiumWebBrowser instance to be associated with the popup (browser).
+        /// WPF/WinForms specific code is still required to host the popup (browser) in the new ChromiumWebBrowser instance.
+        /// Set to null for default behaviour. If you return true (cancel popup creation) then his property **MUST** be null, an exception will be thrown otherwise.
+        /// </param>
+        /// <returns>
+        /// By default the popup (browser) is opened in a new native window. If you return true then creation of the popup (browser) is cancelled, no further action will occur.
+        /// Otherwise return false to allow creation of the popup (browser). 
+        /// </returns>
         /// <remarks>
-        /// CEF documentation:
-        /// 
-        /// Called on the IO thread before a new popup window is created. The |browser|
-        /// and |frame| parameters represent the source of the popup request. The
-        /// |target_url| and |target_frame_name| values may be empty if none were
-        /// specified with the request. The |popupFeatures| structure contains
-        /// information about the requested popup window. To allow creation of the
-        /// popup window optionally modify |windowInfo|, |client|, |settings| and
-        /// |no_javascript_access| and return false. To cancel creation of the popup
-        /// window return true. The |client| and |settings| values will default to the
-        /// source browser's values. The |no_javascript_access| value indicates whether
-        /// the new browser window should be scriptable and in the same process as the
-        /// source browser.
+        /// If you return true and set <paramref name="newBrowser"/> to not null then an exception will be thrown as creation of the popup (browser) was cancelled.
+        /// WinForms - To host the popup (browser) in a TAB/Custom Window see https://github.com/cefsharp/CefSharp/wiki/General-Usage#winforms---hosting-popup-using-tab-control for an easy method.
+        /// WPF - For an example of hosting the popup (browser) in a custom window see https://github.com/cefsharp/CefSharp/wiki/General-Usage#wpf---hosting-popup-in-new-window-experimental
+        /// Same can be applied for hosting the popup in a TAB.
+        /// This method is still EXPERIMENTAL and will likely require upstream bug fixes in CEF (https://bitbucket.org/chromiumembedded/cef).
         /// </remarks>
         bool OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser);
 
