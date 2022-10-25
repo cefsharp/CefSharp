@@ -272,6 +272,15 @@ namespace CefSharp.WinForms
         }
 
         /// <summary>
+        /// To control how <see cref="Cef.Shutdown"/> is called, this method will
+        /// unsubscribe from <see cref="Application.ApplicationExit"/>,
+        /// </summary>
+        public static void UnregisterShutdownHandler()
+        {
+            Application.ApplicationExit -= OnApplicationExit;
+        }
+
+        /// <summary>
         /// <strong>Important!!!</strong>
         /// This constructor exists as the WinForms designer requires a parameterless constructor, if you are instantiating
         /// an instance of this class in code then use the <see cref="ChromiumWebBrowser(string, IRequestContext)"/>

@@ -429,6 +429,30 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
+        /// To control how <see cref="Cef.Shutdown"/> is called, this method will
+        /// unsubscribe from <see cref="Application.Exit"/>,
+        /// <see cref="Dispatcher.ShutdownStarted"/> and <see cref="Dispatcher.ShutdownFinished"/>.
+        /// </summary>
+        public static void UnregisterShutdownHandler()
+        {
+            //Use Dispatcher.FromThread as it returns null if no dispatcher
+            //is available for this thread.
+            var dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
+            if (dispatcher != null)
+            {
+                dispatcher.ShutdownStarted -= DispatcherShutdownStarted;
+                dispatcher.ShutdownFinished -= DispatcherShutdownFinished;
+            }
+
+            var app = Application.Current;
+
+            if (app != null)
+            {
+                app.Exit -= OnApplicationExit;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
