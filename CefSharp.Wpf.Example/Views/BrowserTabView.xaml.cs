@@ -119,9 +119,70 @@ namespace CefSharp.Wpf.Example.Views
             };
 
             browser.DisplayHandler = new DisplayHandler();
-            //This LifeSpanHandler implementaion demos hosting a popup in a ChromiumWebBrowser
-            //instance, it's still considered Experimental
-            //browser.LifeSpanHandler = new ExperimentalLifespanHandler();
+            // This LifeSpanHandler implementaion demos hosting a popup in a ChromiumWebBrowser
+            // instance, it's still considered Experimental. The ChromiumWebBrowser
+            // is shown in a new Window. This could just as easily be a Tab/ContentControl/etc
+            /*
+            browser.LifeSpanHandler = CefSharp.Wpf.Experimental.LifeSpanHandler
+                .Create()
+                .OnPopupCreated((ctrl, targetUrl, targetFrameName, windowInfo) =>
+                {
+                    var windowX = (windowInfo.X == int.MinValue) ? double.NaN : windowInfo.X;
+                    var windowY = (windowInfo.Y == int.MinValue) ? double.NaN : windowInfo.Y;
+                    var windowWidth = (windowInfo.Width == int.MinValue) ? double.NaN : windowInfo.Width;
+                    var windowHeight = (windowInfo.Height == int.MinValue) ? double.NaN : windowInfo.Height;
+
+                    var popup = new System.Windows.Window
+                    {
+                        Left = windowX,
+                        Top = windowY,
+                        Width = windowWidth,
+                        Height = windowHeight,
+                        Content = ctrl,
+                        Owner = Window.GetWindow(browser),
+                        Title = targetFrameName
+                    };
+
+                    popup.Closed += (o, e) =>
+                    {
+                        var w = o as System.Windows.Window;
+                        if (w != null && w.Content is IWebBrowser)
+                        {
+                            (w.Content as IWebBrowser)?.Dispose();
+                            w.Content = null;
+                        }
+                    };
+                })
+                .OnPopupBrowserCreated((ctrl, browser) =>
+                {
+                    ctrl.Dispatcher.Invoke(() =>
+                    {
+                        var owner = System.Windows.Window.GetWindow(ctrl);
+
+                        if (owner != null && owner.Content == ctrl)
+                        {
+                            owner.Show();
+                        }
+                    });
+                })
+                .OnPopupDestroyed((ctrl, popupBrowser) =>
+                {
+                    //If browser is disposed then we don't need to remove the tab
+                    if (!ctrl.IsDisposed)
+                    {
+                        ctrl.Dispatcher.Invoke(() =>
+                        {
+                            var owner = System.Windows.Window.GetWindow(ctrl);
+
+                            if (owner != null && owner.Content == ctrl)
+                            {
+                                owner.Close();
+                            }
+                        });
+                    }
+                }).Build();
+            */
+
             browser.MenuHandler = new MenuHandler(addDevtoolsMenuItems:true);
 
             //Enable experimental Accessibility support 
