@@ -118,6 +118,11 @@ namespace CefSharp.Wpf
         ICommand RedoCommand { get; }
 
         /// <summary>
+        /// Toggles the audio mute for the current browser.
+        /// </summary>
+        ICommand ToggleAudioMuteCommand { get; }
+
+        /// <summary>
         /// Gets the <see cref="Dispatcher" /> associated with this instance.
         /// </summary>
         /// <value>The dispatcher.</value>

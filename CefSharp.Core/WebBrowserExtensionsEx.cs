@@ -5,7 +5,6 @@
 using CefSharp.Internals;
 using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -142,6 +141,36 @@ namespace CefSharp
             });
 
             return taskCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// Toggles audio mute for the current browser.
+        /// If the <paramref name="browser"/> is null or has been disposed
+        /// then this command will be a no-op.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        public static void ToggleAudioMute(this IChromiumWebBrowserBase browser)
+        {
+            if (browser.IsDisposed || Cef.IsShutdown)
+            {
+                return;
+            }
+
+            _ = Cef.UIThreadTaskFactory.StartNew(delegate
+            {
+                var cefBrowser = browser.BrowserCore;
+
+                if (cefBrowser == null || cefBrowser.IsDisposed)
+                {
+                    return;
+                }
+
+                var host = cefBrowser.GetHost();
+
+                var isAudioMuted = host.IsAudioMuted;
+
+                host.SetAudioMuted(!isAudioMuted);
+            });
         }
     }
 }

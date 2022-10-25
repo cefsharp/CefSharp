@@ -18,6 +18,7 @@
                 <MenuItem Header="Zoom In" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ZoomIn"/>
                 <MenuItem Header="Zoom Out" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ZoomOut"/>
                 <MenuItem Header="Zooom Reset" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ZoomReset"/>
+                <MenuItem Header="Toggle Audio Mute" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ToggleAudioMute"/>
                 <MenuItem Header="ClearHttpAuthCredentials" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ClearHttpAuthCredentials"/>
                 <MenuItem Header="_Exit" Command="controls:CefSharpCommands.Exit"/>
             </MenuItem>

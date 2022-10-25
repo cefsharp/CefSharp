@@ -131,6 +131,11 @@ namespace CefSharp.Wpf.Example
                     var cmd = browserViewModel.WebBrowser.ZoomResetCommand;
                     cmd.Execute(null);
                 }
+                else if (param == "ToggleAudioMute")
+                {
+                    var cmd = browserViewModel.WebBrowser.ToggleAudioMuteCommand;
+                    cmd.Execute(null);
+                }
                 else if (param == "ClearHttpAuthCredentials")
                 {
                     var browserHost = browserViewModel.WebBrowser.GetBrowserHost();

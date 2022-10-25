@@ -319,6 +319,9 @@ namespace CefSharp.Wpf
         /// <value>The redo command.</value>
         public ICommand RedoCommand { get; private set; }
 
+        /// <inheritdoc/>
+        public ICommand ToggleAudioMuteCommand { get; private set; }
+
         /// <summary>
         /// The dpi scale factor, if the browser has already been initialized
         /// you must manually call IBrowserHost.NotifyScreenInfoChanged for the
@@ -555,6 +558,7 @@ namespace CefSharp.Wpf
             SelectAllCommand = new DelegateCommand(this.SelectAll);
             UndoCommand = new DelegateCommand(this.Undo);
             RedoCommand = new DelegateCommand(this.Redo);
+            ToggleAudioMuteCommand = new DelegateCommand(this.ToggleAudioMute);
 
             managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, true);
 
