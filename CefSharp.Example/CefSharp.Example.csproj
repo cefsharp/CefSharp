@@ -38,6 +38,7 @@
     <Content Include="Resources\BindingApiCustomObjectNameTest.html" />
     <Content Include="Resources\BindingTestSingle.html" />
     <Content Include="Resources\DragDropCursorsTest.html" />
+    <Content Include="Resources\ImageTest.html" />
     <Content Include="Resources\HelloWorld.html" />
     <Content Include="Resources\JavascriptCallbackTest.html" />
     <Content Include="Resources\LegacyBindingTest.html" />
