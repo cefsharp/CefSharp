@@ -44,6 +44,17 @@ namespace CefSharp.Wpf.Internals
         }
 
         /// <summary>
+        /// Gets the modifiers.
+        /// </summary>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        /// <returns>CefEventFlags.</returns>
+        public static CefEventFlags GetModifiers(this DragEventArgs e)
+        {
+            return GetModifierKeys();
+        }
+
+
+        /// <summary>
         /// Gets keyboard modifiers.
         /// </summary>
         /// <returns>CefEventFlags.</returns>

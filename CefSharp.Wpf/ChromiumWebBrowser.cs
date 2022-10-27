@@ -2024,7 +2024,7 @@ namespace CefSharp.Wpf
         {
             var point = e.GetPosition(this);
 
-            return new MouseEvent((int)point.X, (int)point.Y, CefEventFlags.None);
+            return new MouseEvent((int)point.X, (int)point.Y, e.GetModifiers());
         }
 
         /// <summary>
