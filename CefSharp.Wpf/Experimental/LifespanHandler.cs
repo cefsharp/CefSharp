@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
 
 namespace CefSharp.Wpf.Experimental
 {
@@ -25,7 +24,7 @@ namespace CefSharp.Wpf.Experimental
     /// (e.g. clicking a link) or false if the popup opened automatically (e.g. via the DomContentLoaded event).</param>
     /// <param name="browserSettings">browser settings, defaults to source browsers</param>
     /// <returns>To cancel creation of the popup return true otherwise return false.</returns>
-    public delegate PopupCreation OnBeforePopupCreatedDelegate(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IBrowserSettings browserSettings);
+    public delegate PopupCreation LifeSpanHandlerOnBeforePopupCreatedDelegate(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IBrowserSettings browserSettings);
 
     /// <summary>
     /// Called when the <see cref="ChromiumWebBrowser"/> has been created.
@@ -35,57 +34,57 @@ namespace CefSharp.Wpf.Experimental
     /// <param name="url">url</param>
     /// <param name="targetFrameName">target frame name</param>
     /// <param name="windowInfo">WindowInfo</param>
-    public delegate void OnPopupCreatedDelegate(ChromiumWebBrowser control, string url, string targetFrameName, IWindowInfo windowInfo);
+    public delegate void LifeSpanHandlerOnPopupCreatedDelegate(ChromiumWebBrowser control, string url, string targetFrameName, IWindowInfo windowInfo);
 
     /// <summary>
     /// Called when the <see cref="IBrowser"/> instance has been created.
-    /// The <see cref="IBrowser"/> reference will be valid until <see cref="OnPopupDestroyedDelegate"/> is called
+    /// The <see cref="IBrowser"/> reference will be valid until <see cref="LifeSpanHandlerOnPopupDestroyedDelegate"/> is called
     /// </summary>
-    /// <param name="control">popup host control, maybe null if Browser is hosted in a native Popup window.
+    /// <param name="control">popup ChromiumWebBrowser control, maybe null if Browser is hosted in a native Popup window.
     /// DevTools by default will be hosted in a native popup window.</param>
     /// <param name="browser">browser</param>
-    public delegate void OnPopupBrowserCreatedDelegate(ChromiumWebBrowser control, IBrowser browser);
+    public delegate void LifeSpanHandlerOnPopupBrowserCreatedDelegate(ChromiumWebBrowser control, IBrowser browser);
 
     /// <summary>
     /// Called when the <see cref="ChromiumWebBrowser"/> is to be removed from it's parent.
     /// When called you must remove/dispose of the <see cref="ChromiumWebBrowser"/>.
     /// </summary>
-    /// <param name="control">popup host control</param>
+    /// <param name="control">popup ChromiumWebBrowser control</param>
     /// <param name="browser">browser</param>
-    public delegate void OnPopupDestroyedDelegate(ChromiumWebBrowser control, IBrowser browser);
+    public delegate void LifeSpanHandlerOnPopupDestroyedDelegate(ChromiumWebBrowser control, IBrowser browser);
 
     /// <summary>
-    /// Called to create a new instance of <see cref="ChromiumWebBrowser"/>. Allows creation of a derived
+    /// Called to create a new instance of <see cref="ChromiumWebBrowser"/>. Allows creation of a derived/custom
     /// implementation of <see cref="ChromiumWebBrowser"/>.
     /// </summary>
     /// <returns>A custom instance of <see cref="ChromiumWebBrowser"/>.</returns>
-    public delegate ChromiumWebBrowser CreatePopupChromiumWebBrowser();
+    public delegate ChromiumWebBrowser LifeSpanHandlerCreatePopupChromiumWebBrowser();
 
     /// <summary>
     /// WPF - EXPERIMENTAL LifeSpanHandler implementation that can be used to host a popup using a new <see cref="ChromiumWebBrowser"/> instance.
     /// </summary>
     public class LifeSpanHandler : CefSharp.Handler.LifeSpanHandler
     {
-        private OnBeforePopupCreatedDelegate onBeforePopupCreated;
-        private OnPopupDestroyedDelegate onPopupDestroyed;
-        private OnPopupBrowserCreatedDelegate onPopupBrowserCreated;
-        private OnPopupCreatedDelegate onPopupCreated;
-        private CreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate;
+        private LifeSpanHandlerOnBeforePopupCreatedDelegate onBeforePopupCreated;
+        private LifeSpanHandlerOnPopupDestroyedDelegate onPopupDestroyed;
+        private LifeSpanHandlerOnPopupBrowserCreatedDelegate onPopupBrowserCreated;
+        private LifeSpanHandlerOnPopupCreatedDelegate onPopupCreated;
+        private LifeSpanHandlerCreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate;
         private Dictionary<IntPtr, ChromiumWebBrowser> chromiumWebBrowserMap = new Dictionary<IntPtr, ChromiumWebBrowser>();
         private ChromiumWebBrowser pendingChromiumWebBrowser;
 
-        public LifeSpanHandler(CreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate)
+        public LifeSpanHandler(LifeSpanHandlerCreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate)
         {
             this.chromiumWebBrowserCreatedDelegate = chromiumWebBrowserCreatedDelegate;
         }
 
         /// <summary>
-        /// The <see cref="OnBeforePopupCreatedDelegate"/> will be called <b>before</b> the popup has been created and
+        /// The <see cref="LifeSpanHandlerOnBeforePopupCreatedDelegate"/> will be called <b>before</b> the popup has been created and
         /// can be used to cancel popup creation if required or modify <see cref="IBrowserSettings"/>.
         /// </summary>
         /// <param name="onBeforePopupCreated">Action to be invoked before popup is created.</param>
         /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
-        public LifeSpanHandler OnBeforePopupCreated(OnBeforePopupCreatedDelegate onBeforePopupCreated)
+        public LifeSpanHandler OnBeforePopupCreated(LifeSpanHandlerOnBeforePopupCreatedDelegate onBeforePopupCreated)
         {
             this.onBeforePopupCreated = onBeforePopupCreated;
 
@@ -93,12 +92,12 @@ namespace CefSharp.Wpf.Experimental
         }
 
         /// <summary>
-        /// The <see cref="OnPopupCreatedDelegate"/> will be called when the<see cref="ChromiumWebBrowser"/> has been
-        /// created. When the <see cref="OnPopupCreatedDelegate"/> is called you must add the control to it's intended parent.
+        /// The <see cref="LifeSpanHandlerOnPopupCreatedDelegate"/> will be called when the<see cref="ChromiumWebBrowser"/> has been
+        /// created. When the <see cref="LifeSpanHandlerOnPopupCreatedDelegate"/> is called you must add the control to it's intended parent.
         /// </summary>
         /// <param name="onPopupCreated">Action to be invoked when the Popup host has been created and is ready to be attached to it's parent.</param>
         /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
-        public LifeSpanHandler OnPopupCreated(OnPopupCreatedDelegate onPopupCreated)
+        public LifeSpanHandler OnPopupCreated(LifeSpanHandlerOnPopupCreatedDelegate onPopupCreated)
         {
             this.onPopupCreated = onPopupCreated;
 
@@ -106,14 +105,14 @@ namespace CefSharp.Wpf.Experimental
         }
 
         /// <summary>
-        /// The <see cref="OnPopupBrowserCreatedDelegate"/> will be called when the<see cref="IBrowser"/> has been
-        /// created. The <see cref="IBrowser"/> instance is valid until <see cref="OnPopupDestroyed(OnPopupDestroyedDelegate)"/>
+        /// The <see cref="LifeSpanHandlerOnPopupBrowserCreatedDelegate"/> will be called when the<see cref="IBrowser"/> has been
+        /// created. The <see cref="IBrowser"/> instance is valid until <see cref="OnPopupDestroyed(LifeSpanHandlerOnPopupDestroyedDelegate)"/>
         /// is called. <see cref="IBrowser"/> provides low level access to the CEF Browser, you can access frames, view source,
         /// perform navigation (via frame) etc.
         /// </summary>
         /// <param name="onPopupBrowserCreated">Action to be invoked when the <see cref="IBrowser"/> has been created.</param>
         /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
-        public LifeSpanHandler OnPopupBrowserCreated(OnPopupBrowserCreatedDelegate onPopupBrowserCreated)
+        public LifeSpanHandler OnPopupBrowserCreated(LifeSpanHandlerOnPopupBrowserCreatedDelegate onPopupBrowserCreated)
         {
             this.onPopupBrowserCreated = onPopupBrowserCreated;
 
@@ -121,13 +120,13 @@ namespace CefSharp.Wpf.Experimental
         }
 
         /// <summary>
-        /// The <see cref="OnPopupDestroyedDelegate"/> will be called when the <see cref="ChromiumWebBrowser"/> is to be
+        /// The <see cref="LifeSpanHandlerOnPopupDestroyedDelegate"/> will be called when the <see cref="ChromiumWebBrowser"/> is to be
         /// removed from it's parent.
-        /// When the <see cref="OnPopupDestroyedDelegate"/> is called you must remove/dispose of the <see cref="ChromiumWebBrowser"/>.
+        /// When the <see cref="LifeSpanHandlerOnPopupDestroyedDelegate"/> is called you must remove/dispose of the <see cref="ChromiumWebBrowser"/>.
         /// </summary>
         /// <param name="onPopupDestroyed">Action to be invoked when the Popup is to be destroyed.</param>
         /// <returns><see cref="LifeSpanHandler"/> instance allowing you to chain method calls together</returns>
-        public LifeSpanHandler OnPopupDestroyed(OnPopupDestroyedDelegate onPopupDestroyed)
+        public LifeSpanHandler OnPopupDestroyed(LifeSpanHandlerOnPopupDestroyedDelegate onPopupDestroyed)
         {
             this.onPopupDestroyed = onPopupDestroyed;
 
@@ -142,9 +141,9 @@ namespace CefSharp.Wpf.Experimental
         /// <returns>
         /// A <see cref="LifeSpanHandlerBuilder"/> which can be used to fluently create an <see cref="ILifeSpanHandler"/>.
         /// Call <see cref="LifeSpanHandlerBuilder.Build"/> to create the actual instance after you have call
-        /// <see cref="LifeSpanHandlerBuilder.OnPopupCreated(OnPopupCreatedDelegate)"/> etc.
+        /// <see cref="LifeSpanHandlerBuilder.OnPopupCreated(LifeSpanHandlerOnPopupCreatedDelegate)"/> etc.
         /// </returns>
-        public static LifeSpanHandlerBuilder Create(CreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate = null)
+        public static LifeSpanHandlerBuilder Create(LifeSpanHandlerCreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate = null)
         {
             return new LifeSpanHandlerBuilder(chromiumWebBrowserCreatedDelegate);
         }
