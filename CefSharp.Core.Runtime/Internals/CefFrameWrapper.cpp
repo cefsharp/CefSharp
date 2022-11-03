@@ -271,7 +271,6 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
 bool CefFrameWrapper::IsMain::get()
 {
     ThrowIfDisposed();
-    ThrowIfFrameInvalid();
 
     return _frame->IsMain();
 }
