@@ -24,7 +24,7 @@ namespace CefSharp.Wpf.HwndHost
     /// <seealso cref="CefSharp.Wpf.HwndHost.IWpfWebBrowser" />
     /// based on https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/walkthrough-hosting-a-win32-control-in-wpf
     /// and https://stackoverflow.com/questions/6500336/custom-dwm-drawn-window-frame-flickers-on-resizing-if-the-window-contains-a-hwnd/17471534#17471534
-    public class ChromiumWebBrowser : System.Windows.Interop.HwndHost, IWpfWebBrowser
+    public class ChromiumWebBrowser : System.Windows.Interop.HwndHost, IWebBrowserInternal, IWpfWebBrowser
     {
         public const string BrowserNotInitializedExceptionErrorMessage =
             "The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
