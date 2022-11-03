@@ -78,7 +78,11 @@ namespace CefSharp.WinForms.Handler
         private OnPopupCreatedDelegate onPopupCreated;
         private CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate;
 
-        public LifeSpanHandler(CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="chromiumHostControlCreatedDelegate">Optional delegate used to create custom <see cref="ChromiumHostControl"/> instances.</param>
+        public LifeSpanHandler(CreatePopupChromiumHostControl chromiumHostControlCreatedDelegate = null)
         {
             this.chromiumHostControlCreatedDelegate = chromiumHostControlCreatedDelegate;
         }
