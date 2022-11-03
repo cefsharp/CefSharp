@@ -33,15 +33,15 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Content="Back" Command="{Binding WebBrowser.BackCommand, ElementName=Browser}" Width="50"/>
-            <Button Content="Forward" Command="{Binding WebBrowser.ForwardCommand, ElementName=Browser}" Grid.Column="1" Width="60"/>
+            <Button Content="Back" Command="{Binding BackCommand, ElementName=Browser}" Width="50"/>
+            <Button Content="Forward" Command="{Binding ForwardCommand, ElementName=Browser}" Grid.Column="1" Width="60"/>
             <TextBox x:Name="txtBoxAddress" Text="{Binding Address, ElementName=Browser, FallbackValue=www.google.com}" Grid.Column="2" FontSize="12" BorderBrush="Gray" BorderThickness="1">
                 <behaviors:Interaction.Behaviors>
                     <behaviours:TextBoxBindingUpdateOnEnterBehaviour />
                 </behaviors:Interaction.Behaviors>
             </TextBox>
-            <Button Content="Print..." Command="{Binding WebBrowser.PrintCommand, ElementName=Browser}" Grid.Column="3" Width="50" />
-            <Button Content="View source" Command="{Binding WebBrowser.ViewSourceCommand, ElementName=Browser}" Grid.Column="4" Width="75" />
+            <Button Content="Print..." Command="{Binding PrintCommand, ElementName=Browser}" Grid.Column="3" Width="50" />
+            <Button Content="View source" Command="{Binding ViewSourceCommand, ElementName=Browser}" Grid.Column="4" Width="75" />
             <Button Content="Show DevTools" Click="ShowDevToolsClick" Grid.Column="5" Width="100" />
         </Grid>
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1">
@@ -73,11 +73,11 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0">
-                <TextBlock Text="{Binding HoverLink, ElementName=HoverLinkBehaviour}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding HoverLink, ElementName=HoverLinkBehaviour}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
             </StatusBarItem>
             <Separator Grid.Column="1" />
             <StatusBarItem Grid.Column="2">
-                <TextBlock HorizontalAlignment="Right" TextAlignment="Right" Grid.Column="3" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Right" TextAlignment="Right" VerticalAlignment="Center">
                 Chromium: <Run Text="{Binding Source={x:Static cef:Cef.ChromiumVersion}, Mode=OneTime}" />, CEF: <Run Text="{Binding Source={x:Static cef:Cef.CefVersion}, Mode=OneTime}" />, CefSharp: <Run Text="{Binding Source={x:Static cef:Cef.CefSharpVersion}, Mode=OneTime}"/>, Environment: <Run Text="{Binding Converter={StaticResource EnvironmentConverter}, Mode=OneTime}"/>
                 </TextBlock>
             </StatusBarItem>
