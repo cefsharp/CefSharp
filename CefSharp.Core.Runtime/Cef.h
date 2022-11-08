@@ -257,17 +257,18 @@ namespace CefSharp
                 if (_initialized)
                 {
                     // NOTE: Can only initialize Cef once, to make this explicitly clear throw exception on subsiquent attempts
-                    throw gcnew Exception("CEF can only be initialized once per process. This is a limitation of the underlying " +
+                    throw gcnew Exception("Cef.Initialize can only be called once per process. This is a limitation of the underlying " +
                         "CEF/Chromium framework. You can change many (not all) settings at runtime through RequestContext.SetPreference. " +
                         "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#request-context-browser-isolation " +
-                        "Use Cef.IsInitialized to guard against this exception. If you are seeing this unexpectedly then you are likely " +
-                        "calling Cef.Initialize after you've created an instance of ChromiumWebBrowser, it must be before the first instance is created.");
+                        "Use Cef.IsInitialized to check if Cef.Initialize has already been called to avoid this exception. " +
+                        "If you are seeing this unexpectedly then you are likely " +
+                        "calling Cef.Initialize after you've created an instance of ChromiumWebBrowser, it must be called before the first instance is created.");
                 }
 
                 if (_hasShutdown)
                 {
                     // NOTE: CefShutdown has already been called.
-                    throw gcnew Exception("Cef.Shutdown has already been called. CEF can only be initialized once per process. " +
+                    throw gcnew Exception("Cef.Shutdown has already been called. Cef.Initialize can only be called once per process. " +
                         "This is a limitation of the underlying CEF/Chromium framework. Calling Cef.Initialize after Cef.Shutdown is not supported. "
                         "You can change many (not all) settings at runtime through RequestContext.SetPreference." +
                         "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#request-context-browser-isolation");
