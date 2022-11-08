@@ -5,7 +5,6 @@
 //NOTE:Classes in the CefSharp.Core namespace have been hidden from intellisnse so users don't use them directly
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 
@@ -18,6 +17,15 @@ namespace CefSharp
     /// </summary>
     public static class Cef
     {
+        /// <summary>
+        /// Event is raised when <see cref="Cef.Shutdown"/> is called,
+        /// before the shutdown logic is executed.
+        /// </summary>
+        /// <remarks>
+        /// Will be called on the same thread as <see cref="Cef.Shutdown"/>
+        /// </remarks>
+        public static event EventHandler ShutdownStarted;
+
         public static TaskFactory UIThreadTaskFactory
         {
             get { return Core.Cef.UIThreadTaskFactory; }
@@ -380,6 +388,9 @@ namespace CefSharp
         /// </summary>
         public static void Shutdown()
         {
+            ShutdownStarted?.Invoke(null, EventArgs.Empty);
+            ShutdownStarted = null;
+
             Core.Cef.Shutdown();
         }
 
@@ -394,6 +405,9 @@ namespace CefSharp
         /// </summary>
         public static void ShutdownWithoutChecks()
         {
+            ShutdownStarted?.Invoke(null, EventArgs.Empty);
+            ShutdownStarted = null;
+
             Core.Cef.ShutdownWithoutChecks();
         }
 
