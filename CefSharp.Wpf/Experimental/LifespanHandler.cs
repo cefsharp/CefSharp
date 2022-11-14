@@ -73,7 +73,11 @@ namespace CefSharp.Wpf.Experimental
         private Dictionary<IntPtr, ChromiumWebBrowser> chromiumWebBrowserMap = new Dictionary<IntPtr, ChromiumWebBrowser>();
         private ChromiumWebBrowser pendingChromiumWebBrowser;
 
-        public LifeSpanHandler(LifeSpanHandlerCreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="chromiumWebBrowserCreatedDelegate">optional delegate to create a custom <see cref="ChromiumWebBrowser" instance./></param>
+        public LifeSpanHandler(LifeSpanHandlerCreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate = null)
         {
             this.chromiumWebBrowserCreatedDelegate = chromiumWebBrowserCreatedDelegate;
         }

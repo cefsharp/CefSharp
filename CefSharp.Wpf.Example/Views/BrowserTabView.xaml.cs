@@ -170,15 +170,12 @@ namespace CefSharp.Wpf.Example.Views
                     //If browser is disposed then we don't need to remove the tab
                     if (!ctrl.IsDisposed)
                     {
-                        ctrl.Dispatcher.Invoke(() =>
-                        {
-                            var owner = System.Windows.Window.GetWindow(ctrl);
+                        var owner = System.Windows.Window.GetWindow(ctrl);
 
-                            if (owner != null && owner.Content == ctrl)
-                            {
-                                owner.Close();
-                            }
-                        });
+                        if (owner != null && owner.Content == ctrl)
+                        {
+                            owner.Close();
+                        }
                     }
                 }).Build();
             */
