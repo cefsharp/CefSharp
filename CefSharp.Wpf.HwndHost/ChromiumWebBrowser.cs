@@ -758,6 +758,20 @@ namespace CefSharp.Wpf.HwndHost
 
             browserSettings = null;
 
+            // When CEF is integrated into main message loop
+            // We unregister the WPF keyboard KeyboardInputSite to make sure
+            // TAB works correctly
+            if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+            {
+                var keyboardInputSite = ((IKeyboardInputSink)this).KeyboardInputSite;
+                if (keyboardInputSite != null)
+                {
+                    ((IKeyboardInputSink)this).KeyboardInputSite = null;
+
+                    keyboardInputSite.Unregister();
+                }
+            }
+
             return new HandleRef(null, hwndHost);
         }
 
