@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Windows;
+using CefSharp.Wpf.HwndHost.Handler;
 
 namespace CefSharp.Wpf.HwndHost.Example
 {
@@ -40,8 +41,20 @@ namespace CefSharp.Wpf.HwndHost.Example
             //For screen sharing add (see https://bitbucket.org/chromiumembedded/cef/issues/2582/allow-run-time-handling-of-media-access#comment-58677180)
             settings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
 
+            //See https://github.com/cefsharp/CefSharp/wiki/General-Usage#multithreadedmessageloop
+            //The default is true
+            const bool multiThreadedMessageLoop = true;
+
+            IBrowserProcessHandler browserProcessHandler = null;
+
+            if(!multiThreadedMessageLoop)
+            {
+                settings.MultiThreadedMessageLoop = false;
+                browserProcessHandler = new IntegratedMessageLoopBrowserProcessHandler(Dispatcher);
+            }
+
             // Make sure you set performDependencyCheck false
-            Cef.Initialize(settings, performDependencyCheck: false);
+            Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: browserProcessHandler);
 
             base.OnStartup(e);
         }
