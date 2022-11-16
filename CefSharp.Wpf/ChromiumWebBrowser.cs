@@ -140,11 +140,28 @@ namespace CefSharp.Wpf
         /// </summary>
         private static bool DesignMode;
 
+        private bool resizeHackForIssue2779Enabled;
+        private Structs.Size? resizeHackForIssue2779Size;
+
         /// <summary>
         /// This flag is set when the browser gets focus before the underlying CEF browser
         /// has been initialized.
         /// </summary>
         private bool initialFocus;
+
+        /// <summary>
+        /// Hack to work around issue https://github.com/cefsharp/CefSharp/issues/2779
+        /// Disabled by default
+        /// </summary>
+        public bool EnableResizeHackForIssue2779 { get; set; }
+
+        /// <summary>
+        /// Number of milliseconds to wait after resizing the browser when it first
+        /// becomes visible. After the delay the browser will revert to it's
+        /// original size.
+        /// Hack to work around issue https://github.com/cefsharp/CefSharp/issues/2779
+        /// </summary>
+        public int ResizeHackForIssue2779DelayInMs { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -526,6 +543,9 @@ namespace CefSharp.Wpf
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void NoInliningConstructor()
         {
+            EnableResizeHackForIssue2779 = false;
+            ResizeHackForIssue2779DelayInMs = 50;
+
             //Initialize CEF if it hasn't already been initialized
             if (!Cef.IsInitialized)
             {
@@ -800,7 +820,18 @@ namespace CefSharp.Wpf
         /// <returns>View Rectangle</returns>
         protected virtual Rect GetViewRect()
         {
-            return viewRect;
+            //Take a local copy as the value is set on a different thread,
+            //Its possible the struct is set to null after our initial check.
+            var resizeRect = resizeHackForIssue2779Size;
+
+            if (resizeRect == null)
+            {
+                return viewRect;
+            }
+
+            var size = resizeRect.Value;
+
+            return new Rect(0, 0, size.Width, size.Height);
         }
 
         /// <inheritdoc />
@@ -953,6 +984,11 @@ namespace CefSharp.Wpf
         /// <param name="height">height</param>
         protected virtual void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
+            if (resizeHackForIssue2779Enabled)
+            {
+                return;
+            }
+
             var paint = Paint;
             if (paint != null)
             {
@@ -1759,11 +1795,23 @@ namespace CefSharp.Wpf
         /// even when it's not displayed on screen.
         /// </summary>
         /// <param name="hidden">if true the browser will be notified that it was hidden.</param>
-        protected virtual void OnBrowserWasHidden(bool hidden)
+        protected virtual async void OnBrowserWasHidden(bool hidden)
         {
             if (browser != null)
             {
                 browser.GetHost().WasHidden(hidden);
+
+                if (hidden)
+                {
+                    if (EnableResizeHackForIssue2779)
+                    {
+                        resizeHackForIssue2779Enabled = true;
+                    }
+                }
+                else
+                {
+                    await ResizeHackForIssue2779();
+                }
             }
         }
 
@@ -2695,6 +2743,31 @@ namespace CefSharp.Wpf
             ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
+        }
+
+        private async Task ResizeHackForIssue2779()
+        {
+            if (EnableResizeHackForIssue2779)
+            {
+                var host = browser?.GetHost();
+                if (host != null && !host.IsDisposed)
+                {
+                    resizeHackForIssue2779Size = new Structs.Size(viewRect.Width + 1, viewRect.Height + 1);
+                    host.WasResized();
+
+                    await Task.Delay(ResizeHackForIssue2779DelayInMs);
+
+                    if (!host.IsDisposed)
+                    {
+                        resizeHackForIssue2779Size = null;
+                        host.WasResized();
+
+                        resizeHackForIssue2779Enabled = false;
+
+                        host.Invalidate(PaintElementType.View);
+                    }
+                }
+            }
         }
     }
 }
