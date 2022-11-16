@@ -1810,7 +1810,10 @@ namespace CefSharp.Wpf
                 }
                 else
                 {
-                    await ResizeHackForIssue2779();
+                    await CefUiThreadRunAsync(async () =>
+                    {
+                        await ResizeHackForIssue2779();
+                    });
                 }
             }
         }
@@ -2743,6 +2746,24 @@ namespace CefSharp.Wpf
             ThrowExceptionIfBrowserNotInitialized();
 
             return browser;
+        }
+        
+        private async Task CefUiThreadRunAsync(Action action)
+        {
+            if (!IsDisposed && InternalIsBrowserInitialized())
+            {
+                if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+                {
+                    action();
+                }
+                else
+                {
+                    await Cef.UIThreadTaskFactory.StartNew(delegate
+                    {
+                        action();
+                    });
+                }
+            }
         }
 
         private async Task ResizeHackForIssue2779()
