@@ -1795,25 +1795,25 @@ namespace CefSharp.Wpf
         /// even when it's not displayed on screen.
         /// </summary>
         /// <param name="hidden">if true the browser will be notified that it was hidden.</param>
-        protected virtual async void OnBrowserWasHidden(bool hidden)
+        protected virtual void OnBrowserWasHidden(bool hidden)
         {
             if (browser != null)
             {
                 browser.GetHost().WasHidden(hidden);
 
-                if (hidden)
+                if (EnableResizeHackForIssue2779)
                 {
-                    if (EnableResizeHackForIssue2779)
+                    if (hidden)
                     {
                         resizeHackForIssue2779Enabled = true;
                     }
-                }
-                else
-                {
-                    await CefUiThreadRunAsync(async () =>
+                    else
                     {
-                        await ResizeHackForIssue2779();
-                    });
+                        _ = CefUiThreadRunAsync(async () =>
+                        {
+                            await ResizeHackForIssue2779();
+                        });
+                    }
                 }
             }
         }
@@ -2768,25 +2768,22 @@ namespace CefSharp.Wpf
 
         private async Task ResizeHackForIssue2779()
         {
-            if (EnableResizeHackForIssue2779)
+            var host = browser?.GetHost();
+            if (host != null && !host.IsDisposed)
             {
-                var host = browser?.GetHost();
-                if (host != null && !host.IsDisposed)
+                resizeHackForIssue2779Size = new Structs.Size(viewRect.Width + 1, viewRect.Height + 1);
+                host.WasResized();
+
+                await Task.Delay(ResizeHackForIssue2779DelayInMs);
+
+                if (!host.IsDisposed)
                 {
-                    resizeHackForIssue2779Size = new Structs.Size(viewRect.Width + 1, viewRect.Height + 1);
+                    resizeHackForIssue2779Size = null;
                     host.WasResized();
 
-                    await Task.Delay(ResizeHackForIssue2779DelayInMs);
+                    resizeHackForIssue2779Enabled = false;
 
-                    if (!host.IsDisposed)
-                    {
-                        resizeHackForIssue2779Size = null;
-                        host.WasResized();
-
-                        resizeHackForIssue2779Enabled = false;
-
-                        host.Invalidate(PaintElementType.View);
-                    }
+                    host.Invalidate(PaintElementType.View);
                 }
             }
         }
