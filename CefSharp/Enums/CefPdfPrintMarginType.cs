@@ -10,19 +10,14 @@ namespace CefSharp
     public enum CefPdfPrintMarginType
     {
         /// <summary>
-        /// Default margins.
+        /// Default margins of 1cm (~0.4 inches)
         /// </summary>
-        Default,
+        Default = 0,
 
         /// <summary>
         /// No margins.
         /// </summary>
         None,
-
-        /// <summary>
-        /// Minimum margins
-        /// </summary>
-        Minimum,
 
         /// <summary>
         /// Custom margins.
