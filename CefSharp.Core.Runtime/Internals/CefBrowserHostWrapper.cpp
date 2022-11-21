@@ -87,20 +87,21 @@ void CefBrowserHostWrapper::PrintToPdf(String^ path, PdfPrintSettings^ settings,
     CefPdfPrintSettings nativeSettings;
     if (settings != nullptr)
     {
-        StringUtils::AssignNativeFromClr(nativeSettings.header_footer_title, settings->HeaderFooterTitle);
-        StringUtils::AssignNativeFromClr(nativeSettings.header_footer_url, settings->HeaderFooterUrl);
-        nativeSettings.backgrounds_enabled = settings->BackgroundsEnabled ? 1 : 0;
-        nativeSettings.header_footer_enabled = settings->HeaderFooterEnabled ? 1 : 0;
         nativeSettings.landscape = settings->Landscape ? 1 : 0;
-        nativeSettings.selection_only = settings->SelectionOnly ? 1 : 0;
+        nativeSettings.print_background = settings->PrintBackground ? 1 : 0;
+        nativeSettings.scale = settings->Scale;
+        nativeSettings.paper_height = settings->PaperHeight;
+        nativeSettings.paper_width = settings->PaperWidth;
+        nativeSettings.prefer_css_page_size = settings->PreferCssPageSize ? 1 : 0;
+        nativeSettings.margin_type = static_cast<cef_pdf_print_margin_type_t>(settings->MarginType);
         nativeSettings.margin_bottom = settings->MarginBottom;
         nativeSettings.margin_top = settings->MarginTop;
         nativeSettings.margin_left = settings->MarginLeft;
         nativeSettings.margin_right = settings->MarginRight;
-        nativeSettings.scale_factor = settings->ScaleFactor;
-        nativeSettings.page_height = settings->PageHeight;
-        nativeSettings.page_width = settings->PageWidth;
-        nativeSettings.margin_type = static_cast<cef_pdf_print_margin_type_t>(settings->MarginType);
+        StringUtils::AssignNativeFromClr(nativeSettings.page_ranges, settings->PageRanges);
+        nativeSettings.display_header_footer = settings->DisplayHeaderFooter ? 1 : 0;
+        StringUtils::AssignNativeFromClr(nativeSettings.header_template, settings->HeaderTemplate);
+        StringUtils::AssignNativeFromClr(nativeSettings.footer_template, settings->FooterTemplate);
     }
 
     _browserHost->PrintToPDF(StringUtils::ToNative(path), nativeSettings, new CefPdfPrintCallbackWrapper(callback));
