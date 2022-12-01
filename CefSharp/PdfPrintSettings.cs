@@ -27,7 +27,7 @@ namespace CefSharp
         /// If this value is less than or equal to zero the default value of 1.0
         /// will be used.
         /// </summary>
-        public double Scale { get; set; }
+        public double Scale { get; set; } = 1.0;
 
         /// <summary>
         /// Output paper size in inches. If either of these values is less than or
