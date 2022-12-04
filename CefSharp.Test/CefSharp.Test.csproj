@@ -62,5 +62,8 @@
         <Page Remove="bin.netcore\**" />
         <Page Remove="obj.netcore\**" />
     </ItemGroup>
+    <ItemGroup>
+      <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
     <Import Project="$(SolutionDir)\CefSharp.Native.props" />
 </Project>
