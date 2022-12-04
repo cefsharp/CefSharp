@@ -18,4 +18,5 @@ using Xunit;
 [assembly: AssemblyFileVersion(AssemblyInfo.AssemblyFileVersion)]
 [assembly: CLSCompliant(AssemblyInfo.ClsCompliant)]
 
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
+[assembly: CollectionBehavior(DisableTestParallelization = true, MaxParallelThreads = 1)]
+[assembly: TestCaseOrderer("CefSharp.Test.CefSharpTestCaseOrderer", "CefSharp.Test")]

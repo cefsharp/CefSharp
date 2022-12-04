@@ -12,6 +12,8 @@ using Nito.AsyncEx;
 using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.Models;
 using Xunit;
+using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace CefSharp.Test
 {
@@ -19,10 +21,12 @@ namespace CefSharp.Test
     {
         private readonly AsyncContextThread contextThread;
         private ProxyServer proxyServer;
+        private readonly IMessageSink diagnosticMessageSink;
 
-        public CefSharpFixture()
+        public CefSharpFixture(IMessageSink messageSink)
         {
             contextThread = new AsyncContextThread();
+            diagnosticMessageSink = messageSink;
         }
 
         private void CefInitialize()
@@ -55,7 +59,9 @@ namespace CefSharp.Test
                 //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
                 //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
 
-                Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
+                var success = Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
+
+                diagnosticMessageSink.OnMessage(new DiagnosticMessage("Cef Initialized:" + success));
             }
         }
 
@@ -63,9 +69,20 @@ namespace CefSharp.Test
         {
             if (Cef.IsInitialized)
             {
+                diagnosticMessageSink.OnMessage(new DiagnosticMessage("Before Cef Shutdown"));
+
                 Cef.WaitForBrowsersToClose();
 
-                Cef.Shutdown();
+                try
+                {
+                    Cef.Shutdown();
+                }
+                catch(Exception ex)
+                {
+                    diagnosticMessageSink.OnMessage(new DiagnosticMessage("Cef Shutdown Exception:" + ex.ToString()));
+                }
+
+                diagnosticMessageSink.OnMessage(new DiagnosticMessage("After Cef Shutdown"));
             }
 
             StopProxyServer();

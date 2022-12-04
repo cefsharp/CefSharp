@@ -12,8 +12,8 @@ build_script:
 
 test_script:
   # Test our Release x64 build
-  - dotnet test CefSharp.Test\bin\x64\Release\win7-x64\CefSharp.Test.dll --verbosity detailed --test-adapter-path:. --logger:Appveyor
-  - dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\win-x64\CefSharp.Test.dll --verbosity detailed --test-adapter-path:. --logger:Appveyor
+  - dotnet test CefSharp.Test\bin\x64\Release\win7-x64\CefSharp.Test.dll --verbosity normal
+  - dotnet test CefSharp.Test\bin.netcore\x64\Release\netcoreapp3.1\win-x64\CefSharp.Test.dll --verbosity normal
 
 artifacts:
   - path: NuGet\**\*.nupkg
