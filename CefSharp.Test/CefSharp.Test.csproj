@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
@@ -61,6 +61,11 @@
         <None Remove="obj.netcore\**" />
         <Page Remove="bin.netcore\**" />
         <Page Remove="obj.netcore\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="xunit.runner.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
     <Import Project="$(SolutionDir)\CefSharp.Native.props" />
 </Project>

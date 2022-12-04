@@ -1,0 +1,8 @@
+{
+  "$schema": "https://xunit.net/schema/current/xunit.runner.schema.json",
+  "diagnosticMessages": true,
+  "parallelizeAssembly": false,
+  "maxParallelThreads": -1,
+  "shadowCopy": false,
+  "appDomain": "denied"
+}
