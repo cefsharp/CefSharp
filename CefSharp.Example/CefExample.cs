@@ -253,7 +253,7 @@ namespace CefSharp.Example
             Cef.AddCrossOriginWhitelistEntry(BaseUrl, "https", "cefsharp.com", false);
         }
 
-        public static async void RegisterTestResources(IWebBrowser browser)
+        public static void RegisterTestResources(IWebBrowser browser)
         {
             if (browser.ResourceRequestHandlerFactory == null)
             {
