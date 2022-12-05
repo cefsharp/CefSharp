@@ -54,6 +54,10 @@
     <None Remove="obj/**/*.*" />
     <Compile Remove="obj/**/*.*" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
 
   <Import Project="$(SolutionDir)\CefSharp.AfterBuild.targets" />
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
