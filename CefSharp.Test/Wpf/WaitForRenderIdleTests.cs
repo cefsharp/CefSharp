@@ -112,7 +112,7 @@ namespace CefSharp.Test.Wpf
             using (var cancellationSource = new CancellationTokenSource())
             using (var browser = new ChromiumWebBrowser(null, CefExample.DefaultUrl, new Size(1024, 786)))
             {
-                cancellationSource.CancelAfter(400);
+                cancellationSource.CancelAfter(200);
 
                 var exception = await Assert.ThrowsAsync<TaskCanceledException>(async () =>
                 {

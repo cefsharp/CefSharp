@@ -26,7 +26,7 @@ namespace CefSharp.Test.Wpf
             this.output = output;
         }
 
-        [WpfFact(Skip = "Appveyor build failure debugging")]
+        [WpfFact]
         public async Task CanLoadGoogle()
         {
             using (var browser = new ChromiumWebBrowser(null, "www.google.com", new Size(1024, 786)))
@@ -41,7 +41,7 @@ namespace CefSharp.Test.Wpf
             }
         }
 
-        [WpfFact(Skip = "Appveyor build failure debugging")]
+        [WpfFact]
         public async Task CanCallLoadUrlAsyncImmediately()
         {
             using (var browser = new ChromiumWebBrowser(null, string.Empty, new Size(1024, 786)))
@@ -58,7 +58,7 @@ namespace CefSharp.Test.Wpf
             }
         }
 
-        [WpfFact(Skip = "Appveyor build failure debugging")]
+        [WpfFact]
         public async Task CanCallLoadUrlImmediately()
         {
             using (var browser = new ChromiumWebBrowser())
@@ -115,7 +115,7 @@ namespace CefSharp.Test.Wpf
             }
         }
 
-        [WpfFact(Skip = "Appveyor build failure debugging")]
+        [WpfFact]
         public async Task ShouldRespectDisposed()
         {
             ChromiumWebBrowser browser;
