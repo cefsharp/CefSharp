@@ -24,7 +24,7 @@ namespace CefSharp.Test.WinForms
             this.output = output;
         }
 
-        [WinFormsFact(Skip = "Appveyor build failure debugging")]
+        [WinFormsFact]
         public async Task CanLoadGoogle()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
@@ -42,7 +42,7 @@ namespace CefSharp.Test.WinForms
             }
         }
 
-        [WinFormsFact(Skip = "Appveyor build failure debugging")]
+        [WinFormsFact]
         public async Task CanSetBrowserSettingsDisableImageLoadingViaObjectFactory()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
@@ -64,7 +64,7 @@ namespace CefSharp.Test.WinForms
             }
         }
 
-        [WinFormsFact(Skip = "Appveyor build failure debugging")]
+        [WinFormsFact]
         public async Task CanSetBrowserSettingsDisableImageLoading()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
@@ -92,8 +92,6 @@ namespace CefSharp.Test.WinForms
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                var settings = Core.ObjectFactory.CreateBrowserSettings(true);
-                settings.ImageLoading = CefState.Disabled;
                 browser.RequestContext = RequestContext.Configure().Create();
 
                 browser.Size = new System.Drawing.Size(1024, 768);
@@ -129,7 +127,7 @@ namespace CefSharp.Test.WinForms
             }
         }
 
-        [WinFormsFact(Skip = "Appveyor build failure debugging")]
+        [WinFormsFact]
         public async Task ShouldRespectDisposed()
         {
             ChromiumWebBrowser browser;
