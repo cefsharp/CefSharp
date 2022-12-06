@@ -122,6 +122,12 @@
     <ClInclude Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JavascriptPromiseResolverCatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JavascriptPromiseResolverThen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">

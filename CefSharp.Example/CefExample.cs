@@ -81,6 +81,7 @@ namespace CefSharp.Example
             settings.CachePath = Path.GetFullPath("cache\\global");
             //settings.UserAgent = "CefSharp Browser" + Cef.CefSharpVersion; // Example User Agent
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
+            //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
             //settings.CefCommandLineArgs.Add("enable-media-stream"); //Enable WebRTC
             //settings.CefCommandLineArgs.Add("no-proxy-server"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
             //settings.CefCommandLineArgs.Add("allow-running-insecure-content"); //By default, an https page cannot run JavaScript or CSS from http URLs. This provides an override to get the old insecure behavior. Only available in 47 and above.

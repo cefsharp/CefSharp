@@ -122,5 +122,56 @@ namespace CefSharp.Test.Javascript
 
             output.WriteLine("Expected {0} : Actual {1}", expected.ToLocalTime(), actualDateTime);
         }
+
+        [Theory]
+        [InlineData("new Promise(function(resolve, reject) { resolve(42); });", true, "42")]
+        [InlineData("new Promise(function(resolve, reject) { reject('reject test'); });", false, "reject test")]
+        [InlineData("Promise.resolve(42);", true, "42")]
+        [InlineData("(async () => { throw('reject test'); })();", false, "reject test")]
+        [InlineData("(async () => { var result = await fetch('https://cefsharp.example/HelloWorld.html'); return result.status;})();", true, "200")]
+        public async Task CanEvaluateScriptAsyncReturnPromisePrimative(string script, bool success, string expected)
+        {
+            var browser = classFixture.Browser;
+
+            Assert.False(browser.IsLoading);
+
+            var mainFrame = browser.GetMainFrame();
+            Assert.True(mainFrame.IsValid);
+
+            var javascriptResponse = await browser.EvaluateScriptAsync(script);
+
+            Assert.Equal(success, javascriptResponse.Success);
+
+            if (success)
+            {
+                Assert.Equal(expected, javascriptResponse.Result.ToString());
+            }
+            else
+            {
+                Assert.Equal(expected, javascriptResponse.Message);
+            }
+        }
+
+        [Theory]
+        [InlineData("new Promise(function(resolve, reject) { resolve({ a: 'CefSharp', b: 42, }); });", "CefSharp", "42")]
+        [InlineData("new Promise(function(resolve, reject) { setTimeout(resolve.bind(null, { a: 'CefSharp', b: 42, }), 1000); });", "CefSharp", "42")]
+        [InlineData("(async () => { function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }; async function getValAfterSleep() { await sleep(1000); return { a: 'CefSharp', b: 42 }; }; await sleep(2000); const result = await getValAfterSleep(); await sleep(2000); return result; })();", "CefSharp", "42")]
+        public async Task CanEvaluateScriptAsyncReturnPromiseObject(string script, string expectedA, string expectedB)
+        {
+            var browser = classFixture.Browser;
+
+            Assert.False(browser.IsLoading);
+
+            var mainFrame = browser.GetMainFrame();
+            Assert.True(mainFrame.IsValid);
+
+            var javascriptResponse = await browser.EvaluateScriptAsync(script);
+
+            Assert.True(javascriptResponse.Success);
+
+            dynamic result = javascriptResponse.Result;
+            Assert.Equal(expectedA, result.a.ToString());
+            Assert.Equal(expectedB, result.b.ToString());
+        }
     }
 }
