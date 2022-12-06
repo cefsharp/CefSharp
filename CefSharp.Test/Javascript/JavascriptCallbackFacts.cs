@@ -25,6 +25,55 @@ namespace CefSharp.Test.Javascript
         }
 
         [Theory]
+        [InlineData("(function() { return Promise.resolve(53)})", 53)]
+        [InlineData("(function() { return Promise.resolve('53')})", "53")]
+        [InlineData("(function() { return Promise.resolve(true)})", true)]
+        [InlineData("(function() { return Promise.resolve(false)})", false)]
+        public async Task CanEvaluatePromise(string script, object expected)
+        {
+            var browser = classFixture.Browser;
+
+            Assert.False(browser.IsLoading);
+
+            var javascriptResponse = await browser.EvaluateScriptAsync(script);
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+
+            var callbackResponse = await callback.ExecuteAsync();
+
+            Assert.True(callbackResponse.Success);
+
+            Assert.Equal(expected, callbackResponse.Result);
+
+            output.WriteLine("Script {0} : Result {1}", script, callbackResponse.Result);
+        }
+
+        [Theory]
+        [InlineData("(function() { return Promise.reject(new Error('My Error'))})", "Error: My Error")]
+        [InlineData("(function() { return Promise.reject(42)})", "42")]
+        [InlineData("(function() { return Promise.reject(false)})", "false")]
+        public async Task CanEvaluatePromiseRejected(string script, string expected)
+        {
+            var browser = classFixture.Browser;
+
+            Assert.False(browser.IsLoading);
+
+            var javascriptResponse = await browser.EvaluateScriptAsync(script);
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+
+            var callbackResponse = await callback.ExecuteAsync();
+
+            Assert.False(callbackResponse.Success);
+
+            Assert.Equal(expected, callbackResponse.Message);
+
+            output.WriteLine("Script {0} : Result {1}", script, callbackResponse.Result);
+        }
+
+        [Theory]
         [InlineData(double.MaxValue, "Number.MAX_VALUE")]
         [InlineData(double.MaxValue / 2, "Number.MAX_VALUE / 2")]
         //https://github.com/cefsharp/CefSharp/issues/3858

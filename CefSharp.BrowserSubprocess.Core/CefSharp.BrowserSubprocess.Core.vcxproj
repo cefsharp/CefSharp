@@ -183,6 +183,8 @@
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="JavascriptPromiseHandler.h" />
+    <ClInclude Include="JavascriptPromiseResolverCatch.h" />
+    <ClInclude Include="JavascriptPromiseResolverThen.h" />
     <ClInclude Include="SubProcessApp.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodHandler.h" />

@@ -13,6 +13,8 @@
 #include "JavascriptPostMessageHandler.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "JavascriptPromiseHandler.h"
+#include "JavascriptPromiseResolverCatch.h"
+#include "JavascriptPromiseResolverThen.h"
 #include "Async\JavascriptAsyncMethodCallback.h"
 #include "Serialization\V8Serialization.h"
 #include "Serialization\JsObjectsSerialization.h"
@@ -446,6 +448,24 @@ namespace CefSharp
                                     {
                                         sendResponse = false;
                                     }
+                                    else if (result->IsPromise())
+                                    {
+                                        sendResponse = false;
+
+                                        auto promiseThen = result->GetValue("then");
+                                        auto promiseCatch = result->GetValue("catch");
+
+                                        auto promiseThenFunc = CefV8Value::CreateFunction("promiseResolverThen", new JavascriptPromiseResolverThen(callbackId, false));
+                                        auto promiseCatchFunc = CefV8Value::CreateFunction("promiseResolverCatch", new JavascriptPromiseResolverCatch(callbackId, false));
+
+                                        CefV8ValueList promiseThenArgs;
+                                        promiseThenArgs.push_back(promiseThenFunc);
+                                        promiseThen->ExecuteFunction(result, promiseThenArgs);
+
+                                        CefV8ValueList promiseCatchArgs;
+                                        promiseCatchArgs.push_back(promiseCatchFunc);
+                                        promiseCatch->ExecuteFunction(result, promiseCatchArgs);
+                                    }
                                     else
                                     {
                                         auto responseArgList = response->GetArgumentList();
@@ -520,6 +540,24 @@ namespace CefSharp
                                         if (result->IsString() && result->GetStringValue() == "CefSharpDefEvalScriptRes")
                                         {
                                             sendResponse = false;
+                                        }
+                                        else if (result->IsPromise())
+                                        {
+                                            sendResponse = false;
+
+                                            auto promiseThen = result->GetValue("then");
+                                            auto promiseCatch = result->GetValue("catch");
+
+                                            auto promiseThenFunc = CefV8Value::CreateFunction("promiseResolverThen", new JavascriptPromiseResolverThen(callbackId, true));
+                                            auto promiseCatchFunc = CefV8Value::CreateFunction("promiseResolverCatch", new JavascriptPromiseResolverCatch(callbackId, true));
+
+                                            CefV8ValueList promiseThenArgs;
+                                            promiseThenArgs.push_back(promiseThenFunc);
+                                            promiseThen->ExecuteFunction(result, promiseThenArgs);
+
+                                            CefV8ValueList promiseCatchArgs;
+                                            promiseCatchArgs.push_back(promiseCatchFunc);
+                                            promiseCatch->ExecuteFunction(result, promiseCatchArgs);
                                         }
                                         else
                                         {
