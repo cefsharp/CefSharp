@@ -49,7 +49,12 @@ namespace CefSharp
                 return new CefSharp.Core.RequestContext(_settings.settings, _handler);
             }
 
-            return new CefSharp.Core.RequestContext(_handler);
+            if (_handler != null)
+            {
+                return new CefSharp.Core.RequestContext(_handler);
+            }
+
+            return new CefSharp.Core.RequestContext();
         }
 
         /// <summary>

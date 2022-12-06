@@ -24,30 +24,62 @@ namespace CefSharp
         /// <inheritdoc/>
         public RequestContext(IRequestContext otherRequestContext)
         {
+            if (otherRequestContext == null)
+            {
+                throw new ArgumentNullException(nameof(otherRequestContext));
+            }
             requestContext = new CefSharp.Core.RequestContext(otherRequestContext);
         }
 
         /// <inheritdoc/>
         public RequestContext(IRequestContext otherRequestContext, IRequestContextHandler requestContextHandler)
         {
+            if (otherRequestContext == null)
+            {
+                throw new ArgumentNullException(nameof(otherRequestContext));
+            }
+
+            if (requestContextHandler == null)
+            {
+                throw new ArgumentNullException(nameof(requestContextHandler));
+            }
+
             requestContext = new CefSharp.Core.RequestContext(otherRequestContext, requestContextHandler);
         }
 
         /// <inheritdoc/>
         public RequestContext(IRequestContextHandler requestContextHandler)
         {
+            if (requestContextHandler == null)
+            {
+                throw new ArgumentNullException(nameof(requestContextHandler));
+            }
             requestContext = new CefSharp.Core.RequestContext(requestContextHandler);
         }
 
         /// <inheritdoc/>
         public RequestContext(RequestContextSettings settings)
         {
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
             requestContext = new CefSharp.Core.RequestContext(settings.settings);
         }
 
         /// <inheritdoc/>
         public RequestContext(RequestContextSettings settings, IRequestContextHandler requestContextHandler)
         {
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
+            if (requestContextHandler == null)
+            {
+                throw new ArgumentNullException(nameof(requestContextHandler));
+            }
+
             requestContext = new CefSharp.Core.RequestContext(settings.settings, requestContextHandler);
         }
 
