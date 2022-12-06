@@ -53,6 +53,7 @@ namespace CefSharp.Test.Javascript
         [InlineData("(function() { return Promise.reject(new Error('My Error'))})", "Error: My Error")]
         [InlineData("(function() { return Promise.reject(42)})", "42")]
         [InlineData("(function() { return Promise.reject(false)})", "false")]
+        [InlineData("(function() { return Promise.reject(null)})", "null")]
         public async Task CanEvaluatePromiseRejected(string script, string expected)
         {
             var browser = classFixture.Browser;
@@ -70,7 +71,7 @@ namespace CefSharp.Test.Javascript
 
             Assert.Equal(expected, callbackResponse.Message);
 
-            output.WriteLine("Script {0} : Result {1}", script, callbackResponse.Result);
+            output.WriteLine("Script {0} : Message {1}", script, callbackResponse.Message);
         }
 
         [Theory]
