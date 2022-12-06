@@ -87,12 +87,14 @@ namespace CefSharp.Test.WinForms
             }
         }
 
-        [WinFormsFact(Skip = "Appveyor build failure debugging")]
+        [WinFormsFact]
         public async Task CanSetRequestContextViaRequestContextBuilder()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
             {
-                browser.RequestContext = RequestContext.Configure().Create();
+                browser.RequestContext = RequestContext.Configure()
+                    .WithSharedSettings(Cef.GetGlobalRequestContext())
+                    .Create();
 
                 browser.Size = new System.Drawing.Size(1024, 768);
                 browser.CreateControl();
