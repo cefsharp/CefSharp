@@ -44,6 +44,8 @@ namespace CefSharp
             "   return result;"
             "})();";
 
+        const CefString CefAppUnmanagedWrapper::kPromiseResolverScript = "(function(p, callbackId) { p.then((val) => cefSharp.sendEvalScriptResponse(callbackId, true, val, false)).catch ((reason) => cefSharp.sendEvalScriptResponse(callbackId, false, String(reason), false)); });";
+
         const CefString kRenderProcessId = CefString("RenderProcessId");
         const CefString kRenderProcessIdCamelCase = CefString("renderProcessId");
 
@@ -446,6 +448,27 @@ namespace CefSharp
                                     {
                                         sendResponse = false;
                                     }
+                                    else if (result->IsPromise())
+                                    {
+                                        sendResponse = false;
+
+                                        CefRefPtr<CefV8Exception> promiseEx;
+                                        CefRefPtr<CefV8Value> promiseResult;
+
+                                        auto promiseSuccess = context->Eval(kPromiseResolverScript, CefString(), 0, promiseResult, promiseEx);
+
+                                        if (promiseSuccess)
+                                        {
+                                            CefV8ValueList promiseArgs;
+                                            promiseArgs.push_back(result);
+                                            promiseArgs.push_back(CefV8Value::CreateInt((int)callbackId));
+                                            promiseResult->ExecuteFunction(nullptr, promiseArgs);
+                                        }
+                                        else
+                                        {
+                                            errorMessage = StringUtils::CreateExceptionString(promiseEx);
+                                        }
+                                    }
                                     else
                                     {
                                         auto responseArgList = response->GetArgumentList();
@@ -518,6 +541,10 @@ namespace CefSharp
                                         //If the response is a string of CefSharpDefEvalScriptRes then
                                         //we don't send the response, we'll let that happen when the promise has completed.
                                         if (result->IsString() && result->GetStringValue() == "CefSharpDefEvalScriptRes")
+                                        {
+                                            sendResponse = false;
+                                        }
+                                        else if (result->IsPromise())
                                         {
                                             sendResponse = false;
                                         }
