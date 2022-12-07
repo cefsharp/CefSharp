@@ -5,6 +5,7 @@ Background:
   CEF is a C/C++ library that allows developers to embed the HTML content rendering strengths of Google's Chrome open source WebKit engine (Chromium).
 
 Post Installation:
+  - Read the quick start guide https://github.com/cefsharp/CefSharp/wiki/Quick-Start-For-MS-.Net-5.0-or-greater
   - Read the release notes for your version https://github.com/cefsharp/CefSharp/releases (Any known issues will be listed here)
   - It is recommended that you set a <RuntimeIdentifier/> during development, adding the following to your project file <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</RuntimeIdentifier>
     Please read https://github.com/cefsharp/CefSharp/issues/3284#issuecomment-772132523 for more information.
@@ -16,7 +17,7 @@ Deployment:
   - Make sure a minimum of `Visual C++ 2019` is installed (`x86`, `x64` or `arm64` depending on your build) or package the runtime dlls with your application, see the FAQ for details.
   
 What's New:
-  See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
+  See https://github.com/cefsharp/CefSharp/releases
 
 Basic Troubleshooting:
   - Minimum of .Net Core 3.1 (.Net 5.0 and greater are also supported)
