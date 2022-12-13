@@ -140,8 +140,9 @@ namespace CefSharp.Wpf
         /// </summary>
         private static bool DesignMode;
 
-        private bool resizeHackForIssue2779Enabled;
-        private Structs.Size? resizeHackForIssue2779Size;
+        // https://bitbucket.org/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
+        private bool resizeHackIgnoreOnPaint;
+        private Structs.Size? resizeHackSize;
 
         /// <summary>
         /// This flag is set when the browser gets focus before the underlying CEF browser
@@ -150,18 +151,20 @@ namespace CefSharp.Wpf
         private bool initialFocus;
 
         /// <summary>
-        /// Hack to work around issue https://github.com/cefsharp/CefSharp/issues/2779
+        /// When enabled the browser will resize by 1px when it becomes visible to workaround
+        /// the upstream issue
+        /// Hack to work around upstream issue https://bitbucket.org/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
         /// Disabled by default
         /// </summary>
-        public bool EnableResizeHackForIssue2779 { get; set; }
+        public bool ResizeHackEnabled { get; set; } = false;
 
         /// <summary>
         /// Number of milliseconds to wait after resizing the browser when it first
         /// becomes visible. After the delay the browser will revert to it's
         /// original size.
-        /// Hack to work around issue https://github.com/cefsharp/CefSharp/issues/2779
+        /// Hack to workaround upstream issue https://bitbucket.org/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
         /// </summary>
-        public int ResizeHackForIssue2779DelayInMs { get; set; }
+        public int ResizeHackDelayInMs { get; set; } = 50;
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -543,9 +546,6 @@ namespace CefSharp.Wpf
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void NoInliningConstructor()
         {
-            EnableResizeHackForIssue2779 = false;
-            ResizeHackForIssue2779DelayInMs = 50;
-
             //Initialize CEF if it hasn't already been initialized
             if (!Cef.IsInitialized)
             {
@@ -822,7 +822,7 @@ namespace CefSharp.Wpf
         {
             //Take a local copy as the value is set on a different thread,
             //Its possible the struct is set to null after our initial check.
-            var resizeRect = resizeHackForIssue2779Size;
+            var resizeRect = resizeHackSize;
 
             if (resizeRect == null)
             {
@@ -984,7 +984,7 @@ namespace CefSharp.Wpf
         /// <param name="height">height</param>
         protected virtual void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
-            if (resizeHackForIssue2779Enabled)
+            if (resizeHackIgnoreOnPaint)
             {
                 return;
             }
@@ -1801,17 +1801,17 @@ namespace CefSharp.Wpf
             {
                 browser.GetHost().WasHidden(hidden);
 
-                if (EnableResizeHackForIssue2779)
+                if (ResizeHackEnabled)
                 {
                     if (hidden)
                     {
-                        resizeHackForIssue2779Enabled = true;
+                        resizeHackIgnoreOnPaint = true;
                     }
                     else
                     {
                         _ = CefUiThreadRunAsync(async () =>
                         {
-                            await ResizeHackForIssue2779();
+                            await ResizeHackRun();
                         });
                     }
                 }
@@ -2766,22 +2766,26 @@ namespace CefSharp.Wpf
             }
         }
 
-        private async Task ResizeHackForIssue2779()
+        /// <summary>
+        /// Resize hack for https://bitbucket.org/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
+        /// </summary>
+        /// <returns>Task</returns>
+        private async Task ResizeHackRun()
         {
             var host = browser?.GetHost();
             if (host != null && !host.IsDisposed)
             {
-                resizeHackForIssue2779Size = new Structs.Size(viewRect.Width + 1, viewRect.Height + 1);
+                resizeHackSize = new Structs.Size(viewRect.Width + 1, viewRect.Height + 1);
                 host.WasResized();
 
-                await Task.Delay(ResizeHackForIssue2779DelayInMs);
+                await Task.Delay(ResizeHackDelayInMs);
 
                 if (!host.IsDisposed)
                 {
-                    resizeHackForIssue2779Size = null;
+                    resizeHackSize = null;
                     host.WasResized();
 
-                    resizeHackForIssue2779Enabled = false;
+                    resizeHackIgnoreOnPaint = false;
 
                     host.Invalidate(PaintElementType.View);
                 }
