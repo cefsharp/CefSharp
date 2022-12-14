@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
        to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
@@ -11,7 +11,7 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net6.0-windows</TargetFramework>
         <RootNamespace>CefSharp.Wpf.Example</RootNamespace>
         <AssemblyName>CefSharp.Wpf.Example</AssemblyName>
         <UseWPF>true</UseWPF>
@@ -40,6 +40,7 @@
         <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
         <PackageReference Include="chromiumembeddedframework.runtime" Version="108.4.12" />
+        <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" Version="4.3.0" />
     </ItemGroup>
 
     <ItemGroup>

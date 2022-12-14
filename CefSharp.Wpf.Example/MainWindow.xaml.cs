@@ -21,7 +21,7 @@ namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window
     {
-        private const string DefaultUrlForAddedTabs = "https://www.google.com";
+        private const string DefaultUrlForAddedTabs = "https://cefsharp.github.io/demo/threebuttons.html";
 
         public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
 
@@ -80,7 +80,7 @@ namespace CefSharp.Wpf.Example
 
         private void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
-            CreateNewTab(CefExample.DefaultUrl, true);
+            CreateNewTab();
         }
 
         private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false, bool legacyBindingEnabled = false)
