@@ -1264,10 +1264,11 @@ namespace CefSharp
         /// Search for text within the current page.
         /// </summary>
         /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
-        /// <param name="searchText">search text.</param>
-        /// <param name="forward">indicates whether to search forward or backward within the page.</param>
-        /// <param name="matchCase">indicates whether the search should be case-sensitive.</param>
-        /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
+        /// <param name="searchText">text to search for</param>
+        /// <param name="forward">indicates whether to search forward or backward within the page</param>
+        /// <param name="matchCase">indicates whether the search should be case-sensitive</param>
+        /// <param name="findNext">indicates whether this is the first request or a follow-up</param>
+        /// <remarks>The <see cref="IFindHandler"/> instance, if any, will be called to report find results.</remarks>
         public static void Find(this IBrowser cefBrowser, string searchText, bool forward, bool matchCase, bool findNext)
         {
             var host = cefBrowser.GetHost();
@@ -1280,10 +1281,11 @@ namespace CefSharp
         /// Search for text within the current page.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        /// <param name="searchText">search text.</param>
-        /// <param name="forward">indicates whether to search forward or backward within the page.</param>
-        /// <param name="matchCase">indicates whether the search should be case-sensitive.</param>
-        /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
+        /// <param name="searchText">text to search for</param>
+        /// <param name="forward">indicates whether to search forward or backward within the page</param>
+        /// <param name="matchCase">indicates whether the search should be case-sensitive</param>
+        /// <param name="findNext">indicates whether this is the first request or a follow-up</param>
+        /// <remarks>The <see cref="IFindHandler"/> instance, if any, will be called to report find results.</remarks>
         public static void Find(this IChromiumWebBrowserBase browser, string searchText, bool forward, bool matchCase, bool findNext)
         {
             ThrowExceptionIfChromiumWebBrowserDisposed(browser);
