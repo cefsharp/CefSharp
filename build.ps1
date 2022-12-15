@@ -189,7 +189,13 @@ function VSX
         
     if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))
     {
-        Die "Visual Studio $VS_OFFICIAL_VER is not installed on your development machine, unable to continue, ran command: $VSWherePath -version $versionSearchStr -property installationPath"
+        $VSInstallPath = & $VSwherePath -version $versionSearchStr -property installationPath $VS_PRE -products 'Microsoft.VisualStudio.Product.BuildTools'
+		Write-Diagnostic "BuildTools $($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
+
+        if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))
+        {
+            Die "Visual Studio $VS_OFFICIAL_VER is not installed on your development machine, unable to continue, ran command: $VSWherePath -version $versionSearchStr -property installationPath"
+        }
     }
         
     $VisualStudioVersion = "$VS_VER.0"
