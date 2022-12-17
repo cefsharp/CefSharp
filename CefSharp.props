@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <VisualStudioProductVersion>2019</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='17.0' AND Exists('$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS2022\libcef_dll_wrapper.lib')">VS2022</VisualStudioProductVersion>
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='17.0' AND Exists('$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS2022\libcef_dll_wrapper.lib')">2022</VisualStudioProductVersion>
 
     <PlatformToolset>v142</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='17.0'">v143</PlatformToolset>
