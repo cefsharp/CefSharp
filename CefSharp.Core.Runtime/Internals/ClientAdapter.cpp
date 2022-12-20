@@ -726,9 +726,10 @@ namespace CefSharp
             }
 
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-            auto callbackWrapper = gcnew CefCertificateCallbackWrapper(callback, certificates);
 
             auto list = gcnew X509Certificate2Collection();
+            // Create a copy of the vector in an attempt to fix #2948
+            CefRequestHandler::X509CertificateList certs;
 
             std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
                 certificates.begin();
@@ -743,7 +744,11 @@ namespace CefSharp
                 bytes->GetData(static_cast<void*>(src), byteSize, 0);
                 auto cert = gcnew X509Certificate2(bufferByte);
                 list->Add(cert);
+
+                certs.push_back(*it);
             }
+
+            auto callbackWrapper = gcnew CefCertificateCallbackWrapper(callback, certs);
 
             return handler->OnSelectClientCertificate(
                 _browserControl, browserWrapper, isProxy,
