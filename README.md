@@ -12,7 +12,7 @@ Got a quick question? [Discussions](https://github.com/cefsharp/CefSharp/discuss
 
 CefSharp is [BSD](https://opensource.org/licenses/BSD-3-Clause "BSD License") licensed, so it can be used in both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file. 
 
-If you like and use CefSharp please consider signing up for a small monthly donation, even $25 can help tremendously. See [Financial Support](Readme.md#Financial-Support) for more details.
+If you like and use CefSharp please consider signing up for a small monthly donation, even $25 can help tremendously. See [Financial Support](README.md#Financial-Support) for more details.
 
 ## Releases
 
@@ -84,7 +84,7 @@ With each release a new branch is created, for example the `92.0.260` release co
 If you're new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch.
 
 **&ast;** VC++ 2019 is required starting with version 93<br/>
-**&ast;&ast;** For .Net Core Packages .Net Core 3.1/.Net 5.0 is required. 
+**&ast;&ast;** For .Net Core Packages .Net Core 3.1 or .Net 5/6/7 are required. 
 
 | Branch                                                                | CEF Version  | VC++ Version | .Net Version | Status |
 |-----------------------------------------------------------------------|------|-------|---------|-----------------|
@@ -143,11 +143,11 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 ## Financial Support
 
-To continue developing/supporting the project I (@amaitland) am asking for financial contributions. Donations of any size are greatly appreciated!
+Is your company making money thanks to `CefSharp`? Do you rely on regular updates to the project? [Alex Maitland](https://github.com/amaitland) needs your support! Signup to [GitHub Sponsors](https://github.com/sponsors/amaitland).
 
-One-Time or Recurring contributions can be made through [GitHub Sponsors](https://github.com/sponsors/amaitland) it only takes a GitHub account and a credit card.  I can also take contributions through [PayPal](https://paypal.me/AlexMaitland).
+One-Time or Recurring contributions can be made through [GitHub Sponsors](https://github.com/sponsors/amaitland) it only takes a GitHub account and a credit card.  You can also make a One-Time contribution via [PayPal](https://paypal.me/AlexMaitland).
 
-Now that I (@amaitland) am a stay at home dad your contributions are the only reason I'm allowed to continue working on the project. Without continued funding the time I currently spend on the project will have to be put into finding other paid work.
+As a stay at home dad I ([@amaitland](https://github.com/amaitland)) rely on your contributions to help support my family.
 
 ## Links
 
