@@ -78,7 +78,7 @@ namespace CefSharp.WinForms.Example
 
                 //TEST: There are a number of different Forms for testing purposes.
                 var browser = new BrowserForm(multiThreadedMessageLoop);
-                //var browser = new SimpleBrowserForm(multiThreadedMessageLoop);
+                //var browser = new SimpleBrowserForm();
                 //var browser = new TabulationDemoForm();
 
                 IBrowserProcessHandler browserProcessHandler;
