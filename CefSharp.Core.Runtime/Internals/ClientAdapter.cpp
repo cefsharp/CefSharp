@@ -653,21 +653,6 @@ namespace CefSharp
             return handler->OnCertificateError(_browserControl, browserWrapper, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), sslInfoWrapper, requestCallback);
         }
 
-        bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefCallback> callback)
-        {
-            auto handler = _browserControl->RequestHandler;
-
-            if (handler == nullptr)
-            {
-                return false;
-            }
-
-            auto requestCallback = gcnew CefRequestCallbackWrapper(callback);
-            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
-            return handler->OnQuotaRequest(_browserControl, browserWrapper, StringUtils::ToClr(originUrl), newSize, requestCallback);
-        }
-
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
             auto handler = _browserControl->RequestHandler;

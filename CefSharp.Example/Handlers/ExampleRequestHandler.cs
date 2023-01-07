@@ -110,27 +110,6 @@ namespace CefSharp.Example.Handlers
             chromiumWebBrowser.Load(CefExample.RenderProcessCrashedUrl);
         }
 
-        protected override bool OnQuotaRequest(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
-        {
-            //NOTE: If you do not wish to implement this method returning false is the default behaviour
-            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
-            //callback.Dispose();
-            //return false;
-
-            //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
-            if (!callback.IsDisposed)
-            {
-                using (callback)
-                {
-                    //Accept Request to raise Quota
-                    //callback.Continue(true);
-                    //return true;
-                }
-            }
-
-            return false;
-        }
-
         protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
         {
             //NOTE: In most cases you examine the request.Url and only handle requests you are interested in

@@ -89,21 +89,6 @@ namespace CefSharp
         bool GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback);
 
         /// <summary>
-        /// Called when JavaScript requests a specific storage quota size via the webkitStorageInfo.requestQuota function.
-        /// For async processing return true and execute <see cref="IRequestCallback.Continue"/> at a later time to 
-        /// grant or deny the request or <see cref="IRequestCallback.Cancel"/> to cancel.
-        /// </summary>
-        /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control</param>
-        /// <param name="browser">the browser object</param>
-        /// <param name="originUrl">the origin of the page making the request</param>
-        /// <param name="newSize">is the requested quota size in bytes</param>
-        /// <param name="callback">Callback interface used for asynchronous continuation of url requests.</param>
-        /// <returns>Return false to cancel the request immediately. Return true to continue the request
-        /// and call <see cref="IRequestCallback.Continue"/> either in this method or at a later time to
-        /// grant or deny the request.</returns>
-        bool OnQuotaRequest(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, Int64 newSize, IRequestCallback callback);
-
-        /// <summary>
         /// Called to handle requests for URLs with an invalid SSL certificate.
         /// Return true and call <see cref="IRequestCallback.Continue"/> either
         /// in this method or at a later time to continue or cancel the request.  

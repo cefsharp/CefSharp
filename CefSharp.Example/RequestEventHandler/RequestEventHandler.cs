@@ -24,7 +24,6 @@ namespace CefSharp.Example.RequestEventHandler
         public event EventHandler<OnCertificateErrorEventArgs> OnCertificateErrorEvent;
         public event EventHandler<GetAuthCredentialsEventArgs> GetAuthCredentialsEvent;
         public event EventHandler<OnRenderProcessTerminatedEventArgs> OnRenderProcessTerminatedEvent;
-        public event EventHandler<OnQuotaRequestEventArgs> OnQuotaRequestEvent;
 
         protected override bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
         {
@@ -69,15 +68,6 @@ namespace CefSharp.Example.RequestEventHandler
             var args = new OnRenderProcessTerminatedEventArgs(chromiumWebBrowser, browser, status);
 
             OnRenderProcessTerminatedEvent?.Invoke(this, args);
-        }
-
-        protected override bool OnQuotaRequest(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
-        {
-            var args = new OnQuotaRequestEventArgs(chromiumWebBrowser, browser, originUrl, newSize, callback);
-            OnQuotaRequestEvent?.Invoke(this, args);
-
-            EnsureCallbackDisposal(callback);
-            return args.ContinueAsync;
         }
 
         private static void EnsureCallbackDisposal(IRequestCallback callbackToDispose)
