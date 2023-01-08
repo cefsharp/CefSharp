@@ -109,7 +109,7 @@ namespace CefSharp.Test.WinForms
             }
         }
 
-        [WinFormsFact(Skip = "Appveyor build failure debugging")]
+        [WinFormsFact]
         public async Task CanSetRequestContext()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))

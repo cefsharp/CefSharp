@@ -78,7 +78,7 @@ namespace CefSharp.Test.Wpf
             }
         }
 
-        [WpfFact(Skip = "Appveyor build failure debugging")]
+        [WpfFact]
         public async Task CanSetRequestContext()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com"))
