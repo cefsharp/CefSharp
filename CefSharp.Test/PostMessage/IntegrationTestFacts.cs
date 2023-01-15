@@ -49,7 +49,7 @@ namespace CefSharp.Test.PostMessage
 
             //Load a dummy page initially so we can then add our script using
             //Page.AddScriptToEvaluateOnNewDocument (via DevTools)
-            using (var browser = new ChromiumWebBrowser(new HtmlString("Initial Load")))
+            using (var browser = new ChromiumWebBrowser(new HtmlString("Initial Load"), useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 

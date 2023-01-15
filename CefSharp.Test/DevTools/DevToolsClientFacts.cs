@@ -35,7 +35,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanCaptureScreenshot()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -81,7 +81,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanGetDevToolsProtocolVersion()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -102,7 +102,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanEmulationCanEmulate()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -118,7 +118,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanGetPageNavigationHistory()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -141,7 +141,7 @@ namespace CefSharp.Test.DevTools
         [InlineData("CefSharpTest1", "CefSharp Test Cookie2", CefExample.ExampleDomain, CookieSameSite.Lax)]
         public async Task CanSetCookieForDomain(string name, string value, string domain, CookieSameSite sameSite)
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -157,7 +157,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanUseMultipleDevToolsClientInstancesPerBrowser()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -190,7 +190,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanSetUserAgentOverride()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -259,7 +259,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanSetExtraHTTPHeaders()
         {
-            using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false))
+            using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false, useLegacyRenderHandler: false))
             {
                 await browser.CreateBrowserAsync();
 
@@ -307,7 +307,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task ExecuteDevToolsMethodThrowsExceptionWithInvalidMethod()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -327,7 +327,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanGetMediaQueries()
         {
-            using (var browser = new ChromiumWebBrowser("https://cefsharp.github.io/demo/mediaqueryhover.html"))
+            using (var browser = new ChromiumWebBrowser("https://cefsharp.github.io/demo/mediaqueryhover.html", useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -346,7 +346,7 @@ namespace CefSharp.Test.DevTools
         [Fact]
         public async Task CanRegisterMultipleEventHandlers()
         {
-            using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false))
+            using (var browser = new ChromiumWebBrowser("about:blank", automaticallyCreateBrowser: false, useLegacyRenderHandler: false))
             {
                 await browser.CreateBrowserAsync();
 

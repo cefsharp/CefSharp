@@ -28,7 +28,7 @@ namespace CefSharp.Test.Navigation
         {
             const string expected = CefExample.HelloWorldUrl;
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -54,7 +54,7 @@ namespace CefSharp.Test.Navigation
         public async Task CanWaitForInvalidDomain()
         {
             const string expected = "https://notfound.cefsharp.test";
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -82,7 +82,7 @@ namespace CefSharp.Test.Navigation
         {
             const string expected = "The operation has timed out.";
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -104,7 +104,7 @@ namespace CefSharp.Test.Navigation
         {
             const string expected = "A task was canceled.";
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 

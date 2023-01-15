@@ -33,7 +33,7 @@ namespace CefSharp.Test.SchemeHandler
             const string expected = "https://folderschemehandlerfactory.test/";
 
             using (var requestContext = new RequestContext(Cef.GetGlobalRequestContext()))
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, requestContext: requestContext))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, requestContext: requestContext, useLegacyRenderHandler: false))
             {
                 _ = await browser.WaitForInitialLoadAsync();
 

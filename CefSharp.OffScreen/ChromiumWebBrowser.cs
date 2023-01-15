@@ -172,10 +172,15 @@ namespace CefSharp.OffScreen
         /// this action is guranteed to be called after the browser created where as the <see cref="BrowserInitialized"/> event may be called before
         /// you have a chance to subscribe to the event as the CEF Browser is created async. (Issue https://github.com/cefsharp/CefSharp/issues/3552).
         /// </param>
+        /// <param name="useLegacyRenderHandler">
+        /// For those using <see cref="ScreenshotAsync(bool, PopupBlending)"/> or <see cref="ScreenshotOrNull(PopupBlending)"/> then
+        /// this must be true, for those using <see cref="CaptureScreenshotAsync(CaptureScreenshotFormat?, int?, Viewport)"/> this can be false.
+        /// Lower memory usage when false. Defaults to true for backwards compatability.
+        /// </param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(HtmlString html, IBrowserSettings browserSettings = null,
             IRequestContext requestContext = null, bool automaticallyCreateBrowser = true,
-            Action<IBrowser> onAfterBrowserCreated = null) : this(html.ToDataUriString(), browserSettings, requestContext, automaticallyCreateBrowser, onAfterBrowserCreated)
+            Action<IBrowser> onAfterBrowserCreated = null, bool useLegacyRenderHandler = true) : this(html.ToDataUriString(), browserSettings, requestContext, automaticallyCreateBrowser, onAfterBrowserCreated, useLegacyRenderHandler)
         {
         }
 
@@ -195,10 +200,15 @@ namespace CefSharp.OffScreen
         /// this action is guranteed to be called after the browser created where as the <see cref="BrowserInitialized"/> event may be called before
         /// you have a chance to subscribe to the event as the CEF Browser is created async. (Issue https://github.com/cefsharp/CefSharp/issues/3552).
         /// </param>
+        /// <param name="useLegacyRenderHandler">
+        /// For those using <see cref="ScreenshotAsync(bool, PopupBlending)"/> or <see cref="ScreenshotOrNull(PopupBlending)"/> then
+        /// this must be true, for those using <see cref="CaptureScreenshotAsync(CaptureScreenshotFormat?, int?, Viewport)"/> this can be false.
+        /// Lower memory usage when false. Defaults to true for backwards compatability.
+        /// </param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address = "", IBrowserSettings browserSettings = null,
             IRequestContext requestContext = null, bool automaticallyCreateBrowser = true,
-            Action<IBrowser> onAfterBrowserCreated = null)
+            Action<IBrowser> onAfterBrowserCreated = null, bool useLegacyRenderHandler = true)
         {
             if (!Cef.IsInitialized)
             {
@@ -223,7 +233,10 @@ namespace CefSharp.OffScreen
                 CreateBrowser(null, browserSettings);
             }
 
-            RenderHandler = new DefaultRenderHandler(this);
+            if (useLegacyRenderHandler)
+            {
+                RenderHandler = new DefaultRenderHandler(this);
+            }
         }
 
         /// <summary>

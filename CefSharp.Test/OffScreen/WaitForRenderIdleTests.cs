@@ -27,7 +27,7 @@ namespace CefSharp.Test.OffScreen
         {
             const int expected = 500;
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler:false))
             {
                 var start = DateTime.Now;
                 await browser.WaitForRenderIdleAsync();
@@ -50,7 +50,7 @@ namespace CefSharp.Test.OffScreen
         {
             const int expected = 600;
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var start = DateTime.Now;
 
@@ -87,7 +87,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task ShouldRespectTimeout()
         {
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var exception = await Assert.ThrowsAsync<TimeoutException>(async () =>
                 {
@@ -105,7 +105,7 @@ namespace CefSharp.Test.OffScreen
         {
 
             using (var cancellationSource = new CancellationTokenSource())
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 cancellationSource.CancelAfter(400);
 

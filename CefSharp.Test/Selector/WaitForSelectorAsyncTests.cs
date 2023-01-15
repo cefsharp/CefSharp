@@ -27,7 +27,7 @@ namespace CefSharp.Test.Selector
         {
             const string elementId = "newElement";
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -54,7 +54,7 @@ namespace CefSharp.Test.Selector
         {
             const string elementId = "newElement";
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -86,7 +86,7 @@ namespace CefSharp.Test.Selector
         {
             const string elementId = "content";
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -115,7 +115,7 @@ namespace CefSharp.Test.Selector
         [Fact]
         public async Task ShouldReturnTrueForRemovedNonExistingElement()
         {
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -133,7 +133,7 @@ namespace CefSharp.Test.Selector
         {
             const string expected = "The operation has timed out.";
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -156,7 +156,7 @@ namespace CefSharp.Test.Selector
             const string expected = "The operation has timed out.";
             const string url = CefExample.HelloWorldUrl;
 
-            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -182,7 +182,7 @@ namespace CefSharp.Test.Selector
         {
             var html = new HtmlString("<div class='notZombo'></div>");
 
-            using (var browser = new ChromiumWebBrowser(html))
+            using (var browser = new ChromiumWebBrowser(html, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 

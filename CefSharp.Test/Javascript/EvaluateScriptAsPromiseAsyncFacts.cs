@@ -33,7 +33,7 @@ namespace CefSharp.Test.Javascript
         [InlineData("var result = await fetch('./robots.txt'); return result.status;", true, "200")]
         public async Task CanEvaluateScriptAsPromiseAsync(string script, bool success, string expected)
         {
-            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            using (var browser = new ChromiumWebBrowser("http://www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -66,7 +66,7 @@ namespace CefSharp.Test.Javascript
         [InlineData("function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }; async function getValAfterSleep() { await sleep(1000); return { a: 'CefSharp', b: 42 }; }; await sleep(2000); const result = await getValAfterSleep(); await sleep(2000); return result;", true, "CefSharp", "42")]
         public async Task CanEvaluateScriptAsPromiseAsyncReturnObject(string script, bool success, string expectedA, string expectedB)
         {
-            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            using (var browser = new ChromiumWebBrowser("http://www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 

@@ -22,7 +22,7 @@ namespace CefSharp.Test
 
         Task IAsyncLifetime.InitializeAsync()
         {
-            Browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl);
+            Browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl, useLegacyRenderHandler: false);
 
             return Browser.WaitForInitialLoadAsync();
         }

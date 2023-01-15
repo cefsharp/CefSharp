@@ -49,7 +49,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanLoadGoogle()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler:false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -69,7 +69,7 @@ namespace CefSharp.Test.OffScreen
         {
             ChromiumWebBrowser browser;
 
-            using (browser = new ChromiumWebBrowser(CefExample.DefaultUrl))
+            using (browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -94,7 +94,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanLoadInvalidDomain()
         {
-            using (var browser = new ChromiumWebBrowser("notfound.cefsharp.test"))
+            using (var browser = new ChromiumWebBrowser("notfound.cefsharp.test", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -110,7 +110,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanLoadExpiredBadSsl()
         {
-            using (var browser = new ChromiumWebBrowser("https://expired.badssl.com/"))
+            using (var browser = new ChromiumWebBrowser("https://expired.badssl.com/", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -131,7 +131,7 @@ namespace CefSharp.Test.OffScreen
 
             var manualResetEvent = new ManualResetEvent(false);
 
-            var browser = new ChromiumWebBrowser("https://google.com");
+            var browser = new ChromiumWebBrowser("https://google.com", useLegacyRenderHandler: false);
             browser.LoadingStateChanged += (sender, e) =>
             {
                 if (!e.IsLoading)
@@ -158,7 +158,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanCreateBrowserAsync()
         {
-            using (var chromiumWebBrowser = new ChromiumWebBrowser("http://www.google.com", automaticallyCreateBrowser: false))
+            using (var chromiumWebBrowser = new ChromiumWebBrowser("http://www.google.com", automaticallyCreateBrowser: false, useLegacyRenderHandler: false))
             {
                 var browser = await chromiumWebBrowser.CreateBrowserAsync();
 
@@ -172,7 +172,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanLoadGoogleAndEvaluateScript()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -192,7 +192,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanEvaluateScriptInParallel()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com"))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -226,7 +226,7 @@ namespace CefSharp.Test.OffScreen
         [InlineData("[,2,,3,,4,,,,5,,,]", new object[] { null, 2, null, 3, null, 4, null, null, null, 5, null, null })]
         public async Task CanEvaluateScriptAsyncReturnPartiallyEmptyArrays(string javascript, object[] expected)
         {
-            using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl))
+            using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl, useLegacyRenderHandler: false))
             {
                 await browser.WaitForInitialLoadAsync();
 
@@ -249,7 +249,7 @@ namespace CefSharp.Test.OffScreen
 
             var boundObj = new AsyncBoundObject();
 
-            using (var browser = new ChromiumWebBrowser("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url"))
+            using (var browser = new ChromiumWebBrowser("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url", useLegacyRenderHandler: false))
             {
 #if NETCOREAPP
                 browser.JavascriptObjectRepository.Register("bound", boundObj);
@@ -289,7 +289,7 @@ namespace CefSharp.Test.OffScreen
             var objectNames = new List<string>();
             var boundObj = new AsyncBoundObject();
 
-            using (var browser = new ChromiumWebBrowser("https://www.google.com"))
+            using (var browser = new ChromiumWebBrowser("https://www.google.com", useLegacyRenderHandler: false))
             {
                 browser.JavascriptObjectRepository.ResolveObject += (s, e) =>
                 {
@@ -317,7 +317,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanEvaluateScriptAsyncWithEncodedStringArguments()
         {
-            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            using (var browser = new ChromiumWebBrowser("http://www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -345,7 +345,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanMakeFrameUrlRequest()
         {
-            using (var browser = new ChromiumWebBrowser("https://code.jquery.com/jquery-3.4.1.min.js"))
+            using (var browser = new ChromiumWebBrowser("https://code.jquery.com/jquery-3.4.1.min.js", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -383,7 +383,7 @@ namespace CefSharp.Test.OffScreen
         [InlineData("https://code.jquery.com/jquery-3.4.1.min.js")]
         public async Task CanDownloadUrlForFrame(string url)
         {            
-            using (var browser = new ChromiumWebBrowser(url))
+            using (var browser = new ChromiumWebBrowser(url, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -413,7 +413,7 @@ namespace CefSharp.Test.OffScreen
         {
             var tcs = new TaskCompletionSource<string>(TaskContinuationOptions.RunContinuationsAsynchronously);
 
-            using (var chromiumWebBrowser = new ChromiumWebBrowser(url))
+            using (var chromiumWebBrowser = new ChromiumWebBrowser(url, useLegacyRenderHandler: false))
             {
                 var userTempPath = System.IO.Path.GetTempPath();
 
@@ -490,7 +490,7 @@ namespace CefSharp.Test.OffScreen
         [InlineData("http://www.google.com", "http://cefsharp.github.io/")]
         public async Task CanExecuteJavascriptInMainFrameAfterNavigatingToDifferentOrigin(string firstUrl, string secondUrl)
         {
-            using (var browser = new ChromiumWebBrowser(firstUrl))
+            using (var browser = new ChromiumWebBrowser(firstUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -517,7 +517,7 @@ namespace CefSharp.Test.OffScreen
             //a web page of the same origin to use LoadRequest
             //When Site Isolation is disabled we can navigate to any web page
             //https://magpcss.org/ceforum/viewtopic.php?f=10&t=18672&p=50266#p50249
-            using (var browser = new ChromiumWebBrowser("http://httpbin.org/"))
+            using (var browser = new ChromiumWebBrowser("http://httpbin.org/", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -562,7 +562,7 @@ namespace CefSharp.Test.OffScreen
                 .WithProxyServer("127.0.0.1", 8080)
                 .Create();
                 
-            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
+            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -598,7 +598,7 @@ namespace CefSharp.Test.OffScreen
 
             Assert.True(setProxyResponse.Success);
 
-            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
+            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -650,7 +650,7 @@ namespace CefSharp.Test.OffScreen
 
             Assert.True(success);
 
-            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext))
+            using (var browser = new ChromiumWebBrowser("http://cefsharp.github.io/", requestContext: requestContext, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -667,7 +667,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanWaitForBrowserInitialLoadAfterLoad()
         {
-            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            using (var browser = new ChromiumWebBrowser("http://www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -689,7 +689,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanCallTryGetBrowserCoreByIdWithInvalidId()
         {
-            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            using (var browser = new ChromiumWebBrowser("http://www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -703,7 +703,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanCallTryGetBrowserCoreByIdWithOwnId()
         {
-            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            using (var browser = new ChromiumWebBrowser("http://www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -718,7 +718,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task CanCaptureScreenshotAsync()
         {
-            using (var browser = new ChromiumWebBrowser("http://www.google.com"))
+            using (var browser = new ChromiumWebBrowser("http://www.google.com", useLegacyRenderHandler:false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
@@ -755,7 +755,6 @@ namespace CefSharp.Test.OffScreen
                     Assert.Equal(200, screenshot.Width);
                     Assert.Equal(400, screenshot.Height);
                 }
-
 
                 var result4 = await browser.CaptureScreenshotAsync(viewport: new Viewport { Width = 100, Height = 200, Scale = 1 });
                 Assert.Equal(1466, browser.Size.Width);
@@ -795,7 +794,6 @@ namespace CefSharp.Test.OffScreen
                     Assert.Equal(1200, screenshot.Height);
                 }
 
-
                 await browser.ResizeAsync(400, 300);
 
                 Assert.Equal(400, browser.Size.Width);
@@ -807,7 +805,6 @@ namespace CefSharp.Test.OffScreen
                     Assert.Equal(800, screenshot.Width);
                     Assert.Equal(600, screenshot.Height);
                 }
-
 
                 await browser.ResizeAsync(1366, 768, 1);
 
@@ -829,7 +826,7 @@ namespace CefSharp.Test.OffScreen
         {
             for (int i = 0; i < 1000; i++)
             {
-                using (var browser = new ChromiumWebBrowser(new HtmlString("Testing")))
+                using (var browser = new ChromiumWebBrowser(new HtmlString("Testing"), useLegacyRenderHandler: false))
                 {
                     var response = await browser.WaitForInitialLoadAsync();
 
