@@ -222,6 +222,8 @@ namespace CefSharp.OffScreen
             {
                 CreateBrowser(null, browserSettings);
             }
+
+            RenderHandler = new DefaultRenderHandler(this);
         }
 
         /// <summary>
@@ -445,10 +447,9 @@ namespace CefSharp.OffScreen
         /// <returns>Bitmap.</returns>
         public Bitmap ScreenshotOrNull(PopupBlending blend = PopupBlending.Main)
         {
-            // Lazy Initialize DefaultRenderHandler
             if (RenderHandler == null)
             {
-                RenderHandler = new DefaultRenderHandler(this);
+                throw new NullReferenceException("RenderHandler cannot be null. Use DefaultRenderHandler unless implementing your own");
             }
 
             var renderHandler = RenderHandler as DefaultRenderHandler;
