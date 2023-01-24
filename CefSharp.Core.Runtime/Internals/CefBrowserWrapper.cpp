@@ -159,8 +159,15 @@ bool CefBrowserWrapper::HasDocument::get()
 IFrame^ CefBrowserWrapper::MainFrame::get()
 {
     ThrowIfDisposed();
+
     auto frame = _browser->GetMainFrame();
-    return gcnew CefFrameWrapper(frame);
+
+    if (frame.get())
+    {
+        return gcnew CefFrameWrapper(frame);
+    }
+
+    return nullptr;
 }
 
 ///
@@ -170,7 +177,15 @@ IFrame^ CefBrowserWrapper::MainFrame::get()
 IFrame^ CefBrowserWrapper::FocusedFrame::get()
 {
     ThrowIfDisposed();
-    return gcnew CefFrameWrapper(_browser->GetFocusedFrame());
+
+    auto frame = _browser->GetFocusedFrame();
+
+    if (frame.get())
+    {
+        return gcnew CefFrameWrapper(frame);
+    }
+
+    return nullptr;
 }
 
 ///
