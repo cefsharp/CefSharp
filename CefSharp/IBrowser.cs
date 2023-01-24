@@ -99,11 +99,12 @@ namespace CefSharp
 
         /// <summary>
         /// Returns the main (top-level) frame for the browser window.
+        /// Returns null if there is currently no MainFrame.
         /// </summary>
         IFrame MainFrame { get; }
 
         /// <summary>
-        /// Returns the focused frame for the browser window.
+        /// Returns the focused frame for the browser window or null.
         /// </summary>
         IFrame FocusedFrame { get; }
 
