@@ -475,6 +475,11 @@ namespace CefSharp.WinForms
                     return;
                 }
 
+                if(!browserCore.IsValid)
+                {
+                    throw new InvalidOperationException("IBrowser instance is no longer valid. Control.Handle was likely destroyed.");
+                }
+
                 using (var frame = browserCore.MainFrame)
                 {
                     //Only attempt to call load if frame is valid
