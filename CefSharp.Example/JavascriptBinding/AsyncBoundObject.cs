@@ -218,7 +218,7 @@ namespace CefSharp.Example.JavascriptBinding
 
         public async Task<string> JavascriptCallbackEvalPromise(string msg, IJavascriptCallback callback)
         {
-            var response = await callback.ExecuteAsync(callback.Id, msg);
+            var response = await callback.ExecuteAsync(msg);
 
             //Echo the response
             return (string)response.Result;
@@ -273,7 +273,7 @@ namespace CefSharp.Example.JavascriptBinding
             {
                 if (invokeCallback)
                 {
-                    var response = await callback.ExecuteAsync(callback.Id, msg).ConfigureAwait(false);
+                    var response = await callback.ExecuteAsync(msg).ConfigureAwait(false);
                     //Echo the response
                     return (string)response.Result;
                 }
