@@ -192,10 +192,7 @@ namespace CefSharp.Core
     {
         internal PopupFeatures() { }
         public virtual int? Height { get { throw null; } }
-        public virtual bool MenuBarVisible { get { throw null; } }
-        public virtual bool ScrollbarsVisible { get { throw null; } }
-        public virtual bool StatusBarVisible { get { throw null; } }
-        public virtual bool ToolBarVisible { get { throw null; } }
+        public virtual bool IsPopup { get { throw null; } }
         public virtual int? Width { get { throw null; } }
         public virtual int? X { get { throw null; } }
         public virtual int? Y { get { throw null; } }
