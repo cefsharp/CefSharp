@@ -61,24 +61,9 @@ namespace CefSharp
                 System::Nullable<int> get() { return _popupFeatures->heightSet ? _popupFeatures->height : Nullable<int>(); }
             }
 
-            virtual property bool MenuBarVisible
+            virtual property bool IsPopup
             {
-                bool get() { return _popupFeatures->menuBarVisible == 1; }
-            }
-
-            virtual property bool StatusBarVisible
-            {
-                bool get() { return _popupFeatures->statusBarVisible == 1; }
-            }
-
-            virtual property bool ToolBarVisible
-            {
-                bool get() { return _popupFeatures->toolBarVisible == 1; }
-            }
-
-            virtual property bool ScrollbarsVisible
-            {
-                bool get() { return _popupFeatures->scrollbarsVisible == 1; }
+                bool get() { return _popupFeatures->isPopup == 1; }
             }
         };
     }

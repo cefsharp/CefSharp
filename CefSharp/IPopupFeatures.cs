@@ -38,32 +38,8 @@ namespace CefSharp
         /// </value>
         int? Height { get; }
         /// <summary>
-        /// Gets a value indicating whether the menu bar is visible.
+        /// Returns true if browser interface elements should be hidden.
         /// </summary>
-        /// <value>
-        /// True if menu bar visible, false if not.
-        /// </value>
-        bool MenuBarVisible { get; }
-        /// <summary>
-        /// Gets a value indicating whether the status bar is visible.
-        /// </summary>
-        /// <value>
-        /// True if status bar visible, false if not.
-        /// </value>
-        bool StatusBarVisible { get; }
-        /// <summary>
-        /// Gets a value indicating whether the tool bar is visible.
-        /// </summary>
-        /// <value>
-        /// True if tool bar visible, false if not.
-        /// </value>
-        bool ToolBarVisible { get; }
-        /// <summary>
-        /// Gets a value indicating whether the scrollbars is visible.
-        /// </summary>
-        /// <value>
-        /// True if scrollbars visible, false if not.
-        /// </value>
-        bool ScrollbarsVisible { get; }
+        bool IsPopup { get; }
     }
 }
