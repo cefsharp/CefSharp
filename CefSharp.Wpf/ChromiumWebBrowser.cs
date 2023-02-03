@@ -1580,12 +1580,28 @@ namespace CefSharp.Wpf
         /// The tooltip text property
         /// </summary>
         public static readonly DependencyProperty TooltipTextProperty =
-            DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, (sender, e) => ((ChromiumWebBrowser)sender).OnTooltipTextChanged()));
+            DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTooltipTextChanged));
 
         /// <summary>
-        /// Called when [tooltip text changed].
+        /// Handles the <see cref="TooltipTextProperty" /> change.
         /// </summary>
-        private void OnTooltipTextChanged()
+        /// <param name="d">dependency object.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing property change data.</param>
+        private static void OnTooltipTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var owner = (ChromiumWebBrowser)d;
+            var oldValue = (string)e.OldValue;
+            var newValue = (string)e.NewValue;
+
+            owner.OnTooltipTextChanged(oldValue, newValue);
+        }
+
+        /// <summary>
+        /// Called when tooltip text was changed changed.
+        /// </summary>
+        /// <param name="oldValue">old value</param>
+        /// <param name="newValue">new value</param>
+        protected virtual void OnTooltipTextChanged(string oldValue, string newValue)
         {
             var timer = tooltipTimer;
             if (timer == null)
@@ -1593,9 +1609,9 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            if (string.IsNullOrEmpty(TooltipText))
+            if (string.IsNullOrEmpty(newValue))
             {
-                UiThreadRunAsync(() => UpdateTooltip(null), DispatcherPriority.Render);
+                UiThreadRunAsync(() => OpenOrCloseToolTip(null), DispatcherPriority.Render);
 
                 if (timer.IsEnabled)
                 {
@@ -2103,7 +2119,7 @@ namespace CefSharp.Wpf
             {
                 tooltipTimer.Stop();
 
-                UpdateTooltip(TooltipText);
+                OpenOrCloseToolTip(TooltipText);
             }
         }
 
@@ -2122,12 +2138,12 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Updates the tooltip.
+        /// Open or Close the tooltip at the current mouse position.
         /// </summary>
-        /// <param name="text">The text.</param>
-        private void UpdateTooltip(string text)
+        /// <param name="text">ToolTip text, if null or empty tooltip will be closed.</param>
+        protected virtual void OpenOrCloseToolTip(string text)
         {
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
                 toolTip.IsOpen = false;
             }
