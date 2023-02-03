@@ -1609,14 +1609,21 @@ namespace CefSharp.Wpf
                 return;
             }
 
+            // There are cases where oldValue is null and newValue is string.Empty
+            // and vice versa, simply ignore when string.IsNullOrEmpty for both.
+            if (string.IsNullOrEmpty(oldValue) && string.IsNullOrEmpty(newValue))
+            {
+                return;
+            }
+
             if (string.IsNullOrEmpty(newValue))
             {
-                UiThreadRunAsync(() => OpenOrCloseToolTip(null), DispatcherPriority.Render);
-
                 if (timer.IsEnabled)
                 {
                     timer.Stop();
                 }
+
+                OpenOrCloseToolTip(null);
             }
             else if (!timer.IsEnabled)
             {
@@ -2145,7 +2152,10 @@ namespace CefSharp.Wpf
         {
             if (string.IsNullOrEmpty(text))
             {
-                toolTip.IsOpen = false;
+                if (toolTip.IsOpen)
+                {
+                    toolTip.IsOpen = false;
+                }
             }
             else
             {
