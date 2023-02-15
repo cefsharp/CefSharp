@@ -28,7 +28,7 @@ namespace CefSharp.Test.SchemeHandler
         }
 
         [Fact]
-        public async Task CanWork()
+        public async Task ShouldWork()
         {
             const string expected = "https://folderschemehandlerfactory.test/";
 
@@ -57,7 +57,7 @@ namespace CefSharp.Test.SchemeHandler
         }
 
         [Fact]
-        public async Task CanDeleteFileAfterLoading()
+        public async Task ShouldAllowFileDeletionAfterLoading()
         {
             const string expected = "https://folderschemehandlerfactory.test/";
             const string html = "I'm going to be deleted after use!";
