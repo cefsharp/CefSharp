@@ -7,9 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Example.JavascriptBinding;
 using CefSharp.Internals;
-using Nito.AsyncEx;
 using Xunit;
 using Xunit.Abstractions;
+using Moq;
 
 namespace CefSharp.Test.Framework
 {
@@ -68,7 +68,7 @@ namespace CefSharp.Test.Framework
         }
 
         [Fact]
-        public void DisposeConcurrentMethodRunnerQueueThenEnqueueInvocation()
+        public void ShouldWorkWhenEnqueueCalledAfterDispose()
         {
             var methodInvocation = new MethodInvocation(1, 1, 1, "Testing", 1);
             methodInvocation.Parameters.Add("Echo Me!");
@@ -91,7 +91,7 @@ namespace CefSharp.Test.Framework
         }
 
         [Fact]
-        public async Task StopConcurrentMethodRunnerQueueWhenMethodRunning()
+        public async Task ShouldDisposeWhenRunningWithoutException()
         {
             var boundObject = new AsyncBoundObject();
 
@@ -116,43 +116,26 @@ namespace CefSharp.Test.Framework
             Assert.Null(ex);
         }
 
-        [Fact(Skip = "Times out when run through appveyor, issue https://github.com/cefsharp/CefSharp/issues/3067")]
-        public async Task ValidateAsyncTaskMethodOutput()
+        [Fact]
+        public async Task ShouldCallMethodAsync()
         {
-            const string expectedResult = "Echo Me!";
-            var boundObject = new AsyncBoundObject();
+            const string expected = "Echo Me!";
+            const string methodName = "AsyncWaitTwoSeconds";
 
-            IJavascriptObjectRepositoryInternal objectRepository = new JavascriptObjectRepository();
-            objectRepository.NameConverter = null;
-#if NETCOREAPP
-            objectRepository.Register("testObject", boundObject, BindingOptions.DefaultBinder);
-#else
-            objectRepository.Register("testObject", boundObject, true, BindingOptions.DefaultBinder);
-#endif
-            var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
-            methodInvocation.Parameters.Add(expectedResult);
-            var methodRunnerQueue = new ConcurrentMethodRunnerQueue(objectRepository);
-            var manualResetEvent = new AsyncManualResetEvent();
-            var cancellationToken = new CancellationTokenSource();
+            var mockObjectRepository = new Mock<IJavascriptObjectRepositoryInternal>();
+            mockObjectRepository.Setup(x => x.TryCallMethodAsync(1, methodName, It.IsAny<object[]>())).ReturnsAsync(new TryCallMethodResult(true, expected, string.Empty));
+            var methodInvocation = new MethodInvocation(1, 1, 1, methodName, 1);
+            methodInvocation.Parameters.Add(expected);
 
-            cancellationToken.CancelAfter(5000);
+            using var methodRunnerQueue = new ConcurrentMethodRunnerQueue(mockObjectRepository.Object);
 
-            var actualResult = "";
+            var evt = await AssertEx.RaisesAsync<MethodInvocationCompleteArgs>(
+                cancelAfter: 10000,
+                x => methodRunnerQueue.MethodInvocationComplete += x,
+                x => methodRunnerQueue.MethodInvocationComplete -= x,
+                () => methodRunnerQueue.Enqueue(methodInvocation));
 
-            methodRunnerQueue.MethodInvocationComplete += (sender, args) =>
-            {
-                actualResult = args.Result.Result.ToString();
-
-                manualResetEvent.Set();
-            };
-
-            methodRunnerQueue.Enqueue(methodInvocation);
-
-            await manualResetEvent.WaitAsync(cancellationToken.Token);
-
-            Assert.Equal(expectedResult, actualResult);
-
-            methodRunnerQueue.Dispose();
+            Assert.Equal(expected, evt.Arguments.Result.Result);
         }
     }
 }
