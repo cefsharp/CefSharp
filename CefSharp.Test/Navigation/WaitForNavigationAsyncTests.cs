@@ -3,7 +3,6 @@ using Xunit;
 using System.Threading.Tasks;
 using CefSharp.OffScreen;
 using CefSharp.Example;
-using Nito.AsyncEx;
 using System;
 using System.Threading;
 
@@ -40,8 +39,8 @@ namespace CefSharp.Test.Navigation
                 await Task.WhenAll(navigationTask, evaluateTask);
 
                 var navigationResponse = navigationTask.Result;
-
                 var mainFrame = browser.GetMainFrame();
+
                 Assert.True(mainFrame.IsValid);
                 Assert.Equal(expected, mainFrame.Url);
                 Assert.Equal(200, navigationResponse.HttpStatusCode);
@@ -66,8 +65,8 @@ namespace CefSharp.Test.Navigation
                 await Task.WhenAll(navigationTask, evaluateTask);
 
                 var navigationResponse = navigationTask.Result;
-
                 var mainFrame = browser.GetMainFrame();
+
                 Assert.True(mainFrame.IsValid);
                 Assert.False(navigationResponse.Success);
                 Assert.Contains(expected, mainFrame.Url);

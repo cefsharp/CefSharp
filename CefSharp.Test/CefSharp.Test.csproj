@@ -9,6 +9,7 @@
         <UseWPF>true</UseWPF>
         <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     
     <PropertyGroup Condition="'$(PlatformTarget)' == 'x86'">
