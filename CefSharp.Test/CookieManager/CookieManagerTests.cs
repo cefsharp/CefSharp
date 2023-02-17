@@ -174,8 +174,8 @@ namespace CefSharp.Test.CookieManager
             Assert.True(cookie.Expires.HasValue);
             // Little bit of a loss in precision
             Assert.Equal(expectedExpiry, cookie.Expires.Value, TimeSpan.FromMilliseconds(10));
-            Assert.True(cookie.Creation > testStartDate, $"Cookie Creation greater than test start. {cookie.Creation} > {testStartDate}");
-            Assert.True(cookie.LastAccess > testStartDate, $"Cookie LastAccess greater than test start. {cookie.LastAccess} > {testStartDate}");
+            Assert.Equal(cookie.Creation ,testStartDate, TimeSpan.FromMilliseconds(1000));
+            Assert.Equal(cookie.LastAccess, testStartDate, TimeSpan.FromMilliseconds(1000));
 
             output.WriteLine("Expected {0} : Actual {1}", expectedExpiry, cookie.Expires.Value);
         }
