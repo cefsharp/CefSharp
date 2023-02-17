@@ -148,7 +148,7 @@ namespace CefSharp.Test.CookieManager
 
         [Fact]
         //https://github.com/cefsharp/CefSharp/issues/4234
-        public async Task CanSetAndGetCookie()
+        public async Task ShouldSetAndGetCookie()
         {
             AssertInitialLoadComplete();
 
@@ -156,10 +156,7 @@ namespace CefSharp.Test.CookieManager
             var testStartDate = DateTime.Now;
             var expectedExpiry = DateTime.Now.AddDays(1);
 
-            Assert.False(Browser.IsLoading);
-
             var cookieManager = Browser.GetCookieManager();
-
             await cookieManager.DeleteCookiesAsync(CefExample.HelloWorldUrl, CookieName);
 
             var cookieSet = await cookieManager.SetCookieAsync(CefExample.HelloWorldUrl, new Cookie
