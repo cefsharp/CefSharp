@@ -132,14 +132,15 @@ namespace CefSharp.Test.JavascriptBinding
         [InlineData("cefSharp.renderProcessId")]
         public async Task ShouldReturnRenderProcessId(string script)
         {
+            AssertInitialLoadComplete();
+
             var result = await Browser.EvaluateScriptAsync(script);
 
             Assert.True(result.Success);
 
-            using (var process = Process.GetProcessById(Assert.IsType<int>(result.Result)))
-            {
-                Assert.Equal("CefSharp.BrowserSubprocess", process.ProcessName);
-            }
+            using var process = Process.GetProcessById(Assert.IsType<int>(result.Result));
+
+            Assert.Equal("CefSharp.BrowserSubprocess", process.ProcessName);
         }
 
         [Fact]
