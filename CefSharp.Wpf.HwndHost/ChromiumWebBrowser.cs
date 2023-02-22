@@ -107,7 +107,12 @@ namespace CefSharp.Wpf.HwndHost
         /// <summary>
         /// Initial address
         /// </summary>
-        private readonly string initialAddress;
+        private string initialAddress;
+        /// <summary>
+        /// Used to stop multiple threads trying to load the initial Url multiple times.
+        /// If the Address property is bound after the browser is initialized
+        /// </summary>
+        private bool initialLoadCalled;
         /// <summary>
         /// Has the underlying Cef Browser been created (slightly different to initliazed in that
         /// the browser is initialized in an async fashion)
@@ -1143,7 +1148,7 @@ namespace CefSharp.Wpf.HwndHost
                     IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
 
                     // Only call Load if initialAddress is null and Address is not empty
-                    if (string.IsNullOrEmpty(initialAddress) && !string.IsNullOrEmpty(Address))
+                    if (string.IsNullOrEmpty(initialAddress) && !string.IsNullOrEmpty(Address) && !initialLoadCalled)
                     {
                         Load(Address);
                     }
@@ -1231,7 +1236,7 @@ namespace CefSharp.Wpf.HwndHost
         /// <param name="newValue">The new value.</param>
         protected virtual void OnAddressChanged(string oldValue, string newValue)
         {
-            if (ignoreUriChange || newValue == null || !InternalIsBrowserInitialized())
+            if (ignoreUriChange || newValue == null)
             {
                 return;
             }
@@ -1533,7 +1538,9 @@ namespace CefSharp.Wpf.HwndHost
                 //the user has override CreateBrowserWindowInfo and not called base.CreateBrowserWindowInfo
                 removeExNoActivateStyle = (windowInfo.ExStyle & WS_EX_NOACTIVATE) == WS_EX_NOACTIVATE;
 
-                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, Address);
+                //If initialAddress is set then we use that value, later in OnAfterBrowserCreated then we will
+                //call Load(url) if initial address was empty.
+                managedCefBrowserAdapter.CreateBrowser(windowInfo, browserSettings as BrowserSettings, requestContext as RequestContext, initialAddress);
             }
         }
 
@@ -1600,15 +1607,42 @@ namespace CefSharp.Wpf.HwndHost
         /// <param name="url">The URL to be loaded.</param>
         public void Load(string url)
         {
-            if (!InternalIsBrowserInitialized())
+            if (IsDisposed)
             {
-                throw new Exception("The browser has not been initialized. Load can only be called " +
-                                    "after the underlying CEF browser is initialized (CefLifeSpanHandler::OnAfterCreated).");
+                return;
             }
 
-            using (var frame = browser.MainFrame)
+            //If the browser is already initialized then we can call LoadUrl directly
+            if (InternalIsBrowserInitialized())
             {
-                frame.LoadUrl(url);
+                var b = browser;
+                // Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called
+                if (b != null)
+                {
+                    initialLoadCalled = true;
+
+                    using (var frame = b.MainFrame)
+                    {
+                        frame.LoadUrl(url);
+                    }
+                }
+            }
+            //If CreateBrowser was called and InternalIsBrowserInitialized() == false then we need to set the Address
+            //property so in OnAfterBrowserCreated the Url is loaded. If initialAddress was
+            //set then the Url set here will be ignored. If we called Load(url) then historically
+            //an aborted error would be raised as per https://github.com/cefsharp/CefSharp/issues/2300
+            //So we ignore the call for now.
+            else if (browserCreated)
+            {
+                UiThreadRunAsync(() =>
+                {
+                    Address = url;
+                });
+            }
+            //Before browser created, set the intialAddress
+            else
+            {
+                initialAddress = url;
             }
         }
 
