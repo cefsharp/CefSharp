@@ -76,7 +76,7 @@ namespace CefSharp
 
         /// <summary>
         /// Loads the specified <paramref name="url"/> in the Main Frame.
-        /// Same as calling <see cref="Load(string)"/>
+        /// Same as calling <see cref="IWebBrowser.Load(string)"/>
         /// </summary>
         /// <param name="url">The URL to be loaded.</param>
         /// <remarks>

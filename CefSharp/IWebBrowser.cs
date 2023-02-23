@@ -20,8 +20,8 @@ namespace CefSharp
 
         /// <summary>
         /// Loads the specified <paramref name="url"/> in the Main Frame.
-        /// If <see cref="IsDisposed"/> is true then the method call will be ignored.
-        /// Same as calling <see cref="LoadUrl(string)"/>
+        /// If <see cref="IChromiumWebBrowserBase.IsDisposed"/> is true then the method call will be ignored.
+        /// Same as calling <see cref="IChromiumWebBrowserBase.LoadUrl(string)"/>
         /// </summary>
         /// <param name="url">The URL to be loaded.</param>
         void Load(string url);
