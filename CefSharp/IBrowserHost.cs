@@ -58,12 +58,12 @@ namespace CefSharp
         bool HasDevTools { get; }
 
         /// <summary>
-        /// Send a method call message over the DevTools protocol. <paramref name="message"/> must be a
+        /// Send a method call message over the DevTools protocol. <paramref name="messageAsJson"/> must be a
         /// UTF8-encoded JSON dictionary that contains "id" (int), "method" (string)
         /// and "params" (dictionary, optional) values. See the DevTools protocol
         /// documentation at https://chromedevtools.github.io/devtools-protocol/ for
         /// details of supported methods and the expected "params" dictionary contents.
-        /// <paramref name="message"/> will be copied if necessary. This method will return true if
+        /// <paramref name="messageAsJson"/> will be copied if necessary. This method will return true if
         /// called on the CEF UI thread and the message was successfully submitted for
         /// validation, otherwise false. Validation will be applied asynchronously and
         /// any messages that fail due to formatting errors or missing parameters may
@@ -115,7 +115,7 @@ namespace CefSharp
         /// Execute a method call over the DevTools protocol. This is a more structured
         /// version of SendDevToolsMessage.
         /// See the DevTools protocol documentation at https://chromedevtools.github.io/devtools-protocol/ for details
-        /// of supported methods and the expected <paramref name="paramsAsJson"/> dictionary contents.
+        /// of supported methods and the expected <paramref name="parameters"/> dictionary contents.
         /// See the SendDevToolsMessage documentation for additional usage information.
         /// </summary>
         /// <param name="messageId">is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned

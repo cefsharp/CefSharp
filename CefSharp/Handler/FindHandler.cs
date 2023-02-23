@@ -12,7 +12,7 @@ namespace CefSharp.Handler
     /// </summary>
     public class FindHandler : IFindHandler
     {
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IFindHandler.OnFindResult(IWebBrowser chromiumWebBrowser, IBrowser browser, int identifier, int count, Rect selectionRect, int activeMatchOrdinal, bool finalUpdate)
         {
             OnFindResult(chromiumWebBrowser, browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);

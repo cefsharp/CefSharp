@@ -16,7 +16,7 @@ namespace CefSharp
         /// Call to allow or deny media access. If this callback was initiated in
         /// response to a getUserMedia (indicated by
         /// DeviceAudioCapture and/or DeviceVideoCapture being set) then
-        /// <paramref name="allowedPermissions"/> must match <paramref name="requestedPermissions"/> passed to
+        /// <paramref name="allowedPermissions"/> must match requestedPermissions param passed to
         /// <see cref="IPermissionHandler.OnRequestMediaAccessPermission"/>
         /// </summary>
         /// <param name="allowedPermissions">Allowed Permissions</param>
