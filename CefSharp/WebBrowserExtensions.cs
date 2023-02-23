@@ -73,7 +73,7 @@ namespace CefSharp
 
             var cefBrowser = browser.BrowserCore;
 
-            cefBrowser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(cefBrowser);
 
             return cefBrowser.MainFrame;
         }
@@ -89,7 +89,7 @@ namespace CefSharp
 
             var cefBrowser = browser.BrowserCore;
 
-            cefBrowser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(cefBrowser);
 
             return cefBrowser.FocusedFrame;
         }
@@ -111,7 +111,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Undo(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -138,7 +138,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Redo(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -165,7 +165,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Cut(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -192,7 +192,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Copy(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -219,7 +219,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Paste(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -246,7 +246,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Delete(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -273,7 +273,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void SelectAll(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -302,7 +302,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void ViewSource(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.MainFrame)
             {
@@ -335,7 +335,7 @@ namespace CefSharp
         /// </returns>
         public static Task<string> GetSourceAsync(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -368,7 +368,7 @@ namespace CefSharp
         /// </returns>
         public static Task<string> GetTextAsync(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.FocusedFrame)
             {
@@ -397,7 +397,7 @@ namespace CefSharp
         /// <param name="url">url to download</param>
         public static void StartDownload(this IBrowser browser, string url)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             var host = browser.GetHost();
 
@@ -774,7 +774,7 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IBrowser browser, string script)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.MainFrame)
             {
@@ -867,7 +867,7 @@ namespace CefSharp
         /// <param name="contentType">(Optional) if set the Content-Type header will be set</param>
         public static void LoadUrlWithPostData(this IBrowser browser, string url, byte[] postDataBytes, string contentType = null)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.MainFrame)
             {
@@ -1061,7 +1061,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Stop(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             browser.StopLoad();
         }
@@ -1083,7 +1083,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Back(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             browser.GoBack();
         }
@@ -1105,7 +1105,7 @@ namespace CefSharp
         /// <param name="browser">The IBrowser instance this method extends.</param>
         public static void Forward(this IBrowser browser)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             browser.GoForward();
         }
@@ -1144,7 +1144,7 @@ namespace CefSharp
         /// files from the browser cache, if available.</param>
         public static void Reload(this IBrowser browser, bool ignoreCache = false)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             browser.Reload(ignoreCache);
         }
@@ -1236,7 +1236,7 @@ namespace CefSharp
         /// <param name="zoomLevel">zoom level.</param>
         public static void SetZoomLevel(this IBrowser cefBrowser, double zoomLevel)
         {
-            cefBrowser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(cefBrowser);
 
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
@@ -1291,7 +1291,7 @@ namespace CefSharp
             ThrowExceptionIfChromiumWebBrowserDisposed(browser);
 
             var cefBrowser = browser.BrowserCore;
-            cefBrowser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(cefBrowser);
 
             cefBrowser.Find(searchText, forward, matchCase, findNext);
         }
@@ -1303,7 +1303,7 @@ namespace CefSharp
         /// <param name="clearSelection">clear the current search selection.</param>
         public static void StopFinding(this IBrowser cefBrowser, bool clearSelection)
         {
-            cefBrowser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(cefBrowser);
 
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
@@ -1366,7 +1366,7 @@ namespace CefSharp
             ThrowExceptionIfChromiumWebBrowserDisposed(browser);
 
             var cefBrowser = browser.BrowserCore;
-            cefBrowser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(cefBrowser);
 
             cefBrowser.Print();
         }
@@ -1532,7 +1532,7 @@ namespace CefSharp
         /// <param name="modifiers">The modifiers.</param>
         public static void SendMouseWheelEvent(this IBrowser browser, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
@@ -1735,7 +1735,7 @@ namespace CefSharp
                 throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
             }
 
-            browser.ThrowExceptionIfBrowserNull();
+            ThrowExceptionIfBrowserNull(browser);
 
             using (var frame = browser.MainFrame)
             {
@@ -1953,7 +1953,7 @@ namespace CefSharp
         /// </summary>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        internal static void ThrowExceptionIfBrowserNull(this IBrowser browser)
+        public static void ThrowExceptionIfBrowserNull(IBrowser browser)
         {
             if (browser == null)
             {
