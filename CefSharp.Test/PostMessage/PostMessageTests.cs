@@ -35,6 +35,28 @@ namespace CefSharp.Test.PostMessage
             Assert.Equal("test", evt.Arguments.Message);
         }
 
+        [Fact]
+        public async Task ShouldWorkWithJavascriptCallback()
+        {
+            const string expected = "Echo";
+
+            AssertInitialLoadComplete();
+
+            var evt = await Assert.RaisesAsync<JavascriptMessageReceivedEventArgs>(
+                a => Browser.JavascriptMessageReceived += a,
+                a => Browser.JavascriptMessageReceived -= a,
+                () => Browser.EvaluateScriptAsync("cefSharp.postMessage({ 'Type': 'Update', Data: { 'Property': 123 }, 'Callback': (p1) => { return p1; } });"));
+
+            Assert.NotNull(evt);
+
+            dynamic msg = evt.Arguments.Message;
+            var callback = (IJavascriptCallback)msg.Callback;
+            var response = await callback.ExecuteAsync(expected);
+
+            Assert.True(response.Success);
+            Assert.Equal(expected, response.Result);
+        }
+
         [Theory]
         [InlineData("Event", "Event1")]
         [InlineData("Event", "Event2")]
