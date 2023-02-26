@@ -743,6 +743,8 @@ namespace CefSharp
         /// <see cref="EncodeScriptParam"/>, you can provide a custom implementation if you require one.</param>
         public static void ExecuteScriptAsync(this IBrowser browser, string methodName, params object[] args)
         {
+            ThrowExceptionIfBrowserNull(browser);
+
             var script = GetScriptForJavascriptMethodWithArgs(methodName, args);
 
             browser.ExecuteScriptAsync(script);
@@ -1199,13 +1201,15 @@ namespace CefSharp
         /// <summary>
         /// Asynchronously gets the current Zoom Level.
         /// </summary>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         /// <returns>
         /// An asynchronous result that yields the zoom level.
         /// </returns>
-        public static Task<double> GetZoomLevelAsync(this IBrowser cefBrowser)
+        public static Task<double> GetZoomLevelAsync(this IBrowser browser)
         {
-            var host = cefBrowser.GetHost();
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             return host.GetZoomLevelAsync();
@@ -1232,13 +1236,13 @@ namespace CefSharp
         /// If called on the CEF UI thread the change will be applied immediately. Otherwise, the change will be applied asynchronously
         /// on the CEF UI thread. The CEF UI thread is different to the WPF/WinForms UI Thread.
         /// </remarks>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
         /// <param name="zoomLevel">zoom level.</param>
-        public static void SetZoomLevel(this IBrowser cefBrowser, double zoomLevel)
+        public static void SetZoomLevel(this IBrowser browser, double zoomLevel)
         {
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            ThrowExceptionIfBrowserNull(browser);
 
-            var host = cefBrowser.GetHost();
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             host.SetZoomLevel(zoomLevel);
@@ -1263,15 +1267,17 @@ namespace CefSharp
         /// <summary>
         /// Search for text within the current page.
         /// </summary>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
         /// <param name="searchText">text to search for</param>
         /// <param name="forward">indicates whether to search forward or backward within the page</param>
         /// <param name="matchCase">indicates whether the search should be case-sensitive</param>
         /// <param name="findNext">indicates whether this is the first request or a follow-up</param>
         /// <remarks>The <see cref="IFindHandler"/> instance, if any, will be called to report find results.</remarks>
-        public static void Find(this IBrowser cefBrowser, string searchText, bool forward, bool matchCase, bool findNext)
+        public static void Find(this IBrowser browser, string searchText, bool forward, bool matchCase, bool findNext)
         {
-            var host = cefBrowser.GetHost();
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             host.Find(searchText, forward, matchCase, findNext);
@@ -1290,22 +1296,19 @@ namespace CefSharp
         {
             ThrowExceptionIfChromiumWebBrowserDisposed(browser);
 
-            var cefBrowser = browser.BrowserCore;
-            ThrowExceptionIfBrowserNull(cefBrowser);
-
-            cefBrowser.Find(searchText, forward, matchCase, findNext);
+            browser.BrowserCore.Find(searchText, forward, matchCase, findNext);
         }
 
         /// <summary>
         /// Cancel all searches that are currently going on.
         /// </summary>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
         /// <param name="clearSelection">clear the current search selection.</param>
-        public static void StopFinding(this IBrowser cefBrowser, bool clearSelection)
+        public static void StopFinding(this IBrowser browser, bool clearSelection)
         {
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            ThrowExceptionIfBrowserNull(browser);
 
-            var host = cefBrowser.GetHost();
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             host.StopFinding(clearSelection);
@@ -1326,35 +1329,15 @@ namespace CefSharp
         /// <summary>
         /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
         /// </summary>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
-        public static void Print(this IBrowser cefBrowser)
+        /// <param name="browser">The browser instance this method extends.</param>
+        public static void Print(this IBrowser browser)
         {
-            var host = cefBrowser.GetHost();
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             host.Print();
-        }
-
-        /// <summary>
-        /// Asynchronously prints the current browser contents to the PDF file specified. The caller is responsible for deleting the file
-        /// when done.
-        /// </summary>
-        /// <param name="cefBrowser">The <see cref="IBrowser"/> object this method extends.</param>
-        /// <param name="path">Output file location.</param>
-        /// <param name="settings">(Optional) Print Settings.</param>
-        /// <returns>
-        /// A task that represents the asynchronous print operation. The result is true on success or false on failure to generate the
-        /// Pdf.
-        /// </returns>
-        public static Task<bool> PrintToPdfAsync(this IBrowser cefBrowser, string path, PdfPrintSettings settings = null)
-        {
-            var host = cefBrowser.GetHost();
-            ThrowExceptionIfBrowserHostNull(host);
-
-            var callback = new TaskPrintToPdfCallback();
-            host.PrintToPdf(path, settings, callback);
-
-            return callback.Task;
         }
 
         /// <summary>
@@ -1365,10 +1348,31 @@ namespace CefSharp
         {
             ThrowExceptionIfChromiumWebBrowserDisposed(browser);
 
-            var cefBrowser = browser.BrowserCore;
-            ThrowExceptionIfBrowserNull(cefBrowser);
+            browser.BrowserCore.Print();
+        }
 
-            cefBrowser.Print();
+        /// <summary>
+        /// Asynchronously prints the current browser contents to the PDF file specified. The caller is responsible for deleting the file
+        /// when done.
+        /// </summary>
+        /// <param name="browser">The <see cref="IBrowser"/> object this method extends.</param>
+        /// <param name="path">Output file location.</param>
+        /// <param name="settings">(Optional) Print Settings.</param>
+        /// <returns>
+        /// A task that represents the asynchronous print operation. The result is true on success or false on failure to generate the
+        /// Pdf.
+        /// </returns>
+        public static Task<bool> PrintToPdfAsync(this IBrowser browser, string path, PdfPrintSettings settings = null)
+        {
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
+            ThrowExceptionIfBrowserHostNull(host);
+
+            var callback = new TaskPrintToPdfCallback();
+            host.PrintToPdf(path, settings, callback);
+
+            return callback.Task;
         }
 
         /// <summary>
@@ -1392,13 +1396,15 @@ namespace CefSharp
         /// <summary>
         /// Open developer tools in its own window.
         /// </summary>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
         /// <param name="windowInfo">(Optional) window info used for showing dev tools.</param>
         /// <param name="inspectElementAtX">(Optional) x coordinate (used for inspectElement)</param>
         /// <param name="inspectElementAtY">(Optional) y coordinate (used for inspectElement)</param>
-        public static void ShowDevTools(this IBrowser cefBrowser, IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0)
+        public static void ShowDevTools(this IBrowser browser, IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0)
         {
-            var host = cefBrowser.GetHost();
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             host.ShowDevTools(windowInfo, inspectElementAtX, inspectElementAtY);
@@ -1421,10 +1427,12 @@ namespace CefSharp
         /// <summary>
         /// Explicitly close the developer tools window if one exists for this browser instance.
         /// </summary>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
-        public static void CloseDevTools(this IBrowser cefBrowser)
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
+        public static void CloseDevTools(this IBrowser browser)
         {
-            var host = cefBrowser.GetHost();
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             host.CloseDevTools();
@@ -1444,11 +1452,13 @@ namespace CefSharp
         /// <summary>
         /// If a misspelled word is currently selected in an editable node calling this method will replace it with the specified word.
         /// </summary>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
         /// <param name="word">The new word that will replace the currently selected word.</param>
-        public static void ReplaceMisspelling(this IBrowser cefBrowser, string word)
+        public static void ReplaceMisspelling(this IBrowser browser, string word)
         {
-            var host = cefBrowser.GetHost();
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             host.ReplaceMisspelling(word);
@@ -1469,28 +1479,16 @@ namespace CefSharp
         /// <summary>
         /// Add the specified word to the spelling dictionary.
         /// </summary>
-        /// <param name="cefBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
         /// <param name="word">The new word that will be added to the dictionary.</param>
-        public static void AddWordToDictionary(this IBrowser cefBrowser, string word)
+        public static void AddWordToDictionary(this IBrowser browser, string word)
         {
-            var host = cefBrowser.GetHost();
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
             host.AddWordToDictionary(word);
-        }
-
-        /// <summary>
-        /// Shortcut method to get the browser IBrowserHost.
-        /// </summary>
-        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
-        /// <returns>
-        /// browserHost or null.
-        /// </returns>
-        public static IBrowserHost GetBrowserHost(this IChromiumWebBrowserBase browser)
-        {
-            var cefBrowser = browser.BrowserCore;
-
-            return cefBrowser == null ? null : cefBrowser.GetHost();
         }
 
         /// <summary>
@@ -1503,6 +1501,18 @@ namespace CefSharp
             ThrowExceptionIfChromiumWebBrowserDisposed(browser);
 
             browser.BrowserCore.AddWordToDictionary(word);
+        }
+
+        /// <summary>
+        /// Shortcut method to get the browser IBrowserHost.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <returns>
+        /// browserHost or null.
+        /// </returns>
+        public static IBrowserHost GetBrowserHost(this IChromiumWebBrowserBase browser)
+        {
+            return browser.BrowserCore?.GetHost();
         }
 
         /// <summary>
@@ -1524,7 +1534,7 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse wheel event to the browser.
         /// </summary>
-        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
         /// <param name="x">The x coordinate relative to upper-left corner of view.</param>
         /// <param name="y">The y coordinate relative to upper-left corner of view.</param>
         /// <param name="deltaX">The delta x coordinate.</param>
