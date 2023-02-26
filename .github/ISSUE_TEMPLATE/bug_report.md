@@ -22,7 +22,7 @@ Still have a question? Great, ask it on [Discussions](https://github.com/cefshar
 
 We ask that you put in a reasonable amount of effort in searching through the resources listed above. The developers have full time jobs, they have lives, families, the time they have available to contribute this project is a precious resource, make sure you use it wisely! Remember the more time we spend answering the same questions over and over again, less time goes into writing code, adding new features, actually fixing bugs! 
 
-Still have a question to ask or unsure where to go next? Start with the Gitter Chat room : https://github.com/cefsharp/CefSharp/discussions
+Still have a question to ask or unsure where to go next? Start with : https://github.com/cefsharp/CefSharp/discussions
 
 Before posting a bug report please take the time to read https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/
 
@@ -31,18 +31,18 @@ Before posting a bug report please take the time to read https://codeblog.jonske
 Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
-    - Please only create an issue if you can reproduce the problem with version 109.1.110 or greater.
+    - Please only create an issue if you can reproduce the problem with version 110.0.280 or greater.
     - What version are you using? Nuget? CI Nuget? build from a branch? If so please link to the relevant commit.
-	- Please include the exact version number you are using e.g. 109.1.110 (no ambiguous statements like `Latest from Nuget`)
+	- Please include the exact version number you are using e.g. 110.0.280 (no ambiguous statements like `Latest from Nuget`)
 
 - **What architecture x86 or x64?**
     <x86/x64/arm64>
 	
 - **What version of .Net?**
-    <.Net 4.x/.Net Core 3.1/.Net 5.0>
+    <.Net 4.x/.Net Core 3.1/.Net 5.0/6.0/7.0>
     
 - **On what operating system?**
-    <Win7/Win8.1/Win10/Win11>
+    <Win10/Win11>
 
 - **Are you using `WinForms`, `WPF` or `OffScreen`?**
     <WinForms/WPF/OffScreen>
@@ -68,9 +68,9 @@ Delete this line and everything above, and then fill in the details below.
 
 - **Does this problem also occur in the `CEF` Sample Application**
     - Download one of the following:
-    - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_109.1.11%2Bg6d4fdb2%2Bchromium-109.0.5414.87_windows32_client.tar.bz2
-    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_109.1.11%2Bg6d4fdb2%2Bchromium-109.0.5414.87_windows64_client.tar.bz2
-	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_109.1.11%2Bg6d4fdb2%2Bchromium-109.0.5414.87_windowsarm64_client.tar.bz2
+    - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windows32_client.tar.bz2
+    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windows64_client.tar.bz2
+	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windowsarm64_client.tar.bz2
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```

@@ -19,9 +19,9 @@ The upstream [`CEF` forum](http://magpcss.org/ceforum/) is a valuable resource, 
 It maybe helpful to run the `cefclient` application and compare output with `CefSharp`. The `WinForms` and `WPF` versions use two different rendering modes, `WPF` uses Offscreen Rendering (`OSR`). `OffScreen` also uses `OSR` mode.
 
   - Download one of the following:
-    - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_109.1.11%2Bg6d4fdb2%2Bchromium-109.0.5414.87_windows32_client.tar.bz2
-    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_109.1.11%2Bg6d4fdb2%2Bchromium-109.0.5414.87_windows64_client.tar.bz2
-	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_109.1.11%2Bg6d4fdb2%2Bchromium-109.0.5414.87_windowsarm64_client.tar.bz2
+        - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windows32_client.tar.bz2
+    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windows64_client.tar.bz2
+	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windowsarm64_client.tar.bz2
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
@@ -47,7 +47,7 @@ Your bug report should **always follow this template**:
 - **Are you using `WinForms`, `WPF` or `OffScreen`?**
 - **What version of the product are you using? On what operating system? x86 or x64?**
     - What version are you using? Nuget? CI Nuget? build from a branch? If so which branch?
-    - Win7, Win 8, Win10, etc?
+    - Win10/11, etc?
 - **Please provide any additional information below.**
     - A stack trace if available, any Exception information.
     - Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
