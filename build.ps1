@@ -442,11 +442,16 @@ function WriteVersionToNugetTargets
     $Filename = Join-Path $WorkingDir NuGet\PackageReference\CefSharp.Common.NETCore.targets
     
     Write-Diagnostic  "Write Version ($RedistVersion) to $Filename"
+	
+	$RunTimeJsonData = Get-Content -Encoding UTF8 $Filename
+
     $Regex1  = '" Version=".*"';
     $Replace = '" Version="' + $RedistVersion + '"';
-    
-    $RunTimeJsonData = Get-Content -Encoding UTF8 $Filename
     $NewString = $RunTimeJsonData -replace $Regex1, $Replace
+	
+	$Regex1  = '" VersionOverride=".*"';
+    $Replace = '" VersionOverride="' + $RedistVersion + '"';
+    $NewString = $NewString -replace $Regex1, $Replace
     
     $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
