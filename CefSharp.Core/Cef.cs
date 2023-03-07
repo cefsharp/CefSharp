@@ -427,6 +427,7 @@ namespace CefSharp
         /// Older versions of Windows should be left DPI-unaware because they do not
         /// support DirectWrite and GDI fonts are kerned very badly.
         /// </summary>
+        [Obsolete("This method will be removed in M113. See https://github.com/cefsharp/CefSharp/issues/4417")]
         public static void EnableHighDPISupport()
         {
             Core.Cef.EnableHighDPISupport();

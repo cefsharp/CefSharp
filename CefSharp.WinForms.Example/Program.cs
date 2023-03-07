@@ -24,17 +24,6 @@ namespace CefSharp.WinForms.Example
 
             if (selfHostSubProcess)
             {
-                var processType = CefSharp.Internals.CommandLineArgsParser.GetArgumentValue(args, CefSharp.Internals.CefSharpArguments.SubProcessTypeArgument);
-
-                if (processType == "gpu-process")
-                {
-                    // Enable DPI Awareness for GPU process.
-                    // Our main application is already DPI aware using WinForms specific features
-                    // **IMPORTANT** There's a mistake in the following doc https://github.com/dotnet/docs-desktop/issues/1485
-                    // https://docs.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms
-                    Cef.EnableHighDPISupport();
-                }
-
                 var exitCode = CefSharp.BrowserSubprocess.SelfHost.Main(args);
 
                 if (exitCode >= 0)

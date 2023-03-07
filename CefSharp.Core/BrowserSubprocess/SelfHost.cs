@@ -13,6 +13,7 @@ namespace CefSharp.BrowserSubprocess
     /// <summary>
     /// SelfHost allows your application executable to be used as the BrowserSubProcess
     /// with minimal effort.
+    /// https://github.com/cefsharp/CefSharp/wiki/SelfHost-BrowserSubProcess
     /// </summary>
     /// <example>
     /// //WinForms Example
@@ -21,8 +22,6 @@ namespace CefSharp.BrowserSubprocess
     ///	  [STAThread]
     ///   public static int Main(string[] args)
     ///   {
-    ///     Cef.EnableHighDPISupport();
-    ///
     ///     var exitCode = CefSharp.BrowserSubprocess.SelfHost.Main(args);
     ///
     ///     if (exitCode >= 0)
@@ -43,7 +42,7 @@ namespace CefSharp.BrowserSubprocess
     ///   }
     /// }
     /// </example>
-public class SelfHost
+    public class SelfHost
     {
         /// <summary>
         /// This function should be called from the application entry point function (typically Program.Main)
@@ -51,8 +50,6 @@ public class SelfHost
         /// This overload is specifically used for .Net Core. For hosting your own BrowserSubProcess
         /// it's preferable to use the Main method provided by this class.
         /// - Pass in command line args
-        /// - To support High DPI Displays you should call  Cef.EnableHighDPISupport before any other processing
-        /// or add the relevant entries to your app.manifest
         /// </summary>
         /// <param name="args">command line args</param>
         /// <returns>
