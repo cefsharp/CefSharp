@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!-- Note: We cannot use the recommended style of specifying <Project Sdk=...> because we need
        to set BaseIntermediateOutputPath and BaseOutputPath before the SDK props are imported. -->
@@ -55,6 +55,6 @@
         <Compile Remove="obj/**/*.*" />
     </ItemGroup>
 
-    <Import Project="$(SolutionDir)\CefSharp.AfterBuild.targets" />
+    <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.AfterBuild.targets" />
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>

@@ -57,6 +57,6 @@
         <Compile Remove="obj/**/*.*" />
     </ItemGroup>
 
-    <Import Project="$(SolutionDir)\CefSharp.AfterBuild.targets" />
+    <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.AfterBuild.targets" />
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
 </Project>
