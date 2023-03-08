@@ -3,7 +3,7 @@
   <Target Name="CefSharpCopyBrowserSubprocess" AfterTargets="AfterBuild">
     <ItemGroup>
       <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
-      <SubProcessFiles Include="$(SolutionDir)\CefSharp.BrowserSubprocess\bin\$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
+      <SubProcessFiles Include="$(MSBuildThisFileDirectory)\CefSharp.BrowserSubprocess\bin\$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
     </ItemGroup>
     <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(OutDir)" />
   </Target>

@@ -43,5 +43,5 @@
         <Page Remove="bin.netcore\**" />
         <Page Remove="obj.netcore\**" />
     </ItemGroup>
-    <Import Project="$(SolutionDir)\CefSharp.Native.props" />
+    <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.Native.props" />
 </Project>

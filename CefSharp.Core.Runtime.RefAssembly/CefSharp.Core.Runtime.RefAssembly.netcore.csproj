@@ -54,19 +54,19 @@
     Haven't found a nice way to determine the Platform (resolves as AnyCPU) 
     -->
     <Choose>
-        <When Condition="Exists('$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll')">
+        <When Condition="Exists('$(MSBuildThisFileDirectory)..\CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll')">
             <PropertyGroup>
-                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
+                <IntermediateTargetPath>$(MSBuildThisFileDirectory)..\CefSharp.Core.Runtime\bin.netcore\x64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
             </PropertyGroup>
         </When>
-        <When Condition="Exists('$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\arm64\$(Configuration)\CefSharp.Core.Runtime.dll')">
+        <When Condition="Exists('$(MSBuildThisFileDirectory)..\CefSharp.Core.Runtime\bin.netcore\arm64\$(Configuration)\CefSharp.Core.Runtime.dll')">
             <PropertyGroup>
-                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\arm64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
+                <IntermediateTargetPath>$(MSBuildThisFileDirectory)..\CefSharp.Core.Runtime\bin.netcore\arm64\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
             </PropertyGroup>
         </When>
         <Otherwise>
             <PropertyGroup>
-                <IntermediateTargetPath>$(SolutionDir)CefSharp.Core.Runtime\bin.netcore\win32\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
+                <IntermediateTargetPath>$(MSBuildThisFileDirectory)..\CefSharp.Core.Runtime\bin.netcore\win32\$(Configuration)\CefSharp.Core.Runtime.dll</IntermediateTargetPath>
             </PropertyGroup>
         </Otherwise>
     </Choose>
