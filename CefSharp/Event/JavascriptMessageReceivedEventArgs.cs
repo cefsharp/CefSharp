@@ -13,8 +13,7 @@ namespace CefSharp
     /// </summary>
     public class JavascriptMessageReceivedEventArgs : EventArgs
     {
-        private static readonly IBinder Binder = new DefaultBinder();
-
+        private static IBinder Binder = new DefaultBinder();
 
         /// <summary>
         /// The frame that called CefSharp.PostMessage in Javascript
@@ -59,6 +58,27 @@ namespace CefSharp
                 return default(T);
             }
             return (T)Binder.Bind(Message, typeof(T));
+        }
+
+        /// <summary>
+        /// Provide a custom instance of <see cref="IBinder"/>
+        /// that will be used when <see cref="ConvertMessageTo{T}"/>
+        /// is called. You may wish to provide a custom instance in cases where you
+        /// wish to override the name conversion.
+        /// e.g. You wish to convert names from camelCase
+        /// </summary>
+        /// <param name="binder">binder instance</param>
+        /// <code>
+        /// JavascriptMessageReceivedEventArgs.SetBinder(new DefaultBinder(new CamelCaseJavascriptNameConverter()));
+        /// </code>
+        public static void SetBinder(IBinder binder)
+        {
+            if (binder == null)
+            {
+                throw new ArgumentNullException(nameof(binder));
+            }
+
+            Binder = binder;
         }
     }
 }
