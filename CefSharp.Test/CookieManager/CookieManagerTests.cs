@@ -42,7 +42,7 @@ namespace CefSharp.Test.CookieManager
 
             Assert.True(success);
 
-            var actual = await Browser.EvaluateScriptAndAssertAsync<string>("document.cookie");
+            var actual = await Browser.EvaluateScriptAsync<string>("document.cookie");
 
             Assert.Equal(expected, actual);
         }
@@ -74,7 +74,7 @@ namespace CefSharp.Test.CookieManager
 
             Assert.True(success);
 
-            var actual = await Browser.EvaluateScriptAndAssertAsync<List<object>>(@"(() => {
+            var actual = await Browser.EvaluateScriptAsync<List<object>>(@"(() => {
                     const cookies = document.cookie.split(';');
                     return cookies.map(cookie => cookie.trim()).sort();
                 })();");
@@ -87,7 +87,7 @@ namespace CefSharp.Test.CookieManager
         {
             AssertInitialLoadComplete();
 
-            var response = await Browser.EvaluateScriptAndAssertAsync<string>(@"(() => {
+            var response = await Browser.EvaluateScriptAsync<string>(@"(() => {
                 document.cookie = 'username=John Doe';
                 return document.cookie;
             })();");
@@ -113,7 +113,7 @@ namespace CefSharp.Test.CookieManager
         {
             AssertInitialLoadComplete();
 
-            var response = await Browser.EvaluateScriptAndAssertAsync<string>(@"(() => {
+            var response = await Browser.EvaluateScriptAsync<string>(@"(() => {
                 document.cookie = 'username=John Doe;Secure;';
                 return document.cookie;
             })();");
@@ -132,7 +132,7 @@ namespace CefSharp.Test.CookieManager
         {
             AssertInitialLoadComplete();
 
-            var response = await Browser.EvaluateScriptAndAssertAsync<string>(@"(() => {
+            var response = await Browser.EvaluateScriptAsync<string>(@"(() => {
                 document.cookie = 'username=John Doe;SameSite=Strict;';
                 return document.cookie;
             })();");
@@ -195,7 +195,7 @@ namespace CefSharp.Test.CookieManager
 
             Assert.True(cookieSet);
 
-            var response = await Browser.EvaluateScriptAndAssertAsync<string>("document.cookie");
+            var response = await Browser.EvaluateScriptAsync<string>("document.cookie");
 
             Assert.Equal("cookie1=1", response);
 
@@ -209,7 +209,7 @@ namespace CefSharp.Test.CookieManager
 
             await Browser.WaitForNavigationAsync();
 
-            response = await Browser.EvaluateScriptAndAssertAsync<string>("document.cookie");
+            response = await Browser.EvaluateScriptAsync<string>("document.cookie");
 
             Assert.Equal(string.Empty, response);
         }

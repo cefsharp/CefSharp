@@ -22,6 +22,12 @@ namespace CefSharp.ModelBinding
         private readonly IJavascriptNameConverter javascriptNameConverter;
 
         /// <summary>
+        /// Static Instance of this binding that can be reused as it doesn't store any state information.
+        /// Uses the <see cref="CamelCaseJavascriptNameConverter"/> naming converter
+        /// </summary>
+        public static readonly IBinder Instance = new DefaultBinder(new CamelCaseJavascriptNameConverter());
+
+        /// <summary>
         /// Javascript Binder 
         /// </summary>
         /// <param name="javascriptNameConverter">name converter</param>

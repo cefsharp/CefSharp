@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using CefSharp.Internals;
+using CefSharp.ModelBinding;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -171,6 +172,91 @@ namespace CefSharp
 
                 host.SetAudioMuted(!isAudioMuted);
             });
+        }
+
+        /// <summary>
+        /// Evaluate javascript code in the context of the <paramref name="frame"/>. The script will be executed
+        /// asynchronously and the method returns a Task that can be awaited to obtain the result.
+        /// </summary>
+        /// <typeparam name="T">Type</typeparam>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        /// <exception cref="Exception">Thrown if a Javascript error occurs.</exception>
+        /// <param name="frame">The IFrame instance this method extends.</param>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        /// <param name="timeout">(Optional) The timeout after which the Javascript code execution should be aborted.</param>
+        /// <returns>
+        /// <see cref="Task{T}"/> that can be awaited to obtain the result of the script execution. The <see cref="ModelBinding.DefaultBinder"/>
+        /// is used to convert the result to the desired type. Property names are converted from camelCase.
+        /// If the script execution returns an error then an exception is thrown.
+        /// </returns>
+        public static async Task<T> EvaluateScriptAsync<T>(this IFrame frame, string script, TimeSpan? timeout = null)
+        {
+            WebBrowserExtensions.ThrowExceptionIfFrameNull(frame);
+
+            if (timeout.HasValue && timeout.Value.TotalMilliseconds > uint.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
+            }           
+
+            var response = await frame.EvaluateScriptAsync(script, timeout: timeout, useImmediatelyInvokedFuncExpression: false).ConfigureAwait(false);
+
+            if (response.Success)
+            {
+                var binder = DefaultBinder.Instance;
+
+                return (T)binder.Bind(response.Result, typeof(T));
+            }
+
+            throw new Exception(response.Message);
+        }
+
+        /// <summary>
+        /// Evaluate some Javascript code in the context of the MainFrame of the ChromiumWebBrowser. The script will be executed
+        /// asynchronously and the method returns a Task encapsulating the response from the Javascript
+        /// </summary>
+        /// <typeparam name="T">Type</typeparam>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        /// <param name="browser">The IBrowser instance this method extends.</param>
+        /// <param name="script">The JavaScript code that should be executed.</param>
+        /// <param name="timeout">(Optional) The timeout after which the JavaScript code execution should be aborted.</param>
+        /// <returns>
+        /// <see cref="Task{T}"/> that can be awaited to obtain the result of the JavaScript execution.
+        /// </returns>
+        public static Task<T> EvaluateScriptAsync<T>(this IBrowser browser, string script, TimeSpan? timeout = null)
+        {
+            WebBrowserExtensions.ThrowExceptionIfBrowserNull(browser);
+
+            using (var frame = browser.MainFrame)
+            {
+                return frame.EvaluateScriptAsync<T>(script, timeout: timeout);
+            }
+        }
+
+        /// <summary>
+        /// Evaluate Javascript in the context of this Browsers Main Frame. The script will be executed
+        /// asynchronously and the method returns a Task encapsulating the response from the Javascript
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="chromiumWebBrowser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        /// <param name="timeout">(Optional) The timeout after which the Javascript code execution should be aborted.</param>
+        /// <returns>
+        /// <see cref="Task{T}"/> that can be awaited to obtain the result of the script execution.
+        /// </returns>
+        public static Task<T> EvaluateScriptAsync<T>(this IChromiumWebBrowserBase chromiumWebBrowser, string script, TimeSpan? timeout = null)
+        {
+            WebBrowserExtensions.ThrowExceptionIfChromiumWebBrowserDisposed(chromiumWebBrowser);
+
+            if (chromiumWebBrowser is IWebBrowser b)
+            {
+                if (b.CanExecuteJavascriptInMainFrame == false)
+                {
+                    WebBrowserExtensions.ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+                }
+            }
+
+            return chromiumWebBrowser.BrowserCore.EvaluateScriptAsync<T>(script, timeout);
         }
     }
 }

@@ -162,9 +162,9 @@ namespace CefSharp.Test.JavascriptBinding
 #endif
 
             await Browser.LoadUrlAsync("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url");
-            await Browser.EvaluateScriptAndAssertAsync<string>(script);
+            await Browser.EvaluateScriptAsync<string>(script);
             await Browser.LoadUrlAsync("https://www.google.com");
-            await Browser.EvaluateScriptAndAssertAsync<string>(script);
+            await Browser.EvaluateScriptAsync<string>(script);
 
             Assert.Equal(2, boundObj.EchoMethodCallCount);
         }

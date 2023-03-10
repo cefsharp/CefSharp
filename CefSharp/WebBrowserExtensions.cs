@@ -1928,7 +1928,7 @@ namespace CefSharp
             return stringBuilder.ToString();
         }
 
-        private static void ThrowExceptionIfChromiumWebBrowserDisposed(IChromiumWebBrowserBase browser)
+        public static void ThrowExceptionIfChromiumWebBrowserDisposed(IChromiumWebBrowserBase browser)
         {
             if (browser == null)
             {
@@ -1950,7 +1950,7 @@ namespace CefSharp
         /// </summary>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         /// <param name="frame">The <seealso cref="IFrame"/> instance this method extends.</param>
-        private static void ThrowExceptionIfFrameNull(IFrame frame)
+        public static void ThrowExceptionIfFrameNull(IFrame frame)
         {
             if (frame == null)
             {
@@ -1988,7 +1988,7 @@ namespace CefSharp
         /// Throw exception if can execute javascript in main frame false.
         /// </summary>
         /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
-        private static void ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse()
+        public static void ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse()
         {
             throw new Exception("Unable to execute javascript at this time, scripts can only be executed within a V8Context. " +
                                     "Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception. " +

@@ -12,12 +12,12 @@ using Xunit.Abstractions;
 namespace CefSharp.Test.Javascript
 {
     [Collection(CefSharpFixtureCollection.Key)]
-    public class EvaluateScriptAsyncTests : BrowserTests
+    public class EvaluateScriptAsyncGenericTests : BrowserTests
     {
         private readonly ITestOutputHelper output;
         private readonly CefSharpFixture collectionFixture;
 
-        public EvaluateScriptAsyncTests(ITestOutputHelper output, CefSharpFixture collectionFixture)
+        public EvaluateScriptAsyncGenericTests(ITestOutputHelper output, CefSharpFixture collectionFixture)
         {
             this.output = output;
             this.collectionFixture = collectionFixture;
@@ -31,15 +31,9 @@ namespace CefSharp.Test.Javascript
         {
             AssertInitialLoadComplete();
 
-            var javascriptResponse = await Browser.EvaluateScriptAsync(script);
-            Assert.True(javascriptResponse.Success);
+            var actual = await Browser.EvaluateScriptAsync<double>(script);
 
-            var actualType = javascriptResponse.Result.GetType();
-
-            Assert.Equal(typeof(double), actualType);
-            Assert.Equal(expectedValue, (double)javascriptResponse.Result, 5);
-
-            output.WriteLine("Script {0} : Result {1}", script, javascriptResponse.Result);
+            Assert.Equal(expectedValue, actual);
         }
 
         [Theory]
@@ -57,19 +51,13 @@ namespace CefSharp.Test.Javascript
         [InlineData(((double)uint.MaxValue * 2))]
         [InlineData(((double)uint.MaxValue * 2) + 0.1)]
         //https://github.com/cefsharp/CefSharp/issues/3858
-        public async Task ShouldWorkForDouble(double num)
+        public async Task ShouldWorkForDouble(double expected)
         {
             AssertInitialLoadComplete();
 
-            var javascriptResponse = await Browser.EvaluateScriptAsync(num.ToString(CultureInfo.InvariantCulture));
-            Assert.True(javascriptResponse.Success);
+            var actual = await Browser.EvaluateScriptAsync<double>(expected.ToString(CultureInfo.InvariantCulture));
 
-            var actualType = javascriptResponse.Result.GetType();
-
-            Assert.Equal(typeof(double), actualType);
-            Assert.Equal(num, (double)javascriptResponse.Result, 5);
-
-            output.WriteLine("Expected {0} : Actual {1}", num, javascriptResponse.Result);
+            Assert.Equal(expected, actual, 5);
         }
 
         [Theory]
@@ -79,39 +67,28 @@ namespace CefSharp.Test.Javascript
         [InlineData(int.MaxValue)]
         [InlineData(int.MinValue)]
         //https://github.com/cefsharp/CefSharp/issues/3858
-        public async Task ShouldWorkForInt(object num)
+        public async Task ShouldWorkForInt(object expected)
         {
             AssertInitialLoadComplete();
 
-            var javascriptResponse = await Browser.EvaluateScriptAsync(num.ToString());
-            Assert.True(javascriptResponse.Success);
+            var actual = await Browser.EvaluateScriptAsync<int>(expected.ToString());
 
-            var actualType = javascriptResponse.Result.GetType();
-
-            Assert.Equal(typeof(int), actualType);
-            Assert.Equal(num, javascriptResponse.Result);
-
-            output.WriteLine("Expected {0} : Actual {1}", num, javascriptResponse.Result);
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
         [InlineData("1970-01-01", "1970-01-01")]
         [InlineData("1980-01-01", "1980-01-01")]
         //https://github.com/cefsharp/CefSharp/issues/4234
-        public async Task ShouldWorkForDate(DateTime expected, string actual)
+        public async Task ShouldWorkForDate(DateTime expected, string str)
         {
             AssertInitialLoadComplete();
 
-            var javascriptResponse = await Browser.EvaluateScriptAsync($"new Date('{actual}');");
-            Assert.True(javascriptResponse.Success);
+            expected = expected.ToLocalTime();
 
-            var actualType = javascriptResponse.Result.GetType();
-            var actualDateTime = (DateTime)javascriptResponse.Result;
+            var actual = await Browser.EvaluateScriptAsync<DateTime>($"new Date('{str}');");
 
-            Assert.Equal(typeof(DateTime), actualType);
-            Assert.Equal(expected.ToLocalTime(), actualDateTime);
-
-            output.WriteLine("Expected {0} : Actual {1}", expected.ToLocalTime(), actualDateTime);
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
@@ -122,10 +99,9 @@ namespace CefSharp.Test.Javascript
         {
             AssertInitialLoadComplete();
 
-            var javascriptResponse = await Browser.EvaluateScriptAsync(script);
+            var actual = await Browser.EvaluateScriptAsync<string>(script);
 
-            Assert.True(javascriptResponse.Success);
-            Assert.Equal(expected, javascriptResponse.Result.ToString());
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
@@ -135,10 +111,12 @@ namespace CefSharp.Test.Javascript
         {
             AssertInitialLoadComplete();
 
-            var javascriptResponse = await Browser.EvaluateScriptAsync(script);
+            var exception = await Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await Browser.EvaluateScriptAsync<string>(script);
+            });
 
-            Assert.False(javascriptResponse.Success);
-            Assert.Equal(expected, javascriptResponse.Message);
+            Assert.Equal(expected, exception.Message);
         }
 
         [Theory]
@@ -149,13 +127,10 @@ namespace CefSharp.Test.Javascript
         {
             AssertInitialLoadComplete();
 
-            var javascriptResponse = await Browser.EvaluateScriptAsync(script);
+            var actual = await Browser.EvaluateScriptAsync<dynamic>(script);
 
-            Assert.True(javascriptResponse.Success);
-
-            dynamic result = javascriptResponse.Result;
-            Assert.Equal(expectedA, result.a.ToString());
-            Assert.Equal(expectedB, result.b.ToString());
+            Assert.Equal(expectedA, actual.a.ToString());
+            Assert.Equal(expectedB, actual.b.ToString());
         }
 
         [Fact]
@@ -183,14 +158,7 @@ namespace CefSharp.Test.Javascript
 
             var tasks = Enumerable.Range(0, 100).Select(i => Task.Run(async () =>
             {
-                var javascriptResponse = await Browser.EvaluateScriptAsync("2 + 2");
-
-                if (javascriptResponse.Success)
-                {
-                    return (int)javascriptResponse.Result;
-                }
-
-                return -1;
+                return await Browser.EvaluateScriptAsync<int>("2 + 2");
             })).ToList();
 
             await Task.WhenAll(tasks);
@@ -210,35 +178,9 @@ namespace CefSharp.Test.Javascript
         {
             AssertInitialLoadComplete();
 
-            var result = await Browser.EvaluateScriptAsync(javascript);
+            var actual = await Browser.EvaluateScriptAsync<object[]>(javascript);
 
-            Assert.True(result.Success);
-            Assert.Equal(expected, result.Result);
-        }
-
-        /// <summary>
-        /// Use the EvaluateScriptAsync (IWebBrowser, String,Object[]) overload and pass in string params
-        /// that require encoding. Test case for https://github.com/cefsharp/CefSharp/issues/2339
-        /// </summary>
-        /// <returns>A task</returns>
-        [Fact]
-        public async Task CanEvaluateScriptAsyncWithEncodedStringArguments()
-        {
-            AssertInitialLoadComplete();
-
-            var javascriptResponse = await Browser.EvaluateScriptAsync("var testfunc=function(s) { return s; }");
-            Assert.True(javascriptResponse.Success);
-
-            // now call the function we just created
-            string[] teststrings = new string[]{"Mary's\tLamb & \r\nOther Things",
-                                      "[{test:\"Mary's Lamb & \\nOther Things\", 'other': \"\", 'and': null}]" };
-            foreach (var test in teststrings)
-            {
-                javascriptResponse = await Browser.EvaluateScriptAsync("testfunc", test);
-                Assert.True(javascriptResponse.Success);
-                Assert.Equal(test, (string)javascriptResponse.Result);
-                output.WriteLine("{0} passes {1}", test, javascriptResponse.Result);
-            }
+            Assert.Equal(expected, actual);
         }
     }
 }

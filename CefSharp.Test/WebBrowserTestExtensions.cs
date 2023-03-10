@@ -12,15 +12,6 @@ namespace CefSharp.Test
 {
     public static class WebBrowserTestExtensions
     {
-        public static async Task<T> EvaluateScriptAndAssertAsync<T>(this IChromiumWebBrowserBase browser, string script)
-        {
-            var response = await browser.EvaluateScriptAsync(script).ConfigureAwait(false);
-
-            Assert.True(response.Success, response.Message);
-
-            return (T)response.Result;
-        }
-
         public static int PaintEventHandlerCount(this CefSharp.Wpf.ChromiumWebBrowser browser)
         {
             var field = typeof(CefSharp.Wpf.ChromiumWebBrowser).GetField("Paint", BindingFlags.NonPublic | BindingFlags.Instance);
