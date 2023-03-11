@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using CefSharp.Event;
 using CefSharp.Example;
+using CefSharp.Example.JavascriptBinding;
 using CefSharp.Internals;
 using CefSharp.OffScreen;
 using Xunit;
@@ -26,9 +27,35 @@ namespace CefSharp.Test.JavascriptBinding
         }
 
         [Fact]
+        public async Task ShouldWork()
+        {
+            AssertInitialLoadComplete();
+
+            const string script = @"
+                (async function()
+                {
+                    await CefSharp.BindObjectAsync('bound');
+                    return await bound.echo('Welcome to CefSharp!');
+                })();";
+
+            var boundObj = new BindingTestObject();
+
+#if NETCOREAPP
+            Browser.JavascriptObjectRepository.Register("bound", boundObj);
+#else
+            Browser.JavascriptObjectRepository.Register("bound", boundObj, true);
+#endif
+
+            var result = await Browser.EvaluateScriptAsync<string>(script);
+
+            Assert.Equal(1, boundObj.EchoMethodCallCount);
+            Assert.Equal("Welcome to CefSharp!", result);
+        }
+
+        [Fact]
         //Issue https://github.com/cefsharp/CefSharp/issues/3470
         //Verify workaround passes
-        public async Task ShouldWork()
+        public async Task ShouldRaiseResolveObjectEvent()
         {
             AssertInitialLoadComplete();
 
