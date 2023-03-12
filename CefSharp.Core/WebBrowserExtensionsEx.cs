@@ -94,12 +94,12 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Downloads the specified <paramref name="url"/> as a <see cref="byte[]"/>.
+        /// Downloads the specified <paramref name="url"/> as a <see cref="T:byte[]"/>.
         /// Makes a GET Request.
         /// </summary>
         /// <param name="frame">valid frame</param>
         /// <param name="url">url to download</param>
-        /// <returns>A task that can be awaited to get the <see cref="byte[]"/> representing the Url</returns>
+        /// <returns>A task that can be awaited to get the <see cref="T:byte[]"/> representing the Url</returns>
         public static Task<byte[]> DownloadUrlAsync(this IFrame frame, string url)
         {
             if (!frame.IsValid)

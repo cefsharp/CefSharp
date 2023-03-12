@@ -661,7 +661,6 @@ namespace CefSharp.Internals
         /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
         /// <param name="analyseProperties">Analyse properties for inclusion in metadata model</param>
         /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
-        /// <param name="nameConverter">convert names of properties/methods</param>
         private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool analyseProperties, bool readPropertyValue)
         {
             if (obj.Value == null)

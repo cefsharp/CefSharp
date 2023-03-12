@@ -76,7 +76,7 @@ namespace CefSharp.Wpf.Experimental
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="chromiumWebBrowserCreatedDelegate">optional delegate to create a custom <see cref="ChromiumWebBrowser" instance./></param>
+        /// <param name="chromiumWebBrowserCreatedDelegate">optional delegate to create a custom <see cref="ChromiumWebBrowser" /> instance.</param>
         public LifeSpanHandler(LifeSpanHandlerCreatePopupChromiumWebBrowser chromiumWebBrowserCreatedDelegate = null)
         {
             this.chromiumWebBrowserCreatedDelegate = chromiumWebBrowserCreatedDelegate;

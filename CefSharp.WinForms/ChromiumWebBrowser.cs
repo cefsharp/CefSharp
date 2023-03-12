@@ -76,7 +76,7 @@ namespace CefSharp.WinForms
 
         /// <summary>
         /// Parking control used to temporarily host the CefBrowser instance
-        /// when <see cref="RecreatingHandle"/> is <c>true</c>.
+        /// when <see cref="Control.RecreatingHandle"/> is <c>true</c>.
         /// </summary>
         private Control parkingControl;
         /// <summary>

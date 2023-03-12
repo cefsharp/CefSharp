@@ -286,6 +286,7 @@ namespace CefSharp.Wpf.Experimental
         /// <summary>
         /// Cancel composition.
         /// </summary>
+        /// <param name="browserHost">browser host</param>
         /// <param name="hwnd">The hwnd.</param>
         private void CancelComposition(IBrowserHost browserHost, IntPtr hwnd)
         {

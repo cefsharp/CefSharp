@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CefSharp
 {
     /// <summary>
-    /// Interface for common events/methods/properties for <see cref="ChromiumWebBrowser"/> and popup host implementations.
+    /// Interface for common events/methods/properties for ChromiumWebBrowser and popup host implementations.
     /// </summary>
     /// <seealso cref="IDisposable" />
     public interface IChromiumWebBrowserBase : IDisposable

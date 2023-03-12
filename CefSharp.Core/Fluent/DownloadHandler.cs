@@ -28,7 +28,7 @@ namespace CefSharp.Fluent
     public delegate void OnBeforeDownloadDelegate(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback);
 
     /// <summary>
-    /// Called when a download's status or progress information has been updated. This may be called multiple times before and after <see cref="OnBeforeDownload"/>.
+    /// Called when a download's status or progress information has been updated. This may be called multiple times before and after <see cref="IDownloadHandler.OnBeforeDownload"/>.
     /// </summary>
     /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
     /// <param name="browser">The browser instance</param>
