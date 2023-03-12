@@ -15,7 +15,7 @@ namespace CefSharp.WinForms.Host
     /// Chromium Browser Host Control, used for hosting Popups in WinForms
     /// </summary>
     /// <seealso cref="Control" />
-    [Docking(DockingBehavior.AutoDock), ToolboxBitmap(typeof(ChromiumHostControl)),
+    [Docking(DockingBehavior.AutoDock), ToolboxBitmap(typeof(ChromiumWebBrowser)),
     Designer(typeof(ChromiumWebBrowserDesigner))]
     public class ChromiumHostControl : ChromiumHostControlBase, IWinFormsChromiumWebBrowser
     {
