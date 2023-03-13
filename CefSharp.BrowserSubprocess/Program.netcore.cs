@@ -19,8 +19,6 @@ namespace CefSharp.BrowserSubprocess
         {
             Debug.WriteLine("BrowserSubprocess starting up with command line: " + string.Join("\n", args));
 
-            SubProcess.EnableHighDPISupport();
-
             //Add your own custom implementation of IRenderProcessHandler here
             IRenderProcessHandler handler = null;
 
