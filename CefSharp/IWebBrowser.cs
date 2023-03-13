@@ -179,6 +179,6 @@ namespace CefSharp
         /// Size of scrollable area in CSS pixels
         /// </summary>
         /// <returns>A task that can be awaited to get the size of the scrollable area in CSS pixels.</returns>
-        Task<DevTools.DOM.Rect> GetContentSizeAsync();
+        Task<CefSharp.Structs.DomRect> GetContentSizeAsync();
     }
 }

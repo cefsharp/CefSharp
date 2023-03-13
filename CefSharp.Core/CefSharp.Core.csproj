@@ -41,6 +41,7 @@
     <Compile Remove="RequestContext.netcore.cs" />
     <Compile Remove="UrlRequest.netcore.cs" />
     <Compile Remove="WindowInfo.netcore.cs" />
+    <Compile Remove="DevTools\DevToolsClient.Generated.netcore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="bin.netcore\**" />

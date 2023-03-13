@@ -44,6 +44,7 @@
       <Compile Remove="RequestContext.cs" />
       <Compile Remove="UrlRequest.cs" />
       <Compile Remove="WindowInfo.cs" />
+      <Compile Remove="DevTools\DevToolsClient.Generated.cs" />
       <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
       <None Remove="bin/**/*.*" />
       <None Remove="obj/**/*.*" />
@@ -51,10 +52,12 @@
     </ItemGroup>
     
     <ItemGroup>
-      <PackageReference Include="Microsoft.Net.Compilers" Version="3.8.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+        <PackageReference Include="Microsoft.Net.Compilers" Version="3.8.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+        <PackageReference Include="System.Text.Json" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -64,10 +67,6 @@
         <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj">
           <Private>false</Private>
         </ProjectReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
     </ItemGroup>
 
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />

@@ -410,7 +410,7 @@ namespace CefSharp.WinForms
         }
 
         /// <inheritdoc/>
-        public async Task<DevTools.DOM.Rect> GetContentSizeAsync()
+        public async Task<CefSharp.Structs.DomRect> GetContentSizeAsync()
         {
             ThrowExceptionIfDisposed();
             ThrowExceptionIfBrowserNotInitialized();
@@ -419,8 +419,9 @@ namespace CefSharp.WinForms
             {
                 //Get the content size
                 var layoutMetricsResponse = await devToolsClient.Page.GetLayoutMetricsAsync().ConfigureAwait(continueOnCapturedContext: false);
+                var rect = layoutMetricsResponse.CssContentSize;
 
-                return layoutMetricsResponse.CssContentSize;
+                return new Structs.DomRect(rect.X, rect.Y, rect.Width, rect.Height);
             }
         }
 

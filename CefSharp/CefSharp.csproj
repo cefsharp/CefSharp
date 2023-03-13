@@ -28,7 +28,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="DevTools\DevToolsClient.Generated.netcore.cs" />
     <Compile Remove="Internals\Json\JsonEnumConverter.cs" />
     <Compile Remove="Internals\Json\JsonEnumConverterFactory.cs" />
     <Compile Remove="Internals\Partial\ChromiumWebBrowser.Partial.cs" />
