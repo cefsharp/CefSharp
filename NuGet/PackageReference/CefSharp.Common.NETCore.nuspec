@@ -81,8 +81,8 @@
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\x64\Release\netcoreapp3.1\CefSharp.BrowserSubprocess.runtimeconfig.json" target="runtimes\win-x64\native"/>
 	
 	<!-- For arm64, we use the net5.0 version of CefSharp.BrowserSubprocess since .NET 5.0 officially supports creating Windows ARM64 apps -->
-	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\arm64\Release\net5.0\CefSharp.BrowserSubprocess.dll" target="runtimes\win-arm64\native"/>
-	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\arm64\Release\net5.0\CefSharp.BrowserSubprocess.exe" target="runtimes\win-arm64\native"/>
-	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\arm64\Release\net5.0\CefSharp.BrowserSubprocess.runtimeconfig.json" target="runtimes\win-arm64\native"/>
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\arm64\Release\net5.0-windows\CefSharp.BrowserSubprocess.dll" target="runtimes\win-arm64\native"/>
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\arm64\Release\net5.0-windows\CefSharp.BrowserSubprocess.exe" target="runtimes\win-arm64\native"/>
+	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\arm64\Release\net5.0-windows\CefSharp.BrowserSubprocess.runtimeconfig.json" target="runtimes\win-arm64\native"/>
   </files>
 </package>
