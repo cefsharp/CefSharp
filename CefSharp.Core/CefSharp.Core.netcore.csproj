@@ -38,6 +38,7 @@
     
     <ItemGroup>
       <Compile Remove="BrowserSettings.cs" />
+      <Compile Remove="CefRuntimeAnyCpuInitializer.cs" />
       <Compile Remove="PostData.cs" />
       <Compile Remove="PostDataElement.cs" />
       <Compile Remove="Request.cs" />
@@ -67,7 +68,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     </ItemGroup>
 
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
