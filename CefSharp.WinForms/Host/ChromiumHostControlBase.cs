@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace CefSharp.WinForms.Host
@@ -17,6 +18,10 @@ namespace CefSharp.WinForms.Host
     /// <seealso cref="System.Windows.Forms.Control" />
     public abstract class ChromiumHostControlBase : Control
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
         /// <summary>
         /// IntPtr that represents the CefBrowser Hwnd
         /// Used for sending messages to the browser
@@ -121,23 +126,8 @@ namespace CefSharp.WinForms.Host
         {
             if (BrowserHwnd != IntPtr.Zero)
             {
-                ResizeBrowserInternal(Width, Height);
+                SetWindowPosition(BrowserHwnd, 0, 0, width, height);
             }
-        }
-
-        /// <summary>
-        /// Resizes the browser.
-        /// </summary>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
-        /// <remarks>
-        /// To avoid the Designer trying to load CefSharp.Core.Runtime we explicitly
-        /// ask for NoInlining.
-        /// </remarks>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private void ResizeBrowserInternal(int width, int height)
-        {
-            NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, width, height);
         }
 
         /// <summary>
@@ -148,7 +138,7 @@ namespace CefSharp.WinForms.Host
         {
             if (BrowserHwnd != IntPtr.Zero)
             {
-                NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, 0, 0);
+                SetWindowPosition(BrowserHwnd, 0, 0, 0, 0);
             }
         }
 
@@ -159,7 +149,7 @@ namespace CefSharp.WinForms.Host
         {
             if (BrowserHwnd != IntPtr.Zero)
             {
-                NativeMethodWrapper.SetWindowPosition(BrowserHwnd, 0, 0, Width, Height);
+                SetWindowPosition(BrowserHwnd, 0, 0, Width, Height);
             }
         }
 
@@ -181,6 +171,27 @@ namespace CefSharp.WinForms.Host
         internal void RaiseIsBrowserInitializedChangedEvent()
         {
             IsBrowserInitializedChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void SetWindowPosition(IntPtr handle, int x, int y, int width, int height)
+        {
+            const uint SWP_NOMOVE = 0x0002;
+            const uint SWP_NOZORDER = 0x0004;
+            const uint SWP_NOACTIVATE = 0x0010;
+
+            if (handle != IntPtr.Zero)
+            {
+                if (width == 0 && height == 0)
+                {
+                    // For windowed browsers when the frame window is minimized set the
+                    // browser window size to 0x0 to reduce resource usage.
+                    SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+                }
+                else
+                {
+                    SetWindowPos(handle, IntPtr.Zero, x, y, width, height, SWP_NOZORDER);
+                }
+            }
         }
 
         /// <summary>
