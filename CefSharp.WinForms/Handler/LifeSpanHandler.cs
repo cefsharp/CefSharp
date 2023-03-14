@@ -105,15 +105,26 @@ namespace CefSharp.WinForms.Handler
                 //need to remove the popup (likely removed from menu)
                 if (!control.IsDisposed && control.IsHandleCreated)
                 {
-                    //We need to invoke in a sync fashion so our IBrowser object is still in scope
-                    //Calling in an async fashion leads to the IBrowser being disposed before we
-                    //can access it.
-                    control.InvokeSyncOnUiThreadIfRequired(new Action(() =>
+                    try
                     {
-                        onPopupDestroyed?.Invoke(control, browser);
+                        //We need to invoke in a sync fashion so our IBrowser object is still in scope
+                        //Calling in an async fashion leads to the IBrowser being disposed before we
+                        //can access it.
+                        control.InvokeSyncOnUiThreadIfRequired(new Action(() =>
+                        {
+                            onPopupDestroyed?.Invoke(control, browser);
 
-                        control.Dispose();
-                    }));
+                            control.Dispose();
+                        }));
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // If the popup is being hosted on a Form that is being
+                        // Closed/Disposed as we attempt to call Control.Invoke
+                        // we can end up with an ObjectDisposedException
+                        // return false (Default behaviour).
+                        return false;
+                    }
                 }
             }
 
