@@ -608,7 +608,7 @@ namespace CefSharp.Wpf
 
             browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
 
-            WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            WpfKeyboardHandler = new WpfImeKeyboardHandler(this);
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
