@@ -67,11 +67,6 @@ namespace CefSharp
 
             }
 
-            static void EnableHighDPISupport()
-            {
-                CefEnableHighDPISupport();
-            }
-
             static int ExecuteProcess(IEnumerable<String^>^ args)
             {
                 auto hInstance = Process::GetCurrentProcess()->Handle;
