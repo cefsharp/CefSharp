@@ -354,7 +354,7 @@ namespace CefSharp.Wpf.Experimental
             }
         }
 
-        private int PrimaryLangId(int lgid)
+        private static int PrimaryLangId(int lgid)
         {
             return lgid & 0x3ff;
         }
@@ -466,6 +466,26 @@ namespace CefSharp.Wpf.Experimental
             }
 
             return current as FrameworkElement;
+        }
+
+        /// <summary>
+        /// Based on the <paramref name="keyboardLayoutId"/> determine if we
+        /// should be using IME.
+        /// </summary>
+        /// <param name="keyboardLayoutId">Keyboard Layout Id (obtained from <see cref="System.Globalization.CultureInfo.KeyboardLayoutId"/></param>
+        /// <returns>
+        /// returns true if the keyboard layout matches one of our listed that support IME, otherwise false.
+        /// </returns>
+        public static bool UseImeKeyboardHandler(int keyboardLayoutId)
+        {
+            var langId = PrimaryLangId(keyboardLayoutId);
+
+            if (langId == ImeNative.LANG_KOREAN || langId == ImeNative.LANG_JAPANESE || langId == ImeNative.LANG_CHINESE)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

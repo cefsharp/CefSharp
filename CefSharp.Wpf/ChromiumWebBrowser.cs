@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -604,7 +605,12 @@ namespace CefSharp.Wpf
 
             browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
 
-            WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            SetupWpfKeyboardHandler();
+
+            if (WpfKeyboardHandler == null)
+            {
+                WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            }
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
@@ -753,6 +759,8 @@ namespace CefSharp.Wpf
                 // is called.
                 LifeSpanHandler = null;
 
+                UnsubsribeInputLanguageChanged();
+
                 WpfKeyboardHandler?.Dispose();
                 WpfKeyboardHandler = null;
 
@@ -767,6 +775,44 @@ namespace CefSharp.Wpf
             }
 
             Cef.RemoveDisposable(this);
+        }
+
+        /// <summary>
+        /// Setup the <see cref="WpfKeyboardHandler"/> used by this <see cref="ChromiumWebBrowser"/> instance.
+        /// There are two main keyboard handler implementations currently <see cref="WpfImeKeyboardHandler"/>
+        /// and <see cref="Internals.WpfKeyboardHandler"/>. If <see cref="WpfImeKeyboardHandler.UseImeKeyboardHandler"/>
+        /// returns true for the current <see cref="System.Globalization.CultureInfo.KeyboardLayoutId"/>
+        /// then the <see cref="WpfImeKeyboardHandler"/> instance will be used, otherwise the older
+        /// <see cref="Internals.WpfKeyboardHandler"/> instance will be used.
+        /// Override to provide your own custom keyboard handler.
+        /// </summary>
+        protected virtual void SetupWpfKeyboardHandler()
+        {
+            try
+            {
+                var inputLang = InputLanguageManager.Current.CurrentInputLanguage;
+
+                var useImeKeyboardHandler = WpfImeKeyboardHandler.UseImeKeyboardHandler(inputLang.KeyboardLayoutId);
+
+                if (useImeKeyboardHandler)
+                {
+                    WpfKeyboardHandler = new WpfImeKeyboardHandler(this);
+                }
+                else
+                {
+                    InputLanguageManager.Current.InputLanguageChanged += OnInputLangageChanged;
+
+                    WpfKeyboardHandler = new WpfKeyboardHandler(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                //For now we'll ignore any errors
+                Trace.TraceError($"Error unsubscribing from InputLanguageChanged {ex.ToString()}");
+
+                // For now we'll ignore any errors and just use the default keyboard handler
+                WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            }
         }
 
         /// <summary>
@@ -1747,6 +1793,26 @@ namespace CefSharp.Wpf
 
                 browser.GetHost().DragTargetDragEnter(dragData, mouseEvent, effect);
                 browser.GetHost().DragTargetDragOver(mouseEvent, effect);
+            }
+        }
+
+        private void OnInputLangageChanged(object sender, InputLanguageEventArgs e)
+        {
+            // If we are already using the WpfImeKeyboardHandler then we'll ignore any changes
+            if (WpfKeyboardHandler?.GetType() == typeof(WpfImeKeyboardHandler))
+            {
+                return;
+            }
+
+            var useImeKeyboardHandler = WpfImeKeyboardHandler.UseImeKeyboardHandler(e.NewLanguage.KeyboardLayoutId);
+
+            if (useImeKeyboardHandler)
+            {
+                var oldKeyboardHandler = WpfKeyboardHandler;
+                WpfKeyboardHandler = new WpfImeKeyboardHandler(this);
+                oldKeyboardHandler?.Dispose();                
+
+                InputLanguageManager.Current.InputLanguageChanged -= OnInputLangageChanged;
             }
         }
 
@@ -2856,6 +2922,36 @@ namespace CefSharp.Wpf
 
                     host.Invalidate(PaintElementType.View);
                 }
+            }
+        }
+
+        private void UnsubsribeInputLanguageChanged()
+        {
+            // If we are using WpfImeKeyboardHandler then we
+            // shouldn't need to unsubsribe from the handler
+            if (WpfKeyboardHandler?.GetType() == typeof(WpfImeKeyboardHandler))
+            {
+                return;
+            }
+
+            try
+            {
+                // Dispose can be called on non UI thread, InputLanguageManager.Current
+                // is thread specific
+                UiThreadRunAsync(() =>
+                {
+                    var inputLangManager = InputLanguageManager.Current;
+
+                    if (inputLangManager != null)
+                    {
+                        inputLangManager.InputLanguageChanged -= OnInputLangageChanged;
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                //For now we'll ignore any errors
+                Trace.TraceError($"Error unsubscribing from InputLanguageChanged {ex.ToString()}");
             }
         }
     }
