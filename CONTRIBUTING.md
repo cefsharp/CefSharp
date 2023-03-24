@@ -32,7 +32,7 @@ It maybe helpful to run the `cefclient` application and compare output with `Cef
 		cefclient.exe --multi-threaded-message-loop --no-sandbox
 		```
 	- **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED ABOVE**
-    - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
+    - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://github.com/chromiumembedded/cef there is no point opening an issue here. (Make sure you search before opening an issue)
 
 ### What should I include when creating an `Issue`?
 

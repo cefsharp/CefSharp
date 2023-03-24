@@ -416,7 +416,7 @@ namespace CefSharp
             bool returnFlag = true;
 
             //NOTE: Only called if tooltip changed otherwise called many times
-            // also only called when using OSR, https://bitbucket.org/chromiumembedded/cef/issues/783
+            // also only called when using OSR, https://github.com/chromiumembedded/cef/issues/783
 
             if (hasChanged)
             {

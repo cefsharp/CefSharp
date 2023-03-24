@@ -14,7 +14,7 @@ namespace CefSharp.Example
 {
     public static class CefExample
     {
-        //TODO: Revert after https://bitbucket.org/chromiumembedded/cef/issues/2685/networkservice-custom-scheme-unable-to
+        //TODO: Revert after https://github.com/chromiumembedded/cef/issues/2685
         //has been fixed.
         public const string ExampleDomain = "cefsharp.example";
         public const string BaseUrl = "https://" + ExampleDomain;
@@ -161,7 +161,7 @@ namespace CefSharp.Example
 
             //settings.LogSeverity = LogSeverity.Verbose;
 
-            //Experimental setting see https://bitbucket.org/chromiumembedded/cef/issues/2969/support-chrome-windows-with-cef-callbacks
+            //Experimental setting see https://github.com/chromiumembedded/cef/issues/2969
             //for details
             //settings.ChromeRuntime = true;
 

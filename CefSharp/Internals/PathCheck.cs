@@ -50,7 +50,7 @@ namespace CefSharp.Internals
         /// <summary>
         /// Throw exception if the path provided is non-asbolute
         /// CEF now explicitly requires absolute paths
-        /// https://bitbucket.org/chromiumembedded/cef/issues/2916/not-persisting-in-local-stoage-when-using
+        /// https://github.com/chromiumembedded/cef/issues/2916
         /// Empty paths are ignored
         /// </summary>
         /// <param name="path">path</param>

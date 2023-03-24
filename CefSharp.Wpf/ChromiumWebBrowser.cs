@@ -140,7 +140,7 @@ namespace CefSharp.Wpf
         /// </summary>
         private static bool DesignMode;
 
-        // https://bitbucket.org/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
+        // https://github.com/chromiumembedded/cef/issues/3427
         private bool resizeHackIgnoreOnPaint;
         private Structs.Size? resizeHackSize;
 
@@ -153,7 +153,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// When enabled the browser will resize by 1px when it becomes visible to workaround
         /// the upstream issue
-        /// Hack to work around upstream issue https://bitbucket.org/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
+        /// Hack to work around upstream issue https://github.com/chromiumembedded/cef/issues/3427
         /// Disabled by default
         /// </summary>
         public bool ResizeHackEnabled { get; set; } = false;
@@ -162,7 +162,7 @@ namespace CefSharp.Wpf
         /// Number of milliseconds to wait after resizing the browser when it first
         /// becomes visible. After the delay the browser will revert to it's
         /// original size.
-        /// Hack to workaround upstream issue https://bitbucket.org/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
+        /// Hack to workaround upstream issue https://github.com/chromiumembedded/cef/issues/3427
         /// </summary>
         public int ResizeHackDelayInMs { get; set; } = 50;
 
@@ -2793,7 +2793,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Resize hack for https://bitbucket.org/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
+        /// Resize hack for https://github.com/chromiumembedded/cef/issues/3427/osr-rendering-bug-when-minimizing-and
         /// </summary>
         /// <returns>Task</returns>
         private async Task ResizeHackRun()

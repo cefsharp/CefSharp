@@ -137,7 +137,7 @@ namespace CefSharp.WinForms
         /// Activates browser upon creation, the default value is false. Prior to version 73
         /// the default behaviour was to activate browser on creation (Equivalent of setting this property to true).
         /// To restore this behaviour set this value to true immediately after you create the <see cref="ChromiumWebBrowser"/> instance.
-        /// https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+        /// https://github.com/chromiumembedded/cef/issues/1856
         /// </summary>
         public bool ActivateBrowserOnCreation { get; set; }
         /// <summary>
@@ -662,7 +662,7 @@ namespace CefSharp.WinForms
             if (!ActivateBrowserOnCreation)
             {
                 //Disable Window activation by default
-                //https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+                //https://github.com/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
                 windowInfo.ExStyle |= WS_EX_NOACTIVATE;
             }
 
@@ -722,7 +722,7 @@ namespace CefSharp.WinForms
             // It's possible to use Cef.PostAction to invoke directly on the CEF UI Thread,
             // this also seems to work as expected, using the WinForms UI Thread allows
             // us to check the Focused property to determine if we actully have focus
-            // https://bitbucket.org/chromiumembedded/cef/issues/3436/chromium-based-browser-loses-focus-when
+            // https://github.com/chromiumembedded/cef/issues/3436/chromium-based-browser-loses-focus-when
             if (InvokeRequired)
             {
                 BeginInvoke((Action)(() =>

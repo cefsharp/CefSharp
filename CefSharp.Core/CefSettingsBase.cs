@@ -73,7 +73,7 @@ namespace CefSharp
         /// **Experimental**
         /// Set to true to enable use of the Chrome runtime in CEF. This feature is
         /// considered experimental and is not recommended for most users at this time.
-        /// See issue https://bitbucket.org/chromiumembedded/cef/issues/2969/support-chrome-windows-with-cef-callbacks for details.
+        /// See issue https://github.com/chromiumembedded/cef/issues/2969
         /// </summary>
         public bool ChromeRuntime
         {
@@ -424,7 +424,7 @@ namespace CefSharp
 
         /// <summary>
         /// Set command line argument to enable Print Preview See
-        /// https://bitbucket.org/chromiumembedded/cef/issues/123/add-support-for-print-preview for details.
+        /// https://github.com/chromiumembedded/cef/issues/123/add-support-for-print-preview for details.
         /// </summary>
         public void EnablePrintPreview()
         {
@@ -442,7 +442,7 @@ namespace CefSharp
         {
             // Use software rendering and compositing (disable GPU) for increased FPS
             // and decreased CPU usage. 
-            // See https://bitbucket.org/chromiumembedded/cef/issues/1257 for details.
+            // See https://github.com/chromiumembedded/cef/issues/1257 for details.
             if (!settings.CefCommandLineArgs.ContainsKey("disable-gpu"))
             {
                 settings.CefCommandLineArgs.Add("disable-gpu");
@@ -459,7 +459,7 @@ namespace CefSharp
             // creation time via IBrowserSettings.WindowlessFrameRate or changed
             // dynamically using IBrowserHost.SetWindowlessFrameRate. In cefclient
             // it can be set via the command-line using `--off-screen-frame-rate=XX`.
-            // See https://bitbucket.org/chromiumembedded/cef/issues/1368 for details.
+            // See https://github.com/chromiumembedded/cef/issues/1368 for details.
             if (!settings.CefCommandLineArgs.ContainsKey("enable-begin-frame-scheduling"))
             {
                 settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling");

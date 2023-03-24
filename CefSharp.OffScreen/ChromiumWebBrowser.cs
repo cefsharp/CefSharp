@@ -580,7 +580,7 @@ namespace CefSharp.OffScreen
                     throw new ArgumentException($"{nameof(viewport)}.{nameof(viewport.Scale)} must be greater than 0.");
                 }
 
-                //https://bitbucket.org/chromiumembedded/cef/issues/3103/offscreen-capture-screenshot-with-devtools
+                //https://github.com/chromiumembedded/cef/issues/3103
                 //CEF OSR mode doesn't set the size internally when CaptureScreenShot is called with a clip param specified, so
                 //we must manually resize our view if size is greater
                 var newWidth = viewport.Width + viewport.X;

@@ -88,7 +88,7 @@ namespace CefSharp
             /// **Experimental**
             /// Set to true to enable use of the Chrome runtime in CEF. This feature is
             /// considered experimental and is not recommended for most users at this time.
-            /// See issue https://bitbucket.org/chromiumembedded/cef/issues/2969/support-chrome-windows-with-cef-callbacks for details.
+            /// See issue https://github.com/chromiumembedded/cef/issues/2969
             /// </summary>
             property bool ChromeRuntime
             {
