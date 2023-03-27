@@ -68,7 +68,6 @@ namespace CefSharp.Core
         public static uint ColorSetARGB(uint a, uint r, uint g, uint b) { throw null; }
         public static bool CurrentlyOnThread(CefSharp.CefThreadIds threadId) { throw null; }
         public static void DoMessageLoopWork() { }
-        public static void EnableHighDPISupport() { }
         public static void EnableWaitForBrowsersToClose() { }
         public static int ExecuteProcess() { throw null; }
         public static CefSharp.ICookieManager GetGlobalCookieManager() { throw null; }
