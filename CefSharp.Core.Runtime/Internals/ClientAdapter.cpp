@@ -115,17 +115,17 @@ namespace CefSharp
                 return false;
             }
 
-            // This method is called from OnAfterCreated before _browser is set
-            // If the _browser reference is null then this should be a ChromiumWebBrowser
+            // This method is called from OnAfterCreated before _cefBrowser is set
+            // If the _cefBrowser reference is null then this should be a ChromiumWebBrowser
             // hosted as a popup
-            if (Object::ReferenceEquals(_browser, nullptr))
+            if (!_cefBrowser.get())
             {
                 return true;
             }
 
             // For popups hosted in ChromiumWebBrowser instance directly (non DevTools popup)
             // then return true;
-            if (_browser->Identifier == browserId)
+            if (_cefBrowser->GetIdentifier() == browserId)
             {
                 return true;
             }
