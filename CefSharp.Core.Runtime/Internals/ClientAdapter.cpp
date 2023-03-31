@@ -1118,7 +1118,18 @@ namespace CefSharp
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                 auto frameWrapper = gcnew CefFrameWrapper(frame);
 
-                handler->OnFrameCreated(_browserControl, browserWrapper, frameWrapper);
+                if (browserWrapper == nullptr)
+                {
+                    // Very first OnFrameCreated called may happen before OnAfterCreated
+                    // so we have to create a new wrapper that's lifespan is scoped to this single call.
+                    CefBrowserWrapper browserWrapper(browser);
+
+                    handler->OnFrameCreated(_browserControl, %browserWrapper, frameWrapper);
+                }
+                else
+                {
+                    handler->OnFrameCreated(_browserControl, browserWrapper, frameWrapper);
+                }
             }
         }
 
