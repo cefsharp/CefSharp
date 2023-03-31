@@ -75,23 +75,24 @@ namespace CefSharp
 
         IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId, bool isPopup)
         {
+            if (!isPopup)
+            {
+                return _browser;
+            }
+
+            IBrowser^ popupBrowser;
+            if (_popupBrowsers->TryGetValue(browserId, popupBrowser))
+            {
+                return popupBrowser;
+            }
+
+            // For popups that were hosted using a ChromiumWebBrowser instance
             if (_browserControl->HasParent)
             {
                 return _browser;
             }
 
-            if (isPopup)
-            {
-                IBrowser^ popupBrowser;
-                if (_popupBrowsers->TryGetValue(browserId, popupBrowser))
-                {
-                    return popupBrowser;
-                }
-
-                return nullptr;
-            }
-
-            return _browser;
+            return nullptr;
         }
 
         void ClientAdapter::CloseAllPopups(bool forceClose)
