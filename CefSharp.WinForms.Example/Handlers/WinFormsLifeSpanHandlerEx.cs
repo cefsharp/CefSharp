@@ -18,7 +18,7 @@ namespace CefSharp.WinForms.Example.Handlers
     {
         private Action<ChromiumWebBrowser> onPopupBrowserCreated;
         private Action<ChromiumWebBrowser> onPopupDestroyed;
-        private Action<ChromiumWebBrowser, string> onPopupCreated;
+        private Action<ChromiumWebBrowser, string, string, CefSharp.Structs.Rect> onPopupCreated;
 
         /// <summary>
         /// The <paramref name="onPopupBrowserCreated"/> delegate will be called when the underlying CEF <see cref="IBrowser"/> has been
@@ -55,7 +55,7 @@ namespace CefSharp.WinForms.Example.Handlers
         /// </summary>
         /// <param name="onPopupCreated">Action to be invoked when the Popup host has been created and is ready to be attached to it's parent.</param>
         /// <returns><see cref="WinFormsLifeSpanHandlerEx"/> instance allowing you to chain method calls together</returns>
-        public WinFormsLifeSpanHandlerEx OnPopupCreated(Action<ChromiumWebBrowser, string> onPopupCreated)
+        public WinFormsLifeSpanHandlerEx OnPopupCreated(Action<ChromiumWebBrowser, string, string, CefSharp.Structs.Rect> onPopupCreated)
         {
             this.onPopupCreated = onPopupCreated;
 
@@ -109,12 +109,18 @@ namespace CefSharp.WinForms.Example.Handlers
         {
             if (browser.IsPopup)
             {
-                var control = ChromiumHostControlBase.FromBrowser<ChromiumWebBrowser>(browser);
+                var webBrowser = (ChromiumWebBrowser)chromiumWebBrowser;
 
-                if (control != null)
+                webBrowser.BeginInvoke((Action) (() =>
                 {
-                    onPopupBrowserCreated?.Invoke(control);
-                }
+                    var control = ChromiumHostControlBase.FromBrowser<ChromiumWebBrowser>(browser);
+
+                    if (control != null)
+                    {
+                        onPopupBrowserCreated?.Invoke(control);
+                    }
+                }));
+                
             }
         }
 
@@ -159,7 +165,7 @@ namespace CefSharp.WinForms.Example.Handlers
 
                 windowInfo.SetAsChild(control.Handle, windowBounds);
 
-                onPopupCreated?.Invoke(control, targetUrl);
+                onPopupCreated?.Invoke(control, targetUrl, targetFrameName, windowBounds);
             }));
 
             newBrowser = control;
