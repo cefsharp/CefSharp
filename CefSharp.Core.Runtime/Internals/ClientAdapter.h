@@ -87,7 +87,7 @@ namespace CefSharp
             void CloseAllPopups(bool forceClose);
             void MethodInvocationComplete(MethodInvocationResult^ result);
             IBrowser^ GetBrowserWrapper(int browserId);
-            bool IsHostedBrowser(bool isPopup, int browserId);
+            bool IsMainBrowser(bool isPopup, int browserId);
 
             // CefClient
             virtual DECL CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override { return this; }
