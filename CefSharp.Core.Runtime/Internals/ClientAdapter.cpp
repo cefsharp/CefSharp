@@ -95,6 +95,44 @@ namespace CefSharp
             return nullptr;
         }
 
+        // Is a Hosted browser if the IBrowser instance is directly associated
+        // with the ChromiumWebBrowser instance. Should be true in cases
+        // where ChromiumWebBrowser is instanciated directly or
+        // when a popup is hosted in a ChromiumWebBrowser instance
+        // For popups hosted in ChromiumWebBrowser instances it's important
+        // that DevTools popups return false;
+        bool ClientAdapter::IsHostedBrowser(bool isPopup, int browserId)
+        {
+            // Main browser is always true
+            if (!isPopup)
+            {
+                return true;
+            }
+
+            // If popup and HasParent == false then always false
+            if (!_browserControl->HasParent)
+            {
+                return false;
+            }
+
+            // This method is called from OnAfterCreated before _browser is set
+            // If the _browser reference is null then this should be a ChromiumWebBrowser
+            // hosted as a popup
+            if (Object::ReferenceEquals(_browser, nullptr))
+            {
+                return true;
+            }
+
+            // For popups hosted in ChromiumWebBrowser instance directly (non DevTools popup)
+            // then return true;
+            if (_browser->Identifier == browserId)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         void ClientAdapter::CloseAllPopups(bool forceClose)
         {
             if (_popupBrowsers->Count > 0)
@@ -181,14 +219,7 @@ namespace CefSharp
 
             auto browserWrapper = gcnew CefBrowserWrapper(browser);
 
-            auto isPopup = browser->IsPopup() && !_browserControl->HasParent;
-
-            if (isPopup)
-            {
-                // Add to the list of popup browsers.
-                _popupBrowsers->Add(browser->GetIdentifier(), browserWrapper);
-            }
-            else
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
             {
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
@@ -199,6 +230,11 @@ namespace CefSharp
                 {
                     _browserAdapter->OnAfterBrowserCreated(browserWrapper);
                 }
+            }
+            else
+            {
+                // Add to the list of popup browsers.
+                _popupBrowsers->Add(browser->GetIdentifier(), browserWrapper);
             }
 
             auto handler = _browserControl->LifeSpanHandler;
@@ -228,7 +264,6 @@ namespace CefSharp
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            auto isPopup = browser->IsPopup() && !_browserControl->HasParent;
             auto handler = _browserControl->LifeSpanHandler;
 
             if (handler != nullptr)
@@ -241,19 +276,17 @@ namespace CefSharp
                 handler->OnBeforeClose(_browserControl, %browserWrapper);
             }
 
-            if (isPopup)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
+            {
+                _cefBrowser = nullptr;
+            }
+            else
             {
                 // Remove from the browser popup list.
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
                 _popupBrowsers->Remove(browser->GetIdentifier());
                 // Dispose the CefBrowserWrapper
                 delete browserWrapper;
-            }
-            //TODO: When creating a new ChromiumWebBrowser and passing in a newBrowser to OnBeforePopup
-            //the handles don't match up (at least in WPF), need to investigate further.
-            else if (_browserHwnd == browser->GetHost()->GetWindowHandle() || _browserControl->HasParent)
-            {
-                _cefBrowser = nullptr;
             }
 
             BrowserRefCounter::Instance->Decrement(_browserControl->GetType());
@@ -264,7 +297,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto args = gcnew LoadingStateChangedEventArgs(browserWrapper, canGoBack, canGoForward, isLoading);
 
-            if (!browser->IsPopup() || _browserControl->HasParent)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
             {
                 _browserControl->SetLoadingStateChange(args);
             }
@@ -282,7 +315,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto args = gcnew AddressChangedEventArgs(browserWrapper, StringUtils::ToClr(address));
 
-            if (!browser->IsPopup() || _browserControl->HasParent)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
             {
                 _browserControl->SetAddress(args);
             }
@@ -355,15 +388,15 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto args = gcnew TitleChangedEventArgs(browserWrapper, StringUtils::ToClr(title));
 
-            if (browser->IsPopup() && !_browserControl->HasParent)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
+            {
+                _browserControl->SetTitle(args);
+            }
+            else
             {
                 // Set the popup window title
                 auto hwnd = browser->GetHost()->GetWindowHandle();
                 SetWindowText(hwnd, std::wstring(title).c_str());
-            }
-            else
-            {
-                _browserControl->SetTitle(args);
             }
 
             auto handler = _browserControl->DisplayHandler;
@@ -427,7 +460,7 @@ namespace CefSharp
                     returnFlag = handler->OnTooltipChanged(_browserControl, tooltip);
                 }
 
-                if (!browser->IsPopup() || _browserControl->HasParent)
+                if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
                 {
                     _tooltip = tooltip;
                     _browserControl->SetTooltipText(_tooltip);
@@ -443,7 +476,7 @@ namespace CefSharp
 
             auto args = gcnew ConsoleMessageEventArgs(browserWrapper, (LogSeverity)level, StringUtils::ToClr(message), StringUtils::ToClr(source), line);
 
-            if (!browser->IsPopup() || _browserControl->HasParent)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
             {
                 _browserControl->OnConsoleMessage(args);
             }
@@ -462,7 +495,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto args = gcnew StatusMessageEventArgs(browserWrapper, StringUtils::ToClr(value));
 
-            if (!browser->IsPopup() || _browserControl->HasParent)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
             {
                 _browserControl->OnStatusMessage(args);
             }
@@ -513,7 +546,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             CefFrameWrapper frameWrapper(frame);
 
-            if (!browser->IsPopup() || _browserControl->HasParent)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
             {
                 _browserControl->OnFrameLoadStart(gcnew FrameLoadStartEventArgs(browserWrapper, %frameWrapper, (CefSharp::TransitionType)transitionType));
             }
@@ -530,7 +563,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             CefFrameWrapper frameWrapper(frame);
 
-            if (!browser->IsPopup() || _browserControl->HasParent)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
             {
                 _browserControl->OnFrameLoadEnd(gcnew FrameLoadEndEventArgs(browserWrapper, %frameWrapper, httpStatusCode));
             }
@@ -548,7 +581,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             CefFrameWrapper frameWrapper(frame);
 
-            if (!browser->IsPopup() || _browserControl->HasParent)
+            if (IsHostedBrowser(browser->IsPopup(), browser->GetIdentifier()))
             {
                 _browserControl->OnLoadError(gcnew LoadErrorEventArgs(browserWrapper, %frameWrapper,
                     (CefErrorCode)errorCode, StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl)));
