@@ -18,7 +18,7 @@
         <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
     </Window.InputBindings>
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="25">
             <MenuItem Header="_File">
                 <MenuItem Header="_New Tab" Command="New"/>
                 <MenuItem Header="_Close Tab" Command="Close"/>
