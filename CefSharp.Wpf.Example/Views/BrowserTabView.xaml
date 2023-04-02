@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
@@ -19,412 +20,420 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
-    <Grid>
-        <DockPanel>
-            <DockPanel VerticalAlignment="Top"
-                       DockPanel.Dock="Top">
-                <Button Height="23"
-                        Width="75"
-                        Command="{Binding HomeCommand}">Home</Button>
-                <Button Height="23"
-                        Width="75"
-                        Command="{Binding WebBrowser.BackCommand}">Back</Button>
-                <Button Height="23"
-                        Width="75"
-                        Command="{Binding WebBrowser.ForwardCommand}">Forward</Button>
-                <Button Height="23"
-                        Width="75"
-                        Command="{Binding WebBrowser.ReloadCommand}">Reload</Button>
-                <Button Height="23"
-                        Name="goStopButton"
-                        Width="75"
-                        DockPanel.Dock="Right"
-                        Command="{Binding GoCommand}">Go</Button>
-                <TextBox Height="23"
-                         Text="{Binding AddressEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         GotKeyboardFocus="OnTextBoxGotKeyboardFocus"
-                         GotMouseCapture="OnTextBoxGotMouseCapture">
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter"
+    <DockPanel LastChildFill="True">
+        <DockPanel DockPanel.Dock="Top" Margin="5">
+            <Button Command="{Binding HomeCommand}"
+                    Margin="16,0,0,0"
+                    ToolTip="Navigate Home"
+                    Style="{StaticResource MaterialDesignToolButton}"
+                    Content="{materialDesign:PackIcon Kind=Home, Size=24}"/>
+            <Button Command="{Binding WebBrowser.BackCommand}"
+                    Margin="24,0,0,0"
+                    ToolTip="Navigate Back"
+                    Content="{materialDesign:PackIcon Kind=NavigateBefore, Size=24}"
+                    Style="{StaticResource MaterialDesignToolButton}"/>
+            <Button Command="{Binding WebBrowser.ForwardCommand}"
+                    Margin="24,0,0,0"
+                    ToolTip="Navigate Forward"
+                    Content="{materialDesign:PackIcon Kind=NavigateNext, Size=24}"
+                    Style="{StaticResource MaterialDesignToolButton}"/>
+            <Button Command="{Binding WebBrowser.ReloadCommand}"
+                    ToolTip="Reload Browser"
+                    Margin="24,0,0,0"
+                    Content="{materialDesign:PackIcon Kind=Reload, Size=24}"
+                    Style="{StaticResource MaterialDesignToolButton}"/>
+            <Button Command="{Binding GoCommand}"
+                    ToolTip="Navigate To Url"
+                    Margin="16,0,0,0"
+                    Content="{materialDesign:PackIcon Kind=OpenInBrowser, Size=24}"
+                    Style="{StaticResource MaterialDesignToolButton}"
+                    DockPanel.Dock="Right"/>
+            <TextBox Text="{Binding AddressEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     Margin="16,0,0,0"
+                     GotKeyboardFocus="OnTextBoxGotKeyboardFocus"
+                     GotMouseCapture="OnTextBoxGotMouseCapture">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter"
                                     Command="{Binding GoCommand}" />
-                    </TextBox.InputBindings>
-                </TextBox>
-            </DockPanel>
-            <StackPanel DockPanel.Dock="Right"
+                </TextBox.InputBindings>
+            </TextBox>
+        </DockPanel>
+        <StackPanel DockPanel.Dock="Right"
                         Margin="6,3"
+                        Width="300"
                         Visibility="{Binding ShowSidebar, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <GroupBox Header="Tweak WPF Rendering">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0"
+            <GroupBox Header="Tweak WPF Rendering">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0"
                                Grid.Column="0"
                                Content="Angle:" />
-                        <Slider Grid.Row="0"
+                    <Slider Grid.Row="0"
                                 Grid.Column="1"
                                 Name="angleSlider"
                                 Minimum="-180"
                                 Maximum="180" />
-                        <Label Grid.Row="1"
+                    <Label Grid.Row="1"
                                Grid.Column="0"
                                Content="Watermark Opacity:" />
-                        <Slider Grid.Row="1"
+                    <Slider Grid.Row="1"
                                 Grid.Column="1"
                                 Name="opacitySlider"
                                 Minimum="0"
                                 Maximum="1"
                                 TickFrequency="0.01"
                                 Value="0.95" />
-                        <Label Grid.Row="2"
+                    <Label Grid.Row="2"
                                Grid.Column="0"
                                Content="Bitmap Scaling Mode:" />
-                        <ComboBox Grid.Row="2"
+                    <ComboBox Grid.Row="2"
                                   Grid.Column="1"
                                   Name="scalingModeComboBox"
                                   ItemsSource="{Binding Source={StaticResource BitmapScalingModeEnum}}"
                                   SelectedIndex="1"/>
-                    </Grid>
-                </GroupBox>
-                <GroupBox Header="Execute Javascript (asynchronously)">
-                    <Grid Width="300">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="75" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBox x:Name="ExecuteJavascriptTextBox"
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Execute Javascript (asynchronously)">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="ExecuteJavascriptTextBox"
                                  Grid.Row="0"
                                  AcceptsReturn="True"
-                                 Margin="6"
-                                 Text="$('#modify-me').text('See how easy that was?')">
-                            <TextBox.InputBindings>
-                                <KeyBinding Key="Enter"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 Text="document.body.style.backgroundColor = 'red';">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter"
                                             Modifiers="Control"
                                             Command="{Binding ExecuteJavaScriptCommand}"
                                             CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
-                            </TextBox.InputBindings>
-                        </TextBox>
-                        <Button Grid.Row="1"
-                                HorizontalAlignment="Left"
-                                Margin="6,0,6,6"
-                                Padding="5,2"
-                                Content="Run"
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                Margin="0, 5, 0, 0"
+                                Content="Execute"
+                                ToolTip="Execute JavaScript"
                                 Command="{Binding ExecuteJavaScriptCommand}"
                                 CommandParameter="{Binding Text, ElementName=ExecuteJavascriptTextBox}" />
-                    </Grid>
-                </GroupBox>
-                <GroupBox Header="Evaluate Javascript (Async)">
-                    <Grid Width="300">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="75" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBox x:Name="EvaluateJavascriptTextBox"
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Evaluate Javascript (Async)">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="EvaluateJavascriptTextBox"
                                  Grid.Row="0"
-                                 Margin="6"
                                  AcceptsReturn="True"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  Text="1 + 1">
-                            <TextBox.InputBindings>
-                                <KeyBinding Key="Enter"
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter"
                                             Modifiers="Control"
                                             Command="{Binding EvaluateJavaScriptCommand}"
                                             CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
-                            </TextBox.InputBindings>
-                        </TextBox>
-                        <Button Grid.Row="1"
-                                HorizontalAlignment="Left"
-                                Margin="6,0"
-                                Padding="5,2"
-                                Content="Run"
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                Margin="0, 5, 0, 0"
+                                Content="Evaluate"
+                                ToolTip="Evaluate JavaScript"
                                 Command="{Binding EvaluateJavaScriptCommand}"
                                 CommandParameter="{Binding Text, ElementName=EvaluateJavascriptTextBox}" />
-                        <TextBlock Grid.Row="2"
-                                   Margin="6">Result:</TextBlock>
-                        <TextBox Grid.Row="3"
+                    <TextBlock Grid.Row="2" Margin="6">Result:</TextBlock>
+                    <TextBox Grid.Row="3"
                                  IsReadOnly="True"
                                  Margin="6,0,6,6"
                                  Text="{Binding EvaluateJavaScriptResult}" />
-                    </Grid>
-                </GroupBox>
-                <GroupBox Header="Tests">
-                    <Button HorizontalAlignment="Left"
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Tests">
+                <Button HorizontalAlignment="Center"
                             Margin="6,0"
                             Padding="5,2"
                             Command="{Binding JavascriptBindingStressTest}"
                             Content="Javascript Binding Stress Test"/>
-                </GroupBox>
-            </StackPanel>
-            <StackPanel
+            </GroupBox>
+        </StackPanel>
+        <StackPanel
                 Margin="6,3"
                 DockPanel.Dock="Right"
                 Visibility="{Binding ShowDownloadInfo, Converter={StaticResource BooleanToVisibilityConverter}}"
                 >
-                <GroupBox Header="Download info">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" MinWidth="50" />
-                        </Grid.ColumnDefinitions>
-                        <Label
+            <GroupBox Header="Download info">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="50" />
+                    </Grid.ColumnDefinitions>
+                    <Label
                             Grid.Row="0"
                             Grid.Column="0"
                             Content="Last action:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="0"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding LastDownloadAction}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="1"
                             Grid.Column="0"
                             Content="IsInProgress:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="1"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.IsInProgress}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="2"
                             Grid.Column="0"
                             Content="IsComplete:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="2"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.IsComplete}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="3"
                             Grid.Column="0"
                             Content="IsCancelled:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="3"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.IsCancelled}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="4"
                             Grid.Column="0"
                             Content="CurrentSpeed:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="4"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.CurrentSpeed}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="5"
                             Grid.Column="0"
                             Content="PercentComplete:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="5"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.PercentComplete}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="6"
                             Grid.Column="0"
                             Content="TotalBytes:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="6"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.TotalBytes}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="7"
                             Grid.Column="0"
                             Content="ReceivedBytes:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="7"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.ReceivedBytes}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="8"
                             Grid.Column="0"
                             Content="StartTime:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="8"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.StartTime}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="9"
                             Grid.Column="0"
                             Content="EndTime:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="9"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.EndTime}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="10"
                             Grid.Column="0"
                             Content="FullPath:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="10"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.FullPath}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="11"
                             Grid.Column="0"
                             Content="Id:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="11"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.Id}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="12"
                             Grid.Column="0"
                             Content="Url:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="12"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.Url}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="13"
                             Grid.Column="0"
                             Content="OriginalUrl:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="13"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.OriginalUrl}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="14"
                             Grid.Column="0"
                             Content="SuggestedFileName:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="14"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.SuggestedFileName}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="15"
                             Grid.Column="0"
                             Content="ContentDisposition:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="15"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.ContentDisposition}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="16"
                             Grid.Column="0"
                             Content="MimeType:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="16"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.MimeType}"
                             />
-                        <Label
+                    <Label
                             Grid.Row="17"
                             Grid.Column="0"
                             Content="IsValid:"
                             />
-                        <TextBox
+                    <TextBox
                             Grid.Row="17"
                             Grid.Column="1"
                             IsReadOnly="True"
                             Text="{Binding DownloadItem.IsValid}"
                             />
-                    </Grid>
-                </GroupBox>
-            </StackPanel>
-            <StatusBar DockPanel.Dock="Bottom">
-                <ProgressBar HorizontalAlignment="Right"
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <ProgressBar HorizontalAlignment="Right"
                              IsIndeterminate="{Binding WebBrowser.IsLoading}"
                              Width="100"
                              Height="16"
                              Margin="3" />
-                <TextBlock Text="{Binding StatusMessage}" />
-                <Separator />
-                <TextBlock Text="{Binding OutputMessage}" />
-            </StatusBar>
-            <Grid Background="#FFF0F0F0">
-                <Rectangle>
-                    <Rectangle.Fill>
-                        <VisualBrush TileMode="Tile"
+            <TextBlock Text="{Binding StatusMessage}" />
+            <Separator />
+            <TextBlock Text="{Binding OutputMessage}" />
+        </StatusBar>
+        <Grid Background="#FFF0F0F0">
+            <Rectangle>
+                <Rectangle.Fill>
+                    <VisualBrush TileMode="Tile"
                                      Viewport="0,0,500,90"
                                      ViewportUnits="Absolute"
                                      Opacity="0.05">
-                            <VisualBrush.Visual>
-                                <StackPanel>
-                                    <TextBlock Margin="6,12"
+                        <VisualBrush.Visual>
+                            <StackPanel>
+                                <TextBlock Margin="6,12"
                                                FontWeight="Bold">CefSharp Rocks!</TextBlock>
-                                </StackPanel>
-                            </VisualBrush.Visual>
-                            <VisualBrush.Transform>
-                                <RotateTransform Angle="-22.5" />
-                            </VisualBrush.Transform>
-                        </VisualBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
+                            </StackPanel>
+                        </VisualBrush.Visual>
+                        <VisualBrush.Transform>
+                            <RotateTransform Angle="-22.5" />
+                        </VisualBrush.Transform>
+                    </VisualBrush>
+                </Rectangle.Fill>
+            </Rectangle>
 
-                <cefSharp:ChromiumWebBrowser x:Name="browser"
+            <cefSharp:ChromiumWebBrowser x:Name="browser"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
@@ -432,20 +441,20 @@
                                   WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}"
                                   DataContext="{Binding}"
                                   RenderOptions.BitmapScalingMode="{Binding ElementName=scalingModeComboBox, Path=SelectedItem}">
-                    <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
+                <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
                          incredibly ugly... -->
-                    <!--<cefSharp:ChromiumWebBrowser.BrowserSettings>
+                <!--<cefSharp:ChromiumWebBrowser.BrowserSettings>
                         <CefSharp:BrowserSettings MinimumFontSize="36" />
                     </cefSharp:ChromiumWebBrowser.BrowserSettings>-->
-                    <FrameworkElement.LayoutTransform>
-                        <TransformGroup>
-                            <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
-                        </TransformGroup>
-                    </FrameworkElement.LayoutTransform>
-                    <!--<cefSharp:ChromiumWebBrowser.Resources>
+                <FrameworkElement.LayoutTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
+                    </TransformGroup>
+                </FrameworkElement.LayoutTransform>
+                <!--<cefSharp:ChromiumWebBrowser.Resources>
                         -->
-                    <!-- Apply custom style to wrap ToolTip Issue https://github.com/cefsharp/CefSharp/issues/2488 -->
-                    <!--
+                <!-- Apply custom style to wrap ToolTip Issue https://github.com/cefsharp/CefSharp/issues/2488 -->
+                <!--
                         <Style TargetType="ToolTip">
                             <Style.Resources>
                                 <Style TargetType="ContentPresenter">
@@ -459,8 +468,7 @@
                             <Setter Property="MaxWidth" Value="500" />
                         </Style>
                     </cefSharp:ChromiumWebBrowser.Resources>-->
-                </cefSharp:ChromiumWebBrowser>
-            </Grid>
-        </DockPanel>
-    </Grid>
+            </cefSharp:ChromiumWebBrowser>
+        </Grid>
+    </DockPanel>
 </UserControl>

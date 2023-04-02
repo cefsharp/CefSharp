@@ -1,8 +1,16 @@
 <Window x:Class="CefSharp.Wpf.Example.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
         xmlns:ex="clr-namespace:CefSharp.Example;assembly=CefSharp.Example"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
     <Window.InputBindings>
@@ -10,7 +18,7 @@
         <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
     </Window.InputBindings>
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="25">
             <MenuItem Header="_File">
                 <MenuItem Header="_New Tab" Command="New"/>
                 <MenuItem Header="_Close Tab" Command="Close"/>
@@ -63,12 +71,10 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Title}"/>
-                        <Button Content="X"
-                                Height="20"
+                        <Button Height="20"
                                 Width="20"
-                                FontFamily="Courier"
-                                FontWeight="Bold"
-                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Content="{materialDesign:PackIcon Kind=Close, Size=14}"
                                 Command="Close"
                                 FontSize="10"
                                 Padding="0"

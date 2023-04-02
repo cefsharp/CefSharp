@@ -32,6 +32,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="chromiumembeddedframework.runtime" Version="111.2.7" />
+        <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="bin.netcore\**" />
