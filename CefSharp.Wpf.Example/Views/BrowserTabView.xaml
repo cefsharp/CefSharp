@@ -61,6 +61,7 @@
         </DockPanel>
         <StackPanel DockPanel.Dock="Right"
                         Margin="6,3"
+                        Width="300"
                         Visibility="{Binding ShowSidebar, Converter={StaticResource BooleanToVisibilityConverter}}">
             <GroupBox Header="Tweak WPF Rendering">
                 <Grid>
@@ -102,15 +103,15 @@
                 </Grid>
             </GroupBox>
             <GroupBox Header="Execute Javascript (asynchronously)">
-                <Grid Width="300">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="75" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBox x:Name="ExecuteJavascriptTextBox"
                                  Grid.Row="0"
                                  AcceptsReturn="True"
-                                 Margin="6"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  Text="$('#modify-me').text('See how easy that was?')">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Enter"
@@ -120,26 +121,26 @@
                         </TextBox.InputBindings>
                     </TextBox>
                     <Button Grid.Row="1"
-                                HorizontalAlignment="Left"
-                                Margin="6,0,6,6"
-                                Padding="5,2"
-                                Content="Run"
+                                HorizontalAlignment="Center"
+                                Margin="0, 5, 0, 0"
+                                Content="Execute"
+                                ToolTip="Execute JavaScript"
                                 Command="{Binding ExecuteJavaScriptCommand}"
                                 CommandParameter="{Binding Text, ElementName=ExecuteJavascriptTextBox}" />
                 </Grid>
             </GroupBox>
             <GroupBox Header="Evaluate Javascript (Async)">
-                <Grid Width="300">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="75" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBox x:Name="EvaluateJavascriptTextBox"
                                  Grid.Row="0"
-                                 Margin="6"
                                  AcceptsReturn="True"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  Text="1 + 1">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Enter"
@@ -149,14 +150,13 @@
                         </TextBox.InputBindings>
                     </TextBox>
                     <Button Grid.Row="1"
-                                HorizontalAlignment="Left"
-                                Margin="6,0"
-                                Padding="5,2"
-                                Content="Run"
+                                HorizontalAlignment="Center"
+                                Margin="0, 5, 0, 0"
+                                Content="Evaluate"
+                                ToolTip="Evaluate JavaScript"
                                 Command="{Binding EvaluateJavaScriptCommand}"
                                 CommandParameter="{Binding Text, ElementName=EvaluateJavascriptTextBox}" />
-                    <TextBlock Grid.Row="2"
-                                   Margin="6">Result:</TextBlock>
+                    <TextBlock Grid.Row="2" Margin="6">Result:</TextBlock>
                     <TextBox Grid.Row="3"
                                  IsReadOnly="True"
                                  Margin="6,0,6,6"
@@ -164,7 +164,7 @@
                 </Grid>
             </GroupBox>
             <GroupBox Header="Tests">
-                <Button HorizontalAlignment="Left"
+                <Button HorizontalAlignment="Center"
                             Margin="6,0"
                             Padding="5,2"
                             Command="{Binding JavascriptBindingStressTest}"
