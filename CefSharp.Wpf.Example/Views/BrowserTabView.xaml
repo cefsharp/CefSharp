@@ -112,7 +112,7 @@
                                  Grid.Row="0"
                                  AcceptsReturn="True"
                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                 Text="$('#modify-me').text('See how easy that was?')">
+                                 Text="document.body.style.backgroundColor = 'red';">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Enter"
                                             Modifiers="Control"
