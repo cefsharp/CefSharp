@@ -13,15 +13,15 @@ Thanks for your interest in contributing to the project! Please follow these sim
 
 ### `CefSharp` vs `Chromium Embedded Framework(CEF)`
 
-`CefSharp` simply takes the building blocks provided by `CEF` and attempts to provide a usable '.Net' implementation.
+`CefSharp` simply takes the building blocks provided by the [Chromium Embedded Framework(CEF)](https://github.com/chromiumembedded/cef) and provides a usable '.Net' implementation.
 The upstream [`CEF` forum](http://magpcss.org/ceforum/) is a valuable resource, if your issues seems fairly low level, then please conduct some research before posting.
 
 It maybe helpful to run the `cefclient` application and compare output with `CefSharp`. The `WinForms` and `WPF` versions use two different rendering modes, `WPF` uses Offscreen Rendering (`OSR`). `OffScreen` also uses `OSR` mode.
 
   - Download one of the following:
-        - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windows32_client.tar.bz2
-    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windows64_client.tar.bz2
-	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_110.0.30%2Bg3c2b68f%2Bchromium-110.0.5481.178_windowsarm64_client.tar.bz2
+    - For x86 download   https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows32_client.tar.bz2
+    - For x64 download   https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows64_client.tar.bz2
+	- For arm64 download https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windowsarm64_client.tar.bz2
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
