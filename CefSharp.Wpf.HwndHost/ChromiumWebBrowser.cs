@@ -13,6 +13,7 @@ using System.Windows.Interop;
 using System.Windows.Threading;
 using CefSharp.DevTools.Page;
 using CefSharp.Internals;
+using CefSharp.Structs;
 using CefSharp.Wpf.HwndHost.Internals;
 
 namespace CefSharp.Wpf.HwndHost
@@ -1860,7 +1861,7 @@ namespace CefSharp.Wpf.HwndHost
         }
 
         /// <inheritdoc/>
-        public async Task<DevTools.DOM.Rect> GetContentSizeAsync()
+        public async Task<DomRect> GetContentSizeAsync()
         {
             ThrowExceptionIfDisposed();
             ThrowExceptionIfBrowserNotInitialized();
@@ -1870,7 +1871,9 @@ namespace CefSharp.Wpf.HwndHost
                 //Get the content size
                 var layoutMetricsResponse = await devToolsClient.Page.GetLayoutMetricsAsync().ConfigureAwait(continueOnCapturedContext: false);
 
-                return layoutMetricsResponse.CssContentSize;
+                var rect = layoutMetricsResponse.CssContentSize;
+
+                return new Structs.DomRect(rect.X, rect.Y, rect.Width, rect.Height);
             }
         }
 
