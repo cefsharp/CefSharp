@@ -35,7 +35,7 @@ namespace CefSharp
             CefString _jsBindingPropertyNameCamelCase;
 
             // The serialized registered object data waiting to be used.
-            gcroot<JavaScriptObjectCache^> _javascriptObjectCache;
+            gcroot<IJavaScriptObjectCache^> _javascriptObjectCache;
 
             gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
 
@@ -49,7 +49,7 @@ namespace CefSharp
                 _onBrowserDestroyed = onBrowserDestroyed;
                 _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
                 _focusedNodeChangedEnabled = enableFocusedNodeChanged;
-                _javascriptObjectCache = gcnew JavaScriptObjectCache();
+                _javascriptObjectCache = gcnew LegacyJavaScriptObjectCache();
                 _registerBoundObjectRegistry = gcnew RegisterBoundObjectRegistry();
                 _legacyBindingEnabled = false;
                 _jsBindingPropertyName = "CefSharp";
