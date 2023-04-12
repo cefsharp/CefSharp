@@ -4,35 +4,26 @@
 
 using System;
 using System.Collections.Generic;
-using CefSharp.Internals;
 
-namespace CefSharp.RenderProcess
+namespace CefSharp.Internals
 {
     /// <summary>
-    /// JavaScriptObjectCache is used in the RenderProcess to cache
-    /// JavaScript bound objects at a CefBrowser level
+    /// Render Process JavaScript Binding (JSB) object cache
+    /// Stores bound objects per CefBrowser.
     /// </summary>
-    public class JavaScriptObjectCache 
+    public class PerBrowserJavaScriptObjectCache : IJavaScriptObjectCache
     {
         private readonly Dictionary<int, Dictionary<string, JavascriptObject>> cache
             = new Dictionary<int, Dictionary<string, JavascriptObject>>();
 
-        /// <summary>
-        /// Remove the Browser specific Cache
-        /// </summary>
-        /// <param name="browserId">browser Id</param>
+        /// <inheritdoc/>
         public void ClearCache(int browserId)
         {
             cache.Remove(browserId);
         }
 
-        /// <summary>
-        /// Insert or Update the <paramref name="javascriptObject"/> within the Cache
-        /// </summary>
-        /// <param name="browserId">browser id</param>
-        /// <param name="javascriptObject">JavaScript object</param>
-        /// <exception cref="InvalidOperationException"></exception>
-        public void InsertOrUpdate(int browserId,  IList<JavascriptObject> javascriptObjects)
+        /// <inheritdoc/>
+        public void InsertOrUpdate(int browserId, IList<JavascriptObject> javascriptObjects)
         {
             var dict = GetCacheInternal(browserId);
 
@@ -47,13 +38,7 @@ namespace CefSharp.RenderProcess
             }
         }
 
-        /// <summary>
-        /// Gets a collection of <see cref="JavascriptObject"/>s
-        /// for the given <paramref name="browserId"/>
-        /// </summary>
-        /// <param name="browserId">browser Id</param>
-        /// <returns>Collection of current bound objects for the browser</returns>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <inheritdoc/>
         public ICollection<JavascriptObject> GetCacheValues(int browserId)
         {
             if (cache.TryGetValue(browserId, out var dict))
@@ -64,12 +49,7 @@ namespace CefSharp.RenderProcess
             return new List<JavascriptObject>();
         }
 
-        /// <summary>
-        /// Gets the browser specific cache (dictionary) based on it's Id
-        /// </summary>
-        /// <param name="browserId">browser Id</param>
-        /// <returns>Dictionary of cache <see cref="JavascriptObject"/>'s.</returns>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <inheritdoc/>
         public Dictionary<string, JavascriptObject> GetCache(int browserId)
         {
             var dict = GetCacheInternal(browserId);
