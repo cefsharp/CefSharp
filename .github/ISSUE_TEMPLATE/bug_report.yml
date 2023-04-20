@@ -114,21 +114,14 @@ body:
     attributes:
       value: |
         To help determine where the problem needs to be fixed please download and test using the `CEF Sample Application(cefclient)`.
-          1. Download [x86](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windowsarm64_client.tar.bz2).
-            - Extract and run cefclient.exe
-            - **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED BELOW**
-            - If you are using WPF/OffScreen run
-            ```
-            cefclient.exe --multi-threaded-message-loop --no-sandbox --off-screen-rendering-enabled --enable-gpu
-            ```
-            - If you are using WinForms run
-            ```
-            cefclient.exe --multi-threaded-message-loop --no-sandbox
-            ```
+          1.  Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windowsarm64_client.tar.bz2).
+          2.  Extract tar.bz2 file
+          3a. For WPF/OffScreen `cefclient.exe --multi-threaded-message-loop --no-sandbox --off-screen-rendering-enabled --enable-gpu` Execute cefclient.exe using the command line args:MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED BELOW**
+          3b. For WinForms `cefclient.exe --multi-threaded-message-loop --no-sandbox
   - type: dropdown
     id: cefclient-testing
     attributes:
-      label: Does this problem also occur in the **CEF** Sample Application
+      label: Does this problem also occur in the CEF Sample Application
       multiple: false
       options:
         - 'Yes'
