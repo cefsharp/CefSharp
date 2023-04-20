@@ -77,7 +77,6 @@ body:
       description: |
         Please include minimal steps to reproduce the problem if possible. E.g.: the smallest possible code snippet; or a small example project here on GitHub, with steps to run it. If possible include text/code as text rather than screenshots (so it shows up in searches and can copy/paste).
       placeholder: Minimal Reproduction
-      render: markdown
     validations:
       required: true
   - type: textarea
