@@ -5,10 +5,18 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please only open an issue if you have a BUG to report, if you simply have a question or require some assistance then please use [Discussions](https://github.com/cefsharp/CefSharp/discussions).
+        Please only open an issue if you have a **BUG** to report. for questions/assistance use [Discussions](https://github.com/cefsharp/CefSharp/discussions).
         If you are new to the project then please review the following [General Usage guide](https://github.com/cefsharp/CefSharp/wiki/General-Usage), it answers all the common questions.
-        [Frequently Asked Questions](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions), lots of useful information there, specially if your having trouble deploying to a different machine. GitHub proves a fantastic search feature, it'll search through past issues and code. So check that out (Search box at the top of this page).
+        [Frequently Asked Questions](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions), lots of useful information there, specially if your having trouble deploying to a different machine.
+        GitHub has a fantastic search feature, it'll search through past issues/code. Use the Search box at the top of this page).
         You can see all the `CefSharp` tagged issues on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp), some useful stuff there
+  - type: checkboxes
+    attributes:
+        label: Is there an existing issue for this?
+        description: Please search to see if an issue already exists for the bug you encountered.
+        options:
+        - label: I have searched for existing issues
+        required: true
   - type: textarea
     id: cefsharp-version
     attributes:
@@ -70,6 +78,7 @@ body:
       description: |
         Please include minimal steps to reproduce the problem if possible. E.g.: the smallest possible code snippet; or a small example project here on GitHub, with steps to run it. If possible include text as text rather than screenshots (so it shows up in searches).
       placeholder: Minimal Reproduction
+      render: markdown
     validations:
       required: true
   - type: textarea
@@ -111,7 +120,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        To help determine where the problem needs to be fixed please download and test using the `CEF Sample Application(cefclient)`. [cefclient x86](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows32_client.tar.bz2) or [cefclient x64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows64_client.tar.bz2). [cefclient arm64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windowsarm64_client.tar.bz2).
+        To help determine where the problem needs to be fixed please download and test using the `CEF Sample Application(cefclient)`.
+          1. Download [x86](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windowsarm64_client.tar.bz2).
             - Extract and run cefclient.exe
             - **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED BELOW**
             - If you are using WPF/OffScreen run
@@ -125,11 +135,11 @@ body:
   - type: dropdown
     id: cefclient-testing
     attributes:
-      label: Does this problem also occur in the `CEF` Sample Application
+      label: Does this problem also occur in the **CEF** Sample Application
       multiple: false
       options:
         - 'Yes'
-        - No
+        - 'No'
         - Not Tested
       description: |
         If you can reproduce the problem with `cefclient` then please report the issue on [CEF Issue Tracker](https://github.com/chromiumembedded/cef/issues) (Make sure you search before opening an issue). If you open an issue here it will most likely be closed as `upstream` as the bug needs to be fixed in `CEF`.
