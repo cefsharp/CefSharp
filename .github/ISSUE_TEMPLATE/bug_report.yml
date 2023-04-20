@@ -15,7 +15,7 @@ body:
       label: Is there an existing issue for this?
       description: Please search to see if an issue already exists for the bug you encountered.
       options:
-      - label: I have searched both open and closed issues
+      - label: I have searched both open/closed issues, no issue already exists.
         required: true
   - type: input
     id: cefsharp-version
@@ -75,7 +75,8 @@ body:
     attributes:
       label: Reproduction Steps
       description: |
-        Please include minimal steps to reproduce the problem if possible. E.g.: the smallest possible code snippet; or a small example project here on GitHub, with steps to run it. If possible include text/code as text rather than screenshots (so it shows up in searches and can copy/paste).
+        Please include minimal steps to reproduce the problem. E.g.: the smallest possible code snippet; or a small example project here on GitHub, with steps to run it. Include text/code as text rather than screenshots (so it shows up in searches and can copy/paste).
+        Does the problem reproduce using the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample)? You can fork the MinimalExample and use this as a base for your example.
       placeholder: Minimal Reproduction
     validations:
       required: true
