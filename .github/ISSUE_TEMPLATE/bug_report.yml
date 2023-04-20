@@ -15,8 +15,8 @@ body:
         label: Is there an existing issue for this?
         description: Please search to see if an issue already exists for the bug you encountered.
         options:
-        - label: I have searched for existing issues
-        required: true
+          - label: I have searched for existing issues
+          required: true
   - type: input
     id: cefsharp-version
     attributes:
