@@ -29,7 +29,6 @@ body:
         - Windows Server 2016
         - Windows Server 2019
         - Windows Server 2022
-        - AnyCPU
     validations:
       required: true
   - type: dropdown
@@ -69,7 +68,7 @@ body:
     attributes:
       label: Reproduction Steps
       description: |
-        Please include minimal steps to reproduce the problem if possible. E.g.: the smallest possible code snippet; or a small example project here on GitHub, with steps to run it. If possible include text as text rather than screenshots (so it shows up in searches).
+        Please include minimal steps to reproduce the problem if possible. E.g.: the smallest possible code snippet; or a small example project here on GitHub, with steps to run it. If possible include text/code as text rather than screenshots (so it shows up in searches and can copy/paste).
       placeholder: Minimal Reproduction
       render: markdown
     validations:
@@ -126,8 +125,8 @@ body:
       label: Does this problem also occur in the CEF Sample Application
       multiple: false
       options:
-        - 'Yes using WPF/OffScreen args'
-        - 'Yes using WinForms args'
+        - 'Yes using WPF/OffScreen command line args'
+        - 'Yes using WinForms command line args'
         - 'No'
         - Not Tested
       description: |
@@ -139,7 +138,7 @@ body:
     attributes:
       label: Other information
       description: |
-        If you are seeing a crash in `libcef.dll` then please download `libcef.dll.pdb` and place it next to `libcef.dll` to obtain a detailed stack trace, the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#loading-native-symbols-for-easier-diagnosis) for details.
+        If you are seeing a crash in `libcef.dll` then please download `libcef.dll.pdb` and place it next to `libcef.dll` to obtain a detailed stack trace, see [FAQ](https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#loading-native-symbols-for-easier-diagnosis) for details.
         Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
         Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
       placeholder: Other information
