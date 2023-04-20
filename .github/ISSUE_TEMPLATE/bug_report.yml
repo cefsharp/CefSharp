@@ -10,6 +10,13 @@ body:
         2. [Frequently Asked Questions](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions), lots of useful information there, specially if your having trouble deploying to a different machine.
         3. GitHub has a fantastic search feature, it'll search through past issues/code. Use the Search box at the top of this page).
         4. You can see all the `CefSharp` tagged issues on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp), lots of questions/answers.
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+      - label: I have searched both open and closed issues
+        required: true
   - type: input
     id: cefsharp-version
     attributes:
