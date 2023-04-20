@@ -17,7 +17,7 @@ body:
         options:
         - label: I have searched for existing issues
         required: true
-  - type: textarea
+  - type: input
     id: cefsharp-version
     attributes:
       label: CefSharp Version
@@ -51,7 +51,7 @@ body:
         - AnyCPU
     validations:
       required: true
-  - type: textarea
+  - type: input
     id: dotnet-version
     attributes:
       label: .Net Version
