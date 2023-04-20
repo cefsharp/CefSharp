@@ -81,4 +81,4 @@ Delete this line and everything above, and then fill in the details below.
 		cefclient.exe --multi-threaded-message-loop --no-sandbox
 		```
 	- **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED ABOVE**
-    - If you can reproduce the problem with `cefclient` then please report the issue on https://bitbucket.org/chromiumembedded/cef/overview (Make sure you search before opening an issue). If you open an issue here it will most likely be closed as `upstream` as the bug needs to be fixed in `CEF`.
+    - If you can reproduce the problem with `cefclient` then please report the issue on https://github.com/chromiumembedded/cef/issues (Make sure you search before opening an issue). If you open an issue here it will most likely be closed as `upstream` as the bug needs to be fixed in `CEF`.
