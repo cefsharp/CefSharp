@@ -6,11 +6,9 @@ body:
     attributes:
       value: |
         Please only open an issue if you have a BUG to report, if you simply have a question or require some assistance then please use [Discussions](https://github.com/cefsharp/CefSharp/discussions).
-        If you are new to the project then please review the following:
-            - Start by reading the General Usage guide, it answers all the common questions https://github.com/cefsharp/CefSharp/wiki/General-Usage
-            - Check out the FAQ, lots of useful information there, specially if your having trouble deploying to a different machine : https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
-            - GitHub proves a fantastic search feature, it'll search through past issues and code. So check that out (Search box at the top of this page) : https://github.com/cefsharp/CefSharp
-            - You can see all the `CefSharp` tagged issues on `Stackoverflow`, some useful stuff there : http://stackoverflow.com/questions/tagged/cefsharp
+        If you are new to the project then please review the following [General Usage guide](https://github.com/cefsharp/CefSharp/wiki/General-Usage), it answers all the common questions.
+        [Frequently Asked Questions](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions), lots of useful information there, specially if your having trouble deploying to a different machine. GitHub proves a fantastic search feature, it'll search through past issues and code. So check that out (Search box at the top of this page).
+        You can see all the `CefSharp` tagged issues on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp), some useful stuff there
   - type: textarea
     id: cefsharp-version
     attributes:
@@ -110,18 +108,10 @@ body:
       placeholder: Known Workarounds
     validations:
       required: false
-  - type: dropdown
-    id: cefclient-testing
+  - type: markdown
     attributes:
-      label: Does this problem also occur in the `CEF` Sample Application
-      multiple: false
-      options:
-        - 'Yes'
-        - No
-        - Not Tested
-      description: |
+      value: |
         To help determine where the problem needs to be fixed please download and test using the `CEF Sample Application(cefclient)`. [cefclient x86](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows32_client.tar.bz2) or [cefclient x64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows64_client.tar.bz2). [cefclient arm64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windowsarm64_client.tar.bz2).
-        If you can reproduce the problem with `cefclient` then please report the issue on [CEF Issue Tracker](https://github.com/chromiumembedded/cef/issues) (Make sure you search before opening an issue). If you open an issue here it will most likely be closed as `upstream` as the bug needs to be fixed in `CEF`.
             - Extract and run cefclient.exe
             - **MAKE SURE TO TEST WITH THE COMMAND LINE ARGS LISTED BELOW**
             - If you are using WPF/OffScreen run
@@ -132,6 +122,17 @@ body:
             ```
             cefclient.exe --multi-threaded-message-loop --no-sandbox
             ```
+  - type: dropdown
+    id: cefclient-testing
+    attributes:
+      label: Does this problem also occur in the `CEF` Sample Application
+      multiple: false
+      options:
+        - 'Yes'
+        - No
+        - Not Tested
+      description: |
+        If you can reproduce the problem with `cefclient` then please report the issue on [CEF Issue Tracker](https://github.com/chromiumembedded/cef/issues) (Make sure you search before opening an issue). If you open an issue here it will most likely be closed as `upstream` as the bug needs to be fixed in `CEF`.
     validations:
       required: true
   - type: textarea
@@ -139,7 +140,7 @@ body:
     attributes:
       label: Other information
       description: |
-        If you are seeing a crash in `libcef.dll` then please download `libcef.dll.pdb` and place it next to `libcef.dll` to obtain a detailed stack trace, see https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#loading-native-symbols-for-easier-diagnosis for details.
+        If you are seeing a crash in `libcef.dll` then please download `libcef.dll.pdb` and place it next to `libcef.dll` to obtain a detailed stack trace, the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#loading-native-symbols-for-easier-diagnosis) for details.
         Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
         Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
       placeholder: Other information
