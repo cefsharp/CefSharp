@@ -116,7 +116,7 @@ body:
       label: Does this problem also occur in the `CEF` Sample Application
       multiple: false
       options:
-        - Yes
+        - 'Yes'
         - No
         - Not Tested
       description: |
