@@ -5,11 +5,11 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please only open an issue if you have a **BUG** to report. for questions/assistance use [Discussions](https://github.com/cefsharp/CefSharp/discussions).
-        If you are new to the project then please review the following [General Usage guide](https://github.com/cefsharp/CefSharp/wiki/General-Usage), it answers all the common questions.
-        [Frequently Asked Questions](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions), lots of useful information there, specially if your having trouble deploying to a different machine.
-        GitHub has a fantastic search feature, it'll search through past issues/code. Use the Search box at the top of this page).
-        You can see all the `CefSharp` tagged issues on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp), some useful stuff there
+        Please only open an issue if you have a **BUG** to report. for questions/assistance use [Discussions](https://github.com/cefsharp/CefSharp/discussions). If you are new to the project then please review the following:
+        1. [General Usage guide](https://github.com/cefsharp/CefSharp/wiki/General-Usage) includes examples and details of many common questions.
+        2. [Frequently Asked Questions](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions), lots of useful information there, specially if your having trouble deploying to a different machine.
+        3. GitHub has a fantastic search feature, it'll search through past issues/code. Use the Search box at the top of this page).
+        4. You can see all the `CefSharp` tagged issues on [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp), lots of questions/answers.
   - type: input
     id: cefsharp-version
     attributes:
