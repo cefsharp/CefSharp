@@ -332,7 +332,7 @@ namespace CefSharp.DevTools
         /// <summary>
         /// Deserialize the JSON stream into a .Net object.
         /// For .Net Core/.Net 5.0 uses System.Text.Json
-        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
+        /// for .Net 4.6.2 uses System.Runtime.Serialization.Json
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="eventName">event Name</param>
@@ -359,7 +359,7 @@ namespace CefSharp.DevTools
         /// <summary>
         /// Deserialize the JSON stream into a .Net object.
         /// For .Net Core/.Net 5.0 uses System.Text.Json
-        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
+        /// for .Net 4.6.2 uses System.Runtime.Serialization.Json
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="stream">JSON stream</param>
@@ -372,7 +372,7 @@ namespace CefSharp.DevTools
         /// <summary>
         /// Deserialize the JSON stream into a .Net object.
         /// For .Net Core/.Net 5.0 uses System.Text.Json
-        /// for .Net 4.5.2 uses System.Runtime.Serialization.Json
+        /// for .Net 4.6.2 uses System.Runtime.Serialization.Json
         /// </summary>
         /// <param name="type">Object type</param>
         /// <param name="stream">JSON stream</param>

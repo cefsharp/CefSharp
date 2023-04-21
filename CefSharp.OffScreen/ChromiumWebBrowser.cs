@@ -692,7 +692,6 @@ namespace CefSharp.OffScreen
             }
         }
 
-#if NETCOREAPP || NET462
         /// <summary>
         /// Waits for the page rendering to be idle for <paramref name="idleTimeInMs"/>.
         /// Rendering is considered to be idle when no <see cref="Paint"/> events have occured
@@ -750,7 +749,6 @@ namespace CefSharp.OffScreen
                 throw;
             }
         }
-#endif
 
         /// <summary>
         /// The javascript object repository, one repository per ChromiumWebBrowser instance.

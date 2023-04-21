@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net452</TargetFramework>
+        <TargetFramework>net462</TargetFramework>
         <OutputType>WinExe</OutputType>
         <Platforms>x86;x64</Platforms>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

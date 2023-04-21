@@ -18,11 +18,11 @@ Deployment:
 What's New:
   See https://github.com/cefsharp/CefSharp/releases
   IMPORTANT NOTE - Visual C++ 2019 or greater is required
-  IMPORTANT NOTE - .NET Framework 4.5.2 or greater is required.
+  IMPORTANT NOTE - .NET Framework 4.6.2 or greater is required.
   IMPORTANT NOTE - Chromium support for Windows 7/8/8.1 ends with version 109, starting with version 110 a minimum of Windows 10 is required.
 
 Basic Troubleshooting:
-  - Minimum of .Net 4.5.2
+  - Minimum of .Net 4.6.2
   - Minimum of `Visual C++ 2019 Redist` is installed (either `x86` or `x64` depending on your application).
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (Chromium Embedded Framework Core library)

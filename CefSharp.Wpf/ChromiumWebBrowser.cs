@@ -1776,7 +1776,6 @@ namespace CefSharp.Wpf
             }
         }
 
-#if NETCOREAPP || NET462
         /// <inheritdoc/>
         protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
         {
@@ -1784,7 +1783,6 @@ namespace CefSharp.Wpf
 
             base.OnDpiChanged(oldDpi, newDpi);
         }
-#endif
 
         private void OnWindowStateChanged(object sender, EventArgs e)
         {
@@ -2638,8 +2636,6 @@ namespace CefSharp.Wpf
         /// correspond to 96, 120, 144, 192 DPI (referred to as 100%, 125%, 150%, 200% in the Windows GUI).
         /// </summary>
         /// <param name="newDpi">new DPI</param>
-        /// <remarks>.Net 4.6.2 adds HwndSource.DpiChanged which could be used to automatically
-        /// handle DPI change, unfortunately we still target .Net 4.5.2</remarks>
         public virtual void NotifyDpiChange(float newDpi)
         {
             //Do nothing
@@ -2680,7 +2676,6 @@ namespace CefSharp.Wpf
             }
         }
 
-#if NETCOREAPP || NET462
         /// <summary>
         /// Waits for the page rendering to be idle for <paramref name="idleTimeInMs"/>.
         /// Rendering is considered to be idle when no <see cref="Paint"/> events have occured
@@ -2738,7 +2733,6 @@ namespace CefSharp.Wpf
                 throw;
             }
         }
-#endif
 
         /// <summary>
         /// Legacy keyboard handler uses WindowProc callback interceptor to forward keypress events

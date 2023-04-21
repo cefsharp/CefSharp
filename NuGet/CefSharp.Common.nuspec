@@ -12,21 +12,21 @@
     <tags>chrome browser</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
-      <group targetFramework=".NETFramework4.5.2">
+      <group targetFramework=".NETFramework4.6.2">
         <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
-		<dependency id="cef.redist.x64" version="[$RedistVersion$]" />
+		    <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="..\CefSharp\bin\Release\CefSharp.dll" target="lib\net452"/>
-    <file src="..\CefSharp\bin\Release\CefSharp.xml" target="lib\net452"/>
-    <file src="..\CefSharp\bin\Release\CefSharp.pdb" target="lib\net452"/>
-    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="lib\net452"/>
-    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.xml" target="lib\net452"/>
-    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.pdb" target="lib\net452"/>
+    <file src="..\CefSharp\bin\Release\CefSharp.dll" target="lib\net462"/>
+    <file src="..\CefSharp\bin\Release\CefSharp.xml" target="lib\net462"/>
+    <file src="..\CefSharp\bin\Release\CefSharp.pdb" target="lib\net462"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="lib\net462"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.xml" target="lib\net462"/>
+    <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.pdb" target="lib\net462"/>
     
-    <!-- Cannot put these inside lib\net452 etc, since there are both x86 and x64 versions which we must distinguish between. We
+    <!-- Cannot put these inside lib\net462 etc, since there are both x86 and x64 versions which we must distinguish between. We
          solve this using a .targets file instead to copy them based on PlatformTarget -->
 
     <!-- Common CefSharp stuff (shared between both WPF, Offscreen and WinForms) -->
