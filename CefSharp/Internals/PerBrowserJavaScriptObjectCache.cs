@@ -29,12 +29,7 @@ namespace CefSharp.Internals
 
             foreach (var obj in javascriptObjects)
             {
-                if (dict.ContainsKey(obj.Name))
-                {
-                    dict.Remove(obj.Name);
-                }
-
-                dict.Add(obj.Name, obj);
+                dict[obj.Name] = obj;
             }
         }
 
