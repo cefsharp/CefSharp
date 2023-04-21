@@ -3,9 +3,9 @@
 
 param(
 	[Parameter(Position = 1)]
-	[string] $CefVersion = "112.2.10",
+	[string] $CefVersion = "112.3.0",
 	[Parameter(Position = 2)]
-	[string] $CefSharpVersion = ""
+	[string] $CefSharpVersion = "112.3.0"
 	)
 
 # Update projects files
