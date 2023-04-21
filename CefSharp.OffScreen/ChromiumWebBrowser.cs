@@ -389,11 +389,11 @@ namespace CefSharp.OffScreen
         /// </returns>
         public Task<IBrowser> CreateBrowserAsync(IWindowInfo windowInfo = null, IBrowserSettings browserSettings = null)
         {
-            var tcs = new TaskCompletionSource<IBrowser>();
+            var tcs = new TaskCompletionSource<IBrowser>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             onAfterBrowserCreatedDelegate += new Action<IBrowser>(b =>
             {
-                tcs.TrySetResultAsync(b);
+                tcs.TrySetResult(b);
             });
 
             try
@@ -402,7 +402,7 @@ namespace CefSharp.OffScreen
             }
             catch(Exception ex)
             {
-                tcs.TrySetExceptionAsync(ex);
+                tcs.TrySetException(ex);
             }
 
             return tcs.Task;
@@ -520,7 +520,7 @@ namespace CefSharp.OffScreen
             // Try our luck and see if there is already a screenshot, to save us creating a new thread for nothing.
             var screenshot = ScreenshotOrNull(blend);
 
-            var completionSource = new TaskCompletionSource<Bitmap>();
+            var completionSource = new TaskCompletionSource<Bitmap>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             if (screenshot == null || ignoreExistingScreenshot)
             {
@@ -539,7 +539,7 @@ namespace CefSharp.OffScreen
                     }
                     else
                     {
-                        completionSource.TrySetResultAsync(ScreenshotOrNull(blend));
+                        completionSource.TrySetResult(ScreenshotOrNull(blend));
                     }
                 };
 
@@ -547,7 +547,7 @@ namespace CefSharp.OffScreen
             }
             else
             {
-                completionSource.TrySetResultAsync(screenshot);
+                completionSource.TrySetResult(screenshot);
             }
 
             return completionSource.Task;
@@ -640,7 +640,7 @@ namespace CefSharp.OffScreen
             var scaledWidth = (int)(width * DeviceScaleFactor);
             var scaledHeight = (int)(height * DeviceScaleFactor);
 
-            var tcs = new TaskCompletionSource<bool>();
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             EventHandler<OnPaintEventArgs> handler = null;
 
             handler = (s, e) =>
@@ -649,7 +649,7 @@ namespace CefSharp.OffScreen
                 {
                     AfterPaint -= handler;
 
-                    tcs.TrySetResultAsync(true);
+                    tcs.TrySetResult(true);
                 }
             };
 

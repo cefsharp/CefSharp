@@ -23,7 +23,7 @@ namespace CefSharp
         /// </summary>
         public TaskNavigationEntryVisitor()
         {
-            taskCompletionSource = new TaskCompletionSource<List<NavigationEntry>>();
+            taskCompletionSource = new TaskCompletionSource<List<NavigationEntry>>(TaskCreationOptions.RunContinuationsAsynchronously);
             list = new List<NavigationEntry>();
         }
 
@@ -40,8 +40,7 @@ namespace CefSharp
         {
             if (list != null)
             {
-                //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
-                taskCompletionSource.TrySetResultAsync(list);
+                taskCompletionSource.TrySetResult(list);
             }
 
             list = null;

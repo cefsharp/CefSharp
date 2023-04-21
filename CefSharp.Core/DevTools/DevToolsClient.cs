@@ -138,7 +138,7 @@ namespace CefSharp.DevTools
                 throw new ObjectDisposedException(nameof(IBrowser));
             }
 
-            var taskCompletionSource = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             var methodResultContext = new DevToolsMethodResponseContext(
                 type: typeof(T),

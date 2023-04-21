@@ -424,7 +424,7 @@ namespace CefSharp
                 throw new ArgumentNullException(nameof(url));
             }
 
-            var tcs = new TaskCompletionSource<LoadUrlAsyncResponse>();
+            var tcs = new TaskCompletionSource<LoadUrlAsyncResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
             EventHandler<LoadingStateChangedEventArgs> loadingStateChangeHandler = null;
@@ -447,7 +447,7 @@ namespace CefSharp
                 //Ensure our continuation is executed on the ThreadPool
                 //For the .Net Core implementation we could use
                 //TaskCreationOptions.RunContinuationsAsynchronously
-                tcs.TrySetResultAsync(new LoadUrlAsyncResponse(args.ErrorCode, -1));
+                tcs.TrySetResult(new LoadUrlAsyncResponse(args.ErrorCode, -1));
             };
 
             loadingStateChangeHandler = (sender, args) =>
@@ -478,7 +478,7 @@ namespace CefSharp
                     //Ensure our continuation is executed on the ThreadPool
                     //For the .Net Core implementation we could use
                     //TaskCreationOptions.RunContinuationsAsynchronously
-                    tcs.TrySetResultAsync(new LoadUrlAsyncResponse(statusCode == -1 ? CefErrorCode.Failed : CefErrorCode.None, statusCode));
+                    tcs.TrySetResult(new LoadUrlAsyncResponse(statusCode == -1 ? CefErrorCode.Failed : CefErrorCode.None, statusCode));
                 }
             };
 
@@ -520,7 +520,7 @@ namespace CefSharp
         {
             ThrowExceptionIfChromiumWebBrowserDisposed(chromiumWebBrowser);
 
-            var tcs = new TaskCompletionSource<WaitForNavigationAsyncResponse>();
+            var tcs = new TaskCompletionSource<WaitForNavigationAsyncResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
             EventHandler<LoadingStateChangedEventArgs> loadingStateChangeHandler = null;
@@ -543,7 +543,7 @@ namespace CefSharp
                 //Ensure our continuation is executed on the ThreadPool
                 //For the .Net Core implementation we could use
                 //TaskCreationOptions.RunContinuationsAsynchronously
-                tcs.TrySetResultAsync(new WaitForNavigationAsyncResponse(args.ErrorCode, -1));
+                tcs.TrySetResult(new WaitForNavigationAsyncResponse(args.ErrorCode, -1));
             };
 
             loadingStateChangeHandler = (sender, args) =>
@@ -574,7 +574,7 @@ namespace CefSharp
                     //Ensure our continuation is executed on the ThreadPool
                     //For the .Net Core implementation we could use
                     //TaskCreationOptions.RunContinuationsAsynchronously
-                    tcs.TrySetResultAsync(new WaitForNavigationAsyncResponse(statusCode == -1 ? CefErrorCode.Failed : CefErrorCode.None, statusCode));
+                    tcs.TrySetResult(new WaitForNavigationAsyncResponse(statusCode == -1 ? CefErrorCode.Failed : CefErrorCode.None, statusCode));
                 }
             };
 

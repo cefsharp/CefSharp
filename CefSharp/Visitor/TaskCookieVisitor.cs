@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -23,7 +22,7 @@ namespace CefSharp
         /// </summary>
         public TaskCookieVisitor()
         {
-            taskCompletionSource = new TaskCompletionSource<List<Cookie>>();
+            taskCompletionSource = new TaskCompletionSource<List<Cookie>>(TaskCreationOptions.RunContinuationsAsynchronously);
             list = new List<Cookie>();
         }
 
@@ -34,8 +33,7 @@ namespace CefSharp
 
             if (count == (total - 1))
             {
-                //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
-                taskCompletionSource.TrySetResultAsync(list);
+                taskCompletionSource.TrySetResult(list);
             }
 
             return true;
@@ -46,8 +44,7 @@ namespace CefSharp
         {
             if (list != null && list.Count == 0)
             {
-                //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
-                taskCompletionSource.TrySetResultAsync(list);
+                taskCompletionSource.TrySetResult(list);
             }
 
             list = null;

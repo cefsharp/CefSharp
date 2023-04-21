@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -22,14 +21,14 @@ namespace CefSharp
         /// </summary>
         public TaskCompletionCallback()
         {
-            taskCompletionSource = new TaskCompletionSource<bool>();
+            taskCompletionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         }
 
         void ICompletionCallback.OnComplete()
         {
             onComplete = true;
 
-            taskCompletionSource.TrySetResultAsync(true);
+            taskCompletionSource.TrySetResult(true);
         }
 
         /// <summary>
@@ -50,11 +49,10 @@ namespace CefSharp
             var task = taskCompletionSource.Task;
 
             //If onComplete is false then ICompletionCallback.OnComplete was never called,
-            //so we'll set the result to false. Calling TrySetResultAsync multiple times 
-            //can result in the issue outlined in https://github.com/cefsharp/CefSharp/pull/2349
+            //so we'll set the result to false.
             if (onComplete == false && task.IsCompleted == false)
             {
-                taskCompletionSource.TrySetResultAsync(false);
+                taskCompletionSource.TrySetResult(false);
             }
 
             isDisposed = true;

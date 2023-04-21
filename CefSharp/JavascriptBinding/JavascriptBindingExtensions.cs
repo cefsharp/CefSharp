@@ -23,7 +23,7 @@ namespace CefSharp
         /// <returns>List of objects that were bound</returns>
         public static Task<IList<string>> EnsureObjectBoundAsync(this IWebBrowser browser, params string[] names)
         {
-            var objBoundTasks = new TaskCompletionSource<IList<string>>();
+            var objBoundTasks = new TaskCompletionSource<IList<string>>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             EventHandler<JavascriptBindingMultipleCompleteEventArgs> handler = null;
             handler = (sender, args) =>
@@ -34,11 +34,11 @@ namespace CefSharp
                 var allObjectsBound = names.ToList().SequenceEqual(args.ObjectNames);
                 if (allObjectsBound)
                 {
-                    objBoundTasks.SetResult(args.ObjectNames);
+                    objBoundTasks.TrySetResult(args.ObjectNames);
                 }
                 else
                 {
-                    objBoundTasks.SetException(new Exception("Not all objects were bound successfully, bound objects were " + string.Join(",", args.ObjectNames)));
+                    objBoundTasks.TrySetException(new Exception("Not all objects were bound successfully, bound objects were " + string.Join(",", args.ObjectNames)));
                 }
             };
 

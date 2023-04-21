@@ -22,14 +22,14 @@ namespace CefSharp
         /// </summary>
         public TaskSetCookieCallback()
         {
-            taskCompletionSource = new TaskCompletionSource<bool>();
+            taskCompletionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         }
 
         void ISetCookieCallback.OnComplete(bool success)
         {
             onComplete = true;
 
-            taskCompletionSource.TrySetResultAsync(success);
+            taskCompletionSource.TrySetResult(success);
         }
 
         /// <summary>
@@ -50,11 +50,10 @@ namespace CefSharp
             var task = taskCompletionSource.Task;
 
             //If onComplete is false then ISetCookieCallback.OnComplete was never called,
-            //so we'll set the result to false. Calling TrySetResultAsync multiple times 
-            //can result in the issue outlined in https://github.com/cefsharp/CefSharp/pull/2349
+            //so we'll set the result to false. 
             if (onComplete == false && task.IsCompleted == false)
             {
-                taskCompletionSource.TrySetResultAsync(false);
+                taskCompletionSource.TrySetResult(false);
             }
 
             isDisposed = true;
