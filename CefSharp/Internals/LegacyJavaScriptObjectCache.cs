@@ -26,12 +26,7 @@ namespace CefSharp.Internals
         {
             foreach (var obj in javascriptObjects)
             {
-                if (cache.ContainsKey(obj.Name))
-                {
-                    cache.Remove(obj.Name);
-                }
-
-                cache.Add(obj.Name, obj);
+                cache[obj.Name] = obj;
             }
         }
 
