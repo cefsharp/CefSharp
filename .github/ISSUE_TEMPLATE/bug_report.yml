@@ -21,8 +21,8 @@ body:
     id: cefsharp-version
     attributes:
       label: CefSharp Version
-      description: What version are you using? Please only open an issue if you can reproduce the problem with version 112.2.70 or later.
-      placeholder: 112.2.70
+      description: What version are you using? Please only open an issue if you can reproduce the problem with version 112.3.0 or later.
+      placeholder: 112.3.0
     validations:
       required: true
   - type: dropdown
@@ -120,7 +120,7 @@ body:
     attributes:
       value: |
         To help determine where the problem needs to be fixed please download and test using the `CEF Sample Application(cefclient)`.
-          1. Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_111.2.7%2Bgebf5d6a%2Bchromium-111.0.5563.148_windowsarm64_client.tar.bz2).
+          1. Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_112.3.0%2Bgb09c4ca%2Bchromium-112.0.5615.165_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_112.3.0%2Bgb09c4ca%2Bchromium-112.0.5615.165_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_112.3.0%2Bgb09c4ca%2Bchromium-112.0.5615.165_windowsarm64_client.tar.bz2).
           2. Extract tar.bz2 file
           3. Execute cefclient.exe using the **command line args below**:
           
