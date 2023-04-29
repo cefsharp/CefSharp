@@ -35,7 +35,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="112.2.10" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="113.1.1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
 
         <PackageReference Include="Moq" Version="4.13.0" />
