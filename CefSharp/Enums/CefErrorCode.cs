@@ -151,12 +151,7 @@ namespace CefSharp
         /// </summary>
         SocketIsConnected = -23,
 
-        /// <summary>
-        /// The request was blocked because the forced reenrollment check is still
-        /// pending. This error can only occur on ChromeOS.
-        /// The error can be emitted by code in chrome/browser/policy/policy_helpers.cc.
-        /// </summary>
-        BlockedEnrollmentCheckPending = -24,
+        // Error -24 was removed (BLOCKED_ENROLLMENT_CHECK_PENDING)
 
         /// <summary>
         /// The upload failed because the upload stream needed to be re-read, due to a
@@ -1196,10 +1191,10 @@ namespace CefSharp
         InconsistentIpAddressSpace = -383,
 
         /// <summary>
-        /// The IP address space of the cached remote endpoint is blocked by private
+        /// The IP address space of the cached remote endpoint is blocked by local
         /// network access check.
         /// </summary>
-        CachedIpAddressSpaceBlockedByPrivateNetworkAccessPolicy = -384,
+        CachedIpAddressSpaceBlockedByLocalNetworkAccessPolicy = -384,
 
         /// <summary>
         /// The cache does not have the requested entry.
@@ -1512,6 +1507,6 @@ namespace CefSharp
         /// The hostname resolution of HTTPS record was expected to be resolved with
         /// alpn values of supported protocols, but did not.
         /// </summary>
-        DnsNoMachingSupportedAlpn = -811,
+        DnsNoMatchingSupportedAlpn = -811,
     };
 }
