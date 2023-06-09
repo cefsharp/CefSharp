@@ -21,7 +21,7 @@ namespace CefSharp
         /// </summary>
         public TaskStringVisitor()
         {
-            taskCompletionSource = new TaskCompletionSource<string>();
+            taskCompletionSource = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace CefSharp
         /// <param name="str">string (result of async execution)</param>
         void IStringVisitor.Visit(string str)
         {
-            taskCompletionSource.TrySetResultAsync(str);
+            taskCompletionSource.TrySetResult(str);
         }
 
         /// <summary>

@@ -39,13 +39,13 @@ namespace CefSharp
                 return Task.FromResult<NavigationEntry>(entry);
             }
 
-            var tcs = new TaskCompletionSource<NavigationEntry>();
+            var tcs = new TaskCompletionSource<NavigationEntry>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             Cef.UIThreadTaskFactory.StartNew(delegate
             {
                 var entry = host.GetVisibleNavigationEntry();
 
-                tcs.TrySetResultAsync(entry);
+                tcs.TrySetResult(entry);
             });
 
             return tcs.Task;
@@ -107,7 +107,7 @@ namespace CefSharp
                 throw new Exception("Frame is invalid, unable to continue.");
             }
 
-            var taskCompletionSource = new TaskCompletionSource<byte[]>();
+            var taskCompletionSource = new TaskCompletionSource<byte[]>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             //Can be created on any valid CEF Thread, here we'll use the CEF UI Thread
             Cef.UIThreadTaskFactory.StartNew(delegate
@@ -129,11 +129,11 @@ namespace CefSharp
                     {
                         if (req.RequestStatus == UrlRequestStatus.Success)
                         {
-                            taskCompletionSource.TrySetResultAsync(memoryStream.ToArray());
+                            taskCompletionSource.TrySetResult(memoryStream.ToArray());
                         }
                         else
                         {
-                            taskCompletionSource.TrySetExceptionAsync(new Exception("RequestStatus:" + req.RequestStatus + ";StatusCode:" + req.Response.StatusCode));
+                            taskCompletionSource.TrySetException(new Exception("RequestStatus:" + req.RequestStatus + ";StatusCode:" + req.Response.StatusCode));
                         }
                     })
                     .Build();

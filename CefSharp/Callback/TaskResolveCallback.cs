@@ -23,14 +23,14 @@ namespace CefSharp
         /// </summary>
         public TaskResolveCallback()
         {
-            taskCompletionSource = new TaskCompletionSource<ResolveCallbackResult>();
+            taskCompletionSource = new TaskCompletionSource<ResolveCallbackResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         }
 
         void IResolveCallback.OnResolveCompleted(CefErrorCode result, IList<string> resolvedIpAddresses)
         {
             onComplete = true;
 
-            taskCompletionSource.TrySetResultAsync(new ResolveCallbackResult(result, resolvedIpAddresses));
+            taskCompletionSource.TrySetResult(new ResolveCallbackResult(result, resolvedIpAddresses));
         }
 
         bool IResolveCallback.IsDisposed
@@ -51,11 +51,10 @@ namespace CefSharp
             var task = taskCompletionSource.Task;
 
             //If onComplete is false then IResolveCallback.OnResolveCompleted was never called,
-            //so we'll set the result to false. Calling TrySetResultAsync multiple times 
-            //can result in the issue outlined in https://github.com/cefsharp/CefSharp/pull/2349
+            //so we'll set the result to false. 
             if (onComplete == false && task.IsCompleted == false)
             {
-                taskCompletionSource.TrySetResultAsync(new ResolveCallbackResult(CefErrorCode.Unexpected, null));
+                taskCompletionSource.TrySetResult(new ResolveCallbackResult(CefErrorCode.Unexpected, null));
             }
 
             isDisposed = true;

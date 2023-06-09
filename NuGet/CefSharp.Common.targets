@@ -397,7 +397,7 @@
     <Message Importance="high" Text="Copying CefSharp Common x86 files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefRedist32TargetDir)" />
     <Copy SourceFiles="@(_CefSharpCommonBinaries32)" DestinationFiles="@(_CefSharpCommonBinaries32->'$(CefRedist32TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
     
-    <Message Importance="high" Text="Copying CefSharp.dll from $(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll to $(CefRedist32TargetDir)" />
+    <Message Importance="high" Text="Copying CefSharp.dll from $(MSBuildThisFileDirectory)..\lib\net462\CefSharp.dll to $(CefRedist32TargetDir)" />
     <Copy SourceFiles="@(_CefSharpCommonManagedDll)" DestinationFiles="@(_CefSharpCommonManagedDll->'$(CefRedist32TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
   
@@ -408,7 +408,7 @@
     <Message Importance="high" Text="Copying CefSharp Common x64 files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(CefRedist64TargetDir)" />
     <Copy SourceFiles="@(_CefSharpCommonBinaries64)" DestinationFiles="@(_CefSharpCommonBinaries64->'$(CefRedist64TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
     
-    <Message Importance="high" Text="Copying CefSharp.dll from $(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll to $(CefRedist64TargetDir)" />
+    <Message Importance="high" Text="Copying CefSharp.dll from $(MSBuildThisFileDirectory)..\lib\net462\CefSharp.dll to $(CefRedist64TargetDir)" />
     <Copy SourceFiles="@(_CefSharpCommonManagedDll)" DestinationFiles="@(_CefSharpCommonManagedDll->'$(CefRedist64TargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
   
@@ -427,7 +427,7 @@
       <CefRedist64TargetDir Condition="'$(_CefSharpPlatformTarget)' == 'AnyCPU'">$(CefRedist64TargetDir)x64\</CefRedist64TargetDir>
     </PropertyGroup>
     <ItemGroup>
-      <_CefSharpCommonManagedDll Include="$(MSBuildThisFileDirectory)..\lib\net452\CefSharp.dll" />
+      <_CefSharpCommonManagedDll Include="$(MSBuildThisFileDirectory)..\lib\net462\CefSharp.dll" />
       <_CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
       <_CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
     </ItemGroup>

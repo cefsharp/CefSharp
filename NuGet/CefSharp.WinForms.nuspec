@@ -12,10 +12,7 @@
     <tags>winforms chrome browser chromium-embedded cefsharp</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
-      <group targetFramework=".NETFramework4.5.2">
-        <dependency id="CefSharp.Common" version="[$version$]" />
-      </group>
-	  <group targetFramework=".NETFramework4.6.2">
+      <group targetFramework=".NETFramework4.6.2">
         <dependency id="CefSharp.Common" version="[$version$]" />
       </group>
     </dependencies>
@@ -27,11 +24,7 @@
     </releaseNotes>
   </metadata>
   <files>
-    <file src="..\CefSharp.WinForms\bin\Release\net452\CefSharp.WinForms.dll" target="lib\net452" />
-    <file src="..\CefSharp.WinForms\bin\Release\net452\CefSharp.WinForms.xml" target="lib\net452" />
-    <file src="..\CefSharp.WinForms\bin\Release\net452\CefSharp.WinForms.pdb" target="lib\net452" />
-	
-	<file src="..\CefSharp.WinForms\bin\Release\net462\CefSharp.WinForms.dll" target="lib\net462" />
+	  <file src="..\CefSharp.WinForms\bin\Release\net462\CefSharp.WinForms.dll" target="lib\net462" />
     <file src="..\CefSharp.WinForms\bin\Release\net462\CefSharp.WinForms.xml" target="lib\net462" />
     <file src="..\CefSharp.WinForms\bin\Release\net462\CefSharp.WinForms.pdb" target="lib\net462" />
 

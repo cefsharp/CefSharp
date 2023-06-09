@@ -33,7 +33,7 @@ namespace CefSharp.Internals
         /// <returns>The unique id of the newly created pending task and the newly created <see cref="TaskCompletionSource{TResult}"/>.</returns>
         public KeyValuePair<long, TaskCompletionSource<TResult>> CreatePendingTask(TimeSpan? timeout = null)
         {
-            var taskCompletionSource = new TaskCompletionSource<TResult>();
+            var taskCompletionSource = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             var id = Interlocked.Increment(ref lastId);
             pendingTasks.TryAdd(id, taskCompletionSource);
@@ -54,7 +54,7 @@ namespace CefSharp.Internals
         /// <returns>The unique id of the newly created pending task and the newly created <see cref="TaskCompletionSource{TResult}"/>.</returns>
         public KeyValuePair<long, TaskCompletionSource<TResult>> CreateJavascriptCallbackPendingTask(long id, TimeSpan? timeout = null)
         {
-            var taskCompletionSource = new TaskCompletionSource<TResult>();
+            var taskCompletionSource = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             callbackPendingTasks.TryAdd(id, taskCompletionSource);
 
