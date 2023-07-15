@@ -14,11 +14,11 @@ namespace CefSharp
     {
         private class JavascriptPromiseResolverCatch : public CefV8Handler
         {
-            int64 _callbackId;
+            int64_t _callbackId;
             bool _isJsCallback;
 
         public:
-            JavascriptPromiseResolverCatch(int64 callbackId, bool isJsCallback) : _callbackId(callbackId), _isJsCallback(isJsCallback)
+            JavascriptPromiseResolverCatch(int64_t callbackId, bool isJsCallback) : _callbackId(callbackId), _isJsCallback(isJsCallback)
             {
 
             }

@@ -29,7 +29,7 @@ namespace CefSharp
             return _handler->Open(_request, handleRequest, callbackWrapper);
         }
 
-        void CefResourceHandlerAdapter::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
+        void CefResourceHandlerAdapter::GetResponseHeaders(CefRefPtr<CefResponse> response, int64_t& response_length, CefString& redirectUrl)
         {
             String^ newRedirectUrl;
 
@@ -40,7 +40,7 @@ namespace CefSharp
             redirectUrl = StringUtils::ToNative(newRedirectUrl);
         }
 
-        bool CefResourceHandlerAdapter::Skip(int64 bytesToSkip, int64& bytesSkipped, CefRefPtr<CefResourceSkipCallback> callback)
+        bool CefResourceHandlerAdapter::Skip(int64_t bytesToSkip, int64_t& bytesSkipped, CefRefPtr<CefResourceSkipCallback> callback)
         {
             auto callbackWrapper = gcnew CefResourceSkipCallbackWrapper(callback);
 

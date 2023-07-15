@@ -26,7 +26,7 @@ namespace CefSharp
             List<JavascriptPropertyWrapper^>^ _wrappedProperties;
             IBrowserProcess^ _browserProcess;
             MCefRefPtr<JavascriptPropertyHandler> _jsPropertyHandler;
-            int64 _objectId;
+            int64_t _objectId;
 
         public:
             JavascriptObjectWrapper(IBrowserProcess^ browserProcess)

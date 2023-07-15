@@ -1106,7 +1106,7 @@ namespace CefSharp
             }
         }
 
-        void ClientAdapter::OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, const float** data, int frames, int64 pts)
+        void ClientAdapter::OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, const float** data, int frames, int64_t pts)
         {
             auto handler = _browserControl->AudioHandler;
 
@@ -1219,8 +1219,8 @@ namespace CefSharp
             }
         }
 
-        bool ClientAdapter::OnShowPermissionPrompt(CefRefPtr<CefBrowser> browser, uint64 prompt_id,
-            const CefString& requesting_origin, uint32 requested_permissions,
+        bool ClientAdapter::OnShowPermissionPrompt(CefRefPtr<CefBrowser> browser, uint64_t prompt_id,
+            const CefString& requesting_origin, uint32_t requested_permissions,
             CefRefPtr<CefPermissionPromptCallback> callback)
         {
             auto handler = _browserControl->PermissionHandler;
@@ -1235,7 +1235,7 @@ namespace CefSharp
             return false;
         }
 
-        void ClientAdapter::OnDismissPermissionPrompt(CefRefPtr<CefBrowser> browser, uint64 prompt_id,
+        void ClientAdapter::OnDismissPermissionPrompt(CefRefPtr<CefBrowser> browser, uint64_t prompt_id,
             cef_permission_request_result_t result)
         {
             auto handler = _browserControl->PermissionHandler;
@@ -1248,7 +1248,7 @@ namespace CefSharp
         }
 
         bool ClientAdapter::OnRequestMediaAccessPermission(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-            const CefString& requesting_origin, uint32 requested_permissions,
+            const CefString& requesting_origin, uint32_t requested_permissions,
             CefRefPtr<CefMediaAccessCallback> callback)
         {
             auto handler = _browserControl->PermissionHandler;
@@ -1518,7 +1518,7 @@ namespace CefSharp
                 auto callbackId = GetInt64(argList, 1);
                 auto methodName = StringUtils::ToClr(argList->GetString(2));
                 auto arguments = argList->GetList(3);
-                auto methodInvocation = gcnew MethodInvocation(browser->GetIdentifier(), frameId, objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
+                auto methodInvocation = gcnew MethodInvocation(browser->GetIdentifier(), frameId, objectId, methodName, (callbackId > 0 ? Nullable<int64_t>(callbackId) : Nullable<int64_t>()));
                 for (auto i = 0; i < static_cast<int>(arguments->GetSize()); i++)
                 {
                     methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));

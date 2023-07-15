@@ -18,7 +18,7 @@ namespace CefSharp
         {
             if (objects->Count > 0)
             {
-                auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
+                auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64_t>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
 
                 for each (JavascriptObject ^ obj in Enumerable::OfType<JavascriptObject^>(objects))
                 {
@@ -54,14 +54,14 @@ namespace CefSharp
             return _callbackRegistry;
         }
 
-        int64 JavascriptRootObjectWrapper::SaveMethodCallback(JavascriptAsyncMethodCallback^ callback)
+        int64_t JavascriptRootObjectWrapper::SaveMethodCallback(JavascriptAsyncMethodCallback^ callback)
         {
             auto callbackId = Interlocked::Increment(_lastCallback);
             _methodCallbacks->Add(callbackId, callback);
             return callbackId;
         }
 
-        bool JavascriptRootObjectWrapper::TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback)
+        bool JavascriptRootObjectWrapper::TryGetAndRemoveMethodCallback(int64_t id, JavascriptAsyncMethodCallback^% callback)
         {
             bool result = false;
             if (result = _methodCallbacks->TryGetValue(id, callback))

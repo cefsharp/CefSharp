@@ -33,13 +33,13 @@ namespace CefSharp
         private:
             //Only access through Interlocked::Increment - used to generate unique callback Id's
             //Is static so ids are unique to this process https://github.com/cefsharp/CefSharp/issues/2792
-            static int64 _lastCallback;
+            static int64_t _lastCallback;
 
 #ifndef NETCOREAPP
             initonly List<JavascriptObjectWrapper^>^ _wrappedObjects;
 #endif
             initonly List<JavascriptAsyncObjectWrapper^>^ _wrappedAsyncObjects;
-            initonly Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
+            initonly Dictionary<int64_t, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
 #ifndef NETCOREAPP
             IBrowserProcess^ _browserProcess;
 #endif
@@ -47,7 +47,7 @@ namespace CefSharp
             // call directly into.
             JavascriptCallbackRegistry^ _callbackRegistry;
 
-            int64 SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
+            int64_t SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
 
         internal:
             property JavascriptCallbackRegistry^ CallbackRegistry
@@ -68,7 +68,7 @@ namespace CefSharp
 #endif
                 _wrappedAsyncObjects = gcnew List<JavascriptAsyncObjectWrapper^>();
                 _callbackRegistry = gcnew JavascriptCallbackRegistry(browserId);
-                _methodCallbacks = gcnew Dictionary<int64, JavascriptAsyncMethodCallback^>();
+                _methodCallbacks = gcnew Dictionary<int64_t, JavascriptAsyncMethodCallback^>();
             }
 
             ~JavascriptRootObjectWrapper()
@@ -101,7 +101,7 @@ namespace CefSharp
                 _methodCallbacks->Clear();
             }
 
-            bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
+            bool TryGetAndRemoveMethodCallback(int64_t id, JavascriptAsyncMethodCallback^% callback);
 
             void Bind(ICollection<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value);
         };

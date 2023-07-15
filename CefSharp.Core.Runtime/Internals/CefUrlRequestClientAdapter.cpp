@@ -16,12 +16,12 @@ void CefUrlRequestClientAdapter::OnRequestComplete(CefRefPtr<CefURLRequest> requ
     _client->OnRequestComplete(gcnew UrlRequest(request));
 }
 
-void CefUrlRequestClientAdapter::OnUploadProgress(CefRefPtr<CefURLRequest> request, int64 current, int64 total)
+void CefUrlRequestClientAdapter::OnUploadProgress(CefRefPtr<CefURLRequest> request, int64_t current, int64_t total)
 {
     _client->OnUploadProgress(gcnew UrlRequest(request), current, total);
 }
 
-void CefUrlRequestClientAdapter::OnDownloadProgress(CefRefPtr<CefURLRequest> request, int64 current, int64 total)
+void CefUrlRequestClientAdapter::OnDownloadProgress(CefRefPtr<CefURLRequest> request, int64_t current, int64_t total)
 {
     _client->OnDownloadProgress(gcnew UrlRequest(request), current, total);
 }

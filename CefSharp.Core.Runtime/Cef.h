@@ -674,7 +674,7 @@ namespace CefSharp
             /// <param name="g">Green</param>
             /// <param name="b">Blue</param>
             /// <returns>Returns the color.</returns>
-            static uint32 ColorSetARGB(uint32 a, uint32 r, uint32 g, uint32 b)
+            static uint32_t ColorSetARGB(uint32_t a, uint32_t r, uint32_t g, uint32_t b)
             {
                 return CefColorSetARGB(a, r, g, b);
             }

@@ -18,11 +18,11 @@ namespace CefSharp
             {
             private:
                 initonly List<JavascriptAsyncMethodWrapper^>^ _wrappedMethods;
-                Func<JavascriptAsyncMethodCallback^, int64>^ _methodCallbackSave;
+                Func<JavascriptAsyncMethodCallback^, int64_t>^ _methodCallbackSave;
                 JavascriptCallbackRegistry^ _callbackRegistry;
 
             public:
-                JavascriptAsyncObjectWrapper(JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64>^ saveMethod)
+                JavascriptAsyncObjectWrapper(JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64_t>^ saveMethod)
                     : _wrappedMethods(gcnew List<JavascriptAsyncMethodWrapper^>()), _methodCallbackSave(saveMethod), _callbackRegistry(callbackRegistry)
                 {
 

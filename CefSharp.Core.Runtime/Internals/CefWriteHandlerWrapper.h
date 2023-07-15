@@ -49,7 +49,7 @@ namespace CefSharp
                 }
             }
 
-            virtual int Seek(int64 offset, int whence) override
+            virtual int Seek(int64_t offset, int whence) override
             {
                 System::IO::SeekOrigin seekOrigin;
 
@@ -93,9 +93,9 @@ namespace CefSharp
                 return 0;
             }
 
-            virtual int64 Tell() override
+            virtual int64_t Tell() override
             {
-                return static_cast<int64>(_stream->Position);
+                return static_cast<int64_t>(_stream->Position);
             }
 
             virtual int Flush() override

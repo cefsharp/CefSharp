@@ -115,7 +115,7 @@ namespace CefSharp
                 }
             }
 
-            virtual void OnScheduleMessagePumpWork(int64 delay_ms)  override
+            virtual void OnScheduleMessagePumpWork(int64_t delay_ms)  override
             {
                 //We rely on previous checks to make sure _app and _app->BrowserProcessHandler aren't null
                 _app->BrowserProcessHandler->OnScheduleMessagePumpWork(delay_ms);

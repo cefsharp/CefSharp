@@ -25,7 +25,7 @@ namespace CefSharp
             return result;
         }
 
-        JavascriptCallbackWrapper^ JavascriptCallbackRegistry::FindWrapper(int64 id)
+        JavascriptCallbackWrapper^ JavascriptCallbackRegistry::FindWrapper(int64_t id)
         {
             JavascriptCallbackWrapper^ callback;
             _callbacks->TryGetValue(id, callback);

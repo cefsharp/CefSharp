@@ -352,10 +352,10 @@ namespace CefSharp
             /// default value of opaque white be used. If the alpha component is fully transparent for a windowless (WPF/OffScreen) browser
             /// then transparent painting will be enabled.
             /// </summary>
-            property uint32 BackgroundColor
+            property uint32_t BackgroundColor
             {
-                uint32 get() { return _cefSettings->background_color; }
-                void set(uint32 value) { _cefSettings->background_color = value; }
+                uint32_t get() { return _cefSettings->background_color; }
+                void set(uint32_t value) { _cefSettings->background_color = value; }
             }
 
             /// <summary>

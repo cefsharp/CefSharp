@@ -19,7 +19,7 @@ namespace CefSharp
                 MCefRefPtr<JavascriptAsyncMethodHandler> _javascriptMethodHandler;
 
             public:
-                JavascriptAsyncMethodWrapper(int64 ownerId, JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64>^ methodCallbackSave)
+                JavascriptAsyncMethodWrapper(int64_t ownerId, JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64_t>^ methodCallbackSave)
                     : _javascriptMethodHandler(new JavascriptAsyncMethodHandler(ownerId, callbackRegistry, methodCallbackSave))
                 {
 

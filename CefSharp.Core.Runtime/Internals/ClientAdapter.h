@@ -201,7 +201,7 @@ namespace CefSharp
             //CefAudioHandler
             virtual DECL bool GetAudioParameters(CefRefPtr<CefBrowser> browser, CefAudioParameters & params) override;
             virtual DECL void OnAudioStreamStarted(CefRefPtr<CefBrowser> browser, const CefAudioParameters& params, int channels) override;
-            virtual DECL void OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, const float** data, int frames, int64 pts) override;
+            virtual DECL void OnAudioStreamPacket(CefRefPtr<CefBrowser> browser, const float** data, int frames, int64_t pts) override;
             virtual DECL void OnAudioStreamStopped(CefRefPtr<CefBrowser> browser) override;
             virtual DECL void OnAudioStreamError(CefRefPtr<CefBrowser> browser, const CefString& message) override;
 
@@ -214,21 +214,21 @@ namespace CefSharp
             //CefPermissionHandler
             virtual DECL bool OnShowPermissionPrompt(
                 CefRefPtr<CefBrowser> browser,
-                uint64 prompt_id,
+                uint64_t prompt_id,
                 const CefString& requesting_origin,
-                uint32 requested_permissions,
+                uint32_t requested_permissions,
                 CefRefPtr<CefPermissionPromptCallback> callback) override;
 
             virtual DECL void OnDismissPermissionPrompt(
                 CefRefPtr<CefBrowser> browser,
-                uint64 prompt_id,
+                uint64_t prompt_id,
                 cef_permission_request_result_t result) override;
 
             virtual DECL bool OnRequestMediaAccessPermission(
                 CefRefPtr<CefBrowser> browser,
                 CefRefPtr<CefFrame> frame,
                 const CefString& requesting_origin,
-                uint32 requested_permissions,
+                uint32_t requested_permissions,
                 CefRefPtr<CefMediaAccessCallback> callback) override;
 
             IMPLEMENT_REFCOUNTINGM(ClientAdapter);

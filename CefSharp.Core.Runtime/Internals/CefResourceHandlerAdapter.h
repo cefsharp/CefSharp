@@ -35,8 +35,8 @@ namespace CefSharp
             }
 
             virtual bool Open(CefRefPtr<CefRequest> request, bool& handle_request, CefRefPtr<CefCallback> callback) override;
-            virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl) override;
-            virtual bool Skip(int64 bytesToSkip, int64& bytesSkipped, CefRefPtr<CefResourceSkipCallback> callback) override;
+            virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64_t& response_length, CefString& redirectUrl) override;
+            virtual bool Skip(int64_t bytesToSkip, int64_t& bytesSkipped, CefRefPtr<CefResourceSkipCallback> callback) override;
             virtual bool Read(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefResourceReadCallback> callback) override;
             virtual void Cancel() override;
 

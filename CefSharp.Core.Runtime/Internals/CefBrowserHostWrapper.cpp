@@ -347,7 +347,7 @@ void CefBrowserHostWrapper::SendKeyEvent(KeyEvent keyEvent)
     CefKeyEvent nativeKeyEvent;
     nativeKeyEvent.focus_on_editable_field = keyEvent.FocusOnEditableField == 1;
     nativeKeyEvent.is_system_key = keyEvent.IsSystemKey == 1;
-    nativeKeyEvent.modifiers = (uint32)keyEvent.Modifiers;
+    nativeKeyEvent.modifiers = (uint32_t)keyEvent.Modifiers;
     nativeKeyEvent.type = (cef_key_event_type_t)keyEvent.Type;
     nativeKeyEvent.native_key_code = keyEvent.NativeKeyCode;
     nativeKeyEvent.windows_key_code = keyEvent.WindowsKeyCode;
@@ -433,7 +433,7 @@ void CefBrowserHostWrapper::SendMouseWheelEvent(MouseEvent mouseEvent, int delta
         CefMouseEvent m;
         m.x = mouseEvent.X;
         m.y = mouseEvent.Y;
-        m.modifiers = (uint32)mouseEvent.Modifiers;
+        m.modifiers = (uint32_t)mouseEvent.Modifiers;
 
         _browserHost->SendMouseWheelEvent(m, deltaX, deltaY);
     }
@@ -447,7 +447,7 @@ void CefBrowserHostWrapper::SendTouchEvent(TouchEvent evt)
     {
         CefTouchEvent e;
         e.id = evt.Id;
-        e.modifiers = (uint32)evt.Modifiers;
+        e.modifiers = (uint32_t)evt.Modifiers;
         e.pointer_type = (cef_pointer_type_t)evt.PointerType;
         e.pressure = evt.Pressure;
         e.radius_x = evt.RadiusX;
@@ -559,7 +559,7 @@ void CefBrowserHostWrapper::SendMouseClickEvent(MouseEvent mouseEvent, MouseButt
     CefMouseEvent m;
     m.x = mouseEvent.X;
     m.y = mouseEvent.Y;
-    m.modifiers = (uint32)mouseEvent.Modifiers;
+    m.modifiers = (uint32_t)mouseEvent.Modifiers;
 
     _browserHost->SendMouseClickEvent(m, (CefBrowserHost::MouseButtonType) mouseButtonType, mouseUp, clickCount);
 }
@@ -571,7 +571,7 @@ void CefBrowserHostWrapper::SendMouseMoveEvent(MouseEvent mouseEvent, bool mouse
     CefMouseEvent m;
     m.x = mouseEvent.X;
     m.y = mouseEvent.Y;
-    m.modifiers = (uint32)mouseEvent.Modifiers;
+    m.modifiers = (uint32_t)mouseEvent.Modifiers;
 
     _browserHost->SendMouseMoveEvent(m, mouseLeave);
 }
@@ -695,7 +695,7 @@ CefMouseEvent CefBrowserHostWrapper::GetCefMouseEvent(MouseEvent mouseEvent)
     CefMouseEvent cefMouseEvent;
     cefMouseEvent.x = mouseEvent.X;
     cefMouseEvent.y = mouseEvent.Y;
-    cefMouseEvent.modifiers = (uint32)mouseEvent.Modifiers;
+    cefMouseEvent.modifiers = (uint32_t)mouseEvent.Modifiers;
     return cefMouseEvent;
 }
 

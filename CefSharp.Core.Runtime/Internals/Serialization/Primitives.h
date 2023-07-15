@@ -13,14 +13,14 @@ namespace CefSharp
             //Functions to serialize/deserialize specific types into CefBinaryValue
 
             template<typename TList, typename TIndex>
-            void SetInt64(const CefRefPtr<TList>& list, TIndex index, const int64 &value);
+            void SetInt64(const CefRefPtr<TList>& list, TIndex index, const int64_t&value);
             template<typename TList, typename TIndex>
-            int64 GetInt64(const CefRefPtr<TList>& list, TIndex index);
+            int64_t GetInt64(const CefRefPtr<TList>& list, TIndex index);
             template<typename TList, typename TIndex>
             bool IsInt64(const CefRefPtr<TList>& list, TIndex index);
 
             template<typename TList, typename TIndex>
-            void SetCefTime(const CefRefPtr<TList>& list, TIndex index, const int64 &value);
+            void SetCefTime(const CefRefPtr<TList>& list, TIndex index, const int64_t&value);
             template<typename TList, typename TIndex>
             CefBaseTime GetCefTime(const CefRefPtr<TList>& list, TIndex index);
             template<typename TList, typename TIndex>
@@ -33,19 +33,19 @@ namespace CefSharp
             template<typename TList, typename TIndex>
             bool IsJsCallback(const CefRefPtr<TList>& list, TIndex index);
 
-            template void SetInt64(const CefRefPtr<CefListValue>& list, int index, const int64 &value);
-            template void SetInt64(const CefRefPtr<CefListValue>& list, size_t index, const int64 &value);
-            template void SetInt64(const CefRefPtr<CefDictionaryValue>& list, CefString index, const int64 &value);
-            template int64 GetInt64(const CefRefPtr<CefListValue>& list, int index);
-            template int64 GetInt64(const CefRefPtr<CefListValue>& list, size_t index);
-            template int64 GetInt64(const CefRefPtr<CefDictionaryValue>& list, CefString index);
+            template void SetInt64(const CefRefPtr<CefListValue>& list, int index, const int64_t&value);
+            template void SetInt64(const CefRefPtr<CefListValue>& list, size_t index, const int64_t&value);
+            template void SetInt64(const CefRefPtr<CefDictionaryValue>& list, CefString index, const int64_t&value);
+            template int64_t GetInt64(const CefRefPtr<CefListValue>& list, int index);
+            template int64_t GetInt64(const CefRefPtr<CefListValue>& list, size_t index);
+            template int64_t GetInt64(const CefRefPtr<CefDictionaryValue>& list, CefString index);
             template bool IsInt64(const CefRefPtr<CefListValue>& list, int index);
             template bool IsInt64(const CefRefPtr<CefListValue>& list, size_t index);
             template bool IsInt64(const CefRefPtr<CefDictionaryValue>& list, CefString index);
 
-            template void SetCefTime(const CefRefPtr<CefListValue>& list, int index, const int64 &value);
-            template void SetCefTime(const CefRefPtr<CefListValue>& list, size_t index, const int64 &value);
-            template void SetCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index, const int64 &value);
+            template void SetCefTime(const CefRefPtr<CefListValue>& list, int index, const int64_t&value);
+            template void SetCefTime(const CefRefPtr<CefListValue>& list, size_t index, const int64_t&value);
+            template void SetCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index, const int64_t&value);
             template CefBaseTime GetCefTime(const CefRefPtr<CefListValue>& list, int index);
             template CefBaseTime GetCefTime(const CefRefPtr<CefListValue>& list, size_t index);
             template CefBaseTime GetCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index);

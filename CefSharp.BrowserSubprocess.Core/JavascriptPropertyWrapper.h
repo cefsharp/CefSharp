@@ -17,13 +17,13 @@ namespace CefSharp
         private ref class JavascriptPropertyWrapper
         {
         private:
-            int64 _ownerId;
+            int64_t _ownerId;
             IBrowserProcess^ _browserProcess;
             //TODO: Strongly type this variable - currently trying to include JavascriptObjectWrapper.h creates a circular reference, so won't compile
             Object^ _javascriptObjectWrapper;
 
         public:
-            JavascriptPropertyWrapper(int64 ownerId, IBrowserProcess^ browserProcess)
+            JavascriptPropertyWrapper(int64_t ownerId, IBrowserProcess^ browserProcess)
             {
                 _ownerId = ownerId;
                 _browserProcess = browserProcess;

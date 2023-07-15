@@ -18,11 +18,11 @@ namespace CefSharp
             {
             private:
                 gcroot<JavascriptCallbackRegistry^> _callbackRegistry;
-                gcroot<Func<JavascriptAsyncMethodCallback^, int64>^> _methodCallbackSave;
-                int64 _objectId;
+                gcroot<Func<JavascriptAsyncMethodCallback^, int64_t>^> _methodCallbackSave;
+                int64_t _objectId;
 
             public:
-                JavascriptAsyncMethodHandler(int64 objectId, JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64>^ methodCallbackSave)
+                JavascriptAsyncMethodHandler(int64_t objectId, JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64_t>^ methodCallbackSave)
                     :_callbackRegistry(callbackRegistry), _objectId(objectId), _methodCallbackSave(methodCallbackSave)
                 {
 

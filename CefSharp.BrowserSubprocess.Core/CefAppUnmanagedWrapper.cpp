@@ -292,7 +292,7 @@ namespace CefSharp
             frame->SendProcessMessage(CefProcessId::PID_BROWSER, uncaughtExceptionMessage);
         }
 
-        JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, int64 frameId)
+        JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, int64_t frameId)
         {
             auto browserWrapper = FindBrowserWrapper(browserId);
 
@@ -401,7 +401,7 @@ namespace CefSharp
 
                 //both messages have callbackId stored at index 0
                 auto frameId = frame->GetIdentifier();
-                int64 callbackId = GetInt64(argList, 0);
+                int64_t callbackId = GetInt64(argList, 0);
 
                 if (name == kEvaluateJavascriptRequest)
                 {

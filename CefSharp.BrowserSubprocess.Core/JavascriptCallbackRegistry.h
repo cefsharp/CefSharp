@@ -24,7 +24,7 @@ namespace CefSharp
             ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
 
         internal:
-            JavascriptCallbackWrapper^ FindWrapper(int64 id);
+            JavascriptCallbackWrapper^ FindWrapper(int64_t id);
 
         public:
             JavascriptCallbackRegistry(int browserId) : _browserId(browserId)

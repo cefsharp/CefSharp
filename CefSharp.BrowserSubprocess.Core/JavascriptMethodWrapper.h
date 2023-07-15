@@ -20,12 +20,12 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<JavascriptMethodHandler> _javascriptMethodHandler;
-            int64 _ownerId;
+            int64_t _ownerId;
             String^ _javascriptMethodName;
             IBrowserProcess^ _browserProcess;
 
         public:
-            JavascriptMethodWrapper(int64 ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
+            JavascriptMethodWrapper(int64_t ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
             {
                 _ownerId = ownerId;
                 _browserProcess = browserProcess;

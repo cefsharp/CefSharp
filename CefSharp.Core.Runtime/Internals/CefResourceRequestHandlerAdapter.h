@@ -287,7 +287,7 @@ namespace CefSharp
                 return new CefResponseFilterAdapter(responseFilter);
             }
 
-            void OnResourceLoadComplete(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, URLRequestStatus status, int64 receivedContentLength) override
+            void OnResourceLoadComplete(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, URLRequestStatus status, int64_t receivedContentLength) override
             {
                 Request requestWrapper(request);
                 CefResponseWrapper responseWrapper(response);
