@@ -172,17 +172,6 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// The location where user data such as the Widevine CDM module and spell checking dictionary files will be stored on disk.
-            /// If this value is empty then "Local Settings\Application Data\CEF\User Data" directory under the user profile directory
-            /// will be used. If this value is non-empty then it must be an absolute path.
-            /// </summary>
-            property String^ UserDataPath
-            {
-                String^ get() { return StringUtils::ToClr(_cefSettings->user_data_path); }
-                void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_data_path, value); }
-            }
-
-            /// <summary>
             /// The locale string that will be passed to WebKit. If empty the default locale of "en-US" will be used. Also configurable using
             /// the "lang" command-line switch.
             /// </summary>

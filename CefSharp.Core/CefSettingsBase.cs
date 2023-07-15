@@ -157,17 +157,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// The location where user data such as the Widevine CDM module and spell checking dictionary files will be stored on disk.
-        /// If this value is empty then "Local Settings\Application Data\CEF\User Data" directory under the user profile directory
-        /// will be used. If this value is non-empty then it must be an absolute path.
-        /// </summary>
-        public string UserDataPath
-        {
-            get { return settings.UserDataPath; }
-            set { settings.UserDataPath = value; }
-        }
-
-        /// <summary>
         /// Set to true in order to completely ignore SSL certificate errors. This is NOT recommended.
         /// </summary>
         public bool IgnoreCertificateErrors
