@@ -28,7 +28,9 @@ namespace CefSharp
             [DebuggerStepThrough]
             static String^ StringUtils::ToClr(const cef_string_t& cefStr)
             {
-                return gcnew String(cefStr.str);
+                auto str = reinterpret_cast<wchar_t*>(cefStr.str);
+
+                return gcnew String(str);
             }
 
             /// <summary>
@@ -39,7 +41,9 @@ namespace CefSharp
             [DebuggerStepThrough]
             static String^ StringUtils::ToClr(const CefString& cefStr)
             {
-                return gcnew String(cefStr.c_str());
+                auto str = reinterpret_cast<const wchar_t*>(cefStr.c_str());
+
+                return gcnew String(str);
             }
 
             /// <summary>
@@ -115,7 +119,7 @@ namespace CefSharp
                 if (str != nullptr)
                 {
                     pin_ptr<const wchar_t> pStr = PtrToStringChars(str);
-                    cef_string_copy(pStr, str->Length, &cefStr);
+                    cef_string_copy(reinterpret_cast<const char16_t*>(pStr), str->Length, &cefStr);
                 }
             }
 
