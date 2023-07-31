@@ -57,7 +57,7 @@ namespace CefSharp.Test.OffScreen
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
-                Assert.True(response.Success);
+                Assert.True(response.Success, $"Initial Load Error Code: {response.ErrorCode.ToString()} Http Status Code: {response.HttpStatusCode}");
 
                 var request = new Request
                 {
@@ -80,7 +80,7 @@ namespace CefSharp.Test.OffScreen
                 var navEntry = await browser.GetVisibleNavigationEntryAsync();
 
                 Assert.Equal((int)HttpStatusCode.OK, navEntry.HttpStatusCode);
-                Assert.True(navEntry.HasPostData);
+                Assert.True(navEntry.HasPostData, "Has PostData");
 
                 var source = await browser.GetTextAsync();
 
