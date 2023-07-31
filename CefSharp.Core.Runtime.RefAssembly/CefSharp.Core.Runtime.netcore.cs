@@ -123,7 +123,6 @@ namespace CefSharp.Core
         public int UncaughtExceptionStackSize { get { throw null; } set { } }
         public string UserAgent { get { throw null; } set { } }
         public string UserAgentProduct { get { throw null; } set { } }
-        public string UserDataPath { get { throw null; } set { } }
         public bool WindowlessRenderingEnabled { get { throw null; } set { } }
         public void Dispose() { }
         protected void Dispose(bool A_0) { }
