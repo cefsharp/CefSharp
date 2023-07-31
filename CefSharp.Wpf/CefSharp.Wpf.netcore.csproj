@@ -25,6 +25,7 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <ProduceReferenceAssemblyInOutDir>true</ProduceReferenceAssemblyInOutDir>
     <EmbedAllSources>True</EmbedAllSources>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
