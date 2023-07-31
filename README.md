@@ -88,8 +88,10 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 | Branch                                                                | CEF Version  | VC++ Version | .Net Version | Status |
 |-----------------------------------------------------------------------|------|-------|---------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                       | 5615 | 2019* | 4.6.2** | Development     |
-| [cefsharp/113](https://github.com/cefsharp/CefSharp/tree/cefsharp/113)| 5615 | 2019* | 4.5.2** | **Release**     |
+| [master](https://github.com/cefsharp/CefSharp/)                       | 5790 | 2019* | 4.6.2** | Development     |
+| [cefsharp/115](https://github.com/cefsharp/CefSharp/tree/cefsharp/115)| 5790 | 2019* | 4.6.2** | **Release**     |
+| [cefsharp/114](https://github.com/cefsharp/CefSharp/tree/cefsharp/114)| 5735 | 2019* | 4.5.2** | Unsupported     |
+| [cefsharp/113](https://github.com/cefsharp/CefSharp/tree/cefsharp/113)| 5615 | 2019* | 4.5.2** | Unsupported     |
 | [cefsharp/112](https://github.com/cefsharp/CefSharp/tree/cefsharp/112)| 5615 | 2019* | 4.5.2** | Unsupported     |
 | [cefsharp/111](https://github.com/cefsharp/CefSharp/tree/cefsharp/111)| 5563 | 2019* | 4.5.2** | Unsupported     |
 | [cefsharp/110](https://github.com/cefsharp/CefSharp/tree/cefsharp/110)| 5481 | 2019* | 4.5.2** | Unsupported     |
