@@ -10,7 +10,7 @@
     "Microsoft.Net.ComponentGroup.DevelopmentPrerequisites",
     "Microsoft.Component.MSBuild",
     "Microsoft.VisualStudio.Component.ManagedDesktop.Core",
-    "Microsoft.Net.Component.4.5.2.TargetingPack",
+    "Microsoft.Net.Component.4.6.2.TargetingPack",
     "Microsoft.VisualStudio.Component.IntelliCode",
     "Microsoft.Net.ComponentGroup.TargetingPacks.Common",
     "Microsoft.VisualStudio.Component.Debugger.JustInTime",
