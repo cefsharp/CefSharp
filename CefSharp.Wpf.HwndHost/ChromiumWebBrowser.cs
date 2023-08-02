@@ -181,7 +181,7 @@ namespace CefSharp.Wpf.HwndHost
         /// <summary>
         /// Initial browser load task complection source
         /// </summary>
-        private TaskCompletionSource<LoadUrlAsyncResponse> initialLoadTaskCompletionSource = new TaskCompletionSource<LoadUrlAsyncResponse>();
+        private TaskCompletionSource<LoadUrlAsyncResponse> initialLoadTaskCompletionSource = new TaskCompletionSource<LoadUrlAsyncResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         /// <summary>
         /// Initial browser load action
@@ -1826,7 +1826,7 @@ namespace CefSharp.Wpf.HwndHost
                     statusCode = -1;
                 }
 
-                initialLoadTaskCompletionSource.TrySetResultAsync(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
+                initialLoadTaskCompletionSource.TrySetResult(new LoadUrlAsyncResponse(CefErrorCode.None, statusCode));
             }
             else if (errorCode.HasValue)
             {
@@ -1839,7 +1839,7 @@ namespace CefSharp.Wpf.HwndHost
 
                 initialLoadAction = null;
 
-                initialLoadTaskCompletionSource.TrySetResultAsync(new LoadUrlAsyncResponse(errorCode.Value, -1));
+                initialLoadTaskCompletionSource.TrySetResult(new LoadUrlAsyncResponse(errorCode.Value, -1));
             }
         }
 

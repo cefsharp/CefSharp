@@ -5,7 +5,7 @@
         <RootNamespace>CefSharp.Wpf.HwndHost</RootNamespace>
         <CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>114.2.120</Version>
+		<Version>115.3.110</Version>
 		<Authors>The CefSharp Authors</Authors>
 		<Description>The CefSharp Chromium-based browser component. The CefSharp.Wpf.HwndHost.ChromiumWebBrowser control is a drop in replacement for the CefSharp.Wpf.ChromiumWebBrowser that's rougly equivilent to hosting the WinForms version in WPF.</Description>
 		<Copyright>Copyright © The CefSharp Authors</Copyright>
@@ -23,11 +23,11 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-        <PackageReference Include="CefSharp.Common" Version="114.2.120" />
+        <PackageReference Include="CefSharp.Common" Version="115.3.110" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' != 'net462'">
-        <PackageReference Include="CefSharp.Common.NETCore" Version="114.2.120" />
+        <PackageReference Include="CefSharp.Common.NETCore" Version="115.3.110" />
     </ItemGroup>
 
     <ItemGroup>
