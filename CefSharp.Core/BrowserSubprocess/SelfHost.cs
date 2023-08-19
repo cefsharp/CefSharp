@@ -77,12 +77,13 @@ namespace CefSharp.BrowserSubprocess
                 browserSubprocessDllPath = Path.Combine(Path.GetDirectoryName(typeof(CefSharp.Core.BrowserSettings).Assembly.Location), "CefSharp.BrowserSubprocess.Core.dll");
             }
             var browserSubprocessDll = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(browserSubprocessDllPath);
+            var browserSubprocessExecutableType = browserSubprocessDll.GetType("CefSharp.BrowserSubprocess.BrowserSubprocessExecutable");
 #else
             var browserSubprocessDllPath = Path.Combine(Path.GetDirectoryName(typeof(CefSharp.Core.BrowserSettings).Assembly.Location), "CefSharp.BrowserSubprocess.Core.dll");
             var browserSubprocessDll = System.Reflection.Assembly.LoadFrom(browserSubprocessDllPath);
-            
+            var browserSubprocessExecutableType = browserSubprocessDll.GetType("CefSharp.BrowserSubprocess.WcfBrowserSubprocessExecutable");
 #endif
-            var browserSubprocessExecutableType = browserSubprocessDll.GetType("CefSharp.BrowserSubprocess.BrowserSubprocessExecutable");
+
             var browserSubprocessExecutable = Activator.CreateInstance(browserSubprocessExecutableType);
 
             var mainMethod = browserSubprocessExecutableType.GetMethod("MainSelfHost", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);

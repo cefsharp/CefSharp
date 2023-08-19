@@ -28,12 +28,12 @@ namespace CefSharp
 
             }
 
+#ifdef NETCOREAPP
             /// <summary>
             /// This function should be called from the application entry point function (typically Program.Main)
             /// to execute a secondary process e.g. gpu, renderer, utility
             /// This overload is specifically used for .Net Core. For hosting your own BrowserSubProcess
             /// it's preferable to use the Main method provided by this class.
-            /// - Obtains the command line args via a call to Environment::GetCommandLineArgs
             /// </summary>
             /// <returns>
             /// If called for the browser process (identified by no "type" command-line value) it will return immediately
@@ -45,6 +45,7 @@ namespace CefSharp
                 auto subProcess = gcnew BrowserSubprocessExecutable();
                 return subProcess->Main(args, nullptr);
             }
+#endif
 
             /// <summary>
             /// This function should be called from the application entry point function (typically Program.Main)
