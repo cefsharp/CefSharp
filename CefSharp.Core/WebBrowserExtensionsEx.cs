@@ -99,9 +99,15 @@ namespace CefSharp
         /// </summary>
         /// <param name="frame">valid frame</param>
         /// <param name="url">url to download</param>
+        /// <param name="urlRequestFlags">control caching policy</param>
         /// <returns>A task that can be awaited to get the <see cref="T:byte[]"/> representing the Url</returns>
-        public static Task<byte[]> DownloadUrlAsync(this IFrame frame, string url)
+        public static Task<byte[]> DownloadUrlAsync(this IFrame frame, string url, UrlRequestFlags urlRequestFlags = UrlRequestFlags.None)
         {
+            if (frame == null)
+            {
+                throw new ArgumentNullException(nameof(frame));
+            }
+
             if (!frame.IsValid)
             {
                 throw new Exception("Frame is invalid, unable to continue.");
@@ -116,6 +122,7 @@ namespace CefSharp
 
                 request.Method = "GET";
                 request.Url = url;
+                request.Flags = urlRequestFlags;
 
                 var memoryStream = new MemoryStream();
 
