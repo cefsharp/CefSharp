@@ -160,6 +160,14 @@ namespace CefSharp.Wpf.Rendering
                             return;
                         }
 
+                        var sourceBufferPtr = sourceBuffer.DangerousGetHandle();
+
+                        // Issue https://github.com/cefsharp/CefSharp/issues/4426
+                        if (sourceBufferPtr == IntPtr.Zero)
+                        {
+                            return;
+                        }
+
                         //By default we'll only update the dirty rect, for those that run into a MILERR_WIN32ERROR Exception (#2035)
                         //it's desirably to either upgrade to a newer .Net version (only client runtime needs to be installed, not compiled
                         //against a newer version. Or invalidate the whole bitmap
@@ -169,7 +177,7 @@ namespace CefSharp.Wpf.Rendering
                             var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
 
                             bitmap.Lock();
-                            bitmap.WritePixels(sourceRect, sourceBuffer.DangerousGetHandle(), noOfBytes, stride, dirtyRect.X, dirtyRect.Y);
+                            bitmap.WritePixels(sourceRect, sourceBufferPtr, noOfBytes, stride, dirtyRect.X, dirtyRect.Y);
                             bitmap.Unlock();
                         }
                         else
@@ -178,7 +186,7 @@ namespace CefSharp.Wpf.Rendering
                             var sourceRect = new Int32Rect(0, 0, width, height);
 
                             bitmap.Lock();
-                            bitmap.WritePixels(sourceRect, sourceBuffer.DangerousGetHandle(), noOfBytes, stride);
+                            bitmap.WritePixels(sourceRect, sourceBufferPtr, noOfBytes, stride);
                             bitmap.Unlock();
                         }
                     }
