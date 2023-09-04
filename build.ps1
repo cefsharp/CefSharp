@@ -5,9 +5,9 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "vs2019",
     [Parameter(Position = 1)]
-    [string] $Version = "116.0.150",
+    [string] $Version = "116.0.190",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "116.0.150",
+    [string] $AssemblyVersion = "116.0.190",
     [Parameter(Position = 3)]
     [ValidateSet("NetFramework", "NetCore", "NetFramework452", "NetCore31")]
     [string] $TargetFramework = "NetFramework",
