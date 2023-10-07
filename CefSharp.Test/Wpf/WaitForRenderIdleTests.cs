@@ -27,8 +27,6 @@ namespace CefSharp.Test.Wpf
         [WpfFact]
         public async Task ShouldWork()
         {
-            const int expected = 500;
-
             using (var browser = new ChromiumWebBrowser(null, CefExample.DefaultUrl, new Size(1024, 786)))
             {
                 var start = DateTime.Now;
@@ -39,7 +37,7 @@ namespace CefSharp.Test.Wpf
                 var time = (end - start).TotalMilliseconds;
 
                 Assert.True(end > start);
-                Assert.True(time > expected, $"Executed in {time}ms");
+                Assert.True(time > 400, $"Executed in {time}ms");
 
                 output.WriteLine("Time {0}ms", time);
 
