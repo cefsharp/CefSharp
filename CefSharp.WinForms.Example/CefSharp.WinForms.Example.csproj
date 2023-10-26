@@ -32,7 +32,7 @@
         <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="117.1.4" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="118.6.6" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="bin.netcore\**" />
