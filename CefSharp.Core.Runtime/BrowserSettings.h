@@ -315,20 +315,6 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// Comma delimited ordered list of language codes without any whitespace that
-            /// will be used in the "Accept-Language" HTTP header. May be overridden on a
-            /// per-browser basis using the CefBrowserSettings.AcceptLanguageList value.
-            /// If both values are empty then "en-US,en" will be used. Can be overridden
-            /// for individual RequestContext instances via the
-            /// RequestContextSettings.AcceptLanguageList value.
-            /// </summary>
-            virtual property String^ AcceptLanguageList
-            {
-                String^ get() { return StringUtils::ToClr(_browserSettings->accept_language_list); }
-                void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->accept_language_list, value); }
-            }
-
-            /// <summary>
             /// The maximum rate in frames per second (fps) that CefRenderHandler::OnPaint
             /// will be called for a windowless browser. The actual fps may be lower if
             /// the browser cannot generate frames at the requested rate. The minimum

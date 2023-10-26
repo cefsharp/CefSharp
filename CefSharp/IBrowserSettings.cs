@@ -156,16 +156,6 @@ namespace CefSharp
         uint BackgroundColor { get; set; }
 
         /// <summary>
-        /// Comma delimited ordered list of language codes without any whitespace that
-        /// will be used in the "Accept-Language" HTTP header. May be overridden on a
-        /// per-browser basis using the CefBrowserSettings.AcceptLanguageList value.
-        /// If both values are empty then "en-US,en" will be used. Can be overridden
-        /// for individual RequestContext instances via the
-        /// RequestContextSettings.AcceptLanguageList value.
-        /// </summary>
-        string AcceptLanguageList { get; set; }
-
-        /// <summary>
         /// The maximum rate in frames per second (fps) that CefRenderHandler::OnPaint
         /// will be called for a windowless browser. The actual fps may be lower if
         /// the browser cannot generate frames at the requested rate. The minimum

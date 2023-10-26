@@ -186,13 +186,6 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
-        public string AcceptLanguageList
-        {
-            get { return settings.AcceptLanguageList; }
-            set { settings.AcceptLanguageList = value; }
-        }
-
-        /// <inheritdoc/>
         public int WindowlessFrameRate
         {
             get { return settings.WindowlessFrameRate; }
