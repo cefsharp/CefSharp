@@ -1,4 +1,4 @@
-version: 118.6.80-CI{build}
+version: 118.6.80-RCI{build}
 
 clone_depth: 10
 
