@@ -134,7 +134,7 @@ namespace CefSharp.Wpf.Rendering
                             return;
                         }
 
-                        if (createNewBitmap)
+                        if (createNewBitmap || image.Source is null)
                         {
                             if (image.Source != null)
                             {
