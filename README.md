@@ -88,8 +88,9 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 | Branch                                                                | CEF Version  | VC++ Version | .Net Version | Status |
 |-----------------------------------------------------------------------|------|-------|---------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                       | 5993 | 2019* | 4.6.2** | Development     |
-| [cefsharp/118](https://github.com/cefsharp/CefSharp/tree/cefsharp/118)| 5993 | 2019* | 4.6.2** | **Release**     |
+| [master](https://github.com/cefsharp/CefSharp/)                       | 6045 | 2019* | 4.6.2** | Development     |
+| [cefsharp/119](https://github.com/cefsharp/CefSharp/tree/cefsharp/119)| 6045 | 2019* | 4.6.2** | **Release**     |
+| [cefsharp/118](https://github.com/cefsharp/CefSharp/tree/cefsharp/118)| 5993 | 2019* | 4.6.2** | Unsupported     |
 | [cefsharp/117](https://github.com/cefsharp/CefSharp/tree/cefsharp/117)| 5938 | 2019* | 4.6.2** | Unsupported     |
 | [cefsharp/116](https://github.com/cefsharp/CefSharp/tree/cefsharp/116)| 5845 | 2019* | 4.6.2** | Unsupported     |
 | [cefsharp/115](https://github.com/cefsharp/CefSharp/tree/cefsharp/115)| 5790 | 2019* | 4.6.2** | Unsupported     |
