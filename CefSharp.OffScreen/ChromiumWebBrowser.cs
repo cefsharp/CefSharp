@@ -727,8 +727,17 @@ namespace CefSharp.OffScreen
             //Every time Paint is called we reset our timer
             handler = (s, args) =>
             {
-                idleTimer.Stop();
-                idleTimer.Start();
+                try
+                {
+                    idleTimer?.Stop();
+                    idleTimer?.Start();
+                }
+                catch (ObjectDisposedException)
+                {
+                    // NOTE: When the Elapsed (or Timeout) and Paint are fire at almost exactly
+                    // the same time, the timer maybe Disposed on a different thread.
+                    // https://github.com/cefsharp/CefSharp/issues/4597
+                }
             };
 
             idleTimer.Start();
