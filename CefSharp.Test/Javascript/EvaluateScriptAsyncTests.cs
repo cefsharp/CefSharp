@@ -216,6 +216,18 @@ namespace CefSharp.Test.Javascript
             Assert.Equal(expected, result.Result);
         }
 
+        [Theory]
+        [InlineData("return", "Uncaught SyntaxError: Illegal return statement\n@ about:blank:1:0")]
+        public async Task CanEvaluateScriptAsyncReturnError(string javascript, string expected)
+        {
+            AssertInitialLoadComplete();
+
+            var result = await Browser.EvaluateScriptAsync(javascript);
+
+            Assert.False(result.Success);
+            Assert.Equal(expected, result.Message);
+        }
+
         /// <summary>
         /// Use the EvaluateScriptAsync (IWebBrowser, String,Object[]) overload and pass in string params
         /// that require encoding. Test case for https://github.com/cefsharp/CefSharp/issues/2339
