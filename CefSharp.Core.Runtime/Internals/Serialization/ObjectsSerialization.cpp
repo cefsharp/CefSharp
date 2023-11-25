@@ -38,6 +38,10 @@ namespace CefSharp
                     auto cefTime = GetCefTime(list, index);
                     result = CefTimeUtils::FromBaseTimeToDateTime(cefTime.val);
                 }
+                else if (IsArrayBuffer(list, index))
+                {
+                    result = GetArrayBuffer(list, index);
+                }
                 else if (IsJsCallback(list, index) && javascriptCallbackFactory != nullptr)
                 {
                     auto jsCallbackDto = GetJsCallback(list, index);

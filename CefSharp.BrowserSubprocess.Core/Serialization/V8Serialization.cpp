@@ -71,6 +71,10 @@ namespace CefSharp
                 {
                     SetCefTime(list, index, obj->GetDateValue().val);
                 }
+                else if (obj->IsArrayBuffer())
+                {
+                    SetArrayBuffer(list, index, obj->GetArrayBufferByteLength(), obj->GetArrayBufferData());
+                }
                 else if (obj->IsArray())
                 {
                     int arrLength = obj->GetArrayLength();
