@@ -27,6 +27,13 @@ namespace CefSharp
             bool IsCefTime(const CefRefPtr<TList>& list, TIndex index);
 
             template<typename TList, typename TIndex>
+            void SetArrayBuffer(const CefRefPtr<TList>& list, TIndex index, const size_t& size, const void* value);
+            template<typename TList, typename TIndex>
+            cli::array<Byte>^ GetArrayBuffer(const CefRefPtr<TList>& list, TIndex index);
+            template<typename TList, typename TIndex>
+            bool IsArrayBuffer(const CefRefPtr<TList>& list, TIndex index);
+
+            template<typename TList, typename TIndex>
             void SetJsCallback(const CefRefPtr<TList>& list, TIndex index, JavascriptCallback^ value);
             template<typename TList, typename TIndex>
             JavascriptCallback^ GetJsCallback(const CefRefPtr<TList>& list, TIndex index);
@@ -52,6 +59,16 @@ namespace CefSharp
             template bool IsCefTime(const CefRefPtr<CefListValue>& list, size_t index);
             template bool IsCefTime(const CefRefPtr<CefListValue>& list, int index);
             template bool IsCefTime(const CefRefPtr<CefDictionaryValue>& list, CefString index);
+
+            template void SetArrayBuffer(const CefRefPtr<CefListValue>& list, int index, const size_t& size, const void* value);
+            template void SetArrayBuffer(const CefRefPtr<CefListValue>& list, size_t index, const size_t& size, const void* value);
+            template void SetArrayBuffer(const CefRefPtr<CefDictionaryValue>& list, CefString index, const size_t& size, const void* value);
+            template cli::array<Byte>^ GetArrayBuffer(const CefRefPtr<CefListValue>& list, int index);
+            template cli::array<Byte>^ GetArrayBuffer(const CefRefPtr<CefListValue>& list, size_t index);
+            template cli::array<Byte>^ GetArrayBuffer(const CefRefPtr<CefDictionaryValue>& list, CefString index);
+            template bool IsArrayBuffer(const CefRefPtr<CefListValue>& list, size_t index);
+            template bool IsArrayBuffer(const CefRefPtr<CefListValue>& list, int index);
+            template bool IsArrayBuffer(const CefRefPtr<CefDictionaryValue>& list, CefString index);
 
             template void SetJsCallback(const CefRefPtr<CefListValue>& list, int index, JavascriptCallback^ value);
             template void SetJsCallback(const CefRefPtr<CefListValue>& list, size_t index, JavascriptCallback^ value);
