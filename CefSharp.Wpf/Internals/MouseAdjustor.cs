@@ -4,9 +4,24 @@ namespace CefSharp.Wpf.Internals
 {
     public class MouseAdjustor
     {
+        /// <summary>
+        /// The x-offset.
+        /// </summary>
         private int xOffset;
+
+        /// <summary>
+        /// The y-offset.
+        /// </summary>
         private int yOffset;
+
+        /// <summary>
+        /// The original-rect.
+        /// </summary>
         private Rect originalRect;
+
+        /// <summary>
+        /// The teleporting-rect.
+        /// </summary>
         private Rect teleportingRect;
 
         public System.Windows.Point Update(Rect originalRect, Rect viewRect)
@@ -64,14 +79,23 @@ namespace CefSharp.Wpf.Internals
             return new System.Windows.Point(x, y);
         }
 
+        /// <summary>
+        /// Resets the offsets and original-rect.
+        /// </summary>
         public void Reset()
         {
-            this.originalRect = new Rect();
-            this.originalRect = new Rect();
             this.xOffset = 0;
             this.yOffset = 0;
+
+            this.originalRect = new Rect();
+            this.originalRect = new Rect();
         }
 
+        /// <summary>
+        /// Adjusts the mouse-coordinates when the popup is visible.
+        /// </summary>
+        /// <param name="point">The original point.</param>
+        /// <returns>The adjusted point if needed, else the original point.</returns>
         public Point GetAdjustedMouseCoords(System.Windows.Point point)
         {
             return !this.IsInsideOriginalRect(point) && IsInsideTeleportingRect(point)
@@ -79,6 +103,11 @@ namespace CefSharp.Wpf.Internals
                 : new Point((int)point.X, (int)point.Y);
         }
 
+        /// <summary>
+        /// Checks if the given point is inside the original-rect.
+        /// </summary>
+        /// <param name="point">The point.</param>
+        /// <returns>A boolean.</returns>
         private bool IsInsideOriginalRect(System.Windows.Point point)
         {
             return point.X >= this.originalRect.X &&
@@ -87,6 +116,11 @@ namespace CefSharp.Wpf.Internals
                    point.Y < this.originalRect.Y + this.originalRect.Height;
         }
 
+        /// <summary>
+        /// Checks if the given point is inside the teleporting-rect.
+        /// </summary>
+        /// <param name="point">The point.</param>
+        /// <returns>A boolean.</returns>
         private bool IsInsideTeleportingRect(System.Windows.Point point)
         {
             return point.X >= this.teleportingRect.X &&
