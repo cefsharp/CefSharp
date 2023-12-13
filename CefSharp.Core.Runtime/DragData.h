@@ -90,6 +90,18 @@ namespace CefSharp
                 }
             }
 
+            //TODO: Vector is a pointer, so can potentially be updated (items may be possibly removed)
+            virtual property IList<String^>^ FilePaths
+            {
+                IList<String^>^ get()
+                {
+                    auto paths = vector<CefString>();
+                    _wrappedDragData->GetFilePaths(paths);
+
+                    return StringUtils::ToClr(paths);
+                }
+            }
+
             virtual property String^ FragmentBaseUrl
             {
                 String^ get()
