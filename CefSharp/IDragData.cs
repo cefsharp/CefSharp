@@ -36,6 +36,11 @@ namespace CefSharp
         IList<string> FileNames { get; }
 
         /// <summary>
+        /// Retrieve the list of file paths that are being dragged into the browser window
+        /// </summary>
+        IList<string> FilePaths { get; }
+
+        /// <summary>
         /// Return the base URL that the fragment came from. This value is used for resolving relative URLs and may be empty. 
         /// </summary>
         string FragmentBaseUrl { get; set; }
