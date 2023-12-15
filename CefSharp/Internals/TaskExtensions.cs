@@ -17,10 +17,9 @@ namespace CefSharp.Internals
     {
         public static TaskCompletionSource<TResult> WithTimeout<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TimeSpan timeout, Action cancelled)
         {
-            Timer timer = null;
-            timer = new Timer(state =>
+            var timer = new Timer(state =>
             {
-                timer.Dispose();
+                ((Timer)state).Dispose();
                 if (taskCompletionSource.Task.Status != TaskStatus.RanToCompletion)
                 {
                     taskCompletionSource.TrySetCanceled();
@@ -29,7 +28,8 @@ namespace CefSharp.Internals
                         cancelled();
                     }
                 }
-            }, null, timeout, TimeSpan.FromMilliseconds(-1));
+            });
+            timer.Change(timeout, Timeout.InfiniteTimeSpan);
 
             return taskCompletionSource;
         }
