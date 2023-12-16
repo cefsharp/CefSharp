@@ -14,7 +14,6 @@ namespace CefSharp.Core
     {
         public BrowserSettings() { }
         public BrowserSettings(bool autoDispose) { }
-        public virtual string AcceptLanguageList { get { throw null; } set { } }
         public virtual bool AutoDispose { get { throw null; } }
         public virtual uint BackgroundColor { get { throw null; } set { } }
         public virtual string CursiveFontFamily { get { throw null; } set { } }
@@ -135,6 +134,7 @@ namespace CefSharp.Core
         internal DragData() { }
         public virtual string FileName { get { throw null; } set { } }
         public virtual System.Collections.Generic.IList<string> FileNames { get { throw null; } }
+        public virtual System.Collections.Generic.IList<string> FilePaths { get { throw null; } }
         public virtual string FragmentBaseUrl { get { throw null; } set { } }
         public virtual string FragmentHtml { get { throw null; } set { } }
         public virtual string FragmentText { get { throw null; } set { } }
