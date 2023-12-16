@@ -252,5 +252,18 @@ namespace CefSharp.Test.Javascript
                 output.WriteLine("{0} passes {1}", test, javascriptResponse.Result);
             }
         }
+
+        [Theory]
+        [InlineData("(async () => { function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }; await sleep(2000); return true; })();")]
+        public async Task ShouldTimeout(string script)
+        {
+            AssertInitialLoadComplete();
+
+            var exception = await Assert.ThrowsAsync<TaskCanceledException>(
+                async () => await Browser.EvaluateScriptAsync(script, timeout: TimeSpan.FromMilliseconds(100)));
+
+            Assert.NotNull(exception);
+            Assert.IsType<TaskCanceledException>(exception);
+        }
     }
 }
