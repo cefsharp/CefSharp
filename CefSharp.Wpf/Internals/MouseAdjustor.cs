@@ -15,16 +15,22 @@ namespace CefSharp.Wpf.Internals
         private int yOffset;
 
         /// <summary>
-        /// The original-rect.
+        /// The original rect.
         /// </summary>
         private Rect originalRect;
 
         /// <summary>
-        /// The teleporting-rect.
+        /// The adjusted rect.
         /// </summary>
-        private Rect teleportingRect;
+        private Rect adjustedRect;
 
-        public System.Windows.Point Update(Rect originalRect, Rect viewRect)
+        /// <summary>
+        /// Updates the size and the position of the popup.
+        /// </summary>
+        /// <param name="originalRect"></param>
+        /// <param name="viewRect"></param>
+        /// <returns>The adjusted point.</returns>
+        public System.Windows.Point UpdatePopupSizeAndPosition(Rect originalRect, Rect viewRect)
         {
             int x = originalRect.X,
                 prevX = originalRect.X,
@@ -64,14 +70,14 @@ namespace CefSharp.Wpf.Internals
                 this.xOffset = xOffset;
                 this.yOffset = yOffset;
 
-                Rect teleportingRect = new Rect(x, y, x + originalRect.Width, y + originalRect.Height);
+                Rect adjustedRect = new Rect(x, y, x + originalRect.Width, y + originalRect.Height);
 
                 this.originalRect = originalRect;
-                this.teleportingRect = teleportingRect;
+                this.adjustedRect = adjustedRect;
 
-                if (this.originalRect.Y < this.teleportingRect.Y + this.teleportingRect.Height)
+                if (this.originalRect.Y < this.adjustedRect.Y + this.adjustedRect.Height)
                 {
-                    var newY = this.teleportingRect.Y + this.teleportingRect.Height;
+                    var newY = this.adjustedRect.Y + this.adjustedRect.Height;
                     this.originalRect = new Rect(originalRect.X, newY, originalRect.Width, originalRect.Y + originalRect.Height - newY);
                 }
             }
@@ -81,14 +87,18 @@ namespace CefSharp.Wpf.Internals
 
         /// <summary>
         /// Resets the offsets and original-rect.
+        /// <param name="isOpen">If the popup is open or not.</param>
         /// </summary>
-        public void Reset()
+        public void OnPopupShow(bool isOpen)
         {
-            this.xOffset = 0;
-            this.yOffset = 0;
+            if (!isOpen)
+            {
+                this.xOffset = 0;
+                this.yOffset = 0;
 
-            this.originalRect = new Rect();
-            this.originalRect = new Rect();
+                this.originalRect = new Rect();
+                this.originalRect = new Rect();
+            }
         }
 
         /// <summary>
@@ -98,16 +108,19 @@ namespace CefSharp.Wpf.Internals
         /// <returns>The adjusted point if needed, else the original point.</returns>
         public Point GetAdjustedMouseCoords(System.Windows.Point point)
         {
-            return !this.IsInsideOriginalRect(point) && IsInsideTeleportingRect(point)
-                ? new Point((int)point.X + this.xOffset, (int)point.Y + this.yOffset)
-                : new Point((int)point.X, (int)point.Y);
+            bool isOpen = !this.IsInsideOriginalRect(point) && IsInsideAdjustedRect(point);
+
+            if (!isOpen)
+                return new Point((int)point.X, (int)point.Y);
+
+            return new Point((int)point.X + this.xOffset, (int)point.Y + this.yOffset);
         }
 
         /// <summary>
         /// Checks if the given point is inside the original-rect.
         /// </summary>
         /// <param name="point">The point.</param>
-        /// <returns>A boolean.</returns>
+        /// <returns>Returns true if the point is inside the original rect, else return false.</returns>
         private bool IsInsideOriginalRect(System.Windows.Point point)
         {
             return point.X >= this.originalRect.X &&
@@ -117,16 +130,16 @@ namespace CefSharp.Wpf.Internals
         }
 
         /// <summary>
-        /// Checks if the given point is inside the teleporting-rect.
+        /// Checks if the given point is inside the adjusted rect.
         /// </summary>
         /// <param name="point">The point.</param>
-        /// <returns>A boolean.</returns>
-        private bool IsInsideTeleportingRect(System.Windows.Point point)
+        /// <returns>Returns true if the point is inside the adjusted rect, else return false.</returns>
+        private bool IsInsideAdjustedRect(System.Windows.Point point)
         {
-            return point.X >= this.teleportingRect.X &&
-                   point.X < this.teleportingRect.X + this.teleportingRect.Width &&
-                   point.Y >= this.teleportingRect.Y &&
-                   point.Y < this.teleportingRect.Y + this.teleportingRect.Height;
+            return point.X >= this.adjustedRect.X &&
+                   point.X < this.adjustedRect.X + this.adjustedRect.Width &&
+                   point.Y >= this.adjustedRect.Y &&
+                   point.Y < this.adjustedRect.Y + this.adjustedRect.Height;
         }
     }
 }

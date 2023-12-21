@@ -1045,11 +1045,7 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() =>
             {
                 popupImage.Visibility = isOpen ? Visibility.Visible : Visibility.Hidden;
-
-                if (!isOpen)
-                {
-                    mouseAdjustor.Reset();
-                }
+                mouseAdjustor.OnPopupShow(isOpen);
             });
         }
 
@@ -2121,7 +2117,7 @@ namespace CefSharp.Wpf
             popupImage.Width = rect.Width;
             popupImage.Height = rect.Height;
 
-            Point point = this.mouseAdjustor.Update(rect, this.viewRect);
+            Point point = this.mouseAdjustor.UpdatePopupSizeAndPosition(rect, this.viewRect);
 
             Canvas.SetLeft(popupImage, point.X);
             Canvas.SetTop(popupImage, point.Y);
