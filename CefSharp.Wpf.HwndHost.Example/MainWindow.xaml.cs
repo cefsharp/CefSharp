@@ -1,4 +1,5 @@
 using System.Windows;
+using CefSharp.Wpf.HwndHost.Example.Handlers;
 
 namespace CefSharp.Wpf.HwndHost.Example
 {
@@ -10,6 +11,8 @@ namespace CefSharp.Wpf.HwndHost.Example
         public MainWindow()
         {
             InitializeComponent();
+
+            Browser.DisplayHandler = new DisplayHandler();
         }
 
         private void ShowDevToolsClick(object sender, RoutedEventArgs e)

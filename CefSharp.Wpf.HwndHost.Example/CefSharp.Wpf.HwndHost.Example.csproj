@@ -30,6 +30,6 @@
 	</ItemGroup>
 
 	<Target Name="CefSharpAfterBuildDebug" AfterTargets="AfterBuild">
-		<CallTarget Targets="CefSharpAfterBuildDiagnostic"/>
+		<CallTarget Targets="CefSharpAfterBuildDiagnostic" />
 	</Target>
 </Project>
