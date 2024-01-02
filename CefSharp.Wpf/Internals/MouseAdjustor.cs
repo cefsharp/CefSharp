@@ -25,6 +25,11 @@ namespace CefSharp.Wpf.Internals
         private Rect adjustedRect;
 
         /// <summary>
+        /// If the popup is open or not.
+        /// </summary>
+        private bool isOpen;
+
+        /// <summary>
         /// Updates the size and the position of the popup.
         /// </summary>
         /// <param name="originalRect"></param>
@@ -108,9 +113,9 @@ namespace CefSharp.Wpf.Internals
         /// <returns>The adjusted point if needed, else the original point.</returns>
         public Point GetAdjustedMouseCoords(System.Windows.Point point)
         {
-            bool isOpen = !this.IsInsideOriginalRect(point) && IsInsideAdjustedRect(point);
+            this.isOpen = !this.IsInsideOriginalRect(point) && IsInsideAdjustedRect(point);
 
-            if (!isOpen)
+            if (!this.isOpen)
                 return new Point((int)point.X, (int)point.Y);
 
             return new Point((int)point.X + this.xOffset, (int)point.Y + this.yOffset);
