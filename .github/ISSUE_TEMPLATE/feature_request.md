@@ -1,8 +1,9 @@
 ---
 name: Feature request
-about: Suggest an idea for this project, please don't use this template to ask questions, thank you.
+about: Suggest an idea for this project, please don't use this template to ask questions,
+  thank you.
 title: Feature Request - My Feature
-labels: feature-request
+labels: ''
 assignees: ''
 
 ---
