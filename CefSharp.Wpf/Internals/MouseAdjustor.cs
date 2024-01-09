@@ -72,6 +72,8 @@ namespace CefSharp.Wpf.Internals
 
             if (x != prevX || y != prevY)
             {
+                this.isOpen = true;
+
                 this.xOffset = xOffset;
                 this.yOffset = yOffset;
 
@@ -98,6 +100,8 @@ namespace CefSharp.Wpf.Internals
         {
             if (!isOpen)
             {
+                this.isOpen = false;
+
                 this.xOffset = 0;
                 this.yOffset = 0;
 
