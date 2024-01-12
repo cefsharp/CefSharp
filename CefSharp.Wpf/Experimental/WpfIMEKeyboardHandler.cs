@@ -10,7 +10,6 @@ using System.Windows.Interop;
 using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Wpf.Internals;
-using 
 using Point = System.Windows.Point;
 using Range = CefSharp.Structs.Range;
 using Rect = CefSharp.Structs.Rect;
