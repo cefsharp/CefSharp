@@ -41,6 +41,25 @@ namespace CefSharp.Wpf.Experimental
         }
 
         /// <summary>
+        /// Get the outermost element of the browser 
+        /// </summary>
+        /// <param name="control">The browser</param>
+        /// <returns>The outermost element </returns>
+        FrameworkElement GetOutermostElement(FrameworkElement control)
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(control);
+            DependencyObject current = control;
+
+            while (parent != null)
+            {
+                current = parent;
+                parent = VisualTreeHelper.GetParent(current);
+            }
+
+            return current as FrameworkElement;
+        }
+        
+        /// <summary>
         /// Change composition range.
         /// </summary>
         /// <param name="selectionRange">The selection range.</param>
@@ -61,7 +80,8 @@ namespace CefSharp.Wpf.Experimental
             {
                 //TODO: Getting the root window for every composition range change seems expensive,
                 //we should cache the position and update it on window move.
-                var parentWindow = Window.GetWindow(owner);
+                //In Winform embedded wpf borwser mode, Window.GetWindow(owner) is null, so use a custom function to get the outermost visual element.
+                var parentWindow = GetOutermostElement(owner);
                 if (parentWindow != null)
                 {
                     //TODO: What are we calculating here exactly???
