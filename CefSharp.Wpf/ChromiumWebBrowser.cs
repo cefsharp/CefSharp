@@ -608,7 +608,7 @@ namespace CefSharp.Wpf
 
             browserSettings = Core.ObjectFactory.CreateBrowserSettings(autoDispose: true);
 
-            WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            SetupWpfKeyboardHandler();
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
@@ -753,6 +753,13 @@ namespace CefSharp.Wpf
                 // is called.
                 LifeSpanHandler = null;
 
+                var inputLangManager = InputLanguageManager.Current;
+
+                if (inputLangManager != null)
+                { 
+                    inputLangManager.InputLanguageChanged -= OnInputLangageChanged;
+                }
+
                 WpfKeyboardHandler?.Dispose();
                 WpfKeyboardHandler = null;
 
@@ -767,6 +774,32 @@ namespace CefSharp.Wpf
             }
 
             Cef.RemoveDisposable(this);
+        }
+
+        private void SetupWpfKeyboardHandler()
+        {
+            try
+            {
+                var inputLang = InputLanguageManager.Current.CurrentInputLanguage;
+
+                var useImeKeyboardHandler = WpfImeKeyboardHandler.UseImeKeyboardHandler(inputLang.KeyboardLayoutId);
+
+                if (useImeKeyboardHandler)
+                {
+                    WpfKeyboardHandler = new WpfImeKeyboardHandler(this);
+                }
+                else
+                {
+                    InputLanguageManager.Current.InputLanguageChanged += OnInputLangageChanged;
+
+                    WpfKeyboardHandler = new WpfKeyboardHandler(this);
+                }
+            }
+            catch (Exception)
+            {
+                // For now we'll ignore any errors and just use the default keyboard handler
+                WpfKeyboardHandler = new WpfKeyboardHandler(this);
+            }
         }
 
         /// <summary>
@@ -1716,6 +1749,26 @@ namespace CefSharp.Wpf
 
                 browser.GetHost().DragTargetDragEnter(dragData, mouseEvent, effect);
                 browser.GetHost().DragTargetDragOver(mouseEvent, effect);
+            }
+        }
+
+        private void OnInputLangageChanged(object sender, InputLanguageEventArgs e)
+        {
+            // If we are already using the WpfImeKeyboardHandler then we'll ignore any changes
+            if (WpfKeyboardHandler?.GetType() == typeof(WpfImeKeyboardHandler))
+            {
+                return;
+            }
+
+            var useImeKeyboardHandler = WpfImeKeyboardHandler.UseImeKeyboardHandler(e.NewLanguage.KeyboardLayoutId);
+
+            if (useImeKeyboardHandler)
+            {
+                var oldKeyboardHandler = WpfKeyboardHandler;
+                WpfKeyboardHandler = new WpfImeKeyboardHandler(this);
+                oldKeyboardHandler?.Dispose();                
+
+                InputLanguageManager.Current.InputLanguageChanged -= OnInputLangageChanged;
             }
         }
 
