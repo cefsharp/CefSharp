@@ -10,10 +10,10 @@ using System.Windows.Interop;
 using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Wpf.Internals;
+using System.Windows.Media;
 using Point = System.Windows.Point;
 using Range = CefSharp.Structs.Range;
 using Rect = CefSharp.Structs.Rect;
-using System.Windows.Media;
 namespace CefSharp.Wpf.Experimental
 {
     /// <summary>
@@ -45,7 +45,7 @@ namespace CefSharp.Wpf.Experimental
         /// </summary>
         /// <param name="control">The browser</param>
         /// <returns>The outermost element </returns>
-        FrameworkElement GetOutermostElement(FrameworkElement control)
+        private FrameworkElement GetOutermostElement(FrameworkElement control)
         {
             DependencyObject parent = VisualTreeHelper.GetParent(control);
             DependencyObject current = control;
@@ -79,9 +79,15 @@ namespace CefSharp.Wpf.Experimental
             owner.UiThreadRunAsync(() =>
             {
                 //TODO: Getting the root window for every composition range change seems expensive,
-                //we should cache the position and update it on window move.
+                //we should cache the position and update it on window move.                
+                var parentWindow = (FrameworkElement)Window.GetWindow(owner);
+                
                 //In Winform embedded wpf borwser mode, Window.GetWindow(owner) is null, so use a custom function to get the outermost visual element.
-                var parentWindow = GetOutermostElement(owner);
+                if(parentWindow == null)
+                {
+                    parentWindow = GetOutermostElement(owner);
+                }
+                
                 if (parentWindow != null)
                 {
                     //TODO: What are we calculating here exactly???
