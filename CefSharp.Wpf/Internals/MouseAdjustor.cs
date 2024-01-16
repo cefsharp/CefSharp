@@ -117,12 +117,13 @@ namespace CefSharp.Wpf.Internals
         /// <returns>The adjusted point if needed, else the original point.</returns>
         public Point GetAdjustedMouseCoords(System.Windows.Point point)
         {
-            this.isOpen = !this.IsInsideOriginalRect(point) && IsInsideAdjustedRect(point);
-
             if (!this.isOpen)
                 return new Point((int)point.X, (int)point.Y);
 
-            return new Point((int)point.X + this.xOffset, (int)point.Y + this.yOffset);
+            if (!this.IsInsideOriginalRect(point) && IsInsideAdjustedRect(point))
+                return new Point((int)point.X + this.xOffset, (int)point.Y + this.yOffset);
+
+            return new Point((int)point.X, (int)point.Y);
         }
 
         /// <summary>
