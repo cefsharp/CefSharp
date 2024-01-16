@@ -183,13 +183,17 @@ function VSX
 
     $versionSearchStr = "[$VS_VER.0," + ($VS_VER+1) + ".0)"
 
+    $ErrorActionPreference="SilentlyContinue"
     $VSInstallPath = & $VSWherePath -version $versionSearchStr -property installationPath $VS_PRE
+    $ErrorActionPreference="Stop"
     
     Write-Diagnostic "$($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
         
     if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))
     {
+        $ErrorActionPreference="SilentlyContinue"
         $VSInstallPath = & $VSwherePath -version $versionSearchStr -property installationPath $VS_PRE -products 'Microsoft.VisualStudio.Product.BuildTools'
+        $ErrorActionPreference="Stop"
 		Write-Diagnostic "BuildTools $($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
 
         if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))
