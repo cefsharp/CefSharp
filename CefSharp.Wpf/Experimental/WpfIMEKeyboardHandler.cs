@@ -14,6 +14,7 @@ using System.Windows.Media;
 using Point = System.Windows.Point;
 using Range = CefSharp.Structs.Range;
 using Rect = CefSharp.Structs.Rect;
+
 namespace CefSharp.Wpf.Experimental
 {
     /// <summary>
@@ -38,26 +39,7 @@ namespace CefSharp.Wpf.Experimental
         /// <param name="owner">The owner.</param>
         public WpfImeKeyboardHandler(ChromiumWebBrowser owner) : base(owner)
         {
-        }
-
-        /// <summary>
-        /// Get the outermost element of the browser 
-        /// </summary>
-        /// <param name="control">The browser</param>
-        /// <returns>The outermost element </returns>
-        private FrameworkElement GetOutermostElement(FrameworkElement control)
-        {
-            DependencyObject parent = VisualTreeHelper.GetParent(control);
-            DependencyObject current = control;
-
-            while (parent != null)
-            {
-                current = parent;
-                parent = VisualTreeHelper.GetParent(current);
-            }
-
-            return current as FrameworkElement;
-        }
+        }        
         
         /// <summary>
         /// Change composition range.
@@ -465,6 +447,25 @@ namespace CefSharp.Wpf.Experimental
         private void UpdateCaretPosition(int index)
         {
             MoveImeWindow(source.Handle);
+        }
+
+        /// <summary>
+        /// Get the outermost element of the browser 
+        /// </summary>
+        /// <param name="control">The browser</param>
+        /// <returns>The outermost element </returns>
+        private FrameworkElement GetOutermostElement(FrameworkElement control)
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(control);
+            DependencyObject current = control;
+
+            while (parent != null)
+            {
+                current = parent;
+                parent = VisualTreeHelper.GetParent(current);
+            }
+
+            return current as FrameworkElement;
         }
     }
 }
