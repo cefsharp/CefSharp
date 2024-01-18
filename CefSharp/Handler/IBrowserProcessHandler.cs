@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 
 namespace CefSharp
 {
@@ -34,5 +35,33 @@ namespace CefSharp
         /// specified delay and any currently pending scheduled call should be
         /// cancelled.</param>
         void OnScheduleMessagePumpWork(long delay);
+
+        /// <summary>
+        /// Implement this method to provide app-specific behavior when an already
+        /// running app is relaunched with the same CefSettings.RootCachePath value.
+        /// For example, activate an existing app window or create a new app window.
+        /// 
+        /// To avoid cache corruption only a single app instance is allowed to run for
+        /// a given CefSettings.RootCachePath value. On relaunch the app checks a
+        /// process singleton lock and then forwards the new launch arguments to the
+        /// already running app process before exiting early. Client apps should
+        /// therefore check the Cef.Initialize() return value for early exit before
+        /// proceeding.
+        ///
+        /// It's important to note that this method will be called on a CEF UI thread,
+        /// which by default is not the same as your application UI thread.
+        ///
+        /// </summary>
+        /// <param name="commandLine">Readonly command line args</param>
+        /// <param name="currentDirectory">current directory (optional)</param>
+        /// <returns>
+        /// Return true if the relaunch is handled or false for default relaunch
+        /// behavior. Default behavior will create a new default styled Chrome window.
+        /// </returns>
+        /// <remarks>
+        /// The <paramref name="commandLine"/> dictionary may contain keys that have empty string values
+        /// (arugments).
+        /// </remarks>
+        bool OnAlreadyRunningAppRelaunch(IReadOnlyDictionary<string, string> commandLine, string currentDirectory);
     }
 }
