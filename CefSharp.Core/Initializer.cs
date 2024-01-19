@@ -34,7 +34,7 @@ namespace CefSharp
             //https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getentryassembly?view=net-5.0
             if (executingAssembly == null)
             {
-                currentFolder = Path.GetDirectoryName(typeof(Initializer).Assembly.Location);
+                currentFolder = GetCefSharpCoreAssemblyLocation();
             }
             else
             {
@@ -66,6 +66,16 @@ namespace CefSharp
                 var arch = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
                 var archFolder = $"runtimes\\win-{arch}\\native";
                 libCefPath = Path.Combine(currentFolder, archFolder, "libcef.dll");
+
+                if (!File.Exists(libCefPath))
+                {
+                    // For cases where the library is dynamically loaded and no RuntimeIdentifier
+                    // specified, attempt to locate libcef.dll next to CefSharp.Core.dll
+                    currentFolder = GetCefSharpCoreAssemblyLocation();
+
+                    libCefPath = Path.Combine(currentFolder, archFolder, "libcef.dll");
+                }
+
                 if (File.Exists(libCefPath))
                 {
                     LibCefLoaded = NativeLibrary.TryLoad(libCefPath, out IntPtr handle);
@@ -85,6 +95,11 @@ namespace CefSharp
                     LibCefLoaded = false;
                 }
             }
+        }
+
+        private static string GetCefSharpCoreAssemblyLocation()
+        {
+            return Path.GetDirectoryName(typeof(Initializer).Assembly.Location);
         }
     }
 }
