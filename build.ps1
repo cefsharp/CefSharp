@@ -5,9 +5,9 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "vs2019",
     [Parameter(Position = 1)]
-    [string] $Version = "119.1.20",
+    [string] $Version = "120.1.80",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "119.1.20",
+    [string] $AssemblyVersion = "120.1.80",
     [Parameter(Position = 3)]
     [ValidateSet("NetFramework", "NetCore", "NetFramework452", "NetCore31")]
     [string] $TargetFramework = "NetFramework",
@@ -183,13 +183,17 @@ function VSX
 
     $versionSearchStr = "[$VS_VER.0," + ($VS_VER+1) + ".0)"
 
+    $ErrorActionPreference="SilentlyContinue"
     $VSInstallPath = & $VSWherePath -version $versionSearchStr -property installationPath $VS_PRE
+    $ErrorActionPreference="Stop"
     
     Write-Diagnostic "$($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
         
     if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))
     {
+        $ErrorActionPreference="SilentlyContinue"
         $VSInstallPath = & $VSwherePath -version $versionSearchStr -property installationPath $VS_PRE -products 'Microsoft.VisualStudio.Product.BuildTools'
+        $ErrorActionPreference="Stop"
 		Write-Diagnostic "BuildTools $($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
 
         if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))

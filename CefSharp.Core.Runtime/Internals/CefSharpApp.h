@@ -121,6 +121,36 @@ namespace CefSharp
                 _app->BrowserProcessHandler->OnScheduleMessagePumpWork(delay_ms);
             }
 
+            virtual bool OnAlreadyRunningAppRelaunch(CefRefPtr<CefCommandLine> commandLine, const CefString& currentDirectory) override
+            {
+                if (Object::ReferenceEquals(_app, nullptr) || Object::ReferenceEquals(_app->BrowserProcessHandler, nullptr))
+                {
+                    return false;
+                }
+
+                auto managedArgs = gcnew Dictionary<String^, String^>();
+
+                CefCommandLine::ArgumentList args;
+                commandLine->GetArguments(args);
+
+                for (auto arg : args)
+                {
+                    managedArgs->Add(StringUtils::ToClr(arg), String::Empty);
+                }
+
+                CefCommandLine::SwitchMap switches;
+                commandLine->GetSwitches(switches);
+
+                for (auto s : switches)
+                {
+                    managedArgs->Add(StringUtils::ToClr(s.first), StringUtils::ToClr(s.second));
+                }
+
+                auto readOnlyArgs = gcnew System::Collections::ObjectModel::ReadOnlyDictionary<String^, String^>(managedArgs);
+
+                return _app->BrowserProcessHandler->OnAlreadyRunningAppRelaunch(readOnlyArgs, StringUtils::ToClr(currentDirectory));
+            }
+
             virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> commandLine) override
             {
 #ifndef NETCOREAPP

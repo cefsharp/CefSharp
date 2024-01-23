@@ -1121,16 +1121,11 @@ namespace CefSharp
         /// </summary>
         Http2RstStreamNoErrorReceived = -372,
 
-        /// <summary>
-        /// The pushed stream claimed by the request is no longer available.
-        /// </summary>
-        Http2PushedStreamNotAvailable = -373,
+        // Obsolete. HTTP/2 push is removed.
+        // NET_ERROR(HTTP2_PUSHED_STREAM_NOT_AVAILABLE, -373)
 
-        /// <summary>
-        /// A pushed stream was claimed and later reset by the server. When this happens,
-        /// the request should be retried.
-        /// </summary>
-        Http2ClaimedPushedStreamResetByServer = -374,
+        // Obsolete. HTTP/2 push is removed.
+        // NET_ERROR(HTTP2_CLAIMED_PUSHED_STREAM_RESET_BY_SERVER, -374)
 
         /// <summary>
         /// An HTTP transaction was retried too many times due for authentication or
@@ -1145,21 +1140,16 @@ namespace CefSharp
         /// </summary>
         Http2StreamClosed = -376,
 
-        /// <summary>
-        /// Client is refusing an HTTP/2 stream.
-        /// </summary>
-        Http2ClientRefusedStream = -377,
+        // Obsolete. HTTP/2 push is removed.
+        // NET_ERROR(HTTP2_CLIENT_REFUSED_STREAM, -377)
 
-        /// <summary>
-        /// A pushed HTTP/2 stream was claimed by a request based on matching URL and
-        /// request headers, but the pushed response headers do not match the request.
-        /// </summary>
-        Http2PushedResponseDoesNotMatch = -378,
+        // Obsolete. HTTP/2 push is removed.
+        // NET_ERROR(HTTP2_PUSHED_RESPONSE_DOES_NOT_MATCH, -378)
 
         /// <summary>
         /// The server returned a non-2xx HTTP response code.
         ///
-        /// Not that this error is only used by certain APIs that interpret the HTTP
+        /// Note that this error is only used by certain APIs that interpret the HTTP
         /// response itself. URLRequest for instance just passes most non-2xx
         /// response back as success.
         /// </summary>
@@ -1191,7 +1181,7 @@ namespace CefSharp
         InconsistentIpAddressSpace = -383,
 
         /// <summary>
-        /// The IP address space of the cached remote endpoint is blocked by local
+        /// The IP address space of the cached remote endpoint is blocked by private
         /// network access check.
         /// </summary>
         CachedIpAddressSpaceBlockedByLocalNetworkAccessPolicy = -384,
@@ -1436,6 +1426,11 @@ namespace CefSharp
 
         // Error -715 was removed (CHANNEL_ID_IMPORT_FAILED)
 
+        /// <summary>
+        /// The certificate verifier configuration changed in some way.
+        /// </summary>
+        CertVerifierChanged = -716,
+
         // DNS error codes.
 
         /// <summary>
@@ -1508,5 +1503,10 @@ namespace CefSharp
         /// alpn values of supported protocols, but did not.
         /// </summary>
         DnsNoMatchingSupportedAlpn = -811,
+
+        /// <summary>
+        /// The compression dictionary cannot be loaded.
+        /// </summary>
+        DictionaryLoadFailed = -812,
     };
 }
