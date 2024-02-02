@@ -29,7 +29,7 @@
     <file src="..\CefSharp.WinForms\bin\Release\net462\CefSharp.WinForms.pdb" target="lib\net462" />
 
     <file src="Readme.txt" target="" />
-	<file src="..\LICENSE" target="" />
+	<file src="..\LICENSE" target="LICENSE" />
 
     <file src="..\CefSharp.WinForms\**\*.cs" target="src\CefSharp.WinForms" />
   </files>

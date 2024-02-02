@@ -29,7 +29,7 @@
     <file src="..\CefSharp.Wpf\bin\Release\net462\CefSharp.Wpf.pdb" target="lib\net462" />
 
     <file src="Readme.txt" target="" />
-	<file src="..\LICENSE" target="" />
+	<file src="..\LICENSE" target="LICENSE" />
 
     <file src="..\CefSharp.Wpf\**\*.cs" target="src\CefSharp.Wpf" />
   </files>

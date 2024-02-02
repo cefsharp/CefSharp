@@ -29,7 +29,7 @@
     <file src="..\CefSharp.OffScreen\bin\Release\net462\CefSharp.OffScreen.pdb" target="lib\net462" />
 
     <file src="Readme.txt" target="" />
-	<file src="..\LICENSE" target="" />
+	<file src="..\LICENSE" target="LICENSE" />
 
     <file src="..\CefSharp.OffScreen\**\*.cs" target="src\CefSharp.OffScreen" />
   </files>

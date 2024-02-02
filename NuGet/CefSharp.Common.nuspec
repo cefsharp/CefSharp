@@ -55,7 +55,7 @@
     <file src="CefSharp.Common.app.config.x86.transform" target="build\app.config.x86.transform" />
     <file src="CefSharp.Common.app.config.x64.transform" target="build\app.config.x64.transform" />
 	
-	<file src="..\LICENSE" target="" />
+	<file src="..\LICENSE" target="LICENSE" />
   
     <file src="..\CefSharp\**\*.cs" target="src\CefSharp" />
     <file src="..\CefSharp.Core\**\*.cs" target="src\CefSharp.Core" />
