@@ -6,7 +6,7 @@
     <authors>The CefSharp Authors</authors>
     <owners>The CefSharp Authors</owners>
     <projectUrl>https://github.com/cefsharp/CefSharp</projectUrl>
-    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
+    <license type="file">LICENSE</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component ('Core' and common 'Element' components, needed by both WPF and WinForms).</description>
     <tags>chrome browser</tags>
@@ -54,6 +54,8 @@
     <file src="CefSharp.Common.import.targets" target="build\CefSharp.Common.targets" />
     <file src="CefSharp.Common.app.config.x86.transform" target="build\app.config.x86.transform" />
     <file src="CefSharp.Common.app.config.x64.transform" target="build\app.config.x64.transform" />
+	
+	<file src="..\LICENSE" target="" />
   
     <file src="..\CefSharp\**\*.cs" target="src\CefSharp" />
     <file src="..\CefSharp.Core\**\*.cs" target="src\CefSharp.Core" />
