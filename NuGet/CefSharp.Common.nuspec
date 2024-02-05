@@ -13,8 +13,8 @@
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETFramework4.6.2">
-        <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
-		    <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
+        <dependency id="chromiumembeddedframework.runtime.win-x86" version="[$RedistVersion$]" />
+		<dependency id="chromiumembeddedframework.runtime.win-x64" version="[$RedistVersion$]" />
       </group>
     </dependencies>
   </metadata>
