@@ -2,7 +2,28 @@ using CefSharp.Structs;
 
 namespace CefSharp.Wpf.Internals
 {
-    public class MouseAdjustor
+    public class NoMouseAdjustor : IMouseAdjustor
+    {
+        public virtual void Dispose()
+        {
+        }
+
+        public System.Windows.Point UpdatePopupSizeAndPosition(Rect originalRect, Rect viewRect)
+        {
+            return new System.Windows.Point(originalRect.X, originalRect.Y);
+        }
+
+        public void OnPopupShow(bool isOpen)
+        {
+        }
+
+        public Point GetAdjustedMouseCoords(System.Windows.Point point)
+        {
+            return new Point((int)point.X, (int)point.Y);
+        }
+    }
+
+    public class MouseAdjustor : IMouseAdjustor
     {
         /// <summary>
         /// The x-offset.
@@ -28,6 +49,13 @@ namespace CefSharp.Wpf.Internals
         /// If the popup is open or not.
         /// </summary>
         private bool isOpen;
+
+        /// <summary>
+        /// This method is required for the interface.
+        /// </summary>
+        public virtual void Dispose()
+        {
+        }
 
         /// <summary>
         /// Updates the size and the position of the popup.

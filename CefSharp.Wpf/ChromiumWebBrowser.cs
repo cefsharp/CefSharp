@@ -141,9 +141,9 @@ namespace CefSharp.Wpf
         private static bool DesignMode;
 
         /// <summary>
-        /// The class that coordinates the positioning of the dropdown.
+        /// The class that coordinates the positioning of the dropdown if wanted.
         /// </summary>
-        private MouseAdjustor mouseAdjustor = new MouseAdjustor();
+        private IMouseAdjustor mouseAdjustor;
 
         // https://github.com/chromiumembedded/cef/issues/3427
         private bool resizeHackIgnoreOnPaint;
@@ -489,6 +489,14 @@ namespace CefSharp.Wpf
             {
                 NoInliningConstructor();
             }
+
+            bool adjust = true;
+
+            if (adjust)
+                this.mouseAdjustor = new MouseAdjustor();
+
+            else
+                this.mouseAdjustor = new NoMouseAdjustor();
         }
 
         /// <summary>
