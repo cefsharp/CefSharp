@@ -70,7 +70,7 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void ShouldWorkWhenEnqueueCalledAfterDispose()
         {
-            var methodInvocation = new MethodInvocation(1, 1, 1, "Testing", 1);
+            var methodInvocation = new MethodInvocation(1, "1", 1, "Testing", 1);
             methodInvocation.Parameters.Add("Echo Me!");
 
             var objectRepository = new JavascriptObjectRepository
@@ -102,7 +102,7 @@ namespace CefSharp.Test.Framework
 #else
             objectRepository.Register("testObject", boundObject, true, BindingOptions.DefaultBinder);
 #endif
-            var methodInvocation = new MethodInvocation(1, 1, 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
+            var methodInvocation = new MethodInvocation(1, "1", 1, nameof(boundObject.AsyncWaitTwoSeconds), 1);
             methodInvocation.Parameters.Add("Echo Me!");
             var methodRunnerQueue = new ConcurrentMethodRunnerQueue(objectRepository);
 
@@ -124,7 +124,7 @@ namespace CefSharp.Test.Framework
 
             var mockObjectRepository = new Mock<IJavascriptObjectRepositoryInternal>();
             mockObjectRepository.Setup(x => x.TryCallMethodAsync(1, methodName, It.IsAny<object[]>())).ReturnsAsync(new TryCallMethodResult(true, expected, string.Empty));
-            var methodInvocation = new MethodInvocation(1, 1, 1, methodName, 1);
+            var methodInvocation = new MethodInvocation(1, "1", 1, methodName, 1);
             methodInvocation.Parameters.Add(expected);
 
             using var methodRunnerQueue = new ConcurrentMethodRunnerQueue(mockObjectRepository.Object);

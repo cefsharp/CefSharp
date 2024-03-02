@@ -205,9 +205,9 @@ String^ Frame::Name::get()
 // Returns the globally unique identifier for this frame.
 ///
 /*--cef()--*/
-Int64 Frame::Identifier::get()
+String^ Frame::Identifier::get()
 {
-    return _frame->GetIdentifier();
+    return StringUtils::ToClr(_frame->GetIdentifier());
 }
 
 ///

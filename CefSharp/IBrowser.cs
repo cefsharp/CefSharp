@@ -113,14 +113,14 @@ namespace CefSharp
         /// </summary>
         /// <param name="identifier">identifier</param>
         /// <returns>frame or null</returns>
-        IFrame GetFrame(Int64 identifier);
+        IFrame GetFrameByIdentifier(string identifier);
 
         /// <summary>
         /// Returns the frame with the specified name, or NULL if not found.
         /// </summary>
         /// <param name="name">name of frame</param>
         /// <returns>frame or null</returns>
-        IFrame GetFrame(string name);
+        IFrame GetFrameByName(string name);
 
         /// <summary>
         /// Returns the number of frames that currently exist.
@@ -132,7 +132,7 @@ namespace CefSharp
         /// Returns the identifiers of all existing frames.
         /// </summary>
         /// <returns>list of frame identifiers</returns>
-        List<Int64> GetFrameIdentifiers();
+        List<string> GetFrameIdentifiers();
 
         /// <summary>
         /// Returns the names of all existing frames.

@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using CefSharp.Internals;
@@ -30,7 +31,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
         /// </summary>
-        private long canExecuteJavascriptInMainFrameId;
+        private BigInteger canExecuteJavascriptInMainFrameId;
 
         /// <summary>
         /// The browser initialized - boolean represented as 0 (false) and 1(true) as we use Interlocker to increment/reset
@@ -247,7 +248,7 @@ namespace CefSharp.WinForms
             get { return InternalIsBrowserInitialized(); }
         }
 
-        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
+        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(string frameId, bool canExecute)
         {
             //When loading pages of a different origin the frameId changes
             //For the first loading of a new origin the messages from the render process
@@ -256,12 +257,14 @@ namespace CefSharp.WinForms
             //incorrectly overrides the value
             //https://github.com/cefsharp/CefSharp/issues/3021
 
-            if (frameId > canExecuteJavascriptInMainFrameId && !canExecute)
+            var frameIdBigInt = BigInteger.Parse(frameId);
+
+            if (frameIdBigInt > canExecuteJavascriptInMainFrameId && !canExecute)
             {
                 return;
             }
 
-            canExecuteJavascriptInMainFrameId = frameId;
+            canExecuteJavascriptInMainFrameId = frameIdBigInt;
             CanExecuteJavascriptInMainFrame = canExecute;
         }
 

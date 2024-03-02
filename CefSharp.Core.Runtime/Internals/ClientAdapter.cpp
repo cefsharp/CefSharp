@@ -1351,7 +1351,7 @@ namespace CefSharp
                 {
                     if (frame->IsMain())
                     {
-                        _browserControl->SetCanExecuteJavascriptOnMainFrame(frame->GetIdentifier(), true);
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(StringUtils::ToClr(frame->GetIdentifier()), true);
                     }
 
                     auto handler = _browserControl->RenderProcessMessageHandler;
@@ -1375,7 +1375,7 @@ namespace CefSharp
                 {
                     if (frame->IsMain())
                     {
-                        _browserControl->SetCanExecuteJavascriptOnMainFrame(frame->GetIdentifier(), false);
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(StringUtils::ToClr(frame->GetIdentifier()), false);
                     }
 
                     auto handler = _browserControl->RenderProcessMessageHandler;
@@ -1513,7 +1513,7 @@ namespace CefSharp
                     return true;
                 }
 
-                auto frameId = frame->GetIdentifier();
+                auto frameId = StringUtils::ToClr(frame->GetIdentifier());
                 auto objectId = GetInt64(argList, 0);
                 auto callbackId = GetInt64(argList, 1);
                 auto methodName = StringUtils::ToClr(argList->GetString(2));
@@ -1576,7 +1576,7 @@ namespace CefSharp
 
                 if (cefBrowser.get())
                 {
-                    auto frame = cefBrowser->GetFrame(result->FrameId);
+                    auto frame = cefBrowser->GetFrameByIdentifier(StringUtils::ToNative(result->FrameId));
 
                     if (frame.get() && frame->IsValid())
                     {
