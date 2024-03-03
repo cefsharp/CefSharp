@@ -30,7 +30,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task ShouldWorkWhenLoadingGoogle()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler:false))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
                 var mainFrame = browser.GetMainFrame();
@@ -41,6 +41,20 @@ namespace CefSharp.Test.OffScreen
                 Assert.Equal(200, response.HttpStatusCode);
 
                 output.WriteLine("Url {0}", mainFrame.Url);
+
+                browser.Load("https://accounts.google.com/");
+                var nav = await browser.WaitForNavigationAsync();
+                mainFrame = browser.GetMainFrame();
+
+                Assert.True(nav.Success);
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("accounts.google", mainFrame.Url);
+                Assert.Equal(200, nav.HttpStatusCode);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+
+                var buttonText = await mainFrame.EvaluateScriptAsync<string>("(function() { return document.querySelector(\"button[aria-haspopup='menu']\").innerText; })();");
+                Assert.Equal("Create account", buttonText);
             }
         }
 
