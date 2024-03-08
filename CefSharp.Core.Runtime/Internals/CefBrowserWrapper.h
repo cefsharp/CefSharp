@@ -166,13 +166,13 @@ namespace CefSharp
             // Returns the frame with the specified identifier, or NULL if not found.
             ///
             /*--cef(capi_name=get_frame_byident)--*/
-            virtual IFrame^ GetFrame(Int64 identifier);
+            virtual IFrame^ GetFrameByIdentifier(String^ identifier);
 
             ///
             // Returns the frame with the specified name, or NULL if not found.
             ///
             /*--cef(optional_param=name)--*/
-            virtual IFrame^ GetFrame(String^ name);
+            virtual IFrame^ GetFrameByName(String^ name);
 
             ///
             // Returns the number of frames that currently exist.
@@ -184,7 +184,7 @@ namespace CefSharp
             // Returns the identifiers of all existing frames.
             ///
             /*--cef(count_func=identifiers:GetFrameCount)--*/
-            virtual List<Int64>^ GetFrameIdentifiers();
+            virtual List<String^>^ GetFrameIdentifiers();
 
             ///
             // Returns the names of all existing frames.

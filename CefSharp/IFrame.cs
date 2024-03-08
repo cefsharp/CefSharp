@@ -148,9 +148,10 @@ namespace CefSharp
         string Name { get; }
 
         /// <summary>
-        /// Returns the globally unique identifier for this frame or &lt; 0 if the underlying frame does not yet exist.
+        /// Returns the globally unique identifier for this frame or empty if the
+        /// underlying frame does not yet exist.
         /// </summary>
-        Int64 Identifier { get; }
+        string Identifier { get; }
 
         /// <summary>
         /// Returns the parent of this frame or NULL if this is the main (top-level) frame.

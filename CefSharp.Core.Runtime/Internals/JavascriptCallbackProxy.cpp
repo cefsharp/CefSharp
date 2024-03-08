@@ -47,7 +47,7 @@ namespace CefSharp
             }
             argList->SetList(2, paramList);
 
-            auto frame = browserWrapper->Browser->GetFrame(_callback->FrameId);
+            auto frame = browserWrapper->Browser->GetFrameByIdentifier(StringUtils::ToNative(_callback->FrameId));
 
             if (frame.get() && frame->IsValid())
             {
@@ -126,7 +126,7 @@ namespace CefSharp
             }
 
             //If the frame Id is still valid then we can attemp to execute the callback
-            auto frame = browser->GetFrame(_callback->FrameId);
+            auto frame = browser->GetFrameByIdentifier(_callback->FrameId);
             if (frame == nullptr)
             {
                 return false;

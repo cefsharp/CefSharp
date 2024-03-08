@@ -12,7 +12,7 @@ namespace CefSharp.Internals
 
         public long? CallbackId { get; set; }
 
-        public long FrameId { get; set; }
+        public string FrameId { get; set; }
 
         public string Message { get; set; }
 

@@ -12,7 +12,7 @@ namespace CefSharp.Handler
     /// </summary>
     public class FrameHandler : IFrameHandler
     {
-        private Dictionary<long, IFrame> frames = new Dictionary<long, IFrame>();
+        private Dictionary<string, IFrame> frames = new Dictionary<string, IFrame>();
 
         /// <inheritdoc/>
         void IFrameHandler.OnFrameAttached(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, bool reattached)
@@ -119,7 +119,7 @@ namespace CefSharp.Handler
 
         }
 
-        private IFrame GetFrameById(long frameId)
+        private IFrame GetFrameById(string frameId)
         {
             if(frames.TryGetValue(frameId, out var frame))
             {
