@@ -151,14 +151,14 @@ namespace CefSharp
                                     auto rootObjectWrappers = _browserWrapper->JavascriptRootObjectWrappers;
 
                                     JavascriptRootObjectWrapper^ rootObject;
-                                    if (!rootObjectWrappers->TryGetValue(frame->GetIdentifier(), rootObject))
+                                    if (!rootObjectWrappers->TryGetValue(StringUtils::ToClr(frame->GetIdentifier()), rootObject))
                                     {
 #ifdef NETCOREAPP
                                         rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier());
 #else
                                         rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), _browserWrapper->BrowserProcess);
 #endif
-                                        rootObjectWrappers->TryAdd(frame->GetIdentifier(), rootObject);
+                                        rootObjectWrappers->TryAdd(StringUtils::ToClr(frame->GetIdentifier()), rootObject);
                                     }
 
                                     //Cached objects only contains a list of objects not already bound
