@@ -30,7 +30,7 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task ShouldWorkWhenLoadingGoogle()
         {
-            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler:false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
                 var mainFrame = browser.GetMainFrame();
@@ -50,7 +50,6 @@ namespace CefSharp.Test.OffScreen
             using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
-
 
                 browser.Load("https://accounts.google.com/");
                 var nav = await browser.WaitForNavigationAsync();
@@ -224,7 +223,7 @@ namespace CefSharp.Test.OffScreen
         [Theory]
         [InlineData("https://code.jquery.com/jquery-3.4.1.min.js")]
         public async Task ShouldDownloadUrlForFrame(string url)
-        {
+        {            
             using (var browser = new ChromiumWebBrowser(url, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
@@ -247,7 +246,7 @@ namespace CefSharp.Test.OffScreen
 
                 Assert.Contains(stringResult, htmlSrc);
             }
-        }
+        }        
 
         [Theory]
         //TODO: Add more urls
