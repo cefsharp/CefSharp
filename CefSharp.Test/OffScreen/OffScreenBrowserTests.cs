@@ -51,6 +51,7 @@ namespace CefSharp.Test.OffScreen
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
+
                 browser.Load("https://accounts.google.com/");
                 var nav = await browser.WaitForNavigationAsync();
                 var mainFrame = browser.GetMainFrame();
