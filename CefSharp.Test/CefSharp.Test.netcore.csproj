@@ -34,6 +34,7 @@
     <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.netcore.csproj" />
     <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
     <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
+    <PackageReference Include="Bogus" Version="35.4.1" />
     <PackageReference Include="chromiumembeddedframework.runtime" Version="122.1.9" />
   </ItemGroup>
 
@@ -43,6 +44,7 @@
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
+    <PackageReference Include="Xunit.Repeat" Version="1.1.26" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
     <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
 	<PackageReference Include="Titanium.Web.Proxy" version="3.1.1301" />

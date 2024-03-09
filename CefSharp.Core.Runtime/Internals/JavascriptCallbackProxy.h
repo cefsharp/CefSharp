@@ -48,7 +48,7 @@ namespace CefSharp
                 if (browser != nullptr && !browser->IsDisposed)
                 {
                     auto browserWrapper = static_cast<CefBrowserWrapper^>(browser)->Browser;
-                    auto frame = browserWrapper->GetFrame(_callback->FrameId);
+                    auto frame = browserWrapper->GetFrameByIdentifier(StringUtils::ToNative(_callback->FrameId));
                     if (frame.get() && frame->IsValid())
                     {
                         frame->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());

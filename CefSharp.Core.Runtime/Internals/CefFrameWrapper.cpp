@@ -307,11 +307,11 @@ String^ CefFrameWrapper::Name::get()
 // Returns the globally unique identifier for this frame.
 ///
 /*--cef()--*/
-Int64 CefFrameWrapper::Identifier::get()
+String^ CefFrameWrapper::Identifier::get()
 {
     ThrowIfDisposed();
 
-    return _frame->GetIdentifier();
+    return StringUtils::ToClr(_frame->GetIdentifier());
 }
 
 ///
