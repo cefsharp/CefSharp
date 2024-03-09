@@ -41,10 +41,19 @@ namespace CefSharp.Test.OffScreen
                 Assert.Equal(200, response.HttpStatusCode);
 
                 output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
+        [Fact]
+        public async Task GoogleSearchToGoogleAccountsBreaksJS()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
+            {
+                var response = await browser.WaitForInitialLoadAsync();
 
                 browser.Load("https://accounts.google.com/");
                 var nav = await browser.WaitForNavigationAsync();
-                mainFrame = browser.GetMainFrame();
+                var mainFrame = browser.GetMainFrame();
 
                 Assert.True(nav.Success);
                 Assert.True(mainFrame.IsValid);
@@ -214,7 +223,7 @@ namespace CefSharp.Test.OffScreen
         [Theory]
         [InlineData("https://code.jquery.com/jquery-3.4.1.min.js")]
         public async Task ShouldDownloadUrlForFrame(string url)
-        {            
+        {
             using (var browser = new ChromiumWebBrowser(url, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
@@ -237,7 +246,7 @@ namespace CefSharp.Test.OffScreen
 
                 Assert.Contains(stringResult, htmlSrc);
             }
-        }        
+        }
 
         [Theory]
         //TODO: Add more urls
