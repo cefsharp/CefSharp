@@ -145,12 +145,10 @@ namespace CefSharp
         /// </summary>
         bool IsDisposed { get; }
 
-        //
-        // Send a message to the specified |target_process|. Returns true if the
-        // message was sent successfully.
-        //
-        /*--cef()--*/
-        //virtual bool SendProcessMessage(CefProcessId target_process,
-        //                                CefRefPtr<CefProcessMessage> message) =0;
+        /// <summary>
+        /// Gets a collection of all the current frames.
+        /// </summary>
+        /// <returns>frames</returns>
+        IReadOnlyCollection<IFrame> GetAllFrames();
     }
 }
