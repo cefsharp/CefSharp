@@ -12,7 +12,7 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void DisposeQueueThenEnqueueMethodInvocation()
         {
-            var methodInvocation = new MethodInvocation(1, 1, 1, "Testing", 1);
+            var methodInvocation = new MethodInvocation(1, "1", 1, "Testing", 1);
             methodInvocation.Parameters.Add("Echo Me!");
 
             var objectRepository = new JavascriptObjectRepository

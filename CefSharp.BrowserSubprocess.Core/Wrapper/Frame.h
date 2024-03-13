@@ -201,9 +201,9 @@ namespace CefSharp
             // Returns the globally unique identifier for this frame.
             ///
             /*--cef()--*/
-            virtual property Int64 Identifier
+            virtual property String^ Identifier
             {
-                Int64 get();
+                String^ get();
             }
 
             ///

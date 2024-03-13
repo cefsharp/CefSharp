@@ -113,14 +113,14 @@ namespace CefSharp
         /// </summary>
         /// <param name="identifier">identifier</param>
         /// <returns>frame or null</returns>
-        IFrame GetFrame(Int64 identifier);
+        IFrame GetFrameByIdentifier(string identifier);
 
         /// <summary>
         /// Returns the frame with the specified name, or NULL if not found.
         /// </summary>
         /// <param name="name">name of frame</param>
         /// <returns>frame or null</returns>
-        IFrame GetFrame(string name);
+        IFrame GetFrameByName(string name);
 
         /// <summary>
         /// Returns the number of frames that currently exist.
@@ -132,7 +132,7 @@ namespace CefSharp
         /// Returns the identifiers of all existing frames.
         /// </summary>
         /// <returns>list of frame identifiers</returns>
-        List<Int64> GetFrameIdentifiers();
+        List<string> GetFrameIdentifiers();
 
         /// <summary>
         /// Returns the names of all existing frames.
@@ -145,12 +145,10 @@ namespace CefSharp
         /// </summary>
         bool IsDisposed { get; }
 
-        //
-        // Send a message to the specified |target_process|. Returns true if the
-        // message was sent successfully.
-        //
-        /*--cef()--*/
-        //virtual bool SendProcessMessage(CefProcessId target_process,
-        //                                CefRefPtr<CefProcessMessage> message) =0;
+        /// <summary>
+        /// Gets a collection of all the current frames.
+        /// </summary>
+        /// <returns>frames</returns>
+        IReadOnlyCollection<IFrame> GetAllFrames();
     }
 }
