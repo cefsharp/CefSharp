@@ -1,6 +1,6 @@
 using CefSharp.Structs;
 
-namespace CefSharp.Wpf
+namespace CefSharp.Wpf.Internals
 {
     /// <summary>
     /// Implement this interface to control transform the mouse position
