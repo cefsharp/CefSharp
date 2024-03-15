@@ -140,11 +140,6 @@ namespace CefSharp.Wpf
         /// </summary>
         private static bool DesignMode;
 
-        /// <summary>
-        /// The class that coordinates the positioning of the dropdown if wanted.
-        /// </summary>
-        private IMouseAdjustor mouseAdjustor;
-
         // https://github.com/chromiumembedded/cef/issues/3427
         private bool resizeHackIgnoreOnPaint;
         private Structs.Size? resizeHackSize;
@@ -154,6 +149,11 @@ namespace CefSharp.Wpf
         /// has been initialized.
         /// </summary>
         private bool initialFocus;
+
+        /// <summary>
+        /// The class that coordinates the positioning of the dropdown if wanted.
+        /// </summary>
+        internal IMousePositionTransform MousePositionTransform { get; set; }
 
         /// <summary>
         /// When enabled the browser will resize by 1px when it becomes visible to workaround
@@ -489,14 +489,6 @@ namespace CefSharp.Wpf
             {
                 NoInliningConstructor();
             }
-
-            bool adjust = true;
-
-            if (adjust)
-                this.mouseAdjustor = new MouseAdjustor();
-
-            else
-                this.mouseAdjustor = new NoMouseAdjustor();
         }
 
         /// <summary>
@@ -626,6 +618,7 @@ namespace CefSharp.Wpf
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
             MenuHandler = new ContextMenuHandler();
+            MousePositionTransform = new NoOpMousePositionTransform();
 
             UseLayoutRounding = true;
         }
@@ -1053,7 +1046,7 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() =>
             {
                 popupImage.Visibility = isOpen ? Visibility.Visible : Visibility.Hidden;
-                mouseAdjustor.OnPopupShow(isOpen);
+                MousePositionTransform.OnPopupShow(isOpen);
             });
         }
 
@@ -2125,7 +2118,7 @@ namespace CefSharp.Wpf
             popupImage.Width = rect.Width;
             popupImage.Height = rect.Height;
 
-            Point point = this.mouseAdjustor.UpdatePopupSizeAndPosition(rect, this.viewRect);
+            var point = MousePositionTransform.UpdatePopupSizeAndPosition(rect, viewRect);
 
             Canvas.SetLeft(popupImage, point.X);
             Canvas.SetTop(popupImage, point.Y);
@@ -2295,8 +2288,8 @@ namespace CefSharp.Wpf
                 var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
 
-                var adjustedPoint = mouseAdjustor.GetAdjustedMouseCoords(point);
-                browser.GetHost().SendMouseMoveEvent(adjustedPoint.X, adjustedPoint.Y, false, modifiers);
+                MousePositionTransform.TransformMousePoint(ref point);
+                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, false, modifiers);
             }
 
             base.OnMouseMove(e);
@@ -2313,11 +2306,11 @@ namespace CefSharp.Wpf
                 var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
                 var isShiftKeyDown = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-                var adjustedPoint = mouseAdjustor.GetAdjustedMouseCoords(point);
+                MousePositionTransform.TransformMousePoint(ref point);
 
                 browser.SendMouseWheelEvent(
-                    adjustedPoint.X,
-                    adjustedPoint.Y,
+                    (int)point.X,
+                    (int)point.Y,
                     deltaX: isShiftKeyDown ? e.Delta : 0,
                     deltaY: !isShiftKeyDown ? e.Delta : 0,
                     modifiers: modifiers);
@@ -2467,11 +2460,9 @@ namespace CefSharp.Wpf
                     {
                         clickCount = 1;
                     }
-
                     
-                    var adjustedPoint = mouseAdjustor.GetAdjustedMouseCoords(point);
-                    browser.GetHost().SendMouseClickEvent(adjustedPoint.X, adjustedPoint.Y, (MouseButtonType)e.ChangedButton, mouseUp, clickCount, modifiers);
-                    // browser.GetHost().SendMouseClickEvent(mouseTeleport.originalRect.X + mouseTeleport.originalRect.Width, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, clickCount, modifiers);
+                    MousePositionTransform.TransformMousePoint(ref point);
+                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, clickCount, modifiers);
                 }
 
                 e.Handled = true;

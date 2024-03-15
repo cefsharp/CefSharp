@@ -2,28 +2,7 @@ using CefSharp.Structs;
 
 namespace CefSharp.Wpf.Internals
 {
-    public class NoMouseAdjustor : IMouseAdjustor
-    {
-        public virtual void Dispose()
-        {
-        }
-
-        public System.Windows.Point UpdatePopupSizeAndPosition(Rect originalRect, Rect viewRect)
-        {
-            return new System.Windows.Point(originalRect.X, originalRect.Y);
-        }
-
-        public void OnPopupShow(bool isOpen)
-        {
-        }
-
-        public Point GetAdjustedMouseCoords(System.Windows.Point point)
-        {
-            return new Point((int)point.X, (int)point.Y);
-        }
-    }
-
-    public class MouseAdjustor : IMouseAdjustor
+    public sealed class MousePositionTransform : IMousePositionTransform
     {
         /// <summary>
         /// The x-offset.
@@ -51,19 +30,12 @@ namespace CefSharp.Wpf.Internals
         private bool isOpen;
 
         /// <summary>
-        /// This method is required for the interface.
-        /// </summary>
-        public virtual void Dispose()
-        {
-        }
-
-        /// <summary>
         /// Updates the size and the position of the popup.
         /// </summary>
         /// <param name="originalRect"></param>
         /// <param name="viewRect"></param>
         /// <returns>The adjusted point.</returns>
-        public System.Windows.Point UpdatePopupSizeAndPosition(Rect originalRect, Rect viewRect)
+        System.Windows.Point IMousePositionTransform.UpdatePopupSizeAndPosition(Rect originalRect, Rect viewRect)
         {
             int x = originalRect.X,
                 prevX = originalRect.X,
@@ -124,7 +96,7 @@ namespace CefSharp.Wpf.Internals
         /// Resets the offsets and original-rect.
         /// <param name="isOpen">If the popup is open or not.</param>
         /// </summary>
-        public void OnPopupShow(bool isOpen)
+        void IMousePositionTransform.OnPopupShow(bool isOpen)
         {
             if (!isOpen)
             {
@@ -142,16 +114,14 @@ namespace CefSharp.Wpf.Internals
         /// Adjusts the mouse-coordinates when the popup is visible.
         /// </summary>
         /// <param name="point">The original point.</param>
-        /// <returns>The adjusted point if needed, else the original point.</returns>
-        public Point GetAdjustedMouseCoords(System.Windows.Point point)
+        /// <returns>The transformed point if needed, else the original point.</returns>
+        void IMousePositionTransform.TransformMousePoint(ref System.Windows.Point point)
         {
-            if (!this.isOpen)
-                return new Point((int)point.X, (int)point.Y);
+            if (!isOpen)
+                return;
 
-            if (!this.IsInsideOriginalRect(point) && IsInsideAdjustedRect(point))
-                return new Point((int)point.X + this.xOffset, (int)point.Y + this.yOffset);
-
-            return new Point((int)point.X, (int)point.Y);
+            if (!IsInsideOriginalRect(point) && IsInsideAdjustedRect(point))
+                point = new System.Windows.Point((int)point.X + this.xOffset, (int)point.Y + this.yOffset);
         }
 
         /// <summary>
