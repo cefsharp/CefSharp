@@ -269,7 +269,10 @@ function Nupkg
         return
     }
 
-    Write-Diagnostic "Building nuget package"
+    $gitBranch = git rev-parse --abbrev-ref HEAD
+    $gitCommit = git rev-parse HEAD
+
+    Write-Diagnostic "Building nuget package for $gitCommit on $gitBranch"
 
     # Build packages
     foreach($file in $Files)
@@ -311,11 +314,11 @@ function Nupkg
             #Only show package analysis for newer packages
             if($IsNetCoreBuild)
             {
-                . $nuget pack $filePath -Version $Version -OutputDirectory $NugetPackagePath -Properties "RedistVersion=$RedistVersion;"
+                . $nuget pack $filePath -Version $Version -OutputDirectory $NugetPackagePath -Properties "RedistVersion=$RedistVersion;Branch=$gitBranch;CommitSha=$gitCommit;"
             }
             else
             {
-                . $nuget pack $filePath -NoPackageAnalysis -Version $Version -OutputDirectory $NugetPackagePath -Properties "RedistVersion=$RedistVersion;"
+                . $nuget pack $filePath -NoPackageAnalysis -Version $Version -OutputDirectory $NugetPackagePath -Properties "RedistVersion=$RedistVersion;Branch=$gitBranch;CommitSha=$gitCommit;"
             }
         }
         finally
