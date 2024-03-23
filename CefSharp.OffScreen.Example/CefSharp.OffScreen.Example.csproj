@@ -23,7 +23,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="122.1.12" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="123.0.6" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="bin.netcore\**" />

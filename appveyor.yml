@@ -1,4 +1,4 @@
-version: 122.1.120-CI{build}
+version: 123.0.60-CI{build}
 
 clone_depth: 10
 
