@@ -1,4 +1,4 @@
-#requires -Version 5
+﻿#requires -Version 5
 
 param(
     [ValidateSet("vs2022","vs2019", "nupkg-only", "update-build-version")]
@@ -271,6 +271,11 @@ function Nupkg
 
     $gitBranch = git rev-parse --abbrev-ref HEAD
     $gitCommit = git rev-parse HEAD
+
+    if (Test-Path Env:\APPVEYOR_REPO_BRANCH) # https://github.com/appveyor/ci/issues/1606
+    {
+        $gitBranch = $env:APPVEYOR_REPO_BRANCH
+    }
 
     Write-Diagnostic "Building nuget package for $gitCommit on $gitBranch"
 
