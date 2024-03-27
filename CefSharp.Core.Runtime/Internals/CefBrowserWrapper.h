@@ -191,6 +191,8 @@ namespace CefSharp
             ///
             /*--cef()--*/
             virtual List<String^>^ GetFrameNames();
+
+            virtual IReadOnlyCollection<IFrame^>^ GetAllFrames();
         };
     }
 }
