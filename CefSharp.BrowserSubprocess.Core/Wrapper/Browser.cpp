@@ -220,6 +220,24 @@ List<String^>^ Browser::GetFrameNames()
     return StringUtils::ToClr(names);
 }
 
+IReadOnlyCollection<IFrame^>^ Browser::GetAllFrames()
+{
+    std::vector<CefString> identifiers;
+    _browser->GetFrameIdentifiers(identifiers);
+
+    auto results = gcnew List<IFrame^>(static_cast<int>(identifiers.size()));
+    for (UINT i = 0; i < identifiers.size(); i++)
+    {
+        auto frame = _browser->GetFrameByIdentifier(identifiers[i]);
+
+        if (frame.get())
+        {
+            results->Add(gcnew Frame(frame));
+        }
+    }
+    return results;
+}
+
 bool Browser::IsDisposed::get()
 {
     return _disposed;

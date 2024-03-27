@@ -5,7 +5,8 @@
     <version>$version$</version>
     <authors>The CefSharp Authors</authors>
     <owners>The CefSharp Authors</owners>
-    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
+    <projectUrl>https://github.com/cefsharp/CefSharp</projectUrl>
+    <repository type="git" url="https://github.com/cefsharp/CefSharp.git" branch="$Branch$" commit="$CommitSha$" />
     <license type="file">LICENSE</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WinForms control).</description>

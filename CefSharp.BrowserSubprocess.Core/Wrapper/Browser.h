@@ -184,6 +184,8 @@ namespace CefSharp
             /*--cef()--*/
             virtual List<String^>^ GetFrameNames();
 
+            virtual IReadOnlyCollection<IFrame^>^ GetAllFrames();
+
             virtual property bool IsDisposed
             {
                 bool get();
