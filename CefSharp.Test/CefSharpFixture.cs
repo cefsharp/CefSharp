@@ -58,6 +58,7 @@ namespace CefSharp.Test
                 settings.RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests");
                 //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
                 //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
+                settings.CefCommandLineArgs.Add("isolate-origins", "https://accounts.google.com,https://chrome.google.com,https://chromewebstore.google.com,https://mail.google.com,https://www.google.com,https://google.com");
 
                 var success = Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
 
