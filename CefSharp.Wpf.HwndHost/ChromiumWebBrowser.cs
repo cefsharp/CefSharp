@@ -493,7 +493,7 @@ namespace CefSharp.Wpf.HwndHost
         /// <summary>
         /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
         /// </summary>
-        private long canExecuteJavascriptInMainFrameId;
+        private int canExecuteJavascriptInMainFrameChildProcessId;
 
         /// <summary>
         /// A flag that indicates if you can execute javascript in the main frame.
@@ -1086,7 +1086,7 @@ namespace CefSharp.Wpf.HwndHost
             initialLoadAction?.Invoke(null, args.ErrorCode);
         }
 
-        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(long frameId, bool canExecute)
+        void IWebBrowserInternal.SetCanExecuteJavascriptOnMainFrame(string frameId, bool canExecute)
         {
             //When loading pages of a different origin the frameId changes
             //For the first loading of a new origin the messages from the render process
@@ -1095,12 +1095,14 @@ namespace CefSharp.Wpf.HwndHost
             //incorrectly overrides the value
             //https://github.com/cefsharp/CefSharp/issues/3021
 
-            if (frameId > canExecuteJavascriptInMainFrameId && !canExecute)
+            var chromiumChildProcessId = GetChromiumChildProcessId(frameId);
+
+            if (chromiumChildProcessId > canExecuteJavascriptInMainFrameChildProcessId && !canExecute)
             {
                 return;
             }
 
-            canExecuteJavascriptInMainFrameId = frameId;
+            canExecuteJavascriptInMainFrameChildProcessId = chromiumChildProcessId;
             CanExecuteJavascriptInMainFrame = canExecute;
         }
 
@@ -1933,6 +1935,23 @@ namespace CefSharp.Wpf.HwndHost
             {
                 throw new ObjectDisposedException("browser", "Browser has been disposed");
             }
+        }
+
+        private int GetChromiumChildProcessId(string frameIdentifier)
+        {
+            try
+            {
+                var parts = frameIdentifier.Split('-');
+
+                if (int.TryParse(parts[0], out var childProcessId))
+                    return childProcessId;
+            }
+            catch
+            {
+
+            }
+
+            return -1;
         }
     }
 }
