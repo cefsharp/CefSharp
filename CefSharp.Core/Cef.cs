@@ -671,5 +671,28 @@ namespace CefSharp
         {
             return Core.Cef.PostAction(threadId, action);
         }
+
+        /// <summary>
+        /// Indicates if the current OS version matches, or is greater than, the Windows 10 version.
+        /// Applications not manifested for Windows 10 return false, even if the current operating system version is Windows 10.
+        /// To manifest your applications for Windows 10, see https://learn.microsoft.com/en-us/windows/win32/sysinfo/targeting-your-application-at-windows-8-1.
+        /// </summary>
+        /// <returns>True if the current OS version matches, or is greater than, the Windows 10 version; otherwise, false.</returns>
+        public static bool IsWindows10OrGreater()
+        {
+            return Core.Cef.IsWindows10OrGreaterEx();
+        }
+
+        /// <summary>
+        /// If the current OS version matches, or is greater than, the Windows 10 version then this method does nothing.
+        /// Applications not manifested for Windows 10 will throw an <see cref="ApplicationException"/>, even if the current operating system version is Windows 10.
+        /// To manifest your applications for Windows 10, see https://learn.microsoft.com/en-us/windows/win32/sysinfo/targeting-your-application-at-windows-8-1.
+        /// </summary>
+        /// <exception cref="ApplicationException"></exception>
+        public static void AssertIsWindows10OrGreater()
+        {
+            if (!IsWindows10OrGreater())
+                throw new ApplicationException("Current OS version is less than Windows 10. Applications not manifested for Windows 10 throw this exception, even if the current operating system version is Windows 10. To manifest your applications for Windows 10, see https://learn.microsoft.com/en-us/windows/win32/sysinfo/targeting-your-application-at-windows-8-1.");
+        }
     }
 }

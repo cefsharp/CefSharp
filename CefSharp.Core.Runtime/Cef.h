@@ -9,6 +9,7 @@
 
 #include "Stdafx.h"
 
+#include "versionhelpers.h";
 #include <msclr/lock.h>
 #include <msclr/marshal.h>
 #include <include/cef_version.h>
@@ -902,6 +903,11 @@ namespace CefSharp
                 auto task = new CefTaskDelegate(action);
 
                 return CefPostTask((cef_thread_id_t)threadId, task);
+            }
+
+            static bool IsWindows10OrGreaterEx()
+            {
+                return IsWindows10OrGreater();
             }
         };
     }
