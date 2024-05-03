@@ -874,16 +874,10 @@ namespace CefSharp.OffScreen
             return RenderHandler?.GetScreenPoint(viewX, viewY, out screenX, out screenY) ?? false;
         }
 
-        /// <summary>
-        /// Called when an element has been rendered to the shared texture handle.
-        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
-        /// </summary>
-        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
-        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
-        void IRenderWebBrowser.OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle)
+        /// </<inheritdoc/>
+        void IRenderWebBrowser.OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
         {
-            RenderHandler?.OnAcceleratedPaint(type, dirtyRect, sharedHandle);
+            RenderHandler?.OnAcceleratedPaint(type, dirtyRect, acceleratedPaintInfo);
         }
 
         /// <summary>

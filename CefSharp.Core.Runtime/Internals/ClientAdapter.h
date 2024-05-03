@@ -135,7 +135,7 @@ namespace CefSharp
             virtual DECL bool OnSelectClientCertificate(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port,
                 const CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) override;
             virtual DECL void OnRenderViewReady(CefRefPtr<CefBrowser> browser) override;
-            virtual DECL void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) override;
+            virtual DECL void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status, int errorCode, const CefString& errorString) override;
             virtual DECL void OnDocumentAvailableInMainFrame(CefRefPtr<CefBrowser> browser) override;
 
             // CefDisplayHandler

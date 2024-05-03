@@ -6,12 +6,16 @@ namespace CefSharp.Example.RequestEventHandler
 {
     public class OnRenderProcessTerminatedEventArgs : BaseRequestEventArgs
     {
-        public OnRenderProcessTerminatedEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
+        public OnRenderProcessTerminatedEventArgs(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status, int errorCode, string errorString)
             : base(chromiumWebBrowser, browser)
         {
             Status = status;
+            ErrorCode = errorCode;
+            ErrorString = errorString;
         }
 
-        public CefTerminationStatus Status { get; private set; }
+        public CefTerminationStatus Status { get; }
+        public int ErrorCode { get; }
+        public string ErrorString { get; }
     }
 }

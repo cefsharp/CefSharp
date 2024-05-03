@@ -149,11 +149,20 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Called when an element has been rendered to the shared texture handle.
         /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
+        ///
+        /// The underlying implementation uses a pool to deliver frames. As a result,
+        /// the handle may differ every frame depending on how many frames are
+        /// in-progress. The handle's resource cannot be cached and cannot be accessed
+        /// outside of this callback. It should be reopened each time this callback is
+        /// executed and the contents should be copied to a texture owned by the
+        /// client application. The contents of <paramref name="acceleratedPaintInfo"/>acceleratedPaintInfo
+        /// will be released back to the pool after this callback returns.
         /// </summary>
         /// <param name="type">indicates whether the element is the view or the popup widget.</param>
         /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
-        public virtual void OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, IntPtr sharedHandle)
+        /// <param name="acceleratedPaintInfo">contains the shared handle; on Windows it is a
+        /// HANDLE to a texture that can be opened with D3D11 OpenSharedResource.</param>
+        public virtual void OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
         {
             //NOT USED
         }

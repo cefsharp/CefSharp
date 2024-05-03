@@ -104,7 +104,7 @@ namespace CefSharp.Example.Handlers
             //return false;
         }
 
-        protected override void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
+        protected override void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status, int errorCode, string errorMessage)
         {
             // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.
             chromiumWebBrowser.Load(CefExample.RenderProcessCrashedUrl);

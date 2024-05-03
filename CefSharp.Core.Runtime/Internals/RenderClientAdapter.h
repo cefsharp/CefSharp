@@ -150,10 +150,10 @@ namespace CefSharp
                 _renderWebBrowser->OnPopupSize(Rect(rect.x, rect.y, rect.width, rect.height));
             };
 
-            virtual DECL void OnAcceleratedPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, void* shared_handle) override
+            virtual DECL void OnAcceleratedPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const CefAcceleratedPaintInfo& info) override
             {
                 CefRect r = dirtyRects.front();
-                _renderWebBrowser->OnAcceleratedPaint((CefSharp::PaintElementType)type, CefSharp::Structs::Rect(r.x, r.y, r.width, r.height), IntPtr((void *)shared_handle));
+                _renderWebBrowser->OnAcceleratedPaint((CefSharp::PaintElementType)type, CefSharp::Structs::Rect(r.x, r.y, r.width, r.height), nullptr);
             }
 
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,

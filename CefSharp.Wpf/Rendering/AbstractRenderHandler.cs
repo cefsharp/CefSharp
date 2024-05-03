@@ -98,14 +98,8 @@ namespace CefSharp.Wpf.Rendering
             }
         }
 
-        /// <summary>
-        /// Called when an element has been rendered to the shared texture handle.
-        /// This method is only called when <see cref="IWindowInfo.SharedTextureEnabled"/> is set to true
-        /// </summary>
-        /// <param name="isPopup">indicates whether the element is the view or the popup widget.</param>
-        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="sharedHandle">is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource method.</param>
-        public virtual void OnAcceleratedPaint(bool isPopup, Rect dirtyRect, IntPtr sharedHandle)
+        /// </<inheritdoc/>
+        public virtual void OnAcceleratedPaint(bool isPopup, Rect dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
         {
             // NOT USED
         }

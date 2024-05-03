@@ -205,9 +205,9 @@ namespace CefSharp.Handler
         }
 
         /// <inheritdoc/>
-        void IRequestHandler.OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
+        void IRequestHandler.OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status, int errorCode, string errorMessage)
         {
-            OnRenderProcessTerminated(chromiumWebBrowser, browser, status);
+            OnRenderProcessTerminated(chromiumWebBrowser, browser, status, errorCode, errorMessage);
         }
 
         /// <summary>
@@ -216,7 +216,9 @@ namespace CefSharp.Handler
         /// <param name="chromiumWebBrowser">The ChromiumWebBrowser control.</param>
         /// <param name="browser">the browser object.</param>
         /// <param name="status">indicates how the process terminated.</param>
-        protected virtual void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
+        /// <param name="errorCode">error code</param>
+        /// <param name="errorMessage">error message</param>
+        protected virtual void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status, int errorCode, string errorMessage)
         {
         }
 

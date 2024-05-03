@@ -63,9 +63,9 @@ namespace CefSharp.Example.RequestEventHandler
             return args.ContinueAsync;
         }
 
-        protected override void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status)
+        protected override void OnRenderProcessTerminated(IWebBrowser chromiumWebBrowser, IBrowser browser, CefTerminationStatus status, int errorCode, string errorMessage)
         {
-            var args = new OnRenderProcessTerminatedEventArgs(chromiumWebBrowser, browser, status);
+            var args = new OnRenderProcessTerminatedEventArgs(chromiumWebBrowser, browser, status, errorCode, errorMessage);
 
             OnRenderProcessTerminatedEvent?.Invoke(this, args);
         }

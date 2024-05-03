@@ -699,7 +699,7 @@ namespace CefSharp
             }
         }
 
-        void ClientAdapter::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status)
+        void ClientAdapter::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status, int errorCode, const CefString& errorString)
         {
             auto handler = _browserControl->RequestHandler;
 
@@ -707,7 +707,7 @@ namespace CefSharp
             {
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                handler->OnRenderProcessTerminated(_browserControl, browserWrapper, (CefTerminationStatus)status);
+                handler->OnRenderProcessTerminated(_browserControl, browserWrapper, (CefTerminationStatus)status, errorCode, StringUtils::ToClr(errorString));
             }
         }
 
