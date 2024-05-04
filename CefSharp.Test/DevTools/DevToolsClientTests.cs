@@ -100,7 +100,7 @@ namespace CefSharp.Test.DevTools
         }
 
         [Fact]
-        public async Task CanEmulationCanEmulate()
+        public async Task CanClearStorageDataForOrigin()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
             {
@@ -108,9 +108,51 @@ namespace CefSharp.Test.DevTools
 
                 using (var devToolsClient = browser.GetDevToolsClient())
                 {
-                    var response = await devToolsClient.Emulation.CanEmulateAsync();
+                    var response = await devToolsClient.Storage.ClearDataForOriginAsync("*", "all");
 
-                    Assert.True(response.Result);
+                    Assert.True(response.Success);
+                }
+            }
+        }
+
+        [Fact]
+        public async Task CanClearNetworkBrowserCache()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
+            {
+                await browser.WaitForInitialLoadAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var response = await devToolsClient.Network.ClearBrowserCacheAsync();
+
+                    Assert.True(response.Success);
+                }
+            }
+        }
+
+        [Fact]
+        public async Task CanGetPageResourceContent()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
+            {
+                await browser.WaitForInitialLoadAsync();
+
+                using (var devToolsClient = browser.GetDevToolsClient())
+                {
+                    var enableResponse = await devToolsClient.Page.EnableAsync();
+
+                    Assert.True(enableResponse.Success);
+
+                    var frameTreeResponse = await devToolsClient.Page.GetFrameTreeAsync();
+
+                    var frame = frameTreeResponse.FrameTree.Frame;
+
+                    var response = await devToolsClient.Page.GetResourceContentAsync(frame.Id, frame.Url);
+
+                    Assert.False(response.Base64Encoded);
+                    Assert.StartsWith("<!doctype html>", response.Content);
+                    
                 }
             }
         }
