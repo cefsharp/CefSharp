@@ -323,6 +323,7 @@ namespace CefSharp.Core
         public virtual bool ExternalBeginFrameEnabled { get { throw null; } set { } }
         public virtual int Height { get { throw null; } set { } }
         public virtual System.IntPtr ParentWindowHandle { get { throw null; } set { } }
+        public virtual CefSharp.CefRuntimeStyle RuntimeStyle { get { throw null; } set { } }
         public virtual bool SharedTextureEnabled { get { throw null; } set { } }
         public virtual uint Style { get { throw null; } set { } }
         public virtual int Width { get { throw null; } set { } }
