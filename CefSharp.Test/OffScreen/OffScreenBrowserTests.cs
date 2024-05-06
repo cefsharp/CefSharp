@@ -104,7 +104,7 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
-        [Fact(Skip = "Not working with Chrome bootstrap"]
+        [Fact(Skip = "Not working with Chrome bootstrap")]
         public async Task ShouldFailWhenLoadingBadSsl()
         {
             using (var browser = new ChromiumWebBrowser("https://expired.badssl.com/", useLegacyRenderHandler: false))
