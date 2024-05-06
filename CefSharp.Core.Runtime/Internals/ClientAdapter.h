@@ -190,7 +190,7 @@ namespace CefSharp
 
             //CefDownloadHandler
             virtual DECL bool CanDownload(CefRefPtr<CefBrowser> browser, const CefString & url, const CefString & request_method) override;
-            virtual DECL void OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+            virtual DECL bool OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
                 const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) override;
             virtual DECL void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
                 CefRefPtr<CefDownloadItemCallback> callback) override;

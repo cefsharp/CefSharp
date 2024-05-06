@@ -207,7 +207,10 @@ namespace CefSharp.Wpf.Example.Views
                 {
                     UpdateDownloadAction("OnBeforeDownload", downloadItem);
 
+                    //Show Dialog prompting user to save
                     callback.Continue("", showDialog: true);
+
+                    return true;
 
                 }).OnDownloadUpdated((chromiumWebBrowser, browser, downloadItem, callback) =>
                 {

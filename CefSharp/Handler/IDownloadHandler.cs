@@ -29,7 +29,11 @@ namespace CefSharp
         /// <param name="browser">The browser instance</param>
         /// <param name="downloadItem">Represents the file being downloaded.</param>
         /// <param name="callback">Callback interface used to asynchronously continue a download.</param>
-        void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback);
+        /// <returns>Return true and execute <paramref name="callback"/> either
+        /// asynchronously or in this method to continue or cancel the download.
+        /// Return false to proceed with default handling (cancel with Alloy style,
+        /// download shelf with Chrome style).</returns>
+        bool OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback);
 
         /// <summary>
         /// Called when a download's status or progress information has been updated. This may be called multiple times before and after <see cref="OnBeforeDownload"/>.

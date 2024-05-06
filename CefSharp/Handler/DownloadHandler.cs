@@ -31,16 +31,10 @@ namespace CefSharp.Handler
             return true;
         }
 
-        /// <summary>
-        /// Called before a download begins.
-        /// </summary>
-        /// <param name="chromiumWebBrowser">the ChromiumWebBrowser control</param>
-        /// <param name="browser">The browser instance</param>
-        /// <param name="downloadItem">Represents the file being downloaded.</param>
-        /// <param name="callback">Callback interface used to asynchronously continue a download.</param>
-        void IDownloadHandler.OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+        /// <inheritdoc/>
+        bool IDownloadHandler.OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
         {
-            OnBeforeDownload(chromiumWebBrowser, browser, downloadItem, callback);
+            return OnBeforeDownload(chromiumWebBrowser, browser, downloadItem, callback);
         }
 
         /// <summary>
@@ -50,9 +44,13 @@ namespace CefSharp.Handler
         /// <param name="browser">The browser instance</param>
         /// <param name="downloadItem">Represents the file being downloaded.</param>
         /// <param name="callback">Callback interface used to asynchronously continue a download.</param>
-        protected virtual void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+        /// <returns>Return true and execute <paramref name="callback"/> either
+        /// asynchronously or in this method to continue or cancel the download.
+        /// Return false to proceed with default handling (cancel with Alloy style,
+        /// download shelf with Chrome style).</returns>
+        protected virtual bool OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
         {
-
+            return false;
         }
 
         /// <summary>

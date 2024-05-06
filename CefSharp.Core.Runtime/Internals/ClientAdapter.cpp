@@ -1025,21 +1025,23 @@ namespace CefSharp
             return handler->CanDownload(_browserControl, browserWrapper, StringUtils::ToClr(url), StringUtils::ToClr(request_method));
         }
 
-        void ClientAdapter::OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+        bool ClientAdapter::OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
             const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback)
         {
             auto handler = _browserControl->DownloadHandler;
 
-            if (handler != nullptr)
+            if (handler == nullptr)
             {
-                auto downloadItem = TypeConversion::FromNative(download_item);
-                downloadItem->SuggestedFileName = StringUtils::ToClr(suggested_name);
-
-                auto callbackWrapper = gcnew CefBeforeDownloadCallbackWrapper(callback);
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
-                handler->OnBeforeDownload(_browserControl, browserWrapper, downloadItem, callbackWrapper);
+                return false;
             }
+
+            auto downloadItem = TypeConversion::FromNative(download_item);
+            downloadItem->SuggestedFileName = StringUtils::ToClr(suggested_name);
+
+            auto callbackWrapper = gcnew CefBeforeDownloadCallbackWrapper(callback);
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            return handler->OnBeforeDownload(_browserControl, browserWrapper, downloadItem, callbackWrapper);
         };
 
         void ClientAdapter::OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
