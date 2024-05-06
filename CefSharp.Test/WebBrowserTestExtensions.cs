@@ -5,8 +5,8 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using CefSharp.Internals;
 using CefSharp.OffScreen;
-using Xunit;
 
 namespace CefSharp.Test
 {
@@ -61,8 +61,6 @@ namespace CefSharp.Test
                 throw new ArgumentNullException("request");
             }
 
-            //If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously
-            //and switch to tcs.TrySetResult below - no need for the custom extension method
             var tcs = new TaskCompletionSource<LoadUrlAsyncResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             EventHandler<LoadErrorEventArgs> loadErrorHandler = null;
@@ -115,10 +113,9 @@ namespace CefSharp.Test
             };
 
             browser.LoadingStateChanged += loadingStateChangeHandler;
-
             browser.GetMainFrame().LoadRequest(request);
 
-            return tcs.Task;
+            return TaskTimeoutExtensions.WaitAsync(tcs.Task, TimeSpan.FromSeconds(30));
         }
 
         public static Task<QUnitTestResult> CreateBrowserAndWaitForQUnitTestExeuctionToComplete(this ChromiumWebBrowser browser)
