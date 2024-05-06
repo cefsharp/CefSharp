@@ -20,7 +20,7 @@ namespace CefSharp.Test.Issues
             this.output = output;
         }
 
-        [Fact(Skip = "Issue https://github.com/cefsharp/CefSharp/issues/4621")]
+        [SkipIfRunOnAppVeyorFact]
         public async Task GoogleSearchToGoogleAccountsBreaksJS()
         {
             using (var browser = new ChromiumWebBrowser("https://www.google.com", useLegacyRenderHandler: false))
@@ -39,6 +39,24 @@ namespace CefSharp.Test.Issues
 
                 var buttonText = await mainFrame.EvaluateScriptAsync<string>("(function() { return document.querySelector(\"button[aria-haspopup='menu']\").innerText; })();");
                 Assert.Equal("Create account", buttonText);
+            }
+        }
+
+        [SkipIfRunOnAppVeyorFact]
+        public async Task GoogleSearchToGmailBreaksJS()
+        {
+            using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))
+            {
+                var response = await browser.WaitForInitialLoadAsync();
+
+                var navResponse = await browser.LoadUrlAsync("https://mail.google.com/mail/&ogbl");
+                Assert.True(navResponse.Success);
+                Assert.Equal(200, navResponse.HttpStatusCode);
+
+                var mainFrame = browser.GetMainFrame();
+                Assert.True(mainFrame.IsValid);
+                var buttonText = await mainFrame.EvaluateScriptAsync<string>("(function() { return document.querySelector(\"a[data-action='sign in']\").innerText; })();");
+                Assert.Equal("Sign in", buttonText);
             }
         }
     }
