@@ -195,6 +195,18 @@ namespace CefSharp
                 }
             }
 
+            virtual property CefRuntimeStyle RuntimeStyle
+            {
+                CefRuntimeStyle get()
+                {
+                    return (CefRuntimeStyle)_windowInfo->runtime_style;
+                }
+                void set(CefRuntimeStyle style)
+                {
+                    _windowInfo->runtime_style = (cef_runtime_style_t)style;
+                }
+            }
+
             virtual void SetAsChild(IntPtr parentHandle)
             {
                 CefWindowInfo window;

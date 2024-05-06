@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using CefSharp.Enums;
 using CefSharp.Structs;
 
 namespace CefSharp
@@ -69,6 +70,13 @@ namespace CefSharp
         /// Window Name
         /// </summary>
         string WindowName { get; set; }
+
+        /// <summary>
+        /// Optionally change the runtime style. Alloy style will always be used if
+        /// <see cref="WindowlessRenderingEnabled"> is true. See <see cref="CefRuntimeStyle"/>
+        /// documentation for details.
+        /// </summary>
+        CefRuntimeStyle RuntimeStyle { get; set; }
 
         /// <summary>
         /// Create the browser as a child window.

@@ -5,6 +5,7 @@
 //NOTE:Classes in the CefSharp.Core namespace have been hidden from intellisnse so users don't use them directly
 
 using System;
+using CefSharp.Enums;
 using CefSharp.Structs;
 
 namespace CefSharp
@@ -96,6 +97,13 @@ namespace CefSharp
         {
             get { return windowInfo.WindowName; }
             set { windowInfo.WindowName = value; }
+        }
+
+        /// <inheritdoc/>
+        public CefRuntimeStyle RuntimeStyle
+        {
+            get { return windowInfo.RuntimeStyle; }
+            set { windowInfo.RuntimeStyle = value; }
         }
 
         /// <inheritdoc/>
