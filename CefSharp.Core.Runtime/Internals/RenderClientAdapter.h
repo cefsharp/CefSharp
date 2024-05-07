@@ -153,9 +153,7 @@ namespace CefSharp
             virtual DECL void OnAcceleratedPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const CefAcceleratedPaintInfo& info) override
             {
                 CefRect r = dirtyRects.front();
-                AcceleratedPaintInfo^ api = gcnew AcceleratedPaintInfo();
-                api->SharedTextureHandle = (IntPtr)info.shared_texture_handle;
-                api->Format = (ColorType)info.format;
+                AcceleratedPaintInfo^ api = gcnew AcceleratedPaintInfo((IntPtr)info.shared_texture_handle, (ColorType)info.format);
                 _renderWebBrowser->OnAcceleratedPaint((CefSharp::PaintElementType)type, CefSharp::Structs::Rect(r.x, r.y, r.width, r.height), api);
             }
 
