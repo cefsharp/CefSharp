@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CefSharp.WinForms.Example": {
+      "commandName": "Project",
+      "commandLineArgs": "0327961199 http://localhost:9549/ Quang AutoLogin"
+    }
+  }
+}

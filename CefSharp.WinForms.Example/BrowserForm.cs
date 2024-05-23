@@ -2,39 +2,63 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using Newtonsoft.Json;
+using Share;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CefSharp.Example;
-using CefSharp.Example.Callback;
-using CefSharp.Example.Handlers;
-using CefSharp.WinForms.Host;
 
 namespace CefSharp.WinForms.Example
 {
     public partial class BrowserForm : Form
     {
-        private const string DefaultUrlForAddedTabs = "https://www.google.com";
+        /// <summary>
+        /// Biến này dùng cho mục đích test, không phải lập trình nghiệp vụ
+        /// </summary>
+        private bool isShowForm = true;
 
-        // Default to a small increment:
-        private const double ZoomIncrement = 0.10;
+        /// <summary>
+        /// Biến này dùng cho mục đích test, không phải lập trình nghiệp vụ
+        /// </summary>
+        private bool isCloseForm = false;
+
+        /// <summary>
+        /// Dùng cho việc testing
+        /// </summary>
+        private Thread threadTimerGetSignal;
+
+        private BrowserTabUserControl browser;
+        public string CurrentCmd;
+        public string Proxy { get; set; }
+        public string ApiUrl { get; set; }
+        public string PhoneNumber { get; set; }
+        public string AccountName { get; set; }
+        public static BrowserForm Instance { get; set; }
+        private const string DefaultUrlForAddedTabs = "https://chat.zalo.me/";
 
         private bool multiThreadedMessageLoopEnabled;
 
         public BrowserForm(bool multiThreadedMessageLoopEnabled)
         {
+            Instance = this;
             InitializeComponent();
 
-            var bitness = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
+            Visible = true;
+            ShowInTaskbar = true;
+            Opacity = 1;
+
+            var bitness = Environment.Is64BitProcess ? "x64" : "x86";
             Text = "CefSharp.WinForms.Example - " + bitness;
             WindowState = FormWindowState.Maximized;
-
-            Load += BrowserFormLoad;
 
             //Only perform layout when control has completly finished resizing
             ResizeBegin += (s, e) => SuspendLayout();
@@ -56,31 +80,20 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        private void BrowserFormLoad(object sender, EventArgs e)
-        {
-            AddTab(CefExample.DefaultUrl);
-        }
-
         /// <summary>
         /// Used to add a Popup browser as a Tab
         /// </summary>
         /// <param name="browserHostControl"></param>
-        public void AddTab(ChromiumHostControl browserHostControl, string url)
+        public void AddTab(Control browserHostControl, string url)
         {
             browserTabControl.SuspendLayout();
-
-            var browser = new BrowserTabUserControl(browserHostControl)
-            {
-                Dock = DockStyle.Fill,
-                Bounds = browserTabControl.Bounds
-            };
 
             var tabPage = new TabPage(url)
             {
                 Dock = DockStyle.Fill
             };
 
-            tabPage.Controls.Add(browser);
+            tabPage.Controls.Add(browserHostControl);
 
             browserTabControl.TabPages.Add(tabPage);
 
@@ -90,14 +103,26 @@ namespace CefSharp.WinForms.Example
             browserTabControl.ResumeLayout(true);
         }
 
+        /// <summary>
+        /// mở 1 tab
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="insertIndex"></param>
         private void AddTab(string url, int? insertIndex = null)
         {
             browserTabControl.SuspendLayout();
 
-            var browser = new BrowserTabUserControl(AddTab, url, multiThreadedMessageLoopEnabled)
+            browser = new BrowserTabUserControl(AddTab, url, multiThreadedMessageLoopEnabled)
             {
                 Dock = DockStyle.Fill,
-                Bounds = browserTabControl.Bounds
+            };
+
+            browser.Browser.FrameLoadEnd += (sender, args) =>
+            {
+                if (args.Frame.IsMain)
+                {
+                    Task.Factory.StartNew(RunJsOnMainFrame);
+                }
             };
 
             var tabPage = new TabPage(url)
@@ -105,7 +130,7 @@ namespace CefSharp.WinForms.Example
                 Dock = DockStyle.Fill
             };
 
-            //This call isn't required for the sample to work. 
+            //This call isn't required for the sample to work.
             //It's sole purpose is to demonstrate that #553 has been resolved.
             browser.CreateControl();
 
@@ -126,564 +151,623 @@ namespace CefSharp.WinForms.Example
             browserTabControl.ResumeLayout(true);
         }
 
-        private void ExitMenuItemClick(object sender, EventArgs e)
+        /// <summary>
+        /// chạy code javascript vào page
+        /// </summary>
+        private void RunJsOnMainFrame()
         {
-            ExitApplication();
-        }
-
-        private void ExitApplication()
-        {
-            Close();
-        }
-
-        private void AboutToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            new AboutBox().ShowDialog();
-        }
-
-        public void RemoveTab(ChromiumHostControl ctrl)
-        {
-            if (!ctrl.IsDisposed)
+            browser.Browser.GetMainFrame().EvaluateScriptAsync(Properties.Resources.JQueryStript).ContinueWith(t =>
             {
-                var tabPage = ctrl.GetParentOfType<TabPage>();
-
-                if(tabPage == null)
+                browser.Browser.GetMainFrame().EvaluateScriptAsync(
+                    //CefSharp.WinForms.Example.Properties.Resources.MainJS
+                    ReadFile("main.js")
+                    ).ContinueWith(t1 =>
                 {
-                    throw new Exception("Unable to find parent TabPage");
-                }
+                    var zaloFriendInviteStatus = typeof(ZaloFriendInviteStatus).GetAllPublicConstantValues<string>();
+                    var zaloFriendMessageStatus = typeof(ZaloFriendMessageStatus).GetAllPublicConstantValues<string>();
+                    var script = string.Format("bot.init('{0}', {1}, {2})", PhoneNumber, JsonConvert.SerializeObject(zaloFriendInviteStatus), JsonConvert.SerializeObject(zaloFriendMessageStatus));
 
-                browserTabControl.TabPages.Remove(tabPage);
-            }
-        }
-
-        private void FindMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.ShowFind();
-            }
-        }
-
-        private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.CopySourceToClipBoardAsync();
-            }
-        }
-
-        private BrowserTabUserControl GetCurrentTabControl()
-        {
-            if (browserTabControl.SelectedIndex == -1)
-            {
-                return null;
-            }
-
-            var tabPage = browserTabControl.Controls[browserTabControl.SelectedIndex];
-            var control = tabPage.Controls[0] as BrowserTabUserControl;
-
-            return control;
-        }
-
-        private void NewTabToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            AddTab(DefaultUrlForAddedTabs);
-        }
-
-        private void CloseTabToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            if (browserTabControl.TabPages.Count == 0)
-            {
-                return;
-            }
-
-            var currentIndex = browserTabControl.SelectedIndex;
-
-            var tabPage = browserTabControl.TabPages[currentIndex];
-
-            var control = GetCurrentTabControl();
-            if (control != null && !control.IsDisposed)
-            {
-                control.Dispose();
-            }
-
-            browserTabControl.TabPages.Remove(tabPage);
-
-            tabPage.Dispose();
-
-            browserTabControl.SelectedIndex = currentIndex - 1;
-
-            if (browserTabControl.TabPages.Count == 0)
-            {
-                ExitApplication();
-            }
-        }
-
-        private void UndoMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.Undo();
-            }
-        }
-
-        private void RedoMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.Redo();
-            }
-        }
-
-        private void CutMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.Cut();
-            }
-        }
-
-        private void CopyMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.Copy();
-            }
-        }
-
-        private void PasteMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.Paste();
-            }
-        }
-
-        private void DeleteMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.Delete();
-            }
-        }
-
-        private void SelectAllMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.SelectAll();
-            }
-        }
-
-        private void PrintToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.Print();
-            }
-        }
-
-        private async void ShowDevToolsMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                var isDevToolsOpen = await control.CheckIfDevToolsIsOpenAsync();
-                if (!isDevToolsOpen)
-                {
-                    control.Browser.ShowDevTools();
-                }
-            }
-        }
-
-        private async void ShowDevToolsDockedMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                var isDevToolsOpen = await control.CheckIfDevToolsIsOpenAsync();
-                if (!isDevToolsOpen)
-                {
-                    var chromiumWebBrowser = control.Browser as ChromiumWebBrowser;
-                    if (chromiumWebBrowser != null && chromiumWebBrowser.LifeSpanHandler != null)
+                    browser.Browser.GetMainFrame().EvaluateScriptAsync(script).ContinueWith(t2 =>
                     {
-                        control.ShowDevToolsDocked();
-                    }
-                }
-            }
-        }
-
-        private async void CloseDevToolsMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                //Check if DevTools is open before closing, this isn't strictly required
-                //If DevTools isn't open and you call CloseDevTools it's a No-Op, so prefectly
-                //safe to call without checking
-                var isDevToolsOpen = await control.CheckIfDevToolsIsOpenAsync();
-                if (isDevToolsOpen)
-                {
-                    control.Browser.CloseDevTools();
-                }
-            }
-        }
-
-        private void ZoomInToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                var task = control.Browser.GetZoomLevelAsync();
-
-                task.ContinueWith(previous =>
-                {
-                    if (previous.Status == TaskStatus.RanToCompletion)
-                    {
-                        var currentLevel = previous.Result;
-                        control.Browser.SetZoomLevel(currentLevel + ZoomIncrement);
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
-                    }
-                }, TaskContinuationOptions.ExecuteSynchronously);
-            }
-        }
-
-        private void ZoomOutToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                var task = control.Browser.GetZoomLevelAsync();
-                task.ContinueWith(previous =>
-                {
-                    if (previous.Status == TaskStatus.RanToCompletion)
-                    {
-                        var currentLevel = previous.Result;
-                        control.Browser.SetZoomLevel(currentLevel - ZoomIncrement);
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
-                    }
-                }, TaskContinuationOptions.ExecuteSynchronously);
-            }
-        }
-
-        private void CurrentZoomLevelToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                var task = control.Browser.GetZoomLevelAsync();
-                task.ContinueWith(previous =>
-                {
-                    if (previous.Status == TaskStatus.RanToCompletion)
-                    {
-                        var currentLevel = previous.Result;
-                        MessageBox.Show("Current ZoomLevel: " + currentLevel.ToString());
-                    }
-                    else
-                    {
-                        MessageBox.Show("Unexpected failure of calling CEF->GetZoomLevelAsync: " + previous.Exception.ToString());
-                    }
-                }, TaskContinuationOptions.HideScheduler);
-            }
-        }
-
-        private void DoesActiveElementAcceptTextInputToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                var frame = control.Browser.GetFocusedFrame();
-
-                //Execute extension method
-                frame.ActiveElementAcceptsTextInput().ContinueWith(task =>
-                {
-                    string message;
-                    var icon = MessageBoxIcon.Information;
-                    if (task.Exception == null)
-                    {
-                        var isText = task.Result;
-                        message = string.Format("The active element is{0}a text entry element.", isText ? " " : " not ");
-                    }
-                    else
-                    {
-                        message = string.Format("Script evaluation failed. {0}", task.Exception.Message);
-                        icon = MessageBoxIcon.Error;
-                    }
-
-                    MessageBox.Show(message, "Does active element accept text input", MessageBoxButtons.OK, icon);
-                });
-            }
-        }
-
-        private void DoesElementWithIdExistToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            // This is the main thread, it's safe to create and manipulate form
-            // UI controls.
-            var dialog = new InputBox
-            {
-                Instructions = "Enter an element ID to find.",
-                Title = "Find an element with an ID"
-            };
-
-            dialog.OnEvaluate += (senderDlg, eDlg) =>
-            {
-                // This is also the main thread.
-                var control = GetCurrentTabControl();
-                if (control != null)
-                {
-                    var frame = control.Browser.GetFocusedFrame();
-
-                    //Execute extension method
-                    frame.ElementWithIdExists(dialog.Value).ContinueWith(task =>
-                    {
-                        // Now we're not on the main thread, perhaps the
-                        // Cef UI thread. It's not safe to work with
-                        // form UI controls or to block this thread.
-                        // Queue up a delegate to be executed on the
-                        // main thread.
-                        BeginInvoke(new Action(() =>
+                        browser.Browser.GetMainFrame().EvaluateScriptAsync("(function(){return typeof jQuery != 'undefined' && typeof bot != 'undefined'})()").ContinueWith(t3 =>
                         {
-                            string message;
-                            if (task.Exception == null)
+                            var response = t3.Result;
+
+                            if (response.Success && response.Result != null)
                             {
-                                message = task.Result.ToString();
-                            }
-                            else
-                            {
-                                message = string.Format("Script evaluation failed. {0}", task.Exception.Message);
-                            }
-
-                            dialog.Result = message;
-                        }));
-                    });
-                }
-            };
-
-            dialog.Show(this);
-        }
-
-        private void GoToDemoPageToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.LoadUrl("custom://cefsharp/ScriptedMethodsTest.html");
-            }
-        }
-
-        private void InjectJavascriptCodeToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                var frame = control.Browser.GetFocusedFrame();
-
-                //Execute extension method
-                frame.ListenForEvent("test-button", "click");
-            }
-        }
-
-        private async void PrintToPdfToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                var dialog = new SaveFileDialog
-                {
-                    DefaultExt = ".pdf",
-                    Filter = "Pdf documents (.pdf)|*.pdf"
-                };
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    var success = await control.Browser.PrintToPdfAsync(dialog.FileName, new PdfPrintSettings
-                    {
-                        MarginType = CefPdfPrintMarginType.Custom,
-                        MarginBottom = 10,
-                        MarginTop = 0,
-                        MarginLeft = 20,
-                        MarginRight = 10
-                    });
-
-                    if (success)
-                    {
-                        MessageBox.Show("Pdf was saved to " + dialog.FileName);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Unable to save Pdf, check you have write permissions to " + dialog.FileName);
-                    }
-
-                }
-
-            }
-        }
-
-        private void OpenDataUrlToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                const string html = "<html><head><title>Test</title></head><body><h1>Html Encoded in URL!</h1></body></html>";
-                control.Browser.LoadHtml(html, false);
-            }
-        }
-
-        private void OpenHttpBinOrgToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.LoadUrl("https://httpbin.org/");
-            }
-        }
-
-        private void RunFileDialogToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.GetBrowserHost().RunFileDialog(CefFileDialogMode.Open, "Open", null, new List<string> { "*.*" }, new RunFileDialogCallback());
-            }
-        }
-
-        private void LoadExtensionsToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                //The sample extension only works for http(s) schemes
-                if (control.Browser.GetMainFrame().Url.StartsWith("http"))
-                {
-                    var requestContext = control.Browser.GetRequestContext();
-
-                    const string cefSharpExampleResourcesFolder =
-#if !NETCOREAPP
-                        @"..\..\..\..\CefSharp.Example\Extensions";
-#else
-                        @"..\..\..\..\..\CefSharp.Example\Resources";
-#endif
-
-                    var dir = Path.Combine(AppContext.BaseDirectory, cefSharpExampleResourcesFolder);
-                    dir = Path.GetFullPath(dir);
-                    if (!Directory.Exists(dir))
-                    {
-                        throw new DirectoryNotFoundException("Unable to locate example extensions folder - " + dir);
-                    }
-
-                    var extensionHandler = new ExtensionHandler
-                    {
-                        LoadExtensionPopup = (url) =>
-                        {
-                            BeginInvoke(new Action(() =>
-                            {
-                                var extensionForm = new Form();
-
-                                var extensionBrowser = new ChromiumWebBrowser(url);
-                                //extensionBrowser.IsBrowserInitializedChanged += (s, args) =>
-                                //{
-                                //    extensionBrowser.ShowDevTools();
-                                //};
-
-                                extensionForm.Controls.Add(extensionBrowser);
-
-                                extensionForm.Show(this);
-                            }));
-                        },
-                        GetActiveBrowser = (extension, isIncognito) =>
-                        {
-                            //Return the active browser for which the extension will act upon
-                            return control.Browser.BrowserCore;
-                        }
-                    };
-
-                    requestContext.LoadExtensionsFromDirectory(dir, extensionHandler);
-                }
-                else
-                {
-                    MessageBox.Show("The sample extension only works with http(s) schemes, please load a different website and try again", "Unable to load Extension");
-                }
-            }
-        }
-
-        private void JavascriptBindingStressTestToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                control.Browser.LoadUrl(CefExample.BindingTestUrl);
-                control.Browser.LoadingStateChanged += (o, args) =>
-                {
-                    if (args.IsLoading == false)
-                    {
-                        Task.Delay(10000).ContinueWith(t =>
-                        {
-                            if (control.Browser != null)
-                            {
-                                control.Browser.Reload();
+                                if (response.Result.ToStr().IndexOf("True") >= 0)
+                                {
+                                    HandleCmd();
+                                }
                             }
                         });
-                    }
-                };
-            }
-        }
-
-        private void HideScrollbarsToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-
-            _ = control?.HideScrollbarsAsync();
-        }
-
-        private async void TakeScreenShotMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-
-            if(control == null)
-            {
-                return;
-            }
-
-            var chromiumWebBrowser = (ChromiumWebBrowser)control.Browser;
-
-            var contentSize = await chromiumWebBrowser.GetContentSizeAsync();
-
-            //Capture current scrollable area
-            var viewPort = new DevTools.Page.Viewport
-            {
-                Width = contentSize.Width,
-                Height = contentSize.Height,
-            };
-
-            var data = await chromiumWebBrowser.CaptureScreenshotAsync(viewPort: viewPort, captureBeyondViewport: true);
-
-            // Make a file to save it to (e.g. C:\Users\[user]\Desktop\CefSharp screenshot.png)
-            var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot" + DateTime.Now.Ticks + ".png");
-
-            File.WriteAllBytes(screenshotPath, data);
-
-            // Tell Windows to launch the saved image.
-            Process.Start(new ProcessStartInfo(screenshotPath)
-            {
-                // UseShellExecute is false by default on .NET Core.
-                UseShellExecute = true
+                    });
+                });
             });
+        }
+
+        /// <summary>
+        /// đọc code javascript từ file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        private string ReadFile(string fileName)
+        {
+            return File.ReadAllText(Path.Combine(Application.StartupPath, fileName));
+        }
+
+        /// <summary>
+        /// xóa tab
+        /// </summary>
+        /// <param name="windowHandle"></param>
+        public void RemoveTab(IntPtr windowHandle)
+        {
+            var parentControl = FromChildHandle(windowHandle);
+            if (!parentControl.IsDisposed)
+            {
+                if (parentControl.Parent is TabPage tabPage)
+                {
+                    browserTabControl.TabPages.Remove(tabPage);
+                }
+                else if (parentControl.Parent is Panel panel)
+                {
+                    var browserTabUserControl = (BrowserTabUserControl)panel.Parent;
+
+                    var tab = (TabPage)browserTabUserControl.Parent;
+                    browserTabControl.TabPages.Remove(tab);
+                }
+            }
+        }
+
+        /// <summary>
+        /// gọi api, truyền message log về ứng dụng chính
+        /// </summary>
+        /// <param name="msg"></param>
+        public async Task LogToMainApp(string msg)
+        {
+            await PostToMainApp("/api/js/log", new { message = msg });
+        }
+
+        /// <summary>
+        /// được gọi từ js, thông báo hoàn thành login, dùng cho login tự động, và login thủ công
+        /// </summary>
+        public async void LoginSuccess()
+        {
+            await PostToMainApp("/api/js/loginSuccess", new { phoneNumber = PhoneNumber });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// được gọi từ js, thông báo thực hiện lệnh chấp nhận kết bạn hoàn thất
+        /// </summary>
+        public async void AcceptFriendsCompleted()
+        {
+            await PostToMainApp("/api/js/AcceptFriendsCompleted", new { phoneNumber = PhoneNumber });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// được gọi từ js, cập nhật trạng thái việc gửi 1 tin nhắn
+        /// </summary>
+        /// <param name="friendName"></param>
+        public async void UpdateMessagePerFriendStatus(string friendName, string status)
+        {
+            await PostToMainApp("/api/js/UpdateMessagePerFriendStatus", new { phoneNumber = PhoneNumber, friendName, status });
+        }
+
+        /// <summary>
+        /// hàm này được gọi từ js, chập nhật trạng thái việc gửi 1 lời mời kết bạn
+        /// </summary>
+        /// <param name="friendPhoneNumber"></param>
+        /// <param name="status"></param>
+        public async void UpdateInvitePerFriendStatus(string friendPhoneNumber, string status)
+        {
+            await PostToMainApp("/api/js/UpdateInvitePerFriendStatus", new { phoneNumber = PhoneNumber, friendPhoneNumber, status });
+        }
+
+        public async void UpdateSendMessageToPhoneNumberPerFriendStatus(string friendPhoneNumber, string status)
+        {
+            await PostToMainApp("/api/js/UpdateSendMessageToPhoneNumberPerFriendStatus", new { phoneNumber = PhoneNumber, friendPhoneNumber, status });
+        }
+
+        /// <summary>
+        /// được gọi từ js, thông báo login fail, dùng cho login tự động và login thủ công
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public async Task LoginFail(string msg = "")
+        {
+            await PostToMainApp("/api/js/loginFail", new { phoneNumber = PhoneNumber, message = msg });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// được gọi từ js, truyền danh sách bạn bè về ứng dụng chính
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="msg"></param>
+        public async void UpdateFriendList(string list, string msg)
+        {
+            await PostToMainApp("/api/js/UpdateFriendList", new { listFriend = list, phoneNumber = PhoneNumber, message = msg });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// được gọi từ js, truyền danh sách bạn bè về ứng dụng chính, nhưng danh sách rỗng
+        /// </summary>
+        /// <param name="list"></param>
+        public async void UpdateFriendListEmpty(string list)
+        {
+            await PostToMainApp("/api/js/UpdateFriendListEmpty", new { listFriend = list, phoneNumber = PhoneNumber });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// được gọi từ js, truyền danh sách kết bạn về ứng dụng chính
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="msg"></param>
+        public async void UpdateFriendListForAcceptFriend(string list, string msg)
+        {
+            await PostToMainApp("/api/js/UpdateFriendListForAcceptFriend", new { listFriend = list, phoneNumber = PhoneNumber, message = msg });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// được gọi từ js, thông báo việc gửi tin nhắn hoàn thành
+        /// </summary>
+        /// <param name="msg"></param>
+        public async void SendMessageComplete(string msg)
+        {
+            await PostToMainApp("/api/js/SendMessageComplete", new { phoneNumber = PhoneNumber, message = msg });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// được gọi từ js, thông báo việc gởi lời mời kết bạn hoàn thành
+        /// </summary>
+        /// <param name="msg"></param>
+        public async void SendInviteComplete(string msg)
+        {
+            await PostToMainApp("/api/js/SendInviteComplete", new { phoneNumber = PhoneNumber, message = msg });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        public async void SendMessageToPhoneNumberComplete(string msg)
+        {
+            await PostToMainApp("/api/js/SendMessageToPhoneNumberComplete", new { phoneNumber = PhoneNumber, message = msg });
+            if (isCloseForm)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// hàm sử dụng chung, khi gọi về ứng dụng chính thông qua web api, phương thức POST
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private async Task PostToMainApp(string path, object data)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(ApiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync(path, content);
+            }
+            catch (Exception ex)
+            {
+                Log(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// hàm sử dụng chung, khi gọi về ứng dụng chính thông qua web api, phương thức GET
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        private async Task<string> GetToMainApp(string path, string param)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(ApiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(path + "?" + param);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var cmd = await response.Content.ReadAsStringAsync();
+                    return cmd;
+                }
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Log(ex.Message);
+            }
+
+            return string.Empty;
+        }
+
+        private async void BrowserForm_Load(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(Proxy))
+            {
+                Log(string.Format("Proxy: {0}", Proxy));
+            }
+
+            Text = string.Format("Tài khoản: {0} ( {1} )", AccountName, PhoneNumber);
+
+            if (NetworkInterface.GetIsNetworkAvailable() && new Ping().Send(new IPAddress(new byte[] { 8, 8, 8, 8 }), 2000).Status == IPStatus.Success)
+            {
+                AddTab(DefaultUrlForAddedTabs);
+
+                threadTimerGetSignal = new Thread(new ThreadStart(HandleSignal));
+                threadTimerGetSignal.Start();
+            }
+            else
+            {
+                var msg = "Không có kết nối internet";
+                if (CurrentCmd == Cmd.ShowFriends || CurrentCmd == Cmd.GetFriendsForSendMessage)
+                {
+                    UpdateFriendList("", msg);
+                }
+
+                if (CurrentCmd == Cmd.SendMessage)
+                {
+                    SendMessageComplete(msg);
+                }
+
+                if (CurrentCmd == Cmd.ShowLogin || CurrentCmd == Cmd.AutoLogin)
+                {
+                    await LoginFail(msg);
+                }
+            }
+        }
+
+        /// <summary>
+        /// dùng cho việc testing
+        /// </summary>
+        private async void HandleSignal()
+        {
+            do
+            {
+                var msg = await GetToMainApp("/api/js/GetSignal", "phoneNumber=" + PhoneNumber);
+                if (!string.IsNullOrWhiteSpace(msg))
+                {
+                    msg = ProcessStringResultFromApi(msg);
+                    if (msg.Contains(Cmd.ShowBrowser))
+                    {
+                        ShowForm();
+                    }
+                }
+                Thread.Sleep(1000);
+            }
+            while (true);
+        }
+
+        /// <summary>
+        /// xử lý các lệnh truyền từ ứng dụng chính qua
+        /// </summary>
+        private void HandleCmd()
+        {
+            if (CurrentCmd == Cmd.ShowFriends)
+            {
+                if (isShowForm)
+                {
+                    ShowForm();
+                }
+
+                var script = string.Format("bot.getFriends()");
+                browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+            }
+
+            if (CurrentCmd == Cmd.GetFriendsForSendMessage)
+            {
+                if (isShowForm)
+                {
+                    ShowForm();
+                }
+                var script = string.Format("bot.getFriends()");
+                browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+            }
+
+            if (CurrentCmd == Cmd.AcceptFriend)
+            {
+                if (isShowForm)
+                {
+                    ShowForm();
+                }
+                HandleAcceptFriend();
+            }
+
+            if (CurrentCmd == Cmd.ShowFriendsForAcceptFriend)
+            {
+                if (isShowForm)
+                {
+                    ShowForm();
+                }
+                var script = string.Format("bot.getFriendsForAcceptFriends()");
+                browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+            }
+
+            if (CurrentCmd == Cmd.SendMessage)
+            {
+                if (isShowForm)
+                {
+                    ShowForm();
+                }
+                HandleSendMessage();
+            }
+
+            if (CurrentCmd == Cmd.SendInvites)
+            {
+                if (isShowForm)
+                {
+                    ShowForm();
+                }
+                HandleSendInvite();
+            }
+
+            if (CurrentCmd == Cmd.SendMessageToPhoneNumbers)
+            {
+                if (isShowForm)
+                {
+                    ShowForm();
+                }
+
+                HandleSendMessageToPhoneNumber();
+            }
+
+            if (CurrentCmd == Cmd.ShowLogin)
+            {
+                ShowForm();
+                var script = string.Format("bot.checkLogin(false)");
+                browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+            }
+
+            if (CurrentCmd == Cmd.AutoLogin)
+            {
+                if (isShowForm)
+                {
+                    ShowForm();
+                }
+                var script = string.Format("bot.checkLogin(true)");
+                browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+            }
+        }
+
+        /// <summary>
+        /// xử lý lệnh chấp nhận lời mời kết bạn
+        /// </summary>
+        private async void HandleAcceptFriend()
+        {
+            var friendsStr = await GetToMainApp("/api/js/GetFriendsForAccept", "phoneNumber=" + PhoneNumber);
+            friendsStr = ProcessStringResultFromApi(friendsStr);
+            Log(friendsStr);
+
+            var friends = friendsStr.Split(new[] { "<name>", "</name>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            var listFriends = new List<string>();
+            friends.ForEach(i =>
+            {
+                listFriends.Add(string.Format("'{0}'", i));
+            });
+
+            var jsFriendArr = string.Format("[{0}]", string.Join(",", listFriends));
+
+            Log("Friends: " + jsFriendArr);
+
+            var script = string.Format("bot.acceptFriends({0})", jsFriendArr);
+            browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+        }
+
+        /// <summary>
+        /// xử lý lệnh gửi tin nhắn
+        /// </summary>
+        private async void HandleSendMessage()
+        {
+            //lấy nội dung tin nhắn
+            var msg = await GetToMainApp("/api/js/GetMessage", "phoneNumber=" + PhoneNumber);
+            msg = ProcessStringResultFromApi(msg);
+            Log("Tin nhắn:" + msg);
+
+            //lấy danh sách bạn bè checked bởi người dùng
+            var friendsStr = await GetToMainApp("/api/js/GetFriendsForSendMessage", "phoneNumber=" + PhoneNumber);
+            friendsStr = ProcessStringResultFromApi(friendsStr);
+            var friends = friendsStr.Split(new[] { "<name>", "</name>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            Log("Friends: " + string.Join(",", friends));
+
+            var listFriends = new List<string>();
+            friends.ForEach(i =>
+            {
+                listFriends.Add(string.Format("'{0}'", i.Replace("'", "%27")));
+            });
+
+            var jsFriendArr = string.Format("[{0}]", string.Join(",", listFriends));
+
+            //lấy thời gian giữa 2 lần gửi tin nhắn
+            var delaySecondStr = await GetToMainApp("/api/js/GetDelaySecondForSendMessage", "phoneNumber=" + PhoneNumber);
+            delaySecondStr = ProcessStringResultFromApi(delaySecondStr);
+
+            var delaySecond = 0;
+            int.TryParse(delaySecondStr, out delaySecond);
+
+            var script = string.Format("bot.sendMessage('{0}', {1}, {2})", msg, jsFriendArr, delaySecond);
+            browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+        }
+
+        /// <summary>
+        /// xử lý lệnh gửi lời mời kết bạn
+        /// </summary>
+        private async void HandleSendInvite()
+        {
+            //lấy nội dung tin nhắn
+            var msg = await GetToMainApp("/api/js/GetInviteMessage", "phoneNumber=" + PhoneNumber);
+            msg = ProcessStringResultFromApi(msg);
+            Log("Tin nhắn:" + msg);
+
+            //lấy danh sách bạn bè checked bởi người dùng
+            var friendsStr = await GetToMainApp("/api/js/GetFriendsForSendInvite", "phoneNumber=" + PhoneNumber);
+            friendsStr = ProcessStringResultFromApi(friendsStr);
+            var friends = friendsStr.Split(new[] { "<PhoneNumber>", "</PhoneNumber>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            Log("Friends: " + string.Join(",", friends));
+
+            var listFriends = new List<string>();
+            friends.ForEach(i =>
+            {
+                listFriends.Add(string.Format("'{0}'", i.Replace("'", "%27")));
+            });
+
+            var jsFriendArr = string.Format("[{0}]", string.Join(",", listFriends));
+
+            //lấy thời gian giữa 2 lần gửi lời mời
+            var delaySecondStr = await GetToMainApp("/api/js/GetDelaySecondForSendInvite", "phoneNumber=" + PhoneNumber);
+            delaySecondStr = ProcessStringResultFromApi(delaySecondStr);
+
+            var delaySecond = 0;
+            int.TryParse(delaySecondStr, out delaySecond);
+
+            var script = string.Format("bot.sendInvite('{0}', {1}, {2})", msg, jsFriendArr, delaySecond);
+
+            browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+        }
+
+        private async void HandleSendMessageToPhoneNumber()
+        {
+            //lấy nội dung tin nhắn
+            var msg = await GetToMainApp("/api/js/GetSendMessageToPhoneNumberContent", "phoneNumber=" + PhoneNumber);
+            msg = ProcessStringResultFromApi(msg);
+            Log("Tin nhắn:" + msg);
+
+            //lấy danh sách bạn bè checked bởi người dùng
+            var friendsStr = await GetToMainApp("/api/js/GetFriendsForSendMessageToPhoneNumber", "phoneNumber=" + PhoneNumber);
+            friendsStr = ProcessStringResultFromApi(friendsStr);
+            var friends = friendsStr.Split(new[] { "<PhoneNumber>", "</PhoneNumber>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            Log("Friends: " + string.Join(",", friends));
+
+            var listFriends = new List<string>();
+            friends.ForEach(i =>
+            {
+                listFriends.Add(string.Format("'{0}'", i.Replace("'", "%27")));
+            });
+
+            var jsFriendArr = string.Format("[{0}]", string.Join(",", listFriends));
+
+            //lấy thời gian giữa 2 lần gửi lời mời
+            var delaySecondStr = await GetToMainApp("/api/js/GetDelaySecondForSendMessageToPhoneNumber", "phoneNumber=" + PhoneNumber);
+            delaySecondStr = ProcessStringResultFromApi(delaySecondStr);
+
+            var delaySecond = 0;
+            int.TryParse(delaySecondStr, out delaySecond);
+
+            var script = string.Format("bot.sendMessageToPhoneNumber('{0}', {1}, {2})", msg, jsFriendArr, delaySecond);
+
+            browser.Browser.GetMainFrame().ExecuteJavaScriptAsync(script);
+        }
+
+        /// <summary>
+        /// kết quả string gởi từ api về, sẽ có dấu " ở đầu và cuối tring, hàm này bỏ dấu " ở đầu và cuối string
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        private string ProcessStringResultFromApi(string msg)
+        {
+            if (string.IsNullOrWhiteSpace(msg)) return msg;
+            msg = msg.Remove(0, 1);
+            msg = msg.Remove(msg.Length - 1, 1);
+            return msg;
+        }
+
+        /// <summary>
+        /// hiển thị browser, chỉ dùng khi kiểm tra lỗi, hoặc thực hiện lệnh login thủ công, còn các lện khác không sử dụng hàm này
+        /// </summary>
+        private void ShowForm()
+        {
+            this.InvokeIfNeeded(() =>
+            {
+                WindowState = FormWindowState.Maximized;
+                ShowInTaskbar = true;
+                Opacity = 1000;
+                Show();
+                Activate();
+                Focus();
+                BringToFront();
+            });
+        }
+
+        /// <summary>
+        /// ghi log ra textbox
+        /// </summary>
+        /// <param name="msg"></param>
+        public void Log(string msg)
+        {
+            this.InvokeIfNeeded(() =>
+            {
+                if (!string.IsNullOrWhiteSpace(tbxLog.Text) && tbxLog.Text.Length > 5000) tbxLog.Text = string.Empty;
+                tbxLog.Text += msg + Environment.NewLine;
+                tbxLog.SelectionStart = tbxLog.Text.Length;
+                tbxLog.ScrollToCaret();
+            });
+        }
+
+        public void ClickOnBrowser(int x, int y)
+        {
+            browser.Browser.GetBrowserHost().SendMouseClickEvent(x, y, MouseButtonType.Left, false, 1, CefEventFlags.None);
+            Thread.Sleep(15);
+            browser.Browser.GetBrowserHost().SendMouseClickEvent(x, y, MouseButtonType.Left, true, 1, CefEventFlags.None);
+
+            Log("Clicked at " + x + " | " + y);
+        }
+
+        private void BrowserForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (threadTimerGetSignal != null && threadTimerGetSignal.IsAlive)
+                {
+                    threadTimerGetSignal.Abort();
+                }
+            }
+            catch { }
         }
     }
 }

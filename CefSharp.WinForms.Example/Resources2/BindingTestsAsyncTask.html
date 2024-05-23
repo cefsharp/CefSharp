@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Binding Test Async Task</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.10.0.css">
+</head>
+<body>
+    <div>
+        These tests require CefSharpSettings.ConcurrentTaskExecution = true;
+        Which by default is set to false
+    </div>
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.10.0.js"></script>
+
+    <script type="text/javascript">
+        function getRandomInt(min, max)
+        {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+        }
+
+        QUnit.module('BindingTestsAsyncTask', (hooks) =>
+        {
+            hooks.before(async () =>
+            {
+                await CefSharp.BindObjectAsync("boundAsync");
+            });
+
+            QUnit.test("WaitBeforeReturnAsync:", async (assert) =>
+            {
+                const expectedResult = null;  
+                const actualResult = await boundAsync.waitBeforeReturnAsync(2000);
+
+                assert.equal(expectedResult, actualResult, "Return null");
+            });
+
+            QUnit.test("ReturnHello:", async (assert) =>
+            {
+                const expectedResult = 'Hello CefSharp';
+                const actualResult = await boundAsync.hello('CefSharp');
+              
+                assert.equal(expectedResult, actualResult, "Return Hello CefSharp");
+            });
+
+            QUnit.test("ReturnTaskStringAsync Test:", async (assert) =>
+            {
+                const expectedResult = 'ReturnTaskStringAsync';
+                const actualResult = await boundAsync.returnTaskStringAsync();
+
+                assert.equal(expectedResult, actualResult, "Return string " + expectedResult);
+            });
+
+            QUnit.test("VoidReturnAsync Test:", async (assert) =>
+            {
+                const expectedResult = null;
+                const actualResult = await boundAsync.voidReturnAsync();
+              
+                assert.equal(expectedResult, actualResult, "Return null");
+            });
+
+            QUnit.test("Async Download File Test:", async (assert) =>
+            {
+                const url = "https://raw.githubusercontent.com/cefsharp/CefSharp/master/.editorconfig";
+
+                const expectedResult = "# editorconfig.org";
+                const actualResult = await boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+
+                assert.equal(expectedResult, actualResult[0], "Return string " + expectedResult);
+            });
+
+            QUnit.test("Multiple Async Download File Test:", async (assert) =>
+            {
+                const url = "https://raw.githubusercontent.com/cefsharp/CefSharp/master/.editorconfig";
+
+                let p1 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                let p2 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                let p3 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+                let p4 = boundAsync.asyncDownloadFileAndSplitOnNewLines(url);
+
+                const values = await Promise.all([p1, p2, p3, p4]);
+
+                let lineNo = getRandomInt(0, values[0].length);
+                let lineNo2 = getRandomInt(0, values[0].length);
+                assert.equal(values[0].length, values[1].length, "Line Count " + values[0].length)
+                assert.equal(values[0][lineNo], values[1][lineNo], "Return string " + values[0][lineNo]);
+
+                assert.equal(values[2].length, values[3].length, "Line Count " + values[2].length)
+                assert.equal(values[2][lineNo2], values[3][lineNo2], "Return string " + values[2][lineNo2]);
+            });
+
+            QUnit.test("Async .Net Exception:", async (assert) =>
+            {
+                assert.rejects(boundAsync.asyncThrowException());
+            });
+
+            QUnit.test("JavascriptCallback EvalPromise:", async (assert) =>
+            {
+                let callback = function (msg)
+                {
+                    return new Promise((resolve, reject) =>
+                    {
+                        setTimeout(() =>
+                        {
+                            resolve(msg);
+                        }, 300);
+                    });
+                };
+
+                const expectedResult = "JavascriptCallback after promise";
+                const actualResult = await boundAsync.javascriptCallbackEvalPromise(expectedResult, callback);
+        
+                assert.equal(expectedResult, actualResult, "Echo response after promise execution");
+            });
+
+            // Issue #3979
+            QUnit.test("JavascriptCallback conditionally EvalPromise:", async (assert) =>
+            {
+                let callback = function (msg)
+                {
+                    return new Promise((resolve, reject) =>
+                    {
+                        setTimeout(() =>
+                        {
+                            resolve(msg);
+                        }, 300);
+                    });
+                };
+
+                const expectedResult = "Callback has not been invoked";
+                const actualResult = await boundAsync.javascriptOptionalCallbackEvalPromise(false, expectedResult, callback);
+                assert.equal(expectedResult, actualResult, "Echo response after promise execution");
+
+                const expectedSecondResult = "Callback has been invoked";
+                const actualSecondResult = await boundAsync.javascriptOptionalCallbackEvalPromise(true, expectedSecondResult, callback);
+                assert.equal(expectedSecondResult, actualSecondResult, "Echo response after promise execution");
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        QUnit.done(function (details)
+        {
+            CefSharp.PostMessage({ "Type": "QUnitExecutionComplete", "Details": details });
+        });
+
+        QUnit.log(function (details)
+        {
+            if (details.result)
+            {
+                return;
+            }
+
+            let output = `[FAILED] ${details.module} > ${details.name}`;
+
+            if (details.message)
+            {
+                output += `: ${details.message}`;
+            }
+            if (details.actual)
+            {
+                output += `\nexpected: ${details.expected}\nactual: ${details.actual}`;
+            }
+            if (details.source)
+            {
+                output += `\n${details.source}`;
+            }
+
+            CefSharp.PostMessage({ "Type": "QUnitTestFailed", "Output": output });
+        });
+    </script>
+
+</body>
+</html>

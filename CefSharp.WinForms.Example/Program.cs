@@ -17,6 +17,25 @@ namespace CefSharp.WinForms.Example
         [STAThread]
         public static int Main(string[] args)
         {
+            var proxy = string.Empty;
+            var apiUrl = string.Empty;
+            var phoneNumber = string.Empty;
+            var name = string.Empty;
+            var currentCmd = string.Empty;
+
+            if (args != null)
+            {
+                phoneNumber = args[0];
+                apiUrl = args[1];
+                name = args[2];
+                currentCmd = args[3];
+
+                if (args.Length > 4)
+                {
+                    proxy = args[4];
+                }
+            }
+
             // DEMO: Change to true to self host the BrowserSubprocess.
             // instead of using CefSharp.BrowserSubprocess.exe, your applications exe will be used.
             // In this case CefSharp.WinForms.Example.exe
@@ -66,11 +85,6 @@ namespace CefSharp.WinForms.Example
                 // To enable externalMessagePump set  multiThreadedMessageLoop = false and externalMessagePump = true
                 const bool externalMessagePump = false;
 
-                //TEST: There are a number of different Forms for testing purposes.
-                var browser = new BrowserForm(multiThreadedMessageLoop);
-                //var browser = new SimpleBrowserForm();
-                //var browser = new TabulationDemoForm();
-
                 IBrowserProcessHandler browserProcessHandler;
 
                 if (multiThreadedMessageLoop)
@@ -88,7 +102,7 @@ namespace CefSharp.WinForms.Example
                     else
                     {
                         //We'll add out WinForms timer to the components container so it's Diposed
-                        browserProcessHandler = new WinFormsBrowserProcessHandler(browser.Components);
+                        //browserProcessHandler = new WinFormsBrowserProcessHandler(browser.Components);
                     }
 
                 }
@@ -98,9 +112,20 @@ namespace CefSharp.WinForms.Example
                 settings.ExternalMessagePump = externalMessagePump;
                 settings.ChromeRuntime = true;
 
-                CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
+                CefExample.Init(phoneNumber, proxy, settings, browserProcessHandler: browserProcessHandler);
 
                 Application.EnableVisualStyles();
+
+                //TEST: There are a number of different Forms for testing purposes.
+                var browser = new BrowserForm(multiThreadedMessageLoop);
+                browser.ApiUrl = apiUrl;
+                browser.PhoneNumber = phoneNumber;
+                browser.AccountName = name;
+                browser.CurrentCmd = currentCmd;
+                browser.Proxy = proxy;
+                //var browser = new SimpleBrowserForm();
+                //var browser = new TabulationDemoForm();
+
                 //Application.Run(new MultiFormAppContext());
                 Application.Run(browser);
             }

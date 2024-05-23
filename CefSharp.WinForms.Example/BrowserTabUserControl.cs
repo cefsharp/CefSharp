@@ -50,6 +50,8 @@ namespace CefSharp.WinForms.Example
                 Dock = DockStyle.Fill
             };
 
+            browser.JavascriptObjectRepository.Register("botgui", new CallbackObjectForJs(), true);
+
             browserPanel.Controls.Add(browser);
 
             Browser = browser;
@@ -110,7 +112,7 @@ namespace CefSharp.WinForms.Example
                         {
                             if (ctrl.FindForm() is BrowserForm owner)
                             {
-                                owner.RemoveTab(ctrl);
+                                owner.RemoveTab(ctrl.Handle);
                             }
 
                             ctrl.Dispose();

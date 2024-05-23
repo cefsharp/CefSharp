@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Binding Test</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.10.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.10.0.js"></script>
+
+    <!--<script type="text/javascript">
+    (async function() {
+        // <embed user provided code here>
+
+        await CefSharp.BindObjectAsync("boundAsync", "bound");
+    })();
+
+    (async () => {
+        await CefSharp.BindObjectAsync("boundAsync", "bound");
+    })();
+    </script>-->
+
+    <script src="BindingTestSync.js"></script>
+    <script src="BindingTestAsync.js"></script>
+
+    <script type="text/javascript">
+        QUnit.done(function (details)
+        {
+            CefSharp.PostMessage({ "Type": "QUnitExecutionComplete", "Details": details });
+        });
+
+        QUnit.log(function (details)
+        {
+            if (details.result)
+            {
+                return;
+            }
+
+            let output = `[FAILED] ${details.module} > ${details.name}`;
+
+            if (details.message)
+            {
+                output += `: ${details.message}`;
+            }
+            if (details.actual)
+            {
+                output += `\nexpected: ${details.expected}\nactual: ${details.actual}`;
+            }
+            if (details.source)
+            {
+                output += `\n${details.source}`;
+            }
+
+            CefSharp.PostMessage({ "Type": "QUnitTestFailed", "Output": output });
+        });
+    </script>
+
+</body>
+</html>

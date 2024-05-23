@@ -1,0 +1,47 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Scheme Handler Test</title>
+
+    <script type="text/javascript">
+        var htmlNode;
+        var newLine = "\n";
+        var showError = function (text)
+        {
+            if (!htmlNode)
+            {
+                htmlNode = document.createElement("div");
+                htmlNode.id = "debugWindow";
+                document.body.appendChild(htmlNode);
+            }
+
+            htmlNode.innerHTML += "<p>" + text + "</p>";
+        };
+
+        var doRequest = function ()
+        {
+            $.post("https://cefsharp.com/PostDataAjaxTest.html", $("#testForm").serialize()).done(function (data)
+            {
+                showError(data);
+            });
+        };
+    </script>
+</head>
+<body>
+    <h1>Success</h1>
+    <p>Scheme Handler Functioned Correctly</p>
+
+    <form id="testForm" action="https://cefsharp.com/PostDataTest.html" method="post" target="_blank">
+        User:<input type="text" name="user" value="lion" />
+        <br>
+        Pass:<input type="text" name="pass" value="123" />
+        <br>
+        <input type="submit" value="Test POST Data" />
+    </form>
+
+    <h1>Custom Post using Ajax</h1>
+    <button onclick="doRequest(); return false;">Submit via ajax</button>
+
+    <script src="assets/js/jquery.js"></script>
+</body>
+</html>

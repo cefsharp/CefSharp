@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
+        <TargetFramework>net48</TargetFramework>
         <OutputType>WinExe</OutputType>
         <Platforms>x86;x64</Platforms>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -18,6 +18,11 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Update="BrowserTabUserControl.cs" />
+        <Compile Update="Properties\Resources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <None Update="crash_reporter.cfg">
@@ -25,6 +30,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\src\Share\Share.csproj" />
         <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj" />
         <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj" />
@@ -33,6 +39,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="chromiumembeddedframework.runtime" Version="125.0.8" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="System.Net.Http" Version="4.3.4" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="bin.netcore\**" />
@@ -43,6 +51,184 @@
         <None Remove="obj.netcore\**" />
         <Page Remove="bin.netcore\**" />
         <Page Remove="obj.netcore\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="jquery-3.4.1.min.js" />
+      <None Remove="main.js" />
+      <None Remove="Resources2\assets\css\docs.css" />
+      <None Remove="Resources2\assets\css\shCore.css" />
+      <None Remove="Resources2\assets\css\shCoreDefault.css" />
+      <None Remove="Resources2\assets\images\beach-2089936_1920.jpg" />
+      <None Remove="Resources2\assets\js\application.js" />
+      <None Remove="Resources2\assets\js\jquery.js" />
+      <None Remove="Resources2\assets\js\shBrushCSharp.js" />
+      <None Remove="Resources2\assets\js\shBrushJScript.js" />
+      <None Remove="Resources2\assets\js\shCore.js" />
+      <None Remove="Resources2\BindingApiCustomObjectNameTest.html" />
+      <None Remove="Resources2\BindingTest.html" />
+      <None Remove="Resources2\BindingTestAsync.js" />
+      <None Remove="Resources2\BindingTestNetCore.html" />
+      <None Remove="Resources2\BindingTestsAsyncTask.html" />
+      <None Remove="Resources2\BindingTestSingle.html" />
+      <None Remove="Resources2\BindingTestSync.js" />
+      <None Remove="Resources2\bootstrap\bootstrap-theme.min.css" />
+      <None Remove="Resources2\bootstrap\bootstrap.min.css" />
+      <None Remove="Resources2\bootstrap\bootstrap.min.js" />
+      <None Remove="Resources2\CdmSupportTest.html" />
+      <None Remove="Resources2\CssAnimation.html" />
+      <None Remove="Resources2\DragDropCursorsTest.html" />
+      <None Remove="Resources2\DraggableRegionTest.html" />
+      <None Remove="Resources2\ExceptionTest.html" />
+      <None Remove="Resources2\FramedWebGLTest.html" />
+      <None Remove="Resources2\HelloWorld.html" />
+      <None Remove="Resources2\Home.html" />
+      <None Remove="Resources2\ImageTest.html" />
+      <None Remove="Resources2\JavascriptCallbackTest.html" />
+      <None Remove="Resources2\LegacyBindingTest.html" />
+      <None Remove="Resources2\MultiBindingTest.html" />
+      <None Remove="Resources2\PopupTest.html" />
+      <None Remove="Resources2\PostMessageTest.html" />
+      <None Remove="Resources2\Recaptcha.html" />
+      <None Remove="Resources2\ResponseFilterTest.html" />
+      <None Remove="Resources2\SchemeTest.html" />
+      <None Remove="Resources2\ScriptedMethodsTest.html" />
+      <None Remove="Resources2\TooltipTest.html" />
+      <None Remove="Resources2\UnicodeExampleGreaterThan32kb.html" />
+      <None Remove="Resources2\UnocodeExampleEqualTo32kb.html" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="jquery-3.4.1.min.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="main.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\css\docs.css">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\css\shCore.css">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\css\shCoreDefault.css">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\images\beach-2089936_1920.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\js\application.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\js\jquery.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\js\shBrushCSharp.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\js\shBrushJScript.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\assets\js\shCore.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\BindingApiCustomObjectNameTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\BindingTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\BindingTestAsync.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\BindingTestNetCore.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\BindingTestsAsyncTask.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\BindingTestSingle.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\BindingTestSync.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\bootstrap\bootstrap-theme.min.css">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\bootstrap\bootstrap.min.css">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\bootstrap\bootstrap.min.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\CdmSupportTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\CssAnimation.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\DragDropCursorsTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\DraggableRegionTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\ExceptionTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\FramedWebGLTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\HelloWorld.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\Home.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\ImageTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\JavascriptCallbackTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\LegacyBindingTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\MultiBindingTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\PopupTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\PostMessageTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\Recaptcha.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\ResponseFilterTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\SchemeTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\ScriptedMethodsTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\TooltipTest.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\UnicodeExampleGreaterThan32kb.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources2\UnocodeExampleEqualTo32kb.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
     <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.Native.props" />
 </Project>

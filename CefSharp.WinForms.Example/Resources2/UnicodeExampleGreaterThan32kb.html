@@ -1,0 +1,1136 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style>
+                Body {
+                    font-family: Meiryo, leiryoUI;
+                }
+                .ITSMultipleChoice {
+                    font-family: Meiryo, leiryoUI;
+                }
+                #popUpDiv {
+                    background-color: transparent;
+                    color: black;
+                }
+                #pwDiv {
+                    border: 2px solid black;
+                }
+                .PopUpClass {
+                    border: 2px solid black;
+                    background-color: white;
+                    color: black;
+                }
+                P {
+                    MARGIN: 0in 0in 0pt;
+                }
+                BODY {
+                    TEXT-ALIGN: left;
+                    MARGIN: 0.25in;
+                    FONT-SIZE: 12pt;
+                    scrolltype: normal;
+                    scrolldisplay: auto;
+                }
+                BODY {
+                    background-color: white;
+                    color: black;
+                }
+                .ITSSeparator {
+                    HTML: "<HR>";
+                }
+                .ITSStem {
+                    MARGIN-BOTTOM: 10px;
+                    VERTICAL-ALIGN: top;
+                }
+                .ITSStemSequence {
+                    VERTICAL-ALIGN: top;
+                    display: none;
+                }
+                .ITSMCOptionLabelText {
+                    TEXT-ALIGN: right;
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    WIDTH: 15px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                    labeling-scheme: Letter;
+                }
+                .ITSMCOptionLabelTextOn {
+                    TEXT-ALIGN: right;
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    WIDTH: 15px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                    labeling-scheme: Letter;
+                }
+                .ITSMCOptionLabelSeparator {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    WIDTH: 15px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                    label-separator: ")&nbsp;";
+                }
+                .ITSMCOptionLabelSeparatorOn {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    WIDTH: 15px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                }
+                .ITSMCOptionText {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    PADDING-TOP: 0px;
+                }
+                .ITSMCOptionTextOn {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                }
+                .ITSMCOptionTable {
+                    CURSOR: pointer;
+                }
+
+                .ITSMCOptionTableOn {
+                    CURSOR: pointer;
+                }
+                .ITSMCOptionMarker {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                    option-selector: circle;
+                    multiple-option-selector: Box;
+                }
+                .ITSMCOptionMarkerOn {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                }
+
+                .ITSPageLink {
+                    COLOR: darkblue;
+                    CURSOR: pointer;
+                    TEXT-DECORATION: underline;
+                }
+
+                .ITSPassage {
+                    BACKGROUND-COLOR: #fff880;
+                    CURSOR: pointer;
+                }
+
+                .ITSAutoPassage {
+                    COLOR: darkblue;
+                    FONT-WEIGHT: bold;
+                }
+
+                .ITSGroupOption {
+                    CURSOR: pointer;
+                }
+
+                .ITSGroupOptionOn {
+                    BACKGROUND-COLOR: #ccf3da;
+                    CURSOR: pointer;
+                }
+
+                .ITSLineNumber {
+                    TEXT-ALIGN: right;
+                    line-numbering: 5;
+                }
+
+                .ITSMatchingSource {
+                    CURSOR: pointer;
+                }
+
+                .ITSMatchingSourceUsed {
+                    COLOR: gray;
+                    CURSOR: pointer;
+                }
+
+                .ITSMatchingTarget {
+                    BORDER-BOTTOM: thin ridge;
+                    TEXT-ALIGN: center;
+                    WIDTH: 1in;
+                    CURSOR: pointer;
+                }
+
+                .ITSPassageHighlight {
+                    BACKGROUND-COLOR: #fff880;
+                    CURSOR: pointer;
+                }
+
+                .ITSESOptionLabelText {
+                    TEXT-ALIGN: right;
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                    labeling-scheme: None;
+                }
+
+                .ITSESOptionLabelTextOn {
+                    TEXT-ALIGN: right;
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                    labeling-scheme: None;
+                }
+
+                .ITSESOptionLabelSeparator {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                    label-separator: "";
+                }
+
+                .ITSESOptionLabelSeparatorOn {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                }
+
+                .ITSESOptionText {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    PADDING-TOP: 0px;
+                }
+
+                .ITSESOptionTextOn {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                }
+
+                .ITSESOptionTable {
+                    CURSOR: pointer;
+                }
+
+                .ITSESOptionTableOn {
+                    CURSOR: pointer;
+                }
+
+                .ITSESOptionMarker {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                    option-selector: circle;
+                    multiple-option-selector: Box;
+                }
+
+                .ITSESOptionMarkerOn {
+                    PADDING-BOTTOM: 0px;
+                    PADDING-LEFT: 0px;
+                    PADDING-RIGHT: 0px;
+                    VERTICAL-ALIGN: top;
+                    PADDING-TOP: 0px;
+                }
+
+                .ITSMultipleChoice {
+                    FONT-SIZE: 12pt;
+                }
+
+                .ITSMatching {
+                    move: true;
+                    enabledrag: true;
+                }
+
+                .ITSMatrix {
+                    selector: check;
+                }
+
+                .ITSMultipleChoice {
+                    MARGIN-TOP: 0.5in;
+                    MARGIN-LEFT: 1in;
+                    MARGIN-RIGHT: 1.75in;
+                }
+
+                .ITSMatrixOption {
+                    BACKGROUND-REPEAT: no-repeat;
+                    BACKGROUND-POSITION: center 50%;
+                }
+
+                .ITSPassageHighlight {
+                    BACKGROUND-COLOR: #fff880;
+                    CURSOR: pointer;
+                }
+
+                .HorizontalOption TD {
+                    TEXT-ALIGN: center;
+                    PADDING-LEFT: 10pt;
+                    PADDING-RIGHT: 10pt;
+                }
+
+                .ITSMCOptionTable TD {
+                    VERTICAL-ALIGN: middle;
+                    CURSOR: pointer;
+                }
+
+                .ITSMCOptionTableOn TD {
+                    VERTICAL-ALIGN: middle;
+                    CURSOR: pointer;
+                }
+
+                .itdhilite {
+                    BACKGROUND-COLOR: yellow;
+                    CURSOR: pointer;
+                }
+
+                .itdnote {
+                    FONT-STYLE: italic;
+                    COLOR: blue;
+                    CURSOR: pointer;
+                }
+
+                .itdimgnote {
+                    CURSOR: pointer;
+                }
+
+                .itdstrikeout {
+                    COLOR: #a6a6a6;
+                    TEXT-DECORATION: line-through;
+                }
+
+                    .itdstrikeout IMG {
+                        FILTER: alpha(opacity=25);
+                        opacity: 0.25;
+                        -moz-opacity: 0.25;
+                    }
+
+                .reviewtable .seq {
+                    color: #0000ff;
+                    text-decoration: underline;
+                }
+
+
+
+
+
+
+
+                /* ------------
+
+        Active TAB colors
+
+        ---------------*/
+                ul.itdtabnav li.itdtabactive a {
+                }
+
+                ul.itdtabnav li.itdtabactive a {
+                }
+
+
+
+
+
+                /* ------------
+
+        Active tab TEXT colors
+
+        ---------------*/
+                ul.itdtabnav li.itdtabactive {
+                }
+
+                ul.itdtabnav li.itdtabactive {
+                }
+
+
+
+
+
+                    /* ------------
+
+        Active tab TEXT LINK colors
+
+        ---------------*/
+
+                    ul.itdtabnav li.itdtabactive a:link {
+                    }
+
+                    ul.itdtabnav li.itdtabactive a:link {
+                    }
+
+
+
+
+
+                /* ------------
+
+        Active HOVER
+
+        ---------------*/
+
+
+
+                /* ------------
+
+        Default TAB colors
+
+        ---------------*/
+
+                ul.itdtabnav li a {
+                    padding: 3px 0.5em;
+                    margin-left: 3px;
+                    text-decoration: none;
+                }
+
+                ul.itdtabnav li a {
+                    border: 1px solid black;
+                    background-color: #dbdbdb;
+                }
+
+
+
+
+
+                    /* ------------
+
+        Default tab TEXT colors
+
+        ---------------*/
+
+                    ul.itdtabnav li a:link {
+                        font-size: 12px;
+                    }
+
+                    ul.itdtabnav li a:link {
+                    }
+
+
+
+
+
+
+                    /* ------------
+
+        Default HOVER
+
+        ---------------*/
+                    ul.itdtabnav li a:hover {
+                        border-color: black;
+                    }
+
+
+
+
+
+
+
+
+
+                /* ------------
+
+        Mark Complete TAB colors
+
+        ---------------*/
+                ul.itdtabnav li.itdtabcomplete a {
+                }
+
+                ul.itdtabnav li.itdtabcomplete a {
+                }
+
+
+
+
+
+
+                /* ------------
+
+        Mark complete tab TEXT colors
+
+        ---------------*/
+                ul.itdtabnav li.itdtabcomplete {
+                }
+
+                ul.itdtabnav li.itdtabcomplete {
+                }
+
+
+
+
+
+                    /* ------------
+
+        Mark complete tab TEXT LINK colors
+
+        ---------------*/
+
+                    ul.itdtabnav li.itdtabcomplete a:link {
+                    }
+
+                    ul.itdtabnav li.itdtabcomplete a:link {
+                    }
+
+
+
+
+
+
+
+                    /* ------------
+
+        Mark complete HOVER
+
+        ---------------*/
+                    ul.itdtabnav li.itdtabcomplete a:hover {
+                    }
+
+
+
+
+
+
+
+                /* ------------
+
+        Visited
+
+        ---------------*/
+
+                ul.itdtabnav li.itdtabvisited a {
+                }
+
+
+                .s-mark, .s-sol, .s-diag {
+                    DISPLAY: none;
+                    left: -999px;
+                    z-index: -999;
+                }
+
+                .shellFocus, .displayShell {
+                    margin: 10px 0 0 0;
+                }
+
+                body.ITSLiveApplication {
+                    overflow-y: auto;
+                    margin: 0px 15% 0px;
+                }
+
+                div.itdtablive {
+                    margin: 0px !important;
+                }
+
+                ul.itdtabnav {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: left;
+                    padding: 3px 0 3px 1px !important;
+                    border-bottom: none;
+                }
+
+                    ul.itdtabnav li a {
+                        margin: 0 0 0 -1px !important;
+                        position: relative;
+                        padding: 1px 11px;
+                        text-align: left;
+                        white-space: nowrap;
+                    }
+
+                        ul.itdtabnav li a:link {
+                            color: #000;
+                            font-weight: normal !important;
+                        }
+
+                    ul.itdtabnav li.itdtabcomplete.itdtabvisited a:link {
+                    }
+
+                    ul.itdtabnav li.itdtabvisited a:link {
+                        color: #000;
+                        font-weight: normal !important;
+                    }
+
+                    ul.itdtabnav li.itdtabactive a:link {
+                        color: #000;
+                        background-color: #fff;
+                        font-weight: normal !important;
+                    }
+
+                    ul.itdtabnav li.itdtabactive.itdtabcomplete a:link {
+                        background-color: #fff;
+                        color: #000;
+                    }
+
+                    ul.itdtabnav li.itdtabactive.itdtabcomplete a:hover {
+                        background-color: #fff;
+                        color: #000;
+                    }
+
+                    ul.itdtabnav li.itdtabcomplete.itdtabvisited a:link {
+                    }
+
+                    ul.itdtabnav li.itdtabcomplete.itdtabvisited.itdtabactive a:link {
+                    }
+
+                    ul.itdtabnav li a:focus {
+                        padding-left: 10px !important;
+                        position: relative;
+                        border: 2px solid #6e0d0d !important;
+                        margin-bottom: -1px !important;
+                        margin-top: -1px !important;
+                        margin-left: -1px !important;
+                        margin-right: -1px !important;
+                        outline: none;
+                        z-index: 100;
+                    }
+
+                    ul.itdtabnav li.itdtabactive a:focus {
+                        border-bottom: 2px solid white !important;
+                    }
+
+                    /* tab colors -> */
+
+                    ul.itdtabnav li.itdtabvisited a {
+                        border-color: black;
+                    }
+
+
+
+
+
+                    /*default background color for tabs*/
+                    ul.itdtabnav li a:link {
+                        border-color: black;
+                        color: black;
+                        background-color: #e9e9e9;
+                    }
+
+
+
+
+
+                    ul.itdtabnav li.itdtabcomplete.itdtabvisited a:link {
+                    }
+
+
+
+
+
+                    ul.itdtabnav li.itdtabvisited a:link {
+                        color: #000;
+                    }
+
+
+
+
+
+                    /* active  background color */
+                    ul.itdtabnav li.itdtabactive a:link {
+                        color: #000;
+                        background-color: #fff;
+                    }
+
+
+
+
+
+                    /* active hover color */
+                    ul.itdtabnav li.itdtabactive a:hover {
+                        color: #000;
+                    }
+
+
+
+
+
+                    ul.itdtabnav li.itdtabactive.itdtabcomplete a:link {
+                    }
+
+
+
+
+                    ul.itdtabnav li.itdtabactive.itdtabcomplete a:hover {
+                    }
+
+
+
+
+
+
+
+                    /* border color when tab has focus, either clicked or tabbed to */
+                    ul.itdtabnav li a:focus {
+                        border: 1px solid #6e0d0d;
+                    }
+
+
+
+
+
+                    /* begin new tab work here */
+                    ul.itdtabnav li a {
+                        position: relative;
+                        text-align: left;
+                    }
+
+                        ul.itdtabnav li a:link {
+                            position: relative;
+                            text-align: left;
+                        }
+
+                        ul.itdtabnav li a:visited {
+                            position: relative;
+                            text-align: left;
+                        }
+
+                        ul.itdtabnav li a:hover {
+                            position: relative;
+                            text-align: left;
+                        }
+
+                        ul.itdtabnav li a:focus {
+                            position: relative;
+                            text-align: left;
+                            border: 1px solid #6e0d0d;
+                        }
+
+                    ul.itdtabnav li {
+                        text-align: left;
+                    }
+
+                        ul.itdtabnav li a {
+                            text-align: left;
+                            color: black;
+                        }
+
+                        ul.itdtabnav li.itdtabcomplete a {
+                            text-align: left;
+                            color: black;
+                        }
+
+                        ul.itdtabnav li.itdtabmarkreview a {
+                            text-align: left;
+                            color: black;
+                        }
+
+                        ul.itdtabnav li.itdtabmarkreview.itdtabcomplete a {
+                            text-align: left;
+                            color: black;
+                        }
+
+                        ul.itdtabnav li a {
+                            border: 1px solid black;
+                            height: 18px;
+                            width: 98px;
+                            display: inline-block;
+                            padding-left: 11px;
+                            padding-top: 5px !important;
+                            text-decoration: none;
+                            color: black;
+                        }
+
+                    ul.itdtabnav li {
+                        list-style: none;
+                        position: relative;
+                        background-color: #888;
+                    }
+
+                        ul.itdtabnav li.itdtabactive a {
+                            border-bottom: 0px;
+                        }
+
+                        ul.itdtabnav li.itdtabactive {
+                            background-color: white;
+                        }
+
+                ul.itdtabnav {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    padding: 3px 0px 3px 1px !important;
+                }
+
+                    ul.itdtabnav li a:after {
+                        content: url('itdmedia.aspx?data=208&AUC=1&cv=1&programid=208&language=JPN&urid=officeTestmasterOverride/neitherflagnorcheck.png');
+                        position: absolute;
+                        top: 6px;
+                        left: 84px;
+                    }
+
+                    ul.itdtabnav li.itdtabmarkreview.itdtabcomplete a:after {
+                        content: url('itdmedia.aspx?data=208&AUC=1&cv=1&programid=208&language=JPN&urid=officeTestmasterOverride/flagcheck.png');
+                        position: absolute;
+                        top: 6px;
+                        left: 84px;
+                    }
+
+                    ul.itdtabnav li.itdtabcomplete a:after {
+                        content: url('itdmedia.aspx?data=208&AUC=1&cv=1&programid=208&language=JPN&urid=officeTestmasterOverride/justcheck.png');
+                        position: absolute;
+                        top: 6px;
+                        left: 84px;
+                    }
+
+                    ul.itdtabnav li.itdtabmarkreview a:after {
+                        content: url('itdmedia.aspx?data=208&AUC=1&cv=1&programid=208&language=JPN&urid=officeTestmasterOverride/justflag.png');
+                        position: absolute;
+                        top: 6px;
+                        left: 84px;
+                    }
+
+                    /* these overwrite the images above for the white on black contrast filter */
+
+
+                    ul.itdtabnav li a:focus:after {
+                        left: 83px;
+                    }
+
+                    ul.itdtabnav li.itdtabmarkreview.itdtabcomplete a:focus:after {
+                        left: 83px;
+                    }
+
+                    ul.itdtabnav li.itdtabcomplete a:focus:after {
+                        left: 83px;
+                    }
+
+                    ul.itdtabnav li.itdtabmarkreview a:focus:after {
+                        left: 83px;
+                    }
+
+                    ul.itdtabnav li.itdtabfirst a:after {
+                        content: '';
+                    }
+
+                    ul.itdtabnav li.itdtabfirst a {
+                        width: 110px;
+                    }
+
+                    ul.itdtabnav li:not(.itdtabvisited) a:before {
+                        content: '\25CF';
+                        position: absolute;
+                        left: 2px;
+                        top: 4px;
+                    }
+
+                    ul.itdtabnav li:not(.itdtabvisited) a:focus:before {
+                        content: '\25CF';
+                        position: absolute;
+                        left: 1px;
+                        top: 4px;
+                    }
+
+                /* ------------
+
+        Bottom Frame
+
+        ---------------*/
+                .BFColor {
+                    background-color: #3e606f;
+                }
+
+
+
+
+                .BFWrap {
+                    position: absolute;
+                    width: 100%;
+                    overflow: hidden;
+                }
+
+                #BFright {
+                    text-align: center;
+                    margin: 5px 10px 13px 0px;
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                }
+
+                .BFbuttonBox {
+                    color: #323232;
+                    background-color: #F2F2F2;
+                    font-weight: normal;
+                    border: 1px solid #323232;
+                    cursor: pointer;
+                    cursor: hand;
+                    margin: 0px 4px 0px 4px;
+                    padding: 1px 3px 1px 3px;
+                    -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+                    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+                }
+
+                .BFbuttonBox {
+                    color: #323232;
+                    background-color: #F2F2F2;
+                    border: 1px solid #323232;
+                }
+
+
+
+
+                .BFbuttonBoxOver {
+                    background-color: #d3d3d3;
+                    color: #323232;
+                    font-weight: normal;
+                    border: 1px solid #323232;
+                    cursor: pointer;
+                    cursor: hand;
+                    margin: 0px 4px 0px 4px;
+                    padding: 1px 3px 1px 3px;
+                    -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+                    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+                }
+
+                .BFbuttonBoxOver {
+                    background-color: #d3d3d3;
+                    color: #323232;
+                    border: 1px solid #323232;
+                }
+
+
+
+
+
+
+                /* ------------
+
+        Control Panel
+
+        ---------------*/
+
+                .CPWrap {
+                    position: absolute;
+                    width: 100%;
+                    overflow: hidden;
+                }
+
+                #CPleft, #CPleft span.CPbuttonBox {
+                    float: left;
+                }
+
+                #CPright {
+                    text-align: right;
+                    margin: 1px 3px 5px 0px;
+                    position: absolute;
+                    top: 1px;
+                    right: 5px;
+                    height: 42px;
+                    width: 43%;
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    white-space: nowrap;
+                }
+
+                .CPbuttonBox {
+                    color: #323232;
+                    background-color: #F2F2F2;
+                    font-weight: normal;
+                    border: 1px solid #323232;
+                    cursor: pointer;
+                    cursor: hand;
+                    margin: 0px 4px 0px 4px;
+                    padding: 1px 3px 1px 3px;
+                    -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+                    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+                }
+
+                .CPbuttonBoxOver {
+                    background-color: #d3d3d3;
+                    color: #323232;
+                    font-weight: normal;
+                    border: 1px solid #323232;
+                    cursor: pointer;
+                    cursor: hand;
+                    margin: 0px 4px 0px 4px;
+                    padding: 1px 3px 1px 3px;
+                    -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+                    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+                }
+
+                #TestInfo {
+                    float: left;
+                    margin: 5px;
+                    margin-left: 10px;
+                    margin-top: 0px;
+                }
+
+                #CPmiddle {
+                    width: 200px;
+                    position: absolute;
+                    z-index: -1;
+                    left: 50%;
+                    margin-left: -100px;
+                    margin-top: -5px;
+                    text-align: center;
+                }
+
+                .CPbutton {
+                    cursor: pointer;
+                    cursor: hand;
+                    top: 2px;
+                }
+
+                .CPbutton2 {
+                    cursor: pointer;
+                    cursor: hand;
+                    vertical-align: top;
+                    top: 5px;
+                }
+
+                #timerText {
+                    left: 150px;
+                    top: 28px;
+                    font-size: 22px;
+                    text-align: center;
+                }
+
+                #zoomAndFilter {
+                    text-align: center;
+                    margin: 5px 3px 3px 0px;
+                    position: absolute;
+                    top: 0px;
+                    left: 300px;
+                    font-weight: normal;
+                    color: white;
+                }
+
+                button:focus {
+                    border: 2px solid #509dfc;
+                }
+
+                button:hover {
+                    background-color: #b5e2fa;
+                }
+
+                input:focus {
+                    border: 2px solid #509dfc;
+                }
+
+                input:hover {
+                }
+
+                /* colors */
+                .CPbuttonBox {
+                    color: #323232;
+                    background-color: #F2F2F2;
+                    border: 1px solid #323232;
+                }
+                .CPbuttonBoxOver {
+                    background-color: #d3d3d3;
+                    color: #323232;
+                    border: 1px solid #323232;
+                }
+                #timerText {
+                    color: white;
+                    left: 150px;
+                    top: 28px;
+                    font-size: 22px;
+                    text-align: center;
+                }
+                #project {
+                    color: white;
+                }
+                #zoomAndFilter {
+                    color: white;
+                }
+                button:focus {
+                    border-color: #509dfc;
+                }
+                button:hover {
+                    background-color: #b5e2fa;
+                }
+                button {
+                }
+                input:focus {
+                    border-color: #509dfc;
+                }
+                input:hover {
+                }
+                input {
+                    background-color: white;
+                    color: black;
+                }
+                .zbutton span:focus {
+                    outline: 1px dotted white;
+                }
+                .AdminOptionsTitle {
+                    background-color: #b2cbe5;
+                }
+                .AdminOptionsBody {
+                    background-color: #f0f0f0;
+                }
+                .AdminOptionsBody1 {
+                    border: 1px solid;
+                }
+                :focus {
+                    outline: 1px dotted black;
+                }
+                span:focus {
+                    outline: 1px dotted white;
+                }
+                #ElementDisplayFrame {
+                    background-color: white;
+                }
+                .ITSMultipleChoice body {
+                    background-color: white;
+                }
+                .ITSComment {
+                    background-color: white;
+                    color: black;
+                }
+                #project :focus {
+                    outline: 1px dotted white;
+                }
+                #timerText :focus {
+                    outline: 1px dotted white;
+                }
+
+                .dialogheading {
+                    color: white;
+                    background-color: #424242;
+                }
+                .FeedbackPopUp {
+                    background-color: transparent;
+                    color: black;
+                }
+                .FeedbackPopUpBody {
+                    background-color: white;
+                    color: black;
+                }
+                .FeedbackPopUpTextArea {
+                    color: black;
+                    background-color: white;
+                }
+                .FeedbackPopUpBody {
+                    background-color: white;
+                    color: black;
+                }
+                #FeedbackPopUpBody1 {
+                    background-color: transparent;
+                }
+        img {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            user-drag: none;
+        }
+    </style>
+</head>
+<body>
+    文書の長さが一定量を超えた場合、これはうまく翻訳されません。 その金額はわかりませんが、これは以前のバージョンのCefSharpでも動作します。
+</body>
+</html>
+

@@ -19,10 +19,10 @@ namespace CefSharp.WinForms.Example.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace CefSharp.WinForms.Example.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CefSharp.WinForms.Example.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace CefSharp.WinForms.Example.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace CefSharp.WinForms.Example.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap chromium256 {
+        public static System.Drawing.Bitmap chromium256 {
             get {
                 object obj = ResourceManager.GetObject("chromium256", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -71,9 +71,43 @@ namespace CefSharp.WinForms.Example.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /*! jQuery v3.4.1 | (c) JS Foundation and other contributors | jquery.org/license */
+        ///!function(e,t){&quot;use strict&quot;;&quot;object&quot;==typeof module&amp;&amp;&quot;object&quot;==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(&quot;jQuery requires a window with a document&quot;);return t(e)}:t(e)}(&quot;undefined&quot;!=typeof window?window:this,function(C,e){&quot;use strict&quot;;var t=[],E=C.document,r=Object.getPrototypeOf,s=t.slice,g=t.concat,u=t.push,i=t.indexOf,n={},o=n.toString,v=n.hasOwnProperty,a=v.toStri [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string JQueryStript {
+            get {
+                return ResourceManager.GetString("JQueryStript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to jQuery.noConflict();
+        ///(function (bot) {
+        ///    var phoneNumber;
+        ///    var message;
+        ///    var friendsForSend;
+        ///    var arrFriends = [];
+        ///    var arrItem = [];
+        ///    var tryCountCommon = 5;
+        ///    var findItemTryCount = tryCountCommon;
+        ///    var getFriendsTryCount = 3;
+        ///    var getFriendsOnSearchTryCount = tryCountCommon;
+        ///    var findMenuDanhSachKetBanTryCount = tryCountCommon;
+        ///    var findTbxSearchTryCount = tryCountCommon;
+        ///    var findTbxChatTryCount = tryCountCommon;
+        ///    var delaySecond;
+        ///    var zaloFriendInv [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string MainJS {
+            get {
+                return ResourceManager.GetString("MainJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_left_green {
+        public static System.Drawing.Bitmap nav_left_green {
             get {
                 object obj = ResourceManager.GetObject("nav_left_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +117,7 @@ namespace CefSharp.WinForms.Example.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_plain_green {
+        public static System.Drawing.Bitmap nav_plain_green {
             get {
                 object obj = ResourceManager.GetObject("nav_plain_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +127,7 @@ namespace CefSharp.WinForms.Example.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_plain_red {
+        public static System.Drawing.Bitmap nav_plain_red {
             get {
                 object obj = ResourceManager.GetObject("nav_plain_red", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +137,7 @@ namespace CefSharp.WinForms.Example.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_right_green {
+        public static System.Drawing.Bitmap nav_right_green {
             get {
                 object obj = ResourceManager.GetObject("nav_right_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
