@@ -30,7 +30,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Share\Share.csproj" />
+        <ProjectReference Include="..\..\Share\Share.csproj" />
         <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj" />
         <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj" />
