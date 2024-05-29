@@ -954,13 +954,9 @@ namespace CefSharp.Wpf
         /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
         /// </summary>
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
-        List<DragOperationsMask> pretransformEffectsRaised = new List<DragOperationsMask>();
-        List<DragDropEffects> effectsRaised = new List<DragDropEffects>();
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
             currentDragDropEffects = operation.GetDragEffects();
-            pretransformEffectsRaised.Add(operation);
-            effectsRaised.Add(currentDragDropEffects.Value);
         }
 
         /// <inheritdoc />
