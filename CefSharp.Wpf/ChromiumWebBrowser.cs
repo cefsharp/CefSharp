@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -133,7 +134,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Keep the current drag&amp;drop effects to return the appropriate effects on drag over.
         /// </summary>
-        private DragDropEffects currentDragDropEffects;
+        private DragDropEffects? currentDragDropEffects;
         /// <summary>
         /// A flag that indicates whether or not the designer is active
         /// NOTE: Needs to be static for OnApplicationExit
@@ -921,13 +922,21 @@ namespace CefSharp.Wpf
                 {
                     //DoDragDrop will fire DragEnter event
                     var result = DragDrop.DoDragDrop(this, dataObject, allowedOps.GetDragEffects());
+                    var dragEffects = currentDragDropEffects.HasValue ? currentDragDropEffects.Value : DragDropEffects.None;
+
+                    // Ensure the drag and drop operation wasn't cancelled
+                    var finalEffectMask = dragEffects.GetDragOperationsMask() & result.GetDragOperationsMask();
+
+                    // We shouldn't have an instance where finalEffectMask signfies multiple effects, as the operation
+                    // set by UpdateDragCursor should only ever be none, move, copy, or link. However, if it does, we'll
+                    // just default to copy, as that reflects the defaulting behavior of GetDragEffects.
+                    var finalSingleEffect = finalEffectMask.HasFlag(DragOperationsMask.Every) ? DragOperationsMask.Copy : finalEffectMask;
 
                     //DragData was stored so when DoDragDrop fires DragEnter we reuse a clone of the IDragData provided here
                     currentDragData = null;
+                    currentDragDropEffects = null;
 
-                    //If result == DragDropEffects.None then we'll send DragOperationsMask.None
-                    //effectively cancelling the drag operation
-                    browser.GetHost().DragSourceEndedAt(x, y, result.GetDragOperationsMask());
+                    browser.GetHost().DragSourceEndedAt(x, y, finalSingleEffect);
                     browser.GetHost().DragSourceSystemDragEnded();
                 }
             });
@@ -945,9 +954,13 @@ namespace CefSharp.Wpf
         /// Called when the web view wants to update the mouse cursor during a drag &amp; drop operation.
         /// </summary>
         /// <param name="operation">describes the allowed operation (none, move, copy, link). </param>
+        List<DragOperationsMask> pretransformEffectsRaised = new List<DragOperationsMask>();
+        List<DragDropEffects> effectsRaised = new List<DragDropEffects>();
         protected virtual void UpdateDragCursor(DragOperationsMask operation)
         {
             currentDragDropEffects = operation.GetDragEffects();
+            pretransformEffectsRaised.Add(operation);
+            effectsRaised.Add(currentDragDropEffects.Value);
         }
 
         /// <inheritdoc />
@@ -1683,7 +1696,6 @@ namespace CefSharp.Wpf
             {
                 var mouseEvent = GetMouseEvent(e);
                 var effect = e.AllowedEffects.GetDragOperationsMask();
-
                 browser.GetHost().DragTargetDragOver(mouseEvent, effect);
                 browser.GetHost().DragTargetDragDrop(mouseEvent);
             }
@@ -1713,7 +1725,7 @@ namespace CefSharp.Wpf
             {
                 browser.GetHost().DragTargetDragOver(GetMouseEvent(e), e.AllowedEffects.GetDragOperationsMask());
             }
-            e.Effects = currentDragDropEffects;
+            e.Effects = currentDragDropEffects.HasValue ? currentDragDropEffects.Value : DragDropEffects.None;
             e.Handled = true;
         }
 
@@ -1731,6 +1743,7 @@ namespace CefSharp.Wpf
 
                 //DoDragDrop will fire this handler for internally sourced Drag/Drop operations
                 //we use the existing IDragData (cloned copy)
+
                 var dragData = currentDragData ?? e.GetDragData();
 
                 browser.GetHost().DragTargetDragEnter(dragData, mouseEvent, effect);
@@ -2323,7 +2336,7 @@ namespace CefSharp.Wpf
                     deltaX: isShiftKeyDown ? e.Delta : 0,
                     deltaY: !isShiftKeyDown ? e.Delta : 0,
                     modifiers: modifiers);
-                
+
                 e.Handled = true;
             }
 
@@ -2469,7 +2482,7 @@ namespace CefSharp.Wpf
                     {
                         clickCount = 1;
                     }
-                    
+
                     MousePositionTransform.TransformMousePoint(ref point);
                     browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, clickCount, modifiers);
                 }
