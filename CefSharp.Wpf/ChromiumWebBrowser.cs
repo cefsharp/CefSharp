@@ -920,7 +920,7 @@ namespace CefSharp.Wpf
             {
                 if (browser != null)
                 {
-                    //DoDragDrop will fire DragEnter event
+                    // DoDragDrop will fire DragEnter event
                     var result = DragDrop.DoDragDrop(this, dataObject, allowedOps.GetDragEffects());
                     var dragEffects = currentDragDropEffects.HasValue ? currentDragDropEffects.Value : DragDropEffects.None;
 
@@ -932,10 +932,12 @@ namespace CefSharp.Wpf
                     // just default to copy, as that reflects the defaulting behavior of GetDragEffects.
                     var finalSingleEffect = finalEffectMask.HasFlag(DragOperationsMask.Every) ? DragOperationsMask.Copy : finalEffectMask;
 
-                    //DragData was stored so when DoDragDrop fires DragEnter we reuse a clone of the IDragData provided here
+                    // DragData was stored so when DoDragDrop fires DragEnter we reuse a clone of the IDragData provided here
                     currentDragData = null;
                     currentDragDropEffects = null;
 
+                    // If result or the last recorded drag drop effect were DragDropEffects.None
+                    // then we'll send DragOperationsMask.None, effectively cancelling the drag operation
                     browser.GetHost().DragSourceEndedAt(x, y, finalSingleEffect);
                     browser.GetHost().DragSourceSystemDragEnded();
                 }
