@@ -113,7 +113,7 @@ jQuery.noConflict();
         if (_delaySecond !== -1) {
             delaySecond = _delaySecond;
         }
-        
+
         if (bot.isInLoginPage()) {
             botgui.sendMessageComplete("chưa login");
         } else {
@@ -147,8 +147,7 @@ jQuery.noConflict();
 
         var friend = arrFriends.shift();
 
-        var isMustSend = friendsForSend.filter(name =>
-        {
+        var isMustSend = friendsForSend.filter(name => {
             var replaceWhat = "%27";
             var newName = name.replace(replaceWhat, "'", "g");
 
@@ -186,7 +185,7 @@ jQuery.noConflict();
                 });
             }
         });
-        
+
         if (arrItem.length > 0) {
             bot.sendMessageForOne();
         } else if (getFriendsOnSearchTryCount > 0) {
@@ -272,9 +271,9 @@ jQuery.noConflict();
         })();
     };
 
-/*- end send message -*/
+    /*- end send message -*/
 
-/*- start send message to phone numbers -*/
+    /*- start send message to phone numbers -*/
 
     bot.sendMessageToPhoneNumber = function (msg, _friendsForSend, _delaySecond) {
 
@@ -441,9 +440,9 @@ jQuery.noConflict();
         })();
     };
 
-/*- end send message to phone numbers -*/
+    /*- end send message to phone numbers -*/
 
-/*- start send invite -*/
+    /*- start send invite -*/
 
     bot.sendInvite = function (msg, _friendsForSend, _delaySecond) {
 
@@ -621,9 +620,9 @@ jQuery.noConflict();
         })();
     };
 
-/*- end send invite -*/
+    /*- end send invite -*/
 
-/*- start get friends for accept friend -*/
+    /*- start get friends for accept friend -*/
 
     bot.getFriendsForAcceptFriends = function () {
         botgui.log("start get friends for accept friends");
@@ -733,12 +732,12 @@ jQuery.noConflict();
         }, 4000);
     };
 
-/*- end get friends for accept friend -*/
+    /*- end get friends for accept friend -*/
 
-/*- start accept friend -*/
+    /*- start accept friend -*/
 
     bot.acceptFriends = function (_friendsForSend) {
-        
+
         if (typeof botgui === "undefined") {
             setTimeout(function () {
                 (async function () {
@@ -813,7 +812,7 @@ jQuery.noConflict();
                 bot.simulateMouseClick(span.get(0));
             }
         });
-        
+
         var doAccept = function () {
             divOutter.find(".friend-center-item").each(function () {
                 var item = jQuery(this);
@@ -888,9 +887,9 @@ jQuery.noConflict();
         }, 1000);
     };
 
-/*- end accept friend -*/
+    /*- end accept friend -*/
 
-/*- start get contacts -*/
+    /*- start get contacts -*/
 
     bot.getFriends = function () {
 
@@ -935,60 +934,80 @@ jQuery.noConflict();
      * đến hết danh sách
      */
     bot.doGetFriends = function (callback) {
-        var divOutter = jQuery(".ReactVirtualized__Grid.ReactVirtualized__List.contact-tab-v2__list-custom .ReactVirtualized__Grid__innerScrollContainer");
-        divOutter.scroll(function () {
+        var scrollableContainer;
+        var listWrapper;
+        var scrollStep = 500;
+        var scrollIntervalTime = 0.005; // seconds
+        var stopAction = false;
 
-            divOutter.children().filter(function () {
-                return !jQuery(this).hasClass('card-list-title');
-            }).each(function () {
+        // Lấy tab liên hệ và nhấp vào nếu tồn tại
+        var tabContact = jQuery(".clickable.leftbar-tab").filter(function () {
+            return jQuery(this).data("translate-title") === "STR_TAB_CONTACT";
+        });
+
+        if (tabContact.length > 0) {
+            tabContact.click();
+            console.log("tabContact.click() OK");
+        } else {
+            console.log("tabContact.click() Failed");
+        }
+
+        // Hàm lấy danh sách bạn bè
+        var getWrapper = function () {
+            scrollableContainer = jQuery(".ReactVirtualized__Grid.ReactVirtualized__List.contact-tab-v2__list-custom").parent();
+            scrollableContainer.scrollTop(100);
+            listWrapper = scrollableContainer.find(".ReactVirtualized__Grid__innerScrollContainer");
+            console.log(listWrapper);
+        };
+
+        // Hàm trích xuất bạn bè từ danh sách
+        var extractFriendFromList = function () {
+            if (!listWrapper) {
+                console.log("listWrapper == null");
+                return;
+            }
+
+            var siblingDivs = listWrapper.children().not('.card-list-title');
+            siblingDivs.children('.contact-item-v2-wrapper').each(function () {
                 var item = jQuery(this);
                 var name = item.find(".friend-info .name-wrapper .name").text();
                 var image = item.find(".friend-info .zavatar-container img").attr('src');
-                if (name != undefined && name != "" && image != undefined && image != "") {
-                    console.log(image);
+
+                if (name && image) {
                     var key = image.substring(image.lastIndexOf('/') + 1).replace('.jpg', '');
-                    var arr = arrFriends.filter(i => i.key === key);
-                    if (arr.length === 0) {
-                        arrFriends.push({
-                            name: name,
-                            image: image,
-                            key: key
-                        });
+                    if (!arrFriends.some(function (i) { return i.key === key; })) {
+                        arrFriends.push({ name: name, image: image, key: key });
+                        console.log("push " + name);
                     }
                 }
-
             });
-        });
+        };
 
-        divOutter.animate({ scrollTop: divOutter.prop("scrollHeight") }, 2000);
-        var timer1 = null;
-        var timer2 = null;
-        timer1 = setInterval(function () {
-            divOutter.animate({ scrollTop: divOutter.prop("scrollHeight") }, 2000);
-        }, 4000);
+        // Khởi động việc lấy wrapper và thiết lập scroll event
+        setTimeout(function () {
+            getWrapper();
 
-        var friendsCount = 0;
-        var countDown = 1;
-        timer2 = setInterval(function () {
-            if (friendsCount !== arrFriends.length) {
-                friendsCount = arrFriends.length;
-            } else {
-                if (countDown <= 0) {
-                    clearInterval(timer1);
-                    clearInterval(timer2);
+            var scrollPosition = 0;
+            var intervalJob = setInterval(function () {
+                console.log("%c Start intervalJob", 'background: #222; color: #bada55');
 
-                    arrFriends = arrFriends.filter(i => i.name.indexOf("Truyền File") < 0);
-                    arrFriends = arrFriends.filter(i => i.name.indexOf("Zalo Hỗ Trợ PC") < 0);
-                    arrFriends = arrFriends.filter(i => i.image.indexOf("16782d311b12da6d28daa13e343986b8") < 0);
-                    callback();
+                var lastObj = jQuery(".contact-item-v2-wrapper.last");
+
+                extractFriendFromList();
+                if (lastObj.length <= 0) {
+                    scrollPosition += scrollStep;
+                    scrollableContainer.scrollTop(scrollPosition);
+
                 } else {
-                    countDown -= 1;
+                    clearInterval(intervalJob);
+                    callback();
+                    console.log("%c Stop intervalJob ", 'background: #222; color: #bada55');
+                    console.log("%c Number " + arrFriends.length, 'background: #222; color: #bada55');
                 }
-            }
-        }, 4000);
+            }, scrollIntervalTime * 1000);
+        }, 100);
     };
-
-/*- end get contacts -*/
+    /*- end get contacts -*/
 
     bot.buildMessageHtml = function (friendName) {
         var html = "";
