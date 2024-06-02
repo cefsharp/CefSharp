@@ -936,7 +936,7 @@ jQuery.noConflict();
     bot.doGetFriends = function (callback) {
         var scrollableContainer;
         var listWrapper;
-        var scrollStep = 500;
+        var scrollStep = 500; //step
         var scrollIntervalTime = 0.005; // seconds
         var stopAction = false;
 
