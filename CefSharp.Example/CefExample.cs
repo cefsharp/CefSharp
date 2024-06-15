@@ -161,10 +161,6 @@ namespace CefSharp.Example
 
             //settings.LogSeverity = LogSeverity.Verbose;
 
-            //Experimental setting see https://github.com/chromiumembedded/cef/issues/2969
-            //for details
-            //settings.ChromeRuntime = true;
-
             if (DebuggingSubProcess)
             {
                 var architecture = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();

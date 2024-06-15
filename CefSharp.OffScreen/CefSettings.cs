@@ -16,6 +16,7 @@ namespace CefSharp.OffScreen
         public CefSettings() : base()
         {
             WindowlessRenderingEnabled = true;
+            ChromeRuntime = true;
 
             //For OffScreen it doesn't make much sense to enable audio by default, so we disable it.
             //this can be removed in user code if required

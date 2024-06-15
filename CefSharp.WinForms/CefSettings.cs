@@ -10,5 +10,12 @@ namespace CefSharp.WinForms
     /// </summary>
     public class CefSettings : CefSettingsBase
     {
+        /// <summary>
+        /// Intialize with default values
+        /// </summary>
+        public CefSettings() : base()
+        {
+            ChromeRuntime = true;
+        }
     }
 }
