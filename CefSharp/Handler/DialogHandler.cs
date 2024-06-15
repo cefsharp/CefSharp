@@ -18,10 +18,12 @@ namespace CefSharp.Handler
             CefFileDialogMode mode,
             string title,
             string defaultFilePath,
-            List<string> acceptFilters,
+            IReadOnlyCollection<string> acceptFilters,
+            IReadOnlyCollection<string> acceptExtensions,
+            IReadOnlyCollection<string> acceptDescriptions,
             IFileDialogCallback callback)
         {
-            return OnFileDialog(chromiumWebBrowser, browser, mode, title, defaultFilePath, acceptFilters, callback);
+            return OnFileDialog(chromiumWebBrowser, browser, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, callback);
         }
 
         /// <summary>
@@ -46,6 +48,12 @@ namespace CefSharp.Handler
         /// (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"),
         /// (b) individual file extensions (e.g. ".txt" or ".png"),
         /// (c) combined description and file extension delimited using "|" and ";" (e.g. "Image Types|.png;.gif;.jpg").</param>
+        /// <param name="acceptExtensions">provides the semicolon-delimited expansion of MIME
+        /// types to file extensions (if known, or empty string otherwise).</param>
+        /// <param name="acceptDescriptions">
+        /// Provides the descriptions for MIME types (if known, or empty string otherwise).
+        /// For example, the 'image/*' mime type might have extensions ".png;.jpg;.bmp;..." and description 'Image Files'
+        /// </param>
         /// <param name="callback">Callback interface for asynchronous continuation of file dialog requests.</param>
         /// <returns>To display a custom dialog return true. To display the default dialog return false.</returns>
         protected virtual bool OnFileDialog(
@@ -54,7 +62,9 @@ namespace CefSharp.Handler
             CefFileDialogMode mode,
             string title,
             string defaultFilePath,
-            List<string> acceptFilters,
+            IReadOnlyCollection<string> acceptFilters,
+            IReadOnlyCollection<string> acceptExtensions,
+            IReadOnlyCollection<string> acceptDescriptions,
             IFileDialogCallback callback)
         {
             return false;
