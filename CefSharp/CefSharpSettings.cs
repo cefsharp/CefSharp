@@ -81,5 +81,19 @@ namespace CefSharp
         /// false.
         /// </summary>
         public static bool FocusedNodeChangedEnabled { get; set; }
+
+        /// <summary>
+        /// CefSharp.WinForms and CefSharp.Wpf.HwndHost ONLY!
+        /// The default is to create <see cref="CefRuntimeStyle.Alloy"/>
+        /// styled browsers, those wanting to use <see cref="CefRuntimeStyle.Chrome"/>
+        /// styled browsers can set this property.
+        /// </summary>
+        /// <remarks>
+        /// Sets the <see cref="IWindowInfo.RuntimeStyle"/> property.
+        /// You can customise this yourself on a per browser basis
+        /// by overriding the ChromiumWebBrowser.CreateBrowserWindowInfo
+        /// property.
+        /// </remarks>
+        public static CefRuntimeStyle? RuntimeStyle { get; set; }
     }
 }
