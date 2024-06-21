@@ -22,6 +22,11 @@ namespace CefSharp.Wpf
             //With OSR rendering it's fairly common for this to improve scrolling performace
             //https://peter.sh/experiments/chromium-command-line-switches/#disable-threaded-scrolling
             //CefCommandLineArgs.Add("disable-threaded-scrolling");
+
+            // CEF doesn't call GetAuthCredentials unless
+            // the Chrome login prompt is disabled
+            // https://github.com/chromiumembedded/cef/issues/3603 
+            CefCommandLineArgs.Add("disable-chrome-login-prompt");
         }
     }
 }

@@ -21,6 +21,11 @@ namespace CefSharp.OffScreen
             //For OffScreen it doesn't make much sense to enable audio by default, so we disable it.
             //this can be removed in user code if required
             CefCommandLineArgs.Add("mute-audio");
+
+            // CEF doesn't call GetAuthCredentials unless
+            // the Chrome login prompt is disabled
+            // https://github.com/chromiumembedded/cef/issues/3603 
+            CefCommandLineArgs.Add("disable-chrome-login-prompt");
         }
 
         /// <summary>
