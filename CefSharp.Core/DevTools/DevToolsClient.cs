@@ -97,7 +97,7 @@ namespace CefSharp.DevTools
             {
                 var p = ((EventProxy<T>)eventProxy);
 
-                if(p.RemoveHandler(eventHandler))
+                if (p.RemoveHandler(eventHandler))
                 {
                     return !eventHandlers.TryRemove(eventName, out _);
                 }
@@ -218,7 +218,7 @@ namespace CefSharp.DevTools
                 var events = eventHandlers.Values;
                 eventHandlers.Clear();
 
-                foreach(var evt in events)
+                foreach (var evt in events)
                 {
                     evt.Dispose();
                 }
@@ -257,13 +257,13 @@ namespace CefSharp.DevTools
                     eventProxy.Raise(this, method, parameters, SyncContext);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var errorEvent = DevToolsEventError;
 
                 var json = "";
 
-                if(parameters.Length > 0)
+                if (parameters.Length > 0)
                 {
                     parameters.Position = 0;
 
@@ -271,7 +271,7 @@ namespace CefSharp.DevTools
                     {
                         json = StreamToString(parameters, leaveOpen: false);
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         //TODO: do we somehow pass this exception to the user?
                     }
@@ -338,7 +338,7 @@ namespace CefSharp.DevTools
         /// <param name="eventName">event Name</param>
         /// <param name="stream">JSON stream</param>
         /// <returns>object of type <typeparamref name="T"/></returns>
-        private static T DeserializeJsonEvent<T>(string eventName, Stream stream)  where T : EventArgs
+        private static T DeserializeJsonEvent<T>(string eventName, Stream stream) where T : EventArgs
         {
             if (typeof(T) == typeof(EventArgs))
             {
@@ -369,6 +369,20 @@ namespace CefSharp.DevTools
             return (T)DeserializeJson(typeof(T), stream);
         }
 
+#if NETCOREAPP
+        private static readonly System.Text.Json.JsonSerializerOptions DefaultJsonSerializerOptions = new System.Text.Json.JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            IgnoreNullValues = true,
+            Converters = { new CefSharp.Internals.Json.JsonEnumConverterFactory() },
+        };
+#else
+        private static readonly System.Runtime.Serialization.Json.DataContractJsonSerializerSettings DefaultJsonSerializerSettings = new System.Runtime.Serialization.Json.DataContractJsonSerializerSettings
+        {
+            UseSimpleDictionaryFormat = true,
+        };
+#endif
+
         /// <summary>
         /// Deserialize the JSON stream into a .Net object.
         /// For .Net Core/.Net 5.0 uses System.Text.Json
@@ -380,24 +394,13 @@ namespace CefSharp.DevTools
         private static object DeserializeJson(Type type, Stream stream)
         {
 #if NETCOREAPP
-            var options = new System.Text.Json.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                IgnoreNullValues = true,
-            };
-
-            options.Converters.Add(new CefSharp.Internals.Json.JsonEnumConverterFactory());
-
             // TODO: use synchronus Deserialize<T>(Stream) when System.Text.Json gets updated
             var memoryStream = new MemoryStream((int)stream.Length);
             stream.CopyTo(memoryStream);
 
-            return System.Text.Json.JsonSerializer.Deserialize(memoryStream.ToArray(), type, options);
+            return System.Text.Json.JsonSerializer.Deserialize(memoryStream.ToArray(), type, DefaultJsonSerializerOptions);
 #else
-            var settings = new System.Runtime.Serialization.Json.DataContractJsonSerializerSettings();
-            settings.UseSimpleDictionaryFormat = true;
-
-            var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(type, settings);
+            var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(type, DefaultJsonSerializerSettings);
             return dcs.ReadObject(stream);
 #endif
         }
