@@ -26,7 +26,7 @@ namespace CefSharp
         //   300-399 HTTP errors
         //   400-499 Cache errors
         //   500-599 ?
-        //   600-699 FTP errors
+        //   600-699 <Obsolete: FTP errors>
         //   700-799 Certificate manager errors
         //   800-899 DNS resolver errors
 
@@ -194,6 +194,12 @@ namespace CefSharp
         /// The request was blocked by CORB or ORB.
         /// </summary>
         BlockedByOrb = -32,
+
+        /// <summary>
+        /// The request was blocked because it originated from a frame that has disabled
+        /// network access.
+        /// </summary>
+        NetworkAccessRevoked = -33,
 
         /// <summary>
         /// A connection was closed (corresponding to a TCP FIN).
@@ -404,7 +410,7 @@ namespace CefSharp
         /// received a 302 (temporary redirect) response.  The response body might
         /// include a description of why the request failed.
         ///
-        /// TODO(https://crbug.com/928551): This is deprecated and should not be used by
+        /// TODO(crbug.com/40093955): This is deprecated and should not be used by
         /// new code.
         /// </summary>
         HttpsProxyTunnelResponseRedirect = -140,
@@ -1184,7 +1190,29 @@ namespace CefSharp
         /// The IP address space of the cached remote endpoint is blocked by private
         /// network access check.
         /// </summary>
-        CachedIpAddressSpaceBlockedByLocalNetworkAccessPolicy = -384,
+        CachedIpAddressSpaceBlockedByPrivateNetworkAccessPolicy = -384,
+
+        /// <summary>
+        /// The connection is blocked by private network access checks.
+        /// </summary>
+        BlockedByPrivateNetworkAccessChecks = -385,
+
+        /// <summary>
+        /// Content decoding failed due to the zstd window size being too big (over 8MB).
+        /// </summary>
+        ZstdWindowSizeTooBig = -386,
+
+        /// <summary>
+        /// The compression dictionary cannot be loaded.
+        /// </summary>
+        DictionaryLoadFailed = -387,
+
+        /// <summary>
+        /// The "content-dictionary" response header is unexpected. This is used both
+        /// when there is no "content-dictionary" response header and when the received
+        /// "content-dictionary" response header does not match the expected value.
+        /// </summary>
+        UnexpectedContentDictionaryHeader = -388,
 
         /// <summary>
         /// The cache does not have the requested entry.
@@ -1309,51 +1337,13 @@ namespace CefSharp
         TrustTokenOperationSuccessWithoutSendingRequest = -507,
 
         // *** Code -600 is reserved (was FTP_PASV_COMMAND_FAILED). ***
-
-        /// <summary>
-        /// A generic error for failed FTP control connection command.
-        /// If possible, please use or add a more specific error code.
-        /// </summary>
-        FtpFailed = -601,
-
-        /// <summary>
-        /// The server cannot fulfill the request at this point. This is a temporary
-        /// error.
-        /// FTP response code 421.
-        /// </summary>
-        FtpServiceUnavailable = -602,
-
-        /// <summary>
-        /// The server has aborted the transfer.
-        /// FTP response code 426.
-        /// </summary>
-        FtpTransferAborted = -603,
-
-        /// <summary>
-        /// The file is busy, or some other temporary error condition on opening
-        /// the file.
-        /// FTP response code 450.
-        /// </summary>
-        FtpFileBusy = -604,
-
-        /// <summary>
-        /// Server rejected our command because of syntax errors.
-        /// FTP response codes 500, 501.
-        /// </summary>
-        FtpSyntaxError = -605,
-
-        /// <summary>
-        /// Server does not support the command we issued.
-        /// FTP response codes 502, 504.
-        /// </summary>
-        FtpCommandNotSupported = -606,
-
-        /// <summary>
-        /// Server rejected our command because we didn't issue the commands in right
-        /// order.
-        /// FTP response code 503.
-        /// </summary>
-        FtpBadCommandSequence = -607,
+        // *** Code -601 is reserved (was FTP_FAILED). ***
+        // *** Code -602 is reserved (was FTP_SERVICE_UNAVAILABLE). ***
+        // *** Code -603 is reserved (was FTP_TRANSFER_ABORTED). ***
+        // *** Code -604 is reserved (was FTP_FILE_BUSY). ***
+        // *** Code -605 is reserved (was FTP_SYNTAX_ERROR). ***
+        // *** Code -606 is reserved (was FTP_COMMAND_NOT_SUPPORTED). ***
+        // *** Code -607 is reserved (was FTP_BAD_COMMAND_SEQUENCE). ***
 
         /// <summary>
         /// PKCS #12 import failed due to incorrect password.
@@ -1504,9 +1494,13 @@ namespace CefSharp
         /// </summary>
         DnsNoMatchingSupportedAlpn = -811,
 
+        // Error -812 was removed
+        // Error -813 was removed
+
         /// <summary>
-        /// The compression dictionary cannot be loaded.
+        /// When checking whether secure DNS can be used, the response returned for the
+        /// requested probe record either had no answer or was invalid.
         /// </summary>
-        DictionaryLoadFailed = -812,
+        DnsSecureProbeRecordInvalid = -814,
     };
 }
