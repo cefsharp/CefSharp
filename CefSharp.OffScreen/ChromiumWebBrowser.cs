@@ -224,15 +224,7 @@ namespace CefSharp.OffScreen
             IRequestContext requestContext = null, bool automaticallyCreateBrowser = true,
             Action<IBrowser> onAfterBrowserCreated = null, bool useLegacyRenderHandler = true)
         {
-            if (!Cef.IsInitialized)
-            {
-                var settings = new CefSettings();
-
-                if (!Cef.Initialize(settings))
-                {
-                    throw new InvalidOperationException(CefInitializeFailedErrorMessage);
-                }
-            }
+            InitializeCefInternal();
 
             RequestContext = requestContext;
 
