@@ -120,7 +120,7 @@ body:
     attributes:
       value: |
         To help determine where the problem needs to be fixed please download and test using the `CEF Sample Application(cefclient)`.
-          1. Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_122.1.12%2Bg6e69d20%2Bchromium-122.0.6261.112_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_122.1.12%2Bg6e69d20%2Bchromium-122.0.6261.112_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_122.1.12%2Bg6e69d20%2Bchromium-122.0.6261.112_windowsarm64_client.tar.bz2).
+          1. Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_126.2.12%2Bg162c3d6%2Bchromium-126.0.6478.127_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_126.2.12%2Bg162c3d6%2Bchromium-126.0.6478.127_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_126.2.12%2Bg162c3d6%2Bchromium-126.0.6478.127_windowsarm64_client.tar.bz2).
           2. Extract tar.bz2 file
           3. Execute cefclient.exe using the **command line args below**:
           
