@@ -31,7 +31,7 @@ namespace CefSharp.Test
 
         private void CefInitialize()
         {
-            if (!Cef.IsInitialized)
+            if (Cef.IsInitialized == null)
             {
                 var isDefault = AppDomain.CurrentDomain.IsDefaultAppDomain();
                 if (!isDefault)
@@ -63,11 +63,16 @@ namespace CefSharp.Test
 
                 diagnosticMessageSink.OnMessage(new DiagnosticMessage("Cef Initialized:" + success));
             }
+
+            if (Cef.IsInitialized == false)
+            {
+                throw new InvalidOperationException("Cef.Initialize failed.");
+            }
         }
 
         private void CefShutdown()
         {
-            if (Cef.IsInitialized)
+            if (Cef.IsInitialized == true)
             {
                 diagnosticMessageSink.OnMessage(new DiagnosticMessage("Before Cef Shutdown"));
 

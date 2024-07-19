@@ -27,6 +27,7 @@ namespace CefSharp.WinForms
             "the IsBrowserInitialized property to determine when the browser has been initialized.";
 
         private const string CefInitializeFailedErrorMessage = "Cef.Initialize() failed.Check the log file see https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#log-file for details.";
+        private const string CefIsInitializedFalseErrorMessage = "Cef.IsInitialized was false!.Check the log file for errors!. See https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#log-file for details.";
 
         /// <summary>
         /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
@@ -504,6 +505,22 @@ namespace CefSharp.WinForms
             RenderProcessMessageHandler = null;
 
             this.FreeDevToolsContext();
+        }
+
+        private static void InitializeCefInternal()
+        {
+            if (Cef.IsInitialized == null)
+            {
+                if (!Cef.Initialize(new CefSettings()))
+                {
+                    throw new InvalidOperationException(CefInitializeFailedErrorMessage);
+                }
+            }
+
+            if (Cef.IsInitialized == false)
+            {
+                throw new InvalidOperationException(CefIsInitializedFalseErrorMessage);
+            }
         }
 
         /// <summary>

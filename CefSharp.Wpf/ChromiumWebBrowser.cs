@@ -552,16 +552,7 @@ namespace CefSharp.Wpf
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void NoInliningConstructor()
         {
-            //Initialize CEF if it hasn't already been initialized
-            if (!Cef.IsInitialized)
-            {
-                var settings = new CefSettings();
-
-                if (!Cef.Initialize(settings))
-                {
-                    throw new InvalidOperationException(CefInitializeFailedErrorMessage);
-                }
-            }
+            InitializeCefInternal();
 
             //Add this ChromiumWebBrowser instance to a list of IDisposable objects
             // that if still alive at the time Cef.Shutdown is called will be disposed of
