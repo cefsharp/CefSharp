@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CefSharp.Direct3D.Example": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
