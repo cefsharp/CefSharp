@@ -35,25 +35,33 @@ namespace CefSharp
             CefString _jsBindingPropertyNameCamelCase;
 
             // The serialized registered object data waiting to be used.
-            gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
+            gcroot<IJavaScriptObjectCache^> _javascriptObjectCache;
 
             gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
 
         public:
             static const CefString kPromiseCreatorScript;
 
-            CefAppUnmanagedWrapper(IRenderProcessHandler^ handler, List<CefCustomScheme^>^ schemes, bool enableFocusedNodeChanged, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestroyed) : SubProcessApp(schemes)
+            CefAppUnmanagedWrapper(IRenderProcessHandler^ handler, List<CefCustomScheme^>^ schemes, bool jsbCachePerBrowser, bool enableFocusedNodeChanged, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestroyed) : SubProcessApp(schemes)
             {
                 _handler = handler;
                 _onBrowserCreated = onBrowserCreated;
                 _onBrowserDestroyed = onBrowserDestroyed;
                 _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
                 _focusedNodeChangedEnabled = enableFocusedNodeChanged;
-                _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();
                 _registerBoundObjectRegistry = gcnew RegisterBoundObjectRegistry();
                 _legacyBindingEnabled = false;
                 _jsBindingPropertyName = "CefSharp";
                 _jsBindingPropertyNameCamelCase = "cefSharp";
+
+                if (jsbCachePerBrowser)
+                {
+                    _javascriptObjectCache = gcnew PerBrowserJavaScriptObjectCache();
+                }
+                else
+                {
+                    _javascriptObjectCache = gcnew LegacyJavaScriptObjectCache();
+                }
             }
 
             ~CefAppUnmanagedWrapper()
