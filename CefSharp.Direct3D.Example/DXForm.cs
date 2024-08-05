@@ -485,6 +485,12 @@ namespace DirectX
                 query = null;
             }
 
+            if (deviceMultithread != null)
+            {
+                deviceMultithread.Dispose();
+                deviceMultithread = null;
+            }
+
             foreach (ShaderResourceView srv in srv)
             {
                 if (srv != null)
@@ -523,6 +529,7 @@ namespace DirectX
         private new void Close()
         {
             DestroyDevice();
+            DestroyBrowser();
             base.Close();
         }
 
