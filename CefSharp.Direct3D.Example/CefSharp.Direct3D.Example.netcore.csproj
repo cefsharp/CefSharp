@@ -37,12 +37,21 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
         <PackageReference Include="chromiumembeddedframework.runtime" Version="126.2.18" />
         <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
         <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
         <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
         <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Don't include items from the "bin" and "obj" folders used by the .NET Framework projects. -->
+        <None Remove="bin/**/*.*" />
+        <None Remove="obj/**/*.*" />
+        <Compile Remove="obj/**/*.*" />
     </ItemGroup>
 
     <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.AfterBuild.targets" />
