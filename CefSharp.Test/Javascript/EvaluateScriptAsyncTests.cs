@@ -5,9 +5,12 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Bogus;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Repeat;
 
 namespace CefSharp.Test.Javascript
 {
@@ -251,6 +254,29 @@ namespace CefSharp.Test.Javascript
                 Assert.Equal(test, (string)javascriptResponse.Result);
                 output.WriteLine("{0} passes {1}", test, javascriptResponse.Result);
             }
+        }
+
+        [Theory]
+        [Repeat(20)]
+        public async Task CanEvaluateScriptAsyncReturnArrayBuffer(int iteration)
+        {
+            AssertInitialLoadComplete();
+
+            var randomizer = new Randomizer();
+
+            var expected = randomizer.Utf16String(minLength: iteration, maxLength:iteration);
+            var expectedBytes = Encoding.UTF8.GetBytes(expected);
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync($"new TextEncoder().encode('{expected}').buffer");
+
+            Assert.True(javascriptResponse.Success);
+            Assert.IsType<byte[]>(javascriptResponse.Result);
+
+            var actualBytes = (byte[])javascriptResponse.Result;
+
+            Assert.Equal(expectedBytes, actualBytes);
+
+            Assert.Equal(expected, Encoding.UTF8.GetString(actualBytes));
         }
 
         [Theory]

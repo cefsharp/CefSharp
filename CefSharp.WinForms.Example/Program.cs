@@ -41,7 +41,6 @@ namespace CefSharp.WinForms.Example
 
                 var settings = new CefSettings();
                 settings.BrowserSubprocessPath = System.IO.Path.GetFullPath("CefSharp.WinForms.Example.exe");
-                settings.ChromeRuntime = true;
 
                 Cef.Initialize(settings);
 
@@ -96,7 +95,6 @@ namespace CefSharp.WinForms.Example
                 var settings = new CefSettings();
                 settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
                 settings.ExternalMessagePump = externalMessagePump;
-                settings.ChromeRuntime = true;
 
                 CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
 

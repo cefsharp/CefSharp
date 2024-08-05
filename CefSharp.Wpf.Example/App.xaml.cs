@@ -41,7 +41,6 @@ namespace CefSharp.Wpf.Example
             var settings = new CefSettings();
             settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
             settings.ExternalMessagePump = !multiThreadedMessageLoop;
-            settings.ChromeRuntime = true;
 
             CefExample.Init(settings, browserProcessHandler: browserProcessHandler);
 

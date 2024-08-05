@@ -42,6 +42,17 @@ namespace CefSharp.OffScreen
         private bool browserCreated;
 
         /// <summary>
+        /// When an empty address is passed into the constructor, we defer browser creation
+        /// until we have a Url.
+        /// Issue https://github.com/cefsharp/CefSharp/issues/4832
+        /// </summary>
+        private bool createBrowserOnNextLoadUrlCall;
+        /// <summary>
+        /// BrowserSettings used by createBrowserOnNextLoadCall
+        /// </summary>
+        private IBrowserSettings browserSettings;
+
+        /// <summary>
         /// Action which is called immediately before the <see cref="BrowserInitialized"/> event after the
         /// uderlying Chromium Embedded Framework (CEF) browser has been created.
         /// </summary>
@@ -191,7 +202,10 @@ namespace CefSharp.OffScreen
         /// that you set <paramref name="automaticallyCreateBrowser"/> to false, subscribe to the event and then call <see cref="CreateBrowser(IWindowInfo, IBrowserSettings)"/>
         /// to ensure you are subscribe to the event before it's fired (Issue https://github.com/cefsharp/CefSharp/issues/3552).
         /// </summary>
-        /// <param name="address">Initial address (url) to load</param>
+        /// <param name="address">
+        /// Initial address (url) to load. If <see cref="string.Empty"/> then cretion of the browser
+        /// will be deferred until <see cref="LoadUrl(string)"/> is called with a non empty Url.
+        /// </param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
@@ -230,7 +244,15 @@ namespace CefSharp.OffScreen
 
             if (automaticallyCreateBrowser)
             {
-                CreateBrowser(null, browserSettings);
+                if (string.IsNullOrEmpty(address))
+                {
+                    createBrowserOnNextLoadUrlCall = true;
+                    this.browserSettings = browserSettings;
+                }
+                else
+                {
+                    CreateBrowser(null, browserSettings);
+                }
             }
 
             if (useLegacyRenderHandler)
@@ -673,6 +695,16 @@ namespace CefSharp.OffScreen
         {
             if (IsDisposed)
             {
+                return;
+            }
+
+            if (createBrowserOnNextLoadUrlCall)
+            {
+                createBrowserOnNextLoadUrlCall = false;
+                Address = url;
+                CreateBrowser(null, browserSettings);
+                browserSettings = null;
+
                 return;
             }
 

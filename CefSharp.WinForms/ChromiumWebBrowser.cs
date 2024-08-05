@@ -657,7 +657,7 @@ namespace CefSharp.WinForms
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
         {
             var windowInfo = Core.ObjectFactory.CreateWindowInfo();
-            windowInfo.RuntimeStyle = CefRuntimeStyle.Alloy;
+            windowInfo.RuntimeStyle = CefSharpSettings.RuntimeStyle ?? CefRuntimeStyle.Alloy;
             windowInfo.SetAsChild(handle);
 
             if (!ActivateBrowserOnCreation)

@@ -19,7 +19,8 @@ namespace CefSharp
             {
                 INT64,
                 CEFTIME,
-                JSCALLBACK
+                JSCALLBACK,
+                ARRAYBUFFER
             };
 
             template<typename TList, typename TIndex>
@@ -91,6 +92,39 @@ namespace CefSharp
             {
                 return IsType(PrimitiveType::CEFTIME, list, index);
             }
+
+            template<typename TList, typename TIndex>
+            void SetArrayBuffer(const CefRefPtr<TList>& list, TIndex index, const size_t& size, const void* value)
+            {
+                const auto src = static_cast<const uint8_t*>(value);
+
+                auto dest = new uint8_t[size + 1];
+                dest[0] = static_cast<uint8_t>(PrimitiveType::ARRAYBUFFER);
+                memcpy(&dest[1], src, size);
+
+                list->SetBinary(index, CefBinaryValue::Create(dest, size + 1));
+            }
+
+            template<typename TList, typename TIndex>
+            cli::array<Byte>^ GetArrayBuffer(const CefRefPtr<TList>& list, TIndex index)
+            {
+                auto binaryValue = list->GetBinary(index);
+                auto size = binaryValue->GetSize() - 1;
+
+                auto bufferByte = gcnew cli::array<Byte>(static_cast<int>(size));
+                pin_ptr<Byte> src = &bufferByte[0]; // pin pointer to first element in arr
+
+                binaryValue->GetData(static_cast<void*>(src), size, 1);
+
+                return bufferByte;
+            }
+
+            template<typename TList, typename TIndex>
+            bool IsArrayBuffer(const CefRefPtr<TList>& list, TIndex index)
+            {
+                return IsType(PrimitiveType::ARRAYBUFFER, list, index);
+            }
+
             template<typename TList, typename TIndex>
             void SetJsCallback(const CefRefPtr<TList>& list, TIndex index, JavascriptCallback^ value)
             {

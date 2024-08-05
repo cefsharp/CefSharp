@@ -143,16 +143,16 @@
       <Choose>
         <When Condition="'$(ManagePackageVersionsCentrally)' == 'true'">
           <ItemGroup>
-			<PackageReference Include="chromiumembeddedframework.runtime.win-x64" VersionOverride="125.0.8" />
-			<PackageReference Include="chromiumembeddedframework.runtime.win-x86" VersionOverride="125.0.8" />
-			<PackageReference Include="chromiumembeddedframework.runtime.win-arm64" VersionOverride="125.0.8" />
+			<PackageReference Include="chromiumembeddedframework.runtime.win-x64" VersionOverride="126.2.18" />
+			<PackageReference Include="chromiumembeddedframework.runtime.win-x86" VersionOverride="126.2.18" />
+			<PackageReference Include="chromiumembeddedframework.runtime.win-arm64" VersionOverride="126.2.18" />
           </ItemGroup>
         </When>
         <Otherwise>
           <ItemGroup>
-            <PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="125.0.8" />
-			<PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="125.0.8" />
-			<PackageReference Include="chromiumembeddedframework.runtime.win-arm64" Version="125.0.8" />
+            <PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="126.2.18" />
+			<PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="126.2.18" />
+			<PackageReference Include="chromiumembeddedframework.runtime.win-arm64" Version="126.2.18" />
           </ItemGroup>
         </Otherwise>
       </Choose>

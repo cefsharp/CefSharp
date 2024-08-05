@@ -44,6 +44,23 @@ namespace CefSharp.Test.OffScreen
             }
         }
 
+        [Fact]
+        public async Task ShouldWorkWhenPassingEmptyUrlToConstructor()
+        {
+            using (var browser = new ChromiumWebBrowser(string.Empty, useLegacyRenderHandler: false))
+            {
+                var response = await browser.LoadUrlAsync("www.google.com");
+                var mainFrame = browser.GetMainFrame();
+
+                Assert.True(response.Success);
+                Assert.True(mainFrame.IsValid);
+                Assert.Contains("www.google", mainFrame.Url);
+                Assert.Equal(200, response.HttpStatusCode);
+
+                output.WriteLine("Url {0}", mainFrame.Url);
+            }
+        }
+
         [Theory(Skip = "Not working with Chrome bootstrap")]
         [InlineData("http://httpbin.org/post")]
         public async Task ShouldWorkWhenLoadingRequestWithPostData(string url)
