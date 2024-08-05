@@ -23,7 +23,7 @@ using SharpDX.Mathematics.Interop;
 
 namespace DirectX
 {
-    public partial class DXForm : Form
+    public partial class DXForm : Form, IRenderHandler, IAudioHandler
     {
         const bool FULLSCREEN = true;
         const bool EXTERNALTRIGGER = true;
@@ -548,8 +548,8 @@ namespace DirectX
 
             browser = new D3DChromiumWebBrowser("https://www.youtube.com/watch?v=7oAjnqu_wxE", EXTERNALTRIGGER);
 
-            browser.RenderHandler = new D3DRenderHandler(this);
-            browser.AudioHandler = new D3DAudioHandler(this);
+            browser.RenderHandler = this;
+            browser.AudioHandler = this;
         }
 
         private void DXForm_Shown(object sender, EventArgs e)
@@ -726,207 +726,178 @@ namespace DirectX
 
 
         /* IRenderHandler implementation */
-        public class D3DRenderHandler : IRenderHandler
+        public ScreenInfo? GetScreenInfo()
         {
-            DXForm form;
+            var screenInfo = new ScreenInfo { DeviceScaleFactor = 1.0F };
 
-            public D3DRenderHandler(DXForm form)
+            return screenInfo;
+        }
+
+        public bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY)
+        {
+            screenX = viewX;
+            screenY = viewY;
+
+            return false;
+        }
+
+        public Rect GetViewRect()
+        {
+            return new Rect(0, 0, ClientSize.Width, ClientSize.Height);
+        }
+
+        public void OnAcceleratedPaint(PaintElementType type, Rect _dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
+        {
+            D3D11.Device1 device1 = device as D3D11.Device1;
+
+            using (Texture2D cefTex11 = device1.OpenSharedResource1<Texture2D>(acceleratedPaintInfo.SharedTextureHandle))
             {
-                this.form = form;
-            }
+                int nextTex = curTex ^ 1;
 
-            public void Dispose()
-            {
-                form = null;
-            }
+                bool createTex = false;
 
-            public ScreenInfo? GetScreenInfo()
-            {
-                var screenInfo = new ScreenInfo { DeviceScaleFactor = 1.0F };
-
-                return screenInfo;
-            }
-
-            public bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY)
-            {
-                screenX = viewX;
-                screenY = viewY;
-
-                return false;
-            }
-
-            public Rect GetViewRect()
-            {
-                return new Rect(0, 0, form.ClientSize.Width, form.ClientSize.Height);
-            }
-
-            public void OnAcceleratedPaint(PaintElementType type, Rect _dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
-            {
-                D3D11.Device1 device1 = form.device as D3D11.Device1;
-
-                using (Texture2D cefTex11 = device1.OpenSharedResource1<Texture2D>(acceleratedPaintInfo.SharedTextureHandle))
+                // Do we need to initialize or resize textures?
+                if (texture[nextTex] == null ||
+                    (texture[nextTex].Description.Width != cefTex11.Description.Width ||
+                        texture[nextTex].Description.Height != cefTex11.Description.Height))
                 {
-                    int nextTex = form.curTex ^ 1;
+                    if (texture[nextTex] != null)
+                        texture[nextTex].Dispose();
 
-                    bool createTex = false;
+                    texture[nextTex] = new Texture2D(device, cefTex11.Description);
 
-                    // Do we need to initialize or resize textures?
-                    if (form.texture[nextTex] == null || 
-                        (form.texture[nextTex].Description.Width != cefTex11.Description.Width ||
-                            form.texture[nextTex].Description.Height != cefTex11.Description.Height))
-                    {
-                        if (form.texture[nextTex] != null)
-                            form.texture[nextTex].Dispose();
+                    if (srv[nextTex] != null)
+                        srv[nextTex].Dispose();
 
-                        form.texture[nextTex] = new Texture2D(form.device, cefTex11.Description);
-
-                        if (form.srv[nextTex] != null)
-                            form.srv[nextTex].Dispose();
-
-                        form.srv[nextTex] = new ShaderResourceView(form.device, form.texture[nextTex]);
-                    }
-
-                    if (form.query == null)
-                    {
-                        QueryDescription desc = new QueryDescription()
-                        {
-                            Type = QueryType.Event,
-                            Flags = QueryFlags.None
-                        };
-                        form.query = new Query(form.device, desc);
-                    }
-
-                    form.device.ImmediateContext.CopyResource(cefTex11, form.texture[nextTex]);
-                    form.device.ImmediateContext.End(form.query);
-
-                    RawBool q = form.device.ImmediateContext.GetData<RawBool>(form.query, AsynchronousFlags.DoNotFlush);
-                    while (!q)
-                    {
-                        Thread.Yield();
-                        q = form.device.ImmediateContext.GetData<RawBool>(form.query, AsynchronousFlags.DoNotFlush);
-                    }
-
-                    // Swap textures
-                    lock (form.texLock)
-                    {
-                        form.curTex ^= 1;
-                    }
+                    srv[nextTex] = new ShaderResourceView(device, texture[nextTex]);
                 }
-            }
 
-            [DllImport("user32.dll", EntryPoint = "ShowCursor"), System.Security.SuppressUnmanagedCodeSecurity]
-            internal static extern int ShowCursor(bool bShow);
-            bool cursorHidden = false;
-
-            public void OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
-            {
-                switch (type)
+                if (query == null)
                 {
-                    case CursorType.None:
-                        form.Invoke(() =>
-                        {
-                            if (!cursorHidden)
-                            {
-                                ShowCursor(false);
-                                cursorHidden = true;
-                            }
-                            form.Cursor = null;
-                            Debug.WriteLine("HideCursor!");
-                        });
-                        break;
-                    default:
-                    case CursorType.Pointer:
-                        form.Invoke(() =>
-                        {
-                            if (cursorHidden)
-                            {
-                                ShowCursor(true);
-                                cursorHidden = false;
-                            }
-                            form.Cursor = Cursors.Default;
-                        });
-                        break;
-                    case CursorType.Hand:
-                        form.Invoke(() =>
-                        {
-                            if (cursorHidden)
-                            {
-                                ShowCursor(true);
-                                cursorHidden = false;
-                            }
-                            form.Cursor = Cursors.Hand;
-                        });
-                        break;
+                    QueryDescription desc = new QueryDescription()
+                    {
+                        Type = QueryType.Event,
+                        Flags = QueryFlags.None
+                    };
+                    query = new Query(device, desc);
                 }
-            }
 
-            public void OnImeCompositionRangeChanged(CefSharp.Structs.Range selectedRange, Rect[] characterBounds)
-            {
-            }
+                device.ImmediateContext.CopyResource(cefTex11, texture[nextTex]);
+                device.ImmediateContext.End(query);
 
-            public void OnPaint(PaintElementType type, Rect _dirtyRect, IntPtr buffer, int width, int height)
-            {
-            }
+                RawBool q = device.ImmediateContext.GetData<RawBool>(query, AsynchronousFlags.DoNotFlush);
+                while (!q)
+                {
+                    Thread.Yield();
+                    q = device.ImmediateContext.GetData<RawBool>(query, AsynchronousFlags.DoNotFlush);
+                }
 
-            private Rect popupRect;
-
-            public void OnPopupShow(bool show)
-            {
-            }
-
-            public void OnPopupSize(Rect rect)
-            {
-                popupRect = rect;
-            }
-
-            public void OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
-            {
-            }
-
-            public bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
-            {
-                return false;
-            }
-
-            public void UpdateDragCursor(DragOperationsMask operation)
-            {
+                // Swap textures
+                lock (texLock)
+                {
+                    curTex ^= 1;
+                }
             }
         }
 
-        /* IAudioHandler implementation */
-        public class D3DAudioHandler : IAudioHandler
+        [DllImport("user32.dll", EntryPoint = "ShowCursor"), System.Security.SuppressUnmanagedCodeSecurity]
+        internal static extern int ShowCursor(bool bShow);
+        bool cursorHidden = false;
+
+        public void OnCursorChange(IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
         {
-            DXForm form;
+            switch (type)
+            {
+                case CursorType.None:
+                    Invoke(() =>
+                    {
+                        if (!cursorHidden)
+                        {
+                            ShowCursor(false);
+                            cursorHidden = true;
+                        }
+                        Cursor = null;
+                        Debug.WriteLine("HideCursor!");
+                    });
+                    break;
+                default:
+                case CursorType.Pointer:
+                    Invoke(() =>
+                    {
+                        if (cursorHidden)
+                        {
+                            ShowCursor(true);
+                            cursorHidden = false;
+                        }
+                        Cursor = Cursors.Default;
+                    });
+                    break;
+                case CursorType.Hand:
+                    Invoke(() =>
+                    {
+                        if (cursorHidden)
+                        {
+                            ShowCursor(true);
+                            cursorHidden = false;
+                        }
+                        Cursor = Cursors.Hand;
+                    });
+                    break;
+            }
+        }
 
-            public D3DAudioHandler(DXForm form)
-            {
-                this.form = form;
-            }
-            public void Dispose()
-            {
-                form = null;
-            }
+        public void OnImeCompositionRangeChanged(CefSharp.Structs.Range selectedRange, Rect[] characterBounds)
+        {
+        }
 
-            public bool GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref AudioParameters parameters)
-            {
-                return true;
-            }
+        public void OnPaint(PaintElementType type, Rect _dirtyRect, IntPtr buffer, int width, int height)
+        {
+        }
 
-            public void OnAudioStreamError(IWebBrowser chromiumWebBrowser, IBrowser browser, string errorMessage)
-            {
-            }
+        private Rect popupRect;
 
-            public void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, nint data, int noOfFrames, long pts)
-            {
-            }
+        public void OnPopupShow(bool show)
+        {
+        }
 
-            public void OnAudioStreamStarted(IWebBrowser chromiumWebBrowser, IBrowser browser, AudioParameters parameters, int channels)
-            {
-            }
+        public void OnPopupSize(Rect rect)
+        {
+            popupRect = rect;
+        }
 
-            public void OnAudioStreamStopped(IWebBrowser chromiumWebBrowser, IBrowser browser)
-            {
-            }
+        public void OnVirtualKeyboardRequested(IBrowser browser, TextInputMode inputMode)
+        {
+        }
+
+        public bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
+        {
+            return false;
+        }
+
+        public void UpdateDragCursor(DragOperationsMask operation)
+        {
+        }
+
+        /* IAudioHandler implementation */
+        public bool GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref AudioParameters parameters)
+        {
+            return true;
+        }
+
+        public void OnAudioStreamError(IWebBrowser chromiumWebBrowser, IBrowser browser, string errorMessage)
+        {
+        }
+
+        public void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, nint data, int noOfFrames, long pts)
+        {
+        }
+
+        public void OnAudioStreamStarted(IWebBrowser chromiumWebBrowser, IBrowser browser, AudioParameters parameters, int channels)
+        {
+        }
+
+        public void OnAudioStreamStopped(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
         }
     }
 }
