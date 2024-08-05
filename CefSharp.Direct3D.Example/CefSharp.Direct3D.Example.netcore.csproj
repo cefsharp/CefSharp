@@ -13,7 +13,6 @@
         <OutputType>WinExe</OutputType>
         <TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
         <TargetFrameworks Condition="'$(VisualStudioVersion)'=='17.0'">$(TargetFrameworks);net6.0-windows</TargetFrameworks>
-        <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
         <RootNamespace>CefSharp.Direct3D.Example</RootNamespace>
         <AssemblyName>CefSharp.Direct3D.Example</AssemblyName>
         <UseWindowsForms>true</UseWindowsForms>
@@ -36,18 +35,15 @@
         <SelfContained Condition="'$(Configuration)' == 'Debug'">false</SelfContained>
     </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
-    <PackageReference Include="chromiumembeddedframework.runtime" Version="126.2.18" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CefSharp.BrowserSubprocess\CefSharp.BrowserSubprocess.netcore.csproj" />
-    <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.csproj" />
+        <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="126.2.18" />
+        <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+        <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
+        <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
+        <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+    </ItemGroup>
 
     <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.AfterBuild.targets" />
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
