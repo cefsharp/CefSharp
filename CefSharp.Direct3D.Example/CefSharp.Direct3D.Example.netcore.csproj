@@ -39,7 +39,7 @@
     <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
-    <PackageReference Include="chromiumembeddedframework.runtime" Version="125.0.21" />
+    <PackageReference Include="chromiumembeddedframework.runtime" Version="126.2.18" />
   </ItemGroup>
 
   <ItemGroup>
