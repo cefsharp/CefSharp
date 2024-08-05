@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.OffScreen;
-using Microsoft.VisualBasic.Logging;
 
 namespace DirectX
 {
@@ -42,9 +41,6 @@ namespace DirectX
                 //CefSharp.Cef.GetGlobalCookieManager().SetStoragePath(Path.Combine(settings.CachePath, "Cookies"), true);
             }
 
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
             Application.Run(new DXForm());
         }
     }

@@ -754,8 +754,6 @@ namespace DirectX
             {
                 int nextTex = curTex ^ 1;
 
-                bool createTex = false;
-
                 // Do we need to initialize or resize textures?
                 if (texture[nextTex] == null ||
                     (texture[nextTex].Description.Width != cefTex11.Description.Width ||
@@ -809,7 +807,7 @@ namespace DirectX
             switch (type)
             {
                 case CursorType.None:
-                    Invoke(() =>
+                    Invoke((Action)(() =>
                     {
                         if (!cursorHidden)
                         {
@@ -818,11 +816,11 @@ namespace DirectX
                         }
                         Cursor = null;
                         Debug.WriteLine("HideCursor!");
-                    });
+                    }));
                     break;
                 default:
                 case CursorType.Pointer:
-                    Invoke(() =>
+                    Invoke((Action)(() =>
                     {
                         if (cursorHidden)
                         {
@@ -830,10 +828,10 @@ namespace DirectX
                             cursorHidden = false;
                         }
                         Cursor = Cursors.Default;
-                    });
+                    }));
                     break;
                 case CursorType.Hand:
-                    Invoke(() =>
+                    Invoke((Action)(() =>
                     {
                         if (cursorHidden)
                         {
@@ -841,7 +839,7 @@ namespace DirectX
                             cursorHidden = false;
                         }
                         Cursor = Cursors.Hand;
-                    });
+                    }));
                     break;
             }
         }
@@ -888,7 +886,7 @@ namespace DirectX
         {
         }
 
-        public void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, nint data, int noOfFrames, long pts)
+        public void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr data, int noOfFrames, long pts)
         {
         }
 

@@ -8,7 +8,7 @@
     xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <assemblyIdentity version="125.0.80.0" name="CefSharp.WinForms.Example.app" />
+  <assemblyIdentity version="126.2.18.0" name="CefSharp.Direct3D.Example.app" />
 
   <dependency>
     <dependentAssembly>
