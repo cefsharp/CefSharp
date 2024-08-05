@@ -16,21 +16,29 @@ using System.Windows.Input;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
 using CursorType = CefSharp.Enums.CursorType;
-using CefSharp.Handler;
 using Cursors = System.Windows.Forms.Cursors;
-using CefSharp.DevTools.Debugger;
-using System.DirectoryServices.ActiveDirectory;
 using System.Diagnostics;
 using System.Threading;
+using SharpDX.Mathematics.Interop;
 
 namespace DirectX
 {
     public partial class DXForm : Form
     {
+        const bool FULLSCREEN = true;
+        const bool EXTERNALTRIGGER = true;
+        const bool VSYNC = true;
+
         D3D11.Device device;
+        DeviceMultithread deviceMultithread;
         SwapChain swapChain;
         RenderTargetView renderTarget;
-        ShaderResourceView srv;
+        DeviceContext deferredContext;
+        Texture2D[] texture = new Texture2D[2];
+        ShaderResourceView[] srv = new ShaderResourceView[2];
+        Query query;
+        object texLock = new object();
+        int curTex = 0;
         Adapter adapter;
         Factory factory;
         static VertexDX11[] Vertices;
@@ -134,6 +142,10 @@ namespace DirectX
             DestroyDevice();
 
             device = new D3D11.Device(DriverType.Hardware, DeviceCreationFlags.None);
+
+            deviceMultithread = device.QueryInterfaceOrNull<DeviceMultithread>();
+            if (deviceMultithread != null)
+                deviceMultithread.SetMultithreadProtected(true);
 
             UpgradeDevice();
 
@@ -468,6 +480,34 @@ namespace DirectX
                 swapChain = null;
             }
 
+            if (query != null)
+            {
+                query.Dispose();
+                query = null;
+            }
+
+            if (deferredContext != null)
+            {
+                deferredContext.Dispose();
+                deferredContext = null;
+            }
+
+            foreach (ShaderResourceView srv in srv)
+            {
+                if (srv != null)
+                {
+                    srv.Dispose();
+                }
+            }
+
+            foreach (Texture2D tex in texture)
+            {
+                if (tex != null)
+                {
+                    tex.Dispose();
+                }
+            }
+
             if (device != null)
             {
                 device.Dispose();
@@ -506,7 +546,7 @@ namespace DirectX
         {
             DestroyBrowser();
 
-            browser = new D3DChromiumWebBrowser("https://www.youtube.com", externalFrameTrigger);
+            browser = new D3DChromiumWebBrowser("https://www.youtube.com/watch?v=7oAjnqu_wxE", EXTERNALTRIGGER);
 
             browser.RenderHandler = new D3DRenderHandler(this);
             browser.AudioHandler = new D3DAudioHandler(this);
@@ -514,46 +554,57 @@ namespace DirectX
 
         private void DXForm_Shown(object sender, EventArgs e)
         {
-            CreateDevice(false);
+            CreateDevice(FULLSCREEN);
 
             CreateBrowser();
 
-            //(new Thread(RenderThread)).Start();
+            (new Thread(RenderThread)).Start();
         }
 
-        bool externalFrameTrigger = false;
+        AutoResetEvent waitCopy = new AutoResetEvent(false);
+        volatile CommandList commandList;
 
         private void RenderThread()
         {
             while (true)
             {
-                if (externalFrameTrigger)
+                if (EXTERNALTRIGGER)
                 {
                     browser?.GetBrowserHost()?.SendExternalBeginFrame();
                 }
 
-                if (srv != null)
+                if (commandList != null)
                 {
-                    lock (srv)
+                    device.ImmediateContext.ExecuteCommandList(commandList, true);
+
+                    RawBool q = device.ImmediateContext.GetData<RawBool>(query);
+                    while (!q)
                     {
-                        device.ImmediateContext.PixelShader.SetShaderResources(0, new[] { srv });
+                        Thread.Yield();
+                        q = device.ImmediateContext.GetData<RawBool>(query);
+                    }
+
+                    waitCopy.Set();
+                    commandList.Dispose();
+                    commandList = null;
+
+                    lock (texLock)
+                    {
+                        // Swap textures
+                        curTex ^= 1;
+                    }
+                }
+
+                lock (texLock)
+                {
+                    if (srv[curTex] != null)
+                    {
+                        device.ImmediateContext.PixelShader.SetShaderResources(0, new[] { srv[curTex] });
                         device.ImmediateContext.Draw(Vertices.Length, 0);
                     }
                 }
 
-                swapChain.Present(0, PresentFlags.None);
-            }
-        }
-
-        public void SetTexture(ShaderResourceView newSrv)
-        {
-            if (srv != null)
-            {
-                lock (srv)
-                {
-                    srv.Dispose();
-                }
-                srv = newSrv;
+                swapChain.Present(VSYNC ? 1 : 0, PresentFlags.None);
             }
         }
 
@@ -638,6 +689,13 @@ namespace DirectX
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            // Handle fullscreen switch on ALT+Enter
+            if (e.Alt && e.KeyCode == Keys.Enter)
+            {
+                swapChain.SetFullscreenState(!swapChain.IsFullScreen, null);
+                return;
+            }
+
             char keyValue = (char)e.KeyValue;
             if (!(e.Shift ^ IsKeyLocked(Keys.CapsLock)))
                 keyValue = char.ToLowerInvariant(keyValue);
@@ -727,19 +785,58 @@ namespace DirectX
                 return new Rect(0, 0, form.ClientSize.Width, form.ClientSize.Height);
             }
 
-
             public void OnAcceleratedPaint(PaintElementType type, Rect _dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
             {
                 D3D11.Device1 device1 = form.device as D3D11.Device1;
 
                 using (Texture2D cefTex11 = device1.OpenSharedResource1<Texture2D>(acceleratedPaintInfo.SharedTextureHandle))
                 {
-                    ShaderResourceView srv = new ShaderResourceView(form.device, cefTex11);
-                    //form.SetTexture(srv);
-                    form.device.ImmediateContext.PixelShader.SetShaderResources(0, new[] { srv });
-                    form.device.ImmediateContext.Draw(Vertices.Length, 0);
+                    int nextTex = form.curTex ^ 1;
 
-                    form.swapChain.Present(0, PresentFlags.None);
+                    bool createTex = false;
+
+                    // Do we need to initialize or resize textures?
+                    if (form.texture[nextTex] == null || 
+                        (form.texture[nextTex].Description.Width != cefTex11.Description.Width ||
+                            form.texture[nextTex].Description.Height != cefTex11.Description.Height))
+                    {
+                        if (form.texture[nextTex] != null)
+                            form.texture[nextTex].Dispose();
+
+                        form.texture[nextTex] = new Texture2D(form.device, cefTex11.Description);
+
+                        if (form.srv[nextTex] != null)
+                            form.srv[nextTex].Dispose();
+
+                        form.srv[nextTex] = new ShaderResourceView(form.device, form.texture[nextTex]);
+                    }
+
+                    if (form.query == null)
+                    {
+                        QueryDescription desc = new QueryDescription()
+                        {
+                            Type = QueryType.Event,
+                            Flags = QueryFlags.None
+                        };
+                        form.query = new Query(form.device, desc);
+                    }
+
+                    if (form.deferredContext == null)
+                    {
+                        form.deferredContext = new DeviceContext(form.device);
+                    }
+
+                    form.deferredContext.CopyResource(cefTex11, form.texture[nextTex]);
+                    form.deferredContext.End(form.query);
+
+                    // Wait until any pending commandlist is consumed
+                    while (form.commandList != null)
+                        Thread.Yield();
+
+                    form.commandList = form.deferredContext.FinishCommandList(false);
+
+                    // Wait until the deferred context is consumed by the main thread
+                    form.waitCopy.WaitOne();
                 }
             }
 
