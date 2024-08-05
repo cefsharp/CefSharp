@@ -33,7 +33,6 @@ namespace DirectX
         DeviceMultithread deviceMultithread;
         SwapChain swapChain;
         RenderTargetView renderTarget;
-        DeviceContext deferredContext;
         Texture2D[] texture = new Texture2D[2];
         ShaderResourceView[] srv = new ShaderResourceView[2];
         Query query;
@@ -486,12 +485,6 @@ namespace DirectX
                 query = null;
             }
 
-            if (deferredContext != null)
-            {
-                deferredContext.Dispose();
-                deferredContext = null;
-            }
-
             foreach (ShaderResourceView srv in srv)
             {
                 if (srv != null)
@@ -561,9 +554,6 @@ namespace DirectX
             (new Thread(RenderThread)).Start();
         }
 
-        AutoResetEvent waitCopy = new AutoResetEvent(false);
-        volatile CommandList commandList;
-
         private void RenderThread()
         {
             while (true)
@@ -571,28 +561,6 @@ namespace DirectX
                 if (EXTERNALTRIGGER)
                 {
                     browser?.GetBrowserHost()?.SendExternalBeginFrame();
-                }
-
-                if (commandList != null)
-                {
-                    device.ImmediateContext.ExecuteCommandList(commandList, true);
-
-                    RawBool q = device.ImmediateContext.GetData<RawBool>(query);
-                    while (!q)
-                    {
-                        Thread.Yield();
-                        q = device.ImmediateContext.GetData<RawBool>(query);
-                    }
-
-                    waitCopy.Set();
-                    commandList.Dispose();
-                    commandList = null;
-
-                    lock (texLock)
-                    {
-                        // Swap textures
-                        curTex ^= 1;
-                    }
                 }
 
                 lock (texLock)
@@ -821,22 +789,21 @@ namespace DirectX
                         form.query = new Query(form.device, desc);
                     }
 
-                    if (form.deferredContext == null)
+                    form.device.ImmediateContext.CopyResource(cefTex11, form.texture[nextTex]);
+                    form.device.ImmediateContext.End(form.query);
+
+                    RawBool q = form.device.ImmediateContext.GetData<RawBool>(form.query, AsynchronousFlags.DoNotFlush);
+                    while (!q)
                     {
-                        form.deferredContext = new DeviceContext(form.device);
+                        Thread.Yield();
+                        q = form.device.ImmediateContext.GetData<RawBool>(form.query, AsynchronousFlags.DoNotFlush);
                     }
 
-                    form.deferredContext.CopyResource(cefTex11, form.texture[nextTex]);
-                    form.deferredContext.End(form.query);
-
-                    // Wait until any pending commandlist is consumed
-                    while (form.commandList != null)
-                        Thread.Yield();
-
-                    form.commandList = form.deferredContext.FinishCommandList(false);
-
-                    // Wait until the deferred context is consumed by the main thread
-                    form.waitCopy.WaitOne();
+                    // Swap textures
+                    lock (form.texLock)
+                    {
+                        form.curTex ^= 1;
+                    }
                 }
             }
 
