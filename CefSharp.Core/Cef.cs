@@ -50,8 +50,11 @@ namespace CefSharp
         }
 
         /// <summary>Gets a value that indicates whether CefSharp is initialized.</summary>
-        /// <value>true if CefSharp is initialized; otherwise, false.</value>
-        public static bool IsInitialized
+        /// <value>
+        /// true if CefSharp is initialized; returns false if initialize failed.
+        /// null if initialize not yet called.
+        /// </value>
+        public static bool? IsInitialized
         {
             get { return Core.Cef.IsInitialized; }
         }
