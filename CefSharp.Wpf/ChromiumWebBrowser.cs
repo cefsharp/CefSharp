@@ -913,15 +913,7 @@ namespace CefSharp.Wpf
                 {
                     // DoDragDrop will fire DragEnter event
                     var result = DragDrop.DoDragDrop(this, dataObject, allowedOps.GetDragEffects());
-                    var dragEffects = currentDragDropEffects.HasValue ? currentDragDropEffects.Value : DragDropEffects.None;
-
-                    // Ensure the drag and drop operation wasn't cancelled
-                    var finalEffectMask = dragEffects.GetDragOperationsMask() & result.GetDragOperationsMask();
-
-                    // We shouldn't have an instance where finalEffectMask signfies multiple effects, as the operation
-                    // set by UpdateDragCursor should only ever be none, move, copy, or link. However, if it does, we'll
-                    // just default to copy, as that reflects the defaulting behavior of GetDragEffects.
-                    var finalSingleEffect = finalEffectMask.HasFlag(DragOperationsMask.Every) ? DragOperationsMask.Copy : finalEffectMask;
+                    var dragOperationMask = GetDragOperationsMask(result, currentDragDropEffects);
 
                     // DragData was stored so when DoDragDrop fires DragEnter we reuse a clone of the IDragData provided here
                     currentDragData = null;
@@ -929,12 +921,28 @@ namespace CefSharp.Wpf
 
                     // If result or the last recorded drag drop effect were DragDropEffects.None
                     // then we'll send DragOperationsMask.None, effectively cancelling the drag operation
-                    browser.GetHost().DragSourceEndedAt(x, y, finalSingleEffect);
+                    browser.GetHost().DragSourceEndedAt(x, y, dragOperationMask);
                     browser.GetHost().DragSourceSystemDragEnded();
                 }
             });
 
             return true;
+        }
+
+        protected virtual DragOperationsMask GetDragOperationsMask(DragDropEffects result, DragDropEffects? dragEffects)
+        {
+            // Ensure the drag and drop operation wasn't cancelled
+            var finalEffectMask = (dragEffects ?? DragDropEffects.None).GetDragOperationsMask() & result.GetDragOperationsMask();
+
+            // We shouldn't have an instance where finalEffectMask signfies multiple effects, as the operation
+            // set by UpdateDragCursor should only ever be none, move, copy, or link. However, if it does, we'll
+            // just default to copy, as that reflects the defaulting behavior of GetDragEffects.
+            if (finalEffectMask.HasFlag(DragOperationsMask.Every))
+            {
+                return DragOperationsMask.Copy;
+            }
+
+            return finalEffectMask;
         }
 
         /// <inheritdoc />
@@ -1714,7 +1722,7 @@ namespace CefSharp.Wpf
             {
                 browser.GetHost().DragTargetDragOver(GetMouseEvent(e), e.AllowedEffects.GetDragOperationsMask());
             }
-            e.Effects = currentDragDropEffects.HasValue ? currentDragDropEffects.Value : DragDropEffects.None;
+            e.Effects = currentDragDropEffects ?? DragDropEffects.None;
             e.Handled = true;
         }
 
