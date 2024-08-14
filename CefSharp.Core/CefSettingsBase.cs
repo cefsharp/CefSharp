@@ -71,9 +71,10 @@ namespace CefSharp
 
         /// <summary>
         /// Set to true to enable use of the Chrome runtime in CEF. This will
-        /// be removed in version 127 (as the Chrome Bootstrap will used in all cases).
+        /// be removed in version 128 (as the Chrome Bootstrap will used in all cases).
         /// See issue https://github.com/chromiumembedded/cef/issues/3685
         /// </summary>
+        [Obsolete("ChromeRuntime propery will be removed in M128. It's being removed upstream see https://github.com/cefsharp/CefSharp/issues/4795")]
         public bool ChromeRuntime
         {
             get { return settings.ChromeRuntime; }
