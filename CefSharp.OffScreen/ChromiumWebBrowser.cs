@@ -762,6 +762,10 @@ namespace CefSharp.OffScreen
                     // the same time, the timer maybe Disposed on a different thread.
                     // https://github.com/cefsharp/CefSharp/issues/4597
                 }
+                catch(Exception ex)
+                {
+                    renderIdleTcs.TrySetException(ex);
+                }
             };
 
             idleTimer.Start();
