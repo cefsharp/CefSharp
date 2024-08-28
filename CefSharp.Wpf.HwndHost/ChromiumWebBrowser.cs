@@ -31,6 +31,8 @@ namespace CefSharp.Wpf.HwndHost
             "The ChromiumWebBrowser instance creates the underlying Chromium Embedded Framework (CEF) browser instance in an async fashion. " +
             "The undelying CefBrowser instance is not yet initialized. Use the IsBrowserInitializedChanged event and check " +
             "the IsBrowserInitialized property to determine when the browser has been initialized.";
+        private const string CefInitializeFailedErrorMessage = "Cef.Initialize() failed.Check the log file see https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#log-file for details.";
+        private const string CefIsInitializedFalseErrorMessage = "Cef.IsInitialized was false!.Check the log file for errors!. See https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting#log-file for details.";
 
         [DllImport("user32.dll", EntryPoint = "CreateWindowEx", CharSet = CharSet.Unicode)]
         private static extern IntPtr CreateWindowEx(int dwExStyle,
@@ -629,16 +631,7 @@ namespace CefSharp.Wpf.HwndHost
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void NoInliningConstructor()
         {
-            //Initialize CEF if it hasn't already been initialized
-            if (!Cef.IsInitialized)
-            {
-                var settings = new CefSettings();
-
-                if (!Cef.Initialize(settings))
-                {
-                    throw new InvalidOperationException("Cef::Initialize() failed");
-                }
-            }
+            InitializeCefInternal();
 
             //Add this ChromiumWebBrowser instance to a list of IDisposable objects
             // that if still alive at the time Cef.Shutdown is called will be disposed of
@@ -1714,6 +1707,22 @@ namespace CefSharp.Wpf.HwndHost
         public IBrowser GetBrowser()
         {
             return browser;
+        }
+
+        private static void InitializeCefInternal()
+        {
+            if (Cef.IsInitialized == null)
+            {
+                if (!Cef.Initialize(new CefSettings()))
+                {
+                    throw new InvalidOperationException(CefInitializeFailedErrorMessage);
+                }
+            }
+
+            if (Cef.IsInitialized == false)
+            {
+                throw new InvalidOperationException(CefIsInitializedFalseErrorMessage);
+            }
         }
 
         /// <summary>
