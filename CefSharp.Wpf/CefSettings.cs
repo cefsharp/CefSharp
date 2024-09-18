@@ -16,7 +16,6 @@ namespace CefSharp.Wpf
         public CefSettings() : base()
         {
             WindowlessRenderingEnabled = true;
-            ChromeRuntime = true;
 
             //Disable multithreaded, compositor scrolling of web content
             //With OSR rendering it's fairly common for this to improve scrolling performace

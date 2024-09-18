@@ -132,11 +132,7 @@ namespace CefSharp
             var missingDependencies = new List<string>();
 
             missingDependencies.AddRange(CheckDependencyList(nativeLibPath, CefDependencies));
-
-            if (!packLoadingDisabled)
-            {
-                missingDependencies.AddRange(CheckDependencyList(resourcesDirPath, CefResources));
-            }
+            missingDependencies.AddRange(CheckDependencyList(resourcesDirPath, CefResources));
 
             if (checkOptional)
             {

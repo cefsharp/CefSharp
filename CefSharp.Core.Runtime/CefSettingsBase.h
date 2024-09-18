@@ -85,18 +85,6 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// **Experimental**
-            /// Set to true to enable use of the Chrome runtime in CEF. This feature is
-            /// considered experimental and is not recommended for most users at this time.
-            /// See issue https://github.com/chromiumembedded/cef/issues/2969
-            /// </summary>
-            property bool ChromeRuntime
-            {
-                bool get() { return _cefSettings->chrome_runtime == 1; }
-                void set(bool value) { _cefSettings->chrome_runtime = value; }
-            }
-
-            /// <summary>
             /// Set to true to disable configuration of browser process features using standard CEF and Chromium command-line arguments.
             /// Configuration can still be specified using CEF data structures or by adding to CefCommandLineArgs.
             /// </summary>
@@ -236,17 +224,6 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// Set to true to disable loading of pack files for resources and locales. A resource bundle handler must be provided for the
-            /// browser and render processes via CefApp::GetResourceBundleHandler() if loading of pack files is disabled. Also configurable
-            /// using the "disable-pack-loading" command- line switch.
-            /// </summary>
-            property bool PackLoadingDisabled
-            {
-                bool get() { return _cefSettings->pack_loading_disabled == 1; }
-                void set(bool value) { _cefSettings->pack_loading_disabled = value; }
-            }
-
-            /// <summary>
             /// Value that will be inserted as the product portion of the default User-Agent string. If empty the Chromium product version
             /// will be used. If UserAgent is specified this value will be ignored. Also configurable using the "user-agent-product" command-
             /// line switch.
@@ -310,17 +287,6 @@ namespace CefSharp
             {
                 bool get() { return _cefSettings->persist_session_cookies == 1; }
                 void set(bool value) { _cefSettings->persist_session_cookies = value; }
-            }
-
-            /// <summary>
-            /// To persist user preferences as a JSON file in the cache path directory set this value to true. A CachePath value must also be
-            /// specified to enable this feature. Also configurable using the "persist-user-preferences" command-line switch. Can be
-            /// overridden for individual RequestContext instances via the RequestContextSettings.PersistUserPreferences value.
-            /// </summary>
-            property bool PersistUserPreferences
-            {
-                bool get() { return _cefSettings->persist_user_preferences == 1; }
-                void set(bool value) { _cefSettings->persist_user_preferences = value; }
             }
 
             /// <summary>

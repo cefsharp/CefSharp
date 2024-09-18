@@ -197,11 +197,6 @@ namespace CefSharp
         void Find(string searchText, bool forward, bool matchCase, bool findNext);
 
         /// <summary>
-        /// Returns the extension hosted in this browser or null if no extension is hosted. See <see cref="IRequestContext.LoadExtension"/> for details.
-        /// </summary>
-        IExtension Extension { get; }
-
-        /// <summary>
         /// Retrieve the window handle of the browser that opened this browser.
         /// </summary>
         /// <returns>The handler</returns>
@@ -232,13 +227,6 @@ namespace CefSharp
         /// </summary>
         /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
         void Invalidate(PaintElementType type);
-
-        /// <summary>
-        /// Returns true if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable.
-        /// See <see cref="IRequestContext.LoadExtension"/> for details.
-        /// </summary>
-        /// <returns>Returns true if this browser is hosting an extension background script.</returns>
-        bool IsBackgroundHost { get; }
 
         /// <summary>
         /// Begins a new composition or updates the existing composition. Blink has a

@@ -563,65 +563,6 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        private void LoadExtensionsToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var control = GetCurrentTabControl();
-            if (control != null)
-            {
-                //The sample extension only works for http(s) schemes
-                if (control.Browser.GetMainFrame().Url.StartsWith("http"))
-                {
-                    var requestContext = control.Browser.GetRequestContext();
-
-                    const string cefSharpExampleResourcesFolder =
-#if !NETCOREAPP
-                        @"..\..\..\..\CefSharp.Example\Extensions";
-#else
-                        @"..\..\..\..\..\CefSharp.Example\Resources";
-#endif
-
-                    var dir = Path.Combine(AppContext.BaseDirectory, cefSharpExampleResourcesFolder);
-                    dir = Path.GetFullPath(dir);
-                    if (!Directory.Exists(dir))
-                    {
-                        throw new DirectoryNotFoundException("Unable to locate example extensions folder - " + dir);
-                    }
-
-                    var extensionHandler = new ExtensionHandler
-                    {
-                        LoadExtensionPopup = (url) =>
-                        {
-                            BeginInvoke(new Action(() =>
-                            {
-                                var extensionForm = new Form();
-
-                                var extensionBrowser = new ChromiumWebBrowser(url);
-                                //extensionBrowser.IsBrowserInitializedChanged += (s, args) =>
-                                //{
-                                //    extensionBrowser.ShowDevTools();
-                                //};
-
-                                extensionForm.Controls.Add(extensionBrowser);
-
-                                extensionForm.Show(this);
-                            }));
-                        },
-                        GetActiveBrowser = (extension, isIncognito) =>
-                        {
-                            //Return the active browser for which the extension will act upon
-                            return control.Browser.BrowserCore;
-                        }
-                    };
-
-                    requestContext.LoadExtensionsFromDirectory(dir, extensionHandler);
-                }
-                else
-                {
-                    MessageBox.Show("The sample extension only works with http(s) schemes, please load a different website and try again", "Unable to load Extension");
-                }
-            }
-        }
-
         private void JavascriptBindingStressTestToolStripMenuItemClick(object sender, EventArgs e)
         {
             var control = GetCurrentTabControl();

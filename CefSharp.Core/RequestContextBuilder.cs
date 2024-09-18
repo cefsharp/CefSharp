@@ -30,7 +30,7 @@ namespace CefSharp
         {
             if (_settings != null)
             {
-                throw new Exception("A call to WithCachePath/PersistUserPreferences has already been made, it's not possible to share settings with another RequestContext.");
+                throw new Exception("A call to WithCachePath has already been made, it's not possible to share settings with another RequestContext.");
             }
         }
         /// <summary>
@@ -98,26 +98,6 @@ namespace CefSharp
             }
 
             _settings.CachePath = cachePath;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Invoke this method tp persist user preferences as a JSON file in the cache path directory.
-        /// Can be set globally using the CefSettings.PersistUserPreferences value.
-        /// This value will be ignored if CachePath is empty or if it matches the CefSettings.CachePath value.
-        /// </summary>
-        /// <returns>Returns RequestContextBuilder instance</returns>
-        public RequestContextBuilder PersistUserPreferences()
-        {
-            ThrowExceptionIfContextAlreadySet();
-
-            if (_settings == null)
-            {
-                _settings = new RequestContextSettings();
-            }
-
-            _settings.PersistUserPreferences = true;
 
             return this;
         }

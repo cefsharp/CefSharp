@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "include\cef_browser.h"
+#include "Internals\TypeConversion.h"
 
 namespace CefSharp
 {

@@ -70,18 +70,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Set to true to enable use of the Chrome runtime in CEF. This will
-        /// be removed in version 128 (as the Chrome Bootstrap will used in all cases).
-        /// See issue https://github.com/chromiumembedded/cef/issues/3685
-        /// </summary>
-        [Obsolete("ChromeRuntime propery will be removed in M128. It's being removed upstream see https://github.com/cefsharp/CefSharp/issues/4795")]
-        public bool ChromeRuntime
-        {
-            get { return settings.ChromeRuntime; }
-            set { settings.ChromeRuntime = value; }
-        }
-
-        /// <summary>
         /// Set to true to disable configuration of browser process features using standard CEF and Chromium command-line arguments.
         /// Configuration can still be specified using CEF data structures or by adding to CefCommandLineArgs.
         /// </summary>
@@ -246,17 +234,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Set to true to disable loading of pack files for resources and locales. A resource bundle handler must be provided for the
-        /// browser and render processes via CefApp.GetResourceBundleHandler() if loading of pack files is disabled. Also configurable
-        /// using the "disable-pack-loading" command- line switch.
-        /// </summary>
-        public bool PackLoadingDisabled
-        {
-            get { return settings.PackLoadingDisabled; }
-            set { settings.PackLoadingDisabled = value; }
-        }
-
-        /// <summary>
         /// Value that will be inserted as the product portion of the default User-Agent string. If empty the Chromium product version
         /// will be used. If UserAgent is specified this value will be ignored. Also configurable using the "user-agent-product" command-
         /// line switch.
@@ -320,17 +297,6 @@ namespace CefSharp
         {
             get { return settings.PersistSessionCookies; }
             set { settings.PersistSessionCookies = value; }
-        }
-
-        /// <summary>
-        /// To persist user preferences as a JSON file in the cache path directory set this value to true. A CachePath value must also be
-        /// specified to enable this feature. Also configurable using the "persist-user-preferences" command-line switch. Can be
-        /// overridden for individual RequestContext instances via the RequestContextSettings.PersistUserPreferences value.
-        /// </summary>
-        public bool PersistUserPreferences
-        {
-            get { return settings.PersistUserPreferences; }
-            set { settings.PersistUserPreferences = value; }
         }
 
         /// <summary>

@@ -9,9 +9,8 @@ namespace CefSharp
     /// additional comparative details on runtime types see
     /// https://bitbucket.org/chromiumembedded/cef/wiki/Architecture.md#markdown-header-cef3
     ///
-    /// Each runtime is composed of a bootstrap component and a style component. The
-    /// bootstrap component is configured via CefSettings.ChromeRuntime and cannot
-    /// be changed after CefInitialize. The style component is individually
+    /// Each runtime is composed of a bootstrap component and a style component.
+    /// The style component is individually
     /// configured for each window/browser at creation time and, in combination with
     /// the Chrome bootstrap, different styles can be mixed during runtime.
     ///
@@ -29,19 +28,18 @@ namespace CefSharp
     public enum CefRuntimeStyle
     {
         /// <summary>
-        /// Use the default runtime style. The default style will match the
-        /// CefSettings.ChromeRuntime value in most cases. See above documentation
+        /// Use the default runtime style. See above documentation
         /// for exceptions.
         /// </summary>
         Default,
 
         /// <summary>
-        /// Use the Chrome runtime style. Only supported with the Chrome runtime.
+        /// Use the Chrome runtime style.
         /// </summary>
         Chrome,
 
         /// <summary>
-        /// Use the Alloy runtime style. Supported with both the Alloy and Chrome
+        /// Use the Alloy runtime style.
         /// runtime.
         /// </summary>
         Alloy,

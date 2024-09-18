@@ -81,11 +81,6 @@ namespace CefSharp
             virtual void AddWordToDictionary(String^ word);
             virtual void ReplaceMisspelling(String^ word);
 
-            virtual property IExtension^ Extension
-            {
-                IExtension^ get();
-            }
-
             virtual void RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, IRunFileDialogCallback^ callback);
 
             virtual void Find(String^ searchText, bool forward, bool matchCase, bool findNext);
@@ -101,11 +96,6 @@ namespace CefSharp
             virtual void SendTouchEvent(TouchEvent evt);
 
             virtual void Invalidate(PaintElementType type);
-
-            virtual property bool IsBackgroundHost
-            {
-                bool get();
-            }
 
             virtual void ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<CefSharp::Structs::Range> replacementRange, Nullable<CefSharp::Structs::Range> selectionRange);
             virtual void ImeCommitText(String^ text, Nullable<CefSharp::Structs::Range> replacementRange, int relativeCursorPos);

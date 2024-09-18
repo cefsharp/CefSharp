@@ -30,18 +30,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// To persist user preferences as a JSON file in the cache path directory set
-        /// this value to true. Can be set globally using the
-        /// CefSettings.PersistUserPreferences value. This value will be ignored if
-        /// CachePath is empty or if it matches the CefSettings.CachePath value.
-        /// </summary>
-        public bool PersistUserPreferences
-        {
-            get { return settings.PersistUserPreferences; }
-            set { settings.PersistUserPreferences = value; }
-        }
-
-        /// <summary>
         /// The location where cache data for this request context will be stored on
         /// disk. If this value is non-empty then it must be an absolute path that is
         /// either equal to or a child directory of CefSettings.RootCachePath.

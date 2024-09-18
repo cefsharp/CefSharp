@@ -10,8 +10,6 @@
 #include "CookieManager.h"
 #include "Internals\CefSchemeHandlerFactoryAdapter.h"
 #include "Internals\CefCompletionCallbackAdapter.h"
-#include "Internals\CefExtensionWrapper.h"
-#include "Internals\CefExtensionHandlerAdapter.h"
 #include "Internals\CefResolveCallbackAdapter.h"
 #include "Internals\TypeConversion.h"
 
@@ -164,83 +162,6 @@ namespace CefSharp
             _requestContext->ResolveHost(StringUtils::ToNative(origin->AbsoluteUri), callbackWrapper);
 
             return callback->Task;
-        }
-
-        bool RequestContext::DidLoadExtension(String^ extensionId)
-        {
-            ThrowIfDisposed();
-
-            ThrowIfExecutedOnNonCefUiThread();
-
-            return _requestContext->DidLoadExtension(StringUtils::ToNative(extensionId));
-        }
-
-        IExtension^ RequestContext::GetExtension(String^ extensionId)
-        {
-            ThrowIfDisposed();
-
-            ThrowIfExecutedOnNonCefUiThread();
-
-            auto extension = _requestContext->GetExtension(StringUtils::ToNative(extensionId));
-
-            if (extension.get())
-            {
-                return gcnew CefExtensionWrapper(extension);
-            }
-
-            return nullptr;
-        }
-
-        bool RequestContext::GetExtensions([Out] IList<String^>^ %extensionIds)
-        {
-            ThrowIfDisposed();
-
-            ThrowIfExecutedOnNonCefUiThread();
-
-            std::vector<CefString> extensions;
-
-            auto success = _requestContext->GetExtensions(extensions);
-
-            extensionIds = StringUtils::ToClr(extensions);
-
-            return success;
-        }
-
-        bool RequestContext::HasExtension(String^ extensionId)
-        {
-            ThrowIfDisposed();
-
-            ThrowIfExecutedOnNonCefUiThread();
-
-            return _requestContext->HasExtension(StringUtils::ToNative(extensionId));
-        }
-
-        void RequestContext::LoadExtension(String^ rootDirectory, String^ manifestJson, IExtensionHandler^ handler)
-        {
-            ThrowIfDisposed();
-
-            CefRefPtr<CefDictionaryValue> manifest;
-
-            if (!String::IsNullOrEmpty(manifestJson))
-            {
-                CefString errorMessage;
-                auto value = CefParseJSONAndReturnError(StringUtils::ToNative(manifestJson),
-                    cef_json_parser_options_t::JSON_PARSER_ALLOW_TRAILING_COMMAS,
-                    errorMessage);
-
-                if (value.get())
-                {
-                    manifest = value->GetDictionary();
-                }
-                else
-                {
-                    throw gcnew Exception("Unable to parse JSON - ErrorMessage:" + StringUtils::ToClr(errorMessage));
-                }
-            }
-
-            CefRefPtr<CefExtensionHandler> extensionHandler = handler == nullptr ? nullptr : new CefExtensionHandlerAdapter(handler);
-
-            _requestContext->LoadExtension(StringUtils::ToNative(rootDirectory), manifest, extensionHandler);
         }
 
         IRequestContext^ RequestContext::UnWrap()

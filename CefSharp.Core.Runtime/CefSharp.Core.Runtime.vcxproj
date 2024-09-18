@@ -239,7 +239,6 @@
     <ClCompile Include="CookieManager.cpp" />
     <ClCompile Include="Internals\CefBrowserHostWrapper.cpp" />
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
-    <ClCompile Include="Internals\CefExtensionWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
     <ClCompile Include="Internals\CefBrowserWrapper.cpp" />
     <ClCompile Include="Internals\CefRefCountManaged.cpp" />
@@ -277,8 +276,6 @@
     <ClInclude Include="Internals\CefRegistrationWrapper.h" />
     <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefCookieAccessFilterAdapter.h" />
-    <ClInclude Include="Internals\CefExtensionHandlerAdapter.h" />
-    <ClInclude Include="Internals\CefExtensionWrapper.h" />
     <ClInclude Include="Internals\CefGetExtensionResourceCallbackWrapper.h" />
     <ClInclude Include="Internals\CefResourceRequestHandlerAdapter.h" />
     <ClInclude Include="Internals\CefResourceSkipCallbackWrapper.h" />

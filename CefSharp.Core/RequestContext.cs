@@ -198,46 +198,6 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
-        public bool DidLoadExtension(string extensionId)
-        {
-            return requestContext.DidLoadExtension(extensionId);
-        }
-
-        /// <inheritdoc/>
-        public IExtension GetExtension(string extensionId)
-        {
-            return requestContext.GetExtension(extensionId);
-        }
-
-        /// <inheritdoc/>
-        public bool GetExtensions(out IList<string> extensionIds)
-        {
-            return requestContext.GetExtensions(out extensionIds);
-        }
-
-        /// <inheritdoc/>
-        public bool HasExtension(string extensionId)
-        {
-            return requestContext.CanSetPreference(extensionId);
-        }
-
-        /// <inheritdoc/>
-        public void LoadExtension(string rootDirectory, string manifestJson, IExtensionHandler handler)
-        {
-            if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
-            {
-                requestContext.LoadExtension(rootDirectory, manifestJson, handler);
-            }
-            else
-            {
-                Cef.UIThreadTaskFactory.StartNew(() =>
-                {
-                    requestContext.LoadExtension(rootDirectory, manifestJson, handler);
-                });
-            }
-        }
-
-        /// <inheritdoc/>
         public void Dispose()
         {
             requestContext.Dispose();

@@ -286,10 +286,9 @@ namespace CefSharp
                 PathCheck::AssertAbsolute(cefSettings->LocalesDirPath, "CefSettings.LocalesDirPath");
                 PathCheck::AssertAbsolute(cefSettings->BrowserSubprocessPath, "CefSettings.BrowserSubprocessPath");
 
-
                 if (performDependencyCheck)
                 {
-                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
+                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, false, cefSettings->BrowserSubprocessPath);
                 }
                 else if (!File::Exists(cefSettings->BrowserSubprocessPath))
                 {

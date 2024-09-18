@@ -149,54 +149,6 @@ namespace CefSharp.Wpf.Example
                         });
                     }
                 }
-                else if (param == "LoadExtension")
-                {
-                    var browser = browserViewModel.WebBrowser;
-                    //The sample extension only works for http(s) schemes
-                    if (browser.Address.StartsWith("http"))
-                    {
-                        var requestContext = browser.GetBrowserHost().RequestContext;
-
-                        var dir = Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\CefSharp.Example\Extensions");
-                        dir = Path.GetFullPath(dir);
-                        if (!Directory.Exists(dir))
-                        {
-                            throw new DirectoryNotFoundException("Unable to locate example extensions folder - " + dir);
-                        }
-
-                        var extensionHandler = new ExtensionHandler
-                        {
-                            LoadExtensionPopup = (url) =>
-                            {
-                                Dispatcher.BeginInvoke(new Action(() =>
-                                {
-                                    var extensionWindow = new Window();
-
-                                    var extensionBrowser = new ChromiumWebBrowser(url);
-                                    //extensionBrowser.IsBrowserInitializedChanged += (s, args) =>
-                                    //{
-                                    //    extensionBrowser.ShowDevTools();
-                                    //};
-
-                                    extensionWindow.Content = extensionBrowser;
-
-                                    extensionWindow.Show();
-                                }));
-                            },
-                            GetActiveBrowser = (extension, isIncognito) =>
-                            {
-                                //Return the active browser for which the extension will act upon
-                                return browser.BrowserCore;
-                            }
-                        };
-
-                        requestContext.LoadExtensionsFromDirectory(dir, extensionHandler);
-                    }
-                    else
-                    {
-                        MessageBox.Show("The sample extension only works with http(s) schemes, please load a different website and try again", "Unable to load Extension");
-                    }
-                }
                 else if (param == "ToggleSidebar")
                 {
                     browserViewModel.ShowSidebar = !browserViewModel.ShowSidebar;

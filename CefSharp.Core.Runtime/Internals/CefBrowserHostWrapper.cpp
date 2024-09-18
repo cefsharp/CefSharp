@@ -9,7 +9,6 @@
 #include "include\cef_parser.h"
 
 #include "Cef.h"
-#include "CefExtensionWrapper.h"
 #include "CefTaskScheduler.h"
 #include "DragData.h"
 #include "CefRunFileDialogCallbackAdapter.h"
@@ -287,20 +286,6 @@ void CefBrowserHostWrapper::ReplaceMisspelling(String^ word)
     _browserHost->ReplaceMisspelling(StringUtils::ToNative(word));
 }
 
-IExtension^ CefBrowserHostWrapper::Extension::get()
-{
-    ThrowIfDisposed();
-
-    auto extension = _browserHost->GetExtension();
-
-    if (extension.get())
-    {
-        return gcnew CefExtensionWrapper(_browserHost->GetExtension());
-    }
-
-    return nullptr;
-}
-
 void CefBrowserHostWrapper::RunFileDialog(CefFileDialogMode mode, String^ title, String^ defaultFilePath, IList<String^>^ acceptFilters, IRunFileDialogCallback^ callback)
 {
     ThrowIfDisposed();
@@ -480,13 +465,6 @@ void CefBrowserHostWrapper::Invalidate(PaintElementType type)
     ThrowIfDisposed();
 
     _browserHost->Invalidate((CefBrowserHost::PaintElementType)type);
-}
-
-bool CefBrowserHostWrapper::IsBackgroundHost::get()
-{
-    ThrowIfDisposed();
-
-    return _browserHost->IsBackgroundHost();
 }
 
 void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<CefSharp::Structs::Range> replacementRange, Nullable<CefSharp::Structs::Range> selectionRange)
