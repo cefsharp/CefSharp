@@ -276,7 +276,6 @@
     <ClInclude Include="Internals\CefRegistrationWrapper.h" />
     <ClInclude Include="Internals\CefResourceReadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefCookieAccessFilterAdapter.h" />
-    <ClInclude Include="Internals\CefGetExtensionResourceCallbackWrapper.h" />
     <ClInclude Include="Internals\CefResourceRequestHandlerAdapter.h" />
     <ClInclude Include="Internals\CefResourceSkipCallbackWrapper.h" />
     <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h" />

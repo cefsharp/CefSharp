@@ -57,7 +57,7 @@ namespace CefSharp.Core
         public static bool CrashReportingEnabled { get { throw null; } }
         public static System.Threading.Tasks.TaskFactory FileThreadTaskFactory { get { throw null; } set { } }
         public static System.Threading.Tasks.TaskFactory IOThreadTaskFactory { get { throw null; } set { } }
-        public static bool IsInitialized { get { throw null; } }
+        public static bool? IsInitialized { get { throw null; } }
         public static bool IsShutdown { get { throw null; } }
         public static System.Threading.Tasks.TaskFactory UIThreadTaskFactory { get { throw null; } set { } }
         public static bool AddCrossOriginWhitelistEntry(string sourceOrigin, string targetProtocol, string targetDomain, bool allowTargetSubdomains) { throw null; }
@@ -103,7 +103,6 @@ namespace CefSharp.Core
         public string CachePath { get { throw null; } set { } }
         public CefSharp.Internals.CommandLineArgDictionary CefCommandLineArgs { get { throw null; } }
         public System.Collections.Generic.IEnumerable<CefSharp.CefCustomScheme> CefCustomSchemes { get { throw null; } }
-        public bool ChromeRuntime { get { throw null; } set { } }
         public bool CommandLineArgsDisabled { get { throw null; } set { } }
         public bool CookieableSchemesExcludeDefaults { get { throw null; } set { } }
         public string CookieableSchemesList { get { throw null; } set { } }
@@ -114,9 +113,7 @@ namespace CefSharp.Core
         public string LogFile { get { throw null; } set { } }
         public CefSharp.LogSeverity LogSeverity { get { throw null; } set { } }
         public bool MultiThreadedMessageLoop { get { throw null; } set { } }
-        public bool PackLoadingDisabled { get { throw null; } set { } }
         public bool PersistSessionCookies { get { throw null; } set { } }
-        public bool PersistUserPreferences { get { throw null; } set { } }
         public int RemoteDebuggingPort { get { throw null; } set { } }
         public string ResourcesDirPath { get { throw null; } set { } }
         public string RootCachePath { get { throw null; } set { } }
@@ -270,20 +267,15 @@ namespace CefSharp.Core
         public virtual bool ClearSchemeHandlerFactories() { throw null; }
         public virtual void CloseAllConnections(CefSharp.ICompletionCallback callback) { }
         public static CefSharp.IRequestContext CreateContext(CefSharp.IRequestContext other, CefSharp.IRequestContextHandler requestContextHandler) { throw null; }
-        public virtual bool DidLoadExtension(string extensionId) { throw null; }
         public void Dispose() { }
         protected virtual void Dispose(bool A_0) { }
         ~RequestContext() { }
         public virtual System.Collections.Generic.IDictionary<string, object> GetAllPreferences(bool includeDefaults) { throw null; }
         public virtual CefSharp.ICookieManager GetCookieManager(CefSharp.ICompletionCallback callback) { throw null; }
-        public virtual CefSharp.IExtension GetExtension(string extensionId) { throw null; }
-        public virtual bool GetExtensions(out System.Collections.Generic.IList<string> extensionIds) { throw null; }
         public virtual object GetPreference(string name) { throw null; }
-        public virtual bool HasExtension(string extensionId) { throw null; }
         public virtual bool HasPreference(string name) { throw null; }
         public virtual bool IsSame(CefSharp.IRequestContext context) { throw null; }
         public virtual bool IsSharingWith(CefSharp.IRequestContext context) { throw null; }
-        public virtual void LoadExtension(string rootDirectory, string manifestJson, CefSharp.IExtensionHandler handler) { }
         public virtual bool RegisterSchemeHandlerFactory(string schemeName, string domainName, CefSharp.ISchemeHandlerFactory factory) { throw null; }
         public virtual System.Threading.Tasks.Task<CefSharp.ResolveCallbackResult> ResolveHostAsync(System.Uri origin) { throw null; }
         public virtual bool SetPreference(string name, object value, out string error) { throw null; }
@@ -298,7 +290,6 @@ namespace CefSharp.Core
         public bool CookieableSchemesExcludeDefaults { get { throw null; } set { } }
         public string CookieableSchemesList { get { throw null; } set { } }
         public bool PersistSessionCookies { get { throw null; } set { } }
-        public bool PersistUserPreferences { get { throw null; } set { } }
         public void Dispose() { }
         protected virtual void Dispose(bool A_0) { }
         ~RequestContextSettings() { }

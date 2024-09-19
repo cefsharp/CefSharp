@@ -62,9 +62,6 @@
     <ClCompile Include="Internals\CefValueWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\CefExtensionWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RequestContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,7 +121,7 @@
     <ClInclude Include="Internals\CefTaskScheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="Internals\CefPermissionPromptCallbackWrapper.h">
+    <ClInclude Include="Internals\CefPermissionPromptCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefMediaAccessCallbackWrapper.h">
@@ -260,15 +257,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefValueWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\CefGetExtensionResourceCallbackWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\CefExtensionWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\CefExtensionHandlerAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h">

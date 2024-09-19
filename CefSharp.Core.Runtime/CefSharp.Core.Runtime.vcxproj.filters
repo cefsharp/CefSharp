@@ -253,9 +253,6 @@
     <ClInclude Include="Internals\CefValueWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefGetExtensionResourceCallbackWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\CefRunFileDialogCallbackAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
