@@ -124,8 +124,8 @@ body:
           2. Extract tar.bz2 file
           3. Execute cefclient.exe using the **command line args below**:
           
-          For WPF/OffScreen `cefclient.exe --multi-threaded-message-loop --no-sandbox --off-screen-rendering-enabled --enable-gpu`
-          For WinForms `cefclient.exe --multi-threaded-message-loop --no-sandbox`
+          For WPF/OffScreen `cefclient.exe --multi-threaded-message-loop --no-sandbox --off-screen-rendering-enabled --enable-gpu --use-alloy-style`
+          For WinForms `cefclient.exe --multi-threaded-message-loop --no-sandbox --use-alloy-style`
   - type: dropdown
     id: cefclient-testing
     attributes:
