@@ -184,7 +184,7 @@ function VSX
     $versionSearchStr = "[$VS_VER.0," + ($VS_VER+1) + ".0)"
 
     $ErrorActionPreference="SilentlyContinue"
-    $VSInstallPath = & $VSWherePath -version $versionSearchStr -property installationPath $VS_PRE
+    $VSInstallPath = & $VSWherePath -version $versionSearchStr -latest -property installationPath $VS_PRE
     $ErrorActionPreference="Stop"
     
     Write-Diagnostic "$($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
