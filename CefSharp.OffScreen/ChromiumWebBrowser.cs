@@ -291,7 +291,10 @@ namespace CefSharp.OffScreen
                 //Stop rendering immediately so later on when we dispose of the
                 //RenderHandler no further OnPaint calls take place
                 //Check browser not null as it's possible to call Dispose before it's created
-                browser?.GetHost().WasHidden(true);
+                if (browser?.IsDisposed == false)
+                {
+                    browser?.GetHost().WasHidden(true);
+                }
 
                 // Don't reference event listeners any longer:
                 AddressChanged = null;
