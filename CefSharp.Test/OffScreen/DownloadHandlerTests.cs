@@ -26,7 +26,7 @@ namespace CefSharp.Test.OffScreen
         [InlineData("https://code.jquery.com/jquery-3.4.1.min.js")]
         public async Task ShouldWorkWithoutAskingUser(string url)
         {
-            var tcs = new TaskCompletionSource<string>(TaskContinuationOptions.RunContinuationsAsynchronously);
+            var tcs = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             using (var chromiumWebBrowser = new ChromiumWebBrowser(url, useLegacyRenderHandler: false))
             {
