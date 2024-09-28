@@ -42,6 +42,10 @@
     <Reference Include="System.ServiceModel" />
     <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
 
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>

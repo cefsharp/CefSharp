@@ -33,6 +33,10 @@
     <ItemGroup>
         <PackageReference Include="chromiumembeddedframework.runtime" Version="128.4.9" />
         <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="bin.netcore\**" />
