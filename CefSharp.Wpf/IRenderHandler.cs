@@ -27,7 +27,7 @@ namespace CefSharp.Wpf
         /// client application. The contents of <paramref name="acceleratedPaintInfo"/>acceleratedPaintInfo
         /// will be released back to the pool after this callback returns.
         /// </summary>
-        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="isPopup">indicates whether the element is the view or the popup widget.</param>
         /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
         /// <param name="acceleratedPaintInfo">contains the shared handle; on Windows it is a
         /// HANDLE to a texture that can be opened with D3D11 OpenSharedResource.</param>

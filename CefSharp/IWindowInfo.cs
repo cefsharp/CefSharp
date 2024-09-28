@@ -73,7 +73,7 @@ namespace CefSharp
 
         /// <summary>
         /// Optionally change the runtime style. Alloy style will always be used if
-        /// <see cref="WindowlessRenderingEnabled"> is true. See <see cref="CefRuntimeStyle"/>
+        /// <see cref="WindowlessRenderingEnabled"/> is true. See <see cref="CefRuntimeStyle"/>
         /// documentation for details.
         /// </summary>
         CefRuntimeStyle RuntimeStyle { get; set; }

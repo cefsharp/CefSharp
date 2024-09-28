@@ -59,7 +59,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
             }
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IDisposable.Dispose()
         {
             CompositionTarget.Rendering -= OnRendering;
@@ -79,13 +79,13 @@ namespace CefSharp.Wpf.Rendering.Experimental
             }
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
         {
             throw new NotImplementedException();
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
         {
             if (image.Dispatcher.HasShutdownStarted)

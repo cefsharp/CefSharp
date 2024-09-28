@@ -42,7 +42,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
             this.dispatcherPriority = dispatcherPriority;
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
         {
             //NOT USED

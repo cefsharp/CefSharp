@@ -905,7 +905,7 @@ namespace CefSharp.OffScreen
             return RenderHandler?.GetScreenPoint(viewX, viewY, out screenX, out screenY) ?? false;
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IRenderWebBrowser.OnAcceleratedPaint(PaintElementType type, Rect dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
         {
             RenderHandler?.OnAcceleratedPaint(type, dirtyRect, acceleratedPaintInfo);
