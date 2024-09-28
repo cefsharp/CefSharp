@@ -156,3 +156,5 @@ csharp_space_between_square_brackets                                           =
 # Modifier order
 csharp_preferred_modifier_order                                                = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async : error
 
+# CA2247: Argument passed to TaskCompletionSource constructor should be TaskCreationOptions enum instead of TaskContinuationOptions enum
+dotnet_diagnostic.CA2247.severity = error
