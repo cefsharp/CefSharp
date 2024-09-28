@@ -16,6 +16,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
 	</ItemGroup>
 
