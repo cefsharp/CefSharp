@@ -42,19 +42,19 @@ namespace CefSharp.Wpf.Rendering
             this.invalidateDirtyRect = invalidateDirtyRect;
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IDisposable.Dispose()
         {
 
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IRenderHandler.OnAcceleratedPaint(bool isPopup, Rect dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
         {
             throw new NotImplementedException();
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         void IRenderHandler.OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height, Image image)
         {
             var writeableBitmap = image.Source as WriteableBitmap;

@@ -98,7 +98,7 @@ namespace CefSharp.Wpf.Rendering
             }
         }
 
-        /// </<inheritdoc/>
+        /// <inheritdoc/>
         public virtual void OnAcceleratedPaint(bool isPopup, Rect dirtyRect, AcceleratedPaintInfo acceleratedPaintInfo)
         {
             // NOT USED
