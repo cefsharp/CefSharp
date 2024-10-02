@@ -20,6 +20,7 @@
         <CefSharpBuildAction>NoAction</CefSharpBuildAction>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+        <LangVersion>9.0</LangVersion>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net462'">

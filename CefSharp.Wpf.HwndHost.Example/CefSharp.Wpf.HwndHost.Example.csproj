@@ -8,6 +8,7 @@
 		<StartupObject>CefSharp.Wpf.HwndHost.Example.App</StartupObject>
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
+        <LangVersion>9.0</LangVersion>
 	</PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
