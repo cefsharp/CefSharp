@@ -1508,7 +1508,8 @@ namespace CefSharp.Wpf.HwndHost
         /// </example>
         protected virtual IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
         {
-            var windowInfo = new WindowInfo();
+            var windowInfo = Core.ObjectFactory.CreateWindowInfo();
+            windowInfo.RuntimeStyle = CefSharpSettings.RuntimeStyle ?? CefRuntimeStyle.Alloy;
             windowInfo.SetAsChild(handle);
 
             if (!ActivateBrowserOnCreation)
