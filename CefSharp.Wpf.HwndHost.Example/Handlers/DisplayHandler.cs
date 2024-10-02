@@ -33,6 +33,7 @@ namespace CefSharp.Wpf.HwndHost.Example.Handlers
                         WindowState = WindowState.Maximized,
                         Content = webBrowser
                     };
+                    fullScreenWindow.Loaded += (_,_) => webBrowser.Focus();
 
                     fullScreenWindow.ShowDialog();
                 }
