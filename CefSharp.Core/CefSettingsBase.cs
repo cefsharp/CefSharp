@@ -390,13 +390,18 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance Software Rendering will be used for WebGL, look at the source
-        /// to determine which flags best suite your requirements. 
+        /// Use software rendering and compositing (disable GPU) for increased FPS
+        /// and decreased CPU usage. This will also disable WebGL so don't use this
+        /// method if you need that capability.
         /// </summary>
+        /// <remarks>
+        /// Sets the --disable-gpu and --disable-gpu-compositing command line args
+        /// </remarks>
         public void SetOffScreenRenderingBestPerformanceArgs()
         {
             // Use software rendering and compositing (disable GPU) for increased FPS
-            // and decreased CPU usage. 
+            // and decreased CPU usage. This will also disable WebGL so remove these
+            // switches if you need that capability.
             // See https://github.com/chromiumembedded/cef/issues/1257 for details.
             if (!settings.CefCommandLineArgs.ContainsKey("disable-gpu"))
             {
@@ -406,18 +411,6 @@ namespace CefSharp
             if (!settings.CefCommandLineArgs.ContainsKey("disable-gpu-compositing"))
             {
                 settings.CefCommandLineArgs.Add("disable-gpu-compositing");
-            }
-
-            // Synchronize the frame rate between all processes. This results in
-            // decreased CPU usage by avoiding the generation of extra frames that
-            // would otherwise be discarded. The frame rate can be set at browser
-            // creation time via IBrowserSettings.WindowlessFrameRate or changed
-            // dynamically using IBrowserHost.SetWindowlessFrameRate. In cefclient
-            // it can be set via the command-line using `--off-screen-frame-rate=XX`.
-            // See https://github.com/chromiumembedded/cef/issues/1368 for details.
-            if (!settings.CefCommandLineArgs.ContainsKey("enable-begin-frame-scheduling"))
-            {
-                settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling");
             }
         }
     }
