@@ -6,6 +6,7 @@
 
 using System;
 using System.Threading.Tasks;
+using CefSharp.Enums;
 using CefSharp.Internals;
 
 namespace CefSharp
@@ -368,6 +369,19 @@ namespace CefSharp
         public static ICookieManager GetGlobalCookieManager(ICompletionCallback callback = null)
         {
             return Core.Cef.GetGlobalCookieManager(callback);
+        }
+
+        /// <summary>
+        /// This function can optionally be called on the main application thread after
+        /// CefInitialize to retrieve the initialization exit code. When CefInitialize
+        /// returns true the exit code will be 0 (<see cref="ResultCode.NormalExit"/>).
+        /// Otherwise, see <see cref="ResultCode"/> for possible exit code values including
+        /// browser process initialization errors and normal early exit conditions
+        /// (such as <see cref="ResultCode.NormalExitProcessNotified"/>  for process singleton relaunch behavior).
+        /// </summary>
+        public static ResultCode GetExitCode()
+        {
+            return Core.Cef.GetExitCode();
         }
 
         /// <summary>

@@ -524,6 +524,19 @@ namespace CefSharp
             }
 
             /// <summary>
+            /// This function can optionally be called on the main application thread after
+            /// CefInitialize to retrieve the initialization exit code. When CefInitialize
+            /// returns true the exit code will be 0 (ResultCode.NormalExit).
+            /// Otherwise, see ResultCode for possible exit code values including
+            /// browser process initialization errors and normal early exit conditions
+            /// (such as ResultCode.NormalExitProcessNotified  for process singleton relaunch behavior).
+            /// </summary>
+            static ResultCode GetExitCode()
+            {
+                return (ResultCode)CefGetExitCode();
+            }
+
+            /// <summary>
             /// Called prior to calling Cef.Shutdown, this diposes of any remaning
             /// ChromiumWebBrowser instances. In WPF this is used from Dispatcher.ShutdownStarted
             /// to release the unmanaged resources held by the ChromiumWebBrowser instances.

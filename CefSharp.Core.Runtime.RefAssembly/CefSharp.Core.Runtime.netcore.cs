@@ -69,6 +69,7 @@ namespace CefSharp.Core
         public static void DoMessageLoopWork() { }
         public static void EnableWaitForBrowsersToClose() { }
         public static int ExecuteProcess() { throw null; }
+        public static CefSharp.Enums.ResultCode GetExitCode() { throw null; }
         public static CefSharp.ICookieManager GetGlobalCookieManager() { throw null; }
         public static CefSharp.ICookieManager GetGlobalCookieManager(CefSharp.ICompletionCallback callback) { throw null; }
         public static CefSharp.IRequestContext GetGlobalRequestContext() { throw null; }
