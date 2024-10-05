@@ -145,13 +145,22 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// The root directory that all CefSettings.CachePath and RequestContextSettings.CachePath values must have in common. If this
-            /// value is empty and CefSettings.CachePath is non-empty then it will default to the CefSettings.CachePath value.
-            /// If this value is non-empty then it must be an absolute path.  Failure to set this value correctly may result in the sandbox
-            /// blocking read/write access to the CachePath directory. NOTE: CefSharp does not implement the CHROMIUM SANDBOX. A non-empty
-            /// RootCachePath can be used in conjuncation with an empty CefSettings.CachePath in instances where you would like browsers
-            /// attached to the Global RequestContext (the default) created in "incognito mode" and instances created with a custom
-            /// RequestContext using a disk based cache.
+            /// The root directory for installation-specific data and the parent directory for profile-specific data.
+            /// All CachePath and RequestContextSettings.CachePath" values must have this parent directory
+            /// in common. If this value is empty and <see cref="CachePath"> is non-empty then it will default to the
+            /// CachePath value. Any non-empty value must be an absolute path. If both values are empty then
+            /// the default platform-specific directory will be used ("AppData\Local\CEF\User Data" directory under the user
+            /// profile directory on Windows).
+            ///
+            /// **Use of the default directory is not recommended in production applications(see below).**
+            /// 
+            /// Multiple application instances writing to the same RootCachePath directory could result in data corruption.
+            /// A process singleton lock based on the RootCachePath value is therefore used to protect against this.
+            /// This singleton behavior applies to all CEF-based applications using version 120 or newer.
+            /// You should customize RootCachePath for your application and implement IBrowserProcessHandler.OnAlreadyRunningAppRelaunch,
+            /// which will then be called on any app relaunch with the same RootCachePath value.
+            ///
+            /// Failure to set the RootCachePath value correctly may result in startup crashes or other unexpected behaviors
             /// </summary>
             property String^ RootCachePath
             {
@@ -277,11 +286,15 @@ namespace CefSharp
             }
 
             /// <summary>
-            /// To persist session cookies (cookies without an expiry date or validity interval) by default when using the global cookie
-            /// manager set this value to true. Session cookies are generally intended to be transient and most Web browsers do not persist
-            /// them. A CachePath value must also be specified to enable this feature. Also configurable using the "persist-session-cookies"
-            /// command-line switch. Can be overridden for individual RequestContext instances via the
-            /// RequestContextSettings.PersistSessionCookies value.
+            /// The directory where data for the global browser cache will be stored on disk.
+            /// If this value is non-empty then it must be an absolute path that is either equal to or a child directory
+            /// of RootCachePath. If this value is empty then browsers will be created in "incognito mode"
+            /// where in-memory caches are used for storage and no profile-specific data is persisted to disk
+            /// (installation-specific data will still be persisted in RootCachePath). HTML5 databases
+            /// such as localStorage will only persist across sessions if a cache path is specified.
+            /// Can be overridden for individual RequestContext instances via the RequestContextSettings.CachePath value.
+            /// Any child directory value will be ignored and the "default" profile (also a child directory) will be used
+            /// instead.
             /// </summary>
             property bool PersistSessionCookies
             {
