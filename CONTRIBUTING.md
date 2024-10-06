@@ -19,11 +19,11 @@ The upstream [`CEF` forum](http://magpcss.org/ceforum/) is a valuable resource, 
 It maybe helpful to run the `cefclient` application and compare output with `CefSharp`. The `WinForms` and `WPF` versions use two different rendering modes, `WPF` uses Offscreen Rendering (`OSR`). `OffScreen` also uses `OSR` mode.
 
   - Download and run the `CEF Sample Application(cefclient)`:
-    - Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_127.3.5%2Bg114ea2a%2Bchromium-127.0.6533.120_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_127.3.5%2Bg114ea2a%2Bchromium-127.0.6533.120_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_127.3.5%2Bg114ea2a%2Bchromium-127.0.6533.120_windowsarm64_client.tar.bz2).
+    - Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_129.0.11%2Bg57354b8%2Bchromium-129.0.6668.90_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_129.0.11%2Bg57354b8%2Bchromium-129.0.6668.90_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_129.0.11%2Bg57354b8%2Bchromium-129.0.6668.90_windowsarm64_client.tar.bz2).
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
-		cefclient.exe --multi-threaded-message-loop --no-sandbox --off-screen-rendering-enabled --enable-gpu --use-alloy-style
+		cefclient.exe --multi-threaded-message-loop --no-sandbox --off-screen-rendering-enabled --enable-gpu
 		```
 		- If you are using WinForms run
 		```
