@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using CefSharp.Wpf.Example.Controls;
 
 namespace CefSharp.Wpf.Example
 {

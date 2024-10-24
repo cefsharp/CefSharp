@@ -1,0 +1,3 @@
+[submodule "CefSharp.Wpf.HwndHost"]
+	path = CefSharp.Wpf.HwndHost
+	url = https://github.com/cefsharp/CefSharp.Wpf.HwndHost.git

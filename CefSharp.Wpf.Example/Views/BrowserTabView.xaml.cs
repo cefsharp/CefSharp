@@ -16,8 +16,10 @@ using CefSharp.Example.PostMessage;
 using CefSharp.Fluent;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.Wpf.Example.ViewModels;
+#if ! CEFSHARP_WPF_HWNDHOST
 using CefSharp.Wpf.Experimental;
 using CefSharp.Wpf.Experimental.Accessibility;
+#endif
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -31,9 +33,9 @@ namespace CefSharp.Wpf.Example.Views
             InitializeComponent();
 
             DataContextChanged += OnDataContextChanged;
-
+#if ! CEFSHARP_WPF_HWNDHOST
             browser.UsePopupMouseTransform();
-
+#endif
             //browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 255, 255, 255);
 
             //Please remove the comments below to use the Experimental WpfImeKeyboardHandler.
@@ -182,7 +184,7 @@ namespace CefSharp.Wpf.Example.Views
                     }
                 }).Build();
             */
-
+#if ! CEFSHARP_WPF_HWNDHOST
             browser.MenuHandler = new MenuHandler(addDevtoolsMenuItems:true);
 
             //Enable experimental Accessibility support 
@@ -195,7 +197,7 @@ namespace CefSharp.Wpf.Example.Views
                     //browser.GetBrowserHost().SetAccessibilityState(CefState.Enabled);
                 }
             };
-
+#endif
             browser.DownloadHandler = DownloadHandler
                 .Create()
                 .CanDownload((chromiumWebBrowser, browser, url, requestMethod) =>

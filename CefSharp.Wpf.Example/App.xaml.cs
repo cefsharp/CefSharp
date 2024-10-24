@@ -6,7 +6,9 @@ using System.Windows;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Wpf.Example.Handlers;
-
+#if CEFSHARP_WPF_HWNDHOST
+using CefSharp.Wpf.HwndHost;
+#endif
 namespace CefSharp.Wpf.Example
 {
     public partial class App : Application
