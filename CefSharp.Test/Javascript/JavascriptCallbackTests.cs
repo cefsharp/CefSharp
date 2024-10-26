@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Dynamic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
@@ -202,6 +203,31 @@ namespace CefSharp.Test.Javascript
             var callbackResponse = await callback.ExecuteAsync(expectedDateTime);
 
             var actualDateTime = (DateTime)callbackResponse.Result;
+
+            Assert.Equal(expectedDateTime, actualDateTime, TimeSpan.FromMilliseconds(10));
+
+            output.WriteLine("Expected {0} : Actual {1}", expectedDateTime, actualDateTime);
+        }
+
+        [Fact]
+        public async Task ShouldWorkWithExpandoObject()
+        {
+            AssertInitialLoadComplete();
+
+            var expectedDateTime = DateTime.Now;
+
+            dynamic request = new ExpandoObject();
+            request.dateTime = expectedDateTime;
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync("(function(p) { return p; })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+
+            var callbackResponse = await callback.ExecuteAsync(request);
+
+            dynamic response = callbackResponse.Result;
+            var actualDateTime = (DateTime)response.dateTime;
 
             Assert.Equal(expectedDateTime, actualDateTime, TimeSpan.FromMilliseconds(10));
 
