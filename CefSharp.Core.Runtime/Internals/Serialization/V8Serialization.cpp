@@ -140,6 +140,18 @@ namespace CefSharp
                         list->SetString(index, StringUtils::ToNative(Convert::ToString(obj)));
                     }
                 }
+                // ExpandoObject only implements IDictionary<string,object> not the non-generic System.Collection.IDictionary like Dictionary does
+                else if (type == System::Dynamic::ExpandoObject::typeid)
+                {
+                    auto subDict = CefDictionaryValue::Create();
+                    auto dict = (System::Collections::Generic::IDictionary<String^, Object^>^) obj;
+                    for each (auto kvp in dict)
+                    {
+                        auto fieldName = StringUtils::ToNative(Convert::ToString(kvp.Key));
+                        SerializeV8SimpleObject(subDict, fieldName, kvp.Value, ancestors, nameConverter);
+                    }
+                    list->SetDictionary(index, subDict);
+                }
                 // Serialize dictionary to CefDictionary (key,value pairs)
                 else if (System::Collections::IDictionary::typeid->IsAssignableFrom(type))
                 {
