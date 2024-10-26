@@ -63,6 +63,11 @@ namespace CefSharp
             //Multiple CefBrowserWrappers created when opening popups
             _browserWrappers->TryAdd(browser->GetIdentifier(), wrapper);
 
+            if (!extraInfo.get())
+            {
+                return;
+            }
+
             //For the main browser only we check LegacyBindingEnabled and
             //load the objects. Popups don't send this information and checking
             //will override the _legacyBindingEnabled field
