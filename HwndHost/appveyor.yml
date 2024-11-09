@@ -1,0 +1,44 @@
+image: Visual Studio 2019
+
+version: 130.1.90-CI{build}
+
+clone_depth: 10
+
+#Skip builing if we only modify text files
+skip_commits:
+  files:
+    - '**/*.md'
+    - '**/*.html'
+    - '**/*.js'
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: Any CPU
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration: Release
+
+# scripts to run before build
+before_build:
+  dotnet restore
+
+build:
+  project: CefSharp.Wpf.HwndHost.sln
+  # MSBuild verbosity level
+  verbosity: normal
+
+artifacts:
+  - path: '**\*.nupkg'
+    name: nupkgfiles
+
+# Publish to myget.org feed
+deploy:
+  provider: NuGet
+  server: https://www.myget.org/F/cefsharp/api/v2/package
+  api_key:
+    secure: V8du2PPvMPok3Ya701jt5v2XWQgOZf52/H5wDHXBpKvXYkIIe8sonhVUy2TmEkqt
+  skip_symbols: false
+  symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
+  artifact: nupkgfiles
+  on:
+      branch: master                # release from master branch only
+      APPVEYOR_REPO_TAG: true       # deploy on tag push only
