@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cef="clr-namespace:CefSharp;assembly=CefSharp.Core"
         xmlns:behaviours="clr-namespace:CefSharp.Wpf.HwndHost.Example.Behaviours"
-        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:hwndhost="clr-namespace:CefSharp.Wpf.HwndHost;assembly=CefSharp.Wpf.HwndHost"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" xmlns:hwndhost="clr-namespace:CefSharp.Wpf.HwndHost;assembly=CefSharp.Wpf"
         FocusManager.FocusedElement="{Binding ElementName=Browser}"
         mc:Ignorable="d"
         Title="CefSharp.Wpf.HwndHost.Example - MainWindow" Height="768" Width="1024">

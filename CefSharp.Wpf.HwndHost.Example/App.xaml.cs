@@ -16,7 +16,7 @@ namespace CefSharp.Wpf.HwndHost.Example
     {
         public App()
         {
-#if !NETCOREAPP3_1
+#if !NETCOREAPP3_1_OR_GREATER
             CefRuntime.SubscribeAnyCpuAssemblyResolver();
 #endif
         }

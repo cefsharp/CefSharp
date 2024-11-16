@@ -492,6 +492,9 @@ namespace CefSharp.Wpf.HwndHost
         /// <value>The redo command.</value>
         public ICommand RedoCommand { get; private set; }
 
+        /// <inheritdoc/>
+        public ICommand ToggleAudioMuteCommand { get; private set; }
+
         /// <summary>
         /// Used as workaround for issue https://github.com/cefsharp/CefSharp/issues/3021
         /// </summary>
@@ -661,6 +664,7 @@ namespace CefSharp.Wpf.HwndHost
             SelectAllCommand = new DelegateCommand(this.SelectAll);
             UndoCommand = new DelegateCommand(this.Undo);
             RedoCommand = new DelegateCommand(this.Redo);
+            ToggleAudioMuteCommand = new DelegateCommand(this.ToggleAudioMute);
 
             managedCefBrowserAdapter = ManagedCefBrowserAdapter.Create(this, false);
 
