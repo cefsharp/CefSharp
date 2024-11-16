@@ -1,0 +1,86 @@
+<Window x:Class="CefSharp.Wpf.HwndHost.Example.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cef="clr-namespace:CefSharp;assembly=CefSharp.Core"
+        xmlns:behaviours="clr-namespace:CefSharp.Wpf.HwndHost.Example.Behaviours"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:hwndhost="clr-namespace:CefSharp.Wpf.HwndHost;assembly=CefSharp.Wpf.HwndHost"
+        FocusManager.FocusedElement="{Binding ElementName=Browser}"
+        mc:Ignorable="d"
+        Title="CefSharp.Wpf.HwndHost.Example - MainWindow" Height="768" Width="1024">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="2,5" />
+                </Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Margin" Value="2,5" />
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Back" Command="{Binding BackCommand, ElementName=Browser}" Width="50"/>
+            <Button Content="Forward" Command="{Binding ForwardCommand, ElementName=Browser}" Grid.Column="1" Width="60"/>
+            <TextBox x:Name="txtBoxAddress" Text="{Binding Address, ElementName=Browser, FallbackValue=www.google.com}" Grid.Column="2" FontSize="12" BorderBrush="Gray" BorderThickness="1">
+                <behaviors:Interaction.Behaviors>
+                    <behaviours:TextBoxBindingUpdateOnEnterBehaviour />
+                </behaviors:Interaction.Behaviors>
+            </TextBox>
+            <Button Content="Print..." Command="{Binding PrintCommand, ElementName=Browser}" Grid.Column="3" Width="50" />
+            <Button Content="View source" Command="{Binding ViewSourceCommand, ElementName=Browser}" Grid.Column="4" Width="75" />
+            <Button Content="Show DevTools" Click="ShowDevToolsClick" Grid.Column="5" Width="100" />
+        </Grid>
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1">
+            <hwndhost:ChromiumWebBrowser x:Name="Browser"
+                                    Address="https://www.google.com">
+                <behaviors:Interaction.Behaviors>
+                    <behaviours:HoverLinkBehaviour x:Name="HoverLinkBehaviour"/>
+                </behaviors:Interaction.Behaviors>
+            </hwndhost:ChromiumWebBrowser>
+        </Border>
+        <ProgressBar IsIndeterminate="{Binding IsLoading, ElementName=Browser}"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top"
+                     Width="Auto"
+                     Grid.Row="1"
+                     Height="2"
+                     Visibility="{Binding IsLoading, ElementName=Browser, Converter={StaticResource BooleanToVisibilityConverter}}"
+                     BorderThickness="0" />
+        <StatusBar Grid.Row="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock Text="{Binding HoverLink, ElementName=HoverLinkBehaviour}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+            </StatusBarItem>
+            <Separator Grid.Column="1" />
+            <StatusBarItem Grid.Column="2">
+                <TextBlock HorizontalAlignment="Right" TextAlignment="Right" VerticalAlignment="Center">
+                Chromium: <Run Text="{Binding Source={x:Static cef:Cef.ChromiumVersion}, Mode=OneTime}" />, CEF: <Run Text="{Binding Source={x:Static cef:Cef.CefVersion}, Mode=OneTime}" />, CefSharp: <Run Text="{Binding Source={x:Static cef:Cef.CefSharpVersion}, Mode=OneTime}"/>, Environment: <Run Text="{Binding Converter={StaticResource EnvironmentConverter}, Mode=OneTime}"/>
+                </TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
