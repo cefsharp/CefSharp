@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+		<TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
+		<RootNamespace>CefSharp.Wpf.HwndHost.Example</RootNamespace>
+		<CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
+		<StartupObject>CefSharp.Wpf.HwndHost.Example.App</StartupObject>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+        <LangVersion>9.0</LangVersion>
+	</PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+        <SelfContained Condition="'$(SelfContained)' == ''">false</SelfContained>
+    </PropertyGroup>
+
+    <ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="crash_reporter.cfg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<Target Name="CefSharpAfterBuildDebug" AfterTargets="AfterBuild">
+		<CallTarget Targets="CefSharpAfterBuildDiagnostic" />
+	</Target>
+</Project>
