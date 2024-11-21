@@ -5,7 +5,7 @@
 using System.Windows;
 using CefSharp.Enums;
 using Microsoft.Windows.Input.TouchKeyboard;
-
+#if ! CEFSHARP_WPF_HWNDHOST
 namespace CefSharp.Wpf.Example
 {
     /// <summary>
@@ -56,3 +56,5 @@ namespace CefSharp.Wpf.Example
         }
     }
 }
+
+#endif

@@ -4,7 +4,9 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+#if ! CEFSHARP_WPF_HWNDHOST
 using TabControlAutomationPeer = CefSharp.Wpf.Experimental.Accessibility.TabControlAutomationPeer;
+#endif
 
 namespace CefSharp.Wpf.Example.Controls
 {
