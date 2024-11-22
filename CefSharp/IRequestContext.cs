@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.Enums;
 
 namespace CefSharp
 {
@@ -190,6 +191,73 @@ namespace CefSharp
         /// <param name="origin">host name to resolve</param>
         /// <returns>A task that represents the Resoolve Host operation. The value of the TResult parameter contains ResolveCallbackResult.</returns>
         Task<ResolveCallbackResult> ResolveHostAsync(Uri origin);
+
+        /// <summary>
+        /// Returns the current value for <paramref name="contentType"/> that applies for the
+        /// specified URLs. If both URLs are empty the default value will be returned.
+        /// Returns null if no value is configured.
+        /// Must be called on the browser
+        /// process UI thread.
+        /// </summary>
+        /// <param name="requestingUrl">Requesting url</param>
+        /// <param name="topLevelUrl">Top level url</param>
+        /// <param name="contentType">Content type</param>
+        /// <returns>Returns the current value for <paramref name="contentType"/> that applies for the
+        /// specified URLs.</returns>
+        object GetWebsiteSetting(string requestingUrl, string topLevelUrl, ContentSettingTypes contentType);
+
+        /// <summary>
+        /// Sets the current value for <paramref name="contentType"/> for the specified URLs in the
+        /// default scope. If both URLs are empty, and the context is not incognito,
+        /// the default value will be set. Pass null for <paramref name="value"/> to remove the
+        /// default value for this content type.
+        ///
+        /// WARNING: Incorrect usage of this method may cause instability or security
+        /// issues in Chromium. Make sure that you first understand the potential
+        /// impact of any changes to <paramref name="contentType"/> by reviewing the related source
+        /// code in Chromium. For example, if you plan to modify
+        /// <see cref="ContentSettingTypes.Popups"/>, first review and understand the usage of
+        /// ContentSettingsType::POPUPS in Chromium:
+        /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+        /// </summary>
+        /// <param name="requestingUrl">Requesting url</param>
+        /// <param name="topLevelUrl">Top level url</param>
+        /// <param name="contentType">Content type</param>
+        /// <param name="value">value </param>
+        void SetWebsiteSetting(string requestingUrl, string topLevelUrl, ContentSettingTypes contentType, object value);
+
+        /// <summary>
+        /// Returns the current value for <paramref name="contentType"/> that applies for the
+        /// specified URLs. If both URLs are empty the default value will be returned.
+        /// Returns <see cref="ContentSettingValues.Default"/> if no value is configured. Must
+        /// be called on the browser process UI thread.
+        /// </summary>
+        /// <param name="requestingUrl">Requesting url</param>
+        /// <param name="topLevelUrl">Top level url</param>
+        /// <param name="contentType">Content type</param>
+        /// <returns>Returns the current value for <paramref name="contentType"/> that applies for the
+        /// specified URLs.</returns>
+        ContentSettingValues GetContentSetting(string requestingUrl, string topLevelUrl, ContentSettingTypes contentType);
+
+        /// <summary>
+        /// Sets the current value for <paramref name="contentType"/> for the specified URLs in the
+        /// default scope. If both URLs are empty, and the context is not incognito,
+        /// the default value will be set. Pass <see cref="ContentSettingValues.Default"/> for
+        /// <paramref name="value"/> to use the default value for this content type.
+        ///
+        /// WARNING: Incorrect usage of this method may cause instability or security
+        /// issues in Chromium. Make sure that you first understand the potential
+        /// impact of any changes to |content_type| by reviewing the related source
+        /// code in Chromium. For example, if you plan to modify
+        /// <see cref="ContentSettingTypes.Popups"/>, first review and understand the usage of
+        /// ContentSettingsType::POPUPS in Chromium:
+        /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+        /// </summary>
+        /// <param name="requestingUrl">Requesting url</param>
+        /// <param name="topLevelUrl">Top level url</param>
+        /// <param name="contentType">Content type</param>
+        /// <param name="value">value</param>
+        void SetContentSetting(string requestingUrl, string topLevelUrl, ContentSettingTypes contentType, ContentSettingValues value);
 
         /// <summary>
         /// Used internally to get the underlying <see cref="IRequestContext"/> instance.

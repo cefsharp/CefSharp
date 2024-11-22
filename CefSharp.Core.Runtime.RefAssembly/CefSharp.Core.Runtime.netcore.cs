@@ -272,14 +272,18 @@ namespace CefSharp.Core
         protected virtual void Dispose(bool A_0) { }
         ~RequestContext() { }
         public virtual System.Collections.Generic.IDictionary<string, object> GetAllPreferences(bool includeDefaults) { throw null; }
+        public virtual CefSharp.Enums.ContentSettingValues GetContentSetting(string requestingUrl, string topLevelUrl, CefSharp.Enums.ContentSettingTypes contentType) { throw null; }
         public virtual CefSharp.ICookieManager GetCookieManager(CefSharp.ICompletionCallback callback) { throw null; }
         public virtual object GetPreference(string name) { throw null; }
+        public virtual object GetWebsiteSetting(string requestingUrl, string topLevelUrl, CefSharp.Enums.ContentSettingTypes contentType) { throw null; }
         public virtual bool HasPreference(string name) { throw null; }
         public virtual bool IsSame(CefSharp.IRequestContext context) { throw null; }
         public virtual bool IsSharingWith(CefSharp.IRequestContext context) { throw null; }
         public virtual bool RegisterSchemeHandlerFactory(string schemeName, string domainName, CefSharp.ISchemeHandlerFactory factory) { throw null; }
         public virtual System.Threading.Tasks.Task<CefSharp.ResolveCallbackResult> ResolveHostAsync(System.Uri origin) { throw null; }
+        public virtual void SetContentSetting(string requestingUrl, string topLevelUrl, CefSharp.Enums.ContentSettingTypes contentType, CefSharp.Enums.ContentSettingValues value) { }
         public virtual bool SetPreference(string name, object value, out string error) { throw null; }
+        public virtual void SetWebsiteSetting(string requestingUrl, string topLevelUrl, CefSharp.Enums.ContentSettingTypes contentType, object value) { }
         public virtual CefSharp.IRequestContext UnWrap() { throw null; }
     }
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]

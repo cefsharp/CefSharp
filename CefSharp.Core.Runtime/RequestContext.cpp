@@ -164,6 +164,40 @@ namespace CefSharp
             return callback->Task;
         }
 
+        Object^ RequestContext::GetWebsiteSetting(String^ requestingUrl, String^ topLevelUrl, Enums::ContentSettingTypes contentType)
+        {
+            ThrowIfDisposed();
+
+            auto result = _requestContext->GetWebsiteSetting(StringUtils::ToNative(requestingUrl), StringUtils::ToNative(topLevelUrl), (cef_content_setting_types_t)contentType);
+
+            return TypeConversion::FromNative(result);
+        }
+
+        void RequestContext::SetWebsiteSetting(String^ requestingUrl, String^ topLevelUrl, Enums::ContentSettingTypes contentType, Object^ value)
+        {
+            ThrowIfDisposed();
+
+            auto nativeValue = TypeConversion::ToNative(value);
+
+            _requestContext->SetWebsiteSetting(StringUtils::ToNative(requestingUrl), StringUtils::ToNative(topLevelUrl), (cef_content_setting_types_t)contentType, nativeValue);
+        }
+
+        Enums::ContentSettingValues RequestContext::GetContentSetting(String^ requestingUrl, String^ topLevelUrl, Enums::ContentSettingTypes contentType)
+        {
+            ThrowIfDisposed();
+
+            auto result = _requestContext->GetContentSetting(StringUtils::ToNative(requestingUrl), StringUtils::ToNative(topLevelUrl), (cef_content_setting_types_t)contentType);
+
+            return (Enums::ContentSettingValues)result;
+        }
+        
+        void RequestContext::SetContentSetting(String^ requestingUrl, String^ topLevelUrl, Enums::ContentSettingTypes contentType, Enums::ContentSettingValues value)
+        {
+            ThrowIfDisposed();
+
+            _requestContext->SetContentSetting(StringUtils::ToNative(requestingUrl), StringUtils::ToNative(topLevelUrl), (cef_content_setting_types_t)contentType, (cef_content_setting_values_t)value);
+        }
+
         IRequestContext^ RequestContext::UnWrap()
         {
             return this;

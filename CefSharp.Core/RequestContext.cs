@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.Enums;
 
 namespace CefSharp
 {
@@ -195,6 +196,26 @@ namespace CefSharp
         public Task<ResolveCallbackResult> ResolveHostAsync(Uri origin)
         {
             return requestContext.ResolveHostAsync(origin);
+        }
+
+        public object GetWebsiteSetting(string requestingUrl, string topLevelUrl, ContentSettingTypes contentType)
+        {
+            return requestContext.GetWebsiteSetting(requestingUrl, topLevelUrl, contentType);
+        }
+
+        public void SetWebsiteSetting(string requestingUrl, string topLevelUrl, ContentSettingTypes contentType, object value)
+        {
+            requestContext.SetWebsiteSetting(requestingUrl, topLevelUrl, contentType, value);
+        }
+
+        public ContentSettingValues GetContentSetting(string requestingUrl, string topLevelUrl, ContentSettingTypes contentType)
+        {
+            return requestContext.GetContentSetting(requestingUrl, topLevelUrl, contentType);
+        }
+
+        public void SetContentSetting(string requestingUrl, string topLevelUrl, ContentSettingTypes contentType, ContentSettingValues value)
+        {
+            requestContext.SetContentSetting(requestingUrl, topLevelUrl, contentType, value);
         }
 
         /// <inheritdoc/>

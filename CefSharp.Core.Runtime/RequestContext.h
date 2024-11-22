@@ -307,6 +307,73 @@ namespace CefSharp
             virtual Task<ResolveCallbackResult>^ ResolveHostAsync(Uri^ origin);
 
             /// <summary>
+            /// Returns the current value for <paramref name="contentType"/> that applies for the
+            /// specified URLs. If both URLs are empty the default value will be returned.
+            /// Returns null if no value is configured.
+            /// Must be called on the browser
+            /// process UI thread.
+            /// </summary>
+            /// <param name="requestingUrl">Requesting url</param>
+            /// <param name="topLevelUrl">Top level url</param>
+            /// <param name="contentType">Content type</param>
+            /// <returns>Returns the current value for <paramref name="contentType"/> that applies for the
+            /// specified URLs.</returns>
+            virtual Object^ GetWebsiteSetting(String^ requestingUrl, String^ topLevelUrl, Enums::ContentSettingTypes contentType);
+
+            /// <summary>
+            /// Sets the current value for <paramref name="contentType"/> for the specified URLs in the
+            /// default scope. If both URLs are empty, and the context is not incognito,
+            /// the default value will be set. Pass null for <paramref name="value"/> to remove the
+            /// default value for this content type.
+            ///
+            /// WARNING: Incorrect usage of this method may cause instability or security
+            /// issues in Chromium. Make sure that you first understand the potential
+            /// impact of any changes to <paramref name="contentType"/> by reviewing the related source
+            /// code in Chromium. For example, if you plan to modify
+            /// <see cref="ContentSettingTypes.Popups"/>, first review and understand the usage of
+            /// ContentSettingsType::POPUPS in Chromium:
+            /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+            /// </summary>
+            /// <param name="requestingUrl">Requesting url</param>
+            /// <param name="topLevelUrl">Top level url</param>
+            /// <param name="contentType">Content type</param>
+            /// <param name="value">value </param>
+            virtual void SetWebsiteSetting(String^ requestingUrl, String^ topLevelUrl, Enums::ContentSettingTypes contentType, Object^ value);
+
+            /// <summary>
+            /// Returns the current value for <paramref name="contentType"/> that applies for the
+            /// specified URLs. If both URLs are empty the default value will be returned.
+            /// Returns <see cref="ContentSettingValues.Default"/> if no value is configured. Must
+            /// be called on the browser process UI thread.
+            /// </summary>
+            /// <param name="requestingUrl">Requesting url</param>
+            /// <param name="topLevelUrl">Top level url</param>
+            /// <param name="contentType">Content type</param>
+            /// <returns>Returns the current value for <paramref name="contentType"/> that applies for the
+            /// specified URLs.</returns>
+            virtual Enums::ContentSettingValues GetContentSetting(String^ requestingUrl, String^ topLevelUrl, Enums::ContentSettingTypes contentType);
+
+            /// <summary>
+            /// Sets the current value for <paramref name="contentType"/> for the specified URLs in the
+            /// default scope. If both URLs are empty, and the context is not incognito,
+            /// the default value will be set. Pass <see cref="ContentSettingValues.Default"/> for
+            /// <paramref name="value"/> to use the default value for this content type.
+            ///
+            /// WARNING: Incorrect usage of this method may cause instability or security
+            /// issues in Chromium. Make sure that you first understand the potential
+            /// impact of any changes to |content_type| by reviewing the related source
+            /// code in Chromium. For example, if you plan to modify
+            /// <see cref="ContentSettingTypes.Popups"/>, first review and understand the usage of
+            /// ContentSettingsType::POPUPS in Chromium:
+            /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+            /// </summary>
+            /// <param name="requestingUrl">Requesting url</param>
+            /// <param name="topLevelUrl">Top level url</param>
+            /// <param name="contentType">Content type</param>
+            /// <param name="value">value</param>
+            virtual void SetContentSetting(String^ requestingUrl, String^ topLevelUrl, Enums::ContentSettingTypes contentType, Enums::ContentSettingValues value);
+
+            /// <summary>
             /// Gets the inner most instance
             /// </summary>
             /// <returns>current instance</returns>
