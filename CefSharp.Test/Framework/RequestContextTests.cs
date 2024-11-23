@@ -40,7 +40,7 @@ namespace CefSharp.Test.Framework
         public void CanGetContentSetting()
         {
             var ctx = RequestContext.Configure()
-                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache1"))
+                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache2"))
                 .Create();
 
             var actual = ctx.GetContentSetting(CefExample.DefaultUrl, null, ContentSettingTypes.Autoplay);
@@ -51,9 +51,17 @@ namespace CefSharp.Test.Framework
         [Fact]
         public async Task CanSetContentSetting()
         {
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
             var ctx = RequestContext.Configure()
-                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache1"))
+                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache3"))
+                .OnInitialize((ctx) =>
+                {
+                    tcs.SetResult(true);
+                })
                 .Create();
+
+            await tcs.Task;
 
             var actual = ContentSettingValues.Default;
 
@@ -70,9 +78,17 @@ namespace CefSharp.Test.Framework
         [Fact]
         public async Task CanSetWebsiteSetting()
         {
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
             var ctx = RequestContext.Configure()
-                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache1"))
+                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache4"))
+                .OnInitialize((ctx) =>
+                {
+                    tcs.SetResult(true);
+                })
                 .Create();
+
+            await tcs.Task;
 
             object actual = ContentSettingValues.Default;
 
