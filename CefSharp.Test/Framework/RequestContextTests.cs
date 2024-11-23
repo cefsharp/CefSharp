@@ -4,6 +4,10 @@
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
+using CefSharp.Enums;
+using CefSharp.Example;
+using CefSharp.Internals;
 using Xunit;
 
 namespace CefSharp.Test.Framework
@@ -30,6 +34,56 @@ namespace CefSharp.Test.Framework
             var ctx2 = new RequestContext(ctx1);
 
             Assert.True(ctx1.IsSharingWith(ctx2));
+        }
+
+        [Fact]
+        public void CanGetContentSetting()
+        {
+            var ctx = RequestContext.Configure()
+                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache1"))
+                .Create();
+
+            var actual = ctx.GetContentSetting(CefExample.DefaultUrl, null, ContentSettingTypes.Autoplay);
+
+            Assert.Equal(ContentSettingValues.Default, actual);
+        }
+
+        [Fact]
+        public async Task CanSetContentSetting()
+        {
+            var ctx = RequestContext.Configure()
+                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache1"))
+                .Create();
+
+            var actual = ContentSettingValues.Default;
+
+            await CefThread.ExecuteOnUiThread(() =>
+            {
+                ctx.SetContentSetting(CefExample.DefaultUrl, null, ContentSettingTypes.Autoplay, ContentSettingValues.Block);
+
+                actual = ctx.GetContentSetting(CefExample.DefaultUrl, null, ContentSettingTypes.Autoplay);
+            });            
+
+            Assert.Equal(ContentSettingValues.Block, actual);
+        }
+
+        [Fact]
+        public async Task CanSetWebsiteSetting()
+        {
+            var ctx = RequestContext.Configure()
+                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache1"))
+                .Create();
+
+            object actual = ContentSettingValues.Default;
+
+            await CefThread.ExecuteOnUiThread(() =>
+            {
+                ctx.SetWebsiteSetting(CefExample.DefaultUrl, null, ContentSettingTypes.Popups, (int)ContentSettingValues.Allow);
+
+                actual = ctx.GetWebsiteSetting(CefExample.DefaultUrl, null, ContentSettingTypes.Popups);
+            });
+
+            Assert.Equal(ContentSettingValues.Allow, (ContentSettingValues)actual);
         }
     }
 }
