@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30223.230
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.netcore", "CefSharp\CefSharp.netcore.csproj", "{39E385AD-DC5C-451E-B061-09AF3EE038EB}"
 EndProject
@@ -72,6 +72,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Core.netcore", "CefSharp.Core\CefSharp.Core.netcore.csproj", "{310E5602-C920-4A4C-B0B0-178155528149}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Core.Runtime.RefAssembly.netcore", "CefSharp.Core.Runtime.RefAssembly\CefSharp.Core.Runtime.RefAssembly.netcore.csproj", "{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Wpf.HwndHost.Example.netcore", "CefSharp.Wpf.HwndHost.Example\CefSharp.Wpf.HwndHost.Example.netcore.csproj", "{D137B43E-077C-4820-AC4F-34BA074FFCF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -243,6 +245,18 @@ Global
 		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x64.Build.0 = Release|Any CPU
 		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x86.ActiveCfg = Release|Any CPU
 		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x86.Build.0 = Release|Any CPU
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Debug|arm64.ActiveCfg = Debug|arm64
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Debug|arm64.Build.0 = Debug|arm64
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Debug|x64.ActiveCfg = Debug|x64
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Debug|x64.Build.0 = Debug|x64
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Debug|x86.ActiveCfg = Debug|x86
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Debug|x86.Build.0 = Debug|x86
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Release|arm64.ActiveCfg = Release|arm64
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Release|arm64.Build.0 = Release|arm64
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Release|x64.ActiveCfg = Release|x64
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Release|x64.Build.0 = Release|x64
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Release|x86.ActiveCfg = Release|x86
+		{D137B43E-077C-4820-AC4F-34BA074FFCF8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
