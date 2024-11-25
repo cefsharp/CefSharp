@@ -133,8 +133,12 @@ namespace CefSharp.Wpf.Example
                 }
                 else if (param == "ToggleAudioMute")
                 {
+#if CEFSHARP_WPF_HWNDHOST
+                    throw new NotImplementedException();
+#else
                     var cmd = browserViewModel.WebBrowser.ToggleAudioMuteCommand;
                     cmd.Execute(null);
+#endif
                 }
                 else if (param == "ClearHttpAuthCredentials")
                 {

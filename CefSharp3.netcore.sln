@@ -73,6 +73,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Core.netcore", "Ce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Core.Runtime.RefAssembly.netcore", "CefSharp.Core.Runtime.RefAssembly\CefSharp.Core.Runtime.RefAssembly.netcore.csproj", "{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.HwndHost", "..\CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost.csproj", "{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|arm64 = Debug|arm64
@@ -243,6 +245,18 @@ Global
 		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x64.Build.0 = Release|Any CPU
 		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x86.ActiveCfg = Release|Any CPU
 		{A4AFD158-0B6F-4579-AE79-EC386C8BEA58}.Release|x86.Build.0 = Release|Any CPU
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Debug|arm64.ActiveCfg = Debug|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Debug|arm64.Build.0 = Debug|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Debug|x64.ActiveCfg = Debug|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Debug|x64.Build.0 = Debug|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Debug|x86.ActiveCfg = Debug|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Debug|x86.Build.0 = Debug|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Release|arm64.ActiveCfg = Release|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Release|arm64.Build.0 = Release|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Release|x64.ActiveCfg = Release|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Release|x64.Build.0 = Release|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Release|x86.ActiveCfg = Release|x64
+		{94AF2E6A-6508-451F-BF4A-56B9C0AB1993}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
