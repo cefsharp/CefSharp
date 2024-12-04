@@ -19,7 +19,9 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-        <Platforms>x86;x64;arm64</Platforms>
+        <!-- Builds failing for arm64 on appveyor for some reason-->
+        <!--<Platforms>x86;x64;arm64</Platforms>-->
+        <Platforms>x86;x64</Platforms>
         <!-- Explicitly set the PlatformTarget for arm64, see: https://github.com/dotnet/sdk/issues/15434 -->
         <PlatformTarget Condition="'$(Platform)' == 'arm64'">arm64</PlatformTarget>
         <StartupObject>CefSharp.Wpf.HwndHost.Example.App</StartupObject>
