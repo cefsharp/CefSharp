@@ -15,6 +15,7 @@ using CefSharp.DevTools.Page;
 using CefSharp.Internals;
 using CefSharp.Structs;
 using CefSharp.Wpf.HwndHost.Internals;
+using CefSharp.Wpf.Internals;
 
 namespace CefSharp.Wpf.HwndHost
 {
