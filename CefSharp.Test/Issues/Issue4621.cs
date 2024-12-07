@@ -55,8 +55,33 @@ namespace CefSharp.Test.Issues
 
                 var mainFrame = browser.GetMainFrame();
                 Assert.True(mainFrame.IsValid);
-                var buttonText = await mainFrame.EvaluateScriptAsync<string>("(function() { return document.querySelector(\"a[data-action='sign in']\").innerText; })();");
-                Assert.Equal("Sign in", buttonText);
+                var text = await mainFrame.EvaluateScriptAsync<string>("(function() { return document.querySelector(\"span\").innerText; })();");
+                Assert.Equal("For work", text);
+            }
+        }
+
+        [SkipIfRunOnAppVeyorFact]
+        public async Task NavigateBetweenTwoUrlsBreaksJs()
+        {
+            const string theUrl = "https://brave.com/";
+            const string theUrl2 = "https://brave.com/search/";
+
+            using (var browser = new ChromiumWebBrowser(theUrl, useLegacyRenderHandler: false))
+            {
+                var response = await browser.WaitForInitialLoadAsync();
+
+                await Task.Delay(1000);
+
+                for (var x = 0; x < 20; x++)
+                {
+                    await browser.LoadUrlAsync(x % 2 == 0 ? theUrl : theUrl2);
+
+                    var javascriptResponse = await browser.EvaluateScriptAsync($"{x}+1");
+
+                    Assert.True(javascriptResponse.Success, javascriptResponse.Message);
+
+                    Assert.Equal(x + 1, (int)javascriptResponse.Result);
+                }
             }
         }
     }
