@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>CefSharp.Wpf.HwndHost</id>
+    <version>$version$</version>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE</license>
+    <projectUrl>https://github.com/cefsharp/CefSharp</projectUrl>
+    <description>The CefSharp Chromium-based browser component. The CefSharp.Wpf.HwndHost.ChromiumWebBrowser control is a drop in replacement for the CefSharp.Wpf.ChromiumWebBrowser that's rougly equivilent to hosting the WinForms version in WPF.</description>
+    <copyright>Copyright © The CefSharp Authors</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.2">
+        <dependency id="CefSharp.Wpf" version="[$version$]" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="CefSharp.Wpf.NETCore" version="[$version$]" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework=".NETCoreApp3.1">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+      <group targetFramework=".NETFramework4.6.2" />
+    </frameworkReferences>
+  </metadata>
+</package>
