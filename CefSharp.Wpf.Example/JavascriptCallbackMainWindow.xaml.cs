@@ -15,7 +15,10 @@ namespace CefSharp.Wpf.Example
         public JavascriptCallbackMainWindow()
         {
             InitializeComponent();
-
+#if ! CEFSHARP_WPF_HWNDHOST
+            BrowserTwo.BorderBrush = BrowserOne.BorderBrush = System.Windows.Media.Brushes.Red;
+            BrowserTwo.BorderThickness = BrowserOne.BorderThickness = new Thickness(1);
+#endif
             boundObjectOne = new JavascriptCallbackBoundObject(BrowserOne);
             boundObjectTwo = new JavascriptCallbackBoundObject(BrowserTwo);
 
