@@ -3,7 +3,7 @@
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
         <Platforms>x86;x64</Platforms>
-        <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <UseWPF>true</UseWPF>
