@@ -51,7 +51,7 @@ namespace CefSharp
 
             if (objectRepositorySettings->LegacyBindingEnabled)
             {
-                auto legacyBoundObjects = objectRepository->GetLegacyBoundObjects();
+                auto legacyBoundObjects = objectRepository->GetLegacyBoundObjects(address);
 
                 legacyBindingEnabled = objectRepository->HasBoundObjects;
 

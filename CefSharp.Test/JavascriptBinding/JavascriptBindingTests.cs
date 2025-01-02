@@ -210,6 +210,7 @@ namespace CefSharp.Test.JavascriptBinding
 
             Assert.NotNull(evt);
             Assert.Equal("first", evt.Arguments.ObjectName);
+            Assert.Equal("https://cefsharp.example/HelloWorld.html", evt.Arguments.Url);
         }
 
         [Fact]

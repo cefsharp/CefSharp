@@ -19,8 +19,8 @@ namespace CefSharp.Internals
         bool TrySetProperty(long objectId, string name, object value, out string exception);
 #endif
         bool IsBrowserInitialized { get; set; }
-        List<JavascriptObject> GetObjects(List<string> names = null);
-        List<JavascriptObject> GetLegacyBoundObjects();
+        List<JavascriptObject> GetObjects(string url, List<string> names = null);
+        List<JavascriptObject> GetLegacyBoundObjects(string url);
         void ObjectsBound(List<Tuple<string, bool, bool>> objs);
     }
 }
