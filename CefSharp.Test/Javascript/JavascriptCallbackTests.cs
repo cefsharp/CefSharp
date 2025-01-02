@@ -106,7 +106,7 @@ namespace CefSharp.Test.Javascript
         //https://github.com/cefsharp/CefSharp/issues/3858
         public async Task ShouldWorkForDouble(double num)
         {
-            var javascriptResponse = await Browser.EvaluateScriptAsync("(function() { return " + num + "})");
+            var javascriptResponse = await Browser.EvaluateScriptAsync("(function() { return " + num.ToString(CultureInfo.InvariantCulture) + "})");
             Assert.True(javascriptResponse.Success);
 
             var callback = (IJavascriptCallback)javascriptResponse.Result;
