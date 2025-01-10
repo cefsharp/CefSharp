@@ -449,11 +449,21 @@ namespace CefSharp.WinForms
 
                 initialLoadAction = null;
 
-                var host = browser?.GetHost();
+                int statusCode = 0;
 
-                var navEntry = host?.GetVisibleNavigationEntry();
+                try
+                {
+                    var host = browser?.GetHost();
 
-                int statusCode = navEntry?.HttpStatusCode ?? -1;
+                    var navEntry = host?.GetVisibleNavigationEntry();
+
+                    statusCode = navEntry?.HttpStatusCode ?? -1;
+                }
+                catch (ObjectDisposedException)
+                {
+                    // The host might got disposed
+                    // https://github.com/cefsharp/CefSharp/issues/5002
+                }
 
                 //By default 0 is some sort of error, we map that to -1
                 //so that it's clearer that something failed.
