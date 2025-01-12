@@ -35,10 +35,12 @@
         <SelfContained Condition="'$(Configuration)' == 'Debug'">false</SelfContained>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'False'">
+      <DefineConstants>$(DefineConstants);CEFSHARP_WPF_HWNDHOST</DefineConstants>
+    </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
-        <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
         <PackageReference Include="chromiumembeddedframework.runtime" Version="131.3.1" />
         <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
@@ -49,6 +51,18 @@
         <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
     </ItemGroup>
 
+    <Choose>
+        <When Condition="$(DefineConstants.Contains(CEFSHARP_WPF_HWNDHOST))">
+            <ItemGroup>
+                <ProjectReference Include="..\CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost\CefSharp.Wpf.HwndHost.csproj" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
     <ItemGroup>
         <None Include="crash_reporter.cfg">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

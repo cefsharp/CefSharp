@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
+#if CEFSHARP_WPF_HWNDHOST
+using CefSharp.Wpf.HwndHost;
+#endif
 
 namespace CefSharp.Wpf.Example.ViewModels
 {

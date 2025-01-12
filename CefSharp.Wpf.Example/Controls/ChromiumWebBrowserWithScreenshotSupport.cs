@@ -97,7 +97,7 @@ namespace CefSharp.Wpf.Example.Controls
 
             return screenshotTaskCompletionSource.Task;
         }
-
+#if ! CEFSHARP_WPF_HWNDHOST
         protected override CefSharp.Structs.Rect GetViewRect()
         {
             if (isTakingScreenshot)
@@ -161,7 +161,7 @@ namespace CefSharp.Wpf.Example.Controls
                 base.OnPaint(isPopup, dirtyRect, buffer, width, height);
             }
         }
-
+#endif
         private void TakeScreenshot()
         {
             var uiThreadTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();

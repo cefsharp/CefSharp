@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+#if ! CEFSHARP_WPF_HWNDHOST
 using CefSharp.Wpf.Handler;
 
 namespace CefSharp.Wpf.Example.Handlers
@@ -46,3 +47,5 @@ namespace CefSharp.Wpf.Example.Handlers
         }
     }
 }
+
+#endif
