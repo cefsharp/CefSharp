@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
 using System.Windows;
+using CefSharp.Wpf.Internals;
 
 namespace CefSharp.Wpf.Handler
 {

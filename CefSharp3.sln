@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Example", "CefSharp.Example\CefSharp.Example.csproj", "{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -84,6 +84,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Test", "CefSharp.T
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Core", "CefSharp.Core\CefSharp.Core.csproj", "{B760B002-D277-4525-9F63-67ED2065034A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Wpf.HwndHost.Example", "CefSharp.Wpf.HwndHost.Example\CefSharp.Wpf.HwndHost.Example.csproj", "{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,6 +199,14 @@ Global
 		{B760B002-D277-4525-9F63-67ED2065034A}.Release|Win32.Build.0 = Release|Any CPU
 		{B760B002-D277-4525-9F63-67ED2065034A}.Release|x64.ActiveCfg = Release|Any CPU
 		{B760B002-D277-4525-9F63-67ED2065034A}.Release|x64.Build.0 = Release|Any CPU
+		{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}.Debug|Win32.ActiveCfg = Debug|x86
+		{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}.Debug|Win32.Build.0 = Debug|x86
+		{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}.Debug|x64.ActiveCfg = Debug|x64
+		{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}.Debug|x64.Build.0 = Debug|x64
+		{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}.Release|Win32.ActiveCfg = Release|x86
+		{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}.Release|Win32.Build.0 = Release|x86
+		{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}.Release|x64.ActiveCfg = Release|x64
+		{B019C1F9-3015-4B7B-B4A4-B07DF4220CD3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

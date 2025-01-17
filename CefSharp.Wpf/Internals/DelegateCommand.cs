@@ -5,12 +5,12 @@
 using System;
 using System.Windows.Input;
 
-namespace CefSharp.Wpf
+namespace CefSharp.Wpf.Internals
 {
     /// <summary>
     /// DelegateCommand
     /// </summary>
-    /// <seealso cref="System.Windows.Input.ICommand" />
+    /// <seealso cref="ICommand" />
     internal class DelegateCommand : ICommand
     {
         /// <summary>
@@ -64,10 +64,7 @@ namespace CefSharp.Wpf
         /// </summary>
         public void RaiseCanExecuteChanged()
         {
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

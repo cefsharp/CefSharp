@@ -486,7 +486,7 @@ if($IsNetCoreBuild)
 {
     $CefSln = Join-Path $WorkingDir 'CefSharp3.netcore.sln'
     $NugetPackagePath = "nuget\PackageReference";
-    $NupkgFiles = @('CefSharp.Common.NETCore.nuspec', 'CefSharp.WinForms.NETCore.nuspec', 'CefSharp.Wpf.NETCore.nuspec','CefSharp.OffScreen.NETCore.nuspec')
+    $NupkgFiles = @('CefSharp.Common.NETCore.nuspec', 'CefSharp.WinForms.NETCore.nuspec', 'CefSharp.Wpf.NETCore.nuspec','CefSharp.OffScreen.NETCore.nuspec', 'CefSharp.Wpf.HwndHost.nuspec')
     $VCXProjPackageConfigFiles = @('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.netcore.config', 'CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.netcore.config');
     $SupportedArches.AddRange(@("x86", "x64", "arm64"));
 }

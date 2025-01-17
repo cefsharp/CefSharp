@@ -345,7 +345,7 @@ namespace CefSharp.Enums
         /// a specified account. When this is present it allows access to session
         /// management capabilities between the sites. This setting is associated
         /// with the relying party's origin.
-        // Obsolete on Nov 2023.
+        /// Obsolete on Nov 2023.
         /// </summary>
         DeprecatedFederatedIdentityActiveSession,
 
