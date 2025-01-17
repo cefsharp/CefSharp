@@ -9,7 +9,7 @@ param(
     [Parameter(Position = 2)]
     [string] $AssemblyVersion = "131.3.10",
     [Parameter(Position = 3)]
-    [ValidateSet("NetFramework", "NetCore", "NetFramework452", "NetCore31")]
+    [ValidateSet("NetFramework", "NetCore", "NetFramework462", "NetCore31")]
     [string] $TargetFramework = "NetFramework",
     [Parameter(Position = 4)]
     [string] $BuildArches = "x86 x64 arm64"

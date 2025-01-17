@@ -9,6 +9,7 @@
     <license type="file">LICENSE</license>
     <projectUrl>https://github.com/cefsharp/CefSharp</projectUrl>
     <description>The CefSharp Chromium-based browser component. The CefSharp.Wpf.HwndHost.ChromiumWebBrowser control is a drop in replacement for the CefSharp.Wpf.ChromiumWebBrowser that's rougly equivilent to hosting the WinForms version in WPF.</description>
+	<tags>wpf chrome browser chromium-embedded cefsharp</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETFramework4.6.2">
@@ -24,5 +25,15 @@
       </group>
       <group targetFramework=".NETFramework4.6.2" />
     </frameworkReferences>
+	<releaseNotes>
+    <![CDATA[
+      See https://github.com/cefsharp/CefSharp/releases/tag/v$version$ for release notes including Known Issues, Breaking Changes, Bugs Fixed, new features.
+      Important you read the release notes to see what's changed in this version.
+    ]]>
+    </releaseNotes>
   </metadata>
+  <files>
+    <file src="Readme.txt" target="" />
+	<file src="..\..\LICENSE" target="LICENSE" />
+  </files>
 </package>
