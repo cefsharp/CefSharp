@@ -21,8 +21,8 @@ body:
     id: cefsharp-version
     attributes:
       label: CefSharp Version
-      description: What version are you using? Please only open an issue if you can reproduce the problem with version 130.1.90 or later.
-      placeholder: 130.1.90
+      description: What version are you using? Please only open an issue if you can reproduce the problem with version 131.3.50 or later.
+      placeholder: 131.3.50
     validations:
       required: true
   - type: dropdown
@@ -36,6 +36,7 @@ body:
         - Windows Server 2016
         - Windows Server 2019
         - Windows Server 2022
+        - Windows Server 2025
     validations:
       required: true
   - type: dropdown
@@ -67,6 +68,7 @@ body:
       options:
         - WinForms
         - WPF
+        - WPF HwndHost
         - OffScreen
     validations:
       required: true
