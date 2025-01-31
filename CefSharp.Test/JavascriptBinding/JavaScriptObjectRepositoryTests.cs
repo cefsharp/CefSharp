@@ -41,7 +41,7 @@ namespace CefSharp.Test.JavascriptBinding
 #endif
             Assert.True(javascriptObjectRepository.IsBound(name));
 
-            var boundObjects = javascriptObjectRepository.GetObjects(new List<string> { name });
+            var boundObjects = javascriptObjectRepository.GetObjects("example.com", new List<string> { name });
             Assert.Single(boundObjects);
 
             var result = javascriptObjectRepository.TryCallMethod(boundObjects[0].Id, "getExampleString", new object[0]);
@@ -74,7 +74,7 @@ namespace CefSharp.Test.JavascriptBinding
             javascriptObjectRepository.Register(name, new NoNamespaceClass(), false, bindingOptions);
             Assert.True(javascriptObjectRepository.IsBound(name));
 
-            var boundObjects = javascriptObjectRepository.GetObjects(new List<string> { name });
+            var boundObjects = javascriptObjectRepository.GetObjects("example.com", new List<string> { name });
             Assert.Single(boundObjects);
 
             object getResult, setResult = 100;

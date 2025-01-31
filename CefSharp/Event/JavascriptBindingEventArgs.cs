@@ -22,14 +22,21 @@ namespace CefSharp.Event
         public string ObjectName { get; private set; }
 
         /// <summary>
+        /// URL of frame the <see cref="IJavascriptObjectRepository.ResolveObject"/> call originated from.
+        /// </summary>
+        public string Url { get; private set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="objectRepository">object repository</param>
+        /// <param name="url">URL of frame the <see cref="IJavascriptObjectRepository.ResolveObject"/> call originated from.</param>
         /// <param name="name">object name</param>
-        public JavascriptBindingEventArgs(IJavascriptObjectRepository objectRepository, string name)
+        public JavascriptBindingEventArgs(IJavascriptObjectRepository objectRepository, string url, string name)
         {
             ObjectRepository = objectRepository;
             ObjectName = name;
+            Url = url;
         }
     }
 }
