@@ -19,7 +19,7 @@ The upstream [`CEF` forum](http://magpcss.org/ceforum/) is a valuable resource, 
 It maybe helpful to run the `cefclient` application and compare output with `CefSharp`. The `WinForms` and `WPF` versions use two different rendering modes, `WPF` uses Offscreen Rendering (`OSR`). `OffScreen` also uses `OSR` mode.
 
   - Download and run the `CEF Sample Application(cefclient)`:
-    - Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_131.2.7%2Bg9a14dc9%2Bchromium-131.0.6778.86_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_131.2.7%2Bg9a14dc9%2Bchromium-131.0.6778.86_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_131.2.7%2Bg9a14dc9%2Bchromium-131.0.6778.86_windowsarm64_client.tar.bz2).
+    - Download for [x86](https://cef-builds.spotifycdn.com/cef_binary_133.4.6%2Bg24b5131%2Bchromium-133.0.6943.99_windows32_client.tar.bz2) or [x64](https://cef-builds.spotifycdn.com/cef_binary_133.4.6%2Bg24b5131%2Bchromium-133.0.6943.99_windows64_client.tar.bz2) or [arm64](https://cef-builds.spotifycdn.com/cef_binary_133.4.6%2Bg24b5131%2Bchromium-133.0.6943.99_windowsarm64_client.tar.bz2).
 	- Extract and run cefclient.exe
 		- If you are using WPF/OffScreen run
 		```
