@@ -28,7 +28,7 @@ Basic Troubleshooting:
     * libcef.dll (Chromium Embedded Framework Core library)
     * icudtl.dat (Unicode Support data)
 	* chrome_elf.dll(Crash reporting library)
-	* snapshot_blob.bin, v8_context_snapshot.bin (V8 snapshot data)
+	* v8_context_snapshot.bin (V8 snapshot data)
 	* locales\en-US.pak, chrome_100_percent.pak, chrome_200_percent.pak, resources.pak, d3dcompiler_47.dll, libEGL.dll, libGLESv2.dll
 	  - Whilst these are technically listed as optional, the browser is unlikely to function without these files.
 	  - See https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29 for details
