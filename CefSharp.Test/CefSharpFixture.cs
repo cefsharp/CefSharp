@@ -39,6 +39,13 @@ namespace CefSharp.Test
                     throw new Exception(@"Add <add key=""xunit.appDomain"" value=""denied""/> to your app.config to disable appdomains");
                 }
 
+                var apiHash = Cef.ApiHash(Cef.ApiVersion);
+
+                if (Cef.ApiHashPlatform != apiHash)
+                {
+                    throw new Exception($"CEF API Has does not match expected. {apiHash} {Cef.ApiHashPlatform}");
+                }                    
+
                 Cef.EnableWaitForBrowsersToClose();
                 CefSharp.Internals.BrowserRefCounter.Instance.EnableLogging();
 

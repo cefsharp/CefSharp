@@ -125,6 +125,37 @@ namespace CefSharp
                 }
             }
 
+            /// <summary>
+            /// API version that will be compiled client-side. The experimental (unversioned)
+            /// API is selected by default. Clients can set the CEF_API_VERSION value in
+            /// their project configuration to configure an explicit API version. Unlike
+            /// the experimental API, explicit API versions are back/forward compatible with
+            /// a specific range of CEF versions.
+            /// </summary>
+            static property int ApiVersion
+            {
+                int get()
+                {
+                    return CEF_API_VERSION;
+                }
+            }
+
+            /// <summary>
+            /// API hashes for the selected CEF_API_VERSION. API hashes are created for
+            /// each version by analyzing CEF header files for C API type definitions. The
+            /// hash value will change when header files are modified in a way that may
+            /// cause binary incompatibility with other builds.
+            /// </summary>
+            static property String^ ApiHashPlatform
+            {
+                String^ get()
+                {
+                    auto hash = CEF_API_HASH_PLATFORM;
+    
+                    return gcnew String(hash);
+                }
+            }
+
             /// <summary>Gets a value that indicates the Chromium version currently being used.</summary>
             /// <value>The Chromium version.</value>
             static property String^ ChromiumVersion
@@ -147,6 +178,28 @@ namespace CefSharp
                 {
                     return CEF_COMMIT_HASH;
                 }
+            }
+
+            /// <summary>
+            /// Configures the CEF API version and returns API hashes for the libcef
+            /// library.  The entry parameter describes which hash value will be returned:
+            ///
+            /// 0 - CEF_API_HASH_PLATFORM
+            /// 1 - CEF_API_HASH_UNIVERSAL (deprecated, same as CEF_API_HASH_PLATFORM)
+            /// 2 - CEF_COMMIT_HASH (from cef_version.h)
+            ///
+            /// </summary>
+            /// <param name="version">parameter should be CEF_API_VERSION and any changes to this value will be ignored after the first call to this method.</param>
+            /// <param name="entry">The entry parameter describes which hash value will be returned:</param>
+            /// <returns>
+            /// returns API hashes for the libcef library.
+            /// The returned string is owned by the library and should not be freed.
+            /// </returns>
+            static String^ ApiHash(int version, int entry)
+            {
+                auto response = cef_api_hash(version, entry);
+
+                return gcnew String(response);
             }
 
             /// <summary>
