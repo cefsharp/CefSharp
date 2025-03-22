@@ -65,7 +65,7 @@ namespace CefSharp.Test
                 settings.RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests");
                 //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
                 //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
-                settings.DisableGpuAcceleration();
+                settings.SetOffScreenRenderingBestPerformanceArgs();
 
                 var success = Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
 
