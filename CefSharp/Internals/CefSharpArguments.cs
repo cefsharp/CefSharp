@@ -10,6 +10,7 @@ namespace CefSharp.Internals
         public const string HostProcessIdArgument = "--host-process-id";
         public const string CustomSchemeArgument = "--custom-scheme";
         public const string FocusedNodeChangedEnabledArgument = "--focused-node-enabled";
+        public const string PerBrowserJavaScriptObjectCache = "--jsb-cache-perbrowser";
         public const string SubProcessTypeArgument = "--type";
         public const string ExitIfParentProcessClosed = "--cefsharpexitsub";
     }
