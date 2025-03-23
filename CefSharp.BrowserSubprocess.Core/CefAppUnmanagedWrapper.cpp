@@ -131,6 +131,12 @@ namespace CefSharp
                 _handler->OnContextCreated(% browserWrapper, % frameWrapper, % contextWrapper);
             }
 
+            //Skip additional contexts (DevTools, extensions) to avoid
+            //double binding and duplicate calls to IRenderProcessMessageHandler.OnContextCreated
+            //https://github.com/chromiumembedded/cef/issues/3867
+            bool isSameContext = frame->GetV8Context()->IsSame(context);
+            if (!isSameContext)
+                return;
             auto rootObject = GetJsRootObjectWrapper(browser->GetIdentifier(), frame->GetIdentifier());
 
             if (_legacyBindingEnabled)

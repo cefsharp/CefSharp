@@ -27,6 +27,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -34,14 +35,15 @@
             </Grid.ColumnDefinitions>
             <Button Content="Back" Command="{Binding BackCommand, ElementName=Browser}" Width="50"/>
             <Button Content="Forward" Command="{Binding ForwardCommand, ElementName=Browser}" Grid.Column="1" Width="60"/>
-            <TextBox x:Name="txtBoxAddress" Text="{Binding Address, ElementName=Browser, FallbackValue=www.google.com}" Grid.Column="2" FontSize="12" BorderBrush="Gray" BorderThickness="1">
+            <Button Content="Reload" Command="{Binding ReloadCommand, ElementName=Browser}" Grid.Column="2" Width="60"/>
+            <TextBox x:Name="txtBoxAddress" Text="{Binding Address, ElementName=Browser, FallbackValue=www.google.com}" Grid.Column="3" FontSize="12" BorderBrush="Gray" BorderThickness="1">
                 <behaviors:Interaction.Behaviors>
                     <behaviours:TextBoxBindingUpdateOnEnterBehaviour />
                 </behaviors:Interaction.Behaviors>
             </TextBox>
-            <Button Content="Print..." Command="{Binding PrintCommand, ElementName=Browser}" Grid.Column="3" Width="50" />
-            <Button Content="View source" Command="{Binding ViewSourceCommand, ElementName=Browser}" Grid.Column="4" Width="75" />
-            <Button Content="Show DevTools" Click="ShowDevToolsClick" Grid.Column="5" Width="100" />
+            <Button Content="Print..." Command="{Binding PrintCommand, ElementName=Browser}" Grid.Column="4" Width="50" />
+            <Button Content="View source" Command="{Binding ViewSourceCommand, ElementName=Browser}" Grid.Column="5" Width="75" />
+            <Button Content="Show DevTools" Click="ShowDevToolsClick" Grid.Column="6" Width="100" />
         </Grid>
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1">
             <hwndhost:ChromiumWebBrowser x:Name="Browser"
