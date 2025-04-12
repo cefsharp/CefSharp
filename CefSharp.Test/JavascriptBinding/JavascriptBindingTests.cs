@@ -157,14 +157,16 @@ namespace CefSharp.Test.JavascriptBinding
             }
         }
 
-        [Fact]
-        public async Task ShouldEnableJsBindingApiForOrigin()
+        [Theory]
+        [InlineData(CefExample.BaseUrl + "/")]
+        [InlineData("someorigin", CefExample.BaseUrl + "/")]
+        public async Task ShouldEnableJsBindingApiForOrigin(params string[] origins)
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
             {
                 var settings = browser.JavascriptObjectRepository.Settings;
                 settings.JavascriptBindingApiEnabled = true;
-                settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.ExampleDomain };
+                settings.JavascriptBindingApiAllowOrigins = origins;
 
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
