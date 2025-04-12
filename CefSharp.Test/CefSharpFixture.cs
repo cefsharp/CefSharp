@@ -64,6 +64,7 @@ namespace CefSharp.Test
                 settings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\Cache");
                 settings.RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests");
                 //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
+                //settings.CefCommandLineArgs.Add("disable-features=SpareRendererForSitePerProcess");
                 //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
                 settings.SetOffScreenRenderingBestPerformanceArgs();
 
