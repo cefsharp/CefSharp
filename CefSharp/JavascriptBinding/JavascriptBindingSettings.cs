@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Generic;
 using CefSharp.Internals;
 
 namespace CefSharp.JavascriptBinding
@@ -15,6 +16,7 @@ namespace CefSharp.JavascriptBinding
         private bool legacyBindingEnabled;
         private string jsBindingGlobalObjectName;
         private bool jsBindingApiEnabled = true;
+        private string[] javascriptBindingApiAllowOrigins;
 
         /// <summary>
         /// The Javascript methods that CefSharp provides in relation to JavaScript Binding are
@@ -30,6 +32,24 @@ namespace CefSharp.JavascriptBinding
                 ThrowIfFrozen();
 
                 jsBindingApiEnabled = value;
+            }
+        }
+
+        /// <summary>
+        /// When <see cref="JavascriptBindingApiEnabled"/> is set to true, set a collection
+        /// of origins to limit which origins CefSharp will create it's global (window) object.
+        /// </summary>
+        /// <remarks>
+        /// If you wish to create the CefSharp object for a limited set of origins then set this property
+        /// </remarks>
+        public string[] JavascriptBindingApiAllowOrigins
+        {
+            get { return javascriptBindingApiAllowOrigins; }
+            set
+            {
+                ThrowIfFrozen();
+
+                javascriptBindingApiAllowOrigins = value;
             }
         }
 
@@ -94,6 +114,18 @@ namespace CefSharp.JavascriptBinding
 
                 alwaysInterceptAsynchronously = value;
             }
+        }
+
+        /// <summary>
+        /// HasJavascriptBindingApiAllowOrigins 
+        /// </summary>
+        /// <returns>bool true if <see cref="JavascriptBindingApiAllowOrigins"/> is non empty collection.</returns>
+        public bool HasJavascriptBindingApiAllowOrigins()
+        {
+            if (javascriptBindingApiAllowOrigins == null)
+                return false;
+
+            return javascriptBindingApiAllowOrigins.Length > 0;
         }
     }
 }
