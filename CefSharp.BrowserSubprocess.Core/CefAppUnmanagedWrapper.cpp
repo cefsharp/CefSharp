@@ -173,6 +173,7 @@ namespace CefSharp
                     if (CefParseURL(frameUrl, frameUrlParts))
                     {
                         auto frameUrlOrigin = CefString(frameUrlParts.origin.str, frameUrlParts.origin.length);
+                        auto clrframeUrlOrigin = StringUtils::ToClr(frameUrlOrigin);
 
                         auto size = static_cast<int>(_jsBindingApiAllowOrigins->GetSize());
 
@@ -180,7 +181,11 @@ namespace CefSharp
                         {
                             auto origin = _jsBindingApiAllowOrigins->GetString(i);
 
-                            if (origin.compare(frameUrlOrigin))
+                            auto clrOrigin = StringUtils::ToClr(origin);
+
+                            auto originEqual = String::Compare(clrframeUrlOrigin, clrOrigin, StringComparison::InvariantCultureIgnoreCase);
+
+                            if (originEqual == 0)
                             {
                                 createObjects = true;
 
