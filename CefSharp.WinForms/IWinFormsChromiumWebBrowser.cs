@@ -38,5 +38,11 @@ namespace CefSharp.WinForms
         /// To access UI elements you'll need to Invoke/Dispatch onto the UI Thread.
         /// </summary>
         event EventHandler IsBrowserInitializedChanged;
+
+        /// <inheritdoc cref="Control.CanSelect"/>
+        bool CanSelect { get; }
+
+        /// <inheritdoc cref="Control.Select()"/>
+        void Select();        
     }
 }

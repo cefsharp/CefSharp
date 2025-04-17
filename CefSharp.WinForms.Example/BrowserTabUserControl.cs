@@ -486,6 +486,11 @@ namespace CefSharp.WinForms.Example
                 Browser.LoadUrl(searchUrl);
             }
 
+            //Give the browser focus after starting navigation
+            if (Browser.CanSelect)
+            {
+                Browser.Select();
+            }
         }
 
         public async Task HideScrollbarsAsync()
