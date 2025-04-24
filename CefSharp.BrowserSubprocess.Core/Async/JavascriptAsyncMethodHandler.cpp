@@ -24,32 +24,10 @@ namespace CefSharp
                 auto context = CefV8Context::GetCurrentContext();
                 auto frame = context->GetFrame();
 
-                CefRefPtr<CefV8Value> promiseData;
-                CefRefPtr<CefV8Exception> promiseException;
-                //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
-                if (!context->Eval(CefAppUnmanagedWrapper::kPromiseCreatorScript, CefString(), 0, promiseData, promiseException))
-                {
-                    LOG(WARNING) << "JavascriptAsyncMethodHandler::Execute promiseData returned exception: " + promiseException->GetMessage().ToString();
+                CefRefPtr<CefV8Value> promise = CefV8Value::CreatePromise();
+                retval = promise;
 
-                    exception = promiseException->GetMessage();
-
-                    return true;
-                }
-
-                //when refreshing the browser this is sometimes null, in this case return true and log message
-                //https://github.com/cefsharp/CefSharp/pull/2446
-                if (promiseData == nullptr)
-                {
-                    LOG(WARNING) << "JavascriptAsyncMethodHandler::Execute promiseData returned nullptr";
-
-                    return true;
-                }
-
-                retval = promiseData->GetValue("p");
-
-                auto resolve = promiseData->GetValue("res");
-                auto reject = promiseData->GetValue("rej");
-                auto callback = gcnew JavascriptAsyncMethodCallback(context, resolve, reject);
+                auto callback = gcnew JavascriptAsyncMethodCallback(context, promise);
                 auto callbackId = _methodCallbackSave->Invoke(callback);
 
                 auto request = CefProcessMessage::Create(kJavascriptAsyncMethodCallRequest);
