@@ -289,4 +289,23 @@ QUnit.module('BindingTestAsync', (hooks) =>
         assert.equal(true, !!result.BindResult.boundAsync2);
     });
 
+    QUnit.test('Validates BindObjectAsync result fields:', async (assert) => {
+        const bindResult = await CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: true }, 'boundAsync2');
+        const keys = Object.getOwnPropertyDescriptors(bindResult);
+
+        assert.equal(true, !!keys['count'], 'count');
+        assert.equal(true, !!keys['Count'], 'Count');
+
+        assert.equal(true, !!keys['message'], 'message');
+        assert.equal(true, !!keys['Message'], 'Message');
+
+        assert.equal(true, !!keys['success'], 'success');
+        assert.equal(true, !!keys['Success'], 'Success');
+
+        assert.equal(true, !!keys['bindResult'], 'bindResult');
+        assert.equal(true, !!keys['BindResult'], 'BindResult');
+
+        assert.equal(true, CefSharp.DeleteBoundObject('boundAsync2'), 'Object was unbound');
+    });
+
 });

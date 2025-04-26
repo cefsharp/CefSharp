@@ -223,10 +223,19 @@ namespace CefSharp
             {
                 auto response = CefV8Value::CreateObject(nullptr, nullptr);
 
-                response->SetValue("Count", CefV8Value::CreateInt(count), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                response->SetValue("Message", CefV8Value::CreateString(StringUtils::ToNative(message)), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                response->SetValue("Success", CefV8Value::CreateBool(isSuccess), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                const auto countResult = CefV8Value::CreateInt(count);
+                const auto messageResult = CefV8Value::CreateString(StringUtils::ToNative(message));
+                const auto successResult = CefV8Value::CreateBool(isSuccess);
+
+                response->SetValue("Count", countResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("Message", messageResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("Success", successResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
                 response->SetValue("BindResult", bindResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+
+                response->SetValue("count", countResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("message", messageResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("success", successResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("bindResult", bindResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
                 return response;
             }
