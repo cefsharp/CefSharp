@@ -800,7 +800,7 @@ namespace CefSharp.Wpf
                 }
                 else
                 {
-                    InputLanguageManager.Current.InputLanguageChanged += OnInputLangageChanged;
+                    InputLanguageManager.Current.InputLanguageChanged += OnInputLanguageChanged;
 
                     WpfKeyboardHandler = new WpfKeyboardHandler(this);
                 }
@@ -808,7 +808,7 @@ namespace CefSharp.Wpf
             catch (Exception ex)
             {
                 //For now we'll ignore any errors
-                Trace.TraceError($"Error unsubscribing from InputLanguageChanged {ex.ToString()}");
+                Trace.TraceError($"Error initializing keyboard handler: {ex.ToString()}");
 
                 // For now we'll ignore any errors and just use the default keyboard handler
                 WpfKeyboardHandler = new WpfKeyboardHandler(this);
@@ -1796,7 +1796,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void OnInputLangageChanged(object sender, InputLanguageEventArgs e)
+        private void OnInputLanguageChanged(object sender, InputLanguageEventArgs e)
         {
             // If we are already using the WpfImeKeyboardHandler then we'll ignore any changes
             if (WpfKeyboardHandler?.GetType() == typeof(WpfImeKeyboardHandler))
@@ -1812,7 +1812,7 @@ namespace CefSharp.Wpf
                 WpfKeyboardHandler = new WpfImeKeyboardHandler(this);
                 oldKeyboardHandler?.Dispose();                
 
-                InputLanguageManager.Current.InputLanguageChanged -= OnInputLangageChanged;
+                InputLanguageManager.Current.InputLanguageChanged -= OnInputLanguageChanged;
             }
         }
 
@@ -2925,7 +2925,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void UnsubsribeInputLanguageChanged()
+        private void UnsubscribeInputLanguageChanged()
         {
             // If we are using WpfImeKeyboardHandler then we
             // shouldn't need to unsubsribe from the handler
@@ -2944,7 +2944,7 @@ namespace CefSharp.Wpf
 
                     if (inputLangManager != null)
                     {
-                        inputLangManager.InputLanguageChanged -= OnInputLangageChanged;
+                        inputLangManager.InputLanguageChanged -= OnInputLanguageChanged;
                     }
                 });
             }
