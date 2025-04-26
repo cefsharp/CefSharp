@@ -38,7 +38,7 @@ namespace CefSharp
                     }
                 }
 
-                void Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value> &value);
+                CefRefPtr<CefV8Value> ConvertToV8Value(JavascriptObject^ object);
             };
         }
     }

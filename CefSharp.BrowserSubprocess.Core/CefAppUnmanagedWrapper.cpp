@@ -648,7 +648,7 @@ namespace CefSharp
 
                         try
                         {
-                            rootObject->Bind(javascriptObjects, context->GetGlobal());
+                            auto bindResult = rootObject->Bind(javascriptObjects, context->GetGlobal());
 
                             if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
                             {
@@ -656,11 +656,11 @@ namespace CefSharp
                                 if (javascriptObjects->Count > 0)
                                 {
                                     //TODO: JSB Should we include a list of successfully bound object names?
-                                    callback->Success(BindObjectAsyncHandler::CreateResultObject(javascriptObjects->Count, "OK", true));
+                                    callback->Success(BindObjectAsyncHandler::CreateBindResult(javascriptObjects->Count, "OK", true, bindResult));
                                 }
                                 else
                                 {
-                                    callback->Success(BindObjectAsyncHandler::CreateResultObject(javascriptObjects->Count, "Zero objects bounds", false));
+                                    callback->Success(BindObjectAsyncHandler::CreateBindResult(javascriptObjects->Count, "Zero objects bounds", false, bindResult));
                                 }
 
                                 //Send message notifying Browser Process of which objects were bound

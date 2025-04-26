@@ -12,7 +12,7 @@ namespace CefSharp
 {
     namespace BrowserSubprocess
     {
-        void JavascriptObjectWrapper::Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry)
+        CefRefPtr<CefV8Value> JavascriptObjectWrapper::ConvertToV8Value(JavascriptObject^ object, JavascriptCallbackRegistry^ callbackRegistry)
         {
             _objectId = object->Id;
 
@@ -24,8 +24,6 @@ namespace CefSharp
 
             //V8Value that represents this javascript object - only one per complex type
             auto javascriptObject = CefV8Value::CreateObject(_jsPropertyHandler.get(), nullptr);
-            auto objectName = StringUtils::ToNative(object->JavascriptName);
-            v8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 
             for each (JavascriptMethod ^ method in Enumerable::OfType<JavascriptMethod^>(object->Methods))
             {
@@ -42,6 +40,8 @@ namespace CefSharp
 
                 _wrappedProperties->Add(wrappedproperty);
             }
+
+            return javascriptObject;
         }
 
         BrowserProcessResponse^ JavascriptObjectWrapper::GetProperty(String^ memberName)

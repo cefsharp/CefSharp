@@ -15,12 +15,11 @@ namespace CefSharp
     {
         namespace Async
         {
-            void JavascriptAsyncObjectWrapper::Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value> &value)
+            CefRefPtr<CefV8Value> JavascriptAsyncObjectWrapper::ConvertToV8Value(JavascriptObject^ object)
             {
                 //V8Value that represents this javascript object - only one per complex type, no accessor
                 auto javascriptObject = CefV8Value::CreateObject(nullptr, nullptr);
                 auto objectName = StringUtils::ToNative(object->JavascriptName);
-                value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 
                 for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(object->Methods))
                 {
@@ -29,6 +28,8 @@ namespace CefSharp
 
                     _wrappedMethods->Add(wrappedMethod);
                 }
+
+                return javascriptObject;
             }
         }
     }

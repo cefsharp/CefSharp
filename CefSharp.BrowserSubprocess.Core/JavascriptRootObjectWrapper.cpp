@@ -14,19 +14,21 @@ namespace CefSharp
 {
     namespace BrowserSubprocess
     {
-        void JavascriptRootObjectWrapper::Bind(ICollection<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value)
+        CefRefPtr<CefV8Value> JavascriptRootObjectWrapper::Bind(ICollection<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& global)
         {
+            auto result = CefV8Value::CreateArray(objects->Count);
             if (objects->Count > 0)
             {
                 auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64_t>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
 
                 for each (JavascriptObject ^ obj in Enumerable::OfType<JavascriptObject^>(objects))
                 {
+                    const auto name = StringUtils::ToNative(obj->JavascriptName);
+                    CefRefPtr<CefV8Value> v8Obj;
                     if (obj->IsAsync)
                     {
                         auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_callbackRegistry, saveMethod);
-                        wrapperObject->Bind(obj, v8Value);
-
+                        v8Obj = wrapperObject->ConvertToV8Value(obj);
                         _wrappedAsyncObjects->Add(wrapperObject);
                     }
 #ifndef NETCOREAPP
@@ -40,13 +42,17 @@ namespace CefSharp
                         }
 
                         auto wrapperObject = gcnew JavascriptObjectWrapper(_browserProcess);
-                        wrapperObject->Bind(obj, v8Value, _callbackRegistry);
-
+                        v8Obj = wrapperObject->ConvertToV8Value(obj, _callbackRegistry);
                         _wrappedObjects->Add(wrapperObject);
                     }
 #endif
+
+                    result->SetValue(name, v8Obj, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                    global->SetValue(name, v8Obj, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
                 }
             }
+
+            return result;
         }
 
         JavascriptCallbackRegistry^ JavascriptRootObjectWrapper::CallbackRegistry::get()

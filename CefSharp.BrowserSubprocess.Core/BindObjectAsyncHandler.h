@@ -129,6 +129,7 @@ namespace CefSharp
 
                         if (frame.get() && frame->IsValid())
                         {
+                            const auto resultPromise = CefV8Value::CreatePromise();
                             if (boundObjectRequired || ignoreCache)
                             {
                                 //If the number of cached objects matches the number of args
@@ -162,18 +163,17 @@ namespace CefSharp
                                     }
 
                                     //Cached objects only contains a list of objects not already bound
-                                    rootObject->Bind(cachedObjects, context->GetGlobal());
+                                    auto bindResult = rootObject->Bind(cachedObjects, context->GetGlobal());
 
                                     //Objects already bound or ignore cache
-                                    retval = CreateResultObject(cachedObjects->Count, "OK", true);
+                                    const auto resultForPromise = CreateBindResult(cachedObjects->Count, "OK", true, bindResult);
+                                    resultPromise->ResolvePromise(resultForPromise);
 
                                     NotifyObjectBound(frame, objectNamesWithBoundStatus);
                                 }
                                 else
                                 {
-                                    CefRefPtr<CefV8Value> promise = CefV8Value::CreatePromise();
-                                    retval = promise;
-                                    auto callback = gcnew JavascriptAsyncMethodCallback(context, promise);
+                                    auto callback = gcnew JavascriptAsyncMethodCallback(context, resultPromise);
                                     auto request = CefProcessMessage::Create(kJavascriptRootObjectRequest);
                                     auto argList = request->GetArgumentList();
 
@@ -189,8 +189,16 @@ namespace CefSharp
                             else
                             {
                                 //Objects already bound or ignore cache
-                                retval = CreateResultObject(0, "Object(s) already bound", false);
+                                const auto resultForPromise = CreateBindResult(0, "Object(s) already bound", false, CefV8Value::CreateArray(0));
+                                resultPromise->ResolvePromise(resultForPromise);
+
+                                if (notifyIfAlreadyBound)
+                                {
+                                    NotifyObjectBound(frame, objectNamesWithBoundStatus);
+                                }
                             }
+
+                            retval = resultPromise;
                         }
                         else
                         {
@@ -211,13 +219,14 @@ namespace CefSharp
                 return true;
             }
 
-            static CefRefPtr<CefV8Value> CreateResultObject(int count, String^ message, bool isSuccess)
+            static CefRefPtr<CefV8Value> CreateBindResult(int count, String^ message, bool isSuccess, const CefRefPtr<CefV8Value> bindResult)
             {
                 auto response = CefV8Value::CreateObject(nullptr, nullptr);
 
                 response->SetValue("Count", CefV8Value::CreateInt(count), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
                 response->SetValue("Message", CefV8Value::CreateString(StringUtils::ToNative(message)), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
                 response->SetValue("Success", CefV8Value::CreateBool(isSuccess), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("BindResult", bindResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
                 return response;
             }

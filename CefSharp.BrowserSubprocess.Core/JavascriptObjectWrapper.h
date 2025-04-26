@@ -56,7 +56,7 @@ namespace CefSharp
                 }
             }
 
-            void Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry);
+            CefRefPtr<CefV8Value> ConvertToV8Value(JavascriptObject^ object, JavascriptCallbackRegistry^ callbackRegistry);
             BrowserProcessResponse^ GetProperty(String^ memberName);
             BrowserProcessResponse^ SetProperty(String^ memberName, Object^ value);
         };
