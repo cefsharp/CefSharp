@@ -165,7 +165,9 @@ namespace CefSharp
                                     rootObject->Bind(cachedObjects, context->GetGlobal());
 
                                     //Objects already bound or ignore cache
-                                    retval = CreateResultObject(cachedObjects->Count, "OK", true);
+                                    auto promiseResolve = CefV8Value::CreatePromise();
+                                    promiseResolve->ResolvePromise(CreateResultObject(cachedObjects->Count, "OK", true));
+                                    retval = promiseResolve;
 
                                     NotifyObjectBound(frame, objectNamesWithBoundStatus);
                                 }
@@ -189,7 +191,9 @@ namespace CefSharp
                             else
                             {
                                 //Objects already bound or ignore cache
-                                retval = CreateResultObject(0, "Object(s) already bound", false);
+                                auto promiseResolve = CefV8Value::CreatePromise();
+                                promiseResolve->ResolvePromise(CreateResultObject(0, "Object(s) already bound", false));
+                                retval = promiseResolve;
                             }
                         }
                         else
