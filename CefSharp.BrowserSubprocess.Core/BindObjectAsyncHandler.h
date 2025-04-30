@@ -183,6 +183,11 @@ namespace CefSharp
                                 auto promiseResolve = CefV8Value::CreatePromise();
                                 promiseResolve->ResolvePromise(CreateResultObject(0, "Object(s) already bound", false));
                                 retval = promiseResolve;
+
+                                if (notifyIfAlreadyBound)
+                                {
+                                    NotifyObjectBound(frame, objectNamesWithBoundStatus);
+                                }
                             }
                         }
                         else
